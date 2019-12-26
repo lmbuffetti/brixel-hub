@@ -1,0 +1,43 @@
+// GENERAL
+$fontpath: "~@brixel/brixel-components/dist/styles/";
+@import '~@brixel/brixel-configuration-partner/src/Variables';
+@import '~@brixel/brixel-components/src/styles/SCSS/general/main.scss';
+@import '~swiper/swiper.scss';
+// UTILS
+
+// COMPONENTS
+@import "../components/loading";
+// PAGES
+
+html, body {
+  position: relative;
+  height: 100%;
+}
+
+body {
+  background: map_get($lightColor, 100);
+}
+
+a {
+  text-decoration: none;
+  color: map_get($primaryColor, 400);
+  &:hover {
+    color: map_get($primaryColor, 600);
+  }
+}
+
+#page-header {
+  position: relative;
+  z-index: 100;
+}
+
+#root, #getStarted {
+  height: 100%;
+}
+
+.swiper-container {
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}

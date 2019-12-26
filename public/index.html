@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no"
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" sizes="192x192" href="/favicon.png">
+  </head>
+  <body class="txlive">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="text/javascript">window.liveSettings = {api_key: 'b05987ca39b348bd8c3cbc766b10deec', picker: "#transifex-selector", detectlang: function() { return 'en'; }, autocollect: true, dynamic: true };</script>
+    <script type="text/javascript" src="//cdn.transifex.com/live.js"></script>
+    <script>! function (f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function () {
+        n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = !0;
+      n.version = '2.0';
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = !0;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window,
+            document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', <%= JSON.stringify(htmlWebpackPlugin.options.facebookPixelId) %>);
+    fbq('track', 'PageView');</script>
+    <script>(function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+              m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', <%= JSON.stringify(htmlWebpackPlugin.options.googleAnalyticsId) %>, 'auto');
+    ga('set', 'anonymizeIp', true);
+    ga('send', 'pageview');</script>
+  </body>
+</html>

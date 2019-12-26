@@ -1,0 +1,16 @@
+import Base from '../config/Base';
+
+import ep from '../../endPoints.constant';
+
+class Common extends Base {
+  sendMessage(data) {
+    const url = ep.common.sendMessage();
+    return this.apiClient.post(url, { }, data);
+  }
+  sendScheduleVisit(data) {
+    const url = ep.common.sendScheduleVisit();
+    return this.apiClient.post(url, {}, data);
+  }
+}
+
+export default Common;

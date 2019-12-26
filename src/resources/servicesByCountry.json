@@ -1,0 +1,28 @@
+{
+  "availableServices": [
+    {
+      "default": {
+        "tour3D": true,
+        "priceMarketDataBox": false,
+        "bestimateBox": false,
+        "marketData": false
+      }
+    },
+    {
+      "CH": {
+        "tour3D": true,
+        "priceMarketDataBox": true,
+        "bestimateBox": true,
+        "marketData": true
+      }
+    },
+    {
+      "PT": {
+        "tour3D": true,
+        "priceMarketDataBox": true,
+        "bestimateBox": true,
+        "marketData": true
+      }
+    }
+  ]
+}

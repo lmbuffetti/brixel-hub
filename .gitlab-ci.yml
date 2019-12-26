@@ -1,0 +1,73 @@
+image: node:latest
+
+stages:
+  - build
+  - deploy
+
+cache:
+  paths:
+    - node_modules/
+
+build site:
+  image: node:latest
+  stage: build
+  variables:
+    FOLDER: $CI_COMMIT_REF_NAME
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - echo $CI_JOB_STAGE
+    - echo $CI_COMMIT_REF_NAME
+    - echo $CI_BUILD_REF_NAME
+    - npm install --progress=true
+    - npm install git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#${FOLDER} || npm install git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#brixel
+    - npm run build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist
+
+deploy_dev:
+  image: alpine
+  stage: deploy
+  only:
+    - develop
+  script:
+    - apk add --no-cache rsync openssh
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
+    - chmod 600 ~/.ssh/id_dsa
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/development/brixel-login-react
+
+deploy_staging:
+  image: alpine
+  stage: deploy
+  only:
+    - staging
+  script:
+    - apk add --no-cache rsync openssh
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
+    - chmod 600 ~/.ssh/id_dsa
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    # - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/staging/brixel-page-react/dist
+    # - ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-page-react; pm2 restart brixel-page-react-development'
+
+deploy_master:
+  image: alpine
+  stage: deploy
+  only:
+    - master
+  script:
+    - apk add --no-cache rsync openssh
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
+    - chmod 600 ~/.ssh/id_dsa
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    # - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.95.1:/srv/production/brixel-page-react/dist
+    # - ssh ubuntu@3.124.95.1 'cd /srv/development/brixel-page-react; pm2 restart brixel-page-react-development'
