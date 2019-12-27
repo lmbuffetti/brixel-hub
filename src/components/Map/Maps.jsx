@@ -35,12 +35,11 @@ const Maps = (props) => {
   // PROPS
   const {
     longitude, latitude, google, place, mapType, zoom, draggable, property, showSearchLocation,
-    scrollZoom, externalControls, disableZoom, className, changeFieldValue, moveMarker, showMap,
+    scrollZoom, externalControls, disableZoom, className, changeFieldValue, moveMarker, showMap, formValue,
     inputLabel, formName,
   } = props;
 
   const changeLocation = (val) => {
-    console.log(val);
     if (showSearchLocation && inputSearch.current) {
       setNewLocation(val);
       const autocomplete = new google.maps.places.Autocomplete(inputSearch.current);
@@ -278,7 +277,6 @@ const Maps = (props) => {
   };
 
   const classNameDef = !className && showMap ? 'h-fix-400 w-perc-100' : className;
-
   return (
     // Important! Always set the container height explicitly
     <div
@@ -301,11 +299,12 @@ const Maps = (props) => {
               input={{
                 onChange: (e) => changeLocation(e),
                 onBlur: () => '',
-                value: newLocation,
+                value: formValue && formValue.location && formValue.location.address ? formValue.location.address : newLocation,
+                name: 'location',
               }}
             />
             {
-              showZipCode && (
+              formValue && formValue.location && formValue.location.address && !formValue.location.zip && (
                 <>
                   <BrixelInputText
                     className="search-box"
@@ -474,12 +473,16 @@ Maps.defaultProps = {
   inputLabel: '',
 };
 
-const mapStateToProps = (state) => ({
-  formName: Object.keys(get(state, 'form'))[0],
-  property: get(state, `form.${Object.keys(get(state, 'form'))[0]}.values`, {}),
-  latitude: get(state, `form.${Object.keys(get(state, 'form'))[0]}.values.location.latitude`, 0),
-  longitude: get(state, `form.${Object.keys(get(state, 'form'))[0]}.values.location.longitude`, 0),
-});
+const mapStateToProps = (state) => {
+  const formName = Object.keys(get(state, 'form'))[0];
+  return ({
+    formValue: get(state, `form[${formName}].values`, {}),
+    formName,
+    property: get(state, `form[${formName}].values`, {}),
+    latitude: get(state, `form.[${formName}].values.location.latitude`, 0),
+    longitude: get(state, `form.[${formName}].values.location.longitude`, 0),
+  });
+};
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(form, field, value) {
