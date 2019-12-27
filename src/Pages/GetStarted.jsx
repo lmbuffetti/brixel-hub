@@ -69,9 +69,15 @@ function GetStarted(props) {
     let id = swiper.activeIndex;
     if (act === 'prev') {
       id -= 1;
+      if (Questions[id].condition && get(formValue, `${Questions[id].condition.name}`, '') !== Questions[id].condition.value) {
+        id -= 1;
+      }
     }
     if (act === 'next') {
       id += 1;
+      if (Questions[id].condition && get(formValue, `${Questions[id].condition.name}`, '') !== Questions[id].condition.value) {
+        id += 1;
+      }
     }
     swiper.slideTo(id, 500, true);
     setActSlide(id);

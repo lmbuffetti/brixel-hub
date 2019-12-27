@@ -87,18 +87,41 @@ export const Questions = [
     history: "locationInput",
     inputs: [
       {
-        name: 'location.zip',
+        name: 'location.address',
         type: 'Map',
         validation: [Validation.required],
       },
     ],
-
   },
-  /* {
-    "text": "What do you need the market check for?",
-    "component": "BrixelInputStepNumber",
-    "history": "propertyType",
-    "options": [
+  {
+    text: "We couldn't get the exact location of your property. Can you give us your Zip Code?",
+    component: BrixelInputText,
+    condition: {
+      name: 'location.zip',
+      value: null,
+    },
+    history: "zipInput",
+    inputs: [
+      {
+        label: 'Insert year',
+        name: 'location.zip',
+        type: 'number',
+        validation: [Validation.required],
+      },
+    ],
+  },
+  {
+    text: "What do you need the market check for?",
+    component: BrixelRadioButton,
+    history: "ownerType",
+    inputs: [
+      {
+        label: 'Insert year',
+        name: "ownerType",
+        validation: [Validation.required],
+      },
+    ],
+    options: [
       {
         "label": "I would like to sell my property",
         "value": "seller"
@@ -128,65 +151,5 @@ export const Questions = [
         "value": "other"
       }
     ],
-    "trigger": [
-      {
-        "name": "apartmentSellTiming",
-        "value": "seller"
-      },
-      {
-        "name": "typeOfBuyer",
-        "value": "buyer"
-      }
-    ]
   },
-  {
-    "text": {
-      "House": "When do you want to sell your house ?",
-      "Apartment": "When do you want to sell your apartment ?"
-    },
-    "component": "BrixelInputStepNumber",
-    "history": "propertyType",
-    "options": [
-      {
-        "label": "As soon as possible",
-        "value": "asap"
-      },
-      {
-        "label": "In a few months",
-        "value": "few-months"
-      },
-      {
-        "label": "I don't want to sell now",
-        "value": "no-sell"
-      }
-    ]
-  },
-  {
-   "text": {
-      "House": "How experienced are you in buying real estate?",
-      "Apartment": "How experienced are you in buying real estate?"
-    },
-    "component": "BrixelInputStepNumber",
-    "history": "propertyType",
-    "options": [
-      {
-        "label": "I am a first time buyer",
-        "value": "first-time-buyer"
-      },
-      {
-        "label": "I already own a property",
-        "value": "owned-property"
-      }
-    ]
-  },
-  {
-    "text": "Sign up to unlock your report.",
-    "component": "BrixelInputStepNumber",
-    "history": "propertyType",
-  },
-  {
-    "text": "Welcome back, insert your password to login to your account.",
-    "component": "BrixelInputStepNumber",
-    "history": "propertyType",
-  } */
 ];

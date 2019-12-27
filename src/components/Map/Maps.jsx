@@ -29,7 +29,6 @@ const Maps = (props) => {
   const [errorInputSearchZip, setErrorInputSearchZip] = useState(null);
   const [streetViewAvailable, setStretViewAvailable] = useState(false);
   const [showZipCode, setShowZipCode] = useState(false);
-  const [newLocation, setNewLocation] = useState('');
   const [optMap, setOptMap] = useState({});
   const inputSearch = createRef(null);
   // PROPS
@@ -38,6 +37,7 @@ const Maps = (props) => {
     scrollZoom, externalControls, disableZoom, className, changeFieldValue, moveMarker, showMap, formValue,
     inputLabel, formName,
   } = props;
+  const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
 
   const changeLocation = (val) => {
     if (showSearchLocation && inputSearch.current) {
@@ -299,12 +299,12 @@ const Maps = (props) => {
               input={{
                 onChange: (e) => changeLocation(e),
                 onBlur: () => '',
-                value: formValue && formValue.location && formValue.location.address ? formValue.location.address : newLocation,
+                value: newLocation,
                 name: 'location',
               }}
             />
             {
-              formValue && formValue.location && formValue.location.address && !formValue.location.zip && (
+              showZipCode && (
                 <>
                   <BrixelInputText
                     className="search-box"
