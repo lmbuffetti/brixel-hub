@@ -8,8 +8,9 @@ import get from 'lodash/get';
 import isObject from 'lodash/isObject';
 import PropTypes from 'prop-types';
 import { change, isValid, Field, reduxForm } from 'redux-form';
-import { BrixelButtonIcon, BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, FactsOptions } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, FactsOptions, BrixelCheckbox, BrixelCheckboxSingle } from '@brixel/brixel-components';
 import Swiper from 'react-id-swiper';
+import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
 import { getToken } from '../actions/UserActions';
 import { errorMessage } from '../actions/CommonActions';
 import Maps from '../components/Map/Maps';
@@ -19,12 +20,13 @@ function GetStarted(props) {
   const { factsOptions } = FactsOptions;
   // PROPS
   const {
-    errorMsg, errorValue, formValue, handleGetToken, handleSetErrorMsg, history,
+    errorMsg, errorValue, formValue, loggedUser, handleSetErrorMsg, history,
   } = props;
   // STATE
   const [swiper, updateSwiper] = useState(null);
   const [valid, setValid] = useState(false);
   const [actSlide, setActSlide] = useState(0);
+  const [loginPage, setLoginPage] = useState(false);
 
   const params = {
     direction: 'vertical',
@@ -41,17 +43,31 @@ function GetStarted(props) {
       loadOnTransitionStart: true,
     },
     allowTouchMove: false,
+    observer: true,
+    observeParents: true,
+    observeSlideChildren: true,
   };
 
   const validateSlide = () => {
-    if (swiper) {
+    setValid(true);
+    if (swiper && typeof Questions[swiper.activeIndex] !== 'undefined') {
       const validate = Questions[swiper.activeIndex].inputs;
-      setValid(true);
       validate.map((val) => {
         const checkErr = get(errorValue, val.name, null);
-        console.log(errorValue, checkErr);
         if (errorValue && checkErr) setValid( false);
-      })
+      });
+      let idPrev = swiper.realIndex - 1;
+      let idNext = swiper.realIndex + 1;
+      if (Questions[idPrev] && Questions[idPrev].condition && get(formValue, `${Questions[idPrev].condition.name}`, '') !== Questions[idPrev].condition.value) {
+        Questions[idPrev].show = false;
+      } else if (Questions[idPrev]) {
+        Questions[idPrev].show = true;
+      }
+      if (Questions[idNext] && Questions[idNext].condition && get(formValue, `${Questions[idNext].condition.name}`, '') !== Questions[idNext].condition.value) {
+        Questions[idNext].show = false;
+      } else if (Questions[idNext]) {
+        Questions[idNext].show = true;
+      }
     }
   };
 
@@ -69,15 +85,9 @@ function GetStarted(props) {
     let id = swiper.activeIndex;
     if (act === 'prev') {
       id -= 1;
-      if (Questions[id].condition && get(formValue, `${Questions[id].condition.name}`, '') !== Questions[id].condition.value) {
-        id -= 1;
-      }
     }
     if (act === 'next') {
       id += 1;
-      if (Questions[id].condition && get(formValue, `${Questions[id].condition.name}`, '') !== Questions[id].condition.value) {
-        id += 1;
-      }
     }
     swiper.slideTo(id, 500, true);
     setActSlide(id);
@@ -93,7 +103,7 @@ function GetStarted(props) {
       >
         {
           Questions.map((item, i) => (
-            <div data-history={item.history} key={i.toString()}>
+            <div data-history={item.history} key={i.toString()} style={{ display: item.show ? 'block' : 'none' }}>
               <h3>
                 {
                   isObject(item.text) ? (
@@ -109,7 +119,7 @@ function GetStarted(props) {
               </h3>
               {
                 swiper && item.inputs.map((input, f) => (
-                  <>
+                  <div key={f.toString()}>
                     {
                       input.type === 'Map' ? (
                         <Field
@@ -146,12 +156,91 @@ function GetStarted(props) {
                         />
                       )
                     }
-                  </>
+                  </div>
                 ))
               }
             </div>
           ))
         }
+        <div data-history="credentials" style={{ display: typeof loggedUser.token !== 'undefined' ? 'block' : 'none' }}>
+          <h3>Great! Your Market check is ready</h3>
+          <h5> Sign up to unlock your report.</h5>
+          {
+            loginPage ? (
+              <>
+                <p><span>If you don't have an account</span> <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(false)}>sign up here.</span></p>
+                <Field
+                  className="mt-2"
+                  component={BrixelInputText}
+                  label="Email"
+                  name="email"
+                  placeholder=""
+                  type="email"
+                />
+                <Field
+                  className="mt-2"
+                  component={BrixelInputText}
+                  label="Password"
+                  name="password"
+                  placeholder=""
+                  type="password"
+                />
+              </>
+            ) : (
+              <>
+                <p><span>If you already have an account</span> <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(true)}>log in here.</span></p>
+                <Field
+                  className="mt-2"
+                  component={BrixelInputText}
+                  label="First name"
+                  name="firstName"
+                  placeholder=""
+                  type="text"
+                />
+                <Field
+                  className="mt-2"
+                  component={BrixelInputText}
+                  label="Last name"
+                  name="lastName"
+                  placeholder=""
+                  type="text"
+                />
+                <Field
+                  className="mt-2"
+                  component={BrixelInputText}
+                  label="Last name"
+                  name="lastName"
+                  placeholder=""
+                  type="text"
+                />
+                <Field
+                  className="mt-2"
+                  component={BrixelInputText}
+                  label="Email address"
+                  name="email"
+                  placeholder=""
+                  type="email"
+                />
+                <Field
+                  className="mt-2"
+                  component={BrixelInputText}
+                  label="Phone number"
+                  name="phone"
+                  placeholder=""
+                  type="text"
+                />
+                <div>
+                  <Field
+                    component={BrixelCheckbox}
+                    options={[{label: `I hereby confirm that I have read, understand and accept the <a href="${CompanyInfo.link.terms_and_condition}" target="_blank">terms</a> and <a href="${CompanyInfo.link.terms_and_condition}" target="_blank">privacy policy</a> of Brixel.`, value: 'privacy'}]}
+                    name="privacy"
+                    className="body2 w-perc-100 max-w-perc-100"
+                  />
+                </div>
+              </>
+            )
+          }
+        </div>
       </Swiper>
       <footer>
         <BrixelButtonIcon
@@ -164,9 +253,6 @@ function GetStarted(props) {
           onClick={() => goToSlide('next')}
           disabled={!valid}
         />
-        <div>
-          {valid.toString()}
-        </div>
       </footer>
     </main>
   );
@@ -175,7 +261,7 @@ function GetStarted(props) {
 GetStarted.propTypes = {
   checkValid: PropTypes.func.isRequired,
   errorMsg: PropTypes.object.isRequired,
-  errorValue: PropTypes.object.isRequired,
+  errorValue: PropTypes.object,
   formValue: PropTypes.object,
   handleGetToken: PropTypes.func.isRequired,
   handleSetErrorMsg: PropTypes.func.isRequired,
@@ -186,6 +272,7 @@ GetStarted.propTypes = {
 
 GetStarted.defaultProps = {
   errorMsg: {},
+  errorValue: null,
   loggedUser: {},
 };
 

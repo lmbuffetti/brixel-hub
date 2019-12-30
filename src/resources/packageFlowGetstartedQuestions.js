@@ -21,7 +21,8 @@ export const Questions = [
         value: "House",
         icon: "house"
       }
-    ]
+    ],
+    show: true,
   },
   {
     text: {
@@ -48,6 +49,7 @@ export const Questions = [
         validation: [Validation.required],
       },
     ],
+    show: true,
   },
   {
     text: {
@@ -64,6 +66,7 @@ export const Questions = [
         validation: [Validation.required],
       },
     ],
+    show: true,
   },
   {
     text: {
@@ -80,6 +83,7 @@ export const Questions = [
         validation: [Validation.required, Validation.isYear],
       },
     ],
+    show: true,
   },
   {
     text: "Where is your property located?",
@@ -92,6 +96,7 @@ export const Questions = [
         validation: [Validation.required],
       },
     ],
+    show: true,
   },
   {
     text: "We couldn't get the exact location of your property. Can you give us your Zip Code?",
@@ -103,12 +108,13 @@ export const Questions = [
     history: "zipInput",
     inputs: [
       {
-        label: 'Insert year',
+        label: 'Insert your zip code',
         name: 'location.zip',
         type: 'number',
         validation: [Validation.required],
       },
     ],
+    show: true,
   },
   {
     text: "What do you need the market check for?",
@@ -116,7 +122,7 @@ export const Questions = [
     history: "ownerType",
     inputs: [
       {
-        label: 'Insert year',
+        label: '',
         name: "ownerType",
         validation: [Validation.required],
       },
@@ -151,5 +157,37 @@ export const Questions = [
         "value": "other"
       }
     ],
+    show: true,
+  },
+  {
+    text: "When do you want to sell your apartment?",
+    component: BrixelRadioButton,
+    condition: {
+      name: 'ownerType',
+      value: 'seller',
+    },
+    history: "apartmentSellTiming",
+    inputs: [
+      {
+        label: 'Insert your zip code',
+        name: 'apartmentSellTiming',
+        validation: [Validation.required],
+      },
+    ],
+    options: [
+      {
+        "label": "As soon as possible",
+        "value": "asap"
+      },
+      {
+        "label": "In a few months",
+        "value": "few-months"
+      },
+      {
+        "label": "I don't want to sell now",
+        "value": "no-sell"
+      }
+    ],
+    show: true,
   },
 ];
