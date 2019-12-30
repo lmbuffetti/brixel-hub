@@ -58,17 +58,23 @@ function GetStarted(props) {
         const checkErr = get(errorValue, val.name, null);
         if (errorValue && checkErr) setValid( false);
       });
-      let idPrev = swiper.realIndex - 1;
-      let idNext = swiper.realIndex + 1;
-      if (Questions[idPrev] && Questions[idPrev].condition && get(formValue, `${Questions[idPrev].condition.name}`, '') !== Questions[idPrev].condition.value) {
-        Questions[idPrev].show = false;
-      } else if (Questions[idPrev]) {
+      let idPrev = swiper.activeIndex - 1;
+      let idNext = swiper.activeIndex + 1;
+      if (Questions[idPrev] && Questions[idPrev].conditions) {
         Questions[idPrev].show = true;
+        Questions[idPrev].conditions.map((cond) => {
+          if (get(formValue, `${cond.name}`, '') !== cond.value) {
+            Questions[idPrev].show = false;
+          }
+        });
       }
-      if (Questions[idNext] && Questions[idNext].condition && get(formValue, `${Questions[idNext].condition.name}`, '') !== Questions[idNext].condition.value) {
-        Questions[idNext].show = false;
-      } else if (Questions[idNext]) {
+      if (Questions[idNext] && Questions[idNext].conditions) {
         Questions[idNext].show = true;
+        Questions[idNext].conditions.map((cond) => {
+          if (get(formValue, `${cond.name}`, '') !== cond.value) {
+            Questions[idNext].show = false;
+          }
+        });
       }
     }
   };
@@ -84,7 +90,7 @@ function GetStarted(props) {
   }, [formValue, errorValue]);
 
   const goToSlide = (act) => {
-    let id = swiper.activeIndex;
+    let id = swiper.realIndex;
     if (act === 'prev') {
       id -= 1;
     }
@@ -156,7 +162,7 @@ function GetStarted(props) {
                             />
                           )}
                           options={item.options}
-                          validate={input.validation}
+                          validate={item.show ? input.validation : []}
                           step={+input.step || 1}
                           type={input.type}
                         />

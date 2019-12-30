@@ -101,17 +101,23 @@ export const Questions = [
   {
     text: "We couldn't get the exact location of your property. Can you give us your Zip Code?",
     component: BrixelInputText,
-    condition: {
-      name: 'location.zip',
-      value: null,
-    },
+    conditions: [
+      {
+        name: 'location.zip',
+        value: null,
+      },
+      {
+        name: 'location.countryCode',
+        value: "CH",
+      }
+    ],
     history: "zipInput",
     inputs: [
       {
         label: 'Insert your zip code',
         name: 'location.zip',
         type: 'number',
-        validation: [Validation.required, Validation.isYear],
+        validation: [Validation.required],
       },
     ],
     show: true,
@@ -162,10 +168,10 @@ export const Questions = [
   {
     text: "When do you want to sell your apartment?",
     component: BrixelRadioButton,
-    condition: {
+    conditions: [{
       name: 'ownerType',
       value: 'seller',
-    },
+    }],
     history: "apartmentSellTiming",
     inputs: [
       {
