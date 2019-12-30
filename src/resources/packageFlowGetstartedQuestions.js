@@ -111,7 +111,7 @@ export const Questions = [
         label: 'Insert your zip code',
         name: 'location.zip',
         type: 'number',
-        validation: [Validation.required],
+        validation: [Validation.required, Validation.isYear],
       },
     ],
     show: true,

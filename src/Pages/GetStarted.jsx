@@ -15,18 +15,20 @@ import { getToken } from '../actions/UserActions';
 import { errorMessage } from '../actions/CommonActions';
 import Maps from '../components/Map/Maps';
 import { Questions } from '../resources/packageFlowGetstartedQuestions.js';
+import swissZipCode from '../resources/swissZipCodes.json';
 
 function GetStarted(props) {
   const { factsOptions } = FactsOptions;
   // PROPS
   const {
-    errorMsg, errorValue, formValue, loggedUser, handleSetErrorMsg, history,
+    changeFieldValue, errorMsg, errorValue, formValue, loggedUser, handleSetErrorMsg, history,
   } = props;
   // STATE
   const [swiper, updateSwiper] = useState(null);
   const [valid, setValid] = useState(false);
   const [actSlide, setActSlide] = useState(0);
   const [loginPage, setLoginPage] = useState(false);
+  const [errorInput, setErrorInput] = useState(null);
 
   const params = {
     direction: 'vertical',
@@ -94,6 +96,22 @@ function GetStarted(props) {
     validateSlide();
   };
 
+  const searchByZipCode = (val) => {
+    if (val.length === 4 || val >= 1000) {
+      const getRegionByCode = swissZipCode.find((zip) => +zip['Postleitzahl / Code Postal / Codice Postale'] === +val);
+      if (getRegionByCode) {
+        changeFieldValue('location.zip', getRegionByCode['Postleitzahl / Code Postal / Codice Postale']);
+        changeFieldValue('location.city', getRegionByCode['Ort / Ville / Città']);
+        changeFieldValue('location.stateCode', getRegionByCode['Abkürzung / Abréviation / Abbreviazione']);
+        setErrorInput(null);
+      } else {
+        setErrorInput('Please insert a valid Swiss code');
+      }
+    } else {
+      setErrorInput('Please insert a valid Swiss code');
+    }
+  };
+
   return (
     <main id="getStarted">
       <Swiper
@@ -143,6 +161,7 @@ function GetStarted(props) {
                           type={input.type}
                         />
                       ) : (
+                        <>
                         <Field
                           key={f.toString()}
                           className="mb-2"
@@ -153,7 +172,10 @@ function GetStarted(props) {
                           validate={input.validation}
                           step={+input.step || 1}
                           type={input.type}
+                          onChange={(e) => item.history === 'zipInput' ? searchByZipCode(e) : ''}
                         />
+                        <p>{errorInput}</p>
+                        </>
                       )
                     }
                   </div>
@@ -259,6 +281,7 @@ function GetStarted(props) {
 }
 
 GetStarted.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
   checkValid: PropTypes.func.isRequired,
   errorMsg: PropTypes.object.isRequired,
   errorValue: PropTypes.object,
@@ -281,7 +304,7 @@ const mapStateToProps = (state, props) => ({
   formValue: get(state, 'form.GetStarted.values', {}),
   errorValue: get(state, 'form.GetStarted.syncErrors', null),
   loggedUser: get(state, 'user.loggedUser', {}),
-  valid: isValid('myForm')(state),
+  valid: isValid('GetStarted')(state),
 });
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
