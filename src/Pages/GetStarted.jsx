@@ -58,19 +58,17 @@ function GetStarted(props) {
     on: {
       reachEnd: () => {
         saveData();
-      }
+      },
     }
   };
 
   const validateSlide = () => {
     setValid(true);
-    if (swiper && typeof Questions[swiper.activeIndex] !== 'undefined') {
-      const validate = Questions[swiper.activeIndex].inputs;
+    if (swiper && typeof Questions[actSlide] !== 'undefined') {
+      const validate = Questions[actSlide].inputs;
       validate.map((val) => {
         const checkErr = get(errorValue, val.name, null);
-        console.log(checkErr);
         if (errorValue && checkErr) setValid( false);
-        if (match.params.country !== 'ch' && val.name === 'location.zip') setValid(true);
       });
       let idNext = swiper.activeIndex + 1;
       if (Questions[idNext] && Questions[idNext].conditions) {
@@ -92,19 +90,31 @@ function GetStarted(props) {
 
   useEffect(() => {
     validateSlide();
-  }, [formValue, errorValue]);
+  }, [formValue, errorValue, actSlide]);
 
   const goToSlide = (act) => {
-    let id = swiper.realIndex;
+    let id = actSlide;
+    let slideId = swiper.realIndex;
     if (act === 'prev') {
       id -= 1;
+      slideId -= 1;
+      if (Questions[id] && Questions[id].condition && get(formValue, `${Questions[id].condition.name}`, '') !== Questions[id].condition.value) {
+        id -= 1;
+      }
     }
     if (act === 'next') {
       id += 1;
+      slideId += 1;
+      if (Questions[id] && Questions[id].conditions) {
+        Questions[id].conditions.map((cond) => {
+          if (get(formValue, `${cond.name}`, '') !== cond.value) {
+            id = id + 1;
+          }
+        });
+      }
     }
-    swiper.slideTo(id, 500, true);
+    swiper.slideTo(slideId, 500, true);
     setActSlide(id);
-    validateSlide();
   };
 
   const saveData = () => {
@@ -136,7 +146,7 @@ function GetStarted(props) {
       >
         {
           Questions.map((item, i) => (
-            <div data-history={item.history} key={i.toString()} style={{ display: item.show ? 'block' : 'none' }}>
+            <div data-history={item.history} key={i.toString()} style={{ display: item.show ? 'block' : 'none' }} id={`field-${i}`}>
               <h3>
                 {
                   isObject(item.text) ? (
