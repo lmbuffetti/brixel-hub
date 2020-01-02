@@ -21,7 +21,14 @@ function GetStarted(props) {
   const { factsOptions } = FactsOptions;
   // PROPS
   const {
-    changeFieldValue, errorMsg, errorValue, formValue, loggedUser, handleSetErrorMsg, history,
+    changeFieldValue,
+    errorMsg,
+    errorValue,
+    formValue,
+    handleSetErrorMsg,
+    history,
+    loggedUser,
+    match
   } = props;
   // STATE
   const [swiper, updateSwiper] = useState(null);
@@ -33,7 +40,7 @@ function GetStarted(props) {
   const params = {
     direction: 'vertical',
     history: {
-      key: '/packageFlow/getstarted/',
+      key: `getstarted/`,
       replaceState: true,
     },
     pagination: {
@@ -48,6 +55,11 @@ function GetStarted(props) {
     observer: true,
     observeParents: true,
     observeSlideChildren: true,
+    on: {
+      reachEnd: () => {
+        saveData();
+      }
+    }
   };
 
   const validateSlide = () => {
@@ -56,18 +68,11 @@ function GetStarted(props) {
       const validate = Questions[swiper.activeIndex].inputs;
       validate.map((val) => {
         const checkErr = get(errorValue, val.name, null);
+        console.log(checkErr);
         if (errorValue && checkErr) setValid( false);
+        if (match.params.country !== 'ch' && val.name === 'location.zip') setValid(true);
       });
-      let idPrev = swiper.activeIndex - 1;
       let idNext = swiper.activeIndex + 1;
-      if (Questions[idPrev] && Questions[idPrev].conditions) {
-        Questions[idPrev].show = true;
-        Questions[idPrev].conditions.map((cond) => {
-          if (get(formValue, `${cond.name}`, '') !== cond.value) {
-            Questions[idPrev].show = false;
-          }
-        });
-      }
       if (Questions[idNext] && Questions[idNext].conditions) {
         Questions[idNext].show = true;
         Questions[idNext].conditions.map((cond) => {
@@ -100,6 +105,10 @@ function GetStarted(props) {
     swiper.slideTo(id, 500, true);
     setActSlide(id);
     validateSlide();
+  };
+
+  const saveData = () => {
+    console.log('last slide');
   };
 
   const searchByZipCode = (val) => {
@@ -179,6 +188,7 @@ function GetStarted(props) {
                           step={+input.step || 1}
                           type={input.type}
                           onChange={(e) => item.history === 'zipInput' ? searchByZipCode(e) : ''}
+                          deactivable={false}
                         />
                         <p>{errorInput}</p>
                         </>
@@ -236,14 +246,6 @@ function GetStarted(props) {
                 <Field
                   className="mt-2"
                   component={BrixelInputText}
-                  label="Last name"
-                  name="lastName"
-                  placeholder=""
-                  type="text"
-                />
-                <Field
-                  className="mt-2"
-                  component={BrixelInputText}
                   label="Email address"
                   name="email"
                   placeholder=""
@@ -268,6 +270,9 @@ function GetStarted(props) {
               </>
             )
           }
+        </div>
+        <div data-history="saveData">
+          <h3>Thank you</h3>
         </div>
       </Swiper>
       <footer>

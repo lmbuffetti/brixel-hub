@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
 import React, { useState, createRef } from 'react';
+import { withRouter } from 'react-router-dom';
 import {
   Map, InfoWindow, Marker, GoogleApiWrapper,
 } from 'google-maps-react';
@@ -10,7 +11,6 @@ import { compose } from 'redux';
 import { change } from 'redux-form';
 import { BrixelIcon, BrixelInputText } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
 import markerImg from '../../images/location/icon_location.svg';
 import baseByData  from '@brixel/brixel-configuration-partner/src/Settings';
 import { mapCaptionData, mapStyles, getDistance } from '../../constants/map';
@@ -33,16 +33,36 @@ const Maps = (props) => {
   const inputSearch = createRef(null);
   // PROPS
   const {
-    longitude, latitude, google, place, mapType, zoom, draggable, property, showSearchLocation,
-    scrollZoom, externalControls, disableZoom, className, changeFieldValue, moveMarker, showMap, formValue,
-    inputLabel, formName,
+    className,
+    changeFieldValue,
+    draggable,
+    disableZoom,
+    externalControls,
+    formName,
+    formValue,
+    google,
+    history,
+    inputLabel,
+    longitude,
+    latitude,
+    match,
+    mapType,
+    moveMarker,
+    place,
+    property,
+    scrollZoom,
+    showMap,
+    showSearchLocation,
+    zoom,
   } = props;
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
-
   const changeLocation = (val) => {
     if (showSearchLocation && inputSearch.current) {
       setNewLocation(val);
-      const autocomplete = new google.maps.places.Autocomplete(inputSearch.current);
+      const autocomplete = new google.maps.places.Autocomplete(inputSearch.current, {
+        'types': ['address'],
+        componentRestrictions: {country: match.params.country}
+      });
 
       autocomplete.addListener('place_changed', () => {
         const formattedPlace = {};
@@ -440,37 +460,39 @@ const Maps = (props) => {
 Maps.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   className: PropTypes.string,
-  google: PropTypes.object.isRequired,
-  property: PropTypes.object.isRequired,
-  longitude: PropTypes.number.isRequired,
-  latitude: PropTypes.number.isRequired,
-  place: PropTypes.bool,
-  mapType: PropTypes.string,
-  zoom: PropTypes.number,
-  scrollZoom: PropTypes.bool,
-  externalControls: PropTypes.bool,
   disableZoom: PropTypes.bool,
   draggable: PropTypes.bool,
-  showSearchLocation: PropTypes.bool,
-  moveMarker: PropTypes.bool,
-  showMap: PropTypes.bool,
-  inputLabel: PropTypes.string,
+  externalControls: PropTypes.bool,
   formName: PropTypes.string.isRequired,
+  google: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  inputLabel: PropTypes.string,
+  longitude: PropTypes.number.isRequired,
+  latitude: PropTypes.number.isRequired,
+  mapType: PropTypes.string,
+  match: PropTypes.object.isRequired,
+  moveMarker: PropTypes.bool,
+  place: PropTypes.bool,
+  property: PropTypes.object.isRequired,
+  scrollZoom: PropTypes.bool,
+  showMap: PropTypes.bool,
+  showSearchLocation: PropTypes.bool,
+  zoom: PropTypes.number,
 };
 
 Maps.defaultProps = {
   className: '',
-  place: false,
-  mapType: 'roadmap',
-  zoom: 14,
-  scrollZoom: false,
-  externalControls: false,
   disableZoom: false,
   draggable: false,
-  showSearchLocation: false,
-  showMap: false,
-  moveMarker: false,
+  externalControls: false,
   inputLabel: '',
+  place: false,
+  mapType: 'roadmap',
+  moveMarker: false,
+  showSearchLocation: false,
+  scrollZoom: false,
+  showMap: false,
+  zoom: 14,
 };
 
 const mapStateToProps = (state) => {
@@ -495,5 +517,6 @@ export default compose(
     apiKey: (baseByData.googleMaps),
     libraries: ['geometry', 'drawing', 'places'],
   }),
+  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Maps);

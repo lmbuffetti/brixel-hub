@@ -59,7 +59,8 @@ const App = (props) => {
     <>
       <Loading isLoading={isLoading} />
       <Switch>
-        <Route path="/packageFlow/getstarted" component={GetStarted} />
+        <Route path="/:country/packageFlow/getstarted" component={GetStarted} />
+        <Redirect from="/packageFlow/getstarted" to="/ch/packageFlow/getstarted" />
         {
           loggedUser.token && (
             <>
