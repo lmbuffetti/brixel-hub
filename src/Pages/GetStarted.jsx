@@ -36,6 +36,8 @@ function GetStarted(props) {
   const [actSlide, setActSlide] = useState(0);
   const [loginPage, setLoginPage] = useState(false);
   const [errorInput, setErrorInput] = useState(null);
+  const [lastSlide, setLastSlide] = useState(false);
+  const [goFroward, setGoForward] = useState(true);
 
   const params = {
     direction: 'vertical',
@@ -55,11 +57,6 @@ function GetStarted(props) {
     observer: true,
     observeParents: true,
     observeSlideChildren: true,
-    on: {
-      reachEnd: () => {
-        saveData();
-      },
-    }
   };
 
   const validateSlide = () => {
@@ -70,7 +67,7 @@ function GetStarted(props) {
         const checkErr = get(errorValue, val.name, null);
         if (errorValue && checkErr) setValid( false);
       });
-      let idNext = swiper.activeIndex + 1;
+      let idNext = actSlide + 1;
       if (Questions[idNext] && Questions[idNext].conditions) {
         Questions[idNext].show = true;
         Questions[idNext].conditions.map((cond) => {
@@ -90,6 +87,16 @@ function GetStarted(props) {
 
   useEffect(() => {
     validateSlide();
+    console.log(typeof loggedUser.token === 'undefined', actSlide, Questions.length);
+    if (typeof loggedUser.token === 'undefined' && actSlide === Questions.length) {
+      console.log('user not logged in');
+      setLastSlide(true);
+    } else if (typeof loggedUser.token !== 'undefined' && actSlide === Questions.length - 1) {
+      console.log('user logged in');
+      setLastSlide(true);
+    } else {
+      setLastSlide(false);
+    }
   }, [formValue, errorValue, actSlide]);
 
   const goToSlide = (act) => {
@@ -98,9 +105,14 @@ function GetStarted(props) {
     if (act === 'prev') {
       id -= 1;
       slideId -= 1;
-      if (Questions[id] && Questions[id].condition && get(formValue, `${Questions[id].condition.name}`, '') !== Questions[id].condition.value) {
-        id -= 1;
+      if (Questions[id] && Questions[id].conditions) {
+        Questions[id].conditions.map((cond) => {
+          if (get(formValue, `${cond.name}`, '') !== cond.value) {
+            id = id - 1;
+          }
+        });
       }
+      setGoForward(false);
     }
     if (act === 'next') {
       id += 1;
@@ -112,6 +124,7 @@ function GetStarted(props) {
           }
         });
       }
+      setGoForward(true);
     }
     swiper.slideTo(slideId, 500, true);
     setActSlide(id);
@@ -119,6 +132,38 @@ function GetStarted(props) {
 
   const saveData = () => {
     console.log('last slide');
+    var titleAdjectives = [
+      'Beautiful',
+      'Charming',
+      'Elegant',
+      'Prestigious',
+      'One-of-a-kind',
+      'Exquisite',
+      'Spacious',
+      'Gorgeous',
+      'Wonderful',
+      'Lovely',
+      'Superb',
+      'Amazing',
+      'Stunning',
+      'Sophisticated',
+      'Modern',
+      'Incredible'
+    ];
+    // Create the title of the page
+    let pageTitle = `${titleAdjectives[Math.floor(Math.random() * titleAdjectives.length)]} ${formValue.propertyType}`;
+
+    // Try to add location to the title
+    if (formValue.location.city) {
+      pageTitle += ' in ' + formValue.location.city;
+    } else if (formValue.location.state) {
+      pageTitle += ' in ' + formValue.location.state;
+    } else if (formValue.location.country) {
+      pageTitle += ' in ' + formValue.location.country;
+    } else {
+      pageTitle += ' in ' + formValue.location.address;
+    }
+    changeFieldValue('title', pageTitle);
   };
 
   const searchByZipCode = (val) => {
@@ -197,7 +242,7 @@ function GetStarted(props) {
                           validate={input.validation}
                           step={+input.step || 1}
                           type={input.type}
-                          onChange={(e) => item.history === 'zipInput' ? searchByZipCode(e) : ''}
+                          onChange={(e) => item.history === 'zipInput' ? searchByZipCode(e) : validateSlide()}
                           deactivable={false}
                         />
                         <p>{errorInput}</p>
@@ -210,13 +255,18 @@ function GetStarted(props) {
             </div>
           ))
         }
-        <div data-history="credentials" style={{ display: typeof loggedUser.token !== 'undefined' ? 'block' : 'none' }}>
+        <div
+          data-history="credentials"
+          style={{ display: typeof loggedUser.token === 'undefined' ? 'block' : 'none' }}
+        >
           <h3>Great! Your Market check is ready</h3>
           <h5> Sign up to unlock your report.</h5>
           {
             loginPage ? (
               <>
-                <p><span>If you don't have an account</span> <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(false)}>sign up here.</span></p>
+                <p>
+                  <span>If you don't have an account</span> <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(false)}>sign up here.</span>
+                </p>
                 <Field
                   className="mt-2"
                   component={BrixelInputText}
@@ -269,7 +319,7 @@ function GetStarted(props) {
                   placeholder=""
                   type="text"
                 />
-                <div>
+                <div className="mt-2">
                   <Field
                     component={BrixelCheckbox}
                     options={[{label: `I hereby confirm that I have read, understand and accept the <a href="${CompanyInfo.link.terms_and_condition}" target="_blank">terms</a> and <a href="${CompanyInfo.link.terms_and_condition}" target="_blank">privacy policy</a> of Brixel.`, value: 'privacy'}]}
@@ -280,9 +330,6 @@ function GetStarted(props) {
               </>
             )
           }
-        </div>
-        <div data-history="saveData">
-          <h3>Thank you</h3>
         </div>
       </Swiper>
       <footer>
@@ -295,7 +342,7 @@ function GetStarted(props) {
           icon="arrow-simple-down"
           onClick={() => goToSlide('next')}
           disabled={!valid}
-        />
+        />{lastSlide.toString()}
       </footer>
     </main>
   );
