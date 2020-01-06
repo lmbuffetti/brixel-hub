@@ -1,9 +1,10 @@
 import ApiClient from './ApiClient';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 
-import User from '../actions/User';
-import Upload from '../actions/Upload';
 import Common from '../actions/Common';
+import Property from '../actions/Property';
+import Upload from '../actions/Upload';
+import User from '../actions/User';
 
 function apiFactory(
   {
@@ -13,9 +14,10 @@ function apiFactory(
   const api = new ApiClient({ baseURL, brixeletor });
 
   return {
-    image: new Upload({ apiClient: api }),
-    user: new User({ apiClient: api }),
     common: new Common({ apiClient: api }),
+    image: new Upload({ apiClient: api }),
+    property: new Property({ apiClient: api }),
+    user: new User({ apiClient: api }),
   };
 }
 

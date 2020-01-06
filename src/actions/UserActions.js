@@ -7,6 +7,7 @@ import {
   RECOVER_PASSWORD,
   SET_USER,
   UPDATE_USER,
+  VALIDATE_USER,
 } from './types/UserTypes';
 
 export const {
@@ -17,6 +18,7 @@ export const {
   recoverPassword,
   setUser,
   updateUser,
+  validateUser,
 } = createActions({
   [CREATE_USER]: (payload) => payload,
   [CHECK_TOKEN]: (payload) => payload,
@@ -25,4 +27,5 @@ export const {
   [RECOVER_PASSWORD]: (payload) => payload,
   [SET_USER]: (payload) => payload,
   [UPDATE_USER]: (payload) => payload,
+  [VALIDATE_USER]: (payload) => payload,
 });

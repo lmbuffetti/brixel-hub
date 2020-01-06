@@ -10,6 +10,7 @@ import {
   SPINNER_ON,
   SET_LANGUAGES,
   SET_NOTIFICATION,
+  SET_PAGE_DATA,
 } from '../actions/types/CommonTypes';
 
 export const defaultState = {
@@ -20,6 +21,7 @@ export const defaultState = {
   errorMsg: {},
   languages: [],
   notification: null,
+  setPageData: null,
 };
 
 export default handleActions(
@@ -55,6 +57,10 @@ export default handleActions(
     [SET_NOTIFICATION]: (state, action) => ({
       ...state,
       notification: action.payload,
+    }),
+    [SET_PAGE_DATA]: (state, action) => ({
+      ...state,
+      setPageData: action.payload,
     }),
   },
   defaultState,

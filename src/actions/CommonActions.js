@@ -8,6 +8,7 @@ import {
   RESET_REQUEST,
   SET_LANGUAGES,
   SET_NOTIFICATION,
+  SET_PAGE_DATA,
 } from './types/CommonTypes';
 
 export const {
@@ -19,6 +20,7 @@ export const {
   resetRequest,
   setLanguages,
   setNotification,
+  setPageData,
 } = createActions({
   [ERROR_MESSAGE]: (payload) => payload,
   [REDIRECT_TO]: (payload) => payload,
@@ -28,4 +30,5 @@ export const {
   [SPINNER_OFF]: (payload) => payload,
   [SET_LANGUAGES]: (payload) => payload,
   [SET_NOTIFICATION]: (payload) => payload,
+  [SET_PAGE_DATA]: (payload) => payload,
 });

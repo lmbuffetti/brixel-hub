@@ -7,7 +7,8 @@ import {
   GET_TOKEN,
   RECOVER_PASSWORD,
   SET_USER,
-  UPDATE_USER,
+  VALIDATE_USER,
+
 } from '../actions/types/UserTypes';
 
 import {
@@ -16,6 +17,7 @@ import {
   SPINNER_OFF,
   ERROR_MESSAGE,
   SET_NOTIFICATION,
+  SET_PAGE_DATA,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -23,6 +25,7 @@ import api from '../controllers/api/config';
 import { setToken } from '../utils/helpers';
 
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings'
+import { ADD_PROPERTY } from '../actions/types/PropertyTypes';
 
 const cookies = new Cookies();
 
@@ -38,27 +41,21 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
-    case DO_LOGOUT: {
-      next(action);
-      cookies.remove('brixelToken');
-      const urlParams = queryString.parse(window.location.href.split('?')[1]);
-      window.location.href = urlParams.url;
-      break;
-    }
     case GET_TOKEN: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
-      api.user.getToken(action.payload, {rememberMe: true})
+      const data = action.payload.user;
+      const addProperty = action.payload.addProperty || false;
+      delete action.payload.user;
+      delete action.payload.addProperty;
+      api.user.getToken(data, {rememberMe: true})
         .then((res) => {
           console.log(res, res.data.token);
           if (typeof res.data.statusCode === 'undefined') {
-            const redirectURl = localStorage.getItem('brixelRedirectUrl') || baseByData.dashboardPath;
-            localStorage.removeItem('brixelRedirectUrl');
-            localStorage.removeItem('brixelLoginChannel');
             setToken('brixelToken', res.data.token);
-            window.location.href = redirectURl;
-            // store.dispatch({ type: SET_USER, payload: res.data });
-            store.dispatch({ type: ERROR_MESSAGE, payload: {}});
+            if (addProperty) {
+              store.dispatch({ type: ADD_PROPERTY, payload: data })
+            }
           } else {
             const alertProps = {
               icon: 'close-circle',
@@ -75,95 +72,41 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
-    case RECOVER_PASSWORD: {
-      next(action);
-      store.dispatch({ type: SPINNER_ON });
-      api.user.recoverPassword(action.payload)
-        .then((res) => {
-          console.log(res);
-          const successMsg = 'You\'ll receive a new password on your mailbox!';
-          const errorMsg = 'That e-mail does not exist. Register here';
-          if (typeof res.data.statusCode === 'undefined') {
-            const alertProps = {
-              icon: 'check-small',
-              label: successMsg,
-              type: 'success',
-              actions: [{
-                type: 'close',
-                func: () => store.dispatch({ type: SET_NOTIFICATION, payload: null }),
-              }],
-            };
-            store.dispatch({ type: SET_NOTIFICATION, payload: alertProps });
-          } else {
-            const alertProps = {
-              icon: 'close-circle',
-              label: errorMsg,
-              type: 'alert',
-              actions: [{
-                type: 'close',
-                func: () => store.dispatch({ type: SET_NOTIFICATION, payload: null }),
-              }],
-            };
-            store.dispatch({ type: SET_NOTIFICATION, payload: alertProps });
-          }
-          store.dispatch({ type: SPINNER_OFF });
-        });
-      break;
-    }
     case CREATE_USER: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
+      console.log(action.payload);
+      const data = action.payload.user;
+      const addProperty = action.payload.addProperty || false;
+      delete action.payload.user;
+      delete action.payload.addProperty;
       api.user.createUser(action.payload)
         .then((res) => {
-          console.log(res);
           if (typeof res.data.statusCode === 'undefined') {
-            const redirectURl = localStorage.getItem('brixelRedirectUrl') || baseByData.dashboardPath;
-            localStorage.removeItem('brixelRedirectUrl');
-            localStorage.removeItem('brixelLoginChannel');
             setToken('brixelToken', res.data.token);
-            window.location.href = redirectURl;
+            store.dispatch({ type: SET_USER, payload: res.data });
+            if (addProperty) {
+              store.dispatch({ type: ADD_PROPERTY, payload: data })
+            }
           }
         });
       break;
     }
-    case UPDATE_USER: {
+    case VALIDATE_USER: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
-      const userID = store.getState().user.loggedUser.user.id;
-      const formData = store.getState().form.UpdateForm.values;
-      const data = {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phone: formData.phone,
-        language: formData.language,
-        showPersonalInfo: formData.showPersonalInfo,
-        showEmail: formData.showEmail,
-        showPhoneNumber: formData.showPhoneNumber,
-        avatar: formData.avatar.id,
-      };
-      if (formData.password) data.password = formData.password;
-      if (formData.confirmPassword) data.confirmPassword = formData.confirmPassword;
-      if ((formData.password || formData.confirmPassword) && formData.password !== formData.confirmPassword) {
-        const alertProps = {
-          icon: 'close-circle',
-          label: 'Password confirmation doesn\'t match password',
-          type: 'alert',
-          actions: [{
-            type: 'close',
-            func: () => store.dispatch({ type: SET_NOTIFICATION, payload: null }),
-          }],
-        };
-        store.dispatch({ type: SET_NOTIFICATION, payload: alertProps });
-        store.dispatch({ type: SPINNER_OFF });
-      } else {
-        api.user.updateUser(userID, data)
-          .then((res) => {
-            console.log(res);
-            store.dispatch({ type: SET_NOTIFICATION, payload: null });
-            store.dispatch({ type: SPINNER_OFF });
-          })
-      }
+      const newUser = action.payload.user.createUser || false;
+      delete action.payload.user.createUser;
+      api.user.validateUser(action.payload.user.email)
+        .then((res) => {
+          console.log(res.data);
+          if (newUser && typeof res.data.statusCode === 'undefined') {
+            store.dispatch({ type: SET_PAGE_DATA, payload: 'loginPage' });
+          } else if (newUser) {
+            store.dispatch({ type: CREATE_USER, payload: action.payload });
+          }
+          store.dispatch({ type: SPINNER_OFF });
+        });
       break;
     }
     default:

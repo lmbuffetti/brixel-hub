@@ -26,6 +26,11 @@ const GetStarted = Loadable({
   loading: Loading,
 });
 
+const Rewards = Loadable({
+  loader: () => import('./Pages/Rewards' /* webpackChunkName: "Page" */),
+  loading: Loading,
+});
+
 const App = (props) => {
   const {
     history, handleCheckToken, handleSetLanguages, isLoading, loggedUser, notification,
@@ -60,6 +65,7 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
       <Switch>
         <Route path="/:country/packageFlow/getstarted" component={GetStarted} />
+        <Route path="/packageFlow/:id/rewards" component={Rewards} />
         <Redirect from="/packageFlow/getstarted" to="/ch/packageFlow/getstarted" />
         {
           loggedUser.token && (

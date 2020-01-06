@@ -11,8 +11,9 @@ import { change, isValid, Field, reduxForm } from 'redux-form';
 import { BrixelButtonIcon, BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, FactsOptions, BrixelCheckbox, BrixelCheckboxSingle } from '@brixel/brixel-components';
 import Swiper from 'react-id-swiper';
 import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
-import { getToken } from '../actions/UserActions';
-import { errorMessage } from '../actions/CommonActions';
+import { getToken, validateUser } from '../actions/UserActions';
+import { addProperty } from '../actions/PropertyActions';
+import { errorMessage, setPageData } from '../actions/CommonActions';
 import Maps from '../components/Map/Maps';
 import { Questions } from '../resources/packageFlowGetstartedQuestions.js';
 import swissZipCode from '../resources/swissZipCodes.json';
@@ -22,13 +23,19 @@ function GetStarted(props) {
   // PROPS
   const {
     changeFieldValue,
+    configUrl,
     errorMsg,
     errorValue,
     formValue,
+    handleCreatePage,
+    handleCreateUser,
+    handleGetToken,
     handleSetErrorMsg,
+    handleSetPage,
     history,
     loggedUser,
-    match
+    match,
+    showInpuPassword,
   } = props;
   // STATE
   const [swiper, updateSwiper] = useState(null);
@@ -37,7 +44,7 @@ function GetStarted(props) {
   const [loginPage, setLoginPage] = useState(false);
   const [errorInput, setErrorInput] = useState(null);
   const [lastSlide, setLastSlide] = useState(false);
-  const [goFroward, setGoForward] = useState(true);
+  const [sendData, setSendaData] = useState(false);
 
   const params = {
     direction: 'vertical',
@@ -57,6 +64,16 @@ function GetStarted(props) {
     observer: true,
     observeParents: true,
     observeSlideChildren: true,
+    on: {
+      reachEnd: () => {
+        console.log('last slide');
+        funcLastSlide();
+      }
+    }
+  };
+
+  const funcLastSlide = () => {
+    setSendaData(true);
   };
 
   const validateSlide = () => {
@@ -80,6 +97,16 @@ function GetStarted(props) {
   };
 
   useEffect(() => {
+    if (showInpuPassword) {
+      setTimeout(() => {
+        swiper.slideTo(swiper.realIndex + 1, 500, true);
+        handleSetPage();
+      }, 100);
+
+    }
+  }, [showInpuPassword]);
+
+  useEffect(() => {
     if (swiper) {
       swiper.slideTo(0, 0, false);
     }
@@ -88,11 +115,13 @@ function GetStarted(props) {
   useEffect(() => {
     validateSlide();
     console.log(typeof loggedUser.token === 'undefined', actSlide, Questions.length);
-    if (typeof loggedUser.token === 'undefined' && actSlide === Questions.length) {
-      console.log('user not logged in');
+    if (typeof loggedUser.token === 'undefined' && actSlide === Questions.length && formValue.ownerType === 'seller') {
       setLastSlide(true);
-    } else if (typeof loggedUser.token !== 'undefined' && actSlide === Questions.length - 1) {
-      console.log('user logged in');
+    } else if (typeof loggedUser.token === 'undefined' && actSlide === Questions.length - 1 && formValue.ownerType !== 'seller') {
+      setLastSlide(true);
+    } if (typeof loggedUser.token !== 'undefined' && actSlide === Questions.length - 1 && formValue.ownerType === 'seller') {
+      setLastSlide(true);
+    } else if (typeof loggedUser.token !== 'undefined' && actSlide === Questions.length - 2 && formValue.ownerType !== 'seller') {
       setLastSlide(true);
     } else {
       setLastSlide(false);
@@ -112,7 +141,6 @@ function GetStarted(props) {
           }
         });
       }
-      setGoForward(false);
     }
     if (act === 'next') {
       id += 1;
@@ -124,7 +152,6 @@ function GetStarted(props) {
           }
         });
       }
-      setGoForward(true);
     }
     swiper.slideTo(slideId, 500, true);
     setActSlide(id);
@@ -163,7 +190,56 @@ function GetStarted(props) {
     } else {
       pageTitle += ' in ' + formValue.location.address;
     }
-    changeFieldValue('title', pageTitle);
+    const data = {
+      language: "ch",
+      title: pageTitle,
+      status: "on-request",
+      listed: false,
+      active: true,
+      published: false,
+      properties: {
+        propertyType: formValue.propertyType,
+        typology: {
+          bedrooms: formValue.bedrooms,
+          bathrooms: formValue.bathrooms,
+          separateToilets: formValue.separateToilets,
+          livingArea: {value: +formValue.livingSpace, unit: "sqm"}
+        },
+        building: {
+          build: formValue.constructionYear,
+        }
+      },
+      location: formValue.location,
+      ownerType: formValue.ownerType,
+      getEstimation: true,
+      addProperty: true,
+    };
+    if (loggedUser.user && loggedUser.user.id) {
+      changeFieldValue('owner', loggedUser.user.id);
+      data.owner = loggedUser.user.id;
+      handleCreatePage(data);
+    } else if (loginPage || showInpuPassword) {
+      data.user = {
+        username: formValue.email,
+        password: formValue.password,
+      };
+      handleGetToken(data);
+    } else {
+      data.user = {
+        email: formValue.email,
+        name: `${formValue.firstName} ${formValue.lastName}`,
+        firstName: formValue.firstName,
+        lastName: formValue.lastName,
+        userType: formValue.ownerType,
+        phone: formValue.phone,
+        signupAccept: true,
+        signupChannel: "default",
+        signupProduct: null,
+        language: "pt",
+        createUser: true,
+      };
+      handleCreateUser(data);
+    }
   };
 
   const searchByZipCode = (val) => {
@@ -331,7 +407,21 @@ function GetStarted(props) {
             )
           }
         </div>
+        <div data-history="passwordInput" style={{ display: showInpuPassword ? 'block' : 'none' }}>
+          <h3>Welcome back, insert your password to login to your account.</h3>
+          <Field
+            className="mt-2"
+            component={BrixelInputText}
+            label="Password"
+            name="password"
+            placeholder=""
+            type="password"
+          />
+          <a href={`${configUrl.loginBasePath}/recover?email=${formValue.email}`} target="_blank">Recover password</a>
+        </div>
+
       </Swiper>
+
       <footer>
         <BrixelButtonIcon
           icon="arrow-simple-up"
@@ -340,9 +430,9 @@ function GetStarted(props) {
         />
         <BrixelButtonIcon
           icon="arrow-simple-down"
-          onClick={() => goToSlide('next')}
+          onClick={() => sendData ? saveData() : goToSlide('next')}
           disabled={!valid}
-        />{lastSlide.toString()}
+        />
       </footer>
     </main>
   );
@@ -351,27 +441,35 @@ function GetStarted(props) {
 GetStarted.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   checkValid: PropTypes.func.isRequired,
+  configUrl: PropTypes.object,
   errorMsg: PropTypes.object.isRequired,
   errorValue: PropTypes.object,
   formValue: PropTypes.object,
+  handleCreatePage: PropTypes.func.isRequired,
+  handleCreateUser: PropTypes.func.isRequired,
   handleGetToken: PropTypes.func.isRequired,
   handleSetErrorMsg: PropTypes.func.isRequired,
+  handleSetPage: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedUser: PropTypes.object,
+  showInpuPassword: PropTypes.bool.isRequired,
   valid: PropTypes.bool,
 };
 
 GetStarted.defaultProps = {
+  configUrl: {},
   errorMsg: {},
   errorValue: null,
   loggedUser: {},
 };
 
 const mapStateToProps = (state, props) => ({
+  configUrl: get(state, 'common.configUrl', {}),
   errorMsg: get(state, 'common.errorMsg', null),
   formValue: get(state, 'form.GetStarted.values', {}),
   errorValue: get(state, 'form.GetStarted.syncErrors', null),
   loggedUser: get(state, 'user.loggedUser', {}),
+  showInpuPassword: get(state, 'common.setPageData', null) === 'loginPage',
   valid: isValid('GetStarted')(state),
 });
 const mapDispatchToProps = (dispatch) => ({
@@ -381,8 +479,11 @@ const mapDispatchToProps = (dispatch) => ({
   checkValid() {
     dispatch(isValid('GetStarted'))
   },
+  handleCreateUser: bindActionCreators(validateUser, dispatch),
   handleGetToken: bindActionCreators(getToken, dispatch),
+  handleCreatePage: bindActionCreators(addProperty, dispatch),
   handleSetErrorMsg: bindActionCreators(errorMessage, dispatch),
+  handleSetPage: bindActionCreators(setPageData, dispatch),
 });
 
 const GetStartedForm = reduxForm({

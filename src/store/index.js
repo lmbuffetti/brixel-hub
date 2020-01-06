@@ -6,8 +6,9 @@ import { getDevMode } from '../utils/helpers';
 
 // MIDDLEWARES
 import CommonMiddleware from '../middlewares/CommonMiddleware';
-import UserMiddleware from '../middlewares/UserMiddleware';
 import ImageMiddleware from '../middlewares/UploadMiddleware';
+import PropertyMiddleware from '../middlewares/PropertyMiddleware';
+import UserMiddleware from '../middlewares/UserMiddleware';
 
 const enhancers = [];
 const middlewares = [thunkMiddleware];
@@ -31,6 +32,7 @@ const composedEnhancers = compose(
     ...middlewares,
     CommonMiddleware,
     ImageMiddleware,
+    PropertyMiddleware,
     UserMiddleware,
   ),
   ...enhancers,
