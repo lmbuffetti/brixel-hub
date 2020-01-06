@@ -66,7 +66,6 @@ function GetStarted(props) {
     observeSlideChildren: true,
     on: {
       reachEnd: () => {
-        console.log('last slide');
         funcLastSlide();
       }
     }
@@ -114,7 +113,6 @@ function GetStarted(props) {
 
   useEffect(() => {
     validateSlide();
-    console.log(typeof loggedUser.token === 'undefined', actSlide, Questions.length);
     if (typeof loggedUser.token === 'undefined' && actSlide === Questions.length && formValue.ownerType === 'seller') {
       setLastSlide(true);
     } else if (typeof loggedUser.token === 'undefined' && actSlide === Questions.length - 1 && formValue.ownerType !== 'seller') {
@@ -158,7 +156,6 @@ function GetStarted(props) {
   };
 
   const saveData = () => {
-    console.log('last slide');
     var titleAdjectives = [
       'Beautiful',
       'Charming',
@@ -259,7 +256,7 @@ function GetStarted(props) {
   };
 
   return (
-    <main id="getStarted">
+    <main id="getStarted" className="container">
       <Swiper
         activeSlideKey={0}
         {...params}
@@ -423,16 +420,18 @@ function GetStarted(props) {
       </Swiper>
 
       <footer>
-        <BrixelButtonIcon
-          icon="arrow-simple-up"
-          onClick={() => goToSlide('prev')}
-          disabled={swiper && swiper.realIndex < 1}
-        />
-        <BrixelButtonIcon
-          icon="arrow-simple-down"
-          onClick={() => sendData ? saveData() : goToSlide('next')}
-          disabled={!valid}
-        />
+        <div className="container dis-f">
+          <BrixelButtonIcon
+            icon="arrow-simple-up"
+            onClick={() => goToSlide('prev')}
+            disabled={swiper && swiper.realIndex < 1}
+          />
+          <BrixelButtonIcon
+            icon="arrow-simple-down"
+            onClick={() => sendData ? saveData() : goToSlide('next')}
+            disabled={!valid}
+          />
+        </div>
       </footer>
     </main>
   );

@@ -22,7 +22,7 @@ import {
 
 import api from '../controllers/api/config';
 
-import { setToken } from '../utils/helpers';
+import { setCookie } from '../utils/helpers';
 
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings'
 import { ADD_PROPERTY } from '../actions/types/PropertyTypes';
@@ -52,7 +52,7 @@ const checkUser = (store) => (next) => (action) => {
         .then((res) => {
           console.log(res, res.data.token);
           if (typeof res.data.statusCode === 'undefined') {
-            setToken('brixelToken', res.data.token);
+            setCookie('brixelToken', res.data.token);
             if (addProperty) {
               store.dispatch({ type: ADD_PROPERTY, payload: data })
             }
@@ -83,7 +83,7 @@ const checkUser = (store) => (next) => (action) => {
       api.user.createUser(action.payload)
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
-            setToken('brixelToken', res.data.token);
+            setCookie('brixelToken', res.data.token);
             store.dispatch({ type: SET_USER, payload: res.data });
             if (addProperty) {
               store.dispatch({ type: ADD_PROPERTY, payload: data })

@@ -15,6 +15,7 @@ import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
 import queryString from 'query-string';
 import { BrixelNotification } from '@brixel/brixel-components'
+import PageHeader from './components/PageHeader';
 
 const Dashboard = Loadable({
   loader: () => import('./Pages/Dashboard' /* webpackChunkName: "Page" */),
@@ -63,6 +64,7 @@ const App = (props) => {
   return (
     <>
       <Loading isLoading={isLoading} />
+      <PageHeader />
       <Switch>
         <Route path="/:country/packageFlow/getstarted" component={GetStarted} />
         <Route path="/packageFlow/:id/rewards" component={Rewards} />

@@ -254,7 +254,7 @@ export const getDevMode = () => {
   return false;
 };
 
-export const setToken = (key, val) => {
+export const setCookie = (key, val) => {
   const host = window.location.host.split('.');
   // var localhost = host[0].match(/localhost/gi);
   const localip = host[0].match(/0/gi);
