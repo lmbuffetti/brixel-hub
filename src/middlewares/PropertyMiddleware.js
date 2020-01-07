@@ -2,7 +2,10 @@
 import { change } from 'redux-form';
 import {
   ADD_PROPERTY,
-  GET_ESTIMATION, SET_ESTIMATION,
+  GET_ESTIMATION,
+  GET_PROPERTIES,
+  SET_PROPERTIES,
+  SET_ESTIMATION,
   SET_PROPERTY,
 } from '../actions/types/PropertyTypes';
 
@@ -24,6 +27,15 @@ const checkCommon = (store) => (next) => (action) => {
           if (getEstimation) {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
           }
+        });
+      break;
+    case GET_PROPERTIES:
+      next(action);
+      store.dispatch({ type: SPINNER_ON });
+      api.property.getProperties(action.payload.limit, action.payload.offset)
+        .then((res) => {
+          store.dispatch({ type: SET_PROPERTIES, payload: res.data });
+          store.dispatch({ type: SPINNER_OFF });
         });
       break;
     case GET_ESTIMATION:

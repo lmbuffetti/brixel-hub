@@ -11,12 +11,12 @@ import { change, isValid, Field, reduxForm } from 'redux-form';
 import { BrixelButtonIcon, BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, FactsOptions, BrixelCheckbox, BrixelCheckboxSingle } from '@brixel/brixel-components';
 import Swiper from 'react-id-swiper';
 import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
-import { getToken, createUser } from '../actions/UserActions';
-import { addProperty } from '../actions/PropertyActions';
-import { errorMessage } from '../actions/CommonActions';
-import Maps from '../components/Map/Maps';
-import { Questions } from '../resources/packageFlowGetstartedQuestions.js';
-import swissZipCode from '../resources/swissZipCodes.json';
+import { getToken, createUser } from '../../actions/UserActions';
+import { addProperty } from '../../actions/PropertyActions';
+import { errorMessage } from '../../actions/CommonActions';
+import Maps from '../../components/Map/Maps';
+import { Questions } from '../../resources/packageFlowGetstartedQuestions.js';
+import swissZipCode from '../../resources/swissZipCodes.json';
 
 function Rewards(props) {
 

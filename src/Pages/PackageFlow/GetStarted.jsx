@@ -1,3 +1,4 @@
+/* global Transifex */
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
@@ -8,15 +9,15 @@ import get from 'lodash/get';
 import isObject from 'lodash/isObject';
 import PropTypes from 'prop-types';
 import { change, isValid, Field, reduxForm } from 'redux-form';
-import { BrixelButtonIcon, BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, FactsOptions, BrixelCheckbox, BrixelCheckboxSingle } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelIcon, BrixelInputStepNumber, BrixelInputText, FactsOptions, BrixelCheckbox, BrixelCheckboxSingle } from '@brixel/brixel-components';
 import Swiper from 'react-id-swiper';
 import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
-import { getToken, validateUser } from '../actions/UserActions';
-import { addProperty } from '../actions/PropertyActions';
-import { errorMessage, setPageData } from '../actions/CommonActions';
-import Maps from '../components/Map/Maps';
-import { Questions } from '../resources/packageFlowGetstartedQuestions.js';
-import swissZipCode from '../resources/swissZipCodes.json';
+import { getToken, validateUser } from '../../actions/UserActions';
+import { addProperty } from '../../actions/PropertyActions';
+import { errorMessage, setPageData } from '../../actions/CommonActions';
+import Maps from '../../components/Map/Maps';
+import { Questions } from '../../resources/packageFlowGetstartedQuestions.js';
+import swissZipCode from '../../resources/swissZipCodes.json';
 
 function GetStarted(props) {
   const { factsOptions } = FactsOptions;
@@ -45,6 +46,8 @@ function GetStarted(props) {
   const [errorInput, setErrorInput] = useState(null);
   const [lastSlide, setLastSlide] = useState(false);
   const [sendData, setSendaData] = useState(false);
+  const [perSlide, setPercSlide] = useState(false);
+  const [allSlides, setAllSlides] = useState(Questions);
 
   const params = {
     direction: 'vertical',
@@ -52,46 +55,90 @@ function GetStarted(props) {
       key: `getstarted/`,
       replaceState: true,
     },
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'progressbar',
-    },
     spaceBetween: 0,
     lazy: {
       loadOnTransitionStart: true,
     },
+    allowSwipeToNext: false,
+    allowSwipeToPrev: true,
     allowTouchMove: false,
+    loadPrevNext: true,
     observer: true,
     observeParents: true,
-    observeSlideChildren: true,
+    watchSlidesVisibility: true,
     on: {
       reachEnd: () => {
         funcLastSlide();
+      },
+      slideNextTransitionEnd: function() {
+        goToSlide('next', this, actSlide)
+      },
+      slidePrevTransitionEnd: function() {
+        goToSlide('prev', this, actSlide)
       }
-    }
+    },
+    keyboard: true,
+    getSwiper: updateSwiper,
+    navigation: {
+      nextEl: ".swiper-navigation.next",
+      prevEl: ".swiper-navigation.prev"
+    },
+    renderPrevButton: (e) => {
+      return (<div className="swiper-navigation prev"><BrixelIcon icon="arrow-simple-up" /></div>)
+    },
+    renderNextButton: (e) => {
+      return (
+        <div className="swiper-navigation next" onClick={(e) => saveData(e)}><BrixelIcon icon="arrow-simple-down" /></div>
+      )
+    },
   };
 
   const funcLastSlide = () => {
     setSendaData(true);
   };
 
-  const validateSlide = () => {
+  const validateSlide = (item) => {
     setValid(true);
-    if (swiper && typeof Questions[actSlide] !== 'undefined') {
-      const validate = Questions[actSlide].inputs;
-      validate.map((val) => {
-        const checkErr = get(errorValue, val.name, null);
-        if (errorValue && checkErr) setValid( false);
-      });
-      let idNext = actSlide + 1;
-      if (Questions[idNext] && Questions[idNext].conditions) {
-        Questions[idNext].show = true;
-        Questions[idNext].conditions.map((cond) => {
-          if (get(formValue, `${cond.name}`, '') !== cond.value) {
-            Questions[idNext].show = false;
+    if (swiper) {
+      const curHistory = window.location.href.split('/')[window.location.href.split('/').length - 1] || "propertyType";
+      const checkSlides = Questions;
+      const curSlide = checkSlides.findIndex(item => item.history === curHistory);
+      console.log(checkSlides, curHistory);
+      if (typeof checkSlides[curSlide] !== 'undefined') {
+        swiper.allowSlideNext = true;
+        swiper.navigation.$nextEl[0].classList.remove('disabled');
+        const validate = checkSlides[curSlide].inputs;
+        validate.map((val) => {
+          const checkErr = get(errorValue, val.name, null);
+          if (errorValue && checkErr) {
+            setValid(false);
+            swiper.navigation.$nextEl[0].classList.add('disabled');
+            swiper.allowSlideNext = false;
           }
         });
+        let idNext = curSlide + 1;
+        if (checkSlides[idNext] && checkSlides[idNext].conditions) {
+          checkSlides[idNext].show = true;
+          checkSlides[idNext].conditions.map((cond) => {
+            if (get(formValue, `${cond.name}`, '') !== cond.value) {
+              checkSlides[idNext].show = false;
+              setPercSlide(curSlide / Questions.length);
+            }
+          });
+        }
       }
+      if (swiper.allowSlideNext && checkSlides[curSlide].autoSlide === true) {
+        setTimeout(() => {
+          swiper.slideNext();
+        }, 200);
+      }
+      swiper.navigation.update();
+      setAllSlides(checkSlides.filter(item => item.show));
+      setTimeout(() => {
+        setPercSlide(curSlide / Questions.length);
+        swiper.update();
+      }, 1000);
+
     }
   };
 
@@ -113,129 +160,102 @@ function GetStarted(props) {
 
   useEffect(() => {
     validateSlide();
-    if (typeof loggedUser.token === 'undefined' && actSlide === Questions.length && formValue.ownerType === 'seller') {
-      setLastSlide(true);
-    } else if (typeof loggedUser.token === 'undefined' && actSlide === Questions.length - 1 && formValue.ownerType !== 'seller') {
-      setLastSlide(true);
-    } if (typeof loggedUser.token !== 'undefined' && actSlide === Questions.length - 1 && formValue.ownerType === 'seller') {
-      setLastSlide(true);
-    } else if (typeof loggedUser.token !== 'undefined' && actSlide === Questions.length - 2 && formValue.ownerType !== 'seller') {
-      setLastSlide(true);
-    } else {
-      setLastSlide(false);
-    }
   }, [formValue, errorValue, actSlide]);
 
-  const goToSlide = (act) => {
-    let id = actSlide;
-    let slideId = swiper.realIndex;
-    if (act === 'prev') {
-      id -= 1;
-      slideId -= 1;
-      if (Questions[id] && Questions[id].conditions) {
-        Questions[id].conditions.map((cond) => {
-          if (get(formValue, `${cond.name}`, '') !== cond.value) {
-            id = id - 1;
-          }
-        });
-      }
+  const goToSlide = (act, swp) => {
+    const slide = swp || swiper;
+    validateSlide();
+    if (slide) {
+      let id = slide.realIndex;
+      if (slide.clickedIndex && slide.clickedIndex > slide.realIndex) id = slide.clickedIndex;
+      setActSlide(id);
     }
-    if (act === 'next') {
-      id += 1;
-      slideId += 1;
-      if (Questions[id] && Questions[id].conditions) {
-        Questions[id].conditions.map((cond) => {
-          if (get(formValue, `${cond.name}`, '') !== cond.value) {
-            id = id + 1;
-          }
-        });
-      }
-    }
-    swiper.slideTo(slideId, 500, true);
-    setActSlide(id);
   };
 
-  const saveData = () => {
-    var titleAdjectives = [
-      'Beautiful',
-      'Charming',
-      'Elegant',
-      'Prestigious',
-      'One-of-a-kind',
-      'Exquisite',
-      'Spacious',
-      'Gorgeous',
-      'Wonderful',
-      'Lovely',
-      'Superb',
-      'Amazing',
-      'Stunning',
-      'Sophisticated',
-      'Modern',
-      'Incredible'
-    ];
-    // Create the title of the page
-    let pageTitle = `${titleAdjectives[Math.floor(Math.random() * titleAdjectives.length)]} ${formValue.propertyType}`;
+  const saveData = (e) => {
+    const isLastBtn = e.currentTarget.getAttribute("aria-disabled") === true || e.currentTarget.getAttribute("aria-disabled") === 'true';
+    if (isLastBtn) {
+      var titleAdjectives = [
+        'Beautiful',
+        'Charming',
+        'Elegant',
+        'Prestigious',
+        'One-of-a-kind',
+        'Exquisite',
+        'Spacious',
+        'Gorgeous',
+        'Wonderful',
+        'Lovely',
+        'Superb',
+        'Amazing',
+        'Stunning',
+        'Sophisticated',
+        'Modern',
+        'Incredible'
+      ];
+      // Create the title of the page
+      let pageTitle = `${titleAdjectives[Math.floor(Math.random() * titleAdjectives.length)]} ${formValue.propertyType}`;
 
-    // Try to add location to the title
-    if (formValue.location.city) {
-      pageTitle += ' in ' + formValue.location.city;
-    } else if (formValue.location.state) {
-      pageTitle += ' in ' + formValue.location.state;
-    } else if (formValue.location.country) {
-      pageTitle += ' in ' + formValue.location.country;
-    } else {
-      pageTitle += ' in ' + formValue.location.address;
-    }
-    const data = {
-      language: "ch",
-      title: pageTitle,
-      status: "on-request",
-      listed: false,
-      active: true,
-      published: false,
-      properties: {
-        propertyType: formValue.propertyType,
-        typology: {
-          bedrooms: formValue.bedrooms,
-          bathrooms: formValue.bathrooms,
-          separateToilets: formValue.separateToilets,
-          livingArea: {value: +formValue.livingSpace, unit: "sqm"}
+      // Try to add location to the title
+      if (formValue.location.city) {
+        pageTitle += ' in ' + formValue.location.city;
+      } else if (formValue.location.state) {
+        pageTitle += ' in ' + formValue.location.state;
+      } else if (formValue.location.country) {
+        pageTitle += ' in ' + formValue.location.country;
+      } else {
+        pageTitle += ' in ' + formValue.location.address;
+      }
+      const data = {
+        language: Transifex.live.selected_lang,
+        title: pageTitle,
+        status: "on-request",
+        listed: false,
+        active: true,
+        published: false,
+        properties: {
+          propertyType: formValue.propertyType,
+          typology: {
+            bedrooms: formValue.bedrooms,
+            bathrooms: formValue.bathrooms,
+            separateToilets: formValue.separateToilets,
+            livingArea: { value: +formValue.livingSpace, unit: "sqm" }
+          },
+          building: {
+            build: formValue.constructionYear,
+          }
         },
-        building: {
-          build: formValue.constructionYear,
-        }
-      },
-      location: formValue.location,
-      ownerType: formValue.ownerType,
-      getEstimation: true,
-      addProperty: true,
-    };
-    if (loggedUser.user && loggedUser.user.id) {
-      changeFieldValue('owner', loggedUser.user.id);
-      data.owner = loggedUser.user.id;
-      handleCreatePage(data);
-    } else if (loginPage || showInpuPassword) {
-      data.user = {
-        username: formValue.email,
-        password: formValue.password,
+        location: formValue.location,
+        ownerType: formValue.ownerType,
+        getEstimation: true,
+        addProperty: true,
       };
-      handleGetToken(data);
-    } else {
-      data.user = {
-        email: formValue.email,
-        name: `${formValue.firstName} ${formValue.lastName}`,
-        firstName: formValue.firstName,
-        lastName: formValue.lastName,
-        userType: formValue.ownerType,
-        phone: formValue.phone,
-        signupAccept: true,
-        signupChannel: "default",
-        signupProduct: null,
-        language: "pt",
-        createUser: true,
-      };
-      handleCreateUser(data);
+      if (loggedUser.user && loggedUser.user.id) {
+        changeFieldValue('owner', loggedUser.user.id);
+        data.owner = loggedUser.user.id;
+        // handleCreatePage(data);
+      } else if (loginPage || showInpuPassword) {
+        data.user = {
+          username: formValue.email,
+          password: formValue.password,
+        };
+        // handleGetToken(data);
+      } else {
+        data.user = {
+          email: formValue.email,
+          name: `${formValue.firstName} ${formValue.lastName}`,
+          firstName: formValue.firstName,
+          lastName: formValue.lastName,
+          userType: formValue.ownerType,
+          phone: formValue.phone,
+          signupAccept: true,
+          signupChannel: "default",
+          signupProduct: null,
+          language: Transifex.live.selected_lang,
+          createUser: true,
+        };
+        // handleCreateUser(data);
+      }
     }
   };
 
@@ -257,14 +277,24 @@ function GetStarted(props) {
 
   return (
     <main id="getStarted" className="container">
+      <div className="swiper-pagination-progressbar">
+        <span
+          className="swiper-pagination-progressbar-fill"
+          style={{ transform: `translate3d(0px, 0px, 0px) scaleX(${perSlide}) scaleY(1)` }}
+        />
+      </div>
       <Swiper
         activeSlideKey={0}
         {...params}
-        getSwiper={updateSwiper}
       >
         {
-          Questions.map((item, i) => (
-            <div data-history={item.history} key={i.toString()} style={{ display: item.show ? 'block' : 'none' }} id={`field-${i}`}>
+          allSlides.map((item, i) => (
+            <div
+              data-history={item.history}
+              key={i.toString()}
+              style={{ display: item.show ? 'block' : 'none' }}
+              id={`field-${i}`}
+            >
               <h3>
                 {
                   isObject(item.text) ? (
@@ -302,23 +332,24 @@ function GetStarted(props) {
                           validate={item.show ? input.validation : []}
                           step={+input.step || 1}
                           type={input.type}
+                          onChange={(e) => validateSlide(item)}
                         />
                       ) : (
                         <>
-                        <Field
-                          key={f.toString()}
-                          className="mb-2"
-                          name={input.name}
-                          label={input.label}
-                          component={item.component}
-                          options={item.options}
-                          validate={input.validation}
-                          step={+input.step || 1}
-                          type={input.type}
-                          onChange={(e) => item.history === 'zipInput' ? searchByZipCode(e) : validateSlide()}
-                          deactivable={false}
-                        />
-                        <p>{errorInput}</p>
+                          <Field
+                            key={f.toString()}
+                            className="mb-2"
+                            name={input.name}
+                            label={input.label}
+                            component={item.component}
+                            options={item.options}
+                            validate={input.validation}
+                            step={+input.step || 1}
+                            type={input.type}
+                            onChange={(e) => item.history === 'zipInput' ? searchByZipCode(e) : validateSlide(item)}
+                            deactivable={false}
+                          />
+                          <p>{errorInput}</p>
                         </>
                       )
                     }
@@ -416,23 +447,8 @@ function GetStarted(props) {
           />
           <a href={`${configUrl.loginBasePath}/recover?email=${formValue.email}`} target="_blank">Recover password</a>
         </div>
-
       </Swiper>
 
-      <footer>
-        <div className="container dis-f">
-          <BrixelButtonIcon
-            icon="arrow-simple-up"
-            onClick={() => goToSlide('prev')}
-            disabled={swiper && swiper.realIndex < 1}
-          />
-          <BrixelButtonIcon
-            icon="arrow-simple-down"
-            onClick={() => sendData ? saveData() : goToSlide('next')}
-            disabled={!valid}
-          />
-        </div>
-      </footer>
     </main>
   );
 }

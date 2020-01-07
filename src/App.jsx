@@ -23,12 +23,12 @@ const Dashboard = Loadable({
 });
 
 const GetStarted = Loadable({
-  loader: () => import('./Pages/GetStarted' /* webpackChunkName: "Page" */),
+  loader: () => import('./Pages/PackageFlow/GetStarted' /* webpackChunkName: "Page" */),
   loading: Loading,
 });
 
 const Rewards = Loadable({
-  loader: () => import('./Pages/Rewards' /* webpackChunkName: "Page" */),
+  loader: () => import('./Pages/PackageFlow/Rewards' /* webpackChunkName: "Page" */),
   loading: Loading,
 });
 

@@ -6,6 +6,7 @@ export default {
   property: {
     addPage: () => `/page/`,
     estimation: (id) => `/page/${id}/estimation`,
+    page: (limit, offset) => `/page/${limit}/${offset}`,
   },
   upload: {
     rotate: (id, rotation) => `/image/${id}/rotate/${rotation}`,

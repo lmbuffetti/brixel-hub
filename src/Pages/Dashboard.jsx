@@ -5,71 +5,79 @@ import {
   withRouter, Route, Switch, Redirect,
 } from 'react-router-dom';
 import get from 'lodash/get';
-import Cookies from 'universal-cookie';
 import PropTypes from 'prop-types';
-import Loadable from 'react-loadable';
-import queryString from 'query-string';
-import { Field, reduxForm } from 'redux-form'
-import {
-  BrixelInputText, BrixelButtonPrimary, BrixelCheckbox, BrixelButtonTertiary, Validation,
-  BrixelTabs,
-} from '@brixel/brixel-components';
-import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
-import LoadingSimple from '../components/LoadingSimple';
-import { getToken } from '../actions/UserActions';
-import { errorMessage } from '../actions/CommonActions';
+import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import { getProperties } from '../actions/PropertyActions';
 
 function Dashboard(props) {
   const {
-    errorMsg, formValue, handleGetToken, handleSetErrorMsg, history,
+    errorMsg,
+    formValue,
+    handleGetProperties,
+    handleSetErrorMsg,
+    history,
+    properties,
   } = props;
 
   useEffect(() => {
-    const urlParams = queryString.parse(history.location.search);
-    console.log(urlParams);
-    return () => {
-      handleSetErrorMsg({});
-    }
+    const data = {
+      limit: 50,
+      offset: 0,
+    };
+    handleGetProperties(data);
   }, []);
 
-  const login = (e) => {
-    e.preventDefault();
-    const data = {
-      username: formValue.email,
-      password: formValue.password,
-    };
-    handleGetToken(data);
+  const imgOrientation = (i) => {
+    const el = document.getElementById(`galleryImg${i}`);
+    const parEl = document.getElementById(`liImg${i}`);
+    let imgClass = 'landscape';
+    if (el && el.naturalWidth < el.naturalHeight) imgClass = 'portrait';
+    parEl.classList.add(imgClass);
   };
-  console.log(CompanyInfo);
+
   return (
-    <main id="loginPage">
+    <main className="container">
       <h1>Dashboard</h1>
+      <ul className="imgEffect">
+        {
+          properties.map((property, i) => (
+            <li key={i.toString()} id={`liImg${i}`} className="mb-4">
+              {
+                property.coverPhoto && property.coverPhoto.thumbnailPath && (
+                  <div
+                    className="cover_img"
+                    style={{ backgroundImage: `url(${getConfigEnv.shortPath}${property.coverPhoto.thumbnailPath})` }}
+                  >
+                    <img src={`${getConfigEnv.shortPath}${property.coverPhoto.bigPath}`} id={`galleryImg${i}`} onLoad={() => imgOrientation(i)} />
+                  </div>
+                )
+              }
+              <h3>{property.title}</h3>
+            </li>
+          ))
+        }
+      </ul>
     </main>
   );
 }
 
 Dashboard.propTypes = {
-  errorMsg: PropTypes.object,
-  formValue: PropTypes.object,
-  handleGetToken: PropTypes.func.isRequired,
-  handleSetErrorMsg: PropTypes.func.isRequired,
+  handleGetProperties: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedUser: PropTypes.object,
+  properties: PropTypes.arrayOf(PropTypes.object),
 };
 
 Dashboard.defaultProps = {
-  errorMsg: {},
   loggedUser: {},
 };
 
 const mapStateToProps = (state, props) => ({
-  errorMsg: get(state, 'common.errorMsg', null),
-  formValue: get(state, 'form.LoginForm.values', {}),
   loggedUser: get(state, 'user.loggedUser', {}),
+  properties: get(state, 'property.properties', []),
 });
 const mapDispatchToProps = (dispatch) => ({
-  handleGetToken: bindActionCreators(getToken, dispatch),
-  handleSetErrorMsg: bindActionCreators(errorMessage, dispatch),
+  handleGetProperties: bindActionCreators(getProperties, dispatch),
 });
 
 export default compose(

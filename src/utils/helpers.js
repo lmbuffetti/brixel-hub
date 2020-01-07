@@ -1,5 +1,6 @@
 import isObject from 'lodash/isObject';
 import Cookies from 'universal-cookie';
+import queryString from 'query-string';
 import { translateTo } from './translation';
 
 const cookies = new Cookies();
@@ -238,18 +239,10 @@ export const sortObjByKey = (obj, key, isBool = false) => {
 
 export const getDevMode = () => {
   if (typeof window !== 'undefined') {
-    const variable = 'dev';
-    const url = window.location.href;
-    let query = url.split('?');
-    if (query[1]) query = query[1];
-    else query = query[0];
-    const vars = query.split('&');
-    for (let i = 0; i < vars.length; i += 1) {
-      const pair = vars[i].split('=');
-      if (decodeURIComponent(pair[0]) === variable) {
-        return true;
-      }
-    }
+    // const url = window.location.href;
+    // let query = queryString.parse(url.split('?')[1]);
+    // console.log(query);
+    return true;
   }
   return false;
 };

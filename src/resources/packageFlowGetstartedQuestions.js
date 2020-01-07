@@ -23,6 +23,7 @@ export const Questions = [
       }
     ],
     show: true,
+    autoSlide: true,
   },
   {
     text: {
@@ -35,18 +36,18 @@ export const Questions = [
       {
         label: 'Rooms',
         name: 'rooms',
-        validation: [Validation.required],
+        validation: [Validation.required, Validation.isNumber],
         step: [0.5],
       },
       {
         label: 'Bathrooms',
         name: 'bathrooms',
-        validation: [Validation.required],
+        validation: [Validation.required, Validation.isNumber],
       },
       {
         label: 'Separate Toilets',
         name: 'separateToilets',
-        validation: [Validation.required],
+        validation: [Validation.required, Validation.isNumber],
       },
     ],
     show: true,
@@ -63,7 +64,7 @@ export const Questions = [
         label: 'Insert your living space here (m2)',
         name: 'livingSpace',
         type: 'number',
-        validation: [Validation.required],
+        validation: [Validation.required, Validation.isNumber],
       },
     ],
     show: true,
@@ -120,7 +121,7 @@ export const Questions = [
         validation: [Validation.required],
       },
     ],
-    show: true,
+    show: false,
   },
   {
     text: "What do you need the market check for?",
@@ -164,6 +165,7 @@ export const Questions = [
       }
     ],
     show: true,
+    autoSlide: true,
   },
   {
     text: "When do you want to sell your apartment?",
@@ -194,6 +196,6 @@ export const Questions = [
         "value": "no-sell"
       }
     ],
-    show: true,
+    show: false,
   },
 ];

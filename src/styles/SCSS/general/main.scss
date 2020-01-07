@@ -32,8 +32,12 @@ a {
   z-index: 100;
 }
 
-#root, #getStarted {
+#root {
   height: 100%;
+}
+
+#getStarted {
+  height: calc(100% - 88px);
 }
 
 .swiper-container {
@@ -41,4 +45,78 @@ a {
   height: 100%;
   margin-left: auto;
   margin-right: auto;
+}
+
+.imgEffect {
+  li {
+    display: flex;
+    .cover_img {
+      position: relative;
+      filter: blur(1.5rem);
+      transition: all 1s;
+      background-size: cover;
+      max-width: 250px;
+    }
+    img {
+      transition: all 1s;
+      opacity: 0;
+      display: block;
+      max-width: 100%;
+    }
+    &.landscape, &.portrait {
+      > div {
+        filter: blur(0rem);
+      }
+      img {
+        opacity: 1;
+      }
+    }
+  }
+}
+.swiper-pagination-progressbar {
+  position: absolute;
+  text-align: center;
+  transition: .3s opacity;
+  transform: translate3d(0, 0, 0);
+  width: 100%;
+  height: 4px;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+
+  .swiper-pagination-progressbar-fill {
+    background: red;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: scale(0);
+    transform-origin: left top;
+    transition-duration: 300ms;
+  }
+}
+
+.swiper-navigation {
+  position: absolute;
+  bottom: $step * 2;
+  z-index: 10;
+  cursor: pointer;
+  padding: $step;
+  border-radius: 50%;
+  background: map_get($primaryColor, 400);
+  i {
+    display: block;
+    color: $brx-white;
+  }
+  &.prev {
+    left: 0;
+  }
+  &.next {
+    left: 50px;
+  }
+  &[aria-disabled="true"], &.disabled {
+    cursor: default;
+    background: map_get($darkColor, 400);
+  }
 }
