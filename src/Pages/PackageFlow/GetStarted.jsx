@@ -9,7 +9,7 @@ import get from 'lodash/get';
 import isObject from 'lodash/isObject';
 import PropTypes from 'prop-types';
 import { change, isValid, Field, reduxForm } from 'redux-form';
-import { BrixelButtonIcon, BrixelIcon, BrixelInputStepNumber, BrixelInputText, FactsOptions, BrixelCheckbox, BrixelCheckboxSingle } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, BrixelIcon, BrixelInputStepNumber, BrixelInputText, FactsOptions, BrixelCheckbox, BrixelCheckboxSingle } from '@brixel/brixel-components';
 import Swiper from 'react-id-swiper';
 import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
 import { getToken, validateUser } from '../../actions/UserActions';
@@ -97,13 +97,13 @@ function GetStarted(props) {
     setSendaData(true);
   };
 
-  const validateSlide = (item) => {
+  const validateSlide = () => {
     setValid(true);
     if (swiper) {
-      const curHistory = window.location.href.split('/')[window.location.href.split('/').length - 1] || "propertyType";
+      let curHistory = window.location.href.split('/')[window.location.href.split('/').length - 1];
+      curHistory = curHistory === 'getstarted' ? 'propertyType' : curHistory.replace('/', '');
       const checkSlides = Questions;
       const curSlide = checkSlides.findIndex(item => item.history === curHistory);
-      console.log(checkSlides, curHistory);
       if (typeof checkSlides[curSlide] !== 'undefined') {
         swiper.allowSlideNext = true;
         swiper.navigation.$nextEl[0].classList.remove('disabled');
@@ -127,8 +127,9 @@ function GetStarted(props) {
           });
         }
       }
-      if (swiper.allowSlideNext && checkSlides[curSlide].autoSlide === true) {
+      if (swiper.allowSlideNext && checkSlides[curSlide] && checkSlides[curSlide].autoSlide === true && !checkSlides[curSlide].done) {
         setTimeout(() => {
+          checkSlides[curSlide].done = true;
           swiper.slideNext();
         }, 200);
       }
@@ -277,11 +278,14 @@ function GetStarted(props) {
 
   return (
     <main id="getStarted" className="container">
-      <div className="swiper-pagination-progressbar">
-        <span
-          className="swiper-pagination-progressbar-fill"
-          style={{ transform: `translate3d(0px, 0px, 0px) scaleX(${perSlide}) scaleY(1)` }}
-        />
+      <div className="swiper-pagination-container">
+        <div className="swiper-pagination-progressbar">
+          <span
+            className="swiper-pagination-progressbar-fill"
+            style={{ transform: `translate3d(0px, 0px, 0px) scaleX(${perSlide}) scaleY(1)` }}
+          />
+        </div>
+        <BrixelButtonPrimary label="Continue" onClick={() => ''} />
       </div>
       <Swiper
         activeSlideKey={0}
@@ -292,70 +296,71 @@ function GetStarted(props) {
             <div
               data-history={item.history}
               key={i.toString()}
-              style={{ display: item.show ? 'block' : 'none' }}
               id={`field-${i}`}
             >
-              <h3>
+              <div className="swiper-slide-content">
+                <h3>
+                  {
+                    isObject(item.text) ? (
+                      <>
+                        {item.text[formValue.propertyType]}
+                      </>
+                    ) : (
+                      <>
+                        {item.text}
+                      </>
+                    )
+                  }
+                </h3>
                 {
-                  isObject(item.text) ? (
-                    <>
-                      {item.text[formValue.propertyType]}
-                    </>
-                  ) : (
-                    <>
-                      {item.text}
-                    </>
-                  )
-                }
-              </h3>
-              {
-                swiper && item.inputs.map((input, f) => (
-                  <div key={f.toString()}>
-                    {
-                      input.type === 'Map' ? (
-                        <Field
-                          key={f.toString()}
-                          className="mb-2"
-                          name={input.name}
-                          label={input.label}
-                          component={() => (
-                            <Maps
-                              zoom={14}
-                              scrollZoom
-                              moveMarker
-                              draggable
-                              showSearchLocation
-                              showMap
-                            />
-                          )}
-                          options={item.options}
-                          validate={item.show ? input.validation : []}
-                          step={+input.step || 1}
-                          type={input.type}
-                          onChange={(e) => validateSlide(item)}
-                        />
-                      ) : (
-                        <>
+                  swiper && item.inputs.map((input, f) => (
+                    <div key={f.toString()}>
+                      {
+                        input.type === 'Map' ? (
                           <Field
                             key={f.toString()}
                             className="mb-2"
                             name={input.name}
                             label={input.label}
-                            component={item.component}
+                            component={() => (
+                              <Maps
+                                zoom={14}
+                                scrollZoom
+                                moveMarker
+                                draggable
+                                showSearchLocation
+                                showMap
+                              />
+                            )}
                             options={item.options}
-                            validate={input.validation}
+                            validate={item.show ? input.validation : []}
                             step={+input.step || 1}
                             type={input.type}
-                            onChange={(e) => item.history === 'zipInput' ? searchByZipCode(e) : validateSlide(item)}
-                            deactivable={false}
+                            onChange={(e) => validateSlide(item)}
                           />
-                          <p>{errorInput}</p>
-                        </>
-                      )
-                    }
-                  </div>
-                ))
-              }
+                        ) : (
+                          <>
+                            <Field
+                              key={f.toString()}
+                              className="mb-2"
+                              name={input.name}
+                              label={input.label}
+                              component={item.component}
+                              options={item.options}
+                              validate={input.validation}
+                              step={+input.step || 1}
+                              type={input.type}
+                              onChange={(e) => item.history === 'zipInput' ? searchByZipCode(e) : validateSlide(item)}
+                              deactivable={false}
+                            />
+                            <p>{errorInput}</p>
+                          </>
+                        )
+                      }
+                    </div>
+                  ))
+                }
+              </div>
             </div>
           ))
         }

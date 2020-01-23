@@ -1,0 +1,19 @@
+#onBoarding {
+  height: calc(100vh - 88px);
+  width: 100vw;
+  overflow: hidden;
+}
+.slideMultiStepForm {
+  display: flex;
+  transition: transform $default-loader-time;
+}
+.singleStep {
+  height: calc(100vh - 88px);
+  flex: 0 0 100vw;
+}
+.footerAction {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+}

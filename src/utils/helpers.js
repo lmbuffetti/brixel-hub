@@ -1,6 +1,5 @@
 import isObject from 'lodash/isObject';
 import Cookies from 'universal-cookie';
-import queryString from 'query-string';
 import { translateTo } from './translation';
 
 const cookies = new Cookies();
@@ -249,13 +248,13 @@ export const getDevMode = () => {
 
 export const setCookie = (key, val) => {
   const host = window.location.host.split('.');
-  // var localhost = host[0].match(/localhost/gi);
+  const localhost = host[0].match(/localhost/gi);
   const localip = host[0].match(/0/gi);
   let domain;
-  if (localip) {
+  if (localhost) {
     domain = 'localhost';
-    // } else if (localip) {
-    //   domain = '0.0.0.0';
+  } else if (localip) {
+    domain = '0.0.0.0';
   } else {
     domain = '.brixel.ch';
   }

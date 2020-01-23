@@ -18,17 +18,32 @@ import { BrixelNotification } from '@brixel/brixel-components'
 import PageHeader from './components/PageHeader';
 
 const Dashboard = Loadable({
-  loader: () => import('./Pages/Dashboard' /* webpackChunkName: "Page" */),
+  loader: () => import('./Pages/Dashboard' /* webpackChunkName: "Dashboard" */),
   loading: Loading,
 });
 
 const GetStarted = Loadable({
-  loader: () => import('./Pages/PackageFlow/GetStarted' /* webpackChunkName: "Page" */),
+  loader: () => import('./Pages/PackageFlow/GetStarted' /* webpackChunkName: "GetStarted" */),
   loading: Loading,
 });
 
 const Rewards = Loadable({
-  loader: () => import('./Pages/PackageFlow/Rewards' /* webpackChunkName: "Page" */),
+  loader: () => import('./Pages/PackageFlow/Rewards' /* webpackChunkName: "PackageFlow-Rewards" */),
+  loading: Loading,
+});
+
+const ProtectedRoute = Loadable({
+  loader: () => import('./components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
+  loading: Loading,
+});
+
+const InsertToken = Loadable({
+  loader: () => import('./Pages/InsertToken' /* webpackChunkName: "InsertToken" */),
+  loading: Loading,
+});
+
+const OnBoarding = Loadable({
+  loader: () => import('./Pages/PackageFlow/OnBoarding' /* webpackChunkName: "OnBoarding" */),
   loading: Loading,
 });
 
@@ -66,16 +81,15 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
       <PageHeader />
       <Switch>
+        { /* SECTION: FREE ROOUTE */ }
         <Route path="/:country/packageFlow/getstarted" component={GetStarted} />
+        <Route path="/onBoarding" component={OnBoarding} />
         <Route path="/packageFlow/:id/rewards" component={Rewards} />
+        <Route path="/tokeninput" component={InsertToken} />
+        { /* SECTION: PROTECED ROUTE WITH REDIRECT TO LOGIN */ }
+        <ProtectedRoute path="/" exact component={Dashboard} />
+        { /* SECTION: REDIRECT */ }
         <Redirect from="/packageFlow/getstarted" to="/ch/packageFlow/getstarted" />
-        {
-          loggedUser.token && (
-            <>
-              <Route path="/" exact component={Dashboard} />
-            </>
-          )
-        }
         <Redirect from="*" to="/" />
       </Switch>
       {

@@ -14,15 +14,15 @@ export const Questions = [
       {
         label: "Apartment",
         value: "Apartment",
-        icon: "apartment"
+        icon: "properties"
       },
       {
         label: "House",
         value: "House",
-        icon: "house"
+        icon: "property-house"
       }
     ],
-    show: true,
+    icons: true,
     autoSlide: true,
   },
   {
