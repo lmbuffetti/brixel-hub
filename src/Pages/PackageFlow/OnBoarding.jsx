@@ -8,11 +8,12 @@ import {
   withRouter,
 } from 'react-router-dom'
 import { change, isValid, Field, reduxForm } from 'redux-form';
-import { BrixelButtonPrimary, BrixelButtonIcon, FactsOptions } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, BrixelButtonIcon, FactsOptions, BrixelIcon } from '@brixel/brixel-components';
 import { getToken, validateUser } from '../../actions/UserActions';
 import { addProperty } from '../../actions/PropertyActions';
 import { errorMessage, setPageData } from '../../actions/CommonActions';
 import { Questions } from '../../resources/packageFlowGetstartedQuestions.js';
+import Maps from '../../components/Map/Maps';
 
 function OnBoarding(props) {
   const { factsOptions } = FactsOptions;
@@ -46,9 +47,9 @@ function OnBoarding(props) {
   }, [errorValue, currentIndex]);
 
   const validateSlide = (val, name, quest) => {
-    console.log(val);
+    console.log(val, quest);
     changeFieldValue(name, val);
-    const curIndex = Questions.findIndex((val) => quest.history === val.history);
+    const curIndex = Questions.findIndex((item) => quest.history === item.history);
     setCurrentIndex(curIndex);
   };
 
@@ -63,7 +64,9 @@ function OnBoarding(props) {
       newPosition = position + 1;
     }
     setPosition(newPosition);
+    setCurrentIndex(newPosition);
     if (newPosition > 0) setHidePrevBtn(false);
+    else setHidePrevBtn(true);
   };
   console.log(Questions);
   return (
@@ -73,25 +76,71 @@ function OnBoarding(props) {
           {
             Questions.map((quest, i) => (
               <div id={`step-${i}`} className="singleStep" key={i.toString()}>
-                <h3>{extractTitle(quest.text)}</h3>
+                <h5>{extractTitle(quest.text)}</h5>
                 {
                   quest.inputs.map((input, f) => (
-                    <>
-                      <Field
-                        key={f.toString()}
-                        className="mb-2"
-                        name={input.name}
-                        label={input.label}
-                        icons={quest.icons}
-                        component={quest.component}
-                        options={quest.options}
-                        validate={input.validation}
-                        step={+input.step || 1}
-                        type={input.type}
-                        onChange={(e) => validateSlide(e, input.name, quest)}
-                        deactivable={false}
-                      />
-                    </>
+                    <div key={f.toString()}>
+                      {
+                        input.type === 'Map' ? (
+                          <Field
+                            className="mb-2"
+                            name={input.name}
+                            label={input.label}
+                            component={() => (
+                              <Maps
+                                zoom={14}
+                                scrollZoom
+                                moveMarker
+                                draggable
+                                showSearchLocation
+                                showMap
+                                isShowZip={false}
+                              />
+                            )}
+                            options={input.options}
+                            validate={input.validation}
+                            type={input.type}
+                            onChange={(e) => validateSlide(e, input.name, quest)}
+                          />
+                        ) : (
+                          <div className="dis-f a-c jc-b">
+                            <div className="dis-f a-c jc-b w-perc-100">
+                              <Field
+                                className="mb-2 w-perc-100"
+                                name={input.name}
+                                label={input.label}
+                                icons={quest.icons}
+                                component={quest.component}
+                                options={quest.options}
+                                validate={input.validation}
+                                type={input.type}
+                                onChange={(e) => validateSlide(e, input.name, quest)}
+                                deactivable={false}
+                              />
+                              {
+                                input.unit && (
+                                  <span className="pl-2">{input.unit}</span>
+                                )
+                              }
+                            </div>
+                            {
+                              quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && (
+                                <BrixelButtonPrimary
+                                  rounded
+                                  label="Ok"
+                                  className="ml-2"
+                                  background="primary"
+                                  onClick={() => changeStep()}
+                                  rightIcon="arrow-simple-right"
+                                  disabled={disableNextBtn}
+                                />
+                              )
+                            }
+                          </div>
+                        )
+                      }
+                      <p className="body2">{input.help}</p>
+                    </div>
                     )
                   )
                 }
@@ -99,19 +148,42 @@ function OnBoarding(props) {
             ))
           }
         </div>
-        <div className={`footerAction dis-f a-c p-1 ${hidePrevBtn ? 'jc-fe' : 'jc-b'} shadow-1dp-top`}>
-          <BrixelButtonIcon
-            className={hidePrevBtn ? 'hide' : ''}
-            icon="arrow-simple-left"
-            onClick={() => changeStep('back')}
-          />
-          <BrixelButtonPrimary
-            rounded
-            label="Continue"
-            onClick={() => changeStep()}
-            rightIcon="arrow-simple-right"
-            disabled={disableNextBtn}
-          />
+        <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : 'successNext'}`}>
+          {
+            !disableNextBtn && (
+              <p className="txtGreen700 ta-r mb-2">
+                {Questions[currentIndex].successMessage}
+                <BrixelIcon icon="check" className="ml-1" />
+              </p>
+            )
+          }
+          <div className={`dis-f a-c ${hidePrevBtn ? 'jc-fe' : 'jc-b'}`}>
+            <BrixelButtonIcon
+              className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp`}
+              icon="arrow-simple-left"
+              onClick={() => changeStep('back')}
+              background="white"
+              saturation={0}
+              color="primary"
+              saturationTxt={400}
+              noBoder
+            />
+            {console.log(Questions[currentIndex])}
+            {
+              Questions[currentIndex] && Questions[currentIndex].inputs.length === 1 && Questions[currentIndex].inputs && (Questions[currentIndex].inputs[0].type === 'number' || Questions[currentIndex].inputs[0].type === 'text') ? (
+                <p />
+              ) : (
+                <BrixelButtonPrimary
+                  rounded
+                  label="Continue"
+                  background="green"
+                  onClick={() => changeStep()}
+                  rightIcon="arrow-simple-right"
+                  disabled={disableNextBtn}
+                />
+              )
+            }
+          </div>
         </div>
       </div>
     </main>

@@ -24,6 +24,7 @@ export const Questions = [
     ],
     icons: true,
     autoSlide: true,
+    successMessage: 'Ok. Got it.'
   },
   {
     text: {
@@ -51,6 +52,7 @@ export const Questions = [
       },
     ],
     show: true,
+    successMessage: 'This is a nice number.'
   },
   {
     text: {
@@ -65,9 +67,11 @@ export const Questions = [
         name: 'livingSpace',
         type: 'number',
         validation: [Validation.required, Validation.isNumber],
+        help: 'Use net living space',
+        unit: 'm2'
       },
     ],
-    show: true,
+    showTop: true,
   },
   {
     text: {

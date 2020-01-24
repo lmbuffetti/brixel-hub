@@ -10,10 +10,14 @@
 .singleStep {
   height: calc(100vh - 88px);
   flex: 0 0 100vw;
+  padding: $step * 2;
 }
 .footerAction {
   position: fixed;
   width: 100%;
   left: 0;
   bottom: 0;
+  &.successNext {
+    background: map_get($greenColor, 200);
+  }
 }

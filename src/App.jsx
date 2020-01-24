@@ -101,7 +101,7 @@ const App = (props) => {
             actions={notification.actions}
           />
         )
-      }
+      }s
     </>
   );
 };

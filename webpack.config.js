@@ -24,7 +24,7 @@ const clientConfig = {
   devtool: devMode ? 'inline-source-map' : 'cheap-source-map',
   entry: [
     '@babel/polyfill',
-    './src/InsertToken.jsx',
+    './src/index.jsx',
     './src/styles/SCSS/general/main.scss',
   ],
   output: {
@@ -173,9 +173,9 @@ const clientConfig = {
         removeStyleLinkTypeAttributes: true,
         useShortDoctype: true
       },
-      treansifexKey: baseByData.transifexIdHub,
-      googleAnalyticsId: baseByData.googleAnalyticsIdHub,
-      facebookPixelId: baseByData.facebookPixel
+      treansifexKey: baseByData().transifexIdHub,
+      googleAnalyticsId: baseByData().googleAnalyticsIdHub,
+      facebookPixelId: baseByData().facebookPixel
     }),
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),

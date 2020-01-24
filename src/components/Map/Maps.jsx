@@ -43,6 +43,7 @@ const Maps = (props) => {
     google,
     history,
     inputLabel,
+    isShowZip,
     longitude,
     latitude,
     match,
@@ -56,6 +57,7 @@ const Maps = (props) => {
     zoom,
   } = props;
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
+
   const changeLocation = (val) => {
     if (showSearchLocation && inputSearch.current) {
       setNewLocation(val);
@@ -121,7 +123,7 @@ const Maps = (props) => {
             }
           });
         }
-        if (!formattedPlace.zip) setShowZipCode(true);
+        if (!formattedPlace.zip && isShowZip) setShowZipCode(true);
         optMap.setCenter({ lat: formattedPlace.latitude, lng: formattedPlace.longitude });
         changeFieldValue(formName, 'location', formattedPlace);
       });
@@ -466,6 +468,7 @@ Maps.propTypes = {
   formName: PropTypes.string.isRequired,
   google: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  isShowZip: PropTypes.bool,
   inputLabel: PropTypes.string,
   longitude: PropTypes.number.isRequired,
   latitude: PropTypes.number.isRequired,
@@ -486,6 +489,7 @@ Maps.defaultProps = {
   draggable: false,
   externalControls: false,
   inputLabel: '',
+  isShowZip: true,
   place: false,
   mapType: 'roadmap',
   moveMarker: false,

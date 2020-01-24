@@ -24,7 +24,7 @@ build site:
     - echo $CI_COMMIT_REF_NAME
     - echo $CI_BUILD_REF_NAME
     - npm install --progress=true
-    - npm install git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#${FOLDER} || npm install git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#brixel
+    - npm install git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#brixel
     - npm run build
   artifacts:
     expire_in: 1 week
@@ -42,7 +42,7 @@ deploy_dev:
     - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    # - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/development/brixel-login-react
+    - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/development/brixel-hub
 
 deploy_staging:
   image: alpine
@@ -55,8 +55,7 @@ deploy_staging:
     - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    # - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/staging/brixel-page-react/dist
-    # - ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-page-react; pm2 restart brixel-page-react-development'
+    - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/staging/brixel-hub
 
 deploy_master:
   image: alpine
@@ -69,5 +68,4 @@ deploy_master:
     - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    # - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.95.1:/srv/production/brixel-page-react/dist
-    # - ssh ubuntu@3.124.95.1 'cd /srv/development/brixel-page-react; pm2 restart brixel-page-react-development'
+    - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.95.1:/srv/production/brixel-hub
