@@ -27,6 +27,12 @@ const checkCommon = (store) => (next) => (action) => {
           if (getEstimation) {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
           }
+        })
+        .error(() => {
+          store.dispatch({ type: SPINNER_OFF });
+        })
+        .catch((res) => {
+          store.dispatch({ type: SPINNER_OFF });
         });
       break;
     case GET_PROPERTIES:
@@ -35,6 +41,12 @@ const checkCommon = (store) => (next) => (action) => {
       api.property.getProperties(action.payload.limit, action.payload.offset)
         .then((res) => {
           store.dispatch({ type: SET_PROPERTIES, payload: res.data });
+          store.dispatch({ type: SPINNER_OFF });
+        })
+        .error(() => {
+          store.dispatch({ type: SPINNER_OFF });
+        })
+        .catch((res) => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
@@ -48,6 +60,12 @@ const checkCommon = (store) => (next) => (action) => {
           if (typeof res.data.statusCode === 'undefined') {
             window.location.href = `/packageFlow/${action.payload}/rewards`
           }
+        })
+        .error(() => {
+          store.dispatch({ type: SPINNER_OFF });
+        })
+        .catch((res) => {
+          store.dispatch({ type: SPINNER_OFF });
         });
       break;
     default:

@@ -38,6 +38,12 @@ const checkUser = (store) => (next) => (action) => {
         .then((response) => {
           store.dispatch({ type: SET_USER, payload: response.data });
           store.dispatch({ type: SPINNER_OFF });
+        })
+        .error(() => {
+          store.dispatch({ type: SPINNER_OFF });
+        })
+        .catch((res) => {
+          store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
@@ -69,6 +75,12 @@ const checkUser = (store) => (next) => (action) => {
             store.dispatch({ type: SET_NOTIFICATION, payload: alertProps });
           }
           store.dispatch({ type: SPINNER_OFF });
+        })
+        .error(() => {
+          store.dispatch({ type: SPINNER_OFF });
+        })
+        .catch((res) => {
+          store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
@@ -89,6 +101,12 @@ const checkUser = (store) => (next) => (action) => {
               store.dispatch({ type: ADD_PROPERTY, payload: data })
             }
           }
+        })
+        .error(() => {
+          store.dispatch({ type: SPINNER_OFF });
+        })
+        .catch((res) => {
+          store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
@@ -105,6 +123,12 @@ const checkUser = (store) => (next) => (action) => {
           } else if (newUser) {
             store.dispatch({ type: CREATE_USER, payload: action.payload });
           }
+          store.dispatch({ type: SPINNER_OFF });
+        })
+        .error(() => {
+          store.dispatch({ type: SPINNER_OFF });
+        })
+        .catch((res) => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;

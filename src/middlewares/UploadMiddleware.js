@@ -54,6 +54,12 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch(change('UpdateForm', 'avatar', res.data));
           store.dispatch({ type: UPDATE_USER, payload: {} });
           console.log(res);
+        })
+        .error(() => {
+          store.dispatch({ type: SPINNER_OFF });
+        })
+        .catch((res) => {
+          store.dispatch({ type: SPINNER_OFF });
         });
 
       break;
