@@ -47,13 +47,15 @@ const OnBoarding = Loadable({
   loading: Loading,
 });
 
+const cookies = new Cookies();
+
 const App = (props) => {
   const {
     history, handleCheckToken, handleSetLanguages, isLoading, loggedUser, notification,
   } = props;
 
   useEffect(() => {
-    handleCheckToken();
+    if (cookies && cookies.get('brixelToken')) handleCheckToken();
   }, []);
 
   useEffect(() => {

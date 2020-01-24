@@ -40,14 +40,12 @@ function OnBoarding(props) {
   useEffect(() => {
     let invalidField = false;
     Questions[currentIndex].inputs.map((inp) => {
-      console.log(errorValue[inp.name]);
       if (errorValue[inp.name]) invalidField = true;
     });
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex]);
 
   const validateSlide = (val, name, quest) => {
-    console.log(val, quest);
     changeFieldValue(name, val);
     const curIndex = Questions.findIndex((item) => quest.history === item.history);
     setCurrentIndex(curIndex);
@@ -68,7 +66,7 @@ function OnBoarding(props) {
     if (newPosition > 0) setHidePrevBtn(false);
     else setHidePrevBtn(true);
   };
-  console.log(Questions);
+
   return (
     <main id="onBoarding">
       <div id="multiStepForm">
@@ -170,7 +168,6 @@ function OnBoarding(props) {
               saturationTxt={400}
               noBoder
             />
-            {console.log(Questions[currentIndex])}
             {
               Questions[currentIndex] && Questions[currentIndex].inputs.length === 1 && Questions[currentIndex].inputs && (Questions[currentIndex].inputs[0].type === 'number' || Questions[currentIndex].inputs[0].type === 'text') ? (
                 <p />
