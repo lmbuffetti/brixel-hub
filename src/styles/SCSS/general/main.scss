@@ -17,7 +17,7 @@ html, body {
 }
 
 body {
-  background: map_get($lightColor, 100);
+  background: $brx-white;
 }
 
 a {

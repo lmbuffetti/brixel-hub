@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
-import React, { useState, createRef } from 'react';
+import React, { useState, createRef, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import {
   Map, InfoWindow, Marker, GoogleApiWrapper,
@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { change } from 'redux-form';
-import { BrixelIcon, BrixelInputText } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelInputText, BrixelSelect } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import markerImg from '../../images/location/icon_location.svg';
 import baseByData  from '@brixel/brixel-configuration-partner/src/Settings';
@@ -54,16 +54,29 @@ const Maps = (props) => {
     scrollZoom,
     showMap,
     showSearchLocation,
+    showSelectCountry,
     zoom,
   } = props;
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
+  const [defCountry, setDefCountry] = useState(null);
+
+  useEffect(() => {
+    console.log(longitude, latitude, optMap)
+    if (optMap.zoom) {
+      const center = {
+        lat: latitude,
+        lng: longitude,
+      };
+      optMap.setCenter(center);
+    }
+  }, [longitude, latitude])
 
   const changeLocation = (val) => {
     if (showSearchLocation && inputSearch.current) {
       setNewLocation(val);
       const autocomplete = new google.maps.places.Autocomplete(inputSearch.current, {
         'types': ['address'],
-        componentRestrictions: {country: match.params.country}
+        componentRestrictions: {country: defCountry ? defCountry : []}
       });
 
       autocomplete.addListener('place_changed', () => {
@@ -148,7 +161,7 @@ const Maps = (props) => {
       fullscreenControl: false,
       scrollwheel: scrollZoom,
       zoomControlOptions: {
-        position: google.maps.ControlPosition.TOP_LEFT,
+        position: google.maps.ControlPosition.BOTTOM_RIGHT,
       },
       mapTypeId: mapType,
       linksControl: false,
@@ -297,7 +310,24 @@ const Maps = (props) => {
     changeFieldValue(formName, 'location.latitude', lat);
     changeFieldValue(formName, 'location.longitude', lng);
   };
-
+  const selectOpt = [
+    {
+      label: 'SWI',
+      value: 'ch',
+    },
+    {
+      label: 'POR',
+      value: 'pt',
+    },
+    {
+      label: 'GER',
+      value: 'de',
+    },
+    {
+      label: 'NDL',
+      value: 'nl',
+    },
+  ];
   const classNameDef = !className && showMap ? 'h-fix-400 w-perc-100' : className;
   return (
     // Important! Always set the container height explicitly
@@ -312,19 +342,34 @@ const Maps = (props) => {
       {
         showSearchLocation && (
           <>
-            <BrixelInputText
-              className="search-box"
-              type="text"
-              ref={inputSearch}
-              label={inputLabel}
-              placeholder="Address"
-              input={{
-                onChange: (e) => changeLocation(e),
-                onBlur: () => '',
-                value: newLocation,
-                name: 'location',
-              }}
-            />
+            <div className="dis-f">
+              <BrixelInputText
+                className="search-box w-perc-100"
+                type="text"
+                ref={inputSearch}
+                label={inputLabel}
+                placeholder="Address"
+                input={{
+                  onChange: (e) => changeLocation(e),
+                  onBlur: () => '',
+                  value: newLocation,
+                  name: 'location',
+                }}
+              />
+              {
+                showSelectCountry && (
+                  <BrixelSelect
+                    className="ml-2 w-fix-120"
+                    input={{
+                      onChange: (val) => setDefCountry(val),
+                      name: 'country',
+                      value: '',
+                    }}
+                    options={selectOpt}
+                  />
+                )
+              }
+            </div>
             {
               showZipCode && (
                 <>
@@ -480,6 +525,7 @@ Maps.propTypes = {
   scrollZoom: PropTypes.bool,
   showMap: PropTypes.bool,
   showSearchLocation: PropTypes.bool,
+  showSelectCountry: PropTypes.bool,
   zoom: PropTypes.number,
 };
 
@@ -494,6 +540,7 @@ Maps.defaultProps = {
   mapType: 'roadmap',
   moveMarker: false,
   showSearchLocation: false,
+  showSelectCountry: false,
   scrollZoom: false,
   showMap: false,
   zoom: 14,

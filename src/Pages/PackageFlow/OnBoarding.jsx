@@ -15,12 +15,15 @@ import { errorMessage, setPageData } from '../../actions/CommonActions';
 import { Questions } from '../../resources/packageFlowGetstartedQuestions.js';
 import Maps from '../../components/Map/Maps';
 
+
 function OnBoarding(props) {
   const { factsOptions } = FactsOptions;
   // PROPS
   const {
     changeFieldValue,
+    checkValid,
     errorValue,
+    formValue,
   } = props;
   // STATE
   const [position, setPosition] = useState(0);
@@ -40,13 +43,16 @@ function OnBoarding(props) {
   useEffect(() => {
     let invalidField = false;
     Questions[currentIndex].inputs.map((inp) => {
-      if (errorValue[inp.name]) invalidField = true;
+      const curVal = get(errorValue, inp.name, true);
+      if (curVal !== true) invalidField = true;
     });
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex]);
 
   const validateSlide = (val, name, quest) => {
     changeFieldValue(name, val);
+    console.log('eh');
+    checkValid();
     const curIndex = Questions.findIndex((item) => quest.history === item.history);
     setCurrentIndex(curIndex);
   };
@@ -67,20 +73,39 @@ function OnBoarding(props) {
     else setHidePrevBtn(true);
   };
 
+  const checkYear = (value) => {
+    const minimumYear = 1000;
+    const currentYear = (new Date()).getFullYear();
+
+    const isNumber = Number.isInteger(+value);
+    const isInValidYearDiapason = ((minimumYear <= +value) && (+value <= currentYear));
+
+    if (!isNumber) return 'Is not a number';
+    if (!isInValidYearDiapason) return 'Is not valid year';
+
+    return null;
+  };
+
   return (
     <main id="onBoarding">
-      <div id="multiStepForm">
+      <form id="multiStepForm" onSubmit={(e) => e.preventDefault()}>
         <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
           {
             Questions.map((quest, i) => (
               <div id={`step-${i}`} className="singleStep" key={i.toString()}>
                 <div className="container">
-                  <h5>{extractTitle(quest.text)}</h5>
+                  {
+                    quest.titleGreen && (
+                      <h5 className="txtGreen400">{quest.titleGreen}</h5>
+                    )
+                  }
+                  <h5>{extractTitle(quest.title)}</h5>
                   {
                     quest.inputs.map((input, f) => (
                       <div key={f.toString()}>
                         {
                           input.type === 'Map' ? (
+                            <>
                             <Field
                               className="mb-2"
                               name={input.name}
@@ -92,7 +117,8 @@ function OnBoarding(props) {
                                   moveMarker
                                   draggable
                                   showSearchLocation
-                                  showMap
+                                  showSelectCountry
+                                  showMap={false}
                                   isShowZip={false}
                                 />
                               )}
@@ -101,6 +127,28 @@ function OnBoarding(props) {
                               type={input.type}
                               onChange={(e) => validateSlide(e, input.name, quest)}
                             />
+                              {
+                                formValue.location && formValue.location.address && (
+                                  <>
+                                    <div className="dis-f jc-b pos-r zIndex2 my-2 w-perc-100">
+                                      <p>Is this the place?</p>
+                                      <button onClick={() => changeFieldValue('location', {})}>Change</button>
+                                    </div>
+                                    <div className="pos-r">
+                                      <div className="curAdr">{formValue.location.address}</div>
+                                      <Maps
+                                        zoom={14}
+                                        scrollZoom
+                                        moveMarker
+                                        draggable
+                                        showMap
+                                        isShowZip={false}
+                                      />
+                                    </div>
+                                  </>
+                                )
+                              }
+                            </>
                           ) : (
                             <div className="dis-f a-c jc-b">
                               <div className="dis-f a-c jc-b w-perc-100">
@@ -110,11 +158,13 @@ function OnBoarding(props) {
                                   label={input.label}
                                   icons={quest.icons}
                                   component={quest.component}
+                                  fluid={true}
                                   options={quest.options}
                                   validate={input.validation}
                                   type={input.type}
                                   onChange={(e) => validateSlide(e, input.name, quest)}
                                   deactivable={false}
+
                                 />
                                 {
                                   input.unit && (
@@ -150,7 +200,7 @@ function OnBoarding(props) {
         </div>
         <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : 'successNext'}`}>
           {
-            !disableNextBtn && (
+            !disableNextBtn && Questions[currentIndex].successMessage && (
               <p className="txtGreen700 ta-r mb-2">
                 {Questions[currentIndex].successMessage}
                 <BrixelIcon icon="check" className="ml-1" />
@@ -166,32 +216,28 @@ function OnBoarding(props) {
               saturation={0}
               color="primary"
               saturationTxt={400}
-              noBoder
+              noBorder
             />
-            {
-              Questions[currentIndex] && Questions[currentIndex].inputs.length === 1 && Questions[currentIndex].inputs && (Questions[currentIndex].inputs[0].type === 'number' || Questions[currentIndex].inputs[0].type === 'text') ? (
-                <p />
-              ) : (
-                <BrixelButtonPrimary
-                  rounded
-                  label="Continue"
-                  background="green"
-                  onClick={() => changeStep()}
-                  rightIcon="arrow-simple-right"
-                  disabled={disableNextBtn}
-                />
-              )
-            }
+            <BrixelButtonPrimary
+              rounded
+              label="Continue"
+              background="green"
+              onClick={() => changeStep()}
+              rightIcon="arrow-simple-right"
+              disabled={disableNextBtn}
+            />
           </div>
         </div>
-      </div>
+      </form>
     </main>
   );
 }
 
 OnBoarding.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
+  checkValid: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
 };
 
 OnBoarding.defaultProps = {
@@ -200,6 +246,7 @@ OnBoarding.defaultProps = {
 
 const mapStateToProps = (state, props) => ({
   errorValue: get(state, 'form.OnBoarding.syncErrors', {}),
+  formValue: get(state, 'form.OnBoarding.values', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -218,7 +265,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const OnBoardingForm = reduxForm({
   form: 'OnBoarding', // a unique identifier for this form
-  touchOnBlur: false,
 })(OnBoarding);
 
 export default compose(
