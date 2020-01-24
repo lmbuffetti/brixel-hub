@@ -39,9 +39,6 @@ const checkUser = (store) => (next) => (action) => {
           store.dispatch({ type: SET_USER, payload: response.data });
           store.dispatch({ type: SPINNER_OFF });
         })
-        .error(() => {
-          store.dispatch({ type: SPINNER_OFF });
-        })
         .catch((res) => {
           store.dispatch({ type: SPINNER_OFF });
         });
@@ -76,9 +73,6 @@ const checkUser = (store) => (next) => (action) => {
           }
           store.dispatch({ type: SPINNER_OFF });
         })
-        .error(() => {
-          store.dispatch({ type: SPINNER_OFF });
-        })
         .catch((res) => {
           store.dispatch({ type: SPINNER_OFF });
         });
@@ -102,9 +96,6 @@ const checkUser = (store) => (next) => (action) => {
             }
           }
         })
-        .error(() => {
-          store.dispatch({ type: SPINNER_OFF });
-        })
         .catch((res) => {
           store.dispatch({ type: SPINNER_OFF });
         });
@@ -123,9 +114,6 @@ const checkUser = (store) => (next) => (action) => {
           } else if (newUser) {
             store.dispatch({ type: CREATE_USER, payload: action.payload });
           }
-          store.dispatch({ type: SPINNER_OFF });
-        })
-        .error(() => {
           store.dispatch({ type: SPINNER_OFF });
         })
         .catch((res) => {

@@ -76,74 +76,76 @@ function OnBoarding(props) {
           {
             Questions.map((quest, i) => (
               <div id={`step-${i}`} className="singleStep" key={i.toString()}>
-                <h5>{extractTitle(quest.text)}</h5>
-                {
-                  quest.inputs.map((input, f) => (
-                    <div key={f.toString()}>
-                      {
-                        input.type === 'Map' ? (
-                          <Field
-                            className="mb-2"
-                            name={input.name}
-                            label={input.label}
-                            component={() => (
-                              <Maps
-                                zoom={14}
-                                scrollZoom
-                                moveMarker
-                                draggable
-                                showSearchLocation
-                                showMap
-                                isShowZip={false}
-                              />
-                            )}
-                            options={input.options}
-                            validate={input.validation}
-                            type={input.type}
-                            onChange={(e) => validateSlide(e, input.name, quest)}
-                          />
-                        ) : (
-                          <div className="dis-f a-c jc-b">
-                            <div className="dis-f a-c jc-b w-perc-100">
-                              <Field
-                                className="mb-2 w-perc-100"
-                                name={input.name}
-                                label={input.label}
-                                icons={quest.icons}
-                                component={quest.component}
-                                options={quest.options}
-                                validate={input.validation}
-                                type={input.type}
-                                onChange={(e) => validateSlide(e, input.name, quest)}
-                                deactivable={false}
-                              />
+                <div className="container">
+                  <h5>{extractTitle(quest.text)}</h5>
+                  {
+                    quest.inputs.map((input, f) => (
+                      <div key={f.toString()}>
+                        {
+                          input.type === 'Map' ? (
+                            <Field
+                              className="mb-2"
+                              name={input.name}
+                              label={input.label}
+                              component={() => (
+                                <Maps
+                                  zoom={14}
+                                  scrollZoom
+                                  moveMarker
+                                  draggable
+                                  showSearchLocation
+                                  showMap
+                                  isShowZip={false}
+                                />
+                              )}
+                              options={input.options}
+                              validate={input.validation}
+                              type={input.type}
+                              onChange={(e) => validateSlide(e, input.name, quest)}
+                            />
+                          ) : (
+                            <div className="dis-f a-c jc-b">
+                              <div className="dis-f a-c jc-b w-perc-100">
+                                <Field
+                                  className="mb-2 w-perc-100"
+                                  name={input.name}
+                                  label={input.label}
+                                  icons={quest.icons}
+                                  component={quest.component}
+                                  options={quest.options}
+                                  validate={input.validation}
+                                  type={input.type}
+                                  onChange={(e) => validateSlide(e, input.name, quest)}
+                                  deactivable={false}
+                                />
+                                {
+                                  input.unit && (
+                                    <span className="pl-2">{input.unit}</span>
+                                  )
+                                }
+                              </div>
                               {
-                                input.unit && (
-                                  <span className="pl-2">{input.unit}</span>
+                                quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && (
+                                  <BrixelButtonPrimary
+                                    rounded
+                                    label="Ok"
+                                    className="ml-2"
+                                    background="primary"
+                                    onClick={() => changeStep()}
+                                    rightIcon="arrow-simple-right"
+                                    disabled={disableNextBtn}
+                                  />
                                 )
                               }
                             </div>
-                            {
-                              quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && (
-                                <BrixelButtonPrimary
-                                  rounded
-                                  label="Ok"
-                                  className="ml-2"
-                                  background="primary"
-                                  onClick={() => changeStep()}
-                                  rightIcon="arrow-simple-right"
-                                  disabled={disableNextBtn}
-                                />
-                              )
-                            }
-                          </div>
-                        )
-                      }
-                      <p className="body2">{input.help}</p>
-                    </div>
+                          )
+                        }
+                        <p className="body2">{input.help}</p>
+                      </div>
+                      )
                     )
-                  )
-                }
+                  }
+                </div>
               </div>
             ))
           }
