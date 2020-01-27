@@ -6,7 +6,8 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 // UTILS
 
 // COMPONENTS
-@import "../components/loading";
+@import "../components/loading",
+"../components/avatar";
 // PAGES
 @import "../pages/getStarted",
 "../pages/onBoarding";
@@ -28,6 +29,11 @@ a {
   }
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 #page-header {
   position: relative;
   z-index: 100;
@@ -35,4 +41,28 @@ a {
 
 #root {
   height: 100%;
+}
+
+p.cutRow {
+  flex-flow: nowrap;
+  word-break: unset;
+  white-space: nowrap;
+  width: 95%;
+  overflow: hidden;
+  hyphens: auto;
+  text-overflow: ellipsis;
+}
+
+.brixel-modal {
+  .modal-body {
+    p {
+      margin-bottom: $step * 2;
+    }
+  }
+}
+
+header {
+  .dropdown {
+    padding-right: 0;
+  }
 }

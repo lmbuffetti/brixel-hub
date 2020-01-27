@@ -1,6 +1,8 @@
 import { handleActions } from 'redux-actions';
 import { configLang } from '../constants/global';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import Cookies from 'universal-cookie';
+
 import {
   ERROR_MESSAGE,
   REDIRECT_TO,
@@ -9,9 +11,12 @@ import {
   SPINNER_OFF,
   SPINNER_ON,
   SET_LANGUAGES,
+  SET_LANGUAGE,
   SET_NOTIFICATION,
   SET_PAGE_DATA,
 } from '../actions/types/CommonTypes';
+
+const cookie = new Cookies;
 
 export const defaultState = {
   isLoading: 0,
@@ -19,7 +24,8 @@ export const defaultState = {
   redirectTo: null,
   configUrl: getConfigEnv,
   errorMsg: {},
-  languages: [],
+  languages: [{value: 'de', label: 'de'}, {value: 'en', label: 'en'}, {value: 'pt', label: 'pt'}],
+  language: cookie.get('brixelLang') || 'en',
   notification: null,
   setPageData: null,
 };
@@ -53,6 +59,10 @@ export default handleActions(
     [SET_LANGUAGES]: (state, action) => ({
       ...state,
       languages: action.payload,
+    }),
+    [SET_LANGUAGE]: (state, action) => ({
+      ...state,
+      language: action.payload,
     }),
     [SET_NOTIFICATION]: (state, action) => ({
       ...state,

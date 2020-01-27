@@ -58,8 +58,8 @@ const App = (props) => {
     if (cookies && cookies.get('brixelToken')) handleCheckToken();
   }, []);
 
-  useEffect(() => {
-    if (Transifex.live) {
+  /* useEffect(() => {
+    /*if (Transifex.live) {
       const lang = [];
       if (Transifex.live.getAllLanguages()) {
         Transifex.live.getAllLanguages().map((lng, i) => {
@@ -70,7 +70,7 @@ const App = (props) => {
       }
       handleSetLanguages(lang);
     }
-  }, [Transifex.live]);
+  }, [Transifex.live]); */
 
   if (!loggedUser) {
     return (
@@ -103,7 +103,7 @@ const App = (props) => {
             actions={notification.actions}
           />
         )
-      }s
+      }
     </>
   );
 };

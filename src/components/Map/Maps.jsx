@@ -61,7 +61,6 @@ const Maps = (props) => {
   const [defCountry, setDefCountry] = useState(null);
 
   useEffect(() => {
-    console.log(longitude, latitude, optMap)
     if (optMap.zoom) {
       const center = {
         lat: latitude,
@@ -160,9 +159,7 @@ const Maps = (props) => {
       rotateControl: true,
       fullscreenControl: false,
       scrollwheel: scrollZoom,
-      zoomControlOptions: {
-        position: google.maps.ControlPosition.BOTTOM_RIGHT,
-      },
+      gestureHandling: 'cooperative',
       mapTypeId: mapType,
       linksControl: false,
       panControl: false,
@@ -311,6 +308,10 @@ const Maps = (props) => {
     changeFieldValue(formName, 'location.longitude', lng);
   };
   const selectOpt = [
+    {
+      label: 'ALL',
+      value: '',
+    },
     {
       label: 'SWI',
       value: 'ch',

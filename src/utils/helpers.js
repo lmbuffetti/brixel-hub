@@ -236,6 +236,19 @@ export const sortObjByKey = (obj, key, isBool = false) => {
   return orderedObj;
 };
 
+export const imageExists = (image_url) => {
+
+  if (typeof window !== 'undefined') {
+    var http = new XMLHttpRequest();
+
+    http.open('HEAD', image_url, false);
+    http.send();
+
+    return http.status !== 404;
+  }
+  return false;
+};
+
 export const getDevMode = () => {
   if (typeof window !== 'undefined') {
     // const url = window.location.href;

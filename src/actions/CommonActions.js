@@ -7,6 +7,7 @@ import {
   REQUEST_DONE,
   RESET_REQUEST,
   SET_LANGUAGES,
+  SET_LANGUAGE,
   SET_NOTIFICATION,
   SET_PAGE_DATA,
 } from './types/CommonTypes';
@@ -19,6 +20,7 @@ export const {
   requestDone,
   resetRequest,
   setLanguages,
+  setLanguage,
   setNotification,
   setPageData,
 } = createActions({
@@ -29,6 +31,7 @@ export const {
   [SPINNER_ON]: (payload) => payload,
   [SPINNER_OFF]: (payload) => payload,
   [SET_LANGUAGES]: (payload) => payload,
+  [SET_LANGUAGE]: (payload) => payload,
   [SET_NOTIFICATION]: (payload) => payload,
   [SET_PAGE_DATA]: (payload) => payload,
 });

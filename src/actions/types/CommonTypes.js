@@ -11,6 +11,7 @@ export const SPINNER_OFF = 'SPINNER_OFF';
 
 export const ERROR_MESSAGE = 'ERROR_MESSAGE';
 export const SET_LANGUAGES = 'SET_LANGUAGES';
+export const SET_LANGUAGE = 'SET_LANGUAGE';
 
 export const SET_NOTIFICATION = "SET_NOTIFICATION";
 export const SET_PAGE_DATA = "SET_PAGE_DATA";

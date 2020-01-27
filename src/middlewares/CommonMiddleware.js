@@ -1,6 +1,7 @@
 import {
   SPINNER_ON,
   SPINNER_OFF,
+  SET_LANGUAGE,
 } from '../actions/types/CommonTypes';
 import { configLang } from '../constants/global';
 

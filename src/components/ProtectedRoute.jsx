@@ -30,7 +30,11 @@ const ProtectedRoute = (props) => {
 
   return (
     <>
-      <Route path={path} component={component} />
+      {
+        loggedUser.token && (
+          <Route path={path} component={component} />
+        )
+      }
     </>
   );
 };

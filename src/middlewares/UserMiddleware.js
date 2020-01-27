@@ -86,11 +86,14 @@ const checkUser = (store) => (next) => (action) => {
       const addProperty = action.payload.addProperty || false;
       delete action.payload.user;
       delete action.payload.addProperty;
-      api.user.createUser(action.payload)
+      api.user.createUser(data)
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
             setCookie('brixelToken', res.data.token);
-            store.dispatch({ type: SET_USER, payload: res.data });
+            let userData = res.data;
+            if (res.data.user) userData = res.data;
+            else userData.user = res.data;
+            store.dispatch({ type: SET_USER, payload: userData });
             if (addProperty) {
               store.dispatch({ type: ADD_PROPERTY, payload: data })
             }

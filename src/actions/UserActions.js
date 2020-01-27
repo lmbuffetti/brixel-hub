@@ -6,6 +6,10 @@ import {
   GET_TOKEN,
   RECOVER_PASSWORD,
   SET_USER,
+  GET_AWARDS,
+  SET_AWARDS,
+  GET_BRIXEL_POINT,
+  SET_BRIXEL_POINT,
   UPDATE_USER,
   VALIDATE_USER,
 } from './types/UserTypes';
@@ -17,6 +21,10 @@ export const {
   getToken,
   recoverPassword,
   setUser,
+  getAwards,
+  setAwards,
+  getBrixelPoint,
+  setBrixelPoint,
   updateUser,
   validateUser,
 } = createActions({
@@ -26,6 +34,10 @@ export const {
   [GET_TOKEN]: (payload) => payload,
   [RECOVER_PASSWORD]: (payload) => payload,
   [SET_USER]: (payload) => payload,
+  [GET_AWARDS]: (payload) => payload,
+  [SET_AWARDS]: (payload) => payload,
+  [GET_BRIXEL_POINT]: (payload) => payload,
+  [SET_BRIXEL_POINT]: (payload) => payload,
   [UPDATE_USER]: (payload) => payload,
   [VALIDATE_USER]: (payload) => payload,
 });

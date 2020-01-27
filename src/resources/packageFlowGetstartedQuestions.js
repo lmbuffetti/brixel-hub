@@ -1,4 +1,8 @@
 import { BrixelButtonIcon, BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, Validation } from '@brixel/brixel-components';
+import ResumeCard from '../images/OnBoarding/PlaceholderProperty.jpg';
+import Cat from '../images/OnBoarding/cat.png';
+import SaleProperty from '../images/OnBoarding/SaleProperty.png';
+
 
 export const Questions = [
   {
@@ -6,6 +10,7 @@ export const Questions = [
     title: "What do you want to sell?",
     component: BrixelRadioButton,
     history: "propertyType",
+    icons: true,
     inputs: [{
       label: '',
       name: 'propertyType',
@@ -25,8 +30,6 @@ export const Questions = [
 
       }
     ],
-    icons: true,
-    autoSlide: true,
     successMessage: 'Ok. Got it.'
   },
   {
@@ -37,37 +40,31 @@ export const Questions = [
       {
         label: '',
         name: 'rooms',
-        validation: [Validation.required, Validation.isNumber],
+        type: 'number',
+        validation: [Validation.isNumber, Validation.required],
         step: [0.5],
+        min: 1,
       },
     ],
-    show: true,
     successMessage: 'This is a nice number.'
   },
   {
-    title: {
-      House: "What's the living space of your house ?",
-      Apartment: "What's the living space of your apartment ?"
-    },
+    title: "What is the living space?",
     component: BrixelInputText,
     history: "livingSpace",
     inputs: [
       {
-        label: 'Insert your living space here (m2)',
+        label: '',
         name: 'livingSpace',
         type: 'number',
-        validation: [Validation.required, Validation.isNumber],
+        validation: [Validation.isNumber, Validation.required],
         help: 'Use net living space',
         unit: 'm2'
       },
     ],
-    showTop: true,
   },
   {
-    title: {
-      House: "When was your house built?",
-      Apartment: "When was your apartment built?"
-    },
+    title: "What is the construction year?",
     component: BrixelInputText,
     history: "constructionYear",
     inputs: [
@@ -75,13 +72,12 @@ export const Questions = [
         label: '',
         name: 'constructionYear',
         type: 'number',
-        validation: [Validation.required, Validation.isNumber, Validation.isYear],
+        validation: [Validation.isYear, Validation.required],
       },
     ],
-    show: true,
   },
   {
-    title: "Where is your property located?",
+    title: "Where is the location?",
     component: "Map",
     history: "locationInput",
     inputs: [
@@ -91,6 +87,29 @@ export const Questions = [
         validation: [Validation.required],
       },
     ],
-    show: true,
+  },
+  {
+    title: "Great.<br />Your property was created.",
+    history: "resume",
+    cardType: 'Resume',
+    img: ResumeCard,
+  },
+  {
+    title: "And the first award goes to… You!",
+    subtitle: "You earned the <span class=txtGreen400>„Homebase“</span> Award and +50 Brixels.",
+    history: "rewardsStep",
+    cardType: 'RewardsStep',
+    img: Cat,
+  },
+  {
+    title: "Every home needs an owner.",
+    history: "lastStep",
+    cardType: 'LastStep',
+    img: SaleProperty,
+  },
+  {
+    title: "Create your profile to save your progress.",
+    history: "createProfile",
+    cardType: 'createProfile',
   },
 ];
