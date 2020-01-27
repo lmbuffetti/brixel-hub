@@ -54,26 +54,6 @@ function PageHeader(props) {
     setCookie('brixelLang', langCode.value);
   };
 
-  const dropdownAccount = () => (
-    [
-      {
-        href: getConfigEnv.dashboardPath,
-        label: 'My Properties',
-        icon: 'properties',
-      },
-      {
-        href: getConfigEnv.profileURL,
-        label: 'Account',
-        icon: 'account',
-      },
-      {
-        href: `${getConfigEnv.loginBasePath}/logout`,
-        label: 'Logout',
-        icon: 'logout',
-      },
-    ]
-  );
-
   return (
     <>
       <header>

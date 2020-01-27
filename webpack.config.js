@@ -37,7 +37,7 @@ const clientConfig = {
     globalObject: 'this'
   },
   stats: {
-    all: devMode,
+    all: true,
   },
   module: {
     rules: [
