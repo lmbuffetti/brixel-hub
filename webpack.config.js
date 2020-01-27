@@ -146,12 +146,12 @@ const clientConfig = {
       filename: devMode ? 'css/[name].css' : 'css/[name].[hash].css',
       chunkFilename: devMode ? 'css/[id].css' : 'css/[id].[hash].css',
     }),
-    new CleanWebpackPlugin({
+    /*new CleanWebpackPlugin({
       dry: false,
       verbose: true,
       cleanOnceBeforeBuildPatterns: ['*', '!manifest.json'],
       dangerouslyAllowCleanPatternsOutsideProject: true,
-    }),
+    }),*/
     new CopyPlugin([
       { from: './public/favicon.png', to: './' },
     ]),
