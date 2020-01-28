@@ -1,0 +1,39 @@
+.brixel-wrap-card-btn {
+  width: 100vw;
+  overflow-x: auto;
+  padding-bottom: 40px;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.brixel-radio-card {
+  min-width: 217px;
+  display: flex;
+  label {
+    display: block;
+    padding-bottom: $step * 5;
+    position: relative;
+    .btmLabel {
+      position: absolute;
+      right: $step * 2;
+      bottom: $step * 2;
+    }
+  }
+  input {
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    position: absolute;
+  }
+  .otp-label {
+    @include fontStyle(400);
+    display: block;
+    text-align: left;
+    padding: $step * 3 $step;
+  }
+  &.checked {
+    background: map_get($primaryColor, 100);
+  }
+}

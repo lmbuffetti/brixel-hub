@@ -11,20 +11,18 @@ import { change, isValid, Field, reduxForm } from 'redux-form';
 import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
-  FactsOptions,
   BrixelIcon,
   BrixelInputText, BrixelCheckbox,
 } from '@brixel/brixel-components';
 import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
 import { addProperty } from '../../actions/PropertyActions';
 import { errorMessage, setPageData } from '../../actions/CommonActions';
-import { Questions } from '../../resources/packageFlowGetstartedQuestions.js';
+import { Questions } from '../../resources/brixelComintTownPropertyQuestion.js';
 import Maps from '../../components/Map/Maps';
 import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
 
 
 function OnBoarding(props) {
-  const { factsOptions } = FactsOptions;
   // PROPS
   const {
     changeFieldValue,
@@ -47,6 +45,7 @@ function OnBoarding(props) {
   const [hidePrevBtn, setHidePrevBtn] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loginPage, setLoginPage] = useState(false);
+  const [progressBar, setProgressBar] = useState(0);
 
   const extractTitle = (title) => {
     if (typeof title === 'object') {
@@ -133,6 +132,7 @@ function OnBoarding(props) {
     if (Questions[newPosition] && Questions[newPosition].cardType && Questions[newPosition].cardType === 'LastStep' && loggedUser.user && loggedUser.user.id) {
       saveData();
     }
+    setProgressBar(newPosition * 100 / Questions.length);
   };
 
   const saveData = (e) => {
@@ -181,13 +181,15 @@ function OnBoarding(props) {
         signupProduct: null,
         language: language || 'en',
         createUser: true,
+        company: get(props, 'match.params.stubCompany', null)
       };
       handleCreateUser(data);
     }
   };
-
+  console.log('match', props.match);
   return (
     <main id="onBoarding">
+      <div id="progressBar"><span className="activeProgBar" style={{ width: `${progressBar}%` }} /></div>
       <form id="multiStepForm" onSubmit={(e) => e.preventDefault()} autocomplete="off">
         <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
           {

@@ -7,8 +7,8 @@ import {
   GET_TOKEN,
   RECOVER_PASSWORD,
   SET_USER,
+  UPDATE_USER,
   VALIDATE_USER,
-
 } from '../actions/types/UserTypes';
 
 import {
@@ -98,6 +98,21 @@ const checkUser = (store) => (next) => (action) => {
               store.dispatch({ type: ADD_PROPERTY, payload: data })
             }
           }
+        })
+        .catch((res) => {
+          store.dispatch({ type: SPINNER_OFF });
+        });
+      break;
+    }
+    case UPDATE_USER: {
+      next(action);
+      store.dispatch({ type: SPINNER_ON });
+      const id = action.payload.id;
+      delete action.payload.id;
+      api.user.updateUser(id, action.payload)
+        .then((res) => {
+          console.log(res.data);
+          store.dispatch({ type: SPINNER_OFF });
         })
         .catch((res) => {
           store.dispatch({ type: SPINNER_OFF });

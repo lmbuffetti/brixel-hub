@@ -1,0 +1,408 @@
+/* global Transifex */
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators, compose } from 'redux';
+import PropTypes from 'prop-types';
+import get from 'lodash/get';
+import {
+  withRouter,
+} from 'react-router-dom'
+import { change, isValid, Field, reduxForm } from 'redux-form';
+import {
+  BrixelButtonPrimary,
+  BrixelButtonIcon,
+  BrixelIcon,
+  BrixelInputText,
+  BrixelCheckbox,
+  BrixelButtonSecondary,
+  BrixelButtonTertiary,
+} from '@brixel/brixel-components';
+import { updateUser, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
+import { addProperty } from '../../actions/PropertyActions';
+import { errorMessage, setPageData } from '../../actions/CommonActions';
+import { Questions } from '../../resources/brixelComintTownUserQuestion.js';
+import Maps from '../../components/Map/Maps';
+import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
+
+function UserFlow(props) {
+  // PROPS
+  const {
+    changeFieldValue,
+    checkValid,
+    errorValue,
+    formValue,
+    handleUpdateUser,
+    handleSetAwards,
+    handleSetBrixelPoint,
+    language,
+    loggedUser,
+  } = props;
+  // STATE
+  const [position, setPosition] = useState(0);
+  const [disableNextBtn, setDisableNextBtn] = useState(true);
+  const [hideNextBtn, setHideNextBtn] = useState(true);
+  const [disablePrevBtn, setDisablePrevBtn] = useState(true);
+  const [hidePrevBtn, setHidePrevBtn] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [loginPage, setLoginPage] = useState(false);
+  const [progressBar, setProgressBar] = useState(0);
+
+  const extractTitle = (title) => {
+    if (typeof title === 'object') {
+      return title.House;
+    }
+    return title;
+  };
+
+  useEffect(() => {
+    handleSetBrixelPoint([{desc: "Homebase", point: 50}, {desc: "Newcomer", point: 100}]);
+    handleSetAwards([{desc: "Homebase", point: 1}, {desc: "Newcomer", point: 1}]);
+  }, [])
+
+  useEffect(() => {
+    let invalidField = false;
+    if (Questions[currentIndex] && Questions[currentIndex].inputs) {
+      Questions[currentIndex].inputs.map((inp) => {
+        const curVal = get(errorValue, inp.name, true);
+        if (curVal !== true) invalidField = true;
+      });
+    }
+    setDisableNextBtn(invalidField);
+  }, [errorValue, currentIndex]);
+
+  const validateSlide = (val, name, quest) => {
+    changeFieldValue(name, val);
+    checkValid();
+    const curIndex = Questions.findIndex((item) => quest.history === item.history);
+    setCurrentIndex(curIndex);
+    document.getElementById('onBoarding').scrollTo(0, 0);
+  };
+
+  const changeStep = (act) => {
+    let newPosition = position;
+    if (act === 'back') {
+      setDisableNextBtn(false);
+      newPosition = position - 1;
+    }
+    else {
+      setDisableNextBtn(true);
+      newPosition = position + 1;
+    }
+    setPosition(newPosition);
+    setCurrentIndex(newPosition);
+    if (newPosition > 0) setHidePrevBtn(false);
+    else setHidePrevBtn(true);
+    setProgressBar(newPosition * 100 / Questions.length);
+    if (Questions[newPosition - 1].inputs && !Questions[newPosition].inputs) saveData();
+  };
+
+  const saveData = (e) => {
+    const data = {
+      brixelComingFlowProcess: {
+        answers: formValue
+      },
+      id: loggedUser.user.id
+    };
+    handleUpdateUser(data);
+  };
+  return (
+    <main id="onBoarding">
+      <div id="progressBar"><span className="activeProgBar" style={{ width: `${progressBar}%` }} /></div>
+      <form id="multiStepForm" onSubmit={(e) => e.preventDefault()} autocomplete="off">
+        <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
+          {
+            Questions.map((quest, i) => (
+              <div id={`step-${i}`} className="singleStep" key={i.toString()}>
+                <div className="container">
+                  {
+                    quest.inputs && (
+                      <>
+                        {
+                          quest.titleGreen && (
+                            <h5 className="txtGreen400">{quest.titleGreen}</h5>
+                          )
+                        }
+                        <h5>{extractTitle(quest.title)}</h5>
+                        {
+                          quest.inputs.map((input, f) => (
+                              <div key={f.toString()}>
+                                {
+                                  input.type === 'Map' ? (
+                                    <>
+                                      <div className="mb-2 pos-r zIndex3">
+                                        <Field
+                                          name={input.name}
+                                          label={input.label}
+                                          component={() => (
+                                            <Maps
+                                              zoom={14}
+                                              scrollZoom
+                                              moveMarker
+                                              draggable
+                                              showSearchLocation
+                                              showSelectCountry
+                                              showMap={false}
+                                              isShowZip={false}
+                                            />
+                                          )}
+                                          options={input.options}
+                                          validate={input.validation}
+                                          type={input.type}
+                                          onChange={(e) => validateSlide(e, input.name, quest)}
+                                        />
+                                      </div>
+                                      {
+                                        formValue.location && formValue.location.address && (
+                                          <>
+                                            <div className="dis-f jc-b pos-r zIndex2 my-2 w-perc-100">
+                                              <p>Is this the place?</p>
+                                              <button onClick={() => changeFieldValue('location', {})}>Change</button>
+                                            </div>
+                                            <div className="pos-r zIndex1">
+                                              <div className="curAdr">{formValue.location.address}</div>
+                                              <Maps
+                                                zoom={14}
+                                                scrollZoom
+                                                moveMarker
+                                                draggable
+                                                showMap
+                                                isShowZip={false}
+                                              />
+                                            </div>
+                                          </>
+                                        )
+                                      }
+                                    </>
+                                  ) : (
+                                    <div className="dis-f a-t jc-b">
+                                      <div className={`${input.type === 'number' || input.type === 'text' ? 'dis-f a-c' : ''} jc-b w-perc-100`}>
+                                        <Field
+                                          className="mb-2 w-perc-100"
+                                          name={input.name}
+                                          label={input.label}
+                                          icons={quest.icons}
+                                          component={quest.component}
+                                          fluid={true}
+                                          options={quest.options}
+                                          validate={input.validation}
+                                          type={input.type}
+                                          step={+input.step}
+                                          min={input.min}
+                                          max={input.max}s
+                                          onChange={(e) => validateSlide(e, input.name, quest)}
+                                          deactivable={false}
+                                          meta={{
+                                            dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                            invalid: formValue[input.name] && errorValue[input.name] !== true,
+                                          }}
+                                        />
+                                        {
+                                          input.unit && (
+                                            <span className="pl-2">{input.unit}</span>
+                                          )
+                                        }
+                                      </div>
+                                      {
+                                        quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && !input.step && (
+                                          <BrixelButtonPrimary
+                                            rounded
+                                            label="Ok"
+                                            className="ml-2"
+                                            background="primary"
+                                            onClick={() => changeStep()}
+                                            disabled={disableNextBtn}
+                                            type="submit"
+                                          />
+                                        )
+                                      }
+                                    </div>
+                                  )
+                                }
+                                <p className="body2">{input.help}</p>
+                              </div>
+                            )
+                          )
+                        }
+                      </>
+                    )
+                  }
+                  {
+                    quest.cardType && (
+                      <>
+                        {
+                          quest.cardType === 'RewardsStep' && (
+                            <div>
+                              <img src={quest.img} />
+                              <h5 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.title}} />
+                              {quest.subtitle && (<h6 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
+                            </div>
+                          )
+                        }
+                        {
+                          quest.cardType === 'LastStep' && (
+                            <div>
+                              <h5 className="mb-2 ta-l" dangerouslySetInnerHTML={{ __html: quest.title}} />
+                              <img src={quest.img} />
+                              {quest.subtitle && (<h5 className="mt-2 ta-l" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
+                            </div>
+                          )
+                        }
+                        {
+                          (quest.cardType === 'chat') && (
+                            <div>
+                              <div className="dis-f a-c mb-4">
+                                <img src={quest.img} />
+                                <h5 className="ml-3" dangerouslySetInnerHTML={{ __html: quest.title}} />
+                              </div>
+                              <div className="chatContainer">
+                                {
+                                  quest.message && quest.message.map((msg, i) => (
+                                    <div className="messageChat" dangerouslySetInnerHTML={{ __html: msg }} key={i.toString()} />
+                                  ))
+                                }
+                              </div>
+                            </div>
+                          )
+                        }
+                      </>
+                    )
+                  }
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}>
+          {
+            !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && (
+              <p className="txtGreen700 ta-r mb-2">
+                {Questions[currentIndex].successMessage}
+                <BrixelIcon icon="check" className="ml-1" />
+              </p>
+            )
+          }
+          {console.log(Questions[currentIndex], currentIndex, Questions)}
+          <div className={`dis-f a-c ${hidePrevBtn && Questions[currentIndex].cardType !== 'LastStep' ? 'jc-fe' : `${Questions[currentIndex].inputs || Questions[currentIndex].cardType === 'LastStep' ? 'jc-b' : 'jc-c'}`}`}>
+            {
+              Questions && Questions[currentIndex] !== 'undefined' && Questions[currentIndex].inputs && (
+                <BrixelButtonIcon
+                  className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp`}
+                  icon="arrow-simple-left"
+                  onClick={() => changeStep('back')}
+                  background="white"
+                  saturation={0}
+                  color="primary"
+                  saturationTxt={400}
+                  noBorder
+                />
+              )
+            }
+            {
+              (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) ? (
+                <>
+                  <BrixelButtonPrimary
+                    rounded
+                    label="Continue"
+                    background={Questions[currentIndex].inputs ? "green" : "primary"}
+                    onClick={() => changeStep()}
+                    rightIcon="arrow-simple-right"
+                    disabled={disableNextBtn}
+                  />
+                </>
+              ) : (
+                <>
+                  {
+                    Questions[currentIndex].cardType === 'LastStep' ? (
+                      <>
+                        <BrixelButtonIcon
+                          className="shadow-2dp"
+                          icon="arrow-simple-left"
+                          onClick={() => changeStep('back')}
+                          background="white"
+                          saturation={0}
+                          color="primary"
+                          saturationTxt={400}
+                          noBorder
+                        />
+                        <BrixelButtonTertiary
+                          rounded
+                          label="Back to our website"
+                          color="primary"
+                          onClick={() => ''}
+                          rightIcon="arrow-simple-right"
+                          disabled={disableNextBtn}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <BrixelButtonSecondary
+                          rounded
+                          label="No thanks"
+                          color="primary"
+                          onClick={() => ''}
+                          disabled={disableNextBtn}
+                        />
+                        <BrixelButtonPrimary
+                          className="ml-1"
+                          rounded
+                          label="Yes of course"
+                          background="green"
+                          onClick={() => changeStep()}
+                          disabled={disableNextBtn}
+                        />
+                      </>
+                    )
+                  }
+                </>
+              )
+            }
+          </div>
+        </div>
+      </form>
+    </main>
+  );
+}
+
+UserFlow.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
+  checkValid: PropTypes.func.isRequired,
+  errorValue: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
+  handleUpdateUser: PropTypes.func.isRequired,
+  handleSetAwards: PropTypes.func.isRequired,
+  handleSetBrixelPoint: PropTypes.func.isRequired,
+  language: PropTypes.string,
+  loggedUser: PropTypes.object.isRequired,
+};
+
+UserFlow.defaultProps = {
+
+};
+
+const mapStateToProps = (state, props) => ({
+  errorValue: get(state, 'form.UserFlow.syncErrors', {}),
+  formValue: get(state, 'form.UserFlow.values', {}),
+  loggedUser: get(state, 'user.loggedUser', {}),
+  language: get(state, 'common.language', {}),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('UserFlow', field, value));
+  },
+  checkValid() {
+    dispatch(isValid('UserFlow'))
+  },
+  handleUpdateUser: bindActionCreators(updateUser, dispatch),
+  handleSetAwards: bindActionCreators(setAwards, dispatch),
+  handleSetBrixelPoint: bindActionCreators(setBrixelPoint, dispatch),
+});
+
+const UserFlowForm = reduxForm({
+  form: 'UserFlow', // a unique identifier for this form
+})(UserFlow);
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(UserFlowForm);

@@ -1,18 +1,12 @@
 import { BrixelButtonIcon, BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, Validation } from '@brixel/brixel-components';
-import ResumeCard from '../images/OnBoarding/PlaceholderProperty.jpg';
-import Cat from '../images/OnBoarding/cat.png';
-import SaleProperty from '../images/OnBoarding/SaleProperty.png';
-
 
 export const Questions = [
   {
-    titleGreen: 'Hello, let’s get started.',
-    title: "What do you want to sell?",
+    text: "What do you want to sell?",
     component: BrixelRadioButton,
     history: "propertyType",
-    icons: true,
     inputs: [{
-      label: '',
+      label: 'Property type',
       name: 'propertyType',
       validation: [Validation.required],
     }],
@@ -25,59 +19,75 @@ export const Questions = [
       {
         label: "House",
         value: "House",
-        icon: "property-house",
-        backIcon: 'red',
-
+        icon: "property-house"
       }
     ],
-    successMessage: 'Ok. Got it.'
+    icons: true,
+    autoSlide: true,
   },
   {
-    title: "How many rooms?",
+    text: {
+      House: "How many Rooms and Bathrooms are there in your house ?",
+      Apartment: "How many Rooms and Bathrooms are there in your apartment ?"
+    },
     component: BrixelInputStepNumber,
     history: "allRooms",
     inputs: [
       {
-        label: '',
+        label: 'Rooms',
         name: 'rooms',
-        type: 'number',
-        validation: [Validation.isNumber, Validation.required],
+        validation: [Validation.required, Validation.isNumber],
         step: [0.5],
-        min: 1,
+      },
+      {
+        label: 'Bathrooms',
+        name: 'bathrooms',
+        validation: [Validation.required, Validation.isNumber],
+      },
+      {
+        label: 'Separate Toilets',
+        name: 'separateToilets',
+        validation: [Validation.required, Validation.isNumber],
       },
     ],
-    successMessage: 'This is a nice number.'
+    show: true,
   },
   {
-    title: "What is the living space?",
+    text: {
+      House: "What's the living space of your house ?",
+      Apartment: "What's the living space of your apartment ?"
+    },
     component: BrixelInputText,
     history: "livingSpace",
     inputs: [
       {
-        label: '',
+        label: 'Insert your living space here (m2)',
         name: 'livingSpace',
         type: 'number',
-        validation: [Validation.isNumber, Validation.required],
-        help: 'Use net living space',
-        unit: 'm2'
+        validation: [Validation.required, Validation.isNumber],
       },
     ],
+    show: true,
   },
   {
-    title: "What is the construction year?",
+    text: {
+      House: "When was your house built?",
+      Apartment: "When was your apartment built?"
+    },
     component: BrixelInputText,
     history: "constructionYear",
     inputs: [
       {
-        label: '',
+        label: 'Insert year',
         name: 'constructionYear',
         type: 'number',
-        validation: [Validation.isYear, Validation.required],
+        validation: [Validation.required, Validation.isYear],
       },
     ],
+    show: true,
   },
   {
-    title: "Where is the location?",
+    text: "Where is your property located?",
     component: "Map",
     history: "locationInput",
     inputs: [
@@ -87,29 +97,105 @@ export const Questions = [
         validation: [Validation.required],
       },
     ],
+    show: true,
   },
   {
-    title: "Great.<br />Your property was created.",
-    history: "resume",
-    cardType: 'Resume',
-    img: ResumeCard,
+    text: "We couldn't get the exact location of your property. Can you give us your Zip Code?",
+    component: BrixelInputText,
+    conditions: [
+      {
+        name: 'location.zip',
+        value: null,
+      },
+      {
+        name: 'location.countryCode',
+        value: "CH",
+      }
+    ],
+    history: "zipInput",
+    inputs: [
+      {
+        label: 'Insert your zip code',
+        name: 'location.zip',
+        type: 'number',
+        validation: [Validation.required],
+      },
+    ],
+    show: false,
   },
   {
-    title: "And the first award goes to… You!",
-    subtitle: "You earned the <span class=txtGreen400>„Homebase“</span> Award and +50 Brixels.",
-    history: "rewardsStep",
-    cardType: 'RewardsStep',
-    img: Cat,
+    text: "What do you need the market check for?",
+    component: BrixelRadioButton,
+    history: "ownerType",
+    inputs: [
+      {
+        label: '',
+        name: "ownerType",
+        validation: [Validation.required],
+      },
+    ],
+    options: [
+      {
+        "label": "I would like to sell my property",
+        "value": "seller"
+      },
+      {
+        "label": "Because of an inheritance or transfer within the family",
+        "value": "inheritance"
+      },
+      {
+        "label": "I just want to know the price development of my property. I don't want to sell",
+        "value": "price-development"
+      },
+      {
+        "label": "I would like to conclude or renew my mortgage",
+        "value": "mortgage"
+      },
+      {
+        "label": "I would like to buy a property",
+        "value": "buyer"
+      },
+      {
+        "label": "Just out of curiosity",
+        "value": "curiosity"
+      },
+      {
+        "label": "Other reason",
+        "value": "other"
+      }
+    ],
+    show: true,
+    autoSlide: true,
   },
   {
-    title: "Every home needs an owner.",
-    history: "lastStep",
-    cardType: 'LastStep',
-    img: SaleProperty,
-  },
-  {
-    title: "Create your profile to save your progress.",
-    history: "createProfile",
-    cardType: 'createProfile',
+    text: "When do you want to sell your apartment?",
+    component: BrixelRadioButton,
+    conditions: [{
+      name: 'ownerType',
+      value: 'seller',
+    }],
+    history: "apartmentSellTiming",
+    inputs: [
+      {
+        label: 'Insert your zip code',
+        name: 'apartmentSellTiming',
+        validation: [Validation.required],
+      },
+    ],
+    options: [
+      {
+        "label": "As soon as possible",
+        "value": "asap"
+      },
+      {
+        "label": "In a few months",
+        "value": "few-months"
+      },
+      {
+        "label": "I don't want to sell now",
+        "value": "no-sell"
+      }
+    ],
+    show: false,
   },
 ];

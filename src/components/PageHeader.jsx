@@ -72,7 +72,7 @@ function PageHeader(props) {
               Object.keys(userBrixelPoint).length > 0 && (
                 <div className="cur-poi ml-2" onClick={() => setModal('brixelPoint')}>
                   <BrixelIcon className="mr-1" color="red" saturationTxt={600} icon="mosaic" />
-                  <span className="ff-mono txtRed600">{Object.keys(userBrixelPoint).length}</span>
+                  <span className="ff-mono txtRed600">{userBrixelPoint.reduce((prev,next) => prev + next.point,0)}</span>
                 </div>
               )
             }

@@ -43,7 +43,12 @@ const InsertToken = Loadable({
 });
 
 const OnBoarding = Loadable({
-  loader: () => import('./Pages/PackageFlow/OnBoarding' /* webpackChunkName: "OnBoarding" */),
+  loader: () => import('./Pages/BrixelComingTown/OnBoarding' /* webpackChunkName: "OnBoarding" */),
+  loading: Loading,
+});
+
+const UserFlow = Loadable({
+  loader: () => import('./Pages/BrixelComingTown/UserFlow' /* webpackChunkName: "UserFlow" */),
   loading: Loading,
 });
 
@@ -84,15 +89,13 @@ const App = (props) => {
       <PageHeader />
       <Switch>
         { /* SECTION: FREE ROOUTE */ }
-        <Route path="/:country/packageFlow/getstarted" component={GetStarted} />
-        <Route path="/onBoarding" component={OnBoarding} />
-        <Route path="/packageFlow/:id/rewards" component={Rewards} />
+        <Route path="/onBoarding/brixelComingInTown" exact component={UserFlow} />
+        <Route path="/onBoarding/:stubCompany?" component={OnBoarding} />
         <Route path="/tokeninput" component={InsertToken} />
         { /* SECTION: PROTECED ROUTE WITH REDIRECT TO LOGIN */ }
-        <ProtectedRoute path="/" exact component={Dashboard} />
+        {/*<ProtectedRoute path="/" exact component={Dashboard} />*/}
         { /* SECTION: REDIRECT */ }
-        <Redirect from="/packageFlow/getstarted" to="/ch/packageFlow/getstarted" />
-        <Redirect from="*" to="/" />
+        <Redirect from="*" to="/onBoarding" />
       </Switch>
       {
         notification && (
