@@ -6,7 +6,6 @@ import brixelComingTownLast from '../images/BrxielComingTown/LastSlideBrixelComi
 import Martin from '../images/BrxielComingTown/Martin.png';
 
 export const maxLength = (value) => {
-  console.log('checkMAx', value);
   const error = value && (value.length <= 3)
     ? null
     : 'Select up 3 select';

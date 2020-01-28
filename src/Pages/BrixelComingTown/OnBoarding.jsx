@@ -74,7 +74,6 @@ function OnBoarding(props) {
   });
 
   useEffect(() => {
-    console.log(formValue.pageTitle);
     if (formValue && formValue.location && !formValue.pageTitle) {
       var titleAdjectives = [
         'Beautiful',
@@ -113,7 +112,6 @@ function OnBoarding(props) {
 
   const validateSlide = (val, name, quest) => {
     changeFieldValue(name, val);
-    console.log('eh');
     checkValid();
     const curIndex = Questions.findIndex((item) => quest.history === item.history);
     setCurrentIndex(curIndex);
@@ -195,7 +193,7 @@ function OnBoarding(props) {
       handleCreateUser(data);
     }
   };
-  console.log('match', props.match);
+
   return (
     <main id="onBoarding">
       <div id="progressBar"><span className="activeProgBar" style={{ width: `${progressBar}%` }} /></div>

@@ -93,7 +93,6 @@ class ApiClient {
   }) {
     let head;
     if (type === 'login') {
-      console.log(data.username, data.password);
       const auth = btoa(`${data.username}:${data.password}`);
       head = {
         'Content-Type': 'application/json; charset=utf-8',

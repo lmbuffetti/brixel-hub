@@ -43,7 +43,6 @@ const checkCommon = (store) => (next) => (action) => {
       action.payload.user = store.getState().user.loggedUser.user.id;
       action.payload.imageType = imgType.id;
       const formData = store.getState().form.UpdateForm.values;
-      console.log(action.payload);
       store.dispatch({ type: SPINNER_ON });
       api.image.addImage(action.payload)
         .then((res) => {
@@ -53,7 +52,6 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SPINNER_OFF });
           store.dispatch(change('UpdateForm', 'avatar', res.data));
           store.dispatch({ type: UPDATE_USER, payload: {} });
-          console.log(res);
         })
         .catch((res) => {
           store.dispatch({ type: SPINNER_OFF });

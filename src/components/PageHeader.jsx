@@ -48,7 +48,6 @@ function PageHeader(props) {
 
   const newLang = (e, langCode) => {
     e.stopPropagation();
-    console.log(langCode);
     setCurrentLang(langCode.value);
     handleSetLanguage(langCode.value);
     setCookie('brixelLang', langCode.value);

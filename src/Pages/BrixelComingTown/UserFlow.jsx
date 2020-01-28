@@ -281,7 +281,6 @@ function UserFlow(props) {
               </p>
             )
           }
-          {console.log(Questions[currentIndex], currentIndex, Questions)}
           <div className={`dis-f a-c ${hidePrevBtn && Questions[currentIndex].cardType !== 'LastStep' ? 'jc-fe' : `${Questions[currentIndex].inputs || Questions[currentIndex].cardType === 'LastStep' ? 'jc-b' : 'jc-c'}`}`}>
             {
               Questions && Questions[currentIndex] !== 'undefined' && Questions[currentIndex].inputs && (

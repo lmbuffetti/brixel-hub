@@ -53,7 +53,6 @@ const checkUser = (store) => (next) => (action) => {
       delete action.payload.addProperty;
       api.user.getToken(data, {rememberMe: true})
         .then((res) => {
-          console.log(res, res.data.token);
           if (typeof res.data.statusCode === 'undefined') {
             setCookie('brixelToken', res.data.token);
             if (addProperty) {
@@ -84,7 +83,6 @@ const checkUser = (store) => (next) => (action) => {
     case CREATE_USER: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
-      console.log(action.payload);
       const data = action.payload.user;
       const addProperty = action.payload.addProperty || false;
       delete action.payload.user;
@@ -122,7 +120,6 @@ const checkUser = (store) => (next) => (action) => {
       delete action.payload.id;
       api.user.updateUser(id, action.payload)
         .then((res) => {
-          console.log(res.data);
           store.dispatch({ type: SPINNER_OFF });
         })
         .catch((res) => {
@@ -137,7 +134,6 @@ const checkUser = (store) => (next) => (action) => {
       delete action.payload.user.createUser;
       api.user.validateUser(action.payload.user.email)
         .then((res) => {
-          console.log(res.data);
           if (newUser && typeof res.data.statusCode === 'undefined') {
             store.dispatch({ type: SET_PAGE_DATA, payload: 'loginPage' });
           } else if (newUser) {
