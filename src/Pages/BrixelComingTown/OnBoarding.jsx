@@ -517,6 +517,9 @@ const mapStateToProps = (state, props) => ({
   formValue: get(state, 'form.OnBoarding.values', {}),
   loggedUser: get(state, 'user.loggedUser', {}),
   language: get(state, 'common.language', {}),
+  initialValues: {
+    bedrooms: 1,
+  }
 });
 
 const mapDispatchToProps = (dispatch) => ({

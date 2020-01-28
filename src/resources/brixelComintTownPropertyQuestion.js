@@ -39,10 +39,10 @@ export const Questions = [
     inputs: [
       {
         label: '',
-        name: 'rooms',
+        name: 'bedrooms',
         type: 'number',
         validation: [Validation.isNumber, Validation.required],
-        step: [0.5],
+        step: [1],
         min: 1,
       },
     ],
