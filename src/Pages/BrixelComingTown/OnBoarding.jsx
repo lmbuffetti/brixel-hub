@@ -8,6 +8,7 @@ import {
   withRouter,
 } from 'react-router-dom'
 import { change, isValid, Field, reduxForm } from 'redux-form';
+import Cookies from 'universal-cookie';
 import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
@@ -18,9 +19,11 @@ import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions
 import { addProperty } from '../../actions/PropertyActions';
 import { errorMessage, setPageData } from '../../actions/CommonActions';
 import { Questions } from '../../resources/brixelComintTownPropertyQuestion.js';
+import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
 import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
 
+const cookie = new Cookies;
 
 function OnBoarding(props) {
   // PROPS
@@ -64,6 +67,11 @@ function OnBoarding(props) {
     }
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex]);
+
+  useEffect(() => {
+    const company = get(props, 'match.params.stubCompany', null);
+    if (company) setCookie('brixelStubCompany', company);
+  });
 
   useEffect(() => {
     console.log(formValue.pageTitle);
@@ -157,6 +165,7 @@ function OnBoarding(props) {
       ownerType: "seller",
       getEstimation: false,
       addProperty: true,
+      redirectToUserFlow: true,
     };
     if (loggedUser.user && loggedUser.user.id) {
       changeFieldValue('owner', loggedUser.user.id);
@@ -181,7 +190,7 @@ function OnBoarding(props) {
         signupProduct: null,
         language: language || 'en',
         createUser: true,
-        company: get(props, 'match.params.stubCompany', null)
+        company: get(props, 'match.params.stubCompany', cookie.get('brixelStubCompany') || null),
       };
       handleCreateUser(data);
     }

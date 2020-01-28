@@ -18,14 +18,19 @@ const checkCommon = (store) => (next) => (action) => {
     case ADD_PROPERTY:
       next(action);
       store.dispatch({ type: SPINNER_ON });
-      const { getEstimation } = action.payload;
+      const { getEstimation, token, redirectToUserFlow } = action.payload;
       delete action.payload.getEstimation;
-      api.property.addProperty(action.payload)
+      delete action.payload.token;
+      delete action.payload.redirectToUserFlow;
+      api.property.addProperty(action.payload, token)
         .then((res) => {
           store.dispatch({ type: SET_PROPERTY, payload: res.data });
           store.dispatch({ type: SPINNER_OFF });
           if (getEstimation) {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
+          }
+          if (redirectToUserFlow) {
+            window.location.href = '/onBoarding/brixelComingInTown'
           }
         })
         .catch((res) => {

@@ -57,7 +57,10 @@ const checkUser = (store) => (next) => (action) => {
           if (typeof res.data.statusCode === 'undefined') {
             setCookie('brixelToken', res.data.token);
             if (addProperty) {
-              store.dispatch({ type: ADD_PROPERTY, payload: data })
+              const dataProperty = action.payload;
+              dataProperty.token = res.data.token;
+              dataProperty.owner = res.data.user.id;
+              store.dispatch({ type: ADD_PROPERTY, payload: dataProperty })
             }
           } else {
             const alertProps = {
@@ -92,11 +95,19 @@ const checkUser = (store) => (next) => (action) => {
             setCookie('brixelToken', res.data.token);
             let userData = res.data;
             if (res.data.user) userData = res.data;
-            else userData.user = res.data;
+            else {
+              userData = {};
+              userData.user = res.data;
+              userData.token = res.data.token;
+            }
             store.dispatch({ type: SET_USER, payload: userData });
             if (addProperty) {
-              store.dispatch({ type: ADD_PROPERTY, payload: data })
+              const dataProperty = action.payload;
+              dataProperty.token = userData.token;
+              dataProperty.owner = userData.user.id;
+              store.dispatch({ type: ADD_PROPERTY, payload: dataProperty })
             }
+            store.dispatch({ type: SPINNER_OFF });
           }
         })
         .catch((res) => {
