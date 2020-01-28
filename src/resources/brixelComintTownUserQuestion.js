@@ -47,7 +47,7 @@ export const Questions = [
 
       }
     ],
-    successMessage: 'Ok. Got it.'
+    successMessage: 'Ok. Looks like the time is right.'
   },
   {
     title: "What would help you most?",
@@ -90,7 +90,7 @@ export const Questions = [
 
       }
     ],
-    successMessage: 'Ok. Got it.'
+    successMessage: 'Thanks. Is this your final choice?'
   },
   {
     title: "How important are the following criteria if you are selling?",
@@ -124,7 +124,7 @@ export const Questions = [
         validation: [Validation.required],
       },
     ],
-    successMessage: 'This is a nice number.'
+    successMessage: 'Cheers. This helps us a lot.'
   },
 
   {
@@ -138,7 +138,7 @@ export const Questions = [
         validation: [Validation.required],
       },
     ],
-    successMessage: 'This is a nice number.'
+    successMessage: 'That is interesting.'
   },
   {
     title: "What would be a fair price for such a service?",
@@ -171,7 +171,7 @@ export const Questions = [
 
       }
     ],
-    successMessage: 'Ok. Got it.'
+    successMessage: 'Fair enough.'
   },
   {
     title: "Hi, I am Martin<br />from Brixel.",
