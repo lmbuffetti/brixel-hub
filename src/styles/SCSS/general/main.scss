@@ -105,7 +105,7 @@ header {
   border-radius: $brd-radius-small;
   align-items: center;
   position: fixed;
-  right: 0;
+  right: $step;
   top: $step;
   width: 256px;
   i {
