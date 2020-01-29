@@ -94,7 +94,7 @@ function PageHeader(props) {
               ) : (
                 <div className="ml-2">
                   <AvatarImage
-                    avatarImg={ loggedUser.user.avatar && loggedUser.user.avatar[0] ? `${getConfigEnv.shortPath.shortPath}${loggedUser.user.avatar[0].thumbnailPath}` : null}
+                    avatarImg={ loggedUser.user.avatar && loggedUser.user.avatar[0] ? `${getConfigEnv.shortPath}${loggedUser.user.avatar[0].thumbnailPath}` : null}
                     name={loggedUser.user.name}
                     size={40}
                   />

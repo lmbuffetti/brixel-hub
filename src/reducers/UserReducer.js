@@ -6,8 +6,8 @@ import {
 } from '../actions/types/UserTypes';
 
 export const defaultState = {
-  awards: {},
-  brixelPoint: {},
+  awards: [],
+  brixelPoint: [],
   loggedUser: {},
 };
 

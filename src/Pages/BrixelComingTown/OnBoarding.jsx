@@ -1,5 +1,10 @@
 /* global Transifex */
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  createRef,
+  useState,
+} from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
@@ -49,6 +54,9 @@ function OnBoarding(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loginPage, setLoginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
+  // REF
+  const listInputs = Questions.filter((item) => typeof item.inputs !== 'undefined');
+  const elementsRef = useRef(listInputs.map((item) => createRef()));
 
   const extractTitle = (title) => {
     if (typeof title === 'object') {
@@ -139,6 +147,9 @@ function OnBoarding(props) {
       saveData();
     }
     setProgressBar(newPosition * 100 / Questions.length);
+    const getCurStep = document.getElementById(`step-${newPosition}`);
+    if (getCurStep.querySelector('input[type="number"]')) getCurStep.querySelector('input[type="number"]').focus();
+    document.getElementById('onBoarding').scrollTo(0, 0);
   };
 
   const saveData = (e) => {
@@ -197,12 +208,12 @@ function OnBoarding(props) {
   return (
     <main id="onBoarding">
       <div id="progressBar"><span className="activeProgBar" style={{ width: `${progressBar}%` }} /></div>
-      <form id="multiStepForm" onSubmit={(e) => e.preventDefault()} autocomplete="off">
+      <form id="multiStepForm" onSubmit={(e) => e.preventDefault()} autoComplete="off">
         <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
           {
             Questions.map((quest, i) => (
               <div id={`step-${i}`} className="singleStep" key={i.toString()}>
-                <div className="container">
+                <div className={`container ${quest.className || ''}`}>
                   {
                     quest.inputs && (
                       <>
@@ -211,7 +222,7 @@ function OnBoarding(props) {
                             <h5 className="txtGreen400">{quest.titleGreen}</h5>
                           )
                         }
-                        <h5>{extractTitle(quest.title)}</h5>
+                        <h5 className="mb-4">{extractTitle(quest.title)}</h5>
                         {
                           quest.inputs.map((input, f) => (
                               <div key={f.toString()}>
@@ -263,10 +274,12 @@ function OnBoarding(props) {
                                       }
                                     </>
                                   ) : (
-                                    <div className="dis-f a-t jc-b">
-                                      <div className="dis-f a-c jc-b w-perc-100">
+                                    <div className="dis-f a-c jc-b">
+                                      <div className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}>
                                         <Field
-                                          className="mb-2 w-perc-100"
+                                          ref={elementsRef.current[f]}
+                                          className="w-perc-100"
+                                          inputClassName={input.className || ''}
                                           name={input.name}
                                           label={input.label}
                                           icons={quest.icons}
@@ -279,10 +292,12 @@ function OnBoarding(props) {
                                           min={input.min}
                                           onChange={(e) => validateSlide(e, input.name, quest)}
                                           deactivable={false}
+                                          placeholder={input.placeholder || ''}
                                           meta={{
                                             dirty: formValue[input.name] && errorValue[input.name] !== true,
                                             invalid: formValue[input.name] && errorValue[input.name] !== true,
                                           }}
+                                          autofocus={Questions[currentIndex].inputs[0].name === input.name}
                                         />
                                         {
                                           input.unit && (
@@ -296,7 +311,7 @@ function OnBoarding(props) {
                                             rounded
                                             label="Ok"
                                             className="ml-2"
-                                            background="primary"
+                                            background="green"
                                             onClick={() => changeStep()}
                                             disabled={disableNextBtn}
                                             type="submit"

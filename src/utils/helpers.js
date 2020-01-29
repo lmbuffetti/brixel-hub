@@ -269,7 +269,8 @@ export const setCookie = (key, val) => {
   } else if (localip) {
     domain = '0.0.0.0';
   } else {
-    domain = '.brixel.ch';
+    const curDomain = document.location.hostname.split('.')[document.location.hostname.split('.').length - 1];
+    domain = `.brixel.${curDomain}`;
   }
   const options = {
     domain: domain,

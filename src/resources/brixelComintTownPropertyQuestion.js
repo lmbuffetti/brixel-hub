@@ -2,10 +2,12 @@ import { BrixelButtonIcon, BrixelRadioButton, BrixelInputStepNumber, BrixelInput
 import ResumeCard from '../images/BrxielComingTown/PlaceholderProperty.jpg';
 import Cat from '../images/BrxielComingTown/cat.png';
 import SaleProperty from '../images/BrxielComingTown/SaleProperty.png';
-
+import apartment from '../images/BrxielComingTown/apartment.svg';
+import house from '../images/BrxielComingTown/house.svg';
 
 export const Questions = [
   {
+    className: 'radioBtnImg',
     titleGreen: 'Hello, let’s get started.',
     title: "What do you want to sell?",
     component: BrixelRadioButton,
@@ -18,15 +20,16 @@ export const Questions = [
     }],
     options: [
       {
+        className: 'radioBtnImg',
         label: "Apartment",
         value: "Apartment",
-        icon: "properties"
+        img: apartment,
       },
       {
+        className: 'radioBtnImg',
         label: "House",
         value: "House",
-        icon: "property-house",
-        backIcon: 'red',
+        img: house,
 
       }
     ],
@@ -59,14 +62,16 @@ export const Questions = [
         type: 'number',
         validation: [Validation.isNumber, Validation.required],
         help: 'Use net living space',
-        unit: 'm2'
+        unit: 'm2',
+        classNameBox: 'bgLight100 p-1 brdRadius',
+        placeholder: 'e.g. 120',
       },
     ],
   },
   {
     title: "What is the construction year?",
     component: BrixelInputText,
-    history: "sellingCriteria",
+    history: "constructionYear",
     inputs: [
       {
         label: '',
