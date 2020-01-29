@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import Cookies from 'universal-cookie';
 import {
   withRouter,
 } from 'react-router-dom'
@@ -12,17 +13,14 @@ import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
   BrixelIcon,
-  BrixelInputText,
-  BrixelCheckbox,
   BrixelButtonSecondary,
   BrixelButtonTertiary,
 } from '@brixel/brixel-components';
 import { updateUser, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
-import { addProperty } from '../../actions/PropertyActions';
-import { errorMessage, setPageData } from '../../actions/CommonActions';
 import { Questions } from '../../resources/brixelComintTownUserQuestion.js';
 import Maps from '../../components/Map/Maps';
-import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
+
+const cookie = new Cookies;
 
 function UserFlow(props) {
   // PROPS
@@ -34,6 +32,7 @@ function UserFlow(props) {
     handleUpdateUser,
     handleSetAwards,
     handleSetBrixelPoint,
+    history,
     language,
     loggedUser,
   } = props;
@@ -57,7 +56,11 @@ function UserFlow(props) {
   useEffect(() => {
     handleSetBrixelPoint([{desc: "Homebase", point: 50}, {desc: "Newcomer", point: 100}]);
     handleSetAwards([{desc: "Homebase", point: 1}, {desc: "Newcomer", point: 1}]);
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    if (typeof cookie.get('brixelToken') === 'undefined') history.push('/onBoarding');
+  }, [loggedUser]);
 
   useEffect(() => {
     let invalidField = false;
@@ -370,6 +373,7 @@ UserFlow.propTypes = {
   handleUpdateUser: PropTypes.func.isRequired,
   handleSetAwards: PropTypes.func.isRequired,
   handleSetBrixelPoint: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   language: PropTypes.string,
   loggedUser: PropTypes.object.isRequired,
 };

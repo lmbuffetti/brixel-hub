@@ -54,6 +54,7 @@ function OnBoarding(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loginPage, setLoginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
+  const [showAddress, setShowAddress] = useState(true);
   // REF
   const listInputs = Questions.filter((item) => typeof item.inputs !== 'undefined');
   const elementsRef = useRef(listInputs.map((item) => createRef()));
@@ -118,6 +119,12 @@ function OnBoarding(props) {
     }
   }, [formValue]);
 
+  useEffect(() => {
+    document.addEventListener('keyup', (e) => {
+      document.getElementById('onBoarding').scrollTo(0, 0);
+    });
+  }, []);
+
   const validateSlide = (val, name, quest) => {
     changeFieldValue(name, val);
     checkValid();
@@ -126,6 +133,7 @@ function OnBoarding(props) {
   };
 
   const changeStep = (act) => {
+    if (disableNextBtn) return false;
     let newPosition = position;
     if (act === 'back') {
       setDisableNextBtn(false);
@@ -146,7 +154,8 @@ function OnBoarding(props) {
     if (Questions[newPosition] && Questions[newPosition].cardType && Questions[newPosition].cardType === 'LastStep' && loggedUser.user && loggedUser.user.id) {
       saveData();
     }
-    setProgressBar(newPosition * 100 / Questions.length);
+    const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
+    setProgressBar(newPosition * 100 / questInputs.length);
     const getCurStep = document.getElementById(`step-${newPosition}`);
     if (getCurStep.querySelector('input[type="number"]')) getCurStep.querySelector('input[type="number"]').focus();
     document.getElementById('onBoarding').scrollTo(0, 0);
@@ -207,13 +216,17 @@ function OnBoarding(props) {
 
   return (
     <main id="onBoarding">
-      <div id="progressBar"><span className="activeProgBar" style={{ width: `${progressBar}%` }} /></div>
-      <form id="multiStepForm" onSubmit={(e) => e.preventDefault()} autoComplete="off">
+      {
+        Questions[currentIndex].inputs && (
+          <div id="progressBar"><span className="activeProgBar" style={{ width: `${progressBar}%` }} /></div>
+        )
+      }
+      <form id="multiStepForm" onSubmit={(e) => {e.preventDefault(); changeStep()}} autoComplete="off">
         <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
           {
             Questions.map((quest, i) => (
-              <div id={`step-${i}`} className="singleStep" key={i.toString()}>
-                <div className={`container ${quest.className || ''}`}>
+              <div id={`step-${i}`} className="singleStep" key={i.toString()} style={{ opacity: i !== currentIndex ? 0 : 1 }}>
+                <div className={`subcontainer ${quest.className || ''}`}>
                   {
                     quest.inputs && (
                       <>
@@ -222,7 +235,7 @@ function OnBoarding(props) {
                             <h5 className="txtGreen400">{quest.titleGreen}</h5>
                           )
                         }
-                        <h5 className="mb-4">{extractTitle(quest.title)}</h5>
+                        <h5 className="mb-4 mb-md-9">{extractTitle(quest.title)}</h5>
                         {
                           quest.inputs.map((input, f) => (
                               <div key={f.toString()}>
@@ -243,6 +256,7 @@ function OnBoarding(props) {
                                               showSelectCountry
                                               showMap={false}
                                               isShowZip={false}
+                                              className="w-perc-100"
                                             />
                                           )}
                                           options={input.options}
@@ -258,8 +272,19 @@ function OnBoarding(props) {
                                               <p>Is this the place?</p>
                                               <button onClick={() => changeFieldValue('location', {})}>Change</button>
                                             </div>
-                                            <div className="pos-r zIndex1">
-                                              <div className="curAdr">{formValue.location.address}</div>
+                                            <div
+                                              className="pos-r zIndex1"
+                                              onMouseEnter={() => setShowAddress(false)}
+                                              onTouchStart={() => setShowAddress(false)}
+                                              onMouseLeave={() => setShowAddress(true)}
+                                              onTouchEnd={() => setShowAddress(true)}
+
+                                            >
+                                              {
+                                                showAddress && (
+                                                  <div className="curAdr">{formValue.location.address}</div>
+                                                )
+                                              }
                                               <Maps
                                                 zoom={14}
                                                 scrollZoom
@@ -267,6 +292,7 @@ function OnBoarding(props) {
                                                 draggable
                                                 showMap
                                                 isShowZip={false}
+                                                className="w-perc-100"
                                               />
                                             </div>
                                           </>
@@ -277,7 +303,6 @@ function OnBoarding(props) {
                                     <div className="dis-f a-c jc-b">
                                       <div className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}>
                                         <Field
-                                          ref={elementsRef.current[f]}
                                           className="w-perc-100"
                                           inputClassName={input.className || ''}
                                           name={input.name}
@@ -297,7 +322,6 @@ function OnBoarding(props) {
                                             dirty: formValue[input.name] && errorValue[input.name] !== true,
                                             invalid: formValue[input.name] && errorValue[input.name] !== true,
                                           }}
-                                          autofocus={Questions[currentIndex].inputs[0].name === input.name}
                                         />
                                         {
                                           input.unit && (
@@ -310,7 +334,7 @@ function OnBoarding(props) {
                                           <BrixelButtonPrimary
                                             rounded
                                             label="Ok"
-                                            className="ml-2"
+                                            className="ml-2 hide-md"
                                             background="green"
                                             onClick={() => changeStep()}
                                             disabled={disableNextBtn}
@@ -335,7 +359,7 @@ function OnBoarding(props) {
                         {
                           quest.cardType === 'Resume' && (
                             <div>
-                              <div className="bgRed100 brdRadius shadow-4dp">
+                              <div className="max-w-fix-264 m-a bgRed100 brdRadius shadow-4dp">
                                 <img src={quest.img} />
                                 <div className="py-2 px-2">
                                   {
@@ -364,7 +388,7 @@ function OnBoarding(props) {
                         }
                         {
                           (quest.cardType === 'RewardsStep' || quest.cardType === 'LastStep') && (
-                            <div>
+                            <div className="ta-c">
                               <img src={quest.img} />
                               <h5 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.title}} />
                               {quest.subtitle && (<h6 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
@@ -374,12 +398,12 @@ function OnBoarding(props) {
                         {
                           quest.cardType === 'createProfile' && (
                             <div>
-                              <h5>{quest.title}</h5>
+                              <h5>{loginPage ? quest.loginTitle : quest.signupTitle}</h5>
                               {
                                 loginPage ? (
                                   <>
-                                    <p>
-                                      <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(false)}>You don't already have a profile?</span>
+                                    <p className="mb-md-9">
+                                      <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(false)}>You don't have an account?</span>
                                     </p>
                                     <Field
                                       className="mt-2"
@@ -400,25 +424,27 @@ function OnBoarding(props) {
                                   </>
                                 ) : (
                                   <>
-                                    <p>
-                                      <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(true)}>You already have a profile?</span>
+                                    <p className="mb-md-9">
+                                      <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(true)}>You already have an account?</span>
                                     </p>
-                                    <Field
-                                      className="mt-2"
-                                      component={BrixelInputText}
-                                      label="First name"
-                                      name="firstName"
-                                      placeholder=""
-                                      type="text"
-                                    />
-                                    <Field
-                                      className="mt-2"
-                                      component={BrixelInputText}
-                                      label="Last name"
-                                      name="lastName"
-                                      placeholder=""
-                                      type="text"
-                                    />
+                                    <div className="dis-f">
+                                      <Field
+                                        className="mt-2 w-perc-100 mr-2"
+                                        component={BrixelInputText}
+                                        label="First name"
+                                        name="firstName"
+                                        placeholder=""
+                                        type="text"
+                                      />
+                                      <Field
+                                        className="mt-2 w-perc-100 ml-2"
+                                        component={BrixelInputText}
+                                        label="Last name"
+                                        name="lastName"
+                                        placeholder=""
+                                        type="text"
+                                      />
+                                    </div>
                                     <Field
                                       className="mt-2"
                                       component={BrixelInputText}
@@ -458,50 +484,53 @@ function OnBoarding(props) {
           }
         </div>
         <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}>
-          {
-            !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && (
-              <p className="txtGreen700 ta-r mb-2">
-                {Questions[currentIndex].successMessage}
-                <BrixelIcon icon="check" className="ml-1" />
-              </p>
-            )
-          }
-          <div className={`dis-f a-c ${hidePrevBtn ? 'jc-fe' : `${Questions[currentIndex].inputs ? 'jc-b' : 'jc-c'}`}`}>
+          <div className="subcontainer">
             {
-              Questions[currentIndex].inputs && (
-                <BrixelButtonIcon
-                  className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp`}
-                  icon="arrow-simple-left"
-                  onClick={() => changeStep('back')}
-                  background="white"
-                  saturation={0}
-                  color="primary"
-                  saturationTxt={400}
-                  noBorder
-                />
+              !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && (
+                <p className="txtGreen700 ta-r mb-2 textSuccess">
+                  {Questions[currentIndex].successMessage}
+                  <BrixelIcon icon="check" className="ml-1" />
+                </p>
               )
             }
-            {
-              Questions[currentIndex + 1] ? (
-                <BrixelButtonPrimary
-                  rounded
-                  label={!Questions[currentIndex + 2] ? "Create Profile" : "Continue"}
-                  background={Questions[currentIndex].inputs ? "green" : "primary"}
-                  onClick={() => changeStep()}
-                  rightIcon="arrow-simple-right"
-                  disabled={disableNextBtn}
-                />
-              ) : (
-                <BrixelButtonPrimary
-                  rounded
-                  label="Save"
-                  background="primary"
-                  onClick={() => saveData()}
-                  rightIcon="arrow-simple-right"
-                  disabled={disableNextBtn}
-                />
-              )
-            }
+            <div className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
+              {
+                Questions[currentIndex].inputs && (
+                  <BrixelButtonIcon
+                    className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
+                    icon="arrow-simple-left"
+                    onClick={() => changeStep('back')}
+                    background="white"
+                    saturation={0}
+                    color="primary"
+                    saturationTxt={400}
+                    noBorder
+                  />
+                )
+              }
+              {
+                Questions[currentIndex + 1] ? (
+                  <BrixelButtonPrimary
+                    rounded
+                    label={!Questions[currentIndex + 2] ? "Create Profile" : "Continue"}
+                    background={Questions[currentIndex].inputs ? "green" : "primary"}
+                    className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
+                    onClick={() => changeStep()}
+                    rightIcon="arrow-simple-right"
+                    disabled={disableNextBtn}
+                  />
+                ) : (
+                  <BrixelButtonPrimary
+                    rounded
+                    label="Save"
+                    background="primary"
+                    onClick={() => saveData()}
+                    rightIcon="arrow-simple-right"
+                    disabled={disableNextBtn}
+                  />
+                )
+              }
+            </div>
           </div>
         </div>
       </form>

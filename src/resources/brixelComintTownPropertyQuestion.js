@@ -14,19 +14,19 @@ export const Questions = [
     history: "propertyType",
     icons: true,
     inputs: [{
+      className: 'radioBtnImg max-w-fix-464',
       label: '',
       name: 'propertyType',
       validation: [Validation.required],
     }],
     options: [
       {
-        className: 'radioBtnImg',
         label: "Apartment",
         value: "Apartment",
         img: apartment,
       },
       {
-        className: 'radioBtnImg',
+
         label: "House",
         value: "House",
         img: house,
@@ -39,8 +39,10 @@ export const Questions = [
     title: "How many rooms?",
     component: BrixelInputStepNumber,
     history: "allRooms",
+    className: 'max-w-fix-464',
     inputs: [
       {
+        classNameBox: 'max-w-fix-464',
         label: '',
         name: 'bedrooms',
         type: 'number',
@@ -63,10 +65,11 @@ export const Questions = [
         validation: [Validation.isNumber, Validation.required],
         help: 'Use net living space',
         unit: 'm2',
-        classNameBox: 'bgLight100 p-1 brdRadius',
+        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-464',
         placeholder: 'e.g. 120',
       },
     ],
+    successMessage: 'Ok for living space.'
   },
   {
     title: "What is the construction year?",
@@ -77,9 +80,12 @@ export const Questions = [
         label: '',
         name: 'constructionYear',
         type: 'number',
+        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-464',
+        placeholder: 'e.g. 1990',
         validation: [Validation.isYear, Validation.required],
       },
     ],
+    successMessage: 'Roger that.'
   },
   {
     title: "Where is the location?",
@@ -92,6 +98,7 @@ export const Questions = [
         validation: [Validation.required],
       },
     ],
+    successMessage: 'Nice coordinates.'
   },
   {
     title: "Great.<br />Your property was created.",
@@ -114,6 +121,12 @@ export const Questions = [
   },
   {
     title: "Create your profile to save your progress.",
+    history: "createProfile",
+    cardType: 'createProfile',
+  },
+  {
+    signupTitle: "Create your profile to save your progress.",
+    loginTitle: "Login to your profile to save your progress.",
     history: "createProfile",
     cardType: 'createProfile',
   },
