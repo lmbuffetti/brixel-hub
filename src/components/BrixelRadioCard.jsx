@@ -6,9 +6,9 @@ import {
   BrixelIcon,
 } from '@brixel/brixel-components';
 import Emoji from './Emoji';
-import empowerSellOwn from '../images/BrxielComingTown/empowerSellOwn.png';
-import empowerBestMarketing from '../images/BrxielComingTown/empowerBestMarketing.png';
-import empowerBestPersonalSupport from '../images/BrxielComingTown/empowerBestPersonalSupport.png';
+import empowerSellOwn from '../images/BrxielComingTown/empowerSellOwn.svg';
+import empowerBestMarketing from '../images/BrxielComingTown/empowerBestMarketing.svg';
+import empowerBestPersonalSupport from '../images/BrxielComingTown/empowerBestPersonalSupport.svg';
 
 const BrixelRadioCard = (props) => {
   const {

@@ -14,7 +14,7 @@ import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
 import queryString from 'query-string';
-import { BrixelNotification } from '@brixel/brixel-components'
+import { BrixelIcon, BrixelNotification } from '@brixel/brixel-components';
 import PageHeader from './components/PageHeader';
 
 const Dashboard = Loadable({
@@ -63,20 +63,6 @@ const App = (props) => {
     if (cookies && cookies.get('brixelToken')) handleCheckToken();
   }, []);
 
-  /* useEffect(() => {
-    /*if (Transifex.live) {
-      const lang = [];
-      if (Transifex.live.getAllLanguages()) {
-        Transifex.live.getAllLanguages().map((lng, i) => {
-          lang[i] = lng;
-          lang[i].value = lng.code;
-          lang[i].label = lng.name;
-        });
-      }
-      handleSetLanguages(lang);
-    }
-  }, [Transifex.live]); */
-
   if (!loggedUser) {
     return (
       <Loading isLoading={isLoading} />
@@ -99,12 +85,23 @@ const App = (props) => {
       </Switch>
       {
         notification && (
-          <BrixelNotification
-            label={notification.label}
-            type={notification.type}
-            icon={notification.icon}
-            actions={notification.actions}
-          />
+          <>
+            {
+              notification.small ? (
+                <div className="brxNotification">
+                  <BrixelIcon icon={notification.icon} />
+                  <span>{notification.text}</span>
+                </div>
+              ) : (
+                <BrixelNotification
+                  label={notification.label}
+                  type={notification.type}
+                  icon={notification.icon}
+                  actions={notification.actions}
+                />
+              )
+            }
+          </>
         )
       }
     </>

@@ -1,8 +1,8 @@
 import { BrixelCheckbox, BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, Validation } from '@brixel/brixel-components';
 import BrixelRadioEmoji from '../components/BrixelRadioEmoji';
 import BrixelRadioCard from '../components/BrixelRadioCard';
-import brixelComingTown from '../images/BrxielComingTown/brixelComingTown.png';
-import brixelComingTownLast from '../images/BrxielComingTown/LastSlideBrixelComingTown.png';
+import brixelComingTown from '../images/BrxielComingTown/secondAwards.svg';
+import brixelComingTownLast from '../images/BrxielComingTown/LastSlideBrixelComingTown.svg';
 import Martin from '../images/BrxielComingTown/Martin.png';
 
 export const maxLength = (value) => {
@@ -20,6 +20,22 @@ export const Questions = [
     history: "rewardsStep",
     cardType: 'RewardsStep',
     img: brixelComingTown,
+  },
+  {
+    title: "Hi, I am Martin<br />from Brixel.",
+    history: "chat",
+    cardType: 'chat',
+    img: Martin,
+    message: [
+      "Thank you for taking your time. It looks like Brixel is the perfect fit for you. 👍",
+      "We get back to you and let you know when we start our business in your region.",
+      "Feel free to contact me any time<br />" +
+      "💬 Whatsapp: <a href='https://wa.me/41799332918' target='_blank'>+41 79 933 29 18</a><br />" +
+      "📞 Phone: <a href='tel:+410433335700' target='_blank'>+41 43 333 57 00</a><br />" +
+      "✉️ E-Mail: <a href='mailto:martin@brixel.io' target='_blank'>martin@brixel.io</a>",
+      "All the best. Martin",
+      "P.S. Do you want to hear a joke?"
+    ]
   },
   {
     title: "What is your situation?",
@@ -172,22 +188,6 @@ export const Questions = [
       }
     ],
     successMessage: 'Fair enough.'
-  },
-  {
-    title: "Hi, I am Martin<br />from Brixel.",
-    history: "chat",
-    cardType: 'chat',
-    img: Martin,
-    message: [
-      "Thank you for taking your time. It looks like Brixel is the perfect fit for you. 👍",
-      "We get back to you and let you know when we start our business in your region.",
-      "Feel free to contact me any time<br />" +
-      "💬 Whatsapp: <a href='https://wa.me/41799332918' target='_blank'>+41 79 933 29 18</a><br />" +
-      "📞 Phone: <a href='tel:+410433335700' target='_blank'>+41 43 333 57 00</a><br />" +
-      "✉️ E-Mail: <a href='mailto:martin@brixel.io' target='_blank'>martin@brixel.io</a>",
-      "All the best. Martin",
-      "P.S. Do you want to hear a joke?"
-    ]
   },
   {
     title: "What kind of building weighs the least?",

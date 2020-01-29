@@ -96,3 +96,27 @@ header {
     }
   }
 }
+
+.brxNotification {
+  z-index: 10;
+  display: flex;
+  background: map_get($blueColor, 100);
+  padding: $step;
+  border-radius: $brd-radius-small;
+  align-items: center;
+  position: fixed;
+  right: 0;
+  top: $step;
+  width: 256px;
+  i {
+    background: map_get($greenColor, 400);
+    border-radius: 50%;
+    color: $brx-white;
+    padding: 9px;
+    margin-right: $step;
+  }
+  span {
+    @include fontStyle(300);
+    color: map_get($darkColor, 700);
+  }
+}

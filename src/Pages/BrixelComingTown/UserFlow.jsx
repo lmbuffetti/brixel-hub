@@ -17,6 +17,7 @@ import {
   BrixelButtonTertiary,
 } from '@brixel/brixel-components';
 import { updateUser, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
+import { setNotification } from '../../actions/CommonActions';
 import { Questions } from '../../resources/brixelComintTownUserQuestion.js';
 import Maps from '../../components/Map/Maps';
 
@@ -32,6 +33,7 @@ function UserFlow(props) {
     handleUpdateUser,
     handleSetAwards,
     handleSetBrixelPoint,
+    handleSetNotification,
     history,
     language,
     loggedUser,
@@ -83,6 +85,7 @@ function UserFlow(props) {
 
   const changeStep = (act) => {
     let newPosition = position;
+    handleSetNotification(null);
     if (act === 'back') {
       setDisableNextBtn(false);
       newPosition = position - 1;
@@ -97,6 +100,14 @@ function UserFlow(props) {
     else setHidePrevBtn(true);
     setProgressBar(newPosition * 100 / Questions.length);
     if (Questions[newPosition - 1].inputs && !Questions[newPosition].inputs) saveData();
+    if (Questions[newPosition].cardType === 'chat') {
+      handleSetNotification({small: true, icon: 'mosaic', text: "+ 50 Brixels for completing your onboarding." });
+      handleSetBrixelPoint([{desc: "Homebase", point: 50}, {desc: "Newcomer", point: 100}, {desc: "Completing onboarding", point: 50}]);
+      handleSetAwards([{desc: "Homebase", point: 1}, {desc: "Newcomer", point: 1}, {desc: "Completing onboarding", point: 1}]);
+      setTimeout(() => {
+        handleSetNotification(null);
+      }, 5000)
+    }
   };
 
   const saveData = (e) => {
@@ -116,7 +127,7 @@ function UserFlow(props) {
           {
             Questions.map((quest, i) => (
               <div id={`step-${i}`} className="singleStep" key={i.toString()}>
-                <div className="container">
+                <div className="subcontainer">
                   {
                     quest.inputs && (
                       <>
@@ -125,7 +136,7 @@ function UserFlow(props) {
                             <h5 className="txtGreen400">{quest.titleGreen}</h5>
                           )
                         }
-                        <h5>{extractTitle(quest.title)}</h5>
+                        <h5 className="mb-4 mb-md-9">{extractTitle(quest.title)}</h5>
                         {
                           quest.inputs.map((input, f) => (
                               <div key={f.toString()}>
@@ -234,7 +245,7 @@ function UserFlow(props) {
                       <>
                         {
                           quest.cardType === 'RewardsStep' && (
-                            <div>
+                            <div className="ta-c">
                               <img src={quest.img} />
                               <h5 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.title}} />
                               {quest.subtitle && (<h6 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
@@ -244,8 +255,8 @@ function UserFlow(props) {
                         {
                           quest.cardType === 'LastStep' && (
                             <div>
-                              <h5 className="mb-2 ta-l" dangerouslySetInnerHTML={{ __html: quest.title}} />
-                              <img src={quest.img} />
+                              <h5 className="mb-2 mb-md-9 ta-l" dangerouslySetInnerHTML={{ __html: quest.title}} />
+                              <img src={quest.img} alt={quest.title} className="w-perc-100" />
                               {quest.subtitle && (<h5 className="mt-2 ta-l" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
                             </div>
                           )
@@ -276,88 +287,91 @@ function UserFlow(props) {
           }
         </div>
         <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}>
-          {
-            !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && (
-              <p className="txtGreen700 ta-r mb-2">
-                {Questions[currentIndex].successMessage}
-                <BrixelIcon icon="check" className="ml-1" />
-              </p>
-            )
-          }
-          <div className={`dis-f a-c ${hidePrevBtn && Questions[currentIndex].cardType !== 'LastStep' ? 'jc-fe' : `${Questions[currentIndex].inputs || Questions[currentIndex].cardType === 'LastStep' ? 'jc-b' : 'jc-c'}`}`}>
+          <div className="subcontainer">
             {
-              Questions && Questions[currentIndex] !== 'undefined' && Questions[currentIndex].inputs && (
-                <BrixelButtonIcon
-                  className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp`}
-                  icon="arrow-simple-left"
-                  onClick={() => changeStep('back')}
-                  background="white"
-                  saturation={0}
-                  color="primary"
-                  saturationTxt={400}
-                  noBorder
-                />
+              !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && (
+                <p className="txtGreen700 ta-r mb-2 textSuccess">
+                  {Questions[currentIndex].successMessage}
+                  <BrixelIcon icon="check" className="ml-1" />
+                </p>
               )
             }
-            {
-              (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) ? (
-                <>
-                  <BrixelButtonPrimary
-                    rounded
-                    label="Continue"
-                    background={Questions[currentIndex].inputs ? "green" : "primary"}
-                    onClick={() => changeStep()}
-                    rightIcon="arrow-simple-right"
-                    disabled={disableNextBtn}
+            <div className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : (Questions[currentIndex].cardType === 'LastStep' ? 'jc-fe' : 'jc-c')}`}>
+              {
+                Questions && Questions[currentIndex] !== 'undefined' && Questions[currentIndex].inputs && (
+                  <BrixelButtonIcon
+                    className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
+                    icon="arrow-simple-left"
+                    onClick={() => changeStep('back')}
+                    background="white"
+                    saturation={0}
+                    color="primary"
+                    saturationTxt={400}
+                    noBorder
                   />
-                </>
-              ) : (
-                <>
-                  {
-                    Questions[currentIndex].cardType === 'LastStep' ? (
-                      <>
-                        <BrixelButtonIcon
-                          className="shadow-2dp"
-                          icon="arrow-simple-left"
-                          onClick={() => changeStep('back')}
-                          background="white"
-                          saturation={0}
-                          color="primary"
-                          saturationTxt={400}
-                          noBorder
-                        />
-                        <BrixelButtonTertiary
-                          rounded
-                          label="Back to our website"
-                          color="primary"
-                          onClick={() => ''}
-                          rightIcon="arrow-simple-right"
-                          disabled={disableNextBtn}
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <BrixelButtonSecondary
-                          rounded
-                          label="No thanks"
-                          color="primary"
-                          onClick={() => ''}
-                          disabled={disableNextBtn}
-                        />
-                        <BrixelButtonPrimary
-                          className="ml-1"
-                          rounded
-                          label="Yes of course"
-                          background="green"
-                          onClick={() => changeStep()}
-                          disabled={disableNextBtn}
-                        />
-                      </>
-                    )
-                  }
-                </>
-              )
-            }
+                )
+              }
+              {
+                (currentIndex === 0 || Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) ? (
+                  <>
+                    <BrixelButtonPrimary
+                      rounded
+                      label="Continue"
+                      background={Questions[currentIndex].inputs ? "green" : "primary"}
+                      className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
+                      onClick={() => changeStep()}
+                      rightIcon="arrow-right-small"
+                      disabled={disableNextBtn}
+                    />
+                  </>
+                ) : (
+                  <>
+                    {
+                      Questions[currentIndex].cardType === 'LastStep' ? (
+                        <>
+                          <BrixelButtonIcon
+                            className="shadow-2dp backBtn"
+                            icon="arrow-simple-left"
+                            onClick={() => changeStep('back')}
+                            background="white"
+                            saturation={0}
+                            color="primary"
+                            saturationTxt={400}
+                            noBorder
+                          />
+                          <BrixelButtonTertiary
+                            rounded
+                            label="Back to our website"
+                            color="primary"
+                            onClick={() => ''}
+                            rightIcon="arrow-right-small"
+                            disabled={disableNextBtn}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <BrixelButtonSecondary
+                            rounded
+                            label="No thanks"
+                            color="primary"
+                            onClick={() => ''}
+                            disabled={disableNextBtn}
+                          />
+                          <BrixelButtonPrimary
+                            className="ml-1"
+                            rounded
+                            label="Yes of course"
+                            background="green"
+                            onClick={() => changeStep()}
+                            disabled={disableNextBtn}
+                          />
+                        </>
+                      )
+                    }
+                  </>
+                )
+              }
+            </div>
           </div>
         </div>
       </form>
@@ -376,6 +390,7 @@ UserFlow.propTypes = {
   history: PropTypes.object.isRequired,
   language: PropTypes.string,
   loggedUser: PropTypes.object.isRequired,
+  handleSetNotification: PropTypes.func.isRequired,
 };
 
 UserFlow.defaultProps = {
@@ -399,6 +414,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleUpdateUser: bindActionCreators(updateUser, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
   handleSetBrixelPoint: bindActionCreators(setBrixelPoint, dispatch),
+  handleSetNotification: bindActionCreators(setNotification, dispatch),
 });
 
 const UserFlowForm = reduxForm({

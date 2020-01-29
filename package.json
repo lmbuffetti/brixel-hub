@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^1.1.43",
+    "@brixel/brixel-components": "^1.1.46",
     "@brixel/brixel-configuration-partner": "git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "deep-object-diff": "^1.1.0",
     "eslint": "^6.8.0",
@@ -74,7 +74,7 @@
     "ignore-loader": "^0.1.2",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.1",
-    "open": "^7.0.0",
+    "open": "^7.0.1",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "react-dev-utils": "^10.0.0",
     "reload": "^3.0.4",

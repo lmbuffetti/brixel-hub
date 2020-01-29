@@ -184,6 +184,7 @@ function OnBoarding(props) {
       getEstimation: false,
       addProperty: true,
       redirectToUserFlow: true,
+      company: get(props, 'match.params.stubCompany', cookie.get('brixelStubCompany') || null),
     };
     if (loggedUser.user && loggedUser.user.id) {
       changeFieldValue('owner', loggedUser.user.id);
@@ -360,7 +361,7 @@ function OnBoarding(props) {
                           quest.cardType === 'Resume' && (
                             <div>
                               <div className="max-w-fix-264 m-a bgRed100 brdRadius shadow-4dp">
-                                <img src={quest.img} />
+                                <img src={quest[`img${formValue.propertyType}`]} />
                                 <div className="py-2 px-2">
                                   {
                                     formValue.location && <p className="body2 cutRow txtPrimary400">{formValue.location.address}</p>
@@ -516,7 +517,7 @@ function OnBoarding(props) {
                     background={Questions[currentIndex].inputs ? "green" : "primary"}
                     className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
                     onClick={() => changeStep()}
-                    rightIcon="arrow-simple-right"
+                    rightIcon="arrow-right-small"
                     disabled={disableNextBtn}
                   />
                 ) : (
@@ -525,7 +526,7 @@ function OnBoarding(props) {
                     label="Save"
                     background="primary"
                     onClick={() => saveData()}
-                    rightIcon="arrow-simple-right"
+                    rightIcon="arrow-right-small"
                     disabled={disableNextBtn}
                   />
                 )

@@ -1,7 +1,8 @@
 import { BrixelButtonIcon, BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, Validation } from '@brixel/brixel-components';
-import ResumeCard from '../images/BrxielComingTown/PlaceholderProperty.jpg';
-import Cat from '../images/BrxielComingTown/cat.png';
-import SaleProperty from '../images/BrxielComingTown/SaleProperty.png';
+import resumeApartment from '../images/BrxielComingTown/resumeApartment.svg';
+import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
+import Cat from '../images/BrxielComingTown/firstAwards.svg';
+import SaleProperty from '../images/BrxielComingTown/createProfile.svg';
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
 
@@ -104,7 +105,8 @@ export const Questions = [
     title: "Great.<br />Your property was created.",
     history: "resume",
     cardType: 'Resume',
-    img: ResumeCard,
+    imgApartment: resumeApartment,
+    imgHouse: resumeHouse,
   },
   {
     title: "And the first award goes to… You!",
