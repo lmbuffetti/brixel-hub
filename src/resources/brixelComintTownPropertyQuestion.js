@@ -122,11 +122,6 @@ export const Questions = [
     img: SaleProperty,
   },
   {
-    title: "Create your profile to save your progress.",
-    history: "createProfile",
-    cardType: 'createProfile',
-  },
-  {
     signupTitle: "Create your profile to save your progress.",
     loginTitle: "Login to your profile to save your progress.",
     history: "createProfile",

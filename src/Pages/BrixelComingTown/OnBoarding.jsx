@@ -522,6 +522,7 @@ function OnBoarding(props) {
                   />
                 ) : (
                   <BrixelButtonPrimary
+                    className="max-w-fix-280 w-perc-100"
                     rounded
                     label="Save"
                     background="primary"
