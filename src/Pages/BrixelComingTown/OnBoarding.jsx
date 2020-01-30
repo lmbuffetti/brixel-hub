@@ -23,10 +23,11 @@ import {
 import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
 import { addProperty } from '../../actions/PropertyActions';
 import { errorMessage, setPageData } from '../../actions/CommonActions';
-import { Questions } from '../../resources/brixelComintTownPropertyQuestion.js';
+import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.js';
 import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
 import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
+import { translateTo } from '../../utils/translation';
 
 const cookie = new Cookies;
 
@@ -42,7 +43,7 @@ function OnBoarding(props) {
     handleGetToken,
     handleSetAwards,
     handleSetBrixelPoint,
-    language,
+    lang,
     loggedUser,
   } = props;
   // STATE
@@ -55,6 +56,7 @@ function OnBoarding(props) {
   const [loginPage, setLoginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
   const [showAddress, setShowAddress] = useState(true);
+  const [Questions, setQuestions] = useState(QuestionsList(lang));
   // REF
   const listInputs = Questions.filter((item) => typeof item.inputs !== 'undefined');
   const elementsRef = useRef(listInputs.map((item) => createRef()));
@@ -65,6 +67,11 @@ function OnBoarding(props) {
     }
     return title;
   };
+
+  useEffect(() => {
+    console.log(QuestionsList(lang));
+    setQuestions(QuestionsList(lang));
+  }, [lang]);
 
   useEffect(() => {
     let invalidField = false;
@@ -163,7 +170,7 @@ function OnBoarding(props) {
 
   const saveData = (e) => {
     const data = {
-      language: language || 'en',
+      language: lang || 'en',
       title: formValue.pageTitle,
       status: "on-request",
       listed: false,
@@ -207,7 +214,7 @@ function OnBoarding(props) {
         signupAccept: true,
         signupChannel: "default",
         signupProduct: null,
-        language: language || 'en',
+        language: lang || 'en',
         createUser: true,
         company: get(props, 'match.params.stubCompany', cookie.get('brixelStubCompany') || null),
       };
@@ -236,7 +243,7 @@ function OnBoarding(props) {
                             <h5 className="txtGreen400">{quest.titleGreen}</h5>
                           )
                         }
-                        <h5 className="mb-4 mb-md-9">{extractTitle(quest.title)}</h5>
+                        <h5 className="mb-4 mb-md-9">{quest.title}</h5>
                         {
                           quest.inputs.map((input, f) => (
                               <div key={f.toString()}>
@@ -409,7 +416,7 @@ function OnBoarding(props) {
                                     <Field
                                       className="mt-2"
                                       component={BrixelInputText}
-                                      label="Email"
+                                      label={translateTo(lang, "Email")}
                                       name="email"
                                       placeholder=""
                                       type="email"
@@ -417,7 +424,7 @@ function OnBoarding(props) {
                                     <Field
                                       className="mt-2"
                                       component={BrixelInputText}
-                                      label="Password"
+                                      label={translateTo(lang, "Password")}
                                       name="password"
                                       placeholder=""
                                       type="password"
@@ -432,7 +439,7 @@ function OnBoarding(props) {
                                       <Field
                                         className="mt-2 w-perc-100 mr-2"
                                         component={BrixelInputText}
-                                        label="First name"
+                                        label={translateTo(lang, "First name")}
                                         name="firstName"
                                         placeholder=""
                                         type="text"
@@ -440,7 +447,7 @@ function OnBoarding(props) {
                                       <Field
                                         className="mt-2 w-perc-100 ml-2"
                                         component={BrixelInputText}
-                                        label="Last name"
+                                        label={translateTo(lang, "Last name")}
                                         name="lastName"
                                         placeholder=""
                                         type="text"
@@ -449,7 +456,7 @@ function OnBoarding(props) {
                                     <Field
                                       className="mt-2"
                                       component={BrixelInputText}
-                                      label="Email address"
+                                      label={translateTo(lang, "Email address")}
                                       name="email"
                                       placeholder=""
                                       type="email"
@@ -457,7 +464,7 @@ function OnBoarding(props) {
                                     <Field
                                       className="mt-2"
                                       component={BrixelInputText}
-                                      label="Phone number"
+                                      label={translateTo(lang, "Phone number")}
                                       name="phone"
                                       placeholder=""
                                       type="text"
@@ -513,7 +520,7 @@ function OnBoarding(props) {
                 Questions[currentIndex + 1] ? (
                   <BrixelButtonPrimary
                     rounded
-                    label={!Questions[currentIndex + 2] ? "Create Profile" : "Continue"}
+                    label={!Questions[currentIndex + 2] ? translateTo(lang, "Create Profile") : translateTo(lang, "Continue")}
                     background={Questions[currentIndex].inputs ? "green" : "primary"}
                     className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
                     onClick={() => changeStep()}
@@ -524,7 +531,7 @@ function OnBoarding(props) {
                   <BrixelButtonPrimary
                     className="max-w-fix-280 w-perc-100"
                     rounded
-                    label="Save"
+                    label={translateTo(lang, "Save")}
                     background="primary"
                     onClick={() => saveData()}
                     rightIcon="arrow-right-small"
@@ -550,7 +557,7 @@ OnBoarding.propTypes = {
   handleGetToken: PropTypes.func.isRequired,
   handleSetAwards: PropTypes.func.isRequired,
   handleSetBrixelPoint: PropTypes.func.isRequired,
-  language: PropTypes.string,
+  lang: PropTypes.string,
   loggedUser: PropTypes.object.isRequired,
 };
 
@@ -562,7 +569,7 @@ const mapStateToProps = (state, props) => ({
   errorValue: get(state, 'form.OnBoarding.syncErrors', {}),
   formValue: get(state, 'form.OnBoarding.values', {}),
   loggedUser: get(state, 'user.loggedUser', {}),
-  language: get(state, 'common.language', {}),
+  lang: get(state, 'common.language', {}),
   initialValues: {
     bedrooms: 1,
   }

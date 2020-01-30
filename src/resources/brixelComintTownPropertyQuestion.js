@@ -5,12 +5,21 @@ import Cat from '../images/BrxielComingTown/firstAwards.svg';
 import SaleProperty from '../images/BrxielComingTown/createProfile.svg';
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
+import { translateTo } from '../utils/translation';
+import Cookies from 'universal-cookie';
+import {configureStore } from '../store';
 
-export const Questions = [
+// const cookie = new Cookies;
+
+// const lang = configureStore.getState().common.language || 'en';
+
+console.log(configureStore.getState().language);
+
+export const QuestionsList = (lang) => [
   {
     className: 'radioBtnImg',
-    titleGreen: 'Hello, let’s get started.',
-    title: "What do you want to sell?",
+    titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
+    title: translateTo(lang, "What property do you have?"),
     component: BrixelRadioButton,
     history: "propertyType",
     icons: true,
@@ -22,22 +31,22 @@ export const Questions = [
     }],
     options: [
       {
-        label: "Apartment",
+        label: translateTo(lang, "Apartment"),
         value: "Apartment",
         img: apartment,
       },
       {
 
-        label: "House",
+        label: translateTo(lang, "House"),
         value: "House",
         img: house,
 
       }
     ],
-    successMessage: 'Ok. Got it.'
+    successMessage: translateTo(lang, 'Ok. Got it.')
   },
   {
-    title: "How many rooms?",
+    title: translateTo(lang, "How many rooms?"),
     component: BrixelInputStepNumber,
     history: "allRooms",
     className: 'max-w-fix-464',
@@ -52,10 +61,10 @@ export const Questions = [
         min: 1,
       },
     ],
-    successMessage: 'This is a nice number.'
+    successMessage: translateTo(lang, 'This is a nice number.')
   },
   {
-    title: "What is the living space?",
+    title: translateTo(lang, "What is the living space?"),
     component: BrixelInputText,
     history: "livingSpace",
     inputs: [
@@ -64,16 +73,16 @@ export const Questions = [
         name: 'livingSpace',
         type: 'number',
         validation: [Validation.isNumber, Validation.required],
-        help: 'Use net living space',
+        help: translateTo(lang, 'Use net living space'),
         unit: 'm2',
         classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-464',
-        placeholder: 'e.g. 120',
+        placeholder: translateTo(lang, 'e.g. 120'),
       },
     ],
-    successMessage: 'Ok for living space.'
+    successMessage: translateTo(lang, 'Ok for living space.')
   },
   {
-    title: "What is the construction year?",
+    title: translateTo(lang, "What is the construction year?"),
     component: BrixelInputText,
     history: "constructionYear",
     inputs: [
@@ -82,14 +91,14 @@ export const Questions = [
         name: 'constructionYear',
         type: 'number',
         classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-464',
-        placeholder: 'e.g. 1990',
+        placeholder: translateTo(lang, 'e.g. 1990'),
         validation: [Validation.isYear, Validation.required],
       },
     ],
-    successMessage: 'Roger that.'
+    successMessage: translateTo(lang, 'Roger that.')
   },
   {
-    title: "Where is the location?",
+    title: translateTo(lang, "Where is the location?"),
     component: "Map",
     history: "locationInput",
     inputs: [
@@ -99,31 +108,31 @@ export const Questions = [
         validation: [Validation.required],
       },
     ],
-    successMessage: 'Nice coordinates.'
+    successMessage: translateTo(lang, 'Nice coordinates.')
   },
   {
-    title: "Great.<br />Your property was created.",
+    title: translateTo(lang, "Great.<br />Your property was created."),
     history: "resume",
     cardType: 'Resume',
     imgApartment: resumeApartment,
     imgHouse: resumeHouse,
   },
   {
-    title: "And the first award goes to… You!",
-    subtitle: "You earned the <span class=txtGreen400>„Homebase“</span> Award and +50 Brixels.",
+    title: translateTo(lang, "And the first award goes to… You!"),
+    subtitle: translateTo(lang, "You earned the <span class=txtGreen400>„Homebase“</span> Award and +50 Brixels."),
     history: "rewardsStep",
     cardType: 'RewardsStep',
     img: Cat,
   },
   {
-    title: "Every home needs an owner.",
+    title: translateTo(lang, "Every home needs an owner."),
     history: "lastStep",
     cardType: 'LastStep',
     img: SaleProperty,
   },
   {
-    signupTitle: "Create your profile to save your progress.",
-    loginTitle: "Login to your profile to save your progress.",
+    signupTitle: translateTo(lang, "Create your profile to save your progress."),
+    loginTitle: translateTo(lang, "Login to your profile to save your progress."),
     history: "createProfile",
     cardType: 'createProfile',
   },

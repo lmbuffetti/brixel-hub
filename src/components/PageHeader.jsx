@@ -21,14 +21,14 @@ const AvatarImage = Loadable({
 });
 
 function PageHeader(props) {
-  // STATE
-  const [currentLang, setCurrentLang] = useState('en');
-  const [dropLang, setDropLang] = useState([]);
-  const [modal, setModal] = useState(false);
   // PROPS
   const {
-    lang, languages, langauge, loggedUser, userAwards, userBrixelPoint, handleSetLanguage,
+    lang, languages, loggedUser, userAwards, userBrixelPoint, handleSetLanguage,
   } = props;
+  // STATE
+  const [currentLang, setCurrentLang] = useState(lang);
+  const [dropLang, setDropLang] = useState([]);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     /*const lang = langauge;
@@ -81,6 +81,7 @@ function PageHeader(props) {
                   <BrixelDropdown
                     bgTransparent
                     noBorder
+                    className="langMenu"
                     color="dark"
                     saturationTxt={700}
                     lang={lang}
@@ -151,6 +152,7 @@ function PageHeader(props) {
 PageHeader.propTypes = {
   handleSetLanguage: PropTypes.func.isRequired,
   languages: PropTypes.arrayOf(PropTypes.object),
+  lang: PropTypes.string,
   loggedUser: PropTypes.object,
   userAwards: PropTypes.arrayOf(PropTypes.object),
   userBrixelPoint: PropTypes.arrayOf(PropTypes.object)
@@ -168,7 +170,7 @@ PageHeader.defaultProps = {
 const mapStateToProps = (state) => ({
   loggedUser: get(state, 'user.loggedUser', {}),
   languages: get(state, 'common.languages', []),
-  language: get(state, 'common.language', []),
+  lang: get(state, 'common.language', []),
   userAwards: get(state, 'user.awards', []),
   userBrixelPoint: get(state, 'user.brixelPoint', []),
 });
