@@ -7,7 +7,7 @@ const dynImport = {};
 Object.keys(configLang).map((key) => {
   const langCode = configLang[key].value;
   // eslint-disable-next-line import/no-dynamic-require,global-require
-  dynImport[langCode] = require(`../resources/translation/onboarding_${langCode}.json`);
+  dynImport[langCode] = require(`../resources/translation/onboarding_${langCode}.js`);
   return null;
 });
 
