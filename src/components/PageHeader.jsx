@@ -12,6 +12,7 @@ import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
+import { translateTo } from '../utils/translation';
 
 const cookies = new Cookies();
 
@@ -31,8 +32,12 @@ function PageHeader(props) {
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
-    /*const lang = langauge;
-    setCurrentLang(lang);*/
+    if (loggedUser && loggedUser.user) {
+      const langUsr = loggedUser.user.language;
+      setCurrentLang(lang);
+      handleSetLanguage(lang);
+      setCookie('brixelLang', langUsr);
+    }
   }, [loggedUser]);
 
   useEffect(() => {
@@ -112,7 +117,7 @@ function PageHeader(props) {
             {
               modal === 'awards' && (
                 <BrixelModal
-                  title="Awards"
+                  title={translateTo(lang, "Awards")}
                   titleIcon="first-time-occupancy"
                   background="green"
                   saturation={200}
@@ -120,15 +125,15 @@ function PageHeader(props) {
                   saturationTxt={600}
                   onClose={() => setModal(false)}
                 >
-                  <p>Who does not like awards? To honor your effort and endurance we award you for specific achievements.</p>
-                  <p>Keep on going to collect more and enjoy the ride. </p>
+                  <p>{translateTo(lang, "Who does not like awards? To honor your effort and endurance we award you for specific achievements.")}</p>
+                  <p>{translateTo(lang, "Keep on going to collect more and enjoy the ride.")}</p>
                 </BrixelModal>
               )
             }
             {
               modal === 'brixelPoint' && (
                 <BrixelModal
-                  title="Brixels"
+                  title={translateTo(lang, "Brixels")}
                   titleIcon="mosaic"
                   background="red"
                   saturation={200}
@@ -136,9 +141,9 @@ function PageHeader(props) {
                   saturationTxt={600}
                   onClose={() => setModal(false)}
                 >
-                  <p>This is our currency you can earn by fullfilling tasks along the way.</p>
-                  <p>During your journey you can use Brixels to unlock addintional features and gifts.</p>
-                  <p>So keep collecting your Brixels.</p>
+                  <p>{translateTo(lang, "This is our currency you can earn by fullfilling tasks along the way.")}</p>
+                  <p>{translateTo(lang, "During your journey you can use Brixels to unlock addintional features and gifts.")}</p>
+                  <p>{translateTo(lang, "So keep collecting your Brixels.")}</p>
                 </BrixelModal>
               )
             }

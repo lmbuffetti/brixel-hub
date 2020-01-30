@@ -222,6 +222,7 @@ function OnBoarding(props) {
         language: lang || 'en',
         createUser: true,
         company: cookie.get('brixelStubCompany') || null,
+        ignoreEmail: true,
       };
       handleCreateUser(data);
     }
@@ -282,8 +283,8 @@ function OnBoarding(props) {
                                         formValue.location && formValue.location.address && (
                                           <>
                                             <div className="dis-f jc-b pos-r zIndex2 my-2 w-perc-100">
-                                              <p>Is this the place?</p>
-                                              <button onClick={() => changeFieldValue('location', {})}>Change</button>
+                                              <p>{translateTo(lang, "Is this the place?")}</p>
+                                              <button onClick={() => changeFieldValue('location', {})}>{translateTo(lang, "Change")}</button>
                                             </div>
                                             <div
                                               className="pos-r zIndex1"

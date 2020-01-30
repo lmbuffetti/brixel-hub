@@ -98,7 +98,7 @@ export const QuestionsList = (lang) => [
     successMessage: translateTo(lang, 'Roger that.')
   },
   {
-    title: translateTo(lang, "Where is the location?"),
+    title: translateTo(lang, "What is the location?"),
     component: "Map",
     history: "locationInput",
     inputs: [
@@ -111,7 +111,7 @@ export const QuestionsList = (lang) => [
     successMessage: translateTo(lang, 'Nice coordinates.')
   },
   {
-    title: translateTo(lang, "Great. Your property was created."),
+    title: translateTo(lang, "Great.<br />Your property was created."),
     history: "resume",
     cardType: 'Resume',
     imgApartment: resumeApartment,
@@ -119,7 +119,7 @@ export const QuestionsList = (lang) => [
   },
   {
     title: translateTo(lang, "And the first award goes to… You!"),
-    subtitle: translateTo(lang, "You earned the <span class=txtGreen400>„Homebase“</span> Award and +50 Brixels."),
+    subtitle: translateTo(lang, "You earned the <span class=txtGreen400>\"Homebase\"</span> Award and +50 Brixels."),
     history: "rewardsStep",
     cardType: 'RewardsStep',
     img: Cat,

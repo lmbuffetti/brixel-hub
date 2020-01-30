@@ -18,8 +18,9 @@ import {
 } from '@brixel/brixel-components';
 import { updateUser, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
 import { setNotification } from '../../actions/CommonActions';
-import { Questions } from '../../resources/brixelComintTownUserQuestion.js';
+import { QuestionsList } from '../../resources/brixelComintTownUserQuestion.js';
 import Maps from '../../components/Map/Maps';
+import { translateTo } from '../../utils/translation';
 
 const cookie = new Cookies;
 
@@ -35,7 +36,7 @@ function UserFlow(props) {
     handleSetBrixelPoint,
     handleSetNotification,
     history,
-    language,
+    lang,
     loggedUser,
   } = props;
   // STATE
@@ -48,6 +49,11 @@ function UserFlow(props) {
   const [loginPage, setLoginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
   const [emptyValue, setEmptyValue] = useState(true);
+  const [Questions, setQuestions] = useState(QuestionsList(lang));
+
+  useEffect(() => {
+    setQuestions(QuestionsList(lang));
+  }, [lang]);
 
   const extractTitle = (title) => {
     if (typeof title === 'object') {
@@ -234,7 +240,7 @@ function UserFlow(props) {
                                         quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && !input.step && (
                                           <BrixelButtonPrimary
                                             rounded
-                                            label="Ok"
+                                            label={translateTo(lang,"Ok")}
                                             className="ml-2"
                                             background="primary"
                                             onClick={() => changeStep()}
@@ -330,7 +336,7 @@ function UserFlow(props) {
                   <>
                     <BrixelButtonPrimary
                       rounded
-                      label={emptyValue && Questions[currentIndex].inputs  ? "Skip" : "Continue"}
+                      label={emptyValue && Questions[currentIndex].inputs  ? translateTo(lang,"Skip") : translateTo(lang,"Continue")}
                       background={Questions[currentIndex].inputs ? "green" : "primary"}
                       className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
                       onClick={() => changeStep()}
@@ -355,7 +361,7 @@ function UserFlow(props) {
                           />
                           <BrixelButtonTertiary
                             rounded
-                            label="Back to our website"
+                            label={translateTo(lang,"Back to our website")}
                             color="primary"
                             onClick={() => ''}
                             rightIcon="arrow-right-small"
@@ -366,7 +372,7 @@ function UserFlow(props) {
                         <>
                           <BrixelButtonSecondary
                             rounded
-                            label="No thanks"
+                            label={translateTo(lang,"No thanks")}
                             color="primary"
                             onClick={() => ''}
                             disabled={disableNextBtn}
@@ -374,7 +380,7 @@ function UserFlow(props) {
                           <BrixelButtonPrimary
                             className="ml-1"
                             rounded
-                            label="Yes of course"
+                            label={translateTo(lang,"Yes of course")}
                             background="green"
                             onClick={() => changeStep()}
                             disabled={disableNextBtn}
@@ -402,7 +408,7 @@ UserFlow.propTypes = {
   handleSetAwards: PropTypes.func.isRequired,
   handleSetBrixelPoint: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  language: PropTypes.string,
+  lang: PropTypes.string,
   loggedUser: PropTypes.object.isRequired,
   handleSetNotification: PropTypes.func.isRequired,
 };
@@ -415,7 +421,7 @@ const mapStateToProps = (state, props) => ({
   errorValue: get(state, 'form.UserFlow.syncErrors', {}),
   formValue: get(state, 'form.UserFlow.values', {}),
   loggedUser: get(state, 'user.loggedUser', {}),
-  language: get(state, 'common.language', {}),
+  lang: get(state, 'common.language', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
