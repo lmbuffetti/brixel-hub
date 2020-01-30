@@ -6,7 +6,7 @@ import brixelComingTownLast from '../images/BrxielComingTown/LastSlideBrixelComi
 import Martin from '../images/BrxielComingTown/Martin.png';
 
 export const maxLength = (value) => {
-  const error = value && (value.length <= 3)
+  const error = !value || (value.length <= 3)
     ? null
     : 'Select up 3 select';
 
@@ -28,8 +28,8 @@ export const Questions = [
     icons: true,
     inputs: [{
       label: '',
+      deactivable: true,
       name: 'situation',
-      validation: [Validation.required],
     }],
     options: [
       {
@@ -57,7 +57,7 @@ export const Questions = [
     inputs: [{
       label: 'Please choose up to 3 options.',
       name: 'helpYouMost',
-      validation: [maxLength, Validation.required],
+      validation: [maxLength],
       max: 3,
     }],
     options: [
@@ -98,30 +98,30 @@ export const Questions = [
     history: "allRooms",
     inputs: [
       {
+        deactivable: true,
         label: 'I want to save money.',
         name: 'criteriaForSelling.saveMoney',
-        validation: [Validation.required],
         min: 1,
       },
       {
+        deactivable: true,
         label: 'I want the best presentation.',
         name: 'criteriaForSelling.bestPresentation',
-        validation: [Validation.required],
       },
       {
+        deactivable: true,
         label: 'I want to minimze my efforts.',
         name: 'criteriaForSelling.minimizeEfforts',
-        validation: [Validation.required],
       },
       {
+        deactivable: true,
         label: 'I want to have maximum control.',
         name: 'criteriaForSelling.maximumControl',
-        validation: [Validation.required],
       },
       {
+        deactivable: true,
         label: 'I want personal support.',
         name: 'criteriaForSelling.personalSupport',
-        validation: [Validation.required],
       },
     ],
     successMessage: 'Cheers. This helps us a lot.'
@@ -135,7 +135,6 @@ export const Questions = [
       {
         label: 'Please choose your favorite option.',
         name: 'empower',
-        validation: [Validation.required],
       },
     ],
     successMessage: 'That is interesting.'
@@ -148,7 +147,6 @@ export const Questions = [
     inputs: [{
       label: '',
       name: 'servicePrice',
-      validation: [Validation.required],
     }],
     options: [
       {

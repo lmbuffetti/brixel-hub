@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   withRouter,
 } from 'react-router-dom'
@@ -18,7 +19,9 @@ import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
   BrixelIcon,
-  BrixelInputText, BrixelCheckbox,
+  BrixelInputText,
+  BrixelCheckbox,
+  Validation,
 } from '@brixel/brixel-components';
 import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
 import { addProperty } from '../../actions/PropertyActions';
@@ -43,8 +46,10 @@ function OnBoarding(props) {
     handleGetToken,
     handleSetAwards,
     handleSetBrixelPoint,
+    history,
     lang,
     loggedUser,
+    redirectTo,
   } = props;
   // STATE
   const [position, setPosition] = useState(0);
@@ -69,7 +74,6 @@ function OnBoarding(props) {
   };
 
   useEffect(() => {
-    console.log(QuestionsList(lang));
     setQuestions(QuestionsList(lang));
   }, [lang]);
 
@@ -83,11 +87,6 @@ function OnBoarding(props) {
     }
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex]);
-
-  useEffect(() => {
-    const company = get(props, 'match.params.stubCompany', null);
-    if (company) setCookie('brixelStubCompany', company);
-  });
 
   useEffect(() => {
     if (formValue && formValue.location && !formValue.pageTitle) {
@@ -130,6 +129,11 @@ function OnBoarding(props) {
     document.addEventListener('keyup', (e) => {
       document.getElementById('onBoarding').scrollTo(0, 0);
     });
+    const test = cloneDeep(history);
+    let company = get(history, 'location.search', null);
+    if (company) company = company.replace('?company=', '');
+    setCookie('brixelStubCompany', company);
+    history.push(`/onBoarding/${Questions[0].history}`);
   }, []);
 
   const validateSlide = (val, name, quest) => {
@@ -140,13 +144,13 @@ function OnBoarding(props) {
   };
 
   const changeStep = (act) => {
-    if (disableNextBtn) return false;
     let newPosition = position;
     if (act === 'back') {
       setDisableNextBtn(false);
       newPosition = position - 1;
     }
     else {
+      if (disableNextBtn) return false;
       setDisableNextBtn(true);
       newPosition = position + 1;
     }
@@ -166,6 +170,7 @@ function OnBoarding(props) {
     const getCurStep = document.getElementById(`step-${newPosition}`);
     if (getCurStep.querySelector('input[type="number"]')) getCurStep.querySelector('input[type="number"]').focus();
     document.getElementById('onBoarding').scrollTo(0, 0);
+    history.push(`/onBoarding/${Questions[newPosition].history}`);
   };
 
   const saveData = (e) => {
@@ -191,7 +196,7 @@ function OnBoarding(props) {
       getEstimation: false,
       addProperty: true,
       redirectToUserFlow: true,
-      company: get(props, 'match.params.stubCompany', cookie.get('brixelStubCompany') || null),
+      company: cookie.get('brixelStubCompany') || null,
     };
     if (loggedUser.user && loggedUser.user.id) {
       changeFieldValue('owner', loggedUser.user.id);
@@ -216,7 +221,7 @@ function OnBoarding(props) {
         signupProduct: null,
         language: lang || 'en',
         createUser: true,
-        company: get(props, 'match.params.stubCompany', cookie.get('brixelStubCompany') || null),
+        company: cookie.get('brixelStubCompany') || null,
       };
       handleCreateUser(data);
     }
@@ -420,6 +425,7 @@ function OnBoarding(props) {
                                       name="email"
                                       placeholder=""
                                       type="email"
+                                      validate={[Validation.isEmail, Validation.required]}
                                     />
                                     <Field
                                       className="mt-2"
@@ -428,6 +434,7 @@ function OnBoarding(props) {
                                       name="password"
                                       placeholder=""
                                       type="password"
+                                      validate={[Validation.required]}
                                     />
                                   </>
                                 ) : (
@@ -443,6 +450,7 @@ function OnBoarding(props) {
                                         name="firstName"
                                         placeholder=""
                                         type="text"
+                                        validate={[Validation.required]}
                                       />
                                       <Field
                                         className="mt-2 w-perc-100 ml-2"
@@ -451,6 +459,7 @@ function OnBoarding(props) {
                                         name="lastName"
                                         placeholder=""
                                         type="text"
+                                        validate={[Validation.required]}
                                       />
                                     </div>
                                     <Field
@@ -460,6 +469,7 @@ function OnBoarding(props) {
                                       name="email"
                                       placeholder=""
                                       type="email"
+                                      validate={[Validation.isEmail, Validation.required]}
                                     />
                                     <Field
                                       className="mt-2"
@@ -468,6 +478,7 @@ function OnBoarding(props) {
                                       name="phone"
                                       placeholder=""
                                       type="text"
+                                      validate={[Validation.required]}
                                     />
                                     <div className="mt-2">
                                       <Field
@@ -475,6 +486,7 @@ function OnBoarding(props) {
                                         options={[{label: `I hereby confirm that I have read, understand and accept the <a href="${CompanyInfo.link.terms_and_condition}" target="_blank">terms</a> and <a href="${CompanyInfo.link.terms_and_condition}" target="_blank">privacy policy</a> of Brixel.`, value: 'privacy'}]}
                                         name="privacy"
                                         className="body2 w-perc-100 max-w-perc-100"
+                                        validate={[Validation.required]}
                                       />
                                     </div>
                                   </>
@@ -557,21 +569,24 @@ OnBoarding.propTypes = {
   handleGetToken: PropTypes.func.isRequired,
   handleSetAwards: PropTypes.func.isRequired,
   handleSetBrixelPoint: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedUser: PropTypes.object.isRequired,
+  redirectTo: PropTypes.object,
 };
 
 OnBoarding.defaultProps = {
-
+  redirectTo: null,
 };
 
 const mapStateToProps = (state, props) => ({
   errorValue: get(state, 'form.OnBoarding.syncErrors', {}),
   formValue: get(state, 'form.OnBoarding.values', {}),
   loggedUser: get(state, 'user.loggedUser', {}),
+  redirectTo: get(state, 'common.redirectTo', {}),
   lang: get(state, 'common.language', {}),
   initialValues: {
-    bedrooms: 1,
+    bedrooms: 0,
   }
 });
 

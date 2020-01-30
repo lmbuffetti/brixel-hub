@@ -47,6 +47,7 @@ function UserFlow(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loginPage, setLoginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
+  const [emptyValue, setEmptyValue] = useState(true);
 
   const extractTitle = (title) => {
     if (typeof title === 'object') {
@@ -58,6 +59,7 @@ function UserFlow(props) {
   useEffect(() => {
     handleSetBrixelPoint([{desc: "Homebase", point: 50}, {desc: "Newcomer", point: 100}]);
     handleSetAwards([{desc: "Homebase", point: 1}, {desc: "Newcomer", point: 1}]);
+    history.push(`/onBoarding/brixelComingInTown/s${Questions[0].history}`);
   }, []);
 
   useEffect(() => {
@@ -66,14 +68,24 @@ function UserFlow(props) {
 
   useEffect(() => {
     let invalidField = false;
+    let noValueField = false;
     if (Questions[currentIndex] && Questions[currentIndex].inputs) {
       Questions[currentIndex].inputs.map((inp) => {
         const curVal = get(errorValue, inp.name, true);
         if (curVal !== true) invalidField = true;
       });
     }
+    if (Questions[currentIndex] && Questions[currentIndex].inputs) {
+      Questions[currentIndex].inputs.map((inp) => {
+        const curVal = get(formValue, inp.name, true);
+        console.log(formValue.situation, curVal);
+        if (curVal === true || !curVal) noValueField = true;
+      });
+    }
+    console.log(noValueField);
+    setEmptyValue(noValueField);
     setDisableNextBtn(invalidField);
-  }, [errorValue, currentIndex]);
+  }, [errorValue, currentIndex, formValue]);
 
   const validateSlide = (val, name, quest) => {
     changeFieldValue(name, val);
@@ -92,6 +104,7 @@ function UserFlow(props) {
     }
     else {
       setDisableNextBtn(true);
+      setEmptyValue(true);
       newPosition = position + 1;
     }
     setPosition(newPosition);
@@ -108,6 +121,7 @@ function UserFlow(props) {
         handleSetNotification(null);
       }, 5000)
     }
+    history.push(`/onBoarding/brixelComingInTown/${Questions[newPosition].history}`);
   };
 
   const saveData = (e) => {
@@ -204,7 +218,7 @@ function UserFlow(props) {
                                           min={input.min}
                                           max={input.max}s
                                           onChange={(e) => validateSlide(e, input.name, quest)}
-                                          deactivable={false}
+                                          deactivable={input.deactivable || false}
                                           meta={{
                                             dirty: formValue[input.name] && errorValue[input.name] !== true,
                                             invalid: formValue[input.name] && errorValue[input.name] !== true,
@@ -286,10 +300,10 @@ function UserFlow(props) {
             ))
           }
         </div>
-        <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}>
+        <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`}>
           <div className="subcontainer">
             {
-              !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && (
+              !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && !emptyValue && (
                 <p className="txtGreen700 ta-r mb-2 textSuccess">
                   {Questions[currentIndex].successMessage}
                   <BrixelIcon icon="check" className="ml-1" />
@@ -316,7 +330,7 @@ function UserFlow(props) {
                   <>
                     <BrixelButtonPrimary
                       rounded
-                      label="Continue"
+                      label={emptyValue && Questions[currentIndex].inputs  ? "Skip" : "Continue"}
                       background={Questions[currentIndex].inputs ? "green" : "primary"}
                       className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
                       onClick={() => changeStep()}

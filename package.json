@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^1.1.46",
+    "@brixel/brixel-components": "^1.1.49",
     "@brixel/brixel-configuration-partner": "git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "deep-object-diff": "^1.1.0",
     "eslint": "^6.8.0",
@@ -54,7 +54,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@babel/node": "^7.8.3",
+    "@babel/node": "^7.8.4",
     "@babel/polyfill": "^7.8.3",
     "@babel/preset-es2015": "^7.0.0-beta.53",
     "@svgr/core": "^5.0.1",

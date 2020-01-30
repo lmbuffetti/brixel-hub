@@ -16,6 +16,7 @@
     margin-top: $step;
     display: block;
     text-align: center;
+    cursor: pointer;
   }
   .emoji {
     width: 40px;
@@ -26,6 +27,7 @@
     align-items: center;
     border-radius: $brd-radius-small;
     margin: auto;
+    cursor: pointer;
   }
   .checked {
     display: block;

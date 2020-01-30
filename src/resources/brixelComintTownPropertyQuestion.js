@@ -56,7 +56,7 @@ export const QuestionsList = (lang) => [
         label: '',
         name: 'bedrooms',
         type: 'number',
-        validation: [Validation.isNumber, Validation.required],
+        validation: [Validation.positiveNumber, Validation.required],
         step: [1],
         min: 1,
       },
@@ -111,7 +111,7 @@ export const QuestionsList = (lang) => [
     successMessage: translateTo(lang, 'Nice coordinates.')
   },
   {
-    title: translateTo(lang, "Great.<br />Your property was created."),
+    title: translateTo(lang, "Great. Your property was created."),
     history: "resume",
     cardType: 'Resume',
     imgApartment: resumeApartment,

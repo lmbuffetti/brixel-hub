@@ -56,12 +56,22 @@ const cookies = new Cookies();
 
 const App = (props) => {
   const {
-    history, handleCheckToken, handleSetLanguages, isLoading, loggedUser, notification,
+    history,
+    handleCheckToken,
+    handleSetLanguages,
+    isLoading,
+    loggedUser,
+    notification,
+    redirectTo,
   } = props;
 
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) handleCheckToken();
   }, []);
+
+  useEffect(() => {
+    if (redirectTo && redirectTo.history) history.push(redirectTo.history);
+  }, [redirectTo]);
 
   if (!loggedUser) {
     return (
@@ -75,8 +85,8 @@ const App = (props) => {
       <PageHeader />
       <Switch>
         { /* SECTION: FREE ROOUTE */ }
-        <Route path="/onBoarding/brixelComingInTown" exact component={UserFlow} />
-        <Route path="/onBoarding/:stubCompany?" component={OnBoarding} />
+        <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
+        <Route path="/onBoarding/" component={OnBoarding} />
         <Route path="/tokeninput" component={InsertToken} />
         { /* SECTION: PROTECED ROUTE WITH REDIRECT TO LOGIN */ }
         {/*<ProtectedRoute path="/" exact component={Dashboard} />*/}
@@ -115,15 +125,18 @@ App.propTypes = {
   notification: PropTypes.object,
   isLoading: PropTypes.bool,
   match: PropTypes.object.isRequired,
+  redirectTo: PropTypes.object,
 };
 
 App.defaultProps = {
   isLoading: false,
   notification: null,
+  redirectTo: null,
 };
 
 const mapStateToProps = (state) => ({
   notification: get(state, 'common.notification', null),
+  redirectTo: get(state, 'common.redirectTo', null),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   loggedUser: get(state, 'user.loggedUser', null),
   config: get(state, 'common.config', {}),

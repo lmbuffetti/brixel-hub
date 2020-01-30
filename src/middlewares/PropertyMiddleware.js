@@ -25,13 +25,15 @@ const checkCommon = (store) => (next) => (action) => {
       api.property.addProperty(action.payload, token)
         .then((res) => {
           store.dispatch({ type: SET_PROPERTY, payload: res.data });
-          store.dispatch({ type: SPINNER_OFF });
           if (getEstimation) {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
           }
           if (redirectToUserFlow) {
-            window.location.href = '/onBoarding/brixelComingInTown'
+            window.location.href = '/onBoarding/brixelComingInTown';
+          } else {
+            store.dispatch({ type: SPINNER_OFF });
           }
+
         })
         .catch((res) => {
           store.dispatch({ type: SPINNER_OFF });

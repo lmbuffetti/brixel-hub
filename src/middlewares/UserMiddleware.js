@@ -17,7 +17,7 @@ import {
   SPINNER_OFF,
   ERROR_MESSAGE,
   SET_NOTIFICATION,
-  SET_PAGE_DATA,
+  SET_PAGE_DATA, REDIRECT_TO,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -103,6 +103,7 @@ const checkUser = (store) => (next) => (action) => {
               const dataProperty = action.payload;
               dataProperty.token = userData.token;
               dataProperty.owner = userData.user.id;
+              store.dispatch({ type: REDIRECT_TO, payload: { history: '/onBoarding/success' } });
               store.dispatch({ type: ADD_PROPERTY, payload: dataProperty })
             }
             store.dispatch({ type: SPINNER_OFF });

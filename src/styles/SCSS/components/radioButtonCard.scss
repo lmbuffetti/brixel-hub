@@ -10,6 +10,7 @@
 .brixel-radio-card {
   width: 217px;
   display: flex;
+  cursor: pointer;
   label {
     display: block;
     padding-bottom: $step * 5;
