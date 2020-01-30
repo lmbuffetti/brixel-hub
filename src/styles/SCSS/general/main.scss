@@ -122,7 +122,7 @@ header {
 }
 
 .langMenu {
-  .dropdown.open ul {
+  &.dropdown.open ul {
     max-height: none;
   }
 }
