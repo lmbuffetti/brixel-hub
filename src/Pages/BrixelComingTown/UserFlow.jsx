@@ -330,7 +330,7 @@ function UserFlow(props) {
                 )
               }
               {
-                (currentIndex === 0 || Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) ? (
+                (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) ? (
                   <>
                     <BrixelButtonPrimary
                       rounded

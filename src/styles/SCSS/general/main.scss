@@ -76,27 +76,6 @@ header {
   position: relative;
 }
 
-@media (min-width: $responsive-medium) {
-  .backBtn {
-    position: fixed;
-    bottom: 8px;
-    left: 8px;
-  }
-  .textSuccess {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translate(0, -50%);
-  }
-  .footerAction {
-    .subcontainer {
-      > .jc-b {
-        justify-content: flex-end;
-      }
-    }
-  }
-}
-
 .brxNotification {
   z-index: 10;
   display: flex;
