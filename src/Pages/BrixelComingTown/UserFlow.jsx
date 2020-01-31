@@ -84,11 +84,9 @@ function UserFlow(props) {
     if (Questions[currentIndex] && Questions[currentIndex].inputs) {
       Questions[currentIndex].inputs.map((inp) => {
         const curVal = get(formValue, inp.name, true);
-        console.log(formValue.situation, curVal);
         if (curVal === true || !curVal) noValueField = true;
       });
     }
-    console.log(noValueField);
     setEmptyValue(noValueField);
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex, formValue]);

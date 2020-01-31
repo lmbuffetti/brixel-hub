@@ -6,14 +6,6 @@ import SaleProperty from '../images/BrxielComingTown/createProfile.svg';
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
 import { translateTo } from '../utils/translation';
-import Cookies from 'universal-cookie';
-import {configureStore } from '../store';
-
-// const cookie = new Cookies;
-
-// const lang = configureStore.getState().common.language || 'en';
-
-console.log(configureStore.getState().language);
 
 export const QuestionsList = (lang) => [
   {
@@ -79,7 +71,7 @@ export const QuestionsList = (lang) => [
         placeholder: translateTo(lang, 'e.g. 120'),
       },
     ],
-    successMessage: translateTo(lang, 'Ok for living space.')
+    successMessage: translateTo(lang, 'Great living space.')
   },
   {
     title: translateTo(lang, "What is the construction year?"),
@@ -95,7 +87,7 @@ export const QuestionsList = (lang) => [
         validation: [Validation.isYear, Validation.required],
       },
     ],
-    successMessage: translateTo(lang, 'Roger that.')
+    successMessage: translateTo(lang, 'A good year for real estate.')
   },
   {
     title: translateTo(lang, "What is the location?"),
@@ -108,7 +100,7 @@ export const QuestionsList = (lang) => [
         validation: [Validation.required],
       },
     ],
-    successMessage: translateTo(lang, 'Nice coordinates.')
+    successMessage: translateTo(lang, 'That is an interesting location.')
   },
   {
     title: translateTo(lang, "Great.<br />Your property was created."),

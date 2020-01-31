@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import { change } from 'redux-form';
 import { BrixelIcon, BrixelInputText, BrixelSelect } from '@brixel/brixel-components';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import markerImg from '../../images/location/icon_location.svg';
 import baseByData  from '@brixel/brixel-configuration-partner/src/Settings';
 import { mapCaptionData, mapStyles, getDistance } from '../../constants/map';
@@ -35,6 +36,7 @@ const Maps = (props) => {
   const {
     className,
     changeFieldValue,
+    country,
     draggable,
     disableZoom,
     externalControls,
@@ -58,7 +60,7 @@ const Maps = (props) => {
     zoom,
   } = props;
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
-  const [defCountry, setDefCountry] = useState(null);
+  const [defCountry, setDefCountry] = useState('');
 
   useEffect(() => {
     if (optMap.zoom) {
@@ -307,28 +309,11 @@ const Maps = (props) => {
     changeFieldValue(formName, 'location.latitude', lat);
     changeFieldValue(formName, 'location.longitude', lng);
   };
-  const selectOpt = [
-    {
-      label: 'ALL',
-      value: '',
-    },
-    {
-      label: 'SWI',
-      value: 'ch',
-    },
-    {
-      label: 'POR',
-      value: 'pt',
-    },
-    {
-      label: 'GER',
-      value: 'de',
-    },
-    {
-      label: 'NDL',
-      value: 'nl',
-    },
-  ];
+  const selectOpt = cloneDeep(country);
+  selectOpt.unshift({
+    label: 'ALL',
+    value: '',
+  });
   const classNameDef = !className && showMap ? 'h-fix-400 w-perc-100' : className;
   return (
     // Important! Always set the container height explicitly
@@ -364,7 +349,7 @@ const Maps = (props) => {
                     input={{
                       onChange: (val) => setDefCountry(val),
                       name: 'country',
-                      value: '',
+                      value: defCountry,
                     }}
                     options={selectOpt}
                   />
@@ -451,6 +436,7 @@ const Maps = (props) => {
           </div>
         )
       }
+      <div style={{ display: showMap ? '' : 'none' }}>
       {
         (
           <Map
@@ -463,8 +449,8 @@ const Maps = (props) => {
               lng: longitude,
             }}
             style={{
-              width: '100%',
-              height: '100%',
+              width: showMap ? '100%' : '0px',
+              height: showMap ? '100%' : '0px',
             }}
             onClick={() => setShowInfoWindow(false)}
           >
@@ -501,6 +487,7 @@ const Maps = (props) => {
           </Map>
         )
       }
+      </div>
     </div>
   );
 };
@@ -508,6 +495,7 @@ const Maps = (props) => {
 Maps.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   className: PropTypes.string,
+  country: PropTypes.arrayOf(PropTypes.object),
   disableZoom: PropTypes.bool,
   draggable: PropTypes.bool,
   externalControls: PropTypes.bool,
@@ -550,6 +538,7 @@ Maps.defaultProps = {
 const mapStateToProps = (state) => {
   const formName = Object.keys(get(state, 'form'))[0];
   return ({
+    country: get(state, `common.country`, {}),
     formValue: get(state, `form[${formName}].values`, {}),
     formName,
     property: get(state, `form[${formName}].values`, {}),

@@ -45,7 +45,7 @@ function PageHeader(props) {
     languages.map((lng, i) => {
       drpLng[i] = {
         value: lng.value,
-        label: lng.value.replace('_US', ''),
+        label: lng.label.replace('_US', ''),
       }
     });
     setDropLang(drpLng);

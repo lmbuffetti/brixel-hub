@@ -24,12 +24,42 @@ export const defaultState = {
   configUrl: getConfigEnv,
   errorMsg: {},
   languages: [
-    {value: 'da', label: 'da'},
+    {value: 'da', label: 'dk'},
     {value: 'de', label: 'de'},
     {value: 'en', label: 'en'},
     {value: 'nl', label: 'nl'},
     {value: 'pt', label: 'pt'},
-    {value: 'sv', label: 'sv'},
+    {value: 'sv', label: 'se'},
+  ],
+  country: [
+    {
+      label: 'AUT',
+      value: 'at',
+    },
+    {
+      label: 'CHE',
+      value: 'ch',
+    },
+    {
+      label: 'DEU',
+      value: 'de',
+    },
+    {
+      label: 'DNK',
+      value: 'dk',
+    },
+    {
+      label: 'NLD',
+      value: 'nl',
+    },
+    {
+      label: 'PRT',
+      value: 'pt',
+    },
+    {
+      label: 'SWE',
+      value: 'se',
+    },
   ],
   language: cookie.get('brixelLang') || 'en',
   notification: null,

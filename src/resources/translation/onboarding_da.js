@@ -87,5 +87,13 @@ module.exports = {
   "So keep collecting your Brixels.":"",
   "Awards":"",
   "Who does not like awards? To honor your effort and endurance we award you for specific achievements.":"",
-  "Keep on going to collect more and enjoy the ride.":""
+  "Keep on going to collect more and enjoy the ride.":"",
+  "Skip": "Springe",
+  "Ok for living space.": "Wow stor størrelse",
+  "Great living space.": "",
+  "That is an interesting location.": "Dette er en interessant placering.",
+  "Please insert a valid first name" : "Indtast dit fornavn.",
+  "Please insert a valid last name" : "Indtast dit efternavn.",
+  "Please insert a valid email" : "Indtast en gyldig e-mail.",
+  "Please accept terms and privacy policy" : "Acceptér vores vilkår og fortrolighedspolitik.",
 };

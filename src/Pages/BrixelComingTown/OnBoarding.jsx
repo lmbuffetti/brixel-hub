@@ -53,6 +53,7 @@ function OnBoarding(props) {
   } = props;
   // STATE
   const [position, setPosition] = useState(0);
+  const [showErrors, setShowError] = useState(false);
   const [disableNextBtn, setDisableNextBtn] = useState(true);
   const [hideNextBtn, setHideNextBtn] = useState(true);
   const [disablePrevBtn, setDisablePrevBtn] = useState(true);
@@ -126,9 +127,15 @@ function OnBoarding(props) {
   }, [formValue]);
 
   useEffect(() => {
-    document.addEventListener('keyup', (e) => {
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Tab') {
+        changeStep();
+      }
       document.getElementById('onBoarding').scrollTo(0, 0);
-    });
+    }, false);
+    document.addEventListener('keyup', function (e) {
+      document.getElementById('onBoarding').scrollTo(0, 0);
+    }, false);
     const test = cloneDeep(history);
     let company = get(history, 'location.search', null);
     if (company) company = company.replace('?company=', '');
@@ -169,11 +176,19 @@ function OnBoarding(props) {
     setProgressBar(newPosition * 100 / questInputs.length);
     const getCurStep = document.getElementById(`step-${newPosition}`);
     if (getCurStep.querySelector('input[type="number"]')) getCurStep.querySelector('input[type="number"]').focus();
+    if (getCurStep.querySelector('input[type="text"]')) getCurStep.querySelector('input[type="text"]').focus();
     document.getElementById('onBoarding').scrollTo(0, 0);
     history.push(`/onBoarding/${Questions[newPosition].history}`);
   };
 
   const saveData = (e) => {
+    setShowError(false);
+    Object.keys(errorValue).map((key) => {
+      if (errorValue[key] !== true) {
+        setShowError(true);
+        return false;
+      }
+    });
     const data = {
       language: lang || 'en',
       title: formValue.pageTitle,
@@ -239,7 +254,7 @@ function OnBoarding(props) {
         <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
           {
             Questions.map((quest, i) => (
-              <div id={`step-${i}`} className="singleStep" key={i.toString()} style={{ opacity: i !== currentIndex ? 0 : 1 }}>
+              <div id={`step-${i}`} className="singleStep" key={i.toString()} style={{ visibility: i !== currentIndex ? 'hidden' : 'visible' }}>
                 <div className={`subcontainer ${quest.className || ''}`}>
                   {
                     quest.inputs && (
@@ -256,7 +271,7 @@ function OnBoarding(props) {
                                 {
                                   input.type === 'Map' ? (
                                     <>
-                                      <div className="mb-2 pos-r zIndex3">
+                                      <div className="mb-2 pos-r zIndex4">
                                         <Field
                                           name={input.name}
                                           label={input.label}
@@ -282,9 +297,13 @@ function OnBoarding(props) {
                                       {
                                         formValue.location && formValue.location.address && (
                                           <>
-                                            <div className="dis-f jc-b pos-r zIndex2 my-2 w-perc-100">
+                                            <div className="dis-f jc-b pos-r zIndex3 my-2 w-perc-100">
                                               <p>{translateTo(lang, "Is this the place?")}</p>
-                                              <button onClick={() => changeFieldValue('location', {})}>{translateTo(lang, "Change")}</button>
+                                              <button
+                                                onClick={() => changeFieldValue('location', {})}
+                                              >
+                                                <span className="txtGreen400">{translateTo(lang, "Change")}</span>
+                                              </button>
                                             </div>
                                             <div
                                               className="pos-r zIndex1"
@@ -315,7 +334,7 @@ function OnBoarding(props) {
                                     </>
                                   ) : (
                                     <div className="dis-f a-c jc-b">
-                                      <div className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}>
+                                      <div className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`} tabIndex="-1">
                                         <Field
                                           className="w-perc-100"
                                           inputClassName={input.className || ''}
@@ -426,7 +445,14 @@ function OnBoarding(props) {
                                       name="email"
                                       placeholder=""
                                       type="email"
-                                      validate={[Validation.isEmail, Validation.required]}
+                                      validate={[Validation.required]}
+                                      meta={{
+                                        dirty: (showErrors || formValue.email) && errorValue.email !== true,
+                                        invalid: (showErrors || formValue.email) && errorValue.email !== true,
+                                      }}
+                                      message={{
+                                        error: translateTo(lang, "Please insert a valid email")
+                                      }}
                                     />
                                     <Field
                                       className="mt-2"
@@ -436,6 +462,13 @@ function OnBoarding(props) {
                                       placeholder=""
                                       type="password"
                                       validate={[Validation.required]}
+                                      meta={{
+                                        dirty: (showErrors || formValue.password) && errorValue.password !== true,
+                                        invalid: (showErrors || formValue.password) && errorValue.password !== true,
+                                      }}
+                                      message={{
+                                        error: translateTo(lang, "Please insert a valid password")
+                                      }}
                                     />
                                   </>
                                 ) : (
@@ -452,6 +485,13 @@ function OnBoarding(props) {
                                         placeholder=""
                                         type="text"
                                         validate={[Validation.required]}
+                                        meta={{
+                                          dirty: (showErrors || formValue.firstName) && errorValue.firstName !== true,
+                                          invalid: (showErrors || formValue.firstName) && errorValue.firstName !== true,
+                                        }}
+                                        message={{
+                                          error: translateTo(lang, "Please insert a valid first name")
+                                        }}
                                       />
                                       <Field
                                         className="mt-2 w-perc-100 ml-2"
@@ -461,6 +501,13 @@ function OnBoarding(props) {
                                         placeholder=""
                                         type="text"
                                         validate={[Validation.required]}
+                                        meta={{
+                                          dirty: (showErrors || formValue.lastName) && errorValue.lastName !== true,
+                                          invalid: (showErrors || formValue.lastName) && errorValue.lastName !== true,
+                                        }}
+                                        message={{
+                                          error: translateTo(lang, "Please insert a valid last name")
+                                        }}
                                       />
                                     </div>
                                     <Field
@@ -470,7 +517,14 @@ function OnBoarding(props) {
                                       name="email"
                                       placeholder=""
                                       type="email"
-                                      validate={[Validation.isEmail, Validation.required]}
+                                      validate={formValue.email ? [Validation.isEmail] : [Validation.required]}
+                                      meta={{
+                                        dirty: (showErrors || formValue.email) && errorValue.email !== true,
+                                        invalid: (showErrors || formValue.email) && errorValue.email !== true,
+                                      }}
+                                      message={{
+                                        error: translateTo(lang, "Please insert a valid email")
+                                      }}
                                     />
                                     <Field
                                       className="mt-2"
@@ -479,7 +533,6 @@ function OnBoarding(props) {
                                       name="phone"
                                       placeholder=""
                                       type="text"
-                                      validate={[Validation.required]}
                                     />
                                     <div className="mt-2">
                                       <Field
@@ -488,6 +541,13 @@ function OnBoarding(props) {
                                         name="privacy"
                                         className="body2 w-perc-100 max-w-perc-100"
                                         validate={[Validation.required]}
+                                        meta={{
+                                          dirty: (showErrors || formValue.privacy) && errorValue.privacy !== true,
+                                          invalid: (showErrors || formValue.privacy) && errorValue.privacy !== true,
+                                        }}
+                                        message={{
+                                          error: translateTo(lang, "Please accept terms and privacy policy")
+                                        }}
                                       />
                                     </div>
                                   </>
@@ -530,23 +590,21 @@ function OnBoarding(props) {
                 )
               }
               {
-                Questions[currentIndex + 1] ? (
+                Questions[currentIndex] && (
                   <BrixelButtonPrimary
                     rounded
-                    label={!Questions[currentIndex + 2] ? translateTo(lang, "Create Profile") : translateTo(lang, "Continue")}
+                    label={
+                      !Questions[currentIndex + 2] ?
+                        translateTo(lang, "Create Profile") :
+                        (
+                          Questions[currentIndex].cardType === 'createProfile' ?
+                            translateTo(lang, "Save") :
+                            translateTo(lang, "Continue")
+                        )
+                    }
                     background={Questions[currentIndex].inputs ? "green" : "primary"}
                     className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                    onClick={() => changeStep()}
-                    rightIcon="arrow-right-small"
-                    disabled={disableNextBtn}
-                  />
-                ) : (
-                  <BrixelButtonPrimary
-                    className="max-w-fix-280 w-perc-100"
-                    rounded
-                    label={translateTo(lang, "Save")}
-                    background="primary"
-                    onClick={() => saveData()}
+                    onClick={() => Questions[currentIndex].cardType === 'createProfile' ? saveData() : changeStep()}
                     rightIcon="arrow-right-small"
                     disabled={disableNextBtn}
                   />
