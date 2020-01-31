@@ -9,6 +9,11 @@ import Emoji from './Emoji';
 import empowerSellOwn from '../images/BrxielComingTown/empowerSellOwn.svg';
 import empowerBestMarketing from '../images/BrxielComingTown/empowerBestMarketing.svg';
 import empowerBestPersonalSupport from '../images/BrxielComingTown/empowerBestPersonalSupport.svg';
+import get from 'lodash/get';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { translateTo } from '../utils/translation';
 
 const BrixelRadioCard = (props) => {
   const {
@@ -19,6 +24,7 @@ const BrixelRadioCard = (props) => {
     input,
     inputClassName,
     label,
+    lang,
     modal,
     // options,
   } = props;
@@ -48,18 +54,18 @@ const BrixelRadioCard = (props) => {
 
   const options = [
     {
-      label: 'With the right online tools to sell on your own.',
+      label: translateTo(lang, 'With the right tools to sell on your own.'),
       value: "sell-your-own",
       img: empowerSellOwn
     },
     {
       className: "mx-2",
-      label: 'With great marketing to stick out of the crowd.',
+      label: translateTo(lang, 'With great marketing to stick out of the crowd.'),
       value: "marketing",
       img: empowerBestMarketing,
     },
     {
-      label: 'With Personal support all the way to closing of the sale.',
+      label: translateTo(lang, 'With personal support all the way to closing of the deal.'),
       value: "personal-support",
       img: empowerBestPersonalSupport,
     },
@@ -94,7 +100,7 @@ const BrixelRadioCard = (props) => {
                   <img src={opt.img} alt={opt.label} />
                   <span className="otp-label">{opt.label}</span>
                   <span className="btmLabel">
-                  My favorite
+                    {translateTo(lang, "My favorite")}
                   <BrixelIcon
                     className="shadow-2dp ml-2"
                     background="white"
@@ -121,6 +127,7 @@ BrixelRadioCard.propTypes = {
   input: PropTypes.object.isRequired,
   inputClassName: PropTypes.string,
   label: PropTypes.string,
+  lang: PropTypes.string,
   modal: PropTypes.object,
   options: PropTypes.arrayOf(PropTypes.object),
 };
@@ -135,4 +142,12 @@ BrixelRadioCard.defaultProps = {
   modal: null,
 };
 
-export default BrixelRadioCard;
+const mapStateToProps = (state, props) => ({
+  lang: get(state, 'common.language', {}),
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, null),
+)(BrixelRadioCard);
+

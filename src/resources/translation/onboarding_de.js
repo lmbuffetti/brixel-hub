@@ -69,7 +69,7 @@ module.exports = {
   "More than EUR 3,000":"Über EUR 3.000",
   "Fair enough.":"Hört sich fair an.",
   "+50 Brixels for completing your onboarding.":"+50 Brixels für den Abschluss deiner Registrierung.",
-  "Hi, I am Martin from Brixel.":"Hallo, ich bin Martin von Brixel.",
+  "Hi, I am Martin<br />from Brixel.":"Hallo, ich bin Martin<br />von Brixel.",
   "Thank you for taking your time. It looks like Brixel is the perfect fit for you.":"Danke, dass du dir die Zeit genommen hast. So wie es aussieht, ist Brixel die perfekte Lösung für dich.",
   "We get back to you and let you know when we start our business in your region.":"Wir kommen auf dich zurück und informieren dich darüber, wann wir unser Geschäft in deiner Region starten.",
   "Feel free to contact me any time":"Du kannst mich gerne jederzeit kontaktieren",

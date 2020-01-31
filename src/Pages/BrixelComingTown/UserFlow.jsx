@@ -378,7 +378,7 @@ function UserFlow(props) {
                           <BrixelButtonPrimary
                             className="ml-1"
                             rounded
-                            label={translateTo(lang,"Yes of course")}
+                            label={translateTo(lang,"Yes, of course")}
                             background="green"
                             onClick={() => changeStep()}
                             disabled={disableNextBtn}

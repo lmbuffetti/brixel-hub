@@ -477,7 +477,7 @@ function OnBoarding(props) {
                                   <>
                                     <p className="mb-md-9">
                                       <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(true)}>
-                                        {translateTo(lang, "You already have an account?")}
+                                        {translateTo(lang, "You already have a profile?")}
                                       </span>
                                     </p>
                                     <div className="dis-f">
@@ -599,7 +599,7 @@ function OnBoarding(props) {
                     rounded
                     label={
                       !Questions[currentIndex + 2] ?
-                        translateTo(lang, "Create Profile") :
+                        translateTo(lang, "Create profile") :
                         (
                           Questions[currentIndex].cardType === 'createProfile' ?
                             translateTo(lang, "Save") :

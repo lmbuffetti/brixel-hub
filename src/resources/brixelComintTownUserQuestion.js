@@ -48,7 +48,7 @@ export const QuestionsList = (lang) => [
 
       }
     ],
-    successMessage: translateTo(lang, "Ok. Looks like the time is right."),
+    successMessage: translateTo(lang, "Ok. Look like the time is right."),
   },
   {
     title: translateTo(lang, "What would help you most?"),
@@ -129,12 +129,12 @@ export const QuestionsList = (lang) => [
   },
 
   {
-    title: translateTo(lang, "How can we empower you best?"),
+    title: translateTo(lang, "How can we empower best?"),
     component: BrixelRadioCard,
     history: "empowerBest",
     inputs: [
       {
-        label: translateTo(lang, "Please choose your favorite option."),
+        label: translateTo(lang, "Please choose one option."),
         name: 'empower',
       },
     ],
@@ -155,17 +155,17 @@ export const QuestionsList = (lang) => [
         value: "500",
       },
       {
-        label: translateTo(lang, "Up to EUR 1’000"),
+        label: translateTo(lang, "Up to EUR 1,000"),
         value: "1000",
 
       },
       {
-        label: translateTo(lang, "Up to EUR 3’000"),
+        label: translateTo(lang, "Up to EUR 3,000"),
         value: "3000",
 
       },
       {
-        label: translateTo(lang, "More than EUR 3’000"),
+        label: translateTo(lang, "More than EUR 3,000"),
         value: "+3000",
 
       }
@@ -173,7 +173,7 @@ export const QuestionsList = (lang) => [
     successMessage: translateTo(lang, "Fair enough."),
   },
   {
-    title: "Hi, I am Martin<br />from Brixel.",
+    title: translateTo(lang, "Hi, I am Martin<br />from Brixel."),
     history: "chat",
     cardType: 'chat',
     img: Martin,
@@ -185,7 +185,7 @@ export const QuestionsList = (lang) => [
       "📞 "+translateTo(lang, "Phone")+": <a href='tel:+410433335700' target='_blank'>+41 43 333 57 00</a><br />" +
       "✉️ "+translateTo(lang, "E-mail")+": <a href='mailto:martin@brixel.io' target='_blank'>martin@brixel.io</a>",
       translateTo(lang,"All the best. Martin"),
-        translateTo(lang,"P.S. Do you want to hear a joke?")
+      translateTo(lang,"P.S. Do you want to hear a joke?")
     ]
   },
   {

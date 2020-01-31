@@ -6,6 +6,11 @@ import {
   BrixelIcon,
 } from '@brixel/brixel-components';
 import Emoji from './Emoji';
+import { translateTo } from '../utils/translation';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
 
 const BrixelRadioEmoji = (props) => {
   const {
@@ -16,6 +21,7 @@ const BrixelRadioEmoji = (props) => {
     input,
     inputClassName,
     label,
+    lang,
     modal,
     // options,
   } = props;
@@ -92,7 +98,7 @@ const BrixelRadioEmoji = (props) => {
                 htmlFor={`${input.name}_${i}`}
               >
                 <Emoji label={opt.label} symbol={opt.symbol}/>
-                <span className="otp-label">{opt.label}</span>
+                <span className="otp-label">{translateTo(lang, opt.label)}</span>
               </label>
             </div>
           ))
@@ -110,6 +116,7 @@ BrixelRadioEmoji.propTypes = {
   input: PropTypes.object.isRequired,
   inputClassName: PropTypes.string,
   label: PropTypes.string,
+  lang: PropTypes.string,
   modal: PropTypes.object,
   options: PropTypes.arrayOf(PropTypes.object),
 };
@@ -124,4 +131,11 @@ BrixelRadioEmoji.defaultProps = {
   modal: null,
 };
 
-export default BrixelRadioEmoji;
+const mapStateToProps = (state, props) => ({
+  lang: get(state, 'common.language', {}),
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, null),
+)(BrixelRadioEmoji);

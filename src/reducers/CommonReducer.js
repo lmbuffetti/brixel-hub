@@ -24,12 +24,12 @@ export const defaultState = {
   configUrl: getConfigEnv,
   errorMsg: {},
   languages: [
-    {value: 'da', label: 'dk'},
+    {value: 'dk', label: 'dk'},
     {value: 'de', label: 'de'},
     {value: 'en', label: 'en'},
     {value: 'nl', label: 'nl'},
     {value: 'pt', label: 'pt'},
-    {value: 'sv', label: 'se'},
+    {value: 'se', label: 'se'},
   ],
   country: [
     {
