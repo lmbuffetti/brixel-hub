@@ -26,7 +26,7 @@ module.exports = {
   "Last name":"Efternavn",
   "Email address":"E-mail adresse",
   "Phone number":"Telefonnummer",
-  "I hereby confirm that I have read, understand and accept the terms and privacy policy of Brixel.":"Hermed bekræfter jeg, at jeg har læst, forstået og accepteret betingelserne og fortrolighedspolitikken angående Brixel.",
+  "I hereby confirm that I have read, understand and accept the <a href=\"https://gobrixel.nl/voorwaarden/\" target=\"_blank\">terms</a> and <a href=\"https://gobrixel.nl/privacybeleid/\" target=\"_blank\">privacy policy</a> of Brixel.":"Hermed bekræfter jeg, at jeg har læst, forstået og accepteret <a href=\"https://gobrixel.dk/betingelser/\" target=\"_blank\">betingelserne</a> og <a href=\"https://gobrixel.dk/fortrolighedspolitik/\" target=\"_blank\">fortrolighedspolitikken</a> angående Brixel.",
   "Save":"Gem",
   "Welcome to the home of your home.":"Velkom til hjemmet af alle hjem.",
   "You earned the <span class=txtGreen400>\"Newcomer\"</span> Award and +100 Brixels.":"Du optjente <span class=txtGreen400>\"Nytilkommen\"</span> prisen og +100 Brixler",
@@ -96,4 +96,8 @@ module.exports = {
   "Please insert a valid last name" : "Indtast dit efternavn.",
   "Please insert a valid email" : "Indtast en gyldig e-mail.",
   "Please accept terms and privacy policy" : "Acceptér vores vilkår og fortrolighedspolitik.",
+  "Password": "Adgangskode",
+  "You already have an account?": "",
+  "You don't have an account?": "Har du ikke en konto endnu?",
+  "Login to your profile to save your progress.": "Log ind for at gemme dine fremskridt.",
 };

@@ -2,6 +2,12 @@
   height: calc(100vh - 88px);
   width: 100vw;
   overflow: hidden;
+  .brixel-radio-button-icon {
+    margin-bottom: 16px;
+    label .textLabel {
+      margin-left: 16px;
+    }
+  }
 }
 .slideMultiStepForm {
   display: flex;
@@ -56,4 +62,12 @@
   margin-bottom: $step * 2;
   float: left;
   clear: both;
+}
+
+@media (min-width: $responsive-medium) {
+  .singleStep {
+    display: flex;
+    align-items: center;
+    height: calc(100vh - 138px);
+  }
 }

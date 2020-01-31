@@ -26,7 +26,7 @@ module.exports = {
   "Last name":"Achternaam",
   "Email address":"Email adres",
   "Phone number":"Telefoon nummer",
-  "I hereby confirm that I have read, understand and accept the terms and privacy policy of Brixel.":"Hierbij bevestig ik dat ik de voorwaarden en het privacybeleid van Brixel heb gelezen, begrepen en accepteer.",
+  "I hereby confirm that I have read, understand and accept the <a href=\"https://gobrixel.nl/voorwaarden/\" target=\"_blank\">terms</a> and <a href=\"https://gobrixel.nl/privacybeleid/\" target=\"_blank\">privacy policy</a> of Brixel.":"Hierbij bevestig ik dat ik de <a href=\"https://gobrixel.nl/voorwaarden/\" target=\"_blank\">voorwaarden</a> en het <a href=\"https://gobrixel.nl/voorwaarden/\" target=\"_blank\">privacybeleid</a> van Brixel heb gelezen, begrepen en accepteer.",
   "Save":"Opslaan",
   "Welcome to the home of your home.":"Welkom thuis bij uw huis.",
   "You earned the <span class=txtGreen400>\"Newcomer\"</span> Award and +100 Brixels.":"U hebt de <span class=txtGreen400>\"Nieuweling\"</span> Prijs en plus 100 Brixels verdiend.",
@@ -96,4 +96,8 @@ module.exports = {
   "Please insert a valid last name" : "Voer je achternaam in.",
   "Please insert a valid email" : "Voer een geldig email adres in.",
   "Please accept terms and privacy policy" : "Accepteer onze algemene voorwaarden en privacybeleid.",
+  "Password": "Wachtwoord",
+  "You already have an account?": "",
+  "You don't have an account?": "Heb je nog geen account?",
+  "Login to your profile to save your progress.": "Log in om je voortgang op te slaan.",
 };

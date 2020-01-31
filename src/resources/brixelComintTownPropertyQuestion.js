@@ -1,5 +1,5 @@
 import { BrixelButtonIcon, BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, Validation } from '@brixel/brixel-components';
-import resumeApartment from '../images/BrxielComingTown/resumeApartment.svg';
+import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
 import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 import Cat from '../images/BrxielComingTown/firstAwards.svg';
 import SaleProperty from '../images/BrxielComingTown/createProfile.svg';
@@ -41,10 +41,10 @@ export const QuestionsList = (lang) => [
     title: translateTo(lang, "How many rooms?"),
     component: BrixelInputStepNumber,
     history: "allRooms",
-    className: 'max-w-fix-464',
+    className: 'max-w-fix-232',
     inputs: [
       {
-        classNameBox: 'max-w-fix-464',
+        classNameBox: 'max-w-fix-232',
         label: '',
         name: 'bedrooms',
         type: 'number',
@@ -61,13 +61,14 @@ export const QuestionsList = (lang) => [
     history: "livingSpace",
     inputs: [
       {
+        className: 'max-w-fix-232',
         label: '',
         name: 'livingSpace',
         type: 'number',
         validation: [Validation.isNumber, Validation.required],
         help: translateTo(lang, 'Use net living space'),
         unit: 'm2',
-        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-464',
+        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-288',
         placeholder: translateTo(lang, 'e.g. 120'),
       },
     ],
@@ -82,7 +83,7 @@ export const QuestionsList = (lang) => [
         label: '',
         name: 'constructionYear',
         type: 'number',
-        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-464',
+        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-232',
         placeholder: translateTo(lang, 'e.g. 1990'),
         validation: [Validation.isYear, Validation.required],
       },

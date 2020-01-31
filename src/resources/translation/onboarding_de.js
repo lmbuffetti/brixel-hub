@@ -26,7 +26,7 @@ module.exports = {
   "Last name":"Nachname",
   "Email address":"E-Mail Adresse",
   "Phone number":"Telefonnummer",
-  "I hereby confirm that I have read, understand and accept the terms and privacy policy of Brixel.":"Hiermit bestätige ich, dass ich die AGBs und die Datenschutzrichtlinien von Brixel gelesen und verstanden habe und diese akzeptiere.",
+  "I hereby confirm that I have read, understand and accept the <a href=\"https://gobrixel.nl/voorwaarden/\" target=\"_blank\">terms</a> and <a href=\"https://gobrixel.nl/privacybeleid/\" target=\"_blank\">privacy policy</a> of Brixel.":"Hiermit bestätige ich, dass ich die <a href=\"https://gobrixel.nl/voorwaarden/\" target=\"_blank\">AGBs</a> und die <a href=\"https://gobrixel.nl/voorwaarden/\" target=\"_blank\">Datenschutzrichtlinien</a> von Brixel gelesen und verstanden habe und diese akzeptiere.",
   "Save":"Speichern",
   "Welcome to the home of your home.":"Willkommen zum Zuhause deines Zuhauses.",
   "You earned the <span class=txtGreen400>\"Newcomer\"</span> Award and +100 Brixels.":"Du hast den <span class=txtGreen400>\"Newcomer\"</span> Award und +100 Brixels verdient.",
@@ -96,4 +96,8 @@ module.exports = {
   "Please insert a valid first name" : "Bitte gib deinen Vornamen an.",
   "Please insert a valid last name" : "Bitte gib deinen Nachnamen an.",
   "Please accept terms and privacy policy" : "Bitte akzeptiere unsere AGBs und Datenschutzrichtlinien.",
+  "Password": "Passwort",
+  "You already have an account?": "",
+  "You don't have an account?": "Hast du noch kein Konto?",
+  "Login to your profile to save your progress.": "Melde dich mit deinem Passwort an, um deinen Fortschritt zu speichern.",
 };

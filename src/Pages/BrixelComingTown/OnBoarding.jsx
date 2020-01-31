@@ -392,7 +392,7 @@ function OnBoarding(props) {
                         {
                           quest.cardType === 'Resume' && (
                             <div>
-                              <div className="max-w-fix-264 m-a bgRed100 brdRadius shadow-4dp">
+                              <div className="max-w-fix-264 m-a bgRed100 brdRadius shadow-4dp ov-h">
                                 <img src={quest[`img${formValue.propertyType}`]} />
                                 <div className="py-2 px-2">
                                   {
@@ -422,7 +422,7 @@ function OnBoarding(props) {
                         {
                           (quest.cardType === 'RewardsStep' || quest.cardType === 'LastStep') && (
                             <div className="ta-c">
-                              <img src={quest.img} />
+                              <img src={quest.img} alt={quest.title} className="max-w-fix-232" />
                               <h5 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.title}} />
                               {quest.subtitle && (<h6 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
                             </div>
@@ -436,12 +436,14 @@ function OnBoarding(props) {
                                 loginPage ? (
                                   <>
                                     <p className="mb-md-9">
-                                      <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(false)}>You don't have an account?</span>
+                                      <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(false)}>
+                                        {translateTo(lang, "You don't have a profile?")}
+                                      </span>
                                     </p>
                                     <Field
                                       className="mt-2"
                                       component={BrixelInputText}
-                                      label={translateTo(lang, "Email")}
+                                      label={translateTo(lang, "Email address")}
                                       name="email"
                                       placeholder=""
                                       type="email"
@@ -474,7 +476,9 @@ function OnBoarding(props) {
                                 ) : (
                                   <>
                                     <p className="mb-md-9">
-                                      <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(true)}>You already have an account?</span>
+                                      <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(true)}>
+                                        {translateTo(lang, "You already have an account?")}
+                                      </span>
                                     </p>
                                     <div className="dis-f">
                                       <Field
@@ -537,7 +541,7 @@ function OnBoarding(props) {
                                     <div className="mt-2">
                                       <Field
                                         component={BrixelCheckbox}
-                                        options={[{label: `I hereby confirm that I have read, understand and accept the <a href="${CompanyInfo.link.terms_and_condition}" target="_blank">terms</a> and <a href="${CompanyInfo.link.terms_and_condition}" target="_blank">privacy policy</a> of Brixel.`, value: 'privacy'}]}
+                                        options={[{label: translateTo(lang, `I hereby confirm that I have read, understand and accept the <a href="https://gobrixel.nl/voorwaarden/" target="_blank">terms</a> and <a href="https://gobrixel.nl/privacybeleid/" target="_blank">privacy policy</a> of Brixel.`), value: 'privacy'}]}
                                         name="privacy"
                                         className="body2 w-perc-100 max-w-perc-100"
                                         validate={[Validation.required]}

@@ -264,7 +264,7 @@ function UserFlow(props) {
                         {
                           quest.cardType === 'RewardsStep' && (
                             <div className="ta-c">
-                              <img src={quest.img} />
+                              <img src={quest.img} alt={quest.title} className="max-w-fix-232" />
                               <h5 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.title}} />
                               {quest.subtitle && (<h6 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
                             </div>
