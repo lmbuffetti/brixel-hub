@@ -25,7 +25,8 @@ import {
 } from '@brixel/brixel-components';
 import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
 import { addProperty } from '../../actions/PropertyActions';
-import { errorMessage, setPageData } from '../../actions/CommonActions';
+import { errorMessage, setPageData, setLanguage } from '../../actions/CommonActions';
+import { getCompany } from '../../actions/CompanyActions';
 import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.js';
 import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
@@ -39,12 +40,16 @@ function OnBoarding(props) {
   const {
     changeFieldValue,
     checkValid,
+    company,
+    country,
     errorValue,
     formValue,
     handleCreatePage,
     handleCreateUser,
+    handleGetCompany,
     handleGetToken,
     handleSetAwards,
+    handleSetLanguage,
     handleSetBrixelPoint,
     history,
     lang,
@@ -63,6 +68,7 @@ function OnBoarding(props) {
   const [progressBar, setProgressBar] = useState(0);
   const [showAddress, setShowAddress] = useState(true);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
+  const [curCountry, selCurCountry] = useState('');
   // REF
   const listInputs = Questions.filter((item) => typeof item.inputs !== 'undefined');
   const elementsRef = useRef(listInputs.map((item) => createRef()));
@@ -73,6 +79,19 @@ function OnBoarding(props) {
     }
     return title;
   };
+
+  useEffect(() => {
+    console.log(company);
+    const cookieLang = cookie.get('brixelLang');
+    if (company.languageCode && !cookieLang) {
+      handleSetLanguage(company.languageCode.toLowerCase());
+    }
+    if (company.countryName) {
+      const getCurrent = country.find((val) => val.full === company.countryName);
+      console.log(getCurrent);
+      selCurCountry(getCurrent.value);
+    }
+  }, [company]);
 
   useEffect(() => {
     setQuestions(QuestionsList(lang));
@@ -137,9 +156,15 @@ function OnBoarding(props) {
       document.getElementById('onBoarding').scrollTo(0, 0);
     }, false);
     const test = cloneDeep(history);
-    let company = get(history, 'location.search', null);
-    if (company) company = company.replace('?company=', '');
-    setCookie('brixelStubCompany', company);
+    let company = get(history, 'location.search', cookie.get('brixelStubCompany') || null);
+    const companyCookie = cookie.get('brixelStubCompany') || null;
+    console.log('eh', company || companyCookie);
+    if (company || companyCookie) {
+      company = company.replace('?company=', '');
+      const defComp = company || companyCookie;
+      handleGetCompany({stub: defComp});
+      setCookie('brixelStubCompany', defComp);
+    }
     history.push(`/onBoarding/${Questions[0].history}`);
   }, []);
 
@@ -293,6 +318,7 @@ function OnBoarding(props) {
                                               showMap={false}
                                               isShowZip={false}
                                               className="w-perc-100"
+                                              selCountry={curCountry}
                                             />
                                           )}
                                           options={input.options}
@@ -637,12 +663,16 @@ function OnBoarding(props) {
 OnBoarding.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   checkValid: PropTypes.func.isRequired,
+  company: PropTypes.object.isRequired,
+  country: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleCreateUser: PropTypes.func.isRequired,
   handleCreatePage: PropTypes.func.isRequired,
+  handleGetCompany: PropTypes.func.isRequired,
   handleGetToken: PropTypes.func.isRequired,
   handleSetAwards: PropTypes.func.isRequired,
+  handleSetLanguage: PropTypes.func.isRequired,
   handleSetBrixelPoint: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
@@ -655,6 +685,8 @@ OnBoarding.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => ({
+  company: get(state, 'companies.company', {}),
+  country: get(state, 'common.country', {}),
   errorValue: get(state, 'form.OnBoarding.syncErrors', {}),
   formValue: get(state, 'form.OnBoarding.values', {}),
   loggedUser: get(state, 'user.loggedUser', {}),
@@ -674,6 +706,8 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleCreateUser: bindActionCreators(validateUser, dispatch),
   handleGetToken: bindActionCreators(getToken, dispatch),
+  handleGetCompany: bindActionCreators(getCompany, dispatch),
+  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleCreatePage: bindActionCreators(addProperty, dispatch),
   handleSetErrorMsg: bindActionCreators(errorMessage, dispatch),
   handleSetPage: bindActionCreators(setPageData, dispatch),

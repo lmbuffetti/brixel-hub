@@ -51,6 +51,10 @@ function PageHeader(props) {
     setDropLang(drpLng);
   }, [languages]);
 
+  useEffect(() => {
+    setCurrentLang(lang);
+  }, [lang]);
+
   const newLang = (e, langCode) => {
     e.stopPropagation();
     setCurrentLang(langCode.value);

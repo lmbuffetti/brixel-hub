@@ -8,7 +8,7 @@ import house from '../images/BrxielComingTown/house.svg';
 import { translateTo } from '../utils/translation';
 
 export const maxLengthNum = (val) => (value) => {
-  const error = !value || (value.length < val)
+  const error = !value || (value < val)
     ? null
     : 'Select up 3 select';
 

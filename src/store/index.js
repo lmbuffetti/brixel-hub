@@ -6,6 +6,7 @@ import { getDevMode } from '../utils/helpers';
 
 // MIDDLEWARES
 import CommonMiddleware from '../middlewares/CommonMiddleware';
+import CompanyMiddleware from '../middlewares/CompanyMiddleware';
 import ImageMiddleware from '../middlewares/UploadMiddleware';
 import PropertyMiddleware from '../middlewares/PropertyMiddleware';
 import UserMiddleware from '../middlewares/UserMiddleware';
@@ -25,6 +26,7 @@ const composedEnhancers = compose(
   applyMiddleware(
     ...middlewares,
     CommonMiddleware,
+    CompanyMiddleware,
     ImageMiddleware,
     PropertyMiddleware,
     UserMiddleware,

@@ -69,7 +69,7 @@ function UserFlow(props) {
   }, []);
 
   useEffect(() => {
-    if (typeof cookie.get('brixelToken') === 'undefined') history.push('/onBoarding');
+    // if (typeof cookie.get('brixelToken') === 'undefined') history.push('/onBoarding');
   }, [loggedUser]);
 
   useEffect(() => {

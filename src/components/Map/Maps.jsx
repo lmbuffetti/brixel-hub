@@ -54,6 +54,7 @@ const Maps = (props) => {
     place,
     property,
     scrollZoom,
+    selCountry,
     showMap,
     showSearchLocation,
     showSelectCountry,
@@ -61,6 +62,10 @@ const Maps = (props) => {
   } = props;
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
   const [defCountry, setDefCountry] = useState('');
+
+  useEffect(() => {
+    setDefCountry(selCountry);
+  }, [selCountry]);
 
   useEffect(() => {
     if (optMap.zoom) {

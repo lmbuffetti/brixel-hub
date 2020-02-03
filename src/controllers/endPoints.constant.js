@@ -3,6 +3,9 @@ export default {
     sendMessage: () => '/message',
     sendScheduleVisit: () => '/email/sendScheduleVisitEmail',
   },
+  company: {
+    getCompanyByStub: (stub) => `/company/company-by-stub/${stub}`,
+  },
   property: {
     addPage: () => `/page/`,
     estimation: (id) => `/page/${id}/estimation`,

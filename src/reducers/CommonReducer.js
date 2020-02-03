@@ -34,30 +34,37 @@ export const defaultState = {
   country: [
     {
       label: 'AUT',
+      full: 'Austria',
       value: 'at',
     },
     {
       label: 'CHE',
+      full: 'Switzerland',
       value: 'ch',
     },
     {
       label: 'DEU',
+      full: 'Germany',
       value: 'de',
     },
     {
       label: 'DNK',
+      full: 'Switzerland',
       value: 'dk',
     },
     {
       label: 'NLD',
+      full: 'Netherlands',
       value: 'nl',
     },
     {
       label: 'PRT',
+      full: 'Portugal',
       value: 'pt',
     },
     {
       label: 'SWE',
+      full: 'Sweden',
       value: 'se',
     },
   ],

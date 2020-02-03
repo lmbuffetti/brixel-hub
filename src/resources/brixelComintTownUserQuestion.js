@@ -20,6 +20,7 @@ export const QuestionsList = (lang) => [
     subtitle: translateTo(lang, 'You earned the <span class=txtGreen400>"Newcomer"</span> Award and +100 Brixels.'),
     history: "rewardsStep",
     cardType: 'RewardsStep',
+    background: 'bgBlue100',
     img: brixelComingTown,
   },
   {
