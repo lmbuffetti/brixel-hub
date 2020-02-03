@@ -16,7 +16,6 @@ export const maxLengthNum = (val) => (value) => {
 };
 
 export const minLengthNum = (val) => (value) => {
-  console.log(val);
   const error = !value || (value >= val)
     ? null
     : 'Select up 3 select';

@@ -11,6 +11,23 @@
       }
     }
   }
+  &.withoutFooter {
+    height: calc(100vh - 56px);
+    .singleStep {
+      height: calc(100vh - 54px);
+    }
+  }
+  @media (min-width: $responsive-medium) {
+    .singleStep {
+      height: calc(100vh - 133px);
+    }
+    &.withoutFooter {
+      height: calc(100vh - 72px);
+      .singleStep {
+        height: calc(100vh - 72px);
+      }
+    }
+  }
 }
 @media (min-width: $responsive-medium) {
   .brixel-input-step .wrap-brixel-input-step.fullWidth input {
@@ -85,6 +102,5 @@
   .singleStep {
     display: flex;
     align-items: center;
-    height: calc(100vh - 130px);
   }
 }

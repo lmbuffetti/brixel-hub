@@ -24,7 +24,7 @@ const ProtectedRoute = (props) => {
   } = props;
 
   useEffect(() => {
-    console.log(loggedUser);
+    // console.log(loggedUser);
     // if (loggedUser && typeof loggedUser.statusCode !== 'undefined') window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
   }, [loggedUser]);
 
