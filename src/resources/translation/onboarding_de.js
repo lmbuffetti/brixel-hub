@@ -17,7 +17,7 @@ module.exports = {
   "Change":"Ändern",
   "Great. Your property was created.":"Super. Deine Immobilie wurde erstellt.",
   "And the first award goes to…You!":"Und der erste Award geht an…Dich!",
-  "You earned the <span class=txtGreen400>\"Homebase\"</span> Award and +50 Brixels.":"Du hast den <span class=txtGreen400>\"Homebase\"</span> Award und +50 Brixel erhalten.",
+  "You earned the <span class=\"txtGreen400\">\"Homebase\"</span> Award and +50 Brixels.":"Du hast den <span class=\"txtGreen400\">\"Homebase\"</span> Award und +50 Brixel erhalten.",
   "Every home needs an owner.":"Jedes Zuhause braucht einen Besitzer.",
   "Create profile":"Profil erstellen",
   "Create your profile to save your progress.":"Erstelle dein Profil, um deinen Fortschritt zu speichern.",
