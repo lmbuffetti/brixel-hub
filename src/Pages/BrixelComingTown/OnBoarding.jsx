@@ -348,14 +348,6 @@ function OnBoarding(props) {
                                       {
                                         formValue.location && formValue.location.address && (
                                           <>
-                                            <div className="dis-f jc-b pos-r zIndex3 my-2 w-perc-100">
-                                              <p>{translateTo(lang, "Is this the place?")}</p>
-                                              <button
-                                                onClick={() => changeFieldValue('location', {})}
-                                              >
-                                                <span className="txtGreen400">{translateTo(lang, "Change")}</span>
-                                              </button>
-                                            </div>
                                             <div
                                               className="pos-r zIndex1"
                                               onMouseEnter={() => setShowAddress(false)}
