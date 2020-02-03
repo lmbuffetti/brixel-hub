@@ -1,0 +1,211 @@
+// Blues/Purples
+$color1: #1E1491;
+$color2: #6E5BFF;
+$color3: #96BEF0;
+
+// Red Green Blue
+//$color1: #F03C50;
+//$color2: #82D1FA;
+//$color3: #50B482;
+
+.elem-loader {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100000;
+  user-select: none;
+
+  &.fixed {
+    position: fixed;
+  }
+
+  &.hide-add {
+    opacity: 1;
+  }
+
+  &.hide-add-active {
+    opacity: 0;
+  }
+
+  &.ng-animate {
+    display: table !important;
+  }
+
+  //Modifiers
+  &.elem-overlay {
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      opacity: 0.8;
+      z-index: -1;
+    }
+  }
+
+  &.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+.loader {
+  position: relative;
+  display: block;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0px auto;
+  width: 100px;
+  height: 100px;
+  &:before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
+
+  &.la-sm {
+    width: 75px;
+    height: 75px;
+
+    .logo {
+      display: none;
+    }
+  }
+
+  &.la-sm2x {
+    width: 50px;
+    height: 50px;
+
+    .logo {
+      display: none;
+    }
+  }
+
+  .logo {
+    height: 40%;
+    transform-origin: center center;
+    width: 40%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  .square {
+    fill: #5A6EFF;
+    animation: filling1 4.5s ease-in-out infinite;
+  }
+
+  .circle {
+    fill: #82D2FA;
+    animation: filling2 4.5s ease-in-out infinite;
+  }
+
+  .bottom {
+    fill: #1E1491;
+    animation: filling3 4.5s ease-in-out infinite;
+  }
+
+  .circular {
+    animation: rotate 2s linear infinite;
+    height: 100%;
+    transform-origin: center center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  .path {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    animation: dash 1.5s ease-in-out infinite, color 4.5s ease-in-out infinite;
+    stroke-linecap: round;
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+
+@keyframes filling1 {
+  100%,
+  0% {
+    fill: $color1;
+  }
+  33% {
+    fill: $color2;
+  }
+  66% {
+    fill: $color3;
+  }
+}
+
+@keyframes filling2 {
+  100%,
+  0% {
+    fill: $color3;
+  }
+  33% {
+    fill: $color1;
+  }
+  66% {
+    fill: $color2;
+  }
+}
+
+@keyframes filling3 {
+  100%,
+  0% {
+    fill: $color2;
+  }
+  33% {
+    fill: $color3;
+  }
+  66% {
+    fill: $color1;
+  }
+}
+
+@keyframes color {
+  100%,
+  0% {
+    stroke: $color1;
+  }
+  33% {
+    stroke: $color2;
+  }
+  66% {
+    stroke: $color3;
+  }
+}

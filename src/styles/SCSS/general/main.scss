@@ -1,0 +1,125 @@
+// GENERAL
+$fontpath: "~@brixel/brixel-components/dist/styles/";
+@import '~@brixel/brixel-configuration-partner/src/Variables';
+@import '~@brixel/brixel-components/src/styles/SCSS/general/main.scss';
+@import '~swiper/swiper.scss';
+// UTILS
+
+// COMPONENTS
+@import "../components/loading",
+"../components/radioButtonEmoji",
+"../components/radioButtonCard",
+"../components/avatar";
+// PAGES
+@import "../pages/getStarted",
+"../pages/onBoarding";
+
+html, body {
+  position: relative;
+  height: 100%;
+}
+
+body {
+  background: $brx-white;
+}
+
+a {
+  text-decoration: none;
+  color: map_get($primaryColor, 400);
+  &:hover {
+    color: map_get($primaryColor, 600);
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+#page-header {
+  position: relative;
+  z-index: 100;
+}
+
+#root {
+  height: 100%;
+}
+
+p.cutRow {
+  flex-flow: nowrap;
+  word-break: unset;
+  white-space: nowrap;
+  width: 95%;
+  overflow: hidden;
+  hyphens: auto;
+  text-overflow: ellipsis;
+}
+
+.brixel-modal {
+  .modal-body {
+    p {
+      margin-bottom: $step * 2;
+    }
+  }
+}
+
+header {
+  .dropdown {
+    padding-right: 0;
+  }
+}
+
+.subcontainer {
+  width: 100%;
+  max-width: 620px;
+  margin: auto;
+}
+
+@media (min-width: $responsive-medium) {
+  .subcontainer {
+    @media (min-width: $responsive-medium) {
+      .backBtn {
+        position: absolute;
+        left: 0;
+        bottom: $step;
+      }
+    }
+  }
+  .footerAction {
+    .subcontainer {
+      > .jc-b {
+        justify-content: flex-end;
+      }
+    }
+  }
+}
+
+.brxNotification {
+  z-index: 10;
+  display: flex;
+  background: map_get($blueColor, 100);
+  padding: $step;
+  border-radius: $brd-radius-small;
+  align-items: center;
+  position: fixed;
+  right: $step;
+  top: $step;
+  width: 256px;
+  i {
+    background: map_get($greenColor, 400);
+    border-radius: 50%;
+    color: $brx-white;
+    padding: 9px;
+    margin-right: $step;
+  }
+  span {
+    @include fontStyle(300);
+    color: map_get($darkColor, 700);
+  }
+}
+
+.langMenu {
+  &.dropdown.open ul {
+    max-height: none;
+  }
+}

@@ -1,0 +1,41 @@
+.brixel-radio-emoji {
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+  input {
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    position: absolute;
+  }
+  .otp-label {
+    visibility: hidden;
+    @include fontStyle(200);
+    color: map_get($primaryColor, 400);
+    margin-top: $step;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+  }
+  .emoji {
+    width: 40px;
+    background: map_get($lightColor, 100);
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: $brd-radius-small;
+    margin: auto;
+    cursor: pointer;
+  }
+  .checked {
+    display: block;
+    .emoji {
+      background: map_get($primaryColor, 200);
+    }
+    .otp-label {
+      visibility: visible;
+    }
+  }
+}
