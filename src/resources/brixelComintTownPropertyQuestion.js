@@ -134,8 +134,8 @@ export const QuestionsList = (lang) => [
     imgHouse: resumeHouse,
   },
   {
-    title: translateTo(lang, "And the first award goes to… You!"),
-    subtitle: translateTo(lang, "You earned the <span class=txtGreen400>\"Homebase\"</span> Award and +50 Brixels."),
+    title: translateTo(lang, "And the first award goes to…You!"),
+    subtitle: translateTo(lang, "You earned the <span class=\"txtGreen400\">\"Homebase\"</span> Award and +50 Brixels."),
     history: "rewardsStep",
     cardType: 'RewardsStep',
     background: 'bgPrimary100',
