@@ -254,17 +254,24 @@ function OnBoarding(props) {
         <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
           {
             Questions.map((quest, i) => (
-              <div id={`step-${i}`} className="singleStep" key={i.toString()} style={{ visibility: i !== currentIndex ? 'hidden' : 'visible' }}>
+              <div
+                id={`step-${i}`}
+                className={`singleStep ${quest.background || ''}`}
+                key={i.toString()}
+                style={{
+                  visibility: i !== currentIndex ? 'hidden' : 'visible',
+                }}
+              >
                 <div className={`subcontainer ${quest.className || ''}`}>
                   {
                     quest.inputs && (
                       <>
                         {
                           quest.titleGreen && (
-                            <h5 className="txtGreen400">{quest.titleGreen}</h5>
+                            <h5 className="txtGreen400 fsize-md-800">{quest.titleGreen}</h5>
                           )
                         }
-                        <h5 className="mb-4 mb-md-9">{quest.title}</h5>
+                        <h5 className="mb-4 mb-md-10 fsize-md-800">{quest.title}</h5>
                         {
                           quest.inputs.map((input, f) => (
                               <div key={f.toString()}>
@@ -392,25 +399,28 @@ function OnBoarding(props) {
                         {
                           quest.cardType === 'Resume' && (
                             <div>
-                              <div className="max-w-fix-264 m-a bgRed100 brdRadius shadow-4dp ov-h">
-                                <img src={quest[`img${formValue.propertyType}`]} />
-                                <div className="py-2 px-2">
+                              <div className="bgWhite max-w-fix-344 m-a brdRadius shadow-4dp ov-h">
+                                <img src={quest[`img${formValue.propertyType || 'Apartment'}`]} className="dis-b" />
+                                <div className="pt-1 pb-2 px-2">
                                   {
                                     formValue.location && <p className="body2 cutRow txtPrimary400">{formValue.location.address}</p>
                                   }
-                                  <h6 className="txtRed700 mt-2 mb-4">{formValue.pageTitle}</h6>
+                                  {
+                                    <p className="body2 cutRow txtPrimary400">{'Address'}</p>
+                                  }
+                                  <h6 className="mt-1 mb-5">{formValue.pageTitle || 'Title'}</h6>
                                   <div className="dis-f jc-b a-c">
                                     <p className="dis-f a-c">
                                       <BrixelIcon icon="bed" className="mr-1" />
-                                      <span className="ff-mono body2">{formValue.rooms}</span>
+                                      <span className="ff-mono body2">{formValue.rooms || '0'}</span>
                                     </p>
                                     <p className="dis-f a-c">
                                       <BrixelIcon icon="plans" className="mr-1" />
-                                      <span className="ff-mono body2">{formValue.livingSpace} m</span>
+                                      <span className="ff-mono body2">{formValue.livingSpace || '0'} m</span>
                                     </p>
                                     <p className="dis-f a-c">
                                       <BrixelIcon icon="house-built" className="mr-1" />
-                                      <span className="ff-mono body2">{formValue.constructionYear}</span>
+                                      <span className="ff-mono body2">{formValue.constructionYear || '0000'}</span>
                                     </p>
                                   </div>
                                 </div>
@@ -422,7 +432,7 @@ function OnBoarding(props) {
                         {
                           (quest.cardType === 'RewardsStep' || quest.cardType === 'LastStep') && (
                             <div className="ta-c">
-                              <img src={quest.img} alt={quest.title} className="max-w-fix-232" />
+                              <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
                               <h5 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.title}} />
                               {quest.subtitle && (<h6 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
                             </div>
@@ -569,7 +579,8 @@ function OnBoarding(props) {
           }
         </div>
         <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}>
-          <div className="subcontainer">
+          <div className="container">
+            <div className="subcontainer">
             {
               !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && (
                 <p className="txtGreen700 ta-r mb-2 textSuccess">
@@ -615,6 +626,7 @@ function OnBoarding(props) {
                 )
               }
             </div>
+          </div>
           </div>
         </div>
       </form>

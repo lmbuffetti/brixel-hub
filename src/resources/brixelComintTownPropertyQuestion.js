@@ -7,6 +7,29 @@ import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
 import { translateTo } from '../utils/translation';
 
+export const maxLengthNum = (val) => (value) => {
+  const error = !value || (value.length < val)
+    ? null
+    : 'Select up 3 select';
+
+  return error;
+};
+
+export const minLengthNum = (val) => (value) => {
+  console.log(val);
+  const error = !value || (value >= val)
+    ? null
+    : 'Select up 3 select';
+
+  return error;
+};
+
+const minLengthNumYear = minLengthNum(1500);
+const maxLengthNumRooms = maxLengthNum(30);
+const maxLengthNumLivSpace = maxLengthNum(9999);
+const maxLengthNumYear = maxLengthNum(2030);
+
+
 export const QuestionsList = (lang) => [
   {
     className: 'radioBtnImg',
@@ -48,7 +71,7 @@ export const QuestionsList = (lang) => [
         label: '',
         name: 'bedrooms',
         type: 'number',
-        validation: [Validation.positiveNumber, Validation.required],
+        validation: [Validation.positiveNumber, maxLengthNumRooms, Validation.required],
         step: [1],
         min: 1,
       },
@@ -65,7 +88,7 @@ export const QuestionsList = (lang) => [
         label: '',
         name: 'livingSpace',
         type: 'number',
-        validation: [Validation.isNumber, Validation.required],
+        validation: [Validation.isNumber, maxLengthNumLivSpace, Validation.required],
         help: translateTo(lang, 'Use net living space'),
         unit: 'm2',
         classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-288',
@@ -85,7 +108,7 @@ export const QuestionsList = (lang) => [
         type: 'number',
         classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-232',
         placeholder: translateTo(lang, 'e.g. 1990'),
-        validation: [Validation.isYear, Validation.required],
+        validation: [minLengthNumYear, maxLengthNumYear, Validation.required],
       },
     ],
     successMessage: translateTo(lang, 'A good year for real estate.')
@@ -104,10 +127,11 @@ export const QuestionsList = (lang) => [
     successMessage: translateTo(lang, 'That is an interesting location.')
   },
   {
-    title: translateTo(lang, "Great.<br />Your property was created."),
+    title: translateTo(lang, "Great. Your property was created."),
     history: "resume",
     cardType: 'Resume',
     imgApartment: resumeApartment,
+    background: 'bgRed100',
     imgHouse: resumeHouse,
   },
   {
@@ -115,12 +139,14 @@ export const QuestionsList = (lang) => [
     subtitle: translateTo(lang, "You earned the <span class=txtGreen400>\"Homebase\"</span> Award and +50 Brixels."),
     history: "rewardsStep",
     cardType: 'RewardsStep',
+    background: 'bgPrimary100',
     img: Cat,
   },
   {
     title: translateTo(lang, "Every home needs an owner."),
     history: "lastStep",
     cardType: 'LastStep',
+    background: 'bgGreen100',
     img: SaleProperty,
   },
   {

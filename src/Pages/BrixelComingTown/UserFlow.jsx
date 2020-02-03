@@ -144,7 +144,14 @@ function UserFlow(props) {
         <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
           {
             Questions.map((quest, i) => (
-              <div id={`step-${i}`} className="singleStep" key={i.toString()}>
+              <div
+                id={`step-${i}`}
+                className={`singleStep ${quest.background || ''}`}
+                key={i.toString()}
+                style={{
+                  visibility: i !== currentIndex ? 'hidden' : 'visible',
+                }}
+              >
                 <div className="subcontainer">
                   {
                     quest.inputs && (
@@ -154,7 +161,7 @@ function UserFlow(props) {
                             <h5 className="txtGreen400">{quest.titleGreen}</h5>
                           )
                         }
-                        <h5 className="mb-4 mb-md-9">{extractTitle(quest.title)}</h5>
+                        <h5 className="mb-4 mb-md-10">{extractTitle(quest.title)}</h5>
                         {
                           quest.inputs.map((input, f) => (
                               <div key={f.toString()}>
@@ -264,7 +271,7 @@ function UserFlow(props) {
                         {
                           quest.cardType === 'RewardsStep' && (
                             <div className="ta-c">
-                              <img src={quest.img} alt={quest.title} className="max-w-fix-232" />
+                              <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
                               <h5 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.title}} />
                               {quest.subtitle && (<h6 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
                             </div>
@@ -305,90 +312,92 @@ function UserFlow(props) {
           }
         </div>
         <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`}>
-          <div className="subcontainer">
-            {
-              !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && !emptyValue && (
-                <p className="txtGreen700 ta-r mb-2 textSuccess">
-                  {Questions[currentIndex].successMessage}
-                  <BrixelIcon icon="check" className="ml-1" />
-                </p>
-              )
-            }
-            <div className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : (Questions[currentIndex].cardType === 'LastStep' ? 'jc-fe' : 'jc-c')}`}>
+          <div className="container pos-r">
+            <div className="subcontainer">
               {
-                Questions && Questions[currentIndex] !== 'undefined' && Questions[currentIndex].inputs && (
-                  <BrixelButtonIcon
-                    className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
-                    icon="arrow-simple-left"
-                    onClick={() => changeStep('back')}
-                    background="white"
-                    saturation={0}
-                    color="primary"
-                    saturationTxt={400}
-                    noBorder
-                  />
+                !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && !emptyValue && (
+                  <p className="txtGreen700 ta-r mb-2 textSuccess">
+                    {Questions[currentIndex].successMessage}
+                    <BrixelIcon icon="check" className="ml-1" />
+                  </p>
                 )
               }
-              {
-                (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) ? (
-                  <>
-                    <BrixelButtonPrimary
-                      rounded
-                      label={emptyValue && Questions[currentIndex].inputs  ? translateTo(lang,"Skip") : translateTo(lang,"Continue")}
-                      background={Questions[currentIndex].inputs ? "green" : "primary"}
-                      className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                      onClick={() => changeStep()}
-                      rightIcon="arrow-right-small"
-                      disabled={disableNextBtn}
+              <div className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : (Questions[currentIndex].cardType === 'LastStep' ? 'jc-fe' : 'jc-c')}`}>
+                {
+                  Questions && Questions[currentIndex] !== 'undefined' && Questions[currentIndex].inputs && (
+                    <BrixelButtonIcon
+                      className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
+                      icon="arrow-simple-left"
+                      onClick={() => changeStep('back')}
+                      background="white"
+                      saturation={0}
+                      color="primary"
+                      saturationTxt={400}
+                      noBorder
                     />
-                  </>
-                ) : (
-                  <>
-                    {
-                      Questions[currentIndex].cardType === 'LastStep' ? (
-                        <>
-                          <BrixelButtonIcon
-                            className="shadow-2dp backBtn"
-                            icon="arrow-simple-left"
-                            onClick={() => changeStep('back')}
-                            background="white"
-                            saturation={0}
-                            color="primary"
-                            saturationTxt={400}
-                            noBorder
-                          />
-                          <BrixelButtonTertiary
-                            rounded
-                            label={translateTo(lang,"Back to our website")}
-                            color="primary"
-                            onClick={() => ''}
-                            rightIcon="arrow-right-small"
-                            disabled={disableNextBtn}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          <BrixelButtonSecondary
-                            rounded
-                            label={translateTo(lang,"No thanks")}
-                            color="primary"
-                            onClick={() => ''}
-                            disabled={disableNextBtn}
-                          />
-                          <BrixelButtonPrimary
-                            className="ml-1"
-                            rounded
-                            label={translateTo(lang,"Yes, of course")}
-                            background="green"
-                            onClick={() => changeStep()}
-                            disabled={disableNextBtn}
-                          />
-                        </>
-                      )
-                    }
-                  </>
-                )
-              }
+                  )
+                }
+                {
+                  (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) ? (
+                    <>
+                      <BrixelButtonPrimary
+                        rounded
+                        label={emptyValue && Questions[currentIndex].inputs  ? translateTo(lang,"Skip") : translateTo(lang,"Continue")}
+                        background={Questions[currentIndex].inputs ? "green" : "primary"}
+                        className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
+                        onClick={() => changeStep()}
+                        rightIcon="arrow-right-small"
+                        disabled={disableNextBtn}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      {
+                        Questions[currentIndex].cardType === 'LastStep' ? (
+                          <>
+                            <BrixelButtonIcon
+                              className="shadow-2dp backBtn"
+                              icon="arrow-simple-left"
+                              onClick={() => changeStep('back')}
+                              background="white"
+                              saturation={0}
+                              color="primary"
+                              saturationTxt={400}
+                              noBorder
+                            />
+                            <BrixelButtonTertiary
+                              rounded
+                              label={translateTo(lang,"Back to our website")}
+                              color="primary"
+                              onClick={() => ''}
+                              rightIcon="arrow-right-small"
+                              disabled={disableNextBtn}
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <BrixelButtonSecondary
+                              rounded
+                              label={translateTo(lang,"No thanks")}
+                              color="primary"
+                              onClick={() => ''}
+                              disabled={disableNextBtn}
+                            />
+                            <BrixelButtonPrimary
+                              className="ml-1"
+                              rounded
+                              label={translateTo(lang,"Yes, of course")}
+                              background="green"
+                              onClick={() => changeStep()}
+                              disabled={disableNextBtn}
+                            />
+                          </>
+                        )
+                      }
+                    </>
+                  )
+                }
+              </div>
             </div>
           </div>
         </div>
