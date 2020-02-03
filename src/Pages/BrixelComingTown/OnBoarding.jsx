@@ -17,6 +17,7 @@ import { change, isValid, Field, reduxForm } from 'redux-form';
 import Cookies from 'universal-cookie';
 import {
   BrixelButtonPrimary,
+  BrixelButtonTertiary,
   BrixelButtonIcon,
   BrixelIcon,
   BrixelInputText,
@@ -68,7 +69,8 @@ function OnBoarding(props) {
   const [progressBar, setProgressBar] = useState(0);
   const [showAddress, setShowAddress] = useState(true);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
-  const [curCountry, selCurCountry] = useState('');
+  const [curCountry, setCurCountry] = useState({});
+  const [showCountrySel, setShowCountrySel] = useState(false);
   // REF
   const listInputs = Questions.filter((item) => typeof item.inputs !== 'undefined');
   const elementsRef = useRef(listInputs.map((item) => createRef()));
@@ -80,16 +82,18 @@ function OnBoarding(props) {
     return title;
   };
 
+  const countryObj = (curVal) => {
+    const getCurrent = country.find((val) => val.full === curVal || val.value === curVal);
+    setCurCountry(getCurrent);
+  };
+
   useEffect(() => {
-    console.log(company);
     const cookieLang = cookie.get('brixelLang');
     if (company.languageCode && !cookieLang) {
       handleSetLanguage(company.languageCode.toLowerCase());
     }
     if (company.countryName) {
-      const getCurrent = country.find((val) => val.full === company.countryName);
-      console.log(getCurrent);
-      selCurCountry(getCurrent.value);
+      countryObj(company.countryName);
     }
   }, [company]);
 
@@ -158,7 +162,6 @@ function OnBoarding(props) {
     const test = cloneDeep(history);
     let company = get(history, 'location.search', cookie.get('brixelStubCompany') || null);
     const companyCookie = cookie.get('brixelStubCompany') || null;
-    console.log('eh', company || companyCookie);
     if (company || companyCookie) {
       company = company.replace('?company=', '');
       const defComp = company || companyCookie;
@@ -314,11 +317,15 @@ function OnBoarding(props) {
                                               moveMarker
                                               draggable
                                               showSearchLocation
-                                              showSelectCountry
+                                              showSelectCountry={showCountrySel}
                                               showMap={false}
                                               isShowZip={false}
                                               className="w-perc-100"
-                                              selCountry={curCountry}
+                                              selCountry={curCountry ? curCountry.value : ''}
+                                              changeCountry={(val) => {
+                                                countryObj(val);
+                                                setShowCountrySel(false);
+                                              }}
                                             />
                                           )}
                                           options={input.options}
@@ -326,6 +333,17 @@ function OnBoarding(props) {
                                           type={input.type}
                                           onChange={(e) => validateSlide(e, input.name, quest)}
                                         />
+
+                                        {
+                                          !showCountrySel && (
+                                            <BrixelButtonTertiary
+                                              className="mt-1"
+                                              label={curCountry ? curCountry.label : ''}
+                                              onClick={() => setShowCountrySel(true)}
+                                            />
+                                          )
+                                        }
+
                                       </div>
                                       {
                                         formValue.location && formValue.location.address && (

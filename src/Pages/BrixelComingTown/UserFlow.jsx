@@ -21,6 +21,7 @@ import { setNotification } from '../../actions/CommonActions';
 import { QuestionsList } from '../../resources/brixelComintTownUserQuestion.js';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
+import { getCompany } from '../../actions/CompanyActions';
 
 const cookie = new Cookies;
 
@@ -29,9 +30,11 @@ function UserFlow(props) {
   const {
     changeFieldValue,
     checkValid,
+    company,
     errorValue,
     formValue,
     handleUpdateUser,
+    handleGetCompany,
     handleSetAwards,
     handleSetBrixelPoint,
     handleSetNotification,
@@ -66,10 +69,12 @@ function UserFlow(props) {
     handleSetBrixelPoint([{desc: "Homebase", point: 50}, {desc: "Newcomer", point: 100}]);
     handleSetAwards([{desc: "Homebase", point: 1}, {desc: "Newcomer", point: 1}]);
     history.push(`/onBoarding/brixelComingInTown/s${Questions[0].history}`);
+    const companyCookie = cookie.get('brixelStubCompany') || null;
+    if (companyCookie) handleGetCompany({stub: companyCookie});
   }, []);
 
   useEffect(() => {
-    // if (typeof cookie.get('brixelToken') === 'undefined') history.push('/onBoarding');
+    if (typeof cookie.get('brixelToken') === 'undefined') history.push('/onBoarding');
   }, [loggedUser]);
 
   useEffect(() => {
@@ -138,7 +143,7 @@ function UserFlow(props) {
     handleUpdateUser(data);
   };
   return (
-    <main id="onBoarding">
+    <main id="onBoarding" className={Questions[currentIndex].cardType !== 'chat' ? 'withFooter' : 'withoutFooter'}>
       <div id="progressBar"><span className="activeProgBar" style={{ width: `${progressBar}%` }} /></div>
       <form id="multiStepForm" onSubmit={(e) => e.preventDefault()} autocomplete="off">
         <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
@@ -300,6 +305,23 @@ function UserFlow(props) {
                                   ))
                                 }
                               </div>
+                              <div className="dis-f w-perc-100 jc-fe">
+                                <BrixelButtonSecondary
+                                  rounded
+                                  label={translateTo(lang,"No thanks")}
+                                  color="primary"
+                                  onClick={() => window.location.href = company.contactWebsite || 'https://brixel.ch'}
+                                  disabled={disableNextBtn}
+                                />
+                                <BrixelButtonPrimary
+                                  className="ml-1"
+                                  rounded
+                                  label={translateTo(lang,"Yes, of course")}
+                                  background="green"
+                                  onClick={() => changeStep()}
+                                  disabled={disableNextBtn}
+                                />
+                              </div>
                             </div>
                           )
                         }
@@ -311,96 +333,84 @@ function UserFlow(props) {
             ))
           }
         </div>
-        <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`}>
-          <div className="container pos-r">
-            <div className="subcontainer">
-              {
-                !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && !emptyValue && (
-                  <p className="txtGreen700 ta-r mb-2 textSuccess">
-                    {Questions[currentIndex].successMessage}
-                    <BrixelIcon icon="check" className="ml-1" />
-                  </p>
-                )
-              }
-              <div className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : (Questions[currentIndex].cardType === 'LastStep' ? 'jc-fe' : 'jc-c')}`}>
-                {
-                  Questions && Questions[currentIndex] !== 'undefined' && Questions[currentIndex].inputs && (
-                    <BrixelButtonIcon
-                      className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
-                      icon="arrow-simple-left"
-                      onClick={() => changeStep('back')}
-                      background="white"
-                      saturation={0}
-                      color="primary"
-                      saturationTxt={400}
-                      noBorder
-                    />
-                  )
-                }
-                {
-                  (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) ? (
-                    <>
-                      <BrixelButtonPrimary
-                        rounded
-                        label={emptyValue && Questions[currentIndex].inputs  ? translateTo(lang,"Skip") : translateTo(lang,"Continue")}
-                        background={Questions[currentIndex].inputs ? "green" : "primary"}
-                        className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                        onClick={() => changeStep()}
-                        rightIcon="arrow-right-small"
-                        disabled={disableNextBtn}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      {
-                        Questions[currentIndex].cardType === 'LastStep' ? (
-                          <>
-                            <BrixelButtonIcon
-                              className="shadow-2dp backBtn"
-                              icon="arrow-simple-left"
-                              onClick={() => changeStep('back')}
-                              background="white"
-                              saturation={0}
-                              color="primary"
-                              saturationTxt={400}
-                              noBorder
-                            />
-                            <BrixelButtonTertiary
-                              rounded
-                              label={translateTo(lang,"Back to our website")}
-                              color="primary"
-                              onClick={() => ''}
-                              rightIcon="arrow-right-small"
-                              disabled={disableNextBtn}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <BrixelButtonSecondary
-                              rounded
-                              label={translateTo(lang,"No thanks")}
-                              color="primary"
-                              onClick={() => ''}
-                              disabled={disableNextBtn}
-                            />
-                            <BrixelButtonPrimary
-                              className="ml-1"
-                              rounded
-                              label={translateTo(lang,"Yes, of course")}
-                              background="green"
-                              onClick={() => changeStep()}
-                              disabled={disableNextBtn}
-                            />
-                          </>
-                        )
-                      }
-                    </>
-                  )
-                }
+        {
+          Questions[currentIndex].cardType !== 'chat' && (
+            <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`}>
+              <div className="container pos-r">
+                <div className="subcontainer">
+                  {
+                    !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && !emptyValue && (
+                      <p className="txtGreen700 ta-r mb-2 textSuccess">
+                        {Questions[currentIndex].successMessage}
+                        <BrixelIcon icon="check" className="ml-1" />
+                      </p>
+                    )
+                  }
+                  <div className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : (Questions[currentIndex].cardType === 'LastStep' ? 'jc-fe' : 'jc-c')}`}>
+                    {
+                      Questions && Questions[currentIndex] !== 'undefined' && Questions[currentIndex].inputs && (
+                        <BrixelButtonIcon
+                          className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
+                          icon="arrow-simple-left"
+                          onClick={() => changeStep('back')}
+                          background="white"
+                          saturation={0}
+                          color="primary"
+                          saturationTxt={400}
+                          noBorder
+                        />
+                      )
+                    }
+                    {
+                      (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) ? (
+                        <>
+                          <BrixelButtonPrimary
+                            rounded
+                            label={emptyValue && Questions[currentIndex].inputs  ? translateTo(lang,"Skip") : translateTo(lang,"Continue")}
+                            background={Questions[currentIndex].inputs ? "green" : "primary"}
+                            className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
+                            onClick={() => changeStep()}
+                            rightIcon="arrow-right-small"
+                            disabled={disableNextBtn}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          {
+                            Questions[currentIndex].cardType === 'LastStep' ? (
+                              <>
+                                <BrixelButtonIcon
+                                  className="shadow-2dp backBtn"
+                                  icon="arrow-simple-left"
+                                  onClick={() => changeStep('back')}
+                                  background="white"
+                                  saturation={0}
+                                  color="primary"
+                                  saturationTxt={400}
+                                  noBorder
+                                />
+                                <BrixelButtonTertiary
+                                  rounded
+                                  label={translateTo(lang,"Back to our website")}
+                                  color="primary"
+                                  onClick={() => window.location.href = company.contactWebsite || 'https://brixel.ch'}
+                                  rightIcon="arrow-right-small"
+                                  disabled={disableNextBtn}
+                                />
+                              </>
+                            ) : (
+                              <></>
+                            )
+                          }
+                        </>
+                      )
+                    }
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          )
+        }
       </form>
     </main>
   );
@@ -409,8 +419,10 @@ function UserFlow(props) {
 UserFlow.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   checkValid: PropTypes.func.isRequired,
+  company: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleGetCompany: PropTypes.func.isRequired,
   handleUpdateUser: PropTypes.func.isRequired,
   handleSetAwards: PropTypes.func.isRequired,
   handleSetBrixelPoint: PropTypes.func.isRequired,
@@ -425,6 +437,7 @@ UserFlow.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => ({
+  company: get(state, 'companies.company', {}),
   errorValue: get(state, 'form.UserFlow.syncErrors', {}),
   formValue: get(state, 'form.UserFlow.values', {}),
   loggedUser: get(state, 'user.loggedUser', {}),
@@ -439,6 +452,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(isValid('UserFlow'))
   },
   handleUpdateUser: bindActionCreators(updateUser, dispatch),
+  handleGetCompany: bindActionCreators(getCompany, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
   handleSetBrixelPoint: bindActionCreators(setBrixelPoint, dispatch),
   handleSetNotification: bindActionCreators(setNotification, dispatch),

@@ -35,6 +35,7 @@ const Maps = (props) => {
   // PROPS
   const {
     className,
+    changeCountry,
     changeFieldValue,
     country,
     draggable,
@@ -51,6 +52,7 @@ const Maps = (props) => {
     match,
     mapType,
     moveMarker,
+    nearBy,
     place,
     property,
     scrollZoom,
@@ -154,7 +156,7 @@ const Maps = (props) => {
       lat: latitude,
       lng: longitude,
     };
-    const service = new google.maps.places.PlacesService(map);
+
     map.setOptions({
       styles: mapStyles,
       disableDefaultUI: true,
@@ -175,50 +177,55 @@ const Maps = (props) => {
     });
 
     setOptMap(map);
+    if (nearBy) {
+      const service = new google.maps.places.PlacesService(map);
+      const streetViewService = new google.maps.StreetViewService();
+      const STREETVIEW_MAX_DISTANCE = 50;
+      const latLng = new google.maps.LatLng(center.lat, center.lng);
+      streetViewService.getPanoramaByLocation(latLng, STREETVIEW_MAX_DISTANCE, (streetViewPanoramaData, status) => {
+        if (status === google.maps.StreetViewStatus.OK) {
+          setStretViewAvailable(true);
+        } else {
+          setStretViewAvailable(false);
+        }
+      });
 
-    const streetViewService = new google.maps.StreetViewService();
-    const STREETVIEW_MAX_DISTANCE = 50;
-    const latLng = new google.maps.LatLng(center.lat, center.lng);
-    streetViewService.getPanoramaByLocation(latLng, STREETVIEW_MAX_DISTANCE, (streetViewPanoramaData, status) => {
-      if (status === google.maps.StreetViewStatus.OK) {
-        setStretViewAvailable(true);
-      } else {
-        setStretViewAvailable(false);
-      }
-    });
-
-    Object.keys(mapCaptionData).map(async (keys) => {
-      await mapCaptionData[keys].keywordsInclude.map(async (query) => {
-        const placeRequest = {
-          location: center,
-          type: [query],
-          radius: 1000,
-        };
-        await service.nearbySearch(placeRequest, async (res) => {
-          const curPlace = selectedPlace;
-          compareArray(res, mapCaptionData[keys].keywordsExclude).map((val) => {
-            let photo;
-            if (val.photos && val.photos[0]) {
-              photo = val.photos[0].getUrl();
-            }
-            const urlImg = mapCaptionData[keys].iconSettings.icon.url;
-            const iconImg = images(`./${urlImg}`);
-            val.iconSettings = mapCaptionData[keys].iconSettings;
-            val.iconSettings.icon.newUrl = iconImg;
-            // ACTIVE ICON
-            const urlImgActive = mapCaptionData[keys].iconSettings.activeIcon.url;
-            val.iconSettings.icon.newUrlActive = images(`./${urlImgActive}`);
-            val.distance = getDistance({ lat: latitude, lng: longitude }, { lat: val.geometry.location.lat(), lng: val.geometry.location.lng() });
-            val.photo = photo;
-            curPlace.push(val);
-            return null;
+      Object.keys(mapCaptionData).map(async (keys) => {
+        await mapCaptionData[keys].keywordsInclude.map(async (query) => {
+          const placeRequest = {
+            location: center,
+            type: [query],
+            radius: 1000,
+          };
+          await service.nearbySearch(placeRequest, async (res) => {
+            const curPlace = selectedPlace;
+            compareArray(res, mapCaptionData[keys].keywordsExclude).map((val) => {
+              let photo;
+              if (val.photos && val.photos[0]) {
+                photo = val.photos[0].getUrl();
+              }
+              const urlImg = mapCaptionData[keys].iconSettings.icon.url;
+              const iconImg = images(`./${urlImg}`);
+              val.iconSettings = mapCaptionData[keys].iconSettings;
+              val.iconSettings.icon.newUrl = iconImg;
+              // ACTIVE ICON
+              const urlImgActive = mapCaptionData[keys].iconSettings.activeIcon.url;
+              val.iconSettings.icon.newUrlActive = images(`./${urlImgActive}`);
+              val.distance = getDistance({ lat: latitude, lng: longitude }, {
+                lat: val.geometry.location.lat(),
+                lng: val.geometry.location.lng()
+              });
+              val.photo = photo;
+              curPlace.push(val);
+              return null;
+            });
+            setSelectedPlace([
+              ...selectedPlace,
+            ]);
           });
-          setSelectedPlace([
-            ...selectedPlace,
-          ]);
         });
       });
-    });
+    }
   };
 
   const searchByZipCode = (val) => {
@@ -303,7 +310,7 @@ const Maps = (props) => {
         panorama.setVisible(true);
         break;
       default:
-        // do nothing
+      // do nothing
     }
   };
 
@@ -333,7 +340,7 @@ const Maps = (props) => {
       {
         showSearchLocation && (
           <>
-            <div className="dis-f">
+            <div className="">
               <BrixelInputText
                 className="search-box w-perc-100"
                 type="text"
@@ -350,9 +357,9 @@ const Maps = (props) => {
               {
                 showSelectCountry && (
                   <BrixelSelect
-                    className="ml-2 w-fix-120"
+                    className="w-perc-100 max-w-fix-216 mt-1"
                     input={{
-                      onChange: (val) => setDefCountry(val),
+                      onChange: (val) => changeCountry(val),
                       name: 'country',
                       value: defCountry,
                     }}
@@ -442,56 +449,56 @@ const Maps = (props) => {
         )
       }
       <div style={{ display: showMap ? '' : 'none' }}>
-      {
-        (
-          <Map
-            google={google}
-            onReady={(mapProps, map) => fetchPlaces(mapProps, map)}
-            zoom={zoom}
-            visible={showMap}
-            initialCenter={{
-              lat: latitude,
-              lng: longitude,
-            }}
-            style={{
-              width: showMap ? '100%' : '0px',
-              height: showMap ? '100%' : '0px',
-            }}
-            onClick={() => setShowInfoWindow(false)}
-          >
-            <Marker
-              position={{
+        {
+          (
+            <Map
+              google={google}
+              onReady={(mapProps, map) => fetchPlaces(mapProps, map)}
+              zoom={zoom}
+              visible={showMap}
+              initialCenter={{
                 lat: latitude,
                 lng: longitude,
               }}
-              icon={markerImg}
-              draggable={moveMarker}
-              onDragend={(t, map, coord) => onMarkerDragEnd(coord)}
-            />
-            {
-              modalInfo.lat && (
-                <InfoWindow
-                  visible={showInfoWindow}
-                  style={{ textAlign: 'center' }}
-                  position={{
-                    lat: modalInfo.lat,
-                    lng: modalInfo.lng,
-                  }}
-                >
-                  <div className="modalMaps">
-                    <i style={{ backgroundImage: `url(${modalInfo.photo})` }} />
-                    <div>
-                      <h4>{modalInfo.title}</h4>
-                      <h6>{modalInfo.subtitle}</h6>
-                      <p>{`${modalInfo.distance}m`}</p>
+              style={{
+                width: showMap ? '100%' : '0px',
+                height: showMap ? '100%' : '0px',
+              }}
+              onClick={() => setShowInfoWindow(false)}
+            >
+              <Marker
+                position={{
+                  lat: latitude,
+                  lng: longitude,
+                }}
+                icon={markerImg}
+                draggable={moveMarker}
+                onDragend={(t, map, coord) => onMarkerDragEnd(coord)}
+              />
+              {
+                modalInfo.lat && (
+                  <InfoWindow
+                    visible={showInfoWindow}
+                    style={{ textAlign: 'center' }}
+                    position={{
+                      lat: modalInfo.lat,
+                      lng: modalInfo.lng,
+                    }}
+                  >
+                    <div className="modalMaps">
+                      <i style={{ backgroundImage: `url(${modalInfo.photo})` }} />
+                      <div>
+                        <h4>{modalInfo.title}</h4>
+                        <h6>{modalInfo.subtitle}</h6>
+                        <p>{`${modalInfo.distance}m`}</p>
+                      </div>
                     </div>
-                  </div>
-                </InfoWindow>
-              )
-            }
-          </Map>
-        )
-      }
+                  </InfoWindow>
+                )
+              }
+            </Map>
+          )
+        }
       </div>
     </div>
   );
@@ -499,6 +506,7 @@ const Maps = (props) => {
 
 Maps.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
+  changeCountry: PropTypes.func,
   className: PropTypes.string,
   country: PropTypes.arrayOf(PropTypes.object),
   disableZoom: PropTypes.bool,
@@ -514,6 +522,7 @@ Maps.propTypes = {
   mapType: PropTypes.string,
   match: PropTypes.object.isRequired,
   moveMarker: PropTypes.bool,
+  nearBy: PropTypes.bool,
   place: PropTypes.bool,
   property: PropTypes.object.isRequired,
   scrollZoom: PropTypes.bool,
@@ -525,6 +534,7 @@ Maps.propTypes = {
 
 Maps.defaultProps = {
   className: '',
+  changeCountry: () => '',
   disableZoom: false,
   draggable: false,
   externalControls: false,
@@ -533,6 +543,7 @@ Maps.defaultProps = {
   place: false,
   mapType: 'roadmap',
   moveMarker: false,
+  nearBy: false,
   showSearchLocation: false,
   showSelectCountry: false,
   scrollZoom: false,

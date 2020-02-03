@@ -13,6 +13,8 @@ import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 import { translateTo } from '../utils/translation';
+import awards from '../images/BrxielComingTown/awards.svg';
+import brixels from '../images/BrxielComingTown/brixels.svg';
 
 const cookies = new Cookies();
 
@@ -71,7 +73,7 @@ function PageHeader(props) {
             {
               Object.keys(userAwards).length > 0 && (
                 <div className="cur-poi" onClick={() => setModal('awards')}>
-                  <BrixelIcon className="mr-1" color="green" saturationTxt={600} icon="first-time-occupancy" />
+                  <img src={awards} alt="icon awards" className="mr-1" />
                   <span className="ff-mono txtGreen600">{Object.keys(userAwards).length}</span>
                 </div>
               )
@@ -79,7 +81,7 @@ function PageHeader(props) {
             {
               Object.keys(userBrixelPoint).length > 0 && (
                 <div className="cur-poi ml-2" onClick={() => setModal('brixelPoint')}>
-                  <BrixelIcon className="mr-1" color="red" saturationTxt={600} icon="mosaic" />
+                  <img src={brixels} alt="icon awards" className="mr-1" />
                   <span className="ff-mono txtRed600">{userBrixelPoint.reduce((prev,next) => prev + next.point,0)}</span>
                 </div>
               )
@@ -121,14 +123,20 @@ function PageHeader(props) {
             {
               modal === 'awards' && (
                 <BrixelModal
-                  title={translateTo(lang, "Awards")}
-                  titleIcon="first-time-occupancy"
-                  background="green"
-                  saturation={200}
-                  color="green"
                   saturationTxt={600}
                   onClose={() => setModal(false)}
                 >
+                  <div className="modal-title">
+                    <div className="title-container dis-f a-c">
+                      <div className={`w-fix-48 h-fix-48 brdRadius bgGreen200 dis-f a-c jc-c p-1 mr-2`}>
+                        <img
+                          src={awards}
+                          className={`title-img w-perc-100`}
+                        />
+                      </div>
+                      <span className="heading3">{translateTo(lang, "Awards")}</span>
+                    </div>
+                  </div>
                   <p>{translateTo(lang, "Who does not like awards? To honor your effort and endurance we award you for specific achievements.")}</p>
                   <p>{translateTo(lang, "Keep on going to collect more and enjoy the ride.")}</p>
                 </BrixelModal>
@@ -137,14 +145,19 @@ function PageHeader(props) {
             {
               modal === 'brixelPoint' && (
                 <BrixelModal
-                  title={translateTo(lang, "Brixels")}
-                  titleIcon="mosaic"
-                  background="red"
-                  saturation={200}
-                  color="red"
-                  saturationTxt={600}
                   onClose={() => setModal(false)}
                 >
+                  <div className="modal-title">
+                    <div className="title-container dis-f a-c">
+                      <div className={`w-fix-48 h-fix-48 brdRadius bgRed200 dis-f a-c jc-c p-1 mr-2`}>
+                        <img
+                          src={brixels}
+                          className={`title-img w-perc-100`}
+                        />
+                      </div>
+                      <span className="heading3">{translateTo(lang, "Brixels")}</span>
+                    </div>
+                  </div>
                   <p>{translateTo(lang, "This is our currency you can earn by fullfilling tasks along the way.")}</p>
                   <p>{translateTo(lang, "During your journey you can use Brixels to unlock addintional features and gifts.")}</p>
                   <p>{translateTo(lang, "So keep collecting your Brixels.")}</p>
