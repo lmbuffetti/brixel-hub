@@ -134,7 +134,6 @@ function UserFlow(props) {
       }, 5000)
     }
     history.push(`/onBoarding/brixelComingInTown/${Questions[newPosition].history}`);
-    ReactGA.pageview(`/onBoarding/brixelComingInTown/${Questions[newPosition].history}`);
   };
 
   useEffect(() => {

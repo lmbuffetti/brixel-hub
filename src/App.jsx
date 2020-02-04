@@ -1,4 +1,4 @@
-/* global Transifex */
+/* global ga */
 import React, { useEffect } from 'react';
 import {
   Redirect, Switch, Route, withRouter,
@@ -74,6 +74,13 @@ const App = (props) => {
   }, []);
 
   useEffect(() => {
+    if (history && history.location) {
+      ReactGA.pageview(history.location.pathname);
+      ga('send', 'pageview', history.location.pathname);
+    }
+  }, [history.location]);
+
+  useEffect(() => {
     if (redirectTo && redirectTo.history) {
       history.push(redirectTo.history);
       ReactGA.pageview(redirectTo.history);
@@ -85,6 +92,10 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
     )
   }
+
+  const fireTracking = () => {
+    ReactGA.pageview(window.location.hash);
+  };
 
   return (
     <>
