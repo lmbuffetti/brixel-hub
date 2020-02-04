@@ -25,6 +25,9 @@ build site:
     - echo $CI_BUILD_REF_NAME
     - npm install --progress=true
     - npm install git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#brixel
+    - npm run build-${FOLDER}
+    - (if [ "$FOLDER" == "master" ]; then npm run build-prod;
+    - (if [ "$FOLDER" == "staging" ]; then npm run build-stage; else npm run build-dev;
   artifacts:
     expire_in: 1 week
     paths:
@@ -36,7 +39,6 @@ deploy_dev:
   only:
     - develop
   script:
-    - npm run build-dev
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
@@ -50,7 +52,6 @@ deploy_staging:
   only:
     - staging
   script:
-    - npm run build-stage
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
@@ -64,7 +65,6 @@ deploy_master:
   only:
     - master
   script:
-    - npm run build-prod
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
