@@ -128,7 +128,7 @@ function PageHeader(props) {
                 >
                   <div className="modal-title">
                     <div className="title-container dis-f a-c">
-                      <div className={`w-fix-48 h-fix-48 brdRadius bgGreen200 dis-f a-c jc-c p-1 mr-2`}>
+                      <div className={`w-fix-48 h-fix-48 brdRadius dis-f a-c jc-c p-1 mr-2`}>
                         <img
                           src={awards}
                           className={`title-img w-perc-100`}
@@ -149,7 +149,7 @@ function PageHeader(props) {
                 >
                   <div className="modal-title">
                     <div className="title-container dis-f a-c">
-                      <div className={`w-fix-48 h-fix-48 brdRadius bgRed200 dis-f a-c jc-c p-1 mr-2`}>
+                      <div className={`w-fix-48 h-fix-48 brdRadius dis-f a-c jc-c p-1 mr-2`}>
                         <img
                           src={brixels}
                           className={`title-img w-perc-100`}

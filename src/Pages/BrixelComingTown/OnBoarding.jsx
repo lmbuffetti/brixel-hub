@@ -170,7 +170,6 @@ function OnBoarding(props) {
       setCookie('brixelStubCompany', defComp);
     }
     history.push(`/onBoarding/${Questions[0].history}`);
-    ReactGA.pageview(`/onBoarding/${Questions[0].history}`);
   }, []);
 
   const validateSlide = (val, name, quest) => {
@@ -204,9 +203,16 @@ function OnBoarding(props) {
     }
     const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
     setProgressBar(newPosition * 100 / questInputs.length);
-    const getCurStep = document.getElementById(`step-${newPosition}`);
-    if (getCurStep.querySelector('input[type="text"]')) getCurStep.querySelector('input[type="text"]').focus();
-    if (getCurStep.querySelector('input[type="number"]')) getCurStep.querySelector('input[type="number"]').focus();
+    setTimeout(() => {
+      const getCurStep = document.getElementById(`step-${newPosition}`);
+      if (getCurStep.querySelector('input[type="number"]')) {
+        getCurStep.querySelector('input[type="number"]').focus();
+      }
+      else if (getCurStep.querySelector('input[type="text"]')) {
+        getCurStep.querySelector('input[type="text"]').focus();
+      }
+      document.getElementById('onBoarding').scrollTo(0, 0);
+    }, 100);
     document.getElementById('onBoarding').scrollTo(0, 0);
     history.push(`/onBoarding/${Questions[newPosition].history}`);
   };
