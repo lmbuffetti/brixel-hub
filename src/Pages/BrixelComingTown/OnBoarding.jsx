@@ -170,7 +170,6 @@ function OnBoarding(props) {
       setCookie('brixelStubCompany', defComp);
     }
     history.push(`/onBoarding/${Questions[0].history}`);
-    ReactGA.pageview(`/onBoarding/${Questions[0].history}`);
   }, []);
 
   const validateSlide = (val, name, quest) => {
