@@ -25,8 +25,8 @@ build site:
     - echo $CI_BUILD_REF_NAME
     - npm install --progress=true
     - npm install git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#brixel
-    - (if [ "$FOLDER" == "master" ]; then npm run build-prod;
-    - (if [ "$FOLDER" == "staging" ]; then npm run build-stage; else npm run build-dev;
+    - (if [ "$FOLDER" == "master" ]; then npm run build-prod;)
+    - (if [ "$FOLDER" == "staging" ]; then npm run build-stage; else npm run build-dev;)
   artifacts:
     expire_in: 1 week
     paths:
