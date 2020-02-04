@@ -5,6 +5,9 @@ import brixelComingTown from '../images/BrxielComingTown/secondAwards.svg';
 import brixelComingTownLast from '../images/BrxielComingTown/LastSlideBrixelComingTown.svg';
 import Martin from '../images/BrxielComingTown/Martin.png';
 import { translateTo } from '../utils/translation';
+import empowerSellOwn from '../images/BrxielComingTown/empowerSellOwn.svg';
+import empowerBestMarketing from '../images/BrxielComingTown/empowerBestMarketing.svg';
+import empowerBestPersonalSupport from '../images/BrxielComingTown/empowerBestPersonalSupport.svg';
 
 export const maxLength = (value) => {
   const error = !value || (value.length <= 3)
@@ -128,6 +131,28 @@ export const QuestionsList = (lang) => [
         name: 'criteriaForSelling.personalSupport',
       },
     ],
+    options: [
+      {
+        label: 'I don\'t care',
+        value: 4,
+        symbol: "🙁"
+      },
+      {
+        label: 'Why not',
+        value: 3,
+        symbol: "😐"
+      },
+      {
+        label: 'Nice to have',
+        value: 2,
+        symbol: "🙂"
+      },
+      {
+        label: 'Must have',
+        value: 1,
+        symbol: "🥳"
+      }
+    ],
     successMessage: translateTo(lang, "Cheers. This helps us a lot.")
   },
 
@@ -137,8 +162,27 @@ export const QuestionsList = (lang) => [
     history: "empowerBest",
     inputs: [
       {
+        labelEmail: translateTo(lang, "How can we empower best?"),
         label: translateTo(lang, "Please choose one option."),
         name: 'empower',
+      },
+    ],
+    options: [
+      {
+        label: translateTo(lang, 'With the right tools to sell on your own.'),
+        value: "sell-your-own",
+        img: empowerSellOwn
+      },
+      {
+        className: "mx-2",
+        label: translateTo(lang, 'With great marketing to stick out of the crowd.'),
+        value: "marketing",
+        img: empowerBestMarketing,
+      },
+      {
+        label: translateTo(lang, 'With personal support all the way to closing of the deal.'),
+        value: "personal-support",
+        img: empowerBestPersonalSupport,
       },
     ],
     successMessage: translateTo(lang, "That is interesting.")
@@ -150,6 +194,7 @@ export const QuestionsList = (lang) => [
     icons: true,
     inputs: [{
       label: '',
+      labelEmail: translateTo(lang, "What would be a fair price for such a service?"),
       name: 'servicePrice',
     }],
     options: [

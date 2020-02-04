@@ -124,12 +124,12 @@ const checkUser = (store) => (next) => (action) => {
       api.user.updateUser(id, action.payload)
         .then((res) => {
           store.dispatch({ type: SPINNER_OFF });
-          /*if (sendEmail) {
-            api.sendGenericMessage(sendEmail)
+          if (sendEmail) {
+            api.common.sendGenericMessage(sendEmail)
               .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
               })
-          }*/
+          }
         })
         .catch((res) => {
           store.dispatch({ type: SPINNER_OFF });
