@@ -38,7 +38,7 @@ export const QuestionsList = (lang) => [
     history: "propertyType",
     icons: true,
     inputs: [{
-      className: 'radioBtnImg max-w-fix-464',
+      className: 'radioBtnImg max-w-fix-md-464',
       label: '',
       name: 'propertyType',
       validation: [Validation.required],
@@ -63,10 +63,10 @@ export const QuestionsList = (lang) => [
     title: translateTo(lang, "How many rooms?"),
     component: BrixelInputStepNumber,
     history: "allRooms",
-    className: 'max-w-fix-232',
+    className: 'max-w-fix-md-232',
     inputs: [
       {
-        classNameBox: 'max-w-fix-232',
+        classNameBox: 'max-w-fix-md-232',
         label: '',
         name: 'bedrooms',
         type: 'number',
@@ -83,14 +83,14 @@ export const QuestionsList = (lang) => [
     history: "livingSpace",
     inputs: [
       {
-        className: 'max-w-fix-232',
+        className: 'max-w-fix-md-232',
         label: '',
         name: 'livingSpace',
         type: 'number',
         validation: [Validation.isNumber, maxLengthNumLivSpace, Validation.required],
         help: translateTo(lang, 'Use net living space'),
         unit: 'm2',
-        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-288',
+        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-md-288',
         placeholder: translateTo(lang, 'e.g. 120'),
       },
     ],
@@ -105,7 +105,7 @@ export const QuestionsList = (lang) => [
         label: '',
         name: 'constructionYear',
         type: 'number',
-        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-232',
+        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-md-232',
         placeholder: translateTo(lang, 'e.g. 1990'),
         validation: [minLengthNumYear, maxLengthNumYear, Validation.required],
       },

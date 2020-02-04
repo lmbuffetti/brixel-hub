@@ -414,7 +414,7 @@ function OnBoarding(props) {
                                         }
                                       </div>
                                       {
-                                        quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && !input.step && (
+                                        quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && (
                                           <BrixelButtonPrimary
                                             rounded
                                             label="Ok"
@@ -456,7 +456,7 @@ function OnBoarding(props) {
                                   <div className="dis-f jc-b a-c">
                                     <p className="dis-f a-c">
                                       <BrixelIcon icon="bed" className="mr-1" />
-                                      <span className="ff-mono body2">{formValue.rooms || '0'}</span>
+                                      <span className="ff-mono body2">{formValue.bedrooms || '0'}</span>
                                     </p>
                                     <p className="dis-f a-c">
                                       <BrixelIcon icon="plans" className="mr-1" />

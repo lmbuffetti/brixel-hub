@@ -136,84 +136,67 @@ function UserFlow(props) {
     history.push(`/onBoarding/brixelComingInTown/${Questions[newPosition].history}`);
   };
 
-  useEffect(() => {
-    let formData = {
-      situation: "thinking-selling",
-      helpYouMost: [
-        "guided-process",
-        "personal-support",
-      ],
-      criteriaForSelling: {
-        minimizeEfforts: 2,
-        bestPresentation: 1,
-        saveMoney: 1,
-        maximumControl: 1,
-        personalSupport: 1,
-      },
-      empower: "personal-support",
-      servicePrice: "1000",
-    };
+  const extractEmaildata = () => {
+    let formData = formValue;
     let email = "";
     const formInputs = QuestionsList('en').filter((itm) => typeof itm.inputs !== 'undefined');
     Object.keys(formData).map((key) => {
-      // console.log(formInputs);
       formInputs.map((input) => {
         const getField = input.inputs.find(subVal => subVal.name === key);
         let getFieldValueLabel = formData[key];
         if (input.options) {
           getFieldValueLabel = input.options.find(subVal => subVal.value === formData[key]);
-          // console.log(getFieldValueLabel);
           if (getFieldValueLabel) getFieldValueLabel = getFieldValueLabel.label;
         }
-        if (getField) {
-          email += `<p><b>${getField.labelEmail || getField.label}</b> ${getFieldValueLabel}</p>`
-        }
         if (isObject(formData[key]) && !isArray(formData[key])) {
+          let obj = 0;
           Object.keys(formData[key]).map((multiKey) => {
             const getField = input.inputs.find(subVal => subVal.name.split('.')[1] === multiKey);
-            if (getField) {
-              email += `<p><b>${getField.label}</b> ${formData[key][multiKey]}</p>`
+            const getSubField = input.options.find(subVal => subVal.value === formData[key][multiKey]);
+            if (getField && getSubField) {
+              if (obj === 0 && email) email += "<hr />";
+              email += `<p><b>${getField.labelEmail || getField.label}</b> ${getSubField.label} - ${getSubField.value}</p>`;
+              obj++;
             }
           });
+        } else if (isArray(formData[key])) {
+          let arr = 0;
+          formData[key].map((val) => {
+            if (input.options) {
+              const getSubField = input.options.find(subVal => subVal.value === val);
+              if (getSubField && getField) {
+                if (arr === 0 && email) email += "<hr />";
+                email += `<p><b>${getField.labelEmail || getField.label}</b> ${getSubField.label}</p>`;
+                arr++;
+              }
+            }
+          });
+        } else if (getField) {
+          if (email) email += "<hr />";
+          email += `<p><b>${getField.labelEmail || getField.label}</b> ${getFieldValueLabel || formData[key]}</p>`
         }
       });
     });
-    // console.log(email);
-  }, []);
+    return email;
+  };
 
   const saveData = (e) => {
-    let message = '';
-    let test = {
-      situation: "thinking-selling",
-      helpYouMost: [
-        "guided-process",
-        "personal-support",
-      ],
-      criteriaForSelling: {
-        minimizeEfforts: 2,
-        bestPresentation: 1,
-        saveMoney: 1,
-        maximumControl: 1,
-        personalSupport: 1,
-      },
-      empower: "personal-support",
-      servicePrice: "1000",
-    };
-    /* const data = {
+    let message = extractEmaildata();
+    const data = {
       brixelComingFlowProcess: {
         answers: formValue
       },
       id: loggedUser.user.id,
       sendEmail: {
-        user    : loggedUser.user.email, // email
-        subject : "Brixel Coming In Town",
-        message : message,
-        type    : "brixelComingInTown"
+        destinationEmail : company.email || null, // email destinatary
+        recipientEmail : loggedUser.user.email, // email
+        subject        : `New Sign up - Brixel Coming In Town - ${company.name || 'default'}`,
+        message        : `<h1>New Sign up - Brixel Coming In Town - ${company.name || 'default'}</h1> ${message}`,
       }
     };
     handleUpdateUser(data);
-    */
   };
+
   return (
     <main id="onBoarding" className={Questions[currentIndex].cardType !== 'chat' ? 'withFooter' : 'withoutFooter'}>
       <div id="progressBar"><span className="activeProgBar" style={{ width: `${progressBar}%` }} /></div>
