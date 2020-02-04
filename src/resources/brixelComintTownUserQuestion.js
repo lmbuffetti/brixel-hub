@@ -30,6 +30,7 @@ export const QuestionsList = (lang) => [
     icons: true,
     inputs: [{
       label: '',
+      labelEmail: 'What is your situation?',
       deactivable: true,
       name: 'situation',
     }],
@@ -58,6 +59,7 @@ export const QuestionsList = (lang) => [
     icons: true,
     inputs: [{
       label: translateTo(lang, "Please choose up to 3 options."),
+      labelEmail: "What would help you most?",
       name: 'helpYouMost',
       validation: [maxLength],
       max: 3,
@@ -97,7 +99,7 @@ export const QuestionsList = (lang) => [
   {
     title: translateTo(lang, "How important are the following criteria if you are selling?"),
     component: BrixelRadioEmoji,
-    history: "allRooms",
+    history: "criteriaForSelling",
     inputs: [
       {
         deactivable: true,

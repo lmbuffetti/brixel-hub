@@ -118,10 +118,18 @@ const checkUser = (store) => (next) => (action) => {
       next(action);
       store.dispatch({ type: SPINNER_ON });
       const id = action.payload.id;
+      const { sendEmail } = action.payload;
       delete action.payload.id;
+      delete action.payload.sendEmail;
       api.user.updateUser(id, action.payload)
         .then((res) => {
           store.dispatch({ type: SPINNER_OFF });
+          /*if (sendEmail) {
+            api.sendGenericMessage(sendEmail)
+              .then((res) => {
+                console.log(res.data);
+              })
+          }*/
         })
         .catch((res) => {
           store.dispatch({ type: SPINNER_OFF });
