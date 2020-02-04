@@ -24,6 +24,7 @@ import { QuestionsList } from '../../resources/brixelComintTownUserQuestion.js';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
 import { getCompany } from '../../actions/CompanyActions';
+import ReactGA from 'react-ga';
 
 const cookie = new Cookies;
 
@@ -133,6 +134,7 @@ function UserFlow(props) {
       }, 5000)
     }
     history.push(`/onBoarding/brixelComingInTown/${Questions[newPosition].history}`);
+    ReactGA.pageview(`/onBoarding/brixelComingInTown/${Questions[newPosition].history}`);
   };
 
   useEffect(() => {
@@ -161,7 +163,7 @@ function UserFlow(props) {
         let getFieldValueLabel = formData[key];
         if (input.options) {
           getFieldValueLabel = input.options.find(subVal => subVal.value === formData[key]);
-          console.log(getFieldValueLabel);
+          // console.log(getFieldValueLabel);
           if (getFieldValueLabel) getFieldValueLabel = getFieldValueLabel.label;
         }
         if (getField) {
@@ -177,7 +179,7 @@ function UserFlow(props) {
         }
       });
     });
-    console.log(email);
+    // console.log(email);
   }, []);
 
   const saveData = (e) => {
