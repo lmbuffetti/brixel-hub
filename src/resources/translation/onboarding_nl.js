@@ -2,7 +2,7 @@ module.exports = {
   "Hello, let's get started.":"Hallo, laten we beginnen.",
   "What property do you have?":"Welke eigendom heb je?",
   "Apartment":"Appartement",
-  "House":"Huijs",
+  "House":"Huis",
   "Continue":"Doorgaan ",
   "Ok. Got it.":"Ok, ik begrijp het",
   "How many rooms?":"Hoeveel kamers? ",
