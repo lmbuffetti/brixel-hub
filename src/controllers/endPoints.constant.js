@@ -1,6 +1,7 @@
 export default {
   common: {
     sendMessage: () => '/message',
+    sendGenericMessage: () => '/email/sendGenericEmail',
     sendScheduleVisit: () => '/email/sendScheduleVisitEmail',
   },
   company: {
