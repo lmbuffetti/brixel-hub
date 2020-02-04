@@ -27,7 +27,7 @@ build site:
     - npm install git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#brixel
     - if [ "$FOLDER" == "master" ]; then MODULE="prod"; else MODULE="dev"; fi
     - if [ "$FOLDER" == "staging" ]; then MODULE="stage"; else MODULE="dev"; fi
-    - npm run build${MODULE}
+    - npm run build-${MODULE}
 
   artifacts:
     expire_in: 1 week
