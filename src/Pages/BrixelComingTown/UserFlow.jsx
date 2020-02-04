@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import isObject from 'lodash/isObject';
+import isArray from 'lodash/isArray';
 import Cookies from 'universal-cookie';
 import {
   withRouter,
@@ -133,14 +135,83 @@ function UserFlow(props) {
     history.push(`/onBoarding/brixelComingInTown/${Questions[newPosition].history}`);
   };
 
+  useEffect(() => {
+    let formData = {
+      situation: "thinking-selling",
+      helpYouMost: [
+        "guided-process",
+        "personal-support",
+      ],
+      criteriaForSelling: {
+        minimizeEfforts: 2,
+        bestPresentation: 1,
+        saveMoney: 1,
+        maximumControl: 1,
+        personalSupport: 1,
+      },
+      empower: "personal-support",
+      servicePrice: "1000",
+    };
+    let email = "";
+    const formInputs = QuestionsList('en').filter((itm) => typeof itm.inputs !== 'undefined');
+    Object.keys(formData).map((key) => {
+      // console.log(formInputs);
+      formInputs.map((input) => {
+        const getField = input.inputs.find(subVal => subVal.name === key);
+        let getFieldValueLabel = formData[key];
+        if (input.options) {
+          getFieldValueLabel = input.options.find(subVal => subVal.value === formData[key]);
+          console.log(getFieldValueLabel);
+          if (getFieldValueLabel) getFieldValueLabel = getFieldValueLabel.label;
+        }
+        if (getField) {
+          email += `<p><b>${getField.labelEmail || getField.label}</b> ${getFieldValueLabel}</p>`
+        }
+        if (isObject(formData[key]) && !isArray(formData[key])) {
+          Object.keys(formData[key]).map((multiKey) => {
+            const getField = input.inputs.find(subVal => subVal.name.split('.')[1] === multiKey);
+            if (getField) {
+              email += `<p><b>${getField.label}</b> ${formData[key][multiKey]}</p>`
+            }
+          });
+        }
+      });
+    });
+    console.log(email);
+  }, []);
+
   const saveData = (e) => {
-    const data = {
+    let message = '';
+    let test = {
+      situation: "thinking-selling",
+      helpYouMost: [
+        "guided-process",
+        "personal-support",
+      ],
+      criteriaForSelling: {
+        minimizeEfforts: 2,
+        bestPresentation: 1,
+        saveMoney: 1,
+        maximumControl: 1,
+        personalSupport: 1,
+      },
+      empower: "personal-support",
+      servicePrice: "1000",
+    };
+    /* const data = {
       brixelComingFlowProcess: {
         answers: formValue
       },
-      id: loggedUser.user.id
+      id: loggedUser.user.id,
+      sendEmail: {
+        user    : loggedUser.user.email, // email
+        subject : "Brixel Coming In Town",
+        message : message,
+        type    : "brixelComingInTown"
+      }
     };
     handleUpdateUser(data);
+    */
   };
   return (
     <main id="onBoarding" className={Questions[currentIndex].cardType !== 'chat' ? 'withFooter' : 'withoutFooter'}>

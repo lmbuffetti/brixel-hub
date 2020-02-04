@@ -18,7 +18,7 @@ const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
 
 const devMode = process.argv[process.argv.length - 1] === 'development';
-
+const getEnvBuild = process.argv[process.argv.length - 3];
 const clientConfig = {
   mode: 'client',
   devtool: devMode ? 'inline-source-map' : 'cheap-source-map',
@@ -173,9 +173,9 @@ const clientConfig = {
         removeStyleLinkTypeAttributes: true,
         useShortDoctype: true
       },
-      treansifexKey: baseByData().transifexIdHub,
-      googleAnalyticsId: baseByData().googleAnalyticsIdHub,
-      facebookPixelId: baseByData().facebookPixel
+      treansifexKey: baseByData(getEnvBuild).transifexIdHub,
+      googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
+      facebookPixelId: baseByData(getEnvBuild).facebookPixel
     }),
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
