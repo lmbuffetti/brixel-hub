@@ -14,9 +14,6 @@ import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
 import { getToken, createUser } from '../../actions/UserActions';
 import { addProperty } from '../../actions/PropertyActions';
 import { errorMessage } from '../../actions/CommonActions';
-import Maps from '../../components/Map/Maps';
-import { Questions } from '../../resources/packageFlowGetstartedQuestions.js';
-import swissZipCode from '../../resources/swissZipCodes.json';
 
 function Rewards(props) {
 
