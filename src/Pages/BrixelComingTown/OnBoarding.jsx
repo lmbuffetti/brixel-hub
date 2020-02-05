@@ -70,7 +70,7 @@ function OnBoarding(props) {
   const [progressBar, setProgressBar] = useState(0);
   const [showAddress, setShowAddress] = useState(true);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
-  const [curCountry, setCurCountry] = useState({});
+  const [curCountry, setCurCountry] = useState(null);
   const [showCountrySel, setShowCountrySel] = useState(false);
   // REF
   const listInputs = Questions.filter((item) => typeof item.inputs !== 'undefined');
@@ -219,10 +219,11 @@ function OnBoarding(props) {
 
   const saveData = (e) => {
     setShowError(false);
+    let enableForm = true;
     Object.keys(errorValue).map((key) => {
       if (errorValue[key] !== true) {
         setShowError(true);
-        return false;
+        enableForm = false;
       }
     });
     const data = {
@@ -249,33 +250,35 @@ function OnBoarding(props) {
       redirectToUserFlow: true,
       company: cookie.get('brixelStubCompany') || null,
     };
-    if (loggedUser.user && loggedUser.user.id) {
-      changeFieldValue('owner', loggedUser.user.id);
-      data.owner = loggedUser.user.id;
-      handleCreatePage(data);
-    } else if (loginPage) {
-      data.user = {
-        username: formValue.email,
-        password: formValue.password,
-      };
-      handleGetToken(data);
-    } else {
-      data.user = {
-        email: formValue.email,
-        name: `${formValue.firstName} ${formValue.lastName}`,
-        firstName: formValue.firstName,
-        lastName: formValue.lastName,
-        userType: "seller",
-        phone: formValue.phone,
-        signupAccept: true,
-        signupChannel: "default",
-        signupProduct: null,
-        language: lang || 'en',
-        createUser: true,
-        company: cookie.get('brixelStubCompany') || null,
-        ignoreEmail: true,
-      };
-      handleCreateUser(data);
+    if (enableForm) {
+      if (loggedUser.user && loggedUser.user.id) {
+        changeFieldValue('owner', loggedUser.user.id);
+        data.owner = loggedUser.user.id;
+        handleCreatePage(data);
+      } else if (loginPage) {
+        data.user = {
+          username: formValue.email,
+          password: formValue.password,
+        };
+        handleGetToken(data);
+      } else {
+        data.user = {
+          email: formValue.email,
+          name: `${formValue.firstName} ${formValue.lastName}`,
+          firstName: formValue.firstName,
+          lastName: formValue.lastName,
+          userType: "seller",
+          phone: formValue.phone,
+          signupAccept: true,
+          signupChannel: "default",
+          signupProduct: null,
+          language: lang || 'en',
+          createUser: true,
+          company: cookie.get('brixelStubCompany') || null,
+          ignoreEmail: true,
+        };
+        handleCreateUser(data);
+      }
     }
   };
 
@@ -325,7 +328,7 @@ function OnBoarding(props) {
                                               moveMarker
                                               draggable
                                               showSearchLocation
-                                              showSelectCountry={showCountrySel}
+                                              showSelectCountry={!curCountry || showCountrySel}
                                               showMap={false}
                                               isShowZip={false}
                                               className="w-perc-100"
