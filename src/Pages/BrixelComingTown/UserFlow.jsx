@@ -428,7 +428,7 @@ function UserFlow(props) {
         </div>
         {
           Questions[currentIndex].cardType !== 'chat' && (
-            <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`}>
+            <div className={`footerAction p-2  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`}>
               <div className="container pos-r">
                 <div className="subcontainer">
                   {
@@ -441,8 +441,8 @@ function UserFlow(props) {
                   }
                   <div
                     className={
-                      `dis-f a-c ${Questions[currentIndex].inputs ? 
-                        (hidePrevBtn ? 'jc-fe' : 'jc-b') : 
+                      `dis-f a-c ${Questions[currentIndex].inputs ?
+                        (hidePrevBtn ? 'jc-fe' : 'jc-b') :
                         (Questions[currentIndex].cardType === 'LastStep' ? 'jc-fe' : 'jc-c')}`
                     }
                   >

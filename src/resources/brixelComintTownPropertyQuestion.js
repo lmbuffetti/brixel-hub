@@ -33,7 +33,7 @@ export const QuestionsList = (lang) => [
   {
     className: 'radioBtnImg',
     titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
-    title: translateTo(lang, "What property do you have?"),
+    title: translateTo(lang, "What type of property do you have?"),
     component: BrixelRadioButton,
     history: "propertyType",
     icons: true,
@@ -78,7 +78,7 @@ export const QuestionsList = (lang) => [
     successMessage: translateTo(lang, 'This is a nice number.')
   },
   {
-    title: translateTo(lang, "What is the living space?"),
+    title: translateTo(lang, "What is the living space size?"),
     component: BrixelInputText,
     history: "livingSpace",
     inputs: [

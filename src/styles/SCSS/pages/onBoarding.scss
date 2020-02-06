@@ -19,7 +19,7 @@
   }
   @media (min-width: $responsive-medium) {
     .singleStep {
-      height: calc(100vh - 133px);
+      height: calc(100vh - 144px);
     }
     &.withoutFooter {
       height: calc(100vh - 72px);
@@ -39,7 +39,7 @@
   transition: transform $default-loader-time;
 }
 .singleStep {
-  height: calc(100vh - 115px);
+  height: calc(100vh - 128px);
   flex: 0 0 100vw;
   padding: 16px 16px 40px;
   overflow-y: auto;

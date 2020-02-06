@@ -348,7 +348,7 @@ const Maps = (props) => {
                 type="text"
                 ref={inputSearch}
                 label={inputLabel}
-                placeholder="Address"
+                placeholder="Type address"
                 input={{
                   onChange: (e) => changeLocation(e),
                   onBlur: () => '',
