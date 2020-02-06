@@ -10,6 +10,7 @@ import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
+import isObject from 'lodash/isObject';
 import {
   withRouter,
 } from 'react-router-dom'
@@ -53,9 +54,11 @@ function OnBoarding(props) {
     handleSetAwards,
     handleSetLanguage,
     handleSetBrixelPoint,
+    handleSetPage,
     history,
     lang,
     loggedUser,
+    pageState,
     redirectTo,
   } = props;
   // STATE
@@ -112,6 +115,13 @@ function OnBoarding(props) {
     }
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex]);
+
+  useEffect(() => {
+    if (pageState) {
+      setLoginPage(true);
+      setShowError(false);
+    }
+  }, [pageState]);
 
   useEffect(() => {
     if (formValue && formValue.location && !formValue.pageTitle) {
@@ -221,9 +231,9 @@ function OnBoarding(props) {
     setShowError(false);
     let enableForm = true;
     Object.keys(errorValue).map((key) => {
-      if (errorValue[key] !== true) {
+      if (errorValue[key] !== true && !isObject(errorValue[key])) {
         setShowError(true);
-        enableForm = false;
+        //enableForm = false;
       }
     });
     const data = {
@@ -280,6 +290,11 @@ function OnBoarding(props) {
         handleCreateUser(data);
       }
     }
+  };
+
+  const switchLoginSignUpPage = (act) => {
+    handleSetPage(null);
+    setLoginPage(act);
   };
 
   return (
@@ -488,12 +503,19 @@ function OnBoarding(props) {
                         {
                           quest.cardType === 'createProfile' && (
                             <div>
-                              <h5>{loginPage ? quest.loginTitle : quest.signupTitle}</h5>
+                              {
+                                pageState && pageState.login ? (
+                                  <h5>{translateTo(lang, pageState.login.message)}</h5>
+                                ) : (
+                                  <h5>{loginPage ? quest.loginTitle : quest.signupTitle}</h5>
+                                )
+
+                              }
                               {
                                 loginPage ? (
                                   <>
                                     <p className="mb-md-9">
-                                      <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(false)}>
+                                      <span className="txtPrimary400 cur-poi" onClick={() => switchLoginSignUpPage(false)}>
                                         {translateTo(lang, "You don't have a profile?")}
                                       </span>
                                     </p>
@@ -533,7 +555,7 @@ function OnBoarding(props) {
                                 ) : (
                                   <>
                                     <p className="mb-md-9">
-                                      <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(true)}>
+                                      <span className="txtPrimary400 cur-poi" onClick={() => switchLoginSignUpPage(true)}>
                                         {translateTo(lang, "You already have a profile?")}
                                       </span>
                                     </p>
@@ -694,14 +716,17 @@ OnBoarding.propTypes = {
   handleGetToken: PropTypes.func.isRequired,
   handleSetAwards: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
+  handleSetPage: PropTypes.func.isRequired,
   handleSetBrixelPoint: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedUser: PropTypes.object.isRequired,
+  pageState: PropTypes.object,
   redirectTo: PropTypes.object,
 };
 
 OnBoarding.defaultProps = {
+  pageState: null,
   redirectTo: null,
 };
 
@@ -713,6 +738,7 @@ const mapStateToProps = (state, props) => ({
   loggedUser: get(state, 'user.loggedUser', {}),
   redirectTo: get(state, 'common.redirectTo', {}),
   lang: get(state, 'common.language', {}),
+  pageState: get(state, 'common.setPageData', null),
   initialValues: {
     bedrooms: 0,
   }
