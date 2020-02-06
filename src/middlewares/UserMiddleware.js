@@ -144,7 +144,15 @@ const checkUser = (store) => (next) => (action) => {
       api.user.validateUser(action.payload.user.email)
         .then((res) => {
           if (newUser && typeof res.data.statusCode === 'undefined') {
-            store.dispatch({ type: SET_PAGE_DATA, payload: 'loginPage' });
+            store.dispatch({
+              type: SET_PAGE_DATA,
+              payload: {
+                login: {
+                  view: true,
+                  message: 'You already have a profile, please do a login'
+                }
+              }
+            });
           } else if (newUser) {
             store.dispatch({ type: CREATE_USER, payload: action.payload });
           }

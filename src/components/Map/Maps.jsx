@@ -16,7 +16,7 @@ import markerImg from '../../images/location/icon_location.svg';
 import baseByData  from '@brixel/brixel-configuration-partner/src/Settings';
 import { mapCaptionData, mapStyles, getDistance } from '../../constants/map';
 import { compareArray } from '../../utils/helpers';
-import swissZipCode from '../../resources/swissZipCodes.json';
+const swissZipCode = require('../../resources/swissZipCodes.json');
 
 const images = require.context('../../images', true);
 

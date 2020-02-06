@@ -188,7 +188,7 @@ function UserFlow(props) {
       },
       id: loggedUser.user.id,
       sendEmail: {
-        destinationEmail : company.contactEmail || null, // email destinatary
+        company : company.stub || null, // email destinatary
         recipientEmail : loggedUser.user.email, // email
         subject        : `New Sign up - Brixel Coming In Town - ${company.name || 'default'}`,
         message        : `<h1>New Sign up - Brixel Coming In Town - ${company.name || 'default'}</h1> ${message}`,
