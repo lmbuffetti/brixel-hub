@@ -238,7 +238,7 @@ function GetStarted(props) {
     let enableForm = true;
     console.log(errorValue);
     Object.keys(errorValue).map((key) => {
-      if (errorValue[key] !== true && !isObject(errorValue[key])) {
+      if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedUser.user) {
         setShowError(true);
         enableForm = false;
       }
@@ -249,7 +249,7 @@ function GetStarted(props) {
     data.listed = false;
     data.active = true;
     data.published = false;
-    data.getEstimation = true;
+    data.getEstimation = formValue.location.countryCode === 'CH';
     data.addProperty = true;
     data.redirectToUserFlow = false;
     data.company = cookie.get('brixelStubCompany') || null;

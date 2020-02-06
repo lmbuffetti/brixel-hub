@@ -16,6 +16,7 @@ import markerImg from '../../images/location/icon_location.svg';
 import baseByData  from '@brixel/brixel-configuration-partner/src/Settings';
 import { mapCaptionData, mapStyles, getDistance } from '../../constants/map';
 import { compareArray } from '../../utils/helpers';
+import { translateTo } from '../../utils/translation';
 const swissZipCode = require('../../resources/swissZipCodes.json');
 
 const images = require.context('../../images', true);
@@ -47,8 +48,9 @@ const Maps = (props) => {
     history,
     inputLabel,
     isShowZip,
-    longitude,
+    lang,
     latitude,
+    longitude,
     match,
     mapType,
     moveMarker,
@@ -323,7 +325,7 @@ const Maps = (props) => {
   };
   const selectOpt = cloneDeep(country);
   selectOpt.unshift({
-    label: 'ALL',
+    label: translateTo(lang, 'Everywhere'),
     value: '',
   });
   const classNameDef = !className && showMap ? 'h-fix-400 w-perc-100' : className;
@@ -517,6 +519,7 @@ Maps.propTypes = {
   history: PropTypes.object.isRequired,
   isShowZip: PropTypes.bool,
   inputLabel: PropTypes.string,
+  lang: PropTypes.string,
   longitude: PropTypes.number.isRequired,
   latitude: PropTypes.number.isRequired,
   mapType: PropTypes.string,
@@ -541,6 +544,7 @@ Maps.defaultProps = {
   inputLabel: '',
   isShowZip: true,
   place: false,
+  lang: 'en',
   mapType: 'roadmap',
   moveMarker: false,
   nearBy: false,
@@ -557,6 +561,7 @@ const mapStateToProps = (state) => {
     country: get(state, `common.country`, {}),
     formValue: get(state, `form[${formName}].values`, {}),
     formName,
+    lang: get(state, 'common.language', 'en'),
     property: get(state, `form[${formName}].values`, {}),
     latitude: get(state, `form.[${formName}].values.location.latitude`, 0),
     longitude: get(state, `form.[${formName}].values.location.longitude`, 0),

@@ -204,26 +204,39 @@ function OnBoarding(props) {
     setCurrentIndex(newPosition);
     if (newPosition > 0) setHidePrevBtn(false);
     else setHidePrevBtn(true);
-    if (Questions[newPosition] && Questions[newPosition].cardType && Questions[newPosition].cardType === 'RewardsStep') {
+    if (
+      Questions[newPosition] &&
+      Questions[newPosition].cardType &&
+      Questions[newPosition].cardType === 'RewardsStep'
+    ) {
       handleSetBrixelPoint([{desc: "First Award", point: 50}]);
       handleSetAwards([{desc: "First Award", point: 1}]);
     }
-    if (Questions[newPosition] && Questions[newPosition].cardType && Questions[newPosition].cardType === 'LastStep' && loggedUser.user && loggedUser.user.id) {
+    if (
+      Questions[newPosition] &&
+      Questions[newPosition].cardType &&
+      Questions[newPosition].cardType === 'LastStep' &&
+      loggedUser.user && loggedUser.user.id
+    ) {
       saveData();
     }
     const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
     setProgressBar(newPosition * 100 / questInputs.length);
     setTimeout(() => {
       const getCurStep = document.getElementById(`step-${newPosition}`);
-      if (getCurStep.querySelector('input[type="number"]')) {
+      if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
         getCurStep.querySelector('input[type="number"]').focus();
       }
-      else if (getCurStep.querySelector('input[type="text"]')) {
+      else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
         getCurStep.querySelector('input[type="text"]').focus();
       }
-      document.getElementById('onBoarding').scrollTo(0, 0);
+      if (document.getElementById('onBoarding')) {
+        document.getElementById('onBoarding').scrollTo(0, 0);
+      }
     }, 100);
-    document.getElementById('onBoarding').scrollTo(0, 0);
+    if (document.getElementById('onBoarding')) {
+      document.getElementById('onBoarding').scrollTo(0, 0);
+    }
     history.push(`/onBoarding/${Questions[newPosition].history}`);
   };
 
@@ -233,7 +246,7 @@ function OnBoarding(props) {
     Object.keys(errorValue).map((key) => {
       if (errorValue[key] !== true && !isObject(errorValue[key])) {
         setShowError(true);
-        //enableForm = false;
+        enableForm = false;
       }
     });
     const data = {
@@ -304,7 +317,7 @@ function OnBoarding(props) {
           <div id="progressBar"><span className="activeProgBar" style={{ width: `${progressBar}%` }} /></div>
         )
       }
-      <form id="multiStepForm" onSubmit={(e) => {e.preventDefault(); changeStep()}} autoComplete="off">
+      <form id="multiStepForm" onSubmit={(e) => {e.preventDefault(); changeStep()}} autocomplete="off">
         <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
           {
             Questions.map((quest, i) => (
@@ -343,7 +356,7 @@ function OnBoarding(props) {
                                               moveMarker
                                               draggable
                                               showSearchLocation
-                                              showSelectCountry={!curCountry || showCountrySel}
+                                              showSelectCountry={showCountrySel}
                                               showMap={false}
                                               isShowZip={false}
                                               className="w-perc-100"
@@ -364,7 +377,7 @@ function OnBoarding(props) {
                                           !showCountrySel && (
                                             <BrixelButtonTertiary
                                               className="mt-1"
-                                              label={curCountry ? curCountry.label : ''}
+                                              label={curCountry ? translateTo(lang, curCountry.label) : translateTo(lang, 'Everywhere')}
                                               onClick={() => setShowCountrySel(true)}
                                             />
                                           )
@@ -382,11 +395,6 @@ function OnBoarding(props) {
                                               onTouchEnd={() => setShowAddress(true)}
 
                                             >
-                                              {
-                                                showAddress && (
-                                                  <div className="curAdr">{formValue.location.address}</div>
-                                                )
-                                              }
                                               <Maps
                                                 zoom={14}
                                                 scrollZoom
@@ -648,7 +656,7 @@ function OnBoarding(props) {
           }
         </div>
         <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}>
-          <div className="container">
+          <div className="container pos-r">
             <div className="subcontainer">
             {
               !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && (
