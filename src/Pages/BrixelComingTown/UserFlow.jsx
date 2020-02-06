@@ -138,7 +138,10 @@ function UserFlow(props) {
 
   const extractEmaildata = () => {
     let formData = formValue;
-    let email = "";
+    let email = `<p><b>Name</b> ${loggedUser.user.name}</p>`;
+    email += `<p><b>Email</b> ${loggedUser.user.email}</p>`;
+    email += `<p><b>User Id</b> ${loggedUser.user.id}</p>`;
+    email += `<p><b>Company</b> ${company.name || 'default'}</p>`;
     const formInputs = QuestionsList('en').filter((itm) => typeof itm.inputs !== 'undefined');
     Object.keys(formData).map((key) => {
       formInputs.map((input) => {
