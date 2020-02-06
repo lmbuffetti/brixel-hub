@@ -123,14 +123,18 @@ const clientConfig = {
       },
       {
         type: 'javascript/auto',
-        test: /\.(json|html)/,
-        exclude: /(node_modules|bower_components)/,
-        use: [{
-          loader: 'file-loader',
-          options: { name: 'json/[name].[ext]' },
-        }],
+        exclude: /(node_modules|bower_components|public)/,
+        test: /\.json$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'json/[name].[ext]',
+            },
+          },
+        ],
       },
-    ]
+    ],
   },
   plugins: [
     new ExtractCssChunks({
