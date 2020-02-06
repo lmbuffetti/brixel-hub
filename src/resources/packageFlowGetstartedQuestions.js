@@ -36,7 +36,7 @@ export const QuestionsList = (lang) => [
       {
         label: "Apartment",
         value: "Apartment",
-        icon: "properties"
+        icon: "property-apartment"
       },
       {
         label: "House",
@@ -45,7 +45,6 @@ export const QuestionsList = (lang) => [
       }
     ],
     icons: true,
-    autoSlide: true,
   },
   {
     text: {
@@ -77,7 +76,6 @@ export const QuestionsList = (lang) => [
         step: [1],
       },
     ],
-    show: true,
   },
   {
     text: {
@@ -94,7 +92,6 @@ export const QuestionsList = (lang) => [
         validation: [Validation.required, Validation.isNumber],
       },
     ],
-    show: true,
   },
   {
     text: {
@@ -111,7 +108,6 @@ export const QuestionsList = (lang) => [
         validation: [Validation.required, Validation.isYear],
       },
     ],
-    show: true,
   },
   {
     text: "Where is your property located?",
@@ -124,7 +120,6 @@ export const QuestionsList = (lang) => [
         validation: [Validation.required],
       },
     ],
-    show: true,
   },
   {
     text: "We couldn't get the exact location of your property. Can you give us your Zip Code?",
@@ -148,7 +143,6 @@ export const QuestionsList = (lang) => [
         validation: [Validation.required],
       },
     ],
-    show: false,
   },
   {
     text: "What do you need the market check for?",
@@ -191,8 +185,7 @@ export const QuestionsList = (lang) => [
         "value": "other"
       }
     ],
-    show: true,
-    autoSlide: true,
+    icons: true,
   },
   {
     text: "When do you want to sell your apartment?",
@@ -223,7 +216,7 @@ export const QuestionsList = (lang) => [
         "value": "no-sell"
       }
     ],
-    show: false,
+    icons: true,
   },
   {
     signupTitle: translateTo(lang, "Create your profile to save your progress."),
