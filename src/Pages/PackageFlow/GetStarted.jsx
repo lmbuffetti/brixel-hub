@@ -1,4 +1,3 @@
-/* global Transifex */
 import React, {
   useEffect,
   useRef,
@@ -24,6 +23,7 @@ import {
   BrixelIcon,
   BrixelInputText,
   BrixelCheckbox,
+  FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
 import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
@@ -33,8 +33,9 @@ import { getCompany } from '../../actions/CompanyActions';
 import { QuestionsList } from '../../resources/packageFlowGetstartedQuestions.js';
 import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
-import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
 import { translateTo } from '../../utils/translation';
+
+console.log(FactsOptions)
 
 const cookie = new Cookies;
 
@@ -242,30 +243,16 @@ function GetStarted(props) {
         enableForm = false;
       }
     });
-    const data = {
-      language: lang || 'en',
-      title: formValue.pageTitle,
-      status: "on-request",
-      listed: false,
-      active: true,
-      published: false,
-      properties: {
-        propertyType: formValue.propertyType,
-        typology: {
-          bedrooms: formValue.bedrooms,
-          livingArea: { value: +formValue.livingSpace, unit: "sqm" }
-        },
-        building: {
-          build: formValue.constructionYear,
-        }
-      },
-      location: formValue.location,
-      ownerType: "seller",
-      getEstimation: false,
-      addProperty: true,
-      redirectToUserFlow: true,
-      company: cookie.get('brixelStubCompany') || null,
-    };
+    const data = formValue;
+    data.language = lang || 'en';
+    data.status = "on-request";
+    data.listed = false;
+    data.active = true;
+    data.published = false;
+    data.getEstimation = true;
+    data.addProperty = true;
+    data.redirectToUserFlow = false;
+    data.company = cookie.get('brixelStubCompany') || null;
     if (enableForm) {
       if (loggedUser.user && loggedUser.user.id) {
         changeFieldValue('owner', loggedUser.user.id);
@@ -283,7 +270,7 @@ function GetStarted(props) {
           name: `${formValue.firstName} ${formValue.lastName}`,
           firstName: formValue.firstName,
           lastName: formValue.lastName,
-          userType: "seller",
+          userType: formValue.ownerType,
           phone: formValue.phone,
           signupAccept: true,
           signupChannel: "default",
@@ -291,7 +278,7 @@ function GetStarted(props) {
           language: lang || 'en',
           createUser: true,
           company: cookie.get('brixelStubCompany') || null,
-          ignoreEmail: true,
+          ignoreEmail: false,
         };
         handleCreateUser(data);
       }
