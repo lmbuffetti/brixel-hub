@@ -53,7 +53,6 @@ function UserFlow(props) {
   const [emptyValue, setEmptyValue] = useState(true);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
 
-  //
   useEffect(() => {
     // TODO: Change logic to save/get brixels and awards
     handleSetBrixelPoint([{desc: "Homebase", point: 50}, {desc: "Newcomer", point: 100}]);
