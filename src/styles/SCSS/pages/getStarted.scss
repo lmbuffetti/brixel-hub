@@ -1,106 +1,31 @@
 #getStarted {
-  height: calc(100% - 88px);
-  .brixel-input-step {
-    justify-content: center;
-  }
-  .swiper-slide-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: calc(100% - 72px);
-  }
-}
-
-.swiper-container {
-  width: 100%;
-  height: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.imgEffect {
-  li {
-    display: flex;
-    .cover_img {
-      position: relative;
-      filter: blur(1.5rem);
-      transition: all 1s;
-      background-size: cover;
-      max-width: 250px;
-    }
-    img {
-      transition: all 1s;
-      opacity: 0;
-      display: block;
-      max-width: 100%;
-    }
-    &.landscape, &.portrait {
-      > div {
-        filter: blur(0rem);
-      }
-      img {
-        opacity: 1;
+  height: calc(100vh - 88px);
+  width: 100vw;
+  overflow: hidden;
+  .brixel-radio-button-icon {
+    margin-bottom: 16px;
+    label .textLabel {
+      margin-left: 16px;
+      @media (min-width: $responsive-medium) {
+        font-size: 1.2rem;
       }
     }
   }
-}
-.swiper-pagination-container {
-  position: fixed;
-  bottom: 0;
-  background: $brx-white;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: $step * 2;
-}
-.swiper-pagination-progressbar {
-  background: map_get($lightColor, 200);
-  position: absolute;
-  text-align: center;
-  transition: .3s opacity;
-  transform: translate3d(0, 0, 0);
-  width: 100%;
-  height: 4px;
-  left: 0;
-  top: 0;
-  z-index: 1000;
-
-  .swiper-pagination-progressbar-fill {
-    background: map_get($primaryColor, 400);
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    transform: scale(0);
-    transform-origin: left top;
-    transition-duration: 300ms;
+  &.withoutFooter {
+    height: calc(100vh - 56px);
+    .singleStep {
+      height: calc(100vh - 54px);
+    }
   }
-}
-
-.swiper-navigation {
-  position: absolute;
-  bottom: $step * 2;
-  z-index: 10;
-  cursor: pointer;
-  padding: $step;
-  border-radius: 50%;
-  background: map_get($primaryColor, 400);
-  i {
-    display: block;
-    color: $brx-white;
-  }
-  &.prev {
-    left: 0;
-  }
-  &.next {
-    left: 50px;
-  }
-  &[aria-disabled="true"], &.disabled {
-    cursor: default;
-    background: map_get($darkColor, 400);
+  @media (min-width: $responsive-medium) {
+    .singleStep {
+      height: calc(100vh - 133px);
+    }
+    &.withoutFooter {
+      height: calc(100vh - 72px);
+      .singleStep {
+        height: calc(100vh - 72px);
+      }
+    }
   }
 }

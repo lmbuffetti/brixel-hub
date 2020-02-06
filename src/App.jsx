@@ -106,6 +106,7 @@ const App = (props) => {
         <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
         <Route path="/onBoarding/" component={OnBoarding} />
         <Route path="/tokeninput" component={InsertToken} />
+        <Route path="/packageFlow/getstarted/" component={GetStarted} />
         { /* SECTION: PROTECED ROUTE WITH REDIRECT TO LOGIN */ }
         {/*<ProtectedRoute path="/" exact component={Dashboard} />*/}
         { /* SECTION: REDIRECT */ }

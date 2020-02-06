@@ -1,8 +1,30 @@
 import { BrixelButtonIcon, BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, Validation } from '@brixel/brixel-components';
+import { translateTo } from '../utils/translation';
 
-export const Questions = [
+export const maxLengthNum = (val) => (value) => {
+  const error = !value || (value < val)
+    ? null
+    : 'Select up 3 select';
+
+  return error;
+};
+
+export const minLengthNum = (val) => (value) => {
+  const error = !value || (value >= val)
+    ? null
+    : 'Select up 3 select';
+
+  return error;
+};
+
+const minLengthNumYear = minLengthNum(1500);
+const maxLengthNumRooms = maxLengthNum(30);
+const maxLengthNumLivSpace = maxLengthNum(9999);
+const maxLengthNumYear = maxLengthNum(2030);
+
+export const QuestionsList = (lang) => [
   {
-    text: "What do you want to sell?",
+    text: translateTo(lang,"What do you want to sell?"),
     component: BrixelRadioButton,
     history: "propertyType",
     inputs: [{
@@ -36,18 +58,23 @@ export const Questions = [
       {
         label: 'Rooms',
         name: 'rooms',
-        validation: [Validation.required, Validation.isNumber],
+        type: 'number',
+        validation: [Validation.positiveNumber, maxLengthNumRooms, Validation.required],
         step: [0.5],
       },
       {
         label: 'Bathrooms',
         name: 'bathrooms',
-        validation: [Validation.required, Validation.isNumber],
+        type: 'number',
+        validation: [Validation.positiveNumber, maxLengthNumRooms, Validation.required],
+        step: [1],
       },
       {
         label: 'Separate Toilets',
         name: 'separateToilets',
-        validation: [Validation.required, Validation.isNumber],
+        type: 'number',
+        validation: [Validation.positiveNumber, maxLengthNumRooms, Validation.required],
+        step: [1],
       },
     ],
     show: true,
@@ -197,5 +224,11 @@ export const Questions = [
       }
     ],
     show: false,
+  },
+  {
+    signupTitle: translateTo(lang, "Create your profile to save your progress."),
+    loginTitle: translateTo(lang, "Login to your profile to save your progress."),
+    history: "createProfile",
+    cardType: 'createProfile',
   },
 ];
