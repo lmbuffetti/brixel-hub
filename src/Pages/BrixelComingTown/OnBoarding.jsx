@@ -50,6 +50,7 @@ function OnBoarding(props) {
     handleSetBrixelPoint,
     handleSetPage,
     history,
+    initialValue,
     lang,
     loggedUser,
     pageState,
@@ -440,7 +441,12 @@ function OnBoarding(props) {
                                           placeholder={input.placeholder || ''}
                                           meta={{
                                             dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                            invalid: formValue[input.name] && errorValue[input.name] !== true,
+                                            invalid: true,
+                                          }}
+                                          modal={null}
+                                          message={{
+                                            help: null,
+                                            error: errorValue[input.name],
                                           }}
                                         />
                                         {
@@ -775,6 +781,7 @@ OnBoarding.propTypes = {
   handleSetPage: PropTypes.func.isRequired,
   handleSetBrixelPoint: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  initialValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedUser: PropTypes.object.isRequired,
   pageState: PropTypes.object,
@@ -791,6 +798,7 @@ const mapStateToProps = (state, props) => ({
   country: get(state, 'common.country', {}),
   errorValue: get(state, 'form.OnBoarding.syncErrors', {}),
   formValue: get(state, 'form.OnBoarding.values', {}),
+  initialValue: get(state, 'form.OnBoarding.initial', {}),
   loggedUser: get(state, 'user.loggedUser', {}),
   redirectTo: get(state, 'common.redirectTo', {}),
   lang: get(state, 'common.language', {}),
