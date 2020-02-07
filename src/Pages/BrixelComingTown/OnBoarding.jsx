@@ -494,9 +494,6 @@ function OnBoarding(props) {
                                       </p>
                                     )
                                   }
-                                  {
-                                    <p className="body2 cutRow txtPrimary400">{'Address'}</p>
-                                  }
                                   <h6 className="mt-1 mb-5">{formValue.pageTitle || 'Title'}</h6>
                                   <div className="dis-f jc-b a-c">
                                     <p className="dis-f a-c">
