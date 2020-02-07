@@ -30,7 +30,7 @@ import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
-const swissZipCode = require('../../resources/swissZipCodes');
+const swissZipCode = require('../../resources/swissZipCodes.json');
 
 const LoginSignup = Loadable({
   loader: () => import('../../components/LoginSignup' /* webpackChunkName: "LoginSignup" */),
