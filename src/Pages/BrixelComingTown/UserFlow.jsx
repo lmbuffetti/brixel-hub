@@ -1,5 +1,5 @@
 /* global Transifex */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
@@ -24,7 +24,6 @@ import { QuestionsList } from '../../resources/brixelComintTownUserQuestion.js';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
 import { getCompany } from '../../actions/CompanyActions';
-import ReactGA from 'react-ga';
 
 const cookie = new Cookies;
 
@@ -48,38 +47,34 @@ function UserFlow(props) {
   // STATE
   const [position, setPosition] = useState(0);
   const [disableNextBtn, setDisableNextBtn] = useState(true);
-  const [hideNextBtn, setHideNextBtn] = useState(true);
-  const [disablePrevBtn, setDisablePrevBtn] = useState(true);
   const [hidePrevBtn, setHidePrevBtn] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loginPage, setLoginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
   const [emptyValue, setEmptyValue] = useState(true);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
 
   useEffect(() => {
-    setQuestions(QuestionsList(lang));
-  }, [lang]);
-
-  const extractTitle = (title) => {
-    if (typeof title === 'object') {
-      return title.House;
-    }
-    return title;
-  };
-
-  useEffect(() => {
+    // TODO: Change logic to save/get brixels and awards
     handleSetBrixelPoint([{desc: "Homebase", point: 50}, {desc: "Newcomer", point: 100}]);
     handleSetAwards([{desc: "Homebase", point: 1}, {desc: "Newcomer", point: 1}]);
+    // On load redirect all to first route of flow
     history.push(`/onBoarding/brixelComingInTown/s${Questions[0].history}`);
+    // GET Company data by cookie
     const companyCookie = cookie.get('brixelStubCompany') || null;
     if (companyCookie) handleGetCompany({stub: companyCookie});
   }, []);
 
+  // LOAD QUESTIONS ON CHANGING LANGUAGE
   useEffect(() => {
+    setQuestions(QuestionsList(lang));
+  }, [lang]);
+
+  useEffect(() => {
+    // Check if the user token exist or redirect to Onboarding
     if (typeof cookie.get('brixelToken') === 'undefined') history.push('/onBoarding');
   }, [loggedUser]);
 
+  // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
   useEffect(() => {
     let invalidField = false;
     let noValueField = false;
@@ -99,6 +94,7 @@ function UserFlow(props) {
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex, formValue]);
 
+  // Function to update the current index in base of History
   const validateSlide = (val, name, quest) => {
     changeFieldValue(name, val);
     checkValid();
@@ -107,6 +103,7 @@ function UserFlow(props) {
     document.getElementById('onBoarding').scrollTo(0, 0);
   };
 
+  // Function to move next/prev question
   const changeStep = (act) => {
     let newPosition = position;
     handleSetNotification(null);
@@ -121,21 +118,40 @@ function UserFlow(props) {
     }
     setPosition(newPosition);
     setCurrentIndex(newPosition);
+    // if the current slide is not the first show the prev button arrow or hide
     if (newPosition > 0) setHidePrevBtn(false);
     else setHidePrevBtn(true);
-    setProgressBar(newPosition * 100 / Questions.length);
+    // Filter by inputs to calc the number of steps with field and calc the progress bar
+    const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
+    setProgressBar(newPosition * 100 / questInputs.length);
+    // If the current and the preview are not steps with inputs save the data
     if (Questions[newPosition - 1].inputs && !Questions[newPosition].inputs) saveData();
+    // if the step is the chat step
     if (Questions[newPosition].cardType === 'chat') {
-      handleSetNotification({small: true, icon: 'mosaic', text: "+ 50 Brixels for completing your onboarding." });
-      handleSetBrixelPoint([{desc: "Homebase", point: 50}, {desc: "Newcomer", point: 100}, {desc: "Completing onboarding", point: 50}]);
-      handleSetAwards([{desc: "Homebase", point: 1}, {desc: "Newcomer", point: 1}, {desc: "Completing onboarding", point: 1}]);
+      handleSetNotification({
+        small: true,
+        icon: 'mosaic',
+        text: "+ 50 Brixels for completing your onboarding.",
+      });
+      handleSetBrixelPoint([
+        {desc: "Homebase", point: 50},
+        {desc: "Newcomer", point: 100},
+        {desc: "Completing onboarding", point: 50},
+      ]);
+      handleSetAwards([
+        {desc: "Homebase", point: 1},
+        {desc: "Newcomer", point: 1},
+        {desc: "Completing onboarding", point: 1},
+      ]);
       setTimeout(() => {
         handleSetNotification(null);
       }, 5000)
     }
+    // Change the url in base of history key on question object
     history.push(`/onBoarding/brixelComingInTown/${Questions[newPosition].history}`);
   };
 
+  // Function to create the email
   const extractEmaildata = () => {
     let formData = formValue;
     let email = `<p><b>Name</b> ${loggedUser.user.name}</p>`;
@@ -183,8 +199,10 @@ function UserFlow(props) {
     return email;
   };
 
+  // Function to save the data
   const saveData = (e) => {
     let message = extractEmaildata();
+    // Save the obj data
     const data = {
       brixelComingFlowProcess: {
         answers: formValue
@@ -197,14 +215,31 @@ function UserFlow(props) {
         message        : `<h1>New Sign up - Brixel Coming In Town - ${company.name || 'default'}</h1> ${message}`,
       }
     };
+    // Call to redux funciton to update the user
     handleUpdateUser(data);
   };
 
   return (
-    <main id="onBoarding" className={Questions[currentIndex].cardType !== 'chat' ? 'withFooter' : 'withoutFooter'}>
-      <div id="progressBar"><span className="activeProgBar" style={{ width: `${progressBar}%` }} /></div>
-      <form id="multiStepForm" onSubmit={(e) => e.preventDefault()} autocomplete="off">
-        <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
+    <main
+      id="onBoarding"
+      className={Questions[currentIndex].cardType !== 'chat' ? 'withFooter' : 'withoutFooter'}
+    >
+      {
+        Questions[currentIndex].inputs && (
+          <div id="progressBar">
+            <span className="activeProgBar" style={{ width: `${progressBar}%` }} />
+          </div>
+        )
+      }
+      <form
+        id="multiStepForm"
+        onSubmit={(e) => e.preventDefault()}
+        autoComplete="off"
+      >
+        <div
+          className="slideMultiStepForm"
+          style={{ transform: `translate(-${position * 100}vw, 0)` }}
+        >
           {
             Questions.map((quest, i) => (
               <div
@@ -224,7 +259,7 @@ function UserFlow(props) {
                             <h5 className="txtGreen400">{quest.titleGreen}</h5>
                           )
                         }
-                        <h5 className="mb-4 mb-md-10">{extractTitle(quest.title)}</h5>
+                        <h5 className="mb-4 mb-md-10">{quest.title}</h5>
                         {
                           quest.inputs.map((input, f) => (
                               <div key={f.toString()}>
@@ -404,9 +439,16 @@ function UserFlow(props) {
                       </p>
                     )
                   }
-                  <div className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : (Questions[currentIndex].cardType === 'LastStep' ? 'jc-fe' : 'jc-c')}`}>
+                  <div
+                    className={
+                      `dis-f a-c ${Questions[currentIndex].inputs ? 
+                        (hidePrevBtn ? 'jc-fe' : 'jc-b') : 
+                        (Questions[currentIndex].cardType === 'LastStep' ? 'jc-fe' : 'jc-c')}`
+                    }
+                  >
                     {
-                      Questions && Questions[currentIndex] !== 'undefined' && Questions[currentIndex].inputs && (
+                      Questions && Questions[currentIndex] !== 'undefined' &&
+                      Questions[currentIndex].inputs && (
                         <BrixelButtonIcon
                           className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
                           icon="arrow-simple-left"
@@ -420,11 +462,22 @@ function UserFlow(props) {
                       )
                     }
                     {
-                      (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) ? (
+                      (
+                        Questions[currentIndex].inputs ||
+                        (
+                          Questions[currentIndex + 1] &&
+                          Questions[currentIndex + 1].inputs
+                        )
+                      ) ? (
                         <>
                           <BrixelButtonPrimary
                             rounded
-                            label={emptyValue && Questions[currentIndex].inputs  ? translateTo(lang,"Skip") : translateTo(lang,"Continue")}
+                            label={
+                              emptyValue &&
+                              Questions[currentIndex].inputs ?
+                                translateTo(lang,"Skip") :
+                                translateTo(lang,"Continue")
+                            }
                             background={Questions[currentIndex].inputs ? "green" : "primary"}
                             className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
                             onClick={() => changeStep()}
@@ -435,7 +488,7 @@ function UserFlow(props) {
                       ) : (
                         <>
                           {
-                            Questions[currentIndex].cardType === 'LastStep' ? (
+                            Questions[currentIndex].cardType === 'LastStep' && (
                               <>
                                 <BrixelButtonIcon
                                   className="shadow-2dp backBtn"
@@ -456,8 +509,6 @@ function UserFlow(props) {
                                   disabled={disableNextBtn}
                                 />
                               </>
-                            ) : (
-                              <></>
                             )
                           }
                         </>

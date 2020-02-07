@@ -100,4 +100,5 @@ module.exports = {
   "You already have an account?": "",
   "You don't have an account?": "Heb je nog geen account?",
   "Login to your profile to save your progress.": "Log in om je voortgang op te slaan.",
+  "Everywhere": "Overal",
 };
