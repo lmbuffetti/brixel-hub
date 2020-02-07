@@ -20,13 +20,14 @@
   }
   .emoji {
     width: 40px;
-    background: map_get($lightColor, 100);
     height: 40px;
+    background: map_get($lightColor, 100);
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: $brd-radius-small;
     margin: auto;
+    padding-left: 4px;
     cursor: pointer;
   }
   .checked {

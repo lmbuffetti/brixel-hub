@@ -44,6 +44,9 @@
   padding: 16px 16px 40px;
   overflow-y: auto;
   overflow-x: hidden;
+
+  display: flex;
+  align-items: center;
   .container {
     padding: 0;
   }
@@ -97,10 +100,10 @@
   float: left;
   clear: both;
 }
-
+/*
 @media (min-width: $responsive-medium) {
   .singleStep {
     display: flex;
     align-items: center;
   }
-}
+} */

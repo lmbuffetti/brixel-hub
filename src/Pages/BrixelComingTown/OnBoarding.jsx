@@ -311,6 +311,20 @@ function OnBoarding(props) {
     setLoginPage(act);
   };
 
+  const buttonLabel = () => {
+    let label = '';
+    if (!Questions[currentIndex + 2]) {
+      label = translateTo(lang, "Create profile")
+    } else {
+        if (Questions[currentIndex].cardType === 'createProfile') {
+          label = translateTo(lang, "Save")
+        } else {
+          label = translateTo(lang, "Continue")
+        }
+    }
+    return label;
+  }
+
   return (
     <main id="onBoarding">
       {
@@ -733,15 +747,7 @@ function OnBoarding(props) {
                 Questions[currentIndex] && (
                   <BrixelButtonPrimary
                     rounded
-                    label={
-                      !Questions[currentIndex + 2] ?
-                        translateTo(lang, "Create profile") :
-                        (
-                          Questions[currentIndex].cardType === 'createProfile' ?
-                            translateTo(lang, "Save") :
-                            translateTo(lang, "Continue")
-                        )
-                    }
+                    label={buttonLabel()}
                     background={Questions[currentIndex].inputs ? "green" : "primary"}
                     className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
                     onClick={() => Questions[currentIndex].cardType === 'createProfile' ? saveData() : changeStep()}

@@ -126,7 +126,7 @@ export const QuestionsList = (lang) => [
     successMessage: translateTo(lang, 'That is an interesting location.')
   },
   {
-    title: translateTo(lang, "Great. Your property was created."),
+    title: translateTo(lang, "Great, Your property was created! 🎉"),
     history: "resume",
     cardType: 'Resume',
     imgApartment: resumeApartment,
