@@ -1,22 +1,17 @@
-/* global Transifex */
 import React, {
   useEffect,
-  useRef,
-  createRef,
   useState,
 } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
 import isObject from 'lodash/isObject';
 import {
   withRouter,
 } from 'react-router-dom'
 import { change, isValid, Field, reduxForm } from 'redux-form';
 import Cookies from 'universal-cookie';
-import ReactGA from 'react-ga';
 import {
   BrixelButtonPrimary,
   BrixelButtonTertiary,
@@ -33,7 +28,6 @@ import { getCompany } from '../../actions/CompanyActions';
 import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.js';
 import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
-import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
 import { translateTo } from '../../utils/translation';
 
 const cookie = new Cookies;
@@ -59,38 +53,28 @@ function OnBoarding(props) {
     lang,
     loggedUser,
     pageState,
-    redirectTo,
   } = props;
   // STATE
   const [position, setPosition] = useState(0);
   const [showErrors, setShowError] = useState(false);
   const [disableNextBtn, setDisableNextBtn] = useState(true);
-  const [hideNextBtn, setHideNextBtn] = useState(true);
-  const [disablePrevBtn, setDisablePrevBtn] = useState(true);
   const [hidePrevBtn, setHidePrevBtn] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loginPage, setLoginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
-  const [showAddress, setShowAddress] = useState(true);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
   const [curCountry, setCurCountry] = useState(null);
   const [showCountrySel, setShowCountrySel] = useState(false);
   // REF
   const listInputs = Questions.filter((item) => typeof item.inputs !== 'undefined');
-  const elementsRef = useRef(listInputs.map((item) => createRef()));
 
-  const extractTitle = (title) => {
-    if (typeof title === 'object') {
-      return title.House;
-    }
-    return title;
-  };
-
+  // SET the country from the value
   const countryObj = (curVal) => {
     const getCurrent = country.find((val) => val.full === curVal || val.value === curVal);
     setCurCountry(getCurrent);
   };
 
+  // SET the default language in base of the company
   useEffect(() => {
     const cookieLang = cookie.get('brixelLang');
     if (company.languageCode && !cookieLang) {
@@ -101,10 +85,12 @@ function OnBoarding(props) {
     }
   }, [company]);
 
+  // LOAD QUESTIONS ON CHANGING LANGUAGE
   useEffect(() => {
     setQuestions(QuestionsList(lang));
   }, [lang]);
 
+  // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
   useEffect(() => {
     let invalidField = false;
     if (Questions[currentIndex] && Questions[currentIndex].inputs) {
@@ -116,6 +102,8 @@ function OnBoarding(props) {
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex]);
 
+  // ON change reducer pageState load the login page
+  // Used to know if the account on sign up exist ad redirect to login
   useEffect(() => {
     if (pageState) {
       setLoginPage(true);
@@ -123,6 +111,7 @@ function OnBoarding(props) {
     }
   }, [pageState]);
 
+  // Function to Create the pageTitle
   useEffect(() => {
     if (formValue && formValue.location && !formValue.pageTitle) {
       var titleAdjectives = [
@@ -161,6 +150,7 @@ function OnBoarding(props) {
   }, [formValue]);
 
   useEffect(() => {
+    // Function to detect the TAB
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Tab') {
         changeStep();
@@ -170,7 +160,7 @@ function OnBoarding(props) {
     document.addEventListener('keyup', function (e) {
       document.getElementById('onBoarding').scrollTo(0, 0);
     }, false);
-    const test = cloneDeep(history);
+    // Get the company from url or cookie and set on cookie
     let company = get(history, 'location.search', cookie.get('brixelStubCompany') || null);
     const companyCookie = cookie.get('brixelStubCompany') || null;
     if (company || companyCookie) {
@@ -179,9 +169,11 @@ function OnBoarding(props) {
       handleGetCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);
     }
+    // on load page redirect all to first step
     history.push(`/onBoarding/${Questions[0].history}`);
   }, []);
 
+  // Function to update the current index in base of History
   const validateSlide = (val, name, quest) => {
     changeFieldValue(name, val);
     checkValid();
@@ -189,6 +181,7 @@ function OnBoarding(props) {
     setCurrentIndex(curIndex);
   };
 
+  // Function to move next/prev question
   const changeStep = (act) => {
     let newPosition = position;
     if (act === 'back') {
@@ -204,38 +197,54 @@ function OnBoarding(props) {
     setCurrentIndex(newPosition);
     if (newPosition > 0) setHidePrevBtn(false);
     else setHidePrevBtn(true);
-    if (Questions[newPosition] && Questions[newPosition].cardType && Questions[newPosition].cardType === 'RewardsStep') {
+    if (
+      Questions[newPosition] &&
+      Questions[newPosition].cardType &&
+      Questions[newPosition].cardType === 'RewardsStep'
+    ) {
       handleSetBrixelPoint([{desc: "First Award", point: 50}]);
       handleSetAwards([{desc: "First Award", point: 1}]);
     }
-    if (Questions[newPosition] && Questions[newPosition].cardType && Questions[newPosition].cardType === 'LastStep' && loggedUser.user && loggedUser.user.id) {
+    if (
+      Questions[newPosition] &&
+      Questions[newPosition].cardType &&
+      Questions[newPosition].cardType === 'LastStep' &&
+      loggedUser.user && loggedUser.user.id
+    ) {
       saveData();
     }
     const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
     setProgressBar(newPosition * 100 / questInputs.length);
     setTimeout(() => {
       const getCurStep = document.getElementById(`step-${newPosition}`);
-      if (getCurStep.querySelector('input[type="number"]')) {
+      if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
         getCurStep.querySelector('input[type="number"]').focus();
       }
-      else if (getCurStep.querySelector('input[type="text"]')) {
+      else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
         getCurStep.querySelector('input[type="text"]').focus();
       }
-      document.getElementById('onBoarding').scrollTo(0, 0);
+      if (document.getElementById('onBoarding')) {
+        document.getElementById('onBoarding').scrollTo(0, 0);
+      }
     }, 100);
-    document.getElementById('onBoarding').scrollTo(0, 0);
+    if (document.getElementById('onBoarding')) {
+      document.getElementById('onBoarding').scrollTo(0, 0);
+    }
     history.push(`/onBoarding/${Questions[newPosition].history}`);
   };
 
+  // Function to save the data
   const saveData = (e) => {
     setShowError(false);
     let enableForm = true;
+    // Check if exist any invalid field
     Object.keys(errorValue).map((key) => {
       if (errorValue[key] !== true && !isObject(errorValue[key])) {
         setShowError(true);
-        //enableForm = false;
+        enableForm = false;
       }
     });
+    // Defaul Obj
     const data = {
       language: lang || 'en',
       title: formValue.pageTitle,
@@ -255,23 +264,27 @@ function OnBoarding(props) {
       },
       location: formValue.location,
       ownerType: "seller",
-      getEstimation: false,
-      addProperty: true,
-      redirectToUserFlow: true,
+      getEstimation: false, // not call the estimation function
+      addProperty: true, // add the property
+      redirectToUserFlow: true, // redirect the user to second part of flow
       company: cookie.get('brixelStubCompany') || null,
     };
+    // if form is valid
     if (enableForm) {
+      // if user is logged in
       if (loggedUser.user && loggedUser.user.id) {
         changeFieldValue('owner', loggedUser.user.id);
         data.owner = loggedUser.user.id;
         handleCreatePage(data);
       } else if (loginPage) {
+        // if user exist and is access by own account
         data.user = {
           username: formValue.email,
           password: formValue.password,
         };
         handleGetToken(data);
       } else {
+        // if user not exist
         data.user = {
           email: formValue.email,
           name: `${formValue.firstName} ${formValue.lastName}`,
@@ -285,13 +298,14 @@ function OnBoarding(props) {
           language: lang || 'en',
           createUser: true,
           company: cookie.get('brixelStubCompany') || null,
-          ignoreEmail: true,
+          ignoreEmail: true, // not send the email to user with password
         };
         handleCreateUser(data);
       }
     }
   };
 
+  // Chack if user account just exist and redirect him to login part
   const switchLoginSignUpPage = (act) => {
     handleSetPage(null);
     setLoginPage(act);
@@ -301,10 +315,17 @@ function OnBoarding(props) {
     <main id="onBoarding">
       {
         Questions[currentIndex].inputs && (
-          <div id="progressBar"><span className="activeProgBar" style={{ width: `${progressBar}%` }} /></div>
+          <div id="progressBar">
+            <span className="activeProgBar" style={{ width: `${progressBar}%` }} />
+          </div>
         )
       }
-      <form id="multiStepForm" onSubmit={(e) => {e.preventDefault(); changeStep()}} autoComplete="off">
+      <form
+        id="multiStepForm"
+        onSubmit={(e) => {e.preventDefault(); changeStep()}}
+        autoComplete="off"
+        aria-autocomplete="false"
+      >
         <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
           {
             Questions.map((quest, i) => (
@@ -343,7 +364,7 @@ function OnBoarding(props) {
                                               moveMarker
                                               draggable
                                               showSearchLocation
-                                              showSelectCountry={!curCountry || showCountrySel}
+                                              showSelectCountry={showCountrySel}
                                               showMap={false}
                                               isShowZip={false}
                                               className="w-perc-100"
@@ -364,7 +385,11 @@ function OnBoarding(props) {
                                           !showCountrySel && (
                                             <BrixelButtonTertiary
                                               className="mt-1"
-                                              label={curCountry ? curCountry.label : ''}
+                                              label={
+                                                curCountry ?
+                                                  translateTo(lang, curCountry.label) :
+                                                  translateTo(lang, 'Everywhere')
+                                              }
                                               onClick={() => setShowCountrySel(true)}
                                             />
                                           )
@@ -376,17 +401,7 @@ function OnBoarding(props) {
                                           <>
                                             <div
                                               className="pos-r zIndex1"
-                                              onMouseEnter={() => setShowAddress(false)}
-                                              onTouchStart={() => setShowAddress(false)}
-                                              onMouseLeave={() => setShowAddress(true)}
-                                              onTouchEnd={() => setShowAddress(true)}
-
                                             >
-                                              {
-                                                showAddress && (
-                                                  <div className="curAdr">{formValue.location.address}</div>
-                                                )
-                                              }
                                               <Maps
                                                 zoom={14}
                                                 scrollZoom
@@ -403,7 +418,10 @@ function OnBoarding(props) {
                                     </>
                                   ) : (
                                     <div className="dis-f a-c jc-b">
-                                      <div className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`} tabIndex="-1">
+                                      <div
+                                        className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}
+                                        tabIndex="-1"
+                                      >
                                         <Field
                                           className="w-perc-100"
                                           inputClassName={input.className || ''}
@@ -432,7 +450,8 @@ function OnBoarding(props) {
                                         }
                                       </div>
                                       {
-                                        quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && (
+                                        quest.inputs.length === 1 &&
+                                        (input.type === 'number' || input.type === 'text') && (
                                           <BrixelButtonPrimary
                                             rounded
                                             label="Ok"
@@ -462,13 +481,18 @@ function OnBoarding(props) {
                           quest.cardType === 'Resume' && (
                             <div>
                               <div className="bgWhite max-w-fix-344 m-a brdRadius shadow-4dp ov-h">
-                                <img src={quest[`img${formValue.propertyType || 'Apartment'}`]} className="dis-b" />
+                                <img
+                                  src={quest[`img${formValue.propertyType || 'Apartment'}`]}
+                                  className="dis-b"
+                                  alt={formValue.propertyType || 'Apartment'}
+                                />
                                 <div className="pt-1 pb-2 px-2">
                                   {
-                                    formValue.location && <p className="body2 cutRow txtPrimary400">{formValue.location.address}</p>
-                                  }
-                                  {
-                                    <p className="body2 cutRow txtPrimary400">{'Address'}</p>
+                                    formValue.location && (
+                                      <p className="body2 cutRow txtPrimary400">
+                                        {formValue.location.address}
+                                      </p>
+                                    )
                                   }
                                   <h6 className="mt-1 mb-5">{formValue.pageTitle || 'Title'}</h6>
                                   <div className="dis-f jc-b a-c">
@@ -482,12 +506,17 @@ function OnBoarding(props) {
                                     </p>
                                     <p className="dis-f a-c">
                                       <BrixelIcon icon="house-built" className="mr-1" />
-                                      <span className="ff-mono body2">{formValue.constructionYear || '0000'}</span>
+                                      <span className="ff-mono body2">
+                                        {formValue.constructionYear || '0000'}
+                                      </span>
                                     </p>
                                   </div>
                                 </div>
                               </div>
-                              <h5 className="mt-5 ta-c" dangerouslySetInnerHTML={{ __html: quest.title}} />
+                              <h5
+                                className="mt-5 ta-c"
+                                dangerouslySetInnerHTML={{ __html: quest.title}}
+                              />
                             </div>
                           )
                         }
@@ -495,8 +524,18 @@ function OnBoarding(props) {
                           (quest.cardType === 'RewardsStep' || quest.cardType === 'LastStep') && (
                             <div className="ta-c">
                               <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
-                              <h5 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.title}} />
-                              {quest.subtitle && (<h6 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
+                              <h5
+                                className="mt-2 ta-c"
+                                dangerouslySetInnerHTML={{ __html: quest.title}}
+                              />
+                              {
+                                quest.subtitle && (
+                                  <h6
+                                    className="mt-2 ta-c"
+                                    dangerouslySetInnerHTML={{ __html: quest.subtitle}}
+                                  />
+                                )
+                              }
                             </div>
                           )
                         }
@@ -515,7 +554,10 @@ function OnBoarding(props) {
                                 loginPage ? (
                                   <>
                                     <p className="mb-md-9">
-                                      <span className="txtPrimary400 cur-poi" onClick={() => switchLoginSignUpPage(false)}>
+                                      <span
+                                        className="txtPrimary400 cur-poi"
+                                        onClick={() => switchLoginSignUpPage(false)}
+                                      >
                                         {translateTo(lang, "You don't have a profile?")}
                                       </span>
                                     </p>
@@ -555,7 +597,10 @@ function OnBoarding(props) {
                                 ) : (
                                   <>
                                     <p className="mb-md-9">
-                                      <span className="txtPrimary400 cur-poi" onClick={() => switchLoginSignUpPage(true)}>
+                                      <span
+                                        className="txtPrimary400 cur-poi"
+                                        onClick={() => switchLoginSignUpPage(true)}
+                                      >
                                         {translateTo(lang, "You already have a profile?")}
                                       </span>
                                     </p>
@@ -620,7 +665,12 @@ function OnBoarding(props) {
                                     <div className="mt-2">
                                       <Field
                                         component={BrixelCheckbox}
-                                        options={[{label: translateTo(lang, `I hereby confirm that I have read, understand and accept the <a href="https://gobrixel.nl/voorwaarden/" target="_blank">terms</a> and <a href="https://gobrixel.nl/privacybeleid/" target="_blank">privacy policy</a> of Brixel.`), value: 'privacy'}]}
+                                        options={[
+                                          {
+                                            label: translateTo(lang, `I hereby confirm that I have read, understand and accept the <a href="https://gobrixel.nl/voorwaarden/" target="_blank">terms</a> and <a href="https://gobrixel.nl/privacybeleid/" target="_blank">privacy policy</a> of Brixel.`),
+                                            value: 'privacy'
+                                          }
+                                        ]}
                                         name="privacy"
                                         className="body2 w-perc-100 max-w-perc-100"
                                         validate={[Validation.required]}
@@ -647,18 +697,24 @@ function OnBoarding(props) {
             ))
           }
         </div>
-        <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}>
-          <div className="container">
+        <div
+          className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
+        >
+          <div className="container pos-r">
             <div className="subcontainer">
             {
-              !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && (
+              !disableNextBtn &&
+              Questions[currentIndex] &&
+              Questions[currentIndex].inputs &&
+              Questions[currentIndex].successMessage && (
                 <p className="txtGreen700 ta-r mb-2 textSuccess">
                   {Questions[currentIndex].successMessage}
                   <BrixelIcon icon="check" className="ml-1" />
                 </p>
               )
             }
-            <div className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
+            <div
+              className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
               {
                 Questions[currentIndex].inputs && (
                   <BrixelButtonIcon

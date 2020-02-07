@@ -100,4 +100,5 @@ module.exports = {
   "You already have an account?": "",
   "You don't have a profile?": "Har du inte ett konto än?",
   "Login to your profile to save your progress.": "Logga in för att spara dina framsteg.",
+  "Everywhere": "Överallt",
 };
