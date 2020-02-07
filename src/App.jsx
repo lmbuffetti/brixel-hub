@@ -107,6 +107,7 @@ const App = (props) => {
         <Route path="/onBoarding/" component={OnBoarding} />
         <Route path="/tokeninput" component={InsertToken} />
         <Route path="/packageFlow/getstarted/" component={GetStarted} />
+        <Route path="/packageFlow/:propId/rewards" component={Rewards} />
         { /* SECTION: PROTECED ROUTE WITH REDIRECT TO LOGIN */ }
         {/*<ProtectedRoute path="/" exact component={Dashboard} />*/}
         { /* SECTION: REDIRECT */ }

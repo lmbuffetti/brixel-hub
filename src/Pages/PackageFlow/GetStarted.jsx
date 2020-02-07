@@ -1,14 +1,11 @@
 import React, {
   useEffect,
-  useRef,
-  createRef,
   useState,
 } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
 import isObject from 'lodash/isObject';
 import {
   withRouter,
@@ -21,10 +18,7 @@ import {
   BrixelButtonTertiary,
   BrixelButtonIcon,
   BrixelIcon,
-  BrixelInputText,
-  BrixelCheckbox,
   FactsOptions,
-  Validation,
 } from '@brixel/brixel-components';
 import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
 import { addProperty } from '../../actions/PropertyActions';
@@ -34,6 +28,14 @@ import { QuestionsList } from '../../resources/packageFlowGetstartedQuestions.js
 import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
+import Loadable from 'react-loadable';
+import Loading from '../../components/Loading';
+const swissZipCode = require('../../resources/swissZipCodes');
+
+const LoginSignup = Loadable({
+  loader: () => import('../../components/LoginSignup' /* webpackChunkName: "LoginSignup" */),
+  loading: Loading,
+});
 
 console.log(FactsOptions)
 
@@ -52,20 +54,15 @@ function GetStarted(props) {
     handleCreateUser,
     handleGetCompany,
     handleGetToken,
-    handleSetAwards,
     handleSetLanguage,
-    handleSetBrixelPoint,
     history,
     lang,
     loggedUser,
-    redirectTo,
   } = props;
   // STATE
   const [position, setPosition] = useState(0);
   const [showErrors, setShowError] = useState(false);
   const [disableNextBtn, setDisableNextBtn] = useState(true);
-  const [hideNextBtn, setHideNextBtn] = useState(true);
-  const [disablePrevBtn, setDisablePrevBtn] = useState(true);
   const [hidePrevBtn, setHidePrevBtn] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loginPage, setLoginPage] = useState(false);
@@ -74,16 +71,6 @@ function GetStarted(props) {
   const [Questions, setQuestions] = useState(QuestionsList(lang));
   const [curCountry, setCurCountry] = useState(null);
   const [showCountrySel, setShowCountrySel] = useState(false);
-  // REF
-  const listInputs = Questions.filter((item) => typeof item.inputs !== 'undefined');
-  const elementsRef = useRef(listInputs.map((item) => createRef()));
-
-  const extractTitle = (title) => {
-    if (typeof title === 'object') {
-      return title.House;
-    }
-    return title;
-  };
 
   const countryObj = (curVal) => {
     const getCurrent = country.find((val) => val.full === curVal || val.value === curVal);
@@ -105,13 +92,37 @@ function GetStarted(props) {
   }, [lang]);
 
   useEffect(() => {
+    if (loggedUser.user) {
+      changeFieldValue('owner', loggedUser.user.id);
+    }
+  }, [loggedUser]);
+
+  useEffect(() => {
     let invalidField = false;
     if (Questions[currentIndex] && Questions[currentIndex].inputs) {
-      console.log(Questions[currentIndex].inputs);
       Questions[currentIndex].inputs.map((inp) => {
+        // Check if teh current fields are valid
         const curVal = get(errorValue, inp.name, true);
-        console.log(errorValue, inp.name, curVal);
         if (curVal !== true) invalidField = true;
+        // If no zipCode and Country is Swiss get info from swissZipCodes json
+        if (Questions[currentIndex].history === 'zipInput') {
+          const zipVal = get(formValue, Questions[currentIndex].inputs[0].name, 0);
+          if (+zipVal > 999) {
+            // Select record by zipcode
+            const filterFile = swissZipCode.find(zip => +zip["Postleitzahl / Code Postal / Codice Postale"] === zipVal);
+            // Check if Abréviation is the same
+            if (filterFile && formValue.location.stateCode === filterFile["Abkürzung / Abréviation / Abbreviazione"]) {
+              changeFieldValue('location.city', filterFile['Ort / Ville / Città']);
+              if (!formValue.location.state) changeFieldValue('location.state', filterFile['Canton']);
+              if (!formValue.location.stateCode) changeFieldValue('location.state', filterFile['Abkürzung / Abréviation / Abbreviazione']);
+              invalidField = false;
+            } else {
+              invalidField = true;
+            }
+          } else {
+            invalidField = true;
+          }
+        }
       });
     }
     setDisableNextBtn(invalidField);
@@ -164,12 +175,11 @@ function GetStarted(props) {
     document.addEventListener('keyup', function (e) {
       document.getElementById('getStarted').scrollTo(0, 0);
     }, false);
-    const test = cloneDeep(history);
-    let company = get(history, 'location.search', cookie.get('brixelStubCompany') || null);
-    const companyCookie = cookie.get('brixelStubCompany') || null;
-    if (company || companyCookie) {
+    const cookieCompany = cookie.get('brixelStubCompany') || null;
+    let company = get(history, 'location.search', cookieCompany);
+    if (company || cookieCompany) {
       company = company.replace('?company=', '');
-      const defComp = company || companyCookie;
+      const defComp = company || cookieCompany;
       handleGetCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);
     }
@@ -193,6 +203,18 @@ function GetStarted(props) {
       if (disableNextBtn) return false;
       setDisableNextBtn(true);
       newPosition = position + 1;
+    }
+    if (Questions[newPosition] && Questions[newPosition].conditions) {
+      let checkCond = true;
+      Questions[newPosition].conditions.map((cond) => {
+        const val = get(formValue, cond.name, null);
+        console.log(val, cond, checkCond);
+        if (val !== cond.value && checkCond) {
+          if (act === 'back') newPosition = newPosition - 1;
+          else newPosition = newPosition + 1;
+          checkCond = false;
+        }
+      })
     }
     if (Questions[newPosition] && Questions[newPosition].conditions) {
       let checkCond = true;
@@ -243,16 +265,37 @@ function GetStarted(props) {
         enableForm = false;
       }
     });
-    const data = formValue;
-    data.language = lang || 'en';
-    data.status = "on-request";
-    data.listed = false;
-    data.active = true;
-    data.published = false;
-    data.getEstimation = formValue.location.countryCode === 'CH';
-    data.addProperty = true;
-    data.redirectToUserFlow = false;
-    data.company = cookie.get('brixelStubCompany') || null;
+    const data = {
+      language: lang || 'en',
+      packageFlowProcess: {
+        answers: formValue,
+        rewardScreenData: {},
+      },
+      title: formValue.pageTitle,
+      status: "on-request",
+      listed: false,
+      active: true,
+      published: false,
+      properties: {
+        propertyType: formValue.propertyType,
+        typology: {
+          bedrooms: formValue.bedrooms,
+          bathrooms: formValue.bathrooms,
+          separateToilets: formValue.separateToilets,
+          livingArea: { value: +formValue.livingSpace, unit: "sqm" }
+        },
+        building: {
+          build: formValue.constructionYear,
+        }
+      },
+      location: formValue.location,
+      ownerType: formValue.ownerType,
+      getEstimation: formValue.location.country === 'CH',
+      addProperty: true,
+      redirectToUserFlow: false,
+      redirectToRewards: true,
+      company: cookie.get('brixelStubCompany') || null,
+    };
     if (enableForm) {
       if (loggedUser.user && loggedUser.user.id) {
         changeFieldValue('owner', loggedUser.user.id);
@@ -370,11 +413,6 @@ function GetStarted(props) {
                                               onTouchEnd={() => setShowAddress(true)}
 
                                             >
-                                              {
-                                                showAddress && (
-                                                  <div className="curAdr">{formValue.location.address}</div>
-                                                )
-                                              }
                                               <Maps
                                                 zoom={14}
                                                 scrollZoom
@@ -447,176 +485,10 @@ function GetStarted(props) {
                     quest.cardType && (
                       <>
                         {
-                          quest.cardType === 'Resume' && (
-                            <div>
-                              <div className="bgWhite max-w-fix-344 m-a brdRadius shadow-4dp ov-h">
-                                <img src={quest[`img${formValue.propertyType || 'Apartment'}`]} className="dis-b" />
-                                <div className="pt-1 pb-2 px-2">
-                                  {
-                                    formValue.location && <p className="body2 cutRow txtPrimary400">{formValue.location.address}</p>
-                                  }
-                                  {
-                                    <p className="body2 cutRow txtPrimary400">{'Address'}</p>
-                                  }
-                                  <h6 className="mt-1 mb-5">{formValue.pageTitle || 'Title'}</h6>
-                                  <div className="dis-f jc-b a-c">
-                                    <p className="dis-f a-c">
-                                      <BrixelIcon icon="bed" className="mr-1" />
-                                      <span className="ff-mono body2">{formValue.bedrooms || '0'}</span>
-                                    </p>
-                                    <p className="dis-f a-c">
-                                      <BrixelIcon icon="plans" className="mr-1" />
-                                      <span className="ff-mono body2">{formValue.livingSpace || '0'} m</span>
-                                    </p>
-                                    <p className="dis-f a-c">
-                                      <BrixelIcon icon="house-built" className="mr-1" />
-                                      <span className="ff-mono body2">{formValue.constructionYear || '0000'}</span>
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <h5 className="mt-5 ta-c" dangerouslySetInnerHTML={{ __html: quest.title}} />
-                            </div>
-                          )
-                        }
-                        {
-                          (quest.cardType === 'RewardsStep' || quest.cardType === 'LastStep') && (
-                            <div className="ta-c">
-                              <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
-                              <h5 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.title}} />
-                              {quest.subtitle && (<h6 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
-                            </div>
-                          )
-                        }
-                        {
                           quest.cardType === 'createProfile' && (
                             <div>
                               <h5>{loginPage ? quest.loginTitle : quest.signupTitle}</h5>
-                              {
-                                loginPage ? (
-                                  <>
-                                    <p className="mb-md-9">
-                                      <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(false)}>
-                                        {translateTo(lang, "You don't have a profile?")}
-                                      </span>
-                                    </p>
-                                    <Field
-                                      className="mt-2"
-                                      component={BrixelInputText}
-                                      label={translateTo(lang, "Email address")}
-                                      name="email"
-                                      placeholder=""
-                                      type="email"
-                                      validate={[Validation.required]}
-                                      meta={{
-                                        dirty: (showErrors || formValue.email) && errorValue.email !== true,
-                                        invalid: (showErrors || formValue.email) && errorValue.email !== true,
-                                      }}
-                                      message={{
-                                        error: translateTo(lang, "Please insert a valid email")
-                                      }}
-                                    />
-                                    <Field
-                                      className="mt-2"
-                                      component={BrixelInputText}
-                                      label={translateTo(lang, "Password")}
-                                      name="password"
-                                      placeholder=""
-                                      type="password"
-                                      validate={[Validation.required]}
-                                      meta={{
-                                        dirty: (showErrors || formValue.password) && errorValue.password !== true,
-                                        invalid: (showErrors || formValue.password) && errorValue.password !== true,
-                                      }}
-                                      message={{
-                                        error: translateTo(lang, "Please insert a valid password")
-                                      }}
-                                    />
-                                  </>
-                                ) : (
-                                  <>
-                                    <p className="mb-md-9">
-                                      <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(true)}>
-                                        {translateTo(lang, "You already have a profile?")}
-                                      </span>
-                                    </p>
-                                    <div className="dis-f">
-                                      <Field
-                                        className="mt-2 w-perc-100 mr-2"
-                                        component={BrixelInputText}
-                                        label={translateTo(lang, "First name")}
-                                        name="firstName"
-                                        placeholder=""
-                                        type="text"
-                                        validate={[Validation.required]}
-                                        meta={{
-                                          dirty: (showErrors || formValue.firstName) && errorValue.firstName !== true,
-                                          invalid: (showErrors || formValue.firstName) && errorValue.firstName !== true,
-                                        }}
-                                        message={{
-                                          error: translateTo(lang, "Please insert a valid first name")
-                                        }}
-                                      />
-                                      <Field
-                                        className="mt-2 w-perc-100 ml-2"
-                                        component={BrixelInputText}
-                                        label={translateTo(lang, "Last name")}
-                                        name="lastName"
-                                        placeholder=""
-                                        type="text"
-                                        validate={[Validation.required]}
-                                        meta={{
-                                          dirty: (showErrors || formValue.lastName) && errorValue.lastName !== true,
-                                          invalid: (showErrors || formValue.lastName) && errorValue.lastName !== true,
-                                        }}
-                                        message={{
-                                          error: translateTo(lang, "Please insert a valid last name")
-                                        }}
-                                      />
-                                    </div>
-                                    <Field
-                                      className="mt-2"
-                                      component={BrixelInputText}
-                                      label={translateTo(lang, "Email address")}
-                                      name="email"
-                                      placeholder=""
-                                      type="email"
-                                      validate={formValue.email ? [Validation.isEmail] : [Validation.required]}
-                                      meta={{
-                                        dirty: (showErrors || formValue.email) && errorValue.email !== true,
-                                        invalid: (showErrors || formValue.email) && errorValue.email !== true,
-                                      }}
-                                      message={{
-                                        error: translateTo(lang, "Please insert a valid email")
-                                      }}
-                                    />
-                                    <Field
-                                      className="mt-2"
-                                      component={BrixelInputText}
-                                      label={translateTo(lang, "Phone number")}
-                                      name="phone"
-                                      placeholder=""
-                                      type="text"
-                                    />
-                                    <div className="mt-2">
-                                      <Field
-                                        component={BrixelCheckbox}
-                                        options={[{label: translateTo(lang, `I hereby confirm that I have read, understand and accept the <a href="https://gobrixel.nl/voorwaarden/" target="_blank">terms</a> and <a href="https://gobrixel.nl/privacybeleid/" target="_blank">privacy policy</a> of Brixel.`), value: 'privacy'}]}
-                                        name="privacy"
-                                        className="body2 w-perc-100 max-w-perc-100"
-                                        validate={[Validation.required]}
-                                        meta={{
-                                          dirty: (showErrors || formValue.privacy) && errorValue.privacy !== true,
-                                          invalid: (showErrors || formValue.privacy) && errorValue.privacy !== true,
-                                        }}
-                                        message={{
-                                          error: translateTo(lang, "Please accept terms and privacy policy")
-                                        }}
-                                      />
-                                    </div>
-                                  </>
-                                )
-                              }
+                              <LoginSignup showErrors={showErrors} />
                             </div>
                           )
                         }
@@ -628,18 +500,24 @@ function GetStarted(props) {
             ))
           }
         </div>
-        <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}>
+        <div
+          className={`footerAction p-1 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
+        >
           <div className="container">
             <div className="subcontainer">
             {
-              !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && (
+              !disableNextBtn &&
+              Questions[currentIndex] &&
+              Questions[currentIndex].inputs &&
+              Questions[currentIndex].successMessage && (
                 <p className="txtGreen700 ta-r mb-2 textSuccess">
                   {Questions[currentIndex].successMessage}
                   <BrixelIcon icon="check" className="ml-1" />
                 </p>
               )
             }
-            <div className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
+            <div
+              className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
               {
                 Questions[currentIndex].inputs && (
                   <BrixelButtonIcon
@@ -671,7 +549,10 @@ function GetStarted(props) {
                     background={Questions[currentIndex].inputs ? "green" : "primary"}
                     className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
                     onClick={() =>
-                      !Questions[currentIndex + 1] || (loggedUser.user && !Questions[currentIndex + 2]) ? saveData() : changeStep()}
+                      !Questions[currentIndex + 1] ||
+                      (loggedUser.user && !Questions[currentIndex + 2]) ?
+                        saveData() : changeStep()
+                    }
                     rightIcon="arrow-right-small"
                     disabled={disableNextBtn}
                   />
@@ -720,6 +601,9 @@ const mapStateToProps = (state, props) => ({
   lang: get(state, 'common.language', {}),
   initialValues: {
     bedrooms: 0,
+    bathrooms: 0,
+    separateToilets: 0,
+    owner: null,
   }
 });
 

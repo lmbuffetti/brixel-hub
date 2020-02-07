@@ -1,45 +1,46 @@
 import { BrixelButtonIcon, BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, Validation } from '@brixel/brixel-components';
 import { translateTo } from '../utils/translation';
 
-export const maxLengthNum = (val) => (value) => {
+export const maxLengthNum = (val, name) => (value) => {
   const error = !value || (value < val)
     ? null
-    : 'Select up 3 select';
+    : `The ${name} have to be less then ${val}`;
 
   return error;
 };
 
-export const minLengthNum = (val) => (value) => {
+export const minLengthNum = (val, name) => (value) => {
   const error = !value || (value >= val)
     ? null
-    : 'Select up 3 select';
+    : `The ${name} have to be more then ${val}`;
 
   return error;
 };
 
-const minLengthNumYear = minLengthNum(1500);
-const maxLengthNumRooms = maxLengthNum(30);
-const maxLengthNumLivSpace = maxLengthNum(9999);
+const minLengthNumYear = minLengthNum(1500, 'year');
+const maxLengthNumRooms = maxLengthNum(30, 'number');
+const minNum999 = minLengthNum(999, 'living space');
+const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
 const maxLengthNumYear = maxLengthNum(2030);
 
 export const QuestionsList = (lang) => [
   {
-    text: translateTo(lang,"What do you want to sell?"),
+    title: translateTo(lang, "What property do you have?"),
     component: BrixelRadioButton,
     history: "propertyType",
     inputs: [{
-      label: 'Property type',
+      label: '',
       name: 'propertyType',
       validation: [Validation.required],
     }],
     options: [
       {
-        label: "Apartment",
+        label: translateTo(lang, "Apartment"),
         value: "Apartment",
         icon: "property-apartment"
       },
       {
-        label: "House",
+        label: translateTo(lang, "House"),
         value: "House",
         icon: "property-house"
       }
@@ -47,70 +48,71 @@ export const QuestionsList = (lang) => [
     icons: true,
   },
   {
-    text: {
-      House: "How many Rooms and Bathrooms are there in your house ?",
-      Apartment: "How many Rooms and Bathrooms are there in your apartment ?"
-    },
+    title: "How many Rooms and Bathrooms are there in your house ?",
     component: BrixelInputStepNumber,
     history: "allRooms",
     inputs: [
       {
-        label: 'Rooms',
-        name: 'rooms',
+        classNameBox: 'max-w-fix-md-232 mb-2',
+        label: translateTo(lang, 'Rooms'),
+        name: 'bedrooms',
         type: 'number',
-        validation: [Validation.positiveNumber, maxLengthNumRooms, Validation.required],
+        validation: [maxLengthNumRooms, Validation.positiveNumber, Validation.required],
         step: [0.5],
       },
       {
-        label: 'Bathrooms',
+        classNameBox: 'max-w-fix-md-232 mb-2',
+        label: translateTo(lang, 'Bathrooms'),
         name: 'bathrooms',
         type: 'number',
-        validation: [Validation.positiveNumber, maxLengthNumRooms, Validation.required],
+        validation: [maxLengthNumRooms],
         step: [1],
       },
       {
-        label: 'Separate Toilets',
+        classNameBox: 'max-w-fix-md-232',
+        label: translateTo(lang, 'Separate Toilets'),
         name: 'separateToilets',
         type: 'number',
-        validation: [Validation.positiveNumber, maxLengthNumRooms, Validation.required],
+        validation: [maxLengthNumRooms],
         step: [1],
       },
     ],
   },
   {
-    text: {
-      House: "What's the living space of your house ?",
-      Apartment: "What's the living space of your apartment ?"
-    },
+    title: translateTo(lang, "What is the living space?"),
     component: BrixelInputText,
     history: "livingSpace",
     inputs: [
       {
-        label: 'Insert your living space here (m2)',
+        className: 'max-w-fix-md-232',
+        label: '',
         name: 'livingSpace',
         type: 'number',
-        validation: [Validation.required, Validation.isNumber],
+        validation: [Validation.isNumber, maxLengthNumLivSpace, Validation.required],
+        help: translateTo(lang, 'Use net living space'),
+        unit: 'm2',
+        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-md-288',
+        placeholder: translateTo(lang, 'e.g. 120'),
       },
     ],
   },
   {
-    text: {
-      House: "When was your house built?",
-      Apartment: "When was your apartment built?"
-    },
+    title: translateTo(lang, "What is the construction year?"),
     component: BrixelInputText,
     history: "constructionYear",
     inputs: [
       {
-        label: 'Insert year',
+        label: '',
         name: 'constructionYear',
         type: 'number',
-        validation: [Validation.required, Validation.isYear],
+        placeholder: translateTo(lang, 'e.g. 1990'),
+        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-md-232',
+        validation: [minLengthNumYear, maxLengthNumYear, Validation.required],
       },
     ],
   },
   {
-    text: "Where is your property located?",
+    title: translateTo(lang, "What is the location?"),
     component: "Map",
     history: "locationInput",
     inputs: [
@@ -122,7 +124,7 @@ export const QuestionsList = (lang) => [
     ],
   },
   {
-    text: "We couldn't get the exact location of your property. Can you give us your Zip Code?",
+    title: translateTo(lang, "We couldn't get the exact location of your property. Can you give us your Zip Code?"),
     component: BrixelInputText,
     conditions: [
       {
@@ -137,15 +139,15 @@ export const QuestionsList = (lang) => [
     history: "zipInput",
     inputs: [
       {
-        label: 'Insert your zip code',
+        label: '',
         name: 'location.zip',
         type: 'number',
-        validation: [Validation.required],
+        validation: [minNum999, Validation.required],
       },
     ],
   },
   {
-    text: "What do you need the market check for?",
+    title: translateTo(lang,"What do you need the market check for?"),
     component: BrixelRadioButton,
     history: "ownerType",
     inputs: [
@@ -157,38 +159,38 @@ export const QuestionsList = (lang) => [
     ],
     options: [
       {
-        "label": "I would like to sell my property",
+        "label": translateTo(lang,"I would like to sell my property"),
         "value": "seller"
       },
       {
-        "label": "Because of an inheritance or transfer within the family",
+        "label": translateTo(lang,"Because of an inheritance or transfer within the family"),
         "value": "inheritance"
       },
       {
-        "label": "I just want to know the price development of my property. I don't want to sell",
+        "label": translateTo(lang,"I just want to know the price development of my property. I don't want to sell"),
         "value": "price-development"
       },
       {
-        "label": "I would like to conclude or renew my mortgage",
+        "label": translateTo(lang,"I would like to conclude or renew my mortgage"),
         "value": "mortgage"
       },
       {
-        "label": "I would like to buy a property",
+        "label": translateTo(lang,"I would like to buy a property"),
         "value": "buyer"
       },
       {
-        "label": "Just out of curiosity",
+        "label": translateTo(lang,"Just out of curiosity"),
         "value": "curiosity"
       },
       {
-        "label": "Other reason",
+        "label": translateTo(lang,"Other reason"),
         "value": "other"
       }
     ],
     icons: true,
   },
   {
-    text: "When do you want to sell your apartment?",
+    title: translateTo(lang,"When do you want to sell your apartment?"),
     component: BrixelRadioButton,
     conditions: [{
       name: 'ownerType',
@@ -197,28 +199,32 @@ export const QuestionsList = (lang) => [
     history: "apartmentSellTiming",
     inputs: [
       {
-        label: 'Insert your zip code',
+        label: '',
         name: 'apartmentSellTiming',
         validation: [Validation.required],
       },
     ],
     options: [
       {
-        "label": "As soon as possible",
+        "label": translateTo(lang,"As soon as possible"),
         "value": "asap"
       },
       {
-        "label": "In a few months",
+        "label": translateTo(lang,"In a few months"),
         "value": "few-months"
       },
       {
-        "label": "I don't want to sell now",
+        "label": translateTo(lang,"I don't want to sell now"),
         "value": "no-sell"
       }
     ],
     icons: true,
   },
   {
+    conditions: [{
+      name: 'owner',
+      value: null,
+    }],
     signupTitle: translateTo(lang, "Create your profile to save your progress."),
     loginTitle: translateTo(lang, "Login to your profile to save your progress."),
     history: "createProfile",
