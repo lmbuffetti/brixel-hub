@@ -388,7 +388,7 @@ function OnBoarding(props) {
                                               label={
                                                 curCountry ?
                                                   translateTo(lang, curCountry.label) :
-                                                  translateTo(lang, 'Everywhere')
+                                                  translateTo(lang, '🌍 Everywhere')
                                               }
                                               onClick={() => setShowCountrySel(true)}
                                             />
