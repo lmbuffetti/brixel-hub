@@ -27,6 +27,7 @@ function Rewards(props) {
     marketData,
     property,
     handleGetMarketData,
+    handleGetPage,
     handleSendGenericMail,
     handleUpdatePage,
     match,
@@ -54,7 +55,7 @@ function Rewards(props) {
       const data = {
         id: match.params.propId,
       };
-      props.handleGetPage(data)
+      handleGetPage(data)
     }
   }, []);
 
@@ -144,7 +145,7 @@ function Rewards(props) {
       `;
 
       const mail = {
-        destinationEmail : 'mattia@brixel.io', // email
+        destinationEmail : 'support@brixel.io', // email
         recipientEmail : 'support@brixel.io', // email
         subject        : `A PDF Market check was requested`,
         message        : message,
@@ -155,7 +156,7 @@ function Rewards(props) {
         redirectTo: `/packageFlow/${match.params.propId}/advisory`,
         packageFlowProcess: property.packageFlowProcess,
       };
-      data.packageFlowProcess.orderPDF = answer;
+      data.packageFlowProcess.orderOffer = answer;
       await handleUpdatePage(data);
 
     }
@@ -281,6 +282,7 @@ function Rewards(props) {
                 <BrixelButtonPrimary
                   label="Order free PDF market check"
                   onClick={(e) => sendForm(e)}
+                  type="submit"
                 />
 
               </form>
@@ -304,7 +306,6 @@ Rewards.propTypes = {
   match: PropTypes.object.isRequired,
   marketData: PropTypes.object,
   property: PropTypes.object,
-  valid: PropTypes.bool,
 };
 
 Rewards.defaultProps = {
@@ -320,7 +321,6 @@ const mapStateToProps = (state, props) => ({
   property: get(state, 'property.property', null),
   loggedUser: get(state, 'user.loggedUser', {}),
   marketData: get(state, 'property.marketCheck', {}),
-  valid: isValid('GetStarted')(state),
 });
 const mapDispatchToProps = (dispatch) => ({
   handleGetPage: bindActionCreators(getProperty, dispatch),
