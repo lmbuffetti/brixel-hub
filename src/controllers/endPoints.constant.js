@@ -9,6 +9,7 @@ export default {
   },
   property: {
     addPage: () => `/page/`,
+    getPage: (id) => `/page/${id}`,
     estimation: (id) => `/page/${id}/estimation`,
     page: (limit, offset) => `/page/${limit}/${offset}`,
   },

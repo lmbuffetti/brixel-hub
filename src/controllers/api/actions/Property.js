@@ -8,6 +8,11 @@ class Property extends Base {
     return this.apiClient.post(url, {token}, data);
   }
 
+  getProperty(id) {
+    const url = ep.property.getPage(id);
+    return this.apiClient.get(url, {});
+  }
+
   getProperties(limit, offset) {
     const url = ep.property.page(limit, offset);
     return this.apiClient.get(url, {});

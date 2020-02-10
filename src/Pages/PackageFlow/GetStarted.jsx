@@ -233,9 +233,11 @@ function GetStarted(props) {
     if (newPosition > 0) setHidePrevBtn(false);
     else setHidePrevBtn(true);
     if (
-      Questions[newPosition] && Questions[newPosition].cardType &&
-      Questions[newPosition].cardType === 'LastStep' &&
-      loggedUser.user && loggedUser.user.id
+      Questions[newPosition] &&
+      Questions[newPosition].cardType &&
+      Questions[newPosition].cardType === 'createProfile' &&
+      loggedUser.user &&
+      loggedUser.user.id
     ) {
       saveData();
     }

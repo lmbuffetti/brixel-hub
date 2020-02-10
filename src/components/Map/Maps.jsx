@@ -514,7 +514,7 @@ Maps.propTypes = {
   disableZoom: PropTypes.bool,
   draggable: PropTypes.bool,
   externalControls: PropTypes.bool,
-  formName: PropTypes.string.isRequired,
+  formName: PropTypes.string,
   google: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   isShowZip: PropTypes.bool,
@@ -541,6 +541,7 @@ Maps.defaultProps = {
   disableZoom: false,
   draggable: false,
   externalControls: false,
+  formName: '',
   inputLabel: '',
   isShowZip: true,
   place: false,
@@ -557,14 +558,16 @@ Maps.defaultProps = {
 
 const mapStateToProps = (state) => {
   const formName = Object.keys(get(state, 'form'))[0];
+  const lat = get(state, `property.property.location.latitude`, 0);
+  const lng = get(state, `property.property.location.latitude`, 0);
   return ({
     country: get(state, `common.country`, {}),
     formValue: get(state, `form[${formName}].values`, {}),
     formName,
     lang: get(state, 'common.language', 'en'),
     property: get(state, `form[${formName}].values`, {}),
-    latitude: get(state, `form.[${formName}].values.location.latitude`, 0),
-    longitude: get(state, `form.[${formName}].values.location.longitude`, 0),
+    latitude: get(state, `form.[${formName}].values.location.latitude`, lat),
+    longitude: get(state, `form.[${formName}].values.location.longitude`, lng),
   });
 };
 

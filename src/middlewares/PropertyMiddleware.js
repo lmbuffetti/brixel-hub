@@ -7,6 +7,7 @@ import {
   SET_PROPERTIES,
   SET_ESTIMATION,
   SET_PROPERTY,
+  GET_PROPERTY,
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
@@ -37,6 +38,18 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({ type: SPINNER_OFF });
           }
 
+        })
+        .catch((res) => {
+          store.dispatch({ type: SPINNER_OFF });
+        });
+      break;
+    case GET_PROPERTY:
+      next(action);
+      store.dispatch({ type: SPINNER_ON });
+      api.property.getProperty(action.payload.id)
+        .then((res) => {
+          store.dispatch({ type: SET_PROPERTY, payload: res.data });
+          store.dispatch({ type: SPINNER_OFF });
         })
         .catch((res) => {
           store.dispatch({ type: SPINNER_OFF });
