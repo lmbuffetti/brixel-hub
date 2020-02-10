@@ -9,6 +9,7 @@ import {
   SET_PROPERTY,
   GET_MARKET_CHECK,
   SET_MARKET_CHECK,
+  UPDATE_PROPERTY,
 } from './types/PropertyTypes';
 
 export const {
@@ -21,6 +22,7 @@ export const {
   setProperty,
   getMarketCheck,
   setMarketChack,
+  updateProperty,
 } = createActions({
   [ADD_PROPERTY]: (payload) => payload,
   [GET_ESTIMATION]: (payload) => payload,
@@ -31,4 +33,5 @@ export const {
   [SET_PROPERTY]: (payload) => payload,
   [GET_MARKET_CHECK]: (payload) => payload,
   [SET_MARKET_CHECK]: (payload) => payload,
+  [UPDATE_PROPERTY]: (payload) => payload,
 });

@@ -8,8 +8,13 @@ class Property extends Base {
     return this.apiClient.post(url, {token}, data);
   }
 
+  updateProperty(id, data) {
+    const url = ep.property.pageById(id);
+    return this.apiClient.put(url, {}, data);
+  }
+
   getProperty(id) {
-    const url = ep.property.getPage(id);
+    const url = ep.property.pageById(id);
     return this.apiClient.get(url, {});
   }
 
@@ -21,6 +26,40 @@ class Property extends Base {
   getEstimation(id) {
     const url = ep.property.estimation(id);
     return this.apiClient.put(url, {});
+  }
+
+  // BRIXELATOR
+  getPriceDistribution(data) {
+    const url = ep.brixeletor.getPriceDistribution(data);
+    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+  }
+  getLivingSpaceDistribution(data) {
+    const url = ep.brixeletor.getLivingSpaceDistribution(data);
+    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+  }
+  getMerged(data) {
+    const url = ep.brixeletor.getMerged(data);
+    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+  }
+  getPricePerSpace(data) {
+    const url = ep.brixeletor.getPricePerSpace(data);
+    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+  }
+  getMarketDays(data) {
+    const url = ep.brixeletor.getMarketDays(data);
+    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+  }
+  getContructionYears(data) {
+    const url = ep.brixeletor.getContructionYears(data);
+    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+  }
+  getMergedBySubtype(data) {
+    const url = ep.brixeletor.getMergedBySubtype(data);
+    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+  }
+  getMaketAggregate(data) {
+    const url = ep.brixeletor.getMaketAggregate(data);
+    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
   }
 }
 

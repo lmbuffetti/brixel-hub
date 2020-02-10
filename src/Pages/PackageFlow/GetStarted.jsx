@@ -37,8 +37,6 @@ const LoginSignup = Loadable({
   loading: Loading,
 });
 
-console.log(FactsOptions)
-
 const cookie = new Cookies;
 
 function GetStarted(props) {
@@ -208,7 +206,6 @@ function GetStarted(props) {
       let checkCond = true;
       Questions[newPosition].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
-        console.log(val, cond, checkCond);
         if (val !== cond.value && checkCond) {
           if (act === 'back') newPosition = newPosition - 1;
           else newPosition = newPosition + 1;
@@ -220,7 +217,6 @@ function GetStarted(props) {
       let checkCond = true;
       Questions[newPosition].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
-        console.log(val, cond, checkCond);
         if (val !== cond.value && checkCond) {
           if (act === 'back') newPosition = newPosition - 1;
           else newPosition = newPosition + 1;
@@ -260,7 +256,6 @@ function GetStarted(props) {
   const saveData = (e) => {
     setShowError(false);
     let enableForm = true;
-    console.log(errorValue);
     Object.keys(errorValue).map((key) => {
       if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedUser.user) {
         setShowError(true);

@@ -3,10 +3,12 @@ import {
   SET_ESTIMATION,
   SET_PROPERTIES,
   SET_PROPERTY,
+  SET_MARKET_CHECK,
 } from '../actions/types/PropertyTypes';
 
 export const defaultState = {
   estimation: {},
+  marketCheck: {},
   properties: [],
   property: {},
 };
@@ -24,6 +26,10 @@ export default handleActions(
     [SET_PROPERTY]: (state, action) => ({
       ...state,
       property: action.payload,
+    }),
+    [SET_MARKET_CHECK]: (state, action) => ({
+      ...state,
+      marketCheck: action.payload,
     }),
   },
   defaultState,

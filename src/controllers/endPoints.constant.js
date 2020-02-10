@@ -1,4 +1,15 @@
 export default {
+  brixeletor: {
+    getPriceDistribution: data => `/marketData/pricesDistribution${data}`,
+    getLivingSpaceDistribution: data => `/marketData/livingSpacesDistribution${data}`,
+    getMerged: data => `/merged/list${data}`,
+    getMarketData: data => `/marketData/pricesPerM2Distribution${data}`,
+    getPricePerSpace: data => `/marketData/pricesPerM2Distribution${data}`,
+    getMarketDays: data => `/marketData/daysOnMarketDistribution${data}`,
+    getContructionYears: data => `/marketData/constructionYearDistribution${data}`,
+    getMergedBySubtype: data => `/merged/countBySubType${data}`,
+    getMaketAggregate: data => `/marketData/aggregate${data}`,
+  },
   common: {
     sendMessage: () => '/message',
     sendGenericMessage: () => '/email/sendTemplateEmail',
@@ -9,7 +20,7 @@ export default {
   },
   property: {
     addPage: () => `/page/`,
-    getPage: (id) => `/page/${id}`,
+    pageById: (id) => `/page/${id}`,
     estimation: (id) => `/page/${id}/estimation`,
     page: (limit, offset) => `/page/${limit}/${offset}`,
   },

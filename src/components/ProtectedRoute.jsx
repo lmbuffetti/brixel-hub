@@ -24,8 +24,13 @@ const ProtectedRoute = (props) => {
   } = props;
 
   useEffect(() => {
-    // console.log(loggedUser);
-    // if (loggedUser && typeof loggedUser.statusCode !== 'undefined') window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
+    if (loggedUser && typeof loggedUser.statusCode !== 'undefined') {
+      if (window.location.hostname.includes('localhost')) {
+        history.push('/tokeninput');
+      } else {
+        window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
+      }
+    }
   }, [loggedUser]);
 
   return (
