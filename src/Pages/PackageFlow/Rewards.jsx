@@ -1,19 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
-import isObject from 'lodash/isObject';
 import PropTypes from 'prop-types';
-import { change, isValid, Field, reduxForm } from 'redux-form';
 import { BrixelButtonPrimary, BrixelCheckbox, BrixelInputText, Validation } from '@brixel/brixel-components';
-import Swiper from 'react-id-swiper';
-import CompanyInfo from '@brixel/brixel-configuration-partner/src/CompanyInfo';
-import { getToken, createUser } from '../../actions/UserActions';
-import { getProperty, addProperty, getMarketCheck, updateProperty } from '../../actions/PropertyActions';
-import { errorMessage, sendGenericMail } from '../../actions/CommonActions';
+import { getProperty, getMarketCheck, updateProperty } from '../../actions/PropertyActions';
+import { sendGenericMail } from '../../actions/CommonActions';
 import Maps from '../../components/Map/Maps';
 import * as moment from 'moment';
 import ChartDonuts from '../../components/Charts/ChartDonuts';
@@ -23,17 +18,17 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 function Rewards(props) {
   // PROPS
   const {
-    loggedUser,
-    marketData,
-    property,
     handleGetMarketData,
     handleGetPage,
     handleSendGenericMail,
     handleUpdatePage,
+    loggedUser,
+    marketData,
+    property,
     match,
   } = props;
   // STATE
-  const [checkboxes, setCheckboxes] = useState([
+  const [checkboxes] = useState([
     {
       label: 'Free Estimation (Bestimate ®)',
       value: 'bestimate',
@@ -49,6 +44,7 @@ function Rewards(props) {
   ]);
   const [chexkboxesVal, setCheckboxesVal] = useState([]);
   const [email, setEmail] = useState({});
+
   // GET the current property
   useEffect(() => {
     if (props.match.params.propId) {
@@ -299,9 +295,7 @@ Rewards.propTypes = {
   handleGetMarketData: PropTypes.func.isRequired,
   handleGetPage: PropTypes.func.isRequired,
   handleSendGenericMail: PropTypes.func.isRequired,
-  handleSetErrorMsg: PropTypes.func.isRequired,
   handleUpdatePage: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   loggedUser: PropTypes.object,
   match: PropTypes.object.isRequired,
   marketData: PropTypes.object,
@@ -309,15 +303,12 @@ Rewards.propTypes = {
 };
 
 Rewards.defaultProps = {
-  errorMsg: {},
-  errorValue: null,
   loggedUser: {},
   marketData: null,
   property: null,
 };
 
 const mapStateToProps = (state, props) => ({
-  errorMsg: get(state, 'common.errorMsg', null),
   property: get(state, 'property.property', null),
   loggedUser: get(state, 'user.loggedUser', {}),
   marketData: get(state, 'property.marketCheck', {}),
@@ -325,10 +316,8 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetPage: bindActionCreators(getProperty, dispatch),
   handleGetMarketData: bindActionCreators(getMarketCheck, dispatch),
-  handleCreatePage: bindActionCreators(addProperty, dispatch),
   handleSendGenericMail: bindActionCreators(sendGenericMail, dispatch),
   handleUpdatePage: bindActionCreators(updateProperty, dispatch),
-  handleSetErrorMsg: bindActionCreators(errorMessage, dispatch),
 });
 
 export default compose(

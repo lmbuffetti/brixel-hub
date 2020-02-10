@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import {
@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { change, isValid, Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { getProperty, updateProperty } from '../../actions/PropertyActions';
 import { sendGenericMail } from '../../actions/CommonActions';
 import { BrixelRadioButton, BrixelCheckbox, BrixelInputText, BrixelButtonPrimary, Validation } from '@brixel/brixel-components';
@@ -30,7 +30,7 @@ function Advisory(props) {
       id: match.params.propId,
     };
     handleGetPage(data);
-  }, [])
+  }, []);
 
   const sendForm = async (e) => {
     e.preventDefault();
@@ -199,20 +199,17 @@ function Advisory(props) {
 Advisory.propTypes = {
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleGetPage: PropTypes.func.isRequired,
   handleSendGenericMail: PropTypes.func.isRequired,
   handleUpdatePage: PropTypes.func.isRequired,
-  handleGetPage: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   loggedUser: PropTypes.object,
   match: PropTypes.object.isRequired,
-  property: PropTypes.object,
+  property: PropTypes.object
 };
 
 Advisory.defaultProps = {
-  errorMsg: {},
   errorValue: null,
   loggedUser: {},
-  marketData: null,
   property: null,
 };
 
