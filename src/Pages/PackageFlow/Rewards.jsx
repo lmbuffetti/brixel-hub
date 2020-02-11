@@ -174,14 +174,6 @@ function Rewards(props) {
               <p>Data as per: {moment(property.packageFlowProcess.rewardScreenData.market_check_date).format('DD-MM-YYYY')}</p>
               <div className="dis-f jc-b a-c">
                 <p>{property.location.address}</p>
-                <BrixelButtonPrimary
-                  label="Order PDF"
-                  onClick={() => window.scrollTo({
-                    top: document.body.offsetHeight,
-                    left: 0,
-                    behavior: 'smooth',
-                  })}
-                />
               </div>
               <div className="row">
                 <div className="col-md-8">
@@ -264,47 +256,15 @@ function Rewards(props) {
                   }
                 </div>
                 <div className="col-md-6">
-                  <h4>Pro Estimation for CHF 249.-</h4>
-                  <h6>In cooperation with LOGO_IAZI</h6>
-                  <p>If you would like to get a more accurate estimation value, get a hedonic estimation by IAZI, one of the leading real estate consulting companies in Switzerland.</p>
-                  <BrixelButtonTertiary
-                    label="Continue to the Pro Estimation"
-                    color="red"
-                    saturation={400}
-                    onClick={() => history.push(`/packageFlow/${match.params.propId}/goToPro`)}
-                  />
+
                 </div>
               </div>
 
-              <form onSubmit={(e) => sendForm(e)}>
-                <h3>Order now your personal complete PDF market check:</h3>
-                <h6>What information do you need?</h6>
-
-                <BrixelCheckbox
-                  input={{
-                    onChange: (val) => setCheckboxesVal(val),
-                    name: 'checkboxes',
-                    value: chexkboxesVal,
-                  }}
-                  icons
-                  options={checkboxes}
-                />
-
-                <BrixelInputText
-                  input={{
-                    onChange: (val) => setEmail(val),
-                    name: 'email',
-                    value: email,
-                  }}
-                />
-
-                <BrixelButtonPrimary
-                  label="Order free PDF market check"
-                  onClick={(e) => sendForm(e)}
-                  type="submit"
-                />
-
-              </form>
+              <BrixelButtonPrimary
+                label="Continue"
+                onClick={(e) => history.push(`/packageFlow/${match.params.propId}/advisory`)}
+                type="submit"
+              />
 
             </div>
           )
