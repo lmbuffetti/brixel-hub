@@ -1,5 +1,9 @@
 import { BrixelButtonIcon, BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, Validation } from '@brixel/brixel-components';
 import { translateTo } from '../utils/translation';
+import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
+import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
+import Cat from '../images/BrxielComingTown/firstAwards.svg';
+import SaleProperty from '../images/BrxielComingTown/createProfile.svg';
 
 export const maxLengthNum = (val, name) => (value) => {
   const error = !value || (value < val)
@@ -48,33 +52,17 @@ export const QuestionsList = (lang) => [
     icons: true,
   },
   {
-    title: "How many Rooms and Bathrooms are there in your house ?",
+    title: translateTo(lang,"How many rooms?"),
     component: BrixelInputStepNumber,
     history: "allRooms",
     inputs: [
       {
         classNameBox: 'max-w-fix-md-232 mb-2',
-        label: translateTo(lang, 'Rooms'),
+        label: '',
         name: 'bedrooms',
         type: 'number',
         validation: [maxLengthNumRooms, Validation.positiveNumber, Validation.required],
         step: [0.5],
-      },
-      {
-        classNameBox: 'max-w-fix-md-232 mb-2',
-        label: translateTo(lang, 'Bathrooms'),
-        name: 'bathrooms',
-        type: 'number',
-        validation: [maxLengthNumRooms],
-        step: [1],
-      },
-      {
-        classNameBox: 'max-w-fix-md-232',
-        label: translateTo(lang, 'Separate Toilets'),
-        name: 'separateToilets',
-        type: 'number',
-        validation: [maxLengthNumRooms],
-        step: [1],
       },
     ],
   },
@@ -147,6 +135,39 @@ export const QuestionsList = (lang) => [
     ],
   },
   {
+    title: translateTo(lang, "Great. Your property was created."),
+    history: "resume",
+    cardType: 'Resume',
+    imgApartment: resumeApartment,
+    background: 'bgRed100',
+    imgHouse: resumeHouse,
+  },
+  {
+    title: translateTo(lang, "And the first award goes to…You!"),
+    subtitle: translateTo(lang, "You earned the <span class=\"txtGreen400\">\"Homebase\"</span> Award and +50 Brixels."),
+    history: "rewardsStep",
+    cardType: 'RewardsStep',
+    background: 'bgPrimary100',
+    img: Cat,
+  },
+  {
+    title: translateTo(lang, "Every home needs an owner."),
+    history: "lastStep",
+    cardType: 'LastStep',
+    background: 'bgGreen100',
+    img: SaleProperty,
+  },
+  {
+    conditions: [{
+      name: 'owner',
+      value: null,
+    }],
+    signupTitle: translateTo(lang, "Create your profile to save your progress."),
+    loginTitle: translateTo(lang, "Login to your profile to save your progress."),
+    history: "createProfile",
+    cardType: 'createProfile',
+  },
+  {
     title: translateTo(lang,"What do you need the market check for?"),
     component: BrixelRadioButton,
     history: "ownerType",
@@ -190,7 +211,7 @@ export const QuestionsList = (lang) => [
     icons: true,
   },
   {
-    title: translateTo(lang,"When do you want to sell your apartment?"),
+    title: translateTo(lang,"When do you want to sell?"),
     component: BrixelRadioButton,
     conditions: [{
       name: 'ownerType',
@@ -221,13 +242,30 @@ export const QuestionsList = (lang) => [
     icons: true,
   },
   {
+    title: translateTo(lang,"When do you want to sell?"),
+    component: BrixelRadioButton,
     conditions: [{
-      name: 'owner',
-      value: null,
+      name: 'ownerType',
+      value: 'buyer',
     }],
-    signupTitle: translateTo(lang, "Create your profile to save your progress."),
-    loginTitle: translateTo(lang, "Login to your profile to save your progress."),
-    history: "createProfile",
-    cardType: 'createProfile',
+    history: "typeOfBuyer",
+    inputs: [
+      {
+        label: '',
+        name: 'typeOfBuyer',
+        validation: [Validation.required],
+      },
+    ],
+    options: [
+      {
+        "label": translateTo(lang, "I am a first time buyer"),
+        "value": "first-time-buyer"
+      },
+      {
+        "label": translateTo(lang, "I already own a property"),
+        "value": "owned-property"
+      }
+    ],
+    icons: true,
   },
 ];

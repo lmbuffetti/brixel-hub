@@ -35,7 +35,6 @@ function Advisory(props) {
   const sendForm = async (e) => {
     e.preventDefault();
     Object.keys(errorValue).map((key) =>{
-      console.log(errorValue.key);
       if (errorValue[key] !== true) return false;
     });
     let reason = '';
