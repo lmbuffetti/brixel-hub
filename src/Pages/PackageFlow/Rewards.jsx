@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { BrixelButtonPrimary, BrixelCheckbox, BrixelInputText, Validation } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, BrixelCheckbox, BrixelInputText, Validation, BrixelButtonTertiary } from '@brixel/brixel-components';
 import { getProperty, getMarketCheck, updateProperty } from '../../actions/PropertyActions';
 import { sendGenericMail } from '../../actions/CommonActions';
 import Maps from '../../components/Map/Maps';
@@ -22,6 +22,7 @@ function Rewards(props) {
     handleGetPage,
     handleSendGenericMail,
     handleUpdatePage,
+    history,
     loggedUser,
     marketData,
     property,
@@ -93,11 +94,15 @@ function Rewards(props) {
           similar_properties: marketData.priceDistribution.numberOfProperties,
           median_market_price: marketData.priceDistribution.medianRounded,
           median_market_price_per_m2: marketData.pricePerSpace.medianRounded,
-          median_market_living_space: marketData.livingSpacesDistribution.median.toString(),
-          median_age: marketData.constructionYearDistribution.medianAge.toString(),
+          median_market_living_space: Math.ceil(marketData.livingSpacesDistribution.median).toString(),
+          median_age: Math.ceil(marketData.constructionYearDistribution.medianAge).toString(),
           median_time_on_market: marketData.daysOnMarketDistribution.median.toString(),
         };
         handleUpdatePage(data);
+      }
+
+      if (marketData.priceDistribution.numberOfProperties === 0) {
+        history.push(`/packageFlow/${match.params.propId}/advisory`);
       }
     }
   }, [marketData]);
@@ -164,14 +169,18 @@ function Rewards(props) {
         <h1>Your local market check</h1>
         <p>Your local Market check shows you properties on the market with the same type (house/apartment) within a radius of 15km and a related living space.</p>
         {
-          property && property.location && property.packageFlowProcess.rewardScreenData && (
+          property && property.location && property.packageFlowProcess.rewardScreenData && marketData.priceDistribution && (
             <div>
               <p>Data as per: {moment(property.packageFlowProcess.rewardScreenData.market_check_date).format('DD-MM-YYYY')}</p>
               <div className="dis-f jc-b a-c">
                 <p>{property.location.address}</p>
                 <BrixelButtonPrimary
                   label="Order PDF"
-                  onClick={() => ''}
+                  onClick={() => window.scrollTo({
+                    top: document.body.offsetHeight,
+                    left: 0,
+                    behavior: 'smooth',
+                  })}
                 />
               </div>
               <div className="row">
@@ -187,17 +196,25 @@ function Rewards(props) {
                 </div>
                 <div className="col-md-4">
                   <h5>Similar Properties</h5>
-                  <p>{property.packageFlowProcess.rewardScreenData.similar_properties}</p>
+                  <p>{marketData.priceDistribution.numberOfProperties}</p>
                   <h5>Median Price</h5>
-                  <p>CHF {property.packageFlowProcess.rewardScreenData.median_market_price.toLocaleString('de-CH')}</p>
+                  {
+                    marketData.priceDistribution.medianRounded && (
+                      <p>CHF {marketData.priceDistribution.medianRounded.toLocaleString('de-CH')}</p>
+                    )
+                  }
                   <h5>Median Price per m2</h5>
-                  <p>CHF {property.packageFlowProcess.rewardScreenData.median_market_price_per_m2.toLocaleString('de-CH')}</p>
+                  {
+                    marketData.pricePerSpace.medianRounded && (
+                      <p>CHF {marketData.pricePerSpace.medianRounded.toLocaleString('de-CH')}</p>
+                    )
+                  }
                   <h5>Median Living Sapce</h5>
-                  <p>{property.packageFlowProcess.rewardScreenData.median_market_living_space} m2</p>
+                  <p>{Math.ceil(marketData.livingSpacesDistribution.median)} m2</p>
                   <h5>Median Age</h5>
-                  <p>{property.packageFlowProcess.rewardScreenData.median_age} years</p>
+                  <p>{Math.ceil(marketData.constructionYearDistribution.medianAge)} years</p>
                   <h5>Median Time on Market</h5>
-                  <p>{property.packageFlowProcess.rewardScreenData.median_time_on_market} days</p>
+                  <p>{marketData.daysOnMarketDistribution.median} days</p>
                   <p></p>
                 </div>
               </div>
@@ -209,7 +226,7 @@ function Rewards(props) {
               <div className="row">
                 <div className="col-md-6">
                   {
-                    marketData && marketData.priceDistribution && (
+                    marketData && marketData.priceDistribution && marketData.priceDistribution.chartRangePrice && (
                       <RangePriceChart
                         properties={marketData.priceDistribution.chartRangePrice}
                         type="priceRange"
@@ -221,7 +238,7 @@ function Rewards(props) {
                 </div>
                 <div className="col-md-6">
                   {
-                    marketData && marketData.pricePerSpace && (
+                    marketData && marketData.pricePerSpace && marketData.pricePerSpace.chartRangePrice && (
                       <RangePriceChart
                         properties={marketData.pricePerSpace.chartRangePrice}
                         type="priceM2"
@@ -236,7 +253,7 @@ function Rewards(props) {
               <div className="row">
                 <div className="col-md-6">
                   {
-                    marketData && marketData.priceDistribution && (
+                    marketData && marketData.priceDistribution && property.estimation && property.estimation.bestimate && (
                       <RangePriceChart
                         properties={marketData.priceDistribution.chartRangePrice}
                         type="bestimate"
@@ -250,6 +267,12 @@ function Rewards(props) {
                   <h4>Pro Estimation for CHF 249.-</h4>
                   <h6>In cooperation with LOGO_IAZI</h6>
                   <p>If you would like to get a more accurate estimation value, get a hedonic estimation by IAZI, one of the leading real estate consulting companies in Switzerland.</p>
+                  <BrixelButtonTertiary
+                    label="Continue to the Pro Estimation"
+                    color="red"
+                    saturation={400}
+                    onClick={() => history.push(`/packageFlow/${match.params.propId}/goToPro`)}
+                  />
                 </div>
               </div>
 

@@ -46,6 +46,11 @@ const ThankYou = Loadable({
   loading: Loading,
 });
 
+const GoToPro = Loadable({
+  loader: () => import('./Pages/Estimations/GoToPro' /* webpackChunkName: "Estimation-GoToPro" */),
+  loading: Loading,
+});
+
 const ProtectedRoute = Loadable({
   loader: () => import('./components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
   loading: Loading,
@@ -120,9 +125,11 @@ const App = (props) => {
         <ProtectedRoute path="/packageFlow/:propId/rewards" component={Rewards} />
         <ProtectedRoute path="/packageFlow/:propId/advisory" component={Advisory} />
         <ProtectedRoute path="/packageFlow/:propId/thankyou" component={ThankYou} />
+        <ProtectedRoute path="/estimation/:propId/questions/" component={GoToPro} />
         { /* SECTION: PROTECED ROUTE WITH REDIRECT TO LOGIN */ }
         {/*<ProtectedRoute path="/" exact component={Dashboard} />*/}
         { /* SECTION: REDIRECT */ }
+        <Redirect from="/packageFlow/:propId/goToPro" to="/estimation/:propId/questions/" />
         <Redirect from="*" to="/onBoarding" />
       </Switch>
       {
