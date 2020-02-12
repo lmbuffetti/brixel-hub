@@ -403,7 +403,7 @@ function OnBoarding(props) {
                                               label={
                                                 curCountry ?
                                                   translateTo(lang, curCountry.label) :
-                                                  translateTo(lang, '🌍 Everywhere')
+                                                  `🌍 ${translateTo(lang, 'Everywhere')}`
                                               }
                                               onClick={() => setShowCountrySel(true)}
                                             />
@@ -613,6 +613,7 @@ function OnBoarding(props) {
                                         error: translateTo(lang, "Please insert a valid password")
                                       }}
                                     />
+                                    <a className="p-1" target="_blank" href="https://login.brixel.ch/recover"> {translateTo(lang, "Forgot password?")} </a>
                                   </>
                                 ) : (
                                   <>
@@ -718,7 +719,7 @@ function OnBoarding(props) {
           }
         </div>
         <div
-          className={`footerAction p-2  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
+          className={`footerAction p-1 p-md-2  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
         >
           <div className="container pos-r">
             <div className="subcontainer">

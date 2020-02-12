@@ -13,8 +13,7 @@ export const maxLengthNum = (val, name) => (value) => {
   const error = !value || (value < val)
     ? null
     : name === 'year' ?
-      value.toString().length > 3 ? `Year can't be after ${val}` : null
-      : `The ${name} have to be less then ${val}`;
+     `Year can't be after ${val}` : `The ${name} have to be less then ${val}`;
 
   return error;
 };
@@ -23,8 +22,7 @@ export const minLengthNum = (val, name) => (value) => {
   const error = !value || (value >= val)
     ? null
     : name === 'year' ?
-      value.toString().length > 3 ? `Too old! year can't be before ${val}` : null
-      : `The ${name} have to be more then ${val}`;
+      `Too old! year can't be before ${val}` : `The ${name} have to be more then ${val}`;
 
   return error;
 };
@@ -56,7 +54,6 @@ export const QuestionsList = (lang) => [
         img: apartment,
       },
       {
-
         label: translateTo(lang, "House"),
         value: "House",
         img: house,

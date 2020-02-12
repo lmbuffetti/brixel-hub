@@ -325,7 +325,7 @@ const Maps = (props) => {
   };
   const selectOpt = cloneDeep(country);
   selectOpt.unshift({
-    label: translateTo(lang, '🌍 Everywhere'),
+    label: `🌍 ${translateTo(lang, 'Everywhere')}`,
     value: '',
   });
   const classNameDef = !className && showMap ? 'h-fix-400 w-perc-100' : className;
