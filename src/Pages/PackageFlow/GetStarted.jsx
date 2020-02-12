@@ -20,8 +20,8 @@ import {
   BrixelIcon,
   FactsOptions,
 } from '@brixel/brixel-components';
-import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
-import { addProperty } from '../../actions/PropertyActions';
+import { getToken, setAwards, setBrixelPoint, validateUser, updateUser } from '../../actions/UserActions';
+import { addProperty, updateProperty } from '../../actions/PropertyActions';
 import { errorMessage, setPageData, setLanguage } from '../../actions/CommonActions';
 import { getCompany } from '../../actions/CompanyActions';
 import { QuestionsList } from '../../resources/packageFlowGetstartedQuestions.js';
@@ -36,8 +36,6 @@ const LoginSignup = Loadable({
   loader: () => import('../../components/LoginSignup' /* webpackChunkName: "LoginSignup" */),
   loading: Loading,
 });
-
-console.log(FactsOptions)
 
 const cookie = new Cookies;
 
@@ -55,9 +53,14 @@ function GetStarted(props) {
     handleGetCompany,
     handleGetToken,
     handleSetLanguage,
+    handleSetAwards,
+    handleSetBrixelPoint,
+    handleUpdatePage,
+    handleUpdateUser,
     history,
     lang,
     loggedUser,
+    property,
   } = props;
   // STATE
   const [position, setPosition] = useState(0);
@@ -165,105 +168,15 @@ function GetStarted(props) {
     }
   }, [formValue]);
 
-  useEffect(() => {
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Tab') {
-        changeStep();
-      }
-      document.getElementById('getStarted').scrollTo(0, 0);
-    }, false);
-    document.addEventListener('keyup', function (e) {
-      document.getElementById('getStarted').scrollTo(0, 0);
-    }, false);
-    const cookieCompany = cookie.get('brixelStubCompany') || null;
-    let company = get(history, 'location.search', cookieCompany);
-    if (company || cookieCompany) {
-      company = company.replace('?company=', '');
-      const defComp = company || cookieCompany;
-      handleGetCompany({stub: defComp});
-      setCookie('brixelStubCompany', defComp);
-    }
-    history.push(`/packageFlow/getStarted/${Questions[0].history}`);
-  }, []);
-
-  const validateSlide = (val, name, quest) => {
-    changeFieldValue(name, val);
-    checkValid();
-    const curIndex = Questions.findIndex((item) => quest.history === item.history);
-    setCurrentIndex(curIndex);
-  };
-
-  const changeStep = (act) => {
-    let newPosition = position;
-    if (act === 'back') {
-      setDisableNextBtn(false);
-      newPosition = position - 1;
-    }
-    else {
-      if (disableNextBtn) return false;
-      setDisableNextBtn(true);
-      newPosition = position + 1;
-    }
-    if (Questions[newPosition] && Questions[newPosition].conditions) {
-      let checkCond = true;
-      Questions[newPosition].conditions.map((cond) => {
-        const val = get(formValue, cond.name, null);
-        console.log(val, cond, checkCond);
-        if (val !== cond.value && checkCond) {
-          if (act === 'back') newPosition = newPosition - 1;
-          else newPosition = newPosition + 1;
-          checkCond = false;
-        }
-      })
-    }
-    if (Questions[newPosition] && Questions[newPosition].conditions) {
-      let checkCond = true;
-      Questions[newPosition].conditions.map((cond) => {
-        const val = get(formValue, cond.name, null);
-        console.log(val, cond, checkCond);
-        if (val !== cond.value && checkCond) {
-          if (act === 'back') newPosition = newPosition - 1;
-          else newPosition = newPosition + 1;
-          checkCond = false;
-        }
-      })
-    }
-    setPosition(newPosition);
-    setCurrentIndex(newPosition);
-    if (newPosition > 0) setHidePrevBtn(false);
-    else setHidePrevBtn(true);
-    if (
-      Questions[newPosition] && Questions[newPosition].cardType &&
-      Questions[newPosition].cardType === 'LastStep' &&
-      loggedUser.user && loggedUser.user.id
-    ) {
-      saveData();
-    }
-    const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
-    setProgressBar(newPosition * 100 / questInputs.length);
-    setTimeout(() => {
-      const getCurStep = document.getElementById(`step-${newPosition}`);
-      if (getCurStep.querySelector('input[type="number"]')) {
-        getCurStep.querySelector('input[type="number"]').focus();
-      }
-      else if (getCurStep.querySelector('input[type="text"]')) {
-        getCurStep.querySelector('input[type="text"]').focus();
-      }
-      document.getElementById('getStarted').scrollTo(0, 0);
-    }, 100);
-    document.getElementById('getStarted').scrollTo(0, 0);
-    history.push(`/packageFlow/getStarted/${Questions[newPosition].history}`);
-  };
-
-  const saveData = (e) => {
+  const saveData = async (act) => {
     setShowError(false);
     let enableForm = true;
-    console.log(errorValue);
     Object.keys(errorValue).map((key) => {
       if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedUser.user) {
         setShowError(true);
         enableForm = false;
       }
+      return null;
     });
     const data = {
       language: lang || 'en',
@@ -293,20 +206,36 @@ function GetStarted(props) {
       getEstimation: formValue.location.country === 'CH',
       addProperty: true,
       redirectToUserFlow: false,
-      redirectToRewards: true,
+      redirectToRewards: false,
       company: cookie.get('brixelStubCompany') || null,
     };
     if (enableForm) {
       if (loggedUser.user && loggedUser.user.id) {
-        changeFieldValue('owner', loggedUser.user.id);
-        data.owner = loggedUser.user.id;
-        handleCreatePage(data);
+        if (act === 'LastStep') {
+          const pageData = {
+            id: property.id,
+            ownerType: formValue.ownerType,
+            typeOfBuyer: formValue.typeOfBuyer,
+            whenToSell: formValue.apartmentSellTiming,
+            redirectTo: `/packageFlow/${property.id}/rewards`,
+          };
+          const userData = {
+            id: loggedUser.user.id,
+            userType: formValue.ownerType
+          };
+          await handleUpdateUser(userData);
+          await handleUpdatePage(pageData);
+        } else {
+          changeFieldValue('owner', loggedUser.user.id);
+          data.owner = loggedUser.user.id;
+          await handleCreatePage(data);
+        }
       } else if (loginPage) {
         data.user = {
           username: formValue.email,
           password: formValue.password,
         };
-        handleGetToken(data);
+        await handleGetToken(data);
       } else {
         data.user = {
           email: formValue.email,
@@ -322,10 +251,109 @@ function GetStarted(props) {
           createUser: true,
           company: cookie.get('brixelStubCompany') || null,
           ignoreEmail: false,
+          redirectTo: '/packageFlow/getStarted/success'
         };
-        handleCreateUser(data);
+        await handleCreateUser(data);
       }
     }
+  };
+
+  const changeStep = (act) => {
+    let newPosition = position;
+    if (act === 'back') {
+      setDisableNextBtn(false);
+      newPosition = position - 1;
+    }
+    else {
+      if (disableNextBtn) return false;
+      setDisableNextBtn(true);
+      newPosition = position + 1;
+    }
+    if (Questions[newPosition] && Questions[newPosition].conditions) {
+      let checkCond = true;
+      Questions[newPosition].conditions.map((cond) => {
+        const val = get(formValue, cond.name, null);
+        if (val !== cond.value && checkCond) {
+          if (act === 'back') newPosition = newPosition - 1;
+          else newPosition = newPosition + 1;
+          checkCond = false;
+        }
+      })
+    }
+    if (Questions[newPosition] && Questions[newPosition].conditions) {
+      let checkCond = true;
+      Questions[newPosition].conditions.map((cond) => {
+        const val = get(formValue, cond.name, null);
+        if (val !== cond.value && checkCond) {
+          if (act === 'back') newPosition = newPosition - 1;
+          else newPosition = newPosition + 1;
+          checkCond = false;
+        }
+      });
+    }
+    if (typeof Questions[newPosition] === 'undefined') {
+      saveData('lastStep');
+    } else {
+      setPosition(newPosition);
+      setCurrentIndex(newPosition);
+      if (newPosition > 0) setHidePrevBtn(false);
+      else setHidePrevBtn(true);
+      if (
+        Questions[newPosition] &&
+        Questions[newPosition].cardType &&
+        Questions[newPosition].cardType === 'RewardsStep'
+      ) {
+        handleSetBrixelPoint([{desc: "First Award", point: 50}]);
+        handleSetAwards([{desc: "First Award", point: 1}]);
+      }
+      if (
+        Questions[position].cardType === 'LastStep' && loggedUser && loggedUser.user
+      ) {
+        saveData();
+      }
+      const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
+      setProgressBar(newPosition * 100 / questInputs.length);
+      setTimeout(() => {
+        const getCurStep = document.getElementById(`step-${newPosition}`);
+        if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+          getCurStep.querySelector('input[type="number"]').focus();
+        }
+        else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+          getCurStep.querySelector('input[type="text"]').focus();
+        }
+        document.getElementById('getStarted').scrollTo(0, 0);
+      }, 100);
+      document.getElementById('getStarted').scrollTo(0, 0);
+      history.push(`/packageFlow/getStarted/${Questions[newPosition].history}`);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Tab') {
+        changeStep();
+      }
+      document.getElementById('getStarted').scrollTo(0, 0);
+    }, false);
+    document.addEventListener('keyup', function (e) {
+      document.getElementById('getStarted').scrollTo(0, 0);
+    }, false);
+    const cookieCompany = cookie.get('brixelStubCompany') || null;
+    let company = get(history, 'location.search', cookieCompany);
+    if (company || cookieCompany) {
+      company = company.replace('?company=', '');
+      const defComp = company || cookieCompany;
+      handleGetCompany({stub: defComp});
+      setCookie('brixelStubCompany', defComp);
+    }
+    history.push(`/packageFlow/getStarted/${Questions[0].history}`);
+  }, []);
+
+  const validateSlide = (val, name, quest) => {
+    changeFieldValue(name, val);
+    checkValid();
+    const curIndex = Questions.findIndex((item) => quest.history === item.history);
+    setCurrentIndex(curIndex);
   };
 
   return (
@@ -359,124 +387,126 @@ function GetStarted(props) {
                         <h5 className="mb-4 mb-md-10 fsize-md-800">{quest.title}</h5>
                         {
                           quest.inputs.map((input, f) => (
-                              <div key={f.toString()}>
-                                {
-                                  input.type === 'Map' ? (
-                                    <>
-                                      <div className="mb-2 pos-r zIndex4">
-                                        <Field
-                                          name={input.name}
-                                          label={input.label}
-                                          component={() => (
+                            <div key={f.toString()}>
+                              {
+                                input.type === 'Map' ? (
+                                  <>
+                                    <div className="mb-2 pos-r zIndex4">
+                                      <Field
+                                        name={input.name}
+                                        label={input.label}
+                                        component={() => (
+                                          <Maps
+                                            zoom={14}
+                                            scrollZoom
+                                            moveMarker
+                                            draggable
+                                            showSearchLocation
+                                            showSelectCountry={showCountrySel}
+                                            showMap={false}
+                                            isShowZip={false}
+                                            className="w-perc-100"
+                                            selCountry={curCountry ? curCountry.value : ''}
+                                            changeCountry={(val) => {
+                                              countryObj(val);
+                                              setShowCountrySel(false);
+                                            }}
+                                          />
+                                        )}
+                                        options={input.options}
+                                        validate={input.validation}
+                                        type={input.type}
+                                        onChange={(e) => validateSlide(e, input.name, quest)}
+                                      />
+
+                                      {
+                                        !showCountrySel && (
+                                          <BrixelButtonTertiary
+                                            className="mt-1"
+                                            label={
+                                              curCountry ?
+                                                translateTo(lang, curCountry.label) :
+                                                translateTo(lang, 'Everywhere')
+                                            }
+                                            onClick={() => setShowCountrySel(true)}
+                                          />
+                                        )
+                                      }
+
+                                    </div>
+                                    {
+                                      formValue.location && formValue.location.address && (
+                                        <>
+                                          <div
+                                            className="pos-r zIndex1"
+                                            onMouseEnter={() => setShowAddress(false)}
+                                            onTouchStart={() => setShowAddress(false)}
+                                            onMouseLeave={() => setShowAddress(true)}
+                                            onTouchEnd={() => setShowAddress(true)}
+                                          >
                                             <Maps
                                               zoom={14}
                                               scrollZoom
                                               moveMarker
                                               draggable
-                                              showSearchLocation
-                                              showSelectCountry={!curCountry || showCountrySel}
-                                              showMap={false}
+                                              showMap
                                               isShowZip={false}
                                               className="w-perc-100"
-                                              selCountry={curCountry ? curCountry.value : ''}
-                                              changeCountry={(val) => {
-                                                countryObj(val);
-                                                setShowCountrySel(false);
-                                              }}
                                             />
-                                          )}
-                                          options={input.options}
-                                          validate={input.validation}
-                                          type={input.type}
-                                          onChange={(e) => validateSlide(e, input.name, quest)}
-                                        />
-
-                                        {
-                                          !showCountrySel && (
-                                            <BrixelButtonTertiary
-                                              className="mt-1"
-                                              label={curCountry ? curCountry.label : ''}
-                                              onClick={() => setShowCountrySel(true)}
-                                            />
-                                          )
-                                        }
-
-                                      </div>
+                                          </div>
+                                        </>
+                                      )
+                                    }
+                                  </>
+                                ) : (
+                                  <div className="dis-f a-c jc-b">
+                                    <div className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`} tabIndex="-1">
+                                      <Field
+                                        className="w-perc-100"
+                                        inputClassName={input.className || ''}
+                                        name={input.name}
+                                        label={input.label}
+                                        icons={quest.icons}
+                                        component={quest.component}
+                                        fluid={true}
+                                        options={quest.options}
+                                        validate={input.validation}
+                                        type={input.type}
+                                        step={+input.step}
+                                        min={input.min}
+                                        onChange={(e) => validateSlide(e, input.name, quest)}
+                                        deactivable={false}
+                                        placeholder={input.placeholder || ''}
+                                        meta={{
+                                          dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                          invalid: true,
+                                        }}
+                                      />
                                       {
-                                        formValue.location && formValue.location.address && (
-                                          <>
-                                            <div
-                                              className="pos-r zIndex1"
-                                              onMouseEnter={() => setShowAddress(false)}
-                                              onTouchStart={() => setShowAddress(false)}
-                                              onMouseLeave={() => setShowAddress(true)}
-                                              onTouchEnd={() => setShowAddress(true)}
-
-                                            >
-                                              <Maps
-                                                zoom={14}
-                                                scrollZoom
-                                                moveMarker
-                                                draggable
-                                                showMap
-                                                isShowZip={false}
-                                                className="w-perc-100"
-                                              />
-                                            </div>
-                                          </>
-                                        )
-                                      }
-                                    </>
-                                  ) : (
-                                    <div className="dis-f a-c jc-b">
-                                      <div className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`} tabIndex="-1">
-                                        <Field
-                                          className="w-perc-100"
-                                          inputClassName={input.className || ''}
-                                          name={input.name}
-                                          label={input.label}
-                                          icons={quest.icons}
-                                          component={quest.component}
-                                          fluid={true}
-                                          options={quest.options}
-                                          validate={input.validation}
-                                          type={input.type}
-                                          step={+input.step}
-                                          min={input.min}
-                                          onChange={(e) => validateSlide(e, input.name, quest)}
-                                          deactivable={false}
-                                          placeholder={input.placeholder || ''}
-                                          meta={{
-                                            dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                            invalid: formValue[input.name] && errorValue[input.name] !== true,
-                                          }}
-                                        />
-                                        {
-                                          input.unit && (
-                                            <span className="pl-2">{input.unit}</span>
-                                          )
-                                        }
-                                      </div>
-                                      {
-                                        quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && (
-                                          <BrixelButtonPrimary
-                                            rounded
-                                            label="Ok"
-                                            className="ml-2 hide-md"
-                                            background="green"
-                                            onClick={() => changeStep()}
-                                            disabled={disableNextBtn}
-                                            type="submit"
-                                          />
+                                        input.unit && (
+                                          <span className="pl-2">{input.unit}</span>
                                         )
                                       }
                                     </div>
-                                  )
-                                }
-                                <p className="body2">{input.help}</p>
-                              </div>
-                            )
-                          )
+                                    {
+                                      quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && (
+                                        <BrixelButtonPrimary
+                                          rounded
+                                          label="Ok"
+                                          className="ml-2 hide-md"
+                                          background="green"
+                                          onClick={() => changeStep()}
+                                          disabled={disableNextBtn}
+                                          type="submit"
+                                        />
+                                      )
+                                    }
+                                  </div>
+                                )
+                              }
+                              <p className="body2">{input.help}</p>
+                            </div>
+                          ))
                         }
                       </>
                     )
@@ -484,6 +514,68 @@ function GetStarted(props) {
                   {
                     quest.cardType && (
                       <>
+                        {
+                          quest.cardType === 'Resume' && (
+                            <div>
+                              <div className="bgWhite max-w-fix-344 m-a brdRadius shadow-4dp ov-h">
+                                <img
+                                  src={quest[`img${formValue.propertyType || 'Apartment'}`]}
+                                  className="dis-b"
+                                  alt={formValue.propertyType || 'Apartment'}
+                                />
+                                <div className="pt-1 pb-2 px-2">
+                                  {
+                                    formValue.location && (
+                                      <p className="body2 cutRow txtPrimary400">
+                                        {formValue.location.address}
+                                      </p>
+                                    )
+                                  }
+                                  <h6 className="mt-1 mb-5">{formValue.pageTitle || 'Title'}</h6>
+                                  <div className="dis-f jc-b a-c">
+                                    <p className="dis-f a-c">
+                                      <BrixelIcon icon="bed" className="mr-1" />
+                                      <span className="ff-mono body2">{formValue.bedrooms || '0'}</span>
+                                    </p>
+                                    <p className="dis-f a-c">
+                                      <BrixelIcon icon="plans" className="mr-1" />
+                                      <span className="ff-mono body2">{formValue.livingSpace || '0'} m</span>
+                                    </p>
+                                    <p className="dis-f a-c">
+                                      <BrixelIcon icon="house-built" className="mr-1" />
+                                      <span className="ff-mono body2">
+                                        {formValue.constructionYear || '0000'}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <h5
+                                className="mt-5 ta-c"
+                                dangerouslySetInnerHTML={{ __html: quest.title}}
+                              />
+                            </div>
+                          )
+                        }
+                        {
+                          (quest.cardType === 'RewardsStep' || quest.cardType === 'LastStep') && (
+                            <div className="ta-c">
+                              <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
+                              <h5
+                                className="mt-2 ta-c"
+                                dangerouslySetInnerHTML={{ __html: quest.title}}
+                              />
+                              {
+                                quest.subtitle && (
+                                  <h6
+                                    className="mt-2 ta-c"
+                                    dangerouslySetInnerHTML={{ __html: quest.subtitle}}
+                                  />
+                                )
+                              }
+                            </div>
+                          )
+                        }
                         {
                           quest.cardType === 'createProfile' && (
                             <div>
@@ -503,63 +595,64 @@ function GetStarted(props) {
         <div
           className={`footerAction p-1 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
         >
-          <div className="container">
+          <div className="container pos-r">
             <div className="subcontainer">
-            {
-              !disableNextBtn &&
-              Questions[currentIndex] &&
-              Questions[currentIndex].inputs &&
-              Questions[currentIndex].successMessage && (
-                <p className="txtGreen700 ta-r mb-2 textSuccess">
-                  {Questions[currentIndex].successMessage}
-                  <BrixelIcon icon="check" className="ml-1" />
-                </p>
-              )
-            }
-            <div
-              className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
               {
-                Questions[currentIndex].inputs && (
-                  <BrixelButtonIcon
-                    className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
-                    icon="arrow-simple-left"
-                    onClick={() => changeStep('back')}
-                    background="white"
-                    saturation={0}
-                    color="primary"
-                    saturationTxt={400}
-                    noBorder
-                  />
+                !disableNextBtn &&
+                Questions[currentIndex] &&
+                Questions[currentIndex].inputs &&
+                Questions[currentIndex].successMessage && (
+                  <p className="txtGreen700 ta-r mb-2 textSuccess">
+                    {Questions[currentIndex].successMessage}
+                    <BrixelIcon icon="check" className="ml-1" />
+                  </p>
                 )
               }
-              {
-                Questions[currentIndex] && (
-                  <BrixelButtonPrimary
-                    rounded
-                    label={
-                      !Questions[currentIndex + 1] && !loggedUser.user ?
-                        translateTo(lang, "Create profile") :
-                        (
-                          Questions[currentIndex].cardType === 'createProfile' ||
-                          !Questions[currentIndex + 2] ?
-                            translateTo(lang, "Save") :
-                            translateTo(lang, "Continue")
-                        )
-                    }
-                    background={Questions[currentIndex].inputs ? "green" : "primary"}
-                    className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                    onClick={() =>
-                      !Questions[currentIndex + 1] ||
-                      (loggedUser.user && !Questions[currentIndex + 2]) ?
-                        saveData() : changeStep()
-                    }
-                    rightIcon="arrow-right-small"
-                    disabled={disableNextBtn}
-                  />
-                )
-              }
+              <div
+                className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
+                {
+                  Questions[currentIndex].inputs && Questions[currentIndex - 1] && Questions[currentIndex - 1].inputs && (
+                    <BrixelButtonIcon
+                      className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
+                      icon="arrow-simple-left"
+                      onClick={() => changeStep('back')}
+                      background="white"
+                      saturation={0}
+                      color="primary"
+                      saturationTxt={400}
+                      noBorder
+                    />
+                  )
+                }
+                {
+                  Questions[currentIndex] && (
+                    <BrixelButtonPrimary
+                      rounded
+                      label={
+                        !Questions[currentIndex + 1] && !loggedUser.user ?
+                          translateTo(lang, "Create profile") :
+                          (
+                            Questions[currentIndex].cardType === 'createProfile' ||
+                            (loggedUser.user && Questions[currentIndex].cardType === 'LastStep') ||
+                            !Questions[currentIndex + 1] ?
+                              translateTo(lang, "Save") :
+                              translateTo(lang, "Continue")
+                          )
+                      }
+                      background={Questions[currentIndex].inputs ? "green" : "primary"}
+                      className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
+                      onClick={() =>
+                        Questions[currentIndex].cardType === 'createProfile' ?
+                          saveData() :
+                          changeStep()
+                      }
+                      rightIcon="arrow-right-small"
+                      disabled={disableNextBtn}
+                    />
+                  )
+                }
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </form>
@@ -581,13 +674,17 @@ GetStarted.propTypes = {
   handleSetAwards: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetBrixelPoint: PropTypes.func.isRequired,
+  handleUpdateUser: PropTypes.func.isRequired,
+  handleUpdatePage: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedUser: PropTypes.object.isRequired,
+  property: PropTypes.object,
   redirectTo: PropTypes.object,
 };
 
 GetStarted.defaultProps = {
+  property: {},
   redirectTo: null,
 };
 
@@ -597,6 +694,7 @@ const mapStateToProps = (state, props) => ({
   errorValue: get(state, 'form.GetStarted.syncErrors', {}),
   formValue: get(state, 'form.GetStarted.values', {}),
   loggedUser: get(state, 'user.loggedUser', {}),
+  property: get(state, 'property.property', {}),
   redirectTo: get(state, 'common.redirectTo', {}),
   lang: get(state, 'common.language', {}),
   initialValues: {
@@ -623,6 +721,8 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetPage: bindActionCreators(setPageData, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
   handleSetBrixelPoint: bindActionCreators(setBrixelPoint, dispatch),
+  handleUpdatePage: bindActionCreators(updateProperty, dispatch),
+  handleUpdateUser: bindActionCreators(updateUser, dispatch),
 });
 
 const getStartedForm = reduxForm({

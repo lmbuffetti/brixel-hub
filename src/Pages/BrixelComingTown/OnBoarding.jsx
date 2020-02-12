@@ -299,7 +299,8 @@ function OnBoarding(props) {
           language: lang || 'en',
           createUser: true,
           company: cookie.get('brixelStubCompany') || null,
-          ignoreEmail: true, // not send the email to user with password
+          ignoreEmail: true, // not send the email to user with password,
+          redirectTo: '/onBoarding/success',
         };
         handleCreateUser(data);
       }
@@ -364,132 +365,131 @@ function OnBoarding(props) {
                         <h5 className="mb-4 mb-md-10 fsize-md-800">{quest.title}</h5>
                         {
                           quest.inputs.map((input, f) => (
-                              <div key={f.toString()}>
-                                {
-                                  input.type === 'Map' ? (
-                                    <>
-                                      <div className="mb-2 pos-r zIndex4">
-                                        <Field
-                                          name={input.name}
-                                          label={input.label}
-                                          component={() => (
+                            <div key={f.toString()}>
+                              {
+                                input.type === 'Map' ? (
+                                  <>
+                                    <div className="mb-2 pos-r zIndex4">
+                                      <Field
+                                        name={input.name}
+                                        label={input.label}
+                                        component={() => (
+                                          <Maps
+                                            zoom={14}
+                                            scrollZoom
+                                            moveMarker
+                                            draggable
+                                            showSearchLocation
+                                            showSelectCountry={showCountrySel}
+                                            showMap={false}
+                                            isShowZip={false}
+                                            className="w-perc-100"
+                                            selCountry={curCountry ? curCountry.value : ''}
+                                            changeCountry={(val) => {
+                                              countryObj(val);
+                                              setShowCountrySel(false);
+                                            }}
+                                          />
+                                        )}
+                                        options={input.options}
+                                        validate={input.validation}
+                                        type={input.type}
+                                        onChange={(e) => validateSlide(e, input.name, quest)}
+                                      />
+
+                                      {
+                                        !showCountrySel && (
+                                          <BrixelButtonTertiary
+                                            className="mt-1"
+                                            label={
+                                              curCountry ?
+                                                translateTo(lang, curCountry.label) :
+                                                translateTo(lang, 'Everywhere')
+                                            }
+                                            onClick={() => setShowCountrySel(true)}
+                                          />
+                                        )
+                                      }
+
+                                    </div>
+                                    {
+                                      formValue.location && formValue.location.address && (
+                                        <>
+                                          <div
+                                            className="pos-r zIndex1"
+                                          >
                                             <Maps
                                               zoom={14}
                                               scrollZoom
                                               moveMarker
                                               draggable
-                                              showSearchLocation
-                                              showSelectCountry={showCountrySel}
-                                              showMap={false}
+                                              showMap
                                               isShowZip={false}
                                               className="w-perc-100"
-                                              selCountry={curCountry ? curCountry.value : ''}
-                                              changeCountry={(val) => {
-                                                countryObj(val);
-                                                setShowCountrySel(false);
-                                              }}
                                             />
-                                          )}
-                                          options={input.options}
-                                          validate={input.validation}
-                                          type={input.type}
-                                          onChange={(e) => validateSlide(e, input.name, quest)}
-                                        />
-
-                                        {
-                                          !showCountrySel && (
-                                            <BrixelButtonTertiary
-                                              className="mt-1"
-                                              label={
-                                                curCountry ?
-                                                  translateTo(lang, curCountry.label) :
-                                                  `🌍 ${translateTo(lang, 'Everywhere')}`
-                                              }
-                                              onClick={() => setShowCountrySel(true)}
-                                            />
-                                          )
-                                        }
-
-                                      </div>
+                                          </div>
+                                        </>
+                                      )
+                                    }
+                                  </>
+                                ) : (
+                                  <div className="dis-f a-c jc-b">
+                                    <div
+                                      className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}
+                                      tabIndex="-1"
+                                    >
+                                      <Field
+                                        className="w-perc-100"
+                                        inputClassName={input.className || ''}
+                                        name={input.name}
+                                        label={input.label}
+                                        icons={quest.icons}
+                                        component={quest.component}
+                                        fluid={true}
+                                        options={quest.options}
+                                        validate={input.validation}
+                                        type={input.type}
+                                        step={+input.step}
+                                        min={input.min}
+                                        onChange={(e) => validateSlide(e, input.name, quest)}
+                                        deactivable={false}
+                                        placeholder={input.placeholder || ''}
+                                        meta={{
+                                          dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                          invalid: true,
+                                        }}
+                                        modal={null}
+                                        message={{
+                                          help: null,
+                                          error: errorValue[input.name],
+                                        }}
+                                      />
                                       {
-                                        formValue.location && formValue.location.address && (
-                                          <>
-                                            <div
-                                              className="pos-r zIndex1"
-                                            >
-                                              <Maps
-                                                zoom={14}
-                                                scrollZoom
-                                                moveMarker
-                                                draggable
-                                                showMap
-                                                isShowZip={false}
-                                                className="w-perc-100"
-                                              />
-                                            </div>
-                                          </>
-                                        )
-                                      }
-                                    </>
-                                  ) : (
-                                    <div className="dis-f a-c jc-b">
-                                      <div
-                                        className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}
-                                        tabIndex="-1"
-                                      >
-                                        <Field
-                                          className="w-perc-100"
-                                          inputClassName={input.className || ''}
-                                          name={input.name}
-                                          label={input.label}
-                                          icons={quest.icons}
-                                          component={quest.component}
-                                          fluid={true}
-                                          options={quest.options}
-                                          validate={input.validation}
-                                          type={input.type}
-                                          step={+input.step}
-                                          min={input.min}
-                                          onChange={(e) => validateSlide(e, input.name, quest)}
-                                          deactivable={false}
-                                          placeholder={input.placeholder || ''}
-                                          meta={{
-                                            dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                            invalid: true,
-                                          }}
-                                          modal={null}
-                                          message={{
-                                            help: null,
-                                            error: errorValue[input.name],
-                                          }}
-                                        />
-                                        {
-                                          input.unit && (
-                                            <span className="pl-2">{input.unit}</span>
-                                          )
-                                        }
-                                      </div>
-                                      {
-                                        quest.inputs.length === 1 &&
-                                        (input.type === 'number' || input.type === 'text') && (
-                                          <BrixelButtonPrimary
-                                            rounded
-                                            label="Ok"
-                                            className="ml-2 hide-md"
-                                            background="green"
-                                            onClick={() => changeStep()}
-                                            disabled={disableNextBtn}
-                                            type="submit"
-                                          />
+                                        input.unit && (
+                                          <span className="pl-2">{input.unit}</span>
                                         )
                                       }
                                     </div>
-                                  )
-                                }
-                                <p className="body2">{input.help}</p>
-                              </div>
-                            )
-                          )
+                                    {
+                                      quest.inputs.length === 1 &&
+                                      (input.type === 'number' || input.type === 'text') && (
+                                        <BrixelButtonPrimary
+                                          rounded
+                                          label="Ok"
+                                          className="ml-2 hide-md"
+                                          background="green"
+                                          onClick={() => changeStep()}
+                                          disabled={disableNextBtn}
+                                          type="submit"
+                                        />
+                                      )
+                                    }
+                                  </div>
+                                )
+                              }
+                              <p className="body2">{input.help}</p>
+                            </div>
+                          ))
                         }
                       </>
                     )
@@ -723,48 +723,56 @@ function OnBoarding(props) {
         >
           <div className="container pos-r">
             <div className="subcontainer">
-            {
-              !disableNextBtn &&
-              Questions[currentIndex] &&
-              Questions[currentIndex].inputs &&
-              Questions[currentIndex].successMessage && (
-                <p className="txtGreen700 ta-r mb-2 textSuccess">
-                  {Questions[currentIndex].successMessage}
-                  <BrixelIcon icon="check" className="ml-1" />
-                </p>
-              )
-            }
-            <div
-              className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
               {
-                Questions[currentIndex].inputs && (
-                  <BrixelButtonIcon
-                    className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
-                    icon="arrow-simple-left"
-                    onClick={() => changeStep('back')}
-                    background="white"
-                    saturation={0}
-                    color="primary"
-                    saturationTxt={400}
-                    noBorder
-                  />
+                !disableNextBtn &&
+                Questions[currentIndex] &&
+                Questions[currentIndex].inputs &&
+                Questions[currentIndex].successMessage && (
+                  <p className="txtGreen700 ta-r mb-2 textSuccess">
+                    {Questions[currentIndex].successMessage}
+                    <BrixelIcon icon="check" className="ml-1" />
+                  </p>
                 )
               }
-              {
-                Questions[currentIndex] && (
-                  <BrixelButtonPrimary
-                    rounded
-                    label={buttonLabel()}
-                    background={Questions[currentIndex].inputs ? "green" : "primary"}
-                    className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                    onClick={() => Questions[currentIndex].cardType === 'createProfile' ? saveData() : changeStep()}
-                    rightIcon="arrow-right-small"
-                    disabled={disableNextBtn}
-                  />
-                )
-              }
+              <div
+                className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
+                {
+                  Questions[currentIndex].inputs && (
+                    <BrixelButtonIcon
+                      className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
+                      icon="arrow-simple-left"
+                      onClick={() => changeStep('back')}
+                      background="white"
+                      saturation={0}
+                      color="primary"
+                      saturationTxt={400}
+                      noBorder
+                    />
+                  )
+                }
+                {
+                  Questions[currentIndex] && (
+                    <BrixelButtonPrimary
+                      rounded
+                      label={
+                        !Questions[currentIndex + 2] ?
+                          translateTo(lang, "Create profile") :
+                          (
+                            Questions[currentIndex].cardType === 'createProfile' ?
+                              translateTo(lang, "Save") :
+                              translateTo(lang, "Continue")
+                          )
+                      }
+                      background={Questions[currentIndex].inputs ? "green" : "primary"}
+                      className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
+                      onClick={() => Questions[currentIndex].cardType === 'createProfile' ? saveData() : changeStep()}
+                      rightIcon="arrow-right-small"
+                      disabled={disableNextBtn}
+                    />
+                  )
+                }
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </form>

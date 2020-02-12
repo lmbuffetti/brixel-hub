@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="24px" viewBox="0 0 20 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Fill 11 Copy 19</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="252 14 262 14 262 3.47245625 257.000616 0 252 3.47245625"></polygon>
+        <filter x="-95.0%" y="-39.3%" width="290.0%" height="235.7%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.0666666667   0 0 0 0 0.0941176471   0 0 0 0 0.125490196  0 0 0 0.249094203 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Actual_Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Mpa_list-view_Desktop-Copy" transform="translate(-1119.000000, -985.000000)">
+            <g id="Group-16" transform="translate(872.000000, 923.000000)">
+                <g id="Group-29" transform="translate(0.000000, 63.000000)">
+                    <g id="Fill-11-Copy-19">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                        <use fill="#5A6EFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
