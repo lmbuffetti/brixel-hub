@@ -88,7 +88,7 @@ const checkUser = (store) => (next) => (action) => {
       const { redirectTo } = action.payload.user;
       delete action.payload.user;
       delete action.payload.addProperty;
-      delete action.payload.user.redirectTo;
+      // delete action.payload.user.redirectTo;
       api.user.createUser(data)
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
@@ -145,6 +145,7 @@ const checkUser = (store) => (next) => (action) => {
       delete action.payload.user.createUser;
       api.user.validateUser(action.payload.user.email)
         .then((res) => {
+          console.log(res.data, newUser);
           if (newUser && typeof res.data.statusCode === 'undefined') {
             store.dispatch({
               type: SET_PAGE_DATA,
@@ -156,6 +157,7 @@ const checkUser = (store) => (next) => (action) => {
               }
             });
           } else if (newUser) {
+            console.log(action.payload);
             store.dispatch({ type: CREATE_USER, payload: action.payload });
           }
           store.dispatch({ type: SPINNER_OFF });

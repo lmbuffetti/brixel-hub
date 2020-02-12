@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
-import React, { useState, createRef, useEffect } from 'react';
+import React, { useState, createRef, useEffect, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import {
   Map, InfoWindow, Marker, GoogleApiWrapper,
@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { change } from 'redux-form';
-import { BrixelIcon, BrixelInputText, BrixelSelect } from '@brixel/brixel-components';
+import { BrixelButtonTertiary, BrixelIcon, BrixelInputText, BrixelSelect, useOutsideAlerter } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import markerImg from '../../images/location/icon_location.svg';
@@ -22,17 +22,6 @@ const swissZipCode = require('../../resources/swissZipCodes.json');
 const images = require.context('../../images', true);
 
 const Maps = (props) => {
-  // STATE
-  const [selectedPlace, setSelectedPlace] = useState([]);
-  const [showInfoWindow, setShowInfoWindow] = useState(false);
-  const [modalInfo, setModalInfo] = useState({});
-  const [mapTypeId, setMapTypeId] = useState('roadmap');
-  const [inputSearchZip, setInputSearchZip] = useState('');
-  const [errorInputSearchZip, setErrorInputSearchZip] = useState(null);
-  const [streetViewAvailable, setStretViewAvailable] = useState(false);
-  const [showZipCode, setShowZipCode] = useState(false);
-  const [optMap, setOptMap] = useState({});
-  const inputSearch = createRef(null);
   // PROPS
   const {
     className,
@@ -64,31 +53,41 @@ const Maps = (props) => {
     showSelectCountry,
     zoom,
   } = props;
+  // STATE
+  const [selectedPlace, setSelectedPlace] = useState([]);
+  const [showInfoWindow, setShowInfoWindow] = useState(false);
+  const [modalInfo, setModalInfo] = useState({});
+  const [mapTypeId, setMapTypeId] = useState('roadmap');
+  const [inputSearchZip, setInputSearchZip] = useState('');
+  const [errorInputSearchZip, setErrorInputSearchZip] = useState(null);
+  const [streetViewAvailable, setStretViewAvailable] = useState(false);
+  const [showZipCode, setShowZipCode] = useState(false);
+  const [optMap, setOptMap] = useState({});
+  const [showSelCountry, setShowSelCountry] = useState(false);
+  const inputSearch = createRef(null);
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
   const [defCountry, setDefCountry] = useState('');
+  const [locList, setLoclist] = useState([]);
+  // REF
+  const wrapperRef = useRef(null)
 
   useEffect(() => {
-    setDefCountry(selCountry);
-  }, [selCountry]);
-
-  useEffect(() => {
-    if (optMap.zoom) {
-      const center = {
-        lat: latitude,
-        lng: longitude,
-      };
-      optMap.setCenter(center);
-    }
-  }, [longitude, latitude])
-
-  const changeLocation = (val) => {
-    if (showSearchLocation && inputSearch.current) {
-      setNewLocation(val);
+    if (showSearchLocation) {
+      /*/const sessionToken = new google.maps.places.AutocompleteSessionToken();
+      var autocompleteService = new google.maps.places.AutocompleteService();
       const autocomplete = new google.maps.places.Autocomplete(inputSearch.current, {
         'types': ['address'],
-        componentRestrictions: {country: defCountry ? defCountry : []}
+        componentRestrictions: { country: defCountry ? defCountry : [] },
+        sessionToken: sessionToken,
       });
-
+      console.log(sessionToken);
+      autocompleteService.getPlacePredictions(
+        {
+          input: newLocation || 'input',
+          sessionToken: sessionToken
+        },
+        function(predictions,status){}
+      );
       autocomplete.addListener('place_changed', () => {
         const formattedPlace = {};
         formattedPlace.country = null;
@@ -147,9 +146,51 @@ const Maps = (props) => {
           });
         }
         if (!formattedPlace.zip && isShowZip) setShowZipCode(true);
-        optMap.setCenter({ lat: formattedPlace.latitude, lng: formattedPlace.longitude });
+        //optMap.setCenter({ lat: formattedPlace.latitude, lng: formattedPlace.longitude });
         changeFieldValue(formName, 'location', formattedPlace);
-      });
+      });*/
+    }
+  }, []);
+
+  useEffect(() => {
+    setDefCountry(selCountry);
+  }, [selCountry]);
+
+  useEffect(() => {
+    if (optMap.zoom) {
+      const center = {
+        lat: latitude,
+        lng: longitude,
+      };
+      optMap.setCenter(center);
+    }
+  }, [longitude, latitude]);
+
+  const changeLocation = (val) => {
+    if (showSearchLocation && inputSearch.current) {
+      setNewLocation(val);
+      const sessionToken = new google.maps.places.AutocompleteSessionToken();
+      var autocompleteService = new google.maps.places.AutocompleteService();
+      if (val.length > 3) {
+        autocompleteService.getPlacePredictions(
+          {
+            input: val,
+            sessionToken: sessionToken,
+            componentRestrictions: { country: selCountry },
+            types: ["address"],
+          },
+          function (predictions, status) {
+            console.log(predictions, status);
+            if (predictions) {
+              setLoclist(predictions);
+            } else {
+              setLoclist([]);
+            }
+          }
+        );
+      } else {
+        setLoclist([]);
+      }
     }
   };
 
@@ -323,6 +364,103 @@ const Maps = (props) => {
     changeFieldValue(formName, 'location.latitude', lat);
     changeFieldValue(formName, 'location.longitude', lng);
   };
+
+  const geoCode = (adr) => {
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({
+      'address': adr
+    }, function(result, status) {
+      if (status == 'OK') {
+        const formattedPlace = {};
+        formattedPlace.country = null;
+        formattedPlace.countryCode = null;
+        formattedPlace.name = null;
+        formattedPlace.vicinity = null;
+        formattedPlace.address = null;
+        formattedPlace.geometry = null;
+        formattedPlace.latitude = null;
+        formattedPlace.longitude = null;
+        formattedPlace.state = null;
+        formattedPlace.stateCode = null;
+        formattedPlace.zip = null;
+        formattedPlace.city = null;
+
+        const location = result[0];
+        console.log(location)
+        if (location.geometry) {
+          formattedPlace.geometry = location.geometry;
+          formattedPlace.latitude = location.geometry.location.lat();
+          formattedPlace.longitude = location.geometry.location.lng();
+        }
+
+        if (location.name) {
+          formattedPlace.name = location.name;
+        }
+
+        if (location.vicinity) {
+          formattedPlace.vicinity = location.vicinity;
+        }
+
+        if (location.formatted_address) {
+          setNewLocation(location.formatted_address);
+          formattedPlace.address = location.formatted_address;
+        }
+
+        if (location.address_components) {
+          location.address_components.map((el) => {
+            if (!el.types) {
+              return;
+            }
+
+            if (el.types.indexOf('administrative_area_level_1') !== -1) {
+              formattedPlace.state = el.long_name;
+              formattedPlace.stateCode = el.short_name;
+            } else if (el.types.indexOf('locality') !== -1) {
+              formattedPlace.city = el.short_name;
+            } else if (el.types.indexOf('postal_code') !== -1) {
+              // eslint-disable-next-line radix
+              formattedPlace.zip = parseInt(el.long_name);
+            } else if (el.types.indexOf('country') !== -1) {
+              formattedPlace.country = el.long_name;
+              formattedPlace.countryCode = el.short_name;
+            } else if (el.types.indexOf('street_number') !== -1) {
+              formattedPlace.streetNumber = el.long_name;
+            }
+          });
+        }
+        if (!formattedPlace.zip && isShowZip) setShowZipCode(true);
+        changeFieldValue(formName, 'location', formattedPlace);
+      }
+    })
+  };
+
+  const highlight = (container) => {
+    const content = container.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    console.log(content, newLocation);
+    let text = '';
+    const oriWord = container.split('');
+    let start = -1;
+    let end = 0;
+    content.split('').forEach(function(val, i){
+      if (val === newLocation.charAt(i)) end = i;
+      if (start === -1 && val === newLocation.charAt(i).toLowerCase()) start = i;
+    });
+    return `<span>${container.substring(0,start)}</span><span class='highlight'>${container.substring(start,end+1)}</span><span>${container.substring(end+1,content.length)}</span>`;
+  };
+
+  /*const highlight = (text) => {
+    let innerHTML = text;
+    const txtLow = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    let index = txtLow.indexOf(newLocation);
+    console.log(index, txtLow, innerHTML, newLocation);
+    if (index >= 0) {
+      innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
+    }
+    return innerHTML;
+  };*/
+
+  useOutsideAlerter(wrapperRef, { action: 'function', func: () => setLoclist([]) });
+
   const selectOpt = cloneDeep(country);
   selectOpt.unshift({
     label: translateTo(lang, 'Everywhere'),
@@ -342,7 +480,7 @@ const Maps = (props) => {
       {
         showSearchLocation && (
           <>
-            <div className="">
+            <div className="pos-r">
               <BrixelInputText
                 className="search-box w-perc-100"
                 type="text"
@@ -357,16 +495,42 @@ const Maps = (props) => {
                 }}
               />
               {
+                locList.length > 1 && (
+                  <ul className="resultAutoComplete" ref={wrapperRef}>
+                    {
+                      locList.map((loc, i) => (
+                        <li key={i.toString()} onClick={() => geoCode(loc.description)} dangerouslySetInnerHTML={{ __html: highlight(loc.description) }}/>
+                      ))
+                    }
+                  </ul>
+                )
+              }
+              {
                 showSelectCountry && (
-                  <BrixelSelect
-                    className="w-perc-100 max-w-fix-216 mt-1"
-                    input={{
-                      onChange: (val) => changeCountry(val),
-                      name: 'country',
-                      value: defCountry,
-                    }}
-                    options={selectOpt}
-                  />
+                  <div className="mt-2 mb-2">
+                    {
+                      showSelCountry ? (
+                        <BrixelSelect
+                          className="w-perc-100 max-w-fix-216 mt-1 pos-r zIndex2"
+                          input={{
+                            onChange: (val) => changeCountry(val),
+                            name: 'country',
+                            value: defCountry,
+                          }}
+                          options={selectOpt}
+                        />
+                      ) : (
+                        <BrixelButtonTertiary
+                          label={
+                            defCountry ?
+                              translateTo(lang, selectOpt.find(val => val.value === defCountry).label) :
+                              translateTo(lang, 'Everywhere')
+                          }
+                          onClick={() => setShowSelCountry(true)}
+                        />
+                      )
+                    }
+                  </div>
                 )
               }
             </div>
@@ -457,7 +621,7 @@ const Maps = (props) => {
               google={google}
               onReady={(mapProps, map) => fetchPlaces(mapProps, map)}
               zoom={zoom}
-              visible={showMap}
+              visible={showMap && latitude !== 0}
               initialCenter={{
                 lat: latitude,
                 lng: longitude,
