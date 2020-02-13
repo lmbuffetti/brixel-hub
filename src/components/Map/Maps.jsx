@@ -422,7 +422,7 @@ const Maps = (props) => {
                       locList.map((loc, i) => (
                         <li key={i.toString()} onClick={() => geoCode(loc.description)} dangerouslySetInnerHTML={{ __html: highlight(loc.description) }}/>
                       ))
-                    }s
+                    }
                   </ul>
                 )
               }
