@@ -12,7 +12,7 @@
     padding: $step;
     color: map_get($primaryColor, 700);
     cursor: pointer;
-    &:hover {
+    &:hover, &.active {
       background: map_get($lightColor, 100);
     }
     .highlight {
