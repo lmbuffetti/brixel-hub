@@ -83,7 +83,7 @@ function OnBoarding(props) {
   }, [company]);
 
   const changePageTitle = () => {
-    const pageTitle = `${formValue.bedrooms} ${translateTo(lang, 'rooms')} ${translateTo(lang, formValue.propertyType).toLowerCase()} - ${formValue.location.city}`;
+    const pageTitle = `${formValue.bedrooms} ${translateTo(lang, 'Rooms')} ${translateTo(lang, formValue.propertyType)} - ${formValue.location.city}`;
     changeFieldValue('pageTitle', pageTitle);
   };
 

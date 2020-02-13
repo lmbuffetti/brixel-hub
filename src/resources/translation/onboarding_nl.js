@@ -6,7 +6,7 @@ module.exports = {
   "Continue":"Doorgaan ",
   "Ok. Got it.":"Ok, ik begrijp het",
   "How many rooms?":"Hoeveel kamers?",
-  "rooms":"kamers",
+  "Rooms":"Kamers",
   "This is a nice number.":"Dit is een mooi nummer",
   "What is the living space?":"Wat is de leefruimte? ",
   "Use net living space":"Gebruik van netto leefruimte",
