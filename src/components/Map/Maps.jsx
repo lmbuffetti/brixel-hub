@@ -70,6 +70,7 @@ const Maps = (props) => {
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
   const [defCountry, setDefCountry] = useState('');
   const [locList, setLoclist] = useState([]);
+  const [selLocAuto, setSelLocAuto] = useState(-1);
   // REF
   const wrapperRef = useRef(null);
 
@@ -101,7 +102,6 @@ const Maps = (props) => {
             types: ["address"],
           },
           function (predictions, status) {
-            console.log(predictions, status);
             if (predictions) {
               setLoclist(predictions);
             } else {
@@ -307,7 +307,6 @@ const Maps = (props) => {
         formattedPlace.city = null;
 
         const location = result[0];
-        console.log(location)
         if (location.geometry) {
           formattedPlace.geometry = location.geometry;
           formattedPlace.latitude = location.geometry.location.lat();
@@ -357,7 +356,6 @@ const Maps = (props) => {
 
   const highlight = (container) => {
     const content = container.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    console.log(content, newLocation);
     let text = '';
     const oriWord = container.split('');
     let start = -1;
@@ -369,17 +367,6 @@ const Maps = (props) => {
     return `<span>${container.substring(0,start)}</span><span class='highlight'>${container.substring(start,end+1)}</span><span>${container.substring(end+1,content.length)}</span>`;
   };
 
-  /*const highlight = (text) => {
-    let innerHTML = text;
-    const txtLow = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    let index = txtLow.indexOf(newLocation);
-    console.log(index, txtLow, innerHTML, newLocation);
-    if (index >= 0) {
-      innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
-    }
-    return innerHTML;
-  };*/
-
   useOutsideAlerter(wrapperRef, { action: 'function', func: () => setLoclist([]) });
 
   const selectOpt = cloneDeep(country);
@@ -388,6 +375,25 @@ const Maps = (props) => {
     value: '',
   });
   const classNameDef = !className && showMap ? 'h-fix-400 w-perc-100' : className;
+
+  const keyUpInput = (e) => {
+    let newId = selLocAuto;
+    if (e.key === 'ArrowUp') {
+      newId = selLocAuto < locList.length - 1 ? selLocAuto + 1 : 0;
+    }
+    if (e.key === 'ArrowDown') {
+      newId = selLocAuto < locList.length - 1 ? selLocAuto + 1 : 0;
+    }
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelLocAuto(newId);
+    }
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      geoCode(locList[newId].description);
+    }
+  };
+
   return (
     // Important! Always set the container height explicitly
     <div
@@ -414,13 +420,20 @@ const Maps = (props) => {
                   value: newLocation,
                   name: 'location',
                 }}
+                onKeyDown={(e) => keyUpInput(e)}
               />
               {
                 locList.length > 1 && (
                   <ul className="resultAutoComplete" ref={wrapperRef}>
                     {
                       locList.map((loc, i) => (
-                        <li key={i.toString()} onClick={() => geoCode(loc.description)} dangerouslySetInnerHTML={{ __html: highlight(loc.description) }}/>
+                        <li
+                          className={i === selLocAuto ? 'active' : ''}
+                          tabIndex={i}
+                          key={i.toString()}
+                          onClick={() => geoCode(loc.description)}
+                          dangerouslySetInnerHTML={{ __html: highlight(loc.description) }}
+                        />
                       ))
                     }
                   </ul>
