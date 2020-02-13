@@ -7,26 +7,26 @@ import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
 import { translateTo } from '../utils/translation';
 
-export const maxLengthNum = (val) => (value) => {
+export const maxLengthNum = (val, name) => (value) => {
   const error = !value || (value < val)
     ? null
-    : 'Select up 3 select';
+    : `The ${name} have to be less then ${val}`;
 
   return error;
 };
 
-export const minLengthNum = (val) => (value) => {
+export const minLengthNum = (val, name) => (value) => {
   const error = !value || (value >= val)
     ? null
-    : 'Select up 3 select';
+    : `The ${name} have to be more then ${val}`;
 
   return error;
 };
 
-const minLengthNumYear = minLengthNum(1500);
-const maxLengthNumRooms = maxLengthNum(30);
-const maxLengthNumLivSpace = maxLengthNum(9999);
-const maxLengthNumYear = maxLengthNum(2030);
+const minLengthNumYear = minLengthNum(1500, 'year');
+const maxLengthNumRooms = maxLengthNum(30, 'rooms');
+const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
+const maxLengthNumYear = maxLengthNum(2030, 'year');
 
 
 export const QuestionsList = (lang) => [
@@ -70,7 +70,7 @@ export const QuestionsList = (lang) => [
         label: '',
         name: 'bedrooms',
         type: 'number',
-        validation: [Validation.positiveNumber, maxLengthNumRooms, Validation.required],
+        validation: [maxLengthNumRooms, Validation.positiveNumber, Validation.required],
         step: [1],
         min: 1,
       },

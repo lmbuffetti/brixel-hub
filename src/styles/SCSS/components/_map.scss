@@ -1,0 +1,22 @@
+.resultAutoComplete {
+  box-shadow: $shadow-3dp;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  padding: $step;
+  border-radius: 0 0 $brd-radius-small $brd-radius-small;
+  z-index: 5;
+  background: $brx-white;
+  li {
+    list-style: none;
+    padding: $step;
+    color: map_get($primaryColor, 700);
+    cursor: pointer;
+    &:hover {
+      background: map_get($lightColor, 100);
+    }
+    .highlight {
+      font-weight: 600;
+    }
+  }
+}

@@ -15,3 +15,5 @@ export const SET_LANGUAGE = 'SET_LANGUAGE';
 
 export const SET_NOTIFICATION = "SET_NOTIFICATION";
 export const SET_PAGE_DATA = "SET_PAGE_DATA";
+
+export const SEND_GENERIC_MAIL = 'SEND_GENERIC_MAIL';

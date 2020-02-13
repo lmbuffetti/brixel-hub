@@ -3,7 +3,6 @@ export function imageBgPreload(onComplete) {
   try {
     onComplete(true);
     runBgPreload(onComplete());
-    // console.log('preload try successful');
   } catch (err) {
     onComplete(false);
   }
@@ -43,22 +42,18 @@ export function imageBgPreload(onComplete) {
       for (let i = 0; i < pre.length; i += 1) {
         pre[i].addEventListener('load', checkEachStatus, false);
         preStatus[i] = pre[i].complete;
-        // console.log([i] + ' load status: ' + preStatus[i]);
       }
     }
 
     function checkEachStatus() {
-      // console.log('checkEachStatus()');
       function imageLoadedTrue(loadStatuses) {
         return loadStatuses === true;
       }
       for (let i = 0; i < pre.length; i += 1) {
         preStatus[i] = pre[i].complete;
-        // console.log(pre[i].complete + i);
         allImagesReady = preStatus.every(imageLoadedTrue);
         if (allImagesReady === true && onCompleteFired === false) {
           // mainFired used to stop runMain firing more than once if images load from cache
-          // console.log('onComplete()');
           onComplete(false);
           onCompleteFired = true;
         }
