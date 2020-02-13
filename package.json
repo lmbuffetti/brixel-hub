@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^1.1.55",
+    "@brixel/brixel-components": "^1.1.56",
     "@brixel/brixel-configuration-partner": "git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "d3": "^5.15.0",
     "deep-object-diff": "^1.1.0",
@@ -37,7 +37,7 @@
     "redux-form": "^8.3.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "swiper": "^5.3.0",
+    "swiper": "^5.3.1",
     "universal-cookie": "^4.0.3"
   },
   "scripts": {
@@ -90,7 +90,7 @@
     "terser-webpack-plugin": "^2.3.4",
     "webpack": "4.41.2",
     "webpack-assets-manifest": "^3.1.1",
-    "webpack-cli": "^3.3.10",
+    "webpack-cli": "^3.3.11",
     "webpack-merge": "^4.2.2",
     "webpack-node-externals": "^1.7.2"
   }

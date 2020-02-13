@@ -13,7 +13,7 @@ export const maxLengthNum = (val, name) => (value) => {
   const error = !value || (value < val)
     ? null
     : name === 'year' ?
-     `Year can't be after ${val}` : `The ${name} have to be less then ${val}`;
+      `Year can't be after ${val}` : `The ${name} have to be less then ${val}`;
 
   return error;
 };
@@ -111,6 +111,7 @@ export const QuestionsList = (lang) => [
         classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-md-232',
         placeholder: translateTo(lang, 'e.g. 1990'),
         validation: [minLengthNumYear, maxLengthNumYear, Validation.required],
+        maxLengthNum: 2030
       },
     ],
     successMessage: translateTo(lang, 'A good year for real estate.')

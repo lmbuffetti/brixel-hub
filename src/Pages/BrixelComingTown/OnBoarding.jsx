@@ -404,7 +404,7 @@ function OnBoarding(props) {
                                             label={
                                               curCountry ?
                                                 translateTo(lang, curCountry.label) :
-                                                translateTo(lang, 'Everywhere')
+                                                `🌍 ${translateTo(lang, 'Everywhere')}`
                                             }
                                             onClick={() => setShowCountrySel(true)}
                                           />
@@ -463,6 +463,7 @@ function OnBoarding(props) {
                                           help: null,
                                           error: errorValue[input.name],
                                         }}
+                                        maxLengthNum={input.maxLengthNum}
                                       />
                                       {
                                         input.unit && (
@@ -613,7 +614,14 @@ function OnBoarding(props) {
                                         error: translateTo(lang, "Please insert a valid password")
                                       }}
                                     />
-                                    <a className="p-1" target="_blank" href="https://login.brixel.ch/recover"> {translateTo(lang, "Forgot password?")} </a>
+                                    <p className="mt-1">
+                                      <a
+                                        className="txtPrimary400 cur-poi"
+                                        href="#"
+                                      >
+                                        {translateTo(lang, "Forgot password?")}
+                                      </a>
+                                    </p>
                                   </>
                                 ) : (
                                   <>

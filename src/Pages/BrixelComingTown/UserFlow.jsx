@@ -428,7 +428,7 @@ function UserFlow(props) {
         </div>
         {
           Questions[currentIndex].cardType !== 'chat' && (
-            <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`}>
+            <div className={`footerAction p-1 p-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`}>
               <div className="container pos-r">
                 <div className="subcontainer">
                   {
@@ -469,50 +469,50 @@ function UserFlow(props) {
                           Questions[currentIndex + 1].inputs
                         )
                       ) ? (
-                        <>
-                          <BrixelButtonPrimary
-                            rounded
-                            label={
-                              emptyValue &&
-                              Questions[currentIndex].inputs ?
-                                translateTo(lang,"Skip") :
-                                translateTo(lang,"Continue")
+                          <>
+                            <BrixelButtonPrimary
+                              rounded
+                              label={
+                                emptyValue &&
+                                Questions[currentIndex].inputs ?
+                                  translateTo(lang,"Skip") :
+                                  translateTo(lang,"Continue")
+                              }
+                              background={Questions[currentIndex].inputs ? "green" : "primary"}
+                              className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
+                              onClick={() => changeStep()}
+                              rightIcon="arrow-right-small"
+                              disabled={disableNextBtn}
+                            />
+                          </>
+                        ) : (
+                          <>
+                            {
+                              Questions[currentIndex].cardType === 'LastStep' && (
+                                <>
+                                  <BrixelButtonIcon
+                                    className="shadow-2dp backBtn"
+                                    icon="arrow-simple-left"
+                                    onClick={() => changeStep('back')}
+                                    background="white"
+                                    saturation={0}
+                                    color="primary"
+                                    saturationTxt={400}
+                                    noBorder
+                                  />
+                                  <BrixelButtonTertiary
+                                    rounded
+                                    label={translateTo(lang,"Back to our website")}
+                                    color="primary"
+                                    onClick={() => window.location.href = company.contactWebsite || 'https://brixel.ch'}
+                                    rightIcon="arrow-right-small"
+                                    disabled={disableNextBtn}
+                                  />
+                                </>
+                              )
                             }
-                            background={Questions[currentIndex].inputs ? "green" : "primary"}
-                            className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                            onClick={() => changeStep()}
-                            rightIcon="arrow-right-small"
-                            disabled={disableNextBtn}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          {
-                            Questions[currentIndex].cardType === 'LastStep' && (
-                              <>
-                                <BrixelButtonIcon
-                                  className="shadow-2dp backBtn"
-                                  icon="arrow-simple-left"
-                                  onClick={() => changeStep('back')}
-                                  background="white"
-                                  saturation={0}
-                                  color="primary"
-                                  saturationTxt={400}
-                                  noBorder
-                                />
-                                <BrixelButtonTertiary
-                                  rounded
-                                  label={translateTo(lang,"Back to our website")}
-                                  color="primary"
-                                  onClick={() => window.location.href = company.contactWebsite || 'https://brixel.ch'}
-                                  rightIcon="arrow-right-small"
-                                  disabled={disableNextBtn}
-                                />
-                              </>
-                            )
-                          }
-                        </>
-                      )
+                          </>
+                        )
                     }
                   </div>
                 </div>
