@@ -30,7 +30,7 @@ export const minLengthNum = (val, name) => (value) => {
 const minLengthNumYear = minLengthNum(1500, 'year');
 const maxLengthNumRooms = maxLengthNum(30, 'rooms');
 const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
-const maxLengthNumYear = maxLengthNum(2030, 'year');
+const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 
 export const QuestionsList = (lang) => [
@@ -111,7 +111,7 @@ export const QuestionsList = (lang) => [
         classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-md-232',
         placeholder: translateTo(lang, 'e.g. 1990'),
         validation: [minLengthNumYear, maxLengthNumYear, Validation.required],
-        maxLengthNum: 2030
+        maxLengthNum: 2031
       },
     ],
     successMessage: translateTo(lang, 'A good year for real estate.')

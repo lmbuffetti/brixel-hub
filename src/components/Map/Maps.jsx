@@ -524,7 +524,7 @@ const Maps = (props) => {
                           label={
                             defCountry ?
                               translateTo(lang, selectOpt.find(val => val.value === defCountry).label) :
-                              translateTo(lang, 'Everywhere')
+                              `🌍 ${translateTo(lang, 'Everywhere')}`
                           }
                           onClick={() => setShowSelCountry(true)}
                         />

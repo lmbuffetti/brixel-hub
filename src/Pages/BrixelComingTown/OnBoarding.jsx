@@ -20,9 +20,10 @@ import {
   BrixelCheckbox,
   Validation,
 } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
 import { addProperty } from '../../actions/PropertyActions';
-import { errorMessage, setPageData, setLanguage } from '../../actions/CommonActions';
+import { errorMessage, setPageData, setLanguage, setNotification } from '../../actions/CommonActions';
 import { getCompany } from '../../actions/CompanyActions';
 import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.js';
 import { setCookie } from '../../utils/helpers';
@@ -48,6 +49,7 @@ function OnBoarding(props) {
     handleSetLanguage,
     handleSetBrixelPoint,
     handleSetPage,
+    handleSetNotification,
     history,
     lang,
     loggedUser,
@@ -319,13 +321,15 @@ function OnBoarding(props) {
   // Chack if user account just exist and redirect him to login part
   const switchLoginSignUpPage = (act) => {
     handleSetPage(null);
+    handleSetNotification(null);
     setLoginPage(act);
   };
 
   const buttonLabel = () => {
     let label = '';
     if (!Questions[currentIndex + 2]) {
-      label = translateTo(lang, "Create profile")
+      if(loginPage) label = translateTo(lang, "Login")
+      else label = translateTo(lang, "Create profile")
     } else {
         if (Questions[currentIndex].cardType === 'createProfile') {
           label = translateTo(lang, "Save")
@@ -592,7 +596,9 @@ function OnBoarding(props) {
                                     <p className="mt-1">
                                       <a
                                         className="txtPrimary400 cur-poi"
-                                        href="#"
+                                        href={`${baseByData.loginBasePath}/recover`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                       >
                                         {translateTo(lang, "Forgot password?")}
                                       </a>
@@ -738,15 +744,7 @@ function OnBoarding(props) {
                   Questions[currentIndex] && (
                     <BrixelButtonPrimary
                       rounded
-                      label={
-                        !Questions[currentIndex + 2] ?
-                          translateTo(lang, "Create profile") :
-                          (
-                            Questions[currentIndex].cardType === 'createProfile' ?
-                              translateTo(lang, "Save") :
-                              translateTo(lang, "Continue")
-                          )
-                      }
+                      label={buttonLabel()}
                       background={Questions[currentIndex].inputs ? "green" : "primary"}
                       className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
                       onClick={() => Questions[currentIndex].cardType === 'createProfile' ? saveData() : changeStep()}
@@ -779,6 +777,7 @@ OnBoarding.propTypes = {
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetPage: PropTypes.func.isRequired,
   handleSetBrixelPoint: PropTypes.func.isRequired,
+  handleSetNotification: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initialValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
@@ -820,6 +819,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleCreatePage: bindActionCreators(addProperty, dispatch),
   handleSetErrorMsg: bindActionCreators(errorMessage, dispatch),
+  handleSetNotification: bindActionCreators(setNotification, dispatch),
   handleSetPage: bindActionCreators(setPageData, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
   handleSetBrixelPoint: bindActionCreators(setBrixelPoint, dispatch),

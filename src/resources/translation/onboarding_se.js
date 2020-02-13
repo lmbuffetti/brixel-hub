@@ -15,7 +15,7 @@ module.exports = {
   "Please enter the exact address":"Vänligen skriv in den exakta adressen",
   "Is this the place?":"Är detta rätt ställe?",
   "Change":"Ändra",
-  "Great, Your property was created! 🎉":"Bra. Din bostad har skapats.",
+  "Great, Your property was created! 🎉":"Bra! Din bostad har skapats. 🎉",
   "And the first award goes to…You!":"Och det första priset går till…Dig!",
   "You earned the <span class=\"txtGreen400\">\"Homebase\"</span> Award and +50 Brixels.":"Du fick <span class=\"txtGreen400\">\"Hembas\"</span> priset och +50 Brixels.",
   "Every home needs an owner.":"Varje hem behöver en ägare.",
