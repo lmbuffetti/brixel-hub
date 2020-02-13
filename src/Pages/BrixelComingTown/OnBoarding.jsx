@@ -14,7 +14,6 @@ import { change, isValid, Field, reduxForm } from 'redux-form';
 import Cookies from 'universal-cookie';
 import {
   BrixelButtonPrimary,
-  BrixelButtonTertiary,
   BrixelButtonIcon,
   BrixelIcon,
   BrixelInputText,
@@ -30,7 +29,7 @@ import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
 
-const cookie = new Cookies;
+const cookie = new Cookies();
 
 function OnBoarding(props) {
   // PROPS
@@ -50,7 +49,6 @@ function OnBoarding(props) {
     handleSetBrixelPoint,
     handleSetPage,
     history,
-    initialValue,
     lang,
     loggedUser,
     pageState,
@@ -66,8 +64,6 @@ function OnBoarding(props) {
   const [Questions, setQuestions] = useState(QuestionsList(lang));
   const [curCountry, setCurCountry] = useState(null);
   const [showCountrySel, setShowCountrySel] = useState(false);
-  // REF
-  const listInputs = Questions.filter((item) => typeof item.inputs !== 'undefined');
 
   // SET the country from the value
   const countryObj = (curVal) => {
@@ -99,6 +95,19 @@ function OnBoarding(props) {
         const curVal = get(errorValue, inp.name, true);
         if (curVal !== true) invalidField = true;
       });
+    }
+    if (Questions[currentIndex].cardType && Questions[currentIndex].cardType === 'createProfile') {
+      let fieldVal = [];
+      if (loginPage) {
+        fieldVal = ['email', 'password'];
+      } else {
+        fieldVal = ['firstName', 'lastName', 'email', 'privacy'];
+      }
+      fieldVal.map((inp) => {
+        const curVal = get(errorValue, inp, true);
+        if (curVal !== true) invalidField = true;
+      });
+      console.log('test');
     }
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex]);
@@ -149,90 +158,6 @@ function OnBoarding(props) {
       changeFieldValue('pageTitle', pageTitle);
     }
   }, [formValue]);
-
-  useEffect(() => {
-    // Function to detect the TAB
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Tab') {
-        changeStep();
-      }
-      document.getElementById('onBoarding').scrollTo(0, 0);
-    }, false);
-    document.addEventListener('keyup', function (e) {
-      document.getElementById('onBoarding').scrollTo(0, 0);
-    }, false);
-    // Get the company from url or cookie and set on cookie
-    let company = get(history, 'location.search', cookie.get('brixelStubCompany') || null);
-    const companyCookie = cookie.get('brixelStubCompany') || null;
-    if (company || companyCookie) {
-      company = company.replace('?company=', '');
-      const defComp = company || companyCookie;
-      handleGetCompany({stub: defComp});
-      setCookie('brixelStubCompany', defComp);
-    }
-    // on load page redirect all to first step
-    history.push(`/onBoarding/${Questions[0].history}`);
-  }, []);
-
-  // Function to update the current index in base of History
-  const validateSlide = (val, name, quest) => {
-    changeFieldValue(name, val);
-    checkValid();
-    const curIndex = Questions.findIndex((item) => quest.history === item.history);
-    setCurrentIndex(curIndex);
-  };
-
-  // Function to move next/prev question
-  const changeStep = (act) => {
-    let newPosition = position;
-    if (act === 'back') {
-      setDisableNextBtn(false);
-      newPosition = position - 1;
-    }
-    else {
-      if (disableNextBtn) return false;
-      setDisableNextBtn(true);
-      newPosition = position + 1;
-    }
-    setPosition(newPosition);
-    setCurrentIndex(newPosition);
-    if (newPosition > 0) setHidePrevBtn(false);
-    else setHidePrevBtn(true);
-    if (
-      Questions[newPosition] &&
-      Questions[newPosition].cardType &&
-      Questions[newPosition].cardType === 'RewardsStep'
-    ) {
-      handleSetBrixelPoint([{desc: "First Award", point: 50}]);
-      handleSetAwards([{desc: "First Award", point: 1}]);
-    }
-    if (
-      Questions[newPosition] &&
-      Questions[newPosition].cardType &&
-      Questions[newPosition].cardType === 'LastStep' &&
-      loggedUser.user && loggedUser.user.id
-    ) {
-      saveData();
-    }
-    const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
-    setProgressBar(newPosition * 100 / questInputs.length);
-    setTimeout(() => {
-      const getCurStep = document.getElementById(`step-${newPosition}`);
-      if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-        getCurStep.querySelector('input[type="number"]').focus();
-      }
-      else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-        getCurStep.querySelector('input[type="text"]').focus();
-      }
-      if (document.getElementById('onBoarding')) {
-        document.getElementById('onBoarding').scrollTo(0, 0);
-      }
-    }, 100);
-    if (document.getElementById('onBoarding')) {
-      document.getElementById('onBoarding').scrollTo(0, 0);
-    }
-    history.push(`/onBoarding/${Questions[newPosition].history}`);
-  };
 
   // Function to save the data
   const saveData = (e) => {
@@ -307,6 +232,90 @@ function OnBoarding(props) {
     }
   };
 
+  // Function to move next/prev question
+  const changeStep = (act) => {
+    let newPosition = position;
+    if (act === 'back') {
+      setDisableNextBtn(false);
+      newPosition = position - 1;
+    }
+    else {
+      if (disableNextBtn) return false;
+      setDisableNextBtn(true);
+      newPosition = position + 1;
+    }
+    setPosition(newPosition);
+    setCurrentIndex(newPosition);
+    if (newPosition > 0) setHidePrevBtn(false);
+    else setHidePrevBtn(true);
+    if (
+      Questions[newPosition] &&
+      Questions[newPosition].cardType &&
+      Questions[newPosition].cardType === 'RewardsStep'
+    ) {
+      handleSetBrixelPoint([{desc: "First Award", point: 50}]);
+      handleSetAwards([{desc: "First Award", point: 1}]);
+    }
+    if (
+      Questions[newPosition] &&
+      Questions[newPosition].cardType &&
+      Questions[newPosition].cardType === 'LastStep' &&
+      loggedUser.user && loggedUser.user.id
+    ) {
+      saveData();
+    }
+    const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
+    setProgressBar(newPosition * 100 / questInputs.length);
+    setTimeout(() => {
+      const getCurStep = document.getElementById(`step-${newPosition}`);
+      if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+        getCurStep.querySelector('input[type="number"]').focus();
+      }
+      else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+        getCurStep.querySelector('input[type="text"]').focus();
+      }
+      if (document.getElementById('onBoarding')) {
+        document.getElementById('onBoarding').scrollTo(0, 0);
+      }
+    }, 100);
+    if (document.getElementById('onBoarding')) {
+      document.getElementById('onBoarding').scrollTo(0, 0);
+    }
+    history.push(`/onBoarding/${Questions[newPosition].history}`);
+  };
+
+  useEffect(() => {
+    // Function to detect the TAB
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Tab') {
+        changeStep();
+      }
+      document.getElementById('onBoarding').scrollTo(0, 0);
+    }, false);
+    document.addEventListener('keyup', function (e) {
+      document.getElementById('onBoarding').scrollTo(0, 0);
+    }, false);
+    // Get the company from url or cookie and set on cookie
+    let company = get(history, 'location.search', cookie.get('brixelStubCompany') || null);
+    const companyCookie = cookie.get('brixelStubCompany') || null;
+    if (company || companyCookie) {
+      company = company.replace('?company=', '');
+      const defComp = company || companyCookie;
+      handleGetCompany({stub: defComp});
+      setCookie('brixelStubCompany', defComp);
+    }
+    // on load page redirect all to first step
+    history.push(`/onBoarding/${Questions[0].history}`);
+  }, []);
+
+  // Function to update the current index in base of History
+  const validateSlide = (val, name, quest) => {
+    changeFieldValue(name, val);
+    checkValid();
+    const curIndex = Questions.findIndex((item) => quest.history === item.history);
+    setCurrentIndex(curIndex);
+  };
+
   // Chack if user account just exist and redirect him to login part
   const switchLoginSignUpPage = (act) => {
     handleSetPage(null);
@@ -369,7 +378,7 @@ function OnBoarding(props) {
                               {
                                 input.type === 'Map' ? (
                                   <>
-                                    <div className="mb-2 pos-r zIndex4">
+                                    <div className="mb-2 pos-r zIndex1">
                                       <Field
                                         name={input.name}
                                         label={input.label}
@@ -380,8 +389,8 @@ function OnBoarding(props) {
                                             moveMarker
                                             draggable
                                             showSearchLocation
-                                            showSelectCountry={showCountrySel}
-                                            showMap={false}
+                                            showSelectCountry={true}
+                                            showMap={true}
                                             isShowZip={false}
                                             className="w-perc-100"
                                             selCountry={curCountry ? curCountry.value : ''}
@@ -396,41 +405,7 @@ function OnBoarding(props) {
                                         type={input.type}
                                         onChange={(e) => validateSlide(e, input.name, quest)}
                                       />
-
-                                      {
-                                        !showCountrySel && (
-                                          <BrixelButtonTertiary
-                                            className="mt-1"
-                                            label={
-                                              curCountry ?
-                                                translateTo(lang, curCountry.label) :
-                                                `🌍 ${translateTo(lang, 'Everywhere')}`
-                                            }
-                                            onClick={() => setShowCountrySel(true)}
-                                          />
-                                        )
-                                      }
-
                                     </div>
-                                    {
-                                      formValue.location && formValue.location.address && (
-                                        <>
-                                          <div
-                                            className="pos-r zIndex1"
-                                          >
-                                            <Maps
-                                              zoom={14}
-                                              scrollZoom
-                                              moveMarker
-                                              draggable
-                                              showMap
-                                              isShowZip={false}
-                                              className="w-perc-100"
-                                            />
-                                          </div>
-                                        </>
-                                      )
-                                    }
                                   </>
                                 ) : (
                                   <div className="dis-f a-c jc-b">
@@ -696,6 +671,7 @@ function OnBoarding(props) {
                                         component={BrixelCheckbox}
                                         options={[
                                           {
+                                            // eslint-disable-next-line max-len
                                             label: translateTo(lang, `I hereby confirm that I have read, understand and accept the <a href="https://gobrixel.nl/voorwaarden/" target="_blank">terms</a> and <a href="https://gobrixel.nl/privacybeleid/" target="_blank">privacy policy</a> of Brixel.`),
                                             value: 'privacy'
                                           }
