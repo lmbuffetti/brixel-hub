@@ -1,0 +1,286 @@
+.price-graph {
+  h4 {
+    position: relative;
+    z-index: 2;
+  }
+}
+.rangeGraph {
+  z-index: 1;
+  position: relative;
+  width: 100%;
+  max-width: 370px;
+  // height: 190px;
+  display: block;
+
+  .axis {
+    .tick {
+      visibility: hidden;
+    }
+
+    path {
+      stroke: #555762;
+      stroke-width: 3px;
+    }
+  }
+
+  .orange-bar {
+    rx: 4;
+    ry: 4;
+
+    &.active {
+      fill: map_get($primaryColor, 700) !important;
+    }
+  }
+
+  .filter-bar {
+    rx: 4;
+    ry: 4;
+  }
+
+  .slider {
+
+    .handle {
+      fill: transparent;
+      stroke: #576066;
+      stroke-width: 1px;
+      cursor: pointer;
+    }
+
+    .inner-handle {
+      fill: #576066;
+      stroke: #576066;
+      stroke-width: 1px;
+      cursor: pointer;
+    }
+
+    .invisible-handle {
+      fill: transparent;
+      cursor: pointer;
+    }
+
+    .sel-range {
+      stroke-width: 3px;
+      stroke: #555762;
+    }
+
+    .track {
+      stroke-linecap: round;
+      stroke: #555762;
+      stroke-width: 3px;
+    }
+
+    .track-overlay {
+      stroke-linecap: round;
+      pointer-events: stroke;
+      stroke-width: 30px;
+      stroke: transparent;
+      cursor: pointer;
+    }
+  }
+
+  text {
+    font-family: $font-family-secondary;
+    font-weight: 600;
+    letter-spacing: 1px;
+    fill: map_get($darkColor, 700);
+  }
+
+  .range-label {
+
+    position: relative;
+
+    .range-paragraph {
+      font-family: $font-family-primary;
+      color: map_get($darkColor, 400);
+      position: relative;
+      margin: 0;
+
+      .custom-value {
+        color: map_get($darkColor, 400);
+      }
+    }
+
+  }
+
+  .svg-range-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    height: 0;
+    vertical-align: top;
+    overflow: hidden;
+    // svg content
+    .svg-content-responsive {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .svg-range-label {
+      .svg-container-label {
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        padding-bottom: 5%; /* aspect ratio */
+        vertical-align: top;
+        overflow: hidden;
+      }
+      .currency {
+        font-size: 14px;
+        letter-spacing: 0px;
+        fill: black;
+      }
+      .value {
+        fill: map_get($yellowColor, 400);
+        letter-spacing: 0px;
+        font-size: 14px;
+        font-family: $font-family-primary !important;
+        font-weight: 700;
+        text-anchor: start;
+      }
+    }
+  }
+
+  .tooltip-marker {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url(../../../images/getstarted/range-graph-marker.svg);
+    position: absolute;
+    top: 70px;
+  }
+
+  .range-tip {
+    text-align: right;
+    color: map_get($darkColor, 700);
+    font-family: $font-family-secondary;
+    font-weight: 600;
+    font-size: 12px;
+    z-index: 100;
+    position: absolute;
+    padding: 0.5em 0.7em;
+    background-color: white;
+    pointer-events: none;
+    box-shadow:  $shadow-3dp;
+    -webkit-print-color-adjust: exact;
+    -webkit-filter: drop-shadow(0 2px 4px map_get($lightColor, 400));
+    border-radius: 1px;
+    white-space: nowrap;
+    top: 80px;
+
+    .num {
+      font-family: $font-family-secondary;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+
+    .data-range {
+      margin: 0;
+      text-align: center;
+    }
+
+    .avg-increase {
+      color: map_get($greenColor, 400);
+
+      i {
+        width: 9px !important;
+        height: 7px !important;
+        background-color: transparent !important;
+        // background: url('../images/market-data-up-icon.svg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: inline-block;
+      }
+    }
+
+    .avg-decrease {
+      color: map_get($redColor, 400);
+
+      i {
+        width: 9px !important;
+        height: 7px !important;
+        background-color: transparent !important;
+        // background: url('../images/market-data-down-icon.svg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: inline-block;
+      }
+    }
+
+    .tooltip-pointer {
+      width: 20px;
+      height: 15px;
+      position: absolute;
+      overflow: hidden;
+      left: 50%;
+      top: calc(100% - 1px); // Prevent visual separation of the triangle base
+      transform: translateX(-50%);
+
+      &:after {
+        content: "";
+        border-radius: 1px;
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: white;
+        transform: translateY(-50%) rotate(45deg);
+        -webkit-box-shadow: 2px 2px 4px #A4A9AD;
+        -moz-box-shadow: 2px 2px 4px #A4A9AD;
+        box-shadow: 2px 2px 4px #A4A9AD;
+        left: 5px;
+      }
+    }
+  }
+
+  .extended-label {
+    padding: 0 8px;
+
+    p {
+      font-size: 12px;
+      line-height: 18px;
+      font-family: $font-family-primary;
+      font-weight: 600;
+      text-align: center;
+      padding: 0;
+      margin: 0;
+    }
+
+    span {
+      color: map_get($greenColor, 400);
+      font-size: 14px;
+      font-weight: 600;
+
+      &.curr {
+        font-family: $font-family-primary;
+      }
+    }
+  }
+  .value {
+    position: absolute;
+    left: 0px;
+    top: 40px;
+    font-family: $font-family-secondary;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: left;
+    width: 100%;
+    max-width: 370px;
+    color: #50B482;
+    display: block;
+    padding: 0 13px;
+  }
+}
+
+@media screen and (max-width: $responsive-small) {
+  range-graph {
+    background-color: white;
+
+    .svg-range-container {
+      width: 100%;
+      height: 100%;
+      padding-bottom: 20px;
+    }
+  }
+}

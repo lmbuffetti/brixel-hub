@@ -85,8 +85,10 @@ const checkUser = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       const data = action.payload.user;
       const addProperty = action.payload.addProperty || false;
+      const { redirectTo } = action.payload.user;
       delete action.payload.user;
       delete action.payload.addProperty;
+      // delete action.payload.user.redirectTo;
       api.user.createUser(data)
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
@@ -99,11 +101,11 @@ const checkUser = (store) => (next) => (action) => {
               userData.token = res.data.token;
             }
             store.dispatch({ type: SET_USER, payload: userData });
+            if (redirectTo) store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
             if (addProperty) {
               const dataProperty = action.payload;
               dataProperty.token = userData.token;
               dataProperty.owner = userData.user.id;
-              store.dispatch({ type: REDIRECT_TO, payload: { history: '/onBoarding/success' } });
               store.dispatch({ type: ADD_PROPERTY, payload: dataProperty })
             }
             store.dispatch({ type: SPINNER_OFF });
@@ -117,7 +119,7 @@ const checkUser = (store) => (next) => (action) => {
     case UPDATE_USER: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
-      const id = action.payload.id;
+      const { id } = action.payload;
       const { sendEmail } = action.payload;
       delete action.payload.id;
       delete action.payload.sendEmail;
@@ -143,6 +145,7 @@ const checkUser = (store) => (next) => (action) => {
       delete action.payload.user.createUser;
       api.user.validateUser(action.payload.user.email)
         .then((res) => {
+          console.log(res.data, newUser);
           if (newUser && typeof res.data.statusCode === 'undefined') {
             store.dispatch({
               type: SET_PAGE_DATA,
@@ -154,6 +157,7 @@ const checkUser = (store) => (next) => (action) => {
               }
             });
           } else if (newUser) {
+            console.log(action.payload);
             store.dispatch({ type: CREATE_USER, payload: action.payload });
           }
           store.dispatch({ type: SPINNER_OFF });

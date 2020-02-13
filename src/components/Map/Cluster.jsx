@@ -69,7 +69,6 @@ const markerCluster = (props) => {
 
       // Cleanup function. Note, this is only returned if we create the markers
       return () => {
-        // console.log('Cleaning up markers')
         clusterer.clearMarkers();
       };
     }
