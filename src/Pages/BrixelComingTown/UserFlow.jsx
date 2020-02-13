@@ -443,7 +443,7 @@ function UserFlow(props) {
                     className={
                       `dis-f a-c ${Questions[currentIndex].inputs ?
                         (hidePrevBtn ? 'jc-fe' : 'jc-b') :
-                        (Questions[currentIndex].cardType === 'LastStep' ? 'jc-fe' : 'jc-c')}`
+                        (Questions[currentIndex].cardType === 'LastStep' ? 'jc-b' : 'jc-c')}`
                     }
                   >
                     {

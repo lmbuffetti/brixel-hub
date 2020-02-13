@@ -45,8 +45,16 @@
   overflow-y: auto;
   overflow-x: hidden;
 
-  display: flex;
-  align-items: center;
+    &[class*="bg"] {
+      align-items: center;
+      justify-content: center;
+      display: flex;
+    }
+
+  @media (min-width: $responsive-small) {
+    display: flex;
+    align-items: center;
+  }
   .container {
     padding: 0;
   }
