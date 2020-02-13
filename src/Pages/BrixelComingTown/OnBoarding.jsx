@@ -82,9 +82,17 @@ function OnBoarding(props) {
     }
   }, [company]);
 
+  const changePageTitle = () => {
+    const pageTitle = `${formValue.bedrooms} ${translateTo(lang, 'rooms')} ${translateTo(lang, formValue.propertyType).toLowerCase()} - ${formValue.location.city}`;
+    changeFieldValue('pageTitle', pageTitle);
+  };
+
   // LOAD QUESTIONS ON CHANGING LANGUAGE
   useEffect(() => {
     setQuestions(QuestionsList(lang));
+    if (formValue && formValue.location) {
+      changePageTitle();
+    }
   }, [lang]);
 
   // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
@@ -107,7 +115,6 @@ function OnBoarding(props) {
         const curVal = get(errorValue, inp, true);
         if (curVal !== true) invalidField = true;
       });
-      console.log('test');
     }
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex]);
@@ -124,38 +131,7 @@ function OnBoarding(props) {
   // Function to Create the pageTitle
   useEffect(() => {
     if (formValue && formValue.location && !formValue.pageTitle) {
-      var titleAdjectives = [
-        'Beautiful',
-        'Charming',
-        'Elegant',
-        'Prestigious',
-        'One-of-a-kind',
-        'Exquisite',
-        'Spacious',
-        'Gorgeous',
-        'Wonderful',
-        'Lovely',
-        'Superb',
-        'Amazing',
-        'Stunning',
-        'Sophisticated',
-        'Modern',
-        'Incredible'
-      ];
-      // Create the title of the page
-      let pageTitle = `${titleAdjectives[Math.floor(Math.random() * titleAdjectives.length)]} ${formValue.propertyType}`;
-
-      // Try to add location to the title
-      if (formValue.location.city) {
-        pageTitle += ' in ' + formValue.location.city;
-      } else if (formValue.location.state) {
-        pageTitle += ' in ' + formValue.location.state;
-      } else if (formValue.location.country) {
-        pageTitle += ' in ' + formValue.location.country;
-      } else {
-        pageTitle += ' in ' + formValue.location.address;
-      }
-      changeFieldValue('pageTitle', pageTitle);
+      changePageTitle();
     }
   }, [formValue]);
 

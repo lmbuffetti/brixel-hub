@@ -105,85 +105,93 @@ function Advisory(props) {
   return (
     <main id="advisory">
       <div className="container">
-        <p>Great. Your market check is being created and will be in your inbox within the next 48 hours.</p>
-        <h6>Did you already know?</h6>
-        <h2>Our clients save over 52 hours of work or CHF 19'300 in average by selling with Brixel Premium.</h2>
-        <h3>Get your personal offer:</h3>
+        <h6 className="my-4">Great. Your market check is being created and will be in your inbox within the next 48 hours.</h6>
+        <h6 className="mb-1">Did you already know?</h6>
+        <h4 className="mb-2">Our clients save over 52 hours of work or CHF 19'300 in average by selling with Brixel Premium.</h4>
+        <h5 className="mb-2">Get your personal offer:</h5>
         <form onSubmit={(e) => sendForm(e)}>
-          <Field
-            label="Do you already have an estimation?"
-            component={BrixelRadioButton}
-            name="alreadyHasEstimation"
-            icons={true}
-            validate={[Validation.required]}
-            options={[
-              {
-                value: 'yes',
-                label: 'Yes',
-              },
-              {
-                value: 'no',
-                label: 'No',
-              }
-            ]}
-          />
-          <Field
-            label="What is the reason for selling?"
-            component={BrixelCheckbox}
-            name="sellingReason"
-            icons={true}
-            validate={[Validation.required]}
-            options={[
-              {
-                value: 'homeChange',
-                label: 'Change of homes',
-              },
-              {
-                value: 'investmentProperty',
-                label: 'Selling an investment property',
-              },
-              {
-                value: 'inheritedProperty',
-                label: 'Selling an inherited property',
-              },
-              {
-                value: 'someoneElse',
-                label: 'I am selling for someone else',
-              },
-              {
-                value: 'other',
-                label: 'Other reason',
-              }
-            ]}
-          />
-          <Field
-            label="How much do you want to do on your own?"
-            component={BrixelRadioButton}
-            name="onYourOwn"
-            icons={true}
-            validate={[Validation.required]}
-            options={[
-              {
-                value: 'everything',
-                label: 'Everything',
-              },
-              {
-                value: 'some',
-                label: 'Some parts',
-              },
-              {
-                value: 'nothing',
-                label: 'Nothing',
-              }
-            ]}
-          />
-          <Field
-            label="How much do you want to do on your own?"
-            component={BrixelInputText}
-            validate={[Validation.isPhone, Validation.required]}
-            name="phone"
-            icons={true}
-          />
+          <div className="mb-2 max-w-fix-416">
+            <Field
+              label="Do you already have an estimation?"
+              component={BrixelRadioButton}
+              name="alreadyHasEstimation"
+              icons={true}
+              validate={[Validation.required]}
+              options={[
+                {
+                  value: 'yes',
+                  label: 'Yes',
+                },
+                {
+                  value: 'no',
+                  label: 'No',
+                }
+              ]}
+            />
+          </div>
+          <div className="mb-2 max-w-fix-416">
+            <Field
+              label="What is the reason for selling?"
+              component={BrixelCheckbox}
+              name="sellingReason"
+              icons={true}
+              validate={[Validation.required]}
+              options={[
+                {
+                  value: 'homeChange',
+                  label: 'Change of homes',
+                },
+                {
+                  value: 'investmentProperty',
+                  label: 'Selling an investment property',
+                },
+                {
+                  value: 'inheritedProperty',
+                  label: 'Selling an inherited property',
+                },
+                {
+                  value: 'someoneElse',
+                  label: 'I am selling for someone else',
+                },
+                {
+                  value: 'other',
+                  label: 'Other reason',
+                }
+              ]}
+            />
+          </div>
+          <div className="mb-2 max-w-fix-416">
+            <Field
+              label="How much do you want to do on your own?"
+              component={BrixelRadioButton}
+              name="onYourOwn"
+              icons={true}
+              validate={[Validation.required]}
+              options={[
+                {
+                  value: 'everything',
+                  label: 'Everything',
+                },
+                {
+                  value: 'some',
+                  label: 'Some parts',
+                },
+                {
+                  value: 'nothing',
+                  label: 'Nothing',
+                }
+              ]}
+            />
+          </div>
+          <div className="mb-2 max-w-fix-416">
+            <Field
+              label="How much do you want to do on your own?"
+              component={BrixelInputText}
+              validate={[Validation.isPhone, Validation.required]}
+              name="phone"
+              icons={true}
+            />
+          </div>
           <BrixelButtonPrimary
             label="Get personal offer now"
             type="submit"

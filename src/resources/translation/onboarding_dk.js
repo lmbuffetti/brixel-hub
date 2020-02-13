@@ -6,6 +6,7 @@ module.exports = {
   "Continue":"Fortsæt",
   "Ok. Got it.":"Ok. Forstået.",
   "How many rooms?":"Hvor mange rum?",
+  "rooms": "rum",
   "This is a nice number.":"Det er et godt antal",
   "What is the living space?":"Hvad er boligarealet?",
   "Use net living space":"Brugt netto boligareal",
