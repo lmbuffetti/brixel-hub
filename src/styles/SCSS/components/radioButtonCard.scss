@@ -10,16 +10,25 @@
 .brixel-radio-card {
   width: 217px;
   display: flex;
-  cursor: pointer;
+  transition: box-shadow $default-time $default-easing;
+
+  &:hover {
+    box-shadow: $shadow-3dp;
+  }
+
   label {
+    cursor: pointer;
     display: block;
     padding-bottom: $step * 5;
     position: relative;
+
     .btmLabel {
       position: absolute;
       right: $step * 2;
       bottom: $step * 2;
     }
+
+
   }
   input {
     opacity: 0;

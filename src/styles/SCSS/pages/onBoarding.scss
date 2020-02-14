@@ -97,6 +97,38 @@
   }
 }
 
+
+@mixin stagger-transitions( $interval, $min, $max ) {
+  @for $i from $min through $max {
+    &:nth-child(#{$i}) {
+      transition-delay: #{$interval * $i}s
+    }
+  }
+}
+/*
+.chatContainer {
+
+
+
+  > div  {
+    @include stagger-transitions( 0.3, 1, 6);
+    transform: translateX(100%);
+    animation: animation 1s 1s ease-in;
+    @keyframes animation {
+      0% {
+        opacity: 0.6;
+        transform: translateX(100%);
+      } 50% {
+        opacity: 0.8;
+        transform: translateX(-10%);
+      } 100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  }
+}
+ */
 .messageChat {
   box-shadow: $shadow-1dp;
   background: map_get($lightColor, 100);

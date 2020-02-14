@@ -145,7 +145,7 @@ function UserFlow(props) {
       ]);
       setTimeout(() => {
         handleSetNotification(null);
-      }, 5000)
+      }, 6000)
     }
     // Change the url in base of history key on question object
     history.push(`/onBoarding/brixelComingInTown/${Questions[newPosition].history}`);
@@ -262,102 +262,102 @@ function UserFlow(props) {
                         <h5 className="mb-4 mb-md-10">{quest.title}</h5>
                         {
                           quest.inputs.map((input, f) => (
-                              <div key={f.toString()}>
-                                {
-                                  input.type === 'Map' ? (
-                                    <>
-                                      <div className="mb-2 pos-r zIndex3">
-                                        <Field
-                                          name={input.name}
-                                          label={input.label}
-                                          component={() => (
+                            <div key={f.toString()}>
+                              {
+                                input.type === 'Map' ? (
+                                  <>
+                                    <div className="mb-2 pos-r zIndex3">
+                                      <Field
+                                        name={input.name}
+                                        label={input.label}
+                                        component={() => (
+                                          <Maps
+                                            zoom={14}
+                                            scrollZoom
+                                            moveMarker
+                                            draggable
+                                            showSearchLocation
+                                            showSelectCountry
+                                            showMap={false}
+                                            isShowZip={false}
+                                          />
+                                        )}
+                                        options={input.options}
+                                        validate={input.validation}
+                                        type={input.type}
+                                        onChange={(e) => validateSlide(e, input.name, quest)}
+                                      />
+                                    </div>
+                                    {
+                                      formValue.location && formValue.location.address && (
+                                        <>
+                                          <div className="dis-f jc-b pos-r zIndex2 my-2 w-perc-100">
+                                            <p>Is this the place?</p>
+                                            <button onClick={() => changeFieldValue('location', {})}>Change</button>
+                                          </div>
+                                          <div className="pos-r zIndex1">
+                                            <div className="curAdr">{formValue.location.address}</div>
                                             <Maps
                                               zoom={14}
                                               scrollZoom
                                               moveMarker
                                               draggable
-                                              showSearchLocation
-                                              showSelectCountry
-                                              showMap={false}
+                                              showMap
                                               isShowZip={false}
                                             />
-                                          )}
-                                          options={input.options}
-                                          validate={input.validation}
-                                          type={input.type}
-                                          onChange={(e) => validateSlide(e, input.name, quest)}
-                                        />
-                                      </div>
+                                          </div>
+                                        </>
+                                      )
+                                    }
+                                  </>
+                                ) : (
+                                  <div className="dis-f a-t jc-b">
+                                    <div className={`${input.type === 'number' || input.type === 'text' ? 'dis-f a-c' : ''} jc-b w-perc-100`}>
+                                      <Field
+                                        className="mb-2 w-perc-100"
+                                        name={input.name}
+                                        label={input.label}
+                                        icons={quest.icons}
+                                        component={quest.component}
+                                        fluid={true}
+                                        options={quest.options}
+                                        validate={input.validation}
+                                        type={input.type}
+                                        step={+input.step}
+                                        min={input.min}
+                                        max={input.max}s
+                                        onChange={(e) => validateSlide(e, input.name, quest)}
+                                        deactivable={input.deactivable || false}
+                                        meta={{
+                                          dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                          invalid: formValue[input.name] && errorValue[input.name] !== true,
+                                        }}
+                                      />
                                       {
-                                        formValue.location && formValue.location.address && (
-                                          <>
-                                            <div className="dis-f jc-b pos-r zIndex2 my-2 w-perc-100">
-                                              <p>Is this the place?</p>
-                                              <button onClick={() => changeFieldValue('location', {})}>Change</button>
-                                            </div>
-                                            <div className="pos-r zIndex1">
-                                              <div className="curAdr">{formValue.location.address}</div>
-                                              <Maps
-                                                zoom={14}
-                                                scrollZoom
-                                                moveMarker
-                                                draggable
-                                                showMap
-                                                isShowZip={false}
-                                              />
-                                            </div>
-                                          </>
-                                        )
-                                      }
-                                    </>
-                                  ) : (
-                                    <div className="dis-f a-t jc-b">
-                                      <div className={`${input.type === 'number' || input.type === 'text' ? 'dis-f a-c' : ''} jc-b w-perc-100`}>
-                                        <Field
-                                          className="mb-2 w-perc-100"
-                                          name={input.name}
-                                          label={input.label}
-                                          icons={quest.icons}
-                                          component={quest.component}
-                                          fluid={true}
-                                          options={quest.options}
-                                          validate={input.validation}
-                                          type={input.type}
-                                          step={+input.step}
-                                          min={input.min}
-                                          max={input.max}s
-                                          onChange={(e) => validateSlide(e, input.name, quest)}
-                                          deactivable={input.deactivable || false}
-                                          meta={{
-                                            dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                            invalid: formValue[input.name] && errorValue[input.name] !== true,
-                                          }}
-                                        />
-                                        {
-                                          input.unit && (
-                                            <span className="pl-2">{input.unit}</span>
-                                          )
-                                        }
-                                      </div>
-                                      {
-                                        quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && !input.step && (
-                                          <BrixelButtonPrimary
-                                            rounded
-                                            label={translateTo(lang,"Ok")}
-                                            className="ml-2"
-                                            background="primary"
-                                            onClick={() => changeStep()}
-                                            disabled={disableNextBtn}
-                                            type="submit"
-                                          />
+                                        input.unit && (
+                                          <span className="pl-2">{input.unit}</span>
                                         )
                                       }
                                     </div>
-                                  )
-                                }
-                                <p className="body2">{input.help}</p>
-                              </div>
-                            )
+                                    {
+                                      quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && !input.step && (
+                                        <BrixelButtonPrimary
+                                          rounded
+                                          label={translateTo(lang,"Ok")}
+                                          className="ml-2"
+                                          background="primary"
+                                          onClick={() => changeStep()}
+                                          disabled={disableNextBtn}
+                                          type="submit"
+                                        />
+                                      )
+                                    }
+                                  </div>
+                                )
+                              }
+                              <p className="body2">{input.help}</p>
+                            </div>
+                          )
                           )
                         }
                       </>
@@ -388,7 +388,7 @@ function UserFlow(props) {
                           (quest.cardType === 'chat') && (
                             <div>
                               <div className="dis-f a-c mb-4">
-                                <img src={quest.img} />
+                                <img src={quest.img} alt=""/>
                                 <h5 className="ml-3" dangerouslySetInnerHTML={{ __html: quest.title}} />
                               </div>
                               <div className="chatContainer">
