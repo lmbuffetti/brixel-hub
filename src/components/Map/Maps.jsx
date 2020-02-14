@@ -13,6 +13,7 @@ import { BrixelButtonTertiary, BrixelIcon, BrixelInputText, BrixelSelect, useOut
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import markerImg from '../../images/location/icon_location.svg';
+import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
 import baseByData  from '@brixel/brixel-configuration-partner/src/Settings';
 import { mapCaptionData, mapStyles, getDistance } from '../../constants/map';
 import { compareArray } from '../../utils/helpers';
@@ -51,6 +52,7 @@ const Maps = (props) => {
     showMap,
     showSearchLocation,
     showSelectCountry,
+    similarProperties,
     zoom,
   } = props;
   // STATE
@@ -68,89 +70,9 @@ const Maps = (props) => {
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
   const [defCountry, setDefCountry] = useState('');
   const [locList, setLoclist] = useState([]);
+  const [selLocAuto, setSelLocAuto] = useState(-1);
   // REF
-  const wrapperRef = useRef(null)
-
-  useEffect(() => {
-    if (showSearchLocation) {
-      /*/const sessionToken = new google.maps.places.AutocompleteSessionToken();
-      var autocompleteService = new google.maps.places.AutocompleteService();
-      const autocomplete = new google.maps.places.Autocomplete(inputSearch.current, {
-        'types': ['address'],
-        componentRestrictions: { country: defCountry ? defCountry : [] },
-        sessionToken: sessionToken,
-      });
-      console.log(sessionToken);
-      autocompleteService.getPlacePredictions(
-        {
-          input: newLocation || 'input',
-          sessionToken: sessionToken
-        },
-        function(predictions,status){}
-      );
-      autocomplete.addListener('place_changed', () => {
-        const formattedPlace = {};
-        formattedPlace.country = null;
-        formattedPlace.countryCode = null;
-        formattedPlace.name = null;
-        formattedPlace.vicinity = null;
-        formattedPlace.address = null;
-        formattedPlace.geometry = null;
-        formattedPlace.latitude = null;
-        formattedPlace.longitude = null;
-        formattedPlace.state = null;
-        formattedPlace.stateCode = null;
-        formattedPlace.zip = null;
-        formattedPlace.city = null;
-
-        const location = autocomplete.getPlace();
-        if (location.geometry) {
-          formattedPlace.geometry = location.geometry;
-          formattedPlace.latitude = location.geometry.location.lat();
-          formattedPlace.longitude = location.geometry.location.lng();
-        }
-
-        if (location.name) {
-          formattedPlace.name = location.name;
-        }
-
-        if (location.vicinity) {
-          formattedPlace.vicinity = location.vicinity;
-        }
-
-        if (location.formatted_address) {
-          setNewLocation(location.formatted_address);
-          formattedPlace.address = location.formatted_address;
-        }
-
-        if (location.address_components) {
-          location.address_components.map((el) => {
-            if (!el.types) {
-              return;
-            }
-
-            if (el.types.indexOf('administrative_area_level_1') !== -1) {
-              formattedPlace.state = el.long_name;
-              formattedPlace.stateCode = el.short_name;
-            } else if (el.types.indexOf('locality') !== -1) {
-              formattedPlace.city = el.short_name;
-            } else if (el.types.indexOf('postal_code') !== -1) {
-              // eslint-disable-next-line radix
-              formattedPlace.zip = parseInt(el.long_name);
-            } else if (el.types.indexOf('country') !== -1) {
-              formattedPlace.country = el.long_name;
-              formattedPlace.countryCode = el.short_name;
-            } else if (el.types.indexOf('street_number') !== -1) {
-              formattedPlace.streetNumber = el.long_name;
-            }
-          });
-        }
-        if (!formattedPlace.zip && isShowZip) setShowZipCode(true);
-        //optMap.setCenter({ lat: formattedPlace.latitude, lng: formattedPlace.longitude });
-        changeFieldValue(formName, 'location', formattedPlace);
-      });*/
-    }
-  }, []);
+  const wrapperRef = useRef(null);
 
   useEffect(() => {
     setDefCountry(selCountry);
@@ -180,7 +102,6 @@ const Maps = (props) => {
             types: ["address"],
           },
           function (predictions, status) {
-            console.log(predictions, status);
             if (predictions) {
               setLoclist(predictions);
             } else {
@@ -386,7 +307,6 @@ const Maps = (props) => {
         formattedPlace.city = null;
 
         const location = result[0];
-        console.log(location)
         if (location.geometry) {
           formattedPlace.geometry = location.geometry;
           formattedPlace.latitude = location.geometry.location.lat();
@@ -436,7 +356,6 @@ const Maps = (props) => {
 
   const highlight = (container) => {
     const content = container.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    console.log(content, newLocation);
     let text = '';
     const oriWord = container.split('');
     let start = -1;
@@ -448,17 +367,6 @@ const Maps = (props) => {
     return `<span>${container.substring(0,start)}</span><span class='highlight'>${container.substring(start,end+1)}</span><span>${container.substring(end+1,content.length)}</span>`;
   };
 
-  /*const highlight = (text) => {
-    let innerHTML = text;
-    const txtLow = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    let index = txtLow.indexOf(newLocation);
-    console.log(index, txtLow, innerHTML, newLocation);
-    if (index >= 0) {
-      innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
-    }
-    return innerHTML;
-  };*/
-
   useOutsideAlerter(wrapperRef, { action: 'function', func: () => setLoclist([]) });
 
   const selectOpt = cloneDeep(country);
@@ -467,6 +375,25 @@ const Maps = (props) => {
     value: '',
   });
   const classNameDef = !className && showMap ? 'h-fix-400 w-perc-100' : className;
+
+  const keyUpInput = (e) => {
+    let newId = selLocAuto;
+    if (e.key === 'ArrowUp') {
+      newId = selLocAuto < locList.length - 1 ? selLocAuto + 1 : 0;
+    }
+    if (e.key === 'ArrowDown') {
+      newId = selLocAuto < locList.length - 1 ? selLocAuto + 1 : 0;
+    }
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelLocAuto(newId);
+    }
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      geoCode(locList[newId].description);
+    }
+  };
+
   return (
     // Important! Always set the container height explicitly
     <div
@@ -493,13 +420,20 @@ const Maps = (props) => {
                   value: newLocation,
                   name: 'location',
                 }}
+                onKeyDown={(e) => keyUpInput(e)}
               />
               {
                 locList.length > 1 && (
                   <ul className="resultAutoComplete" ref={wrapperRef}>
                     {
                       locList.map((loc, i) => (
-                        <li key={i.toString()} onClick={() => geoCode(loc.description)} dangerouslySetInnerHTML={{ __html: highlight(loc.description) }}/>
+                        <li
+                          className={i === selLocAuto ? 'active' : ''}
+                          tabIndex={i}
+                          key={i.toString()}
+                          onClick={() => geoCode(loc.description)}
+                          dangerouslySetInnerHTML={{ __html: highlight(loc.description) }}
+                        />
                       ))
                     }
                   </ul>
@@ -662,6 +596,23 @@ const Maps = (props) => {
                   </InfoWindow>
                 )
               }
+              {
+                similarProperties.map((item, i) => (
+                  <Marker
+                    position={{
+                      lat: item.Latitude,
+                      lng: item.Longitude,
+                    }}
+                    icon={{
+                      url: markerSimilarProperties,
+                      anchor: new google.maps.Point(16,16),
+                      scaledSize: new google.maps.Size(8,8)
+                    }}
+                    draggable={false}
+                    key={i.toString()}
+                  />
+                ))
+              }
             </Map>
           )
         }
@@ -693,6 +644,7 @@ Maps.propTypes = {
   place: PropTypes.bool,
   property: PropTypes.object.isRequired,
   scrollZoom: PropTypes.bool,
+  similarProperties: PropTypes.arrayOf(PropTypes.object),
   showMap: PropTypes.bool,
   showSearchLocation: PropTypes.bool,
   showSelectCountry: PropTypes.bool,
@@ -716,6 +668,7 @@ Maps.defaultProps = {
   showSearchLocation: false,
   showSelectCountry: false,
   scrollZoom: false,
+  similarProperties: [],
   showMap: false,
   zoom: 14,
 };
@@ -723,7 +676,7 @@ Maps.defaultProps = {
 const mapStateToProps = (state) => {
   const formName = Object.keys(get(state, 'form'))[0];
   const lat = get(state, `property.property.location.latitude`, 0);
-  const lng = get(state, `property.property.location.latitude`, 0);
+  const lng = get(state, `property.property.location.longitude`, 0);
   return ({
     country: get(state, `common.country`, {}),
     formValue: get(state, `form[${formName}].values`, {}),
