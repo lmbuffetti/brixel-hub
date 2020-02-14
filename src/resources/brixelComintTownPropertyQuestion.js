@@ -111,7 +111,7 @@ export const QuestionsList = (lang) => [
         classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-md-232',
         placeholder: translateTo(lang, 'e.g. 1990'),
         validation: [minLengthNumYear, maxLengthNumYear, Validation.required],
-        maxLengthNum: 2031
+        maxLengthNum: 9999
       },
     ],
     successMessage: translateTo(lang, 'A good year for real estate.')
