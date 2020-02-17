@@ -97,35 +97,6 @@
   }
 }
 
-.chatBox {
-  .chatContainer {
-    .chatWrapper {
-      bottom: -10px;
-      opacity: 0;
-      position: relative;
-      @for $i from 1 through 6 {
-        &:nth-child( #{$i} ) {
-         animation: moveIn .3s #{$i * 0.20}s ease 1 forwards;
-        }
-      }
-      @keyframes moveIn {
-        0% {
-          opacity: 0;
-        }
-        100% {
-          opacity: 1;
-          bottom: 0;
-        }
-      }
-    }
-  }
-  .chatBtn {
-    opacity: 0;
-    bottom: -100;
-    animation: moveIn .3s 1.8s ease 1 forwards;
-  }
-}
-
 .messageChat {
   box-shadow: $shadow-1dp;
   background: map_get($lightColor, 100);
@@ -137,10 +108,34 @@
   float: left;
   clear: both;
 }
-/*
-@media (min-width: $responsive-medium) {
-  .singleStep {
-    display: flex;
-    align-items: center;
+
+.chatBox {
+  .chatContainer {
+    .messageChat {
+      bottom: -10px;
+      opacity: 0;
+      position: relative;
+
+      @for $i from 1 through 6 {
+        &:nth-child( #{$i} ) {
+         animation: moveUp .3s #{$i * 0.20}s ease 1 forwards;
+        }
+      }
+    }
   }
-} */
+  .chatBtn {
+    opacity: 0;
+    bottom: -100;
+    animation: moveUp .3s 1.8s ease 1 forwards;
+  }
+
+  @keyframes moveUp {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+      bottom: 0;
+    }
+  }
+}

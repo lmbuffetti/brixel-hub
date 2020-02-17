@@ -408,7 +408,7 @@ function UserFlow(props) {
                               <div className="chatContainer">
                                 {
                                   quest.message && quest.message.map((msg, i) => (
-                                    <div className="chatWrapper"> <div className="messageChat" dangerouslySetInnerHTML={{ __html: msg }} key={i.toString()}/> </div>
+                                    <div className="messageChat" dangerouslySetInnerHTML={{ __html: msg }} key={i.toString()}/>
                                   ))
                                 }
                               </div>
