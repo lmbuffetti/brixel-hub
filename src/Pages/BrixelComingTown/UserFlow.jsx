@@ -58,7 +58,7 @@ function UserFlow(props) {
     handleSetBrixelPoint([{desc: "Homebase", point: 50}, {desc: "Newcomer", point: 100}]);
     handleSetAwards([{desc: "Homebase", point: 1}, {desc: "Newcomer", point: 1}]);
     // On load redirect all to first route of flow
-    history.push(`/onBoarding/brixelComingInTown/s${Questions[0].history}`);
+    history.push(`/onBoarding/brixelComingInTown/${Questions[0].history}`);
     // GET Company data by cookie
     const companyCookie = cookie.get('brixelStubCompany') || null;
     if (companyCookie) handleGetCompany({stub: companyCookie});

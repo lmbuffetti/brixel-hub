@@ -20,6 +20,9 @@ import {
   BrixelCheckbox,
   Validation,
 } from '@brixel/brixel-components';
+import {
+  getBrowserPlatform
+} from '@brixel/brixel-components/src/utils/helper';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
 import { addProperty } from '../../actions/PropertyActions';
@@ -87,8 +90,7 @@ function OnBoarding(props) {
     }
   }, []);
 
-  const isIOS = (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream;
-
+  const hideOnDesk = getBrowserPlatform().indexOf('desk') !== -1 ? 'hide-desktop' : 'dis-b-mobile';
 
   // SET the country from the value
   const countryObj = (curVal) => {
@@ -469,7 +471,7 @@ function OnBoarding(props) {
                                         <BrixelButtonPrimary
                                           rounded
                                           label="Ok"
-                                          className={`ml-2 hide-md ${isIOS ? 'show-ios-android' : ''}`}
+                                          className={`ml-2 hide-md ${hideOnDesk}`}
                                           background="green"
                                           onClick={() => changeStep()}
                                           disabled={disableNextBtn}
