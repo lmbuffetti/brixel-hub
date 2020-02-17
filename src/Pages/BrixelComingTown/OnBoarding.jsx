@@ -20,6 +20,7 @@ import {
   BrixelCheckbox,
   Validation,
 } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
 import { addProperty } from '../../actions/PropertyActions';
 import { errorMessage, setPageData, setLanguage } from '../../actions/CommonActions';
@@ -64,6 +65,27 @@ function OnBoarding(props) {
   const [Questions, setQuestions] = useState(QuestionsList(lang));
   const [curCountry, setCurCountry] = useState(null);
   const [showCountrySel, setShowCountrySel] = useState(false);
+
+  useEffect(() => {
+    console.log(baseByData);
+    if (baseByData.env === 'dev') {
+      const location = {
+        type: "stateCode",
+        country: "Schweiz",
+        countryCode: "CH",
+        name: "Ernastrasse",
+        vicinity: "Kreis 4",
+        address: "Ernastrasse, 8004 Zürich, Schweiz",
+        latitude: 47.3807432,
+        longitude: 8.516775800000005,
+        state: "Zürich",
+        stateCode: "ZH",
+        zip: 8004,
+        city: "Zürich",
+      };
+      changeFieldValue('location', location);
+    }
+  }, [])
 
   // SET the country from the value
   const countryObj = (curVal) => {
