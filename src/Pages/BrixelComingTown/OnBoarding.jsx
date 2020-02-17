@@ -170,6 +170,14 @@ function OnBoarding(props) {
       addProperty: true, // add the property
       redirectToUserFlow: true, // redirect the user to second part of flow
       company: cookie.get('brixelStubCompany') || null,
+      brixelComingFlowProcess: {
+        title: formValue.pageTitle,
+        propertyType: formValue.propertyType,
+        bedrooms: formValue.bedrooms,
+        livingArea: { value: +formValue.livingSpace, unit: "sqm" },
+        build: formValue.constructionYear,
+        location: formValue.location,
+      },
     };
     // if form is valid
     if (enableForm) {
