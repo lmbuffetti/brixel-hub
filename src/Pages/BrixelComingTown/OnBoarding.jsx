@@ -170,8 +170,7 @@ function OnBoarding(props) {
       addProperty: true, // add the property
       redirectToUserFlow: true, // redirect the user to second part of flow
       company: cookie.get('brixelStubCompany') || null,
-      brixelComingFlowProcess: {
-        title: formValue.pageTitle,
+      packageFlowProcess: {
         propertyType: formValue.propertyType,
         bedrooms: formValue.bedrooms,
         livingArea: { value: +formValue.livingSpace, unit: "sqm" },
