@@ -259,7 +259,7 @@ function UserFlow(props) {
             Questions.map((quest, i) => (
               <div
                 id={`step-${i}`}
-                className={`singleStep ${quest.background || ''}`}
+                className={`singleStep ${quest.background || ''} ${Questions[currentIndex].cardType === 'chat' ? 'chatBox': ''}`}
                 key={i.toString()}
                 style={{
                   visibility: i !== currentIndex ? 'hidden' : 'visible',
@@ -408,11 +408,11 @@ function UserFlow(props) {
                               <div className="chatContainer">
                                 {
                                   quest.message && quest.message.map((msg, i) => (
-                                    <div className="messageChat" dangerouslySetInnerHTML={{ __html: msg }} key={i.toString()} />
+                                    <div className="chatWrapper"> <div className="messageChat" dangerouslySetInnerHTML={{ __html: msg }} key={i.toString()}/> </div>
                                   ))
                                 }
                               </div>
-                              <div className="dis-f w-perc-100 jc-fe">
+                              <div className="dis-f w-perc-100 jc-fe chatBtn">
                                 <BrixelButtonSecondary
                                   rounded
                                   label={translateTo(lang,"No thanks")}

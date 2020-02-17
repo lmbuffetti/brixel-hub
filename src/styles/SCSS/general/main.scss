@@ -108,14 +108,17 @@ header {
   right: $step;
   top: $step;
   width: 256px;
-  transform: translateX(120%);
-  animation: slideIn 5s 0.5s $custom-easing;
+  transform: translateX(50%);
+  animation: slideIn 4s 0.5s ease-in;
+  opacity: 0;
 
   @keyframes slideIn {
     10%, 90% {
+      opacity: 1;
       transform: translateX(0);
-    } 100% {
-      transform: translateX(120%);
+    } 95% {
+      opacity: 0;
+      transform: translateX(50%);
     }
   }
   i {

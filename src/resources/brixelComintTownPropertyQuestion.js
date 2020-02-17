@@ -35,24 +35,6 @@ const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 export const QuestionsList = (lang) => [
   {
-    title: translateTo(lang, "What is the construction year?"),
-    component: BrixelInputText,
-    history: "constructionYear",
-    inputs: [
-      {
-        label: '',
-        name: 'constructionYear',
-        type: 'number',
-        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-md-232',
-        placeholder: translateTo(lang, 'e.g. 1990'),
-        validation: [minLengthNumYear, maxLengthNumYear, Validation.required],
-        minLenghtNum: 999,
-        maxLenghtNum: 2030,
-      },
-    ],
-    successMessage: translateTo(lang, 'A good year for real estate.')
-  },
-  {
     className: 'radioBtnImg',
     titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
     title: translateTo(lang, "What type of property do you have?"),
@@ -116,6 +98,24 @@ export const QuestionsList = (lang) => [
       },
     ],
     successMessage: translateTo(lang, 'Great living space.')
+  },
+  {
+    title: translateTo(lang, "What is the construction year?"),
+    component: BrixelInputText,
+    history: "constructionYear",
+    inputs: [
+      {
+        label: '',
+        name: 'constructionYear',
+        type: 'number',
+        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-md-232',
+        placeholder: translateTo(lang, 'e.g. 1990'),
+        validation: [minLengthNumYear, maxLengthNumYear, Validation.required],
+        minLenghtNum: 999,
+        maxLenghtNum: 9999,
+      },
+    ],
+    successMessage: translateTo(lang, 'A good year for real estate.')
   },
   {
     title: translateTo(lang, "What is the location?"),

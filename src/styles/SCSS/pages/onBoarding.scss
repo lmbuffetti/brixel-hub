@@ -97,34 +97,32 @@
   }
 }
 
-
-@mixin stagger-transitions( $interval, $min, $max ) {
-  @for $i from $min through $max {
-    &:nth-child(#{$i}) {
-      transition-delay: #{$interval * $i}s
-    }
-  }
-}
-
-.chatContainer {
-  > div  {
-    @include stagger-transitions( 0.3, 1, 6);
-    transform: translateX(100%);
-    animation-name: animation;
-    animation-duration: 1s;
-
-    @keyframes animation {
-      0% {
-        opacity: 0.6;
-        transform: translateX(100%);
-      } 50% {
-        opacity: 0.8;
-        transform: translateX(-10%);
-      } 100% {
-        opacity: 1;
-        transform: translateX(0);
+.chatBox {
+  .chatContainer {
+    .chatWrapper {
+      bottom: -10px;
+      opacity: 0;
+      position: relative;
+      @for $i from 1 through 6 {
+        &:nth-child( #{$i} ) {
+         animation: moveIn .3s #{$i * 0.20}s ease 1 forwards;
+        }
+      }
+      @keyframes moveIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+          bottom: 0;
+        }
       }
     }
+  }
+  .chatBtn {
+    opacity: 0;
+    bottom: -100;
+    animation: moveIn .3s 1.8s ease 1 forwards;
   }
 }
 
