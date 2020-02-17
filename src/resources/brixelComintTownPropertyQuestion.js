@@ -40,6 +40,7 @@ export const QuestionsList = (lang) => [
     title: translateTo(lang, "What type of property do you have?"),
     component: BrixelRadioButton,
     history: "propertyType",
+    cardType: "propertyType",
     icons: true,
     inputs: [{
       className: 'radioBtnImg max-w-fix-md-464',
@@ -66,6 +67,7 @@ export const QuestionsList = (lang) => [
     title: translateTo(lang, "How many rooms?"),
     component: BrixelInputStepNumber,
     history: "allRooms",
+    cardType: "allRooms",
     className: 'max-w-fix-md-232',
     inputs: [
       {
@@ -84,6 +86,7 @@ export const QuestionsList = (lang) => [
     title: translateTo(lang, "What is the living space size?"),
     component: BrixelInputText,
     history: "livingSpace",
+    cardType: "livingSpace",
     inputs: [
       {
         className: 'max-w-fix-md-232',
@@ -103,6 +106,7 @@ export const QuestionsList = (lang) => [
     title: translateTo(lang, "What is the construction year?"),
     component: BrixelInputText,
     history: "constructionYear",
+    cardType: "constructionYear",
     inputs: [
       {
         label: '',
@@ -121,6 +125,7 @@ export const QuestionsList = (lang) => [
     title: translateTo(lang, "What is the location?"),
     component: "Map",
     history: "locationInput",
+    cardType: "locationInput",
     inputs: [
       {
         name: 'location.address',
@@ -154,6 +159,10 @@ export const QuestionsList = (lang) => [
     img: SaleProperty,
   },
   {
+    conditions: [{
+      name: 'owner',
+      value: null,
+    }],
     signupTitle: translateTo(lang, "Create your profile to save your progress."),
     loginTitle: translateTo(lang, "Login to your profile to save your progress."),
     history: "createProfile",

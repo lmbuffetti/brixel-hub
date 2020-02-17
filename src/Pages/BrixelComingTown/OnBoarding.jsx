@@ -68,7 +68,6 @@ function OnBoarding(props) {
   const [showCountrySel, setShowCountrySel] = useState(false);
 
   useEffect(() => {
-    console.log(baseByData);
     if (baseByData.env === 'dev') {
       const location = {
         type: "stateCode",
@@ -86,13 +85,19 @@ function OnBoarding(props) {
       };
       changeFieldValue('location', location);
     }
-  }, [])
+  }, []);
 
   // SET the country from the value
   const countryObj = (curVal) => {
     const getCurrent = country.find((val) => val.full === curVal || val.value === curVal);
     setCurCountry(getCurrent);
   };
+
+  useEffect(() => {
+    if (loggedUser.user) {
+      changeFieldValue('owner', loggedUser.user.id);
+    }
+  }, [loggedUser]);
 
   // SET the default language in base of the company
   useEffect(() => {
@@ -164,7 +169,7 @@ function OnBoarding(props) {
     let enableForm = true;
     // Check if exist any invalid field
     Object.keys(errorValue).map((key) => {
-      if (errorValue[key] !== true && !isObject(errorValue[key])) {
+      if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedUser.user) {
         setShowError(true);
         enableForm = false;
       }
@@ -808,6 +813,7 @@ const mapStateToProps = (state, props) => ({
   pageState: get(state, 'common.setPageData', null),
   initialValues: {
     bedrooms: 0,
+    owner: null,
   }
 });
 

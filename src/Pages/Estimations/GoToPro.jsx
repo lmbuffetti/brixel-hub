@@ -22,7 +22,7 @@ import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions
 import { addProperty } from '../../actions/PropertyActions';
 import { errorMessage, setPageData, setLanguage } from '../../actions/CommonActions';
 import { getCompany } from '../../actions/CompanyActions';
-import { QuestionsList } from '../../resources/packageFlowGetstartedQuestions.js';
+import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.js';
 import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
