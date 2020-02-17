@@ -105,15 +105,14 @@
     }
   }
 }
-/*
+
 .chatContainer {
-
-
-
   > div  {
     @include stagger-transitions( 0.3, 1, 6);
     transform: translateX(100%);
-    animation: animation 1s 1s ease-in;
+    animation-name: animation;
+    animation-duration: 1s;
+
     @keyframes animation {
       0% {
         opacity: 0.6;
@@ -128,7 +127,7 @@
     }
   }
 }
- */
+
 .messageChat {
   box-shadow: $shadow-1dp;
   background: map_get($lightColor, 100);

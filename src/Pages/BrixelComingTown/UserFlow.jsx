@@ -1,4 +1,3 @@
-/* global Transifex */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
@@ -18,14 +17,14 @@ import {
   BrixelButtonSecondary,
   BrixelButtonTertiary,
 } from '@brixel/brixel-components';
-import { updateUser, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
+import { updateUser, setAwards, setBrixelPoint } from '../../actions/UserActions';
 import { setNotification } from '../../actions/CommonActions';
 import { QuestionsList } from '../../resources/brixelComintTownUserQuestion.js';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
 import { getCompany } from '../../actions/CompanyActions';
 
-const cookie = new Cookies;
+const cookie = new Cookies();
 
 function UserFlow(props) {
   // PROPS
@@ -51,6 +50,7 @@ function UserFlow(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progressBar, setProgressBar] = useState(0);
   const [emptyValue, setEmptyValue] = useState(true);
+  const [oneEmptyValue, setOneEmptyValue] = useState(true);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
 
   useEffect(() => {
@@ -77,20 +77,31 @@ function UserFlow(props) {
   // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
   useEffect(() => {
     let invalidField = false;
-    let noValueField = false;
+    let noValueField = false
+    let oneValueField = true;
     if (Questions[currentIndex] && Questions[currentIndex].inputs) {
       Questions[currentIndex].inputs.map((inp) => {
         const curVal = get(errorValue, inp.name, true);
         if (curVal !== true) invalidField = true;
+        return null;
       });
     }
     if (Questions[currentIndex] && Questions[currentIndex].inputs) {
       Questions[currentIndex].inputs.map((inp) => {
         const curVal = get(formValue, inp.name, true);
         if (curVal === true || !curVal) noValueField = true;
+        return null;
+      });
+    }
+    if (Questions[currentIndex] && Questions[currentIndex].inputs) {
+      Questions[currentIndex].inputs.map((inp) => {
+        const curVal = get(formValue, inp.name, true);
+        if (curVal !== true) oneValueField = false;
+        return null;
       });
     }
     setEmptyValue(noValueField);
+    setOneEmptyValue(oneValueField);
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex, formValue]);
 
@@ -103,9 +114,81 @@ function UserFlow(props) {
     document.getElementById('onBoarding').scrollTo(0, 0);
   };
 
+  // Function to create the email
+  const extractEmaildata = () => {
+    let formData = formValue;
+    let email = `<p><b>Name</b> ${loggedUser.user.name}</p>`;
+    email += `<p><b>Email</b> ${loggedUser.user.email}</p>`;
+    email += `<p><b>User Id</b> ${loggedUser.user.id}</p>`;
+    email += `<p><b>Company</b> ${company.name || 'default'}</p>`;
+    const formInputs = QuestionsList('en').filter((itm) => typeof itm.inputs !== 'undefined');
+    Object.keys(formData).map((key) => {
+      formInputs.map((input) => {
+        const getField = input.inputs.find(subVal => subVal.name === key);
+        let getFieldValueLabel = formData[key];
+        if (input.options) {
+          getFieldValueLabel = input.options.find(subVal => subVal.value === formData[key]);
+          if (getFieldValueLabel) getFieldValueLabel = getFieldValueLabel.label;
+        }
+        if (isObject(formData[key]) && !isArray(formData[key])) {
+          let obj = 0;
+          Object.keys(formData[key]).map((multiKey) => {
+            const getField = input.inputs.find(subVal => subVal.name.split('.')[1] === multiKey);
+            const getSubField = input.options.find(subVal => subVal.value === formData[key][multiKey]);
+            if (getField && getSubField) {
+              if (obj === 0 && email) email += "<hr />";
+              email += `<p><b>${getField.labelEmail || getField.label}</b> ${getSubField.label} - ${getSubField.value}</p>`;
+              obj++;
+            }
+            return null;
+          });
+        } else if (isArray(formData[key])) {
+          let arr = 0;
+          formData[key].map((val) => {
+            if (input.options) {
+              const getSubField = input.options.find(subVal => subVal.value === val);
+              if (getSubField && getField) {
+                if (arr === 0 && email) email += "<hr />";
+                email += `<p><b>${getField.labelEmail || getField.label}</b> ${getSubField.label}</p>`;
+                arr++;
+              }
+            }
+            return null;
+          });
+        } else if (getField) {
+          if (email) email += "<hr />";
+          email += `<p><b>${getField.labelEmail || getField.label}</b> ${getFieldValueLabel || formData[key]}</p>`
+        }
+        return null;
+      });
+      return null;
+    });
+    return email;
+  };
+
+  // Function to save the data
+  const saveData = () => {
+    let message = extractEmaildata();
+    // Save the obj data
+    const data = {
+      brixelComingFlowProcess: {
+        answers: formValue
+      },
+      id: loggedUser.user.id,
+      sendEmail: {
+        company : company.stub || null, // email destinatary
+        recipientEmail : 'support@brixel.io', // email
+        subject        : `New Sign up - Brixel Coming In Town - ${company.name || 'default'}`,
+        message        : `<h1>New Sign up - Brixel Coming In Town - ${company.name || 'default'}</h1> ${message}`,
+      }
+    };
+    // Call to redux funciton to update the user
+    handleUpdateUser(data);
+  };
+
   // Function to move next/prev question
   const changeStep = (act) => {
-    let newPosition = position;
+    let newPosition = 0;
     handleSetNotification(null);
     if (act === 'back') {
       setDisableNextBtn(false);
@@ -145,78 +228,10 @@ function UserFlow(props) {
       ]);
       setTimeout(() => {
         handleSetNotification(null);
-      }, 6000)
+      }, 5000)
     }
     // Change the url in base of history key on question object
     history.push(`/onBoarding/brixelComingInTown/${Questions[newPosition].history}`);
-  };
-
-  // Function to create the email
-  const extractEmaildata = () => {
-    let formData = formValue;
-    let email = `<p><b>Name</b> ${loggedUser.user.name}</p>`;
-    email += `<p><b>Email</b> ${loggedUser.user.email}</p>`;
-    email += `<p><b>User Id</b> ${loggedUser.user.id}</p>`;
-    email += `<p><b>Company</b> ${company.name || 'default'}</p>`;
-    const formInputs = QuestionsList('en').filter((itm) => typeof itm.inputs !== 'undefined');
-    Object.keys(formData).map((key) => {
-      formInputs.map((input) => {
-        const getField = input.inputs.find(subVal => subVal.name === key);
-        let getFieldValueLabel = formData[key];
-        if (input.options) {
-          getFieldValueLabel = input.options.find(subVal => subVal.value === formData[key]);
-          if (getFieldValueLabel) getFieldValueLabel = getFieldValueLabel.label;
-        }
-        if (isObject(formData[key]) && !isArray(formData[key])) {
-          let obj = 0;
-          Object.keys(formData[key]).map((multiKey) => {
-            const getField = input.inputs.find(subVal => subVal.name.split('.')[1] === multiKey);
-            const getSubField = input.options.find(subVal => subVal.value === formData[key][multiKey]);
-            if (getField && getSubField) {
-              if (obj === 0 && email) email += "<hr />";
-              email += `<p><b>${getField.labelEmail || getField.label}</b> ${getSubField.label} - ${getSubField.value}</p>`;
-              obj++;
-            }
-          });
-        } else if (isArray(formData[key])) {
-          let arr = 0;
-          formData[key].map((val) => {
-            if (input.options) {
-              const getSubField = input.options.find(subVal => subVal.value === val);
-              if (getSubField && getField) {
-                if (arr === 0 && email) email += "<hr />";
-                email += `<p><b>${getField.labelEmail || getField.label}</b> ${getSubField.label}</p>`;
-                arr++;
-              }
-            }
-          });
-        } else if (getField) {
-          if (email) email += "<hr />";
-          email += `<p><b>${getField.labelEmail || getField.label}</b> ${getFieldValueLabel || formData[key]}</p>`
-        }
-      });
-    });
-    return email;
-  };
-
-  // Function to save the data
-  const saveData = (e) => {
-    let message = extractEmaildata();
-    // Save the obj data
-    const data = {
-      brixelComingFlowProcess: {
-        answers: formValue
-      },
-      id: loggedUser.user.id,
-      sendEmail: {
-        company : company.stub || null, // email destinatary
-        recipientEmail : 'support@brixel.io', // email
-        subject        : `New Sign up - Brixel Coming In Town - ${company.name || 'default'}`,
-        message        : `<h1>New Sign up - Brixel Coming In Town - ${company.name || 'default'}</h1> ${message}`,
-      }
-    };
-    // Call to redux funciton to update the user
-    handleUpdateUser(data);
   };
 
   return (
@@ -325,7 +340,7 @@ function UserFlow(props) {
                                         type={input.type}
                                         step={+input.step}
                                         min={input.min}
-                                        max={input.max}s
+                                        max={input.max}
                                         onChange={(e) => validateSlide(e, input.name, quest)}
                                         deactivable={input.deactivable || false}
                                         meta={{
@@ -357,8 +372,7 @@ function UserFlow(props) {
                               }
                               <p className="body2">{input.help}</p>
                             </div>
-                          )
-                          )
+                          ))
                         }
                       </>
                     )
@@ -467,13 +481,12 @@ function UserFlow(props) {
                         (
                           Questions[currentIndex + 1] &&
                           Questions[currentIndex + 1].inputs
-                        )
-                      ) ? (
+                        )) ? (
                           <>
                             <BrixelButtonPrimary
                               rounded
                               label={
-                                emptyValue &&
+                                oneEmptyValue &&
                                 Questions[currentIndex].inputs ?
                                   translateTo(lang,"Skip") :
                                   translateTo(lang,"Continue")

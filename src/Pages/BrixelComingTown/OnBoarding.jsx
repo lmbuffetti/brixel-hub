@@ -418,7 +418,7 @@ function OnBoarding(props) {
                                           help: null,
                                           error: errorValue[input.name],
                                         }}
-                                        maxLengthNum={input.maxLengthNum}
+                                        minLenghtNum={input.minLenghtNum || null}
                                       />
                                       {
                                         input.unit && (
