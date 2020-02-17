@@ -78,9 +78,15 @@ const checkCommon = (store) => (next) => (action) => {
     case GET_PROPERTIES:
       next(action);
       store.dispatch({ type: SPINNER_ON });
+      const { setAsSingle } = action.payload;
+      delete action.payload.setAsSingle;
       api.property.getProperties(action.payload.limit, action.payload.offset)
         .then((res) => {
-          store.dispatch({ type: SET_PROPERTIES, payload: res.data });
+          if (setAsSingle) {
+            store.dispatch({ type: SET_PROPERTY, payload: res.data[0] });
+          } else {
+            store.dispatch({ type: SET_PROPERTIES, payload: res.data });
+          }
           store.dispatch({ type: SPINNER_OFF });
         })
         .catch((res) => {

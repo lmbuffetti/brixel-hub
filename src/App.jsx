@@ -21,11 +21,6 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 
 ReactGA.initialize(baseByData.googleAnalyticsIdHub);
 
-const Dashboard = Loadable({
-  loader: () => import('./Pages/Dashboard' /* webpackChunkName: "Dashboard" */),
-  loading: Loading,
-});
-
 const GetStarted = Loadable({
   loader: () => import('./Pages/PackageFlow/GetStarted' /* webpackChunkName: "GetStarted" */),
   loading: Loading,
@@ -68,6 +63,11 @@ const OnBoarding = Loadable({
 
 const UserFlow = Loadable({
   loader: () => import('./Pages/BrixelComingTown/UserFlow' /* webpackChunkName: "UserFlow" */),
+  loading: Loading,
+});
+
+const Dashboard = Loadable({
+  loader: () => import('./Pages/Dashboard/Dashboard' /* webpackChunkName: "Dashboard" */),
   loading: Loading,
 });
 
@@ -127,7 +127,9 @@ const App = (props) => {
         <ProtectedRoute path="/packageFlow/:propId/thankyou" component={ThankYou} />
         <ProtectedRoute path="/estimation/:propId/questions/" component={GoToPro} />
         { /* SECTION: PROTECED ROUTE WITH REDIRECT TO LOGIN */ }
-        {/*<ProtectedRoute path="/" exact component={Dashboard} />*/}
+        <Redirect from="/" to="/home" exact component={Dashboard} />
+        <ProtectedRoute path="/" exact component={Dashboard} />
+        <ProtectedRoute path="/:action/:id?" exact component={Dashboard} />
         { /* SECTION: REDIRECT */ }
         <Redirect from="*" to="/onBoarding" />
       </Switch>
