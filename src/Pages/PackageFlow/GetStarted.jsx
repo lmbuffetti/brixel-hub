@@ -356,7 +356,7 @@ function GetStarted(props) {
     const curIndex = Questions.findIndex((item) => quest.history === item.history);
     setCurrentIndex(curIndex);
   };
-  console.log(Questions);
+
   return (
     <main id="getStarted">
       {

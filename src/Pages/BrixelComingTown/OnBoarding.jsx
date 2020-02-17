@@ -266,14 +266,12 @@ function OnBoarding(props) {
       handleSetBrixelPoint([{desc: "First Award", point: 50}]);
       handleSetAwards([{desc: "First Award", point: 1}]);
     }
-    console.log(Questions, newPosition, Questions[newPosition].cardType, loggedUser.user.id);
     if (
       Questions[newPosition] &&
       Questions[newPosition].cardType &&
       Questions[newPosition].cardType === 'LastStep' &&
       loggedUser.user && loggedUser.user.id
     ) {
-      console.log('salvi');
       saveData();
     }
     const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
