@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^1.1.64",
+    "@brixel/brixel-components": "^1.1.65",
     "@brixel/brixel-configuration-partner": "git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "d3": "^5.15.0",
     "deep-object-diff": "^1.1.0",
@@ -86,7 +86,7 @@
     "react-dev-utils": "^10.2.0",
     "reload": "^3.0.4",
     "resolve-url-loader": "^3.1.1",
-    "svg-inline-loader": "^0.8.0",
+    "svg-inline-loader": "^0.8.2",
     "terser-webpack-plugin": "^2.3.5",
     "webpack": "4.41.5",
     "webpack-assets-manifest": "^3.1.1",
