@@ -87,6 +87,9 @@ function OnBoarding(props) {
     }
   }, []);
 
+  const isIOS = (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream;
+
+
   // SET the country from the value
   const countryObj = (curVal) => {
     const getCurrent = country.find((val) => val.full === curVal || val.value === curVal);
@@ -466,7 +469,7 @@ function OnBoarding(props) {
                                         <BrixelButtonPrimary
                                           rounded
                                           label="Ok"
-                                          className="ml-2 hide-xl"
+                                          className={`ml-2 hide-md ${isIOS ? 'show-ios-android' : ''}`}
                                           background="green"
                                           onClick={() => changeStep()}
                                           disabled={disableNextBtn}
