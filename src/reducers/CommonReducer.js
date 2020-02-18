@@ -12,7 +12,7 @@ import {
   SET_LANGUAGES,
   SET_LANGUAGE,
   SET_NOTIFICATION,
-  SET_PAGE_DATA,
+  SET_PAGE_DATA, SET_MODAL,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies;
@@ -76,8 +76,11 @@ export const defaultState = {
     },
   ],
   language: cookie.get('brixelLang') || 'en',
-  notification: null,
+  notification: {},
   setPageData: null,
+  modal: {
+    state: false, title: '', body: '', action: {}, multiActions: [],
+  },
 };
 
 export default handleActions(
@@ -117,6 +120,10 @@ export default handleActions(
     [SET_NOTIFICATION]: (state, action) => ({
       ...state,
       notification: action.payload,
+    }),
+    [SET_MODAL]: (state, action) => ({
+      ...state,
+      modal: action.payload,
     }),
     [SET_PAGE_DATA]: (state, action) => ({
       ...state,
