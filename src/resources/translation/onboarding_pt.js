@@ -16,7 +16,7 @@ module.exports = {
   "Please enter the exact address":"Por favor introduza a morada exata",
   "Is this the place?":"É este o local?",
   "Change":"Mudar",
-  "Great, Your property was created! 🎉":"Ótimo! A sua propriedade foi criada. 🎉",
+  "Great, Your property was created!":"Ótimo! A sua propriedade foi criada.",
   "And the first award goes to…You!":"E o primeiro prémio vai...para você!",
   "You earned the <span class=\"txtGreen400\">\"Homebase\"</span> Award and +50 Brixels.":"Ganhou o prémio <span class=\"txtGreen400\">\"Homebase\"</span> e +50 Brixels",
   "Every home needs an owner.":"Toda a casa precisa de um proprietário",
