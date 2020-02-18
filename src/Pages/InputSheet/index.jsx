@@ -21,6 +21,7 @@ import {
 import LoadingSimple from '../../components/LoadingSimple';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
+import { InputSheets } from '../../resources/inputSheets';
 
 // COMPONENTS
 import Loading from '../../components/Loading';
@@ -34,7 +35,7 @@ const Maps = Loadable({
 
 const InputSheet = (props) => {
   const {
-    isLoading, match, history, formValue, handleSaveProperty, getUser, reset,
+    errorValue, isLoading, match, history, formValue, handleSaveProperty, getUser, reset,
     initialValues, loggedInUser, setUserActiveProperty, singleUserPropertyList, setPreventExit,
     handleUploadDocument, handleDeleteDocument, handleSetModal, notification, setNotification,
     isUnsavedChangesModal, setUnsavedModal,
@@ -44,6 +45,7 @@ const InputSheet = (props) => {
 
   // STATE
   const [uploadFile, setUploadFile] = useState({});
+  const [Questions, setQuestions] = useState([]);
   const propID = get(match, 'params.propID', null);
   const { documents } = formValue;
 
@@ -52,6 +54,7 @@ const InputSheet = (props) => {
     if (id) {
       setUserActiveProperty({id})
     }
+    setQuestions(InputSheets('en'))
   }, []);
 
   // UPLOAD DOCUMENTS
@@ -168,6 +171,95 @@ const InputSheet = (props) => {
           </div>
         </div>
 
+        {
+          Questions.map((quest, i) => (
+            <div key={i.toString()}>
+              <h2>{quest.title}</h2>
+              {
+                quest.inputs.map((input, f) => (
+                  <div key={f.toString()}>
+                    {
+                      input.type === 'Map' ? (
+                        <>
+                          <div className="mb-20 pos-r zIndex1">
+                            <Field
+                              name={input.name}
+                              label={input.label}
+                              component={() => (
+                                <Maps
+                                  zoom={14}
+                                  scrollZoom
+                                  moveMarker
+                                  draggable
+                                  showSearchLocation
+                                  showSelectCountry={true}
+                                  showMap={true}
+                                  isShowZip={false}
+                                  className="w-perc-100"
+                                />
+                              )}
+                              options={input.options}
+                              validate={input.validation}
+                              type={input.type}
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <div className="dis-f a-c jc-b">
+                          <div
+                            className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}
+                            tabIndex="-1"
+                          >
+                            <Field
+                              className="w-perc-100"
+                              inputClassName={input.className || ''}
+                              name={input.name}
+                              label={input.label}
+                              icons={quest.icons}
+                              component={quest.component}
+                              fluid={true}
+                              options={input.options}
+                              validate={input.validation}
+                              type={input.type}
+                              step={+input.step}
+                              min={input.min}
+                              deactivable={false}
+                              placeholder={input.placeholder || ''}
+                              meta={{
+                                dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                invalid: true,
+                              }}
+                              modal={null}
+                              message={{
+                                help: null,
+                                error: errorValue[input.name],
+                              }}
+                              minLenghtNum={input.minLenghtNum || null}
+                              maxLengthNum={input.maxLenghtNum || null}
+                            />
+                            {
+                              input.unit && (
+                                <span className="pl-2">{input.unit}</span>
+                              )
+                            }
+                          </div>
+                        </div>
+                      )
+                    }
+                    <p className="body2">{input.help}</p>
+                  </div>
+                ))
+              }
+            </div>
+          ))
+        }
+
+
+        <hr />
+        <hr />
+        <hr />
+        <hr />
+
         <div className="input-sheet-main pt-5 pb-5 pl-4 pr-4">
 
           { /* SECTION: ADDRESS */ }
@@ -177,7 +269,6 @@ const InputSheet = (props) => {
               <Maps
                 showSearchLocation
                 inputLabel="What's the exact address of the property?"
-                showMap
               />
             </div>
           </div>
@@ -1129,6 +1220,7 @@ InputSheet.propTypes = {
   match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   singleUserPropertyList: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -1163,6 +1255,7 @@ const mapStateToProps = (state) => {
     delete formValue.price.history;
   }
   return ({
+    errorValue: get(state, 'form.InputSheet.syncErrors', {}),
     formValue: get(state, 'form.InputSheet.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
     activeSingleUser: get(state, 'user.activeSingleUser', {}),
