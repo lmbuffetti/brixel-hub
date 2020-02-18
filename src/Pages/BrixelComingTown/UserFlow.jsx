@@ -51,6 +51,7 @@ function UserFlow(props) {
   const [progressBar, setProgressBar] = useState(0);
   const [emptyValue, setEmptyValue] = useState(true);
   const [oneEmptyValue, setOneEmptyValue] = useState(true);
+  const [hasToSave, setHasToSave] = useState(true);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
 
   useEffect(() => {
@@ -58,7 +59,7 @@ function UserFlow(props) {
     handleSetBrixelPoint([{desc: "Homebase", point: 50}, {desc: "Newcomer", point: 100}]);
     handleSetAwards([{desc: "Homebase", point: 1}, {desc: "Newcomer", point: 1}]);
     // On load redirect all to first route of flow
-    history.push(`/onBoarding/brixelComingInTown/s${Questions[0].history}`);
+    history.push(`/onBoarding/brixelComingInTown/${Questions[0].history}`);
     // GET Company data by cookie
     const companyCookie = cookie.get('brixelStubCompany') || null;
     if (companyCookie) handleGetCompany({stub: companyCookie});
@@ -72,12 +73,21 @@ function UserFlow(props) {
   useEffect(() => {
     // Check if the user token exist or redirect to Onboarding
     if (typeof cookie.get('brixelToken') === 'undefined') history.push('/onBoarding');
+    if (loggedUser.user) {
+      if (loggedUser.user.brixelComingFlowProcess && loggedUser.user.brixelComingFlowProcess.answers && Object.keys(loggedUser.user.brixelComingFlowProcess.answers).length > 0) {
+        setHasToSave(false);
+        history.push(`/onBoarding/brixelComingInTown/chat`);
+        const curIndex = Questions.findIndex((item) => 'chat' === item.history);
+        setCurrentIndex(curIndex);
+        setPosition(curIndex);
+      }
+    }
   }, [loggedUser]);
 
   // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
   useEffect(() => {
     let invalidField = false;
-    let noValueField = false
+    let noValueField = false;
     let oneValueField = true;
     if (Questions[currentIndex] && Questions[currentIndex].inputs) {
       Questions[currentIndex].inputs.map((inp) => {
@@ -183,7 +193,9 @@ function UserFlow(props) {
       }
     };
     // Call to redux funciton to update the user
-    handleUpdateUser(data);
+    if (hasToSave) {
+      handleUpdateUser(data);
+    }
   };
 
   // Function to move next/prev question
@@ -233,6 +245,14 @@ function UserFlow(props) {
     // Change the url in base of history key on question object
     history.push(`/onBoarding/brixelComingInTown/${Questions[newPosition].history}`);
   };
+
+  const checkRedirectLink = (url) => {
+    let newUrl = url;
+    if (!url.match(/^http?:\/\//i) || !url.match(/^https?:\/\//i)) {
+      newUrl = 'http://' + url;
+    }
+    return newUrl;
+  }
 
   return (
     <main
@@ -417,7 +437,7 @@ function UserFlow(props) {
                                   rounded
                                   label={translateTo(lang,"No thanks")}
                                   color="primary"
-                                  onClick={() => window.location.href = company.contactWebsite || 'https://brixel.ch'}
+                                  onClick={() => window.location.href = company.contactWebsite ? checkRedirectLink(company.contactWebsite) : 'https://brixel.ch'}
                                   disabled={disableNextBtn}
                                 />
                                 <BrixelButtonPrimary
@@ -517,7 +537,7 @@ function UserFlow(props) {
                                     rounded
                                     label={translateTo(lang,"Back to our website")}
                                     color="primary"
-                                    onClick={() => window.location.href = company.contactWebsite || 'https://brixel.ch'}
+                                    onClick={() => window.location.href = company.contactWebsite ? checkRedirectLink(company.contactWebsite) : 'https://brixel.ch'}
                                     rightIcon="arrow-right-small"
                                     disabled={disableNextBtn}
                                   />
