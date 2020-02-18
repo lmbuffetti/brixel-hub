@@ -20,10 +20,13 @@ import {
   BrixelCheckbox,
   Validation,
 } from '@brixel/brixel-components';
+import {
+  getBrowserPlatform
+} from '@brixel/brixel-components/src/utils/helper';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
 import { addProperty } from '../../actions/PropertyActions';
-import { errorMessage, setPageData, setLanguage } from '../../actions/CommonActions';
+import { errorMessage, setPageData, setLanguage, setNotification } from '../../actions/CommonActions';
 import { getCompany } from '../../actions/CompanyActions';
 import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.js';
 import { setCookie } from '../../utils/helpers';
@@ -49,6 +52,7 @@ function OnBoarding(props) {
     handleSetLanguage,
     handleSetBrixelPoint,
     handleSetPage,
+    handleSetNotification,
     history,
     lang,
     loggedUser,
@@ -67,7 +71,6 @@ function OnBoarding(props) {
   const [showCountrySel, setShowCountrySel] = useState(false);
 
   useEffect(() => {
-    console.log(baseByData);
     if (baseByData.env === 'dev') {
       const location = {
         type: "stateCode",
@@ -85,13 +88,21 @@ function OnBoarding(props) {
       };
       changeFieldValue('location', location);
     }
-  }, [])
+  }, []);
+
+  const hideOnDesk = getBrowserPlatform().indexOf('desk') !== -1 ? 'hide-desktop' : 'dis-b-mobile';
 
   // SET the country from the value
   const countryObj = (curVal) => {
     const getCurrent = country.find((val) => val.full === curVal || val.value === curVal);
     setCurCountry(getCurrent);
   };
+
+  useEffect(() => {
+    if (loggedUser.user) {
+      changeFieldValue('owner', loggedUser.user.id);
+    }
+  }, [loggedUser]);
 
   // SET the default language in base of the company
   useEffect(() => {
@@ -163,7 +174,7 @@ function OnBoarding(props) {
     let enableForm = true;
     // Check if exist any invalid field
     Object.keys(errorValue).map((key) => {
-      if (errorValue[key] !== true && !isObject(errorValue[key])) {
+      if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedUser.user) {
         setShowError(true);
         enableForm = false;
       }
@@ -249,6 +260,28 @@ function OnBoarding(props) {
       setDisableNextBtn(true);
       newPosition = position + 1;
     }
+    if (Questions[newPosition] && Questions[newPosition].conditions) {
+      let checkCond = true;
+      Questions[newPosition].conditions.map((cond) => {
+        const val = get(formValue, cond.name, null);
+        if (val !== cond.value && checkCond) {
+          if (act === 'back') newPosition = newPosition - 1;
+          else newPosition = newPosition + 1;
+          checkCond = false;
+        }
+      })
+    }
+    if (Questions[newPosition] && Questions[newPosition].conditions) {
+      let checkCond = true;
+      Questions[newPosition].conditions.map((cond) => {
+        const val = get(formValue, cond.name, null);
+        if (val !== cond.value && checkCond) {
+          if (act === 'back') newPosition = newPosition - 1;
+          else newPosition = newPosition + 1;
+          checkCond = false;
+        }
+      });
+    }
     setPosition(newPosition);
     setCurrentIndex(newPosition);
     if (newPosition > 0) setHidePrevBtn(false);
@@ -324,8 +357,24 @@ function OnBoarding(props) {
   // Chack if user account just exist and redirect him to login part
   const switchLoginSignUpPage = (act) => {
     handleSetPage(null);
+    handleSetNotification(null);
     setLoginPage(act);
   };
+
+  const buttonLabel = () => {
+    let label = '';
+    if (!Questions[currentIndex + 2]) {
+      if(loginPage) label = translateTo(lang, "Login")
+      else label = translateTo(lang, "Create profile")
+    } else {
+        if (Questions[currentIndex].cardType === 'createProfile') {
+          label = translateTo(lang, "Save")
+        } else {
+          label = translateTo(lang, "Continue")
+        }
+    }
+    return label;
+  }
 
   return (
     <main id="onBoarding">
@@ -430,6 +479,7 @@ function OnBoarding(props) {
                                           error: errorValue[input.name],
                                         }}
                                         minLenghtNum={input.minLenghtNum || null}
+                                        maxLengthNum={input.maxLenghtNum || null}
                                       />
                                       {
                                         input.unit && (
@@ -443,7 +493,7 @@ function OnBoarding(props) {
                                         <BrixelButtonPrimary
                                           rounded
                                           label="Ok"
-                                          className="ml-2 hide-md"
+                                          className={`ml-2 hide-md ${hideOnDesk}`}
                                           background="green"
                                           onClick={() => changeStep()}
                                           disabled={disableNextBtn}
@@ -580,6 +630,16 @@ function OnBoarding(props) {
                                         error: translateTo(lang, "Please insert a valid password")
                                       }}
                                     />
+                                    <p className="mt-1">
+                                      <a
+                                        className="txtPrimary400 cur-poi"
+                                        href={`${baseByData.loginBasePath}/recover`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {translateTo(lang, "Forgot password?")}
+                                      </a>
+                                    </p>
                                   </>
                                 ) : (
                                   <>
@@ -686,7 +746,7 @@ function OnBoarding(props) {
           }
         </div>
         <div
-          className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
+          className={`footerAction p-1 p-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
         >
           <div className="container pos-r">
             <div className="subcontainer">
@@ -721,15 +781,7 @@ function OnBoarding(props) {
                   Questions[currentIndex] && (
                     <BrixelButtonPrimary
                       rounded
-                      label={
-                        !Questions[currentIndex + 2] ?
-                          translateTo(lang, "Create profile") :
-                          (
-                            Questions[currentIndex].cardType === 'createProfile' ?
-                              translateTo(lang, "Save") :
-                              translateTo(lang, "Continue")
-                          )
-                      }
+                      label={buttonLabel()}
                       background={Questions[currentIndex].inputs ? "green" : "primary"}
                       className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
                       onClick={() => Questions[currentIndex].cardType === 'createProfile' ? saveData() : changeStep()}
@@ -762,6 +814,7 @@ OnBoarding.propTypes = {
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetPage: PropTypes.func.isRequired,
   handleSetBrixelPoint: PropTypes.func.isRequired,
+  handleSetNotification: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initialValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
@@ -787,6 +840,7 @@ const mapStateToProps = (state, props) => ({
   pageState: get(state, 'common.setPageData', null),
   initialValues: {
     bedrooms: 0,
+    owner: null,
   }
 });
 
@@ -803,6 +857,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleCreatePage: bindActionCreators(addProperty, dispatch),
   handleSetErrorMsg: bindActionCreators(errorMessage, dispatch),
+  handleSetNotification: bindActionCreators(setNotification, dispatch),
   handleSetPage: bindActionCreators(setPageData, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
   handleSetBrixelPoint: bindActionCreators(setBrixelPoint, dispatch),

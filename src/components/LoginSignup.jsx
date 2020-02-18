@@ -7,6 +7,7 @@ import get from 'lodash/get';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 
 const LoginSignup = (props) => {
   // PROPS
@@ -60,6 +61,17 @@ const LoginSignup = (props) => {
                 error: translateTo(lang, "Please insert a valid password")
               }}
             />
+            <p className="mt-1">
+              <a
+                className="txtPrimary400 cur-poi"
+                href={`${baseByData.loginBasePath}/recover`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {translateTo(lang, "Forgot password?")}
+              </a>
+            </p>
+
           </>
         ) : (
           <>
