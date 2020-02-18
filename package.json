@@ -45,7 +45,7 @@
     "test-build": "babel-node server/webpack.bundle",
     "build": "webpack --config webpack.config.js --progress --env DEV --mode production",
     "build-dev": "webpack --config webpack.config.js --env DEV --mode production",
-    "build-stage": "webpack --config webpack.config.js --env STAGE --mode production",
+    "build-stage": "webpack --config webpack.config.js --env STAGING --mode production",
     "build-prod": "webpack --config webpack.config.js --env PROD --mode production",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
