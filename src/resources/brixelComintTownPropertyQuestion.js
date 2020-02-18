@@ -133,10 +133,10 @@ export const QuestionsList = (lang) => [
         validation: [Validation.required],
       },
     ],
-    successMessage: translateTo(lang, 'That is an interesting location.')
+    successMessage: translateTo(lang, "That is an interesting location.")
   },
   {
-    title: translateTo(lang, "Great, Your property was created! 🎉"),
+    title: translateTo(lang, "Great, Your property was created!") + " 🎉",
     history: "resume",
     cardType: 'Resume',
     imgApartment: resumeApartment,
