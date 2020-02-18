@@ -279,7 +279,7 @@ function UserFlow(props) {
             Questions.map((quest, i) => (
               <div
                 id={`step-${i}`}
-                className={`singleStep ${quest.background || ''}`}
+                className={`singleStep ${quest.background || ''} ${Questions[currentIndex].cardType === 'chat' ? 'chatBox': ''}`}
                 key={i.toString()}
                 style={{
                   visibility: i !== currentIndex ? 'hidden' : 'visible',
@@ -422,17 +422,17 @@ function UserFlow(props) {
                           (quest.cardType === 'chat') && (
                             <div>
                               <div className="dis-f a-c mb-4">
-                                <img src={quest.img} />
+                                <img src={quest.img} alt=""/>
                                 <h5 className="ml-3" dangerouslySetInnerHTML={{ __html: quest.title}} />
                               </div>
                               <div className="chatContainer">
                                 {
                                   quest.message && quest.message.map((msg, i) => (
-                                    <div className="messageChat" dangerouslySetInnerHTML={{ __html: msg }} key={i.toString()} />
+                                    <div className="messageChat" dangerouslySetInnerHTML={{ __html: msg }} key={i.toString()}/>
                                   ))
                                 }
                               </div>
-                              <div className="dis-f w-perc-100 jc-fe">
+                              <div className="dis-f w-perc-100 jc-fe chatBtn">
                                 <BrixelButtonSecondary
                                   rounded
                                   label={translateTo(lang,"No thanks")}
@@ -462,7 +462,7 @@ function UserFlow(props) {
         </div>
         {
           Questions[currentIndex].cardType !== 'chat' && (
-            <div className={`footerAction p-1  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`}>
+            <div className={`footerAction p-1 p-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`}>
               <div className="container pos-r">
                 <div className="subcontainer">
                   {
@@ -475,9 +475,9 @@ function UserFlow(props) {
                   }
                   <div
                     className={
-                      `dis-f a-c ${Questions[currentIndex].inputs ? 
-                        (hidePrevBtn ? 'jc-fe' : 'jc-b') : 
-                        (Questions[currentIndex].cardType === 'LastStep' ? 'jc-fe' : 'jc-c')}`
+                      `dis-f a-c ${Questions[currentIndex].inputs ?
+                        (hidePrevBtn ? 'jc-fe' : 'jc-b') :
+                        (Questions[currentIndex].cardType === 'LastStep' ? 'jc-b' : 'jc-c')}`
                     }
                   >
                     {

@@ -7,10 +7,13 @@ import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
 import { translateTo } from '../utils/translation';
 
+
 export const maxLengthNum = (val, name) => (value) => {
+
   const error = !value || (value < val)
     ? null
-    : `The ${name} have to be less then ${val}`;
+    : name === 'year' ?
+      `Year can't be after ${val}` : `The ${name} have to be less then ${val}`;
 
   return error;
 };
@@ -18,7 +21,8 @@ export const maxLengthNum = (val, name) => (value) => {
 export const minLengthNum = (val, name) => (value) => {
   const error = !value || (value >= val)
     ? null
-    : `The ${name} have to be more then ${val}`;
+    : name === 'year' ?
+      `Too old! year can't be before ${val}` : `The ${name} have to be more then ${val}`;
 
   return error;
 };
@@ -26,16 +30,17 @@ export const minLengthNum = (val, name) => (value) => {
 const minLengthNumYear = minLengthNum(1500, 'year');
 const maxLengthNumRooms = maxLengthNum(30, 'rooms');
 const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
-const maxLengthNumYear = maxLengthNum(2030, 'year');
+const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 
 export const QuestionsList = (lang) => [
   {
     className: 'radioBtnImg',
     titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
-    title: translateTo(lang, "What property do you have?"),
+    title: translateTo(lang, "What type of property do you have?"),
     component: BrixelRadioButton,
     history: "propertyType",
+    cardType: "propertyType",
     icons: true,
     inputs: [{
       className: 'radioBtnImg max-w-fix-md-464',
@@ -50,7 +55,6 @@ export const QuestionsList = (lang) => [
         img: apartment,
       },
       {
-
         label: translateTo(lang, "House"),
         value: "House",
         img: house,
@@ -63,6 +67,7 @@ export const QuestionsList = (lang) => [
     title: translateTo(lang, "How many rooms?"),
     component: BrixelInputStepNumber,
     history: "allRooms",
+    cardType: "allRooms",
     className: 'max-w-fix-md-232',
     inputs: [
       {
@@ -78,9 +83,10 @@ export const QuestionsList = (lang) => [
     successMessage: translateTo(lang, 'This is a nice number.')
   },
   {
-    title: translateTo(lang, "What is the living space?"),
+    title: translateTo(lang, "What is the living space size?"),
     component: BrixelInputText,
     history: "livingSpace",
+    cardType: "livingSpace",
     inputs: [
       {
         className: 'max-w-fix-md-232',
@@ -100,6 +106,7 @@ export const QuestionsList = (lang) => [
     title: translateTo(lang, "What is the construction year?"),
     component: BrixelInputText,
     history: "constructionYear",
+    cardType: "constructionYear",
     inputs: [
       {
         label: '',
@@ -109,7 +116,7 @@ export const QuestionsList = (lang) => [
         placeholder: translateTo(lang, 'e.g. 1990'),
         validation: [minLengthNumYear, maxLengthNumYear, Validation.required],
         minLenghtNum: 999,
-        maxLenghtNum: 2030,
+        maxLenghtNum: 9999,
       },
     ],
     successMessage: translateTo(lang, 'A good year for real estate.')
@@ -118,6 +125,7 @@ export const QuestionsList = (lang) => [
     title: translateTo(lang, "What is the location?"),
     component: "Map",
     history: "locationInput",
+    cardType: "locationInput",
     inputs: [
       {
         name: 'location.address',
@@ -125,10 +133,10 @@ export const QuestionsList = (lang) => [
         validation: [Validation.required],
       },
     ],
-    successMessage: translateTo(lang, 'That is an interesting location.')
+    successMessage: translateTo(lang, "That is an interesting location.")
   },
   {
-    title: translateTo(lang, "Great. Your property was created."),
+    title: translateTo(lang, "Great, Your property was created!") + " 🎉",
     history: "resume",
     cardType: 'Resume',
     imgApartment: resumeApartment,
@@ -151,6 +159,10 @@ export const QuestionsList = (lang) => [
     img: SaleProperty,
   },
   {
+    conditions: [{
+      name: 'owner',
+      value: null,
+    }],
     signupTitle: translateTo(lang, "Create your profile to save your progress."),
     loginTitle: translateTo(lang, "Login to your profile to save your progress."),
     history: "createProfile",
