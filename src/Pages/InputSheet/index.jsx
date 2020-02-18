@@ -148,6 +148,16 @@ const InputSheet = (props) => {
     );
   }
 
+  const checkCondition = (val) => {
+    let isToShow = true;
+    if (val && val.condition) {
+      const formCurVal = get(formValue, val.condition.name, null)
+      if (val.condition.value !== formCurVal) isToShow = false;
+      console.log(val, isToShow, formCurVal);
+    }
+    return isToShow;
+  };
+
   return (
     <>
       <div className="container dis-fl-col">
@@ -177,77 +187,84 @@ const InputSheet = (props) => {
               <h2>{quest.title}</h2>
               {
                 quest.inputs.map((input, f) => (
-                  <div key={f.toString()}>
+                  <>
+                    {console.log(input)}
                     {
-                      input.type === 'Map' ? (
-                        <>
-                          <div className="mb-20 pos-r zIndex1">
-                            <Field
-                              name={input.name}
-                              label={input.label}
-                              component={() => (
-                                <Maps
-                                  zoom={14}
-                                  scrollZoom
-                                  moveMarker
-                                  draggable
-                                  showSearchLocation
-                                  showSelectCountry={true}
-                                  showMap={true}
-                                  isShowZip={false}
-                                  className="w-perc-100"
-                                />
-                              )}
-                              options={input.options}
-                              validate={input.validation}
-                              type={input.type}
-                            />
-                          </div>
-                        </>
-                      ) : (
-                        <div className="dis-f a-c jc-b">
-                          <div
-                            className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}
-                            tabIndex="-1"
-                          >
-                            <Field
-                              className="w-perc-100"
-                              inputClassName={input.className || ''}
-                              name={input.name}
-                              label={input.label}
-                              icons={quest.icons}
-                              component={quest.component}
-                              fluid={true}
-                              options={input.options}
-                              validate={input.validation}
-                              type={input.type}
-                              step={+input.step}
-                              min={input.min}
-                              deactivable={false}
-                              placeholder={input.placeholder || ''}
-                              meta={{
-                                dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                invalid: true,
-                              }}
-                              modal={null}
-                              message={{
-                                help: null,
-                                error: errorValue[input.name],
-                              }}
-                              minLenghtNum={input.minLenghtNum || null}
-                              maxLengthNum={input.maxLenghtNum || null}
-                            />
-                            {
-                              input.unit && (
-                                <span className="pl-2">{input.unit}</span>
-                              )
-                            }
-                          </div>
+                      checkCondition(input) && (
+                        <div key={f.toString()}>
+                          {
+                            input.type === 'Map' ? (
+                              <>
+                                <div className="mb-20 pos-r zIndex1">
+                                  <Field
+                                    name={input.name}
+                                    label={input.label}
+                                    component={() => (
+                                      <Maps
+                                        zoom={14}
+                                        scrollZoom
+                                        moveMarker
+                                        draggable
+                                        showSearchLocation
+                                        showSelectCountry={true}
+                                        showMap={true}
+                                        isShowZip={false}
+                                        className="w-perc-100"
+                                      />
+                                    )}
+                                    options={input.options}
+                                    validate={input.validation}
+                                    type={input.type}
+                                  />
+                                </div>
+                              </>
+                            ) : (
+                              <div className="dis-f a-c jc-b">
+                                <div
+                                  className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}
+                                  tabIndex="-1"
+                                >
+                                  <Field
+                                    className="w-perc-100"
+                                    inputClassName={input.className || ''}
+                                    name={input.name}
+                                    label={input.label}
+                                    icons={quest.icons}
+                                    component={input.component}
+                                    fluid={true}
+                                    options={input.options}
+                                    validate={input.validation}
+                                    type={input.type}
+                                    step={+input.step}
+                                    min={input.min}
+                                    deactivable={false}
+                                    placeholder={input.placeholder || ''}
+                                    meta={{
+                                      dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                      invalid: true,
+                                    }}
+                                    modal={input.modal ? {message: input.modal.hint, func: () => handleSetModal(input.modal.func)} : null }
+                                    message={{
+                                      help: null,
+                                      error: errorValue[input.name],
+                                    }}
+                                    minLenghtNum={input.minLenghtNum || null}
+                                    maxLengthNum={input.maxLenghtNum || null}
+                                  />
+                                  {
+                                    input.unit && (
+                                      <span className="pl-2">{input.unit}</span>
+                                    )
+                                  }
+                                </div>
+                              </div>
+                            )
+                          }
+                          <p className="body2">{input.help}</p>
                         </div>
                       )
                     }
-                    <p className="body2">{input.help}</p>
-                  </div>
+                  </>
                 ))
               }
             </div>
@@ -419,6 +436,11 @@ const InputSheet = (props) => {
                   }),
                 }}
               />
+
+
+
+
+
               <Field
                 className="mb-2"
                 name="properties.typology.numberOfFloors"
