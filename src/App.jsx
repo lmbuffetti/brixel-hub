@@ -77,6 +77,11 @@ const InputSheet = Loadable({
   loading: Loading,
 });
 
+const Documents = Loadable({
+  loader: () => import('./components/Documents' /* webpackChunkName: "InputSheet" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -182,6 +187,12 @@ const App = (props) => {
           </>
         )
       }
+      <div className="zIndex3">
+        <Switch>
+          {/* Onboarding user */}
+          <Route path="/home/documents" component={Documents} />
+        </Switch>
+      </div>
     </>
   );
 };
