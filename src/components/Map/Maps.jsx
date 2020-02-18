@@ -371,7 +371,7 @@ const Maps = (props) => {
 
   const selectOpt = cloneDeep(country);
   selectOpt.unshift({
-    label: translateTo(lang, 'Everywhere'),
+    label: `🌍 ${translateTo(lang, 'Everywhere')}`,
     value: '',
   });
   const classNameDef = !className && showMap ? 'h-fix-400 w-perc-100' : className;
@@ -413,7 +413,7 @@ const Maps = (props) => {
                 type="text"
                 ref={inputSearch}
                 label={inputLabel}
-                placeholder="Address"
+                placeholder="Enter property address"
                 input={{
                   onChange: (e) => changeLocation(e),
                   onBlur: () => '',
@@ -458,7 +458,7 @@ const Maps = (props) => {
                           label={
                             defCountry ?
                               translateTo(lang, selectOpt.find(val => val.value === defCountry).label) :
-                              translateTo(lang, 'Everywhere')
+                              `🌍 ${translateTo(lang, 'Everywhere')}`
                           }
                           onClick={() => setShowSelCountry(true)}
                         />
