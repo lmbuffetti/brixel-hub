@@ -190,7 +190,7 @@ const App = (props) => {
       <div className="zIndex3">
         <Switch>
           {/* Onboarding user */}
-          <Route path="/home/documents" component={Documents} />
+          <Route path="/home/:id?/documents" component={Documents} />
         </Switch>
       </div>
     </>
