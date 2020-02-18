@@ -14,10 +14,11 @@ import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
 import queryString from 'query-string';
-import { BrixelIcon, BrixelNotification } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
 import PageHeader from './components/PageHeader';
 import ReactGA from 'react-ga';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { setModal } from './actions/CommonActions';
 
 ReactGA.initialize(baseByData.googleAnalyticsIdHub);
 
@@ -71,6 +72,11 @@ const Dashboard = Loadable({
   loading: Loading,
 });
 
+const InputSheet = Loadable({
+  loader: () => import('./Pages/InputSheet' /* webpackChunkName: "InputSheet" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -78,8 +84,10 @@ const App = (props) => {
     history,
     handleCheckToken,
     handleSetLanguages,
+    handleSetModal,
     isLoading,
     loggedUser,
+    modal,
     notification,
     redirectTo,
   } = props;
@@ -127,6 +135,7 @@ const App = (props) => {
         <ProtectedRoute path="/packageFlow/:propId/thankyou" component={ThankYou} />
         <ProtectedRoute path="/estimation/:propId/questions/" component={GoToPro} />
         { /* SECTION: PROTECED ROUTE WITH REDIRECT TO LOGIN */ }
+        <ProtectedRoute path="/:propId/inputSheet" exact component={InputSheet} />
         <Redirect from="/" to="/home" exact component={Dashboard} />
         <ProtectedRoute path="/" exact component={Dashboard} />
         <ProtectedRoute path="/:action/:id?" exact component={Dashboard} />
@@ -134,7 +143,27 @@ const App = (props) => {
         <Redirect from="*" to="/onBoarding" />
       </Switch>
       {
-        notification && (
+        modal.state && (
+          <BrixelModal
+            classHeight={modal.height}
+            title={modal.title}
+            titleIcon={modal.titleIcon}
+            color={modal.color}
+            saturationTxt={modal.saturationTxt}
+            layout={modal.layout}
+            onClose={() => {
+              handleSetModal({ state: false });
+            }}
+            actions={modal.action}
+            multiActions={modal.multiActions}
+            clickOutsideToClose={modal.clickOutsideToClose}
+          >
+            <div>{modal.body}</div>
+          </BrixelModal>
+        )
+      }
+      {
+        notification.small || notification.label && (
           <>
             {
               notification.small ? (
@@ -161,10 +190,12 @@ const App = (props) => {
 App.propTypes = {
   history: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
   loggedUser: PropTypes.object.isRequired,
   notification: PropTypes.object,
-  isLoading: PropTypes.bool,
   match: PropTypes.object.isRequired,
+  modal: PropTypes.object.isRequired,
   redirectTo: PropTypes.object,
 };
 
@@ -175,15 +206,17 @@ App.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  notification: get(state, 'common.notification', null),
-  redirectTo: get(state, 'common.redirectTo', null),
+  config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   loggedUser: get(state, 'user.loggedUser', null),
-  config: get(state, 'common.config', {}),
+  modal: get(state, 'common.modal', {}),
+  notification: get(state, 'common.notification', null),
+  redirectTo: get(state, 'common.redirectTo', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleCheckToken: bindActionCreators(checkToken, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetLanguages: bindActionCreators(setLanguages, dispatch),
 });
 
