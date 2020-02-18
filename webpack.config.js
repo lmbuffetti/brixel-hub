@@ -19,6 +19,7 @@ const BUILD_DIR = path.join(ROOT_DIR, './dist');
 
 const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
+
 const clientConfig = {
   mode: 'client',
   devtool: devMode ? 'inline-source-map' : 'cheap-source-map',
