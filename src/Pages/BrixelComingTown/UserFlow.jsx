@@ -1,4 +1,3 @@
-/* global Transifex */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
@@ -18,14 +17,14 @@ import {
   BrixelButtonSecondary,
   BrixelButtonTertiary,
 } from '@brixel/brixel-components';
-import { updateUser, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
+import { updateUser, setAwards, setBrixelPoint } from '../../actions/UserActions';
 import { setNotification } from '../../actions/CommonActions';
 import { QuestionsList } from '../../resources/brixelComintTownUserQuestion.js';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
 import { getCompany } from '../../actions/CompanyActions';
 
-const cookie = new Cookies;
+const cookie = new Cookies();
 
 function UserFlow(props) {
   // PROPS
@@ -51,6 +50,8 @@ function UserFlow(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progressBar, setProgressBar] = useState(0);
   const [emptyValue, setEmptyValue] = useState(true);
+  const [oneEmptyValue, setOneEmptyValue] = useState(true);
+  const [hasToSave, setHasToSave] = useState(true);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
 
   useEffect(() => {
@@ -58,7 +59,7 @@ function UserFlow(props) {
     handleSetBrixelPoint([{desc: "Homebase", point: 50}, {desc: "Newcomer", point: 100}]);
     handleSetAwards([{desc: "Homebase", point: 1}, {desc: "Newcomer", point: 1}]);
     // On load redirect all to first route of flow
-    history.push(`/onBoarding/brixelComingInTown/s${Questions[0].history}`);
+    history.push(`/onBoarding/brixelComingInTown/${Questions[0].history}`);
     // GET Company data by cookie
     const companyCookie = cookie.get('brixelStubCompany') || null;
     if (companyCookie) handleGetCompany({stub: companyCookie});
@@ -72,25 +73,45 @@ function UserFlow(props) {
   useEffect(() => {
     // Check if the user token exist or redirect to Onboarding
     if (typeof cookie.get('brixelToken') === 'undefined') history.push('/onBoarding');
+    if (loggedUser.user) {
+      if (loggedUser.user.brixelComingFlowProcess && loggedUser.user.brixelComingFlowProcess.answers && Object.keys(loggedUser.user.brixelComingFlowProcess.answers).length > 0) {
+        setHasToSave(false);
+        history.push(`/onBoarding/brixelComingInTown/chat`);
+        const curIndex = Questions.findIndex((item) => 'chat' === item.history);
+        setCurrentIndex(curIndex);
+        setPosition(curIndex);
+      }
+    }
   }, [loggedUser]);
 
   // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
   useEffect(() => {
     let invalidField = false;
     let noValueField = false;
+    let oneValueField = true;
     if (Questions[currentIndex] && Questions[currentIndex].inputs) {
       Questions[currentIndex].inputs.map((inp) => {
         const curVal = get(errorValue, inp.name, true);
         if (curVal !== true) invalidField = true;
+        return null;
       });
     }
     if (Questions[currentIndex] && Questions[currentIndex].inputs) {
       Questions[currentIndex].inputs.map((inp) => {
         const curVal = get(formValue, inp.name, true);
         if (curVal === true || !curVal) noValueField = true;
+        return null;
+      });
+    }
+    if (Questions[currentIndex] && Questions[currentIndex].inputs) {
+      Questions[currentIndex].inputs.map((inp) => {
+        const curVal = get(formValue, inp.name, true);
+        if (curVal !== true) oneValueField = false;
+        return null;
       });
     }
     setEmptyValue(noValueField);
+    setOneEmptyValue(oneValueField);
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex, formValue]);
 
@@ -103,9 +124,83 @@ function UserFlow(props) {
     document.getElementById('onBoarding').scrollTo(0, 0);
   };
 
+  // Function to create the email
+  const extractEmaildata = () => {
+    let formData = formValue;
+    let email = `<p><b>Name</b> ${loggedUser.user.name}</p>`;
+    email += `<p><b>Email</b> ${loggedUser.user.email}</p>`;
+    email += `<p><b>User Id</b> ${loggedUser.user.id}</p>`;
+    email += `<p><b>Company</b> ${company.name || 'default'}</p>`;
+    const formInputs = QuestionsList('en').filter((itm) => typeof itm.inputs !== 'undefined');
+    Object.keys(formData).map((key) => {
+      formInputs.map((input) => {
+        const getField = input.inputs.find(subVal => subVal.name === key);
+        let getFieldValueLabel = formData[key];
+        if (input.options) {
+          getFieldValueLabel = input.options.find(subVal => subVal.value === formData[key]);
+          if (getFieldValueLabel) getFieldValueLabel = getFieldValueLabel.label;
+        }
+        if (isObject(formData[key]) && !isArray(formData[key])) {
+          let obj = 0;
+          Object.keys(formData[key]).map((multiKey) => {
+            const getField = input.inputs.find(subVal => subVal.name.split('.')[1] === multiKey);
+            const getSubField = input.options.find(subVal => subVal.value === formData[key][multiKey]);
+            if (getField && getSubField) {
+              if (obj === 0 && email) email += "<hr />";
+              email += `<p><b>${getField.labelEmail || getField.label}</b> ${getSubField.label} - ${getSubField.value}</p>`;
+              obj++;
+            }
+            return null;
+          });
+        } else if (isArray(formData[key])) {
+          let arr = 0;
+          formData[key].map((val) => {
+            if (input.options) {
+              const getSubField = input.options.find(subVal => subVal.value === val);
+              if (getSubField && getField) {
+                if (arr === 0 && email) email += "<hr />";
+                email += `<p><b>${getField.labelEmail || getField.label}</b> ${getSubField.label}</p>`;
+                arr++;
+              }
+            }
+            return null;
+          });
+        } else if (getField) {
+          if (email) email += "<hr />";
+          email += `<p><b>${getField.labelEmail || getField.label}</b> ${getFieldValueLabel || formData[key]}</p>`
+        }
+        return null;
+      });
+      return null;
+    });
+    return email;
+  };
+
+  // Function to save the data
+  const saveData = () => {
+    let message = extractEmaildata();
+    // Save the obj data
+    const data = {
+      brixelComingFlowProcess: {
+        answers: formValue
+      },
+      id: loggedUser.user.id,
+      sendEmail: {
+        company : company.stub || null, // email destinatary
+        recipientEmail : 'support@brixel.io', // email
+        subject        : `New Sign up - Brixel Coming In Town - ${company.name || 'default'}`,
+        message        : `<h1>New Sign up - Brixel Coming In Town - ${company.name || 'default'}</h1> ${message}`,
+      }
+    };
+    // Call to redux funciton to update the user
+    if (hasToSave) {
+      handleUpdateUser(data);
+    }
+  };
+
   // Function to move next/prev question
   const changeStep = (act) => {
-    let newPosition = position;
+    let newPosition = 0;
     handleSetNotification(null);
     if (act === 'back') {
       setDisableNextBtn(false);
@@ -151,73 +246,13 @@ function UserFlow(props) {
     history.push(`/onBoarding/brixelComingInTown/${Questions[newPosition].history}`);
   };
 
-  // Function to create the email
-  const extractEmaildata = () => {
-    let formData = formValue;
-    let email = `<p><b>Name</b> ${loggedUser.user.name}</p>`;
-    email += `<p><b>Email</b> ${loggedUser.user.email}</p>`;
-    email += `<p><b>User Id</b> ${loggedUser.user.id}</p>`;
-    email += `<p><b>Company</b> ${company.name || 'default'}</p>`;
-    const formInputs = QuestionsList('en').filter((itm) => typeof itm.inputs !== 'undefined');
-    Object.keys(formData).map((key) => {
-      formInputs.map((input) => {
-        const getField = input.inputs.find(subVal => subVal.name === key);
-        let getFieldValueLabel = formData[key];
-        if (input.options) {
-          getFieldValueLabel = input.options.find(subVal => subVal.value === formData[key]);
-          if (getFieldValueLabel) getFieldValueLabel = getFieldValueLabel.label;
-        }
-        if (isObject(formData[key]) && !isArray(formData[key])) {
-          let obj = 0;
-          Object.keys(formData[key]).map((multiKey) => {
-            const getField = input.inputs.find(subVal => subVal.name.split('.')[1] === multiKey);
-            const getSubField = input.options.find(subVal => subVal.value === formData[key][multiKey]);
-            if (getField && getSubField) {
-              if (obj === 0 && email) email += "<hr />";
-              email += `<p><b>${getField.labelEmail || getField.label}</b> ${getSubField.label} - ${getSubField.value}</p>`;
-              obj++;
-            }
-          });
-        } else if (isArray(formData[key])) {
-          let arr = 0;
-          formData[key].map((val) => {
-            if (input.options) {
-              const getSubField = input.options.find(subVal => subVal.value === val);
-              if (getSubField && getField) {
-                if (arr === 0 && email) email += "<hr />";
-                email += `<p><b>${getField.labelEmail || getField.label}</b> ${getSubField.label}</p>`;
-                arr++;
-              }
-            }
-          });
-        } else if (getField) {
-          if (email) email += "<hr />";
-          email += `<p><b>${getField.labelEmail || getField.label}</b> ${getFieldValueLabel || formData[key]}</p>`
-        }
-      });
-    });
-    return email;
-  };
-
-  // Function to save the data
-  const saveData = (e) => {
-    let message = extractEmaildata();
-    // Save the obj data
-    const data = {
-      brixelComingFlowProcess: {
-        answers: formValue
-      },
-      id: loggedUser.user.id,
-      sendEmail: {
-        company : company.stub || null, // email destinatary
-        recipientEmail : 'support@brixel.io', // email
-        subject        : `New Sign up - Brixel Coming In Town - ${company.name || 'default'}`,
-        message        : `<h1>New Sign up - Brixel Coming In Town - ${company.name || 'default'}</h1> ${message}`,
-      }
-    };
-    // Call to redux funciton to update the user
-    handleUpdateUser(data);
-  };
+  const checkRedirectLink = (url) => {
+    let newUrl = url;
+    if (!url.match(/^http?:\/\//i) || !url.match(/^https?:\/\//i)) {
+      newUrl = 'http://' + url;
+    }
+    return newUrl;
+  }
 
   return (
     <main
@@ -262,103 +297,102 @@ function UserFlow(props) {
                         <h5 className="mb-4 mb-md-10">{quest.title}</h5>
                         {
                           quest.inputs.map((input, f) => (
-                              <div key={f.toString()}>
-                                {
-                                  input.type === 'Map' ? (
-                                    <>
-                                      <div className="mb-2 pos-r zIndex3">
-                                        <Field
-                                          name={input.name}
-                                          label={input.label}
-                                          component={() => (
+                            <div key={f.toString()}>
+                              {
+                                input.type === 'Map' ? (
+                                  <>
+                                    <div className="mb-2 pos-r zIndex3">
+                                      <Field
+                                        name={input.name}
+                                        label={input.label}
+                                        component={() => (
+                                          <Maps
+                                            zoom={14}
+                                            scrollZoom
+                                            moveMarker
+                                            draggable
+                                            showSearchLocation
+                                            showSelectCountry
+                                            showMap={false}
+                                            isShowZip={false}
+                                          />
+                                        )}
+                                        options={input.options}
+                                        validate={input.validation}
+                                        type={input.type}
+                                        onChange={(e) => validateSlide(e, input.name, quest)}
+                                      />
+                                    </div>
+                                    {
+                                      formValue.location && formValue.location.address && (
+                                        <>
+                                          <div className="dis-f jc-b pos-r zIndex2 my-2 w-perc-100">
+                                            <p>Is this the place?</p>
+                                            <button onClick={() => changeFieldValue('location', {})}>Change</button>
+                                          </div>
+                                          <div className="pos-r zIndex1">
+                                            <div className="curAdr">{formValue.location.address}</div>
                                             <Maps
                                               zoom={14}
                                               scrollZoom
                                               moveMarker
                                               draggable
-                                              showSearchLocation
-                                              showSelectCountry
-                                              showMap={false}
+                                              showMap
                                               isShowZip={false}
                                             />
-                                          )}
-                                          options={input.options}
-                                          validate={input.validation}
-                                          type={input.type}
-                                          onChange={(e) => validateSlide(e, input.name, quest)}
-                                        />
-                                      </div>
+                                          </div>
+                                        </>
+                                      )
+                                    }
+                                  </>
+                                ) : (
+                                  <div className="dis-f a-t jc-b">
+                                    <div className={`${input.type === 'number' || input.type === 'text' ? 'dis-f a-c' : ''} jc-b w-perc-100`}>
+                                      <Field
+                                        className="mb-2 w-perc-100"
+                                        name={input.name}
+                                        label={input.label}
+                                        icons={quest.icons}
+                                        component={quest.component}
+                                        fluid={true}
+                                        options={quest.options}
+                                        validate={input.validation}
+                                        type={input.type}
+                                        step={+input.step}
+                                        min={input.min}
+                                        max={input.max}
+                                        onChange={(e) => validateSlide(e, input.name, quest)}
+                                        deactivable={input.deactivable || false}
+                                        meta={{
+                                          dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                          invalid: formValue[input.name] && errorValue[input.name] !== true,
+                                        }}
+                                      />
                                       {
-                                        formValue.location && formValue.location.address && (
-                                          <>
-                                            <div className="dis-f jc-b pos-r zIndex2 my-2 w-perc-100">
-                                              <p>Is this the place?</p>
-                                              <button onClick={() => changeFieldValue('location', {})}>Change</button>
-                                            </div>
-                                            <div className="pos-r zIndex1">
-                                              <div className="curAdr">{formValue.location.address}</div>
-                                              <Maps
-                                                zoom={14}
-                                                scrollZoom
-                                                moveMarker
-                                                draggable
-                                                showMap
-                                                isShowZip={false}
-                                              />
-                                            </div>
-                                          </>
-                                        )
-                                      }
-                                    </>
-                                  ) : (
-                                    <div className="dis-f a-t jc-b">
-                                      <div className={`${input.type === 'number' || input.type === 'text' ? 'dis-f a-c' : ''} jc-b w-perc-100`}>
-                                        <Field
-                                          className="mb-2 w-perc-100"
-                                          name={input.name}
-                                          label={input.label}
-                                          icons={quest.icons}
-                                          component={quest.component}
-                                          fluid={true}
-                                          options={quest.options}
-                                          validate={input.validation}
-                                          type={input.type}
-                                          step={+input.step}
-                                          min={input.min}
-                                          max={input.max}s
-                                          onChange={(e) => validateSlide(e, input.name, quest)}
-                                          deactivable={input.deactivable || false}
-                                          meta={{
-                                            dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                            invalid: formValue[input.name] && errorValue[input.name] !== true,
-                                          }}
-                                        />
-                                        {
-                                          input.unit && (
-                                            <span className="pl-2">{input.unit}</span>
-                                          )
-                                        }
-                                      </div>
-                                      {
-                                        quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && !input.step && (
-                                          <BrixelButtonPrimary
-                                            rounded
-                                            label={translateTo(lang,"Ok")}
-                                            className="ml-2"
-                                            background="primary"
-                                            onClick={() => changeStep()}
-                                            disabled={disableNextBtn}
-                                            type="submit"
-                                          />
+                                        input.unit && (
+                                          <span className="pl-2">{input.unit}</span>
                                         )
                                       }
                                     </div>
-                                  )
-                                }
-                                <p className="body2">{input.help}</p>
-                              </div>
-                            )
-                          )
+                                    {
+                                      quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && !input.step && (
+                                        <BrixelButtonPrimary
+                                          rounded
+                                          label={translateTo(lang,"Ok")}
+                                          className="ml-2"
+                                          background="primary"
+                                          onClick={() => changeStep()}
+                                          disabled={disableNextBtn}
+                                          type="submit"
+                                        />
+                                      )
+                                    }
+                                  </div>
+                                )
+                              }
+                              <p className="body2">{input.help}</p>
+                            </div>
+                          ))
                         }
                       </>
                     )
@@ -403,7 +437,7 @@ function UserFlow(props) {
                                   rounded
                                   label={translateTo(lang,"No thanks")}
                                   color="primary"
-                                  onClick={() => window.location.href = company.contactWebsite || 'https://brixel.ch'}
+                                  onClick={() => window.location.href = company.contactWebsite ? checkRedirectLink(company.contactWebsite) : 'https://brixel.ch'}
                                   disabled={disableNextBtn}
                                 />
                                 <BrixelButtonPrimary
@@ -467,52 +501,51 @@ function UserFlow(props) {
                         (
                           Questions[currentIndex + 1] &&
                           Questions[currentIndex + 1].inputs
-                        )
-                      ) ? (
-                        <>
-                          <BrixelButtonPrimary
-                            rounded
-                            label={
-                              emptyValue &&
-                              Questions[currentIndex].inputs ?
-                                translateTo(lang,"Skip") :
-                                translateTo(lang,"Continue")
+                        )) ? (
+                          <>
+                            <BrixelButtonPrimary
+                              rounded
+                              label={
+                                oneEmptyValue &&
+                                Questions[currentIndex].inputs ?
+                                  translateTo(lang,"Skip") :
+                                  translateTo(lang,"Continue")
+                              }
+                              background={Questions[currentIndex].inputs ? "green" : "primary"}
+                              className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
+                              onClick={() => changeStep()}
+                              rightIcon="arrow-right-small"
+                              disabled={disableNextBtn}
+                            />
+                          </>
+                        ) : (
+                          <>
+                            {
+                              Questions[currentIndex].cardType === 'LastStep' && (
+                                <>
+                                  <BrixelButtonIcon
+                                    className="shadow-2dp backBtn"
+                                    icon="arrow-simple-left"
+                                    onClick={() => changeStep('back')}
+                                    background="white"
+                                    saturation={0}
+                                    color="primary"
+                                    saturationTxt={400}
+                                    noBorder
+                                  />
+                                  <BrixelButtonTertiary
+                                    rounded
+                                    label={translateTo(lang,"Back to our website")}
+                                    color="primary"
+                                    onClick={() => window.location.href = company.contactWebsite ? checkRedirectLink(company.contactWebsite) : 'https://brixel.ch'}
+                                    rightIcon="arrow-right-small"
+                                    disabled={disableNextBtn}
+                                  />
+                                </>
+                              )
                             }
-                            background={Questions[currentIndex].inputs ? "green" : "primary"}
-                            className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                            onClick={() => changeStep()}
-                            rightIcon="arrow-right-small"
-                            disabled={disableNextBtn}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          {
-                            Questions[currentIndex].cardType === 'LastStep' && (
-                              <>
-                                <BrixelButtonIcon
-                                  className="shadow-2dp backBtn"
-                                  icon="arrow-simple-left"
-                                  onClick={() => changeStep('back')}
-                                  background="white"
-                                  saturation={0}
-                                  color="primary"
-                                  saturationTxt={400}
-                                  noBorder
-                                />
-                                <BrixelButtonTertiary
-                                  rounded
-                                  label={translateTo(lang,"Back to our website")}
-                                  color="primary"
-                                  onClick={() => window.location.href = company.contactWebsite || 'https://brixel.ch'}
-                                  rightIcon="arrow-right-small"
-                                  disabled={disableNextBtn}
-                                />
-                              </>
-                            )
-                          }
-                        </>
-                      )
+                          </>
+                        )
                     }
                   </div>
                 </div>

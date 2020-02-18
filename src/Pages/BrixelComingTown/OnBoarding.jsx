@@ -20,6 +20,7 @@ import {
   BrixelCheckbox,
   Validation,
 } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
 import { addProperty } from '../../actions/PropertyActions';
 import { errorMessage, setPageData, setLanguage } from '../../actions/CommonActions';
@@ -64,6 +65,27 @@ function OnBoarding(props) {
   const [Questions, setQuestions] = useState(QuestionsList(lang));
   const [curCountry, setCurCountry] = useState(null);
   const [showCountrySel, setShowCountrySel] = useState(false);
+
+  useEffect(() => {
+    console.log(baseByData);
+    if (baseByData.env === 'dev') {
+      const location = {
+        type: "stateCode",
+        country: "Schweiz",
+        countryCode: "CH",
+        name: "Ernastrasse",
+        vicinity: "Kreis 4",
+        address: "Ernastrasse, 8004 Zürich, Schweiz",
+        latitude: 47.3807432,
+        longitude: 8.516775800000005,
+        state: "Zürich",
+        stateCode: "ZH",
+        zip: 8004,
+        city: "Zürich",
+      };
+      changeFieldValue('location', location);
+    }
+  }, [])
 
   // SET the country from the value
   const countryObj = (curVal) => {
@@ -170,6 +192,13 @@ function OnBoarding(props) {
       addProperty: true, // add the property
       redirectToUserFlow: true, // redirect the user to second part of flow
       company: cookie.get('brixelStubCompany') || null,
+      packageFlowProcess: {
+        propertyType: formValue.propertyType,
+        bedrooms: formValue.bedrooms,
+        livingArea: { value: +formValue.livingSpace, unit: "sqm" },
+        build: formValue.constructionYear,
+        location: formValue.location,
+      },
     };
     // if form is valid
     if (enableForm) {
@@ -400,6 +429,7 @@ function OnBoarding(props) {
                                           help: null,
                                           error: errorValue[input.name],
                                         }}
+                                        minLenghtNum={input.minLenghtNum || null}
                                       />
                                       {
                                         input.unit && (
