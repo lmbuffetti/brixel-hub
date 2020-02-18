@@ -109,6 +109,19 @@ header {
   right: $step;
   top: $step;
   width: 256px;
+  transform: translateX(50%);
+  animation: slideIn 4s 0.5s ease-in;
+  opacity: 0;
+
+  @keyframes slideIn {
+    10%, 90% {
+      opacity: 1;
+      transform: translateX(0);
+    } 95% {
+      opacity: 0;
+      transform: translateX(50%);
+    }
+  }
   i {
     background: map_get($greenColor, 400);
     border-radius: 50%;
@@ -134,4 +147,8 @@ header {
 
 .brixel-modal .modal-title {
   padding: 0;
+}
+
+.show-ios-android {
+  display: block !important;
 }

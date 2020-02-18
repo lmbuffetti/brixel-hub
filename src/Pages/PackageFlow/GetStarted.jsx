@@ -439,7 +439,7 @@ function GetStarted(props) {
                                             label={
                                               curCountry ?
                                                 translateTo(lang, curCountry.label) :
-                                                translateTo(lang, 'Everywhere')
+                                                `🌍 ${translateTo(lang, 'Everywhere')}`
                                             }
                                             onClick={() => setShowCountrySel(true)}
                                           />
@@ -494,6 +494,13 @@ function GetStarted(props) {
                                           dirty: formValue[input.name] && errorValue[input.name] !== true,
                                           invalid: true,
                                         }}
+                                        modal={null}
+                                        message={{
+                                          help: null,
+                                          error: errorValue[input.name],
+                                        }}
+                                        minLenghtNum={input.minLenghtNum || null}
+                                        maxLengthNum={input.maxLenghtNum || null}
                                       />
                                       {
                                         input.unit && (
@@ -606,7 +613,7 @@ function GetStarted(props) {
           }
         </div>
         <div
-          className={`footerAction p-1 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
+          className={`footerAction p-1 p-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
         >
           <div className="container pos-r">
             <div className="subcontainer">
