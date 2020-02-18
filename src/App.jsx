@@ -137,7 +137,6 @@ const App = (props) => {
         { /* SECTION: PROTECED ROUTE WITH REDIRECT TO LOGIN */ }
         <ProtectedRoute path="/:propId/inputSheet" exact component={InputSheet} />
         <Redirect from="/" to="/home" exact component={Dashboard} />
-        <ProtectedRoute path="/" exact component={Dashboard} />
         <ProtectedRoute path="/:action/:id?" exact component={Dashboard} />
         { /* SECTION: REDIRECT */ }
         <Redirect from="*" to="/onBoarding" />

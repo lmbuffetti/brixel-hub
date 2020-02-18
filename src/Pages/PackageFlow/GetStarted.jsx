@@ -159,6 +159,18 @@ function GetStarted(props) {
         }
         return null;
       });
+      if (Questions[currentIndex].cardType && Questions[currentIndex].cardType === 'createProfile') {
+        let fieldVal = [];
+        if (loginPage) {
+          fieldVal = ['email', 'password'];
+        } else {
+          fieldVal = ['firstName', 'lastName', 'email', 'privacy'];
+        }
+        fieldVal.map((inp) => {
+          const curVal = get(errorValue, inp, true);
+          if (curVal !== true) invalidField = true;
+        });
+      }
     }
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex]);

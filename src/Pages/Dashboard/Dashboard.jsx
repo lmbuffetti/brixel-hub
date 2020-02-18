@@ -53,7 +53,7 @@ const Dashboard = (props) => {
         labelsIcons={['star', 'star', 'star']}
         fullWidth
         onClick={(val) => history.push(val)}
-
+        showFull
         arrayComponents={[
           <HomeDashboard />,
           <PropertyDashboard />,
