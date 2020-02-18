@@ -724,7 +724,7 @@ function OnBoarding(props) {
           }
         </div>
         <div
-          className={`footerAction p-1 p-md-2  shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
+          className={`footerAction p-1 p-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
         >
           <div className="container pos-r">
             <div className="subcontainer">
