@@ -343,6 +343,7 @@ const DocumentsForm = reduxForm({
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.documentsForm.values', {}),
   initialValues: get(state, 'property.property', {}),
+  user: get(state, 'user.loggedUser', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
