@@ -11,22 +11,34 @@ import {
   BrixelTabs, BrixelButtonSecondary, BrixelStatus,
 } from '@brixel/brixel-components';
 import { reduxForm } from 'redux-form';
-
+import { change, Field } from 'redux-form';
 import get from 'lodash/get';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
-import Loading from '../../components/Loading';
-import LoadingSimple from '../../components/LoadingSimple';
+import Loading from '../components/Loading';
+import LoadingSimple from '../components/LoadingSimple';
+// import {
+//   setScreenNotification, preventExitFromScreen,
+//   setUnsavedChangesModal, setModal,
+// } from '../actions/CommonActions';
+import {
+  updateProperty, formValue,
+} from '../actions/PropertyActions';
 
 // COMPONENTS
-import { BrixelButtonIcon } from '@brixel/brixel-components';
 import SidebarLayout from '../components/SidebarLayout';
 
 const Documents = (props) => {
   const {
-    history, activeProperty,
+    history, formValue,
   } = props;
+
+  if (!formValue.id) {
+    return (
+      <Loading />
+    );
+  }
 
   return (
     <>
@@ -40,12 +52,12 @@ const Documents = (props) => {
               background="white"
               color="dark"
               saturationTxt={700}
-              icon="arrow-simple-right"
-              onClick={() => history.push('./')}
+              icon="close-small"
+              onClick={() => history.push('/home')}
             />
           </div>
           <div>
-            {activeProperty.id}
+            {formValue.id}
           </div>
         </div>
       </SidebarLayout>
@@ -55,30 +67,33 @@ const Documents = (props) => {
 
 Documents.propTypes = {
   history: PropTypes.object.isRequired,
-  activeProperty: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
 };
 
 Documents.defaultProps = {
-
 };
 
 const DocumentsForm = reduxForm({
   // a unique name for the form
-  form: 'propertyOverview',
+  form: 'documentsForm',
   enableReinitialize: true,
 })(Documents);
 
 const mapStateToProps = (state) => ({
-  activeProperty: get(state, 'property.property', {}),
+  formValue: get(state, 'form.documentsForm.values', {}),
+  initialValues: get(state, 'property.property', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setNotification: bindActionCreators(setScreenNotification, dispatch),
-  handleSaveProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  getProperty: bindActionCreators(getActiveSingleProperty, dispatch),
-  setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
-  setUnsavedModal: bindActionCreators(setUnsavedChangesModal, dispatch),
-  handleSetModal: bindActionCreators(setModal, dispatch),
+  changeFieldValue(field, value) {
+    dispatch(change('documentsForm', field, value));
+  },
+  // setNotification: bindActionCreators(setScreenNotification, dispatch),
+  handleSaveProperty: bindActionCreators(updateProperty, dispatch),
+  // setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
+  // setUnsavedModal: bindActionCreators(setUnsavedChangesModal, dispatch),
+  // handleSetModal: bindActionCreators(setModal, dispatch),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DocumentsForm));
