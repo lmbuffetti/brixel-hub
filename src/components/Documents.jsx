@@ -183,14 +183,12 @@ const Documents = (props) => {
                               </div>
                             ) :
                               (
-                                <span className="document-title">{doc.name}</span>
+                                <div className="dis-fl-col">
+                                  <span className="document-title">{doc.name}</span>
+                                  <span className="date">{new Date(doc.createdAt).toDateString()}</span>
+                                </div>
                               )
                           }
-                        </div>
-
-                        <div className="upload-info dis-fl-col">
-                          <span className="date">{new Date(doc.createdAt).toDateString()}</span>
-                          <span className="user">{doc.user.name}</span>
                         </div>
 
                         <div className="visibility-info dis-fl-row a-c">
@@ -215,14 +213,11 @@ const Documents = (props) => {
                                 }}
                               />
                             ) : (
-                              <>
-                                <BrixelIcon
-                                  className="mr-1"
-                                  color={`${doc.isPrivate ? 'red' : 'green'}`}
-                                  icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
-                                />
-                                <span className="visibility">{doc.isPrivate ? 'Private' : 'Public'}</span>
-                              </>
+                              <BrixelIcon
+                                className="mr-1"
+                                color={`${doc.isPrivate ? 'red' : 'green'}`}
+                                icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
+                              />
                             )
                           }
                         </div>
@@ -283,7 +278,7 @@ const Documents = (props) => {
                                   }}
                                   readOnly
                                   ref={textAreaRef}
-                                  value={`${getConfigEnv().shortPath}/document/${doc.id}`}
+                                  value={`${getConfigEnv.shortPath}/document/${doc.id}`}
                                 />
                                 <BrixelButtonTertiary
                                   className="edit p-0"
