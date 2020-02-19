@@ -86,9 +86,7 @@ const checkCommon = (store) => (next) => (action) => {
           docList.push(res.data);
           const data = {
             id: pageID,
-            data: {
-              documents: docList,
-            },
+            documents: docList,
           };
           store.dispatch({ type: UPDATE_PROPERTY, payload: data });
           store.dispatch({ type: SPINNER_OFF });
@@ -105,9 +103,7 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch(change('documentsForm', 'documents', arrayImg));
           const data = {
             id: action.payload.pageID,
-            data: {
-              documents: arrayImg,
-            },
+            documents: arrayImg,
           };
           store.dispatch({ type: UPDATE_PROPERTY, payload: data });
         });
@@ -128,9 +124,7 @@ const checkCommon = (store) => (next) => (action) => {
           });
           const data = {
             id: pageID,
-            data: {
-              documents: docList,
-            },
+            documents: docList,
           };
           store.dispatch({ type: UPDATE_PROPERTY, payload: data });
           store.dispatch({ type: SPINNER_OFF });

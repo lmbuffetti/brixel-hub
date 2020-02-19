@@ -156,7 +156,7 @@ const Documents = (props) => {
           {
             (documents && documents.length > 0) ? (
               <>
-                <div className="documents-container dis-fl-col p-md-2 brdRadius">
+                <div className="documents-container dis-fl-col p-md-1 mt-3 brdRadius">
                   {
                     documents.map((doc, i) => (
                       <li key={i.toString()} className="single-document dis-fl-row a-c jc-b pb-1 mb-2">
