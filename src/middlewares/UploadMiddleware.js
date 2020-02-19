@@ -82,7 +82,7 @@ const checkCommon = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       api.image.uploadDocument(action.payload)
         .then((res) => {
-          const docList = store.getState().form.propertyOverview.values.documents;
+          const docList = store.getState().form.documentsForm.values.documents;
           docList.push(res.data);
           const data = {
             id: pageID,
@@ -97,12 +97,12 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case DELETE_DOCUMENT: {
       next(action);
-      const arrayImg = store.getState().form.propertyOverview.values.documents;
+      const arrayImg = store.getState().form.documentsForm.values.documents;
       const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
       api.image.deleteDocument(action.payload.id)
         .then(() => {
           arrayImg.splice(idImg, 1);
-          store.dispatch(change('propertyOverview', 'documents', arrayImg));
+          store.dispatch(change('documentsForm', 'documents', arrayImg));
           const data = {
             id: action.payload.pageID,
             data: {
@@ -120,7 +120,7 @@ const checkCommon = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       api.image.updateDocument(action.payload.id, action.payload.body)
         .then((res) => {
-          const docList = store.getState().form.propertyOverview.values.documents;
+          const docList = store.getState().form.documentsForm.values.documents;
           docList.forEach((el, index) => {
             if (el.id === res.data.id) {
               docList[index] = res.data;
