@@ -1,38 +1,110 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
-import {
-  withRouter, Route, Switch, Redirect,
-} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelButtonTertiary,
-  BrixelTabs, BrixelButtonSecondary, BrixelStatus,
-} from '@brixel/brixel-components';
-import { reduxForm } from 'redux-form';
+import React, { useState, useRef } from 'react';
 import { change, Field } from 'redux-form';
-import get from 'lodash/get';
-import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Loadable from 'react-loadable';
+import { reduxForm } from 'redux-form';
+import get from 'lodash/get';
+import set from 'lodash/set';
+import {
+  BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelDropdown,
+  BrixelButtonTertiary, useOutsideAlerter, BrixelInputText,
+} from '@brixel/brixel-components';
+import { bindActionCreators, compose } from 'redux';
+import { uploadDocument, deleteDocument, updateDocument } from '../actions/UploadActions';
+import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import Loading from '../components/Loading';
-import LoadingSimple from '../components/LoadingSimple';
 // import {
 //   setScreenNotification, preventExitFromScreen,
 //   setUnsavedChangesModal, setModal,
 // } from '../actions/CommonActions';
-import {
-  updateProperty, formValue,
-} from '../actions/PropertyActions';
+
 
 // COMPONENTS
 import SidebarLayout from '../components/SidebarLayout';
 
 const Documents = (props) => {
+  const [documentOptionsOpen, setDocumentOptionsOpen] = useState({ id: null, active: false });
+  const [editDocument, setEditDocument] = useState({ id: null, active: false });
+  const [selectedVisibility, setSelectedVisibility] = useState(null);
+
   const {
-    history, formValue,
+    history, formValue, initialValues, handleUploadDocument, user,
+    handleDeleteDocument, handleUpdateDocument,
   } = props;
+  const { documents } = formValue;
+
+  // REF
+  const documentRef = useRef(null);
+  const textAreaRef = useRef(null);
+
+  // UPLOAD DOCUMENTS
+  const saveDocuments = (doc) => {
+    handleUploadDocument(doc);
+  };
+
+  // SAVE DOCUMENTS ON LOCAL STATE
+  const loadFile = (e) => {
+    e.preventDefault();
+    const name = e.target.files[0].name || Date.now() / 1000;
+    const reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = () => {
+      const data = {
+        name,
+        user: user.id,
+        isBrochure: false,
+        file: reader.result,
+        pageID: formValue.id,
+      };
+      saveDocuments(data);
+    };
+  };
+
+  // REMOVE DOCUMENTS
+  const deleteDocs = (e, idDocs) => {
+    e.preventDefault();
+    const data = {
+      id: idDocs,
+      pageID: formValue.id,
+    };
+    handleDeleteDocument(data);
+  };
+
+  // UPDATE DOCUMENTS
+  const updateDoc = (e, doc) => {
+    e.preventDefault();
+    const data = {
+      pageID: formValue.id,
+      id: doc.id,
+      body: {
+        name: formValue.editedName,
+        isPrivate: selectedVisibility !== 'Public',
+        path: doc.path,
+        mimeType: doc.mimeType,
+      },
+    };
+    handleUpdateDocument(data);
+    setEditDocument({ id: null, active: false });
+  };
+
+  // COPY DOCUMENT LINK
+  const copyLinkToClipboard = (e) => {
+    e.preventDefault();
+    textAreaRef.current.select();
+    document.execCommand('copy');
+  };
+
+  // Function to close the small menus when we click outside
+  useOutsideAlerter(documentRef, {
+    action: 'function',
+    func: () => {
+      setDocumentOptionsOpen({ id: null, active: false });
+    },
+  });
 
   if (!formValue.id) {
     return (
@@ -43,9 +115,22 @@ const Documents = (props) => {
   return (
     <>
       <SidebarLayout>
-        <div className="p-2">
-          <div className="dis-f a-c jc-b mb-5">
-            <h3>Brixel Coming In Town</h3>
+        <div className="p-2 docubox">
+          <div className="docubox-header dis-fl-row a-c jc-b mb-5">
+            <div className="dis-fl-row a-c">
+              <BrixelIcon
+                className="mr-2"
+                icon="folder"
+                color="light"
+                saturationTxt={100}
+                background="primary"
+                saturation={300}
+              />
+              <div className="dis-fl-col a-c">
+                <span className="docubox-title">Docubox</span>
+                <div className="length dis-fl-row"><span>{documents && documents.length > 0 ? documents.length : 0}&nbsp;</span> <span> files</span></div>
+              </div>
+            </div>
             <BrixelButtonIcon
               className="shadow-3dp"
               noBorder
@@ -56,9 +141,184 @@ const Documents = (props) => {
               onClick={() => history.push('/home')}
             />
           </div>
-          <div>
-            {formValue.id}
+
+          <div className="upload-wrapper dis-f jc-c pos-r ov-h">
+            <BrixelButtonPrimary
+              className="shadow-3dp"
+              rightIcon="plus"
+              noBorder
+              rounded
+              label="Upload"
+            />
+            <input accept="application/pdf, image/png, image/jpeg" className="upload" type="file" name="document" onChange={(e) => loadFile(e)} />
           </div>
+
+          {
+            (documents && documents.length > 0) ? (
+              <>
+                <div className="documents-container dis-fl-col p-md-2 brdRadius">
+                  {
+                    documents.map((doc, i) => (
+                      <li key={i.toString()} className="single-document dis-fl-row a-c jc-b pb-1 mb-2">
+
+                        <div className="name w-fix-216 dis-fl-row a-c">
+                          <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
+                            <BrixelIcon
+                              icon="document"
+                              background="primary"
+                              saturation={100}
+                              color="dark"
+                              saturationTxt={700}
+                            />
+                          </div>
+                          {
+                            (editDocument.id === doc.id && editDocument.active) ? (
+                              <div className="dis-fl-row a-c">
+                                <Field
+                                  className="mr-2 zIndex1"
+                                  name="editedName"
+                                  placeholder="Name this document"
+                                  component={BrixelInputText}
+                                />
+                              </div>
+                            ) :
+                              (
+                                <span className="document-title">{doc.name}</span>
+                              )
+                          }
+                        </div>
+
+                        <div className="upload-info dis-fl-col">
+                          <span className="date">{new Date(doc.createdAt).toDateString()}</span>
+                          <span className="user">{doc.user.name}</span>
+                        </div>
+
+                        <div className="visibility-info dis-fl-row a-c">
+                          {
+                            (editDocument.id === doc.id && editDocument.active) ? (
+                              <BrixelDropdown
+                                borderColor="light"
+                                color="light"
+                                options={[{
+                                  label: 'Private',
+                                  value: true,
+                                },
+                                {
+                                  label: 'Public',
+                                  value: true,
+                                }]}
+                                selected={`${doc.isPrivate ? 'Private' : 'Public'}`}
+                                onSelect={(e, value) => {
+                                  e.preventDefault();
+                                  set(doc, 'isPrivate', value.label !== 'Public');
+                                  setSelectedVisibility(doc.isPrivate ? 'Private' : 'Public');
+                                }}
+                              />
+                            ) : (
+                              <>
+                                <BrixelIcon
+                                  className="mr-1"
+                                  color={`${doc.isPrivate ? 'red' : 'green'}`}
+                                  icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
+                                />
+                                <span className="visibility">{doc.isPrivate ? 'Private' : 'Public'}</span>
+                              </>
+                            )
+                          }
+                        </div>
+
+                        <div className="pos-r">
+                          {
+                            (editDocument.id === doc.id && editDocument.active) ? (
+                              <div className="dis-fl-row">
+                                <BrixelButtonIcon
+                                  icon="check-small"
+                                  bgTransparent
+                                  noBorder
+                                  color="green"
+                                  saturationTxt={400}
+                                  className="add-button"
+                                  label="Save"
+                                  onClick={(e) => updateDoc(e, doc)}
+                                />
+                                <BrixelButtonIcon
+                                  icon="close-circle"
+                                  bgTransparent
+                                  noBorder
+                                  className="add-button"
+                                  color="red"
+                                  saturationTxt={400}
+                                  label="Cancel"
+                                  onClick={() => setEditDocument({ id: null, active: false })}
+                                />
+                              </div>
+                            ) : (
+                              <BrixelButtonIcon
+                                className="p-md-0 mr-1-neg"
+                                bgTransparent
+                                noBorder
+                                color="dark"
+                                saturationTxt={100}
+                                icon="options-vertical"
+                                onClick={() => {
+                                  setDocumentOptionsOpen({ id: doc.id, active: !documentOptionsOpen.active });
+                                }}
+                              />
+                            )
+                          }
+                          {
+                            (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
+                              <div className="options-menu w-fix-160 zIndex1 shadow-2dp dis-fl-col p-1 pos-a a-bl" ref={documentRef}>
+                                <BrixelButtonTertiary
+                                  className="copy p-0"
+                                  color="red"
+                                  label="Copy Link"
+                                  onClick={(e) => copyLinkToClipboard(e)}
+                                />
+                                <textarea
+                                  style={{
+                                    opacity: 0,
+                                    width: 0,
+                                    height: 0,
+                                  }}
+                                  readOnly
+                                  ref={textAreaRef}
+                                  value={`${getConfigEnv().shortPath}/document/${doc.id}`}
+                                />
+                                <BrixelButtonTertiary
+                                  className="edit p-0"
+                                  color="dark"
+                                  label="Edit"
+                                  saturation={100}
+                                  onClick={() => {
+                                    setEditDocument({ id: doc.id, active: !editDocument.active });
+                                    set(formValue, '', doc.companyRole);
+                                    setDocumentOptionsOpen({ id: null, active: false });
+                                  }}
+                                />
+                                <BrixelButtonTertiary
+                                  className="remove p-0"
+                                  color="red"
+                                  label="Remove"
+                                  onClick={(e) => deleteDocs(e, doc.id)}
+                                />
+                              </div>
+                            )
+                          }
+                        </div>
+                      </li>
+                    ))
+                  }
+                </div>
+
+              </>
+            ) : ( // Empty state
+              <div className="upload-container dis-fl-col a-c mb-5 max-h-fix-400 py-md-12">
+                <span className="title mb-1">Upload your first document</span>
+                <span className="description">Choose .pdf, .jpeg, .png with max. 10MB size</span>
+              </div>
+            )
+          }
         </div>
       </SidebarLayout>
     </>
@@ -90,11 +350,14 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(change('documentsForm', field, value));
   },
   // setNotification: bindActionCreators(setScreenNotification, dispatch),
-  handleSaveProperty: bindActionCreators(updateProperty, dispatch),
-  // setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
+  handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
+  handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
+  handleUpdateDocument: bindActionCreators(updateDocument, dispatch),  // setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
   // setUnsavedModal: bindActionCreators(setUnsavedChangesModal, dispatch),
   // handleSetModal: bindActionCreators(setModal, dispatch),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DocumentsForm));
-
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(DocumentsForm);
