@@ -91,7 +91,6 @@ function OnBoarding(props) {
   }, []);
 
   const hideOnDesk = getBrowserPlatform().indexOf('desk') !== -1 ? 'hide-desktop' : 'dis-b-mobile';
-  console.log(getBrowserPlatform());
 
   // SET the country from the value
   const countryObj = (curVal) => {

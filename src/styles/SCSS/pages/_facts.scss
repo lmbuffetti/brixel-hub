@@ -1,0 +1,15 @@
+.accordionWrap {
+  border-bottom: 1px solid map_get($lightColor, 400);
+  margin-bottom: $step * 2;
+  padding-bottom: $step * 2;
+}
+
+.accrodionList {
+  overflow: hidden;
+  transition: max-height 0.4s ease-in;
+  max-height: 0;
+  &.openAccordion {
+    margin-top: $step * 3;
+    max-height: 3000px;
+  }
+}

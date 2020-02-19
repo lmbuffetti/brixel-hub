@@ -33,7 +33,6 @@ const Dashboard = (props) => {
     match,
   } = props;
   useEffect(() => {
-    console.log(match.params.id);
     const data = {
       limit: 1,
       offset: 0,

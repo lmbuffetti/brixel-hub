@@ -25,7 +25,7 @@ const clientConfig = {
   devtool: devMode ? 'inline-source-map' : 'cheap-source-map',
   entry: [
     '@babel/polyfill',
-    './src/index.jsx',
+    './src/Facts.jsx',
     './src/styles/SCSS/general/main.scss',
   ],
   output: {
