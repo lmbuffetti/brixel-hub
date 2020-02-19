@@ -493,7 +493,7 @@ function OnBoarding(props) {
                                         <BrixelButtonPrimary
                                           rounded
                                           label="Ok"
-                                          className={`ml-2 hide-md ${hideOnDesk}`}
+                                          className={`ml-2 ${hideOnDesk}`}
                                           background="green"
                                           onClick={() => changeStep()}
                                           disabled={disableNextBtn}
