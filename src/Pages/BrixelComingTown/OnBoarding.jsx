@@ -368,14 +368,14 @@ function OnBoarding(props) {
       if(loginPage) label = translateTo(lang, "Login")
       else label = translateTo(lang, "Create profile")
     } else {
-        if (Questions[currentIndex].cardType === 'createProfile') {
-          label = translateTo(lang, "Save")
-        } else {
-          label = translateTo(lang, "Continue")
-        }
+      if (Questions[currentIndex].cardType === 'createProfile') {
+        label = translateTo(lang, "Save")
+      } else {
+        label = translateTo(lang, "Continue")
+      }
     }
     return label;
-  }
+  };
 
   return (
     <main id="onBoarding">

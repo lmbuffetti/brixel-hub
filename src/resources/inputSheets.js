@@ -1,15 +1,29 @@
 /* eslint-disable max-len */
 import {
+  BrixelCheckbox,
+  BrixelExtraFeature, BrixelInputQuality,
   BrixelInputScale, BrixelInputStepNumber,
   BrixelInputText,
-  BrixelRadioButton, BrixelTextArea,
+  BrixelRadioButton, BrixelSelect, BrixelTextArea,
   FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
 import { translateTo } from '../utils/translation';
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
+import { Field } from 'redux-form';
+import React from 'react';
 const { factsOptions } = FactsOptions;
+
+const formatPrice = (value) => {
+  if (!value) return '';
+  return Number(value).toLocaleString('de-CH');
+};
+
+const normalizePrice = (value) => {
+  if (value.length === 0) return '';
+  return Number(value.replace(/\D/g, ''));
+};
 
 export const InputSheets = (lang) => [
   // SECTION: PROPERTY TYPE
@@ -18,9 +32,9 @@ export const InputSheets = (lang) => [
     title: "Property Type",
     history: "propertyType",
     cardType: "propertyType",
-    icons: true,
     inputs: [
       {
+        icons: true,
         component: BrixelRadioButton,
         className: 'radioBtnImg max-w-fix-md-464',
         label: '',
@@ -44,7 +58,6 @@ export const InputSheets = (lang) => [
   // SECTION: LOCATION
   {
     title: "Address",
-    component: "Map",
     history: "locationInput",
     cardType: "location",
     inputs: [
@@ -73,7 +86,6 @@ export const InputSheets = (lang) => [
     title: "Property",
     history: "property",
     cardType: "property ",
-    icons: true,
     inputs: [
       {
         component: BrixelRadioButton,
@@ -383,4 +395,690 @@ export const InputSheets = (lang) => [
     ],
   },
   // SECTION: SECONDARY ROOMS
+  {
+    title: "Secondary rooms",
+    history: "secondaryRooms",
+    cardType: "secondaryRooms",
+    inputs: [
+      {
+        component: BrixelRadioButton,
+        condition: {
+          name: 'properties.propertyType',
+          value: 'House'
+        },
+        className: '',
+        label: 'Is the attic expandable?',
+        name: 'properties.building.expandableAttic',
+        options: factsOptions.expandableAttic,
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the size of the attic?',
+        name: 'properties.building.expandableAtticArea.value',
+      },
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Is there a basement?',
+        name: 'properties.typology.basement',
+        options: factsOptions.basementOptions,
+      },
+      {
+        condition: {
+          name: 'properties.typology.basement',
+          value: true,
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the size of the basement? (m2)',
+        name: 'properties.typology.basementArea.value',
+        type: 'number',
+      },
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Is there a storeroom?',
+        name: 'properties.building.properties.typology.storeroom',
+        options: factsOptions.yesNoOpt,
+      },
+      {
+        condition: {
+          name: 'properties.building.properties.typology.storeroom',
+          value: true,
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the size of the storeroom?',
+        name: 'properties.building.properties.typology.storeroomArea.value',
+        type: 'number',
+      },
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Is there some other collective used spaces?',
+        name: 'properties.typology.collectiveSpaces',
+        options: factsOptions.yesNoOpt,
+      },
+      {
+        condition: {
+          name: 'properties.typology.collectiveSpaces',
+          value: true,
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the size of collective used spaces?',
+        name: 'properties.typology.collectiveSpacesArea.value',
+        type: 'number',
+      },
+    ],
+  },
+  // SECTION: PARKING
+  {
+    title: "Parking",
+    history: "parking",
+    cardType: "parking",
+    inputs: [
+      {
+        component: BrixelInputStepNumber,
+        className: '',
+        label: 'How many garage parking lots belong to the property?',
+        name: 'properties.parking.garage',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'Price per garage parking lot',
+        name: 'properties.parking.garagePrice',
+      },
+      {
+        component: BrixelInputStepNumber,
+        className: '',
+        label: 'How many external parking lots belong to the property?',
+        name: 'properties.parking.outside',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'Price per external parking lot',
+        name: 'properties.parking.outsidePrice',
+      },
+      {
+        component: BrixelInputStepNumber,
+        className: '',
+        label: 'How many underground parking lots belong to the property?',
+        name: 'properties.parking.underground',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'Price per underground parking lot',
+        name: 'properties.parking.undergroundPrice',
+      },
+    ],
+  },
+  // SECTION: EXTRA FEATURE
+  {
+    title: "Extra features",
+    history: "extraFeature",
+    cardType: "extraFeature",
+    inputs: [
+      {
+        component: BrixelExtraFeature,
+        className: '',
+        label: 'Extra features',
+        name: 'properties.extraFeatures',
+        options: factsOptions.BrixelExtraFeature,
+      },
+    ],
+  },
+  // SECTION: FACILITES & MATERIALS
+  {
+    title: "Facilities & materials",
+    history: "facilitiesMaterials",
+    cardType: "facilitiesMaterials",
+    inputs: [
+      {
+        component: BrixelCheckbox,
+        className: '',
+        label: 'What\'s the heating system?',
+        name: 'properties.energy.heating',
+        options: factsOptions.heating
+      },
+      {
+        condition: {
+          name: 'properties.propertyType',
+          value: 'House'
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the boiler capacity?',
+        name: 'properties.energy.boiler.capacity',
+        type: 'number',
+      },
+      {
+        condition: {
+          name: 'properties.propertyType',
+          value: 'House'
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the boiler type?',
+        name: 'properties.energy.boiler.type',
+      },
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Is there a solar plant?',
+        name: 'properties.energy.solar',
+        options: factsOptions.solarOptions,
+      },
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Is there an air conditioner?',
+        name: 'properties.energy.ac',
+        options: factsOptions.acOptions,
+      },
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Is there a solar plant?',
+        name: 'properties.energy.solar',
+        options: factsOptions.solarOptions,
+      },
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Is there a window insulation?',
+        name: 'properties.building.windows.insulation',
+        options: factsOptions.windowsInsulationOptions,
+      },
+      {
+        component: BrixelCheckbox,
+        className: '',
+        label: 'What is the material of the windows?',
+        name: 'properties.building.windows.materials',
+        options: factsOptions.windows,
+      },
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'What\'s the material of the blinds?',
+        name: 'properties.building.blinds.materials',
+      },
+      {
+        component: BrixelInputQuality,
+        className: '',
+        label: 'What\'s the energy efficiency of the property?',
+        name: 'properties.energy.efficiency',
+        options: factsOptions.energyEfficiencyOptions,
+      },
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Is the property Minergie certified?',
+        name: 'properties.energy.minergieCertified',
+        options: factsOptions.minergieCertifiedOptions,
+      },
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'What\'s the material of the floors?',
+        name: 'properties.building.floors.materials',
+      },
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'What\'s the equipment and materials in the kitchen?',
+        name: 'properties.building.kitchen.materials',
+      },
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'What\'s the equipments and materials in the bathrooms?',
+        name: 'properties.building.bathrooms.materials',
+      },
+    ],
+  },
+  // SECTION: LAND REGISTER
+  {
+    title: "Land register",
+    history: "landRegister",
+    cardType: "landRegister",
+    inputs: [
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What are the seller\'s contact data?',
+        name: 'properties.building.landRegister.owner',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What are the seller\'s contact data?',
+        name: 'properties.building.landRegister.contact',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the cadaster nr. of the property?',
+        name: 'properties.building.landRegister.cadaster',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the property index nr. of the property?',
+        name: 'properties.building.landRegister.propertyIndex',
+      },
+      {
+        condition: {
+          name: 'properties.propertyType',
+          value: 'Apartment'
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the official apartment nr.?',
+        name: 'properties.typology.officialApartmentNumber',
+        type: 'number',
+      },
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Is there a value-relevant building right or servitude on the property?',
+        name: 'properties.building.valueRelevantServitude',
+        options: factsOptions.valueRelevantServitudeOptions
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'Describe the servitudes',
+        name: 'properties.building.rightsAndServitudes',
+      },
+    ],
+  },
+  // SECTION: FINANCIAL INFORMATION
+  {
+    title: "Financial information",
+    history: "financialInformation",
+    cardType: "financialInformation",
+    inputs: [
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What are the additional costs per year?',
+        name: 'properties.building.maintenanceCost',
+        format: formatPrice,
+        normalize: normalizePrice,
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'How are these additional costs calculated?',
+        name: 'price.financial.additionalCosts',
+      },
+      {
+        condition: {
+          name: 'properties.propertyType',
+          value: 'Apartment'
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the total amount of the renewal funds?',
+        name: 'properties.building.renewalTotalAmount.value',
+        type: 'number',
+      },
+      {
+        condition: {
+          name: 'properties.propertyType',
+          value: 'Apartment'
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the owner\'s amount of the renewal funds?',
+        name: 'properties.building.renewalOwnerAmount.value',
+        type: 'number',
+      },
+      {
+        condition: {
+          name: 'properties.propertyType',
+          value: 'Apartment'
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the owner\'s share of the co-ownership? (‰)',
+        name: 'properties.building.ownershipPermil',
+        type: 'number',
+      },
+      {
+        condition: {
+          name: 'properties.propertyType',
+          value: 'Apartment'
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'How many condominium owners are there?',
+        name: 'properties.building.condominiumOwners',
+        type: 'number',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the current notional rental value?',
+        name: 'price.notional',
+        format: formatPrice,
+        normalize: normalizePrice,
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'When did you buy the property?',
+        name: 'properties.building.purchaseDate',
+        type: 'number',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'For what price did you buy the property?',
+        name: 'properties.building.purchasePrice',
+        type: 'number',
+      },
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Mortgage type',
+        name: 'properties.building.mortgage',
+        options: factsOptions.mortgage,
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'Mortgage End',
+        name: 'properties.building.mortgageEnd',
+      },
+    ],
+  },
+  // SECTION: DESCRIPTION
+  {
+    title: "Description",
+    history: "description",
+    cardType: "description",
+    inputs: [
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'What are the highlights of the property?',
+        name: 'description.highlight',
+      },
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'What is special about the location of the house?',
+        placeholder: 'Here you can add a description about the location around the property.',
+        name: 'description.location',
+      },
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'Room layout',
+        name: 'description.roomLayout',
+      },
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'How\'s the relationship with the neighbors?',
+        name: 'description.neighborsRelationship',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'How many people live in your community?',
+        name: 'location.community.basisTaxation',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What is the basis of taxation in your community?',
+        name: 'location.community.population',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the altitude of your community?',
+        name: 'location.community.altitude',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'How large is the are of your community?',
+        name: 'location.community.area',
+      },
+
+
+
+
+
+
+
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'How are these additional costs calculated?',
+        name: 'price.financial.additionalCosts',
+      },
+      {
+        condition: {
+          name: 'properties.propertyType',
+          value: 'Apartment'
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the total amount of the renewal funds?',
+        name: 'properties.building.renewalTotalAmount.value',
+        type: 'number',
+      },
+      {
+        condition: {
+          name: 'properties.propertyType',
+          value: 'Apartment'
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the owner\'s amount of the renewal funds?',
+        name: 'properties.building.renewalOwnerAmount.value',
+        type: 'number',
+      },
+      {
+        condition: {
+          name: 'properties.propertyType',
+          value: 'Apartment'
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the owner\'s share of the co-ownership? (‰)',
+        name: 'properties.building.ownershipPermil',
+        type: 'number',
+      },
+      {
+        condition: {
+          name: 'properties.propertyType',
+          value: 'Apartment'
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'How many condominium owners are there?',
+        name: 'properties.building.condominiumOwners',
+        type: 'number',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the current notional rental value?',
+        name: 'price.notional',
+        format: formatPrice,
+        normalize: normalizePrice,
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'When did you buy the property?',
+        name: 'properties.building.purchaseDate',
+        type: 'number',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'For what price did you buy the property?',
+        name: 'properties.building.purchasePrice',
+        type: 'number',
+      },
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Mortgage type',
+        name: 'properties.building.mortgage',
+        options: factsOptions.mortgage,
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'Mortgage End',
+        name: 'properties.building.mortgageEnd',
+      },
+    ],
+  },
+  // SECTION: SURROUNDINGS & DISTANCES
+  {
+    title: "Surroundings & distances",
+    history: "surroundingsDistnces",
+    cardType: "surroundingsDistnces",
+    inputs: [
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'What\'s the distance to the next public transport stop?',
+        name: 'location.distances.publicTransport',
+      },
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'What\'s the distance to the next grocery?',
+        name: 'location.distances.shopping',
+      },
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'What\'s the distance to the next highway?',
+        name: 'location.distances.highway',
+      },
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'What\'s the distance to the next kindergarten?',
+        name: 'location.distances.kindergarten',
+      },
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'What\'s the distance to the next primary school?',
+        name: 'location.distances.primarySchool',
+      },
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'What\'s the distance to the next high school?',
+        name: 'location.distances.highSchool',
+      },
+      {
+        component: BrixelTextArea,
+        className: '',
+        label: 'What\'s the distance to the next recreation area?',
+        name: 'location.distances.nature',
+      },
+    ],
+  },
+  // SECTION: SALES STRATEGY & PRICE
+  {
+    title: "Sales strategy & price",
+    history: "salesStrategyPrice",
+    cardType: "salesStrategyPrice",
+    inputs: [
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Status',
+        name: 'status',
+        options: factsOptions.propertyStatus,
+      },
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Availability of sale',
+        name: 'properties.typology.availability',
+        options: factsOptions.availability,
+      },
+      {
+        condition: {
+          name: 'properties.typology.availability',
+          value: 'other',
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the preferred time of sale?',
+        name: 'properties.typology.availabilityText',
+      },
+
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the reason to sell?',
+        name: 'properties.salesStrategy.reasonToSell',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'Are there some special selection criteria for the potential buyers?',
+        name: 'properties.salesStrategy.criteriaBuyers',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'How do you want to process the showings?',
+        name: 'properties.salesStrategy.processShowing',
+      },
+      {
+        component: BrixelSelect,
+        className: '',
+        label: 'Currency',
+        name: 'price.currency',
+        options: factsOptions.currency,
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What is the selling price of the house?',
+        name: 'price.total',
+        format: formatPrice,
+        normalize: normalizePrice,
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'How do you want to split the fees?',
+        name: 'properties.salesStrategy.feesSplit',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'Conditions for the offers and negotiation?',
+        name: 'properties.salesStrategy.offersConditions',
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'Support for the contract and notary?',
+        name: 'properties.salesStrategy.supportContract',
+      },
+    ],
+  },
 ];

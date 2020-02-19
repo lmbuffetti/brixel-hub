@@ -135,42 +135,21 @@ function GetStarted(props) {
     let invalidField = false;
     if (Questions[currentIndex] && Questions[currentIndex].inputs) {
       Questions[currentIndex].inputs.map((inp) => {
-        // Check if teh current fields are valid
         const curVal = get(errorValue, inp.name, true);
         if (curVal !== true) invalidField = true;
-        // If no zipCode and Country is Swiss get info from swissZipCodes json
-        if (Questions[currentIndex].history === 'zipInput') {
-          const zipVal = get(formValue, Questions[currentIndex].inputs[0].name, 0);
-          if (+zipVal > 999) {
-            // Select record by zipcode
-            const filterFile = swissZipCode.find(zip => +zip["Postleitzahl / Code Postal / Codice Postale"] === zipVal);
-            // Check if Abréviation is the same
-            if (filterFile && formValue.location.stateCode === filterFile["Abkürzung / Abréviation / Abbreviazione"]) {
-              changeFieldValue('location.city', filterFile['Ort / Ville / Città']);
-              if (!formValue.location.state) changeFieldValue('location.state', filterFile['Canton']);
-              if (!formValue.location.stateCode) changeFieldValue('location.state', filterFile['Abkürzung / Abréviation / Abbreviazione']);
-              invalidField = false;
-            } else {
-              invalidField = true;
-            }
-          } else {
-            invalidField = true;
-          }
-        }
-        return null;
       });
-      if (Questions[currentIndex].cardType && Questions[currentIndex].cardType === 'createProfile') {
-        let fieldVal = [];
-        if (loginPage) {
-          fieldVal = ['email', 'password'];
-        } else {
-          fieldVal = ['firstName', 'lastName', 'email', 'privacy'];
-        }
-        fieldVal.map((inp) => {
-          const curVal = get(errorValue, inp, true);
-          if (curVal !== true) invalidField = true;
-        });
+    }
+    if (Questions[currentIndex].cardType && Questions[currentIndex].cardType === 'createProfile') {
+      let fieldVal = [];
+      if (loginPage) {
+        fieldVal = ['email', 'password'];
+      } else {
+        fieldVal = ['firstName', 'lastName', 'email', 'privacy'];
       }
+      fieldVal.map((inp) => {
+        const curVal = get(errorValue, inp, true);
+        if (curVal !== true) invalidField = true;
+      });
     }
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex]);
@@ -184,7 +163,13 @@ function GetStarted(props) {
   const saveData = async (act) => {
     setShowError(false);
     let enableForm = true;
-    Object.keys(errorValue).map((key) => {
+    let fieldVal = [];
+    if (loginPage) {
+      fieldVal = ['email', 'password'];
+    } else {
+      fieldVal = ['firstName', 'lastName', 'email', 'privacy'];
+    }
+    fieldVal.map((key) => {
       if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedUser.user) {
         setShowError(true);
         enableForm = false;
@@ -305,6 +290,9 @@ function GetStarted(props) {
       });
     }
     if (typeof Questions[newPosition] === 'undefined') {
+
+    }
+    if (typeof Questions[newPosition] === 'undefined') {
       saveData('lastStep');
     } else {
       setPosition(newPosition);
@@ -320,7 +308,8 @@ function GetStarted(props) {
         handleSetAwards([{desc: "First Award", point: 1}]);
       }
       if (
-        Questions[position].cardType === 'LastStep' && loggedUser && loggedUser.user
+        (Questions[position].cardType === 'LastStep' && loggedUser && loggedUser.user) ||
+        (Questions[position - 1] && Questions[position - 1].cardType && Questions[position - 1].cardType === 'createProfile' && loggedUser && !loggedUser.user)
       ) {
         saveData();
       }
@@ -367,6 +356,21 @@ function GetStarted(props) {
     checkValid();
     const curIndex = Questions.findIndex((item) => quest.history === item.history);
     setCurrentIndex(curIndex);
+  };
+
+  const buttonLabel = () => {
+    let label = '';
+    if (Questions[currentIndex].cardType === 'createProfile') {
+      if(loginPage) label = translateTo(lang, "Login")
+      else label = translateTo(lang, "Create profile")
+    } else {
+      if (Questions[currentIndex].cardType === 'createProfile') {
+        label = translateTo(lang, "Save")
+      } else {
+        label = translateTo(lang, "Continue")
+      }
+    }
+    return label;
   };
 
   return (
@@ -648,24 +652,10 @@ function GetStarted(props) {
                   Questions[currentIndex] && (
                     <BrixelButtonPrimary
                       rounded
-                      label={
-                        !Questions[currentIndex + 1] && !loggedUser.user ?
-                          translateTo(lang, "Create profile") :
-                          (
-                            Questions[currentIndex].cardType === 'createProfile' ||
-                            (loggedUser.user && Questions[currentIndex].cardType === 'LastStep') ||
-                            !Questions[currentIndex + 1] ?
-                              translateTo(lang, "Save") :
-                              translateTo(lang, "Continue")
-                          )
-                      }
+                      label={buttonLabel()}
                       background={Questions[currentIndex].inputs ? "green" : "primary"}
                       className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                      onClick={() =>
-                        Questions[currentIndex].cardType === 'createProfile' ?
-                          saveData() :
-                          changeStep()
-                      }
+                      onClick={() => changeStep()}
                       rightIcon="arrow-right-small"
                       disabled={disableNextBtn}
                     />
