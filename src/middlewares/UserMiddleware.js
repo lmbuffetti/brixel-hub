@@ -9,8 +9,6 @@ import {
   SET_USER,
   UPDATE_USER,
   VALIDATE_USER,
-  GET_USER_PAGE,
-  SET_USER_PAGE,
 } from '../actions/types/UserTypes';
 
 import {
@@ -164,15 +162,6 @@ const checkUser = (store) => (next) => (action) => {
         })
         .catch((res) => {
           store.dispatch({ type: SPINNER_OFF });
-        });
-      break;
-    }
-    case GET_USER_PAGE: {
-      next(action);
-      store.dispatch({ type: SPINNER_ON });
-      api.user.getUserPage(action.payload.id)
-        .then((res) => {
-          console.log(res.data);
         });
       break;
     }
