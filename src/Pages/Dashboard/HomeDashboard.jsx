@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import { BrixelButtonBox } from '@brixel/brixel-components';
 import { getAchievement, getGamegroup } from '../../actions/GamificationActions';
 import Loading from '../../components/Loading';
+import { GameGroupConfig } from '../../constants/global';
+import { ga } from 'react-ga';
 
 const HomeDashboard = (props) => {
   // PROPS
@@ -40,7 +42,7 @@ const HomeDashboard = (props) => {
       setUsrGroups([...filtUsrGroup]);
       console.log(filtUsrGroup);
     }
-  }, [property]);
+  }, [property, gameGroup]);
 
   if (!property.id && !userType) {
     return <Loading />
@@ -48,21 +50,37 @@ const HomeDashboard = (props) => {
 
   return (
     <div className="container">
-      <h1>Home of</h1>
-      {property.title}
-      {console.log(usrGroups)}
+      <h3>Home of</h3>
+      <h4>{property.properties.typology.bedrooms} {property.properties.propertyType} in {property.location.city}</h4>
+
       {
         usrGroups && usrGroups.map((group, i) => (
-          <div key={i.toString()}>
-            {
-              group.achievements && group.achievements.map((item, f) => (
-                <BrixelButtonBox
-                  key={f.toString()}
-                  label={item.name}
-                />
-              ))
-            }
-          </div>
+          <>
+            <h5 className="mt-4 mb-2">{GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].name}</h5>
+            <div key={i.toString()} className="pl-5 pos-r">
+              <div className="timelineBar" />
+              {
+                group.achievements && group.achievements.map((item, f) => (
+                  <div key={f.toString()} className="pos-r">
+                    <span className={f %2 === 0 ? "dotTimelineDone" : "dotTimeline"} />
+                    <BrixelButtonBox
+                      icon={item.icon}
+                      label={item.name}
+                      subtitle={item.description}
+                      background={GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].color}
+                      className="mb-4 w-perc-100 shadow-3dp"
+                      colorIcon={GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].iconColor}
+                      backIcon={GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].backColor}
+                      multilineInfo={[
+                        {label: 'free', color: 'green400'},
+                        {label: item.points, color: 'dark700'},
+                      ]}
+                    />
+                  </div>
+                ))
+              }
+            </div>
+          </>
         ))
       }
     </div>
