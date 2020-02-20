@@ -237,10 +237,16 @@ const InputSheet = (props) => {
 
         {
           Questions.map((quest, i) => (
-            <div className="accordionWrap" key={i.toString()}>
+            <div className={`accordionWrap ${accordion[quest.history] ? 'openAccordion' : 'closedAccordion'}`} key={i.toString()}>
               <div className="dis-f a-c jc-b">
                 <div className="dis-f a-c">
-                  {checkQuestionGroup(quest, skipSection)}
+                  <BrixelIcon
+                    icon={accordion[quest.history] ? "arrow-simple-up" : "arrow-simple-down"}
+                    color="dark"
+                    saturationTxt={700}
+                    iconSize="small"
+                    onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
+                  />
                   <h4
                     className="ml-2 txtDark200 body2 cur-poi"
                     onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
@@ -248,15 +254,9 @@ const InputSheet = (props) => {
                     {quest.title}
                   </h4>
                 </div>
-                <BrixelIcon
-                  icon={accordion[quest.history] ? "arrow-simple-up" : "arrow-simple-down"}
-                  color="dark"
-                  saturationTxt={700}
-                  iconSize="small"
-                  onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
-                />
+                {checkQuestionGroup(quest, skipSection)}
               </div>
-              <div key={i.toString()} className={`accrodionList ${accordion[quest.history] ? 'openAccordion' : 'closedAccordion'}`}>
+              <div key={i.toString()} className={`accrodionList`}>
                 {
                   quest.inputs.map((input, f) => (
                     <div key={f.toString()}>
