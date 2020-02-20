@@ -6,8 +6,8 @@ import {
 } from '../actions/types/GamificationTypes';
 
 export const defaultState = {
-  achievement: {},
-  gameGroup: {},
+  achievement: [],
+  gameGroup: [],
 };
 
 export default handleActions(

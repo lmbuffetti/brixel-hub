@@ -32,6 +32,7 @@ const Dashboard = (props) => {
     handleGetProperties,
     handleGetProperty,
     history,
+    loggedUser,
     match,
     property,
   } = props;
@@ -39,13 +40,13 @@ const Dashboard = (props) => {
   const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
-
+    console.log(propID)
     if (propID) {
       handleGetProperty({id: propID});
     } else {
       const data = {
         limit: 1,
-        offset: 0,
+        offset: `0/?owner=${loggedUser.user.id}`,
         setAsSingle: true,
       };
       handleGetProperties(data);
@@ -82,6 +83,7 @@ const Dashboard = (props) => {
 Dashboard.propTypes = {
   handleGetProperties: PropTypes.func.isRequired,
   handleGetProperty: PropTypes.func.isRequired,
+  loggedUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
@@ -90,12 +92,13 @@ Dashboard.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => ({
+  loggedUser: get(state, 'user.loggedUser', {}),
   property: get(state, 'property.property', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetProperties: bindActionCreators(getProperties, dispatch),
-  handleGetProperty: bindActionCreators(getProperty, dispatch),
+  handleGetUserProperty: bindActionCreators(getProperty, dispatch),
 });
 
 export default compose(
