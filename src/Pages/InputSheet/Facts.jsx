@@ -73,7 +73,6 @@ const InputSheet = (props) => {
     setSkipSection({...newSkipSection});
     const newTotal = Object.keys(newSkipSection).filter(keySkip => newSkipSection[keySkip] === false);
     const { totalComplete, section } = sectionProgress;
-    console.log(totalComplete, section);
     setSectionProgress({
       percComplete: Math.ceil((totalComplete * 100) / newTotal.length),
       section: section,
@@ -167,7 +166,6 @@ const InputSheet = (props) => {
         }
         defSkipSection[quest.history] = defSkipSection[quest.history] || false;
       });
-      console.log(defAccordion);
       setAccordion(defAccordion);
       setSkipSection(defSkipSection);
     }
