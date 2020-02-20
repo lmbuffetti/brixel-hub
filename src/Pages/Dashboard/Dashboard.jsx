@@ -32,6 +32,7 @@ const Dashboard = (props) => {
     history,
     match,
   } = props;
+
   useEffect(() => {
     const data = {
       limit: 1,
