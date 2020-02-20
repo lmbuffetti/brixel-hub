@@ -22,6 +22,9 @@ import Loading from '../components/Loading';
 //   setUnsavedChangesModal, setModal,
 // } from '../actions/CommonActions';
 
+// IMAGES
+import imgDocuments from '../images/dashboard/documents.png';
+
 
 // COMPONENTS
 import DrawerLayout from '../components/DrawerLayout';
@@ -116,7 +119,7 @@ const Documents = (props) => {
     <>
       <DrawerLayout>
         <div className="p-2 docubox">
-          <div className="docubox-header dis-fl-row a-c jc-b mb-5">
+          <div className="docubox-header dis-fl-row a-c jc-b mb-2">
             <div className="dis-fl-row a-c">
               <BrixelIcon
                 className="mr-2"
@@ -126,11 +129,15 @@ const Documents = (props) => {
                 background="primary"
                 saturation={300}
               />
+
               <div className="dis-fl-col a-c">
-                <span className="docubox-title">Docubox</span>
-                <div className="length dis-fl-row"><span>{documents && documents.length > 0 ? documents.length : 0}&nbsp;</span> <span> files</span></div>
+                <span className="docubox-title fweight-500 txtDark700">Docubox</span>
+                <div className="length dis-fl-row">
+                  <span>{documents && documents.length > 0 ? documents.length : 0}&nbsp;</span> <span> files</span>
+                </div>
               </div>
             </div>
+
             <BrixelButtonIcon
               className="shadow-3dp"
               noBorder
@@ -142,16 +149,7 @@ const Documents = (props) => {
             />
           </div>
 
-          <div className="upload-wrapper dis-f jc-c pos-r ov-h">
-            <BrixelButtonPrimary
-              className="shadow-3dp"
-              rightIcon="plus"
-              noBorder
-              rounded
-              label="Upload"
-            />
-            <input accept="application/pdf, image/png, image/jpeg" className="upload" type="file" name="document" onChange={(e) => loadFile(e)} />
-          </div>
+          <img src={imgDocuments} width="198px" alt="Documents" className="dis-f m-a mt-2 mb-2" />
 
           {
             (documents && documents.length > 0) ? (
@@ -308,12 +306,23 @@ const Documents = (props) => {
 
               </>
             ) : ( // Empty state
-              <div className="upload-container dis-fl-col a-c mb-5 max-h-fix-400 py-md-12">
-                <span className="title mb-1">Upload your first document</span>
+              <div className="upload-container dis-fl-col a-c mb-2">
+                <span className="heading5 mb-1">Upload your first document</span>
                 <span className="description">Choose .pdf, .jpeg, .png with max. 10MB size</span>
               </div>
             )
           }
+
+          <div className="upload-wrapper dis-f jc-c pos-r ov-h">
+            <BrixelButtonPrimary
+              className="shadow-3dp"
+              rightIcon="plus"
+              noBorder
+              rounded
+              label="Upload"
+            />
+            <input accept="application/pdf, image/png, image/jpeg" className="upload" type="file" name="document" onChange={(e) => loadFile(e)} />
+          </div>
         </div>
       </DrawerLayout>
     </>
