@@ -13,18 +13,13 @@ import Cookies from 'universal-cookie';
 import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
-import queryString from 'query-string';
-import { BrixelIcon, BrixelNotification } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
 import PageHeader from './components/PageHeader';
 import ReactGA from 'react-ga';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { setModal } from './actions/CommonActions';
 
 ReactGA.initialize(baseByData.googleAnalyticsIdHub);
-
-const Dashboard = Loadable({
-  loader: () => import('./Pages/Dashboard' /* webpackChunkName: "Dashboard" */),
-  loading: Loading,
-});
 
 const GetStarted = Loadable({
   loader: () => import('./Pages/PackageFlow/GetStarted' /* webpackChunkName: "GetStarted" */),
@@ -43,11 +38,6 @@ const Advisory = Loadable({
 
 const ThankYou = Loadable({
   loader: () => import('./Pages/PackageFlow/ThankYou' /* webpackChunkName: "PackageFlow-ThankYou" */),
-  loading: Loading,
-});
-
-const GoToPro = Loadable({
-  loader: () => import('./Pages/Estimations/GoToPro' /* webpackChunkName: "Estimation-GoToPro" */),
   loading: Loading,
 });
 
@@ -71,6 +61,21 @@ const UserFlow = Loadable({
   loading: Loading,
 });
 
+const Dashboard = Loadable({
+  loader: () => import('./Pages/Dashboard/Dashboard' /* webpackChunkName: "Dashboard" */),
+  loading: Loading,
+});
+
+const InputSheet = Loadable({
+  loader: () => import('./Pages/InputSheet/Facts' /* webpackChunkName: "InputSheet" */),
+  loading: Loading,
+});
+
+const Documents = Loadable({
+  loader: () => import('./components/Documents' /* webpackChunkName: "InputSheet" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -78,8 +83,10 @@ const App = (props) => {
     history,
     handleCheckToken,
     handleSetLanguages,
+    handleSetModal,
     isLoading,
     loggedUser,
+    modal,
     notification,
     redirectTo,
   } = props;
@@ -108,31 +115,58 @@ const App = (props) => {
     )
   }
 
-  const fireTracking = () => {
-    ReactGA.pageview(window.location.hash);
-  };
-
   return (
     <>
       <Loading isLoading={isLoading} />
       <PageHeader />
       <Switch>
-        { /* SECTION: FREE ROOUTE */ }
+        { /* INFO: <Route> for free access <ProtectedRoute> for restricted access */ }
+        { /* SECTION: ONBOARDING */ }
         <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
         <Route path="/onBoarding/" component={OnBoarding} />
+
+        { /* SECTION: INSERT TOKEN */ }
         <Route path="/tokeninput" component={InsertToken} />
+
+        { /* SECTION: GET STARTED*/ }
         <Route path="/packageFlow/getstarted/" component={GetStarted} />
         <ProtectedRoute path="/packageFlow/:propId/rewards" component={Rewards} />
         <ProtectedRoute path="/packageFlow/:propId/advisory" component={Advisory} />
         <ProtectedRoute path="/packageFlow/:propId/thankyou" component={ThankYou} />
-        <ProtectedRoute path="/estimation/:propId/questions/" component={GoToPro} />
-        { /* SECTION: PROTECED ROUTE WITH REDIRECT TO LOGIN */ }
-        {/*<ProtectedRoute path="/" exact component={Dashboard} />*/}
+
+        { /* SECTION: HUB DASHBOARD */ }
+        <ProtectedRoute path="/:propId/inputSheet" exact component={InputSheet} />
+        <ProtectedRoute path="/:action/:id?" exact component={Dashboard} />
         { /* SECTION: REDIRECT */ }
+        <Redirect from="/" to="/home" exact component={Dashboard} />
         <Redirect from="*" to="/onBoarding" />
       </Switch>
+
+      { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
       {
-        notification && (
+        modal.state && (
+          <BrixelModal
+            classHeight={modal.height}
+            title={modal.title}
+            titleIcon={modal.titleIcon}
+            color={modal.color}
+            saturationTxt={modal.saturationTxt}
+            layout={modal.layout}
+            onClose={() => {
+              handleSetModal({ state: false });
+            }}
+            actions={modal.action}
+            multiActions={modal.multiActions}
+            clickOutsideToClose={modal.clickOutsideToClose}
+          >
+            <div>{modal.body}</div>
+          </BrixelModal>
+        )
+      }
+
+      { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
+      {
+        (notification.small || notification.label) && (
           <>
             {
               notification.small ? (
@@ -152,6 +186,14 @@ const App = (props) => {
           </>
         )
       }
+
+      { /* SECTION: SIDEBAR */ }
+      <div className="zIndex3">
+        <Switch>
+          {/* SECTION: DOCUMENTS */}
+          <Route path="/home/:id?/documents" component={Documents} />
+        </Switch>
+      </div>
     </>
   );
 };
@@ -159,10 +201,12 @@ const App = (props) => {
 App.propTypes = {
   history: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
   loggedUser: PropTypes.object.isRequired,
   notification: PropTypes.object,
-  isLoading: PropTypes.bool,
   match: PropTypes.object.isRequired,
+  modal: PropTypes.object.isRequired,
   redirectTo: PropTypes.object,
 };
 
@@ -173,15 +217,17 @@ App.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  notification: get(state, 'common.notification', null),
-  redirectTo: get(state, 'common.redirectTo', null),
+  config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   loggedUser: get(state, 'user.loggedUser', null),
-  config: get(state, 'common.config', {}),
+  modal: get(state, 'common.modal', {}),
+  notification: get(state, 'common.notification', null),
+  redirectTo: get(state, 'common.redirectTo', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleCheckToken: bindActionCreators(checkToken, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetLanguages: bindActionCreators(setLanguages, dispatch),
 });
 

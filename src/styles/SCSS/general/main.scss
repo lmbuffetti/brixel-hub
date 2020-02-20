@@ -12,9 +12,14 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 "../components/rangePriceChart",
 "../components/map",
 "../components/radioButtonCard",
-"../components/avatar";
+"../components/avatar",
+"../components/sidebar",
+"../components/options-menu",
+"../components/documents";
 // PAGES
 @import "../pages/getStarted",
+"../pages/dashboard",
+"../pages/facts",
 "../pages/onBoarding";
 
 html, body {

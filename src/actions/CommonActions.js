@@ -9,6 +9,7 @@ import {
   SEND_GENERIC_MAIL,
   SET_LANGUAGES,
   SET_LANGUAGE,
+  SET_MODAL,
   SET_NOTIFICATION,
   SET_PAGE_DATA,
 } from './types/CommonTypes';
@@ -23,6 +24,7 @@ export const {
   sendGenericMail,
   setLanguages,
   setLanguage,
+  setModal,
   setNotification,
   setPageData,
 } = createActions({
@@ -35,6 +37,7 @@ export const {
   [SPINNER_OFF]: (payload) => payload,
   [SET_LANGUAGES]: (payload) => payload,
   [SET_LANGUAGE]: (payload) => payload,
+  [SET_MODAL]: (payload) => payload,
   [SET_NOTIFICATION]: (payload) => payload,
   [SET_PAGE_DATA]: (payload) => payload,
 });

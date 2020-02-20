@@ -307,15 +307,32 @@ function OnBoarding(props) {
     setTimeout(() => {
       const getCurStep = document.getElementById(`step-${newPosition}`);
       if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+        getCurStep.querySelector('input[type="number"]').removeAttribute('autofocus');
+        getCurStep.querySelector('input[type="number"]').setAttribute('autofocus', 'autofocus');
         getCurStep.querySelector('input[type="number"]').focus();
       }
       else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+        getCurStep.querySelector('input[type="text"]').removeAttribute('autofocus');
+        getCurStep.querySelector('input[type="text"]').setAttribute('autofocus', 'autofocus');
         getCurStep.querySelector('input[type="text"]').focus();
       }
       if (document.getElementById('onBoarding')) {
         document.getElementById('onBoarding').scrollTo(0, 0);
       }
     }, 100);
+    document.addEventListener('touchend', function(event) {
+      const getCurStep = document.getElementById(`step-${newPosition}`);
+      if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+        getCurStep.querySelector('input[type="number"]').removeAttribute('autofocus');
+        getCurStep.querySelector('input[type="number"]').setAttribute('autofocus', 'autofocus');
+        getCurStep.querySelector('input[type="number"]').focus();
+      }
+      else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+        getCurStep.querySelector('input[type="text"]').removeAttribute('autofocus');
+        getCurStep.querySelector('input[type="text"]').setAttribute('autofocus', 'autofocus');
+        getCurStep.querySelector('input[type="text"]').focus();
+      }
+    }, false);
     if (document.getElementById('onBoarding')) {
       document.getElementById('onBoarding').scrollTo(0, 0);
     }
@@ -367,14 +384,14 @@ function OnBoarding(props) {
       if(loginPage) label = translateTo(lang, "Login")
       else label = translateTo(lang, "Create profile")
     } else {
-        if (Questions[currentIndex].cardType === 'createProfile') {
-          label = translateTo(lang, "Save")
-        } else {
-          label = translateTo(lang, "Continue")
-        }
+      if (Questions[currentIndex].cardType === 'createProfile') {
+        label = translateTo(lang, "Save")
+      } else {
+        label = translateTo(lang, "Continue")
+      }
     }
     return label;
-  }
+  };
 
   return (
     <main id="onBoarding">

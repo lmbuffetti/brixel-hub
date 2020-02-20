@@ -25,7 +25,7 @@
       m.parentNode.insertBefore(a, m)
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-    ga('create', <%= JSON.stringify(htmlWebpackPlugin.options.googleAnalyticsId) %>, 'auto');
+    ga('create', '<%= htmlWebpackPlugin.options.googleAnalyticsId %>', 'auto');
     ga('set', 'anonymizeIp', true);
     ga('send', 'pageview');</script>
   </body>
