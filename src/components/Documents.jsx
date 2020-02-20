@@ -24,7 +24,7 @@ import Loading from '../components/Loading';
 
 
 // COMPONENTS
-import SidebarLayout from '../components/SidebarLayout';
+import DrawerLayout from '../components/DrawerLayout';
 
 const Documents = (props) => {
   const [documentOptionsOpen, setDocumentOptionsOpen] = useState({ id: null, active: false });
@@ -114,7 +114,7 @@ const Documents = (props) => {
 
   return (
     <>
-      <SidebarLayout>
+      <DrawerLayout>
         <div className="p-2 docubox">
           <div className="docubox-header dis-fl-row a-c jc-b mb-5">
             <div className="dis-fl-row a-c">
@@ -315,7 +315,7 @@ const Documents = (props) => {
             )
           }
         </div>
-      </SidebarLayout>
+      </DrawerLayout>
     </>
   );
 };

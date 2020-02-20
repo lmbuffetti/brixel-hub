@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SidebarLayout = (props) => {
+const DrawerLayout = (props) => {
   const {
     children,
   } = props;
   return (
-    <div className="wrapSidebar">
-      <div className="rightSidebar">
+    <div className="wrapDrawer">
+      <div className="drawer">
         {children}
       </div>
     </div>
   );
 };
 
-SidebarLayout.propTypes = {
+DrawerLayout.propTypes = {
   children: PropTypes.object.isRequired,
 };
 
-export default SidebarLayout;
+export default DrawerLayout;
