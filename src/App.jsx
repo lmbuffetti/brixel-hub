@@ -13,7 +13,6 @@ import Cookies from 'universal-cookie';
 import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
-import queryString from 'query-string';
 import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
 import PageHeader from './components/PageHeader';
 import ReactGA from 'react-ga';
@@ -39,11 +38,6 @@ const Advisory = Loadable({
 
 const ThankYou = Loadable({
   loader: () => import('./Pages/PackageFlow/ThankYou' /* webpackChunkName: "PackageFlow-ThankYou" */),
-  loading: Loading,
-});
-
-const GoToPro = Loadable({
-  loader: () => import('./Pages/Estimations/GoToPro' /* webpackChunkName: "Estimation-GoToPro" */),
   loading: Loading,
 });
 
@@ -73,7 +67,7 @@ const Dashboard = Loadable({
 });
 
 const InputSheet = Loadable({
-  loader: () => import('./Pages/InputSheet' /* webpackChunkName: "InputSheet" */),
+  loader: () => import('./Pages/InputSheet/Facts' /* webpackChunkName: "InputSheet" */),
   loading: Loading,
 });
 
@@ -121,31 +115,34 @@ const App = (props) => {
     )
   }
 
-  const fireTracking = () => {
-    ReactGA.pageview(window.location.hash);
-  };
-
   return (
     <>
       <Loading isLoading={isLoading} />
       <PageHeader />
       <Switch>
-        { /* SECTION: FREE ROOUTE */ }
+        { /* INFO: <Route> for free access <ProtectedRoute> for restricted access */ }
+        { /* SECTION: ONBOARDING */ }
         <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
         <Route path="/onBoarding/" component={OnBoarding} />
+
+        { /* SECTION: INSERT TOKEN */ }
         <Route path="/tokeninput" component={InsertToken} />
+
+        { /* SECTION: GET STARTED*/ }
         <Route path="/packageFlow/getstarted/" component={GetStarted} />
         <ProtectedRoute path="/packageFlow/:propId/rewards" component={Rewards} />
         <ProtectedRoute path="/packageFlow/:propId/advisory" component={Advisory} />
         <ProtectedRoute path="/packageFlow/:propId/thankyou" component={ThankYou} />
-        <ProtectedRoute path="/estimation/:propId/questions/" component={GoToPro} />
-        { /* SECTION: PROTECED ROUTE WITH REDIRECT TO LOGIN */ }
+
+        { /* SECTION: HUB DASHBOARD */ }
         <ProtectedRoute path="/:propId/inputSheet" exact component={InputSheet} />
-        <Redirect from="/" to="/home" exact component={Dashboard} />
         <ProtectedRoute path="/:action/:id?" exact component={Dashboard} />
         { /* SECTION: REDIRECT */ }
+        <Redirect from="/" to="/home" exact component={Dashboard} />
         <Redirect from="*" to="/onBoarding" />
       </Switch>
+
+      { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
       {
         modal.state && (
           <BrixelModal
@@ -166,8 +163,10 @@ const App = (props) => {
           </BrixelModal>
         )
       }
+
+      { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification.small || notification.label && (
+        (notification.small || notification.label) && (
           <>
             {
               notification.small ? (
@@ -187,9 +186,11 @@ const App = (props) => {
           </>
         )
       }
+
+      { /* SECTION: SIDEBAR */ }
       <div className="zIndex3">
         <Switch>
-          {/* Onboarding user */}
+          {/* SECTION: DOCUMENTS */}
           <Route path="/home/:id?/documents" component={Documents} />
         </Switch>
       </div>

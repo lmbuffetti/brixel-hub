@@ -45,9 +45,8 @@ const ProtectedRoute = (props) => {
 };
 
 ProtectedRoute.propTypes = {
-  component: PropTypes.object,
+  component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   history: PropTypes.object.isRequired,
-  handleCheckToken: PropTypes.func.isRequired,
   path: PropTypes.string.isRequired,
 };
 

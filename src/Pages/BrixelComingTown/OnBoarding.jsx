@@ -91,7 +91,6 @@ function OnBoarding(props) {
   }, []);
 
   const hideOnDesk = getBrowserPlatform().indexOf('desk') !== -1 ? 'hide-desktop' : 'dis-b-mobile';
-  console.log(getBrowserPlatform());
 
   // SET the country from the value
   const countryObj = (curVal) => {
@@ -308,15 +307,32 @@ function OnBoarding(props) {
     setTimeout(() => {
       const getCurStep = document.getElementById(`step-${newPosition}`);
       if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+        getCurStep.querySelector('input[type="number"]').removeAttribute('autofocus');
+        getCurStep.querySelector('input[type="number"]').setAttribute('autofocus', 'autofocus');
         getCurStep.querySelector('input[type="number"]').focus();
       }
       else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+        getCurStep.querySelector('input[type="text"]').removeAttribute('autofocus');
+        getCurStep.querySelector('input[type="text"]').setAttribute('autofocus', 'autofocus');
         getCurStep.querySelector('input[type="text"]').focus();
       }
       if (document.getElementById('onBoarding')) {
         document.getElementById('onBoarding').scrollTo(0, 0);
       }
     }, 100);
+    document.addEventListener('touchend', function(event) {
+      const getCurStep = document.getElementById(`step-${newPosition}`);
+      if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+        getCurStep.querySelector('input[type="number"]').removeAttribute('autofocus');
+        getCurStep.querySelector('input[type="number"]').setAttribute('autofocus', 'autofocus');
+        getCurStep.querySelector('input[type="number"]').focus();
+      }
+      else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+        getCurStep.querySelector('input[type="text"]').removeAttribute('autofocus');
+        getCurStep.querySelector('input[type="text"]').setAttribute('autofocus', 'autofocus');
+        getCurStep.querySelector('input[type="text"]').focus();
+      }
+    }, false);
     if (document.getElementById('onBoarding')) {
       document.getElementById('onBoarding').scrollTo(0, 0);
     }

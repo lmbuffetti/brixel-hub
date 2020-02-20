@@ -1,952 +1,417 @@
-import React from 'react';
-import { Field } from 'redux-form';
-import { connect } from 'react-redux';
-import get from 'lodash/get';
-import {
-  BrixelExtraFeature, BrixelInputQuality, BrixelSelect,
-  BrixelInputText, BrixelInputStepNumber, BrixelRadioButton,
-  BrixelTextArea, BrixelCheckbox, BrixelInputScale, FactsOptions,
-} from '@brixel/brixel-components';
+/* eslint-disable max-len */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { change, reduxForm, Field } from 'redux-form';
+import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
+import { diff } from 'deep-object-diff';
+import {
+  BrixelButtonIcon, BrixelIcon,
+} from '@brixel/brixel-components';
+import { bindActionCreators, compose } from 'redux';
+import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
+import {
+  setModal, setNotification,
+} from '../../actions/CommonActions';
 import LoadingSimple from '../../components/LoadingSimple';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
+import { InputSheets } from '../../resources/inputSheets';
+
+// COMPONENTS
+import Loading from '../../components/Loading';
+// import { getActiveSingleUser } from '../../actions/UserActions';
+import { updateProperty, getProperty } from '../../actions/PropertyActions';
+import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
   loading: LoadingSimple,
 });
 
-const Facts = (props) => {
-  // PROPS
-  const { formValue, langConfig } = props;
+const InputSheet = (props) => {
+  const {
+    errorValue, match, history, formValue, handleSaveProperty, reset,
+    initialValues, setUserActiveProperty,
+    handleSetModal, notification, setNotification,
+  } = props;
 
-  const { factsOptions } = FactsOptions;
+  // STATE
+  const [Questions, setQuestions] = useState([]);
+  const [accordion, setAccordion] = useState({});
+  const [skipSection, setSkipSection] = useState({});
+  const [sectionProgress, setSectionProgress] = useState({});
 
-  const formatPrice = (value) => {
-    if (!value) return '';
-    return Number(value).toLocaleString(langConfig.localString);
+  const propID = get(match, 'params.propID', null);
+
+  useEffect(() => {
+    const id = get(match, 'params.propId', null);
+    if (id) {
+      setUserActiveProperty({id})
+    }
+    setQuestions(InputSheets('en'));
+  }, []);
+
+  const saveData = () => {
+    const data = {
+      id: propID,
+      data: formValue,
+    };
+    // For now we still dont use the diff object (TODO: API ticket)
+    // diff(initialValues, formValue)
+
+    handleSaveProperty(data);
   };
 
-  const normalizePrice = (value) => {
-    if (value.length === 0) return '';
-    return Number(value.replace(/\D/g, ''));
+  const handleSkipSection = (key) => {
+    const id = get(match, 'params.propId', null);
+    const newSkipSection = skipSection;
+    newSkipSection[key] = !newSkipSection[key];
+    setSkipSection({...newSkipSection});
+    const newTotal = Object.keys(newSkipSection).filter(keySkip => newSkipSection[keySkip] === false);
+    const { totalComplete, section } = sectionProgress;
+    setSectionProgress({
+      percComplete: Math.ceil((totalComplete * 100) / newTotal.length),
+      section: section,
+      total: newTotal.length,
+      totalComplete,
+      totalUncomplete: newTotal.length - totalComplete,
+    });
+    handleSaveProperty({id, skipFacts: newSkipSection});
+  };
+
+  const checkQuestionGroup = (quest, skipped) => {
+    if (sectionProgress.section[quest.history]) {
+      return (
+        <div>
+          <BrixelIcon
+            className="dis-b p-small-4"
+            icon="check"
+            rounded
+            background="green"
+            saturation={400}
+            color="white"
+            saturationTxt={0}
+            iconSize="small"
+            padding="p-small-4"
+          />
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <BrixelIcon
+            icon="check"
+            rounded
+            bgTransparent={skipped[quest.history]}
+            background={skipped[quest.history] ? 'primary' : ''}
+            saturation={skipped[quest.history] ? 300 : 0}
+            noBorder={skipped[quest.history]}
+            color={skipped[quest.history] ? "white" : "dark"}
+            saturationTxt={skipped[quest.history] ? 0 : 400}
+            className="brdSmall dis-b p-small-4"
+            iconSize="small"
+            padding="p-small-4"
+            onClick={() => handleSkipSection(quest.history)}
+          />
+        </div>
+      )
+    }
+  };
+
+  const discardChanges = () => {
+    reset('InputSheet');
+  };
+
+  const closeNotificationBar = () => {
+    setNotification({ state: false });
+  };
+
+  useEffect(() => {
+    let checkSection = {};
+    Questions.map((quest) => {
+      let validSection = true;
+      quest.inputs.map((inp) => {
+        if (inp.validation && inp.validation[0] && validSection) {
+          const curVal = get(formValue, inp.name, true);
+          if (isEmptyWithBool(curVal)) validSection = false;
+        }
+      });
+      checkSection[quest.history] = validSection;
+    });
+
+    const complete = Object.keys(checkSection).filter((val) => checkSection[val] === true).length;
+    const totalSec = Object.keys(checkSection).length;
+    const total = setSectionProgress.total || totalSec;
+    setSectionProgress({
+      percComplete: Math.ceil((complete * 100) / total),
+      section: checkSection,
+      total,
+      totalComplete: complete,
+      totalUncomplete: total - complete,
+    });
+
+    // SET THE FIRST TIME THE ACCORDION
+    if (Object.keys(accordion).length === 0 && formValue.id) {
+      const defAccordion = {};
+      const defSkipSection = cloneDeep(initialValues.skipFacts || {});
+      Questions.map((quest) => {
+        if (defSkipSection[quest.history]) {
+          defAccordion[quest.history] = false;
+        } else {
+          defAccordion[quest.history] = defSkipSection[quest.history] || !checkSection[quest.history];
+        }
+        defSkipSection[quest.history] = defSkipSection[quest.history] || false;
+      });
+      setAccordion(defAccordion);
+      setSkipSection(defSkipSection);
+    }
+
+
+  }, [formValue]);
+
+
+  useEffect(() => {
+    // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
+    if (Object.keys(diff(initialValues, formValue)).length > 0) {
+      let setValid = true;
+      if (Questions) {
+        Questions.map((input) => {
+          input.inputs.map((inp) => {
+            const curVal = get(errorValue, inp.name, true);
+            if (curVal !== true && curVal !== 'Mark Required') setValid = false;
+            return null;
+          });
+          return null;
+        });
+      }
+      if (setValid) {
+        setNotification({
+          state: true,
+          type: 'info',
+          label: 'You have unsaved changes',
+          actions:
+            [
+              { type: 'primary', label: 'Save', func: () => saveData() },
+              { type: 'secondary', label: 'Discard changes', func: () => discardChanges() },
+            ],
+        });
+      } else {
+        closeNotificationBar()
+      }
+    // SET NOTIFICATION TO SUCCESS SAVE
+    } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'success') {
+      setTimeout(() => closeNotificationBar(), 2000);
+    // REMOVE NOTIFICATION
+    } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'info') {
+      setNotification({ state: false });
+    }
+  }, [errorValue]);
+
+  if (!formValue.id) {
+    return (
+      <Loading />
+    );
+  }
+
+  const checkCondition = (val) => {
+    let isToShow = true;
+    if (val && val.condition) {
+      const formCurVal = get(formValue, val.condition.name, null);
+      if (val.condition.value === 'isPositive') isToShow = formCurVal > 0;
+      else if (val.condition.value !== formCurVal) isToShow = false;
+    }
+    return isToShow;
   };
 
   return (
     <>
-
-      { /* SECTION: PROPERTY TYPE */ }
-      <div className="manager-facts-tab col-md-7 p-md-0 dis-fl-row mb-12">
-        <div className="col-md-4 p-md-0 h-perc-100">
-          <p className="section-title max-w-fix-144">Property type</p>
+      <div className="container dis-fl-col">
+        <div className="progressInfo dis-f a-c my-3 jc-b">
+          <h6>All tasks</h6>
+          <span className="txtPrimary700">{sectionProgress.percComplete} %</span>
         </div>
-        <Field
-          className="mb-2 col-md-8 p-md-0 dis-fl-row jc-b"
-          inputClassName="w-perc-100"
-          name="properties.propertyType"
-          component={BrixelRadioButton}
-          icons
-          options={factsOptions.propertyType}
-          deactivable={false}
-        />
+
+        {
+          Questions.map((quest, i) => (
+            <div className="accordionWrap" key={i.toString()}>
+              <div className="dis-f a-c jc-b">
+                <div className="dis-f a-c">
+                  {checkQuestionGroup(quest, skipSection)}
+                  <h4
+                    className="ml-2 txtDark200 body2 cur-poi"
+                    onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
+                  >
+                    {quest.title}
+                  </h4>
+                </div>
+                <BrixelIcon
+                  icon={accordion[quest.history] ? "arrow-simple-up" : "arrow-simple-down"}
+                  color="dark"
+                  saturationTxt={700}
+                  iconSize="small"
+                  onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
+                />
+              </div>
+              <div key={i.toString()} className={`accrodionList ${accordion[quest.history] ? 'openAccordion' : 'closedAccordion'}`}>
+                {
+                  quest.inputs.map((input, f) => (
+                    <div key={f.toString()}>
+                      {
+                        checkCondition(input) && (typeof accordion[quest.history] === 'undefined' || accordion[quest.history]) && (
+                          <div key={f.toString()}>
+                            {
+                              input.type === 'Map' ? (
+                                <>
+                                  <div className="mb-20 pos-r zIndex1">
+                                    <Field
+                                      name={input.name}
+                                      label={input.label}
+                                      component={() => (
+                                        <Maps
+                                          zoom={14}
+                                          scrollZoom
+                                          moveMarker
+                                          draggable
+                                          showSearchLocation
+                                          showSelectCountry={true}
+                                          showMap={true}
+                                          isShowZip={false}
+                                          className="w-perc-100"
+                                        />
+                                      )}
+                                      options={input.options}
+                                      validate={input.validation}
+                                      type={input.type}
+                                    />
+                                  </div>
+                                </>
+                              ) : (
+                                <div className="dis-f a-c jc-b">
+                                  <div
+                                    className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}
+                                    tabIndex="-1"
+                                  >
+                                    {input.deactivable ? input.deactivable.toString() : ''}
+                                    <Field
+                                      className="w-perc-100"
+                                      inputClassName={input.className || ''}
+                                      name={input.name}
+                                      label={input.label}
+                                      icons={input.icons}
+                                      component={input.component}
+                                      fluid={true}
+                                      options={input.options}
+                                      validate={input.validation}
+                                      type={input.type}
+                                      step={+input.step}
+                                      min={input.min}
+                                      deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
+                                      placeholder={input.placeholder || ''}
+                                      meta={{
+                                        dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                        invalid: true,
+                                      }}
+                                      modal={input.modal ? {message: input.modal.hint, func: () => handleSetModal(input.modal.func)} : null }
+                                      message={{
+                                        help: null,
+                                        error: errorValue[input.name],
+                                      }}
+                                      minLenghtNum={input.minLenghtNum || null}
+                                      maxLengthNum={input.maxLenghtNum || null}
+                                    />
+                                    {
+                                      input.unit && (
+                                        <span className="pl-2">{input.unit}</span>
+                                      )
+                                    }
+                                  </div>
+                                </div>
+                              )
+                            }
+                            <p className="body2">{input.help}</p>
+                          </div>
+                        )
+                      }
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          ))
+        }
       </div>
-
-      { /* SECTION: ADDRESS */ }
-      <div className="manager-facts-tab col-md-7 p-md-0 dis-fl-row mb-12">
-        <div className="col-md-4 p-md-0 h-perc-100">
-          <p className="section-title max-w-fix-144">Address</p>
-        </div>
-        <div className="dis-fl-col col-md-8 p-md-0 h-perc-100">
-          <Maps
-            className="mb-7"
-            zoom={14}
-            inputLabel="Search for address"
-            scrollZoom
-            moveMarker
-            draggable
-            showSearchLocation
-            showMap
-          />
-          <span className="overline mb-3">Drag the marker to change the location</span>
-          <div className="dis-fl-row p-md-0 jc-b">
-            <Field
-              className="col-md-5 p-md-0"
-              name="location.streetNumber"
-              label="Property door number"
-              component={BrixelInputText}
-            />
-            <Field
-              className="col-md-5 p-md-0"
-              name="location.zip"
-              label="ZIP code"
-              component={BrixelInputText}
-              type="number"
-            />
-          </div>
-        </div>
-      </div>
-
-      { /* SECTION: PROPERTY */ }
-      <div className="manager-facts-tab col-md-7 p-md-0 dis-fl-row mb-12">
-        <div className="col-md-4 p-md-0 h-perc-100">
-          <p className="section-title max-w-fix-144">Property</p>
-        </div>
-        <div className="dis-fl-col col-md-8 p-md-0 h-perc-100">
-          {
-            formValue.properties && formValue.properties.propertyType === 'House' && (
-              <Field
-                className="mb-4 dis-fl-row"
-                name="properties.building.typeHouseCode"
-                label="What's the type of the house?"
-                component={BrixelRadioButton}
-                options={factsOptions.typeHouseCode}
-              />
-            )
-          }
-          {
-            formValue.properties && formValue.properties.propertyType === 'Apartment' && (
-              <>
-                <Field
-                  className="mb-4"
-                  name="properties.building.typeFlatBuildingCode"
-                  label="What's the type of the building?"
-                  component={BrixelRadioButton}
-                  options={factsOptions.typeFlatBuildingCode}
-                />
-                <Field
-                  className="mb-4"
-                  name="properties.building.typeFlatCode"
-                  label="What's the type of the apartment?"
-                  component={BrixelRadioButton}
-                  options={factsOptions.typeFlatCode}
-                />
-              </>
-            )
-          }
-          <Field
-            className="mb-4 w-fix-216"
-            name="properties.building.built"
-            label="What's the construction year?"
-            component={BrixelInputText}
-            type="number"
-          />
-          <Field
-            className="mb-4"
-            name="properties.building.quality"
-            label="What's the building quality of the whole house?"
-            component={BrixelInputScale}
-            options={factsOptions.quality}
-          />
-          <div>
-            <Field
-              className="mb-2 col-md-6 p-md-0"
-              name="properties.building.isPropertyRenovated"
-              label="Is the property renovated?"
-              component={BrixelRadioButton}
-              options={factsOptions.isPropertyRenovatedOptions}
-            />
-            <Field
-              className="mb-2 w-fix-280"
-              name="properties.building.renovated"
-              label="When was the property last renovated?"
-              component={BrixelInputText}
-              type="number"
-            />
-          </div>
-          <Field
-            className="mb-6 h-fix-184"
-            name="description.investment"
-            label="What has been renovated?"
-            component={BrixelTextArea}
-          />
-          <Field
-            className="mb-4"
-            name="properties.building.isNeedRenovation"
-            label="Are there some major renovation works needed within the next years?"
-            component={BrixelRadioButton}
-            options={factsOptions.yesNoOpt}
-          />
-          <Field
-            className="mb-4"
-            name="description.needRenovation"
-            label="What renovation works are needed within the next years?"
-            component={BrixelTextArea}
-          />
-          {
-            formValue.properties && formValue.properties.propertyType === 'Apartment' && (
-              <Field
-                className="mb-4"
-                name="properties.building.apartmentQuality"
-                label="In which condition is the apartment?"
-                component={BrixelInputScale}
-                options={factsOptions.quality}
-              />
-            )
-          }
-          <Field
-            className="mb-4"
-            name="properties.building.conditionCode"
-            label="In which condition is the property?"
-            component={BrixelInputScale}
-            options={factsOptions.quality}
-          />
-          {
-            formValue.properties && formValue.properties.propertyType === 'House' && (
-              <Field
-                className="mb-4"
-                name="properties.typology.numberOfHouseFloors"
-                label="How many floors does the house have?"
-                component={BrixelInputStepNumber}
-                step={1}
-              />
-            )
-          }
-          {
-            formValue.properties && formValue.properties.propertyType === 'Apartment' && (
-              <>
-                <Field
-                  className="mb-4"
-                  name="properties.typology.numberOfFlats"
-                  label="Number of apartments in building"
-                  component={BrixelInputStepNumber}
-                  step={1}
-                />
-                <Field
-                  className="mb-4"
-                  name="properties.typology.numberOfFloors"
-                  label="How many floors are there in the whole building?"
-                  component={BrixelInputStepNumber}
-                  step={1}
-                />
-              </>
-            )
-          }
-          <Field
-            className="mb-4"
-            name="properties.typology.livingArea.value"
-            label="What's the net living space of the property?"
-            component={BrixelInputText}
-            type="number"
-          />
-          {
-            formValue.properties && formValue.properties.propertyType === 'House' && (
-              <>
-                <Field
-                  className="mb-4"
-                  name="properties.typology.lotArea.value"
-                  label="What's the lot size? (m2)"
-                  component={BrixelInputText}
-                  type="number"
-                />
-                <Field
-                  className="mb-4"
-                  name="properties.typology.constructedVolume.value"
-                  label="What's the house's volume? (m3)"
-                  component={BrixelInputText}
-                  type="number"
-                />
-                <Field
-                  className="mb-4"
-                  name="properties.typology.constructedVolumeCode"
-                  label="What's the volume standard?"
-                  component={BrixelRadioButton}
-                  options={factsOptions.constructedVolumeCode}
-                />
-              </>
-            )
-          }
-          <Field
-            className="mb-4"
-            name="properties.typology.bedrooms"
-            label="How many rooms does the house have?"
-            component={BrixelInputStepNumber}
-            step={0.5}
-          />
-          <Field
-            className="mb-4"
-            name="properties.typology.bathrooms"
-            label="How many bathrooms does the property have?"
-            component={BrixelInputStepNumber}
-            step={1}
-          />
-          <Field
-            className="mb-4"
-            name="properties.typology.separateToilets"
-            label="How many separate toilets does the property have?"
-            component={BrixelInputStepNumber}
-            step={1}
-          />
-          {
-            formValue.properties && formValue.properties.propertyType === 'Apartment' && (
-              <Field
-                className="mb-4"
-                name="properties.building.multiStoreyApartment"
-                label="Does the apartment have multiple floors?"
-                component={BrixelRadioButton}
-                options={factsOptions.multiStoreyApartmentOptions}
-              />
-            )
-          }
-          <Field
-            className="mb-4"
-            name="properties.typology.balconyArea.value"
-            label="What's the surface of the balcony? (m2)"
-            component={BrixelInputText}
-            type="number"
-          />
-          <Field
-            className="mb-4"
-            name="properties.typology.gardenArea.value"
-            label="What's the size of the garden? (m2)"
-            component={BrixelInputText}
-            type="number"
-          />
-          {
-            formValue.properties && formValue.properties.propertyType === 'Apartment' && (
-              <>
-                <Field
-                  className="mb-4"
-                  name="properties.typology.floorNumber"
-                  label="On which floor is the apartment's entrance?"
-                  component={BrixelInputStepNumber}
-                  step={1}
-                />
-                <Field
-                  className="mb-4"
-                  name="properties.building.qualityWithinBuilding"
-                  label="What's the location quality of your apartment compared to the other ones in the building?"
-                  component={BrixelInputScale}
-                  options={factsOptions.qualityWithinBuilding}
-                />
-              </>
-            )
-          }
-          <Field
-            className="mb-4"
-            name="properties.typology.qualityAmenities"
-            label="How good are the property's amenities?"
-            component={BrixelInputScale}
-            options={factsOptions.amentitiesQuality}
-          />
-          <Field
-            name="properties.building.secondaryResidence"
-            label="Is the property a holiday home?"
-            component={BrixelRadioButton}
-            options={factsOptions.secondaryResidenceOptions}
-          />
-        </div>
-      </div>
-
-      { /* SECTION: SECONDARY ROOMS */ }
-      <div className="manager-facts-tab col-md-7 p-md-0 dis-fl-row mb-12">
-        <div className="col-md-4 p-md-0 h-perc-100">
-          <p className="section-title max-w-fix-144">Secondary rooms</p>
-        </div>
-        <div className="dis-fl-col col-md-8 p-md-0 h-perc-100">
-          {
-            formValue.properties && formValue.properties.propertyType === 'House' && (
-              <Field
-                className="mb-4"
-                name="properties.building.expandableAttic"
-                label="Is the attic expandable?"
-                component={BrixelRadioButton}
-                options={factsOptions.expandableAttic}
-              />
-            )
-          }
-          <Field
-            className="mb-4"
-            name="properties.building.expandableAtticArea.value"
-            label="What's the size of the attic?"
-            component={BrixelInputText}
-            type="number"
-          />
-          <Field
-            className="mb-4"
-            name="properties.typology.basement"
-            label="Is there a basement?"
-            component={BrixelRadioButton}
-            options={factsOptions.basementOptions}
-          />
-          <Field
-            className="mb-4"
-            name="properties.typology.basementArea.value"
-            label="What's the size of the basement? (m2)"
-            component={BrixelInputText}
-            type="number"
-          />
-          <Field
-            className="mb-4"
-            name="properties.building.properties.typology.storeroom"
-            label="Is there a storeroom?"
-            component={BrixelRadioButton}
-            options={factsOptions.yesNoOpt}
-          />
-          <Field
-            className="mb-4"
-            name="properties.building.properties.typology.storeroomArea.value"
-            label="What's the size of the storeroom?"
-            component={BrixelInputText}
-            type="number"
-          />
-          <Field
-            className="mb-4"
-            name="properties.typology.collectiveSpaces"
-            label="Is there some other collective used spaces?"
-            component={BrixelRadioButton}
-            options={factsOptions.yesNoOpt}
-          />
-          <Field
-            name="properties.typology.collectiveSpacesArea.value"
-            label="What's the size of collective used spaces?"
-            component={BrixelInputText}
-            type="text"
-          />
-        </div>
-      </div>
-
-      { /* SECTION: PARKING */ }
-      <div className="manager-facts-tab col-md-7 p-md-0 dis-fl-row mb-12">
-        <div className="col-md-4 p-md-0 h-perc-100">
-          <p className="section-title max-w-fix-144">Parking</p>
-        </div>
-        <div className="dis-fl-col col-md-8 p-md-0 h-perc-100">
-          <Field
-            className="mb-4"
-            name="properties.parking.garage"
-            label="How many external parking lots belong to the property?"
-            component={BrixelInputStepNumber}
-            step={1}
-          />
-          <Field
-            className="mb-4"
-            name="properties.parking.garagePrice"
-            label="Price per garage parking lot"
-            component={BrixelInputText}
-            type="number"
-          />
-          <Field
-            className="mb-4"
-            name="properties.parking.outside"
-            label="How many garage parking lots belong to the property?"
-            component={BrixelInputStepNumber}
-            step={1}
-          />
-          <Field
-            className="mb-4"
-            name="properties.parking.outsidePrice"
-            label="Price per external parking lot"
-            component={BrixelInputText}
-            type="number"
-          />
-          <Field
-            className="mb-4"
-            name="properties.parking.underground"
-            label="How many underground parking lots belong to the property?"
-            component={BrixelInputStepNumber}
-            step={1}
-          />
-          <Field
-            name="properties.parking.undergroundPrice"
-            label="Price per underground parking lot"
-            component={BrixelInputText}
-            type="number"
-          />
-        </div>
-      </div>
-
-      { /* SECTION: EXTRA FEATURES */}
-      <div className="manager-facts-tab col-md-7 p-md-0 dis-fl-row mb-12">
-        <div className="col-md-4 p-md-0 h-perc-100">
-          <p className="section-title max-w-fix-144">Extra features</p>
-        </div>
-        <div className="dis-fl-col col-md-8 p-md-0 h-perc-100">
-          <Field
-            name="properties.extraFeatures"
-            label="Extra features"
-            component={BrixelExtraFeature}
-            options={factsOptions.extraFeature}
-          />
-        </div>
-      </div>
-
-      { /* SECTION: FACILITES & MATERIALS */}
-      <div className="manager-facts-tab col-md-7 p-md-0 dis-fl-row mb-12">
-        <div className="col-md-4 p-md-0 h-perc-100">
-          <p className="section-title max-w-fix-144">Facilities & materials</p>
-        </div>
-        <div className="dis-fl-col col-md-8 p-md-0 h-perc-100">
-          <Field
-            className="mb-4"
-            name="properties.energy.heating"
-            label="What's the heating system?"
-            component={BrixelCheckbox}
-            options={factsOptions.heating}
-          />
-          {
-            formValue.properties && formValue.properties.propertyType === 'House' && (
-              <>
-                <Field
-                  className="mb-4"
-                  name="properties.energy.boiler.capacity"
-                  label="What's the boiler capacity?"
-                  component={BrixelInputText}
-                  type="number"
-                />
-                <Field
-                  className="mb-4"
-                  name="properties.energy.boiler.type"
-                  label="What's the boiler type"
-                  component={BrixelInputText}
-                  type="text"
-                />
-              </>
-            )
-          }
-          <Field
-            className="mb-4"
-            name="properties.energy.solar"
-            label="Is there a solar plant?"
-            component={BrixelRadioButton}
-            options={factsOptions.solarOptions}
-          />
-          <Field
-            className="mb-4"
-            name="properties.energy.ac"
-            label="Is there an air conditioner?"
-            component={BrixelRadioButton}
-            options={factsOptions.acOptions}
-          />
-          <Field
-            className="mb-4"
-            name="properties.building.windows.insulation"
-            label="Is there a window insulation?"
-            component={BrixelRadioButton}
-            options={factsOptions.windowsInsulationOptions}
-          />
-          <Field
-            className="mb-4"
-            name="properties.building.windows.materials"
-            label="What is the material of the windows?"
-            component={BrixelCheckbox}
-            options={factsOptions.windows}
-          />
-          <Field
-            className="mb-4"
-            name="properties.building.blinds.materials"
-            label="What's the material of the blinds?"
-            component={BrixelTextArea}
-          />
-          <Field
-            className="mb-4"
-            name="properties.energy.efficiency"
-            label="What's the energy efficiency of the property?"
-            component={BrixelInputQuality}
-            options={factsOptions.energyEfficiencyOptions}
-          />
-          <Field
-            className="mb-4"
-            name="properties.energy.minergieCertified"
-            label="Is the property Minergie certified?"
-            component={BrixelRadioButton}
-            options={factsOptions.minergieCertifiedOptions}
-          />
-          <Field
-            className="mb-4"
-            name="properties.building.floors.materials"
-            label="What's the material of the floors?"
-            component={BrixelTextArea}
-          />
-          <Field
-            className="mb-4"
-            name="properties.building.kitchen.materials"
-            label="What's the equipment and materials in the kitchen?"
-            component={BrixelTextArea}
-          />
-          <Field
-            name="properties.building.bathrooms.materials"
-            label="What's the equipments and materials in the bathrooms?"
-            component={BrixelTextArea}
-          />
-        </div>
-      </div>
-
-      { /* SECTION: LAND REGISTER */}
-      <div className="manager-facts-tab col-md-7 p-md-0 dis-fl-row mb-12">
-        <div className="col-md-4 p-md-0 h-perc-100">
-          <p className="section-title max-w-fix-144">Land register</p>
-        </div>
-        <div className="dis-fl-col col-md-8 p-md-0 h-perc-100">
-          <Field
-            className="mb-4"
-            name="properties.building.landRegister.owner"
-            label="Who's the current owner of the house?"
-            component={BrixelInputText}
-          />
-          <Field
-            className="mb-4"
-            name="properties.building.landRegister.contact"
-            label="What are the seller's contact data?"
-            component={BrixelInputText}
-          />
-          <Field
-            className="mb-4"
-            name="properties.building.landRegister.cadaster"
-            label="What's the cadaster nr. of the property?"
-            component={BrixelInputText}
-            type="text"
-          />
-          <Field
-            className="mb-4"
-            name="properties.building.landRegister.propertyIndex"
-            label="What's the property index nr. of the property?"
-            component={BrixelInputText}
-            type="text"
-          />
-          {
-            formValue.properties && formValue.properties.propertyType === 'Apartment' && (
-              <Field
-                className="mb-4"
-                name="properties.typology.officialApartmentNumber"
-                label="What's the official apartment nr.?"
-                component={BrixelInputText}
-                type="text"
-              />
-            )
-          }
-          <Field
-            className="mb-4"
-            name="properties.building.valueRelevantServitude"
-            label="Is there a value-relevant building right or servitude on the property?"
-            component={BrixelRadioButton}
-            options={factsOptions.valueRelevantServitudeOptions}
-          />
-          <Field
-            name="properties.building.rightsAndServitudes"
-            label="Describe the servitudes"
-            component={BrixelInputText}
-            type="text"
-          />
-        </div>
-      </div>
-
-      { /* SECTION: FINANCIAL INFORMATION */}
-      <div className="manager-facts-tab col-md-7 p-md-0 dis-fl-row mb-12">
-        <div className="col-md-4 p-md-0 h-perc-100">
-          <p className="section-title max-w-fix-144">Financial information</p>
-        </div>
-        <div className="dis-fl-col col-md-8 p-md-0 h-perc-100">
-          <Field
-            name="properties.building.maintenanceCost"
-            className="mb-4"
-            label="What are the additional costs per year?"
-            component={BrixelInputText}
-            type="text"
-            format={formatPrice}
-            normalize={normalizePrice}
-          />
-          <Field
-            className="mb-4"
-            name="price.financial.additionalCosts"
-            label="How are these additional costs calculated?"
-            component={BrixelInputText}
-
-          />
-          {
-            formValue.properties && formValue.properties.propertyType === 'Apartment' && (
-              <>
-                <Field
-                  className="mb-4"
-                  name="properties.building.renewalTotalAmount.value"
-                  label="What's the total amount of the renewal funds?"
-                  component={BrixelInputText}
-                  type="number"
-                />
-                <Field
-                  className="mb-4"
-                  name="properties.building.renewalOwnerAmount.value"
-                  label="What's the owner's amount of the renewal funds?"
-                  component={BrixelInputText}
-                  type="number"
-                />
-                <Field
-                  className="mb-4"
-                  name="properties.building.ownershipPermil"
-                  label="What's the owner's share of the co-ownership? (‰)"
-                  component={BrixelInputText}
-                  type="number"
-                />
-                <Field
-                  className="mb-4"
-                  name="properties.building.condominiumOwners"
-                  label="How many condominium owners are there?"
-                  component={BrixelInputText}
-                  type="number"
-                />
-              </>
-            )
-          }
-          <Field
-            name="price.notional"
-            className="mb-4"
-            label="What's the current notional rental value?"
-            component={BrixelInputText}
-            type="text"
-            format={formatPrice}
-            normalize={normalizePrice}
-          />
-          <Field
-            className="mb-4"
-            name="properties.building.purchaseDate"
-            label="When did you buy the property?"
-            component={BrixelInputText}
-            type="number"
-          />
-          <Field
-            className="mb-4"
-            name="properties.building.purchasePrice"
-            label="For what price did you buy the property?"
-            component={BrixelInputText}
-            type="number"
-          />
-          <Field
-            name="properties.building.mortgage"
-            label="Mortgage type"
-            className="mb-4"
-            component={BrixelRadioButton}
-            options={factsOptions.mortgage}
-          />
-          <Field
-            name="properties.building.mortgageEnd"
-            label="Mortgage End"
-            component={BrixelInputText}
-            type="text"
-          />
-        </div>
-      </div>
-
-      { /* SECTION: DESCRIPTION */ }
-      <div className="manager-facts-tab col-md-7 p-md-0 dis-fl-row mb-12">
-        <div className="col-md-4 p-md-0 h-perc-100">
-          <p className="section-title max-w-fix-144">Description</p>
-        </div>
-        <div className="dis-fl-col col-md-8 p-md-0 h-perc-100">
-          <Field
-            className="mb-4"
-            name="description.highlight"
-            label="What are the highlights of the property?"
-            component={BrixelTextArea}
-          />
-          <Field
-            className="h-fix-md-264 mb-4"
-            name="description.location"
-            label="What is special about the location of the house?"
-            placeholder="Here you can add a description about the location around the property."
-            component={BrixelTextArea}
-          />
-          <Field
-            className="mb-4"
-            name="description.roomLayout"
-            label="Room layout"
-            component={BrixelTextArea}
-          />
-          <Field
-            className="mb-4"
-            name="description.neighborsRelationship"
-            label="How's the relationship with the neighbors?"
-            component={BrixelTextArea}
-          />
-          <Field
-            className="mb-4"
-            name="location.community.basisTaxation"
-            label="What is the basis of taxation in your community?"
-            component={BrixelInputText}
-            type="text"
-            placeholder="%"
-          />
-          <Field
-            className="mb-4"
-            name="location.community.population"
-            label="How many people live in your community?"
-            component={BrixelInputText}
-            type="text"
-          />
-          <Field
-            className="mb-4"
-            name="location.community.altitude"
-            label="What's the altitude of your community?"
-            component={BrixelInputText}
-            type="text"
-          />
-          <Field
-            name="location.community.area"
-            label="How large is the are of your community?"
-            component={BrixelInputText}
-            type="text"
-          />
-        </div>
-      </div>
-
-      { /* SECTION: SURROUNDINGS & DISTANCES */ }
-      <div className="manager-facts-tab col-md-7 p-md-0 dis-fl-row mb-12">
-        <div className="col-md-4 p-md-0 h-perc-100">
-          <p className="section-title max-w-fix-144">Surroundings & distances</p>
-        </div>
-        <div className="dis-fl-col col-md-8 p-md-0 h-perc-100">
-          <Field
-            className="mb-4"
-            name="location.distances.publicTransport"
-            label="What's the distance to the next public transport stop?"
-            component={BrixelInputText}
-            type="text"
-          />
-          <Field
-            className="mb-4"
-            name="location.distances.shopping"
-            label="What's the distance to the next grocery?"
-            component={BrixelInputText}
-            type="text"
-          />
-          <Field
-            className="mb-4"
-            name="location.distances.highway"
-            label="What's the distance to the next highway?"
-            component={BrixelInputText}
-            type="text"
-          />
-          <Field
-            className="mb-4"
-            name="location.distances.kindergarten"
-            label="What's the distance to the next kindergarten?"
-            component={BrixelInputText}
-            type="text"
-          />
-          <Field
-            className="mb-4"
-            name="location.distances.primarySchool"
-            label="What's the distance to the next primary school?"
-            component={BrixelInputText}
-            type="text"
-          />
-          <Field
-            className="mb-4"
-            name="location.distances.highSchool"
-            label="What's the distance to the next high school?"
-            component={BrixelInputText}
-            type="text"
-          />
-          <Field
-            name="location.distances.nature"
-            label="What's the distance to the next recreation area?"
-            component={BrixelInputText}
-            type="text"
-          />
-        </div>
-      </div>
-
-      { /* SECTION: SALES STRATEGY & PRICE */ }
-      <div className="manager-facts-tab col-md-7 p-md-0 dis-fl-row mb-12">
-        <div className="col-md-4 p-md-0 h-perc-100">
-          <p className="section-title max-w-fix-144">Sales strategy & price</p>
-        </div>
-        <div className="dis-fl-col col-md-8 p-md-0 h-perc-100">
-          <Field
-            name="status"
-            label="Status"
-            className="dis-fl-row mb-4"
-            component={BrixelRadioButton}
-            options={factsOptions.propertyStatus}
-          />
-          <Field
-            className="mb-4"
-            name="properties.typology.availability"
-            label="Availability of sale"
-            component={BrixelRadioButton}
-            options={factsOptions.availability}
-          />
-          {
-            formValue.properties && formValue.properties.typology && formValue.properties.typology.availability === 'other' && (
-              <Field
-                className="mb-4"
-                name="properties.typology.availabilityText"
-                label="What's the preferred time of sale?"
-                component={BrixelInputText}
-                type="text"
-              />
-            )
-          }
-          <Field
-            className="mb-4"
-            name="properties.salesStrategy.reasonToSell"
-            label="What's the reason to sell?"
-            component={BrixelInputText}
-          />
-          <Field
-            className="mb-4"
-            name="properties.salesStrategy.criteriaBuyers"
-            label="Are there some special selection criteria for the potential buyers?"
-            component={BrixelInputText}
-          />
-          <Field
-            className="mb-2"
-            name="properties.salesStrategy.processShowing"
-            label="How do you want to process the showings?"
-            component={BrixelInputText}
-          />
-          <div className="wrapper dis-fl-row col-md-12 mb-4 p-md-0">
-            <Field
-              name="price.currency"
-              label="Currency"
-              className="mr-2 p-md-0 zIndex1"
-              component={BrixelSelect}
-              options={factsOptions.currency}
-            />
-            <Field
-              name="price.total"
-              label="What is the selling price of the house?"
-              className="col-md-9 p-md-0"
-              component={BrixelInputText}
-              type="text"
-              format={formatPrice}
-              normalize={normalizePrice}
-            />
-          </div>
-          <Field
-            className="mb-4"
-            name="properties.salesStrategy.feesSplit"
-            label="How do you want to split the fees?"
-            component={BrixelInputText}
-          />
-          <Field
-            className="mb-4"
-            name="properties.salesStrategy.offersConditions"
-            label="Conditions for the offers and negotiation?"
-            component={BrixelInputText}
-          />
-          <Field
-            name="properties.salesStrategy.supportContract"
-            label="Support for the contract and notary?"
-            component={BrixelInputText}
-          />
-        </div>
-      </div>
-
     </>
   );
 };
 
-Facts.propTypes = {
+InputSheet.propTypes = {
+  isLoading: PropTypes.bool,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  reset: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired,
+  errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  langConfig: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
+  singleUserPropertyList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setUserActiveProperty: PropTypes.func.isRequired,
+  handleSaveProperty: PropTypes.func.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
+  notification: PropTypes.object.isRequired,
+  setNotification: PropTypes.func.isRequired,
+  isUnsavedChangesModal: PropTypes.object,
 };
 
-const mapStateToProps = (state) => ({
-  formValue: get(state, 'form.Property.values', {}),
-  langConfig: get(state, 'common.language', {}),
+InputSheet.defaultProps = {
+  isUnsavedChangesModal: {},
+  isLoading: false,
+};
+
+const InputSheetForm = reduxForm({
+  // a unique name for the form
+  form: 'InputSheet',
+  enableReinitialize: true,
+})(InputSheet);
+
+const mapStateToProps = (state) => {
+  const formValue = get(state, 'property.singleUserActiveProperty', {});
+  if (formValue.price) {
+    delete formValue.history;
+    delete formValue.owner;
+    delete formValue.price.history;
+  }
+  return ({
+    errorValue: get(state, 'form.InputSheet.syncErrors', {}),
+    formValue: get(state, 'form.InputSheet.values', {}),
+    isLoading: get(state, 'common.isLoading', 0) > 0,
+    activeSingleUser: get(state, 'user.activeSingleUser', {}),
+    singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
+    notification: get(state, 'common.notification', {}),
+    initialValues: cloneDeep(get(state, 'property.property', {})),
+    loggedInUser: get(state, 'user.loggedUser', {}),
+  });
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('InputSheet', field, value));
+  },
+  handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
+  handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
+  // getUser: bindActionCreators(getActiveSingleUser, dispatch),
+  setUserActiveProperty: bindActionCreators(getProperty, dispatch),
+  handleSaveProperty: bindActionCreators(updateProperty, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
+  setNotification: bindActionCreators(setNotification, dispatch),
+  // setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
+  // setUnsavedModal: bindActionCreators(setUnsavedChangesModal, dispatch),
 });
 
-const mapDispatchToProps = () => ({
-});
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Facts);
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(InputSheetForm);
