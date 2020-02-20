@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   withRouter,
 } from 'react-router-dom';
+import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelTabs } from '@brixel/brixel-components';
@@ -29,19 +30,34 @@ const Dashboard = (props) => {
   // PROPS
   const {
     handleGetProperties,
+    handleGetProperty,
     history,
+    loggedUser,
     match,
+    property,
   } = props;
+  // GET URL PARAMS
+  const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
-    const data = {
-      limit: 1,
-      offset: 0,
-      setAsSingle: true,
-    };
-    handleGetProperties(data);
+    console.log(propID)
+    if (propID) {
+      handleGetProperty({id: propID});
+    } else {
+      const data = {
+        limit: 1,
+        offset: `0/?owner=${loggedUser.user.id}`,
+        setAsSingle: true,
+      };
+      handleGetProperties(data);
+    }
   }, []);
 
+  useEffect(() => {
+    if (!propID && property.title) {
+      history.push(`/home/${property.id}`);
+    }
+  }, [property]);
 
   return (
     <div className="container" id="dashboard">
@@ -67,6 +83,7 @@ const Dashboard = (props) => {
 Dashboard.propTypes = {
   handleGetProperties: PropTypes.func.isRequired,
   handleGetProperty: PropTypes.func.isRequired,
+  loggedUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
@@ -75,6 +92,8 @@ Dashboard.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => ({
+  loggedUser: get(state, 'user.loggedUser', {}),
+  property: get(state, 'property.property', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

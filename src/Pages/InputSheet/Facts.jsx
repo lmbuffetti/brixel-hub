@@ -66,25 +66,57 @@ const InputSheet = (props) => {
     handleSaveProperty(data);
   };
 
-  const handleSkipSection = (key) => {
+  const getCalcSectionDone = () => {
+    const getSectionFilt = cloneDeep(sectionProgress.section || initialValues.skipFacts);
+    const getSectionDone = cloneDeep(sectionProgress.section || initialValues.skipFacts);
+    const getAccordion = cloneDeep(sectionProgress.section || initialValues.skipFacts);
+    if (getSectionFilt) {
+      Questions.map((quest) => {
+        let doneSection = true;
+        let accordion = false;
+        quest.inputs.map((inp) => {
+          if (inp.validation && inp.validation[0]) {
+            const curVal = get(formValue, inp.name, true);
+            if (isEmptyWithBool(curVal)) {
+              doneSection = false;
+              accordion = true;
+            }
+          }
+        });
+        getSectionFilt[quest.history] = getSectionFilt[quest.history] ? getSectionFilt[quest.history] : doneSection;
+        getSectionDone[quest.history] = doneSection;
+        getAccordion[quest.history] = getSectionFilt[quest.history] ? false : accordion;
+      });
+      const newTotalDone = Object.keys(getSectionFilt).filter(keySkip => getSectionFilt[keySkip] === true);
+      const total = Object.keys(Questions).length;
+
+      setAccordion({...getAccordion});
+
+      setSectionProgress({
+        percComplete: Math.ceil((newTotalDone.length * 100) / total),
+        section: getSectionFilt,
+        sectionComplete: getSectionDone,
+        total,
+        totalComplete: newTotalDone.length,
+        totalUncomplete: total - newTotalDone.length,
+      });
+    }
+  };
+
+  const handleSkipSection = async (key) => {
     const id = get(match, 'params.propId', null);
     const newSkipSection = skipSection;
     newSkipSection[key] = !newSkipSection[key];
     setSkipSection({...newSkipSection});
-    const newTotal = Object.keys(newSkipSection).filter(keySkip => newSkipSection[keySkip] === false);
-    const { totalComplete, section } = sectionProgress;
     setSectionProgress({
-      percComplete: Math.ceil((totalComplete * 100) / newTotal.length),
-      section: section,
-      total: newTotal.length,
-      totalComplete,
-      totalUncomplete: newTotal.length - totalComplete,
+      ...sectionProgress,
+      section: newSkipSection,
     });
-    handleSaveProperty({id, skipFacts: newSkipSection});
+    await handleSaveProperty({id, skipFacts: newSkipSection});
   };
 
   const checkQuestionGroup = (quest, skipped) => {
-    if (sectionProgress.section[quest.history]) {
+    if (sectionProgress && sectionProgress.sectionComplete && sectionProgress.sectionComplete[quest.history]) {
       return (
         <div>
           <BrixelIcon
@@ -131,28 +163,12 @@ const InputSheet = (props) => {
   };
 
   useEffect(() => {
-    let checkSection = {};
-    Questions.map((quest) => {
-      let validSection = true;
-      quest.inputs.map((inp) => {
-        if (inp.validation && inp.validation[0] && validSection) {
-          const curVal = get(formValue, inp.name, true);
-          if (isEmptyWithBool(curVal)) validSection = false;
-        }
-      });
-      checkSection[quest.history] = validSection;
-    });
+    getCalcSectionDone();
+  }, [initialValues]);
 
-    const complete = Object.keys(checkSection).filter((val) => checkSection[val] === true).length;
-    const totalSec = Object.keys(checkSection).length;
-    const total = setSectionProgress.total || totalSec;
-    setSectionProgress({
-      percComplete: Math.ceil((complete * 100) / total),
-      section: checkSection,
-      total,
-      totalComplete: complete,
-      totalUncomplete: total - complete,
-    });
+  useEffect(() => {
+    let checkSection = {};
+    getCalcSectionDone();
 
     // SET THE FIRST TIME THE ACCORDION
     if (Object.keys(accordion).length === 0 && formValue.id) {
@@ -232,7 +248,11 @@ const InputSheet = (props) => {
       <div className="container dis-fl-col">
         <div className="progressInfo dis-f a-c my-3 jc-b">
           <h6>All tasks</h6>
-          <span className="txtPrimary700">{sectionProgress.percComplete} %</span>
+          {
+            sectionProgress && (
+              <span className="txtPrimary700">{sectionProgress.percComplete} %</span>
+            )
+          }
         </div>
 
         {

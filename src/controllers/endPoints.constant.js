@@ -18,6 +18,14 @@ export default {
   company: {
     getCompanyByStub: (stub) => `/company/company-by-stub/${stub}`,
   },
+  gamification: {
+    group: () => '/gameGroup',
+    groupdById: (id) => `/gameGroup/${id}`,
+    groupList: (limit, offset) => `/gameGroup/${limit}/${offset}?order=name&direction=desc`,
+    gameAchievement: () => '/gameAchievement',
+    gameAchievementById: (id) => `/gameAchievement/${id}`,
+    gameAchievementList: (limit, offset) => `/gameAchievement/${limit}/${offset}?order=name&direction=desc`,
+  },
   property: {
     addPage: () => `/page/`,
     pageById: (id) => `/page/${id}`,
