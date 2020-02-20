@@ -186,9 +186,11 @@ const App = (props) => {
           </>
         )
       }
+
+      { /* SECTION: SIDEBAR */ }
       <div className="zIndex3">
         <Switch>
-          {/* Onboarding user */}
+          {/* SECTION: DOCUMENTS */}
           <Route path="/home/:id?/documents" component={Documents} />
         </Switch>
       </div>
