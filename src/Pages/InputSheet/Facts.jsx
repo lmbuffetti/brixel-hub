@@ -25,6 +25,7 @@ import { InputSheets } from '../../resources/inputSheets';
 import Loading from '../../components/Loading';
 // import { getActiveSingleUser } from '../../actions/UserActions';
 import { updateProperty, getProperty } from '../../actions/PropertyActions';
+import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
@@ -66,28 +67,25 @@ const InputSheet = (props) => {
   };
 
   const handleSkipSection = (key) => {
+    const id = get(match, 'params.propId', null);
     const newSkipSection = skipSection;
     newSkipSection[key] = !newSkipSection[key];
     setSkipSection({...newSkipSection});
     const newTotal = Object.keys(newSkipSection).filter(keySkip => newSkipSection[keySkip] === false);
-    const { totalComplete, checkSection } = sectionProgress;
+    const { totalComplete, section } = sectionProgress;
+    console.log(totalComplete, section);
     setSectionProgress({
       percComplete: Math.ceil((totalComplete * 100) / newTotal.length),
-      section: checkSection,
+      section: section,
       total: newTotal.length,
       totalComplete,
       totalUncomplete: newTotal.length - totalComplete,
     });
+    handleSaveProperty({id, skipFacts: newSkipSection});
   };
 
   const checkQuestionGroup = (quest, skipped) => {
-    let completedSection = true;
-    quest.inputs.map((inp) => {
-      const curVal = get(errorValue, inp.name, true);
-      if (curVal !== true) completedSection = false;
-      return null;
-    });
-    if (completedSection) {
+    if (sectionProgress.section[quest.history]) {
       return (
         <div>
           <BrixelIcon
@@ -111,7 +109,7 @@ const InputSheet = (props) => {
             rounded
             bgTransparent={skipped[quest.history]}
             background={skipped[quest.history] ? 'primary' : ''}
-            saturation={skipped[quest.history] ? '300' : ''}
+            saturation={skipped[quest.history] ? 300 : 0}
             noBorder={skipped[quest.history]}
             color={skipped[quest.history] ? "white" : "dark"}
             saturationTxt={skipped[quest.history] ? 0 : 400}
@@ -132,6 +130,51 @@ const InputSheet = (props) => {
   const closeNotificationBar = () => {
     setNotification({ state: false });
   };
+
+  useEffect(() => {
+    let checkSection = {};
+    Questions.map((quest) => {
+      let validSection = true;
+      quest.inputs.map((inp) => {
+        if (inp.validation && inp.validation[0] && validSection) {
+          const curVal = get(formValue, inp.name, true);
+          if (isEmptyWithBool(curVal)) validSection = false;
+        }
+      });
+      checkSection[quest.history] = validSection;
+    });
+
+    const complete = Object.keys(checkSection).filter((val) => checkSection[val] === true).length;
+    const totalSec = Object.keys(checkSection).length;
+    const total = setSectionProgress.total || totalSec;
+    setSectionProgress({
+      percComplete: Math.ceil((complete * 100) / total),
+      section: checkSection,
+      total,
+      totalComplete: complete,
+      totalUncomplete: total - complete,
+    });
+
+    // SET THE FIRST TIME THE ACCORDION
+    if (Object.keys(accordion).length === 0 && formValue.id) {
+      const defAccordion = {};
+      const defSkipSection = cloneDeep(initialValues.skipFacts || {});
+      Questions.map((quest) => {
+        if (defSkipSection[quest.history]) {
+          defAccordion[quest.history] = false;
+        } else {
+          defAccordion[quest.history] = defSkipSection[quest.history] || !checkSection[quest.history];
+        }
+        defSkipSection[quest.history] = defSkipSection[quest.history] || false;
+      });
+      console.log(defAccordion);
+      setAccordion(defAccordion);
+      setSkipSection(defSkipSection);
+    }
+
+
+  }, [formValue]);
+
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
@@ -168,39 +211,6 @@ const InputSheet = (props) => {
     } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'info') {
       setNotification({ state: false });
     }
-    // CALC SECTIONS COMPLETED
-    let checkSection = {};
-    Questions.map((quest) => {
-      let completedSection = true;
-      quest.inputs.map((inp) => {
-        const curVal = get(errorValue, inp.name, true);
-        if (curVal !== true) completedSection = false;
-        return null;
-      });
-      checkSection[quest.history] = completedSection;
-    });
-    const complete = Object.keys(checkSection).filter((val) => checkSection[val] === true).length;
-    const totalSec = Object.keys(checkSection).length;
-    const total = setSectionProgress.total || totalSec;
-    setSectionProgress({
-      percComplete: Math.ceil((complete * 100) / total),
-      section: checkSection,
-      total,
-      totalComplete: complete,
-      totalUncomplete: total - complete,
-    });
-
-    // SET THE FIRST TIME THE ACCORDION
-    if (Object.keys(accordion).length === 0 && formValue.id && Object.keys(errorValue).length > 0) {
-      const defAccordion = {};
-      const defSkipSection = cloneDeep(initialValues.skipSection || {});
-      Questions.map((quest) => {
-        defAccordion[quest.history] = !checkSection[quest.history];
-        defSkipSection[quest.history] = defSkipSection[quest.history] || false;
-      });
-      setAccordion(defAccordion);
-      setSkipSection(defSkipSection);
-    }
   }, [errorValue]);
 
   if (!formValue.id) {
@@ -233,13 +243,19 @@ const InputSheet = (props) => {
               <div className="dis-f a-c jc-b">
                 <div className="dis-f a-c">
                   {checkQuestionGroup(quest, skipSection)}
-                  <h4 className="ml-2 txtDark200 body2" onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}>{quest.title}</h4>
+                  <h4
+                    className="ml-2 txtDark200 body2 cur-poi"
+                    onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
+                  >
+                    {quest.title}
+                  </h4>
                 </div>
                 <BrixelIcon
                   icon={accordion[quest.history] ? "arrow-simple-up" : "arrow-simple-down"}
                   color="dark"
                   saturationTxt={700}
                   iconSize="small"
+                  onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
                 />
               </div>
               <div key={i.toString()} className={`accrodionList ${accordion[quest.history] ? 'openAccordion' : 'closedAccordion'}`}>
@@ -247,7 +263,7 @@ const InputSheet = (props) => {
                   quest.inputs.map((input, f) => (
                     <div key={f.toString()}>
                       {
-                        checkCondition(input) && (
+                        checkCondition(input) && (typeof accordion[quest.history] === 'undefined' || accordion[quest.history]) && (
                           <div key={f.toString()}>
                             {
                               input.type === 'Map' ? (
