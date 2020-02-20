@@ -17,4 +17,17 @@
       }
     }
   }
+
+  .property-info-container {
+    background-color: map-get($lightColor, 100);
+
+    .areas {
+
+      .docubox,
+      .showings {
+        cursor: pointer;
+        @include border('Dark', 200);
+      }
+    }
+  }
 }

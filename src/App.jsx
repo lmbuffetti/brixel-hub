@@ -138,8 +138,8 @@ const App = (props) => {
         <ProtectedRoute path="/:propId/inputSheet" exact component={InputSheet} />
         <ProtectedRoute path="/:action/:propId?" exact component={Dashboard} />
         { /* SECTION: REDIRECT */ }
-        <Redirect from="/" to="/home" exact component={Dashboard} />
-        <Redirect from="*" to="/onBoarding" />
+        {/* <Redirect from="/" to="/home" exact component={Dashboard} />
+        <Redirect from="*" to="/onBoarding" /> */}
       </Switch>
 
       { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
