@@ -5,15 +5,18 @@ import {
 } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { getProperties } from '../../actions/PropertyActions';
+import { getAchievement, getGamegroup } from '../../actions/GamificationActions';
 
 const HomeDashboard = (props) => {
   // PROPS
   const {
-    handleGetProperties,
-    history,
+    handleGetGameAchievement,
+    handleGetGameGroup,
   } = props;
+
   useEffect(() => {
+    handleGetGameAchievement();
+    handleGetGameGroup();
   }, []);
 
 
@@ -25,7 +28,8 @@ const HomeDashboard = (props) => {
 };
 
 HomeDashboard.propTypes = {
-  handleGetProperties: PropTypes.func.isRequired,
+  handleGetGameAchievement: PropTypes.func.isRequired,
+  handleGetGameGroup: PropTypes.func.isRequired,
 };
 
 HomeDashboard.defaultProps = {
@@ -36,7 +40,8 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetProperties: bindActionCreators(getProperties, dispatch),
+  handleGetGameAchievement: bindActionCreators(getAchievement, dispatch),
+  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
 });
 
 export default compose(

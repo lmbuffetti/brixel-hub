@@ -66,25 +66,48 @@ const InputSheet = (props) => {
     handleSaveProperty(data);
   };
 
+  const getCalcSectionDone = () => {
+    const getSectionFilt = cloneDeep(sectionProgress.section || initialValues.skipFacts);
+    const getSectionDone = cloneDeep(sectionProgress.section || initialValues.skipFacts);
+    console.log(getSectionFilt);
+    if (getSectionFilt) {
+      Questions.map((quest) => {
+        let doneSection = true;
+        quest.inputs.map((inp) => {
+          if (inp.validation && inp.validation[0]) {
+            const curVal = get(formValue, inp.name, true);
+            if (isEmptyWithBool(curVal)) doneSection = false;
+          }
+        });
+        getSectionFilt[quest.history] = getSectionFilt[quest.history] ? getSectionFilt[quest.history] : doneSection;
+        getSectionDone[quest.history] = doneSection;
+      });
+      console.log(getSectionFilt);
+      const newTotalDone = Object.keys(getSectionFilt).filter(keySkip => getSectionFilt[keySkip] === true);
+      const total = Object.keys(Questions).length;
+      console.log(total, newTotalDone, getSectionDone);
+      setSectionProgress({
+        percComplete: Math.ceil((newTotalDone.length * 100) / total),
+        section: getSectionFilt,
+        sectionComplete: getSectionDone,
+        total,
+        totalComplete: newTotalDone.length,
+        totalUncomplete: total - newTotalDone.length,
+      });
+    }
+  };
+
   const handleSkipSection = (key) => {
     const id = get(match, 'params.propId', null);
     const newSkipSection = skipSection;
     newSkipSection[key] = !newSkipSection[key];
     setSkipSection({...newSkipSection});
-    const newTotal = Object.keys(newSkipSection).filter(keySkip => newSkipSection[keySkip] === false);
-    const { totalComplete, section } = sectionProgress;
-    setSectionProgress({
-      percComplete: Math.ceil((totalComplete * 100) / newTotal.length),
-      section: section,
-      total: newTotal.length,
-      totalComplete,
-      totalUncomplete: newTotal.length - totalComplete,
-    });
+    getCalcSectionDone();
     handleSaveProperty({id, skipFacts: newSkipSection});
   };
 
   const checkQuestionGroup = (quest, skipped) => {
-    if (sectionProgress.section[quest.history]) {
+    if (sectionProgress && sectionProgress.sectionComplete && sectionProgress.sectionComplete[quest.history]) {
       return (
         <div>
           <BrixelIcon
@@ -131,28 +154,31 @@ const InputSheet = (props) => {
   };
 
   useEffect(() => {
-    let checkSection = {};
-    Questions.map((quest) => {
-      let validSection = true;
-      quest.inputs.map((inp) => {
-        if (inp.validation && inp.validation[0] && validSection) {
-          const curVal = get(formValue, inp.name, true);
-          if (isEmptyWithBool(curVal)) validSection = false;
-        }
-      });
-      checkSection[quest.history] = validSection;
-    });
+    getCalcSectionDone();
 
-    const complete = Object.keys(checkSection).filter((val) => checkSection[val] === true).length;
-    const totalSec = Object.keys(checkSection).length;
-    const total = setSectionProgress.total || totalSec;
-    setSectionProgress({
-      percComplete: Math.ceil((complete * 100) / total),
-      section: checkSection,
-      total,
-      totalComplete: complete,
-      totalUncomplete: total - complete,
-    });
+    let checkSection = {};
+    // SET THE FIRST TIME THE ACCORDION
+    if (Object.keys(accordion).length === 0 && formValue.id) {
+      const defAccordion = {};
+      const defSkipSection = cloneDeep(initialValues.skipFacts || {});
+      Questions.map((quest) => {
+        if (defSkipSection[quest.history]) {
+          defAccordion[quest.history] = false;
+        } else {
+          defAccordion[quest.history] = defSkipSection[quest.history] || !checkSection[quest.history];
+        }
+        defSkipSection[quest.history] = defSkipSection[quest.history] || false;
+      });
+      setAccordion(defAccordion);
+      setSkipSection(defSkipSection);
+    }
+
+
+  }, [initialValues]);
+
+  useEffect(() => {
+    let checkSection = {};
+    getCalcSectionDone();
 
     // SET THE FIRST TIME THE ACCORDION
     if (Object.keys(accordion).length === 0 && formValue.id) {
@@ -232,7 +258,11 @@ const InputSheet = (props) => {
       <div className="container dis-fl-col">
         <div className="progressInfo dis-f a-c my-3 jc-b">
           <h6>All tasks</h6>
-          <span className="txtPrimary700">{sectionProgress.percComplete} %</span>
+          {
+            sectionProgress && (
+              <span className="txtPrimary700">{sectionProgress.percComplete} %</span>
+            )
+          }
         </div>
 
         {
@@ -256,7 +286,7 @@ const InputSheet = (props) => {
                   onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
                 />
               </div>
-              <div key={i.toString()} className={`accrodionList ${accordion[quest.history] ? 'openAccordion' : 'closedAccordion'}`}>
+              <div key={i.toString()} className={`accrodionList ${accordion[quest.history] ? 'closedAccordion sopenAccordion' : 'closedAccordion'}`}>
                 {
                   quest.inputs.map((input, f) => (
                     <div key={f.toString()}>

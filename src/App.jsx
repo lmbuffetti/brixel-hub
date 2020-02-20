@@ -136,7 +136,7 @@ const App = (props) => {
 
         { /* SECTION: HUB DASHBOARD */ }
         <ProtectedRoute path="/:propId/inputSheet" exact component={InputSheet} />
-        <ProtectedRoute path="/:action/:id?" exact component={Dashboard} />
+        <ProtectedRoute path="/:action/:propId?" exact component={Dashboard} />
         { /* SECTION: REDIRECT */ }
         <Redirect from="/" to="/home" exact component={Dashboard} />
         <Redirect from="*" to="/onBoarding" />
@@ -191,7 +191,7 @@ const App = (props) => {
       <div className="zIndex3">
         <Switch>
           {/* SECTION: DOCUMENTS */}
-          <Route path="/home/:id?/documents" component={Documents} />
+          <Route path="/home/:propId?/documents" component={Documents} />
         </Switch>
       </div>
     </>
