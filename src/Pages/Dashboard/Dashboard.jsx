@@ -98,7 +98,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetProperties: bindActionCreators(getProperties, dispatch),
-  handleGetUserProperty: bindActionCreators(getProperty, dispatch),
+  handleGetProperty: bindActionCreators(getProperty, dispatch),
 });
 
 export default compose(
