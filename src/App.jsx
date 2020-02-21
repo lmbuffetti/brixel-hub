@@ -1,7 +1,7 @@
 /* global ga */
 import React, { useEffect } from 'react';
 import {
-  Redirect, Switch, Route, withRouter,
+  Switch, Route, withRouter,
 } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import get from 'lodash/get';
@@ -82,7 +82,6 @@ const App = (props) => {
   const {
     history,
     handleCheckToken,
-    handleSetLanguages,
     handleSetModal,
     isLoading,
     loggedUser,

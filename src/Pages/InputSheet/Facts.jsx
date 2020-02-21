@@ -40,6 +40,7 @@ const InputSheet = (props) => {
   // STATE
   const [Questions, setQuestions] = useState([]);
   const [accordion, setAccordion] = useState({});
+  const [accordionAnimatad, setAccordionAnimatad] = useState({});
   const [skipSection, setSkipSection] = useState(get(initialValues, 'inputSheet.skipSection', {}));
   const [sectionProgress, setSectionProgress] = useState({});
 
@@ -53,6 +54,7 @@ const InputSheet = (props) => {
     setQuestions(InputSheets('en'));
   }, []);
 
+  // FUNCTION ON CLICK TO ENABLE/DISABLE QUESTION GROUP
   const handleSkipSection = async (key) => {
     const id = get(match, 'params.propId', null);
     const newSkipSection = skipSection;
@@ -65,14 +67,15 @@ const InputSheet = (props) => {
 
     const data = {
       skipSection: newSkipSection,
-      totalComplete: getCalcSectionInputSheets(Questions, initialValues, accordion, 'getPercentage', newSkipSection),
+      totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion, 'getPercentage', newSkipSection),
     };
-    const getData = getCalcSectionInputSheets(Questions, initialValues, accordion, null, newSkipSection);
+    const getData = getCalcSectionInputSheets(Questions, formValue, accordion, null, newSkipSection);
     setSectionProgress({...getData.accordion});
     setSectionProgress({...getData.section});
     await handleSaveProperty({id, inputSheet: data});
   };
 
+  // FUNCTION TO LOAD DIFFERENT CHACKMAR IF GROUP IS COMPLETE, UNCOMPLETE, DISABLE
   const checkQuestionGroup = (quest, skipped) => {
     if (sectionProgress && sectionProgress.sectionComplete && sectionProgress.sectionComplete[quest.history]) {
       return (
@@ -129,7 +132,7 @@ const InputSheet = (props) => {
     // diff(initialValues, formValue)
     const dataInputSheet = {
       skipSection: skipSection,
-      totalComplete: getCalcSectionInputSheets(Questions, initialValues, accordion,'getPercentage', null),
+      totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion,'getPercentage', null),
     };
 
     await handleSaveProperty({id: propID, inputSheet: dataInputSheet});
@@ -138,34 +141,14 @@ const InputSheet = (props) => {
 
   useEffect(() => {
     //
-    if (initialValues.inputSheet && Object.keys(skipSection).length === 0) {
-      const getData = getCalcSectionInputSheets(Questions, initialValues, accordion,null, null);
-      setSectionProgress({...getData.accordion});
+    if (formValue.id) {
+      const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
+      setAccordion({...getData.accordion});
+      setAccordionAnimatad({...getData.accordion});
       setSectionProgress({...getData.section});
       setSkipSection(initialValues.inputSheet.skipSection);
     }
   }, [initialValues]);
-
-  useEffect(() => {
-    let checkSection = {};
-
-    // SET THE FIRST TIME THE ACCORDION
-    if (Object.keys(accordion).length === 0 && formValue.id) {
-      const defAccordion = {};
-      const defSkipSection = cloneDeep(initialValues.inputSheet || {});
-      Questions.map((quest) => {
-        if (defSkipSection[quest.history]) {
-          defAccordion[quest.history] = false;
-        } else {
-          defAccordion[quest.history] = defSkipSection[quest.history] || !checkSection[quest.history];
-        }
-        defSkipSection[quest.history] = defSkipSection[quest.history] || false;
-        return null;
-      });
-      setAccordion(defAccordion);
-      setSkipSection(defSkipSection);
-    }
-  }, [formValue]);
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
@@ -226,6 +209,13 @@ const InputSheet = (props) => {
     setSectionProgress({...getData.section});
   };
 
+  const toggleAccordion = (quest) => {
+    setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] });
+    setAccordionAnimatad({ ...accordion, [quest.history]: true });
+
+    setTimeout(() => setAccordionAnimatad({ ...accordionAnimatad, [quest.history]: !accordion[quest.history] }), 1000, );
+  };
+
   return (
     <>
       <div className="container dis-fl-col">
@@ -246,7 +236,7 @@ const InputSheet = (props) => {
                   {checkQuestionGroup(quest, skipSection)}
                   <h4
                     className="ml-2 txtDark200 body2 cur-poi"
-                    onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
+                    onClick={() => toggleAccordion(quest)}
                   >
                     {quest.title}
                   </h4>
@@ -256,7 +246,7 @@ const InputSheet = (props) => {
                   color="dark"
                   saturationTxt={700}
                   iconSize="small"
-                  onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
+                  onClick={() => toggleAccordion(quest)}
                 />
               </div>
               <div key={i.toString()} className={`accrodionList ${accordion[quest.history] ? 'openAccordion' : 'closedAccordion'}`}>
@@ -264,7 +254,7 @@ const InputSheet = (props) => {
                   quest.inputs.map((input, f) => (
                     <div key={f.toString()}>
                       {
-                        checkCondition(input) && (typeof accordion[quest.history] === 'undefined' || accordion[quest.history]) && (
+                        checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
                           <div key={f.toString()}>
                             {
                               input.type === 'Map' ? (

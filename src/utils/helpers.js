@@ -284,8 +284,7 @@ export const setCookie = (key, val) => {
 };
 
 export const getCalcSectionInputSheets = (Questions, initialValues, accordion, act, fixSection) => {
-  console.log(initialValues);
-  const getSkippedSection = fixSection || get(initialValues, 'inputSheet.skipSection', {});
+  const getSkippedSection = fixSection || get(initialValues, 'inputSheetsdsadas', {});
   const getSectionFilt = {};
   const getSectionDone = {};
   const getAccordion = accordion || {};
@@ -321,6 +320,7 @@ export const getCalcSectionInputSheets = (Questions, initialValues, accordion, a
 
     return ({
       accordion: getAccordion,
+      accordionAnimated: getAccordion,
       section: {
         allSection: true,
         percComplete: Math.ceil((newTotalDone.length * 100) / total),

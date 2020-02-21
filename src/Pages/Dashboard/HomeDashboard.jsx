@@ -45,7 +45,7 @@ const HomeDashboard = (props) => {
   if (!property.id && !userType) {
     return <Loading />
   }
-  if (usrGroups) console.log(GameGroupConfig, usrGroups);
+
   return (
     <div className="container">
       <h3>Home of</h3>
