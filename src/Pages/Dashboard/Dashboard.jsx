@@ -52,7 +52,7 @@ const Dashboard = (props) => {
     if (typeof window !== 'undefined') {
 
     }
-  }, [window])
+  }, [window]);
 
   useEffect(() => {
     if (propID) {
@@ -93,7 +93,7 @@ const Dashboard = (props) => {
         labels={['Home', 'Property', 'Support']}
         clicksList={['home', 'property', 'support']}
         labelsIcons={['star', 'star', 'star']}
-        classNameArray={['order-md-2', 'order-md-1', 'order-md-3']}
+        classNameArray={['order-md-2 homeTab', 'order-md-1 propertyTab', 'order-md-3 supportTab']}
         activeTab={checkActiveTab}
         fullWidth
         onClick={(val) => history.push(val)}

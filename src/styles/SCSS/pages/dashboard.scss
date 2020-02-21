@@ -46,4 +46,15 @@
       }
     }
   }
+
+}
+
+@media (min-width: $responsive-medium) {
+  .homeTab, .propertyTab {
+    flex: 0 0 45% !important;
+  }
+
+  .supportTab {
+    flex: 0 0 10% !important;
+  }
 }
