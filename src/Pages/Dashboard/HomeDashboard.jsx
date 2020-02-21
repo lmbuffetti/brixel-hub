@@ -5,10 +5,9 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelButtonBox } from '@brixel/brixel-components';
-import { getAchievement, getGamegroup } from '../../actions/GamificationActions';
+import { getAchievement, getGamegroup, getGameHistory } from '../../actions/GamificationActions';
 import Loading from '../../components/Loading';
 import { GameGroupConfig } from '../../constants/global';
-import { ga } from 'react-ga';
 
 const HomeDashboard = (props) => {
   // PROPS
@@ -16,6 +15,7 @@ const HomeDashboard = (props) => {
     gameGroup,
     handleGetGameAchievement,
     handleGetGameGroup,
+    handleGetGameHistory,
     loggedUser,
     property,
   } = props;
@@ -26,6 +26,7 @@ const HomeDashboard = (props) => {
   useEffect(() => {
     handleGetGameAchievement();
     handleGetGameGroup();
+    handleGetGameHistory();
   }, []);
 
   useEffect(() => {
@@ -94,6 +95,7 @@ HomeDashboard.propTypes = {
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   handleGetGameAchievement: PropTypes.func.isRequired,
   handleGetGameGroup: PropTypes.func.isRequired,
+  handleGetGameHistory: PropTypes.func.isRequired,
   loggedUser: PropTypes.object.isRequired,
 };
 
@@ -110,6 +112,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetGameAchievement: bindActionCreators(getAchievement, dispatch),
   handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
+  handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
 });
 
 export default compose(
