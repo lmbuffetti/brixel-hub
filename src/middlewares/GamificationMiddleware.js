@@ -13,7 +13,6 @@ const checkGamification = (store) => (next) => (action) => {
       next(action);
       api.gamification.getGameAchievementList(20, 0)
         .then((res) => {
-          console.log(res.data);
           store.dispatch({ type: SET_ACHIEVEMENT, payload: res.data });
         });
       break;
@@ -22,7 +21,6 @@ const checkGamification = (store) => (next) => (action) => {
       next(action);
       api.gamification.getGroupList(20, 0)
         .then((res) => {
-          console.log(res.data);
           store.dispatch({ type: SET_GAMEGROUP, payload: res.data });
         });
       break;

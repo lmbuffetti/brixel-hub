@@ -1,33 +1,24 @@
-import Cookies from 'universal-cookie';
-import queryString from 'query-string';
 import {
   CHECK_TOKEN,
   CREATE_USER,
-  DO_LOGOUT,
   GET_TOKEN,
-  RECOVER_PASSWORD,
   SET_USER,
   UPDATE_USER,
   VALIDATE_USER,
 } from '../actions/types/UserTypes';
 
 import {
-  REQUEST_DONE,
   SPINNER_ON,
   SPINNER_OFF,
-  ERROR_MESSAGE,
   SET_NOTIFICATION,
   SET_PAGE_DATA, REDIRECT_TO,
 } from '../actions/types/CommonTypes';
 
+import { ADD_PROPERTY } from '../actions/types/PropertyTypes';
+
 import api from '../controllers/api/config';
 
 import { setCookie } from '../utils/helpers';
-
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings'
-import { ADD_PROPERTY } from '../actions/types/PropertyTypes';
-
-const cookies = new Cookies();
 
 const checkUser = (store) => (next) => (action) => {
   switch (action.type) {
@@ -39,7 +30,7 @@ const checkUser = (store) => (next) => (action) => {
           store.dispatch({ type: SET_USER, payload: response.data });
           store.dispatch({ type: SPINNER_OFF });
         })
-        .catch((res) => {
+        .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
@@ -75,7 +66,7 @@ const checkUser = (store) => (next) => (action) => {
           }
           store.dispatch({ type: SPINNER_OFF });
         })
-        .catch((res) => {
+        .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
@@ -88,12 +79,11 @@ const checkUser = (store) => (next) => (action) => {
       const { redirectTo } = action.payload.user;
       delete action.payload.user;
       delete action.payload.addProperty;
-      // delete action.payload.user.redirectTo;
       api.user.createUser(data)
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
             setCookie('brixelToken', res.data.token);
-            let userData = res.data;
+            let userData;
             if (res.data.user) userData = res.data;
             else {
               userData = {};
@@ -111,7 +101,7 @@ const checkUser = (store) => (next) => (action) => {
             store.dispatch({ type: SPINNER_OFF });
           }
         })
-        .catch((res) => {
+        .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
@@ -124,16 +114,16 @@ const checkUser = (store) => (next) => (action) => {
       delete action.payload.id;
       delete action.payload.sendEmail;
       api.user.updateUser(id, action.payload)
-        .then((res) => {
+        .then(() => {
           store.dispatch({ type: SPINNER_OFF });
           if (sendEmail) {
             api.common.sendGenericMessage(sendEmail)
-              .then((res) => {
+              .then(() => {
                 // console.log(res.data);
               })
           }
         })
-        .catch((res) => {
+        .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
@@ -160,7 +150,7 @@ const checkUser = (store) => (next) => (action) => {
           }
           store.dispatch({ type: SPINNER_OFF });
         })
-        .catch((res) => {
+        .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;

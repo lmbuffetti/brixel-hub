@@ -8,7 +8,7 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import {
-  BrixelButtonIcon, BrixelIcon,
+  BrixelIcon,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -17,16 +17,13 @@ import {
   setModal, setNotification,
 } from '../../actions/CommonActions';
 import LoadingSimple from '../../components/LoadingSimple';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { InputSheets } from '../../resources/inputSheets';
-import { CSSTransitionGroup } from 'react-transition-group';
+import { getCalcSectionInputSheets } from '../../utils/helpers';
 
 // COMPONENTS
 import Loading from '../../components/Loading';
-// import { getActiveSingleUser } from '../../actions/UserActions';
 import { updateProperty, getProperty } from '../../actions/PropertyActions';
-import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
@@ -35,7 +32,7 @@ const Maps = Loadable({
 
 const InputSheet = (props) => {
   const {
-    errorValue, match, history, formValue, handleSaveProperty, reset,
+    errorValue, match, formValue, handleSaveProperty, reset,
     initialValues, setUserActiveProperty,
     handleSetModal, notification, setNotification,
   } = props;
@@ -43,7 +40,8 @@ const InputSheet = (props) => {
   // STATE
   const [Questions, setQuestions] = useState([]);
   const [accordion, setAccordion] = useState({});
-  const [skipSection, setSkipSection] = useState({});
+  const [accordionAnimatad, setAccordionAnimatad] = useState({});
+  const [skipSection, setSkipSection] = useState(get(initialValues, 'inputSheet.skipSection', {}));
   const [sectionProgress, setSectionProgress] = useState({});
 
   const propID = get(match, 'params.propID', null);
@@ -51,66 +49,12 @@ const InputSheet = (props) => {
   useEffect(() => {
     const id = get(match, 'params.propId', null);
     if (id) {
-      setUserActiveProperty({id})
+      setUserActiveProperty({ id })
     }
     setQuestions(InputSheets('en'));
   }, []);
 
-  const saveData = () => {
-    const data = {
-      id: propID,
-      data: formValue,
-    };
-    // For now we still dont use the diff object (TODO: API ticket)
-    // diff(initialValues, formValue)
-
-    handleSaveProperty(data);
-  };
-
-  const getCalcSectionDone = () => {
-    const getSectionFilt = cloneDeep(sectionProgress.section || initialValues.skipFacts || {});
-    const getSectionDone = cloneDeep(sectionProgress.section || initialValues.skipFacts || {});
-    const getAccordion = accordion || {};
-    if (initialValues.id) {
-      Questions.map((quest) => {
-        let doneSection = true;
-        let curAccordion = false;
-        quest.inputs.map((inp) => {
-          if (inp.validation && inp.validation[0]) {
-            const curVal = get(formValue, inp.name, null);
-            if (isEmptyWithBool(curVal)) {
-              doneSection = false;
-              curAccordion = true;
-            }
-          }
-        });
-        getSectionFilt[quest.history] = getSectionFilt[quest.history] ? getSectionFilt[quest.history] : doneSection;
-        getSectionDone[quest.history] = doneSection;
-        if (accordion[quest.history]) {
-          console.log('mmm')
-          getAccordion[quest.history] = accordion[quest.history];
-        }
-        else {
-          console.log('nnn', getSectionDone[quest.history]);
-          getAccordion[quest.history] = getSectionDone[quest.history] ? false : curAccordion;
-        }
-      });
-      const newTotalDone = Object.keys(getSectionFilt).filter(keySkip => getSectionFilt[keySkip] === true);
-      const total = Object.keys(Questions).length;
-
-      setAccordion({...getAccordion});
-      console.log(getSectionFilt);
-      setSectionProgress({
-        percComplete: Math.ceil((newTotalDone.length * 100) / total),
-        section: getSectionFilt,
-        sectionComplete: getSectionDone,
-        total,
-        totalComplete: newTotalDone.length,
-        totalUncomplete: total - newTotalDone.length,
-      });
-    }
-  };
-
+  // FUNCTION ON CLICK TO ENABLE/DISABLE QUESTION GROUP
   const handleSkipSection = async (key) => {
     const id = get(match, 'params.propId', null);
     const newSkipSection = skipSection;
@@ -120,9 +64,18 @@ const InputSheet = (props) => {
       ...sectionProgress,
       section: newSkipSection,
     });
-    await handleSaveProperty({id, skipFacts: newSkipSection});
+
+    const data = {
+      skipSection: newSkipSection,
+      totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion, 'getPercentage', newSkipSection),
+    };
+    const getData = getCalcSectionInputSheets(Questions, formValue, accordion, null, newSkipSection);
+    setSectionProgress({...getData.accordion});
+    setSectionProgress({...getData.section});
+    await handleSaveProperty({id, inputSheet: data});
   };
 
+  // FUNCTION TO LOAD DIFFERENT CHACKMAR IF GROUP IS COMPLETE, UNCOMPLETE, DISABLE
   const checkQuestionGroup = (quest, skipped) => {
     if (sectionProgress && sectionProgress.sectionComplete && sectionProgress.sectionComplete[quest.history]) {
       return (
@@ -170,33 +123,32 @@ const InputSheet = (props) => {
     setNotification({ state: false });
   };
 
-  useEffect(() => {
-    getCalcSectionDone();
-  }, [initialValues]);
+  const saveData = async () => {
+    const data = {
+      id: propID,
+      data: formValue,
+    };
+    // For now we still dont use the diff object (TODO: API ticket)
+    // diff(initialValues, formValue)
+    const dataInputSheet = {
+      skipSection: skipSection,
+      totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion,'getPercentage', null),
+    };
+
+    await handleSaveProperty({id: propID, inputSheet: dataInputSheet});
+    await handleSaveProperty(data);
+  };
 
   useEffect(() => {
-    let checkSection = {};
-    getCalcSectionDone();
-
-    // SET THE FIRST TIME THE ACCORDION
-    if (Object.keys(accordion).length === 0 && formValue.id) {
-      const defAccordion = {};
-      const defSkipSection = cloneDeep(initialValues.skipFacts || {});
-      Questions.map((quest) => {
-        if (defSkipSection[quest.history]) {
-          defAccordion[quest.history] = false;
-        } else {
-          defAccordion[quest.history] = defSkipSection[quest.history] || !checkSection[quest.history];
-        }
-        defSkipSection[quest.history] = defSkipSection[quest.history] || false;
-      });
-      setAccordion(defAccordion);
-      setSkipSection(defSkipSection);
+    //
+    if (formValue.id) {
+      const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
+      setAccordion({...getData.accordion});
+      setAccordionAnimatad({...getData.accordion});
+      setSectionProgress({...getData.section});
+      setSkipSection(initialValues.inputSheet.skipSection);
     }
-
-
-  }, [formValue]);
-
+  }, [initialValues]);
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
@@ -250,7 +202,20 @@ const InputSheet = (props) => {
     }
     return isToShow;
   };
-  console.log(sectionProgress, accordion);
+
+  const getCalcPerc = () => {
+    const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
+    setSectionProgress({...getData.accordion});
+    setSectionProgress({...getData.section});
+  };
+
+  const toggleAccordion = (quest) => {
+    setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] });
+    setAccordionAnimatad({ ...accordion, [quest.history]: true });
+
+    setTimeout(() => setAccordionAnimatad({ ...accordionAnimatad, [quest.history]: !accordion[quest.history] }), 1000, );
+  };
+
   return (
     <>
       <div className="container dis-fl-col">
@@ -283,6 +248,7 @@ const InputSheet = (props) => {
                   />
                   <h4
                     className={`body ml-1 ${accordion[quest.history] ? "txtDark400" : "txtDark200"}`}
+                    onClick={() => toggleAccordion(quest)}
                   >
                     {quest.title}
                   </h4>
@@ -294,8 +260,8 @@ const InputSheet = (props) => {
                   quest.inputs.map((input, f) => (
                     <div className="contentWrap1" key={f.toString()}>
                       {
-                        checkCondition(input) && (typeof accordion[quest.history] === 'undefined' || accordion[quest.history]) && (
-                          <div className="contentWrap2" key={f.toString()}>
+                        checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
+                          <div key={f.toString()}>
                             {
                               input.type === 'Map' ? (
                                 <>
@@ -355,6 +321,7 @@ const InputSheet = (props) => {
                                       }}
                                       minLenghtNum={input.minLenghtNum || null}
                                       maxLengthNum={input.maxLenghtNum || null}
+                                      onBlur={() => getCalcPerc()}
                                     />
                                     {
                                       input.unit && (

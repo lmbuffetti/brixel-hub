@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -30,7 +30,6 @@ const HomeDashboard = (props) => {
 
   useEffect(() => {
     if (property.id && gameGroup.length > 0) {
-      console.log('props', property.owner.id, loggedUser.user)
       let userType;
       if (property.owner.id === loggedUser.user.id || loggedUser.user.role.name === 'Administrator') {
         userType = 'seller';
@@ -40,7 +39,6 @@ const HomeDashboard = (props) => {
       const filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userType) !== -1);
       setUserType(userType);
       setUsrGroups([...filtUsrGroup]);
-      console.log(filtUsrGroup);
     }
   }, [property, gameGroup]);
 
@@ -55,7 +53,7 @@ const HomeDashboard = (props) => {
 
       {
         usrGroups && usrGroups.map((group, i) => (
-          <>
+          <Fragment key={i.toString()}>
             <h5 className="mt-4 mb-2">{GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].name}</h5>
             <div key={i.toString()} className="pl-5 pos-r">
               <div className="timelineBar" />
@@ -80,7 +78,7 @@ const HomeDashboard = (props) => {
                 ))
               }
             </div>
-          </>
+          </Fragment>
         ))
       }
     </div>

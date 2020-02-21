@@ -1,12 +1,10 @@
-/* global Transifex */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
-import Cookies from 'universal-cookie';
-import { BrixelDropdown, BrixelButtonIcon, BrixelIcon, BrixelModal } from '@brixel/brixel-components';
+import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import Loadable from 'react-loadable';
@@ -15,8 +13,6 @@ import { setLanguage } from '../actions/CommonActions';
 import { translateTo } from '../utils/translation';
 import awards from '../images/BrxielComingTown/awards.svg';
 import brixels from '../images/BrxielComingTown/brixels.svg';
-
-const cookies = new Cookies();
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -40,7 +36,7 @@ function PageHeader(props) {
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
     }
-  }, [loggedUser]);
+  }, [loggedUser, lang]);
 
   useEffect(() => {
     const drpLng = [];
@@ -48,7 +44,8 @@ function PageHeader(props) {
       drpLng[i] = {
         value: lng.value,
         label: lng.label.replace('_US', ''),
-      }
+      };
+      return null;
     });
     setDropLang(drpLng);
   }, [languages]);
@@ -132,6 +129,7 @@ function PageHeader(props) {
                         <img
                           src={awards}
                           className={`title-img w-perc-100`}
+                          alt="Awards Icon"
                         />
                       </div>
                       <span className="heading3">{translateTo(lang, "Awards")}</span>
@@ -153,6 +151,7 @@ function PageHeader(props) {
                         <img
                           src={brixels}
                           className={`title-img w-perc-100`}
+                          alt="Brixels Point Icon"
                         />
                       </div>
                       <span className="heading3">{translateTo(lang, "Brixels")}</span>

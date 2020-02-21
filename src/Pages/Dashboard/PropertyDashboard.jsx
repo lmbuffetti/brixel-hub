@@ -6,7 +6,7 @@ import {
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
-  BrixelButtonIcon, BrixelIcon,
+  BrixelButtonIcon, BrixelIcon, BrixelProgressBar,
 } from '@brixel/brixel-components';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
@@ -83,7 +83,24 @@ const HomeDashboard = (props) => {
         </div>
 
         <div className="transparency-container mb-2">
-
+          <div className="dis-fl-col ta-l">
+            <span className="subtitle">Transparency</span>
+            {
+              get(property, 'inputSheet') && (
+                <>
+                  <span className="value">{property.inputSheet.totalComplete}%</span>
+                  <BrixelProgressBar
+                    rounded
+                    saturation={700}
+                    small
+                    barBackground="Red"
+                    backgroundSaturation={100}
+                    progressValue={property.inputSheet.totalComplete}
+                  />
+                </>
+              )
+            }
+          </div>
         </div>
 
         <div className="details dis-fl-col mb-4">
