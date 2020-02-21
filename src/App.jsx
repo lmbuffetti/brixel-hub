@@ -136,10 +136,12 @@ const App = (props) => {
 
         { /* SECTION: HUB DASHBOARD */ }
         <ProtectedRoute path="/:propId/inputSheet" exact component={InputSheet} />
-        <ProtectedRoute path="/:action/:propId?" exact component={Dashboard} />
+        <ProtectedRoute path="/" exact component={Dashboard} />
+        <ProtectedRoute path="/:propId?/home" component={Dashboard} />
+        <ProtectedRoute path="/:propId?/property" component={Dashboard} />
+        <ProtectedRoute path="/:propId?/support" component={Dashboard} />
         { /* SECTION: REDIRECT */ }
-        {/* <Redirect from="/" to="/home" exact component={Dashboard} />
-        <Redirect from="*" to="/onBoarding" /> */}
+
       </Switch>
 
       { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
@@ -191,7 +193,7 @@ const App = (props) => {
       <div className="zIndex3">
         <Switch>
           {/* SECTION: DOCUMENTS */}
-          <Route path="/home/:propId?/documents" component={Documents} />
+          <Route path="/:propId?/:act/documents" component={Documents} />
         </Switch>
       </div>
     </>

@@ -18,16 +18,16 @@ const HomeDashboard = (props) => {
   const {
     property, match, history,
   } = props;
-  
+
   const goToPreview = (e) => {
     e.preventDefault();
     window.open(`${getConfigEnv.pageUrl}preview/${property.stub}`, '_blank');
-  }
+  };
 
   const goToInputSheet = (e) => {
     e.preventDefault();
     history.push(`/${match.params.propId}/inputSheet`);
-  }
+  };
 
   const openDocuments = (e) => {
     e.preventDefault();

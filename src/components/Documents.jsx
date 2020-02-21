@@ -31,15 +31,20 @@ const Documents = (props) => {
   const [editDocument, setEditDocument] = useState({ id: null, active: false });
   const [selectedVisibility, setSelectedVisibility] = useState(null);
 
+  // PROPS
   const {
     history, formValue, initialValues, handleUploadDocument, user,
-    handleDeleteDocument, handleUpdateDocument,
+    handleDeleteDocument, handleUpdateDocument, match,
   } = props;
   const { documents } = formValue;
 
   // REF
   const documentRef = useRef(null);
   const textAreaRef = useRef(null);
+
+  // PAGE ID
+  const pageId = get(match, 'params.propId', formValue.id);
+  const sectionPage = get(match, 'params.act', 'home');
 
   // UPLOAD DOCUMENTS
   const saveDocuments = (doc) => {
@@ -138,7 +143,7 @@ const Documents = (props) => {
               color="dark"
               saturationTxt={700}
               icon="close-small"
-              onClick={() => history.push('/home')}
+              onClick={() => history.push(`/${pageId}/${sectionPage}`)}
             />
           </div>
 
@@ -324,6 +329,7 @@ Documents.propTypes = {
   history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 Documents.defaultProps = {
