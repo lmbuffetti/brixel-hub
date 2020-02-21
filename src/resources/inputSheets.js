@@ -28,7 +28,8 @@ export const InputSheets = (lang) => [
   // SECTION: PROPERTY TYPE
   {
     className: 'radioBtnImg',
-    title: "Property Type",
+    title: "Type",
+    subtitle: "Property Type",
     history: "propertyType",
     cardType: "propertyType",
     inputs: [
@@ -59,6 +60,7 @@ export const InputSheets = (lang) => [
   // SECTION: LOCATION
   {
     title: "Address",
+    subtitle: "Address",
     history: "locationInput",
     cardType: "location",
     inputs: [
@@ -86,6 +88,7 @@ export const InputSheets = (lang) => [
   {
     className: '',
     title: "Property",
+    subtitle: "Property",
     history: "property",
     cardType: "property ",
     inputs: [
@@ -428,6 +431,7 @@ export const InputSheets = (lang) => [
   // SECTION: SECONDARY ROOMS
   {
     title: "Secondary rooms",
+    subtitle: "Secondary rooms",
     history: "secondaryRooms",
     cardType: "secondaryRooms",
     inputs: [
@@ -580,6 +584,7 @@ export const InputSheets = (lang) => [
   // SECTION: EXTRA FEATURE
   {
     title: "Extra features",
+    subtitle: "Extra features",
     history: "extraFeature",
     cardType: "extraFeature",
     inputs: [
@@ -596,6 +601,7 @@ export const InputSheets = (lang) => [
   // SECTION: FACILITES & MATERIALS
   {
     title: "Facilities & materials",
+    subtitle: "Facilities & materials",
     history: "facilitiesMaterials",
     cardType: "facilitiesMaterials",
     inputs: [
@@ -719,6 +725,7 @@ export const InputSheets = (lang) => [
   // SECTION: LAND REGISTER
   {
     title: "Land register",
+    subtitle: "Land register",
     history: "landRegister",
     cardType: "landRegister",
     inputs: [
@@ -782,6 +789,7 @@ export const InputSheets = (lang) => [
   // SECTION: FINANCIAL INFORMATION
   {
     title: "Financial information",
+    subtitle: "Financial information",
     history: "financialInformation",
     cardType: "financialInformation",
     inputs: [
@@ -894,6 +902,7 @@ export const InputSheets = (lang) => [
   // SECTION: DESCRIPTION
   {
     title: "Description",
+    subtitle: "Description",
     history: "description",
     cardType: "description",
     inputs: [
@@ -959,6 +968,7 @@ export const InputSheets = (lang) => [
   // SECTION: SURROUNDINGS & DISTANCES
   {
     title: "Surroundings & distances",
+    subtitle: "Surroundings & distances",
     history: "surroundingsDistnces",
     cardType: "surroundingsDistnces",
     inputs: [
@@ -1016,6 +1026,7 @@ export const InputSheets = (lang) => [
   // SECTION: SALES STRATEGY & PRICE
   {
     title: "Sales strategy & price",
+    subtitle: "Sales strategy & price",
     history: "salesStrategyPrice",
     cardType: "salesStrategyPrice",
     inputs: [
