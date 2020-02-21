@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   withRouter,
@@ -39,8 +39,18 @@ const Dashboard = (props) => {
     match,
     property,
   } = props;
+
+  // STATE
+  const [widthWindow, setWindowWidth] = useState(get(window, 'innerWidth', 0));
+
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+
+    }
+  }, [window])
 
   useEffect(() => {
     if (propID) {
@@ -52,6 +62,9 @@ const Dashboard = (props) => {
         setAsSingle: true,
       };
       handleGetProperties(data);
+    }
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', () => setWindowWidth(window.innerWidth));
     }
   }, []);
 
@@ -81,7 +94,7 @@ const Dashboard = (props) => {
         classNameArray={['order-md-2', 'order-md-1', 'order-md-3']}
         fullWidth
         onClick={(val) => history.push(val)}
-        showFull
+        showFull={widthWindow > 768}
         arrayComponents={[
           <HomeDashboard />,
           <PropertyDashboard />,
