@@ -4,6 +4,7 @@ import {
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
+import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelTabs } from '@brixel/brixel-components';
@@ -45,6 +46,7 @@ const Dashboard = (props) => {
 
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
+  const checkActiveTab = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -92,6 +94,7 @@ const Dashboard = (props) => {
         clicksList={['home', 'property', 'support']}
         labelsIcons={['star', 'star', 'star']}
         classNameArray={['order-md-2', 'order-md-1', 'order-md-3']}
+        activeTab={checkActiveTab}
         fullWidth
         onClick={(val) => history.push(val)}
         showFull={widthWindow > 768}

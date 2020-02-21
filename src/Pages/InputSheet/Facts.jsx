@@ -5,10 +5,12 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reduxForm, Field } from 'redux-form';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import {
-  BrixelIcon,
+  BrixelButtonIcon,
+  BrixelIcon, BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -24,6 +26,8 @@ import { getCalcSectionInputSheets } from '../../utils/helpers';
 // COMPONENTS
 import Loading from '../../components/Loading';
 import { updateProperty, getProperty } from '../../actions/PropertyActions';
+import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import noCover from '../../images/no_cover.jpg';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
@@ -33,7 +37,7 @@ const Maps = Loadable({
 const InputSheet = (props) => {
   const {
     errorValue, match, formValue, handleSaveProperty, reset,
-    initialValues, setUserActiveProperty,
+    initialValues, setUserActiveProperty, history,
     handleSetModal, notification, setNotification,
   } = props;
 
@@ -219,6 +223,72 @@ const InputSheet = (props) => {
   return (
     <>
       <div className="container dis-fl-col">
+        <div className="property-info-container brdRadius p-1">
+          <div className="header-section dis-fl-row a-c jc-b mb-2">
+            <div className="dis-fl-row">
+              <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
+                {
+                  initialValues.coverPhoto && initialValues.coverPhoto.path ? (
+                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${getConfigEnv.shortPath}${initialValues.coverPhoto.path}`} alt="Brixel Logo" id="avatar" />
+                  ) : (
+                    <i
+                      className="avatar w-fix-48 h-fix-48 brdRadius pos-r"
+                      style={{
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        display: 'block',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundImage: `url(${noCover})`,
+                      }}
+                    />
+                  )
+                }
+              </div>
+              <div className="title ml-1">
+                <span className="name dis-fl-row">
+                  {(has(initialValues.properties, 'typology') && has(initialValues.properties.typology, 'bedrooms')) ? initialValues.properties.typology.bedrooms : ''} {has(initialValues.properties, 'propertyType') ? initialValues.properties.propertyType : 'Property'}
+                </span>
+                <span className="address">{has(initialValues.location, 'zip') ? initialValues.location.zip : ''} {has(initialValues.location, 'state') ? initialValues.location.state : ''}</span>
+              </div>
+            </div>
+            <div className="actions dis-fl-row">
+              <BrixelButtonIcon
+                noBorder
+                color="dark"
+                saturationTxt={700}
+                background="white"
+                className="ml-1 bgWhite shadow-3dp"
+                icon="close"
+                onClick={(e) => history.push('./property')}
+              />
+            </div>
+          </div>
+
+          <div className="transparency-container mb-2">
+            <div className="dis-fl-col ta-l">
+              {
+                get(initialValues, 'inputSheet') && (
+                  <>
+                    <BrixelProgressBar
+                      rounded
+                      saturation={700}
+                      small
+                      barBackground="Red"
+                      backgroundSaturation={100}
+                      progressValue={sectionProgress.percComplete}
+                    />
+                    <div className="dis-f">
+                      <span className="value mr-1">{sectionProgress.percComplete}%</span>
+                      <span>completed</span>
+                    </div>
+                  </>
+                )
+              }
+            </div>
+          </div>
+        </div>
+
+
         <div className="progressInfo dis-f a-c my-3 jc-b">
           <h6>All tasks</h6>
           {
