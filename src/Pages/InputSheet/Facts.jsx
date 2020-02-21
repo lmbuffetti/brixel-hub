@@ -231,6 +231,7 @@ const InputSheet = (props) => {
         {
           Questions.map((quest, i) => (
             <div className="accordionWrap" key={i.toString()}>
+              <h3>{quest.title}</h3>
               <div className="dis-f a-c jc-b">
                 <div className="dis-f a-c">
                   {checkQuestionGroup(quest, skipSection)}
@@ -238,7 +239,7 @@ const InputSheet = (props) => {
                     className="ml-2 txtDark200 body2 cur-poi"
                     onClick={() => toggleAccordion(quest)}
                   >
-                    {quest.title}
+                    {quest.subtitle || ''}
                   </h4>
                 </div>
                 <BrixelIcon

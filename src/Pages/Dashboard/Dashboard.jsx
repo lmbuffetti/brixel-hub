@@ -78,6 +78,7 @@ const Dashboard = (props) => {
         labels={['Home', 'Property', 'Support']}
         clicksList={['home', 'property', 'support']}
         labelsIcons={['star', 'star', 'star']}
+        classNameArray={['order-md-2', 'order-md-1', 'order-md-3']}
         fullWidth
         onClick={(val) => history.push(val)}
         showFull
