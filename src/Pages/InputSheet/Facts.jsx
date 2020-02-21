@@ -20,6 +20,7 @@ import LoadingSimple from '../../components/LoadingSimple';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { InputSheets } from '../../resources/inputSheets';
+import { CSSTransitionGroup } from 'react-transition-group';
 
 // COMPONENTS
 import Loading from '../../components/Loading';
@@ -127,7 +128,7 @@ const InputSheet = (props) => {
       return (
         <div>
           <BrixelIcon
-            className="dis-b p-small-4"
+            className="brdSmall dis-b border-green"
             icon="check"
             rounded
             background="green"
@@ -151,7 +152,7 @@ const InputSheet = (props) => {
             noBorder={skipped[quest.history]}
             color={skipped[quest.history] ? "white" : "dark"}
             saturationTxt={skipped[quest.history] ? 0 : 400}
-            className="brdSmall dis-b p-small-4"
+            className={`brdSmall dis-b p-small-4 ${skipped[quest.history] ? 'border-primary' : ''}`}
             iconSize="small"
             padding="p-small-4"
             onClick={() => handleSkipSection(quest.history)}
@@ -264,32 +265,37 @@ const InputSheet = (props) => {
 
         {
           Questions.map((quest, i) => (
-            <div className="accordionWrap" key={i.toString()}>
-              <div className="dis-f a-c jc-b">
-                <div className="dis-f a-c">
-                  {checkQuestionGroup(quest, skipSection)}
+            <div
+              className={`accordWrap ${accordion[quest.history] ? 'openedAccord' : 'closedAccord'}`}
+              key={i.toString()}
+            >
+              <div className="accordControl dis-f a-c jc-b">
+                <div
+                  className="accordTitle dis-f a-c cur-poi pt-1 pb-1"
+                  onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
+                >
+                  <BrixelIcon
+                    icon={accordion[quest.history] ? "minus" : "plus"}
+                    color={accordion[quest.history] ? "dark" : "light"}
+                    saturationTxt={accordion[quest.history] ? 700 : 400}
+                    iconSize="small"
+                    className="ml-1"
+                  />
                   <h4
-                    className="ml-2 txtDark200 body2 cur-poi"
-                    onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
+                    className={`body ml-1 ${accordion[quest.history] ? "txtDark400" : "txtDark200"}`}
                   >
                     {quest.title}
                   </h4>
                 </div>
-                <BrixelIcon
-                  icon={accordion[quest.history] ? "arrow-simple-up" : "arrow-simple-down"}
-                  color="dark"
-                  saturationTxt={700}
-                  iconSize="small"
-                  onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
-                />
+                {checkQuestionGroup(quest, skipSection)}
               </div>
-              <div key={i.toString()} className={`accrodionList ${accordion[quest.history] ? 'openAccordion' : 'closedAccordion'}`}>
+              <div key={i.toString()} className="accrodContent">
                 {
                   quest.inputs.map((input, f) => (
-                    <div key={f.toString()}>
+                    <div className="contentWrap1" key={f.toString()}>
                       {
                         checkCondition(input) && (typeof accordion[quest.history] === 'undefined' || accordion[quest.history]) && (
-                          <div key={f.toString()}>
+                          <div className="contentWrap2" key={f.toString()}>
                             {
                               input.type === 'Map' ? (
                                 <>

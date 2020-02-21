@@ -31,6 +31,7 @@
     "react-router-redux": "^4.0.8",
     "react-scripts": "3.4.0",
     "react-svg-loader": "^3.0.3",
+    "react-transition-group": "^1.2.1",
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",

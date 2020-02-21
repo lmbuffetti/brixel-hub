@@ -1,16 +1,27 @@
-.accordionWrap {
+.accordWrap {
   border-bottom: 1px solid map_get($lightColor, 400);
-  margin-bottom: $step * 2;
-  padding-bottom: $step * 2;
-}
+  .accordTitle {
+    width: 100%;
+  }
+  .accordControl {
+    .border-green {
+      border-color: map_get($greenColor, 400) ;
+    }
+    .border-primary {
+      border-color: map_get($primaryColor, 300) ;
+    }
+  }
+  .accrodContent {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-in;
+  }
+  .contentWrap {
 
-.accrodionList {
-  overflow: hidden;
-  transition: max-height 0.4s ease-in;
-  max-height: 0;
-  &.openAccordion {
-      margin-top: $step * 3;
+  }
+  &.openedAccord {
+    .accrodContent {
       max-height: 3000px;
+    }
   }
 }
-
