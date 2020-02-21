@@ -16,6 +16,7 @@ import {
   BrixelIcon,
   BrixelButtonSecondary,
   BrixelButtonTertiary,
+  BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { updateUser, setAwards, setBrixelPoint } from '../../actions/UserActions';
 import { setNotification } from '../../actions/CommonActions';
@@ -261,9 +262,14 @@ function UserFlow(props) {
     >
       {
         Questions[currentIndex].inputs && (
-          <div id="progressBar">
-            <span className="activeProgBar" style={{ width: `${progressBar}%` }} />
-          </div>
+          <BrixelProgressBar
+            rounded
+            saturation={700}
+            small
+            barBackground="Red"
+            backgroundSaturation={100}
+            progressValue={42}
+          />
         )
       }
       <form

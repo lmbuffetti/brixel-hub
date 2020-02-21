@@ -19,6 +19,7 @@ import {
   BrixelButtonTertiary,
   BrixelButtonIcon,
   BrixelIcon,
+  BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { getToken, setAwards, setBrixelPoint, validateUser, updateUser } from '../../actions/UserActions';
 import { addProperty, updateProperty } from '../../actions/PropertyActions';
@@ -381,7 +382,14 @@ function GetStarted(props) {
     <main id="getStarted">
       {
         Questions[currentIndex].inputs && (
-          <div id="progressBar"><span className="activeProgBar" style={{ width: `${progressBar}%` }} /></div>
+          <BrixelProgressBar
+            rounded
+            saturation={700}
+            small
+            barBackground="Red"
+            backgroundSaturation={100}
+            progressValue={42}
+          />
         )
       }
       <form id="multiStepForm" onSubmit={(e) => {e.preventDefault(); changeStep()}} autoComplete="off">

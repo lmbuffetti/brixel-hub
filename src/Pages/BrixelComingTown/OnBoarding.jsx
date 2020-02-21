@@ -20,6 +20,7 @@ import {
   BrixelIcon,
   BrixelInputText,
   BrixelCheckbox,
+  BrixelProgressBar,
   Validation,
 } from '@brixel/brixel-components';
 import {
@@ -398,9 +399,12 @@ function OnBoarding(props) {
     <main id="onBoarding">
       {
         Questions[currentIndex].inputs && (
-          <div id="progressBar">
-            <span className="activeProgBar" style={{ width: `${progressBar}%` }} />
-          </div>
+          <BrixelProgressBar
+            saturation={400}
+            barBackground="Light"
+            backgroundSaturation={200}
+            progressValue={progressBar}
+          />
         )
       }
       <form
