@@ -85,15 +85,21 @@ const HomeDashboard = (props) => {
         <div className="transparency-container mb-2">
           <div className="dis-fl-col ta-l">
             <span className="subtitle">Transparency</span>
-            <span className="value">42%</span>
-            <BrixelProgressBar
-              rounded
-              saturation={700}
-              small
-              barBackground="Red"
-              backgroundSaturation={100}
-              progressValue={42}
-            />
+            {
+              get(property, 'inputSheet') && (
+                <>
+                  <span className="value">{property.inputSheet.totalComplete}%</span>
+                  <BrixelProgressBar
+                    rounded
+                    saturation={700}
+                    small
+                    barBackground="Red"
+                    backgroundSaturation={100}
+                    progressValue={property.inputSheet.totalComplete}
+                  />
+                </>
+              )
+            }
           </div>
         </div>
 
