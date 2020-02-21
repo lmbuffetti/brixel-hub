@@ -1,13 +1,19 @@
 .accordWrap {
-  border-bottom: 1px solid map_get($lightColor, 400);
+
   .accordTitle {
     width: 100%;
   }
+  .accordGroup + {
+    .accordControl {
+      border-top: 1px solid map_get($lightColor, 400);
+    }
+  }
   .accordControl {
-    .border-green {
+    border-bottom: 1px solid map_get($lightColor, 400);
+    i.border-green {
       border-color: map_get($greenColor, 400) ;
     }
-    .border-primary {
+    i.border-primary {
       border-color: map_get($primaryColor, 300) ;
     }
   }
@@ -15,6 +21,10 @@
     overflow: hidden;
     max-height: 0;
     transition: max-height 0.3s ease-in;
+    > div > div {
+      background: lightcyan;
+      padding: $step;
+    }
   }
   .contentWrap {
 

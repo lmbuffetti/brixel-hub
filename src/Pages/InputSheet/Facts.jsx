@@ -304,10 +304,17 @@ const InputSheet = (props) => {
               className={`accordWrap ${accordion[quest.history] ? 'openedAccord' : 'closedAccord'}`}
               key={i.toString()}
             >
+              {
+                quest.group && (
+                  <span className="accordGroup fweight-600 dis-b pt-2 pb-1 txtDark700">
+                    {quest.group || ''}
+                  </span>
+                )
+              }
               <div className="accordControl dis-f a-c jc-b">
                 <div
                   className="accordTitle dis-f a-c cur-poi pt-1 pb-1"
-                  onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
+                  onClick={() => toggleAccordion(quest)}
                 >
                   <BrixelIcon
                     icon={accordion[quest.history] ? "minus" : "plus"}
@@ -318,9 +325,8 @@ const InputSheet = (props) => {
                   />
                   <h4
                     className={`body ml-1 ${accordion[quest.history] ? "txtDark400" : "txtDark200"}`}
-                    onClick={() => toggleAccordion(quest)}
                   >
-                    {quest.subtitle || ''}
+                    {quest.title}
                   </h4>
                 </div>
                 {checkQuestionGroup(quest, skipSection)}
@@ -328,7 +334,7 @@ const InputSheet = (props) => {
               <div key={i.toString()} className="accrodContent">
                 {
                   quest.inputs.map((input, f) => (
-                    <div className="contentWrap1" key={f.toString()}>
+                    <div className="contentWrap" key={f.toString()}>
                       {
                         checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
                           <div key={f.toString()}>
