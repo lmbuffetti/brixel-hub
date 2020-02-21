@@ -1,6 +1,8 @@
 import isObject from 'lodash/isObject';
 import Cookies from 'universal-cookie';
 import { translateTo } from './translation';
+import get from 'lodash/get';
+import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
 
 const cookies = new Cookies();
 
@@ -279,4 +281,55 @@ export const setCookie = (key, val) => {
     sameSite: 'strict',
   };
   cookies.set(key, val, options);
+};
+
+export const getCalcSectionInputSheets = (Questions, initialValues, accordion, act, fixSection) => {
+  console.log(initialValues);
+  const getSkippedSection = fixSection || get(initialValues, 'inputSheet.skipSection', {});
+  const getSectionFilt = {};
+  const getSectionDone = {};
+  const getAccordion = accordion || {};
+  const allSection = {};
+  if (initialValues.id) {
+    Questions.map((quest) => {
+      let doneSection = true;
+      let curAccordion = false;
+      quest.inputs.map((inp) => {
+        if (inp.validation && inp.validation[0]) {
+          const curVal = get(initialValues, inp.name, null);
+          if (isEmptyWithBool(curVal)) {
+            doneSection = false;
+            curAccordion = true;
+          }
+        }
+        return null;
+      });
+      getSectionFilt[quest.history] = getSkippedSection[quest.history] ? getSkippedSection[quest.history] : doneSection;
+      getSectionDone[quest.history] = doneSection;
+      allSection[quest.history] = true;
+      if (typeof accordion[quest.history] === 'undefined') {
+        getAccordion[quest.history] = getSectionFilt[quest.history] ? false : curAccordion;
+      }
+      else {
+        getAccordion[quest.history] = accordion[quest.history];
+      }
+      return null;
+    });
+    const newTotalDone = Object.keys(getSectionFilt).filter(keySkip => getSectionFilt[keySkip] === true);
+    const total = Object.keys(Questions).length;
+    if (act === 'getPercentage') return Math.ceil((newTotalDone.length * 100) / total);
+
+    return ({
+      accordion: getAccordion,
+      section: {
+        allSection: true,
+        percComplete: Math.ceil((newTotalDone.length * 100) / total),
+        section: getSectionFilt,
+        sectionComplete: getSectionDone,
+        total,
+        totalComplete: newTotalDone.length,
+        totalUncomplete: total - newTotalDone.length,
+      }
+    });
+  }
 };

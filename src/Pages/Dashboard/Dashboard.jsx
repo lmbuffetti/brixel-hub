@@ -40,7 +40,6 @@ const Dashboard = (props) => {
   const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
-    console.log(propID)
     if (propID) {
       handleGetProperty({id: propID});
     } else {
@@ -56,6 +55,11 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (!propID && property.title) {
       history.push(`/${property.id}/home`);
+      if (property.inputSheet && property.inputSheet.totalComplete) {
+
+      } else {
+
+      }
     }
   }, [property]);
 

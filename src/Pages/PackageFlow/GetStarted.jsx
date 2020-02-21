@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useEffect,
   useState,
@@ -30,14 +32,13 @@ import { translateTo } from '../../utils/translation';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-const swissZipCode = require('../../resources/swissZipCodes.json');
 
 const LoginSignup = Loadable({
   loader: () => import('../../components/LoginSignup' /* webpackChunkName: "LoginSignup" */),
   loading: Loading,
 });
 
-const cookie = new Cookies;
+const cookie = new Cookies();
 
 function GetStarted(props) {
   // PROPS
@@ -68,9 +69,9 @@ function GetStarted(props) {
   const [disableNextBtn, setDisableNextBtn] = useState(true);
   const [hidePrevBtn, setHidePrevBtn] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loginPage, setLoginPage] = useState(false);
+  const [loginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
-  const [showAddress, setShowAddress] = useState(true);
+  //const [showAddress, setShowAddress] = useState(true);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
   const [curCountry, setCurCountry] = useState(null);
   const [showCountrySel, setShowCountrySel] = useState(false);
@@ -149,6 +150,7 @@ function GetStarted(props) {
       fieldVal.map((inp) => {
         const curVal = get(errorValue, inp, true);
         if (curVal !== true) invalidField = true;
+        return null;
       });
     }
     setDisableNextBtn(invalidField);
@@ -276,6 +278,7 @@ function GetStarted(props) {
           else newPosition = newPosition + 1;
           checkCond = false;
         }
+        return null;
       })
     }
     if (Questions[newPosition] && Questions[newPosition].conditions) {
@@ -287,6 +290,7 @@ function GetStarted(props) {
           else newPosition = newPosition + 1;
           checkCond = false;
         }
+        return null;
       });
     }
     if (typeof Questions[newPosition] === 'undefined') {
@@ -337,7 +341,7 @@ function GetStarted(props) {
       }
       document.getElementById('getStarted').scrollTo(0, 0);
     }, false);
-    document.addEventListener('keyup', function (e) {
+    document.addEventListener('keyup', function () {
       document.getElementById('getStarted').scrollTo(0, 0);
     }, false);
     const cookieCompany = cookie.get('brixelStubCompany') || null;
@@ -359,9 +363,9 @@ function GetStarted(props) {
   };
 
   const buttonLabel = () => {
-    let label = '';
+    let label;
     if (Questions[currentIndex].cardType === 'createProfile') {
-      if(loginPage) label = translateTo(lang, "Login")
+      if(loginPage) label = translateTo(lang, "Login");
       else label = translateTo(lang, "Create profile")
     } else {
       if (Questions[currentIndex].cardType === 'createProfile') {
@@ -456,10 +460,6 @@ function GetStarted(props) {
                                         <>
                                           <div
                                             className="pos-r zIndex1"
-                                            onMouseEnter={() => setShowAddress(false)}
-                                            onTouchStart={() => setShowAddress(false)}
-                                            onMouseLeave={() => setShowAddress(true)}
-                                            onTouchEnd={() => setShowAddress(true)}
                                           >
                                             <Maps
                                               zoom={14}
@@ -698,7 +698,7 @@ GetStarted.defaultProps = {
   redirectTo: null,
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   company: get(state, 'companies.company', {}),
   country: get(state, 'common.country', {}),
   errorValue: get(state, 'form.GetStarted.syncErrors', {}),

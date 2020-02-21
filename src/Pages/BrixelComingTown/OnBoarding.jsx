@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useEffect,
   useState,
@@ -68,7 +70,6 @@ function OnBoarding(props) {
   const [progressBar, setProgressBar] = useState(0);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
   const [curCountry, setCurCountry] = useState(null);
-  const [showCountrySel, setShowCountrySel] = useState(false);
 
   useEffect(() => {
     if (baseByData.env === 'dev') {
@@ -453,7 +454,6 @@ function OnBoarding(props) {
                                             selCountry={curCountry ? curCountry.value : ''}
                                             changeCountry={(val) => {
                                               countryObj(val);
-                                              setShowCountrySel(false);
                                             }}
                                           />
                                         )}
