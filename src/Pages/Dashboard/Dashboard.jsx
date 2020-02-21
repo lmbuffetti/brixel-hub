@@ -55,7 +55,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (!propID && property.title) {
-      history.push(`/home/${property.id}`);
+      history.push(`/${property.id}/home`);
     }
   }, [property]);
 

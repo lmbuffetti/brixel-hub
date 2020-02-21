@@ -67,31 +67,38 @@ const InputSheet = (props) => {
   };
 
   const getCalcSectionDone = () => {
-    const getSectionFilt = cloneDeep(sectionProgress.section || initialValues.skipFacts);
-    const getSectionDone = cloneDeep(sectionProgress.section || initialValues.skipFacts);
-    const getAccordion = cloneDeep(sectionProgress.section || initialValues.skipFacts);
-    if (getSectionFilt) {
+    const getSectionFilt = cloneDeep(sectionProgress.section || initialValues.skipFacts || {});
+    const getSectionDone = cloneDeep(sectionProgress.section || initialValues.skipFacts || {});
+    const getAccordion = accordion || {};
+    if (initialValues.id) {
       Questions.map((quest) => {
         let doneSection = true;
-        let accordion = false;
+        let curAccordion = false;
         quest.inputs.map((inp) => {
           if (inp.validation && inp.validation[0]) {
-            const curVal = get(formValue, inp.name, true);
+            const curVal = get(formValue, inp.name, null);
             if (isEmptyWithBool(curVal)) {
               doneSection = false;
-              accordion = true;
+              curAccordion = true;
             }
           }
         });
         getSectionFilt[quest.history] = getSectionFilt[quest.history] ? getSectionFilt[quest.history] : doneSection;
         getSectionDone[quest.history] = doneSection;
-        getAccordion[quest.history] = getSectionFilt[quest.history] ? false : accordion;
+        if (accordion[quest.history]) {
+          console.log('mmm')
+          getAccordion[quest.history] = accordion[quest.history];
+        }
+        else {
+          console.log('nnn', getSectionDone[quest.history]);
+          getAccordion[quest.history] = getSectionDone[quest.history] ? false : curAccordion;
+        }
       });
       const newTotalDone = Object.keys(getSectionFilt).filter(keySkip => getSectionFilt[keySkip] === true);
       const total = Object.keys(Questions).length;
 
       setAccordion({...getAccordion});
-
+      console.log(getSectionFilt);
       setSectionProgress({
         percComplete: Math.ceil((newTotalDone.length * 100) / total),
         section: getSectionFilt,
@@ -242,7 +249,7 @@ const InputSheet = (props) => {
     }
     return isToShow;
   };
-
+  console.log(sectionProgress, accordion);
   return (
     <>
       <div className="container dis-fl-col">
