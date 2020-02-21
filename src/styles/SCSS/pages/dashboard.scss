@@ -29,5 +29,21 @@
         @include border('Dark', 200);
       }
     }
+
+    .buyer {
+
+      .buyer-container {
+        @include border('Dark', 200);
+
+        .number {
+          font-family: $font-family-secondary;
+          @include fontStyle(700,'medium',center);
+        }
+
+        .text {
+          @include fontStyle(400,'regular',center);
+        }
+      }
+    }
   }
 }
