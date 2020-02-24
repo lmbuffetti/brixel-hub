@@ -9,7 +9,7 @@ import {
 export const defaultState = {
   achievement: [],
   gameGroup: [],
-  gameHistory: [],
+  gameHistory: {},
 };
 
 export default handleActions(

@@ -8,6 +8,11 @@ import {
   SET_GAME_HISTORY,
 } from '../actions/types/GamificationTypes';
 
+import {
+  SET_AWARDS,
+  SET_BRIXEL_POINT,
+} from '../actions/types/UserTypes';
+
 import api from '../controllers/api/config';
 
 const checkGamification = (store) => (next) => (action) => {
@@ -33,15 +38,21 @@ const checkGamification = (store) => (next) => (action) => {
       api.gamification.getGameHistory(20, 0)
         .then((res) => {
           store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });
+          store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
+          store.dispatch({ type: SET_BRIXEL_POINT, payload: res.data.actualPoints });
         });
       break;
     }
     case ADD_GAME_HISTORY: {
       next(action);
-      const data = {
-        page: 'page-stub',
-        achievement: 'stub',
-      };
+      const { id } = action.payload;
+      delete action.payload.id;
+      api.gamification.addGameHistory(id, action.payload)
+        .then((res) => {
+          store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });
+          store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
+          store.dispatch({ type: SET_BRIXEL_POINT, payload: res.data.actualPoints });
+        });
       break;
     }
     default:

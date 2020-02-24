@@ -68,6 +68,22 @@ function PageHeader(props) {
           <img className="logo dis-b w-fix-40" src={logoNorm} alt="Brixel Logo" id="header-logo" />
           <div className="dis-f a-c">
             {
+              userAwards > 0 && (
+                <div className="cur-poi" onClick={() => setModal('awards')}>
+                  <img src={awards} alt="icon awards" className="mr-1" />
+                  <span className="ff-mono txtGreen600">{userAwards}</span>
+                </div>
+              )
+            }
+            {
+              userBrixelPoint > 0 && (
+                <div className="cur-poi ml-2" onClick={() => setModal('brixelPoint')}>
+                  <img src={brixels} alt="icon awards" className="mr-1" />
+                  <span className="ff-mono txtRed600">{userBrixelPoint}</span>
+                </div>
+              )
+            }
+            {
               Object.keys(userAwards).length > 0 && (
                 <div className="cur-poi" onClick={() => setModal('awards')}>
                   <img src={awards} alt="icon awards" className="mr-1" />
@@ -175,8 +191,8 @@ PageHeader.propTypes = {
   languages: PropTypes.arrayOf(PropTypes.object),
   lang: PropTypes.string,
   loggedUser: PropTypes.object,
-  userAwards: PropTypes.arrayOf(PropTypes.object),
-  userBrixelPoint: PropTypes.arrayOf(PropTypes.object)
+  userAwards: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
+  userBrixelPoint: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
 };
 
 PageHeader.defaultProps = {

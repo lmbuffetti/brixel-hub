@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelButtonBox } from '@brixel/brixel-components';
-import { getAchievement, getGamegroup, getGameHistory } from '../../actions/GamificationActions';
+import { getAchievement, getGamegroup, getGameHistory, addGameHistory } from '../../actions/GamificationActions';
 import Loading from '../../components/Loading';
 import { GameGroupConfig } from '../../constants/global';
 
@@ -13,9 +13,11 @@ const HomeDashboard = (props) => {
   // PROPS
   const {
     gameGroup,
+    gameHistory,
     handleGetGameAchievement,
     handleGetGameGroup,
     handleGetGameHistory,
+    handleAddGameHistory,
     loggedUser,
     property,
   } = props;
@@ -30,6 +32,7 @@ const HomeDashboard = (props) => {
   }, []);
 
   useEffect(() => {
+    let filtUsrGroup = [];
     if (property.id && gameGroup.length > 0) {
       let userType;
       if (property.owner.id === loggedUser.user.id || loggedUser.user.role.name === 'Administrator') {
@@ -37,11 +40,39 @@ const HomeDashboard = (props) => {
       } else {
         userType = 'buyer';
       }
-      const filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userType) !== -1);
+      filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userType) !== -1);
       setUserType(userType);
-      setUsrGroups([...filtUsrGroup]);
+      if (property.owner.id === loggedUser.user.id && filtUsrGroup && filtUsrGroup[0].achievements[0].stub !== 'homebase') {
+        const data = {
+          id: loggedUser.user.id,
+          page: property.stub,
+          achievement: 'homebase',
+        };
+        handleAddGameHistory(data);
+      }
     }
-  }, [property, gameGroup]);
+    if (gameHistory.data) {
+      gameHistory.data.map((game) => {
+        filtUsrGroup.map((group, f) => {
+          const idGroup = group.achievements.findIndex(val => val.stub === game.achievement.stub);
+          if (idGroup >= 0) filtUsrGroup[f].achievements[idGroup].done = true;
+          return null;
+        });
+        return null;
+      })
+    }
+    setUsrGroups([...filtUsrGroup]);
+  }, [property, gameGroup, gameHistory]);
+
+  const saveGameHistory = (e, groupAchievement) => {
+    e.preventDefault();
+    const data = {
+      id: loggedUser.user.id,
+      page: property.stub,
+      achievement: groupAchievement.stub,
+    };
+    // handleAddGameHistory(data);
+  };
 
   if (!property.id && !userType) {
     return <Loading />
@@ -63,19 +94,20 @@ const HomeDashboard = (props) => {
                     {
                       group.achievements && group.achievements.map((item, f) => (
                         <div key={f.toString()} className="pos-r">
-                          <span className={f %2 === 0 ? "dotTimelineDone" : "dotTimeline"} />
+                          <span className={item.done ? "dotTimelineDone" : "dotTimeline"} />
                           <BrixelButtonBox
-                            icon={item.icon}
+                            icon={item.done ? 'check' : item.icon}
                             label={item.name}
                             subtitle={item.description}
-                            background={GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].color}
+                            background={item.done ? 'light100' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].color}
                             className="mb-4 w-perc-100 shadow-3dp"
-                            colorIcon={GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].iconColor}
-                            backIcon={GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].backColor}
+                            colorIcon={item.done ? 'green400'  : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].iconColor}
+                            backIcon={item.done ? 'light200' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].backColor}
                             multilineInfo={[
-                              {label: 'free', color: 'green400'},
+                              item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
                               {label: item.points, color: 'dark700'},
                             ]}
+                            onClick={(e) => item.done ? '' : saveGameHistory(e, item)}
                           />
                         </div>
                       ))
@@ -93,18 +125,22 @@ const HomeDashboard = (props) => {
 
 HomeDashboard.propTypes = {
   gameGroup: PropTypes.arrayOf(PropTypes.object),
+  gameHistory: PropTypes.object,
   handleGetGameAchievement: PropTypes.func.isRequired,
   handleGetGameGroup: PropTypes.func.isRequired,
   handleGetGameHistory: PropTypes.func.isRequired,
+  handleAddGameHistory: PropTypes.func.isRequired,
   loggedUser: PropTypes.object.isRequired,
 };
 
 HomeDashboard.defaultProps = {
   gameGroup: [],
+  gameHistory: {},
 };
 
 const mapStateToProps = (state, props) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
+  gameHistory: get(state, 'gamification.gameHistory', {}),
   loggedUser: get(state, 'user.loggedUser', {}),
   property: get(state, 'property.property', {}),
 });
@@ -113,6 +149,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetGameAchievement: bindActionCreators(getAchievement, dispatch),
   handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
   handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
+  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });
 
 export default compose(

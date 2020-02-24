@@ -19,7 +19,7 @@ class Gamification extends Base {
   }
 
   addGameHistory(id, data) {
-    const url = ep.gamification.gameHistoryList(id);
+    const url = ep.gamification.gameHistoryByUser(id);
     return this.apiClient.post(url, {}, data);
   }
 

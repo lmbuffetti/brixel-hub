@@ -94,7 +94,7 @@ const Dashboard = (props) => {
         clicksList={['home', 'property', 'support']}
         labelsIcons={['star', 'star', 'star']}
         classNameArray={['order-md-2 homeTab', 'order-md-1 propertyTab', 'order-md-3 supportTab']}
-        activeTab={checkActiveTab}
+        activeTab={checkActiveTab()}
         fullWidth
         onClick={(val) => history.push(val)}
         showFull={widthWindow > 768}
