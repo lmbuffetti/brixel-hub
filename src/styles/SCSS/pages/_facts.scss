@@ -2,6 +2,9 @@
 
   .accordTitle {
     width: 100%;
+    > h4 {
+      transition: color 0.3s ease-in;
+    }
   }
   .accordGroup + {
     .accordControl {
@@ -11,7 +14,7 @@
   .accordControl {
     border-bottom: 1px solid map_get($lightColor, 400);
     i.border-green {
-      border-color: map_get($greenColor, 400) ;
+      border-color: map_get($greenColor, 400);
     }
     i.border-primary {
       border-color: map_get($primaryColor, 300) ;
@@ -21,14 +24,23 @@
     overflow: hidden;
     max-height: 0;
     transition: max-height 0.3s ease-in;
-    > div > div {
-      background: lightcyan;
-      padding: $step;
+    background-color: map_get($greenColor, 100);
+    padding: $step $step * 2;
+
+    .singleInput {
+      .brixel-label {
+        display: block;
+        padding: $step 0;
+      }
+      .brixel-input-step input {
+        margin-left: $step * 2;
+      }
+      .brixel-text-input[type=number] {
+        max-width: 168px;
+      }
     }
   }
-  .contentWrap {
 
-  }
   &.openedAccord {
     .accrodContent {
       max-height: 3000px;
