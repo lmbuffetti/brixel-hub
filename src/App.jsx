@@ -76,6 +76,11 @@ const Documents = Loadable({
   loading: Loading,
 });
 
+const ModalProtectedRoute = Loadable({
+  loader: () => import('./components/ModalProtectedRoute' /* webpackChunkName: "InputSheet" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -188,11 +193,19 @@ const App = (props) => {
         )
       }
 
-      { /* SECTION: SIDEBAR */ }
+      { /* SECTION: MODAL */ }
       <div className="zIndex3">
         <Switch>
           {/* SECTION: DOCUMENTS */}
           <Route path="/:propId?/:act/documents" component={Documents} />
+        </Switch>
+      </div>
+
+      { /* SECTION: SIDEBAR */ }
+      <div className="zIndex3">
+        <Switch>
+          {/* SECTION: DOCUMENTS */}
+          <ModalProtectedRoute path="/:propId?/:act/achievement/market-check" component={Rewards} />
         </Switch>
       </div>
     </>
