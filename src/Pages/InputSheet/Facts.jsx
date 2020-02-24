@@ -85,7 +85,7 @@ const InputSheet = (props) => {
       return (
         <div>
           <BrixelIcon
-            className="dis-b p-small-4"
+            className="brdSmall dis-b border-green"
             icon="check"
             rounded
             background="green"
@@ -109,7 +109,7 @@ const InputSheet = (props) => {
             noBorder={skipped[quest.history]}
             color={skipped[quest.history] ? "white" : "dark"}
             saturationTxt={skipped[quest.history] ? 0 : 400}
-            className="brdSmall dis-b p-small-4"
+            className={`brdSmall dis-b p-small-4 ${skipped[quest.history] ? 'border-primary' : ''}`}
             iconSize="small"
             padding="p-small-4"
             onClick={() => handleSkipSection(quest.history)}
@@ -222,8 +222,8 @@ const InputSheet = (props) => {
 
   return (
     <>
-      <div className="container dis-fl-col">
-        <div className="property-info-container brdRadius p-1">
+      <div className="container dis-fl-col mt-2">
+        <div className="property-info-container">
           <div className="header-section dis-fl-row a-c jc-b mb-2">
             <div className="dis-fl-row">
               <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
@@ -245,10 +245,10 @@ const InputSheet = (props) => {
                 }
               </div>
               <div className="title ml-1">
-                <span className="name dis-fl-row">
+                <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
                   {(has(initialValues.properties, 'typology') && has(initialValues.properties.typology, 'bedrooms')) ? initialValues.properties.typology.bedrooms : ''} {has(initialValues.properties, 'propertyType') ? initialValues.properties.propertyType : 'Property'}
                 </span>
-                <span className="address">{has(initialValues.location, 'zip') ? initialValues.location.zip : ''} {has(initialValues.location, 'state') ? initialValues.location.state : ''}</span>
+                <span className="address caption txtDark200">{has(initialValues.location, 'zip') ? initialValues.location.zip : ''} {has(initialValues.location, 'state') ? initialValues.location.state : ''}</span>
               </div>
             </div>
             <div className="actions dis-fl-row">
@@ -263,7 +263,6 @@ const InputSheet = (props) => {
               />
             </div>
           </div>
-
           <div className="transparency-container mb-2">
             <div className="dis-fl-col ta-l">
               {
@@ -271,15 +270,15 @@ const InputSheet = (props) => {
                   <>
                     <BrixelProgressBar
                       rounded
+                      large
                       saturation={700}
-                      small
                       barBackground="Red"
                       backgroundSaturation={100}
                       progressValue={sectionProgress.percComplete}
                     />
-                    <div className="dis-f">
-                      <span className="value mr-1">{sectionProgress.percComplete}%</span>
-                      <span>completed</span>
+                    <div className="dis-f fSizePx12 ff-mono txtPrimary700 pt-1">
+                      <span className="mr-1">{sectionProgress.percComplete}%</span>
+                      <span className="">completed</span>
                     </div>
                   </>
                 )
@@ -289,122 +288,132 @@ const InputSheet = (props) => {
         </div>
 
 
-        <div className="progressInfo dis-f a-c my-3 jc-b">
-          <h6>All tasks</h6>
-          {
-            sectionProgress && (
-              <span className="txtPrimary700">{sectionProgress.percComplete} %</span>
-            )
-          }
+        <div className="dis-f a-c my-2 jc-b body2 txtDark200">
+          <span>Expand all</span>
+          <span>All tasks</span>
         </div>
 
         {
           Questions.map((quest, i) => (
-            <div className="accordionWrap" key={i.toString()}>
-              <h3>{quest.title}</h3>
-              <div className="dis-f a-c jc-b">
-                <div className="dis-f a-c">
-                  {checkQuestionGroup(quest, skipSection)}
-                  <h4
-                    className="ml-2 txtDark200 body2 cur-poi"
-                    onClick={() => toggleAccordion(quest)}
-                  >
-                    {quest.subtitle || ''}
+            <div
+              className={`accordWrap ${accordion[quest.history] ? 'openedAccord' : 'closedAccord'}`}
+              key={i.toString()}
+            >
+              {
+                quest.group && (
+                  <span className="accordGroup fweight-600 dis-b pt-2 pb-1 txtDark700">
+                    {quest.group || ''}
+                  </span>
+                )
+              }
+              <div className="accordControl dis-f a-c jc-b">
+                <div
+                  className="accordTitle dis-f a-c cur-poi pt-1 pb-1"
+                  onClick={() => toggleAccordion(quest)}
+                >
+                  <BrixelIcon
+                    icon={accordion[quest.history] ? "minus" : "plus"}
+                    color="dark"
+                    saturationTxt={accordion[quest.history] ? 400 : 200}
+                    iconSize="small"
+                    className="ml-1"
+                  />
+                  <h4 className={`body ml-1 ${accordion[quest.history] ? "txtDark400" : "txtDark200"}`}>
+                    {quest.title}
                   </h4>
                 </div>
-                <BrixelIcon
-                  icon={accordion[quest.history] ? "arrow-simple-up" : "arrow-simple-down"}
-                  color="dark"
-                  saturationTxt={700}
-                  iconSize="small"
-                  onClick={() => toggleAccordion(quest)}
-                />
+                {checkQuestionGroup(quest, skipSection)}
               </div>
-              <div key={i.toString()} className={`accrodionList ${accordion[quest.history] ? 'openAccordion' : 'closedAccordion'}`}>
-                {
-                  quest.inputs.map((input, f) => (
-                    <div key={f.toString()}>
-                      {
-                        checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
-                          <div key={f.toString()}>
-                            {
-                              input.type === 'Map' ? (
-                                <>
-                                  <div className="mb-20 pos-r zIndex1">
-                                    <Field
-                                      name={input.name}
-                                      label={input.label}
-                                      component={() => (
-                                        <Maps
-                                          zoom={14}
-                                          scrollZoom
-                                          moveMarker
-                                          draggable
-                                          showSearchLocation
-                                          showSelectCountry={true}
-                                          showMap={true}
-                                          isShowZip={false}
-                                          className="w-perc-100"
+              {
+                accordion[quest.history] && (
+                  <div key={i.toString()} className="accrodContent">
+                    {
+                      quest.inputs.map((input, f) => (
+                        <div className="singleInput" key={f.toString()}>
+                          {
+                            checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
+                              <div className="pt-1 pb-1" key={f.toString()}>
+                                {
+                                  input.type === 'Map' ? (
+                                    <>
+                                      <div className="mb-20 pos-r zIndex1">
+                                        <Field
+                                          name={input.name}
+                                          label={input.label}
+                                          component={() => (
+                                            <Maps
+                                              zoom={14}
+                                              scrollZoom
+                                              moveMarker
+                                              draggable
+                                              showSearchLocation
+                                              showSelectCountry={true}
+                                              showMap={true}
+                                              isShowZip={false}
+                                              className="w-perc-100"
+                                            />
+                                          )}
+                                          options={input.options}
+                                          validate={input.validation}
+                                          type={input.type}
                                         />
-                                      )}
-                                      options={input.options}
-                                      validate={input.validation}
-                                      type={input.type}
-                                    />
-                                  </div>
-                                </>
-                              ) : (
-                                <div className="dis-f a-c jc-b">
-                                  <div
-                                    className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}
-                                    tabIndex="-1"
-                                  >
-                                    {input.deactivable ? input.deactivable.toString() : ''}
-                                    <Field
-                                      className="w-perc-100"
-                                      inputClassName={input.className || ''}
-                                      name={input.name}
-                                      label={input.label}
-                                      icons={input.icons}
-                                      component={input.component}
-                                      fluid={true}
-                                      options={input.options}
-                                      validate={input.validation}
-                                      type={input.type}
-                                      step={+input.step}
-                                      min={input.min}
-                                      deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
-                                      placeholder={input.placeholder || ''}
-                                      meta={{
-                                        dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                        invalid: true,
-                                      }}
-                                      modal={input.modal ? {message: input.modal.hint, func: () => handleSetModal(input.modal.func)} : null }
-                                      message={{
-                                        help: null,
-                                        error: errorValue[input.name],
-                                      }}
-                                      minLenghtNum={input.minLenghtNum || null}
-                                      maxLengthNum={input.maxLenghtNum || null}
-                                      onBlur={() => getCalcPerc()}
-                                    />
-                                    {
-                                      input.unit && (
-                                        <span className="pl-2">{input.unit}</span>
-                                      )
-                                    }
-                                  </div>
-                                </div>
-                              )
-                            }
-                            <p className="body2">{input.help}</p>
-                          </div>
-                        )
-                      }
-                    </div>
-                  ))
-                }
-              </div>
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <div className="dis-f a-c jc-b">
+                                      <div
+                                        className={`${input.classNameBox || ''} dis-fl-col w-perc-100`}
+                                        tabIndex="-1"
+                                      >
+                                        {input.deactivable ? input.deactivable.toString() : ''}
+                                        <Field
+                                          className={input.className || ''}
+                                          inputClassName={input.inputClassName || ''}
+                                          isHorizontal={input.isHorizontal}
+                                          name={input.name}
+                                          label={input.label}
+                                          icons={input.icons}
+                                          component={input.component}
+                                          fluid={false}
+                                          options={input.options}
+                                          validate={input.validation}
+                                          type={input.type}
+                                          step={+input.step}
+                                          min={input.min}
+                                          deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
+                                          placeholder={input.placeholder || ''}
+                                          meta={{
+                                            dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                            invalid: true,
+                                          }}
+                                          modal={input.modal ? {message: input.modal.hint, func: () => handleSetModal(input.modal.func)} : null }
+                                          message={{
+                                            help: null,
+                                            error: errorValue[input.name],
+                                          }}
+                                          minLenghtNum={input.minLenghtNum || null}
+                                          maxLengthNum={input.maxLenghtNum || null}
+                                          onBlur={() => getCalcPerc()}
+                                        />
+                                        {
+                                          input.unit && (
+                                            <span className="pl-2">{input.unit}</span>
+                                          )
+                                        }
+                                      </div>
+                                    </div>
+                                  )
+                                }
+                                <p className="body2">{input.help}</p>
+                              </div>
+                            )
+                          }
+                        </div>
+                      ))
+                    }
+                  </div>
+                )
+              }
             </div>
           ))
         }

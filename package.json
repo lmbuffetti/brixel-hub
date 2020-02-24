@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^1.1.83",
+    "@brixel/brixel-components": "^1.1.89",
     "@brixel/brixel-configuration-partner": "git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "d3": "^5.15.0",
     "deep-object-diff": "^1.1.0",
@@ -31,6 +31,7 @@
     "react-router-redux": "^4.0.8",
     "react-scripts": "3.4.0",
     "react-svg-loader": "^3.0.3",
+    "react-transition-group": "^1.2.1",
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",

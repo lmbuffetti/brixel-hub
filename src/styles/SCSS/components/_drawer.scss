@@ -1,4 +1,4 @@
-.wrapSidebar {
+.wrapDrawer {
   position: fixed;
   left: 0;
   top: 0;
@@ -7,21 +7,19 @@
   z-index: 3000;
   background: rgba(map_get($darkColor, 700), .7);
 
-  .rightSidebar {
+  .drawer {
     position: absolute;
-    border-top-left-radius: $brd-radius-small;
-    border-bottom-left-radius: $brd-radius-small;
     right: 0;
     top: 0;
     height: 100%;
     width: 100%;
-    max-width: 400px;
-    background: map_get($lightColor, 100);
+    max-width: 500px;
+    background-color: $brx-white;
 
     // Media edit styles
-    .image-detail {
+    /* .image-detail {
       height: 100%;
-      background-color: white;
+      background-color: $brx-white;
 
       .title {
         @include fontStyle(500, 'medium', left);
@@ -45,6 +43,6 @@
           }
         }
       }
-    }
+    } */
   }
 }
