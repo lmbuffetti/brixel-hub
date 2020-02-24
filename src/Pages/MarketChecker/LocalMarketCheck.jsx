@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import {
@@ -19,23 +19,13 @@ function LocalMarketCheck(props) {
   const {
     formValue,
     handleGetMarketData,
-    handleGetPage,
     handleUpdatePage,
-    history,
     marketData,
     property,
     match,
   } = props;
-
-  // GET the current property
-  useEffect(() => {
-    if (props.match.params.propId && !property) {
-      const data = {
-        id: match.params.propId,
-      };
-      handleGetPage(data)
-    }
-  }, []);
+  // STATE
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     if (property && property.id) {
@@ -58,34 +48,28 @@ function LocalMarketCheck(props) {
   }, [property]);
 
   useEffect(() => {
-    if (marketData && marketData.priceDistribution) {
-      if (property.packageFlowProcess.rewardScreenData) {
-
-      } else {
-        const data = {
-          id: match.params.propId,
-          packageFlowProcess: property.packageFlowProcess,
-          properties: property.property,
-        };
-        data.properties.building.conditionCode = get(formValue, 'properties.building.conditionCode', {});
-        data.packageFlowProcess.rewardScreenData = {
-          market_check_date: moment().format(),
-          similar_properties: marketData.priceDistribution.numberOfProperties,
-          median_market_price: marketData.priceDistribution.medianRounded,
-          median_market_price_per_m2: marketData.pricePerSpace.medianRounded,
-          median_market_living_space: Math.ceil(marketData.livingSpacesDistribution.median).toString(),
-          median_age: Math.ceil(marketData.constructionYearDistribution.medianAge).toString(),
-          median_time_on_market: marketData.daysOnMarketDistribution.median.toString(),
-        };
-        handleUpdatePage(data);
-      }
-
-      if (marketData.priceDistribution.numberOfProperties === 0) {
-        history.push(`/packageFlow/${match.params.propId}/advisory`);
-      }
+    if (marketData && marketData.priceDistribution && !saved) {
+      console.log(property);
+      const data = {
+        id: match.params.propId,
+        packageFlowProcess: property.packageFlowProcess,
+        properties: property.properties,
+      };
+      data.properties.building.conditionCode = get(formValue, 'properties.building.conditionCode', null);
+      data.packageFlowProcess.rewardScreenData = {
+        market_check_date: moment().format(),
+        similar_properties: marketData.priceDistribution.numberOfProperties,
+        median_market_price: marketData.priceDistribution.medianRounded,
+        median_market_price_per_m2: marketData.pricePerSpace.medianRounded,
+        median_market_living_space: Math.ceil(marketData.livingSpacesDistribution.median).toString(),
+        median_age: Math.ceil(marketData.constructionYearDistribution.medianAge).toString(),
+        median_time_on_market: marketData.daysOnMarketDistribution.median ? marketData.daysOnMarketDistribution.median.toString() : 0,
+      };
+      handleUpdatePage(data);
+      setSaved(true);
     }
   }, [marketData]);
-
+  console.log(property);
   return (
     <main id="rewards" className="pb-4">
       <div className="subcontainer">
@@ -199,7 +183,7 @@ LocalMarketCheck.defaultProps = {
 
 const mapStateToProps = (state, props) => ({
   formValue: get(state, `form.${props.formName}.values`, {}),
-  property: get(state, 'property.property', null),
+  property: get(state, 'property.property', {}),
   loggedUser: get(state, 'user.loggedUser', {}),
   marketData: get(state, 'property.marketCheck', {}),
 });

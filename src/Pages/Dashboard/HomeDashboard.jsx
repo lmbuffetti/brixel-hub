@@ -82,7 +82,11 @@ const HomeDashboard = (props) => {
   return (
     <div className="container">
       <h3>Home of</h3>
-      <h4>{property.properties.typology.bedrooms} {property.properties.propertyType} in {property.location.city}</h4>
+      {
+        property.properties.typology && (
+          <h4>{property.properties.typology.bedrooms} {property.properties.propertyType} in {property.location.city}</h4>
+        )
+      }
       {
         usrGroups && usrGroups.map((group, i) => (
           <Fragment key={i.toString()}>
@@ -108,7 +112,7 @@ const HomeDashboard = (props) => {
                               item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
                               {label: item.points, color: 'dark700'},
                             ]}
-                            onClick={(e) => history.push(`./achievement/${item.stub}`)}
+                            onClick={(e) => history.push(`/${property.id}/home/achievement/${item.stub}`)}
                           />
                         </div>
                       ))

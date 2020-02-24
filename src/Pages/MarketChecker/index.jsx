@@ -20,6 +20,7 @@ const MarketChecker = (props) => {
     handleAddGameHistory,
     handleSetModal,
     history,
+    initialValue,
     loggedUser,
     property,
     stubAchievement,
@@ -27,14 +28,13 @@ const MarketChecker = (props) => {
   // STATE
   const [Questions, setQuestions] = useState([]);
   const [QuestionsForm, setQuestionsForm] = useState([]);
-  const [doneMarketCheck, setDoneMarketCheck] = useState(null);
+  const [doneMarketCheck, setDoneMarketCheck] = useState(true);
   const [loaded, setLoaded] = useState(false);
   const [step, setStep] = useState(0);
   // GET STUB ACVHIEVEMNT
   const getAchievement = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    console.log(Questions[step] ,step);
     setQuestions(MarketCheckQuestions('en'));
     setQuestionsForm(MarketCheckQuestions('en').filter(quest => quest.inputs));
   }, []);
@@ -134,12 +134,17 @@ const MarketChecker = (props) => {
                   questions={QuestionsForm}
                   onChangeStep={(val) => setStep(val)}
                   step={step}
+                  initialValue={initialValue}
                 />
               ) : (
                 <>
                   {
                     Questions[step] && Questions[step].component && (
-                      <div>{React.createElement(Questions[step].component)}</div>
+                      <div>
+                        {
+                          React.createElement(Questions[step].component, {formName: 'MarketCheck'})
+                        }
+                      </div>
                     )
                   }
                 </>
@@ -158,16 +163,20 @@ MarketChecker.propTypes = {
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  initialValue: PropTypes.object,
   loggedUser: PropTypes.object.isRequired,
   stubAchievement: PropTypes.string.isRequired,
 };
 
 MarketChecker.defaultProps = {
-
+  initialValue: {}
 };
 
 const mapStateToProps = (state, props) => ({
   gameHistory: get(state, 'gamification.gameHistory', {}),
+  initialValue: {
+    'properties.building.conditionCode': get(state, 'property.property.properties.building.conditionCode', null)
+  },
   loggedUser: get(state, 'user.loggedUser', {}),
   property: get(state, 'property.property', {}),
   stubAchievement: get(props, 'match.params.stub-achievement', null),

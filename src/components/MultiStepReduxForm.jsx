@@ -112,6 +112,7 @@ const mapStateToProps = (state, props) => ({
   formValue: get(state, `formValues[${props.form}].values`, {}),
   errorValue: get(state, `formValues[${props.form}].syncErrors`, {}),
   form: props.form,
+  initialValue: get(props, 'initialValue', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
