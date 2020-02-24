@@ -6,6 +6,7 @@ import {
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { getProperties } from '../../actions/PropertyActions';
+import { BrixelIcon } from '@brixel/brixel-components';
 
 const HomeDashboard = (props) => {
   // PROPS
@@ -18,8 +19,31 @@ const HomeDashboard = (props) => {
 
 
   return (
-    <div className="container">
-      <h1>Support</h1>
+    <div className="container supportCard">
+      <div>
+        <BrixelIcon
+          classaName="dis-b"
+          icon="question"
+          background="primary"
+          saturation={300}
+          color="white"
+          saturationTxt={0}
+        />
+        <h4 className="my-1">Support</h4>
+        <p>How can I hel you?</p>
+      </div>
+      <div className="mt-4">
+        <BrixelIcon
+          classaName="dis-b"
+          icon="first-time-occupancy"
+          background="primary"
+          saturation={300}
+          color="white"
+          saturationTxt={0}
+        />
+        <h4 className="my-1">Upgrade</h4>
+        <p>Learn about Brixel Premium</p>
+      </div>
     </div>
   )
 };

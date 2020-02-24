@@ -12,6 +12,7 @@ import {
 import { translateTo } from '../utils/translation';
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
+import { number } from 'prop-types';
 const { factsOptions } = FactsOptions;
 
 const formatPrice = (value) => {
@@ -28,6 +29,7 @@ export const InputSheets = (lang) => [
   // SECTION: PROPERTY TYPE
   {
     className: 'radioBtnImg',
+    group: "Type",
     title: "Property Type",
     history: "propertyType",
     cardType: "propertyType",
@@ -58,6 +60,7 @@ export const InputSheets = (lang) => [
   },
   // SECTION: LOCATION
   {
+    group: "Address",
     title: "Address",
     history: "locationInput",
     cardType: "location",
@@ -85,6 +88,7 @@ export const InputSheets = (lang) => [
   // SECTION: PROPERTY
   {
     className: '',
+    group: "Property",
     title: "Property",
     history: "property",
     cardType: "property ",
@@ -107,8 +111,8 @@ export const InputSheets = (lang) => [
           name: 'properties.propertyType',
           value: 'Apartment'
         },
-        className: '',
         label: 'What\'s the type of the building?',
+        isHorizontal: true,
         name: 'properties.building.typeFlatBuildingCode',
         options: factsOptions.typeFlatBuildingCode,
         validation: [Validation.markRequired]
@@ -129,6 +133,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the construction year?',
+        type: "number",
         name: 'properties.building.built',
         validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear, Validation.required],
         placeholder: "YYYY (ex.: 2020)",
@@ -140,10 +145,11 @@ export const InputSheets = (lang) => [
         name: 'properties.building.quality',
         options: factsOptions.quality,
         modal: {
+          className: 'brixellll',
           hint: 'Know more about building quality',
           func: {
             state: true,
-            title: 'Building quality',
+            group: 'Building quality',
             body: 'With this variable, the basic structure independent of its current condition is assessed. Pay attention to following points: the modes of construction; the quality of the materials used in construction, insulation, glazing; the kitchen and bath furnishing; the quality of outdoor and environment design; the quality of the plan (floor plan, lighting conditions, access to rooms etc.); quality of heatgeneration and distribution.' +
               'Exceptional quality: Very good noise insulation (within the building and from outside); heat insulation surpasses common standard; no problems with humidity or airtightness; very good indoor climate; ideal room layout with developable reserves; superior kitchen and sanitation; particular construction parts can easily be replaced; very good room proportions; versatile view from within and from outside; many green areas with exquisite planting and generous seating areas.' +
               'Good quality: Good noise insulation (within the building and from outside); heat insulation fulfill current standard; no problems with humidity or airtightness; good indoor climate; good room layout; contemporary kitchen and sanitation; particular construction parts can be replaced with little effort; good room proportions; good view from within and from outside; many green areas with harmonic planting and generous seating areas.' +
@@ -159,11 +165,12 @@ export const InputSheets = (lang) => [
         label: 'Is the property renovated?',
         name: 'properties.building.isPropertyRenovated',
         options: factsOptions.isPropertyRenovatedOptions,
+        isHorizontal: true,
         modal: {
           hint: 'Know more about renovations',
           func: {
             state: true,
-            title: 'Renovations',
+            group: 'Renovations',
             body: 'If a major renovation of the object has taken place, please enter the corresponding year.' +
               'A major renovation is defined as work on the whole building. This includes the facade (heat insulation, windows), new heating, kitchen or bathroom. All investments within 3-5 years can be combined.' +
               'In order to be considered as a major renovation at least 15-20% of the building insurance value has to be reinvested.',
@@ -199,6 +206,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'Are there some major renovation works needed within the next years?',
         name: 'properties.building.isNeedRenovation',
+        isHorizontal: true,
         options: factsOptions.yesNoOpt,
         validation: [Validation.markRequired]
       },
@@ -236,7 +244,7 @@ export const InputSheets = (lang) => [
           hint: 'Building quality',
           func: {
             state: true,
-            title: 'Renovations',
+            group: 'Renovations',
             body: 'To assess the condition of a building, consider the building shell (facade, windows, roof), the supporting structure, the general technical systems (heating, sanitation, principal electrical distribution, ventilation system, elevator) and the expansion of general surfaces (cellar rooms, washrooms and drying rooms, staircases etc.).' +
               'Exceptional quality: Everything is as good as new and fully working. The building is maximal 5 years old or is completely renovated within the last 3 years.' +
               'Good quality: Everything is fully working but show traces of use. The building is 5-15 years old or is completely renovated within the last 3-10 years.' +
@@ -300,6 +308,7 @@ export const InputSheets = (lang) => [
         label: 'What\'s the lot size? (m2)',
         name: 'properties.typology.lotArea.value',
         type: "number",
+        unit: 'm2',
         validation: [Validation.markRequired]
       },
       {
@@ -365,6 +374,7 @@ export const InputSheets = (lang) => [
         label: 'Does the apartment have multiple floors?',
         name: 'properties.building.multiStoreyApartment',
         type: "number",
+        isHorizontal: true,
         validation: [Validation.markRequired]
       },
       {
@@ -420,6 +430,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'Is the property a holiday home?',
         name: 'properties.building.secondaryResidence',
+        isHorizontal: true,
         options: factsOptions.secondaryResidenceOptions,
         validation: [Validation.markRequired]
       },
@@ -456,6 +467,7 @@ export const InputSheets = (lang) => [
         label: 'Is there a basement?',
         name: 'properties.typology.basement',
         options: factsOptions.basementOptions,
+        isHorizontal: true,
         validation: [Validation.markRequired]
       },
       {
@@ -475,6 +487,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'Is there a storeroom?',
         name: 'properties.building.properties.typology.storeroom',
+        isHorizontal: true,
         options: factsOptions.yesNoOpt,
         validation: [Validation.markRequired]
       },
@@ -494,6 +507,7 @@ export const InputSheets = (lang) => [
         component: BrixelRadioButton,
         className: '',
         label: 'Is there some other collective used spaces?',
+        isHorizontal: true,
         name: 'properties.typology.collectiveSpaces',
         options: factsOptions.yesNoOpt,
         validation: [Validation.markRequired]
@@ -579,6 +593,7 @@ export const InputSheets = (lang) => [
   },
   // SECTION: EXTRA FEATURE
   {
+    group: "Extra features",
     title: "Extra features",
     history: "extraFeature",
     cardType: "extraFeature",
@@ -595,13 +610,14 @@ export const InputSheets = (lang) => [
   },
   // SECTION: FACILITES & MATERIALS
   {
+    group: "Facilities & materials",
     title: "Facilities & materials",
     history: "facilitiesMaterials",
     cardType: "facilitiesMaterials",
     inputs: [
       {
         component: BrixelCheckbox,
-        className: '',
+        className: 'pt-1 pb-1',
         label: 'What\'s the heating system?',
         name: 'properties.energy.heating',
         options: factsOptions.heating,
@@ -632,8 +648,9 @@ export const InputSheets = (lang) => [
       },
       {
         component: BrixelRadioButton,
-        className: '',
+        classNameBox: 'dis-fl-row',
         label: 'Is there a solar plant?',
+        isHorizontal: true,
         name: 'properties.energy.solar',
         options: factsOptions.solarOptions,
         validation: [Validation.markRequired],
@@ -642,6 +659,7 @@ export const InputSheets = (lang) => [
         component: BrixelRadioButton,
         className: '',
         label: 'Is there an air conditioner?',
+        isHorizontal: true,
         name: 'properties.energy.ac',
         options: factsOptions.acOptions,
         validation: [Validation.markRequired],
@@ -650,6 +668,7 @@ export const InputSheets = (lang) => [
         component: BrixelRadioButton,
         className: '',
         label: 'Is there a solar plant?',
+        isHorizontal: true,
         name: 'properties.energy.solar',
         options: factsOptions.solarOptions,
         validation: [Validation.markRequired],
@@ -658,13 +677,14 @@ export const InputSheets = (lang) => [
         component: BrixelRadioButton,
         className: '',
         label: 'Is there a window insulation?',
+        isHorizontal: true,
         name: 'properties.building.windows.insulation',
         options: factsOptions.windowsInsulationOptions,
         validation: [Validation.markRequired],
       },
       {
         component: BrixelCheckbox,
-        className: '',
+        className: 'pt-1 pb-1',
         label: 'What is the material of the windows?',
         name: 'properties.building.windows.materials',
         options: factsOptions.windows,
@@ -689,6 +709,7 @@ export const InputSheets = (lang) => [
         component: BrixelRadioButton,
         className: '',
         label: 'Is the property Minergie certified?',
+        isHorizontal: true,
         name: 'properties.energy.minergieCertified',
         options: factsOptions.minergieCertifiedOptions,
         validation: [Validation.markRequired],
@@ -766,6 +787,7 @@ export const InputSheets = (lang) => [
         component: BrixelRadioButton,
         className: '',
         label: 'Is there a value-relevant building right or servitude on the property?',
+        isHorizontal: true,
         name: 'properties.building.valueRelevantServitude',
         options: factsOptions.valueRelevantServitudeOptions,
         validation: [Validation.markRequired],
@@ -852,8 +874,9 @@ export const InputSheets = (lang) => [
       {
         component: BrixelInputText,
         className: '',
-        label: 'What\'s the current notional rental value?',
-        name: 'price.notional',
+        label: 'What\'s the current national rental value?',
+        name: 'price.national',
+        type: 'number',
         format: formatPrice,
         normalize: normalizePrice,
         validation: [Validation.markRequired],
@@ -893,6 +916,7 @@ export const InputSheets = (lang) => [
   },
   // SECTION: DESCRIPTION
   {
+    group: "Description",
     title: "Description",
     history: "description",
     cardType: "description",

@@ -17,4 +17,50 @@
       }
     }
   }
+
+  .property-info-container {
+    background-color: map-get($lightColor, 100);
+
+    .areas {
+
+      .docubox,
+      .showings {
+        cursor: pointer;
+        @include border('Dark', 200);
+      }
+    }
+
+    .buyer {
+
+      .buyer-container {
+        @include border('Dark', 200);
+
+        .number {
+          font-family: $font-family-secondary;
+          @include fontStyle(700,'medium',center);
+        }
+
+        .text {
+          @include fontStyle(400,'regular',center);
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: $responsive-medium) {
+  .homeTab, .propertyTab {
+    flex: 0 0 45% !important;
+  }
+
+  .supportTab {
+    flex: 0 0 10% !important;
+  }
+
+  .supportCard {
+    border-radius: $step 0 0 0;
+    background: map_get($lightColor, 100);
+    padding-top: $step * 3;
+    height: 100%;
+  }
 }

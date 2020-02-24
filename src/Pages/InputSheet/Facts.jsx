@@ -5,10 +5,12 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reduxForm, Field } from 'redux-form';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import {
-  BrixelButtonIcon, BrixelIcon,
+  BrixelButtonIcon,
+  BrixelIcon, BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -17,15 +19,15 @@ import {
   setModal, setNotification,
 } from '../../actions/CommonActions';
 import LoadingSimple from '../../components/LoadingSimple';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { InputSheets } from '../../resources/inputSheets';
+import { getCalcSectionInputSheets } from '../../utils/helpers';
 
 // COMPONENTS
 import Loading from '../../components/Loading';
-// import { getActiveSingleUser } from '../../actions/UserActions';
 import { updateProperty, getProperty } from '../../actions/PropertyActions';
-import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
+import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import noCover from '../../images/no_cover.jpg';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
@@ -34,15 +36,16 @@ const Maps = Loadable({
 
 const InputSheet = (props) => {
   const {
-    errorValue, match, history, formValue, handleSaveProperty, reset,
-    initialValues, setUserActiveProperty,
+    errorValue, match, formValue, handleSaveProperty, reset,
+    initialValues, setUserActiveProperty, history,
     handleSetModal, notification, setNotification,
   } = props;
 
   // STATE
   const [Questions, setQuestions] = useState([]);
   const [accordion, setAccordion] = useState({});
-  const [skipSection, setSkipSection] = useState({});
+  const [accordionAnimatad, setAccordionAnimatad] = useState({});
+  const [skipSection, setSkipSection] = useState(get(initialValues, 'inputSheet.skipSection', {}));
   const [sectionProgress, setSectionProgress] = useState({});
 
   const propID = get(match, 'params.propID', null);
@@ -50,45 +53,39 @@ const InputSheet = (props) => {
   useEffect(() => {
     const id = get(match, 'params.propId', null);
     if (id) {
-      setUserActiveProperty({id})
+      setUserActiveProperty({ id })
     }
     setQuestions(InputSheets('en'));
   }, []);
 
-  const saveData = () => {
-    const data = {
-      id: propID,
-      data: formValue,
-    };
-    // For now we still dont use the diff object (TODO: API ticket)
-    // diff(initialValues, formValue)
-
-    handleSaveProperty(data);
-  };
-
-  const handleSkipSection = (key) => {
+  // FUNCTION ON CLICK TO ENABLE/DISABLE QUESTION GROUP
+  const handleSkipSection = async (key) => {
     const id = get(match, 'params.propId', null);
     const newSkipSection = skipSection;
     newSkipSection[key] = !newSkipSection[key];
     setSkipSection({...newSkipSection});
-    const newTotal = Object.keys(newSkipSection).filter(keySkip => newSkipSection[keySkip] === false);
-    const { totalComplete, section } = sectionProgress;
     setSectionProgress({
-      percComplete: Math.ceil((totalComplete * 100) / newTotal.length),
-      section: section,
-      total: newTotal.length,
-      totalComplete,
-      totalUncomplete: newTotal.length - totalComplete,
+      ...sectionProgress,
+      section: newSkipSection,
     });
-    handleSaveProperty({id, skipFacts: newSkipSection});
+
+    const data = {
+      skipSection: newSkipSection,
+      totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion, 'getPercentage', newSkipSection),
+    };
+    const getData = getCalcSectionInputSheets(Questions, formValue, accordion, null, newSkipSection);
+    setSectionProgress({...getData.accordion});
+    setSectionProgress({...getData.section});
+    await handleSaveProperty({id, inputSheet: data});
   };
 
+  // FUNCTION TO LOAD DIFFERENT CHACKMAR IF GROUP IS COMPLETE, UNCOMPLETE, DISABLE
   const checkQuestionGroup = (quest, skipped) => {
-    if (sectionProgress.section[quest.history]) {
+    if (sectionProgress && sectionProgress.sectionComplete && sectionProgress.sectionComplete[quest.history]) {
       return (
         <div>
           <BrixelIcon
-            className="dis-b p-small-4"
+            className="brdSmall dis-b border-green"
             icon="check"
             rounded
             background="green"
@@ -112,7 +109,7 @@ const InputSheet = (props) => {
             noBorder={skipped[quest.history]}
             color={skipped[quest.history] ? "white" : "dark"}
             saturationTxt={skipped[quest.history] ? 0 : 400}
-            className="brdSmall dis-b p-small-4"
+            className={`brdSmall dis-b p-small-4 ${skipped[quest.history] ? 'border-primary' : ''}`}
             iconSize="small"
             padding="p-small-4"
             onClick={() => handleSkipSection(quest.history)}
@@ -130,49 +127,32 @@ const InputSheet = (props) => {
     setNotification({ state: false });
   };
 
+  const saveData = async () => {
+    const data = {
+      id: propID,
+      data: formValue,
+    };
+    // For now we still dont use the diff object (TODO: API ticket)
+    // diff(initialValues, formValue)
+    const dataInputSheet = {
+      skipSection: skipSection,
+      totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion,'getPercentage', null),
+    };
+
+    await handleSaveProperty({id: propID, inputSheet: dataInputSheet});
+    await handleSaveProperty(data);
+  };
+
   useEffect(() => {
-    let checkSection = {};
-    Questions.map((quest) => {
-      let validSection = true;
-      quest.inputs.map((inp) => {
-        if (inp.validation && inp.validation[0] && validSection) {
-          const curVal = get(formValue, inp.name, true);
-          if (isEmptyWithBool(curVal)) validSection = false;
-        }
-      });
-      checkSection[quest.history] = validSection;
-    });
-
-    const complete = Object.keys(checkSection).filter((val) => checkSection[val] === true).length;
-    const totalSec = Object.keys(checkSection).length;
-    const total = setSectionProgress.total || totalSec;
-    setSectionProgress({
-      percComplete: Math.ceil((complete * 100) / total),
-      section: checkSection,
-      total,
-      totalComplete: complete,
-      totalUncomplete: total - complete,
-    });
-
-    // SET THE FIRST TIME THE ACCORDION
-    if (Object.keys(accordion).length === 0 && formValue.id) {
-      const defAccordion = {};
-      const defSkipSection = cloneDeep(initialValues.skipFacts || {});
-      Questions.map((quest) => {
-        if (defSkipSection[quest.history]) {
-          defAccordion[quest.history] = false;
-        } else {
-          defAccordion[quest.history] = defSkipSection[quest.history] || !checkSection[quest.history];
-        }
-        defSkipSection[quest.history] = defSkipSection[quest.history] || false;
-      });
-      setAccordion(defAccordion);
-      setSkipSection(defSkipSection);
+    //
+    if (formValue.id) {
+      const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
+      setAccordion({...getData.accordion});
+      setAccordionAnimatad({...getData.accordion});
+      setSectionProgress({...getData.section});
+      setSkipSection(initialValues.inputSheet.skipSection);
     }
-
-
-  }, [formValue]);
-
+  }, [initialValues]);
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
@@ -227,119 +207,213 @@ const InputSheet = (props) => {
     return isToShow;
   };
 
+  const getCalcPerc = () => {
+    const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
+    setSectionProgress({...getData.accordion});
+    setSectionProgress({...getData.section});
+  };
+
+  const toggleAccordion = (quest) => {
+    setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] });
+    setAccordionAnimatad({ ...accordion, [quest.history]: true });
+
+    setTimeout(() => setAccordionAnimatad({ ...accordionAnimatad, [quest.history]: !accordion[quest.history] }), 1000, );
+  };
+
   return (
     <>
-      <div className="container dis-fl-col">
-        <div className="progressInfo dis-f a-c my-3 jc-b">
-          <h6>All tasks</h6>
-          <span className="txtPrimary700">{sectionProgress.percComplete} %</span>
+      <div className="container dis-fl-col mt-2">
+        <div className="property-info-container">
+          <div className="header-section dis-fl-row a-c jc-b mb-2">
+            <div className="dis-fl-row">
+              <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
+                {
+                  initialValues.coverPhoto && initialValues.coverPhoto.path ? (
+                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${getConfigEnv.shortPath}${initialValues.coverPhoto.path}`} alt="Brixel Logo" id="avatar" />
+                  ) : (
+                    <i
+                      className="avatar w-fix-48 h-fix-48 brdRadius pos-r"
+                      style={{
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        display: 'block',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundImage: `url(${noCover})`,
+                      }}
+                    />
+                  )
+                }
+              </div>
+              <div className="title ml-1">
+                <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
+                  {(has(initialValues.properties, 'typology') && has(initialValues.properties.typology, 'bedrooms')) ? initialValues.properties.typology.bedrooms : ''} {has(initialValues.properties, 'propertyType') ? initialValues.properties.propertyType : 'Property'}
+                </span>
+                <span className="address caption txtDark200">{has(initialValues.location, 'zip') ? initialValues.location.zip : ''} {has(initialValues.location, 'state') ? initialValues.location.state : ''}</span>
+              </div>
+            </div>
+            <div className="actions dis-fl-row">
+              <BrixelButtonIcon
+                noBorder
+                color="dark"
+                saturationTxt={700}
+                background="white"
+                className="ml-1 bgWhite shadow-3dp"
+                icon="close"
+                onClick={(e) => history.push('./property')}
+              />
+            </div>
+          </div>
+          <div className="transparency-container mb-2">
+            <div className="dis-fl-col ta-l">
+              {
+                get(initialValues, 'inputSheet') && (
+                  <>
+                    <BrixelProgressBar
+                      rounded
+                      large
+                      saturation={700}
+                      barBackground="Red"
+                      backgroundSaturation={100}
+                      progressValue={sectionProgress.percComplete}
+                    />
+                    <div className="dis-f fSizePx12 ff-mono txtPrimary700 pt-1">
+                      <span className="mr-1">{sectionProgress.percComplete}%</span>
+                      <span className="">completed</span>
+                    </div>
+                  </>
+                )
+              }
+            </div>
+          </div>
+        </div>
+
+
+        <div className="dis-f a-c my-2 jc-b body2 txtDark200">
+          <span>Expand all</span>
+          <span>All tasks</span>
         </div>
 
         {
           Questions.map((quest, i) => (
-            <div className="accordionWrap" key={i.toString()}>
-              <div className="dis-f a-c jc-b">
-                <div className="dis-f a-c">
-                  {checkQuestionGroup(quest, skipSection)}
-                  <h4
-                    className="ml-2 txtDark200 body2 cur-poi"
-                    onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
-                  >
+            <div
+              className={`accordWrap ${accordion[quest.history] ? 'openedAccord' : 'closedAccord'}`}
+              key={i.toString()}
+            >
+              {
+                quest.group && (
+                  <span className="accordGroup fweight-600 dis-b pt-2 pb-1 txtDark700">
+                    {quest.group || ''}
+                  </span>
+                )
+              }
+              <div className="accordControl dis-f a-c jc-b">
+                <div
+                  className="accordTitle dis-f a-c cur-poi pt-1 pb-1"
+                  onClick={() => toggleAccordion(quest)}
+                >
+                  <BrixelIcon
+                    icon={accordion[quest.history] ? "minus" : "plus"}
+                    color="dark"
+                    saturationTxt={accordion[quest.history] ? 400 : 200}
+                    iconSize="small"
+                    className="ml-1"
+                  />
+                  <h4 className={`body ml-1 ${accordion[quest.history] ? "txtDark400" : "txtDark200"}`}>
                     {quest.title}
                   </h4>
                 </div>
-                <BrixelIcon
-                  icon={accordion[quest.history] ? "arrow-simple-up" : "arrow-simple-down"}
-                  color="dark"
-                  saturationTxt={700}
-                  iconSize="small"
-                  onClick={() => setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] })}
-                />
+                {checkQuestionGroup(quest, skipSection)}
               </div>
-              <div key={i.toString()} className={`accrodionList ${accordion[quest.history] ? 'openAccordion' : 'closedAccordion'}`}>
-                {
-                  quest.inputs.map((input, f) => (
-                    <div key={f.toString()}>
-                      {
-                        checkCondition(input) && (typeof accordion[quest.history] === 'undefined' || accordion[quest.history]) && (
-                          <div key={f.toString()}>
-                            {
-                              input.type === 'Map' ? (
-                                <>
-                                  <div className="mb-20 pos-r zIndex1">
-                                    <Field
-                                      name={input.name}
-                                      label={input.label}
-                                      component={() => (
-                                        <Maps
-                                          zoom={14}
-                                          scrollZoom
-                                          moveMarker
-                                          draggable
-                                          showSearchLocation
-                                          showSelectCountry={true}
-                                          showMap={true}
-                                          isShowZip={false}
-                                          className="w-perc-100"
+              {
+                accordion[quest.history] && (
+                  <div key={i.toString()} className="accrodContent">
+                    {
+                      quest.inputs.map((input, f) => (
+                        <div className="singleInput" key={f.toString()}>
+                          {
+                            checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
+                              <div className="pt-1 pb-1" key={f.toString()}>
+                                {
+                                  input.type === 'Map' ? (
+                                    <>
+                                      <div className="mb-20 pos-r zIndex1">
+                                        <Field
+                                          name={input.name}
+                                          label={input.label}
+                                          component={() => (
+                                            <Maps
+                                              zoom={14}
+                                              scrollZoom
+                                              moveMarker
+                                              draggable
+                                              showSearchLocation
+                                              showSelectCountry={true}
+                                              showMap={true}
+                                              isShowZip={false}
+                                              className="w-perc-100"
+                                            />
+                                          )}
+                                          options={input.options}
+                                          validate={input.validation}
+                                          type={input.type}
                                         />
-                                      )}
-                                      options={input.options}
-                                      validate={input.validation}
-                                      type={input.type}
-                                    />
-                                  </div>
-                                </>
-                              ) : (
-                                <div className="dis-f a-c jc-b">
-                                  <div
-                                    className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}
-                                    tabIndex="-1"
-                                  >
-                                    {input.deactivable ? input.deactivable.toString() : ''}
-                                    <Field
-                                      className="w-perc-100"
-                                      inputClassName={input.className || ''}
-                                      name={input.name}
-                                      label={input.label}
-                                      icons={input.icons}
-                                      component={input.component}
-                                      fluid={true}
-                                      options={input.options}
-                                      validate={input.validation}
-                                      type={input.type}
-                                      step={+input.step}
-                                      min={input.min}
-                                      deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
-                                      placeholder={input.placeholder || ''}
-                                      meta={{
-                                        dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                        invalid: true,
-                                      }}
-                                      modal={input.modal ? {message: input.modal.hint, func: () => handleSetModal(input.modal.func)} : null }
-                                      message={{
-                                        help: null,
-                                        error: errorValue[input.name],
-                                      }}
-                                      minLenghtNum={input.minLenghtNum || null}
-                                      maxLengthNum={input.maxLenghtNum || null}
-                                    />
-                                    {
-                                      input.unit && (
-                                        <span className="pl-2">{input.unit}</span>
-                                      )
-                                    }
-                                  </div>
-                                </div>
-                              )
-                            }
-                            <p className="body2">{input.help}</p>
-                          </div>
-                        )
-                      }
-                    </div>
-                  ))
-                }
-              </div>
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <div className="dis-f a-c jc-b">
+                                      <div
+                                        className={`${input.classNameBox || ''} dis-fl-col w-perc-100`}
+                                        tabIndex="-1"
+                                      >
+                                        {input.deactivable ? input.deactivable.toString() : ''}
+                                        <Field
+                                          className={input.className || ''}
+                                          inputClassName={input.inputClassName || ''}
+                                          isHorizontal={input.isHorizontal}
+                                          name={input.name}
+                                          label={input.label}
+                                          icons={input.icons}
+                                          component={input.component}
+                                          fluid={false}
+                                          options={input.options}
+                                          validate={input.validation}
+                                          type={input.type}
+                                          step={+input.step}
+                                          min={input.min}
+                                          deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
+                                          placeholder={input.placeholder || ''}
+                                          meta={{
+                                            dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                            invalid: true,
+                                          }}
+                                          modal={input.modal ? {message: input.modal.hint, func: () => handleSetModal(input.modal.func)} : null }
+                                          message={{
+                                            help: null,
+                                            error: errorValue[input.name],
+                                          }}
+                                          minLenghtNum={input.minLenghtNum || null}
+                                          maxLengthNum={input.maxLenghtNum || null}
+                                          onBlur={() => getCalcPerc()}
+                                        />
+                                        {
+                                          input.unit && (
+                                            <span className="pl-2">{input.unit}</span>
+                                          )
+                                        }
+                                      </div>
+                                    </div>
+                                  )
+                                }
+                                <p className="body2">{input.help}</p>
+                              </div>
+                            )
+                          }
+                        </div>
+                      ))
+                    }
+                  </div>
+                )
+              }
             </div>
           ))
         }

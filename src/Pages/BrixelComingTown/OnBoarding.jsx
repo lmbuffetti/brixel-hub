@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useEffect,
   useState,
@@ -18,6 +20,7 @@ import {
   BrixelIcon,
   BrixelInputText,
   BrixelCheckbox,
+  BrixelProgressBar,
   Validation,
 } from '@brixel/brixel-components';
 import {
@@ -68,7 +71,6 @@ function OnBoarding(props) {
   const [progressBar, setProgressBar] = useState(0);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
   const [curCountry, setCurCountry] = useState(null);
-  const [showCountrySel, setShowCountrySel] = useState(false);
 
   useEffect(() => {
     if (baseByData.env === 'dev') {
@@ -397,9 +399,12 @@ function OnBoarding(props) {
     <main id="onBoarding">
       {
         Questions[currentIndex].inputs && (
-          <div id="progressBar">
-            <span className="activeProgBar" style={{ width: `${progressBar}%` }} />
-          </div>
+          <BrixelProgressBar
+            saturation={400}
+            barBackground="Light"
+            backgroundSaturation={200}
+            progressValue={progressBar}
+          />
         )
       }
       <form
@@ -453,7 +458,6 @@ function OnBoarding(props) {
                                             selCountry={curCountry ? curCountry.value : ''}
                                             changeCountry={(val) => {
                                               countryObj(val);
-                                              setShowCountrySel(false);
                                             }}
                                           />
                                         )}

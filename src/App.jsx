@@ -1,7 +1,7 @@
 /* global ga */
 import React, { useEffect } from 'react';
 import {
-  Redirect, Switch, Route, withRouter,
+  Switch, Route, withRouter,
 } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import get from 'lodash/get';
@@ -21,6 +21,7 @@ import { setModal } from './actions/CommonActions';
 
 ReactGA.initialize(baseByData.googleAnalyticsIdHub);
 
+// GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
   loader: () => import('./Pages/PackageFlow/GetStarted' /* webpackChunkName: "GetStarted" */),
   loading: Loading,
@@ -41,8 +42,14 @@ const ThankYou = Loadable({
   loading: Loading,
 });
 
+// ADMIN ROUTES
 const ProtectedRoute = Loadable({
   loader: () => import('./components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
+  loading: Loading,
+});
+
+const ModalProtectedRoute = Loadable({
+  loader: () => import('./components/ModalProtectedRoute' /* webpackChunkName: "InputSheet" */),
   loading: Loading,
 });
 
@@ -51,6 +58,7 @@ const InsertToken = Loadable({
   loading: Loading,
 });
 
+// ONBOARDING FLOW
 const OnBoarding = Loadable({
   loader: () => import('./Pages/BrixelComingTown/OnBoarding' /* webpackChunkName: "OnBoarding" */),
   loading: Loading,
@@ -61,6 +69,7 @@ const UserFlow = Loadable({
   loading: Loading,
 });
 
+// HUB DASHBOARD
 const Dashboard = Loadable({
   loader: () => import('./Pages/Dashboard/Dashboard' /* webpackChunkName: "Dashboard" */),
   loading: Loading,
@@ -76,13 +85,17 @@ const Documents = Loadable({
   loading: Loading,
 });
 
+const MarketChecker = Loadable({
+  loader: () => import('./Pages/MarketChecker' /* webpackChunkName: "PackageFlow-Rewards" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
   const {
     history,
     handleCheckToken,
-    handleSetLanguages,
     handleSetModal,
     isLoading,
     loggedUser,
@@ -136,10 +149,12 @@ const App = (props) => {
 
         { /* SECTION: HUB DASHBOARD */ }
         <ProtectedRoute path="/:propId/inputSheet" exact component={InputSheet} />
-        <ProtectedRoute path="/:action/:id?" exact component={Dashboard} />
+        <ProtectedRoute path="/" exact component={Dashboard} />
+        <ProtectedRoute path="/:propId?/home" component={Dashboard} />
+        <ProtectedRoute path="/:propId?/property" component={Dashboard} />
+        <ProtectedRoute path="/:propId?/support" component={Dashboard} />
         { /* SECTION: REDIRECT */ }
-        <Redirect from="/" to="/home" exact component={Dashboard} />
-        <Redirect from="*" to="/onBoarding" />
+
       </Switch>
 
       { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
@@ -191,7 +206,20 @@ const App = (props) => {
       <div className="zIndex3">
         <Switch>
           {/* SECTION: DOCUMENTS */}
-          <Route path="/home/:id?/documents" component={Documents} />
+          <Route path="/:propId?/:act/documents" component={Documents} />
+        </Switch>
+      </div>
+
+      { /* SECTION: MODAL */ }
+      <div className="zIndex3">
+        <Switch>
+          {/* SECTION: DOCUMENTS */}
+          <ModalProtectedRoute
+            path="/:propId?/:act/achievement/market-checker"
+            closePath="../"
+            component={MarketChecker}
+            title=""
+          />
         </Switch>
       </div>
     </>
