@@ -18,6 +18,7 @@ const HomeDashboard = (props) => {
     handleGetGameGroup,
     handleGetGameHistory,
     handleAddGameHistory,
+    history,
     loggedUser,
     property,
   } = props;
@@ -107,7 +108,7 @@ const HomeDashboard = (props) => {
                               item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
                               {label: item.points, color: 'dark700'},
                             ]}
-                            onClick={(e) => item.done ? '' : saveGameHistory(e, item)}
+                            onClick={(e) => history.push(`./achievement/${item.stub}`)}
                           />
                         </div>
                       ))
@@ -130,6 +131,7 @@ HomeDashboard.propTypes = {
   handleGetGameGroup: PropTypes.func.isRequired,
   handleGetGameHistory: PropTypes.func.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   loggedUser: PropTypes.object.isRequired,
 };
 

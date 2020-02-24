@@ -3,18 +3,22 @@ import {
   Route, withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { BrixelModal } from '@brixel/brixel-components';
+import { setModal } from '../actions/CommonActions';
 
 const ModalProtectedRoute = (props) => {
   const {
+    closePath,
     component,
     history,
     loggedUser,
+    modal,
     path,
+    title,
   } = props;
 
   useEffect(() => {
@@ -32,9 +36,11 @@ const ModalProtectedRoute = (props) => {
       {
         loggedUser.token && (
           <BrixelModal
-            title="Modal Route"
+            title={title}
             layout="xlarge"
-            onClose={() => ''}
+            onClose={() => history.push(closePath)}
+            multiActions={modal.multiActions}
+            clickOutsideToClose={false}
           >
             <div>
               <Route path={path} component={component} />
@@ -47,16 +53,27 @@ const ModalProtectedRoute = (props) => {
 };
 
 ModalProtectedRoute.propTypes = {
+  closePath: PropTypes.string.isRequired,
   component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  handleSetModal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  modal: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
+  title: PropTypes.string,
 };
+
+ModalProtectedRoute.defaultProps = {
+  title: null,
+};
+
 
 const mapStateToProps = (state) => ({
   loggedUser: get(state, 'user.loggedUser', null),
+  modal: get(state, 'common.modal', {}),
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = (dispatch) => ({
+  handleSetModal: bindActionCreators(setModal, dispatch),
 });
 
 export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(ModalProtectedRoute);

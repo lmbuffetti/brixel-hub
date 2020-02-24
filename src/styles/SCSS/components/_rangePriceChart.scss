@@ -4,6 +4,17 @@
     z-index: 2;
   }
 }
+
+.brixel-modal {
+  .rangeGraph {
+    .extended-label {
+      p {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
 .rangeGraph {
   z-index: 1;
   position: relative;

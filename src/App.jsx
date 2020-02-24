@@ -21,6 +21,7 @@ import { setModal } from './actions/CommonActions';
 
 ReactGA.initialize(baseByData.googleAnalyticsIdHub);
 
+// GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
   loader: () => import('./Pages/PackageFlow/GetStarted' /* webpackChunkName: "GetStarted" */),
   loading: Loading,
@@ -41,8 +42,14 @@ const ThankYou = Loadable({
   loading: Loading,
 });
 
+// ADMIN ROUTES
 const ProtectedRoute = Loadable({
   loader: () => import('./components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
+  loading: Loading,
+});
+
+const ModalProtectedRoute = Loadable({
+  loader: () => import('./components/ModalProtectedRoute' /* webpackChunkName: "InputSheet" */),
   loading: Loading,
 });
 
@@ -51,6 +58,7 @@ const InsertToken = Loadable({
   loading: Loading,
 });
 
+// ONBOARDING FLOW
 const OnBoarding = Loadable({
   loader: () => import('./Pages/BrixelComingTown/OnBoarding' /* webpackChunkName: "OnBoarding" */),
   loading: Loading,
@@ -61,6 +69,7 @@ const UserFlow = Loadable({
   loading: Loading,
 });
 
+// HUB DASHBOARD
 const Dashboard = Loadable({
   loader: () => import('./Pages/Dashboard/Dashboard' /* webpackChunkName: "Dashboard" */),
   loading: Loading,
@@ -76,8 +85,8 @@ const Documents = Loadable({
   loading: Loading,
 });
 
-const ModalProtectedRoute = Loadable({
-  loader: () => import('./components/ModalProtectedRoute' /* webpackChunkName: "InputSheet" */),
+const MarketChecker = Loadable({
+  loader: () => import('./Pages/MarketChecker' /* webpackChunkName: "PackageFlow-Rewards" */),
   loading: Loading,
 });
 
@@ -193,7 +202,7 @@ const App = (props) => {
         )
       }
 
-      { /* SECTION: MODAL */ }
+      { /* SECTION: SIDEBAR */ }
       <div className="zIndex3">
         <Switch>
           {/* SECTION: DOCUMENTS */}
@@ -201,11 +210,16 @@ const App = (props) => {
         </Switch>
       </div>
 
-      { /* SECTION: SIDEBAR */ }
+      { /* SECTION: MODAL */ }
       <div className="zIndex3">
         <Switch>
           {/* SECTION: DOCUMENTS */}
-          <ModalProtectedRoute path="/:propId?/:act/achievement/market-check" component={Rewards} />
+          <ModalProtectedRoute
+            path="/:propId?/:act/achievement/market-checker"
+            closePath="../"
+            component={MarketChecker}
+            title=""
+          />
         </Switch>
       </div>
     </>
