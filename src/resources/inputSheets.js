@@ -305,10 +305,11 @@ export const InputSheets = (lang) => [
           value: 'House'
         },
         className: '',
-        label: 'What\'s the lot size? (m2)',
+        label: 'What\'s the lot size?',
         name: 'properties.typology.lotArea.value',
         type: "number",
         unit: 'm2',
+        placeholder: 'e.g. 140',
         validation: [Validation.markRequired]
       },
       {
@@ -380,7 +381,9 @@ export const InputSheets = (lang) => [
       {
         component: BrixelInputText,
         className: '',
-        label: 'What\'s the surface of the balcony? (m2)',
+        label: 'What\'s the surface of the balcony?',
+        unit: 'm2',
+        placeholder: 'e.g. 140',
         name: 'properties.typology.balconyArea.value',
         type: 'number',
         validation: [Validation.markRequired]
@@ -388,12 +391,12 @@ export const InputSheets = (lang) => [
       {
         component: BrixelInputText,
         className: '',
-        label: 'What\'s the size of the garden? (m2)',
+        label: 'What\'s the size of the garden?',
         unit: 'm2',
         name: 'properties.typology.gardenArea.value',
         type: 'number',
+        placeholder: 'e.g. 140',
         validation: [Validation.markRequired],
-        unit: 'm2',
       },
       {
         component: BrixelInputStepNumber,
@@ -479,7 +482,9 @@ export const InputSheets = (lang) => [
         },
         component: BrixelInputText,
         className: '',
-        label: 'What\'s the size of the basement? (m2)',
+        label: 'What\'s the size of the basement?',
+        unit: 'm2',
+        placeholder: 'e.g. 140',
         name: 'properties.typology.basementArea.value',
         type: 'number',
         validation: [Validation.markRequired]
