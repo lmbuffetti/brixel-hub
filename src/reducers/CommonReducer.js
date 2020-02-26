@@ -9,6 +9,8 @@ import {
   RESET_REQUEST,
   SPINNER_OFF,
   SPINNER_ON,
+  SPINNER_SMALL_OFF,
+  SPINNER_SMALL_ON,
   SET_LANGUAGES,
   SET_LANGUAGE,
   SET_NOTIFICATION,
@@ -19,6 +21,7 @@ const cookie = new Cookies;
 
 export const defaultState = {
   isLoading: 0,
+  isIntLoading: 0,
   requestDone: false,
   redirectTo: null,
   configUrl: getConfigEnv,
@@ -92,6 +95,14 @@ export default handleActions(
     [SPINNER_OFF]: (state) => ({
       ...state,
       isLoading: state.isLoading - 1,
+    }),
+    [SPINNER_SMALL_ON]: (state) => ({
+      ...state,
+      isIntLoading: state.isLoading + 1,
+    }),
+    [SPINNER_SMALL_OFF]: (state) => ({
+      ...state,
+      isIntLoading: state.isLoading - 1,
     }),
     [REQUEST_DONE]: (state) => ({
       ...state,

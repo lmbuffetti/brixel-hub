@@ -10,7 +10,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import {
   BrixelButtonIcon,
-  BrixelIcon, BrixelProgressBar,
+  BrixelIcon,
+  BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -36,9 +37,19 @@ const Maps = Loadable({
 
 const InputSheet = (props) => {
   const {
-    errorValue, match, formValue, handleSaveProperty, reset,
-    initialValues, setUserActiveProperty, history,
-    handleSetModal, notification, setNotification,
+    errorValue,
+    formValue,
+    handleSaveProperty,
+    handleSetModal,
+    history,
+    initial,
+    initialValues,
+    isIntLoading,
+    match,
+    notification,
+    reset,
+    setNotification,
+    setUserActiveProperty,
   } = props;
 
   // STATE
@@ -48,19 +59,17 @@ const InputSheet = (props) => {
   const [skipSection, setSkipSection] = useState(get(initialValues, 'inputSheet.skipSection', {}));
   const [sectionProgress, setSectionProgress] = useState({});
 
-  const propID = get(match, 'params.propID', null);
+  const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
-    const id = get(match, 'params.propId', null);
-    if (id) {
-      setUserActiveProperty({ id })
+    if (propID) {
+      setUserActiveProperty({ id: propID })
     }
     setQuestions(InputSheets('en'));
   }, []);
 
   // FUNCTION ON CLICK TO ENABLE/DISABLE QUESTION GROUP
   const handleSkipSection = async (key) => {
-    const id = get(match, 'params.propId', null);
     const newSkipSection = skipSection;
     newSkipSection[key] = !newSkipSection[key];
     setSkipSection({...newSkipSection});
@@ -76,7 +85,7 @@ const InputSheet = (props) => {
     const getData = getCalcSectionInputSheets(Questions, formValue, accordion, null, newSkipSection);
     setSectionProgress({...getData.accordion});
     setSectionProgress({...getData.section});
-    await handleSaveProperty({id, inputSheet: data});
+    await handleSaveProperty({id: propID, inputSheet: data, smallLoader: true});
   };
 
   // FUNCTION TO LOAD DIFFERENT CHACKMAR IF GROUP IS COMPLETE, UNCOMPLETE, DISABLE
@@ -93,17 +102,17 @@ const InputSheet = (props) => {
             color="white"
             saturationTxt={0}
             iconSize="small"
-            padding="p-small-4"
+            padding="p-small-7"
           />
         </div>
       )
     } else {
       return (
         <div>
-          <BrixelIcon
+          <BrixelButtonIcon
             icon="check"
             rounded
-            bgTransparent={skipped[quest.history]}
+            bgTransparent={skipped[quest.history] ? false : true}
             background={skipped[quest.history] ? 'primary' : ''}
             saturation={skipped[quest.history] ? 300 : 0}
             noBorder={skipped[quest.history]}
@@ -113,6 +122,7 @@ const InputSheet = (props) => {
             iconSize="small"
             padding="p-small-4"
             onClick={() => handleSkipSection(quest.history)}
+            isLoading={isIntLoading}
           />
         </div>
       )
@@ -128,9 +138,11 @@ const InputSheet = (props) => {
   };
 
   const saveData = async () => {
+    const dataToSend = formValue;
+    delete dataToSend.owner;
     const data = {
       id: propID,
-      data: formValue,
+      ...dataToSend,
     };
     // For now we still dont use the diff object (TODO: API ticket)
     // diff(initialValues, formValue)
@@ -147,22 +159,26 @@ const InputSheet = (props) => {
     //
     if (formValue.id) {
       const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
+      console.log(getData, formValue);
       setAccordion({...getData.accordion});
       setAccordionAnimatad({...getData.accordion});
       setSectionProgress({...getData.section});
       setSkipSection(initialValues.inputSheet.skipSection);
     }
-  }, [initialValues]);
+  }, [errorValue]);
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
-    if (Object.keys(diff(initialValues, formValue)).length > 0) {
+    if (Object.keys(diff(initial, formValue)).length > 0) {
       let setValid = true;
       if (Questions) {
         Questions.map((input) => {
           input.inputs.map((inp) => {
             const curVal = get(errorValue, inp.name, true);
-            if (curVal !== true && curVal !== 'Mark Required') setValid = false;
+            if (curVal !== true && curVal !== 'Mark Required') {
+              console.log(inp.name, curVal);
+              setValid = false;
+            }
             return null;
           });
           return null;
@@ -183,10 +199,10 @@ const InputSheet = (props) => {
         closeNotificationBar()
       }
     // SET NOTIFICATION TO SUCCESS SAVE
-    } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'success') {
+    } else if (Object.keys(diff(initial, formValue)).length === 0 && notification.type === 'success') {
       setTimeout(() => closeNotificationBar(), 2000);
     // REMOVE NOTIFICATION
-    } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'info') {
+    } else if (Object.keys(diff(initial, formValue)).length === 0 && notification.type === 'info') {
       setNotification({ state: false });
     }
   }, [errorValue]);
@@ -360,7 +376,7 @@ const InputSheet = (props) => {
                                   ) : (
                                     <div className="dis-f a-c jc-b">
                                       <div
-                                        className={`${input.classNameBox || ''} dis-fl-col w-perc-100`}
+                                        className={`${input.classNameBox || ''} dis-fl-row w-perc-100`}
                                         tabIndex="-1"
                                       >
                                         {input.deactivable ? input.deactivable.toString() : ''}
@@ -423,6 +439,7 @@ InputSheet.propTypes = {
   reset: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
+  initial: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   singleUserPropertyList: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -456,9 +473,11 @@ const mapStateToProps = (state) => {
     errorValue: get(state, 'form.InputSheet.syncErrors', {}),
     formValue: get(state, 'form.InputSheet.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
+    isIntLoading: get(state, 'common.isIntLoading', 0) > 0,
     activeSingleUser: get(state, 'user.activeSingleUser', {}),
     singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
     notification: get(state, 'common.notification', {}),
+    initial: get(state, 'form.InputSheet.initial', {}),
     initialValues: cloneDeep(get(state, 'property.property', {})),
     loggedInUser: get(state, 'user.loggedUser', {}),
   });

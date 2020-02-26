@@ -157,3 +157,7 @@ header {
 .show-ios-android {
   display: block !important;
 }
+
+[class^="icon-"].small, [class*=" icon-"].small {
+  display: block;
+}
