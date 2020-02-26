@@ -284,7 +284,7 @@ export const setCookie = (key, val) => {
 };
 
 export const getCalcSectionInputSheets = (Questions, initialValues, accordion, act, fixSection) => {
-  const getSkippedSection = fixSection || get(initialValues, 'inputSheetsdsadas', {});
+  const getSkippedSection = fixSection || get(initialValues, 'inputSheet.skipSection', {});
   const getSectionFilt = {};
   const getSectionDone = {};
   const getAccordion = accordion || {};

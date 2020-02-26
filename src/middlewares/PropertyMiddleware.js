@@ -15,20 +15,22 @@ import {
 
 import api from '../controllers/api/config';
 import { UPDATE_USER } from '../actions/types/UserTypes';
-import { SPINNER_ON, SPINNER_OFF, REDIRECT_TO } from '../actions/types/CommonTypes';
+import { SPINNER_ON, SPINNER_OFF, SPINNER_SMALL_ON, SPINNER_SMALL_OFF, REDIRECT_TO } from '../actions/types/CommonTypes';
 import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
     case ADD_PROPERTY:
       next(action);
-      store.dispatch({ type: SPINNER_ON });
-      const { getEstimation, token, redirectToUserFlow, redirectToRewards, redirectToHome } = action.payload;
+      const { getEstimation, token, redirectToUserFlow, redirectToRewards, redirectToHome, smallLoader } = action.payload;
       delete action.payload.getEstimation;
       delete action.payload.token;
       delete action.payload.redirectToUserFlow;
       delete action.payload.redirectToRewards;
       delete action.payload.redirectToHome;
+      delete action.payload.smallLoader;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
       api.property.addProperty(action.payload, token)
         .then((res) => {
           store.dispatch({ type: SET_PROPERTY, payload: res.data });
@@ -42,23 +44,28 @@ const checkCommon = (store) => (next) => (action) => {
           if (redirectToUserFlow) {
             window.location.href = '/onBoarding/brixelComingInTown';
           } else {
-            store.dispatch({ type: SPINNER_OFF });
+            if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+            else store.dispatch({ type: SPINNER_OFF });
           }
 
         })
         .catch((res) => {
-          store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
         });
       break;
     case UPDATE_PROPERTY: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
-      const { id, redirectTo } = action.payload;
+      const { id, redirectTo, smallLoader } = action.payload;
       delete action.payload.id;
       delete action.payload.redirectTo;
+      delete action.payload.smallLoader;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
       api.property.updateProperty(id, action.payload)
         .then((res) => {
-          store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
           store.dispatch({ type: SET_PROPERTY, payload: res.data });
           if (redirectTo) {
             store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });

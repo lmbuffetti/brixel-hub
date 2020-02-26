@@ -9,6 +9,9 @@ export const RESET_REQUEST = 'RESET_REQUEST';
 export const SPINNER_ON = 'SPINNER_ON';
 export const SPINNER_OFF = 'SPINNER_OFF';
 
+export const SPINNER_SMALL_ON = 'SPINNER_SMALL_ON';
+export const SPINNER_SMALL_OFF = 'SPINNER_SMALL_OFF';
+
 export const ERROR_MESSAGE = 'ERROR_MESSAGE';
 export const SET_LANGUAGES = 'SET_LANGUAGES';
 export const SET_LANGUAGE = 'SET_LANGUAGE';

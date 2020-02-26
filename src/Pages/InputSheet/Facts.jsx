@@ -10,7 +10,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import {
   BrixelButtonIcon,
-  BrixelIcon, BrixelProgressBar,
+  BrixelIcon,
+  BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -36,9 +37,19 @@ const Maps = Loadable({
 
 const InputSheet = (props) => {
   const {
-    errorValue, match, formValue, handleSaveProperty, reset,
-    initialValues, setUserActiveProperty, history, initial,
-    handleSetModal, notification, setNotification,
+    errorValue,
+    formValue,
+    handleSaveProperty,
+    handleSetModal,
+    history,
+    initial,
+    initialValues,
+    isIntLoading,
+    match,
+    notification,
+    reset,
+    setNotification,
+    setUserActiveProperty,
   } = props;
 
   // STATE
@@ -49,7 +60,7 @@ const InputSheet = (props) => {
   const [sectionProgress, setSectionProgress] = useState({});
 
   const propID = get(match, 'params.propId', null);
-  console.log(propID);
+
   useEffect(() => {
     if (propID) {
       setUserActiveProperty({ id: propID })
@@ -74,7 +85,7 @@ const InputSheet = (props) => {
     const getData = getCalcSectionInputSheets(Questions, formValue, accordion, null, newSkipSection);
     setSectionProgress({...getData.accordion});
     setSectionProgress({...getData.section});
-    await handleSaveProperty({id: propID, inputSheet: data});
+    await handleSaveProperty({id: propID, inputSheet: data, smallLoader: true});
   };
 
   // FUNCTION TO LOAD DIFFERENT CHACKMAR IF GROUP IS COMPLETE, UNCOMPLETE, DISABLE
@@ -91,17 +102,17 @@ const InputSheet = (props) => {
             color="white"
             saturationTxt={0}
             iconSize="small"
-            padding="p-small-4"
+            padding="p-small-7"
           />
         </div>
       )
     } else {
       return (
         <div>
-          <BrixelIcon
+          <BrixelButtonIcon
             icon="check"
             rounded
-            bgTransparent={skipped[quest.history]}
+            bgTransparent={skipped[quest.history] ? false : true}
             background={skipped[quest.history] ? 'primary' : ''}
             saturation={skipped[quest.history] ? 300 : 0}
             noBorder={skipped[quest.history]}
@@ -111,6 +122,7 @@ const InputSheet = (props) => {
             iconSize="small"
             padding="p-small-4"
             onClick={() => handleSkipSection(quest.history)}
+            isLoading={isIntLoading}
           />
         </div>
       )
@@ -147,16 +159,16 @@ const InputSheet = (props) => {
     //
     if (formValue.id) {
       const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
+      console.log(getData, formValue);
       setAccordion({...getData.accordion});
       setAccordionAnimatad({...getData.accordion});
       setSectionProgress({...getData.section});
       setSkipSection(initialValues.inputSheet.skipSection);
     }
-  }, [initialValues]);
+  }, [errorValue]);
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
-    console.log('check', diff(initial, formValue), Object.keys(diff(initial, formValue)).length)
     if (Object.keys(diff(initial, formValue)).length > 0) {
       let setValid = true;
       if (Questions) {
@@ -172,7 +184,6 @@ const InputSheet = (props) => {
           return null;
         });
       }
-      console.log(setValid);
       if (setValid) {
         setNotification({
           state: true,
@@ -464,6 +475,7 @@ const mapStateToProps = (state) => {
     errorValue: get(state, 'form.InputSheet.syncErrors', {}),
     formValue: get(state, 'form.InputSheet.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
+    isIntLoading: get(state, 'common.isIntLoading', 0) > 0,
     activeSingleUser: get(state, 'user.activeSingleUser', {}),
     singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
     notification: get(state, 'common.notification', {}),
