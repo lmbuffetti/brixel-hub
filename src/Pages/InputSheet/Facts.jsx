@@ -29,6 +29,7 @@ import Loading from '../../components/Loading';
 import { updateProperty, getProperty } from '../../actions/PropertyActions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import noCover from '../../images/no_cover.jpg';
+import DrawerLayout from '../../components/DrawerLayout';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
@@ -64,7 +65,7 @@ const InputSheet = (props) => {
 
   useEffect(() => {
     if (propID) {
-      setUserActiveProperty({ id: propID })
+      //setUserActiveProperty({ id: propID })
     }
     setQuestions(InputSheets('en'));
   }, []);
@@ -237,8 +238,13 @@ const InputSheet = (props) => {
     setTimeout(() => setAccordionAnimatad({ ...accordionAnimatad, [quest.history]: !accordion[quest.history] }), 1000, );
   };
 
+  const closeFacts = () => {
+    closeNotificationBar()
+    history.push(`/${propID}/property`);
+  };
+
   return (
-    <>
+    <DrawerLayout classNameDrawer="ov-a">
       <div className="container dis-fl-col mt-2">
         <div className="property-info-container">
           <div className="header-section dis-fl-row a-c jc-b mb-2">
@@ -276,7 +282,7 @@ const InputSheet = (props) => {
                 background="white"
                 className="ml-1 bgWhite shadow-3dp"
                 icon="close"
-                onClick={(e) => history.push('./property')}
+                onClick={(e) => closeFacts()}
               />
             </div>
           </div>
@@ -431,7 +437,7 @@ const InputSheet = (props) => {
           ))
         }
       </div>
-    </>
+    </DrawerLayout>
   );
 };
 

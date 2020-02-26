@@ -29,7 +29,6 @@ const MultiStepForm = (props) => {
 
   return (
     <form name={form}>
-      <h1>Form</h1>
       {
         questions.map((quest, i) => (
           <div key={i.toString()}>
@@ -109,13 +108,12 @@ MultiStepForm.defaultProps = {
 }
 
 const mapStateToProps = (state, props) => {
-  console.log('DASDADASDASADAS', get(props, 'initialValue', {}));
   return ({
-    formValue: get(state, `formValues[${props.formName}].values`, {}),
-    errorValue: get(state, `formValues[${props.formName}].syncErrors`, {}),
+    formValue: get(state, `formValues[${props.form}].values`, {}),
+    errorValue: get(state, `formValues[${props.form}].syncErrors`, {}),
     form: props.form,
-    initialValue: {
-      ...get(props, 'initialValue', {})
+    initialValues: {
+      ...get(props, 'startValue', {})
     },
   });
 };

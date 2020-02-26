@@ -18,6 +18,7 @@ import PageHeader from './components/PageHeader';
 import ReactGA from 'react-ga';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setModal } from './actions/CommonActions';
+import Facts from './Pages/InputSheet/Facts';
 
 ReactGA.initialize(baseByData.googleAnalyticsIdHub);
 
@@ -148,7 +149,6 @@ const App = (props) => {
         <ProtectedRoute path="/packageFlow/:propId/thankyou" component={ThankYou} />
 
         { /* SECTION: HUB DASHBOARD */ }
-        <ProtectedRoute path="/:propId/inputSheet" exact component={InputSheet} />
         <ProtectedRoute path="/" exact component={Dashboard} />
         <ProtectedRoute path="/:propId?/home" component={Dashboard} />
         <ProtectedRoute path="/:propId?/property" component={Dashboard} />
@@ -195,6 +195,7 @@ const App = (props) => {
                   type={notification.type}
                   icon={notification.icon}
                   actions={notification.actions}
+                  className="zIndex5"
                 />
               )
             }
@@ -207,6 +208,7 @@ const App = (props) => {
         <Switch>
           {/* SECTION: DOCUMENTS */}
           <Route path="/:propId?/:act/documents" component={Documents} />
+          <Route path="/:propId?/:act/inputSheet" component={Facts} />
         </Switch>
       </div>
 

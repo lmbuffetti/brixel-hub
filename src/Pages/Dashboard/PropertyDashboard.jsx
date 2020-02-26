@@ -26,7 +26,7 @@ const HomeDashboard = (props) => {
 
   const goToInputSheet = (e) => {
     e.preventDefault();
-    history.push(`/${match.params.propId}/inputSheet`);
+    history.push(`/${match.params.propId}/property/inputSheet`);
   };
 
   const openDocuments = (e) => {

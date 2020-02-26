@@ -18,6 +18,7 @@ const MarketChecker = (props) => {
   // PROPS
   const {
     changeFieldValue,
+    formValue,
     gameHistory,
     handleAddGameHistory,
     handleSetModal,
@@ -31,6 +32,7 @@ const MarketChecker = (props) => {
   const [Questions, setQuestions] = useState([]);
   const [QuestionsForm, setQuestionsForm] = useState([]);
   const [doneMarketCheck, setDoneMarketCheck] = useState(true);
+  const [finishedFlow, setFinishedFlow] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [step, setStep] = useState(0);
   // GET STUB ACVHIEVEMNT
@@ -45,10 +47,10 @@ const MarketChecker = (props) => {
     if (gameHistory && gameHistory.data) {
       const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === property.id);
       if (typeof checkGameExist !== 'undefined') {
-        changeFieldValue('doneMarketCheck', true);
+        setFinishedFlow(true);
         setDoneMarketCheck(true);
       } else {
-        changeFieldValue('doneMarketCheck', false);
+        setFinishedFlow(false);
         setDoneMarketCheck(false);
       }
       setLoaded(true);
@@ -103,7 +105,7 @@ const MarketChecker = (props) => {
           multiActions: [{
             btnType: 'Primary',
             name: 'Finish',
-            func: () => saveAchievement()
+            func: () => finishedFlow ? history.push('../') : saveAchievement(),
           }]
         });
       } else {
@@ -138,7 +140,7 @@ const MarketChecker = (props) => {
                   questions={QuestionsForm}
                   onChangeStep={(val) => setStep(val)}
                   step={step}
-                  initialValue={initialValue}
+                  startValue={initialValue}
                 />
               ) : (
                 <>
@@ -164,6 +166,7 @@ const MarketChecker = (props) => {
 
 MarketChecker.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
+  formValue: PropTypes.object.isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
@@ -178,9 +181,14 @@ MarketChecker.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => ({
+  formValue: get(state, 'form.MarketCheck.values', {}),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   initialValue: {
-    'properties.building.conditionCode': get(state, 'property.property.properties.building.conditionCode', null)
+    properties: {
+      building: {
+        conditionCode: get(state, 'property.property.properties.building.conditionCode', null),
+      },
+    },
   },
   loggedUser: get(state, 'user.loggedUser', {}),
   property: get(state, 'property.property', {}),
