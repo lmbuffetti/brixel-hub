@@ -379,7 +379,7 @@ const InputSheet = (props) => {
                                   ) : (
                                     <div className="dis-f a-c jc-b">
                                       <div
-                                        className={`${input.classNameBox || ''} dis-fl-row w-perc-100`}
+                                        className={`${input.classNameBox || ''} dis-fl-col w-perc-100`}
                                         tabIndex="-1"
                                       >
                                         {input.deactivable ? input.deactivable.toString() : ''}
