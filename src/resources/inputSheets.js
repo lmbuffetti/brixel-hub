@@ -140,12 +140,12 @@ export const InputSheets = (lang) => [
       },
       {
         component: BrixelInputScale,
-        className: '',
+        className: 'helpLink',
         label: 'What\'s the building quality of the whole building?',
         name: 'properties.building.quality',
         options: factsOptions.quality,
         modal: {
-          className: 'brixellll',
+          className: '',
           hint: 'Know more about building quality',
           func: {
             state: true,
@@ -161,7 +161,7 @@ export const InputSheets = (lang) => [
       },
       {
         component: BrixelRadioButton,
-        className: '',
+        className: 'helpLink',
         label: 'Is the property renovated?',
         name: 'properties.building.isPropertyRenovated',
         options: factsOptions.isPropertyRenovatedOptions,
@@ -236,7 +236,7 @@ export const InputSheets = (lang) => [
       },
       {
         component: BrixelInputScale,
-        className: '',
+        className: 'helpLink',
         label: 'In which condition is the property?',
         name: 'properties.building.conditionCode',
         options: factsOptions.quality,
@@ -389,6 +389,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the size of the garden? (m2)',
+        unit: 'm2',
         name: 'properties.typology.gardenArea.value',
         type: 'number',
         validation: [Validation.markRequired]
@@ -1094,7 +1095,7 @@ export const InputSheets = (lang) => [
       },
       {
         component: BrixelSelect,
-        className: '',
+        className: 'zIndex3',
         label: 'Currency',
         name: 'price.currency',
         options: factsOptions.currency,

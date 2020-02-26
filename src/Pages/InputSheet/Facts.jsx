@@ -308,7 +308,7 @@ const InputSheet = (props) => {
               }
               <div className="accordControl dis-f a-c jc-b">
                 <div
-                  className="accordTitle dis-f a-c cur-poi pt-1 pb-1"
+                  className="accordTitle dis-f a-c cur-poi pt-2 pb-2"
                   onClick={() => toggleAccordion(quest)}
                 >
                   <BrixelIcon
@@ -332,7 +332,7 @@ const InputSheet = (props) => {
                         <div className="singleInput" key={f.toString()}>
                           {
                             checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
-                              <div className="pt-1 pb-1" key={f.toString()}>
+                              <div className="pt-1" key={f.toString()}>
                                 {
                                   input.type === 'Map' ? (
                                     <>
@@ -394,6 +394,7 @@ const InputSheet = (props) => {
                                           minLenghtNum={input.minLenghtNum || null}
                                           maxLengthNum={input.maxLenghtNum || null}
                                           onBlur={() => getCalcPerc()}
+                                          unit={input.unit}
                                         />
                                         {
                                           input.unit && (

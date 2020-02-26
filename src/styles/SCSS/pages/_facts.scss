@@ -30,13 +30,13 @@
     .singleInput {
       .brixel-label {
         display: block;
-        padding: $step 0;
-      }
-      .brixel-input-step input {
-        margin-left: $step * 2;
+        padding: $step 0 0;
       }
       .brixel-text-input[type=number] {
-        max-width: 168px;
+        max-width: 164px;
+      }
+      .helpLink .message.cur-poi {
+        color: map-get($primaryColor, 400);
       }
     }
   }
