@@ -23,11 +23,12 @@ const checkCommon = (store) => (next) => (action) => {
     case ADD_PROPERTY:
       next(action);
       store.dispatch({ type: SPINNER_ON });
-      const { getEstimation, token, redirectToUserFlow, redirectToRewards } = action.payload;
+      const { getEstimation, token, redirectToUserFlow, redirectToRewards, redirectToHome } = action.payload;
       delete action.payload.getEstimation;
       delete action.payload.token;
       delete action.payload.redirectToUserFlow;
       delete action.payload.redirectToRewards;
+      delete action.payload.redirectToHome;
       api.property.addProperty(action.payload, token)
         .then((res) => {
           store.dispatch({ type: SET_PROPERTY, payload: res.data });
@@ -35,6 +36,8 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
           } else if (redirectToRewards) {
             window.location.href = `/packageFlow/${action.payload}/rewards`;
+          } else if (redirectToHome) {
+            window.location.href = `/${res.data.id}/home`;
           }
           if (redirectToUserFlow) {
             window.location.href = '/onBoarding/brixelComingInTown';

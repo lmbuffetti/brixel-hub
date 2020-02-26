@@ -130,6 +130,7 @@ function GetStarted(props) {
   useEffect(() => {
     if (loggedUser.user) {
       changeFieldValue('owner', loggedUser.user.id);
+      changeFieldValue('signup', false);
     }
   }, [loggedUser]);
 
@@ -207,7 +208,7 @@ function GetStarted(props) {
       getEstimation: formValue.location.country === 'CH',
       addProperty: true,
       redirectToUserFlow: false,
-      redirectToRewards: false,
+      redirectToHome: false,
       company: cookie.get('brixelStubCompany') || null,
     };
     if (enableForm) {
@@ -314,7 +315,7 @@ function GetStarted(props) {
       }
       if (
         (Questions[position].cardType === 'LastStep' && loggedUser && loggedUser.user) ||
-        (Questions[position - 1] && Questions[position - 1].cardType && Questions[position - 1].cardType === 'createProfile' && loggedUser && !loggedUser.user)
+        (Questions[position].cardType === 'createProfile' && loggedUser && !loggedUser.user)
       ) {
         saveData();
       }
@@ -612,7 +613,10 @@ function GetStarted(props) {
                           quest.cardType === 'createProfile' && (
                             <div>
                               <h5>{loginPage ? quest.loginTitle : quest.signupTitle}</h5>
-                              <LoginSignup showErrors={showErrors} />
+                              <LoginSignup
+                                formName="GetStarted"
+                                showErrors={showErrors}
+                              />
                             </div>
                           )
                         }
@@ -743,6 +747,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const getStartedForm = reduxForm({
   form: 'GetStarted', // a unique identifier for this form
+  enableReinitialize: true,
 })(GetStarted);
 
 export default compose(

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { translateTo } from '../utils/translation';
-import { Field } from 'redux-form';
+import { change, Field } from 'redux-form';
 import { BrixelCheckbox, BrixelInputText, Validation } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { compose } from 'redux';
@@ -12,13 +12,24 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 const LoginSignup = (props) => {
   // PROPS
   const {
+    changeFieldValue,
+    formName,
     formValue,
     errorValue,
     lang,
+    loggedUser,
     showErrors,
   } = props;
   // STATE
   const [loginPage, setLoginPage] = useState(false);
+
+  useEffect(() => {
+    console.log(loginPage);
+    if (typeof loggedUser.token === 'undefined') {
+      changeFieldValue(formName, 'signup', !loginPage);
+    }
+  }, [loginPage]);
+
   return (
     <>
       {
@@ -162,8 +173,10 @@ const LoginSignup = (props) => {
 };
 
 LoginSignup.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  formName: PropTypes.string.isRequired,
   lang: PropTypes.string,
   loggedUser: PropTypes.object.isRequired,
   showErrors: PropTypes.bool,
@@ -175,13 +188,20 @@ LoginSignup.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => ({
-  errorValue: get(state, 'form.GetStarted.syncErrors', {}),
-  formValue: get(state, 'form.GetStarted.values', {}),
+  errorValue: get(state, `form.${props.formName}.syncErrors`, {}),
+  formValue: get(state, `form.${props.formName}.values`, {}),
   lang: get(state, 'common.language', {}),
+  loggedUser: get(state, 'user.loggedUser', {}),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(formName, field, value) {
+    dispatch(change(formName, field, value));
+  },
 });
 
 export default compose(
   withRouter,
-  connect(mapStateToProps, null),
+  connect(mapStateToProps, mapDispatchToProps),
 )(LoginSignup);
 
