@@ -81,39 +81,57 @@ const HomeDashboard = (props) => {
 
   return (
     <div className="container">
-      <h3>Home of</h3>
+      {/* <h3>Home of</h3>
       {
         property.properties.typology && (
           <h4>{property.properties.typology.bedrooms} {property.properties.propertyType} in {property.location.city}</h4>
         )
-      }
+      } */}
       {
         usrGroups && usrGroups.map((group, i) => (
           <Fragment key={i.toString()}>
             {
               GameGroupConfig[`level${group.stub.replace(/^\D+/g, '')}`] && (
                 <>
-                  <h5 className="mt-4 mb-2">{GameGroupConfig[`level${group.stub.replace(/^\D+/g, '')}`].name}</h5>
+                  <h5 className="mb-2">{GameGroupConfig[`level${group.stub.replace(/^\D+/g, '')}`].name}</h5>
                   <div key={i.toString()} className="pl-5 pos-r">
                     <div className="timelineBar" />
                     {
                       group.achievements && group.achievements.map((item, f) => (
                         <div key={f.toString()} className="pos-r">
                           <span className={item.done ? "dotTimelineDone" : "dotTimeline"} />
-                          <BrixelButtonBox
-                            icon={item.done ? 'check' : item.icon}
-                            label={item.name}
-                            subtitle={item.description}
-                            background={item.done ? 'light100' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].color}
-                            className="mb-4 w-perc-100 shadow-3dp"
-                            colorIcon={item.done ? 'green400'  : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].iconColor}
-                            backIcon={item.done ? 'light200' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].backColor}
-                            multilineInfo={[
-                              item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
-                              {label: item.points, color: 'dark700'},
-                            ]}
-                            onClick={(e) => history.push(`/${property.id}/home/achievement/${item.stub}`)}
-                          />
+                          {
+                            (property.location.countryCode !== 'CH' && (item.name.includes('Bestimate') || item.name.includes('Market Checker'))) ? (
+                              <BrixelButtonBox
+                                icon={item.icon}
+                                label={item.name}
+                                subtitle={item.description}
+                                background="light100"
+                                className="mb-4 w-perc-100 opacity5"
+                                colorIcon={GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].iconColor}
+                                backIcon="light200"
+                                multilineInfo={[
+                                  {label: 'Coming', color: 'dark700'},
+                                  {label: 'soon', color: 'dark700'},
+                                ]}
+                              />
+                            ) : (
+                              <BrixelButtonBox
+                                icon={item.done ? 'check' : item.icon}
+                                label={item.name}
+                                subtitle={item.description}
+                                background={item.done ? 'light100' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].color}
+                                className="mb-4 w-perc-100 shadow-3dp"
+                                colorIcon={item.done ? 'green400'  : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].iconColor}
+                                backIcon={item.done ? 'light200' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].backColor}
+                                multilineInfo={[
+                                  item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
+                                  {label: item.points, color: 'dark700'},
+                                ]}
+                                onClick={(e) => history.push(`/${property.id}/home/achievement/${item.stub}`)}
+                              />
+                            )
+                          }
                         </div>
                       ))
                     }

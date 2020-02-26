@@ -58,6 +58,7 @@ const InputSheet = (props) => {
   const [accordionAnimatad, setAccordionAnimatad] = useState({});
   const [skipSection, setSkipSection] = useState(get(initialValues, 'inputSheet.skipSection', {}));
   const [sectionProgress, setSectionProgress] = useState({});
+  const [selObj, setSelObj] = useState(null);
 
   const propID = get(match, 'params.propId', null);
 
@@ -85,6 +86,7 @@ const InputSheet = (props) => {
     const getData = getCalcSectionInputSheets(Questions, formValue, accordion, null, newSkipSection);
     setSectionProgress({...getData.accordion});
     setSectionProgress({...getData.section});
+    setSelObj(key);
     await handleSaveProperty({id: propID, inputSheet: data, smallLoader: true});
   };
 
@@ -120,9 +122,8 @@ const InputSheet = (props) => {
             saturationTxt={skipped[quest.history] ? 0 : 400}
             className={`brdSmall dis-b p-small-4 ${skipped[quest.history] ? 'border-primary' : ''}`}
             iconSize="small"
-            padding="p-small-4"
             onClick={() => handleSkipSection(quest.history)}
-            isLoading={isIntLoading}
+            isLoading={isIntLoading && quest.history === selObj}
           />
         </div>
       )
@@ -376,7 +377,7 @@ const InputSheet = (props) => {
                                   ) : (
                                     <div className="dis-f a-c jc-b">
                                       <div
-                                        className={`${input.classNameBox || ''} dis-fl-row w-perc-100`}
+                                        className={`${input.classNameBox || ''} dis-fl-col w-perc-100`}
                                         tabIndex="-1"
                                       >
                                         {input.deactivable ? input.deactivable.toString() : ''}

@@ -35,6 +35,10 @@ export const MarketCheckQuestions = (lang) => [
     component: LocalMarketCheck,
   },
   {
+    condition: {
+      name: 'doneMarketCheck',
+      value: false,
+    },
     title: "Thank you Market Check",
     subtitle: "Sales strategy & price",
     history: "successLocalMarketCheck",

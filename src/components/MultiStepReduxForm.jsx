@@ -108,18 +108,24 @@ MultiStepForm.defaultProps = {
   step: 0,
 }
 
-const mapStateToProps = (state, props) => ({
-  formValue: get(state, `formValues[${props.form}].values`, {}),
-  errorValue: get(state, `formValues[${props.form}].syncErrors`, {}),
-  form: props.form,
-  initialValue: get(props, 'initialValue', {}),
-});
+const mapStateToProps = (state, props) => {
+  console.log('DASDADASDASADAS', get(props, 'initialValue', {}));
+  return ({
+    formValue: get(state, `formValues[${props.formName}].values`, {}),
+    errorValue: get(state, `formValues[${props.formName}].syncErrors`, {}),
+    form: props.form,
+    initialValue: {
+      ...get(props, 'initialValue', {})
+    },
+  });
+};
 
 const mapDispatchToProps = (dispatch) => ({
 });
 
 const MultiStepFormRedux = reduxForm({
   destroyOnUnmount: false, // a unique identifier for this form
+  enableReinitialize: true,
 })(MultiStepForm);
 
 export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(MultiStepFormRedux);
