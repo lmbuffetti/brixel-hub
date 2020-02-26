@@ -163,9 +163,9 @@ const InputSheet = (props) => {
         />
 
         <Switch>
-          <Route path="/:propId?/:act/facts" component={Facts} />
-          <Route path="/:propId?/:act/media" component={Media} />
-          <Route path="/:propId?/:act/settings" component={Settings} />
+          <Route path="/:propId?/:act/facts" exact component={Facts} />
+          <Route path="/:propId?/:act/media" exact component={Media} />
+          <Route path="/:propId?/:act/settings" exact component={Settings} />
         </Switch>
 
       </div>

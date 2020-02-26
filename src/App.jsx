@@ -86,11 +86,6 @@ const EditProperty = Loadable({
   loading: Loading,
 });
 
-const InputSheet = Loadable({
-  loader: () => import('./Pages/InputSheet/Facts' /* webpackChunkName: "InputSheet" */),
-  loading: Loading,
-});
-
 const Documents = Loadable({
   loader: () => import('./components/Documents' /* webpackChunkName: "InputSheet" */),
   loading: Loading,
@@ -229,9 +224,9 @@ const App = (props) => {
         <Switch>
           {/* SECTION: DOCUMENTS */}
           <Route path="/:propId?/:act/documents" component={Documents} />
-          <Route path="/:propId?/:act/facts" component={EditProperty} />
-          <Route path="/:propId?/:act/media" component={EditProperty} />
-          <Route path="/:propId?/:act/settings" component={EditProperty} />
+          <Route path="/:propId?/:act/facts" exact component={EditProperty} />
+          <Route path="/:propId?/:act/media" exact component={EditProperty} />
+          <Route path="/:propId?/:act/settings" exact component={EditProperty} />
         </Switch>
       </div>
 
