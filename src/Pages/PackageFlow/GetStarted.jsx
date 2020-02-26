@@ -389,7 +389,7 @@ function GetStarted(props) {
             small
             barBackground="Red"
             backgroundSaturation={100}
-            progressValue={42}
+            progressValue={progressBar}
           />
         )
       }
