@@ -37,7 +37,7 @@ const Maps = Loadable({
 const InputSheet = (props) => {
   const {
     errorValue, match, formValue, handleSaveProperty, reset,
-    initialValues, setUserActiveProperty, history,
+    initialValues, setUserActiveProperty, history, initial,
     handleSetModal, notification, setNotification,
   } = props;
 
@@ -48,19 +48,17 @@ const InputSheet = (props) => {
   const [skipSection, setSkipSection] = useState(get(initialValues, 'inputSheet.skipSection', {}));
   const [sectionProgress, setSectionProgress] = useState({});
 
-  const propID = get(match, 'params.propID', null);
-
+  const propID = get(match, 'params.propId', null);
+  console.log(propID);
   useEffect(() => {
-    const id = get(match, 'params.propId', null);
-    if (id) {
-      setUserActiveProperty({ id })
+    if (propID) {
+      setUserActiveProperty({ id: propID })
     }
     setQuestions(InputSheets('en'));
   }, []);
 
   // FUNCTION ON CLICK TO ENABLE/DISABLE QUESTION GROUP
   const handleSkipSection = async (key) => {
-    const id = get(match, 'params.propId', null);
     const newSkipSection = skipSection;
     newSkipSection[key] = !newSkipSection[key];
     setSkipSection({...newSkipSection});
@@ -76,7 +74,7 @@ const InputSheet = (props) => {
     const getData = getCalcSectionInputSheets(Questions, formValue, accordion, null, newSkipSection);
     setSectionProgress({...getData.accordion});
     setSectionProgress({...getData.section});
-    await handleSaveProperty({id, inputSheet: data});
+    await handleSaveProperty({id: propID, inputSheet: data});
   };
 
   // FUNCTION TO LOAD DIFFERENT CHACKMAR IF GROUP IS COMPLETE, UNCOMPLETE, DISABLE
@@ -128,9 +126,11 @@ const InputSheet = (props) => {
   };
 
   const saveData = async () => {
+    const dataToSend = formValue;
+    delete dataToSend.owner;
     const data = {
       id: propID,
-      data: formValue,
+      ...dataToSend,
     };
     // For now we still dont use the diff object (TODO: API ticket)
     // diff(initialValues, formValue)
@@ -156,18 +156,23 @@ const InputSheet = (props) => {
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
-    if (Object.keys(diff(initialValues, formValue)).length > 0) {
+    console.log('check', diff(initial, formValue), Object.keys(diff(initial, formValue)).length)
+    if (Object.keys(diff(initial, formValue)).length > 0) {
       let setValid = true;
       if (Questions) {
         Questions.map((input) => {
           input.inputs.map((inp) => {
             const curVal = get(errorValue, inp.name, true);
-            if (curVal !== true && curVal !== 'Mark Required') setValid = false;
+            if (curVal !== true && curVal !== 'Mark Required') {
+              console.log(inp.name, curVal);
+              setValid = false;
+            }
             return null;
           });
           return null;
         });
       }
+      console.log(setValid);
       if (setValid) {
         setNotification({
           state: true,
@@ -183,10 +188,10 @@ const InputSheet = (props) => {
         closeNotificationBar()
       }
     // SET NOTIFICATION TO SUCCESS SAVE
-    } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'success') {
+    } else if (Object.keys(diff(initial, formValue)).length === 0 && notification.type === 'success') {
       setTimeout(() => closeNotificationBar(), 2000);
     // REMOVE NOTIFICATION
-    } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'info') {
+    } else if (Object.keys(diff(initial, formValue)).length === 0 && notification.type === 'info') {
       setNotification({ state: false });
     }
   }, [errorValue]);
@@ -362,7 +367,7 @@ const InputSheet = (props) => {
                                   ) : (
                                     <div className="dis-f a-c jc-b">
                                       <div
-                                        className={`${input.classNameBox || ''} dis-fl-col w-perc-100`}
+                                        className={`${input.classNameBox || ''} dis-fl-row w-perc-100`}
                                         tabIndex="-1"
                                       >
                                         {input.deactivable ? input.deactivable.toString() : ''}
@@ -394,12 +399,8 @@ const InputSheet = (props) => {
                                           minLenghtNum={input.minLenghtNum || null}
                                           maxLengthNum={input.maxLenghtNum || null}
                                           onBlur={() => getCalcPerc()}
+                                          unit={input.unit}
                                         />
-                                        {
-                                          input.unit && (
-                                            <span className="pl-2">{input.unit}</span>
-                                          )
-                                        }
                                       </div>
                                     </div>
                                   )
@@ -429,6 +430,7 @@ InputSheet.propTypes = {
   reset: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
+  initial: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   singleUserPropertyList: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -465,6 +467,7 @@ const mapStateToProps = (state) => {
     activeSingleUser: get(state, 'user.activeSingleUser', {}),
     singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
     notification: get(state, 'common.notification', {}),
+    initial: get(state, 'form.InputSheet.initial', {}),
     initialValues: cloneDeep(get(state, 'property.property', {})),
     loggedInUser: get(state, 'user.loggedUser', {}),
   });

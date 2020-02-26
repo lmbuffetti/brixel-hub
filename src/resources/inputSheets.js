@@ -391,7 +391,8 @@ export const InputSheets = (lang) => [
         label: 'What\'s the size of the garden? (m2)',
         name: 'properties.typology.gardenArea.value',
         type: 'number',
-        validation: [Validation.markRequired]
+        validation: [Validation.markRequired],
+        unit: 'm2',
       },
       {
         component: BrixelInputStepNumber,
@@ -403,7 +404,7 @@ export const InputSheets = (lang) => [
         label: 'On which floor is the apartment\'s entrance?',
         name: 'properties.typology.floorNumber',
         step: 1,
-        validation: [Validation.markRequired]
+        validation: [Validation.markRequired],
       },
       {
         component: BrixelInputScale,
