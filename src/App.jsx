@@ -76,8 +76,18 @@ const Dashboard = Loadable({
   loading: Loading,
 });
 
+const MenuSidebar = Loadable({
+  loader: () => import('./components/MenuSidebar' /* webpackChunkName: "header" */),
+  loading: Loading,
+});
+
 const EditProperty = Loadable({
   loader: () => import('./Pages/EditProperty' /* webpackChunkName: "InputSheet" */),
+  loading: Loading,
+});
+
+const InputSheet = Loadable({
+  loader: () => import('./Pages/InputSheet/Facts' /* webpackChunkName: "InputSheet" */),
   loading: Loading,
 });
 
@@ -130,32 +140,43 @@ const App = (props) => {
   }
 
   return (
-    <>
+    <main className="dis-fl-row jc-b">
       <Loading isLoading={isLoading} />
-      <PageHeader />
-      <Switch>
-        { /* INFO: <Route> for free access <ProtectedRoute> for restricted access */ }
-        { /* SECTION: ONBOARDING */ }
-        <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
-        <Route path="/onBoarding/" component={OnBoarding} />
+      <div className="content zIndex1">
+        <PageHeader />
+        <Switch>
+          { /* INFO: <Route> for free access <ProtectedRoute> for restricted access */ }
+          { /* SECTION: ONBOARDING */ }
+          <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
+          <Route path="/onBoarding/" component={OnBoarding} />
 
-        { /* SECTION: INSERT TOKEN */ }
-        <Route path="/tokeninput" component={InsertToken} />
+          { /* SECTION: INSERT TOKEN */ }
+          <Route path="/tokeninput" component={InsertToken} />
 
-        { /* SECTION: GET STARTED*/ }
-        <Route path="/packageFlow/getstarted/" component={GetStarted} />
-        <ProtectedRoute path="/packageFlow/:propId/rewards" component={Rewards} />
-        <ProtectedRoute path="/packageFlow/:propId/advisory" component={Advisory} />
-        <ProtectedRoute path="/packageFlow/:propId/thankyou" component={ThankYou} />
+          { /* SECTION: GET STARTED*/ }
+          <Route path="/packageFlow/getstarted/" component={GetStarted} />
+          <ProtectedRoute path="/packageFlow/:propId/rewards" component={Rewards} />
+          <ProtectedRoute path="/packageFlow/:propId/advisory" component={Advisory} />
+          <ProtectedRoute path="/packageFlow/:propId/thankyou" component={ThankYou} />
 
-        { /* SECTION: HUB DASHBOARD */ }
-        <ProtectedRoute path="/" exact component={Dashboard} />
-        <ProtectedRoute path="/:propId?/home" component={Dashboard} />
-        <ProtectedRoute path="/:propId?/property" component={Dashboard} />
-        <ProtectedRoute path="/:propId?/support" component={Dashboard} />
-        { /* TODO: REDIRECT */ }
+          { /* SECTION: HUB DASHBOARD */ }
+          <ProtectedRoute path="/" exact component={Dashboard} />
+          <ProtectedRoute path="/:propId?/home" component={Dashboard} />
+          <ProtectedRoute path="/:propId?/property" component={Dashboard} />
+          <ProtectedRoute path="/:propId?/support" component={Dashboard} />
+          { /* SECTION: REDIRECT */ }
 
-      </Switch>
+        </Switch>
+      </div>
+
+      { /* SECTION: APP HEADER */ }
+      {
+        loggedUser && (
+          <div className="sidebar zIndex2" id="menu-sidebar">
+            <MenuSidebar />
+          </div>
+        )
+      }
 
       { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
       {
@@ -226,7 +247,7 @@ const App = (props) => {
           />
         </Switch>
       </div>
-    </>
+    </main>
   );
 };
 

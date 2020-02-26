@@ -16,12 +16,15 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 "../components/drawer",
 "../components/timeline_achievement",
 "../components/options-menu",
-"../components/documents";
+"../components/documents",
+"../components/menu-sidebar";
 // PAGES
 @import "../pages/getStarted",
 "../pages/dashboard",
 "../pages/facts",
 "../pages/onBoarding";
+
+$sidebarWidth: 84px;
 
 html, body {
   position: relative;
@@ -30,6 +33,22 @@ html, body {
 
 body {
   background: $brx-white;
+
+  main {
+    width: 100%;
+
+    .sidebar {
+      width: $sidebarWidth;
+      position: fixed;
+      height: 100%;
+    }
+
+    .content {
+      position: relative;
+      width: calc(100% - #{$sidebarWidth});
+      left: $sidebarWidth;
+    }
+  }
 }
 
 a {

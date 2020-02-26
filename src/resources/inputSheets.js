@@ -140,12 +140,12 @@ export const InputSheets = (lang) => [
       },
       {
         component: BrixelInputScale,
-        className: '',
+        className: 'helpLink',
         label: 'What\'s the building quality of the whole building?',
         name: 'properties.building.quality',
         options: factsOptions.quality,
         modal: {
-          className: 'brixellll',
+          className: '',
           hint: 'Know more about building quality',
           func: {
             state: true,
@@ -161,7 +161,7 @@ export const InputSheets = (lang) => [
       },
       {
         component: BrixelRadioButton,
-        className: '',
+        className: 'helpLink',
         label: 'Is the property renovated?',
         name: 'properties.building.isPropertyRenovated',
         options: factsOptions.isPropertyRenovatedOptions,
@@ -236,7 +236,7 @@ export const InputSheets = (lang) => [
       },
       {
         component: BrixelInputScale,
-        className: '',
+        className: 'helpLink',
         label: 'In which condition is the property?',
         name: 'properties.building.conditionCode',
         options: factsOptions.quality,
@@ -305,10 +305,11 @@ export const InputSheets = (lang) => [
           value: 'House'
         },
         className: '',
-        label: 'What\'s the lot size? (m2)',
+        label: 'What\'s the lot size?',
         name: 'properties.typology.lotArea.value',
         type: "number",
         unit: 'm2',
+        placeholder: 'e.g. 140',
         validation: [Validation.markRequired]
       },
       {
@@ -380,7 +381,9 @@ export const InputSheets = (lang) => [
       {
         component: BrixelInputText,
         className: '',
-        label: 'What\'s the surface of the balcony? (m2)',
+        label: 'What\'s the surface of the balcony?',
+        unit: 'm2',
+        placeholder: 'e.g. 140',
         name: 'properties.typology.balconyArea.value',
         type: 'number',
         validation: [Validation.markRequired]
@@ -388,11 +391,12 @@ export const InputSheets = (lang) => [
       {
         component: BrixelInputText,
         className: '',
-        label: 'What\'s the size of the garden? (m2)',
+        label: 'What\'s the size of the garden?',
+        unit: 'm2',
         name: 'properties.typology.gardenArea.value',
         type: 'number',
+        placeholder: 'e.g. 140',
         validation: [Validation.markRequired],
-        unit: 'm2',
       },
       {
         component: BrixelInputStepNumber,
@@ -478,7 +482,9 @@ export const InputSheets = (lang) => [
         },
         component: BrixelInputText,
         className: '',
-        label: 'What\'s the size of the basement? (m2)',
+        label: 'What\'s the size of the basement?',
+        unit: 'm2',
+        placeholder: 'e.g. 140',
         name: 'properties.typology.basementArea.value',
         type: 'number',
         validation: [Validation.markRequired]
@@ -618,7 +624,7 @@ export const InputSheets = (lang) => [
     inputs: [
       {
         component: BrixelCheckbox,
-        className: 'pt-1 pb-1',
+        className: '',
         label: 'What\'s the heating system?',
         name: 'properties.energy.heating',
         options: factsOptions.heating,
@@ -685,7 +691,7 @@ export const InputSheets = (lang) => [
       },
       {
         component: BrixelCheckbox,
-        className: 'pt-1 pb-1',
+        className: '',
         label: 'What is the material of the windows?',
         name: 'properties.building.windows.materials',
         options: factsOptions.windows,
@@ -1095,7 +1101,7 @@ export const InputSheets = (lang) => [
       },
       {
         component: BrixelSelect,
-        className: '',
+        className: 'zIndex3',
         label: 'Currency',
         name: 'price.currency',
         options: factsOptions.currency,
