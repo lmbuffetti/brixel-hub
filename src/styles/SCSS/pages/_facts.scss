@@ -1,5 +1,13 @@
-.accordWrap {
+.container {
+  &.inputSheet {
+    @media (max-width: $responsive-small) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
 
+.accordWrap {
   .accordTitle {
     width: 100%;
     > h4 {
@@ -11,8 +19,10 @@
       border-top: 1px solid map_get($lightColor, 400);
     }
   }
+
   .accordControl {
     border-bottom: 1px solid map_get($lightColor, 400);
+
     i.border-green {
       border-color: map_get($greenColor, 400);
     }
@@ -24,26 +34,40 @@
     overflow: hidden;
     max-height: 0;
     transition: max-height 0.3s ease-in;
-    background-color: map_get($greenColor, 100);
     padding: $step $step * 2;
 
+    // overwritten styleguide css
     .singleInput {
       .brixel-label {
         display: block;
-        padding: $step 0 0;
       }
       .brixel-text-input[type=number] {
         max-width: 164px;
       }
       .helpLink .message.cur-poi {
         color: map-get($primaryColor, 400);
+        &:before {
+          @include icomoon();
+          content: $icon-info;
+          font-size: 14px;
+          top: 3px;
+          position: relative;
+          padding-right: 4px;
+        }
+      }
+      .wrap-brixel-input-step {
+        padding: 0;
       }
     }
   }
 
   &.openedAccord {
+    .accordControl {
+      border-bottom: 0;
+    }
     .accrodContent {
       max-height: 3000px;
+      border-bottom: 1px solid map_get($lightColor, 400);
     }
   }
 }

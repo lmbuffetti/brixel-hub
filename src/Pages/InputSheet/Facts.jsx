@@ -222,8 +222,8 @@ const InputSheet = (props) => {
 
   return (
     <>
-      <div className="container dis-fl-col mt-2">
-        <div className="property-info-container">
+      <div className="container inputSheet dis-fl-col mt-2">
+        <div className="property-info-container px-2 px-sm-0">
           <div className="header-section dis-fl-row a-c jc-b mb-2">
             <div className="dis-fl-row">
               <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
@@ -285,12 +285,10 @@ const InputSheet = (props) => {
               }
             </div>
           </div>
-        </div>
-
-
-        <div className="dis-f a-c my-2 jc-b body2 txtDark200">
-          <span>Expand all</span>
-          <span>All tasks</span>
+          <div className="dis-f a-c my-2 jc-b body2 txtDark200">
+            <span>Expand all</span>
+            <span>All tasks</span>
+          </div>
         </div>
 
         {
@@ -301,12 +299,12 @@ const InputSheet = (props) => {
             >
               {
                 quest.group && (
-                  <span className="accordGroup fweight-600 dis-b pt-2 pb-1 txtDark700">
+                  <span className="accordGroup fweight-600 dis-b pt-3 pb-1 txtDark700 px-2 px-sm-0">
                     {quest.group || ''}
                   </span>
                 )
               }
-              <div className="accordControl dis-f a-c jc-b">
+              <div className="accordControl dis-f a-c jc-b pl-1 pr-2 pl-sm-0 pr-sm-0">
                 <div
                   className="accordTitle dis-f a-c cur-poi pt-2 pb-2"
                   onClick={() => toggleAccordion(quest)}
@@ -316,9 +314,9 @@ const InputSheet = (props) => {
                     color="dark"
                     saturationTxt={accordion[quest.history] ? 400 : 200}
                     iconSize="small"
-                    className="ml-1"
+                    className={`ml-1`}
                   />
-                  <h4 className={`body ml-1 ${accordion[quest.history] ? "txtDark400" : "txtDark200"}`}>
+                  <h4 className={`body ml-1 ${accordion[quest.history] ? "txtDark400 fweight-500" : "txtDark200"}`}>
                     {quest.title}
                   </h4>
                 </div>
@@ -332,7 +330,7 @@ const InputSheet = (props) => {
                         <div className="singleInput" key={f.toString()}>
                           {
                             checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
-                              <div className="pt-1" key={f.toString()}>
+                              <div className="py-1" key={f.toString()}>
                                 {
                                   input.type === 'Map' ? (
                                     <>
@@ -396,11 +394,6 @@ const InputSheet = (props) => {
                                           onBlur={() => getCalcPerc()}
                                           unit={input.unit}
                                         />
-                                        {
-                                          input.unit && (
-                                            <span className="pl-2">{input.unit}</span>
-                                          )
-                                        }
                                       </div>
                                     </div>
                                   )

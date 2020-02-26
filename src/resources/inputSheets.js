@@ -618,7 +618,7 @@ export const InputSheets = (lang) => [
     inputs: [
       {
         component: BrixelCheckbox,
-        className: 'pt-1 pb-1',
+        className: '',
         label: 'What\'s the heating system?',
         name: 'properties.energy.heating',
         options: factsOptions.heating,
@@ -685,7 +685,7 @@ export const InputSheets = (lang) => [
       },
       {
         component: BrixelCheckbox,
-        className: 'pt-1 pb-1',
+        className: '',
         label: 'What is the material of the windows?',
         name: 'properties.building.windows.materials',
         options: factsOptions.windows,
