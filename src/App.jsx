@@ -18,7 +18,7 @@ import PageHeader from './components/PageHeader';
 import ReactGA from 'react-ga';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setModal } from './actions/CommonActions';
-import Facts from './Pages/InputSheet/Facts';
+import Facts from './Pages/EditProperty/Facts';
 
 ReactGA.initialize(baseByData.googleAnalyticsIdHub);
 
@@ -76,8 +76,8 @@ const Dashboard = Loadable({
   loading: Loading,
 });
 
-const InputSheet = Loadable({
-  loader: () => import('./Pages/InputSheet/Facts' /* webpackChunkName: "InputSheet" */),
+const EditProperty = Loadable({
+  loader: () => import('./Pages/EditProperty' /* webpackChunkName: "InputSheet" */),
   loading: Loading,
 });
 
@@ -153,7 +153,7 @@ const App = (props) => {
         <ProtectedRoute path="/:propId?/home" component={Dashboard} />
         <ProtectedRoute path="/:propId?/property" component={Dashboard} />
         <ProtectedRoute path="/:propId?/support" component={Dashboard} />
-        { /* SECTION: REDIRECT */ }
+        { /* TODO: REDIRECT */ }
 
       </Switch>
 
@@ -208,7 +208,9 @@ const App = (props) => {
         <Switch>
           {/* SECTION: DOCUMENTS */}
           <Route path="/:propId?/:act/documents" component={Documents} />
-          <Route path="/:propId?/:act/inputSheet" component={Facts} />
+          <Route path="/:propId?/:act/facts" component={EditProperty} />
+          <Route path="/:propId?/:act/media" component={EditProperty} />
+          <Route path="/:propId?/:act/settings" component={EditProperty} />
         </Switch>
       </div>
 

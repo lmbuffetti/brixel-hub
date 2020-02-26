@@ -26,10 +26,7 @@ import { getCalcSectionInputSheets } from '../../utils/helpers';
 
 // COMPONENTS
 import Loading from '../../components/Loading';
-import { updateProperty, getProperty } from '../../actions/PropertyActions';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
-import noCover from '../../images/no_cover.jpg';
-import DrawerLayout from '../../components/DrawerLayout';
+import { updateProperty } from '../../actions/PropertyActions';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
@@ -42,7 +39,6 @@ const InputSheet = (props) => {
     formValue,
     handleSaveProperty,
     handleSetModal,
-    history,
     initial,
     initialValues,
     isIntLoading,
@@ -50,7 +46,6 @@ const InputSheet = (props) => {
     notification,
     reset,
     setNotification,
-    setUserActiveProperty,
   } = props;
 
   // STATE
@@ -64,9 +59,6 @@ const InputSheet = (props) => {
   const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
-    if (propID) {
-      //setUserActiveProperty({ id: propID })
-    }
     setQuestions(InputSheets('en'));
   }, []);
 
@@ -238,78 +230,9 @@ const InputSheet = (props) => {
     setTimeout(() => setAccordionAnimatad({ ...accordionAnimatad, [quest.history]: !accordion[quest.history] }), 1000, );
   };
 
-  const closeFacts = () => {
-    closeNotificationBar()
-    history.push(`/${propID}/property`);
-  };
-
   return (
-    <DrawerLayout classNameDrawer="ov-a">
+    <>
       <div className="container dis-fl-col mt-2">
-        <div className="property-info-container">
-          <div className="header-section dis-fl-row a-c jc-b mb-2">
-            <div className="dis-fl-row">
-              <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
-                {
-                  initialValues.coverPhoto && initialValues.coverPhoto.path ? (
-                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${getConfigEnv.shortPath}${initialValues.coverPhoto.path}`} alt="Brixel Logo" id="avatar" />
-                  ) : (
-                    <i
-                      className="avatar w-fix-48 h-fix-48 brdRadius pos-r"
-                      style={{
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        display: 'block',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundImage: `url(${noCover})`,
-                      }}
-                    />
-                  )
-                }
-              </div>
-              <div className="title ml-1">
-                <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                  {(has(initialValues.properties, 'typology') && has(initialValues.properties.typology, 'bedrooms')) ? initialValues.properties.typology.bedrooms : ''} {has(initialValues.properties, 'propertyType') ? initialValues.properties.propertyType : 'Property'}
-                </span>
-                <span className="address caption txtDark200">{has(initialValues.location, 'zip') ? initialValues.location.zip : ''} {has(initialValues.location, 'state') ? initialValues.location.state : ''}</span>
-              </div>
-            </div>
-            <div className="actions dis-fl-row">
-              <BrixelButtonIcon
-                noBorder
-                color="dark"
-                saturationTxt={700}
-                background="white"
-                className="ml-1 bgWhite shadow-3dp"
-                icon="close"
-                onClick={(e) => closeFacts()}
-              />
-            </div>
-          </div>
-          <div className="transparency-container mb-2">
-            <div className="dis-fl-col ta-l">
-              {
-                get(initialValues, 'inputSheet') && (
-                  <>
-                    <BrixelProgressBar
-                      rounded
-                      large
-                      saturation={700}
-                      barBackground="Red"
-                      backgroundSaturation={100}
-                      progressValue={sectionProgress.percComplete}
-                    />
-                    <div className="dis-f fSizePx12 ff-mono txtPrimary700 pt-1">
-                      <span className="mr-1">{sectionProgress.percComplete}%</span>
-                      <span className="">completed</span>
-                    </div>
-                  </>
-                )
-              }
-            </div>
-          </div>
-        </div>
-
 
         <div className="dis-f a-c my-2 jc-b body2 txtDark200">
           <span>Expand all</span>
@@ -437,7 +360,7 @@ const InputSheet = (props) => {
           ))
         }
       </div>
-    </DrawerLayout>
+    </>
   );
 };
 
@@ -452,7 +375,6 @@ InputSheet.propTypes = {
   formValue: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   singleUserPropertyList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setUserActiveProperty: PropTypes.func.isRequired,
   handleSaveProperty: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   notification: PropTypes.object.isRequired,
@@ -498,13 +420,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
-  // getUser: bindActionCreators(getActiveSingleUser, dispatch),
-  setUserActiveProperty: bindActionCreators(getProperty, dispatch),
   handleSaveProperty: bindActionCreators(updateProperty, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   setNotification: bindActionCreators(setNotification, dispatch),
-  // setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
-  // setUnsavedModal: bindActionCreators(setUnsavedChangesModal, dispatch),
 });
 
 export default compose(
