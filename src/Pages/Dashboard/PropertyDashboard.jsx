@@ -36,8 +36,8 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-info-container">
-        <div className="header-section dis-fl-row a-c jc-b mb-1">
+      <div className="property-info-container p-1">
+        <div className="header-section dis-fl-row a-c jc-b mb-2">
           <div className="dis-fl-row">
             <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
               {
@@ -75,7 +75,6 @@ const HomeDashboard = (props) => {
               onClick={(e) => goToPreview(e)}
             />
             <BrixelButtonIcon
-              className="mr-2"
               icon="edit"
               onClick={(e) => goToInputSheet(e)}
             />
@@ -95,9 +94,9 @@ const HomeDashboard = (props) => {
                     backgroundSaturation={100}
                     progressValue={property.inputSheet.totalComplete}
                   />
-                  <div className="dis-f fSizePx12 ff-mono txtPrimary700 pt-1">
-                    <span className="value">{property.inputSheet.totalComplete}%</span>
-                    <span className="">completed</span>
+                  <div className="dis-f txtPrimary700 pt-1">
+                    <span className="value pr-1">{property.inputSheet.totalComplete}%</span>
+                    <span className="ff-mono">completed</span>
                   </div>
 
                 </>
@@ -115,8 +114,8 @@ const HomeDashboard = (props) => {
                   <div className="dis-fl-col">
                     <span className="subtitle">Price</span>
                     <div className="dis-fl-row jc-b">
-                      <span className="value">{property.price.currency} {property.price.total.toLocaleString(langConfig.localString)}</span>
-                      <div><span className="value">{property.price.pricePerM2.toLocaleString(langConfig.localString)}</span><span> / m2</span></div>
+                      <span className="value txtDark500">{property.price.currency} {property.price.total.toLocaleString(langConfig.localString)}</span>
+                      <div><span className="value txtDark500">{property.price.pricePerM2.toLocaleString(langConfig.localString)}</span><span> / m2</span></div>
                     </div>
                   </div>
                 )
@@ -126,22 +125,22 @@ const HomeDashboard = (props) => {
           <div className="dis-fl-row jc-b a-c">
             <div className="fourth dis-fl-col ta-l">
               <span className="subtitle">Rooms</span>
-              <span className="value">{get(property, 'properties.typology.bedrooms') ? property.properties.typology.bedrooms : 'N/A'}</span>
+              <span className="value txtDark500">{get(property, 'properties.typology.bedrooms') ? property.properties.typology.bedrooms : 'N/A'}</span>
             </div>
             <div className="dis-fl-col ta-l">
               <span className="subtitle">Living space</span>
-              <span className="value">{(has(property.properties, 'typology') && property.properties.typology.livingArea) ? property.properties.typology.livingArea.value : 'N/A'} m2</span>
+              <span className="value txtDark500">{(has(property.properties, 'typology') && property.properties.typology.livingArea) ? property.properties.typology.livingArea.value : 'N/A'} m2</span>
             </div>
             <div className="dis-fl-col ta-l">
               <span className="subtitle">Year built</span>
-              <span className="value">{(has(property.properties, 'building') && property.properties.building.built) ? property.properties.building.built : 'N/A'}</span>
+              <span className="value txtDark500">{(has(property.properties, 'building') && property.properties.building.built) ? property.properties.building.built : 'N/A'}</span>
             </div>
           </div>
         </div>
 
-        <div className="areas dis-fl-row mb-4">
+        <div className="areas dis-fl-row row-cols-2 mb-4">
           <div
-            className="docubox dis-fl-row a-c p-1 w-fix-176 brdRadius mr-2"
+            className="docubox dis-fl-row a-c p-1 brdRadius"
             onClick={(e) => openDocuments(e)}
           >
             <BrixelIcon
@@ -158,7 +157,7 @@ const HomeDashboard = (props) => {
             </div>
           </div>
           <div
-            className="docubox dis-fl-row a-c p-1 w-fix-176 brdRadius"
+            className="docubox dis-fl-row a-c p-1 brdRadius"
           >
             <BrixelIcon
               className="mr-1"
@@ -177,7 +176,7 @@ const HomeDashboard = (props) => {
 
         <div className="buyer">
           <h5 className="mb-1">Buyer</h5>
-          <div className="buyer-container dis-fl-row jc-b a-c brdRadius p-2">
+          <div className="buyer-container dis-fl-row row-cols-3 jc-b a-c brdRadius p-2">
             <div className="dis-fl-col jc- a-c">
               <span className="number">0</span>
               <span className="text">Requests</span>

@@ -21,6 +21,15 @@
   .property-info-container {
     background-color: map-get($lightColor, 100);
 
+    .buyer-container > div:not(:last-child) {
+      border-right: 1px solid map-get($lightColor, 200);;
+    }
+
+    .value {
+      font-family: $font-family-secondary;
+      color: map-get($darkColor, 500);
+    }
+
     .areas {
 
       .docubox,
