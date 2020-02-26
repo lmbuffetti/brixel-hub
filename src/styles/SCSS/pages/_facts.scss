@@ -1,7 +1,9 @@
 .factSection {
-  @media (max-width: $responsive-medium) {
-    padding-left: 0;
-    padding-right: 0;
+  .container {
+    @media (max-width: $responsive-medium) {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 }
 
