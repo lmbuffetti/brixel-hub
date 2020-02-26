@@ -1,5 +1,11 @@
-.accordWrap {
+.factSection {
+  @media (max-width: $responsive-medium) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
 
+.accordWrap {
   .accordTitle {
     width: 100%;
     > h4 {
@@ -11,8 +17,11 @@
       border-top: 1px solid map_get($lightColor, 400);
     }
   }
+
   .accordControl {
+    background: map-get($lightColor, 100 );
     border-bottom: 1px solid map_get($lightColor, 400);
+
     i.border-green {
       border-color: map_get($greenColor, 400);
     }
@@ -24,26 +33,45 @@
     overflow: hidden;
     max-height: 0;
     transition: max-height 0.3s ease-in;
-    background-color: map_get($greenColor, 100);
     padding: $step $step * 2;
 
+    // overwritten styleguide css
     .singleInput {
       .brixel-label {
         display: block;
-        padding: $step 0;
-      }
-      .brixel-input-step input {
-        margin-left: $step * 2;
       }
       .brixel-text-input[type=number] {
-        max-width: 168px;
+        max-width: 164px;
+      }
+      .message:empty {
+        display: none;
+      }
+      .helpLink .message.cur-poi {
+        color: map-get($primaryColor, 400);
+        &:before {
+          @include icomoon();
+          content: $icon-info;
+          font-size: 14px;
+          top: 3px;
+          position: relative;
+          padding-right: 4px;
+        }
+      }
+      .wrap-brixel-input-step {
+        padding: 0;
+        background: white;
       }
     }
   }
 
   &.openedAccord {
+    .accordControl {
+      border-bottom: 0;
+      background: white;
+    }
     .accrodContent {
       max-height: 3000px;
+      border-bottom: 1px solid map_get($lightColor, 400);
     }
   }
 }

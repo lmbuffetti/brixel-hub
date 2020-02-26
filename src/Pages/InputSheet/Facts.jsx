@@ -24,15 +24,20 @@ import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { InputSheets } from '../../resources/inputSheets';
 import { getCalcSectionInputSheets } from '../../utils/helpers';
 
+
 // COMPONENTS
 import Loading from '../../components/Loading';
 import { updateProperty, getProperty } from '../../actions/PropertyActions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import noCover from '../../images/no_cover.jpg';
-import DrawerLayout from '../../components/DrawerLayout';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
+  loading: LoadingSimple,
+});
+
+const DrawerLayout = Loadable({
+  loader: () => import('../../components/DrawerLayout' /* webpackChunkName: "Maps" */),
   loading: LoadingSimple,
 });
 
@@ -244,7 +249,7 @@ const InputSheet = (props) => {
   };
 
   return (
-    <DrawerLayout classNameDrawer="ov-a">
+    <DrawerLayout className="factSection" classNameDrawer="ov-a">
       <div className="container dis-fl-col mt-2">
         <div className="property-info-container">
           <div className="header-section dis-fl-row a-c jc-b mb-2">
@@ -297,7 +302,7 @@ const InputSheet = (props) => {
                       saturation={700}
                       barBackground="Red"
                       backgroundSaturation={100}
-                      progressValue={sectionProgress.percComplete}
+                      progressValue={sectionProgress.percComplete || 0}
                     />
                     <div className="dis-f fSizePx12 ff-mono txtPrimary700 pt-1">
                       <span className="mr-1">{sectionProgress.percComplete}%</span>
@@ -324,14 +329,14 @@ const InputSheet = (props) => {
             >
               {
                 quest.group && (
-                  <span className="accordGroup fweight-600 dis-b pt-2 pb-1 txtDark700">
+                  <span className="accordGroup fweight-600 dis-b pt-3 pb-1 txtDark700 px-1 px-md-0">
                     {quest.group || ''}
                   </span>
                 )
               }
-              <div className="accordControl dis-f a-c jc-b">
+              <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0 pr-md-0">
                 <div
-                  className="accordTitle dis-f a-c cur-poi pt-1 pb-1"
+                  className="accordTitle dis-f a-c cur-poi pt-2 pb-2"
                   onClick={() => toggleAccordion(quest)}
                 >
                   <BrixelIcon
@@ -339,9 +344,9 @@ const InputSheet = (props) => {
                     color="dark"
                     saturationTxt={accordion[quest.history] ? 400 : 200}
                     iconSize="small"
-                    className="ml-1"
+                    className={`ml-1`}
                   />
-                  <h4 className={`body ml-1 ${accordion[quest.history] ? "txtDark400" : "txtDark200"}`}>
+                  <h4 className={`body ml-1 ${accordion[quest.history] ? "txtDark400 fweight-500" : "txtDark200"}`}>
                     {quest.title}
                   </h4>
                 </div>
@@ -355,7 +360,7 @@ const InputSheet = (props) => {
                         <div className="singleInput" key={f.toString()}>
                           {
                             checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
-                              <div className="pt-1 pb-1" key={f.toString()}>
+                              <div className="pb-2" key={f.toString()}>
                                 {
                                   input.type === 'Map' ? (
                                     <>
