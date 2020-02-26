@@ -12,10 +12,12 @@ import { connect } from 'react-redux';
 import last from 'lodash/last';
 import { addGameHistory } from '../../actions/GamificationActions';
 import SuccessMarketCheck from './SuccessMarketCheck';
+import { change } from 'redux-form';
 
 const MarketChecker = (props) => {
   // PROPS
   const {
+    changeFieldValue,
     gameHistory,
     handleAddGameHistory,
     handleSetModal,
@@ -43,8 +45,10 @@ const MarketChecker = (props) => {
     if (gameHistory && gameHistory.data) {
       const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === property.id);
       if (typeof checkGameExist !== 'undefined') {
+        changeFieldValue('doneMarketCheck', true);
         setDoneMarketCheck(true);
       } else {
+        changeFieldValue('doneMarketCheck', false);
         setDoneMarketCheck(false);
       }
       setLoaded(true);
@@ -142,7 +146,7 @@ const MarketChecker = (props) => {
                     Questions[step] && Questions[step].component && (
                       <div>
                         {
-                          React.createElement(Questions[step].component, {formName: 'MarketCheck'})
+                          React.createElement(Questions[step].component, {formName: 'MarketCheck', initialValue: initialValue})
                         }
                       </div>
                     )
@@ -159,6 +163,7 @@ const MarketChecker = (props) => {
 };
 
 MarketChecker.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
@@ -183,6 +188,9 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('MarketCheck', field, value));
+  },
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
 });
