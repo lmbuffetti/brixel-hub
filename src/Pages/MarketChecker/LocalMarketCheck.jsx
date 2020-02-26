@@ -49,7 +49,6 @@ function LocalMarketCheck(props) {
 
   useEffect(() => {
     if (marketData && marketData.priceDistribution && !saved) {
-      console.log(property);
       const data = {
         id: match.params.propId,
         packageFlowProcess: property.packageFlowProcess,
@@ -69,7 +68,7 @@ function LocalMarketCheck(props) {
       setSaved(true);
     }
   }, [marketData]);
-  console.log(property);
+
   return (
     <main id="rewards" className="pb-4">
       <div className="subcontainer">

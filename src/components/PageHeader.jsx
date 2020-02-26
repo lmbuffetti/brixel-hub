@@ -64,7 +64,7 @@ function PageHeader(props) {
   return (
     <>
       <header className="shadow-1dp">
-        <div className={`container dis-f a-c jc-b p-1 p-md-2 pos-r zIndex5`}>
+        <div className={`container dis-f a-c jc-b p-1 p-md-2 pos-r zIndex4`}>
           <img className="logo dis-b w-fix-40" src={logoNorm} alt="Brixel Logo" id="header-logo" />
           <div className="dis-f a-c">
             {
