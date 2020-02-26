@@ -22,9 +22,9 @@ axios.interceptors.response.use(
 );
 
 class ApiClient {
-  constructor({ baseURL, brixeletor }) {
+  constructor({ baseURL, brixelator }) {
     this.baseURL = baseURL;
-    this.brixeletor = brixeletor;
+    this.brixelator = brixelator;
     this.token = cookies.get('brixelToken');
   }
 
@@ -113,7 +113,7 @@ class ApiClient {
     const config = {
       url,
       method,
-      baseURL: baseUrlType === 'baseUrl' ? this.baseURL : this.brixeletor,
+      baseURL: baseUrlType === 'baseUrl' ? this.baseURL : this.brixelator,
       params,
       validateStatus: false,
       paramsSerializer(p) {

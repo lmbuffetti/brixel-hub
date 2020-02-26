@@ -1,5 +1,5 @@
 export default {
-  brixeletor: {
+  brixelator: {
     getPriceDistribution: data => `/marketData/pricesDistribution${data}`,
     getLivingSpaceDistribution: data => `/marketData/livingSpacesDistribution${data}`,
     getMerged: data => `/merged/list${data}`,

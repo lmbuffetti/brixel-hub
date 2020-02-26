@@ -10,10 +10,10 @@ import User from '../actions/User';
 
 function apiFactory(
   {
-    baseURL, brixeletor,
+    baseURL, brixelator,
   },
 ) {
-  const api = new ApiClient({ baseURL, brixeletor });
+  const api = new ApiClient({ baseURL, brixelator });
 
   return {
     common: new Common({ apiClient: api }),
@@ -27,5 +27,5 @@ function apiFactory(
 
 export default apiFactory({
   baseURL: getConfigEnv.apiRoot,
-  brixeletor: getConfigEnv.brixelatorRoot,
+  brixelator: getConfigEnv.brixelatorRoot,
 });
