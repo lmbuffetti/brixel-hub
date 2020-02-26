@@ -24,6 +24,7 @@ import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { InputSheets } from '../../resources/inputSheets';
 import { getCalcSectionInputSheets } from '../../utils/helpers';
 
+
 // COMPONENTS
 import Loading from '../../components/Loading';
 import { updateProperty, getProperty } from '../../actions/PropertyActions';
@@ -32,6 +33,11 @@ import noCover from '../../images/no_cover.jpg';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
+  loading: LoadingSimple,
+});
+
+const DrawerLayout = Loadable({
+  loader: () => import('../../components/DrawerLayout' /* webpackChunkName: "Maps" */),
   loading: LoadingSimple,
 });
 
@@ -243,7 +249,7 @@ const InputSheet = (props) => {
   };
 
   return (
-    <DrawerLayout classNameDrawer="ov-a">
+    <DrawerLayout className="factSection" classNameDrawer="ov-a">
       <div className="container dis-fl-col mt-2">
         <div className="property-info-container">
           <div className="header-section dis-fl-row a-c jc-b mb-2">
@@ -296,7 +302,7 @@ const InputSheet = (props) => {
                       saturation={700}
                       barBackground="Red"
                       backgroundSaturation={100}
-                      progressValue={sectionProgress.percComplete}
+                      progressValue={sectionProgress.percComplete || 0}
                     />
                     <div className="dis-f fSizePx12 ff-mono txtPrimary700 pt-1">
                       <span className="mr-1">{sectionProgress.percComplete}%</span>
@@ -315,127 +321,127 @@ const InputSheet = (props) => {
           <span>All tasks</span>
         </div>
 
-          {
-            Questions.map((quest, i) => (
-              <div
-                className={`accordWrap ${accordion[quest.history] ? 'openedAccord' : 'closedAccord'}`}
-                key={i.toString()}
-              >
-                {
-                  quest.group && (
-                    <span className="accordGroup fweight-600 dis-b pt-3 pb-1 txtDark700 px-1 px-md-0">
-                      {quest.group || ''}
-                    </span>
-                  )
-                }
-                <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0 pr-md-0">
-                  <div
-                    className="accordTitle dis-f a-c cur-poi pt-2 pb-2"
-                    onClick={() => toggleAccordion(quest)}
-                  >
-                    <BrixelIcon
-                      icon={accordion[quest.history] ? "minus" : "plus"}
-                      color="dark"
-                      saturationTxt={accordion[quest.history] ? 400 : 200}
-                      iconSize="small"
-                      className={`ml-1`}
-                    />
-                    <h4 className={`body ml-1 ${accordion[quest.history] ? "txtDark400 fweight-500" : "txtDark200"}`}>
-                      {quest.title}
-                    </h4>
-                  </div>
-                  {checkQuestionGroup(quest, skipSection)}
+        {
+          Questions.map((quest, i) => (
+            <div
+              className={`accordWrap ${accordion[quest.history] ? 'openedAccord' : 'closedAccord'}`}
+              key={i.toString()}
+            >
+              {
+                quest.group && (
+                  <span className="accordGroup fweight-600 dis-b pt-3 pb-1 txtDark700 px-1 px-md-0">
+                    {quest.group || ''}
+                  </span>
+                )
+              }
+              <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0 pr-md-0">
+                <div
+                  className="accordTitle dis-f a-c cur-poi pt-2 pb-2"
+                  onClick={() => toggleAccordion(quest)}
+                >
+                  <BrixelIcon
+                    icon={accordion[quest.history] ? "minus" : "plus"}
+                    color="dark"
+                    saturationTxt={accordion[quest.history] ? 400 : 200}
+                    iconSize="small"
+                    className={`ml-1`}
+                  />
+                  <h4 className={`body ml-1 ${accordion[quest.history] ? "txtDark400 fweight-500" : "txtDark200"}`}>
+                    {quest.title}
+                  </h4>
                 </div>
-                {
-                  accordion[quest.history] && (
-                    <div key={i.toString()} className="accrodContent">
-                      {
-                        quest.inputs.map((input, f) => (
-                          <div className="singleInput" key={f.toString()}>
-                            {
-                              checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
-                                <div className="pb-2" key={f.toString()}>
-                                  {
-                                    input.type === 'Map' ? (
-                                      <>
-                                        <div className="mb-20 pos-r zIndex1">
-                                          <Field
-                                            name={input.name}
-                                            label={input.label}
-                                            component={() => (
-                                              <Maps
-                                                zoom={14}
-                                                scrollZoom
-                                                moveMarker
-                                                draggable
-                                                showSearchLocation
-                                                showSelectCountry={true}
-                                                showMap={true}
-                                                isShowZip={false}
-                                                className="w-perc-100"
-                                              />
-                                            )}
-                                            options={input.options}
-                                            validate={input.validation}
-                                            type={input.type}
-                                          />
-                                        </div>
-                                      </>
-                                    ) : (
-                                      <div className="dis-f a-c jc-b">
-                                        <div
-                                          className={`${input.classNameBox || ''} dis-fl-col w-perc-100`}
-                                          tabIndex="-1"
-                                        >
-                                          {input.deactivable ? input.deactivable.toString() : ''}
-                                          <Field
-                                            className={input.className || ''}
-                                            inputClassName={input.inputClassName || ''}
-                                            isHorizontal={input.isHorizontal}
-                                            name={input.name}
-                                            label={input.label}
-                                            icons={input.icons}
-                                            component={input.component}
-                                            fluid={false}
-                                            options={input.options}
-                                            validate={input.validation}
-                                            type={input.type}
-                                            step={+input.step}
-                                            min={input.min}
-                                            deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
-                                            placeholder={input.placeholder || ''}
-                                            meta={{
-                                              dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                              invalid: true,
-                                            }}
-                                            modal={input.modal ? {message: input.modal.hint, func: () => handleSetModal(input.modal.func)} : null }
-                                            message={{
-                                              help: null,
-                                              error: errorValue[input.name],
-                                            }}
-                                            minLenghtNum={input.minLenghtNum || null}
-                                            maxLengthNum={input.maxLenghtNum || null}
-                                            onBlur={() => getCalcPerc()}
-                                            unit={input.unit}
-                                          />
-                                        </div>
-                                      </div>
-                                    )
-                                  }
-                                  <p className="body2">{input.help}</p>
-                                </div>
-                              )
-                            }
-                          </div>
-                        ))
-                      }
-                    </div>
-                  )
-                }
+                {checkQuestionGroup(quest, skipSection)}
               </div>
-            ))
-          }
-        </div>
+              {
+                accordion[quest.history] && (
+                  <div key={i.toString()} className="accrodContent">
+                    {
+                      quest.inputs.map((input, f) => (
+                        <div className="singleInput" key={f.toString()}>
+                          {
+                            checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
+                              <div className="pb-2" key={f.toString()}>
+                                {
+                                  input.type === 'Map' ? (
+                                    <>
+                                      <div className="mb-20 pos-r zIndex1">
+                                        <Field
+                                          name={input.name}
+                                          label={input.label}
+                                          component={() => (
+                                            <Maps
+                                              zoom={14}
+                                              scrollZoom
+                                              moveMarker
+                                              draggable
+                                              showSearchLocation
+                                              showSelectCountry={true}
+                                              showMap={true}
+                                              isShowZip={false}
+                                              className="w-perc-100"
+                                            />
+                                          )}
+                                          options={input.options}
+                                          validate={input.validation}
+                                          type={input.type}
+                                        />
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <div className="dis-f a-c jc-b">
+                                      <div
+                                        className={`${input.classNameBox || ''} dis-fl-col w-perc-100`}
+                                        tabIndex="-1"
+                                      >
+                                        {input.deactivable ? input.deactivable.toString() : ''}
+                                        <Field
+                                          className={input.className || ''}
+                                          inputClassName={input.inputClassName || ''}
+                                          isHorizontal={input.isHorizontal}
+                                          name={input.name}
+                                          label={input.label}
+                                          icons={input.icons}
+                                          component={input.component}
+                                          fluid={false}
+                                          options={input.options}
+                                          validate={input.validation}
+                                          type={input.type}
+                                          step={+input.step}
+                                          min={input.min}
+                                          deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
+                                          placeholder={input.placeholder || ''}
+                                          meta={{
+                                            dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                            invalid: true,
+                                          }}
+                                          modal={input.modal ? {message: input.modal.hint, func: () => handleSetModal(input.modal.func)} : null }
+                                          message={{
+                                            help: null,
+                                            error: errorValue[input.name],
+                                          }}
+                                          minLenghtNum={input.minLenghtNum || null}
+                                          maxLengthNum={input.maxLenghtNum || null}
+                                          onBlur={() => getCalcPerc()}
+                                          unit={input.unit}
+                                        />
+                                      </div>
+                                    </div>
+                                  )
+                                }
+                                <p className="body2">{input.help}</p>
+                              </div>
+                            )
+                          }
+                        </div>
+                      ))
+                    }
+                  </div>
+                )
+              }
+            </div>
+          ))
+        }
+      </div>
     </DrawerLayout>
   );
 };

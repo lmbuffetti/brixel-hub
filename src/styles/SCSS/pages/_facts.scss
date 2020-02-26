@@ -1,23 +1,7 @@
-.container {
-  &.styleSheet {
-    background: whitesmoke;
-    padding: 0;
-    position: absolute;
-    top: 0;
-    min-height: 100%;
-    width: 100%;
-    z-index: 99;
-    background: rgba(map_get($darkColor, 700), .7);
-  }
-  > .content {
-    background: white;
-    max-width: 768px;
-    margin-left: auto;
-    margin-right: 0;
-    @media (max-width: $responsive-medium) {
-      padding-left: 0;
-      padding-right: 0;
-    }
+.factSection {
+  @media (max-width: $responsive-medium) {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
