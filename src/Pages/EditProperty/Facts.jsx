@@ -193,7 +193,7 @@ const InputSheet = (props) => {
     } else if (Object.keys(diff(initial, formValue)).length === 0 && notification.type === 'info') {
       setNotification({ state: false });
     }
-  }, [errorValue]);
+  }, [formValue, errorValue]);
 
   if (!formValue.id) {
     return (

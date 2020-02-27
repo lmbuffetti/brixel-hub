@@ -1114,6 +1114,7 @@ export const InputSheets = (lang) => [
         format: formatPrice,
         normalize: normalizePrice,
         validation: [Validation.markRequired],
+        type: 'number',
       },
       {
         component: BrixelInputText,
