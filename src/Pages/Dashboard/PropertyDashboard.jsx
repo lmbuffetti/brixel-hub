@@ -149,6 +149,7 @@ const HomeDashboard = (props) => {
               className="mr-1"
               icon="folder"
               color="light"
+              padding="p-small-9"
               saturationTxt={100}
               background="primary"
               saturation={300}
@@ -165,6 +166,7 @@ const HomeDashboard = (props) => {
               className="mr-1"
               icon="calendar"
               color="light"
+              padding="p-small-9"
               saturationTxt={100}
               background="primary"
               saturation={300}

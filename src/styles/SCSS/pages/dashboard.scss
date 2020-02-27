@@ -105,7 +105,6 @@
   .supportCard {
     border-radius: $step 0 0 0;
     background: map_get($lightColor, 100);
-    padding-top: $step * 3;
     height: 100%;
   }
 }

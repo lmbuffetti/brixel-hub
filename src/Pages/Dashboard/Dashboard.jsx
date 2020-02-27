@@ -81,7 +81,7 @@ const Dashboard = (props) => {
   }, [property]);
 
   return (
-    <div className="container" id="dashboard">
+    <div className="container pt-2" id="dashboard">
       <BrixelTabs
         classNameLi="pt-2 dis-fl-col"
         classNameUl="nav-tabs"

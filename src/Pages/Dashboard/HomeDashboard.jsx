@@ -115,9 +115,10 @@ const HomeDashboard = (props) => {
                                 label={item.name}
                                 subtitle={item.description}
                                 background={item.done ? 'light100' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].color}
-                                className="mb-2 w-perc-100 p-2"
+                                className={`mb-2 w-perc-100 p-2 ${item.done ? '' : 'shadow-2dp'}`}
                                 colorIcon={item.done ? 'green400'  : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].iconColor}
-                                backIcon={`${item.done ? 'light200' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1 h-fix-48`}
+                                backIcon={`${item.done ? 'light200' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
+                                paddingIconClass="large p-small-9"
                                 multilineInfo={[
                                   item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
                                   {label: item.points, color: 'dark200'},
