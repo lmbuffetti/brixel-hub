@@ -86,7 +86,7 @@ const InputSheet = (props) => {
             className="brdSmall dis-b border-green"
             icon="check"
             rounded
-            background={"green"}
+            background="green"
             saturation={400}
             color="white"
             saturationTxt={0}
@@ -147,13 +147,13 @@ const InputSheet = (props) => {
     //
     if (formValue.id) {
       const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
-      console.log(getData, Questions, formValue, InputSheets('en'));
+      console.log(getData, formValue);
       setAccordion({...getData.accordion});
       setAccordionAnimatad({...getData.accordion});
       setSectionProgress({...getData.section});
       setSkipSection(initialValues.inputSheet.skipSection);
     }
-  }, [formValue]);
+  }, [errorValue]);
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
@@ -225,8 +225,72 @@ const InputSheet = (props) => {
   };
 
   return (
-    <>
+    <div className="factSection" classNameDrawer="ov-a">
       <div className="container dis-fl-col mt-2">
+        <div className="property-info-container">
+          <div className="header-section dis-fl-row a-c jc-b mb-2">
+            <div className="dis-fl-row">
+              <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
+                {
+                  initialValues.coverPhoto && initialValues.coverPhoto.path ? (
+                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${getConfigEnv.shortPath}${initialValues.coverPhoto.path}`} alt="Brixel Logo" id="avatar" />
+                  ) : (
+                    <i
+                      className="avatar w-fix-48 h-fix-48 brdRadius pos-r"
+                      style={{
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        display: 'block',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundImage: `url(${noCover})`,
+                      }}
+                    />
+                  )
+                }
+              </div>
+              <div className="title ml-1">
+                <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
+                  {(has(initialValues.properties, 'typology') && has(initialValues.properties.typology, 'bedrooms')) ? initialValues.properties.typology.bedrooms : ''} {has(initialValues.properties, 'propertyType') ? initialValues.properties.propertyType : 'Property'}
+                </span>
+                <span className="address caption txtDark200">{has(initialValues.location, 'zip') ? initialValues.location.zip : ''} {has(initialValues.location, 'state') ? initialValues.location.state : ''}</span>
+              </div>
+            </div>
+            <div className="actions dis-fl-row">
+              <BrixelButtonIcon
+                noBorder
+                color="dark"
+                saturationTxt={700}
+                background="white"
+                className="ml-1 bgWhite shadow-3dp"
+                icon="close"
+                onClick={(e) => closeFacts()}
+              />
+            </div>
+          </div>
+          <div className="transparency-container mb-2">
+            <div className="dis-fl-col ta-l">
+              {
+                get(initialValues, 'inputSheet') && (
+                  <>
+                    <BrixelProgressBar
+                      rounded
+                      large
+                      saturation={700}
+                      barBackground="Red"
+                      backgroundSaturation={100}
+                      progressValue={sectionProgress.percComplete || 0}
+                    />
+                    <div className="dis-f fSizePx12 ff-mono txtPrimary700 pt-1">
+                      <span className="mr-1">{sectionProgress.percComplete}%</span>
+                      <span className="">completed</span>
+                    </div>
+                  </>
+                )
+              }
+            </div>
+          </div>
+        </div>
+
 
         <div className="dis-f a-c my-2 jc-b body2 txtDark200">
           <span>Expand all</span>
@@ -241,14 +305,14 @@ const InputSheet = (props) => {
             >
               {
                 quest.group && (
-                  <span className="accordGroup fweight-600 dis-b pt-2 pb-1 txtDark700">
+                  <span className="accordGroup fweight-600 dis-b pt-3 pb-1 txtDark700 px-1 px-md-0">
                     {quest.group || ''}
                   </span>
                 )
               }
-              <div className="accordControl dis-f a-c jc-b">
+              <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0 pr-md-0">
                 <div
-                  className="accordTitle dis-f a-c cur-poi pt-1 pb-1"
+                  className="accordTitle dis-f a-c cur-poi pt-2 pb-2"
                   onClick={() => toggleAccordion(quest)}
                 >
                   <BrixelIcon
@@ -258,7 +322,7 @@ const InputSheet = (props) => {
                     iconSize="small"
                     className="ml-1"
                   />
-                  <h4 className={`body ml-1 ${accordion[quest.history] ? "txtDark400" : "txtDark200"}`}>
+                  <h4 className={`body ml-1 ${accordion[quest.history] ? "txtDark400 fweight-500" : "txtDark200"}`}>
                     {quest.title}
                   </h4>
                 </div>
@@ -272,7 +336,7 @@ const InputSheet = (props) => {
                         <div className="singleInput" key={f.toString()}>
                           {
                             checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
-                              <div className="pt-1 pb-1" key={f.toString()}>
+                              <div className="pb-2" key={f.toString()}>
                                 {
                                   input.type === 'Map' ? (
                                     <>
@@ -354,7 +418,7 @@ const InputSheet = (props) => {
           ))
         }
       </div>
-    </>
+    </div>
   );
 };
 
