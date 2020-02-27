@@ -127,7 +127,7 @@ const App = (props) => {
   return (
     <main className="dis-fl-row jc-b">
       <Loading isLoading={isLoading} />
-      <div className="content zIndex1">
+      <div className="content pos-r zIndex1">
         <PageHeader />
         <Switch>
           { /* INFO: <Route> for free access <ProtectedRoute> for restricted access */ }
@@ -154,7 +154,7 @@ const App = (props) => {
       { /* SECTION: APP HEADER */ }
       {
         loggedUser && (
-          <div className="sidebar zIndex2" id="menu-sidebar">
+          <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
             <MenuSidebar />
           </div>
         )

@@ -62,10 +62,14 @@ function PageHeader(props) {
     setCookie('brixelLang', langCode.value);
   };
 
+  const goToAccount = () => {
+    window.open(getConfigEnv.profileURL, '_blank');
+  };
+
   return (
     <>
       <header className="shadow-1dp">
-        <div className={`container dis-f a-c jc-fe p-1 p-md-2 pos-r zIndex4`}>
+        <div className={`container dis-f a-c jc-b-sm jc-fe-md p-1 p-md-2 pos-r zIndex4`}>
           <img className="logo dis-b w-fix-40 hide-md" src={logoNorm} alt="Brixel Logo" id="header-logo" />
           <div className="dis-f a-c">
             {
@@ -123,6 +127,7 @@ function PageHeader(props) {
                     avatarImg={ loggedUser.user.avatar && loggedUser.user.avatar[0] ? `${getConfigEnv.shortPath}${loggedUser.user.avatar[0].thumbnailPath}` : null}
                     name={loggedUser.user.name}
                     size={40}
+                    onClick={() => goToAccount()}
                   />
                 </div>
               )
