@@ -80,7 +80,7 @@ const InputSheet = (props) => {
   return (
     <DrawerLayout className="factSection" classNameDrawer="ov-a">
       <div className="container dis-fl-col mt-2">
-        <div className="property-info-container">
+        <div className="property-info-container px-1 px-md-0">
           <div className="header-section dis-fl-row a-c jc-b mb-2">
             <div className="dis-fl-row">
               <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
@@ -134,7 +134,7 @@ const InputSheet = (props) => {
                       progressValue={initialValues.inputSheet.totalComplete || 0}
                     />
                     <div className="dis-f fSizePx12 ff-mono txtPrimary700 pt-1">
-                      <span className="mr-1">{initialValues.inputSheet.totalComplete || 0}%</span>
+                      <span className="mr-1">{initialValues.inputSheet.totalComplete}%</span>
                       <span className="">completed</span>
                     </div>
                   </>
@@ -160,6 +160,7 @@ const InputSheet = (props) => {
           onClick={(tab) => {
             history.push(`/${propID}/property/${tab}`);
           }}
+          fullWidth
         />
 
         <Switch>
