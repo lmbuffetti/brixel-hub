@@ -198,7 +198,7 @@ function GetStarted(props) {
           livingArea: { value: +formValue.livingSpace, unit: "sqm" }
         },
         building: {
-          build: formValue.constructionYear,
+          built: formValue.constructionYear,
         }
       },
       location: formValue.location,
