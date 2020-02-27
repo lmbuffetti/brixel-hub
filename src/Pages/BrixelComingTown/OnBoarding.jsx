@@ -199,7 +199,7 @@ function OnBoarding(props) {
           livingArea: { value: +formValue.livingSpace, unit: "sqm" }
         },
         building: {
-          build: formValue.constructionYear,
+          built: formValue.constructionYear,
         }
       },
       location: formValue.location,
@@ -212,7 +212,7 @@ function OnBoarding(props) {
         propertyType: formValue.propertyType,
         bedrooms: formValue.bedrooms,
         livingArea: { value: +formValue.livingSpace, unit: "sqm" },
-        build: formValue.constructionYear,
+        built: formValue.constructionYear,
         location: formValue.location,
       },
     };

@@ -81,6 +81,11 @@ const MarketChecker = Loadable({
   loading: Loading,
 });
 
+const Assessor = Loadable({
+  loader: () => import('./Pages/Assessor' /* webpackChunkName: "PackageFlow-Rewards" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -172,7 +177,7 @@ const App = (props) => {
             multiActions={modal.multiActions}
             clickOutsideToClose={modal.clickOutsideToClose}
           >
-            <div>{modal.body}</div>
+            <div dangerouslySetInnerHTML={{ __html: modal.body }} />
           </BrixelModal>
         )
       }
@@ -220,6 +225,12 @@ const App = (props) => {
             path="/:propId?/:act/achievement/market-checker"
             closePath="../"
             component={MarketChecker}
+            title=""
+          />
+          <ModalProtectedRoute
+            path="/:propId?/:act/achievement/assessor"
+            closePath="../"
+            component={Assessor}
             title=""
           />
         </Switch>

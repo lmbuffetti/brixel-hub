@@ -11,8 +11,10 @@ const MultiStepForm = (props) => {
   const {
     errorValue,
     form,
+    formStep,
     formValue,
     questions,
+    step,
   } = props;
 
   const checkCondition = (val) => {
@@ -24,70 +26,77 @@ const MultiStepForm = (props) => {
     }
     return isToShow;
   };
-
+  console.log(formStep, questions);
   return (
-    <form name={form}>
-      {
-        questions.map((quest, i) => (
-          <div key={i.toString()}>
-            <h3>{quest.title}</h3>
-            <div key={i.toString()} className="dis-f">
-              {
-                quest.inputs.map((input, f) => (
-                  <div key={f.toString()}>
-                    {
-                      checkCondition(input) && (
-                        <div key={f.toString()}>
-                          <div className="dis-f a-c jc-b">
-                            <div
-                              className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}
-                              tabIndex="-1"
-                            >
-                              {input.deactivable ? input.deactivable.toString() : ''}
-                              <Field
-                                className="w-perc-100"
-                                inputClassName={input.className || ''}
-                                name={input.name}
-                                label={input.label}
-                                icons={input.icons}
-                                component={input.component}
-                                fluid={true}
-                                options={input.options}
-                                validate={input.validation}
-                                type={input.type}
-                                step={+input.step}
-                                min={input.min}
-                                deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
-                                placeholder={input.placeholder || ''}
-                                meta={{
-                                  dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                  invalid: true,
-                                }}
-                                message={{
-                                  help: null,
-                                  error: errorValue[input.name],
-                                }}
-                                minLenghtNum={input.minLenghtNum || null}
-                                maxLengthNum={input.maxLenghtNum || null}
-                              />
-                              {
-                                input.unit && (
-                                  <span className="pl-2">{input.unit}</span>
-                                )
-                              }
+    <form name={form} className="ov-h">
+      <div className="slideMultiStepFormModal" style={{ transform: `translate(-${formStep * 100}%, 0)` }}>
+        {
+          questions.map((quest, i) => (
+            <div
+              key={i.toString()}
+              className="singleStepModal"
+            >
+              <div>
+                <h3>{quest.title}</h3>
+                <div key={i.toString()} className="dis-f">
+                {
+                  quest.inputs.map((input, f) => (
+                    <div key={f.toString()}>
+                      {
+                        checkCondition(input) && (
+                          <div key={f.toString()}>
+                            <div className="dis-f a-c jc-b">
+                              <div
+                                className={`${input.classNameBox || ''} dis-f-col a-c jc-b w-perc-100`}
+                                tabIndex="-1"
+                              >
+                                {input.deactivable ? input.deactivable.toString() : ''}
+                                <Field
+                                  className="w-perc-100"
+                                  inputClassName={input.className || ''}
+                                  name={input.name}
+                                  label={input.label}
+                                  icons={input.icons}
+                                  component={input.component}
+                                  fluid={true}
+                                  options={input.options}
+                                  validate={input.validation}
+                                  type={input.type}
+                                  step={+input.step}
+                                  min={input.min}
+                                  deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
+                                  placeholder={input.placeholder || ''}
+                                  meta={{
+                                    dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                    invalid: true,
+                                  }}
+                                  message={{
+                                    help: null,
+                                    error: errorValue[input.name],
+                                  }}
+                                  minLenghtNum={input.minLenghtNum || null}
+                                  maxLengthNum={input.maxLenghtNum || null}
+                                />
+                                {
+                                  input.unit && (
+                                    <span className="pl-2">{input.unit}</span>
+                                  )
+                                }
+                              </div>
                             </div>
+                            <p className="body2">{input.help}</p>
                           </div>
-                          <p className="body2">{input.help}</p>
-                        </div>
-                      )
-                    }
-                  </div>
-                ))
-              }
+                        )
+                      }
+                    </div>
+                  ))
+                }
+              </div>
+              </div>
             </div>
-          </div>
-        ))
-      }
+          ))
+        }
+      </div>
     </form>
   )
 };
@@ -95,15 +104,17 @@ const MultiStepForm = (props) => {
 MultiStepForm.propTypes = {
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  formStep: PropTypes.number,
   onChangeStep: PropTypes.func,
   questions: PropTypes.arrayOf(PropTypes.object),
   step: PropTypes.number,
 };
 
 MultiStepForm.defaultProps = {
+  formStep: 0,
   onChangeStep: () => '',
   step: 0,
-}
+};
 
 const mapStateToProps = (state, props) => {
   return ({
