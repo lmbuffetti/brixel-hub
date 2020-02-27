@@ -81,14 +81,14 @@ const Dashboard = (props) => {
   }, [property]);
 
   return (
-    <div className="container" id="dashboard">
+    <div className="container pt-2" id="dashboard">
       <BrixelTabs
         classNameLi="pt-2 dis-fl-col"
         classNameUl="nav-tabs zIndex4"
         labels={['Home', 'Property', 'Support']}
         clicksList={['home', 'property', 'support']}
         labelsIcons={['star', 'star', 'star']}
-        classNameArray={['order-md-2 homeTab', 'order-md-1 propertyTab', 'order-md-3 supportTab']}
+        classNameArray={['order-md-2 homeTab px-1 px-md-2', 'order-md-1 propertyTab px-1 px-md-2', 'order-md-3 supportTab px-1 px-md-2']}
         activeTab={checkActiveTab()}
         fullWidth
         onClick={(val) => history.push(val)}

@@ -1,13 +1,13 @@
 .timelineBar {
   position: absolute;
   left: 16px;
-  height: calc(100% - 56px);
-  top: 28px;
+  height: calc(100% - 74px);
+  top: 38px;
   width: 1px;
   background: map_get($lightColor, 200);
 }
 
-.dotTimeline {
+.dotTimelineDone {
   position: absolute;
   left: $step * -3;
   top: 50%;
@@ -20,7 +20,7 @@
   box-shadow: $shadow-3dp;
 }
 
-.dotTimelineDone {
+.dotTimeline {
   position: absolute;
   left: $step * -3;
   top: 50%;

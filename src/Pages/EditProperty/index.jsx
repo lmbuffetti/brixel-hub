@@ -78,9 +78,9 @@ const InputSheet = (props) => {
   };
 
   return (
-    <DrawerLayout className="factSection" classNameDrawer="ov-a">
-      <div className="container dis-fl-col mt-2">
-        <div className="property-info-container px-1 px-md-0">
+    <DrawerLayout classNameDrawer="ov-a">
+      <div className="dis-fl-col mt-2">
+        <div className="property-info-container px-2">
           <div className="header-section dis-fl-row a-c jc-b mb-2">
             <div className="dis-fl-row">
               <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">

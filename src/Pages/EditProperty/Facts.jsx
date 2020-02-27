@@ -225,7 +225,7 @@ const InputSheet = (props) => {
   return (
     <>
 
-      <div className="dis-f a-c my-2 jc-b body2 txtDark200">
+      <div className="dis-f a-c my-2 jc-b body2 txtDark200 px-2">
         <span>Expand all</span>
         <span>All tasks</span>
       </div>
@@ -233,17 +233,17 @@ const InputSheet = (props) => {
       {
         Questions.map((quest, i) => (
           <div
-            className={`accordWrap ${accordion[quest.history] ? 'openedAccord' : 'closedAccord'}`}
+            className={`accordWrap px-0 px-md-2 ${accordion[quest.history] ? 'openedAccord' : 'closedAccord'}`}
             key={i.toString()}
           >
             {
               quest.group && (
-                <span className="accordGroup fweight-600 dis-b pt-3 pb-1 txtDark700 px-1 px-md-0">
+                <span className="accordGroup fweight-600 dis-b pt-3 pb-1 txtDark700 px-2 px-md-0">
                   {quest.group || ''}
                 </span>
               )
             }
-            <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0 pr-md-0">
+            <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0">
               <div
                 className="accordTitle dis-f a-c cur-poi pt-2 pb-2"
                 onClick={() => toggleAccordion(quest)}

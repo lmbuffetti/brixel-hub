@@ -1,4 +1,12 @@
+
+@mixin disabledAread {
+  cursor: not-allowed;
+  filter: grayscale(100%);
+  opacity: 0.6;
+}
+
 #dashboard {
+
   .nav-tabs {
     position: fixed;
     left: 0;
@@ -29,18 +37,26 @@
       color: map-get($darkColor, 500);
     }
 
-    .areas {
-
-      .docubox,
-      .showings {
+    .boxPanel {
+      > div {
+        flex: 0 0 50%;
+        max-width: calc(50% - 8px);
         cursor: pointer;
         @include border('Dark', 200);
+        &:nth-child(2) {
+          @include disabledAread();
+        }
+        transition: background-color $default-time-long $default-easing;
+        &:hover {
+          background-color: #fff;
+        }
       }
     }
 
     .buyer {
 
       .buyer-container {
+        @include disabledAread();
         @include border('Dark', 200);
 
         .number {
@@ -51,6 +67,26 @@
         .text {
           @include fontStyle(400,'regular',center);
         }
+      }
+    }
+  }
+}
+
+.homeTab {
+  .brixel-button-box {
+    .labelText {
+      .labelTitle {
+        font-weight: 500;
+        margin-bottom: 0;
+      }
+      .labelSubtitle {
+        font-size: 12px;
+        color: map_get($darkColor, 200);
+      }
+    }
+    .rightAction {
+      > p > span {
+        font-size: 12px;
       }
     }
   }
@@ -68,7 +104,6 @@
   .supportCard {
     border-radius: $step 0 0 0;
     background: map_get($lightColor, 100);
-    padding-top: $step * 3;
     height: 100%;
   }
 }

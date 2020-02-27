@@ -11,30 +11,34 @@ import { BrixelIcon } from '@brixel/brixel-components';
 const HomeDashboard = (props) => {
 
   return (
-    <div className="container supportCard">
+    <div className="supportCard pt-2 pl-2 pr-1">
       <div>
         <BrixelIcon
-          classaName="dis-b"
+          className="dis-ib"
           icon="question"
           background="primary"
           saturation={300}
+          padding="p-small-9"
           color="white"
+          iconSize="large"
           saturationTxt={0}
         />
-        <h4 className="my-1">Support</h4>
-        <p>How can I hel you?</p>
+        <span className="my-1 dis-b fweight-500 txtDark700">Support</span>
+        <p className="body2 txtDark500">How can I hel you?</p>
       </div>
-      <div className="mt-4">
+      <div>
         <BrixelIcon
-          classaName="dis-b"
+          className="dis-ib mt-3"
           icon="first-time-occupancy"
           background="primary"
+          padding="p-small-9"
           saturation={300}
+          iconSize="large"
           color="white"
           saturationTxt={0}
         />
-        <h4 className="my-1">Upgrade</h4>
-        <p>Learn about Brixel Premium</p>
+        <span className="my-1 dis-b fweight-500 txtDark700">Upgrade</span>
+        <p className="body2 txtDark500">Learn about Brixel Premium</p>
       </div>
     </div>
   )

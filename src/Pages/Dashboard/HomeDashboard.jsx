@@ -71,13 +71,13 @@ const HomeDashboard = (props) => {
   }
 
   return (
-    <div className="container">
+    <div className="">
 
-      <div className="hide-md">
-        <h3>Home of</h3>
+      <div className="hide-md my-3">
+        <span className="heading5">Home of</span>
         {
           property.properties.typology && (
-            <h4>{property.properties.typology.bedrooms} {property.properties.propertyType} in {property.location.city}</h4>
+            <h5 className="heading5 txtPrimary400">{property.properties.typology.bedrooms} {property.properties.propertyType} in {property.location.city}</h5>
           )
         }
       </div>
@@ -87,7 +87,7 @@ const HomeDashboard = (props) => {
             {
               GameGroupConfig[`level${group.stub.replace(/^\D+/g, '')}`] && (
                 <>
-                  <h5 className="mb-2">{GameGroupConfig[`level${group.stub.replace(/^\D+/g, '')}`].name}</h5>
+                  <span className="mb-3 dis-b txtDark700 fweight-500">{GameGroupConfig[`level${group.stub.replace(/^\D+/g, '')}`].name}</span>
                   <div key={i.toString()} className="pl-5 pos-r">
                     <div className="timelineBar" />
                     {
@@ -101,12 +101,12 @@ const HomeDashboard = (props) => {
                                 label={item.name}
                                 subtitle={item.description}
                                 background="light100"
-                                className="mb-4 w-perc-100 opacity5"
+                                className="mb-2 w-perc-100 opacity5 p-2"
                                 colorIcon={GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].iconColor}
-                                backIcon="light200"
+                                backIcon="light200 mr-1"
                                 multilineInfo={[
-                                  {label: 'Coming', color: 'dark700'},
-                                  {label: 'soon', color: 'dark700'},
+                                  {label: 'Coming', color: 'dark200'},
+                                  {label: 'soon', color: 'dark200'},
                                 ]}
                               />
                             ) : (
@@ -115,12 +115,13 @@ const HomeDashboard = (props) => {
                                 label={item.name}
                                 subtitle={item.description}
                                 background={item.done ? 'light100' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].color}
-                                className="mb-4 w-perc-100 shadow-3dp"
+                                className={`mb-2 w-perc-100 p-2 ${item.done ? '' : 'shadow-2dp'}`}
                                 colorIcon={item.done ? 'green400'  : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].iconColor}
-                                backIcon={item.done ? 'light200' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].backColor}
+                                backIcon={`${item.done ? 'light200' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
+                                paddingIconClass="large p-small-9"
                                 multilineInfo={[
                                   item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
-                                  {label: item.points, color: 'dark700'},
+                                  {label: item.points, color: 'dark200'},
                                 ]}
                                 onClick={() => history.push(`/${property.id}/home/achievement/${item.stub}`)}
                               />

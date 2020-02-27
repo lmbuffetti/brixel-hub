@@ -9,7 +9,7 @@ const Media = (props) => {
 
   return (
     <>
-      <div className="container dis-fl-col mt-2">
+      <div className="dis-fl-col mt-2 px-2">
         <h6>Media</h6>
       </div>
     </>
