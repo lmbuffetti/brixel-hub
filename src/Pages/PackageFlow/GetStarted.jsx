@@ -12,24 +12,24 @@ import {
 } from 'react-router-dom'
 import { change, isValid, Field, reduxForm } from 'redux-form';
 import Cookies from 'universal-cookie';
-import ReactGA from 'react-ga';
 import {
   BrixelButtonPrimary,
   BrixelButtonTertiary,
   BrixelButtonIcon,
   BrixelIcon,
-  FactsOptions,
 } from '@brixel/brixel-components';
 import { getToken, setAwards, setBrixelPoint, validateUser, updateUser } from '../../actions/UserActions';
 import { addProperty, updateProperty } from '../../actions/PropertyActions';
 import { errorMessage, setPageData, setLanguage } from '../../actions/CommonActions';
 import { getCompany } from '../../actions/CompanyActions';
-import { QuestionsList } from '../../resources/packageFlowGetstartedQuestions.js';
+import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.js';
+import { PackageFlow } from '../../resources/packageFlowGetstartedQuestions.js';
 import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 const swissZipCode = require('../../resources/swissZipCodes.json');
 
 const LoginSignup = Loadable({
@@ -80,6 +80,31 @@ function GetStarted(props) {
     setCurCountry(getCurrent);
   };
 
+  const changePageTitle = () => {
+    const pageTitle = `${formValue.bedrooms} ${translateTo(lang, 'Rooms')} ${translateTo(lang, formValue.propertyType)} - ${formValue.location.city}`;
+    changeFieldValue('pageTitle', pageTitle);
+  };
+
+  useEffect(() => {
+    if (baseByData.env === 'dev') {
+      const location = {
+        type: "stateCode",
+        country: "Schweiz",
+        countryCode: "CH",
+        name: "Ernastrasse",
+        vicinity: "Kreis 4",
+        address: "Ernastrasse, 8004 Zürich, Schweiz",
+        latitude: 47.3807432,
+        longitude: 8.516775800000005,
+        state: "Zürich",
+        stateCode: "ZH",
+        zip: 8004,
+        city: "Zürich",
+      };
+      changeFieldValue('location', location);
+    }
+  }, []);
+
   useEffect(() => {
     const cookieLang = cookie.get('brixelLang');
     if (company.languageCode && !cookieLang) {
@@ -91,7 +116,13 @@ function GetStarted(props) {
   }, [company]);
 
   useEffect(() => {
-    setQuestions(QuestionsList(lang));
+    const Quest1 = QuestionsList(lang);
+    const Quest2 = PackageFlow(lang);
+    const QuestFull = Quest1.concat(Quest2);
+    setQuestions(QuestFull);
+    if (formValue && formValue.location) {
+      changePageTitle();
+    }
   }, [lang]);
 
   useEffect(() => {
@@ -126,45 +157,15 @@ function GetStarted(props) {
             invalidField = true;
           }
         }
+        return null;
       });
     }
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex]);
 
   useEffect(() => {
-    if (formValue && formValue.location && !formValue.pageTitle) {
-      var titleAdjectives = [
-        'Beautiful',
-        'Charming',
-        'Elegant',
-        'Prestigious',
-        'One-of-a-kind',
-        'Exquisite',
-        'Spacious',
-        'Gorgeous',
-        'Wonderful',
-        'Lovely',
-        'Superb',
-        'Amazing',
-        'Stunning',
-        'Sophisticated',
-        'Modern',
-        'Incredible'
-      ];
-      // Create the title of the page
-      let pageTitle = `${titleAdjectives[Math.floor(Math.random() * titleAdjectives.length)]} ${formValue.propertyType}`;
-
-      // Try to add location to the title
-      if (formValue.location.city) {
-        pageTitle += ' in ' + formValue.location.city;
-      } else if (formValue.location.state) {
-        pageTitle += ' in ' + formValue.location.state;
-      } else if (formValue.location.country) {
-        pageTitle += ' in ' + formValue.location.country;
-      } else {
-        pageTitle += ' in ' + formValue.location.address;
-      }
-      changeFieldValue('pageTitle', pageTitle);
+    if (formValue && formValue.location) {
+      changePageTitle();
     }
   }, [formValue]);
 
@@ -426,7 +427,7 @@ function GetStarted(props) {
                                             label={
                                               curCountry ?
                                                 translateTo(lang, curCountry.label) :
-                                                translateTo(lang, 'Everywhere')
+                                                `🌍 ${translateTo(lang, 'Everywhere')}`
                                             }
                                             onClick={() => setShowCountrySel(true)}
                                           />
@@ -481,6 +482,13 @@ function GetStarted(props) {
                                           dirty: formValue[input.name] && errorValue[input.name] !== true,
                                           invalid: true,
                                         }}
+                                        modal={null}
+                                        message={{
+                                          help: null,
+                                          error: errorValue[input.name],
+                                        }}
+                                        minLenghtNum={input.minLenghtNum || null}
+                                        maxLengthNum={input.maxLenghtNum || null}
                                       />
                                       {
                                         input.unit && (
@@ -593,7 +601,7 @@ function GetStarted(props) {
           }
         </div>
         <div
-          className={`footerAction p-1 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
+          className={`footerAction p-1 p-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
         >
           <div className="container pos-r">
             <div className="subcontainer">
@@ -699,8 +707,6 @@ const mapStateToProps = (state, props) => ({
   lang: get(state, 'common.language', {}),
   initialValues: {
     bedrooms: 0,
-    bathrooms: 0,
-    separateToilets: 0,
     owner: null,
   }
 });

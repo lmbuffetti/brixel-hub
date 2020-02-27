@@ -157,12 +157,12 @@ export const QuestionsList = (lang) => [
   },
 
   {
-    title: translateTo(lang, "How can we empower best?"),
+    title: translateTo(lang, "How can we empower you the best?"),
     component: BrixelRadioCard,
     history: "empowerBest",
     inputs: [
       {
-        labelEmail: translateTo(lang, "How can we empower best?"),
+        labelEmail: translateTo(lang, "How can we empower you the best?"),
         label: translateTo(lang, "Please choose one option."),
         name: 'empower',
       },
