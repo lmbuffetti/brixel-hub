@@ -44,9 +44,13 @@ body {
     }
 
     .content {
-      position: relative;
-      width: calc(100% - #{$sidebarWidth});
-      left: $sidebarWidth;
+      width: 100%;
+      left: unset;
+
+      @media (min-width: $responsive-medium) {
+        width: calc(100% - #{$sidebarWidth});
+        left: $sidebarWidth;
+      }
     }
   }
 }
