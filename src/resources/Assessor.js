@@ -5,8 +5,8 @@ import {
   FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
-import LocalMarketCheck from '../Pages/MarketChecker/LocalMarketCheck';
-import SuccessMarketCheck from '../Pages/MarketChecker/SuccessMarketCheck';
+import ResumeAssessor from '../Pages/Assessor/ResumeAssessor';
+import SuccessMarketCheck from '../Pages/Assessor/SuccessAssessor';
 
 const { factsOptions } = FactsOptions;
 
@@ -57,7 +57,7 @@ export const AssessorQuestions = (lang) => [
         component: BrixelRadioButton,
         className: '',
         label: '',
-        name: 'properties.building.calHeating',
+        name: 'properties.building.energy.heating',
         options: factsOptions.heating,
         icons: true,
       },
@@ -82,9 +82,9 @@ export const AssessorQuestions = (lang) => [
   {
     title: "Result Page",
     subtitle: "Sales strategy & price",
-    history: "successLocalMarketCheck",
-    cardType: "successLocalMarketCheck",
-    component: SuccessMarketCheck,
+    history: "resumeAssessor",
+    cardType: "resumeAssessor",
+    component: ResumeAssessor,
   },
   {
     condition: {
@@ -93,21 +93,21 @@ export const AssessorQuestions = (lang) => [
     },
     title: "Thank you Market Check",
     subtitle: "Sales strategy & price",
-    history: "successLocalMarketCheck",
-    cardType: "successLocalMarketCheck",
+    history: "successAssessor",
+    cardType: "successAssessor",
     component: SuccessMarketCheck,
   }
 ];
 
 export const AssessorAvgLifespan = {
   construction: {
-    Wood: 80,
-    Cement: 115,
-    Brick: 115,
+    wood: 80,
+    cement: 115,
+    brick: 115,
   },
   roof: {
-    Flat: 30,
-    Pitched: 50,
+    flat: 30,
+    pitched: 50,
   },
   facade: {
     Plastered: 35,
@@ -116,17 +116,17 @@ export const AssessorAvgLifespan = {
     NaturalWood: 25,
   },
   heating: {
-    Oil: 15,
-    Gas: 15,
-    Wood: 20,
-    Solar: 20,
-    Electric: 20,
-    HeatPump: 20,
-    DistrictHeater: 25,
-    CombinedHeatAndPowerPlant: 25,
-    Other: 20,
+    oil: 15,
+    gas: 15,
+    wood: 20,
+    solar: 20,
+    electric: 20,
+    heatPump: 20,
+    districtHeater: 25,
+    combinedHeatPowerPlant: 25,
+    other: 20,
   },
-  Kitchen: 15,
-  WetCells: 30,
-  ElectricalSystems: 35,
+  kitchen: 15,
+  wetCells: 30,
+  electricalSystems: 35,
 };

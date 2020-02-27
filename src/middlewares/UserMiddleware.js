@@ -18,7 +18,8 @@ import { ADD_PROPERTY } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
 
-import { setCookie } from '../utils/helpers';
+import { setCookie, removeCookie } from '../utils/helpers';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 
 const checkUser = (store) => (next) => (action) => {
   switch (action.type) {
@@ -27,7 +28,14 @@ const checkUser = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       api.user.validateToken(action.payload)
         .then((response) => {
-          store.dispatch({ type: SET_USER, payload: response.data });
+          if (response.data && response.data.statusCode && response.data.statusCode === 401 && window.location.hostname.includes('localhost')) {
+            removeCookie('brixelToken');
+            window.location.href = `/tokeninput`;
+          } else if (response.data && response.data.statusCode && response.data.statusCode === 401) {
+            window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
+          } else {
+            store.dispatch({ type: SET_USER, payload: response.data });
+          }
           store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {

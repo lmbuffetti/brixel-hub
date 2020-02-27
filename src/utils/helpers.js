@@ -3,6 +3,7 @@ import Cookies from 'universal-cookie';
 import { translateTo } from './translation';
 import get from 'lodash/get';
 import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
+import { AssessorAvgLifespan } from '../resources/Assessor';
 
 const cookies = new Cookies();
 
@@ -283,6 +284,28 @@ export const setCookie = (key, val) => {
   cookies.set(key, val, options);
 };
 
+export const removeCookie = (key) => {
+  const host = window.location.host.split('.');
+  const localhost = host[0].match(/localhost/gi);
+  const localip = host[0].match(/0/gi);
+  let domain;
+  if (localhost) {
+    domain = 'localhost';
+  } else if (localip) {
+    domain = '0.0.0.0';
+  } else {
+    const curDomain = document.location.hostname.split('.')[document.location.hostname.split('.').length - 1];
+    domain = `.brixel.${curDomain}`;
+  }
+  const options = {
+    domain: domain,
+    path: '/',
+    expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+    sameSite: 'strict',
+  };
+  cookies.remove(key, options);
+};
+
 export const getCalcSectionInputSheets = (Questions, initialValues, accordion, act, fixSection) => {
   const getSkippedSection = fixSection || get(initialValues, 'inputSheet.skipSection', {});
   const getSectionFilt = {};
@@ -332,4 +355,32 @@ export const getCalcSectionInputSheets = (Questions, initialValues, accordion, a
       }
     });
   }
+};
+
+export const calculateAge = (date) => { // birthday is a date
+  const ageDifMs = Date.now() - date;
+  const ageDate = new Date(ageDifMs); // miliseconds from epoch
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
+};
+
+export const calculateAgeByYear = (year) => { // birthday is a date
+  const today = new Date();
+  return today.getFullYear() - year;
+};
+
+export const calcConditionAssessor = (age, group, name = null) => {
+  let condition;
+  if (name) {
+    if (AssessorAvgLifespan[group][name] / 4 >= age) condition = 1;
+    else if (AssessorAvgLifespan[group][name] / 3 >= age) condition = 2;
+    else if (AssessorAvgLifespan[group][name] / 2 >= age) condition = 3;
+    else if (AssessorAvgLifespan[group][name] / 1 >= age) condition = 4;
+    else condition = 4;
+  } else if (!isObject(AssessorAvgLifespan[group])) {
+    if (AssessorAvgLifespan[group] / 4 >= age) condition = 1;
+    else if (AssessorAvgLifespan[group] / 3 >= age) condition = 2;
+    else if (AssessorAvgLifespan[group] / 2 >= age) condition = 3;
+    else condition = 4;
+  }
+  return condition;
 };

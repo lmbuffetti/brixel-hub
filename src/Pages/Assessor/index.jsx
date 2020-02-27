@@ -8,15 +8,18 @@ import { bindActionCreators, compose } from 'redux';
 import { setModal } from '../../actions/CommonActions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { AssessorAvgLifespan } from '../../resources/Assessor';
+import { calculateAgeByYear, calcConditionAssessor } from '../../utils/helpers';
 
 // COMPONENTS
 import last from 'lodash/last';
 import { addGameHistory } from '../../actions/GamificationActions';
 import { updateProperty } from '../../actions/PropertyActions';
-import SuccessMarketCheck from './SuccessMarketCheck';
+import SuccessAssessor from './SuccessAssessor';
 import { change } from 'redux-form';
+import ResumeAssessor from './ResumeAssessor';
 
-const MarketChecker = (props) => {
+const Assessor = (props) => {
   // PROPS
   const {
     formValue,
@@ -64,15 +67,41 @@ const MarketChecker = (props) => {
       const dataProp = formValue;
       const calHeating = get(formValue, 'properties.building.calHeating', null);
       delete dataProp.owner;
-      if (dataProp.properties.energy && dataProp.properties.energy.heating && dataProp.properties.energy.heating.length > 0) {
-        console.log('mmm');
-      } else if (calHeating) {
-        dataProp.properties.energy ? dataProp.properties.energy.heating = [] : dataProp.properties.energy = { heating: [] };
-        dataProp.properties.energy.heating.push(calHeating);
-        console.log('eh',)
+      delete dataProp.properties.building.calHeating;
+
+      // CALC THE PROPERTY CONDITION
+      const yearBuilt = get(formValue, 'properties.building.built', null);
+      const yearRenovate = get(formValue, 'properties.building.renovated', null);
+      let age = calculateAgeByYear(yearBuilt);
+      if (yearRenovate) {
+        age = calculateAgeByYear(yearRenovate);
       }
-      console.log(dataProp, calHeating);
-      // handleUpdatePage(dataProp);
+      dataProp.assessor = {
+        construction: calcConditionAssessor(age, 'construction', get(formValue, 'properties.building.constructionMaterials', null)) || null,
+        roof: calcConditionAssessor(age, 'roof', get(formValue, 'properties.building.roofType', null)) || null,
+        heating: calcConditionAssessor(age, 'heating', calHeating) || null,
+        kitchen: calcConditionAssessor(age, 'kitchen') || null,
+        wetCells: calcConditionAssessor(age, 'wetCells') || null,
+        electricalSystems: calcConditionAssessor(age, 'electricalSystems') || null,
+      };
+      if (finishedFlow) setStep(step + 2);
+      else setStep(step + 1);
+      setToSave(false);
+      // UPDATE PROPERTY
+      handleUpdatePage(dataProp);
+
+
+
+      // ADD THE ACHIEVEMENT
+      const data = {
+        id: loggedUser.user.id,
+        page: property.stub,
+        achievement: getAchievement(),
+      };
+      const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === property.id);
+      if (typeof checkGameExist === 'undefined') {
+        handleAddGameHistory(data);
+      }
     }
   }, [formValue, toSave]);
 
@@ -124,7 +153,7 @@ const MarketChecker = (props) => {
           multiActions: [{
             btnType: 'Primary',
             name: 'Finish',
-            func: () => finishedFlow ? history.push('../') : setToSave(true),
+            func: () => setToSave(true),
           }]
         });
       } else {
@@ -144,14 +173,12 @@ const MarketChecker = (props) => {
     return (<div />)
   }
 
-  console.log(Questions[step], QuestionsForm);
-
   return (
     <div>
       <h2>Assessor</h2>
       {
         doneMarketCheck ? (
-          <SuccessMarketCheck finishStep />
+          <ResumeAssessor finishStep />
         ) : (
           <>
             {
@@ -191,7 +218,7 @@ const MarketChecker = (props) => {
   )
 };
 
-MarketChecker.propTypes = {
+Assessor.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   gameHistory: PropTypes.object.isRequired,
@@ -201,11 +228,12 @@ MarketChecker.propTypes = {
   history: PropTypes.object.isRequired,
   initialValue: PropTypes.object,
   loggedUser: PropTypes.object.isRequired,
-  stubAchievement: PropTypes.string.isRequired,
+  stubAchievement: PropTypes.string,
 };
 
-MarketChecker.defaultProps = {
-  initialValue: {}
+Assessor.defaultProps = {
+  initialValue: {},
+  stubAchievement: null,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -226,4 +254,4 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetModal: bindActionCreators(setModal, dispatch),
 });
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(MarketChecker);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Assessor);

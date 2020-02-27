@@ -25,7 +25,6 @@ const LoginSignup = (props) => {
   const [loginPage, setLoginPage] = useState(false);
 
   useEffect(() => {
-    console.log(loginPage);
     if (typeof loggedUser.token === 'undefined') {
       changeFieldValue(formName, 'signup', !loginPage);
     }

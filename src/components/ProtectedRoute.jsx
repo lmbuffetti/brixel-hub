@@ -8,6 +8,9 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import Cookies from 'universal-cookie';
+
+const cookie = new Cookies();
 
 const ProtectedRoute = (props) => {
   const {
@@ -18,12 +21,10 @@ const ProtectedRoute = (props) => {
   } = props;
 
   useEffect(() => {
-    if (loggedUser && typeof loggedUser.statusCode !== 'undefined') {
-      if (window.location.hostname.includes('localhost')) {
-        history.push('/tokeninput');
-      } else {
-        window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
-      }
+    if (window.location.hostname.includes('localhost') && typeof cookie.get('brixelToken') === 'undefined') {
+      history.push('/tokeninput');
+    } else if (typeof cookie.get('brixelToken') === 'undefined') {
+      window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
     }
   }, [loggedUser]);
 

@@ -147,7 +147,6 @@ const InputSheet = (props) => {
     //
     if (formValue.id) {
       const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
-      console.log(getData, formValue);
       setAccordion({...getData.accordion});
       setAccordionAnimatad({...getData.accordion});
       setSectionProgress({...getData.section});
@@ -164,7 +163,6 @@ const InputSheet = (props) => {
           input.inputs.map((inp) => {
             const curVal = get(errorValue, inp.name, true);
             if (curVal !== true && curVal !== 'Mark Required') {
-              console.log(inp.name, curVal);
               setValid = false;
             }
             return null;
