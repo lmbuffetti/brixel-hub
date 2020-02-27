@@ -9,7 +9,7 @@ import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import Loadable from 'react-loadable';
-import { setCookie, isMobile } from '../utils/helpers';
+import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 import { translateTo } from '../utils/translation';
 import awards from '../images/BrxielComingTown/awards.svg';
@@ -30,6 +30,7 @@ function PageHeader(props) {
   const [currentLang, setCurrentLang] = useState(lang);
   const [dropLang, setDropLang] = useState([]);
   const [modal, setModal] = useState(false);
+  const [widthScreen, setWidthScreen] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   useEffect(() => {
@@ -57,6 +58,21 @@ function PageHeader(props) {
     setCurrentLang(lang);
   }, [lang]);
 
+  const screenResize = () => {
+    setWidthScreen(window.innerWidth);
+    if (window.innerWidth > 768) {
+      setShowMobileMenu(false);
+      document.body.classList.remove('ov-h');
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setWidthScreen(window.innerWidth);
+      window.addEventListener('resize', () => screenResize());
+    }
+  }, []);
+
   const newLang = (e, langCode) => {
     e.stopPropagation();
     setCurrentLang(langCode.value);
@@ -66,7 +82,7 @@ function PageHeader(props) {
 
   const avatarAction = () => {
     // Mobile actions for the avatar click
-    if (isMobile) {
+    if (widthScreen < 769) {
       setShowMobileMenu(true);
       document.body.classList.add('ov-h');
     } else {

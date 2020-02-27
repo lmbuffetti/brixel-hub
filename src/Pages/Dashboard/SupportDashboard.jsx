@@ -24,7 +24,7 @@ const HomeDashboard = (props) => {
           saturationTxt={0}
         />
         <span className="my-1 dis-b fweight-500 txtDark700">Support</span>
-        <p className="body2 txtDark500">How can I hel you?</p>
+        <p className="body2 txtDark500">How can I help you?</p>
       </div>
       <div>
         <BrixelIcon
