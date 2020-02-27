@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -47,12 +48,6 @@ const Dashboard = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
   const checkActiveTab = () => last(history.location.pathname.split('/'));
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-
-    }
-  }, [window]);
 
   useEffect(() => {
     if (propID) {
@@ -120,7 +115,7 @@ Dashboard.defaultProps = {
 
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   loggedUser: get(state, 'user.loggedUser', {}),
   property: get(state, 'property.property', {}),
 });

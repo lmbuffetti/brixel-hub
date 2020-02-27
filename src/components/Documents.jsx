@@ -36,7 +36,7 @@ const Documents = (props) => {
 
   // PROPS
   const {
-    history, formValue, initialValues, handleUploadDocument, user,
+    history, formValue, handleUploadDocument, user,
     handleDeleteDocument, handleUpdateDocument, match,
   } = props;
   const { documents } = formValue;

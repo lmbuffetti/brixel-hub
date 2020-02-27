@@ -3,15 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reduxForm, Field } from 'redux-form';
+import { change, reset, Field } from 'redux-form';
 import get from 'lodash/get';
-import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import {
   BrixelButtonIcon,
   BrixelIcon,
-  BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -24,20 +22,12 @@ import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { InputSheets } from '../../resources/inputSheets';
 import { getCalcSectionInputSheets } from '../../utils/helpers';
 
-
 // COMPONENTS
 import Loading from '../../components/Loading';
-import { updateProperty, getProperty } from '../../actions/PropertyActions';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
-import noCover from '../../images/no_cover.jpg';
+import { updateProperty } from '../../actions/PropertyActions';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
-  loading: LoadingSimple,
-});
-
-const DrawerLayout = Loadable({
-  loader: () => import('../../components/DrawerLayout' /* webpackChunkName: "Maps" */),
   loading: LoadingSimple,
 });
 
@@ -47,7 +37,6 @@ const InputSheet = (props) => {
     formValue,
     handleSaveProperty,
     handleSetModal,
-    history,
     initial,
     initialValues,
     isIntLoading,
@@ -55,11 +44,10 @@ const InputSheet = (props) => {
     notification,
     reset,
     setNotification,
-    setUserActiveProperty,
   } = props;
 
   // STATE
-  const [Questions, setQuestions] = useState([]);
+  const [Questions] = useState(InputSheets('en'));
   const [accordion, setAccordion] = useState({});
   const [accordionAnimatad, setAccordionAnimatad] = useState({});
   const [skipSection, setSkipSection] = useState(get(initialValues, 'inputSheet.skipSection', {}));
@@ -67,13 +55,6 @@ const InputSheet = (props) => {
   const [selObj, setSelObj] = useState(null);
 
   const propID = get(match, 'params.propId', null);
-
-  useEffect(() => {
-    if (propID) {
-      //setUserActiveProperty({ id: propID })
-    }
-    setQuestions(InputSheets('en'));
-  }, []);
 
   // FUNCTION ON CLICK TO ENABLE/DISABLE QUESTION GROUP
   const handleSkipSection = async (key) => {
@@ -105,7 +86,7 @@ const InputSheet = (props) => {
             className="brdSmall dis-b border-green"
             icon="check"
             rounded
-            background="green"
+            background={"green"}
             saturation={400}
             color="white"
             saturationTxt={0}
@@ -120,7 +101,7 @@ const InputSheet = (props) => {
           <BrixelButtonIcon
             icon="check"
             rounded
-            bgTransparent={skipped[quest.history] ? false : true}
+            bgTransparent={!skipped[quest.history]}
             background={skipped[quest.history] ? 'primary' : ''}
             saturation={skipped[quest.history] ? 300 : 0}
             noBorder={skipped[quest.history]}
@@ -166,13 +147,13 @@ const InputSheet = (props) => {
     //
     if (formValue.id) {
       const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
-      console.log(getData, formValue);
+      console.log(getData, Questions, formValue, InputSheets('en'));
       setAccordion({...getData.accordion});
       setAccordionAnimatad({...getData.accordion});
       setSectionProgress({...getData.section});
       setSkipSection(initialValues.inputSheet.skipSection);
     }
-  }, [errorValue]);
+  }, [formValue]);
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
@@ -243,78 +224,9 @@ const InputSheet = (props) => {
     setTimeout(() => setAccordionAnimatad({ ...accordionAnimatad, [quest.history]: !accordion[quest.history] }), 1000, );
   };
 
-  const closeFacts = () => {
-    closeNotificationBar()
-    history.push(`/${propID}/property`);
-  };
-
   return (
-    <DrawerLayout className="factSection" classNameDrawer="ov-a">
+    <>
       <div className="container dis-fl-col mt-2">
-        <div className="property-info-container">
-          <div className="header-section dis-fl-row a-c jc-b mb-2">
-            <div className="dis-fl-row">
-              <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
-                {
-                  initialValues.coverPhoto && initialValues.coverPhoto.path ? (
-                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${getConfigEnv.shortPath}${initialValues.coverPhoto.path}`} alt="Brixel Logo" id="avatar" />
-                  ) : (
-                    <i
-                      className="avatar w-fix-48 h-fix-48 brdRadius pos-r"
-                      style={{
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        display: 'block',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundImage: `url(${noCover})`,
-                      }}
-                    />
-                  )
-                }
-              </div>
-              <div className="title ml-1">
-                <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                  {(has(initialValues.properties, 'typology') && has(initialValues.properties.typology, 'bedrooms')) ? initialValues.properties.typology.bedrooms : ''} {has(initialValues.properties, 'propertyType') ? initialValues.properties.propertyType : 'Property'}
-                </span>
-                <span className="address caption txtDark200">{has(initialValues.location, 'zip') ? initialValues.location.zip : ''} {has(initialValues.location, 'state') ? initialValues.location.state : ''}</span>
-              </div>
-            </div>
-            <div className="actions dis-fl-row">
-              <BrixelButtonIcon
-                noBorder
-                color="dark"
-                saturationTxt={700}
-                background="white"
-                className="ml-1 bgWhite shadow-3dp"
-                icon="close"
-                onClick={(e) => closeFacts()}
-              />
-            </div>
-          </div>
-          <div className="transparency-container mb-2">
-            <div className="dis-fl-col ta-l">
-              {
-                get(initialValues, 'inputSheet') && (
-                  <>
-                    <BrixelProgressBar
-                      rounded
-                      large
-                      saturation={700}
-                      barBackground="Red"
-                      backgroundSaturation={100}
-                      progressValue={sectionProgress.percComplete || 0}
-                    />
-                    <div className="dis-f fSizePx12 ff-mono txtPrimary700 pt-1">
-                      <span className="mr-1">{sectionProgress.percComplete}%</span>
-                      <span className="">completed</span>
-                    </div>
-                  </>
-                )
-              }
-            </div>
-          </div>
-        </div>
-
 
         <div className="dis-f a-c my-2 jc-b body2 txtDark200">
           <span>Expand all</span>
@@ -329,14 +241,14 @@ const InputSheet = (props) => {
             >
               {
                 quest.group && (
-                  <span className="accordGroup fweight-600 dis-b pt-3 pb-1 txtDark700 px-1 px-md-0">
+                  <span className="accordGroup fweight-600 dis-b pt-2 pb-1 txtDark700">
                     {quest.group || ''}
                   </span>
                 )
               }
-              <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0 pr-md-0">
+              <div className="accordControl dis-f a-c jc-b">
                 <div
-                  className="accordTitle dis-f a-c cur-poi pt-2 pb-2"
+                  className="accordTitle dis-f a-c cur-poi pt-1 pb-1"
                   onClick={() => toggleAccordion(quest)}
                 >
                   <BrixelIcon
@@ -344,9 +256,9 @@ const InputSheet = (props) => {
                     color="dark"
                     saturationTxt={accordion[quest.history] ? 400 : 200}
                     iconSize="small"
-                    className={`ml-1`}
+                    className="ml-1"
                   />
-                  <h4 className={`body ml-1 ${accordion[quest.history] ? "txtDark400 fweight-500" : "txtDark200"}`}>
+                  <h4 className={`body ml-1 ${accordion[quest.history] ? "txtDark400" : "txtDark200"}`}>
                     {quest.title}
                   </h4>
                 </div>
@@ -360,7 +272,7 @@ const InputSheet = (props) => {
                         <div className="singleInput" key={f.toString()}>
                           {
                             checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
-                              <div className="pb-2" key={f.toString()}>
+                              <div className="pt-1 pb-1" key={f.toString()}>
                                 {
                                   input.type === 'Map' ? (
                                     <>
@@ -442,7 +354,7 @@ const InputSheet = (props) => {
           ))
         }
       </div>
-    </DrawerLayout>
+    </>
   );
 };
 
@@ -457,7 +369,6 @@ InputSheet.propTypes = {
   formValue: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   singleUserPropertyList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setUserActiveProperty: PropTypes.func.isRequired,
   handleSaveProperty: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   notification: PropTypes.object.isRequired,
@@ -469,12 +380,6 @@ InputSheet.defaultProps = {
   isUnsavedChangesModal: {},
   isLoading: false,
 };
-
-const InputSheetForm = reduxForm({
-  // a unique name for the form
-  form: 'InputSheet',
-  enableReinitialize: true,
-})(InputSheet);
 
 const mapStateToProps = (state) => {
   const formValue = get(state, 'property.singleUserActiveProperty', {});
@@ -501,18 +406,17 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('InputSheet', field, value));
   },
+  reset(form) {
+    (dispatch(reset(form)))
+  },
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
-  // getUser: bindActionCreators(getActiveSingleUser, dispatch),
-  setUserActiveProperty: bindActionCreators(getProperty, dispatch),
   handleSaveProperty: bindActionCreators(updateProperty, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   setNotification: bindActionCreators(setNotification, dispatch),
-  // setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
-  // setUnsavedModal: bindActionCreators(setUnsavedChangesModal, dispatch),
 });
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(InputSheetForm);
+)(InputSheet);

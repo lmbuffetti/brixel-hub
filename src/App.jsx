@@ -1,4 +1,5 @@
 /* global ga */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import {
   Switch, Route, withRouter,
@@ -18,28 +19,12 @@ import PageHeader from './components/PageHeader';
 import ReactGA from 'react-ga';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setModal } from './actions/CommonActions';
-import Facts from './Pages/InputSheet/Facts';
 
 ReactGA.initialize(baseByData.googleAnalyticsIdHub);
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
   loader: () => import('./Pages/PackageFlow/GetStarted' /* webpackChunkName: "GetStarted" */),
-  loading: Loading,
-});
-
-const Rewards = Loadable({
-  loader: () => import('./Pages/PackageFlow/Rewards' /* webpackChunkName: "PackageFlow-Rewards" */),
-  loading: Loading,
-});
-
-const Advisory = Loadable({
-  loader: () => import('./Pages/PackageFlow/Advisory' /* webpackChunkName: "PackageFlow-Advisory" */),
-  loading: Loading,
-});
-
-const ThankYou = Loadable({
-  loader: () => import('./Pages/PackageFlow/ThankYou' /* webpackChunkName: "PackageFlow-ThankYou" */),
   loading: Loading,
 });
 
@@ -81,8 +66,8 @@ const MenuSidebar = Loadable({
   loading: Loading,
 });
 
-const InputSheet = Loadable({
-  loader: () => import('./Pages/InputSheet/Facts' /* webpackChunkName: "InputSheet" */),
+const EditProperty = Loadable({
+  loader: () => import('./Pages/EditProperty' /* webpackChunkName: "InputSheet" */),
   loading: Loading,
 });
 
@@ -150,12 +135,8 @@ const App = (props) => {
 
           { /* SECTION: GET STARTED*/ }
           <Route path="/packageFlow/getstarted/" component={GetStarted} />
-          <ProtectedRoute path="/packageFlow/:propId/rewards" component={Rewards} />
-          <ProtectedRoute path="/packageFlow/:propId/advisory" component={Advisory} />
-          <ProtectedRoute path="/packageFlow/:propId/thankyou" component={ThankYou} />
 
           { /* SECTION: HUB DASHBOARD */ }
-          <ProtectedRoute path="/:propId/inputSheet" exact component={InputSheet} />
           <ProtectedRoute path="/" exact component={Dashboard} />
           <ProtectedRoute path="/:propId?/home" component={Dashboard} />
           <ProtectedRoute path="/:propId?/property" component={Dashboard} />
@@ -224,8 +205,10 @@ const App = (props) => {
       <div className="zIndex3">
         <Switch>
           {/* SECTION: DOCUMENTS */}
-          <Route path="/:propId?/:act/documents" component={Documents} />
-          <Route path="/:propId?/:act/inputSheet" component={Facts} />
+          <Route path="/:propId?/property/documents" component={Documents} />
+          <Route path="/:propId?/property/media" exact component={EditProperty} />
+          <Route path="/:propId?/property/settings" exact component={EditProperty} />
+          <Route path="/:propId?/property/facts" exact component={EditProperty} />
         </Switch>
       </div>
 

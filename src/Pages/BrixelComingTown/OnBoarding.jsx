@@ -137,6 +137,7 @@ function OnBoarding(props) {
       Questions[currentIndex].inputs.map((inp) => {
         const curVal = get(errorValue, inp.name, true);
         if (curVal !== true) invalidField = true;
+        return null;
       });
     }
     if (Questions[currentIndex].cardType && Questions[currentIndex].cardType === 'createProfile') {
@@ -149,6 +150,7 @@ function OnBoarding(props) {
       fieldVal.map((inp) => {
         const curVal = get(errorValue, inp, true);
         if (curVal !== true) invalidField = true;
+        return null;
       });
     }
     setDisableNextBtn(invalidField);
@@ -180,6 +182,7 @@ function OnBoarding(props) {
         setShowError(true);
         enableForm = false;
       }
+      return null;
     });
     // Defaul Obj
     const data = {
@@ -271,6 +274,7 @@ function OnBoarding(props) {
           else newPosition = newPosition + 1;
           checkCond = false;
         }
+        return null;
       })
     }
     if (Questions[newPosition] && Questions[newPosition].conditions) {
@@ -282,6 +286,7 @@ function OnBoarding(props) {
           else newPosition = newPosition + 1;
           checkCond = false;
         }
+        return null;
       });
     }
     setPosition(newPosition);
@@ -381,15 +386,15 @@ function OnBoarding(props) {
   };
 
   const buttonLabel = () => {
-    let label = '';
+    let label;
     if (!Questions[currentIndex + 2]) {
-      if(loginPage) label = translateTo(lang, "Login")
+      if(loginPage) label = translateTo(lang, "Login");
       else label = translateTo(lang, "Create profile")
     } else {
       if (Questions[currentIndex].cardType === 'createProfile') {
-        label = translateTo(lang, "Save")
+        label = translateTo(lang, "Save");
       } else {
-        label = translateTo(lang, "Continue")
+        label = translateTo(lang, "Continue");
       }
     }
     return label;
@@ -411,7 +416,6 @@ function OnBoarding(props) {
         id="multiStepForm"
         onSubmit={(e) => {e.preventDefault(); changeStep()}}
         autoComplete="off"
-        aria-autocomplete="false"
       >
         <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
           {

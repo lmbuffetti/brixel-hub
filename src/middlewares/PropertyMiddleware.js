@@ -1,5 +1,4 @@
 /* eslint-disable no-case-declarations */
-import { change } from 'redux-form';
 import {
   ADD_PROPERTY,
   GET_ESTIMATION,
@@ -14,7 +13,6 @@ import {
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
-import { UPDATE_USER } from '../actions/types/UserTypes';
 import { SPINNER_ON, SPINNER_OFF, SPINNER_SMALL_ON, SPINNER_SMALL_OFF, REDIRECT_TO } from '../actions/types/CommonTypes';
 import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
 
@@ -49,7 +47,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
 
         })
-        .catch((res) => {
+        .catch(() => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
         });
@@ -81,7 +79,7 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SET_PROPERTY, payload: res.data });
           store.dispatch({ type: SPINNER_OFF });
         })
-        .catch((res) => {
+        .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
@@ -99,7 +97,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
           store.dispatch({ type: SPINNER_OFF });
         })
-        .catch((res) => {
+        .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
@@ -114,7 +112,7 @@ const checkCommon = (store) => (next) => (action) => {
             window.location.href = `/packageFlow/${action.payload}/rewards`;
           }
         })
-        .catch((res) => {
+        .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;

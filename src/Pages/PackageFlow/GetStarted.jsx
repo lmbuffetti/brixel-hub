@@ -140,6 +140,7 @@ function GetStarted(props) {
       Questions[currentIndex].inputs.map((inp) => {
         const curVal = get(errorValue, inp.name, true);
         if (curVal !== true) invalidField = true;
+        return null;
       });
     }
     if (Questions[currentIndex].cardType && Questions[currentIndex].cardType === 'createProfile') {

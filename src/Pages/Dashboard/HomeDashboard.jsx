@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -65,28 +66,21 @@ const HomeDashboard = (props) => {
     setUsrGroups([...filtUsrGroup]);
   }, [property, gameGroup, gameHistory]);
 
-  const saveGameHistory = (e, groupAchievement) => {
-    e.preventDefault();
-    const data = {
-      id: loggedUser.user.id,
-      page: property.stub,
-      achievement: groupAchievement.stub,
-    };
-    // handleAddGameHistory(data);
-  };
-
   if (!property.id && !userType) {
     return <Loading />
   }
 
   return (
     <div className="container">
-      {/* <h3>Home of</h3>
-      {
-        property.properties.typology && (
-          <h4>{property.properties.typology.bedrooms} {property.properties.propertyType} in {property.location.city}</h4>
-        )
-      } */}
+
+      <div className="hide-md">
+        <h3>Home of</h3>
+        {
+          property.properties.typology && (
+            <h4>{property.properties.typology.bedrooms} {property.properties.propertyType} in {property.location.city}</h4>
+          )
+        }
+      </div>
       {
         usrGroups && usrGroups.map((group, i) => (
           <Fragment key={i.toString()}>
@@ -128,7 +122,7 @@ const HomeDashboard = (props) => {
                                   item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
                                   {label: item.points, color: 'dark700'},
                                 ]}
-                                onClick={(e) => history.push(`/${property.id}/home/achievement/${item.stub}`)}
+                                onClick={() => history.push(`/${property.id}/home/achievement/${item.stub}`)}
                               />
                             )
                           }
@@ -162,7 +156,7 @@ HomeDashboard.defaultProps = {
   gameHistory: {},
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   loggedUser: get(state, 'user.loggedUser', {}),

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import get from 'lodash/get';
-import { MarketCheckQuestions } from '../resources/MarketCheck';
 
 const MultiStepForm = (props) => {
   // PROPS
@@ -14,7 +13,6 @@ const MultiStepForm = (props) => {
     form,
     formValue,
     questions,
-    step,
   } = props;
 
   const checkCondition = (val) => {
@@ -118,7 +116,7 @@ const mapStateToProps = (state, props) => {
   });
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = () => ({
 });
 
 const MultiStepFormRedux = reduxForm({

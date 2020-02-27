@@ -12,7 +12,6 @@ import {
 import { translateTo } from '../utils/translation';
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
-import { number } from 'prop-types';
 const { factsOptions } = FactsOptions;
 
 const formatPrice = (value) => {
