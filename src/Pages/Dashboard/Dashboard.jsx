@@ -84,7 +84,7 @@ const Dashboard = (props) => {
     <div className="container" id="dashboard">
       <BrixelTabs
         classNameLi="pt-2 dis-fl-col"
-        classNameUl="nav-tabs"
+        classNameUl="nav-tabs zIndex4"
         labels={['Home', 'Property', 'Support']}
         clicksList={['home', 'property', 'support']}
         labelsIcons={['star', 'star', 'star']}
