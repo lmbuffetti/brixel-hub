@@ -62,6 +62,10 @@ function PageHeader(props) {
     setCookie('brixelLang', langCode.value);
   };
 
+  const goToAccount = () => {
+    window.open(getConfigEnv.profileURL, '_blank');
+  };
+
   return (
     <>
       <header className="shadow-1dp">
@@ -123,6 +127,7 @@ function PageHeader(props) {
                     avatarImg={ loggedUser.user.avatar && loggedUser.user.avatar[0] ? `${getConfigEnv.shortPath}${loggedUser.user.avatar[0].thumbnailPath}` : null}
                     name={loggedUser.user.name}
                     size={40}
+                    onClick={() => goToAccount()}
                   />
                 </div>
               )

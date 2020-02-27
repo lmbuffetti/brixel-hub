@@ -7,6 +7,7 @@ const AvatarImage = (props) => {
     avatarImg,
     name,
     size,
+    onClick,
   } = props;
 
   const extractName = () => {
@@ -26,9 +27,10 @@ const AvatarImage = (props) => {
             alt={`Profile ${name}`}
             width={`${size}px`}
             className={`brdCircle cur-poi w-fix-${size} h-fix-${size}`}
+            onClick={() => onClick()}
           />
         ) : (
-          <div className={`defaultAvt w-fix-${size} h-fix-${size}`}>
+          <div className={`defaultAvt w-fix-${size} h-fix-${size}`} onClick={() => onClick()}>
             {extractName()}
           </div>
         )
@@ -41,12 +43,14 @@ AvatarImage.propTypes = {
   avatarImg: PropTypes.string,
   name: PropTypes.string,
   size: PropTypes.number,
+  onClick: PropTypes.func,
 };
 
 AvatarImage.defaultProps = {
   avatarImg: null,
   name: null,
   size: 56,
+  onClick: () => '',
 };
 
 export default AvatarImage;
