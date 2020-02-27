@@ -67,7 +67,7 @@ const MarketChecker = (props) => {
       if (dataProp.properties.energy && dataProp.properties.energy.heating && dataProp.properties.energy.heating.length > 0) {
         console.log('mmm');
       } else if (calHeating) {
-        dataProp.properties.energy ? dataProp.properties.energy.heating = [] : dataProp.properties.energy = { heating: [] }
+        dataProp.properties.energy ? dataProp.properties.energy.heating = [] : dataProp.properties.energy = { heating: [] };
         dataProp.properties.energy.heating.push(calHeating);
         console.log('eh',)
       }

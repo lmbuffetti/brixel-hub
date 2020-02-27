@@ -64,13 +64,20 @@ export const AssessorQuestions = (lang) => [
     ]
   },
   {
-    component: BrixelInputText,
-    className: '',
-    label: 'What\'s the construction year?',
-    type: "number",
-    name: 'properties.building.renovated',
-    validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear],
-    placeholder: "YYYY (ex.: 2020)",
+    title: "What was your last renovation?",
+    history: "yearRenovation",
+    cardType: "yearRenovation",
+    inputs: [
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'Insert the year of your last big renovation or leave it empty',
+        type: "number",
+        name: 'properties.building.renovated',
+        validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear],
+        placeholder: "YYYY (ex.: 2020)",
+      },
+    ]
   },
   {
     title: "Result Page",
@@ -91,3 +98,35 @@ export const AssessorQuestions = (lang) => [
     component: SuccessMarketCheck,
   }
 ];
+
+export const AssessorAvgLifespan = {
+  construction: {
+    Wood: 80,
+    Cement: 115,
+    Brick: 115,
+  },
+  roof: {
+    Flat: 30,
+    Pitched: 50,
+  },
+  facade: {
+    Plastered: 35,
+    Painted: 25,
+    EternitCement: 45,
+    NaturalWood: 25,
+  },
+  heating: {
+    Oil: 15,
+    Gas: 15,
+    Wood: 20,
+    Solar: 20,
+    Electric: 20,
+    HeatPump: 20,
+    DistrictHeater: 25,
+    CombinedHeatAndPowerPlant: 25,
+    Other: 20,
+  },
+  Kitchen: 15,
+  WetCells: 30,
+  ElectricalSystems: 35,
+};
