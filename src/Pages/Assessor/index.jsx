@@ -9,7 +9,7 @@ import { setModal } from '../../actions/CommonActions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { AssessorAvgLifespan } from '../../resources/Assessor';
-import { calculateAgeByYear, calcConditionAssessor } from '../../utils/helpers';
+import { calculateAgeByYear, calcConditionAssessor, extractAssessorCondition } from '../../utils/helpers';
 
 // COMPONENTS
 import last from 'lodash/last';
@@ -65,33 +65,28 @@ const Assessor = (props) => {
   useEffect(() => {
     if (toSave) {
       const dataProp = formValue;
-      const calHeating = get(formValue, 'properties.building.calHeating', null);
       delete dataProp.owner;
-      delete dataProp.properties.building.calHeating;
-
       // CALC THE PROPERTY CONDITION
       const yearBuilt = get(formValue, 'properties.building.built', null);
       const yearRenovate = get(formValue, 'properties.building.renovated', null);
-      let age = calculateAgeByYear(yearBuilt);
-      if (yearRenovate) {
-        age = calculateAgeByYear(yearRenovate);
-      }
+      const age = calculateAgeByYear(yearBuilt);
+      const valueConstruction = get(formValue, 'properties.building.constructionMaterials', null);
+      const valueRoof = get(formValue, 'properties.building.roofType', null);
+      const valueHeating = get(formValue, 'properties.building.energy.heating', null);
       dataProp.assessor = {
-        construction: calcConditionAssessor(age, 'construction', get(formValue, 'properties.building.constructionMaterials', null)) || null,
-        roof: calcConditionAssessor(age, 'roof', get(formValue, 'properties.building.roofType', null)) || null,
-        heating: calcConditionAssessor(age, 'heating', calHeating) || null,
-        kitchen: calcConditionAssessor(age, 'kitchen') || null,
-        wetCells: calcConditionAssessor(age, 'wetCells') || null,
-        electricalSystems: calcConditionAssessor(age, 'electricalSystems') || null,
+        date: new Date(),
+        construction: extractAssessorCondition(age, valueConstruction, valueRoof, valueHeating),
       };
+      if (yearRenovate) {
+        const ageRenovation = calculateAgeByYear(yearRenovate);
+        dataProp.assessor.renovation = extractAssessorCondition(ageRenovation, valueConstruction, valueRoof, valueHeating);
+        dataProp.properties.building.isPropertyRenovated = 1;
+      }
       if (finishedFlow) setStep(step + 2);
       else setStep(step + 1);
       setToSave(false);
       // UPDATE PROPERTY
       handleUpdatePage(dataProp);
-
-
-
       // ADD THE ACHIEVEMENT
       const data = {
         id: loggedUser.user.id,
@@ -104,19 +99,6 @@ const Assessor = (props) => {
       }
     }
   }, [formValue, toSave]);
-
-  const saveAchievement = () => {
-    const data = {
-      id: loggedUser.user.id,
-      page: property.stub,
-      achievement: getAchievement(),
-    };
-    const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === property.id);
-    if (typeof checkGameExist === 'undefined') {
-      handleAddGameHistory(data);
-    }
-    setStep(step + 1);
-  };
 
   useEffect(() => {
     if (Questions.length > 0) {
@@ -138,7 +120,7 @@ const Assessor = (props) => {
             },
           ]
         });
-      } else if (Questions[step] && Questions[step + 1] && Questions[step + 1].inputs) {
+      } else if (Questions[step] && (Questions[step + 1] && Questions[step + 1].inputs) || (Questions[step - 1] && Questions[step - 1].inputs) ) {
         handleSetModal({
           state: false,
           multiActions: [{

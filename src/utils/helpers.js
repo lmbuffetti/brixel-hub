@@ -370,17 +370,45 @@ export const calculateAgeByYear = (year) => { // birthday is a date
 
 export const calcConditionAssessor = (age, group, name = null) => {
   let condition;
+  console.log(name, group, age, AssessorAvgLifespan[group][name] * 0.25, AssessorAvgLifespan[group][name] * 0.5, AssessorAvgLifespan[group][name] * 0.75);
   if (name) {
-    if (AssessorAvgLifespan[group][name] / 4 >= age) condition = 1;
-    else if (AssessorAvgLifespan[group][name] / 3 >= age) condition = 2;
-    else if (AssessorAvgLifespan[group][name] / 2 >= age) condition = 3;
-    else if (AssessorAvgLifespan[group][name] / 1 >= age) condition = 4;
-    else condition = 4;
+    if (age <= Math.round(AssessorAvgLifespan[group][name] * 0.25)) condition = 4;
+    else if (age <= Math.round(AssessorAvgLifespan[group][name] * 0.5)) condition = 3;
+    else if (age <= Math.round(AssessorAvgLifespan[group][name] * 0.75)) condition = 2;
+    else condition = 1;
   } else if (!isObject(AssessorAvgLifespan[group])) {
-    if (AssessorAvgLifespan[group] / 4 >= age) condition = 1;
-    else if (AssessorAvgLifespan[group] / 3 >= age) condition = 2;
-    else if (AssessorAvgLifespan[group] / 2 >= age) condition = 3;
-    else condition = 4;
+    if (age <= Math.round(AssessorAvgLifespan[group] * 0.25)) condition = 4;
+    else if (age <= Math.round(AssessorAvgLifespan[group] * 0.5)) condition = 3;
+    else if (age <= Math.round(AssessorAvgLifespan[group] * 0.75)) condition = 2;
+    else condition = 1;
   }
   return condition;
 };
+
+export const extractAssessorCondition = (age, construction, roof, heating) => {
+  const assessor = {
+    constructor: null,
+    roof: null,
+    heating: null,
+    kitchen: calcConditionAssessor(age, 'kitchen') || null,
+    wetCells: calcConditionAssessor(age, 'wetCells') || null,
+    electricalSystems: calcConditionAssessor(age, 'electricalSystems') || null,
+  };
+  if (construction) {
+    assessor.constructor = {
+      [construction]: calcConditionAssessor(age, 'construction', construction) || null,
+    };
+  }
+  if (roof) {
+    assessor.roof = {
+      [roof]: calcConditionAssessor(age, 'roof', roof) || null,
+    };
+  }
+  if (heating && heating.length > 0) {
+    assessor.heating = {};
+    heating.map((val) => {
+      assessor.heating[val] = calcConditionAssessor(age, 'heating', val) || null;
+    });
+  }
+  return assessor;
+}

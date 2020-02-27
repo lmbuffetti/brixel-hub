@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import {
-  BrixelInputScale, BrixelInputText,
+  BrixelCheckbox,
+  BrixelInputText,
   BrixelRadioButton,
   FactsOptions,
   Validation,
@@ -54,7 +55,7 @@ export const AssessorQuestions = (lang) => [
     cardType: "heating",
     inputs: [
       {
-        component: BrixelRadioButton,
+        component: BrixelCheckbox,
         className: '',
         label: '',
         name: 'properties.building.energy.heating',
@@ -87,10 +88,6 @@ export const AssessorQuestions = (lang) => [
     component: ResumeAssessor,
   },
   {
-    condition: {
-      name: 'doneMarketCheck',
-      value: false,
-    },
     title: "Thank you Market Check",
     subtitle: "Sales strategy & price",
     history: "successAssessor",
@@ -110,10 +107,10 @@ export const AssessorAvgLifespan = {
     pitched: 50,
   },
   facade: {
-    Plastered: 35,
-    Painted: 25,
-    EternitCement: 45,
-    NaturalWood: 25,
+    plastered: 35,
+    painted: 25,
+    eternitCement: 45,
+    naturalWood: 25,
   },
   heating: {
     oil: 15,
