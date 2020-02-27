@@ -13,6 +13,7 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 "../components/map",
 "../components/radioButtonCard",
 "../components/avatar",
+"../components/multi_stepform_modal",
 "../components/drawer",
 "../components/timeline_achievement",
 "../components/options-menu",
@@ -44,9 +45,20 @@ body {
     }
 
     .content {
-      position: relative;
-      width: calc(100% - #{$sidebarWidth});
-      left: $sidebarWidth;
+      width: 100%;
+      left: unset;
+
+      .mobile-menu {
+
+        a:hover {
+          color: map-get($lightColor, 100);
+        }
+      }
+
+      @media (min-width: $responsive-medium) {
+        width: calc(100% - #{$sidebarWidth});
+        left: $sidebarWidth;
+      }
     }
   }
 }

@@ -9,11 +9,12 @@ import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import Loadable from 'react-loadable';
-import { setCookie } from '../utils/helpers';
+import { setCookie, isMobile } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 import { translateTo } from '../utils/translation';
 import awards from '../images/BrxielComingTown/awards.svg';
 import brixels from '../images/BrxielComingTown/brixels.svg';
+import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -29,6 +30,7 @@ function PageHeader(props) {
   const [currentLang, setCurrentLang] = useState(lang);
   const [dropLang, setDropLang] = useState([]);
   const [modal, setModal] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   useEffect(() => {
     if (loggedUser && loggedUser.user) {
@@ -62,10 +64,20 @@ function PageHeader(props) {
     setCookie('brixelLang', langCode.value);
   };
 
+  const avatarAction = () => {
+    // Mobile actions for the avatar click
+    if (isMobile) {
+      setShowMobileMenu(true);
+      document.body.classList.add('ov-h');
+    } else {
+      window.open(getConfigEnv.profileURL, '_blank');
+    }
+  };
+
   return (
     <>
       <header className="shadow-1dp">
-        <div className={`container dis-f a-c jc-fe p-1 p-md-2 pos-r zIndex4`}>
+        <div className={`container dis-f a-c jc-b jc-fe-md p-1 p-md-2 pos-r zIndex4`}>
           <img className="logo dis-b w-fix-40 hide-md" src={logoNorm} alt="Brixel Logo" id="header-logo" />
           <div className="dis-f a-c">
             {
@@ -123,13 +135,13 @@ function PageHeader(props) {
                     avatarImg={ loggedUser.user.avatar && loggedUser.user.avatar[0] ? `${getConfigEnv.shortPath}${loggedUser.user.avatar[0].thumbnailPath}` : null}
                     name={loggedUser.user.name}
                     size={40}
+                    onClick={() => avatarAction()}
                   />
                 </div>
               )
             }
           </div>
         </div>
-
       </header>
       {
         modal && (
@@ -181,6 +193,53 @@ function PageHeader(props) {
               )
             }
           </>
+        )
+      }
+      {
+        showMobileMenu && (
+          <div className="mobile-menu bgGreen700 w-perc-100 h-perc-100 pos-a dis-fl-col a-c p-1 zIndex5">
+            <BrixelButtonIcon
+              className="as-fe mb-5"
+              icon="close-small"
+              background="light"
+              saturation={100}
+              color="green"
+              saturationTxt={700}
+              onClick={() => {
+                setShowMobileMenu(false);
+                document.body.classList.remove('ov-h');
+              }}
+            />
+            <div className="links dis-fl-col as-b pl-4">
+              <a
+                className="txtLight100 fweight-700 fSizePx28 mb-4"
+                href='#'
+                rel="noopener noreferrer"
+              >
+                Properties
+              </a>
+              <a
+                className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none"
+                onClick={() => ''}
+              >
+                Messages
+              </a>
+              <a
+                className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none"
+                onClick={() => ''}
+              >
+                Calendar
+              </a>
+              <a
+                className="txtLight100 fweight-700 fSizePx28 mb-4"
+                href={getConfigEnv.profileURL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Profile
+              </a>
+            </div>
+          </div>
         )
       }
     </>

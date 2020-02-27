@@ -172,11 +172,12 @@ MarketChecker.propTypes = {
   history: PropTypes.object.isRequired,
   initialValue: PropTypes.object,
   loggedUser: PropTypes.object.isRequired,
-  stubAchievement: PropTypes.string.isRequired,
+  stubAchievement: PropTypes.string,
 };
 
 MarketChecker.defaultProps = {
-  initialValue: {}
+  initialValue: {},
+  stubAchievement: null,
 };
 
 const mapStateToProps = (state, props) => ({

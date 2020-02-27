@@ -81,6 +81,11 @@ const MarketChecker = Loadable({
   loading: Loading,
 });
 
+const Assessor = Loadable({
+  loader: () => import('./Pages/Assessor' /* webpackChunkName: "PackageFlow-Rewards" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -122,7 +127,7 @@ const App = (props) => {
   return (
     <main className="dis-fl-row jc-b">
       <Loading isLoading={isLoading} />
-      <div className="content zIndex1">
+      <div className="content pos-r zIndex1">
         <PageHeader />
         <Switch>
           { /* INFO: <Route> for free access <ProtectedRoute> for restricted access */ }
@@ -149,7 +154,7 @@ const App = (props) => {
       { /* SECTION: APP HEADER */ }
       {
         loggedUser && (
-          <div className="sidebar zIndex2" id="menu-sidebar">
+          <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
             <MenuSidebar />
           </div>
         )
@@ -172,7 +177,7 @@ const App = (props) => {
             multiActions={modal.multiActions}
             clickOutsideToClose={modal.clickOutsideToClose}
           >
-            <div>{modal.body}</div>
+            <div dangerouslySetInnerHTML={{ __html: modal.body }} />
           </BrixelModal>
         )
       }
@@ -220,6 +225,12 @@ const App = (props) => {
             path="/:propId?/:act/achievement/market-checker"
             closePath="../"
             component={MarketChecker}
+            title=""
+          />
+          <ModalProtectedRoute
+            path="/:propId?/:act/achievement/assessor"
+            closePath="../"
+            component={Assessor}
             title=""
           />
         </Switch>
