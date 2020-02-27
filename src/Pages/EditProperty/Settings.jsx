@@ -9,7 +9,7 @@ const Settings = (props) => {
 
   return (
     <>
-      <div className="container dis-fl-col mt-2">
+      <div className="dis-fl-col mt-2 px-2">
         <h6>Settings</h6>
       </div>
     </>

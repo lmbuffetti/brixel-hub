@@ -36,7 +36,7 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-info-container p-1">
+      <div className="property-info-container p-1 p-md-2">
         <div className="header-section dis-fl-row a-c jc-b mb-2">
           <div className="dis-fl-row">
             <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
@@ -95,7 +95,7 @@ const HomeDashboard = (props) => {
                     progressValue={property.inputSheet.totalComplete}
                   />
                   <div className="dis-f txtPrimary700 pt-1">
-                    <span className="value pr-1">{property.inputSheet.totalComplete}%</span>
+                    <span className="ff-mono pr-1">{property.inputSheet.totalComplete}%</span>
                     <span className="ff-mono">completed</span>
                   </div>
 
@@ -112,10 +112,12 @@ const HomeDashboard = (props) => {
               {
                 property.status === 'on-sale' && (
                   <div className="dis-fl-col">
-                    <span className="subtitle">Price</span>
+                    <span className="subtitle fSizePx12 txtDark200">Price</span>
                     <div className="dis-fl-row jc-b">
                       <span className="value txtDark500">{property.price.currency} {property.price.total.toLocaleString(langConfig.localString)}</span>
-                      <div><span className="value txtDark500">{property.price.pricePerM2.toLocaleString(langConfig.localString)}</span><span> / m2</span></div>
+                      <div><span className="value txtDark500">{/* property.price.pricePerM2.toLocaleString(langConfig.localString) */}</span>
+                        <span className="fSizePx12 txtDark500"> / m2</span>
+                      </div>
                     </div>
                   </div>
                 )
@@ -124,23 +126,23 @@ const HomeDashboard = (props) => {
           </div>
           <div className="dis-fl-row jc-b a-c">
             <div className="fourth dis-fl-col ta-l">
-              <span className="subtitle">Rooms</span>
+              <span className="subtitle fSizePx12 txtDark200">Rooms</span>
               <span className="value txtDark500">{get(property, 'properties.typology.bedrooms') ? property.properties.typology.bedrooms : 'N/A'}</span>
             </div>
             <div className="dis-fl-col ta-l">
-              <span className="subtitle">Living space</span>
+              <span className="subtitle fSizePx12 txtDark200">Living space</span>
               <span className="value txtDark500">{(has(property.properties, 'typology') && property.properties.typology.livingArea) ? property.properties.typology.livingArea.value : 'N/A'} m2</span>
             </div>
             <div className="dis-fl-col ta-l">
-              <span className="subtitle">Year built</span>
+              <span className="subtitle fSizePx12 txtDark200">Year built</span>
               <span className="value txtDark500">{(has(property.properties, 'building') && property.properties.building.built) ? property.properties.building.built : 'N/A'}</span>
             </div>
           </div>
         </div>
 
-        <div className="areas dis-fl-row row-cols-2 mb-4">
+        <div className="boxPanel dis-fl-row jc-b mb-4">
           <div
-            className="docubox dis-fl-row a-c p-1 brdRadius"
+            className="dis-fl-row a-c p-1 brdRadius"
             onClick={(e) => openDocuments(e)}
           >
             <BrixelIcon
@@ -151,13 +153,13 @@ const HomeDashboard = (props) => {
               background="primary"
               saturation={300}
             />
-            <div className="dis-fl-col a-c">
-              <span className="docubox-title">Docubox</span>
-              <div className="length dis-fl-row"><span>{property.documents && property.documents.length > 0 ? property.documents.length : 0}&nbsp;</span> <span> files</span></div>
+            <div className="dis-fl-col a-l">
+              <span className="tabTitle txtDark700">Docubox</span>
+              <div className="length dis-fl-row txtDark200 fSizePx12"><span>{property.documents && property.documents.length > 0 ? property.documents.length : 0}&nbsp;</span> <span> files</span></div>
             </div>
           </div>
           <div
-            className="docubox dis-fl-row a-c p-1 brdRadius"
+            className="dis-fl-row a-c p-1 brdRadius"
           >
             <BrixelIcon
               className="mr-1"
@@ -168,25 +170,25 @@ const HomeDashboard = (props) => {
               saturation={300}
             />
             <div className="dis-fl-col">
-              <span className="docubox-title">Showings</span>
-              <div className="length dis-fl-row"><span>No upcoming</span></div>
+              <span className="tabTitle txtDark700">Showings</span>
+              <div className="length dis-fl-row txtDark200 fSizePx12"><span>No upcoming</span></div>
             </div>
           </div>
         </div>
 
         <div className="buyer">
-          <h5 className="mb-1">Buyer</h5>
+          <h5 className="mb-1 txtDark700">Buyer</h5>
           <div className="buyer-container dis-fl-row row-cols-3 jc-b a-c brdRadius p-2">
             <div className="dis-fl-col jc- a-c">
-              <span className="number">0</span>
+              <span className="number txtDark500">0</span>
               <span className="text">Requests</span>
             </div>
             <div className="dis-fl-col jc- a-c">
-              <span className="number">0</span>
+              <span className="number txtDark500">0</span>
               <span className="text">Visits</span>
             </div>
             <div className="dis-fl-col jc- a-c">
-              <span className="number">0</span>
+              <span className="number txtDark500">0</span>
               <span className="text">Offers</span>
             </div>
           </div>

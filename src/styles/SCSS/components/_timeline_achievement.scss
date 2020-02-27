@@ -7,7 +7,7 @@
   background: map_get($lightColor, 200);
 }
 
-.dotTimeline {
+.dotTimelineDone {
   position: absolute;
   left: $step * -3;
   top: 50%;
@@ -20,7 +20,7 @@
   box-shadow: $shadow-3dp;
 }
 
-.dotTimelineDone {
+.dotTimeline {
   position: absolute;
   left: $step * -3;
   top: 50%;

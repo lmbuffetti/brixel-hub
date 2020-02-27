@@ -17,7 +17,7 @@
   .accordTitle {
     width: 100%;
     > h4 {
-      transition: color 0.3s ease-in;
+      transition: color $default-time-long $default-easing;
     }
   }
   .accordGroup + {
@@ -40,7 +40,7 @@
   .accrodContent {
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.3s ease-in;
+    transition: max-height $default-time-long $default-easing;
     padding: $step $step * 2;
 
     // overwritten styleguide css
