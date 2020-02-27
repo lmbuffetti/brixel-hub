@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React  from 'react';
 import PropTypes from 'prop-types';
 import isNaN from 'lodash/isNaN';
 import isBoolean from 'lodash/isBoolean';
 import {
   BrixelIcon,
 } from '@brixel/brixel-components';
-import Emoji from './Emoji';
 import empowerSellOwn from '../images/BrxielComingTown/empowerSellOwn.svg';
 import empowerBestMarketing from '../images/BrxielComingTown/empowerBestMarketing.svg';
 import empowerBestPersonalSupport from '../images/BrxielComingTown/empowerBestPersonalSupport.svg';
@@ -20,13 +19,9 @@ const BrixelRadioCard = (props) => {
     disabled,
     className,
     deactivable,
-    icons,
     input,
-    inputClassName,
     label,
     lang,
-    modal,
-    // options,
   } = props;
 
   const clickOption = (e, val) => {
@@ -101,14 +96,14 @@ const BrixelRadioCard = (props) => {
                   <span className="otp-label">{opt.label}</span>
                   <span className="btmLabel">
                     {translateTo(lang, "My favorite")}
-                  <BrixelIcon
-                    className="shadow-2dp ml-2"
-                    background="white"
-                    saturation={0}
-                    icon={opt.value === input.value ? "favorite-fill" : "favorite"}
-                    color="red"
-                  />
-                </span>
+                    <BrixelIcon
+                      className="shadow-2dp ml-2"
+                      background="white"
+                      saturation={0}
+                      icon={opt.value === input.value ? "favorite-fill" : "favorite"}
+                      color="red"
+                    />
+                  </span>
                 </label>
               </div>
             ))
@@ -142,7 +137,7 @@ BrixelRadioCard.defaultProps = {
   modal: null,
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   lang: get(state, 'common.language', {}),
 });
 

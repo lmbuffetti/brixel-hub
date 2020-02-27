@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
@@ -6,7 +7,6 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import { getProperty, getMarketCheck, updateProperty } from '../../actions/PropertyActions';
 import { sendGenericMail } from '../../actions/CommonActions';
 import Maps from '../../components/Map/Maps';

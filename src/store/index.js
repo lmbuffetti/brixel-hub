@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import logger from 'redux-logger';
 import { rootReducer } from '../reducers';
-import { getDevMode } from '../utils/helpers';
 
 // MIDDLEWARES
 import CommonMiddleware from '../middlewares/CommonMiddleware';

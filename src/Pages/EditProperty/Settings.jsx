@@ -1,14 +1,11 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 const Settings = (props) => {
-  const {
-
-  } = props;
 
   return (
     <>
@@ -24,7 +21,7 @@ Settings.propTypes = {
 
 Settings.defaultProps = {
 };
-
+/*
 const mapStateToProps = (state) => {
 
 };
@@ -32,7 +29,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
 
 });
-
+*/
 export default compose(
   withRouter,
   connect(null, null),

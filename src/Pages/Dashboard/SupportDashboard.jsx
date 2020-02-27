@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React  from 'react';
 import PropTypes from 'prop-types';
 import {
   withRouter,
@@ -9,14 +9,6 @@ import { getProperties } from '../../actions/PropertyActions';
 import { BrixelIcon } from '@brixel/brixel-components';
 
 const HomeDashboard = (props) => {
-  // PROPS
-  const {
-    handleGetProperties,
-    history,
-  } = props;
-  useEffect(() => {
-  }, []);
-
 
   return (
     <div className="container supportCard">

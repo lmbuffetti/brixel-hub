@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React  from 'react';
 import PropTypes from 'prop-types';
 import {
   withRouter,
@@ -9,7 +9,7 @@ import {
   BrixelButtonIcon, BrixelIcon, BrixelProgressBar,
 } from '@brixel/brixel-components';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import noCover from '../../images/no_cover.jpg';
 
@@ -26,7 +26,7 @@ const HomeDashboard = (props) => {
 
   const goToInputSheet = (e) => {
     e.preventDefault();
-    history.push(`/${match.params.propId}/property/inputSheet`);
+    history.push(`/${match.params.propId}/property/facts`);
   };
 
   const openDocuments = (e) => {

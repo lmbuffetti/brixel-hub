@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
@@ -201,7 +202,7 @@ function UserFlow(props) {
 
   // Function to move next/prev question
   const changeStep = (act) => {
-    let newPosition = 0;
+    let newPosition;
     handleSetNotification(null);
     if (act === 'back') {
       setDisableNextBtn(false);
@@ -253,7 +254,7 @@ function UserFlow(props) {
       newUrl = 'http://' + url;
     }
     return newUrl;
-  }
+  };
 
   return (
     <main
@@ -268,7 +269,7 @@ function UserFlow(props) {
             small
             barBackground="Red"
             backgroundSaturation={100}
-            progressValue={42}
+            progressValue={progressBar}
           />
         )
       }

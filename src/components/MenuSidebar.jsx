@@ -2,18 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import { BrixelButtonIcon } from '@brixel/brixel-components';
 import get from 'lodash/get';
-// import { getConfigEnv } from '../controllers/checkEnvironment';
-// import noAvatar from '../images/no-avatar.png';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo.svg';
-// import { setUnsavedChangesModal } from '../actions/CommonActions';
 
 const MenuSidebar = (props) => {
   // PROPS
   const {
-    history, preventExit, setUnsavedModal,
+    history,
+    // preventExit, setUnsavedModal,
   } = props;
 
   return (

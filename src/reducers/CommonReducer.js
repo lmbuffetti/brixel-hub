@@ -17,7 +17,7 @@ import {
   SET_PAGE_DATA, SET_MODAL,
 } from '../actions/types/CommonTypes';
 
-const cookie = new Cookies;
+const cookie = new Cookies();
 
 export const defaultState = {
   isLoading: 0,

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import MultiStepReduxForm from '../../components/MultiStepReduxForm';
@@ -17,8 +18,6 @@ import { change } from 'redux-form';
 const MarketChecker = (props) => {
   // PROPS
   const {
-    changeFieldValue,
-    formValue,
     gameHistory,
     handleAddGameHistory,
     handleSetModal,

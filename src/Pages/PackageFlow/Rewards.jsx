@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
@@ -189,7 +190,7 @@ function Rewards(props) {
 
               <BrixelButtonPrimary
                 label="Continue"
-                onClick={(e) => history.push(`/packageFlow/${match.params.propId}/advisory`)}
+                onClick={() => history.push(`/packageFlow/${match.params.propId}/advisory`)}
                 type="submit"
               />
 
@@ -218,7 +219,7 @@ Rewards.defaultProps = {
   property: null,
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   property: get(state, 'property.property', null),
   loggedUser: get(state, 'user.loggedUser', {}),
   marketData: get(state, 'property.marketCheck', {}),

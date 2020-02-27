@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators } from 'redux';
@@ -10,12 +10,9 @@ import { resetRequest } from '../actions/CommonActions';
 import { checkToken } from '../actions/UserActions';
 import { setCookie } from '../utils/helpers';
 
-
-const cookies = new Cookies();
-
 function TokenInput(props) {
   const [token, setToken] = useState('');
-  const { handleCheckToken, history, request } = props;
+  const { handleCheckToken } = props;
 
   const tokenInput = () => {
     setCookie('brixelToken', token);

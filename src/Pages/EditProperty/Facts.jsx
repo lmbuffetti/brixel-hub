@@ -3,15 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reduxForm, Field } from 'redux-form';
+import { change, reset, Field } from 'redux-form';
 import get from 'lodash/get';
-import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import {
   BrixelButtonIcon,
   BrixelIcon,
-  BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -49,7 +47,7 @@ const InputSheet = (props) => {
   } = props;
 
   // STATE
-  const [Questions, setQuestions] = useState([]);
+  const [Questions] = useState(InputSheets('en'));
   const [accordion, setAccordion] = useState({});
   const [accordionAnimatad, setAccordionAnimatad] = useState({});
   const [skipSection, setSkipSection] = useState(get(initialValues, 'inputSheet.skipSection', {}));
@@ -57,10 +55,6 @@ const InputSheet = (props) => {
   const [selObj, setSelObj] = useState(null);
 
   const propID = get(match, 'params.propId', null);
-
-  useEffect(() => {
-    setQuestions(InputSheets('en'));
-  }, []);
 
   // FUNCTION ON CLICK TO ENABLE/DISABLE QUESTION GROUP
   const handleSkipSection = async (key) => {
@@ -92,7 +86,7 @@ const InputSheet = (props) => {
             className="brdSmall dis-b border-green"
             icon="check"
             rounded
-            background="green"
+            background={"green"}
             saturation={400}
             color="white"
             saturationTxt={0}
@@ -107,7 +101,7 @@ const InputSheet = (props) => {
           <BrixelButtonIcon
             icon="check"
             rounded
-            bgTransparent={skipped[quest.history] ? false : true}
+            bgTransparent={!skipped[quest.history]}
             background={skipped[quest.history] ? 'primary' : ''}
             saturation={skipped[quest.history] ? 300 : 0}
             noBorder={skipped[quest.history]}
@@ -153,13 +147,13 @@ const InputSheet = (props) => {
     //
     if (formValue.id) {
       const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
-      console.log(getData, formValue);
+      console.log(getData, Questions, formValue, InputSheets('en'));
       setAccordion({...getData.accordion});
       setAccordionAnimatad({...getData.accordion});
       setSectionProgress({...getData.section});
       setSkipSection(initialValues.inputSheet.skipSection);
     }
-  }, [errorValue]);
+  }, [formValue]);
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
@@ -387,12 +381,6 @@ InputSheet.defaultProps = {
   isLoading: false,
 };
 
-const InputSheetForm = reduxForm({
-  // a unique name for the form
-  form: 'InputSheet',
-  enableReinitialize: true,
-})(InputSheet);
-
 const mapStateToProps = (state) => {
   const formValue = get(state, 'property.singleUserActiveProperty', {});
   if (formValue.price) {
@@ -418,6 +406,9 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('InputSheet', field, value));
   },
+  reset(form) {
+    (dispatch(reset(form)))
+  },
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   handleSaveProperty: bindActionCreators(updateProperty, dispatch),
@@ -428,4 +419,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(InputSheetForm);
+)(InputSheet);
