@@ -20,15 +20,23 @@
       transition: color $default-time-long $default-easing;
     }
   }
+  &.openedAccord  {
+    .accordGroup + {
+      .accordControl {
+        border-top: 1px solid map_get($lightColor, 100);
+      }
+    }
+  }
   .accordGroup + {
     .accordControl {
-      border-top: 1px solid map_get($lightColor, 400);
+      // border-top: 1px solid map_get($lightColor, 400);
     }
   }
 
   .accordControl {
     background: map-get($lightColor, 100 );
-    border-bottom: 1px solid map_get($lightColor, 400);
+    border-bottom: 2px solid #fff;
+   // border-bottom: 1px solid map_get($lightColor, 400);
 
     i.border-green {
       border-color: map_get($greenColor, 400);
@@ -76,10 +84,11 @@
     .accordControl {
       border-bottom: 0;
       background: white;
+      //border-top: 1px solid map_get($lightColor, 200);
     }
     .accrodContent {
       max-height: 3000px;
-      border-bottom: 1px solid map_get($lightColor, 400);
+      border-bottom: 1px solid map_get($lightColor, 200);
     }
   }
 }

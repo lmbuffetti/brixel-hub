@@ -14,13 +14,12 @@ const HomeDashboard = (props) => {
     <div className="supportCard pt-2 pl-2 pr-1">
       <div>
         <BrixelIcon
-          className="dis-ib"
+          className="dis-ib fSizePx24"
           icon="question"
           background="primary"
           saturation={300}
-          padding="p-small-9"
+          padding="p-small-12"
           color="white"
-          iconSize="large"
           saturationTxt={0}
         />
         <span className="my-1 dis-b fweight-500 txtDark700">Support</span>
