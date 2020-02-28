@@ -43,9 +43,11 @@
         max-width: calc(50% - 8px);
         cursor: pointer;
         @include border('Dark', 200);
+
         &:nth-child(2) {
           @include disabledAread();
         }
+
         transition: background-color $default-time-long $default-easing;
         &:hover {
           background-color: #fff;
@@ -71,8 +73,6 @@
     }
   }
 
-
-
   .homeTab {
     .brixel-button-box {
       .labelText {
@@ -93,40 +93,65 @@
     }
   }
 
+}
 
-  @media (min-width: $responsive-medium) {
+// customized desktop css
 
+@media (min-width: $responsive-medium) {
+  #dashboard {
+    padding: 0;
 
-    .brixel-tabs .panelTab {
+    .scrollTab {
+      min-height: calc(100vh - 80px);
+    }
+  }
 
-      .homeTab, .propertyTab {
-        flex: 0 0 45% !important;
-      }
+  header {
+    &.shadow-1dp {
+      box-shadow: none;
+    }
+    > .container {
+      padding: 20px;
+    }
+  }
 
-      .supportTab {
-        flex: 0 0 10% !important;
-      }
+  .brixel-tabs .panelTab {
 
-      .supportCard {
-        border-radius: $step 0 0 0;
-        background: map_get($lightColor, 100);
-        height: 100%;
-      }
+    overflow: inherit;
+    padding: 0;
 
-      overflow: inherit;
-
-      .homeTab,
-      .propertyTab {
-        position: relative;
-      }
-      .homeTab {
-        top: -12px;
-      }
-      .propertyTab {
-        top: -px;
-      }
+    .homeTab,
+    .propertyTab,
+    .supportTab {
+      position: relative;
     }
 
+    .homeTab {
+      //top: -77px;
+    }
+    .propertyTab {
+      //min-height: calc(100% + 80px);
+      //top: -80px;
+      > div {
+        height: 100%;
+      }
+    }
+    .supportTab {
+      //top: -30px;
+    }
+
+    .homeTab, .propertyTab {
+      flex: 0 0 45% !important;
+    }
+
+    .supportTab {
+      flex: 0 0 10% !important;
+    }
+
+    .supportCard {
+      border-radius: $step 0 0 0;
+      background: map_get($lightColor, 100);
+    }
   }
 
 }

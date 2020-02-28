@@ -36,7 +36,7 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-info-container p-1 p-md-2">
+      <div className="property-info-container brdRadius p-1 p-md-2">
         <div className="header-section dis-fl-row a-c jc-b mb-2">
           <div className="dis-fl-row">
             <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
@@ -204,6 +204,7 @@ HomeDashboard.propTypes = {
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   langConfig: PropTypes.string.isRequired,
+  userAwards: [],
 };
 
 HomeDashboard.defaultProps = {
