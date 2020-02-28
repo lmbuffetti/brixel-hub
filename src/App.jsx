@@ -86,10 +86,10 @@ const Assessor = Loadable({
   loading: Loading,
 });
 
-// const Bestimate = Loadable({
-//   loader: () => import('./Pages/Bestimate' /* webpackChunkName: "BestimateFlow" */),
-//   loading: Loading,
-// });
+const Bestimate = Loadable({
+  loader: () => import('./Pages/Bestimate' /* webpackChunkName: "BestimateFlow" */),
+  loading: Loading,
+});
 
 const cookies = new Cookies();
 
@@ -246,12 +246,12 @@ const App = (props) => {
             title=""
           />
           {/* SECTION: BESTIMATE FLOW */}
-          {/* <ModalProtectedRoute
+          <ModalProtectedRoute
             path="/:propId?/:act/achievement/bestimate"
             closePath="../"
             component={Bestimate}
             title=""
-          /> */}
+          />
         </Switch>
       </div>
     </main>

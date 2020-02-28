@@ -7,22 +7,23 @@ import { compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { BrixelIcon } from '@brixel/brixel-components';
+import { BrixelShowQuality } from '@brixel/brixel-components';
+import { arrayToObject } from 'redux-actions/lib/utils/arrayToObject';
 
-function SuccessAssessor(props) {
+function ResumeBestimate(props) {
   // PROPS
   const {
-    finishStep,
+    condition,
     gameGroup,
     history,
   } = props;
   // STATE
   const [achievement, setAchievement] = useState(null);
+  const [selBaseRenovation, setSelRenovation] = useState('renovation');
   // URL PARAMS
   const getParams = last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    console.log(gameGroup);
     if (gameGroup) {
       let selectedGame;
       gameGroup.map((game) => {
@@ -33,25 +34,23 @@ function SuccessAssessor(props) {
     }
   }, [gameGroup]);
 
+  const selOneElement = (el) => {
+    let lessNumber = 4;
+    Object.keys(el).map((key) => {
+      if (el[key] < lessNumber) lessNumber = el[key];
+      return null;
+    });
+    return lessNumber;
+  };
+
   return (
     <main id="rewards" className="pb-4">
+      <h4>Voila!</h4>
+      <h4>Here is your condition check.</h4>
       {
-        achievement && (
+        condition && condition[selBaseRenovation] && (
           <>
-            {
-              finishStep ? (
-                <>
-                  <h6>You already got the Assessors Award</h6>
-                  <BrixelIcon icon="cup-awards" />
-                  <p>We update these data every day for you. Do you want to update your local market check now?</p>
-                </>
-              ) : (
-                <>
-                  <h6>Congrats. You earned the Assessor Award and another {achievement.points} Brixels.</h6>
-                  <BrixelIcon icon="cup-awards" />
-                </>
-              )
-            }
+            <span>Bestimate</span>
           </>
         )
       }
@@ -59,18 +58,20 @@ function SuccessAssessor(props) {
   );
 }
 
-SuccessAssessor.propTypes = {
+ResumeBestimate.propTypes = {
+  condition: PropTypes.object,
   finishStep: PropTypes.bool,
   gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
   history: PropTypes.object.isRequired,
 };
 
-SuccessAssessor.defaultProps = {
+ResumeBestimate.defaultProps = {
   finishStep: false,
 };
 
 const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
+  condition: get(state, 'property.property.bestimate', {}),
 });
 
 const mapDispatchToProps = () => ({
@@ -79,4 +80,4 @@ const mapDispatchToProps = () => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(SuccessAssessor);
+)(ResumeBestimate);
