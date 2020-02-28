@@ -127,7 +127,7 @@ const InputSheet = (props) => {
                   <>
                     <BrixelProgressBar
                       rounded
-                      large
+                      small
                       saturation={700}
                       barBackground="Red"
                       backgroundSaturation={100}
