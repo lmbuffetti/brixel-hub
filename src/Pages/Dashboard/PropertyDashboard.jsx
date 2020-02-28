@@ -31,7 +31,7 @@ const HomeDashboard = (props) => {
 
   const openDocuments = (e) => {
     e.preventDefault();
-    history.push(`${match.url}/documents`);
+    history.push(`/${match.params.propId}/property/documents`);
   };
 
   return (

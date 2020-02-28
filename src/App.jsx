@@ -77,12 +77,17 @@ const Documents = Loadable({
 });
 
 const MarketChecker = Loadable({
-  loader: () => import('./Pages/MarketChecker' /* webpackChunkName: "PackageFlow-Rewards" */),
+  loader: () => import('./Pages/MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
   loading: Loading,
 });
 
 const Assessor = Loadable({
-  loader: () => import('./Pages/Assessor' /* webpackChunkName: "PackageFlow-Rewards" */),
+  loader: () => import('./Pages/Assessor' /* webpackChunkName: "AssessorFlor" */),
+  loading: Loading,
+});
+
+const Bestimate = Loadable({
+  loader: () => import('./Pages/Bestimate' /* webpackChunkName: "BestimateFlow" */),
   loading: Loading,
 });
 
@@ -127,7 +132,7 @@ const App = (props) => {
   return (
     <main className="dis-fl-row jc-b">
       <Loading isLoading={isLoading} />
-      <div className="content pos-r zIndex1">
+      <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) ? 'no-sidebar' : ''}`}>
         <PageHeader />
         <Switch>
           { /* INFO: <Route> for free access <ProtectedRoute> for restricted access */ }
@@ -153,11 +158,17 @@ const App = (props) => {
 
       { /* SECTION: APP HEADER */ }
       {
-        loggedUser && (
-          <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
-            <MenuSidebar />
-          </div>
-        )
+        (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) ?
+          (
+            ''
+          ) :
+          (
+            loggedUser && (
+              <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
+                <MenuSidebar />
+              </div>
+            )
+          )
       }
 
       { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
@@ -210,7 +221,7 @@ const App = (props) => {
       <div className="zIndex3">
         <Switch>
           {/* SECTION: DOCUMENTS */}
-          <Route path="/:propId?/property/documents" component={Documents} />
+          <Route path="/:propId?/property/documents" exact component={Documents} />
           <Route path="/:propId?/property/media" exact component={EditProperty} />
           <Route path="/:propId?/property/settings" exact component={EditProperty} />
           <Route path="/:propId?/property/facts" exact component={EditProperty} />
@@ -220,17 +231,25 @@ const App = (props) => {
       { /* SECTION: MODAL */ }
       <div className="zIndex3">
         <Switch>
-          {/* SECTION: DOCUMENTS */}
+          {/* SECTION: MARKET CHECK FLOW */}
           <ModalProtectedRoute
             path="/:propId?/:act/achievement/market-checker"
             closePath="../"
             component={MarketChecker}
             title=""
           />
+          {/* SECTION: ASSESSOR FLOW */}
           <ModalProtectedRoute
             path="/:propId?/:act/achievement/assessor"
             closePath="../"
             component={Assessor}
+            title=""
+          />
+          {/* SECTION: BESTIMATE FLOW */}
+          <ModalProtectedRoute
+            path="/:propId?/:act/achievement/bestimate"
+            closePath="../"
+            component={Bestimate}
             title=""
           />
         </Switch>
