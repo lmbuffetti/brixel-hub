@@ -59,6 +59,11 @@ body {
         width: calc(100% - #{$sidebarWidth});
         left: $sidebarWidth;
       }
+
+      &.no-sidebar {
+        width: 100%;
+        left: unset;
+      }
     }
   }
 }
