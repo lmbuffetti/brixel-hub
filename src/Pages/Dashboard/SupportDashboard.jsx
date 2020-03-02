@@ -11,7 +11,7 @@ import { BrixelIcon } from '@brixel/brixel-components';
 const HomeDashboard = (props) => {
 
   return (
-    <div className="supportCard pt-2 pl-2 pr-1">
+    <div className="supportCard pl-md-2 pr-md-1">
       <div>
         <BrixelIcon
           className="dis-ib fSizePx24"

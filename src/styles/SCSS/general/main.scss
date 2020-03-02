@@ -38,12 +38,6 @@ body {
   main {
     width: 100%;
 
-    .sidebar {
-      width: $sidebarWidth;
-      position: fixed;
-      height: 100%;
-    }
-
     .content {
       width: 100%;
       left: unset;
@@ -56,8 +50,8 @@ body {
       }
 
       @media (min-width: $responsive-medium) {
-        width: calc(100% - #{$sidebarWidth});
-        left: $sidebarWidth;
+       /*  width: calc(100% - #{$sidebarWidth});
+        left: $sidebarWidth; */
       }
 
       &.no-sidebar {

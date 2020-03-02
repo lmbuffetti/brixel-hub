@@ -15,6 +15,14 @@ import Loading from '../../components/Loading';
 import { getCalcSectionInputSheets } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
 
+
+// SIDEBAR MENU
+const MenuSidebar = Loadable({
+  loader: () => import('../../components/MenuSidebar' /* webpackChunkName: "header" */),
+  loading: Loading,
+});
+
+
 const HomeDashboard = Loadable({
   loader: () => import('./HomeDashboard' /* webpackChunkName: "HomeDashboard" */),
   loading: Loading,
@@ -82,13 +90,29 @@ const Dashboard = (props) => {
 
   return (
     <div className="container" id="dashboard">
+
+      { /* SECTION: APP HEADER */ }
+      {
+        (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) ?
+          (
+            ''
+          ) :
+          (
+            loggedUser && (
+              <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
+                <MenuSidebar />
+              </div>
+            )
+          )
+      }
+
       <BrixelTabs
         classNameLi="dis-fl-col"
         classNameUl="nav-tabs zIndex4"
         labels={['Home', 'Property', 'Support']}
         clicksList={['home', 'property', 'support']}
-        labelsIcons={['star', 'star', 'star']}
-        classNameArray={['order-md-2 homeTab px-1 px-md-2', 'order-md-1 propertyTab px-1 px-md-2', 'order-md-3 supportTab px-1 px-md-2']}
+        labelsIcons={['star', 'property-house', 'question']}
+        classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
         activeTab={checkActiveTab()}
         fullWidth
         onClick={(val) => history.push(val)}

@@ -61,11 +61,6 @@ const Dashboard = Loadable({
   loading: Loading,
 });
 
-const MenuSidebar = Loadable({
-  loader: () => import('./components/MenuSidebar' /* webpackChunkName: "header" */),
-  loading: Loading,
-});
-
 const EditProperty = Loadable({
   loader: () => import('./Pages/EditProperty' /* webpackChunkName: "InputSheet" */),
   loading: Loading,
@@ -160,21 +155,6 @@ const App = (props) => {
 
         </Switch>
       </div>
-
-      { /* SECTION: APP HEADER */ }
-      {
-        (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) ?
-          (
-            ''
-          ) :
-          (
-            loggedUser && (
-              <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
-                <MenuSidebar />
-              </div>
-            )
-          )
-      }
 
       { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
       {
