@@ -50,6 +50,7 @@ export default {
     recoverPassword: (email) => `/user/recoverPassword/${email}`,
     updateUser: (userId) => `/user/${userId}`,
     getUser: (userId) => '/user/fromToken',
+    getPropertiesOfUser: (owner) => `/page/0/0?owner=${owner}`,
     validateUser: (email) => `/user/validate/${email}`,
   },
 };

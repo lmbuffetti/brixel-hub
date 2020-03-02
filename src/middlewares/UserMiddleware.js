@@ -5,6 +5,8 @@ import {
   SET_USER,
   UPDATE_USER,
   VALIDATE_USER,
+  GET_USER_PROPERTIES,
+  SET_USER_PROPERTIES,
 } from '../actions/types/UserTypes';
 
 import {
@@ -155,6 +157,21 @@ const checkUser = (store) => (next) => (action) => {
             });
           } else if (newUser) {
             store.dispatch({ type: CREATE_USER, payload: action.payload });
+          }
+          store.dispatch({ type: SPINNER_OFF });
+        })
+        .catch(() => {
+          store.dispatch({ type: SPINNER_OFF });
+        });
+      break;
+    }
+    case GET_USER_PROPERTIES: {
+      next(action);
+      store.dispatch({ type: SPINNER_ON });
+      api.user.getPropertiesOfUser(action.payload)
+        .then((res) => {
+          if (res.meta.status === 200) {
+            store.dispatch({ type: SET_USER_PROPERTIES, payload: res.data });
           }
           store.dispatch({ type: SPINNER_OFF });
         })
