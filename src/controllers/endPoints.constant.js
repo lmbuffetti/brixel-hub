@@ -26,6 +26,7 @@ export default {
     gameAchievementById: (id) => `/gameAchievement/${id}`,
     gameAchievementList: (limit, offset) => `/gameAchievement/${limit}/${offset}?order=name&direction=desc`,
     gameHistoryList: (limit, offset) => `/gameHistory/${limit}/${offset}`,
+    gameHistoryByUserId: (userId) => `/gameHistory/user/${userId}`,
     gameHistoryByUser: (id) => `/gameHistory/user/${id}/add`,
   },
   property: {
