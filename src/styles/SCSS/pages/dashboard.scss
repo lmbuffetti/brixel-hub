@@ -108,8 +108,23 @@
 
 }
 
-// IPAD PRO AND DESKTOP VERSION
+// IPAD AND DESKTOP VERSION
+@media (max-width: $responsive-medium) {
+  #dashboard.container {
+    .brixel-tabs .panelTab {
+      .scrollTab > div {
+        overflow-x: hidden;
+        > div {
+          width: 99.5%;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+    }
+  }
+}
 
+// IPAD PRO AND DESKTOP VERSION
 @media (min-width: $responsive-medium) {
 
   .topHeader {
@@ -202,7 +217,7 @@ and (max-width : $responsive-large) {
   }
 }
 
- // FULL WIDTH DESKTOP SCREEN
+ // DESKTOP SCREEN
  @media screen and(max-width: map-get($grid-breakpoints, xl)) {
   .topHeader {
     > .container {
@@ -222,7 +237,9 @@ and (max-width : $responsive-large) {
     }
   }
 }
- @media screen and(min-width: map-get($grid-breakpoints, xl)) {
+
+// LARGE DESKTOP SCREEN
+@media screen and(min-width: map-get($grid-breakpoints, xl)) {
 
   #dashboard.container {
     .brixel-tabs .panelTab {
