@@ -132,12 +132,10 @@
     display: flex;
 
     .brixel-tabs .panelTab {
-
       overflow: hidden;
       padding: 0;
 
       .scrollTab {
-
         justify-content: space-between;
 
         .homeTab,
@@ -153,7 +151,6 @@
             min-height: 100%;
           }
         }
-
         .homeTab,
         .propertyTab {
           flex: 0 0 42% !important;
@@ -165,30 +162,9 @@
         .homeTab {
           top: 29px;
         }
-
-        @media only screen
-        and (min-device-width : $responsive-medium)
-        and (max-device-width : $responsive-large) {
-
-          .propertyTab {
-            flex: 0 0 30% !important;
-            padding: 0 !important;
-          }
-          .homeTab {
-            flex: 0 0 38% !important;
-            padding: 0;
-            padding-left: 8px;
-          }
-          .supportTab {
-            flex: 0 0 18% !important;
-            padding-left: 0;
-          }
-        }
-
         .propertyTab {
           max-width: 480px;
           min-width: 340px;
-
           .property-info-container {
             background-color: map-get($lightColor, 100);
           }
@@ -199,7 +175,31 @@
 }
 
 
-// FULL WIDTH LARGE SCREEN
+// FLUID LAYOUT BETWEEN IPAD AND IPAD PRO
+@media only screen
+and (min-width : $responsive-medium)
+and (max-width : $responsive-large) {
+
+  #dashboard.container {
+    .brixel-tabs .panelTab {
+      .scrollTab {
+        .propertyTab {
+          flex: 0 0 30% !important;
+          padding: 0;
+        }
+        .homeTab {
+          flex: 0 0 38% !important;
+          padding: 0;
+          padding-left: 8px;
+        }
+        .supportTab {
+          flex: 0 0 18% !important;
+          padding-left: 0;
+        }
+      }
+    }
+  }
+}
 
  // FULL WIDTH LARGE SCREEN
  @media screen and(min-width: map-get($grid-breakpoints, xl)) {
