@@ -45,7 +45,7 @@ const MenuSidebar = (props) => {
                   //   });
                   //   return;
                   // }
-                  history.push(`/${activeProperty.id}/property/properties`);
+                  history.push(`/${activeProperty.id}/property/list`);
                 }}
               />
             </div>

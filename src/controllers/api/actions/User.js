@@ -38,6 +38,11 @@ class Property extends Base {
     return this.apiClient.put(url, {}, data);
   }
 
+  getPropertiesOfUser(id) {
+    const url = ep.user.getPropertiesOfUser(id);
+    return this.apiClient.get(url, {});
+  }
+
   validateUser(email) {
     const url = ep.user.validateUser(email);
     return this.apiClient.get(url, {});

@@ -204,7 +204,7 @@ HomeDashboard.propTypes = {
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   langConfig: PropTypes.string.isRequired,
-  userAwards: [],
+  userAwards: PropTypes.arrayOf(PropTypes.object.isRequired),
 };
 
 HomeDashboard.defaultProps = {
