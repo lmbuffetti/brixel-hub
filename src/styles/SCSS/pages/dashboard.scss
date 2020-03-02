@@ -5,6 +5,8 @@
   opacity: 0.6;
 }
 
+
+// ALL DEVICES
 #dashboard {
 
   .brixel-tabs {
@@ -174,7 +176,6 @@
   }
 }
 
-
 // FLUID LAYOUT BETWEEN IPAD AND IPAD PRO
 @media only screen
 and (min-width : $responsive-medium)
@@ -185,7 +186,7 @@ and (max-width : $responsive-large) {
       .scrollTab {
         .propertyTab {
           flex: 0 0 30% !important;
-          padding: 0;
+          padding-right: 0;
         }
         .homeTab {
           flex: 0 0 38% !important;
@@ -201,8 +202,8 @@ and (max-width : $responsive-large) {
   }
 }
 
- // FULL WIDTH LARGE SCREEN
- @media screen and(min-width: map-get($grid-breakpoints, xl)) {
+ // FULL WIDTH DESKTOP SCREEN
+ @media screen and(max-width: map-get($grid-breakpoints, xl)) {
   .topHeader {
     > .container {
       max-width: 100%;
@@ -212,15 +213,12 @@ and (max-width : $responsive-large) {
   #dashboard.container {
     max-width: 100%;
 
-    .propertyTab {
-      flex: 0 0 30% !important;
-      max-width: 600px !important;
-    }
-    .homeTab {
-      flex: 0 0 45% !important;
-    }
-    .supportTab {
-      flex: 0 0 10% !important;
+    .brixel-tabs .panelTab {
+      .scrollTab {
+        .propertyTab {
+          padding-left: 0;
+        }
+      }
     }
   }
 }
