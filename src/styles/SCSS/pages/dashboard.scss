@@ -26,7 +26,6 @@
   }
 
   .property-info-container {
-    background-color: map-get($lightColor, 100);
 
     .buyer-container > div:not(:last-child) {
       border-right: 1px solid map-get($lightColor, 200);;
@@ -120,43 +119,46 @@
     overflow: hidden;
     padding: 0;
 
-    .homeTab,
-    .propertyTab,
-    .supportTab {
-      position: relative;
-    }
+    .scrollTab {
 
-    .homeTab {
-      top: 29px;
-    }
-    .propertyTab {
-      max-width: 480px;
-    }
+      justify-content: space-between;
 
-    .propertyTab,
-    .supportCard {
-      min-height: 100vh;
+      .homeTab,
+      .propertyTab,
+      .supportTab {
+        position: relative;
+      }
+      .propertyTab,
+      .supportCard {
+        min-height: 100vh;
+        > div {
+          min-height: 100%;
+        }
+      }
 
-      > div {
-        min-height: 100%;
+      .homeTab,
+      .propertyTab {
+        flex: 0 0 42% !important;
+      }
+      .supportTab {
+        flex: 0 0 16% !important;
+        top: 78px;
+
+        .supportCard {
+          border-radius: $step 0 0 0;
+          background: map_get($lightColor, 100);
+        }
+      }
+
+      .homeTab {
+        top: 29px;
+      }
+      .propertyTab {
+        max-width: 480px;
+        .property-info-container {
+          background-color: map-get($lightColor, 100);
+        }
       }
     }
-    .supportTab {
-      top: 78px;
-    }
-
-    .homeTab, .propertyTab {
-      flex: 0 0 45% !important;
-    }
-
-    .supportTab {
-      flex: 0 0 15% !important;
-    }
-
-    .supportCard {
-      border-radius: $step 0 0 0;
-      background: map_get($lightColor, 100);
-    }
   }
-
 }
