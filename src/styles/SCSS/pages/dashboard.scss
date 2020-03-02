@@ -100,24 +100,24 @@
 @media (min-width: $responsive-medium) {
   #dashboard {
     padding: 0;
-
-    .scrollTab {
-      min-height: calc(100vh - 80px);
-    }
   }
 
   header {
+    position: absolute;
+    width: 100%;
+
     &.shadow-1dp {
       box-shadow: none;
     }
     > .container {
       padding: 20px;
+      z-index: 0;
     }
   }
 
   .brixel-tabs .panelTab {
 
-    overflow: inherit;
+    overflow: hidden;
     padding: 0;
 
     .homeTab,
@@ -127,17 +127,22 @@
     }
 
     .homeTab {
-      //top: -77px;
+      top: 29px;
     }
     .propertyTab {
-      //min-height: calc(100% + 80px);
-      //top: -80px;
+      max-width: 480px;
+    }
+
+    .propertyTab,
+    .supportCard {
+      min-height: 100vh;
+
       > div {
-        height: 100%;
+        min-height: 100%;
       }
     }
     .supportTab {
-      //top: -30px;
+      top: 78px;
     }
 
     .homeTab, .propertyTab {
@@ -145,7 +150,7 @@
     }
 
     .supportTab {
-      flex: 0 0 10% !important;
+      flex: 0 0 15% !important;
     }
 
     .supportCard {
