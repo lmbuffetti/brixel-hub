@@ -86,7 +86,7 @@ const InputSheet = (props) => {
               <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
                 {
                   initialValues.coverPhoto && initialValues.coverPhoto.path ? (
-                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${getConfigEnv.shortPath}${initialValues.coverPhoto.path}`} alt="Brixel Logo" id="avatar" />
+                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${getConfigEnv.shortPath}${initialValues.coverPhoto.thumbnailPath}`} alt="Brixel Logo" id="avatar" />
                   ) : (
                     <i
                       className="avatar w-fix-48 h-fix-48 brdRadius pos-r"
