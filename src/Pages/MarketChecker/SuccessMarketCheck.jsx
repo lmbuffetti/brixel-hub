@@ -22,7 +22,6 @@ function LocalMarketCheck(props) {
   const getParams = last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    console.log(gameGroup);
     if (gameGroup) {
       let selectedGame;
       gameGroup.map((game) => {

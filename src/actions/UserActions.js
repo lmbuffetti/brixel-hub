@@ -12,6 +12,8 @@ import {
   SET_BRIXEL_POINT,
   UPDATE_USER,
   VALIDATE_USER,
+  GET_USER_PROPERTIES,
+  SET_USER_PROPERTIES,
 } from './types/UserTypes';
 
 export const {
@@ -27,6 +29,8 @@ export const {
   setBrixelPoint,
   updateUser,
   validateUser,
+  getUserProperties,
+  setUserProperties,
 } = createActions({
   [CREATE_USER]: (payload) => payload,
   [CHECK_TOKEN]: (payload) => payload,
@@ -40,4 +44,6 @@ export const {
   [SET_BRIXEL_POINT]: (payload) => payload,
   [UPDATE_USER]: (payload) => payload,
   [VALIDATE_USER]: (payload) => payload,
+  [GET_USER_PROPERTIES]: (payload) => payload,
+  [SET_USER_PROPERTIES]: (payload) => payload,
 });

@@ -50,6 +50,21 @@ export const AssessorQuestions = (lang) => [
     ]
   },
   {
+    title: "What's the kind of facade?",
+    history: "facade",
+    cardType: "facade",
+    inputs: [
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: '',
+        name: 'properties.building.facade',
+        options: factsOptions.facade,
+        icons: true,
+      },
+    ]
+  },
+  {
     title: "What heating system do you have?",
     history: "heating",
     cardType: "heating",
@@ -61,6 +76,7 @@ export const AssessorQuestions = (lang) => [
         name: 'properties.building.energy.heating',
         options: factsOptions.heating,
         icons: true,
+        limit: 10,
       },
     ]
   },
@@ -68,6 +84,7 @@ export const AssessorQuestions = (lang) => [
     title: "What was your last renovation?",
     history: "yearRenovation",
     cardType: "yearRenovation",
+    toSave: true,
     inputs: [
       {
         component: BrixelInputText,
@@ -88,6 +105,7 @@ export const AssessorQuestions = (lang) => [
     component: ResumeAssessor,
   },
   {
+    hideDone: true,
     title: "Thank you Market Check",
     subtitle: "Sales strategy & price",
     history: "successAssessor",

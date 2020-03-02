@@ -10,7 +10,7 @@ import logo from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 const MenuSidebar = (props) => {
   // PROPS
   const {
-    history,
+    history, match, activeProperty,
     // preventExit, setUnsavedModal,
   } = props;
 
@@ -45,7 +45,7 @@ const MenuSidebar = (props) => {
                   //   });
                   //   return;
                   // }
-                  // history.push('/properties');
+                  history.push(`/${activeProperty.id}/property/properties`);
                 }}
               />
             </div>
@@ -83,6 +83,8 @@ const MenuSidebar = (props) => {
 
 MenuSidebar.propTypes = {
   history: PropTypes.object.isRequired,
+  activeProperty: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   preventExit: PropTypes.bool.isRequired,
   // setUnsavedModal: PropTypes.func.isRequired,
 };
@@ -93,6 +95,7 @@ MenuSidebar.defaultProps = {
 const mapStateToProps = (state) => ({
   isLoading: get(state, 'common.isLoading', 2),
   preventExit: get(state, 'common.preventExitFromScreen', false),
+  activeProperty: get(state, 'property.property', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

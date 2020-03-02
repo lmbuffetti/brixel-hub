@@ -8,14 +8,12 @@ import { bindActionCreators, compose } from 'redux';
 import { setModal } from '../../actions/CommonActions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { AssessorAvgLifespan } from '../../resources/Assessor';
-import { calculateAgeByYear, calcConditionAssessor, extractAssessorCondition } from '../../utils/helpers';
+import { calculateAgeByYear, extractAssessorCondition } from '../../utils/helpers';
 
 // COMPONENTS
 import last from 'lodash/last';
 import { addGameHistory } from '../../actions/GamificationActions';
 import { updateProperty } from '../../actions/PropertyActions';
-import SuccessAssessor from './SuccessAssessor';
 import { change } from 'redux-form';
 import ResumeAssessor from './ResumeAssessor';
 
@@ -72,18 +70,18 @@ const Assessor = (props) => {
       const age = calculateAgeByYear(yearBuilt);
       const valueConstruction = get(formValue, 'properties.building.constructionMaterials', null);
       const valueRoof = get(formValue, 'properties.building.roofType', null);
+      const valueFacade = get(formValue, 'properties.building.facade', null);
       const valueHeating = get(formValue, 'properties.building.energy.heating', null);
       dataProp.assessor = {
         date: new Date(),
-        construction: extractAssessorCondition(age, valueConstruction, valueRoof, valueHeating),
+        construction: extractAssessorCondition(age, valueConstruction, valueRoof, valueFacade, valueHeating),
       };
       if (yearRenovate) {
         const ageRenovation = calculateAgeByYear(yearRenovate);
-        dataProp.assessor.renovation = extractAssessorCondition(ageRenovation, valueConstruction, valueRoof, valueHeating);
+        dataProp.assessor.renovation = extractAssessorCondition(ageRenovation, valueConstruction, valueRoof, valueFacade, valueHeating);
         dataProp.properties.building.isPropertyRenovated = 1;
       }
-      if (finishedFlow) setStep(step + 2);
-      else setStep(step + 1);
+      setStep(step + 1);
       setToSave(false);
       // UPDATE PROPERTY
       handleUpdatePage(dataProp);
@@ -120,7 +118,15 @@ const Assessor = (props) => {
             },
           ]
         });
-      } else if (Questions[step] && (Questions[step + 1] && Questions[step + 1].inputs) || (Questions[step - 1] && Questions[step - 1].inputs) ) {
+      } else if (
+        Questions[step] &&
+        (
+          (Questions[step + 1] && Questions[step + 1].inputs) ||
+          (Questions[step - 1] && Questions[step - 1].inputs)
+        ) &&
+        (!Questions[step + 1].hideDone || (Questions[step + 1].hideDone && !finishedFlow)) &&
+        !Questions[step].toSave
+      ) {
         handleSetModal({
           state: false,
           multiActions: [{
