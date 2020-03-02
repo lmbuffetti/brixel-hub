@@ -110,7 +110,10 @@
     }
     > .container {
       padding: 20px;
-      z-index: 0;
+      z-index: inherit;
+      > :last-child {
+        z-index: 5;
+      }
     }
   }
 
