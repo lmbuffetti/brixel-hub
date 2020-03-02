@@ -13,8 +13,13 @@ class Gamification extends Base {
     return this.apiClient.get(url, { }, { });
   }
 
-  getGameHistory(limit, offset) {
-    const url = ep.gamification.gameHistoryList(limit, offset);
+  getGameHistory(limit, offset, userID) {
+    const url = ep.gamification.gameHistoryList(limit, offset, userID);
+    return this.apiClient.get(url, { }, { });
+  }
+
+  getGameHistoryByUser(userID) {
+    const url = ep.gamification.gameHistoryByUserId(userID);
     return this.apiClient.get(url, { }, { });
   }
 

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^1.2.4",
+    "@brixel/brixel-components": "^1.2.6",
     "@brixel/brixel-configuration-partner": "git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "d3": "^5.15.0",
     "deep-object-diff": "^1.1.0",
@@ -18,7 +18,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
-    "query-string": "^6.11.0",
+    "query-string": "^6.11.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-dropzone": "^10.2.1",

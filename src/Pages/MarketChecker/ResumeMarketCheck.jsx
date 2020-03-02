@@ -11,10 +11,10 @@ import { getProperty, getMarketCheck, updateProperty } from '../../actions/Prope
 import { sendGenericMail } from '../../actions/CommonActions';
 import Maps from '../../components/Map/Maps';
 import * as moment from 'moment';
-import ChartDonuts from '../../components/Charts/ChartDonuts';
 import RangePriceChart from '../../components/Charts/RangePriceChart';
+import { BrixelIcon } from '@brixel/brixel-components';
 
-function LocalMarketCheck(props) {
+function ResumeMarketCheck(props) {
   // PROPS
   const {
     formValue,
@@ -71,88 +71,96 @@ function LocalMarketCheck(props) {
 
   return (
     <main id="rewards" className="pb-4">
-      <div className="subcontainer">
-        <h1 className="mt-5 mb-2">Your local market check</h1>
-        <p className="mb-2">Your local Market check shows you properties on the market with the same type (house/apartment) within a radius of 15km and a related living space.</p>
+      <div className="bgWhite brdRadius">
+        <h5 className="ta-c">Voila!</h5>
+        <h5 className="ta-c mb-3">
+          {
+            marketData.priceDistribution && marketData.priceDistribution.numberOfProperties && (
+              <span className="txtGreen400 mr-1">{marketData.priceDistribution.numberOfProperties}</span>
+            )
+          }
+          similar apartments in your area are on sale.
+        </h5>
         {
           property && property.location && property.packageFlowProcess.rewardScreenData && marketData.priceDistribution && (
             <div>
-              <p className="mb-2">
-                Data as per: {moment(property.packageFlowProcess.rewardScreenData.market_check_date).format('DD-MM-YYYY')}
-              </p>
-              <div className="dis-f jc-b a-c">
-                <p className="mb-2">{property.location.address}</p>
+
+              <div>
+                <Maps
+                  zoom={12}
+                  scrollZoom={false}
+                  moveMarker
+                  draggable
+                  showMap
+                  isShowZip={false}
+                  similarProperties={marketData.list}
+                />
               </div>
-              <div className="row mb-4">
-                <div className="col-md-12">
-                  <Maps
-                    zoom={12}
-                    scrollZoom
-                    moveMarker
-                    draggable
-                    showMap
-                    isShowZip={false}
-                    similarProperties={marketData.list}
-                  />
-                </div>
-                <div className="col-md-12">
-                  <h5 className="mb-1">Similar Properties</h5>
-                  <p className="mb-1">{marketData.priceDistribution.numberOfProperties}</p>
-                  <h5 className="mb-1">Median Price</h5>
-                  {
-                    marketData.priceDistribution.medianRounded && (
-                      <p className="mb-1">CHF {marketData.priceDistribution.medianRounded.toLocaleString('de-CH')}</p>
-                    )
-                  }
-                  <h5 className="mb-1">Median Price per m2</h5>
-                  {
-                    marketData.pricePerSpace.medianRounded && (
-                      <p className="mb-1">CHF {marketData.pricePerSpace.medianRounded.toLocaleString('de-CH')}</p>
-                    )
-                  }
-                  <h5 className="mb-1">Median Living Sapce</h5>
-                  <p className="mb-1">{Math.ceil(marketData.livingSpacesDistribution.median)} m2</p>
-                  <h5 className="mb-1">Median Age</h5>
-                  <p className="mb-1">{Math.ceil(marketData.constructionYearDistribution.medianAge)} years</p>
-                  <h5 className="mb-1">Median Time on Market</h5>
-                  <p>{marketData.daysOnMarketDistribution.median} days</p>
-                </div>
+
+              <div className="dis-f jc-fs a-c mt-1">
+                <BrixelIcon icon='location-pin-simple' color="dark" saturationTxt={700} />
+                <p>{property.location.address}</p>
               </div>
-              <div className="mb-4">
-                {
-                  marketData && marketData.countBySubType && (
-                    <ChartDonuts properties={marketData.countBySubType} />
-                  )
-                }
-              </div>
-              <div className="row mb-4">
-                <div className="col-md-12">
+
+
+              <div className="row mt-5 px-2">
+                <div className="col-md-6">
                   {
                     marketData && marketData.priceDistribution && marketData.priceDistribution.chartRangePrice && (
                       <>
-                        <h5 className="mb-2">Offer Price</h5>
                         <RangePriceChart
                           properties={marketData.priceDistribution.chartRangePrice}
                           type="priceRange"
                         />
+                        <p className="mt-2 body2">The graph shows you the current distribution of the offer prices of all similar properties. The data are updated daily.</p>
                       </>
                     )
                   }
                 </div>
-                <div className="col-md-12">
+                <div className="col-md-6">
                   {
                     marketData && marketData.pricePerSpace && marketData.pricePerSpace.chartRangePrice && (
                       <>
-                        <h5 className="mb-2">Offer Price/m2</h5>
                         <RangePriceChart
                           properties={marketData.pricePerSpace.chartRangePrice}
                           type="priceM2"
                         />
+                        <p className="mt-2 body2">The graph shows you the current distribution of the square meter prices of all similar properties. The data are updated daily.</p>
                       </>
                     )
                   }
                 </div>
               </div>
+
+
+              <div className="boxMarketCheck mt-5">
+                {
+                  marketData && marketData.livingSpacesDistribution && (
+                    <div>
+                      <h6 className="mb-1 body2 fweight-600">Living Sapce</h6>
+                      <p className="mb-1"><span>{Math.ceil(marketData.livingSpacesDistribution.median)}</span> m2</p>
+                    </div>
+                  )
+                }
+                {
+                  marketData && marketData.constructionYearDistribution && (
+                    <div>
+                      <h6 className="mb-1 body2 fweight-600">Age</h6>
+                      <p className="mb-1"><span>{Math.ceil(marketData.constructionYearDistribution.medianAge)}</span> years</p>
+                    </div>
+                  )
+                }
+                {
+                  marketData && marketData.daysOnMarketDistribution && (
+                    <div>
+                      <h6 className="mb-1 body2 fweight-600">Time on Market</h6>
+                      <p><span>{marketData.daysOnMarketDistribution.median}</span> days</p>
+                    </div>
+                  )
+                }
+              </div>
+
+              <p className="mt-1">All numbers are median values</p>
             </div>
           )
         }
@@ -161,7 +169,7 @@ function LocalMarketCheck(props) {
   );
 }
 
-LocalMarketCheck.propTypes = {
+ResumeMarketCheck.propTypes = {
   formValue: PropTypes.object,
   handleGetMarketData: PropTypes.func.isRequired,
   handleGetPage: PropTypes.func.isRequired,
@@ -173,7 +181,7 @@ LocalMarketCheck.propTypes = {
   property: PropTypes.object,
 };
 
-LocalMarketCheck.defaultProps = {
+ResumeMarketCheck.defaultProps = {
   formValue: {},
   loggedUser: {},
   marketData: null,
@@ -196,4 +204,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(LocalMarketCheck);
+)(ResumeMarketCheck);

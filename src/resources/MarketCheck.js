@@ -4,45 +4,34 @@ import {
   FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
-import LocalMarketCheck from '../Pages/MarketChecker/LocalMarketCheck';
+import ResumeMarketCheck from '../Pages/MarketChecker/ResumeMarketCheck';
 import SuccessMarketCheck from '../Pages/MarketChecker/SuccessMarketCheck';
+import startMarketCheck from '../images/MarketCheck/startMarketCheck.svg';
 
 const { factsOptions } = FactsOptions;
 
 export const MarketCheckQuestions = (lang) => [
   // SECTION: PROPERTY TYPE
   {
-    title: "Sales strategy & price",
-    subtitle: "Sales strategy & price",
-    history: "salesStrategyPrice",
-    cardType: "salesStrategyPrice",
-    inputs: [
-      {
-        component: BrixelInputScale,
-        className: '',
-        label: 'In which condition is the property?',
-        name: 'properties.building.conditionCode',
-        options: factsOptions.quality,
-        validation: [Validation.markRequired]
-      },
-    ]
+    background: 'bgGreen100',
+    img: startMarketCheck,
+    title: "Check your local market.",
+    description: "Stop browsing all the portals. I show you all similar properties on sale. Instantly.",
+    history: "introFlow",
+    cardType: "text",
   },
   {
     title: "Market Check",
     subtitle: "Sales strategy & price",
     history: "localMarketCheck",
-    cardType: "localMarketCheck",
-    component: LocalMarketCheck,
+    cardType: "loadComponent",
+    component: ResumeMarketCheck,
   },
   {
-    condition: {
-      name: 'doneMarketCheck',
-      value: false,
-    },
     title: "Thank you Market Check",
     subtitle: "Sales strategy & price",
     history: "successLocalMarketCheck",
-    cardType: "successLocalMarketCheck",
+    cardType: "loadComponent",
     component: SuccessMarketCheck,
   }
 ];
