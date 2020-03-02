@@ -58,6 +58,7 @@ const MultiStepForm = (props) => {
                                     label={input.label}
                                     icons={input.icons}
                                     component={input.component}
+                                    limit={input.limit}
                                     fluid={true}
                                     options={input.options}
                                     validate={input.validation}

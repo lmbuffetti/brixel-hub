@@ -370,7 +370,6 @@ export const calculateAgeByYear = (year) => { // birthday is a date
 
 export const calcConditionAssessor = (age, group, name = null) => {
   let condition;
-  console.log(name, group, age, AssessorAvgLifespan[group][name] * 0.25, AssessorAvgLifespan[group][name] * 0.5, AssessorAvgLifespan[group][name] * 0.75);
   if (name) {
     if (age <= Math.round(AssessorAvgLifespan[group][name] * 0.25)) condition = 4;
     else if (age <= Math.round(AssessorAvgLifespan[group][name] * 0.5)) condition = 3;
@@ -385,10 +384,11 @@ export const calcConditionAssessor = (age, group, name = null) => {
   return condition;
 };
 
-export const extractAssessorCondition = (age, construction, roof, heating) => {
+export const extractAssessorCondition = (age, construction, roof, facade, heating) => {
   const assessor = {
     constructor: null,
     roof: null,
+    facade: null,
     heating: null,
     kitchen: calcConditionAssessor(age, 'kitchen') || null,
     wetCells: calcConditionAssessor(age, 'wetCells') || null,
@@ -404,11 +404,17 @@ export const extractAssessorCondition = (age, construction, roof, heating) => {
       [roof]: calcConditionAssessor(age, 'roof', roof) || null,
     };
   }
+  if (facade) {
+    assessor.facade = {
+      [facade]: calcConditionAssessor(age, 'facade', facade) || null,
+    };
+  }
   if (heating && heating.length > 0) {
     assessor.heating = {};
     heating.map((val) => {
       assessor.heating[val] = calcConditionAssessor(age, 'heating', val) || null;
+      return null;
     });
   }
   return assessor;
-}
+};
