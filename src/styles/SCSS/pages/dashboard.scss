@@ -165,7 +165,7 @@
           top: 29px;
         }
         .propertyTab {
-          max-width: 480px;
+          max-width: 500px;
           min-width: 340px;
           .property-info-container {
             background-color: map-get($lightColor, 100);
@@ -218,6 +218,27 @@ and (max-width : $responsive-large) {
         .propertyTab {
           padding-left: 0;
         }
+      }
+    }
+  }
+}
+ @media screen and(min-width: map-get($grid-breakpoints, xl)) {
+
+  #dashboard.container {
+    .brixel-tabs .panelTab {
+
+      .scrollTab {
+
+        .propertyTab {
+          flex: 0 0 40% !important;
+        }
+        .homeTab {
+          flex: 0 0 45% !important;
+        }
+        .supportTab {
+          flex: 0 0 15% !important;
+        }
+
       }
     }
   }
