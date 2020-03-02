@@ -34,11 +34,6 @@ const ProtectedRoute = Loadable({
   loading: Loading,
 });
 
-const ModalProtectedRoute = Loadable({
-  loader: () => import('./components/ModalProtectedRoute' /* webpackChunkName: "InputSheet" */),
-  loading: Loading,
-});
-
 const InsertToken = Loadable({
   loader: () => import('./Pages/InsertToken' /* webpackChunkName: "InsertToken" */),
   loading: Loading,
@@ -137,8 +132,12 @@ const App = (props) => {
   return (
     <main className="dis-fl-row jc-b">
       <Loading isLoading={isLoading} />
-      <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) ? 'no-sidebar' : ''}`}>
-        <PageHeader />
+      <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('achievement')) ? 'no-sidebar' : ''}`}>
+        {
+          !history.location.pathname.includes('achievement') && (
+            <PageHeader />
+          )
+        }
         <Switch>
           { /* INFO: <Route> for free access <ProtectedRoute> for restricted access */ }
           { /* SECTION: ONBOARDING */ }
@@ -153,6 +152,8 @@ const App = (props) => {
 
           { /* SECTION: HUB DASHBOARD */ }
           <ProtectedRoute path="/" exact component={Dashboard} />
+          <ProtectedRoute path="/:propId?/:act/achievement/market-checker" component={MarketChecker} />
+          <ProtectedRoute path="/:propId?/:act/achievement/assessor" component={Assessor} />
           <ProtectedRoute path="/:propId?/home" component={Dashboard} />
           <ProtectedRoute path="/:propId?/property" component={Dashboard} />
           <ProtectedRoute path="/:propId?/support" component={Dashboard} />
@@ -163,7 +164,7 @@ const App = (props) => {
 
       { /* SECTION: APP HEADER */ }
       {
-        (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) ?
+        (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')|| history.location.pathname.includes('achievement')) ?
           (
             ''
           ) :
@@ -234,32 +235,6 @@ const App = (props) => {
         </Switch>
       </div>
 
-      { /* SECTION: MODAL */ }
-      <div className="zIndex3">
-        <Switch>
-          {/* SECTION: MARKET CHECK FLOW */}
-          <ModalProtectedRoute
-            path="/:propId?/:act/achievement/market-checker"
-            closePath="../"
-            component={MarketChecker}
-            title=""
-          />
-          {/* SECTION: ASSESSOR FLOW */}
-          <ModalProtectedRoute
-            path="/:propId?/:act/achievement/assessor"
-            closePath="../"
-            component={Assessor}
-            title=""
-          />
-          {/* SECTION: BESTIMATE FLOW */}
-          <ModalProtectedRoute
-            path="/:propId?/:act/achievement/bestimate"
-            closePath="../"
-            component={Bestimate}
-            title=""
-          />
-        </Switch>
-      </div>
     </main>
   );
 };

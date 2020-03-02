@@ -1,206 +1,385 @@
+/* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import MultiStepReduxForm from '../../components/MultiStepReduxForm';
-import { MarketCheckQuestions } from '../../resources/MarketCheck';
-import get from 'lodash/get';
-import { bindActionCreators, compose } from 'redux';
-import { setModal } from '../../actions/CommonActions';
-import { withRouter } from 'react-router-dom';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 import { connect } from 'react-redux';
-
-// COMPONENTS
+import { bindActionCreators, compose } from 'redux';
+import PropTypes from 'prop-types';
+import get from 'lodash/get';
+import {
+  withRouter,
+} from 'react-router-dom'
+import { change, isValid, reduxForm } from 'redux-form';
+import {
+  BrixelButtonPrimary,
+  BrixelButtonSecondary,
+  BrixelButtonIcon,
+  BrixelIcon,
+  BrixelProgressBar,
+} from '@brixel/brixel-components';
+import { updateProperty, getProperty } from '../../actions/PropertyActions';
+import { MarketCheckQuestions } from '../../resources/MarketCheck';
+import MultiStepForm from '../../components/MultiStepReduxForm';
+import { translateTo } from '../../utils/translation';
 import last from 'lodash/last';
-import { addGameHistory } from '../../actions/GamificationActions';
-import SuccessMarketCheck from './SuccessMarketCheck';
-import { change } from 'redux-form';
+import { addGameHistory, getGameHistory } from '../../actions/GamificationActions';
+import PageHeaderAchievement from '../../components/PageHeaderAchievement';
 
-const MarketChecker = (props) => {
+function Assessor(props) {
   // PROPS
   const {
+    errorValue,
+    formValue,
     gameHistory,
+    handleGetProperty,
     handleAddGameHistory,
-    handleSetModal,
+    handleGetGameHistory,
     history,
-    initialValue,
+    lang,
     loggedUser,
+    match,
     property,
-    stubAchievement,
   } = props;
   // STATE
-  const [Questions, setQuestions] = useState([]);
-  const [QuestionsForm, setQuestionsForm] = useState([]);
-  const [doneMarketCheck, setDoneMarketCheck] = useState(true);
   const [finishedFlow, setFinishedFlow] = useState(false);
-  const [loaded, setLoaded] = useState(false);
-  const [step, setStep] = useState(0);
-  // GET STUB ACVHIEVEMNT
+  const [position, setPosition] = useState(0);
+  const [disableNextBtn, setDisableNextBtn] = useState(true);
+  const [hidePrevBtn, setHidePrevBtn] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [progressBar, setProgressBar] = useState(0);
+  const [Questions, setQuestions] = useState(MarketCheckQuestions(lang));
+  const [saved, setSaved] = useState(false);
+  // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
+  const propID = get(match, 'params.propId', null);
 
+  // CHECK IF THE ACHIEVEMENT IS DONE
   useEffect(() => {
-    setQuestions(MarketCheckQuestions('en'));
-    setQuestionsForm(MarketCheckQuestions('en').filter(quest => quest.inputs));
-  }, []);
-
-  useEffect(() => {
-    if (gameHistory && gameHistory.data) {
+    if (gameHistory && gameHistory.data && property.id) {
       const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === property.id);
+      console.log('check', checkGameExist, gameHistory, getAchievement());
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
-        setDoneMarketCheck(true);
+        if (!saved) {
+          setCurrentIndex(Questions.length - 1);
+          setPosition(Questions.length - 1);
+        }
       } else {
         setFinishedFlow(false);
-        setDoneMarketCheck(false);
       }
-      setLoaded(true);
     }
-  }, [gameHistory]);
+  }, [gameHistory, property]);
 
-  const saveAchievement = () => {
-    const data = {
-      id: loggedUser.user.id,
-      page: property.stub,
-      achievement: getAchievement(),
-    };
-    const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === property.id);
-    if (typeof checkGameExist === 'undefined') {
+  // GET DEFAULT PROPERTY
+  useEffect(() => {
+    handleGetProperty({id: propID});
+    handleGetGameHistory();
+  }, []);
+
+  // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
+  useEffect(() => {
+    let invalidField = false;
+    if (Questions[currentIndex] && Questions[currentIndex].inputs) {
+      Questions[currentIndex].inputs.map((inp) => {
+        const curVal = get(errorValue, inp.name, true);
+        if (curVal !== true) invalidField = true;
+        return null;
+      });
+    }
+    setDisableNextBtn(invalidField);
+  }, [errorValue, currentIndex]);
+
+  // Function to save the data
+  const saveData = (e) => {
+    // ADD THE ACHIEVEMENT
+    if (!finishedFlow) {
+      const data = {
+        id: loggedUser.user.id,
+        page: property.stub,
+        achievement: getAchievement(),
+      };
       handleAddGameHistory(data);
     }
-    setStep(step + 1);
   };
 
-  useEffect(() => {
-    if (Questions.length > 0) {
-      if (doneMarketCheck) {
-        handleSetModal({
-          state: false,
-          multiActions: [
-            {
-              bkg: 'red',
-              btnType: 'Primary',
-              className: 'mr-2',
-              name: 'No, Not Now',
-              func: () => history.push('../')
-            },
-            {
-              btnType: 'Primary',
-              name: 'Yes, update it',
-              func: () => setDoneMarketCheck(false),
-            },
-          ]
-        });
-      } else if (Questions[step] && Questions[step].inputs) {
-        handleSetModal({
-          state: false,
-          multiActions: [{
-            btnType: 'Primary',
-            name: 'Continue',
-            func: () => setStep(step + 1)
-          }]
-        });
-      } else if (Questions[step] && Questions[step + 1]) {
-        handleSetModal({
-          state: false,
-          multiActions: [{
-            btnType: 'Primary',
-            name: 'Finish',
-            func: () => finishedFlow ? history.push('../') : saveAchievement(),
-          }]
-        });
-      } else {
-        handleSetModal({
-          state: false,
-          multiActions: [{
-            btnType: 'Primary',
-            name: 'Got it',
-            func: () => history.push('../')
-          }]
-        });
-      }
+  // Function to move next/prev question
+  const changeStep = (act) => {
+    let newPosition = position;
+    if (act === 'back') {
+      setDisableNextBtn(false);
+      newPosition = position - 1;
     }
-  }, [step, Questions, doneMarketCheck]);
+    else {
+      if (disableNextBtn) return false;
+      setDisableNextBtn(true);
+      newPosition = position + 1;
+    }
+    if (Questions[newPosition] && Questions[newPosition].conditions) {
+      let checkCond = true;
+      Questions[newPosition].conditions.map((cond) => {
+        const val = get(formValue, cond.name, null);
+        if (val !== cond.value && checkCond) {
+          if (act === 'back') newPosition = newPosition - 1;
+          else newPosition = newPosition + 1;
+          checkCond = false;
+        }
+        return null;
+      })
+    }
+    if (Questions[newPosition] && Questions[newPosition].conditions) {
+      let checkCond = true;
+      Questions[newPosition].conditions.map((cond) => {
+        const val = get(formValue, cond.name, null);
+        if (val !== cond.value && checkCond) {
+          if (act === 'back') newPosition = newPosition - 1;
+          else newPosition = newPosition + 1;
+          checkCond = false;
+        }
+        return null;
+      });
+    }
+    setPosition(newPosition);
+    setCurrentIndex(newPosition);
+    if (newPosition > 0) setHidePrevBtn(false);
+    else setHidePrevBtn(true);
+    const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
+    setProgressBar(newPosition * 100 / questInputs.length);
+  };
 
-  if (!Questions[0] && !loaded) {
-    return (<div />)
+  const buttonLabel = () => {
+    let label;
+    let oneValueField = typeof Questions[currentIndex].inputs !== 'undefined';
+    if (Questions[currentIndex] && Questions[currentIndex].inputs) {
+      Questions[currentIndex].inputs.map((inp) => {
+        const curVal = get(formValue, inp.name, true);
+        if (curVal !== true) oneValueField = false;
+        return null;
+      });
+    }
+    if (currentIndex === 0) {
+      label = translateTo(lang, "Ok, show me");
+    } else if (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) {
+      label = oneValueField ? translateTo(lang, "Skip") : translateTo(lang, "Continue");
+    } else if (Questions[currentIndex + 1]) {
+      label = translateTo(lang, "Finish");
+    } else {
+      label = translateTo(lang, "Alright");
+    }
+    return label;
+  };
+
+  if ((gameHistory && !gameHistory.data) || !property.id) {
+    return (<div />);
   }
 
   return (
-    <div>
-      <h2>Market Checker {stubAchievement}</h2>
+    <main id="achievementSection">
       {
-        doneMarketCheck ? (
-          <SuccessMarketCheck finishStep />
-        ) : (
-          <>
-            {
-              Questions[step] && Questions[step].inputs ? (
-                <MultiStepReduxForm
-                  form="MarketCheck"
-                  questions={QuestionsForm}
-                  onChangeStep={(val) => setStep(val)}
-                  step={step}
-                  startValue={initialValue}
-                />
-              ) : (
-                <>
-                  {
-                    Questions[step] && Questions[step].component && (
-                      <div>
-                        {
-                          React.createElement(Questions[step].component, {formName: 'MarketCheck', initialValue: initialValue})
-                        }
-                      </div>
-                    )
-                  }
-                </>
-              )
-            }
-          </>
+        Questions[currentIndex].inputs && (
+          <BrixelProgressBar
+            saturation={400}
+            barBackground="Light"
+            backgroundSaturation={200}
+            progressValue={progressBar}
+          />
         )
       }
+      <PageHeaderAchievement
+        icon="location-pin-simple"
+        title="Market Checker"
+        subtitle="Compare to your local market"
+      />
+      <form
+        id="multiStepForm"
+        // onSubmit={(e) => {e.preventDefault(); changeStep()}}
+        autoComplete="off"
+      >
+        <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
+          {
+            Questions.map((quest, i) => (
+              <div
+                id={`step-${i}`}
+                className={`singleStep ${quest.background || ''}`}
+                key={i.toString()}
+                style={{
+                  visibility: i !== currentIndex ? 'hidden' : 'visible',
+                }}
+              >
+                <div className={`max-w-fix-744 m-a ${quest.className || ''}`}>
+                  {
+                    currentIndex === 0 && (
+                      <>
+                        <h5 className="ta-c mb-5">{quest.title}</h5>
+                        <div className="ta-c"><img src={quest.img} alt="Done Assessor" /></div>
+                        <p className="ta-c mt-5">{quest.description}</p>
+                      </>
+                    )
+                  }
+                  {
+                    quest.inputs && (
+                      <>
+                        <h5 className="mb-4 mb-md-10 fsize-md-800">{quest.title}</h5>
 
-    </div>
-  )
-};
+                        {
+                          quest.inputs.map((input, f) => (
+                            <div key={f.toString()}>
+                              <MultiStepForm
+                                disableNextBtn={disableNextBtn}
+                                formValue={formValue}
+                                onClick={() => changeStep()}
+                                input={input}
+                              />
+                            </div>
+                          ))
+                        }
+                      </>
+                    )
+                  }
+                  {
+                    quest.cardType === 'loadComponent' && quest.history === Questions[currentIndex].history && (
+                      React.createElement(quest.component, {formName: 'GamingFlow', finishedFlow, initialValue: formValue})
+                    )
+                  }
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <div
+          className={`footerAction p-1 p-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
+        >
+          <div className="container pos-r">
+            <div className="subcontainer">
+              {
+                !disableNextBtn &&
+                Questions[currentIndex] &&
+                Questions[currentIndex].inputs &&
+                Questions[currentIndex].successMessage && (
+                  <p className="txtGreen700 ta-r mb-2 textSuccess">
+                    {Questions[currentIndex].successMessage}
+                    <BrixelIcon icon="check" className="ml-1" />
+                  </p>
+                )
+              }
+              <div
+                className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
+                {
+                  Questions[currentIndex].inputs && (
+                    <BrixelButtonIcon
+                      className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
+                      icon="arrow-simple-left"
+                      onClick={() => changeStep('back')}
+                      background="white"
+                      saturation={0}
+                      color="primary"
+                      saturationTxt={400}
+                      noBorder
+                    />
+                  )
+                }
+                {
+                  Questions[currentIndex] && Questions[currentIndex + 1] && (
+                    <BrixelButtonPrimary
+                      rounded
+                      label={buttonLabel()}
+                      background={Questions[currentIndex].inputs ? "green" : "primary"}
+                      className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
+                      onClick={() => Questions[currentIndex + 1] && Questions[currentIndex].toSave ? saveData() : changeStep()}
+                      rightIcon="arrow-right-small"
+                      disabled={disableNextBtn}
+                    />
+                  )
+                }
+                {
+                  Questions[currentIndex] && !Questions[currentIndex + 1] && (
+                    <>
+                      <BrixelButtonSecondary
+                        rounded
+                        label="Not Now"
+                        background={"primary"}
+                        className="max-w-fix-280 w-perc-100 mr-1"
+                        onClick={() => history.push(`/${propID}/home`)}
+                        disabled={disableNextBtn}
+                      />
+                      <BrixelButtonPrimary
+                        rounded
+                        label="Yes, update"
+                        background={"primary"}
+                        className="max-w-fix-280 w-perc-100 ml-1"
+                        onClick={() => { setPosition(1); setCurrentIndex(1); setSaved(true) } }
+                        rightIcon="arrow-right-small"
+                        disabled={disableNextBtn}
+                      />
+                    </>
+                  )
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </main>
+  );
+}
 
-MarketChecker.propTypes = {
+Assessor.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
+  checkValid: PropTypes.func.isRequired,
+  company: PropTypes.object.isRequired,
+  errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
-  handleSetModal: PropTypes.func.isRequired,
+  handleGetGameHistory: PropTypes.func.isRequired,
+  handleUpdateProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  initialValue: PropTypes.object,
+  lang: PropTypes.string,
   loggedUser: PropTypes.object.isRequired,
-  stubAchievement: PropTypes.string,
+  pageState: PropTypes.object,
+  property: PropTypes.object.isRequired,
+  redirectTo: PropTypes.object,
 };
 
-MarketChecker.defaultProps = {
-  initialValue: {},
-  stubAchievement: null,
+Assessor.defaultProps = {
+  pageState: null,
+  redirectTo: null,
 };
 
 const mapStateToProps = (state, props) => ({
-  formValue: get(state, 'form.MarketCheck.values', {}),
+  company: get(state, 'companies.company', {}),
+  errorValue: get(state, 'form.GamingFlow.syncErrors', {}),
+  formValue: get(state, 'form.GamingFlow.values', {}),
   gameHistory: get(state, 'gamification.gameHistory', {}),
-  initialValue: {
-    properties: {
-      building: {
-        conditionCode: get(state, 'property.property.properties.building.conditionCode', null),
-      },
-    },
-  },
+  initialValue: get(state, 'form.GamingFlow.initial', {}),
   loggedUser: get(state, 'user.loggedUser', {}),
-  property: get(state, 'property.property', {}),
-  stubAchievement: get(props, 'match.params.stub-achievement', null),
+  redirectTo: get(state, 'common.redirectTo', {}),
+  lang: get(state, 'common.language', {}),
+  pageState: get(state, 'common.setPageData', null),
+  property: get(state, 'property.property', null),
+  initialValues: get(state, 'property.property', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
-    dispatch(change('MarketCheck', field, value));
+    dispatch(change('GamingFlow', field, value));
+  },
+  checkValid() {
+    dispatch(isValid('GamingFlow'))
   },
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
-  handleSetModal: bindActionCreators(setModal, dispatch),
+  handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
+  handleGetProperty: bindActionCreators(getProperty, dispatch),
+  handleUpdateProperty: bindActionCreators(updateProperty, dispatch),
 });
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(MarketChecker);
+const OnBoardingForm = reduxForm({
+  form: 'GamingFlow', // a unique identifier for this form
+  enableReinitialize: true,
+})(Assessor);
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(OnBoardingForm);

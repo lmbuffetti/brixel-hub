@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';
+import isNaN from 'lodash/isNaN';
 import { compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { BrixelShowQuality } from '@brixel/brixel-components';
+import { BrixelShowQuality, BrixelSelect } from '@brixel/brixel-components';
 
 function ResumeAssessor(props) {
   // PROPS
@@ -37,22 +38,21 @@ function ResumeAssessor(props) {
     let lessNumber = 4;
     Object.keys(el).map((key) => {
       if (el[key] < lessNumber) lessNumber = el[key];
-      return null;
     });
-    return lessNumber;
+    return lessNumber || 0;
   };
 
   return (
     <main id="rewards" className="pb-4">
-      <h4>Voila!</h4>
-      <h4>Here is your condition check.</h4>
+      <h5 className='ta-c'>Voila!</h5>
+      <h5 className='ta-c mb-5'>Here is your condition check.</h5>
       {
         condition && condition[selBaseRenovation] && (
           <>
             {
               condition[selBaseRenovation].constructor && (
-                <div className='dis-f jc-b'>
-                  <p>Construction Material</p>
+                <div className='dis-f jc-b mb-2'>
+                  <h6>Construction Material</h6>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].constructor[Object.keys(condition[selBaseRenovation].constructor)[0]]}
                   />
@@ -61,8 +61,8 @@ function ResumeAssessor(props) {
             }
             {
               condition[selBaseRenovation].roof && (
-                <div className='dis-f jc-b'>
-                  <p>Roof Type</p>
+                <div className='dis-f jc-b mb-2'>
+                  <h6>Roof Type</h6>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].roof[Object.keys(condition[selBaseRenovation].roof)[0]]}
                   />
@@ -71,8 +71,8 @@ function ResumeAssessor(props) {
             }
             {
               condition[selBaseRenovation].facade && (
-                <div className='dis-f jc-b'>
-                  <p>Facade</p>
+                <div className='dis-f jc-b mb-2'>
+                  <h6>Facade</h6>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].facade[Object.keys(condition[selBaseRenovation].facade)[0]]}
                   />
@@ -81,18 +81,18 @@ function ResumeAssessor(props) {
             }
             {
               condition[selBaseRenovation].heating && (
-                <div className='dis-f jc-b'>
-                  <p>Heating</p>
+                <div className='dis-f jc-b mb-2'>
+                  <h6>Heating</h6>
                   <BrixelShowQuality
-                    value={selOneElement(condition[selBaseRenovation].heating)}
+                    value={selOneElement(condition[selBaseRenovation].heating) || 0}
                   />
                 </div>
               )
             }
             {
               condition[selBaseRenovation].kitchen && (
-                <div className='dis-f jc-b'>
-                  <p>Kitchen</p>
+                <div className='dis-f jc-b mb-2'>
+                  <h6>Kitchen</h6>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].kitchen}
                   />
@@ -101,8 +101,8 @@ function ResumeAssessor(props) {
             }
             {
               condition[selBaseRenovation].wetCells && (
-                <div className='dis-f jc-b'>
-                  <p>Wet Cells</p>
+                <div className='dis-f jc-b mb-2'>
+                  <h6>Wet Cells</h6>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].wetCells}
                   />
@@ -112,13 +112,33 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].electricalSystems && (
                 <div className='dis-f jc-b'>
-                  <p>Electrical Systems</p>
+                  <h6>Electrical Systems</h6>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].electricalSystems}
                   />
                 </div>
               )
             }
+            <div className="dis-f jc-fe a-c mt-4">
+              <p className="mr-2">based on</p>
+              <BrixelSelect
+                options={[
+                  {
+                    value: 'construction',
+                    label: 'Construction year'
+                  },
+                  {
+                    value: 'renovation',
+                    label: 'Renovation year'
+                  }
+                ]}
+                input={{
+                  onChange: (val) => setSelRenovation(val),
+                  name: 'selBaseRenovation',
+                  value: selBaseRenovation,
+                }}
+              />
+            </div>
           </>
         )
       }

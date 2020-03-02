@@ -112,7 +112,7 @@ function RangePriceChart(props) {
       .attr('y', () => 0)
       .attr('height', () => height)
       .attr('width', () => 5)
-      .style('fill', () => '#A4A9AD')
+      .style('fill', () => '#FFFFFF')
       .style('fillOpacity', '0.2');
 
     chart.selectAll('.bar')
@@ -157,7 +157,7 @@ function RangePriceChart(props) {
           .attr('id', `tooltip${randomID}`)
           .attr('class', 'range-tip')
           .attr('style', `left: ${e ? xScale(e.priceRangeStart) : 0}px; ${transform}`)
-          .html(`<div>Properties: ${e ? e.numberOfProperties : 0}</div><p class="data-range">${cfg.label} ${e.rangePrice}</p><div class="tooltip-pointer" style="${transform}; left: ${left}"></div>`);
+          .html(`<div>Properties: ${e ? e.numberOfProperties : 0}</div><p class="data-range">${cfg.label} ${e.rangePrice}</p>`);
       })
       .on('mouseout', () => {
         const circle = d3.select(`#tooltip${randomID}`);
@@ -252,7 +252,7 @@ function RangePriceChart(props) {
                                 <span class="curr">${cfg.label} </span>
                                 <span class="num">${formatNum(properties[0].median, "'", ',')}</span>
                               </div>
-                              ${properties[getPosition] ? '<div class="tooltip-pointer"></div>' : ''}`;
+                              `;
           });
       }, 0);
     } else {

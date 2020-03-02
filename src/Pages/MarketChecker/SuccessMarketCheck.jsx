@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+import get from 'lodash/get';
+import last from 'lodash/last';
+import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { BrixelIcon } from '@brixel/brixel-components';
-import last from 'lodash/last';
-import get from 'lodash/get';
+import { getGamegroup } from '../../actions/GamificationActions';
+import doneMarketCheck from '../../images/MarketCheck/doneMarketCheck.svg';
+import newMarketCheck from '../../images/MarketCheck/newMarketCheck.svg';
 
-function LocalMarketCheck(props) {
+function SuccessMarketCheck(props) {
   // PROPS
   const {
-    finishStep,
+    finishedFlow,
     gameGroup,
+    handleGetGameGroup,
     history,
   } = props;
   // STATE
@@ -22,9 +25,14 @@ function LocalMarketCheck(props) {
   const getParams = last(history.location.pathname.split('/'));
 
   useEffect(() => {
+    handleGetGameGroup();
+  }, []);
+
+  useEffect(() => {
     if (gameGroup) {
       let selectedGame;
       gameGroup.map((game) => {
+        console.log(gameGroup);
         let curGame = game.achievements.find(item => item.stub === getParams);
         if (curGame) selectedGame = curGame;
       });
@@ -38,16 +46,17 @@ function LocalMarketCheck(props) {
         achievement && (
           <>
             {
-              finishStep ? (
+              finishedFlow ? (
                 <>
-                  <h6>You already got the Market Checker Award</h6>
-                  <BrixelIcon icon="cup-awards" />
-                  <p>We update these data every day for you. Do you want to update your local market check now?</p>
+                  <h5 className="ta-c mb-5">Looks like you can’t get enough data.</h5>
+                  <div className="ta-c"><img src={doneMarketCheck} alt="Done Assessor" /></div>
+                  <p className="ta-c mt-5">We update these data daily. Would you like to update it now?</p>
                 </>
               ) : (
                 <>
-                  <h6>Congrats. You earned teh Market Checker Award and another {achievement.points} Brixels.</h6>
-                  <BrixelIcon icon="cup-awards" />
+                  <h5 className="ta-c mb-5">Great, now you know what is out there.</h5>
+                  <div className="ta-c"><img src={newMarketCheck} alt="Nes Assessor" /></div>
+                  <p className="ta-c mt-5">Congrats. You earned the <span className="txtGreen400">Market Checker</span> Award and +{achievement.points} Brixels.</p>
                 </>
               )
             }
@@ -58,24 +67,26 @@ function LocalMarketCheck(props) {
   );
 }
 
-LocalMarketCheck.propTypes = {
-  finishStep: PropTypes.bool,
+SuccessMarketCheck.propTypes = {
+  finishedFlow: PropTypes.bool,
   gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
   history: PropTypes.object.isRequired,
+  handleGetGameGroup: PropTypes.func.isRequired,
 };
 
-LocalMarketCheck.defaultProps = {
-  finishStep: false,
+SuccessMarketCheck.defaultProps = {
+  finishedFlow: false,
 };
 
 const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = (dispatch) => ({
+  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
 });
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(LocalMarketCheck);
+)(SuccessMarketCheck);

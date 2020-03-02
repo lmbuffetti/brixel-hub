@@ -1,0 +1,77 @@
+#achievementSection {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  .brixel-radio-button-icon {
+    margin-bottom: 16px;
+    label .textLabel {
+      margin-left: 16px;
+      @media (min-width: $responsive-medium) {
+        font-size: 1.2rem;
+      }
+    }
+  }
+  &.withoutFooter {
+    height: calc(100vh - 56px);
+    .singleStep {
+      height: calc(100vh - 54px);
+    }
+  }
+  #progressBar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+  @media (min-width: $responsive-medium) {
+    .singleStep {
+      height: calc(100vh - 144px);
+    }
+    &.withoutFooter {
+      height: calc(100vh - 72px);
+      .singleStep {
+        height: calc(100vh - 72px);
+      }
+    }
+  }
+
+  .boxMarketCheck {
+    border-radius: $brd-radius-small;
+    border: 1px solid map_get($lightColor, 200);
+    display: flex;
+    width: min-content;
+    max-width: 100%;
+    padding: $step * 2;
+    > div {
+      border-right: 1px solid map_get($lightColor, 200);
+      padding-right: $step * 2;
+      margin-right: $step * 2;
+      h6, p {
+        white-space: nowrap;
+      }
+      p {
+        @include fontStyle(200);
+        color: map_get($darkColor, 200);
+        span {
+          text-align: end;
+          vertical-align: baseline;
+          justify-content: flex-end;
+          font-family: $font-family-secondary;
+          @include fontStyle(700);
+          color: map_get($greenColor, 400);
+        }
+      }
+      &:last-child {
+        border: none;
+        padding-right: 0;
+        margin-right: 0;
+      }
+    }
+  }
+
+  .footerAction {
+    span {
+      white-space: nowrap;
+    }
+  }
+
+}

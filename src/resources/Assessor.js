@@ -7,17 +7,21 @@ import {
   Validation,
 } from '@brixel/brixel-components';
 import ResumeAssessor from '../Pages/Assessor/ResumeAssessor';
-import SuccessMarketCheck from '../Pages/Assessor/SuccessAssessor';
+import SuccessAssessor from '../Pages/Assessor/SuccessAssessor';
+import becomeAssessor from '../images/Assessor/becomeAssessor.svg';
+import { translateTo } from '../utils/translation';
 
 const { factsOptions } = FactsOptions;
 
 export const AssessorQuestions = (lang) => [
   // SECTION: PROPERTY TYPE
   {
-    title: "Sales strategy & price",
-    description: "As an assessor, you know about condition of the most important parts of your property",
-    history: "introAssessor",
-    cardType: "introAssessor",
+    background: 'bgGreen100',
+    img: becomeAssessor,
+    title: "Assess your property with a condition check",
+    description: "As an assessor, you know about the condition of the most important parts of your property.",
+    history: "introFlow",
+    cardType: "text",
   },
   {
     title: "What's the basic construction material?",
@@ -89,28 +93,30 @@ export const AssessorQuestions = (lang) => [
       {
         component: BrixelInputText,
         className: '',
-        label: 'Insert the year of your last big renovation or leave it empty',
+        hint: 'Insert the year of your last big renovation or leave it empty',
         type: "number",
         name: 'properties.building.renovated',
         validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear],
-        placeholder: "YYYY (ex.: 2020)",
+        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-md-232',
+        placeholder: translateTo(lang, 'e.g. 1990'),
+        minLenghtNum: 999,
+        maxLenghtNum: 9999,
       },
     ]
   },
   {
     title: "Result Page",
     subtitle: "Sales strategy & price",
-    history: "resumeAssessor",
-    cardType: "resumeAssessor",
+    history: "resumeFlow",
+    cardType: "loadComponent",
     component: ResumeAssessor,
   },
   {
-    hideDone: true,
     title: "Thank you Market Check",
     subtitle: "Sales strategy & price",
-    history: "successAssessor",
-    cardType: "successAssessor",
-    component: SuccessMarketCheck,
+    history: "successAchievement",
+    cardType: "loadComponent",
+    component: SuccessAssessor,
   }
 ];
 

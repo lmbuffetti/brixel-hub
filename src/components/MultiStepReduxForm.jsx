@@ -1,139 +1,93 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { Field } from 'redux-form';
 import get from 'lodash/get';
+import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import { getBrowserPlatform } from '@brixel/brixel-components/dist/utils/helper';
 
 const MultiStepForm = (props) => {
   // PROPS
   const {
+    disableNextBtn,
     errorValue,
-    form,
-    formStep,
     formValue,
-    questions,
-    step,
+    input,
+    onClick,
   } = props;
 
-  const checkCondition = (val) => {
-    let isToShow = true;
-    if (val && val.condition) {
-      const formCurVal = get(formValue, val.condition.name, null);
-      if (val.condition.value === 'isPositive') isToShow = formCurVal > 0;
-      else if (val.condition.value !== formCurVal) isToShow = false;
-    }
-    return isToShow;
-  };
+  const hideOnDesk = getBrowserPlatform().indexOf('desk') !== -1 ? 'hide-desktop' : 'dis-b-mobile';
 
   return (
-    <form name={form} className="ov-h">
-      <div className="slideMultiStepFormModal" style={{ transform: `translate(-${formStep * 100}%, 0)` }}>
+    <div>
+      <div className="dis-f a-c jc-b">
+        <div
+          className={`${input.classNameBox || ''} dis-f-col a-c jc-b w-perc-100`}
+          tabIndex="-1"
+        >
+          <Field
+            className="w-perc-100"
+            inputClassName={input.className || ''}
+            name={input.name}
+            label={input.label}
+            icons={input.icons}
+            component={input.component}
+            limit={input.limit}
+            fluid={true}
+            options={input.options}
+            validate={input.validation}
+            type={input.type}
+            step={+input.step}
+            min={input.min}
+            deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
+            placeholder={input.placeholder || ''}
+            meta={{
+              dirty: get(formValue, input.name, false) && get(errorValue, input.name, true) !== true,
+              invalid: true,
+            }}
+            message={{
+              help: null,
+              error: get(errorValue, input.name, true) !== true,
+            }}
+            minLenghtNum={input.minLenghtNum || null}
+            maxLengthNum={input.maxLenghtNum || null}
+          />
+          {
+            input.unit && (
+              <span className="pl-2">{input.unit}</span>
+            )
+          }
+        </div>
         {
-          questions.map((quest, i) => (
-            <div
-              key={i.toString()}
-              className="singleStepModal"
-            >
-              <div>
-                <h3>{quest.title}</h3>
-                <div key={i.toString()} className="dis-f">
-                  {
-                    quest.inputs.map((input, f) => (
-                      <div key={f.toString()}>
-                        {
-                          checkCondition(input) && (
-                            <div key={f.toString()}>
-                              <div className="dis-f a-c jc-b">
-                                <div
-                                  className={`${input.classNameBox || ''} dis-f-col a-c jc-b w-perc-100`}
-                                  tabIndex="-1"
-                                >
-                                  {input.deactivable ? input.deactivable.toString() : ''}
-                                  <Field
-                                    className="w-perc-100"
-                                    inputClassName={input.className || ''}
-                                    name={input.name}
-                                    label={input.label}
-                                    icons={input.icons}
-                                    component={input.component}
-                                    limit={input.limit}
-                                    fluid={true}
-                                    options={input.options}
-                                    validate={input.validation}
-                                    type={input.type}
-                                    step={+input.step}
-                                    min={input.min}
-                                    deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
-                                    placeholder={input.placeholder || ''}
-                                    meta={{
-                                      dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                      invalid: true,
-                                    }}
-                                    message={{
-                                      help: null,
-                                      error: errorValue[input.name],
-                                    }}
-                                    minLenghtNum={input.minLenghtNum || null}
-                                    maxLengthNum={input.maxLenghtNum || null}
-                                  />
-                                  {
-                                    input.unit && (
-                                      <span className="pl-2">{input.unit}</span>
-                                    )
-                                  }
-                                </div>
-                              </div>
-                              <p className="body2">{input.help}</p>
-                            </div>
-                          )
-                        }
-                      </div>
-                    ))
-                  }
-                </div>
-              </div>
-            </div>
-          ))
+          (input.type === 'number' || input.type === 'text') && (
+            <BrixelButtonPrimary
+              rounded
+              label="Ok"
+              className={`ml-2 ${hideOnDesk}`}
+              background="green"
+              onClick={() => onClick()}
+              disabled={disableNextBtn}
+              type="submit"
+            />
+          )
         }
       </div>
-    </form>
+      <p className="body2">{input.help}</p>
+    </div>
   )
 };
 
 MultiStepForm.propTypes = {
-  errorValue: PropTypes.object.isRequired,
+  disableNextBtn: PropTypes.bool,
   formValue: PropTypes.object.isRequired,
-  formStep: PropTypes.number,
-  onChangeStep: PropTypes.func,
-  questions: PropTypes.arrayOf(PropTypes.object),
-  step: PropTypes.number,
+  errorValue: PropTypes.object,
+  input: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 MultiStepForm.defaultProps = {
-  formStep: 0,
-  onChangeStep: () => '',
-  step: 0,
+  disableNextBtn: false,
+  errorValue: {},
 };
 
-const mapStateToProps = (state, props) => {
-  return ({
-    formValue: get(state, `formValues[${props.form}].values`, {}),
-    errorValue: get(state, `formValues[${props.form}].syncErrors`, {}),
-    form: props.form,
-    initialValues: {
-      ...get(props, 'startValue', {})
-    },
-  });
-};
-
-const mapDispatchToProps = () => ({
-});
-
-const MultiStepFormRedux = reduxForm({
-  destroyOnUnmount: false, // a unique identifier for this form
-  enableReinitialize: true,
-})(MultiStepForm);
-
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(MultiStepFormRedux);
+export default withRouter(MultiStepForm);
