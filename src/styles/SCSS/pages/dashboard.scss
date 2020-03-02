@@ -7,6 +7,12 @@
 
 #dashboard {
 
+  .brixel-tabs {
+    .activeBar {
+      height: 3px;
+    }
+  }
+
   .nav-tabs {
     position: fixed;
     left: 0;
@@ -17,10 +23,16 @@
     border-radius: 8px 8px 0 0;
     box-shadow: 0 2px 4px 0 rgba(40,41,61,.04), 0 8px 16px 0 rgba(96,97,112,.16);
     overflow: hidden;
+
     &.tabsList {
-      li.active {
-        background: map_get($primaryColor, 100);
-        color: map_get($primaryColor, 400);
+
+      li {
+        padding-top: 8px;
+        padding-bottom: 8px;
+        &.active {
+          background: map-get($primaryColor, 100);
+          color: map-get($primaryColor, 400);
+        }
       }
     }
   }
@@ -81,7 +93,7 @@
         }
         .labelSubtitle {
           font-size: 12px;
-          color: map_get($darkColor, 200);
+          color: map-get($darkColor, 200);
         }
       }
       .rightAction {
@@ -94,14 +106,11 @@
 
 }
 
-// customized desktop css
+// IPAD PRO AND DESKTOP VERSION
 
 @media (min-width: $responsive-medium) {
-  #dashboard {
-    padding: 0;
-  }
 
-  header {
+  .topHeader {
     position: absolute;
     width: 100%;
 
@@ -111,57 +120,107 @@
     > .container {
       padding: 20px;
       z-index: inherit;
+
       > :last-child {
         z-index: 5;
       }
     }
   }
 
-  .brixel-tabs .panelTab {
-
-    overflow: hidden;
+  #dashboard.container {
     padding: 0;
+    display: flex;
 
-    .scrollTab {
+    .brixel-tabs .panelTab {
 
-      justify-content: space-between;
+      overflow: hidden;
+      padding: 0;
 
-      .homeTab,
-      .propertyTab,
-      .supportTab {
-        position: relative;
-      }
-      .propertyTab,
-      .supportCard {
-        min-height: 100vh;
-        > div {
-          min-height: 100%;
+      .scrollTab {
+
+        justify-content: space-between;
+
+        .homeTab,
+        .propertyTab,
+        .supportTab {
+          position: relative;
         }
-      }
-
-      .homeTab,
-      .propertyTab {
-        flex: 0 0 42% !important;
-      }
-      .supportTab {
-        flex: 0 0 16% !important;
-        top: 78px;
-
+        .propertyTab,
         .supportCard {
-          border-radius: $step 0 0 0;
-          background: map_get($lightColor, 100);
-        }
-      }
+          min-height: 100vh;
 
-      .homeTab {
-        top: 29px;
-      }
-      .propertyTab {
-        max-width: 480px;
-        .property-info-container {
-          background-color: map-get($lightColor, 100);
+          > div {
+            min-height: 100%;
+          }
+        }
+
+        .homeTab,
+        .propertyTab {
+          flex: 0 0 42% !important;
+        }
+        .supportTab {
+          flex: 0 0 16% !important;
+          top: 78px;
+        }
+        .homeTab {
+          top: 29px;
+        }
+
+        @media only screen
+        and (min-device-width : $responsive-medium)
+        and (max-device-width : $responsive-large) {
+
+          .propertyTab {
+            flex: 0 0 30% !important;
+            padding: 0 !important;
+          }
+          .homeTab {
+            flex: 0 0 38% !important;
+            padding: 0;
+            padding-left: 8px;
+          }
+          .supportTab {
+            flex: 0 0 18% !important;
+            padding-left: 0;
+          }
+        }
+
+        .propertyTab {
+          max-width: 480px;
+          min-width: 340px;
+
+          .property-info-container {
+            background-color: map-get($lightColor, 100);
+          }
         }
       }
+    }
+  }
+}
+
+
+// FULL WIDTH LARGE SCREEN
+
+ // FULL WIDTH LARGE SCREEN
+ @media screen and(min-width: map-get($grid-breakpoints, xl)) {
+  .topHeader {
+    > .container {
+      max-width: 100%;
+    }
+  }
+
+  #dashboard.container {
+    max-width: 100%;
+
+    .propertyTab {
+      flex: 0 0 30% !important;
+      max-width: 600px !important;
+    }
+    .homeTab {
+      flex: 0 0 45% !important;
+    }
+    .supportTab {
+      flex: 0 0 10% !important;
     }
   }
 }

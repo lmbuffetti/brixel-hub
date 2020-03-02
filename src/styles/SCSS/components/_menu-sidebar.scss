@@ -3,6 +3,8 @@
     left: 0;
     top: 0;
     background-color: white;
+    width: 4vw;
+    min-width: 50px;
 
     .admin-info {
       // border-bottom: 1px solid map_get($lightColor, 400);
@@ -32,7 +34,7 @@
           left: 0;
           width: 2px;
           height: 48px;
-          background-color: map-get($primaryColor, 400);          
+          background-color: map-get($primaryColor, 400);
         }
 
         i {
@@ -43,7 +45,7 @@
 
     .logout {
       align-self: center;
-    }    
+    }
   }
 
   @media screen and(min-width: map-get($grid-breakpoints, lg)) {

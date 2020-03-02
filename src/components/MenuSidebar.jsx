@@ -17,10 +17,10 @@ const MenuSidebar = (props) => {
   return (
     <>
       <header
-        className="dis-fl-col a-c jc-fs h-perc-100 w-perc-100 shadow-2dp"
+        className="sideHeader dis-fl-col a-c jc-fs h-perc-100"
       >
         <div
-          className="admin-info w-perc-100 dis-fl-col a-c mb-6 p-3"
+          className="admin-info w-perc-100 dis-fl-col a-c mb-6 py-3"
         >
           <img className="pos-r w-fix-32" src={logo} alt="Brixel Logo" id="logo" />
         </div>

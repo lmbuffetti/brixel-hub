@@ -73,7 +73,7 @@ const HomeDashboard = (props) => {
   return (
     <div className="">
 
-      <div className="hide-md my-3">
+      <div className="hide-md mb-3">
         <span className="heading5">Home of</span>
         {
           property.properties.typology && (
