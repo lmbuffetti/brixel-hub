@@ -131,7 +131,7 @@
 // IPAD PRO AND DESKTOP VERSION
 @media (min-width: $responsive-medium) {
 
-  .topHeader {
+  .dashboardHeader {
     position: absolute;
     width: 100%;
 
@@ -223,7 +223,7 @@ and (max-width : $responsive-large) {
 
  // DESKTOP SCREEN
  @media screen and(max-width: map-get($grid-breakpoints, xl)) {
-  .topHeader {
+  .dashboardHeader {
     > .container {
       max-width: 100%;
     }
