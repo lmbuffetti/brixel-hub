@@ -93,7 +93,7 @@ function PageHeader(props) {
 
   return (
     <>
-      <header className="topHeader shadow-1dp">
+      <header className={`${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'topHeader'} shadow-1dp`}>
         <div className={`container dis-f a-c p-1 p-md-2 jc-b pos-r zIndex4 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
           <img className={`logo dis-b w-fix-40 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`} src={logoNorm} alt="Brixel Logo" id="header-logo" />
           <div className="dis-f a-c">

@@ -81,11 +81,6 @@ const Assessor = Loadable({
   loading: Loading,
 });
 
-const Bestimate = Loadable({
-  loader: () => import('./Pages/Bestimate' /* webpackChunkName: "BestimateFlow" */),
-  loading: Loading,
-});
-
 const cookies = new Cookies();
 
 const App = (props) => {
