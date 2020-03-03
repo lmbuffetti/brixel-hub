@@ -14,9 +14,10 @@ function TokenInput(props) {
   const [token, setToken] = useState('');
   const { handleCheckToken } = props;
 
-  const tokenInput = () => {
+  const tokenInput = (e) => {
+    e.preventDefault();
     setCookie('brixelToken', token);
-    handleCheckToken();
+    handleCheckToken(token);
   };
 
   return (
@@ -39,7 +40,7 @@ function TokenInput(props) {
             <BrixelButtonPrimary
               className="mt-2 m-a"
               label="Submit Token"
-              onClick={() => tokenInput()}
+              onClick={(e) => tokenInput(e)}
             />
           </div>
         </div>
