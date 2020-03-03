@@ -43,6 +43,7 @@ const HomeDashboard = (props) => {
         userType = 'buyer';
       }
       filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userType) !== -1);
+      console.log(filtUsrGroup);
       setUserType(userType);
       if (property.owner.id === loggedUser.user.id && filtUsrGroup && filtUsrGroup[0].achievements[0].stub !== 'homebase') {
         const data = {
@@ -56,7 +57,7 @@ const HomeDashboard = (props) => {
     if (gameHistory.data) {
       gameHistory.data.map((game) => {
         filtUsrGroup.map((group, f) => {
-          const idGroup = group.achievements.findIndex(val => val.stub === game.achievement.stub);
+          const idGroup = group.achievements.findIndex(val => val.stub === game.achievement.stub && property.id === game.page);
           if (idGroup >= 0) filtUsrGroup[f].achievements[idGroup].done = true;
           return null;
         });

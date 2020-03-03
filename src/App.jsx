@@ -81,6 +81,11 @@ const Assessor = Loadable({
   loading: Loading,
 });
 
+const Bestimate = Loadable({
+  loader: () => import('./Pages/Bestimate' /* webpackChunkName: "AssessorFlor" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -144,6 +149,7 @@ const App = (props) => {
           <ProtectedRoute path="/" exact component={Dashboard} />
           <ProtectedRoute path="/:propId?/:act/achievement/market-checker" component={MarketChecker} />
           <ProtectedRoute path="/:propId?/:act/achievement/assessor" component={Assessor} />
+          <ProtectedRoute path="/:propId?/:act/achievement/bestimate" component={Bestimate} />
           <ProtectedRoute path="/:propId?/home" component={Dashboard} />
           <ProtectedRoute path="/:propId?/property" component={Dashboard} />
           <ProtectedRoute path="/:propId?/support" component={Dashboard} />
@@ -176,7 +182,7 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        (notification.small || notification.label) && (
+        notification && (notification.small || notification.label) && (
           <>
             {
               notification.small ? (

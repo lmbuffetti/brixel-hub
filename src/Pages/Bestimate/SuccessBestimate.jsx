@@ -3,17 +3,20 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { BrixelIcon } from '@brixel/brixel-components';
+import { getGamegroup } from '../../actions/GamificationActions';
+import doneBestimate from '../../images/Bestimate/doneBestimate.svg';
+import newBestimate from '../../images/Bestimate/newBestimate.svg';
 
 function SuccessBestimate(props) {
   // PROPS
   const {
-    finishStep,
+    finishedFlow,
     gameGroup,
+    handleGetGameGroup,
     history,
   } = props;
   // STATE
@@ -22,9 +25,14 @@ function SuccessBestimate(props) {
   const getParams = last(history.location.pathname.split('/'));
 
   useEffect(() => {
+    handleGetGameGroup();
+  }, []);
+
+  useEffect(() => {
     if (gameGroup) {
       let selectedGame;
       gameGroup.map((game) => {
+        console.log(gameGroup);
         let curGame = game.achievements.find(item => item.stub === getParams);
         if (curGame) selectedGame = curGame;
       });
@@ -38,18 +46,17 @@ function SuccessBestimate(props) {
         achievement && (
           <>
             {
-              finishStep ? (
+              finishedFlow ? (
                 <>
-                  <h6>You already got the Bestimate®</h6>
-                  <BrixelIcon icon="cup-awards" />
-                  <p>We update your Bestimate® every quarter. Would you like to update it now?</p>
+                  <h5 className="ta-c mb-5">You are already an Assessor</h5>
+                  <div className="ta-c"><img src={doneBestimate} alt="Done Assessor" /></div>
+                  <p className="ta-c mt-5">Would you like to do the condition check again?</p>
                 </>
               ) : (
                 <>
-                  <h5>We proudly present you your Bestimate®.</h5>
-                  <h6>Congrats. You earned the Bestimate Award and another {achievement.points} Brixels.</h6>
-                  <BrixelIcon icon="cup-awards" />
-                  <p>The Bestimate® is your free price indication. It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.</p>
+                  <h5 className="ta-c mb-5">Well done. You are now an Assessor.</h5>
+                  <div className="ta-c"><img src={newBestimate} alt="Nes Assessor" /></div>
+                  <p className="ta-c mt-5">Congrats. You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                 </>
               )
             }
@@ -61,20 +68,22 @@ function SuccessBestimate(props) {
 }
 
 SuccessBestimate.propTypes = {
-  finishStep: PropTypes.bool,
+  finishedFlow: PropTypes.bool,
   gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
   history: PropTypes.object.isRequired,
+  handleGetGameGroup: PropTypes.func.isRequired,
 };
 
 SuccessBestimate.defaultProps = {
-  finishStep: false,
+  finishedFlow: false,
 };
 
 const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = (dispatch) => ({
+  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
 });
 
 export default compose(

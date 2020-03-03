@@ -8,7 +8,7 @@ import { formatNum } from '../../utils/helpers';
 
 function RangePriceChart(props) {
   const {
-    properties, type, bestimate, title, subtitle,
+    properties, type, bestimate, title, showTopLabel, subtitle,
   } = props;
   const cfg = {
     barTransitionDuration: 800,
@@ -255,7 +255,7 @@ function RangePriceChart(props) {
                               `;
           });
       }, 0);
-    } else {
+    } else if (showTopLabel) {
       setTimeout(() => {
         d3.select(`#${randomID}`)
           .append('p')
@@ -304,7 +304,7 @@ function RangePriceChart(props) {
           />
         )
       }
-      <div className="rangeGraph" style={{ marginTop: type === 'bestimate' ? '-32px' : '0', position: 'relative', left: '-13px' }}>
+      <div className="rangeGraph" style={{ marginTop: '0', position: 'relative', left: '-13px' }}>
         {drawChart()}
       </div>
     </div>
@@ -312,17 +312,19 @@ function RangePriceChart(props) {
 }
 
 RangePriceChart.propTypes = {
-  properties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  type: PropTypes.string.isRequired,
   bestimate: PropTypes.object,
-  title: PropTypes.string,
+  properties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  showTopLabel: PropTypes.bool,
   subtitle: PropTypes.bool,
+  title: PropTypes.string,
+  type: PropTypes.string.isRequired,
 };
 
 RangePriceChart.defaultProps = {
   bestimate: null,
-  title: null,
+  showTopLabel: true,
   subtitle: false,
+  title: null,
 };
 
 export default RangePriceChart;

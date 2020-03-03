@@ -109,7 +109,7 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SPINNER_OFF });
           store.dispatch({ type: SET_ESTIMATION, payload: res.data });
           if (typeof res.data.statusCode === 'undefined') {
-            window.location.href = `/packageFlow/${action.payload}/rewards`;
+            // window.location.href = `/packageFlow/${action.payload}/rewards`;
           }
         })
         .catch(() => {
@@ -219,6 +219,7 @@ const checkCommon = (store) => (next) => (action) => {
           .catch((res) => {
             store.dispatch({ type: SPINNER_OFF });
           });
+        console.log(marketData);
         store.dispatch({ type: SET_MARKET_CHECK, payload: marketData });
         store.dispatch({ type: SPINNER_OFF });
       };

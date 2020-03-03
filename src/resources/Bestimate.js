@@ -5,13 +5,16 @@ import {
   FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
+import ResumeBestimate from '../Pages/Bestimate/ResumeBestimate';
 import SuccessBestimate from '../Pages/Bestimate/SuccessBestimate';
+import startBestimate from '../images/Bestimate/startBestimate.svg';
 
 const { factsOptions } = FactsOptions;
 
 export const BestimateQuestions = (lang) => [
   {
     title: "Get a free price indication",
+    img: startBestimate,
     description: "Compare your property to real transaction data to better define the pricing.",
     history: "introBestimate",
     cardType: "introBestimate",
@@ -23,7 +26,7 @@ export const BestimateQuestions = (lang) => [
     inputs: [
       {
         component: BrixelInputStepNumber,
-        className: '',
+        classNameBox: 'max-w-fix-md-232',
         label: '',
         name: 'properties.typology.bathrooms',
         step: 1,
@@ -35,6 +38,7 @@ export const BestimateQuestions = (lang) => [
     title: "Which extra features do you have?",
     history: "extraFeatures",
     cardType: "extraFeatures",
+    toSave: true,
     inputs: [
       {
         component: BrixelExtraFeature,
@@ -47,14 +51,17 @@ export const BestimateQuestions = (lang) => [
     ]
   },
   {
-    condition: {
-      name: 'doneBestimate',
-      value: false,
-    },
-    title: "Thank you Bestimate",
-    subtitle: "Bestimate",
-    history: "successBestimate",
-    cardType: "successBestimate",
+    title: "Result Page",
+    subtitle: "Sales strategy & price",
+    history: "resumeFlow",
+    cardType: "loadComponent",
+    component: ResumeBestimate,
+  },
+  {
+    title: "Thank you Market Check",
+    subtitle: "Sales strategy & price",
+    history: "successAchievement",
+    cardType: "loadComponent",
     component: SuccessBestimate,
-  }
+  },
 ];

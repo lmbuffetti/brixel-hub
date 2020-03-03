@@ -175,7 +175,7 @@ function Rewards(props) {
                       <>
                         <h5 className="mb-2">Your Bestimate®</h5>
                         <RangePriceChart
-                          properties={marketData.priceDistribution.chartRangePrice}
+                          properties={marketData.priceDistribution.c}
                           type="bestimate"
                           bestimate={property.estimation.bestimate}
                         />
