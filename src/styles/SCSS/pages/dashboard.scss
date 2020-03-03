@@ -109,10 +109,13 @@
 }
 
 // IPAD PRO AND DESKTOP VERSION
+@media (max-width: $responsive-medium) {
+}
 
+
+// IPAD PRO AND DESKTOP VERSION
 @media (min-width: $responsive-medium) {
-
-  .topHeader {
+  .dashboardHeader {
     position: absolute;
     width: 100%;
 
