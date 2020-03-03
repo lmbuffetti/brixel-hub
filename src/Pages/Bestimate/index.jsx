@@ -232,7 +232,7 @@ function Bestimate(props) {
             Questions.map((quest, i) => (
               <div
                 id={`step-${i}`}
-                className={`singleStep ${quest.background || ''}`}
+                className={`singleStep ${quest.background || ''} ${quest.className || ''}`}
                 key={i.toString()}
                 style={{
                   visibility: i !== currentIndex ? 'hidden' : 'visible',

@@ -3,8 +3,11 @@
   width: 100vw;
   overflow: hidden;
 
-  .subcontainer {
-    max-width: 480px;
+  .singleStep {
+    padding: $step * 5 $step * 2;
+    .subcontainer {
+      max-width: 480px;
+    }
   }
 
   .brixel-checkbox-icon,

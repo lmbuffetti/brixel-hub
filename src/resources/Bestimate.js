@@ -36,6 +36,7 @@ export const BestimateQuestions = (lang) => [
   },
   {
     title: "Which extra features do you have?",
+    className: "vertCentered",
     history: "extraFeatures",
     cardType: "extraFeatures",
     toSave: true,
@@ -52,6 +53,7 @@ export const BestimateQuestions = (lang) => [
   },
   {
     title: "Result Page",
+    className: "vertCentered",
     subtitle: "Sales strategy & price",
     history: "resumeFlow",
     cardType: "loadComponent",
@@ -59,6 +61,7 @@ export const BestimateQuestions = (lang) => [
   },
   {
     title: "Thank you Market Check",
+    className: "vertCentered",
     subtitle: "Sales strategy & price",
     history: "successAchievement",
     cardType: "loadComponent",
