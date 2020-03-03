@@ -99,6 +99,7 @@
         }
         .labelSubtitle {
           font-size: 12px;
+          line-height: $step * 2;
           color: map-get($darkColor, 200);
         }
       }
