@@ -59,7 +59,6 @@ function Assessor(props) {
   useEffect(() => {
     if (gameHistory && gameHistory.data && property.id) {
       const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === property.id);
-      console.log('check', checkGameExist, gameHistory, getAchievement());
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
         if (!saved) {
@@ -94,7 +93,6 @@ function Assessor(props) {
   // Function to save the data
   const saveData = (e) => {
     // ADD THE ACHIEVEMENT
-    console.log('eh', finishedFlow)
     if (!finishedFlow) {
       const data = {
         id: loggedUser.user.id,
@@ -102,6 +100,8 @@ function Assessor(props) {
         achievement: getAchievement(),
       };
       handleAddGameHistory(data);
+      // eslint-disable-next-line no-use-before-define
+      changeStep();
     }
   };
 

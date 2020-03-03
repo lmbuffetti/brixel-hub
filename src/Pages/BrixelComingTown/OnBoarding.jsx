@@ -167,10 +167,10 @@ function OnBoarding(props) {
 
   // Function to Create the pageTitle
   useEffect(() => {
-    if (formValue && formValue.location && !formValue.pageTitle) {
+    if (formValue && formValue.location) {
       changePageTitle();
     }
-  }, [formValue]);
+  }, [formValue.location, formValue.propertyType, formValue.bedrooms]);
 
   // Function to save the data
   const saveData = (e) => {

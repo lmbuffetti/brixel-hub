@@ -2,9 +2,10 @@ import React, { useEffect, useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import last from 'lodash/last';
+import { diff } from 'deep-object-diff';
+import last from 'lodash/';
 import { bindActionCreators, compose } from 'redux';
-import { getEstimation, getMarketCheck } from '../../actions/PropertyActions';
+import { getEstimation, getMarketCheck, updateProperty } from '../../actions/PropertyActions';
 import {
   withRouter,
 } from 'react-router-dom';
@@ -16,9 +17,11 @@ function ResumeBestimate(props) {
   // PROPS
   const {
     condition,
+    estimation,
     gameGroup,
     handleGetEstimation,
     handleGetMarketData,
+    handleUpdateProperty,
     history,
     marketData,
     match,
@@ -26,7 +29,7 @@ function ResumeBestimate(props) {
   } = props;
   // STATE
   const [achievement, setAchievement] = useState(null);
-  const [selBaseRenovation, setSelRenovation] = useState('renovation');
+  const [saved, setSaved] = useState(false);
   // URL PARAMS
   const getParams = last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
@@ -49,12 +52,28 @@ function ResumeBestimate(props) {
         stateCode: 'CH',
       };
       handleGetMarketData(data);
-      handleGetEstimation(propID)
+      handleGetEstimation(propID);
     }
   }, [property]);
 
   useEffect(() => {
-  }, []);
+    if (estimation.value) {
+      const data = {
+        id: propID,
+        estimation: {
+          bestimate: {
+            ...estimation,
+          }
+        }
+      };
+      if (property && property.estimation && property.estimation.bestimate) data.estimation.bestimate.updatedAt = new Date();
+      else data.estimation.bestimate.createdAt = new Date();
+      if (estimation && !saved) {
+        handleUpdateProperty(data);
+        setSaved(true);
+      }
+    }
+  }, [estimation]);
 
   useEffect(() => {
     if (gameGroup) {
@@ -103,11 +122,6 @@ function ResumeBestimate(props) {
           </div>
         )
       }
-      {
-        condition.higherValue && (
-          <h6 className="mt-2 ff-mono txtPrimary700 fweight-600 ta-c">CHF {condition.lowerValue.toLocaleString('de-CH')} - CHF {condition.higherValue.toLocaleString('de-CH')}</h6>
-        )
-      }
 
       <p className="fsize-100 mt-5">The Bestimate® is your free price indication. It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.</p>
 
@@ -117,10 +131,12 @@ function ResumeBestimate(props) {
 
 ResumeBestimate.propTypes = {
   condition: PropTypes.object,
+  estimation: PropTypes.object.isRequired,
   finishStep: PropTypes.bool,
   gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetMarketData: PropTypes.func.isRequired,
+  handleUpdateProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -136,11 +152,13 @@ const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
   marketData: get(state, 'property.marketCheck', {}),
   property: get(state, 'property.property', {}),
+  estimation: get(state, 'property.estimation', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetMarketData: bindActionCreators(getMarketCheck, dispatch),
+  handleUpdateProperty: bindActionCreators(updateProperty, dispatch),
 });
 
 export default compose(

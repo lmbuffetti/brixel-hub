@@ -43,9 +43,12 @@ const HomeDashboard = (props) => {
         userType = 'buyer';
       }
       filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userType) !== -1);
-      console.log(filtUsrGroup);
       setUserType(userType);
-      if (property.owner.id === loggedUser.user.id && filtUsrGroup && filtUsrGroup[0].achievements[0].stub !== 'homebase') {
+    }
+    if (gameHistory.data) {
+      // CHECK IF DONE HOMEBASE
+      const getHomeBase = gameHistory.data.findIndex(val => val.achievement.stub === 'homebase' && property.id === val.page);
+      if (getHomeBase === -1) {
         const data = {
           id: loggedUser.user.id,
           page: property.stub,
@@ -53,8 +56,6 @@ const HomeDashboard = (props) => {
         };
         handleAddGameHistory(data);
       }
-    }
-    if (gameHistory.data) {
       gameHistory.data.map((game) => {
         filtUsrGroup.map((group, f) => {
           const idGroup = group.achievements.findIndex(val => val.stub === game.achievement.stub && property.id === game.page);
@@ -66,6 +67,21 @@ const HomeDashboard = (props) => {
     }
     setUsrGroups([...filtUsrGroup]);
   }, [property, gameGroup, gameHistory]);
+
+  useState(() => {
+    if (gameHistory.data && property.id) {
+      // CHECK IF DONE HOMEBASE
+      const getHomeBase = gameHistory.data.findIndex(val => val.achievement.stub === 'homebase' && property.id === val.page);
+      if (getHomeBase === -1) {
+        const data = {
+          id: loggedUser.user.id,
+          page: property.stub,
+          achievement: 'homebase',
+        };
+        handleAddGameHistory(data);
+      }
+    }
+  }, [property, gameHistory]);
 
   if (!property.id && !userType) {
     return <Loading />

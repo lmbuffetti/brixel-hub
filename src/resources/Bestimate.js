@@ -30,7 +30,7 @@ export const BestimateQuestions = (lang) => [
         label: '',
         name: 'properties.typology.bathrooms',
         step: 1,
-        validation: [Validation.maxLengthNumRooms, Validation.markRequired]
+        validation: [Validation.maxLengthNumRooms]
       },
     ]
   },
@@ -46,7 +46,6 @@ export const BestimateQuestions = (lang) => [
         label: 'Extra features',
         name: 'properties.extraFeatures',
         options: factsOptions.BrixelExtraFeature,
-        validation: [Validation.markRequired],
       },
     ]
   },

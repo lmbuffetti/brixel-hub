@@ -68,8 +68,8 @@ function Bestimate(props) {
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
         if (!saved) {
-          setCurrentIndex(Questions.length - 1);
-          setPosition(Questions.length - 1);
+          setCurrentIndex(Questions.length - 2);
+          setPosition(Questions.length - 2);
         }
       } else {
         setFinishedFlow(false);
@@ -122,7 +122,6 @@ function Bestimate(props) {
     changeStep();
     // UPDATE PROPERTY
     handleUpdateProperty(dataProp);
-    console.log(loggedUser.user.id);
     setSaved(true);
     // ADD THE ACHIEVEMENT
     if (!finishedFlow) {
