@@ -1,5 +1,5 @@
 #onBoarding {
-  height: calc(100vh - 88px);
+  height: calc(100vh - 144px);
   width: 100vw;
   overflow: hidden;
   .brixel-radio-button-icon {
@@ -10,6 +10,11 @@
         font-size: 1.2rem;
       }
     }
+  }
+  #progressBar {
+    position: fixed;
+    top: 0;
+    left: 0;
   }
   &.withoutFooter {
     height: calc(100vh - 56px);
@@ -45,7 +50,8 @@
   overflow-y: auto;
   overflow-x: hidden;
 
-    &[class*="bg"] {
+    &[class*="bg"],
+    &.vertCentered {
       align-items: center;
       justify-content: center;
       display: flex;

@@ -51,9 +51,10 @@ function ResumeMarketCheck(props) {
     if (marketData && marketData.priceDistribution && !saved) {
       const data = {
         id: match.params.propId,
-        packageFlowProcess: property.packageFlowProcess,
+        packageFlowProcess: property.packageFlowProcess || {},
         properties: property.properties,
       };
+      console.log(data.packageFlowProcess);
       data.properties.building.conditionCode = get(formValue, 'properties.building.conditionCode', null);
       data.packageFlowProcess.rewardScreenData = {
         market_check_date: moment().format(),
@@ -82,7 +83,7 @@ function ResumeMarketCheck(props) {
           similar apartments in your area are on sale.
         </h5>
         {
-          property && property.location && property.packageFlowProcess.rewardScreenData && marketData.priceDistribution && (
+          property && property.location && property.packageFlowProcess && property.packageFlowProcess.rewardScreenData && marketData.priceDistribution && (
             <div>
 
               <div>

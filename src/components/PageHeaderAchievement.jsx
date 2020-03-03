@@ -27,10 +27,11 @@ function PageHeaderAchievement(props) {
             saturation={500}
             color="white"
             saturationTxt={0}
+            padding="p-small-9"
           />
-          <div className="ml-2">
+          <div className="ml-2 dis-fl-col as-fe">
             <h6 className="mb-1-neg">{title}</h6>
-            <p className="body2 txtDark200">{subtitle}</p>
+            <span className="fSizePx12 pt-small-4 txtDark200">{subtitle}</span>
           </div>
         </div>
         <BrixelButtonIcon

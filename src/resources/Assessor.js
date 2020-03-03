@@ -25,6 +25,7 @@ export const AssessorQuestions = (lang) => [
   },
   {
     title: "What's the basic construction material?",
+    className: "vertCentered",
     history: "constructionMaterials",
     cardType: "constructionMaterials",
     inputs: [
@@ -41,6 +42,7 @@ export const AssessorQuestions = (lang) => [
   {
     title: "What type of roof",
     history: "roofType",
+    className: "vertCentered",
     cardType: "roofType",
     inputs: [
       {
@@ -56,6 +58,7 @@ export const AssessorQuestions = (lang) => [
   {
     title: "What's the kind of facade?",
     history: "facade",
+    className: "vertCentered",
     cardType: "facade",
     inputs: [
       {
@@ -71,6 +74,7 @@ export const AssessorQuestions = (lang) => [
   {
     title: "What heating system do you have?",
     history: "heating",
+    className: "vertCentered",
     cardType: "heating",
     inputs: [
       {
@@ -107,6 +111,7 @@ export const AssessorQuestions = (lang) => [
   {
     title: "Result Page",
     subtitle: "Sales strategy & price",
+    className: "vertCentered",
     history: "resumeFlow",
     cardType: "loadComponent",
     component: ResumeAssessor,
@@ -114,6 +119,7 @@ export const AssessorQuestions = (lang) => [
   {
     title: "Thank you Market Check",
     subtitle: "Sales strategy & price",
+    className: "vertCentered",
     history: "successAchievement",
     cardType: "loadComponent",
     component: SuccessAssessor,

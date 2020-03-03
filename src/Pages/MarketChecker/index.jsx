@@ -94,6 +94,7 @@ function Assessor(props) {
   // Function to save the data
   const saveData = (e) => {
     // ADD THE ACHIEVEMENT
+    console.log('eh', finishedFlow)
     if (!finishedFlow) {
       const data = {
         id: loggedUser.user.id,

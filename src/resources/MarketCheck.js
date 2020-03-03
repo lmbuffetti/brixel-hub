@@ -13,6 +13,7 @@ const { factsOptions } = FactsOptions;
 export const MarketCheckQuestions = (lang) => [
   // SECTION: PROPERTY TYPE
   {
+    toSave: true,
     background: 'bgGreen100',
     img: startMarketCheck,
     title: "Check your local market.",
