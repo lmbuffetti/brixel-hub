@@ -63,7 +63,7 @@ const Documents = (props) => {
     reader.onload = () => {
       const data = {
         name,
-        user: user.id,
+        user: user.user.id,
         isBrochure: false,
         file: reader.result,
         pageID: formValue.id,
