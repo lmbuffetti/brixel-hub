@@ -89,7 +89,7 @@ const BrixelRadioCard = (props) => {
                   disabled={disabled}
                 />
                 <label
-                  className={`${disabled ? 'disabled' : ''}`}
+                  className={`${disabled ? 'disabled' : ''} py-2`}
                   htmlFor={`${input.name}_${i}`}
                 >
                   <img src={opt.img} alt={opt.label} />
