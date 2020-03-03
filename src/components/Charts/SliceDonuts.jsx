@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React  from 'react';
 import * as d3 from 'd3';
 import PathDonuts from './PathDonuts';
 import { colorCharts } from '../../utils/constants';
@@ -6,7 +6,7 @@ import { colorCharts } from '../../utils/constants';
 function SliceDonuts(props) {
   const { pie, hovered, isHover } = props;
 
-  const interpolate = d3.interpolateRgb('#eaaf79', '#bc3358');
+  // const interpolate = d3.interpolateRgb('#eaaf79', '#bc3358');
   const interpolateInner = d3.interpolateRgb('#eaaf79', '#bc3358');
 
   return pie.map((slice, index) => {

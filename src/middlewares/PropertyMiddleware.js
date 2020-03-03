@@ -1,5 +1,4 @@
 /* eslint-disable no-case-declarations */
-import { change } from 'redux-form';
 import {
   ADD_PROPERTY,
   GET_ESTIMATION,
@@ -14,20 +13,22 @@ import {
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
-import { UPDATE_USER } from '../actions/types/UserTypes';
-import { SPINNER_ON, SPINNER_OFF, REDIRECT_TO } from '../actions/types/CommonTypes';
+import { SPINNER_ON, SPINNER_OFF, SPINNER_SMALL_ON, SPINNER_SMALL_OFF, REDIRECT_TO } from '../actions/types/CommonTypes';
 import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
     case ADD_PROPERTY:
       next(action);
-      store.dispatch({ type: SPINNER_ON });
-      const { getEstimation, token, redirectToUserFlow, redirectToRewards } = action.payload;
+      const { getEstimation, token, redirectToUserFlow, redirectToRewards, redirectToHome, smallLoader } = action.payload;
       delete action.payload.getEstimation;
       delete action.payload.token;
       delete action.payload.redirectToUserFlow;
       delete action.payload.redirectToRewards;
+      delete action.payload.redirectToHome;
+      delete action.payload.smallLoader;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
       api.property.addProperty(action.payload, token)
         .then((res) => {
           store.dispatch({ type: SET_PROPERTY, payload: res.data });
@@ -35,27 +36,34 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
           } else if (redirectToRewards) {
             window.location.href = `/packageFlow/${action.payload}/rewards`;
+          } else if (redirectToHome) {
+            window.location.href = `/${res.data.id}/home`;
           }
           if (redirectToUserFlow) {
             window.location.href = '/onBoarding/brixelComingInTown';
           } else {
-            store.dispatch({ type: SPINNER_OFF });
+            if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+            else store.dispatch({ type: SPINNER_OFF });
           }
 
         })
-        .catch((res) => {
-          store.dispatch({ type: SPINNER_OFF });
+        .catch(() => {
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
         });
       break;
     case UPDATE_PROPERTY: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
-      const { id, redirectTo } = action.payload;
+      const { id, redirectTo, smallLoader } = action.payload;
       delete action.payload.id;
       delete action.payload.redirectTo;
+      delete action.payload.smallLoader;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
       api.property.updateProperty(id, action.payload)
         .then((res) => {
-          store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
           store.dispatch({ type: SET_PROPERTY, payload: res.data });
           if (redirectTo) {
             store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
@@ -71,19 +79,25 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SET_PROPERTY, payload: res.data });
           store.dispatch({ type: SPINNER_OFF });
         })
-        .catch((res) => {
+        .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
     case GET_PROPERTIES:
       next(action);
       store.dispatch({ type: SPINNER_ON });
+      const { setAsSingle } = action.payload;
+      delete action.payload.setAsSingle;
       api.property.getProperties(action.payload.limit, action.payload.offset)
         .then((res) => {
-          store.dispatch({ type: SET_PROPERTIES, payload: res.data });
+          if (setAsSingle) {
+            store.dispatch({ type: SET_PROPERTY, payload: res.data[0] });
+          } else {
+            store.dispatch({ type: SET_PROPERTIES, payload: res.data });
+          }
           store.dispatch({ type: SPINNER_OFF });
         })
-        .catch((res) => {
+        .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
@@ -95,10 +109,10 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SPINNER_OFF });
           store.dispatch({ type: SET_ESTIMATION, payload: res.data });
           if (typeof res.data.statusCode === 'undefined') {
-            window.location.href = `/packageFlow/${action.payload}/rewards`;
+            // window.location.href = `/packageFlow/${action.payload}/rewards`;
           }
         })
-        .catch((res) => {
+        .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
@@ -205,6 +219,7 @@ const checkCommon = (store) => (next) => (action) => {
           .catch((res) => {
             store.dispatch({ type: SPINNER_OFF });
           });
+        console.log(marketData);
         store.dispatch({ type: SET_MARKET_CHECK, payload: marketData });
         store.dispatch({ type: SPINNER_OFF });
       };

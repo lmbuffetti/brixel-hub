@@ -2,9 +2,7 @@ import {
   SPINNER_ON,
   SPINNER_OFF,
   SEND_GENERIC_MAIL,
-  SET_LANGUAGE,
 } from '../actions/types/CommonTypes';
-import { configLang } from '../constants/global';
 
 import api from '../controllers/api/config';
 
@@ -19,7 +17,7 @@ const checkCommon = (store) => (next) => (action) => {
         })
         .catch((res) => {
           // console.log(res.data);
-        })
+        });
       break;
     }
     default:

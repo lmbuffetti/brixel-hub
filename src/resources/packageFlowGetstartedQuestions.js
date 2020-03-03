@@ -1,16 +1,19 @@
 import { BrixelRadioButton, Validation } from '@brixel/brixel-components';
 import { translateTo } from '../utils/translation';
+import brixelComingTown from '../images/BrxielComingTown/secondAwards.svg';
 
 export const PackageFlow = (lang) => [
   {
     conditions: [{
-      name: 'owner',
-      value: null,
+      name: 'signup',
+      value: true,
     }],
-    signupTitle: translateTo(lang, "Create your profile to save your progress."),
-    loginTitle: translateTo(lang, "Login to your profile to save your progress."),
-    history: "createProfile",
-    cardType: 'createProfile',
+    title: translateTo(lang, 'Welcome to the home of your home.'),
+    subtitle: translateTo(lang, 'You earned the <span class=txtGreen400>"Newcomer"</span> Award and +100 Brixels.'),
+    history: "rewardsStep",
+    cardType: 'RewardsStep',
+    background: 'bgBlue100',
+    img: brixelComingTown,
   },
   {
     title: translateTo(lang,"What do you need the market check for?"),

@@ -12,10 +12,21 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 "../components/rangePriceChart",
 "../components/map",
 "../components/radioButtonCard",
-"../components/avatar";
+"../components/avatar",
+"../components/multi_stepform_modal",
+"../components/drawer",
+"../components/timeline_achievement",
+"../components/options-menu",
+"../components/documents",
+"../components/menu-sidebar";
 // PAGES
 @import "../pages/getStarted",
+"../pages/achievement",
+"../pages/dashboard",
+"../pages/facts",
 "../pages/onBoarding";
+
+$sidebarWidth: 84px;
 
 html, body {
   position: relative;
@@ -24,6 +35,32 @@ html, body {
 
 body {
   background: $brx-white;
+
+  main {
+    width: 100%;
+
+    .content {
+      width: 100%;
+      left: unset;
+
+      .mobile-menu {
+
+        a:hover {
+          color: map-get($lightColor, 100);
+        }
+      }
+
+      @media (min-width: $responsive-medium) {
+       /*  width: calc(100% - #{$sidebarWidth});
+        left: $sidebarWidth; */
+      }
+
+      &.no-sidebar {
+        width: 100%;
+        left: unset;
+      }
+    }
+  }
 }
 
 a {
@@ -150,4 +187,8 @@ header {
 
 .show-ios-android {
   display: block !important;
+}
+
+[class^="icon-"].small, [class*=" icon-"].small {
+  display: block;
 }

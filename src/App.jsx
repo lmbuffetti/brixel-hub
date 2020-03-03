@@ -1,7 +1,8 @@
 /* global ga */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import {
-  Redirect, Switch, Route, withRouter,
+  Switch, Route, withRouter,
 } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import get from 'lodash/get';
@@ -13,44 +14,21 @@ import Cookies from 'universal-cookie';
 import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
-import queryString from 'query-string';
-import { BrixelIcon, BrixelNotification } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
 import PageHeader from './components/PageHeader';
 import ReactGA from 'react-ga';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { setModal } from './actions/CommonActions';
 
 ReactGA.initialize(baseByData.googleAnalyticsIdHub);
 
-const Dashboard = Loadable({
-  loader: () => import('./Pages/Dashboard' /* webpackChunkName: "Dashboard" */),
-  loading: Loading,
-});
-
+// GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
   loader: () => import('./Pages/PackageFlow/GetStarted' /* webpackChunkName: "GetStarted" */),
   loading: Loading,
 });
 
-const Rewards = Loadable({
-  loader: () => import('./Pages/PackageFlow/Rewards' /* webpackChunkName: "PackageFlow-Rewards" */),
-  loading: Loading,
-});
-
-const Advisory = Loadable({
-  loader: () => import('./Pages/PackageFlow/Advisory' /* webpackChunkName: "PackageFlow-Advisory" */),
-  loading: Loading,
-});
-
-const ThankYou = Loadable({
-  loader: () => import('./Pages/PackageFlow/ThankYou' /* webpackChunkName: "PackageFlow-ThankYou" */),
-  loading: Loading,
-});
-
-const GoToPro = Loadable({
-  loader: () => import('./Pages/Estimations/GoToPro' /* webpackChunkName: "Estimation-GoToPro" */),
-  loading: Loading,
-});
-
+// ADMIN ROUTES
 const ProtectedRoute = Loadable({
   loader: () => import('./components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
   loading: Loading,
@@ -61,6 +39,7 @@ const InsertToken = Loadable({
   loading: Loading,
 });
 
+// ONBOARDING FLOW
 const OnBoarding = Loadable({
   loader: () => import('./Pages/BrixelComingTown/OnBoarding' /* webpackChunkName: "OnBoarding" */),
   loading: Loading,
@@ -71,15 +50,52 @@ const UserFlow = Loadable({
   loading: Loading,
 });
 
+// HUB DASHBOARD
+const Dashboard = Loadable({
+  loader: () => import('./Pages/Dashboard/Dashboard' /* webpackChunkName: "Dashboard" */),
+  loading: Loading,
+});
+
+const EditProperty = Loadable({
+  loader: () => import('./Pages/EditProperty' /* webpackChunkName: "InputSheet" */),
+  loading: Loading,
+});
+
+const Documents = Loadable({
+  loader: () => import('./components/Documents' /* webpackChunkName: "Documents" */),
+  loading: Loading,
+});
+
+const Properties = Loadable({
+  loader: () => import('./components/Properties' /* webpackChunkName: "Properties" */),
+  loading: Loading,
+});
+
+const MarketChecker = Loadable({
+  loader: () => import('./Pages/MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
+  loading: Loading,
+});
+
+const Assessor = Loadable({
+  loader: () => import('./Pages/Assessor' /* webpackChunkName: "AssessorFlor" */),
+  loading: Loading,
+});
+
+const Bestimate = Loadable({
+  loader: () => import('./Pages/Bestimate' /* webpackChunkName: "AssessorFlor" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
   const {
     history,
     handleCheckToken,
-    handleSetLanguages,
+    handleSetModal,
     isLoading,
     loggedUser,
+    modal,
     notification,
     redirectTo,
   } = props;
@@ -108,31 +124,65 @@ const App = (props) => {
     )
   }
 
-  const fireTracking = () => {
-    ReactGA.pageview(window.location.hash);
-  };
-
   return (
-    <>
+    <main className="dis-fl-row jc-b">
       <Loading isLoading={isLoading} />
-      <PageHeader />
-      <Switch>
-        { /* SECTION: FREE ROOUTE */ }
-        <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
-        <Route path="/onBoarding/" component={OnBoarding} />
-        <Route path="/tokeninput" component={InsertToken} />
-        <Route path="/packageFlow/getstarted/" component={GetStarted} />
-        <ProtectedRoute path="/packageFlow/:propId/rewards" component={Rewards} />
-        <ProtectedRoute path="/packageFlow/:propId/advisory" component={Advisory} />
-        <ProtectedRoute path="/packageFlow/:propId/thankyou" component={ThankYou} />
-        <ProtectedRoute path="/estimation/:propId/questions/" component={GoToPro} />
-        { /* SECTION: PROTECED ROUTE WITH REDIRECT TO LOGIN */ }
-        {/*<ProtectedRoute path="/" exact component={Dashboard} />*/}
-        { /* SECTION: REDIRECT */ }
-        <Redirect from="*" to="/onBoarding" />
-      </Switch>
+      <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('achievement')) ? 'no-sidebar' : ''}`}>
+        {
+          !history.location.pathname.includes('achievement') && (
+            <PageHeader />
+          )
+        }
+        <Switch>
+          { /* INFO: <Route> for free access <ProtectedRoute> for restricted access */ }
+          { /* SECTION: ONBOARDING */ }
+          <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
+          <Route path="/onBoarding/" component={OnBoarding} />
+
+          { /* SECTION: INSERT TOKEN */ }
+          <Route path="/tokeninput" component={InsertToken} />
+
+          { /* SECTION: GET STARTED*/ }
+          <Route path="/packageFlow/getstarted/" component={GetStarted} />
+
+          { /* SECTION: HUB DASHBOARD */ }
+          <ProtectedRoute path="/" exact component={Dashboard} />
+          <ProtectedRoute path="/:propId?/:act/achievement/market-checker" component={MarketChecker} />
+          <ProtectedRoute path="/:propId?/:act/achievement/assessor" component={Assessor} />
+          <ProtectedRoute path="/:propId?/:act/achievement/bestimate" component={Bestimate} />
+          <ProtectedRoute path="/:propId?/home" component={Dashboard} />
+          <ProtectedRoute path="/:propId?/property" component={Dashboard} />
+          <ProtectedRoute path="/:propId?/support" component={Dashboard} />
+          { /* SECTION: REDIRECT */ }
+
+        </Switch>
+      </div>
+
+      { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
       {
-        notification && (
+        modal.state && (
+          <BrixelModal
+            classHeight={modal.height}
+            title={modal.title}
+            titleIcon={modal.titleIcon}
+            color={modal.color}
+            saturationTxt={modal.saturationTxt}
+            layout={modal.layout}
+            onClose={() => {
+              handleSetModal({ state: false });
+            }}
+            actions={modal.action}
+            multiActions={modal.multiActions}
+            clickOutsideToClose={modal.clickOutsideToClose}
+          >
+            <div dangerouslySetInnerHTML={{ __html: modal.body }} />
+          </BrixelModal>
+        )
+      }
+
+      { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
+      {
+        notification && (notification.small || notification.label) && (
           <>
             {
               notification.small ? (
@@ -146,23 +196,39 @@ const App = (props) => {
                   type={notification.type}
                   icon={notification.icon}
                   actions={notification.actions}
+                  className="zIndex5"
                 />
               )
             }
           </>
         )
       }
-    </>
+
+      { /* SECTION: SIDEBAR */ }
+      <div className="zIndex3">
+        <Switch>
+          {/* SECTION: DOCUMENTS */}
+          <Route path="/:propId?/property/list" exact component={Properties} />
+          <Route path="/:propId?/property/documents" exact component={Documents} />
+          <Route path="/:propId?/property/media" exact component={EditProperty} />
+          <Route path="/:propId?/property/settings" exact component={EditProperty} />
+          <Route path="/:propId?/property/facts" exact component={EditProperty} />
+        </Switch>
+      </div>
+
+    </main>
   );
 };
 
 App.propTypes = {
   history: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
   loggedUser: PropTypes.object.isRequired,
   notification: PropTypes.object,
-  isLoading: PropTypes.bool,
   match: PropTypes.object.isRequired,
+  modal: PropTypes.object.isRequired,
   redirectTo: PropTypes.object,
 };
 
@@ -173,15 +239,17 @@ App.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  notification: get(state, 'common.notification', null),
-  redirectTo: get(state, 'common.redirectTo', null),
+  config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   loggedUser: get(state, 'user.loggedUser', null),
-  config: get(state, 'common.config', {}),
+  modal: get(state, 'common.modal', {}),
+  notification: get(state, 'common.notification', null),
+  redirectTo: get(state, 'common.redirectTo', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleCheckToken: bindActionCreators(checkToken, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetLanguages: bindActionCreators(setLanguages, dispatch),
 });
 

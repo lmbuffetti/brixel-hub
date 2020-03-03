@@ -8,7 +8,7 @@ import { formatNum } from '../../utils/helpers';
 
 function RangePriceChart(props) {
   const {
-    properties, type, bestimate, title, subtitle,
+    properties, type, bestimate, title, showTopLabel, subtitle,
   } = props;
   const cfg = {
     barTransitionDuration: 800,
@@ -112,7 +112,7 @@ function RangePriceChart(props) {
       .attr('y', () => 0)
       .attr('height', () => height)
       .attr('width', () => 5)
-      .style('fill', () => '#A4A9AD')
+      .style('fill', () => '#FFFFFF')
       .style('fillOpacity', '0.2');
 
     chart.selectAll('.bar')
@@ -157,7 +157,7 @@ function RangePriceChart(props) {
           .attr('id', `tooltip${randomID}`)
           .attr('class', 'range-tip')
           .attr('style', `left: ${e ? xScale(e.priceRangeStart) : 0}px; ${transform}`)
-          .html(`<div>Properties: ${e ? e.numberOfProperties : 0}</div><p class="data-range">${cfg.label} ${e.rangePrice}</p><div class="tooltip-pointer" style="${transform}; left: ${left}"></div>`);
+          .html(`<div>Properties: ${e ? e.numberOfProperties : 0}</div><p class="data-range">${cfg.label} ${e.rangePrice}</p>`);
       })
       .on('mouseout', () => {
         const circle = d3.select(`#tooltip${randomID}`);
@@ -252,10 +252,10 @@ function RangePriceChart(props) {
                                 <span class="curr">${cfg.label} </span>
                                 <span class="num">${formatNum(properties[0].median, "'", ',')}</span>
                               </div>
-                              ${properties[getPosition] ? '<div class="tooltip-pointer"></div>' : ''}`;
+                              `;
           });
       }, 0);
-    } else {
+    } else if (showTopLabel) {
       setTimeout(() => {
         d3.select(`#${randomID}`)
           .append('p')
@@ -304,7 +304,7 @@ function RangePriceChart(props) {
           />
         )
       }
-      <div className="rangeGraph" style={{ marginTop: type === 'bestimate' ? '-32px' : '0', position: 'relative', left: '-13px' }}>
+      <div className="rangeGraph" style={{ marginTop: '0', position: 'relative', left: '-13px' }}>
         {drawChart()}
       </div>
     </div>
@@ -312,17 +312,19 @@ function RangePriceChart(props) {
 }
 
 RangePriceChart.propTypes = {
-  properties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  type: PropTypes.string.isRequired,
   bestimate: PropTypes.object,
-  title: PropTypes.string,
+  properties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  showTopLabel: PropTypes.bool,
   subtitle: PropTypes.bool,
+  title: PropTypes.string,
+  type: PropTypes.string.isRequired,
 };
 
 RangePriceChart.defaultProps = {
   bestimate: null,
-  title: null,
+  showTopLabel: true,
   subtitle: false,
+  title: null,
 };
 
 export default RangePriceChart;

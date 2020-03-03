@@ -1,5 +1,5 @@
 export default {
-  brixeletor: {
+  brixelator: {
     getPriceDistribution: data => `/marketData/pricesDistribution${data}`,
     getLivingSpaceDistribution: data => `/marketData/livingSpacesDistribution${data}`,
     getMerged: data => `/merged/list${data}`,
@@ -17,6 +17,17 @@ export default {
   },
   company: {
     getCompanyByStub: (stub) => `/company/company-by-stub/${stub}`,
+  },
+  gamification: {
+    group: () => '/gameGroup',
+    groupdById: (id) => `/gameGroup/${id}`,
+    groupList: (limit, offset) => `/gameGroup/${limit}/${offset}?order=name&direction=desc`,
+    gameAchievement: () => '/gameAchievement',
+    gameAchievementById: (id) => `/gameAchievement/${id}`,
+    gameAchievementList: (limit, offset) => `/gameAchievement/${limit}/${offset}?order=name&direction=desc`,
+    gameHistoryList: (limit, offset) => `/gameHistory/${limit}/${offset}`,
+    gameHistoryByUserId: (userId) => `/gameHistory/user/${userId}`,
+    gameHistoryByUser: (id) => `/gameHistory/user/${id}/add`,
   },
   property: {
     addPage: () => `/page/`,
@@ -40,6 +51,7 @@ export default {
     recoverPassword: (email) => `/user/recoverPassword/${email}`,
     updateUser: (userId) => `/user/${userId}`,
     getUser: (userId) => '/user/fromToken',
+    getPropertiesOfUser: (owner) => `/page/0/0?owner=${owner}`,
     validateUser: (email) => `/user/validate/${email}`,
   },
 };

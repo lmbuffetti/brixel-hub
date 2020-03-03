@@ -32,6 +32,11 @@ class Upload extends Base {
     const url = ep.upload.singleDocument(id);
     return this.apiClient.delete(url);
   }
+
+  updateDocument(id, data) {
+    const url = ep.upload.singleDocument(id);
+    return this.apiClient.put(url, {}, data);
+  }
 }
 
 export default Upload;

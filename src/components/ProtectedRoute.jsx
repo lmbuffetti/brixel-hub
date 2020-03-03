@@ -1,19 +1,16 @@
-/* global Transifex */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import {
-  Redirect, Switch, Route, withRouter,
+  Route, withRouter,
 } from 'react-router-dom';
-import Loadable from 'react-loadable';
 import get from 'lodash/get';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import Cookies from 'universal-cookie';
-// COMPONENTS
-import { checkToken } from '../actions/UserActions';
-import queryString from 'query-string';
-import { BrixelNotification } from '@brixel/brixel-components'
+
+const cookie = new Cookies();
 
 const ProtectedRoute = (props) => {
   const {
@@ -24,12 +21,10 @@ const ProtectedRoute = (props) => {
   } = props;
 
   useEffect(() => {
-    if (loggedUser && typeof loggedUser.statusCode !== 'undefined') {
-      if (window.location.hostname.includes('localhost')) {
-        history.push('/tokeninput');
-      } else {
-        window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
-      }
+    if (window.location.hostname.includes('localhost') && typeof cookie.get('brixelToken') === 'undefined') {
+      history.push('/tokeninput');
+    } else if (typeof cookie.get('brixelToken') === 'undefined') {
+      window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
     }
   }, [loggedUser]);
 
@@ -45,9 +40,8 @@ const ProtectedRoute = (props) => {
 };
 
 ProtectedRoute.propTypes = {
-  component: PropTypes.object,
+  component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   history: PropTypes.object.isRequired,
-  handleCheckToken: PropTypes.func.isRequired,
   path: PropTypes.string.isRequired,
 };
 
@@ -55,7 +49,7 @@ const mapStateToProps = (state) => ({
   loggedUser: get(state, 'user.loggedUser', null),
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = () => ({
 });
 
 export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(ProtectedRoute);

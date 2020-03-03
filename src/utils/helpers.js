@@ -1,6 +1,9 @@
 import isObject from 'lodash/isObject';
 import Cookies from 'universal-cookie';
 import { translateTo } from './translation';
+import get from 'lodash/get';
+import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
+import { AssessorAvgLifespan } from '../resources/Assessor';
 
 const cookies = new Cookies();
 
@@ -279,4 +282,139 @@ export const setCookie = (key, val) => {
     sameSite: 'strict',
   };
   cookies.set(key, val, options);
+};
+
+export const removeCookie = (key) => {
+  const host = window.location.host.split('.');
+  const localhost = host[0].match(/localhost/gi);
+  const localip = host[0].match(/0/gi);
+  let domain;
+  if (localhost) {
+    domain = 'localhost';
+  } else if (localip) {
+    domain = '0.0.0.0';
+  } else {
+    const curDomain = document.location.hostname.split('.')[document.location.hostname.split('.').length - 1];
+    domain = `.brixel.${curDomain}`;
+  }
+  const options = {
+    domain: domain,
+    path: '/',
+    expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+    sameSite: 'strict',
+  };
+  cookies.remove(key, options);
+};
+
+export const getCalcSectionInputSheets = (Questions, initialValues, accordion, act, fixSection) => {
+  const getSkippedSection = fixSection || get(initialValues, 'inputSheet.skipSection', {});
+  const getSectionFilt = {};
+  const getSectionDone = {};
+  const getAccordion = accordion || {};
+  const allSection = {};
+  if (initialValues.id) {
+    Questions.map((quest) => {
+      let doneSection = true;
+      let curAccordion = false;
+      quest.inputs.map((inp) => {
+        if (inp.validation && inp.validation[0]) {
+          const curVal = get(initialValues, inp.name, null);
+          if (isEmptyWithBool(curVal)) {
+            doneSection = false;
+            curAccordion = true;
+          }
+        }
+        return null;
+      });
+      getSectionFilt[quest.history] = getSkippedSection[quest.history] ? getSkippedSection[quest.history] : doneSection;
+      getSectionDone[quest.history] = doneSection;
+      allSection[quest.history] = true;
+      if (typeof accordion[quest.history] === 'undefined') {
+        getAccordion[quest.history] = getSectionFilt[quest.history] ? false : curAccordion;
+      }
+      else {
+        getAccordion[quest.history] = accordion[quest.history];
+      }
+      return null;
+    });
+    const newTotalDone = Object.keys(getSectionFilt).filter(keySkip => getSectionFilt[keySkip] === true);
+    const total = Object.keys(Questions).length;
+    if (act === 'getPercentage') return Math.ceil((newTotalDone.length * 100) / total);
+
+    return ({
+      accordion: getAccordion,
+      accordionAnimated: getAccordion,
+      section: {
+        allSection: true,
+        percComplete: Math.ceil((newTotalDone.length * 100) / total),
+        section: getSectionFilt,
+        sectionComplete: getSectionDone,
+        total,
+        totalComplete: newTotalDone.length,
+        totalUncomplete: total - newTotalDone.length,
+      }
+    });
+  }
+};
+
+export const calculateAge = (date) => { // birthday is a date
+  const ageDifMs = Date.now() - date;
+  const ageDate = new Date(ageDifMs); // miliseconds from epoch
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
+};
+
+export const calculateAgeByYear = (year) => { // birthday is a date
+  const today = new Date();
+  return today.getFullYear() - year;
+};
+
+export const calcConditionAssessor = (age, group, name = null) => {
+  let condition;
+  if (name) {
+    if (age <= Math.round(AssessorAvgLifespan[group][name] * 0.25)) condition = 4;
+    else if (age <= Math.round(AssessorAvgLifespan[group][name] * 0.5)) condition = 3;
+    else if (age <= Math.round(AssessorAvgLifespan[group][name] * 0.75)) condition = 2;
+    else condition = 1;
+  } else if (!isObject(AssessorAvgLifespan[group])) {
+    if (age <= Math.round(AssessorAvgLifespan[group] * 0.25)) condition = 4;
+    else if (age <= Math.round(AssessorAvgLifespan[group] * 0.5)) condition = 3;
+    else if (age <= Math.round(AssessorAvgLifespan[group] * 0.75)) condition = 2;
+    else condition = 1;
+  }
+  return condition;
+};
+
+export const extractAssessorCondition = (age, construction, roof, facade, heating) => {
+  const assessor = {
+    constructor: null,
+    roof: null,
+    facade: null,
+    heating: null,
+    kitchen: calcConditionAssessor(age, 'kitchen') || null,
+    wetCells: calcConditionAssessor(age, 'wetCells') || null,
+    electricalSystems: calcConditionAssessor(age, 'electricalSystems') || null,
+  };
+  if (construction) {
+    assessor.constructor = {
+      [construction]: calcConditionAssessor(age, 'construction', construction) || null,
+    };
+  }
+  if (roof) {
+    assessor.roof = {
+      [roof]: calcConditionAssessor(age, 'roof', roof) || null,
+    };
+  }
+  if (facade) {
+    assessor.facade = {
+      [facade]: calcConditionAssessor(age, 'facade', facade) || null,
+    };
+  }
+  if (heating && heating.length > 0) {
+    assessor.heating = {};
+    heating.map((val) => {
+      assessor.heating[val] = calcConditionAssessor(age, 'heating', val) || null;
+      return null;
+    });
+  }
+  return assessor;
 };

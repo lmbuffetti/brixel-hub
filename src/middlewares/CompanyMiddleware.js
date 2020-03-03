@@ -1,14 +1,7 @@
 import {
-  SPINNER_ON,
-  SPINNER_OFF,
-} from '../actions/types/CommonTypes';
-
-import {
   GET_COMPANY,
   SET_COMPANY,
 } from '../actions/types/CompanyTypes'
-
-import { configLang } from '../constants/global';
 
 import api from '../controllers/api/config';
 

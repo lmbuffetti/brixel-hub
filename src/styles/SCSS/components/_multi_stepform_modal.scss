@@ -1,0 +1,33 @@
+.slideMultiStepFormModal {
+  display: flex;
+  transition: transform $default-loader-time;
+}
+.singleStepModal {
+  flex: 0 0 100%;
+  padding: 16px 16px 40px;
+  overflow-y: auto;
+  height: 100%;
+  overflow-x: hidden;
+
+  &[class*="bg"] {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+
+  @media (min-width: $responsive-small) {
+    display: flex;
+    align-items: center;
+  }
+  .container {
+    padding: 0;
+  }
+  .curAdr {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    padding: $step $step * 2;
+    z-index: 5;
+    background: rgba($brx-white, 0.8);
+  }
+}

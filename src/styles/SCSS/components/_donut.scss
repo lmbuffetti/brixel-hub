@@ -55,6 +55,13 @@ $donut-color-12: #EDF1F5;
   }
 }
 
+.modal-body {
+  .donutsPieChart {
+    .svg-range-container {
+      margin-right: 0;
+    }
+  }
+}
 
 .donutsPieChart {
   z-index: 1;

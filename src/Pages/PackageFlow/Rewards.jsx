@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import {
@@ -6,45 +7,25 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { BrixelButtonPrimary, BrixelCheckbox, BrixelInputText, Validation, BrixelButtonTertiary } from '@brixel/brixel-components';
+import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import { getProperty, getMarketCheck, updateProperty } from '../../actions/PropertyActions';
 import { sendGenericMail } from '../../actions/CommonActions';
 import Maps from '../../components/Map/Maps';
 import * as moment from 'moment';
 import ChartDonuts from '../../components/Charts/ChartDonuts';
 import RangePriceChart from '../../components/Charts/RangePriceChart';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 
 function Rewards(props) {
   // PROPS
   const {
     handleGetMarketData,
     handleGetPage,
-    handleSendGenericMail,
     handleUpdatePage,
     history,
-    loggedUser,
     marketData,
     property,
     match,
   } = props;
-  // STATE
-  const [checkboxes] = useState([
-    {
-      label: 'Free Estimation (Bestimate ®)',
-      value: 'bestimate',
-    },
-    {
-      label: 'Price level, demand and construction activity',
-      value: 'priceLevelDemandActivity',
-    },
-    {
-      label: 'Capital gains tax',
-      value: 'capitalGainsTax',
-    }
-  ]);
-  const [chexkboxesVal, setCheckboxesVal] = useState([]);
-  const [email, setEmail] = useState({});
 
   // GET the current property
   useEffect(() => {
@@ -55,10 +36,6 @@ function Rewards(props) {
       handleGetPage(data)
     }
   }, []);
-
-  useEffect(() => {
-    if (loggedUser && loggedUser.user) setEmail(loggedUser.user.email)
-  }, [loggedUser]);
 
   useEffect(() => {
     if (property && property.id) {
@@ -106,62 +83,6 @@ function Rewards(props) {
       }
     }
   }, [marketData]);
-
-  const sendForm = async (e) => {
-    e.preventDefault();
-    if (Validation.isEmail(email) === true && chexkboxesVal.length > 0) {
-      let processedInfo = '';
-      const answer = {
-        'active': true,
-        'informationNeeded': {
-          bestimate: false,
-          priceLevelDemandActivity: false,
-          capitalGainsTax: false,
-        }
-      };
-      chexkboxesVal.map((val) => {
-        if (val === 'priceLevelDemandActivity') {
-          processedInfo += 'Price level, demand and construction activity / ';
-          answer.informationNeeded.priceLevelDemandActivity = true;
-        } else if (val === 'capitalGainsTax') {
-          processedInfo += 'Capital gains tax / ';
-          answer.informationNeeded.capitalGainsTax = true;
-        } else {
-          processedInfo += 'Bestimate / ';
-          answer.informationNeeded.bestimate = true;
-        }
-      });
-      const message = `
-            <h1>A PDF Market check was requested</h1>
-            <p><b>User ID</b> ${loggedUser.user.id}</p>
-            <p><b>User Name</b> ${loggedUser.user.name}</p>
-            <p><b>Page ID</b> ${match.params.propId}</p>
-            <p><b>Page Title</b> <a href="${baseByData.pageUrl}/${property.stub}">${property.title}</a></p>
-            <p><b>Page Stub</b> ${property.stub}</p>
-            <h4>Here are the contents</h4>
-            <p><b>First Name</b> ${loggedUser.user.firstName}</p>
-            <p><b>Last Name</b> ${loggedUser.user.lastName}</p>
-            <p><b>Information Needed</b> ${processedInfo ? processedInfo : 'No response'}</p>
-            <p><b>Email</b> ${loggedUser.user.email}</p>
-      `;
-
-      const mail = {
-        destinationEmail : 'support@brixel.io', // email
-        recipientEmail : 'support@brixel.io', // email
-        subject        : `A PDF Market check was requested`,
-        message        : message,
-      };
-      await handleSendGenericMail(mail);
-      const data = {
-        id: match.params.propId,
-        redirectTo: `/packageFlow/${match.params.propId}/advisory`,
-        packageFlowProcess: property.packageFlowProcess,
-      };
-      data.packageFlowProcess.orderOffer = answer;
-      await handleUpdatePage(data);
-
-    }
-  };
 
   return (
     <main id="rewards" className="pb-4">
@@ -254,7 +175,7 @@ function Rewards(props) {
                       <>
                         <h5 className="mb-2">Your Bestimate®</h5>
                         <RangePriceChart
-                          properties={marketData.priceDistribution.chartRangePrice}
+                          properties={marketData.priceDistribution.c}
                           type="bestimate"
                           bestimate={property.estimation.bestimate}
                         />
@@ -269,7 +190,7 @@ function Rewards(props) {
 
               <BrixelButtonPrimary
                 label="Continue"
-                onClick={(e) => history.push(`/packageFlow/${match.params.propId}/advisory`)}
+                onClick={() => history.push(`/packageFlow/${match.params.propId}/advisory`)}
                 type="submit"
               />
 
@@ -298,7 +219,7 @@ Rewards.defaultProps = {
   property: null,
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   property: get(state, 'property.property', null),
   loggedUser: get(state, 'user.loggedUser', {}),
   marketData: get(state, 'property.marketCheck', {}),

@@ -35,18 +35,14 @@ const Maps = (props) => {
     formName,
     formValue,
     google,
-    history,
     inputLabel,
     isShowZip,
     lang,
     latitude,
     longitude,
-    match,
     mapType,
     moveMarker,
     nearBy,
-    place,
-    property,
     scrollZoom,
     selCountry,
     showMap,
@@ -58,7 +54,7 @@ const Maps = (props) => {
   // STATE
   const [selectedPlace, setSelectedPlace] = useState([]);
   const [showInfoWindow, setShowInfoWindow] = useState(false);
-  const [modalInfo, setModalInfo] = useState({});
+  const [modalInfo] = useState({});
   const [mapTypeId, setMapTypeId] = useState('roadmap');
   const [inputSearchZip, setInputSearchZip] = useState('');
   const [errorInputSearchZip, setErrorInputSearchZip] = useState(null);
@@ -209,7 +205,7 @@ const Maps = (props) => {
     setInputSearchZip(val);
   };
 
-  const showInfoMarker = (data) => {
+  /*const showInfoMarker = (data) => {
     const infoModal = {
       lat: data.marker.geometry.location.lat(),
       lng: data.marker.geometry.location.lng(),
@@ -220,7 +216,7 @@ const Maps = (props) => {
     };
     setModalInfo(infoModal);
     setShowInfoWindow(true);
-  };
+  };*/
 
   const btnActions = (action) => {
     const center = {
@@ -291,7 +287,7 @@ const Maps = (props) => {
     geocoder.geocode({
       'address': adr
     }, function(result, status) {
-      if (status == 'OK') {
+      if (status === 'OK') {
         const formattedPlace = {};
         formattedPlace.country = null;
         formattedPlace.countryCode = null;
@@ -356,8 +352,6 @@ const Maps = (props) => {
 
   const highlight = (container) => {
     const content = container.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    let text = '';
-    const oriWord = container.split('');
     let start = -1;
     let end = 0;
     content.split('').forEach(function(val, i){

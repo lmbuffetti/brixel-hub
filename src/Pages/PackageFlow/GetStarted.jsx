@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useEffect,
   useState,
@@ -17,6 +19,7 @@ import {
   BrixelButtonTertiary,
   BrixelButtonIcon,
   BrixelIcon,
+  BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { getToken, setAwards, setBrixelPoint, validateUser, updateUser } from '../../actions/UserActions';
 import { addProperty, updateProperty } from '../../actions/PropertyActions';
@@ -30,14 +33,13 @@ import { translateTo } from '../../utils/translation';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-const swissZipCode = require('../../resources/swissZipCodes.json');
 
 const LoginSignup = Loadable({
   loader: () => import('../../components/LoginSignup' /* webpackChunkName: "LoginSignup" */),
   loading: Loading,
 });
 
-const cookie = new Cookies;
+const cookie = new Cookies();
 
 function GetStarted(props) {
   // PROPS
@@ -68,9 +70,9 @@ function GetStarted(props) {
   const [disableNextBtn, setDisableNextBtn] = useState(true);
   const [hidePrevBtn, setHidePrevBtn] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loginPage, setLoginPage] = useState(false);
+  const [loginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
-  const [showAddress, setShowAddress] = useState(true);
+  //const [showAddress, setShowAddress] = useState(true);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
   const [curCountry, setCurCountry] = useState(null);
   const [showCountrySel, setShowCountrySel] = useState(false);
@@ -128,6 +130,7 @@ function GetStarted(props) {
   useEffect(() => {
     if (loggedUser.user) {
       changeFieldValue('owner', loggedUser.user.id);
+      changeFieldValue('signup', false);
     }
   }, [loggedUser]);
 
@@ -135,28 +138,21 @@ function GetStarted(props) {
     let invalidField = false;
     if (Questions[currentIndex] && Questions[currentIndex].inputs) {
       Questions[currentIndex].inputs.map((inp) => {
-        // Check if teh current fields are valid
         const curVal = get(errorValue, inp.name, true);
         if (curVal !== true) invalidField = true;
-        // If no zipCode and Country is Swiss get info from swissZipCodes json
-        if (Questions[currentIndex].history === 'zipInput') {
-          const zipVal = get(formValue, Questions[currentIndex].inputs[0].name, 0);
-          if (+zipVal > 999) {
-            // Select record by zipcode
-            const filterFile = swissZipCode.find(zip => +zip["Postleitzahl / Code Postal / Codice Postale"] === zipVal);
-            // Check if Abréviation is the same
-            if (filterFile && formValue.location.stateCode === filterFile["Abkürzung / Abréviation / Abbreviazione"]) {
-              changeFieldValue('location.city', filterFile['Ort / Ville / Città']);
-              if (!formValue.location.state) changeFieldValue('location.state', filterFile['Canton']);
-              if (!formValue.location.stateCode) changeFieldValue('location.state', filterFile['Abkürzung / Abréviation / Abbreviazione']);
-              invalidField = false;
-            } else {
-              invalidField = true;
-            }
-          } else {
-            invalidField = true;
-          }
-        }
+        return null;
+      });
+    }
+    if (Questions[currentIndex].cardType && Questions[currentIndex].cardType === 'createProfile') {
+      let fieldVal = [];
+      if (loginPage) {
+        fieldVal = ['email', 'password'];
+      } else {
+        fieldVal = ['firstName', 'lastName', 'email', 'privacy'];
+      }
+      fieldVal.map((inp) => {
+        const curVal = get(errorValue, inp, true);
+        if (curVal !== true) invalidField = true;
         return null;
       });
     }
@@ -172,7 +168,13 @@ function GetStarted(props) {
   const saveData = async (act) => {
     setShowError(false);
     let enableForm = true;
-    Object.keys(errorValue).map((key) => {
+    let fieldVal = [];
+    if (loginPage) {
+      fieldVal = ['email', 'password'];
+    } else {
+      fieldVal = ['firstName', 'lastName', 'email', 'privacy'];
+    }
+    fieldVal.map((key) => {
       if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedUser.user) {
         setShowError(true);
         enableForm = false;
@@ -199,7 +201,7 @@ function GetStarted(props) {
           livingArea: { value: +formValue.livingSpace, unit: "sqm" }
         },
         building: {
-          build: formValue.constructionYear,
+          built: formValue.constructionYear,
         }
       },
       location: formValue.location,
@@ -207,7 +209,7 @@ function GetStarted(props) {
       getEstimation: formValue.location.country === 'CH',
       addProperty: true,
       redirectToUserFlow: false,
-      redirectToRewards: false,
+      redirectToHome: false,
       company: cookie.get('brixelStubCompany') || null,
     };
     if (enableForm) {
@@ -279,6 +281,7 @@ function GetStarted(props) {
           else newPosition = newPosition + 1;
           checkCond = false;
         }
+        return null;
       })
     }
     if (Questions[newPosition] && Questions[newPosition].conditions) {
@@ -290,7 +293,11 @@ function GetStarted(props) {
           else newPosition = newPosition + 1;
           checkCond = false;
         }
+        return null;
       });
+    }
+    if (typeof Questions[newPosition] === 'undefined') {
+
     }
     if (typeof Questions[newPosition] === 'undefined') {
       saveData('lastStep');
@@ -308,7 +315,8 @@ function GetStarted(props) {
         handleSetAwards([{desc: "First Award", point: 1}]);
       }
       if (
-        Questions[position].cardType === 'LastStep' && loggedUser && loggedUser.user
+        (Questions[position].cardType === 'LastStep' && loggedUser && loggedUser.user) ||
+        (Questions[position].cardType === 'createProfile' && loggedUser && !loggedUser.user)
       ) {
         saveData();
       }
@@ -336,7 +344,7 @@ function GetStarted(props) {
       }
       document.getElementById('getStarted').scrollTo(0, 0);
     }, false);
-    document.addEventListener('keyup', function (e) {
+    document.addEventListener('keyup', function () {
       document.getElementById('getStarted').scrollTo(0, 0);
     }, false);
     const cookieCompany = cookie.get('brixelStubCompany') || null;
@@ -357,11 +365,33 @@ function GetStarted(props) {
     setCurrentIndex(curIndex);
   };
 
+  const buttonLabel = () => {
+    let label;
+    if (Questions[currentIndex].cardType === 'createProfile') {
+      if(loginPage) label = translateTo(lang, "Login");
+      else label = translateTo(lang, "Create profile")
+    } else {
+      if (Questions[currentIndex].cardType === 'createProfile') {
+        label = translateTo(lang, "Save")
+      } else {
+        label = translateTo(lang, "Continue")
+      }
+    }
+    return label;
+  };
+
   return (
     <main id="getStarted">
       {
         Questions[currentIndex].inputs && (
-          <div id="progressBar"><span className="activeProgBar" style={{ width: `${progressBar}%` }} /></div>
+          <BrixelProgressBar
+            rounded
+            saturation={700}
+            small
+            barBackground="Red"
+            backgroundSaturation={100}
+            progressValue={progressBar}
+          />
         )
       }
       <form id="multiStepForm" onSubmit={(e) => {e.preventDefault(); changeStep()}} autoComplete="off">
@@ -440,10 +470,6 @@ function GetStarted(props) {
                                         <>
                                           <div
                                             className="pos-r zIndex1"
-                                            onMouseEnter={() => setShowAddress(false)}
-                                            onTouchStart={() => setShowAddress(false)}
-                                            onMouseLeave={() => setShowAddress(true)}
-                                            onTouchEnd={() => setShowAddress(true)}
                                           >
                                             <Maps
                                               zoom={14}
@@ -588,7 +614,10 @@ function GetStarted(props) {
                           quest.cardType === 'createProfile' && (
                             <div>
                               <h5>{loginPage ? quest.loginTitle : quest.signupTitle}</h5>
-                              <LoginSignup showErrors={showErrors} />
+                              <LoginSignup
+                                formName="GetStarted"
+                                showErrors={showErrors}
+                              />
                             </div>
                           )
                         }
@@ -636,24 +665,10 @@ function GetStarted(props) {
                   Questions[currentIndex] && (
                     <BrixelButtonPrimary
                       rounded
-                      label={
-                        !Questions[currentIndex + 1] && !loggedUser.user ?
-                          translateTo(lang, "Create profile") :
-                          (
-                            Questions[currentIndex].cardType === 'createProfile' ||
-                            (loggedUser.user && Questions[currentIndex].cardType === 'LastStep') ||
-                            !Questions[currentIndex + 1] ?
-                              translateTo(lang, "Save") :
-                              translateTo(lang, "Continue")
-                          )
-                      }
+                      label={buttonLabel()}
                       background={Questions[currentIndex].inputs ? "green" : "primary"}
                       className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                      onClick={() =>
-                        Questions[currentIndex].cardType === 'createProfile' ?
-                          saveData() :
-                          changeStep()
-                      }
+                      onClick={() => changeStep()}
                       rightIcon="arrow-right-small"
                       disabled={disableNextBtn}
                     />
@@ -696,7 +711,7 @@ GetStarted.defaultProps = {
   redirectTo: null,
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   company: get(state, 'companies.company', {}),
   country: get(state, 'common.country', {}),
   errorValue: get(state, 'form.GetStarted.syncErrors', {}),
@@ -733,6 +748,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const getStartedForm = reduxForm({
   form: 'GetStarted', // a unique identifier for this form
+  enableReinitialize: true,
 })(GetStarted);
 
 export default compose(

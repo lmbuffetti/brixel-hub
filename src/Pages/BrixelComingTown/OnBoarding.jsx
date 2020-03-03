@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useEffect,
   useState,
@@ -18,6 +20,7 @@ import {
   BrixelIcon,
   BrixelInputText,
   BrixelCheckbox,
+  BrixelProgressBar,
   Validation,
 } from '@brixel/brixel-components';
 import {
@@ -68,7 +71,6 @@ function OnBoarding(props) {
   const [progressBar, setProgressBar] = useState(0);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
   const [curCountry, setCurCountry] = useState(null);
-  const [showCountrySel, setShowCountrySel] = useState(false);
 
   useEffect(() => {
     if (baseByData.env === 'dev') {
@@ -135,6 +137,7 @@ function OnBoarding(props) {
       Questions[currentIndex].inputs.map((inp) => {
         const curVal = get(errorValue, inp.name, true);
         if (curVal !== true) invalidField = true;
+        return null;
       });
     }
     if (Questions[currentIndex].cardType && Questions[currentIndex].cardType === 'createProfile') {
@@ -147,6 +150,7 @@ function OnBoarding(props) {
       fieldVal.map((inp) => {
         const curVal = get(errorValue, inp, true);
         if (curVal !== true) invalidField = true;
+        return null;
       });
     }
     setDisableNextBtn(invalidField);
@@ -178,6 +182,7 @@ function OnBoarding(props) {
         setShowError(true);
         enableForm = false;
       }
+      return null;
     });
     // Defaul Obj
     const data = {
@@ -194,7 +199,7 @@ function OnBoarding(props) {
           livingArea: { value: +formValue.livingSpace, unit: "sqm" }
         },
         building: {
-          build: formValue.constructionYear,
+          built: formValue.constructionYear,
         }
       },
       location: formValue.location,
@@ -207,7 +212,7 @@ function OnBoarding(props) {
         propertyType: formValue.propertyType,
         bedrooms: formValue.bedrooms,
         livingArea: { value: +formValue.livingSpace, unit: "sqm" },
-        build: formValue.constructionYear,
+        built: formValue.constructionYear,
         location: formValue.location,
       },
     };
@@ -269,6 +274,7 @@ function OnBoarding(props) {
           else newPosition = newPosition + 1;
           checkCond = false;
         }
+        return null;
       })
     }
     if (Questions[newPosition] && Questions[newPosition].conditions) {
@@ -280,6 +286,7 @@ function OnBoarding(props) {
           else newPosition = newPosition + 1;
           checkCond = false;
         }
+        return null;
       });
     }
     setPosition(newPosition);
@@ -307,15 +314,32 @@ function OnBoarding(props) {
     setTimeout(() => {
       const getCurStep = document.getElementById(`step-${newPosition}`);
       if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+        getCurStep.querySelector('input[type="number"]').removeAttribute('autofocus');
+        getCurStep.querySelector('input[type="number"]').setAttribute('autofocus', 'autofocus');
         getCurStep.querySelector('input[type="number"]').focus();
       }
       else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+        getCurStep.querySelector('input[type="text"]').removeAttribute('autofocus');
+        getCurStep.querySelector('input[type="text"]').setAttribute('autofocus', 'autofocus');
         getCurStep.querySelector('input[type="text"]').focus();
       }
       if (document.getElementById('onBoarding')) {
         document.getElementById('onBoarding').scrollTo(0, 0);
       }
     }, 100);
+    document.addEventListener('touchend', function(event) {
+      const getCurStep = document.getElementById(`step-${newPosition}`);
+      if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+        getCurStep.querySelector('input[type="number"]').removeAttribute('autofocus');
+        getCurStep.querySelector('input[type="number"]').setAttribute('autofocus', 'autofocus');
+        getCurStep.querySelector('input[type="number"]').focus();
+      }
+      else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+        getCurStep.querySelector('input[type="text"]').removeAttribute('autofocus');
+        getCurStep.querySelector('input[type="text"]').setAttribute('autofocus', 'autofocus');
+        getCurStep.querySelector('input[type="text"]').focus();
+      }
+    }, false);
     if (document.getElementById('onBoarding')) {
       document.getElementById('onBoarding').scrollTo(0, 0);
     }
@@ -362,34 +386,36 @@ function OnBoarding(props) {
   };
 
   const buttonLabel = () => {
-    let label = '';
+    let label;
     if (!Questions[currentIndex + 2]) {
-      if(loginPage) label = translateTo(lang, "Login")
+      if(loginPage) label = translateTo(lang, "Login");
       else label = translateTo(lang, "Create profile")
     } else {
-        if (Questions[currentIndex].cardType === 'createProfile') {
-          label = translateTo(lang, "Save")
-        } else {
-          label = translateTo(lang, "Continue")
-        }
+      if (Questions[currentIndex].cardType === 'createProfile') {
+        label = translateTo(lang, "Save");
+      } else {
+        label = translateTo(lang, "Continue");
+      }
     }
     return label;
-  }
+  };
 
   return (
     <main id="onBoarding">
       {
         Questions[currentIndex].inputs && (
-          <div id="progressBar">
-            <span className="activeProgBar" style={{ width: `${progressBar}%` }} />
-          </div>
+          <BrixelProgressBar
+            saturation={400}
+            barBackground="Light"
+            backgroundSaturation={200}
+            progressValue={progressBar}
+          />
         )
       }
       <form
         id="multiStepForm"
         onSubmit={(e) => {e.preventDefault(); changeStep()}}
         autoComplete="off"
-        aria-autocomplete="false"
       >
         <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
           {
@@ -436,7 +462,6 @@ function OnBoarding(props) {
                                             selCountry={curCountry ? curCountry.value : ''}
                                             changeCountry={(val) => {
                                               countryObj(val);
-                                              setShowCountrySel(false);
                                             }}
                                           />
                                         )}
@@ -493,7 +518,7 @@ function OnBoarding(props) {
                                         <BrixelButtonPrimary
                                           rounded
                                           label="Ok"
-                                          className={`ml-2 hide-md ${hideOnDesk}`}
+                                          className={`ml-2 ${hideOnDesk}`}
                                           background="green"
                                           onClick={() => changeStep()}
                                           disabled={disableNextBtn}

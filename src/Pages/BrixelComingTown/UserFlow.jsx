@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
@@ -16,6 +17,7 @@ import {
   BrixelIcon,
   BrixelButtonSecondary,
   BrixelButtonTertiary,
+  BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { updateUser, setAwards, setBrixelPoint } from '../../actions/UserActions';
 import { setNotification } from '../../actions/CommonActions';
@@ -200,7 +202,7 @@ function UserFlow(props) {
 
   // Function to move next/prev question
   const changeStep = (act) => {
-    let newPosition = 0;
+    let newPosition;
     handleSetNotification(null);
     if (act === 'back') {
       setDisableNextBtn(false);
@@ -252,7 +254,7 @@ function UserFlow(props) {
       newUrl = 'http://' + url;
     }
     return newUrl;
-  }
+  };
 
   return (
     <main
@@ -261,9 +263,14 @@ function UserFlow(props) {
     >
       {
         Questions[currentIndex].inputs && (
-          <div id="progressBar">
-            <span className="activeProgBar" style={{ width: `${progressBar}%` }} />
-          </div>
+          <BrixelProgressBar
+            rounded
+            saturation={700}
+            small
+            barBackground="Red"
+            backgroundSaturation={100}
+            progressValue={progressBar}
+          />
         )
       }
       <form

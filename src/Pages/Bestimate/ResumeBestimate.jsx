@@ -1,0 +1,149 @@
+import React, { useEffect, useState }  from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import get from 'lodash/get';
+import last from 'lodash/last';
+import { bindActionCreators, compose } from 'redux';
+import { getEstimation, getMarketCheck } from '../../actions/PropertyActions';
+import {
+  withRouter,
+} from 'react-router-dom';
+import { BrixelShowQuality } from '@brixel/brixel-components';
+import { arrayToObject } from 'redux-actions/lib/utils/arrayToObject';
+import RangePriceChart from '../../components/Charts/RangePriceChart';
+
+function ResumeBestimate(props) {
+  // PROPS
+  const {
+    condition,
+    gameGroup,
+    handleGetEstimation,
+    handleGetMarketData,
+    history,
+    marketData,
+    match,
+    property,
+  } = props;
+  // STATE
+  const [achievement, setAchievement] = useState(null);
+  const [selBaseRenovation, setSelRenovation] = useState('renovation');
+  // URL PARAMS
+  const getParams = last(history.location.pathname.split('/'));
+  const propID = get(match, 'params.propId', null);
+
+
+  useEffect(() => {
+    if (property && property.id) {
+      const latBoundsRadius = 0.0675;
+      const longBoundsRadius = 0.1;
+      const livingSpace = get(property, 'properties.typology.livingArea.value', 0);
+      const percLivingSpace = +livingSpace * 0.5;
+      const data = {
+        north: property.location.latitude + latBoundsRadius,
+        south: property.location.latitude - latBoundsRadius,
+        west: property.location.longitude - longBoundsRadius,
+        east: property.location.longitude + longBoundsRadius,
+        propertyType: property.properties.propertyType,
+        minLivingSpace: +livingSpace - percLivingSpace,
+        maxLivingSpace: +livingSpace + percLivingSpace,
+        stateCode: 'CH',
+      };
+      handleGetMarketData(data);
+      handleGetEstimation(propID)
+    }
+  }, [property]);
+
+  useEffect(() => {
+  }, []);
+
+  useEffect(() => {
+    if (gameGroup) {
+      let selectedGame;
+      gameGroup.map((game) => {
+        let curGame = game.achievements.find(item => item.stub === getParams);
+        if (curGame) selectedGame = curGame;
+      });
+      setAchievement(selectedGame);
+    }
+  }, [gameGroup]);
+
+  const selOneElement = (el) => {
+    let lessNumber = 4;
+    Object.keys(el).map((key) => {
+      if (el[key] < lessNumber) lessNumber = el[key];
+      return null;
+    });
+    return lessNumber;
+  };
+
+  return (
+    <main id="rewards" className="pb-4">
+      <h5 className='ta-c mb-5'>We proudly present you your Bestimate®.</h5>
+      {
+        condition.higherValue && (
+          <>
+            <h6 className="ta-c mb-1">Your property is worth up to</h6>
+            <h4 className="ff-mono txtGreen400 fweight-600 ta-c mb-1">CHF {condition.higherValue.toLocaleString('de-CH')}</h4>
+            <p className="fsize-100 ta-c mb-5">Based on similar transactions.</p>
+            <h6 className="fweight-400 ta-c mb-1">Similar properties are currently worth between</h6>
+            <h6 className="ff-mono txtPrimary700 fweight-600 ta-c mb-5">CHF {condition.lowerValue.toLocaleString('de-CH')} - CHF {condition.higherValue.toLocaleString('de-CH')}</h6>
+            <h6 className="ta-c mb-5-neg">Your Bestimate® compared to local market data</h6>
+          </>
+        )
+      }
+      {
+        marketData && marketData.priceDistribution && marketData.priceDistribution.chartRangePrice && property.estimation && property.estimation.bestimate && (
+          <div className="dis-f jc-c">
+            <RangePriceChart
+              properties={marketData.priceDistribution.chartRangePrice}
+              type="bestimate"
+              bestimate={property.estimation.bestimate}
+              showTopLabel={false}
+            />
+          </div>
+        )
+      }
+      {
+        condition.higherValue && (
+          <h6 className="mt-2 ff-mono txtPrimary700 fweight-600 ta-c">CHF {condition.lowerValue.toLocaleString('de-CH')} - CHF {condition.higherValue.toLocaleString('de-CH')}</h6>
+        )
+      }
+
+      <p className="fsize-100 mt-5">The Bestimate® is your free price indication. It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.</p>
+
+    </main>
+  );
+}
+
+ResumeBestimate.propTypes = {
+  condition: PropTypes.object,
+  finishStep: PropTypes.bool,
+  gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
+  handleGetEstimation: PropTypes.func.isRequired,
+  handleGetMarketData: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  marketData: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  property: PropTypes.object,
+};
+
+ResumeBestimate.defaultProps = {
+  finishStep: false,
+};
+
+const mapStateToProps = (state) => ({
+  condition: get(state, 'property.property.estimation.bestimate', {}),
+  gameGroup: get(state, 'gamification.gameGroup', []),
+  marketData: get(state, 'property.marketCheck', {}),
+  property: get(state, 'property.property', {}),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
+  handleGetMarketData: bindActionCreators(getMarketCheck, dispatch),
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(ResumeBestimate);

@@ -1,0 +1,54 @@
+#menu-sidebar {
+  header {
+    left: 0;
+    top: 0;
+    background-color: white;
+    width: 84px;
+
+    .admin-info {
+      // border-bottom: 1px solid map_get($lightColor, 400);
+      cursor: pointer;
+
+      img {
+
+        &.avatar {
+          border-radius: $brd-radius-small;
+          z-index: 10;
+        }
+      }
+    }
+
+    i {
+      font-size: 24px;
+    }
+
+    .routes {
+      .active {
+        background-color: rgba($color: map_get($primaryColor, 400), $alpha: 0.1);
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 2px;
+          height: 48px;
+          background-color: map-get($primaryColor, 400);
+        }
+
+        i {
+          color: map_get($darkColor, 700);
+        }
+      }
+    }
+
+    .logout {
+      align-self: center;
+    }
+  }
+
+  @media screen and(min-width: map-get($grid-breakpoints, lg)) {
+    // TODO
+  }
+}
+

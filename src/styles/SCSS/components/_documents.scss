@@ -1,0 +1,32 @@
+.docubox {
+
+  .docubox-header {
+    border-bottom: 1px solid map_get($lightColor, 300);
+  }
+
+  .name div:nth-child(2) {
+    min-height: 50px;
+  }
+
+  .single-document {
+    border-bottom: 1px solid map_get($lightColor, 200);
+
+    .document-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 250px;
+    }
+  }
+
+
+  .upload-wrapper input[type=file] {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
+}
