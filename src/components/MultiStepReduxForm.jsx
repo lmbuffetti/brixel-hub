@@ -39,6 +39,8 @@ const MultiStepForm = (props) => {
             type={input.type}
             step={+input.step}
             min={input.min}
+            pdClass={input.pdClass}
+            iconClass={input.iconClass}
             deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
             placeholder={input.placeholder || ''}
             meta={{

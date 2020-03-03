@@ -43,9 +43,10 @@ export const BestimateQuestions = (lang) => [
     inputs: [
       {
         component: BrixelExtraFeature,
-        className: '',
         label: 'Extra features',
         name: 'properties.extraFeatures',
+        pdClass: 'p-1',
+        iconClass: 'p-small-17 fSizePx22 bgPrimary400 txtWhite brdRadius mr-1',
         options: factsOptions.BrixelExtraFeature,
         validation: [Validation.markRequired],
       },
