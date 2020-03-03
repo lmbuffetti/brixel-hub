@@ -230,7 +230,7 @@ function Assessor(props) {
             Questions.map((quest, i) => (
               <div
                 id={`step-${i}`}
-                className={`singleStep ${quest.background || ''}`}
+                className={`singleStep ${quest.background || ''} ${quest.className || ''}`}
                 key={i.toString()}
                 style={{
                   visibility: i !== currentIndex ? 'hidden' : 'visible',
@@ -240,9 +240,9 @@ function Assessor(props) {
                   {
                     currentIndex === 0 && (
                       <>
-                        <h5 className="ta-c mb-5">{quest.title}</h5>
+                        <h5 className="ta-c mb-4">{quest.title}</h5>
                         <div className="ta-c"><img src={quest.img} alt="Done Assessor" /></div>
-                        <p className="ta-c mt-5">{quest.description}</p>
+                        <p className="ta-c mt-2">{quest.description}</p>
                       </>
                     )
                   }
