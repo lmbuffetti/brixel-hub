@@ -15,6 +15,7 @@ export const MarketCheckQuestions = (lang) => [
   {
     toSave: true,
     background: 'bgGreen100',
+    vCentered: true,
     img: startMarketCheck,
     title: "Check your local market.",
     description: "Stop browsing all the portals. I show you all similar properties on sale. Instantly.",
@@ -23,6 +24,7 @@ export const MarketCheckQuestions = (lang) => [
   },
   {
     title: "Market Check",
+    vCentered: true,
     subtitle: "Sales strategy & price",
     history: "localMarketCheck",
     cardType: "loadComponent",
@@ -30,6 +32,7 @@ export const MarketCheckQuestions = (lang) => [
   },
   {
     title: "Thank you Market Check",
+    vCentered: true,
     subtitle: "Sales strategy & price",
     history: "successLocalMarketCheck",
     cardType: "loadComponent",

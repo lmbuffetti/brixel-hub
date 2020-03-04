@@ -56,7 +56,7 @@ function SuccessAssessor(props) {
                 <>
                   <h5 className="ta-c mb-5">Well done. You are now an Assessor.</h5>
                   <div className="ta-c"><img src={newAssessor} alt="Nes Assessor" /></div>
-                  <p className="ta-c mt-5">Congrats. You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
+                  <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                 </>
               )
             }

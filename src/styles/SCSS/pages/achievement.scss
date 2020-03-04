@@ -3,6 +3,10 @@
   width: 100vw;
   overflow: hidden;
 
+  .fullWidth {
+    width: 100%;
+  }
+
   .singleStep {
     padding: $step * 5 $step * 2;
     .subcontainer {
@@ -47,32 +51,25 @@
     border-radius: $brd-radius-small;
     border: 1px solid map_get($lightColor, 200);
     display: flex;
-    width: min-content;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: $step * 2 0;
     max-width: 100%;
-    padding: $step * 2;
+
     > div {
-      border-right: 1px solid map_get($lightColor, 200);
-      padding-right: $step * 2;
-      margin-right: $step * 2;
-      h6, p {
-        white-space: nowrap;
+      flex: 0 0 33.33%;
+      padding-left: $step * 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      &:not(:last-child) {
+        border-right: 1px solid map_get($lightColor, 200);
       }
       p {
-        @include fontStyle(200);
-        color: map_get($darkColor, 200);
         span {
-          text-align: end;
           vertical-align: baseline;
-          justify-content: flex-end;
-          font-family: $font-family-secondary;
-          @include fontStyle(700);
-          color: map_get($greenColor, 400);
         }
-      }
-      &:last-child {
-        border: none;
-        padding-right: 0;
-        margin-right: 0;
       }
     }
   }
