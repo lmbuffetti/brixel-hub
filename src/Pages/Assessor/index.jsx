@@ -64,7 +64,6 @@ function Assessor(props) {
   useEffect(() => {
     if (gameHistory && gameHistory.data && property.id) {
       const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === property.id);
-      console.log('check', checkGameExist, gameHistory, getAchievement());
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
         if (!saved) {

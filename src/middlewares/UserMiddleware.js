@@ -27,6 +27,8 @@ const checkUser = (store) => (next) => (action) => {
   switch (action.type) {
     case CHECK_TOKEN: {
       next(action);
+      // const { skipRedirect } = action.payload;
+      // delete action.payload.skipRedirect;
       store.dispatch({ type: SPINNER_ON });
       api.user.validateToken(action.payload)
         .then((response) => {

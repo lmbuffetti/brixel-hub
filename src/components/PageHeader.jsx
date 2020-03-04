@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
@@ -15,6 +14,8 @@ import { translateTo } from '../utils/translation';
 import awards from '../images/BrxielComingTown/awards.svg';
 import brixels from '../images/BrxielComingTown/brixels.svg';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
+
+const baseByData = require('@brixel/brixel-configuration-partner/src/SettingsWebpack');
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -87,7 +88,7 @@ function PageHeader(props) {
       setShowMobileMenu(true);
       document.body.classList.add('ov-h');
     } else {
-      window.open(getConfigEnv.profileURL, '_blank');
+      window.open(baseByData(null,'io').profileURL, '_blank');
     }
   };
 
@@ -149,7 +150,7 @@ function PageHeader(props) {
               ) : (
                 <div className="ml-2">
                   <AvatarImage
-                    avatarImg={ loggedUser.user.avatar && loggedUser.user.avatar[0] ? `${getConfigEnv.shortPath}${loggedUser.user.avatar[0].thumbnailPath}` : null}
+                    avatarImg={ loggedUser.user.avatar && loggedUser.user.avatar[0] ? `${baseByData.shortPath}${loggedUser.user.avatar[0].thumbnailPath}` : null}
                     name={loggedUser.user.name}
                     size={40}
                     onClick={() => avatarAction()}
@@ -249,7 +250,7 @@ function PageHeader(props) {
               </a>
               <a
                 className="txtLight100 fweight-700 fSizePx28 mb-4"
-                href={getConfigEnv.profileURL}
+                href={baseByData.profileURL}
                 target="_blank"
                 rel="noopener noreferrer"
               >

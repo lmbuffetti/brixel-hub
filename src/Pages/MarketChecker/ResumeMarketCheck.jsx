@@ -54,7 +54,6 @@ function ResumeMarketCheck(props) {
         packageFlowProcess: property.packageFlowProcess || {},
         properties: property.properties,
       };
-      console.log(data.packageFlowProcess);
       data.properties.building.conditionCode = get(formValue, 'properties.building.conditionCode', null);
       data.packageFlowProcess.rewardScreenData = {
         market_check_date: moment().format(),
