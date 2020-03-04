@@ -27,7 +27,7 @@ function PageHeader(props) {
   // PROPS
   const {
     lang, languages, loggedUser, userAwards, userBrixelPoint,
-    handleSetLanguage, history, handleGetGame,
+    handleSetLanguage, history, handleGetGame, property,
   } = props;
   // STATE
   const [currentLang, setCurrentLang] = useState(lang);
@@ -92,6 +92,11 @@ function PageHeader(props) {
     } else {
       window.open(baseByData(null,'io').profileURL, '_blank');
     }
+  };
+
+  const onClickMenu = (link) => {
+    history.push(link);
+    setShowMobileMenu(false);
   };
 
   return (
@@ -233,8 +238,7 @@ function PageHeader(props) {
             <div className="links dis-fl-col as-b pl-4">
               <button
                 className="txtLight100 fweight-700 fSizePx28 mb-4"
-                href='#'
-                rel="noopener noreferrer"
+                onClick={() => onClickMenu(`/${property.id}/property/list`)}
               >
                 Properties
               </button>
@@ -273,6 +277,7 @@ PageHeader.propTypes = {
   loggedUser: PropTypes.object,
   history: PropTypes.object.isRequired,
   handleGetGame: PropTypes.func.isRequired,
+  property: PropTypes.object.isRequired,
   userAwards: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
   userBrixelPoint: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
 };
@@ -291,6 +296,7 @@ const mapStateToProps = (state) => ({
   languages: get(state, 'common.languages', []),
   lang: get(state, 'common.language', []),
   userAwards: get(state, 'user.awards', []),
+  property: get(state, 'property.property', {}),
   userBrixelPoint: get(state, 'user.brixelPoint', []),
 });
 

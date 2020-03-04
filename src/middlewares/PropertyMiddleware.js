@@ -1,4 +1,5 @@
 /* eslint-disable no-case-declarations */
+import get from 'lodash/get';
 import {
   ADD_PROPERTY,
   GET_ESTIMATION,
@@ -78,7 +79,9 @@ const checkCommon = (store) => (next) => (action) => {
     case GET_PROPERTY:
       next(action);
       store.dispatch({ type: SPINNER_ON });
-      api.property.getProperty(action.payload.id)
+      const fullVersion = get(action, 'payload.fullVersion', true);
+      const apiEndPoint = (data) => fullVersion ? api.property.getProperty(data) : api.property.getPropertySimplified(data);
+      apiEndPoint(action.payload.id)
         .then((res) => {
           store.dispatch({ type: SET_PROPERTY, payload: res.data });
           store.dispatch({ type: SPINNER_OFF });

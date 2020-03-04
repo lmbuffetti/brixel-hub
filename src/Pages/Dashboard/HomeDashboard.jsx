@@ -36,7 +36,7 @@ const HomeDashboard = (props) => {
   useEffect(() => {
     let filtUsrGroup = [];
     let userType;
-    if (property.id && (property.owner.id === loggedUser.user.id || loggedUser.user.role.name === 'Administrator')) {
+    if (property.id && (property.owner.id === loggedUser.user.id)) {
       userType = 'seller';
     } else {
       userType = 'buyer';
@@ -87,15 +87,13 @@ const HomeDashboard = (props) => {
           )
         }
       </div>
-      {userType}
-
       {
         usrGroups && usrGroups.map((group, i) => (
           <Fragment key={i.toString()}>
             {
-              GameGroupConfig[`level${group.stub.replace(/^\D+/g, '')}`] && (
+              GameGroupConfig[`${userType}Level${group.stub.replace(/^\D+/g, '')}`] && (
                 <>
-                  <span className="mb-3 dis-b txtDark700 fweight-500">{GameGroupConfig[`level${group.stub.replace(/^\D+/g, '')}`].name}</span>
+                  <span className="mb-3 dis-b txtDark700 fweight-500">{GameGroupConfig[`${userType}Level${group.stub.replace(/^\D+/g, '')}`].name}</span>
                   <div key={i.toString()} className="pl-5 pos-r">
                     <div className="timelineBar" />
                     {
@@ -110,7 +108,7 @@ const HomeDashboard = (props) => {
                                 subtitle={item.description}
                                 background="light100"
                                 className="mb-2 w-perc-100 opacity5 p-2"
-                                colorIcon={GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].iconColor}
+                                colorIcon={GameGroupConfig[`${userType}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
                                 backIcon="light200 mr-1"
                                 multilineInfo={[
                                   {label: 'Coming', color: 'dark200'},
@@ -122,10 +120,10 @@ const HomeDashboard = (props) => {
                                 icon={item.done ? 'check' : item.icon}
                                 label={item.name}
                                 subtitle={item.description}
-                                background={item.done ? 'light100' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].color}
+                                background={item.done ? 'light100' : GameGroupConfig[`${userType}Level${group.stub.replace( /^\D+/g, '')}`].color}
                                 className={`mb-2 w-perc-100 p-2 ${item.done ? '' : 'shadow-2dp'}`}
-                                colorIcon={item.done ? 'green400'  : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].iconColor}
-                                backIcon={`${item.done ? 'light200' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
+                                colorIcon={item.done ? 'green400'  : GameGroupConfig[`${userType}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
+                                backIcon={`${item.done ? 'light200' : GameGroupConfig[`${userType}Level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
                                 paddingIconClass="fSizePx24 p-small-12"
                                 multilineInfo={[
                                   item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},

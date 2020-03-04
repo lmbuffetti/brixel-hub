@@ -59,7 +59,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (propID) {
-      handleGetProperty({id: propID});
+      handleGetProperty({fullVersion: false, id: propID});
     } else {
       const data = {
         limit: 1,
@@ -77,8 +77,9 @@ const Dashboard = (props) => {
     if (!propID && property.id) {
       history.push(`/${property.id}/home`);
     }
+    if (property.owner === loggedUser.user.id) handleGetProperty({fullVersion: true, id: propID});
     const getPercComplete = get(property, 'inputSheet.totalComplete', null);
-    if (property.id && !getPercComplete) {
+    if (property.id && !getPercComplete && property.owner.id) {
       const getPerc = getCalcSectionInputSheets(InputSheets('en'), property, {});
       const data = {
         skipSection: getPerc.section.section,

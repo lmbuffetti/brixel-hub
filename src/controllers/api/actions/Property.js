@@ -18,6 +18,11 @@ class Property extends Base {
     return this.apiClient.get(url, {});
   }
 
+  getPropertySimplified(id) {
+    const url = ep.property.pageByIdSimplified(id);
+    return this.apiClient.get(url, {});
+  }
+
   getProperties(limit, offset) {
     const url = ep.property.page(limit, offset);
     return this.apiClient.get(url, {});

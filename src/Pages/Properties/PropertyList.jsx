@@ -45,7 +45,7 @@ const PropertyList = (props) => {
   return (
     <div className="properties">
       {
-        (userProperties && userProperties.length > 0) && (
+        (activeProperties && activeProperties.length > 0) && (
           <div className="px-2 pb-5">
             {
               activeProperties.map((property, i) => (
