@@ -173,7 +173,7 @@ function Rewards(props) {
                   {
                     marketData && marketData.priceDistribution && property.estimation && property.estimation.bestimate && (
                       <>
-                        <h5 className="mb-2">Your Bestimate®</h5>
+                        <h5 className="mb-2">Your Bestimate&reg;</h5>
                         <RangePriceChart
                           properties={marketData.priceDistribution.c}
                           type="bestimate"
@@ -184,7 +184,7 @@ function Rewards(props) {
                   }
                 </div>
                 <div className="col-md-6">
-                  <p>The Bestimate® gives you a free price indication. For a more accurate estimation, we suggest you to do a pro estimation by IAZI.</p>
+                  <p>The Bestimate&reg; gives you a free price indication. For a more accurate estimation, we suggest you to do a pro estimation by IAZI.</p>
                 </div>
               </div>
 

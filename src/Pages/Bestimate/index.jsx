@@ -217,7 +217,7 @@ function Bestimate(props) {
       }
       <PageHeaderAchievement
         icon="money"
-        title="Bestimate®"
+        title="Bestimate&reg;"
         subtitle="Your indicative price estimation"
       />
       <form
@@ -230,7 +230,7 @@ function Bestimate(props) {
             Questions.map((quest, i) => (
               <div
                 id={`step-${i}`}
-                className={`singleStep ${quest.background || ''} ${quest.className || ''}`}
+                className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
                 key={i.toString()}
                 style={{
                   visibility: i !== currentIndex ? 'hidden' : 'visible',
@@ -241,7 +241,7 @@ function Bestimate(props) {
                     currentIndex === 0 && (
                       <>
                         <h5 className="ta-c mb-5">{quest.title}</h5>
-                        <div className="ta-c"><img src={quest.img} alt="Done Assessor" /></div>
+                        <div className="ta-c"><img src={quest.img} alt="Done Assessor"/></div>
                         <p className="ta-c mt-5">{quest.description}</p>
                       </>
                     )
@@ -249,7 +249,8 @@ function Bestimate(props) {
                   {
                     quest.inputs && (
                       <>
-                        <h5 className="mb-4 mb-md-10 fsize-md-800">{quest.title}</h5>
+                        { quest.extraInfo && ( <p className="mb-3">{quest.extraInfo}</p> )}
+                        <h5 className="mb-4 mb-md-6 fsize-md-700">{quest.title}</h5>
 
                         {
                           quest.inputs.map((input, f) => (

@@ -30,8 +30,8 @@ function PageHeaderAchievement(props) {
             padding="p-small-9"
           />
           <div className="ml-2 dis-fl-col as-fe">
-            <h6 className="mb-1-neg">{title}</h6>
-            <span className="fSizePx12 pt-small-4 txtDark200">{subtitle}</span>
+            <p className="mb-1-neg fsize-400 fweight-500 txtDark700">{title}</p>
+            <p className="fsize-100 pt-small-6 txtDark200">{subtitle}</p>
           </div>
         </div>
         <BrixelButtonIcon

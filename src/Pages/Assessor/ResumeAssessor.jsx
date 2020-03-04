@@ -52,7 +52,7 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].constructor && (
                 <div className='dis-f jc-b mb-2'>
-                  <h6>Construction Material</h6>
+                  <p className="fweight-500 txtDark700">Construction Material</p>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].constructor[Object.keys(condition[selBaseRenovation].constructor)[0]]}
                   />
@@ -62,7 +62,7 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].roof && (
                 <div className='dis-f jc-b mb-2'>
-                  <h6>Roof Type</h6>
+                  <p className="fweight-500 txtDark700">Roof Type</p>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].roof[Object.keys(condition[selBaseRenovation].roof)[0]]}
                   />
@@ -72,7 +72,7 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].facade && (
                 <div className='dis-f jc-b mb-2'>
-                  <h6>Facade</h6>
+                  <p className="fweight-500 txtDark700">Facade</p>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].facade[Object.keys(condition[selBaseRenovation].facade)[0]]}
                   />
@@ -82,7 +82,7 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].heating && (
                 <div className='dis-f jc-b mb-2'>
-                  <h6>Heating</h6>
+                  <p className="fweight-500 txtDark700">Heating</p>
                   <BrixelShowQuality
                     value={selOneElement(condition[selBaseRenovation].heating) || 0}
                   />
@@ -92,7 +92,7 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].kitchen && (
                 <div className='dis-f jc-b mb-2'>
-                  <h6>Kitchen</h6>
+                  <p className="fweight-500 txtDark700">Kitchen</p>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].kitchen}
                   />
@@ -102,7 +102,7 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].wetCells && (
                 <div className='dis-f jc-b mb-2'>
-                  <h6>Wet Cells</h6>
+                  <p className="fweight-500 txtDark700">Wet Cells</p>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].wetCells}
                   />
@@ -112,7 +112,7 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].electricalSystems && (
                 <div className='dis-f jc-b'>
-                  <h6>Electrical Systems</h6>
+                  <p className="fweight-500 txtDark700">Electrical Systems</p>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].electricalSystems}
                   />
@@ -120,7 +120,7 @@ function ResumeAssessor(props) {
               )
             }
             <div className="dis-f jc-fe a-c mt-4">
-              <p className="mr-2">based on</p>
+              <p className="mr-2 txtDark700">based on</p>
               <BrixelSelect
                 options={[
                   {
