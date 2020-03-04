@@ -219,7 +219,6 @@ const checkCommon = (store) => (next) => (action) => {
           .catch((res) => {
             store.dispatch({ type: SPINNER_OFF });
           });
-        console.log(marketData);
         store.dispatch({ type: SET_MARKET_CHECK, payload: marketData });
         store.dispatch({ type: SPINNER_OFF });
       };

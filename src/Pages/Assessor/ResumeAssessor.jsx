@@ -19,7 +19,7 @@ function ResumeAssessor(props) {
   } = props;
   // STATE
   const [achievement, setAchievement] = useState(null);
-  const [selBaseRenovation, setSelRenovation] = useState('renovation');
+  const [selBaseRenovation, setSelRenovation] = useState('construction');
   // URL PARAMS
   const getParams = last(history.location.pathname.split('/'));
 

@@ -30,7 +30,7 @@ export const BestimateQuestions = (lang) => [
         label: '',
         name: 'properties.typology.bathrooms',
         step: 1,
-        validation: [Validation.maxLengthNumRooms, Validation.markRequired]
+        validation: [Validation.maxLengthNumRooms]
       },
     ]
   },
@@ -48,7 +48,6 @@ export const BestimateQuestions = (lang) => [
         pdClass: 'p-1',
         iconClass: 'p-small-17 fSizePx22 bgPrimary400 txtWhite brdRadius mr-1',
         options: factsOptions.BrixelExtraFeature,
-        validation: [Validation.markRequired],
       },
     ]
   },
