@@ -43,7 +43,6 @@ const HomeDashboard = (props) => {
     }
     filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userType) !== -1);
     setUserType(userType);
-    console.log(filtUsrGroup, userType);
     if (gameHistory.data) {
       // CHECK IF DONE HOMEBASE
       gameHistory.data.map((game) => {
@@ -55,7 +54,6 @@ const HomeDashboard = (props) => {
         return null;
       })
     }
-    console.log(gameGroup, filtUsrGroup);
     setUsrGroups([...filtUsrGroup]);
   }, [property, gameGroup, gameHistory]);
 
@@ -90,7 +88,7 @@ const HomeDashboard = (props) => {
         }
       </div>
       {userType}
-      {console.log(usrGroups)}
+
       {
         usrGroups && usrGroups.map((group, i) => (
           <Fragment key={i.toString()}>
