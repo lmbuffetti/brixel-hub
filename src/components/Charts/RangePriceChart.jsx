@@ -147,10 +147,10 @@ function RangePriceChart(props) {
       .text(d => d.value)
       .on('mouseover', (e) => {
         let transform = 'transform: translate(-50%,0);';
-        let left = '50%';
+        //let left = '50%';
         if (e && xScale(e.priceRangeStart) < 70) {
           transform = 'transform: translate(-1%, 0)';
-          left = 0;
+          // left = 0;
         }
         const circle = d3.select(`#${randomID}`);
         circle.append('div')
@@ -184,6 +184,18 @@ function RangePriceChart(props) {
     chart.append('g')
       .attr('class', 'slider')
       .attr('transform', `translate(0,${height})`);
+
+    chart.select('.slider')
+      .append('line')
+      .attr('class', 'trackback')
+      .attr('fill', '#00FF00')
+      .attr('x1', () => {
+        return 13;
+      })
+      .attr('x2', () => {
+        let calcMax = xScale(discreteDomainMapper(cfg.maxValue)) + xScale.bandwidth();
+        return calcMax;
+      });
 
     chart.select('.slider')
       .append('line')
@@ -304,7 +316,7 @@ function RangePriceChart(props) {
           />
         )
       }
-      <div className="rangeGraph" style={{ marginTop: '0', position: 'relative', left: '-13px' }}>
+      <div className="rangeGraph" style={{ marginTop: '0', position: 'relative' }}>
         {drawChart()}
       </div>
     </div>

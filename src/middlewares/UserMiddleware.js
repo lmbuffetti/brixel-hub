@@ -7,6 +7,7 @@ import {
   VALIDATE_USER,
   GET_USER_PROPERTIES,
   SET_USER_PROPERTIES,
+  GET_FAVORITES, SET_FAVORITES,
 } from '../actions/types/UserTypes';
 
 import {
@@ -160,6 +161,19 @@ const checkUser = (store) => (next) => (action) => {
           } else if (newUser) {
             store.dispatch({ type: CREATE_USER, payload: action.payload });
           }
+          store.dispatch({ type: SPINNER_OFF });
+        })
+        .catch(() => {
+          store.dispatch({ type: SPINNER_OFF });
+        });
+      break;
+    }
+    case GET_FAVORITES: {
+      next(action);
+      store.dispatch({ type: SPINNER_ON });
+      api.user.getFavoritesPages()
+        .then((res) => {
+          store.dispatch({ type: SET_FAVORITES, payload: res.data });
           store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {

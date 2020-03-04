@@ -27,13 +27,10 @@ import { translateTo } from '../../utils/translation';
 import last from 'lodash/last';
 import { addGameHistory, getGameHistory } from '../../actions/GamificationActions';
 import PageHeaderAchievement from '../../components/PageHeaderAchievement';
-import doneAssessor from '../../images/Assessor/doneAssessor.svg';
 
 function Assessor(props) {
   // PROPS
   const {
-    changeFieldValue,
-    checkValid,
     errorValue,
     formValue,
     gameHistory,
@@ -54,7 +51,7 @@ function Assessor(props) {
   const [hidePrevBtn, setHidePrevBtn] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progressBar, setProgressBar] = useState(0);
-  const [Questions, setQuestions] = useState(AssessorQuestions(lang));
+  const [Questions] = useState(AssessorQuestions(lang));
   const [saved, setSaved] = useState(false);
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));

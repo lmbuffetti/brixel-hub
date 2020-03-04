@@ -48,6 +48,7 @@ export default {
     getToken: () => '/authentication/getToken',
     tokenValidationWithUser: () => '/authentication/getTokenWithUser',
     getTokenValidation: () => '/authentication/validateToken',
+    favoritePages: () => '/user/favoritePages',
     createUser: () => '/user/register',
     recoverPassword: (email) => `/user/recoverPassword/${email}`,
     updateUser: (userId) => `/user/${userId}`,

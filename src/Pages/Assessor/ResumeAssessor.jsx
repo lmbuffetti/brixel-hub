@@ -1,9 +1,7 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import last from 'lodash/last';
-import isNaN from 'lodash/isNaN';
 import { compose } from 'redux';
 import {
   withRouter,
@@ -14,30 +12,15 @@ function ResumeAssessor(props) {
   // PROPS
   const {
     condition,
-    gameGroup,
-    history,
   } = props;
   // STATE
-  const [achievement, setAchievement] = useState(null);
   const [selBaseRenovation, setSelRenovation] = useState('construction');
-  // URL PARAMS
-  const getParams = last(history.location.pathname.split('/'));
-
-  useEffect(() => {
-    if (gameGroup) {
-      let selectedGame;
-      gameGroup.map((game) => {
-        let curGame = game.achievements.find(item => item.stub === getParams);
-        if (curGame) selectedGame = curGame;
-      });
-      setAchievement(selectedGame);
-    }
-  }, [gameGroup]);
 
   const selOneElement = (el) => {
     let lessNumber = 4;
     Object.keys(el).map((key) => {
       if (el[key] < lessNumber) lessNumber = el[key];
+      return null;
     });
     return lessNumber || 0;
   };

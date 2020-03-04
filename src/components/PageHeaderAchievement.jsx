@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { BrixelButtonIcon, BrixelIcon } from '@brixel/brixel-components';
 import PropTypes from 'prop-types';

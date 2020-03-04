@@ -54,10 +54,11 @@ const checkCommon = (store) => (next) => (action) => {
       break;
     case UPDATE_PROPERTY: {
       next(action);
-      const { id, redirectTo, smallLoader } = action.payload;
+      const { id, redirectTo, redirectToHome, smallLoader } = action.payload;
       delete action.payload.id;
       delete action.payload.redirectTo;
       delete action.payload.smallLoader;
+      delete action.payload.redirectToHome;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
       else store.dispatch({ type: SPINNER_ON });
       api.property.updateProperty(id, action.payload)
@@ -67,6 +68,9 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SET_PROPERTY, payload: res.data });
           if (redirectTo) {
             store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
+          }
+          if (redirectToHome) {
+            window.location.href = `/${res.data.id}/home`;
           }
         });
       break;

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^1.2.6",
+    "@brixel/brixel-components": "^1.2.13",
     "@brixel/brixel-configuration-partner": "git+https://mbuffetti:ADLQ3ceTTLWkQLrwAPfi@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "d3": "^5.15.0",
     "deep-object-diff": "^1.1.0",
@@ -34,7 +34,7 @@
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
-    "redux-form": "^8.3.0",
+    "redux-form": "^8.3.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "swiper": "^5.3.6",

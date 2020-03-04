@@ -10,6 +10,7 @@ import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
+import { getGameHistory } from '../actions/GamificationActions';
 import { translateTo } from '../utils/translation';
 import awards from '../images/BrxielComingTown/awards.svg';
 import brixels from '../images/BrxielComingTown/brixels.svg';
@@ -26,7 +27,7 @@ function PageHeader(props) {
   // PROPS
   const {
     lang, languages, loggedUser, userAwards, userBrixelPoint,
-    handleSetLanguage, history,
+    handleSetLanguage, history, handleGetGame,
   } = props;
   // STATE
   const [currentLang, setCurrentLang] = useState(lang);
@@ -41,6 +42,7 @@ function PageHeader(props) {
       setCurrentLang(lang);
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
+      handleGetGame();
     }
   }, [loggedUser, lang]);
 
@@ -229,25 +231,25 @@ function PageHeader(props) {
               }}
             />
             <div className="links dis-fl-col as-b pl-4">
-              <a
+              <button
                 className="txtLight100 fweight-700 fSizePx28 mb-4"
                 href='#'
                 rel="noopener noreferrer"
               >
                 Properties
-              </a>
-              <a
-                className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none"
+              </button>
+              <button
+                className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
                 onClick={() => ''}
               >
                 Messages
-              </a>
-              <a
-                className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none"
+              </button>
+              <button
+                className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
                 onClick={() => ''}
               >
                 Calendar
-              </a>
+              </button>
               <a
                 className="txtLight100 fweight-700 fSizePx28 mb-4"
                 href={baseByData.profileURL}
@@ -270,6 +272,7 @@ PageHeader.propTypes = {
   lang: PropTypes.string,
   loggedUser: PropTypes.object,
   history: PropTypes.object.isRequired,
+  handleGetGame: PropTypes.func.isRequired,
   userAwards: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
   userBrixelPoint: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
 };
@@ -293,6 +296,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
+  handleGetGame: bindActionCreators(getGameHistory, dispatch),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageHeader));

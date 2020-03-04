@@ -10,7 +10,7 @@ import logo from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 const MenuSidebar = (props) => {
   // PROPS
   const {
-    history, match, activeProperty,
+    history, activeProperty,
     // preventExit, setUnsavedModal,
   } = props;
 
