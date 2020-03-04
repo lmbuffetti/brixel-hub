@@ -1,16 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { diff } from 'deep-object-diff';
-import last from 'lodash/';
 import { bindActionCreators, compose } from 'redux';
 import { getEstimation, getMarketCheck, updateProperty } from '../../actions/PropertyActions';
 import {
   withRouter,
 } from 'react-router-dom';
-import { BrixelShowQuality } from '@brixel/brixel-components';
-import { arrayToObject } from 'redux-actions/lib/utils/arrayToObject';
 import RangePriceChart from '../../components/Charts/RangePriceChart';
 
 function ResumeBestimate(props) {
@@ -18,20 +15,16 @@ function ResumeBestimate(props) {
   const {
     condition,
     estimation,
-    gameGroup,
     handleGetEstimation,
     handleGetMarketData,
     handleUpdateProperty,
-    history,
     marketData,
     match,
     property,
   } = props;
   // STATE
-  const [achievement, setAchievement] = useState(null);
   const [saved, setSaved] = useState(false);
   // URL PARAMS
-  const getParams = last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
 
 
@@ -74,26 +67,6 @@ function ResumeBestimate(props) {
       }
     }
   }, [estimation]);
-
-  useEffect(() => {
-    if (gameGroup) {
-      let selectedGame;
-      gameGroup.map((game) => {
-        let curGame = game.achievements.find(item => item.stub === getParams);
-        if (curGame) selectedGame = curGame;
-      });
-      setAchievement(selectedGame);
-    }
-  }, [gameGroup]);
-
-  const selOneElement = (el) => {
-    let lessNumber = 4;
-    Object.keys(el).map((key) => {
-      if (el[key] < lessNumber) lessNumber = el[key];
-      return null;
-    });
-    return lessNumber;
-  };
 
   return (
     <main id="rewards" className="pb-4 txtDark700">

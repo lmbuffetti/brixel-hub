@@ -49,7 +49,7 @@ function Assessor(props) {
   const [hidePrevBtn, setHidePrevBtn] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progressBar, setProgressBar] = useState(0);
-  const [Questions, setQuestions] = useState(MarketCheckQuestions(lang));
+  const [Questions] = useState(MarketCheckQuestions(lang));
   const [saved, setSaved] = useState(false);
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));

@@ -123,6 +123,7 @@
           width: 99.5%;
           margin-left: auto;
           margin-right: auto;
+          @include fontStyle(400)
         }
       }
     }

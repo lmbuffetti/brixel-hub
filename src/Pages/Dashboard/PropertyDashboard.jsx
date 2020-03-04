@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, { useEffect, useState }  from 'react';
 import PropTypes from 'prop-types';
 import {
   withRouter,
@@ -12,16 +12,34 @@ import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import noCover from '../../images/no_cover.jpg';
+import { roundFifty } from '../../utils/helpers';
 
 const HomeDashboard = (props) => {
   // PROPS
   const {
-    property, match, history, langConfig,
+    property,
+    match,
+    history,
+    langConfig,
+    loggedUser,
   } = props;
+  // STATE
+  const [userType, setUserType] = useState();
+
+  useEffect(() => {
+    if (property.id && loggedUser.user) {
+      let userType = 'buyer';
+      if (property.id && (property.owner.id === loggedUser.user.id)) {
+        userType = 'seller';
+      }
+      setUserType(userType);
+    }
+  }, [property, loggedUser]);
 
   const goToPreview = (e) => {
     e.preventDefault();
-    window.open(`${getConfigEnv.pageUrl}preview/${property.stub}`, '_blank');
+    if (userType === 'seller') window.open(`${getConfigEnv.pageUrl}preview/${property.stub}`, '_blank');
+    else window.open(`${getConfigEnv.pageUrl}${property.stub}`, '_blank');
   };
 
   const goToInputSheet = (e) => {
@@ -74,17 +92,21 @@ const HomeDashboard = (props) => {
               icon="eye"
               onClick={(e) => goToPreview(e)}
             />
-            <BrixelButtonIcon
-              icon="edit"
-              onClick={(e) => goToInputSheet(e)}
-            />
+            {
+              userType === 'seller' && (
+                <BrixelButtonIcon
+                  icon="edit"
+                  onClick={(e) => goToInputSheet(e)}
+                />
+              )
+            }
           </div>
         </div>
 
         <div className="transparency-container mb-2">
           <div className="dis-fl-col ta-l">
             {
-              get(property, 'inputSheet') && (
+              get(property, 'inputSheet') && userType === 'seller' && (
                 <>
                   <span className="subtitle fSizePx12 txtDark200">Transparency</span>
                   <div className="dis-f txtPrimary700">
@@ -114,9 +136,14 @@ const HomeDashboard = (props) => {
                     <span className="subtitle fSizePx12 txtDark200">Price</span>
                     <div className="dis-fl-row jc-b">
                       <span className="value txtDark500">{property.price.currency} {property.price.total.toLocaleString(langConfig.localString)}</span>
-                      <div><span className="value txtDark500">{/* property.price.pricePerM2.toLocaleString(langConfig.localString) */}</span>
-                        <span className="fSizePx12 txtDark500"> / m2</span>
-                      </div>
+                      {
+                        has(property, 'price.pricePerM2') && (
+                          <div className="dis-f a-c">
+                            <span className="value txtDark500">{roundFifty(property.price.pricePerM2).toLocaleString(langConfig.localString)}</span>
+                            <span className="fSizePx12 txtDark500"> / m2</span>
+                          </div>
+                        )
+                      }
                     </div>
                   </div>
                 )
@@ -140,24 +167,30 @@ const HomeDashboard = (props) => {
         </div>
 
         <div className="boxPanel dis-fl-row jc-b mb-4">
-          <div
-            className="dis-fl-row a-c p-1 brdRadius"
-            onClick={(e) => openDocuments(e)}
-          >
-            <BrixelIcon
-              className="mr-1"
-              icon="folder"
-              color="light"
-              padding="p-small-9"
-              saturationTxt={100}
-              background="primary"
-              saturation={300}
-            />
-            <div className="dis-fl-col a-l">
-              <span className="tabTitle txtDark700">Docubox</span>
-              <div className="length dis-fl-row txtDark200 fSizePx12"><span>{property.documents && property.documents.length > 0 ? property.documents.length : 0}&nbsp;</span> <span> files</span></div>
-            </div>
-          </div>
+          {
+            userType === 'seller' && (
+              <div
+                className="dis-fl-row a-c p-1 brdRadius"
+                onClick={(e) => openDocuments(e)}
+              >
+                <BrixelIcon
+                  className="mr-1"
+                  icon="folder"
+                  color="light"
+                  padding="p-small-9"
+                  saturationTxt={100}
+                  background="primary"
+                  saturation={300}
+                />
+                <div className="dis-fl-col a-l">
+                  <span className="tabTitle txtDark700">Docubox</span>
+                  <div className="length dis-fl-row txtDark200 fSizePx12">
+                    <span>{property.documents && property.documents.length > 0 ? property.documents.length : 0}&nbsp;</span>
+                    <span> files</span></div>
+                </div>
+              </div>
+            )
+          }
           <div
             className="dis-fl-row a-c p-1 brdRadius"
           >
@@ -177,23 +210,27 @@ const HomeDashboard = (props) => {
           </div>
         </div>
 
-        <div className="buyer">
-          <h5 className="mb-1 txtDark700">Buyer</h5>
-          <div className="buyer-container dis-fl-row row-cols-3 jc-b a-c brdRadius p-2">
-            <div className="dis-fl-col jc- a-c">
-              <span className="number txtDark500">0</span>
-              <span className="text">Requests</span>
+        {
+          userType === 'seller' && (
+            <div className="buyer">
+              <h5 className="mb-1 txtDark700">Buyer</h5>
+              <div className="buyer-container dis-fl-row row-cols-3 jc-b a-c brdRadius p-2">
+                <div className="dis-fl-col jc- a-c">
+                  <span className="number txtDark500">0</span>
+                  <span className="text">Requests</span>
+                </div>
+                <div className="dis-fl-col jc- a-c">
+                  <span className="number txtDark500">0</span>
+                  <span className="text">Visits</span>
+                </div>
+                <div className="dis-fl-col jc- a-c">
+                  <span className="number txtDark500">0</span>
+                  <span className="text">Offers</span>
+                </div>
+              </div>
             </div>
-            <div className="dis-fl-col jc- a-c">
-              <span className="number txtDark500">0</span>
-              <span className="text">Visits</span>
-            </div>
-            <div className="dis-fl-col jc- a-c">
-              <span className="number txtDark500">0</span>
-              <span className="text">Offers</span>
-            </div>
-          </div>
-        </div>
+          )
+        }
       </div>
     </>
   )
@@ -204,6 +241,7 @@ HomeDashboard.propTypes = {
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   langConfig: PropTypes.string.isRequired,
+  loggedUser: PropTypes.object.isRequired,
   userAwards: PropTypes.arrayOf(PropTypes.object.isRequired),
 };
 
@@ -211,8 +249,9 @@ HomeDashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  property: get(state, 'property.property', {}),
   langConfig: get(state, 'common.language', ''),
+  loggedUser: get(state, 'user.loggedUser', {}),
+  property: get(state, 'property.property', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

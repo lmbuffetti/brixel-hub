@@ -14,6 +14,8 @@ import {
   VALIDATE_USER,
   GET_USER_PROPERTIES,
   SET_USER_PROPERTIES,
+  GET_FAVORITES,
+  SET_FAVORITES,
 } from './types/UserTypes';
 
 export const {
@@ -31,6 +33,8 @@ export const {
   validateUser,
   getUserProperties,
   setUserProperties,
+  getFavorites,
+  setFavorites,
 } = createActions({
   [CREATE_USER]: (payload) => payload,
   [CHECK_TOKEN]: (payload) => payload,
@@ -46,4 +50,6 @@ export const {
   [VALIDATE_USER]: (payload) => payload,
   [GET_USER_PROPERTIES]: (payload) => payload,
   [SET_USER_PROPERTIES]: (payload) => payload,
+  [GET_FAVORITES]: (payload) => payload,
+  [SET_FAVORITES]: (payload) => payload,
 });

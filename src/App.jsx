@@ -67,7 +67,7 @@ const Documents = Loadable({
 });
 
 const Properties = Loadable({
-  loader: () => import('./components/Properties' /* webpackChunkName: "Properties" */),
+  loader: () => import('./Pages/Properties' /* webpackChunkName: "Properties" */),
   loading: Loading,
 });
 
@@ -208,7 +208,7 @@ const App = (props) => {
       <div className="zIndex3">
         <Switch>
           {/* SECTION: DOCUMENTS */}
-          <Route path="/:propId?/property/list" exact component={Properties} />
+          <Route path="/:propId?/:act/list" component={Properties} />
           <Route path="/:propId?/property/documents" exact component={Documents} />
           <Route path="/:propId?/property/media" exact component={EditProperty} />
           <Route path="/:propId?/property/settings" exact component={EditProperty} />

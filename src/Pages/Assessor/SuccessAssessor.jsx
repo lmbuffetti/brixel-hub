@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,7 +8,6 @@ import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { BrixelIcon } from '@brixel/brixel-components';
 import { getGamegroup } from '../../actions/GamificationActions';
 import doneAssessor from '../../images/Assessor/doneAssessor.svg';
 import newAssessor from '../../images/Assessor/newAssessor.svg';
@@ -31,10 +31,11 @@ function SuccessAssessor(props) {
 
   useEffect(() => {
     if (gameGroup) {
-      let selectedGame;
+      let selectedGame = null;
       gameGroup.map((game) => {
         let curGame = game.achievements.find(item => item.stub === getParams);
         if (curGame) selectedGame = curGame;
+        return null;
       });
       setAchievement(selectedGame);
     }
