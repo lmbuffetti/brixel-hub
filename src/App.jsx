@@ -85,7 +85,7 @@ const App = (props) => {
 
   useEffect(() => {
     if (history && history.location) {
-      ga('send', 'pageview', history.location.pathname);
+      // ga('send', 'pageview', history.location.pathname);
     }
   }, [history.location]);
 
