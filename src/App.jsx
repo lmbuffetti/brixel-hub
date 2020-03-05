@@ -13,13 +13,8 @@ import Cookies from 'universal-cookie';
 import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
-import queryString from 'query-string';
 import { BrixelIcon, BrixelNotification } from '@brixel/brixel-components';
 import PageHeader from './components/PageHeader';
-import ReactGA from 'react-ga';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-
-ReactGA.initialize(baseByData.googleAnalyticsIdHub);
 
 const Dashboard = Loadable({
   loader: () => import('./Pages/Dashboard' /* webpackChunkName: "Dashboard" */),
@@ -105,10 +100,6 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
     )
   }
-
-  const fireTracking = () => {
-    ReactGA.pageview(window.location.hash);
-  };
 
   return (
     <>
