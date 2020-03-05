@@ -178,6 +178,7 @@ const App = (props) => {
         modal.state && (
           <BrixelModal
             classHeight={modal.height}
+            classWidth={modal.width}
             title={modal.title}
             titleIcon={modal.titleIcon}
             color={modal.color}
@@ -190,7 +191,8 @@ const App = (props) => {
             multiActions={modal.multiActions}
             clickOutsideToClose={modal.clickOutsideToClose}
           >
-            <div dangerouslySetInnerHTML={{ __html: modal.body }} />
+            <h6 className="mb-2" dangerouslySetInnerHTML={{ __html: modal.hint}} />
+            <div className="body2" dangerouslySetInnerHTML={{ __html: modal.body}} />
           </BrixelModal>
         )
       }

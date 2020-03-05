@@ -323,7 +323,7 @@ const InputSheet = (props) => {
                                           dirty: formValue[input.name] && errorValue[input.name] !== true,
                                           invalid: true,
                                         }}
-                                        modal={input.modal ? {message: input.modal.hint, func: () => handleSetModal(input.modal.func)} : null }
+                                        modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
                                         message={{
                                           help: null,
                                           error: errorValue[input.name],
