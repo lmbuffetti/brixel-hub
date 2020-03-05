@@ -48,8 +48,13 @@
 
   .property-info-container {
 
-    .buyer-container > div:not(:last-child) {
-      border-right: 1px solid map-get($lightColor, 200);;
+    .buyer-container {
+      > div {
+        flex:  0 0 33.33%;
+        &:not(:last-child) {
+          border-right: 1px solid map-get($lightColor, 200);;
+        }
+      }
     }
 
     .value {

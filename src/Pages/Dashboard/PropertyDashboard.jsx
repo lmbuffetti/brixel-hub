@@ -214,16 +214,16 @@ const HomeDashboard = (props) => {
           userType === 'seller' && (
             <div className="buyer">
               <h5 className="mb-1 txtDark700">Buyer</h5>
-              <div className="buyer-container dis-fl-row row-cols-3 jc-b a-c brdRadius p-2">
-                <div className="dis-fl-col jc- a-c">
+              <div className="buyer-container dis-fl-row row-cols-3 jc-b a-c brdRadius py-2">
+                <div className="dis-fl-col">
                   <span className="number txtDark500">0</span>
                   <span className="text">Requests</span>
                 </div>
-                <div className="dis-fl-col jc- a-c">
+                <div className="dis-fl-col">
                   <span className="number txtDark500">0</span>
                   <span className="text">Visits</span>
                 </div>
-                <div className="dis-fl-col jc- a-c">
+                <div className="dis-fl-col">
                   <span className="number txtDark500">0</span>
                   <span className="text">Offers</span>
                 </div>
