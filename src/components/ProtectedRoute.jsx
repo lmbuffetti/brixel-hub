@@ -33,8 +33,6 @@ const ProtectedRoute = (props) => {
     }
   }, [loggedUser]);
 
-  console.log(protect);
-
   return (
     <>
       {

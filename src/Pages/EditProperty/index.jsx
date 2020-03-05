@@ -202,6 +202,7 @@ const InputSheetForm = reduxForm({
   // a unique name for the form
   form: 'InputSheet',
   enableReinitialize: true,
+  destroyOnUnmount: false,
 })(InputSheet);
 
 const mapStateToProps = (state) => {
