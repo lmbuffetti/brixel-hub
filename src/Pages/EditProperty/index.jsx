@@ -120,7 +120,7 @@ const InputSheet = (props) => {
               />
             </div>
           </div>
-          <div className="transparency-container mb-2">
+          <div className="transparency-container mb-3">
             <div className="dis-fl-col ta-l">
               {
                 get(initialValues, 'inputSheet') && (
@@ -135,7 +135,7 @@ const InputSheet = (props) => {
                     />
                     <div className="dis-f body txtPrimary700 pt-1">
                       <span className="mr-1 ff-mono">{initialValues.inputSheet.totalComplete}%</span>
-                      <spanz className="ff-mono">completed</spanz>
+                      <span className="ff-mono">completed</span>
                     </div>
                   </>
                 )

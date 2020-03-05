@@ -183,7 +183,7 @@ const HomeDashboard = (props) => {
                   saturation={300}
                 />
                 <div className="dis-fl-col a-l">
-                  <span className="tabTitle txtDark700">Docubox</span>
+                  <span className="tabTitle fsize-400 txtDark700">Docubox</span>
                   <div className="length dis-fl-row txtDark200 fsize-300">
                     <span>{property.documents && property.documents.length > 0 ? property.documents.length : 0}&nbsp;</span>
                     <span> files</span></div>
@@ -204,7 +204,7 @@ const HomeDashboard = (props) => {
               saturation={300}
             />
             <div className="dis-fl-col">
-              <span className="tabTitle txtDark700">Showings</span>
+              <span className="tabTitle fsize-400 txtDark700">Showings</span>
               <div className="length dis-fl-row txtDark200 fsize-300"><span>No upcoming</span></div>
             </div>
           </div>
