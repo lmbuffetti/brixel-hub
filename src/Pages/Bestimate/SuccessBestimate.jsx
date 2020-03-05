@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -32,9 +33,9 @@ function SuccessBestimate(props) {
     if (gameGroup) {
       let selectedGame;
       gameGroup.map((game) => {
-        console.log(gameGroup);
         let curGame = game.achievements.find(item => item.stub === getParams);
         if (curGame) selectedGame = curGame;
+        return null;
       });
       setAchievement(selectedGame);
     }

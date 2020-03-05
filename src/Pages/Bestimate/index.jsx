@@ -27,13 +27,10 @@ import { translateTo } from '../../utils/translation';
 import last from 'lodash/last';
 import { addGameHistory, getGameHistory } from '../../actions/GamificationActions';
 import PageHeaderAchievement from '../../components/PageHeaderAchievement';
-import doneAssessor from '../../images/Assessor/doneAssessor.svg';
 
 function Bestimate(props) {
   // PROPS
   const {
-    changeFieldValue,
-    checkValid,
     errorValue,
     formValue,
     gameHistory,
@@ -54,7 +51,7 @@ function Bestimate(props) {
   const [hidePrevBtn, setHidePrevBtn] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progressBar, setProgressBar] = useState(0);
-  const [Questions, setQuestions] = useState(BestimateQuestions(lang));
+  const [Questions] = useState(BestimateQuestions(lang));
   const [saved, setSaved] = useState(false);
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
@@ -64,12 +61,11 @@ function Bestimate(props) {
   useEffect(() => {
     if (gameHistory && gameHistory.data && property.id) {
       const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === property.id);
-      console.log('check', checkGameExist, gameHistory, getAchievement());
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
         if (!saved) {
-          setCurrentIndex(Questions.length - 1);
-          setPosition(Questions.length - 1);
+          setCurrentIndex(Questions.length - 2);
+          setPosition(Questions.length - 2);
         }
       } else {
         setFinishedFlow(false);
@@ -122,7 +118,6 @@ function Bestimate(props) {
     changeStep();
     // UPDATE PROPERTY
     handleUpdateProperty(dataProp);
-    console.log(loggedUser.user.id);
     setSaved(true);
     // ADD THE ACHIEVEMENT
     if (!finishedFlow) {

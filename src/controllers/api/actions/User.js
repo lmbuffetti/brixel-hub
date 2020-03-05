@@ -28,6 +28,11 @@ class Property extends Base {
     return this.apiClient.put(url, {}, data);
   }
 
+  getFavoritesPages() {
+    const url = ep.user.favoritePages();
+    return this.apiClient.get(url, {});
+  }
+
   getPublicUser(id) {
     const url = ep.user.getPublicUser(id);
     return this.apiClient.get(url, {});

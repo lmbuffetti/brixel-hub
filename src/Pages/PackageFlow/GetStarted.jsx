@@ -21,12 +21,12 @@ import {
   BrixelIcon,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
-import { getToken, setAwards, setBrixelPoint, validateUser, updateUser } from '../../actions/UserActions';
+import { getToken, validateUser, updateUser, setAwards, setBrixelPoint } from '../../actions/UserActions';
 import { addProperty, updateProperty } from '../../actions/PropertyActions';
 import { errorMessage, setPageData, setLanguage } from '../../actions/CommonActions';
 import { getCompany } from '../../actions/CompanyActions';
+import { getGamegroup } from '../../actions/GamificationActions';
 import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.js';
-import { PackageFlow } from '../../resources/packageFlowGetstartedQuestions.js';
 import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
@@ -50,6 +50,8 @@ function GetStarted(props) {
     country,
     errorValue,
     formValue,
+    gameGroup,
+    gameHistory,
     handleCreatePage,
     handleCreateUser,
     handleGetCompany,
@@ -59,6 +61,7 @@ function GetStarted(props) {
     handleSetBrixelPoint,
     handleUpdatePage,
     handleUpdateUser,
+    handleGetGameGroup,
     history,
     lang,
     loggedUser,
@@ -73,7 +76,7 @@ function GetStarted(props) {
   const [loginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
   //const [showAddress, setShowAddress] = useState(true);
-  const [Questions, setQuestions] = useState(QuestionsList(lang));
+  const [Questions, setQuestions] = useState(QuestionsList(lang, gameGroup));
   const [curCountry, setCurCountry] = useState(null);
   const [showCountrySel, setShowCountrySel] = useState(false);
 
@@ -105,6 +108,7 @@ function GetStarted(props) {
       };
       changeFieldValue('location', location);
     }
+    handleGetGameGroup();
   }, []);
 
   useEffect(() => {
@@ -118,14 +122,14 @@ function GetStarted(props) {
   }, [company]);
 
   useEffect(() => {
-    const Quest1 = QuestionsList(lang);
-    const Quest2 = PackageFlow(lang);
-    const QuestFull = Quest1.concat(Quest2);
+    const Quest1 = QuestionsList(lang, gameGroup);
+    // const Quest2 = PackageFlow(lang, gameGroup);
+    const QuestFull = Quest1;
     setQuestions(QuestFull);
     if (formValue && formValue.location) {
       changePageTitle();
     }
-  }, [lang]);
+  }, [lang, gameGroup]);
 
   useEffect(() => {
     if (loggedUser.user) {
@@ -205,22 +209,23 @@ function GetStarted(props) {
         }
       },
       location: formValue.location,
-      ownerType: formValue.ownerType,
+      ownerType: 'seller',
       getEstimation: formValue.location.country === 'CH',
       addProperty: true,
       redirectToUserFlow: false,
-      redirectToHome: false,
+      redirectToHome: true,
       company: cookie.get('brixelStubCompany') || null,
     };
+
     if (enableForm) {
       if (loggedUser.user && loggedUser.user.id) {
-        if (act === 'LastStep') {
+        if (act === 'LastStep' || act === 'lastStep') {
           const pageData = {
             id: property.id,
             ownerType: formValue.ownerType,
             typeOfBuyer: formValue.typeOfBuyer,
             whenToSell: formValue.apartmentSellTiming,
-            redirectTo: `/packageFlow/${property.id}/rewards`,
+            redirectToHome: true,
           };
           const userData = {
             id: loggedUser.user.id,
@@ -245,7 +250,7 @@ function GetStarted(props) {
           name: `${formValue.firstName} ${formValue.lastName}`,
           firstName: formValue.firstName,
           lastName: formValue.lastName,
-          userType: formValue.ownerType,
+          userType: 'seller',
           phone: formValue.phone,
           signupAccept: true,
           signupChannel: "default",
@@ -262,6 +267,9 @@ function GetStarted(props) {
   };
 
   const changeStep = (act) => {
+    const getSellerLv1 = gameGroup.find(item => item.stub === 'seller-lvl1');
+    let getHomeBase = {name: 'Homebase', points: 100};
+    if (getSellerLv1 && getSellerLv1.achievements) getHomeBase = getSellerLv1.achievements.find(item => item.stub === 'homebase');
     let newPosition = position;
     if (act === 'back') {
       setDisableNextBtn(false);
@@ -311,8 +319,12 @@ function GetStarted(props) {
         Questions[newPosition].cardType &&
         Questions[newPosition].cardType === 'RewardsStep'
       ) {
-        handleSetBrixelPoint([{desc: "First Award", point: 50}]);
-        handleSetAwards([{desc: "First Award", point: 1}]);
+        let newPoints = gameHistory;
+        if (newPoints && newPoints.actualPoints) {}
+        else handleSetAwards(1);
+        if (newPoints && newPoints.actualPoints) newPoints.actualPoints += getHomeBase.points;
+        else newPoints = {actualPoints: getHomeBase.points};
+        handleSetBrixelPoint(newPoints.actualPoints);
       }
       if (
         (Questions[position].cardType === 'LastStep' && loggedUser && loggedUser.user) ||
@@ -385,11 +397,9 @@ function GetStarted(props) {
       {
         Questions[currentIndex].inputs && (
           <BrixelProgressBar
-            rounded
-            saturation={700}
-            small
-            barBackground="Red"
-            backgroundSaturation={100}
+            saturation={400}
+            barBackground="Light"
+            backgroundSaturation={200}
             progressValue={progressBar}
           />
         )
@@ -690,6 +700,8 @@ GetStarted.propTypes = {
   country: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  gameGroup: PropTypes.arrayOf(PropTypes.object),
+  gameHistory: PropTypes.object,
   handleCreateUser: PropTypes.func.isRequired,
   handleCreatePage: PropTypes.func.isRequired,
   handleGetCompany: PropTypes.func.isRequired,
@@ -699,6 +711,7 @@ GetStarted.propTypes = {
   handleSetBrixelPoint: PropTypes.func.isRequired,
   handleUpdateUser: PropTypes.func.isRequired,
   handleUpdatePage: PropTypes.func.isRequired,
+  handleGetGameGroup: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedUser: PropTypes.object.isRequired,
@@ -707,6 +720,7 @@ GetStarted.propTypes = {
 };
 
 GetStarted.defaultProps = {
+  gameHistory: {},
   property: {},
   redirectTo: null,
 };
@@ -716,6 +730,8 @@ const mapStateToProps = (state) => ({
   country: get(state, 'common.country', {}),
   errorValue: get(state, 'form.GetStarted.syncErrors', {}),
   formValue: get(state, 'form.GetStarted.values', {}),
+  gameGroup: get(state, 'gamification.gameGroup', []),
+  gameHistory: get(state, 'gamification.gameHistory', []),
   loggedUser: get(state, 'user.loggedUser', {}),
   property: get(state, 'property.property', {}),
   redirectTo: get(state, 'common.redirectTo', {}),
@@ -735,13 +751,14 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleCreateUser: bindActionCreators(validateUser, dispatch),
   handleGetToken: bindActionCreators(getToken, dispatch),
+  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
   handleGetCompany: bindActionCreators(getCompany, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleCreatePage: bindActionCreators(addProperty, dispatch),
   handleSetErrorMsg: bindActionCreators(errorMessage, dispatch),
-  handleSetPage: bindActionCreators(setPageData, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
   handleSetBrixelPoint: bindActionCreators(setBrixelPoint, dispatch),
+  handleSetPage: bindActionCreators(setPageData, dispatch),
   handleUpdatePage: bindActionCreators(updateProperty, dispatch),
   handleUpdateUser: bindActionCreators(updateUser, dispatch),
 });

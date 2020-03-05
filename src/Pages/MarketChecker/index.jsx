@@ -49,7 +49,7 @@ function Assessor(props) {
   const [hidePrevBtn, setHidePrevBtn] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progressBar, setProgressBar] = useState(0);
-  const [Questions, setQuestions] = useState(MarketCheckQuestions(lang));
+  const [Questions] = useState(MarketCheckQuestions(lang));
   const [saved, setSaved] = useState(false);
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
@@ -59,12 +59,11 @@ function Assessor(props) {
   useEffect(() => {
     if (gameHistory && gameHistory.data && property.id) {
       const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === property.id);
-      console.log('check', checkGameExist, gameHistory, getAchievement());
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
         if (!saved) {
-          setCurrentIndex(Questions.length - 1);
-          setPosition(Questions.length - 1);
+          setCurrentIndex(Questions.length - 2);
+          setPosition(Questions.length - 2);
         }
       } else {
         setFinishedFlow(false);
@@ -94,7 +93,6 @@ function Assessor(props) {
   // Function to save the data
   const saveData = (e) => {
     // ADD THE ACHIEVEMENT
-    console.log('eh', finishedFlow)
     if (!finishedFlow) {
       const data = {
         id: loggedUser.user.id,
@@ -102,6 +100,8 @@ function Assessor(props) {
         achievement: getAchievement(),
       };
       handleAddGameHistory(data);
+      // eslint-disable-next-line no-use-before-define
+      changeStep();
     }
   };
 

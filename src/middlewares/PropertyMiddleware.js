@@ -1,4 +1,5 @@
 /* eslint-disable no-case-declarations */
+import get from 'lodash/get';
 import {
   ADD_PROPERTY,
   GET_ESTIMATION,
@@ -54,10 +55,11 @@ const checkCommon = (store) => (next) => (action) => {
       break;
     case UPDATE_PROPERTY: {
       next(action);
-      const { id, redirectTo, smallLoader } = action.payload;
+      const { id, redirectTo, redirectToHome, smallLoader } = action.payload;
       delete action.payload.id;
       delete action.payload.redirectTo;
       delete action.payload.smallLoader;
+      delete action.payload.redirectToHome;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
       else store.dispatch({ type: SPINNER_ON });
       api.property.updateProperty(id, action.payload)
@@ -68,13 +70,18 @@ const checkCommon = (store) => (next) => (action) => {
           if (redirectTo) {
             store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
           }
+          if (redirectToHome) {
+            window.location.href = `/${res.data.id}/home`;
+          }
         });
       break;
     }
     case GET_PROPERTY:
       next(action);
       store.dispatch({ type: SPINNER_ON });
-      api.property.getProperty(action.payload.id)
+      const fullVersion = get(action, 'payload.fullVersion', true);
+      const apiEndPoint = (data) => fullVersion ? api.property.getProperty(data) : api.property.getPropertySimplified(data);
+      apiEndPoint(action.payload.id)
         .then((res) => {
           store.dispatch({ type: SET_PROPERTY, payload: res.data });
           store.dispatch({ type: SPINNER_OFF });
@@ -219,7 +226,6 @@ const checkCommon = (store) => (next) => (action) => {
           .catch((res) => {
             store.dispatch({ type: SPINNER_OFF });
           });
-        console.log(marketData);
         store.dispatch({ type: SET_MARKET_CHECK, payload: marketData });
         store.dispatch({ type: SPINNER_OFF });
       };
