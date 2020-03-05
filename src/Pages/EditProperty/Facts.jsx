@@ -174,11 +174,11 @@ const InputSheet = (props) => {
         setNotification({
           state: true,
           type: 'info',
-          label: 'You have unsaved changes',
+          label: 'Save changes?',
           actions:
             [
               { type: 'primary', label: 'Save', func: () => saveData() },
-              { type: 'secondary', label: 'Discard changes', func: () => discardChanges() },
+              { type: 'secondary', label: 'Discard', func: () => discardChanges() },
             ],
         });
       } else {
