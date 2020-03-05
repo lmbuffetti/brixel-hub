@@ -32,7 +32,7 @@ export default {
   property: {
     addPage: () => `/page/`,
     pageById: (id) => `/page/${id}`,
-    pageByIdSimplified: (id) => `/page/${id}/simplified`,
+    pageByIdSimplified: (id) => `/map/property/${id}`,
     getProperty: (id) => `/map/property/${id}`,
     estimation: (id) => `/page/${id}/estimation`,
     page: (limit, offset) => `/page/${limit}/${offset}`,

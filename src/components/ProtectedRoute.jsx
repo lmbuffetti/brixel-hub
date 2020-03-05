@@ -15,9 +15,11 @@ const cookie = new Cookies();
 const ProtectedRoute = (props) => {
   const {
     component,
+    exact,
     history,
     loggedUser,
     path,
+    protect,
   } = props;
 
   useEffect(() => {
@@ -26,13 +28,18 @@ const ProtectedRoute = (props) => {
     } else if (typeof cookie.get('brixelToken') === 'undefined') {
       window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
     }
+    if (loggedUser.token && protect) {
+      history.push('/');
+    }
   }, [loggedUser]);
+
+  console.log(protect);
 
   return (
     <>
       {
-        loggedUser.token && (
-          <Route path={path} component={component} />
+        loggedUser.token && !protect && (
+          <Route path={path} exact={exact} component={component} />
         )
       }
     </>
@@ -41,8 +48,15 @@ const ProtectedRoute = (props) => {
 
 ProtectedRoute.propTypes = {
   component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  exact: PropTypes.bool,
   history: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
+  protect: PropTypes.bool,
+};
+
+ProtectedRoute.defaultProps = {
+  exact: false,
+  protect: false,
 };
 
 const mapStateToProps = (state) => ({

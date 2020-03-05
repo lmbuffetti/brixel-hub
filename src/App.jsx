@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import {
-  Switch, Route, withRouter,
+  Switch, Route, withRouter, Redirect,
 } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import get from 'lodash/get';
@@ -19,6 +19,8 @@ import PageHeader from './components/PageHeader';
 import ReactGA from 'react-ga';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setModal } from './actions/CommonActions';
+import { updateProperty } from './actions/PropertyActions';
+import { setActiveUsertype } from './actions/UserActions';
 
 ReactGA.initialize(baseByData.googleAnalyticsIdHub);
 
@@ -90,6 +92,8 @@ const cookies = new Cookies();
 
 const App = (props) => {
   const {
+    activeUserType,
+    handleSetActiveUsertype,
     history,
     handleCheckToken,
     handleSetModal,
@@ -97,12 +101,21 @@ const App = (props) => {
     loggedUser,
     modal,
     notification,
+    property,
     redirectTo,
   } = props;
 
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) handleCheckToken();
   }, []);
+
+  useEffect(() => {
+    if (property && property.id && (property.owner === loggedUser.user.id || property.owner.id === loggedUser.user.id)) {
+      handleSetActiveUsertype('seller');
+    } else if (property && property.id) {
+      handleSetActiveUsertype('buyer');
+    }
+  }, [property]);
 
   useEffect(() => {
     if (history && history.location) {
@@ -147,14 +160,16 @@ const App = (props) => {
 
           { /* SECTION: HUB DASHBOARD */ }
           <ProtectedRoute path="/" exact component={Dashboard} />
-          <ProtectedRoute path="/:propId?/:act/achievement/market-checker" component={MarketChecker} />
-          <ProtectedRoute path="/:propId?/:act/achievement/assessor" component={Assessor} />
-          <ProtectedRoute path="/:propId?/:act/achievement/bestimate" component={Bestimate} />
+          { /* SECTION: SELLER DASHBOARD */ }
+          <ProtectedRoute path="/:propId?/:act/achievement/market-checker" exact component={MarketChecker} protect={activeUserType !== 'seller'} />
+          <ProtectedRoute path="/:propId?/:act/achievement/assessor" exact component={Assessor} protect={activeUserType !== 'seller'} />
+          <ProtectedRoute path="/:propId?/:act/achievement/bestimate" exact component={Bestimate} protect={activeUserType !== 'seller'}
+          />
+          { /* SECTION: ALL USER DASHBOARD */ }
           <ProtectedRoute path="/:propId?/home" component={Dashboard} />
           <ProtectedRoute path="/:propId?/property" component={Dashboard} />
           <ProtectedRoute path="/:propId?/support" component={Dashboard} />
           { /* SECTION: REDIRECT */ }
-
         </Switch>
       </div>
 
@@ -210,9 +225,15 @@ const App = (props) => {
           {/* SECTION: DOCUMENTS */}
           <Route path="/:propId?/:act/list" component={Properties} />
           <Route path="/:propId?/property/documents" exact component={Documents} />
-          <Route path="/:propId?/property/media" exact component={EditProperty} />
-          <Route path="/:propId?/property/settings" exact component={EditProperty} />
-          <Route path="/:propId?/property/facts" exact component={EditProperty} />
+          {
+            activeUserType === 'seller' && (
+              <>
+                <Route path="/:propId?/property/media" exact component={EditProperty} />
+                <Route path="/:propId?/property/settings" exact component={EditProperty} />
+                <Route path="/:propId?/property/facts" exact component={EditProperty} />
+              </>
+            )
+          }
         </Switch>
       </div>
 
@@ -221,6 +242,7 @@ const App = (props) => {
 };
 
 App.propTypes = {
+  handleSetActiveUsertype: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
@@ -239,6 +261,8 @@ App.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeUserType: get(state, 'user.activeUserType', null),
+  property: get(state, 'property.property', {}),
   config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   loggedUser: get(state, 'user.loggedUser', null),
@@ -251,6 +275,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetLanguages: bindActionCreators(setLanguages, dispatch),
+  handleSetActiveUsertype: bindActionCreators(setActiveUsertype, dispatch),
 });
 
 export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);
