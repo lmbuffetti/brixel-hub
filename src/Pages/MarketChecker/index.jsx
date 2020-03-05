@@ -62,8 +62,8 @@ function Assessor(props) {
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
         if (!saved) {
-          setCurrentIndex(Questions.length - 2);
-          setPosition(Questions.length - 2);
+          setCurrentIndex(Questions.length - 1);
+          setPosition(Questions.length - 1);
         }
       } else {
         setFinishedFlow(false);
