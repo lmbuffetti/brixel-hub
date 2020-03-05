@@ -185,17 +185,19 @@ function RangePriceChart(props) {
       .attr('class', 'slider')
       .attr('transform', `translate(0,${height})`);
 
-    chart.select('.slider')
-      .append('line')
-      .attr('class', 'trackback')
-      .attr('fill', '#00FF00')
-      .attr('x1', () => {
-        return 13;
-      })
-      .attr('x2', () => {
-        let calcMax = xScale(discreteDomainMapper(cfg.maxValue)) + xScale.bandwidth();
-        return calcMax;
-      });
+    if (type === 'bestimate') {
+      chart.select('.slider')
+        .append('line')
+        .attr('class', 'trackback')
+        .attr('fill', '#00FF00')
+        .attr('x1', () => {
+          return 13;
+        })
+        .attr('x2', () => {
+          let calcMax = xScale(discreteDomainMapper(cfg.maxValue)) + xScale.bandwidth();
+          return calcMax;
+        });
+    }
 
     chart.select('.slider')
       .append('line')
@@ -229,6 +231,8 @@ function RangePriceChart(props) {
         .style('stroke-dasharray', 6);
 
       setTimeout(() => {
+        d3.select(`#${randomID}`).selectAll('.tooltip-marker').remove();
+        d3.select(`#${randomID}`).selectAll('#tooltip-new').remove();
         d3.select(`#${randomID}`)
           .append('div')
           .style('left', `${properties[getPosition] ? xScale(properties[getPosition].priceRangeStart) + 8 : 8}px`)

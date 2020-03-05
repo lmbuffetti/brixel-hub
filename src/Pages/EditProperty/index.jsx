@@ -154,7 +154,7 @@ const InputSheet = (props) => {
           labels={[
             'Facts',
             'Media',
-            'Settings',
+            'Publish',
           ]}
           activeTab={checkActiveTab()}
           onClick={(tab) => {

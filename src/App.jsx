@@ -131,7 +131,7 @@ const App = (props) => {
     }
   }, [redirectTo]);
 
-  if (!loggedUser) {
+  if (!loggedUser || (!activeUserType && property.id)) {
     return (
       <Loading isLoading={isLoading} />
     )
@@ -161,9 +161,9 @@ const App = (props) => {
           { /* SECTION: HUB DASHBOARD */ }
           <ProtectedRoute path="/" exact component={Dashboard} />
           { /* SECTION: SELLER DASHBOARD */ }
-          <ProtectedRoute path="/:propId?/:act/achievement/market-checker" exact component={MarketChecker} protect={activeUserType !== 'seller'} />
-          <ProtectedRoute path="/:propId?/:act/achievement/assessor" exact component={Assessor} protect={activeUserType !== 'seller'} />
-          <ProtectedRoute path="/:propId?/:act/achievement/bestimate" exact component={Bestimate} protect={activeUserType !== 'seller'}
+          <ProtectedRoute path="/:propId?/:act/achievement/market-checker" exact component={MarketChecker} protect={activeUserType ? activeUserType !== 'seller' : false} />
+          <ProtectedRoute path="/:propId?/:act/achievement/assessor" exact component={Assessor} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/:act/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'}
           />
           { /* SECTION: ALL USER DASHBOARD */ }
           <ProtectedRoute path="/:propId?/home" component={Dashboard} />
