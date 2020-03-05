@@ -157,7 +157,7 @@ function RangePriceChart(props) {
           .attr('id', `tooltip${randomID}`)
           .attr('class', 'range-tip')
           .attr('style', `left: ${e ? xScale(e.priceRangeStart) : 0}px; ${transform}`)
-          .html(`<div>Properties: ${e ? e.numberOfProperties : 0}</div><p class="data-range">${cfg.label} ${e.rangePrice}</p>`);
+          .html(`<p>Properties: ${e ? e.numberOfProperties : 0}</p><span class="data-range">${cfg.label} ${e.rangePrice}</span>`);
       })
       .on('mouseout', () => {
         const circle = d3.select(`#tooltip${randomID}`);
@@ -259,12 +259,10 @@ function RangePriceChart(props) {
                 break;
             }
             return `
-                              <div class="extended-label">
-                                <p>${titleTooltip}</p>
-                                <span class="curr">${cfg.label} </span>
-                                <span class="num">${formatNum(properties[0].median, "'", ',')}</span>
-                              </div>
-                              `;
+                <p>${titleTooltip}</p>
+                <span class="curr">${cfg.label} </span>
+                <span class="num">${formatNum(properties[0].median, "'", ',')}</span>
+              `;
           });
       }, 0);
     } else if (showTopLabel) {

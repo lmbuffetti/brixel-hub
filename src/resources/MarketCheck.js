@@ -26,6 +26,7 @@ export const MarketCheckQuestions = (lang) => [
   {
     title: translateTo(lang,"What do you need the market check for?"),
     history: "ownerType",
+    vCentered: true,
     inputs: [
       {
         component: BrixelRadioButton,
@@ -40,6 +41,7 @@ export const MarketCheckQuestions = (lang) => [
   },
   {
     title: translateTo(lang,"When do you want to sell?"),
+    vCentered: true,
     conditions: [{
       name: 'ownerType',
       value: 'seller',

@@ -213,7 +213,7 @@ function Assessor(props) {
                     currentIndex === 0 && (
                       <>
                         <h5 className="ta-c mb-5">{quest.title}</h5>
-                        <div className="ta-c"><img className="fullWidth" src={quest.img} alt="Done Assessor" /></div>
+                        <div className="ta-c"><img className="w-perc-100" src={quest.img} alt="Done Assessor" /></div>
                         <p className="ta-c mt-5 txtDark700">{quest.description}</p>
                       </>
                     )
@@ -221,7 +221,7 @@ function Assessor(props) {
                   {
                     quest.inputs && (
                       <>
-                        <h5 className="mb-4 mb-md-10 fsize-md-800">{quest.title}</h5>
+                        <h5 className="mb-4 mb-md-10">{quest.title}</h5>
 
                         {
                           quest.inputs.map((input, f) => (
