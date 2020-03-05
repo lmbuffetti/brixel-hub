@@ -33,9 +33,11 @@ const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 
 export const QuestionsList = (lang, gameGroup) => {
-  const getSellerLv1 = gameGroup.find(item => item.stub === 'seller-lvl1');
   let getHomeBase = {name: 'Homebase', points: 100};
-  if (getSellerLv1 && getSellerLv1.achievements) getHomeBase = getSellerLv1.achievements.find(item => item.stub === 'homebase');
+  if (gameGroup) {
+    const getSellerLv1 = gameGroup.find(item => item.stub === 'seller-lvl1');
+    if (getSellerLv1 && getSellerLv1.achievements) getHomeBase = getSellerLv1.achievements.find(item => item.stub === 'homebase');
+  }
   return [
     {
       className: 'radioBtnImg',
