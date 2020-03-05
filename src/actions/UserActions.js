@@ -16,6 +16,7 @@ import {
   SET_USER_PROPERTIES,
   GET_FAVORITES,
   SET_FAVORITES,
+  SET_ACTIVE_USERTYPE,
 } from './types/UserTypes';
 
 export const {
@@ -35,6 +36,7 @@ export const {
   setUserProperties,
   getFavorites,
   setFavorites,
+  setActiveUsertype,
 } = createActions({
   [CREATE_USER]: (payload) => payload,
   [CHECK_TOKEN]: (payload) => payload,
@@ -51,5 +53,5 @@ export const {
   [GET_USER_PROPERTIES]: (payload) => payload,
   [SET_USER_PROPERTIES]: (payload) => payload,
   [GET_FAVORITES]: (payload) => payload,
-  [SET_FAVORITES]: (payload) => payload,
+  [SET_ACTIVE_USERTYPE]: (payload) => payload,
 });

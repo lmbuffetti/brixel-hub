@@ -240,8 +240,7 @@ export const sortObjByKey = (obj, key, isBool = false) => {
 };
 
 export const imageExists = (image_url) => {
-
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined' && !image_url.includes('undefined')) {
     const http = new XMLHttpRequest();
 
     http.open('HEAD', image_url, false);

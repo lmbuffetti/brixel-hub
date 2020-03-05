@@ -77,7 +77,9 @@ const Dashboard = (props) => {
     if (!propID && property.id) {
       history.push(`/${property.id}/home`);
     }
-    if (property.owner === loggedUser.user.id) handleGetProperty({fullVersion: true, id: propID});
+    if (property.owner === loggedUser.user.id) {
+      handleGetProperty({fullVersion: true, id: propID});
+    }
     const getPercComplete = get(property, 'inputSheet.totalComplete', null);
     if (property.id && !getPercComplete && property.owner.id) {
       const getPerc = getCalcSectionInputSheets(InputSheets('en'), property, {});
