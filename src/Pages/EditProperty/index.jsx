@@ -133,9 +133,9 @@ const InputSheet = (props) => {
                       backgroundSaturation={100}
                       progressValue={initialValues.inputSheet.totalComplete || 0}
                     />
-                    <div className="dis-f fSizePx12 ff-mono txtPrimary700 pt-1">
-                      <span className="mr-1">{initialValues.inputSheet.totalComplete}%</span>
-                      <span className="">completed</span>
+                    <div className="dis-f body txtPrimary700 pt-1">
+                      <span className="mr-1 ff-mono">{initialValues.inputSheet.totalComplete}%</span>
+                      <spanz className="ff-mono">completed</spanz>
                     </div>
                   </>
                 )

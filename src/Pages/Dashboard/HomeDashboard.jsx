@@ -93,7 +93,7 @@ const HomeDashboard = (props) => {
             {
               GameGroupConfig[`${userType}Level${group.stub.replace(/^\D+/g, '')}`] && (
                 <>
-                  <span className="mb-3 dis-b txtDark700 fweight-500">{GameGroupConfig[`${userType}Level${group.stub.replace(/^\D+/g, '')}`].name}</span>
+                  <span className="mb-3 fsize-400 dis-b txtDark700 fweight-500">{GameGroupConfig[`${userType}Level${group.stub.replace(/^\D+/g, '')}`].name}</span>
                   <div key={i.toString()} className="pl-5 pos-r">
                     <div className="timelineBar" />
                     {

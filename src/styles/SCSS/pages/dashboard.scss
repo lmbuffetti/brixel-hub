@@ -35,6 +35,9 @@
       li {
         padding-top: 8px;
         padding-bottom: 8px;
+        > span {
+          margin-top: 4px;
+        }
         &.active {
           background: map-get($primaryColor, 100);
           color: map-get($primaryColor, 400);
@@ -98,14 +101,14 @@
           margin-bottom: 0;
         }
         .labelSubtitle {
-          font-size: 12px;
+          @include fontStyle(100);
           line-height: $step * 2;
           color: map-get($darkColor, 200);
         }
       }
       .rightAction {
         > p > span {
-          font-size: 12px;
+          @include fontStyle(100);
         }
       }
     }

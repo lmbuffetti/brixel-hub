@@ -108,7 +108,7 @@ const HomeDashboard = (props) => {
             {
               get(property, 'inputSheet') && userType === 'seller' && (
                 <>
-                  <span className="subtitle fSizePx12 txtDark200">Transparency</span>
+                  <span className="subtitle fsize-300 txtDark200">Transparency</span>
                   <div className="dis-f txtPrimary700">
                     <span className="ff-mono pr-1">{property.inputSheet.totalComplete}%</span>
                   </div>
@@ -133,14 +133,14 @@ const HomeDashboard = (props) => {
               {
                 property.status === 'on-sale' && (
                   <div className="dis-fl-col">
-                    <span className="subtitle fSizePx12 txtDark200">Price</span>
+                    <span className="subtitle fsize-300 txtDark200">Price</span>
                     <div className="dis-fl-row jc-b">
                       <span className="value txtDark500">{property.price.currency} {property.price.total.toLocaleString(langConfig.localString)}</span>
                       {
                         has(property, 'price.pricePerM2') && (
                           <div className="dis-f a-c">
                             <span className="value txtDark500">{roundFifty(property.price.pricePerM2).toLocaleString(langConfig.localString)}</span>
-                            <span className="fSizePx12 txtDark500"> / m2</span>
+                            <span className="fsize-300 txtDark500"> / m2</span>
                           </div>
                         )
                       }
@@ -152,15 +152,15 @@ const HomeDashboard = (props) => {
           </div>
           <div className="dis-fl-row jc-b a-c">
             <div className="fourth dis-fl-col ta-l">
-              <span className="subtitle fSizePx12 txtDark200">Rooms</span>
+              <span className="subtitle fsize-300 txtDark200">Rooms</span>
               <span className="value txtDark500">{get(property, 'properties.typology.bedrooms') ? property.properties.typology.bedrooms : 'N/A'}</span>
             </div>
             <div className="dis-fl-col ta-l">
-              <span className="subtitle fSizePx12 txtDark200">Living space</span>
+              <span className="subtitle fsize-300 txtDark200">Living space</span>
               <span className="value txtDark500">{(has(property.properties, 'typology') && property.properties.typology.livingArea) ? property.properties.typology.livingArea.value : 'N/A'} m2</span>
             </div>
             <div className="dis-fl-col ta-l">
-              <span className="subtitle fSizePx12 txtDark200">Year built</span>
+              <span className="subtitle fsize-300 txtDark200">Year built</span>
               <span className="value txtDark500">{(has(property.properties, 'building') && property.properties.building.built) ? property.properties.building.built : 'N/A'}</span>
             </div>
           </div>
@@ -184,7 +184,7 @@ const HomeDashboard = (props) => {
                 />
                 <div className="dis-fl-col a-l">
                   <span className="tabTitle txtDark700">Docubox</span>
-                  <div className="length dis-fl-row txtDark200 fSizePx12">
+                  <div className="length dis-fl-row txtDark200 fsize-300">
                     <span>{property.documents && property.documents.length > 0 ? property.documents.length : 0}&nbsp;</span>
                     <span> files</span></div>
                 </div>
@@ -205,7 +205,7 @@ const HomeDashboard = (props) => {
             />
             <div className="dis-fl-col">
               <span className="tabTitle txtDark700">Showings</span>
-              <div className="length dis-fl-row txtDark200 fSizePx12"><span>No upcoming</span></div>
+              <div className="length dis-fl-row txtDark200 fsize-300"><span>No upcoming</span></div>
             </div>
           </div>
         </div>
