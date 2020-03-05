@@ -7,6 +7,7 @@ import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
+import last from 'lodash/last';
 import {
   withRouter,
 } from 'react-router-dom'
@@ -343,7 +344,8 @@ function OnBoarding(props) {
       setCookie('brixelStubCompany', defComp);
     }
     // on load page redirect all to first step
-    history.push(`/onBoarding/${Questions[0].history}`);
+    const url = last(history.location.pathname.split('/'));
+    if (url !== 'propertyType') history.push(`/onBoarding/${Questions[0].history}`);
   }, []);
 
   // Function to update the current index in base of History
@@ -367,11 +369,11 @@ function OnBoarding(props) {
       if(loginPage) label = translateTo(lang, "Login")
       else label = translateTo(lang, "Create profile")
     } else {
-        if (Questions[currentIndex].cardType === 'createProfile') {
-          label = translateTo(lang, "Save")
-        } else {
-          label = translateTo(lang, "Continue")
-        }
+      if (Questions[currentIndex].cardType === 'createProfile') {
+        label = translateTo(lang, "Save")
+      } else {
+        label = translateTo(lang, "Continue")
+      }
     }
     return label;
   }
