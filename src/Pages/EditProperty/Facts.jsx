@@ -150,7 +150,7 @@ const InputSheet = (props) => {
       setAccordion({...getData.accordion});
       setAccordionAnimatad({...getData.accordion});
       setSectionProgress({...getData.section});
-      setSkipSection(initialValues.inputSheet.skipSection);
+      setSkipSection(get(initialValues, 'inputSheet.skipSection', {}));
     }
   }, [errorValue]);
 
