@@ -110,7 +110,7 @@ const App = (props) => {
   }, []);
 
   useEffect(() => {
-    if (property && property.id && (property.owner === loggedUser.user.id || property.owner.id === loggedUser.user.id)) {
+    if (property && property.id && loggedUser.user && (property.owner === loggedUser.user.id || property.owner.id === loggedUser.user.id)) {
       handleSetActiveUsertype('seller');
     } else if (property && property.id) {
       handleSetActiveUsertype('buyer');
