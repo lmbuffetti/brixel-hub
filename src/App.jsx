@@ -90,7 +90,6 @@ const App = (props) => {
 
   useEffect(() => {
     if (history && history.location) {
-      ReactGA.pageview(history.location.pathname);
       ga('send', 'pageview', history.location.pathname);
     }
   }, [history.location]);
@@ -98,7 +97,6 @@ const App = (props) => {
   useEffect(() => {
     if (redirectTo && redirectTo.history) {
       history.push(redirectTo.history);
-      ReactGA.pageview(redirectTo.history);
     }
   }, [redirectTo]);
 
