@@ -69,17 +69,17 @@ function ResumeBestimate(props) {
   }, [estimation]);
 
   return (
-    <main id="rewards" className="pb-4">
-      <h5 className='ta-c mb-5'>We proudly present you your Bestimate®.</h5>
+    <main id="rewards" className="pb-4 txtDark700">
+      <h5 className='ta-c mb-5'>We proudly present you your Bestimate&reg;.</h5>
       {
         condition.higherValue && (
           <>
-            <h6 className="ta-c mb-1">Your property is worth up to</h6>
-            <h4 className="ff-mono txtGreen400 fweight-600 ta-c mb-1">CHF {condition.higherValue.toLocaleString('de-CH')}</h4>
-            <p className="fsize-100 ta-c mb-5">Based on similar transactions.</p>
-            <h6 className="fweight-400 ta-c mb-1">Similar properties are currently worth between</h6>
-            <h6 className="ff-mono txtPrimary700 fweight-600 ta-c mb-5">CHF {condition.lowerValue.toLocaleString('de-CH')} - CHF {condition.higherValue.toLocaleString('de-CH')}</h6>
-            <h6 className="ta-c mb-5-neg">Your Bestimate® compared to local market data</h6>
+            <p className="ta-c mb-1 txtDark700">Your property is worth up to</p>
+            <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">CHF {condition.higherValue.toLocaleString('de-CH')}</p>
+            <p className="fsize-100 ta-c mb-5 txtDark700">Based on similar transactions.</p>
+            <p className="fweight-400 ta-c mb-1 txtDark700">Similar properties are currently worth between</p>
+            <p className="ff-mono txtPrimary700 fweight-600 ta-c mb-5">CHF {condition.lowerValue.toLocaleString('de-CH')} - CHF {condition.higherValue.toLocaleString('de-CH')}</p>
+            <p className="fweight-400 ta-c txtDark700 mb-4-neg">Your Bestimate&reg; compared to local market data</p>
           </>
         )
       }
@@ -96,7 +96,7 @@ function ResumeBestimate(props) {
         )
       }
 
-      <p className="fsize-100 mt-5">The Bestimate® is your free price indication. It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.</p>
+      <p className="fsize-100 mt-5 txtDark700">The Bestimate&reg; is your free price indication. <br/> It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.</p>
 
     </main>
   );

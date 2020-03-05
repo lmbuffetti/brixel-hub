@@ -226,7 +226,7 @@ function Assessor(props) {
             Questions.map((quest, i) => (
               <div
                 id={`step-${i}`}
-                className={`singleStep ${quest.background || ''} ${quest.className || ''}`}
+                className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
                 key={i.toString()}
                 style={{
                   visibility: i !== currentIndex ? 'hidden' : 'visible',
@@ -245,7 +245,7 @@ function Assessor(props) {
                   {
                     quest.inputs && (
                       <>
-                        <h5 className="mb-4 mb-md-10 fsize-md-800">{quest.title}</h5>
+                        <h5 className="mb-4 mb-md-6">{quest.title}</h5>
 
                         {
                           quest.inputs.map((input, f) => (

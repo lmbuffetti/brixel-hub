@@ -62,8 +62,8 @@ function Assessor(props) {
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
         if (!saved) {
-          setCurrentIndex(Questions.length - 2);
-          setPosition(Questions.length - 2);
+          setCurrentIndex(Questions.length - 1);
+          setPosition(Questions.length - 1);
         }
       } else {
         setFinishedFlow(false);
@@ -202,26 +202,26 @@ function Assessor(props) {
             Questions.map((quest, i) => (
               <div
                 id={`step-${i}`}
-                className={`singleStep ${quest.background || ''}`}
+                className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
                 key={i.toString()}
                 style={{
                   visibility: i !== currentIndex ? 'hidden' : 'visible',
                 }}
               >
-                <div className={`max-w-fix-744 m-a ${quest.className || ''}`}>
+                <div className={`subcontainer m-a ${quest.className || ''}`}>
                   {
                     currentIndex === 0 && (
                       <>
                         <h5 className="ta-c mb-5">{quest.title}</h5>
-                        <div className="ta-c"><img src={quest.img} alt="Done Assessor" /></div>
-                        <p className="ta-c mt-5">{quest.description}</p>
+                        <div className="ta-c"><img className="w-perc-100" src={quest.img} alt="Done Assessor" /></div>
+                        <p className="ta-c mt-5 txtDark700">{quest.description}</p>
                       </>
                     )
                   }
                   {
                     quest.inputs && (
                       <>
-                        <h5 className="mb-4 mb-md-10 fsize-md-800">{quest.title}</h5>
+                        <h5 className="mb-4 mb-md-10">{quest.title}</h5>
 
                         {
                           quest.inputs.map((input, f) => (

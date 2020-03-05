@@ -14,6 +14,7 @@ const { factsOptions } = FactsOptions;
 export const BestimateQuestions = (lang) => [
   {
     title: "Get a free price indication",
+    background: 'bgGreen100',
     img: startBestimate,
     description: "Compare your property to real transaction data to better define the pricing.",
     history: "introBestimate",
@@ -21,6 +22,7 @@ export const BestimateQuestions = (lang) => [
   },
   {
     title: "How many bathrooms do you have?",
+    extraInfo: "We need some extra information about your property.",
     history: "bathrooms",
     cardType: "bathrooms",
     inputs: [
@@ -36,21 +38,24 @@ export const BestimateQuestions = (lang) => [
   },
   {
     title: "Which extra features do you have?",
+    vCentered: true,
     history: "extraFeatures",
     cardType: "extraFeatures",
     toSave: true,
     inputs: [
       {
         component: BrixelExtraFeature,
-        className: '',
         label: 'Extra features',
         name: 'properties.extraFeatures',
+        pdClass: 'p-1',
+        iconClass: 'p-small-17 fSizePx22 bgPrimary400 txtWhite brdRadius mr-1',
         options: factsOptions.BrixelExtraFeature,
       },
     ]
   },
   {
     title: "Result Page",
+    vCentered: true,
     subtitle: "Sales strategy & price",
     history: "resumeFlow",
     cardType: "loadComponent",
@@ -58,6 +63,7 @@ export const BestimateQuestions = (lang) => [
   },
   {
     title: "Thank you Market Check",
+    vCentered: true,
     subtitle: "Sales strategy & price",
     history: "successAchievement",
     cardType: "loadComponent",

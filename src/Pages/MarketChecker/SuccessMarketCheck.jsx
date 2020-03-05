@@ -57,7 +57,7 @@ function SuccessMarketCheck(props) {
                 <>
                   <h5 className="ta-c mb-5">Great, now you know what is out there.</h5>
                   <div className="ta-c"><img src={newMarketCheck} alt="Nes Assessor" /></div>
-                  <p className="ta-c mt-5">Congrats. You earned the <span className="txtGreen400">Market Checker</span> Award and +{achievement.points} Brixels.</p>
+                  <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Market Checker</span> Award and +{achievement.points} Brixels.</p>
                 </>
               )
             }
