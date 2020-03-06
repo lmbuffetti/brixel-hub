@@ -1,10 +1,28 @@
 #achievementSection {
-  height: 100vh;
-  width: 100vw;
+  height: calc(100vh - 32px);
+  width: calc(100vw - 32px);
   overflow: hidden;
+  margin: auto;
+  box-shadow: $shadow-3dp;
+  border-radius: $brd-radius-small;
+
+  @media (max-width: $responsive-medium) {
+    height: calc(100vh - 16px);
+    width: calc(100vw - 16px);
+  }
+
+  .footerAction {
+    position: relative;
+    bottom: $step * 4;
+    @media (max-width: $responsive-medium) {
+      bottom: $step * 2;
+    }
+    span {
+      white-space: nowrap;
+    }
+  }
 
   .singleStep {
-    padding: $step * 5 $step * 2;
     .subcontainer {
       max-width: 480px;
     }
@@ -26,6 +44,7 @@
   #progressBar {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
   }
   @media (min-width: $responsive-medium) {
@@ -64,12 +83,6 @@
           vertical-align: baseline;
         }
       }
-    }
-  }
-
-  .footerAction {
-    span {
-      white-space: nowrap;
     }
   }
 
