@@ -103,24 +103,30 @@ function ResumeAssessor(props) {
               )
             }
             <div className="dis-f jc-fe a-c mt-4">
-              <p className="mr-2 txtDark700">based on</p>
-              <BrixelSelect
-                options={[
-                  {
-                    value: 'construction',
-                    label: 'Construction year'
-                  },
-                  {
-                    value: 'renovation',
-                    label: 'Renovation year'
-                  }
-                ]}
-                input={{
-                  onChange: (val) => setSelRenovation(val),
-                  name: 'selBaseRenovation',
-                  value: selBaseRenovation,
-                }}
-              />
+              <p className={`${condition['renovation'] ? 'mr-2' : 'mr-1'} txtDark700`}>based on</p>
+              {
+                condition['renovation'] && condition['renovation'].constructor ? (
+                  <BrixelSelect
+                    options={[
+                      {
+                        value: 'construction',
+                        label: 'Construction year'
+                      },
+                      {
+                        value: 'renovation',
+                        label: 'Renovation year'
+                      }
+                    ]}
+                    input={{
+                      onChange: (val) => setSelRenovation(val),
+                      name: 'selBaseRenovation',
+                      value: selBaseRenovation,
+                    }}
+                  />
+                ) : (
+                  <span className="txtDark700">Construction year</span>
+                )
+              }
             </div>
           </>
         )
