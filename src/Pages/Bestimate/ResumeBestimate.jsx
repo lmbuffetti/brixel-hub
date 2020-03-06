@@ -79,13 +79,13 @@ function ResumeBestimate(props) {
             <p className="fsize-100 ta-c mb-5 txtDark700">Based on similar transactions.</p>
             <p className="fweight-400 ta-c mb-1 txtDark700">Similar properties are currently worth between</p>
             <p className="ff-mono txtPrimary700 fweight-600 ta-c mb-5">CHF {condition.lowerValue.toLocaleString('de-CH')} - CHF {condition.higherValue.toLocaleString('de-CH')}</p>
-            <p className="fweight-400 ta-c txtDark700 mb-6-neg">Your Bestimate&reg; compared to local market data</p>
+            <p className="fweight-400 ta-c txtDark700">Your Bestimate&reg; compared to local market data</p>
           </>
         )
       }
       {
         marketData && marketData.priceDistribution && marketData.priceDistribution.chartRangePrice && property.estimation && property.estimation.bestimate && (
-          <div className="dis-f jc-c">
+          <div className="dis-f jc-c mt-6-neg">
             <RangePriceChart
               properties={marketData.priceDistribution.chartRangePrice}
               type="bestimate"
