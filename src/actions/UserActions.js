@@ -53,5 +53,6 @@ export const {
   [GET_USER_PROPERTIES]: (payload) => payload,
   [SET_USER_PROPERTIES]: (payload) => payload,
   [GET_FAVORITES]: (payload) => payload,
+  [SET_FAVORITES]: (payload) => payload,
   [SET_ACTIVE_USERTYPE]: (payload) => payload,
 });
