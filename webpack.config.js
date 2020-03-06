@@ -196,9 +196,11 @@ const clientConfig = {
         ...glob.sync(path.join(__dirname, 'src/*.jsx')),
         ...glob.sync(path.join(__dirname, 'src/**/*.jsx')),
         ...glob.sync(path.join(__dirname, 'src/**/**/*.jsx')),
+        ...glob.sync(path.join(__dirname, 'src/**/**/**/*.jsx')),
         ...glob.sync(path.join(__dirname, 'src/*.js')),
         ...glob.sync(path.join(__dirname, 'src/**/*.js')),
         ...glob.sync(path.join(__dirname, 'src/**/**/*.js')),
+        ...glob.sync(path.join(__dirname, 'src/**/**/**/*.js')),
         ...glob.sync(path.join(__dirname, 'src/*.html')),
         ...glob.sync(path.join(__dirname, 'dist/*.html')),
       ]
