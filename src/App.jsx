@@ -16,13 +16,8 @@ import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
 import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
 import PageHeader from './components/PageHeader';
-import ReactGA from 'react-ga';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setModal } from './actions/CommonActions';
-import { updateProperty } from './actions/PropertyActions';
 import { setActiveUsertype } from './actions/UserActions';
-
-ReactGA.initialize(baseByData.googleAnalyticsIdHub);
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
@@ -119,7 +114,6 @@ const App = (props) => {
 
   useEffect(() => {
     if (history && history.location) {
-      ReactGA.pageview(history.location.pathname);
       ga('send', 'pageview', history.location.pathname);
     }
   }, [history.location]);
@@ -127,7 +121,6 @@ const App = (props) => {
   useEffect(() => {
     if (redirectTo && redirectTo.history) {
       history.push(redirectTo.history);
-      ReactGA.pageview(redirectTo.history);
     }
   }, [redirectTo]);
 
@@ -170,6 +163,7 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/property" component={Dashboard} />
           <ProtectedRoute path="/:propId?/support" component={Dashboard} />
           { /* SECTION: REDIRECT */ }
+          <Redirect from="*" to="/" />
         </Switch>
       </div>
 

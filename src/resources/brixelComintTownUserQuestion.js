@@ -1,7 +1,6 @@
 import { BrixelCheckbox, BrixelRadioButton } from '@brixel/brixel-components';
 import BrixelRadioEmoji from '../components/BrixelRadioEmoji';
 import BrixelRadioCard from '../components/BrixelRadioCard';
-import brixelComingTown from '../images/BrxielComingTown/secondAwards.svg';
 import brixelComingTownLast from '../images/BrxielComingTown/LastSlideBrixelComingTown.svg';
 import Martin from '../images/BrxielComingTown/Martin.png';
 import { translateTo } from '../utils/translation';
@@ -18,14 +17,6 @@ export const maxLength = (value) => {
 };
 
 export const QuestionsList = (lang) => [
-  {
-    title: translateTo(lang, 'Welcome to the home of your home.'),
-    subtitle: translateTo(lang, 'You earned the <span class=txtGreen400>"Newcomer"</span> Award and +100 Brixels.'),
-    history: "rewardsStep",
-    cardType: 'RewardsStep',
-    background: 'bgBlue100',
-    img: brixelComingTown,
-  },
   {
     title: translateTo(lang, "What is your situation?"),
     component: BrixelRadioButton,

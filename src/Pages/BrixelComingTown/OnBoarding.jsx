@@ -36,6 +36,7 @@ import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
 import { getGamegroup } from '../../actions/GamificationActions';
+import last from 'lodash/last';
 
 const cookie = new Cookies();
 
@@ -379,7 +380,8 @@ function OnBoarding(props) {
       setCookie('brixelStubCompany', defComp);
     }
     // on load page redirect all to first step
-    history.push(`/onBoarding/${Questions[0].history}`);
+    const getCurrentUrl = last(history.location.pathname.split('/'));
+    if (getCurrentUrl !== Questions[0].history) history.push(`/onBoarding/${Questions[0].history}`);
   }, []);
 
   // Function to update the current index in base of History

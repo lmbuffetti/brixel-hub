@@ -11,11 +11,14 @@ const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
+const PurifyCSSPlugin = require('purifycss-webpack');
 const CopyPlugin = require('copy-webpack-plugin');
+const glob = require('glob');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
+
 
 const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
@@ -147,12 +150,12 @@ const clientConfig = {
       filename: devMode ? 'css/[name].css' : 'css/[name].[hash].css',
       chunkFilename: devMode ? 'css/[id].css' : 'css/[id].[hash].css',
     }),
-    /*new CleanWebpackPlugin({
+    new CleanWebpackPlugin({
       dry: false,
       verbose: true,
       cleanOnceBeforeBuildPatterns: ['*', '!manifest.json'],
       dangerouslyAllowCleanPatternsOutsideProject: true,
-    }),*/
+    }),
     new CopyPlugin([
       { from: './public/favicon.png', to: './' },
     ]),
@@ -187,6 +190,17 @@ const clientConfig = {
       'process.env.BROWSER': JSON.stringify(true)
     }),
     new WebpackAssetsManifest(),
+    new PurifyCSSPlugin({
+      // Give paths to parse for rules. These should be absolute!
+      paths: [
+        ...glob.sync(path.join(__dirname, 'src/*.jsx')),
+        ...glob.sync(path.join(__dirname, 'src/*.jsx')),
+        ...glob.sync(path.join(__dirname, 'src/**/*.jsx')),
+        ...glob.sync(path.join(__dirname, 'src/**/**/*.jsx')),
+        ...glob.sync(path.join(__dirname, 'src/*.js')),
+        ...glob.sync(path.join(__dirname, 'src/*.html')),
+      ]
+    })
   ],
   resolve: {
     extensions: ['.js', '.jsx'],

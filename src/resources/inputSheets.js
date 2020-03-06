@@ -224,18 +224,6 @@ export const InputSheets = (lang) => [
         validation: [Validation.markRequired]
       },
       {
-        condition: {
-          name: 'properties.propertyType',
-          value: 'Apartment',
-        },
-        component: BrixelInputScale,
-        className: '',
-        label: 'What renovation works are needed within the next years?',
-        name: 'properties.building.apartmentQuality',
-        options: factsOptions.quality,
-        validation: [Validation.markRequired]
-      },
-      {
         component: BrixelInputScale,
         className: 'helpLink',
         label: 'In which condition is the property?',
@@ -671,15 +659,6 @@ export const InputSheets = (lang) => [
         isHorizontal: true,
         name: 'properties.energy.ac',
         options: factsOptions.acOptions,
-        validation: [Validation.markRequired],
-      },
-      {
-        component: BrixelRadioButton,
-        className: '',
-        label: 'Is there a solar plant?',
-        isHorizontal: true,
-        name: 'properties.energy.solar',
-        options: factsOptions.solarOptions,
         validation: [Validation.markRequired],
       },
       {
