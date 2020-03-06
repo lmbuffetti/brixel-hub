@@ -6,12 +6,12 @@ const baseByData = require('@brixel/brixel-configuration-partner/src/SettingsWeb
 const companyData = require('@brixel/brixel-configuration-partner/src/CompanyInfo');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
-const PurgecssPlugin = require('purgecss-webpack-plugin');
+const PurifyCSSPlugin = require('purifycss-webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const glob = require('glob');
 
@@ -150,12 +150,12 @@ const clientConfig = {
       filename: devMode ? 'css/[name].css' : 'css/[name].[hash].css',
       chunkFilename: devMode ? 'css/[id].css' : 'css/[id].[hash].css',
     }),
-    /*new CleanWebpackPlugin({
+    new CleanWebpackPlugin({
       dry: false,
       verbose: true,
       cleanOnceBeforeBuildPatterns: ['*', '!manifest.json'],
       dangerouslyAllowCleanPatternsOutsideProject: true,
-    }),*/
+    }),
     new CopyPlugin([
       { from: './public/favicon.png', to: './' },
     ]),
@@ -190,13 +190,17 @@ const clientConfig = {
       'process.env.BROWSER': JSON.stringify(true)
     }),
     new WebpackAssetsManifest(),
-    // new PurgecssPlugin({
-    //  paths: [
-    //    ...glob.sync(`${BUILD_DIR}/**/*`,  { nodir: true }),
-    //    ...glob.sync(`${ROOT_DIR}/src/**/**/*`,  { nodir: true }),
-    //  ],
-    //  rejected: true,
-    // }),
+    new PurifyCSSPlugin({
+      // Give paths to parse for rules. These should be absolute!
+      paths: [
+        ...glob.sync(path.join(__dirname, 'src/*.jsx')),
+        ...glob.sync(path.join(__dirname, 'src/*.jsx')),
+        ...glob.sync(path.join(__dirname, 'src/**/*.jsx')),
+        ...glob.sync(path.join(__dirname, 'src/**/**/*.jsx')),
+        ...glob.sync(path.join(__dirname, 'src/*.js')),
+        ...glob.sync(path.join(__dirname, 'src/*.html')),
+      ]
+    })
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
