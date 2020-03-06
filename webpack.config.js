@@ -6,16 +6,19 @@ const baseByData = require('@brixel/brixel-configuration-partner/src/SettingsWeb
 const companyData = require('@brixel/brixel-configuration-partner/src/CompanyInfo');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
+const PurgecssPlugin = require('purgecss-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const glob = require('glob');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
+
 
 const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
@@ -187,6 +190,13 @@ const clientConfig = {
       'process.env.BROWSER': JSON.stringify(true)
     }),
     new WebpackAssetsManifest(),
+    new PurgecssPlugin({
+      paths: [
+        ...glob.sync(`${BUILD_DIR}/**/*`,  { nodir: true }),
+        ...glob.sync(`${ROOT_DIR}/src/**/**/*`,  { nodir: true }),
+      ],
+      rejected: true,
+    }),
   ],
   resolve: {
     extensions: ['.js', '.jsx'],

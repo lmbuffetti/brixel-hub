@@ -223,7 +223,7 @@ const InputSheet = (props) => {
   };
 
   return (
-    <>
+    <div className="pb-10">
 
       <div className="dis-f a-c my-2 jc-b body2 txtDark200 px-2">
         <span>Expand all</span>
@@ -350,7 +350,7 @@ const InputSheet = (props) => {
           </div>
         ))
       }
-    </>
+    </div>
   );
 };
 

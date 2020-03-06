@@ -16,7 +16,6 @@ import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
 import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
 import PageHeader from './components/PageHeader';
-import ReactGA from 'react-ga';
 import { setModal } from './actions/CommonActions';
 import { setActiveUsertype } from './actions/UserActions';
 
