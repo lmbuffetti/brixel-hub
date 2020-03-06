@@ -190,13 +190,13 @@ const clientConfig = {
       'process.env.BROWSER': JSON.stringify(true)
     }),
     new WebpackAssetsManifest(),
-    new PurgecssPlugin({
-      paths: [
-        ...glob.sync(`${BUILD_DIR}/**/*`,  { nodir: true }),
-        ...glob.sync(`${ROOT_DIR}/src/**/**/*`,  { nodir: true }),
-      ],
-      rejected: true,
-    }),
+    // new PurgecssPlugin({
+    //  paths: [
+    //    ...glob.sync(`${BUILD_DIR}/**/*`,  { nodir: true }),
+    //    ...glob.sync(`${ROOT_DIR}/src/**/**/*`,  { nodir: true }),
+    //  ],
+    //  rejected: true,
+    // }),
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
