@@ -150,7 +150,7 @@ const InputSheet = (props) => {
       setAccordion({...getData.accordion});
       setAccordionAnimatad({...getData.accordion});
       setSectionProgress({...getData.section});
-      setSkipSection(initialValues.inputSheet.skipSection);
+      setSkipSection(get(initialValues, 'inputSheet.skipSection', {}));
     }
   }, [errorValue]);
 
@@ -174,11 +174,11 @@ const InputSheet = (props) => {
         setNotification({
           state: true,
           type: 'info',
-          label: 'You have unsaved changes',
+          label: 'Save changes?',
           actions:
             [
               { type: 'primary', label: 'Save', func: () => saveData() },
-              { type: 'secondary', label: 'Discard changes', func: () => discardChanges() },
+              { type: 'secondary', label: 'Discard', func: () => discardChanges() },
             ],
         });
       } else {
@@ -223,7 +223,7 @@ const InputSheet = (props) => {
   };
 
   return (
-    <>
+    <div className="pb-10">
 
       <div className="dis-f a-c my-2 jc-b body2 txtDark200 px-2">
         <span>Expand all</span>
@@ -323,7 +323,7 @@ const InputSheet = (props) => {
                                           dirty: formValue[input.name] && errorValue[input.name] !== true,
                                           invalid: true,
                                         }}
-                                        modal={input.modal ? {message: input.modal.hint, func: () => handleSetModal(input.modal.func)} : null }
+                                        modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
                                         message={{
                                           help: null,
                                           error: errorValue[input.name],
@@ -350,7 +350,7 @@ const InputSheet = (props) => {
           </div>
         ))
       }
-    </>
+    </div>
   );
 };
 

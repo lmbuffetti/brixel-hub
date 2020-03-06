@@ -2,7 +2,6 @@
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 @import '~@brixel/brixel-configuration-partner/src/Variables';
 @import '~@brixel/brixel-components/src/styles/SCSS/general/main.scss';
-@import '~swiper/swiper.scss';
 // UTILS
 
 // COMPONENTS
@@ -31,6 +30,13 @@ $sidebarWidth: 84px;
 html, body {
   position: relative;
   height: 100%;
+}
+
+html {
+  font-size: 14px;
+  @media (min-width: $responsive-medium) {
+    font-size: 16px;
+  }
 }
 
 body {

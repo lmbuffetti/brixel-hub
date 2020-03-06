@@ -27,13 +27,10 @@ import { translateTo } from '../../utils/translation';
 import last from 'lodash/last';
 import { addGameHistory, getGameHistory } from '../../actions/GamificationActions';
 import PageHeaderAchievement from '../../components/PageHeaderAchievement';
-import doneAssessor from '../../images/Assessor/doneAssessor.svg';
 
 function Bestimate(props) {
   // PROPS
   const {
-    changeFieldValue,
-    checkValid,
     errorValue,
     formValue,
     gameHistory,
@@ -54,7 +51,7 @@ function Bestimate(props) {
   const [hidePrevBtn, setHidePrevBtn] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progressBar, setProgressBar] = useState(0);
-  const [Questions, setQuestions] = useState(BestimateQuestions(lang));
+  const [Questions] = useState(BestimateQuestions(lang));
   const [saved, setSaved] = useState(false);
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
@@ -64,7 +61,6 @@ function Bestimate(props) {
   useEffect(() => {
     if (gameHistory && gameHistory.data && property.id) {
       const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === property.id);
-      console.log('check', checkGameExist, gameHistory, getAchievement());
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
         if (!saved) {
@@ -122,7 +118,6 @@ function Bestimate(props) {
     changeStep();
     // UPDATE PROPERTY
     handleUpdateProperty(dataProp);
-    console.log(loggedUser.user.id);
     setSaved(true);
     // ADD THE ACHIEVEMENT
     if (!finishedFlow) {
@@ -219,7 +214,7 @@ function Bestimate(props) {
       }
       <PageHeaderAchievement
         icon="money"
-        title="Bestimate®"
+        title="Bestimate&reg;"
         subtitle="Your indicative price estimation"
       />
       <form
@@ -232,7 +227,7 @@ function Bestimate(props) {
             Questions.map((quest, i) => (
               <div
                 id={`step-${i}`}
-                className={`singleStep ${quest.background || ''}`}
+                className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
                 key={i.toString()}
                 style={{
                   visibility: i !== currentIndex ? 'hidden' : 'visible',
@@ -243,7 +238,7 @@ function Bestimate(props) {
                     currentIndex === 0 && (
                       <>
                         <h5 className="ta-c mb-5">{quest.title}</h5>
-                        <div className="ta-c"><img src={quest.img} alt="Done Assessor" /></div>
+                        <div className="ta-c"><img src={quest.img} alt="Done Assessor"/></div>
                         <p className="ta-c mt-5">{quest.description}</p>
                       </>
                     )
@@ -251,7 +246,8 @@ function Bestimate(props) {
                   {
                     quest.inputs && (
                       <>
-                        <h5 className="mb-4 mb-md-10 fsize-md-800">{quest.title}</h5>
+                        { quest.extraInfo && ( <p className="mb-3">{quest.extraInfo}</p> )}
+                        <h5 className="mb-4 mb-md-6 fsize-md-700">{quest.title}</h5>
 
                         {
                           quest.inputs.map((input, f) => (

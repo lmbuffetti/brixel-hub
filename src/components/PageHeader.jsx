@@ -6,15 +6,17 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
+import { getGameHistory } from '../actions/GamificationActions';
 import { translateTo } from '../utils/translation';
 import awards from '../images/BrxielComingTown/awards.svg';
 import brixels from '../images/BrxielComingTown/brixels.svg';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
+
+const baseByData = require('@brixel/brixel-configuration-partner/src/SettingsWebpack');
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -25,7 +27,7 @@ function PageHeader(props) {
   // PROPS
   const {
     lang, languages, loggedUser, userAwards, userBrixelPoint,
-    handleSetLanguage, history,
+    handleSetLanguage, history, handleGetGame, property,
   } = props;
   // STATE
   const [currentLang, setCurrentLang] = useState(lang);
@@ -40,6 +42,7 @@ function PageHeader(props) {
       setCurrentLang(lang);
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
+      handleGetGame();
     }
   }, [loggedUser, lang]);
 
@@ -87,8 +90,13 @@ function PageHeader(props) {
       setShowMobileMenu(true);
       document.body.classList.add('ov-h');
     } else {
-      window.open(getConfigEnv.profileURL, '_blank');
+      window.open(baseByData(null,'io').profileURL, '_blank');
     }
+  };
+
+  const onClickMenu = (link) => {
+    history.push(link);
+    setShowMobileMenu(false);
   };
 
   return (
@@ -149,7 +157,7 @@ function PageHeader(props) {
               ) : (
                 <div className="ml-2">
                   <AvatarImage
-                    avatarImg={ loggedUser.user.avatar && loggedUser.user.avatar[0] ? `${getConfigEnv.shortPath}${loggedUser.user.avatar[0].thumbnailPath}` : null}
+                    avatarImg={ loggedUser.user.avatar && loggedUser.user.avatar[0] ? `${baseByData.shortPath}${loggedUser.user.avatar[0].thumbnailPath}` : null}
                     name={loggedUser.user.name}
                     size={40}
                     onClick={() => avatarAction()}
@@ -228,28 +236,27 @@ function PageHeader(props) {
               }}
             />
             <div className="links dis-fl-col as-b pl-4">
-              <a
+              <button
                 className="txtLight100 fweight-700 fSizePx28 mb-4"
-                href='#'
-                rel="noopener noreferrer"
+                onClick={() => onClickMenu(`/${property.id}/property/list`)}
               >
                 Properties
-              </a>
-              <a
-                className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none"
+              </button>
+              <button
+                className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
                 onClick={() => ''}
               >
                 Messages
-              </a>
-              <a
-                className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none"
+              </button>
+              <button
+                className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
                 onClick={() => ''}
               >
                 Calendar
-              </a>
+              </button>
               <a
                 className="txtLight100 fweight-700 fSizePx28 mb-4"
-                href={getConfigEnv.profileURL}
+                href={baseByData.profileURL}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -269,6 +276,8 @@ PageHeader.propTypes = {
   lang: PropTypes.string,
   loggedUser: PropTypes.object,
   history: PropTypes.object.isRequired,
+  handleGetGame: PropTypes.func.isRequired,
+  property: PropTypes.object.isRequired,
   userAwards: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
   userBrixelPoint: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
 };
@@ -287,11 +296,13 @@ const mapStateToProps = (state) => ({
   languages: get(state, 'common.languages', []),
   lang: get(state, 'common.language', []),
   userAwards: get(state, 'user.awards', []),
+  property: get(state, 'property.property', {}),
   userBrixelPoint: get(state, 'user.brixelPoint', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
+  handleGetGame: bindActionCreators(getGameHistory, dispatch),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageHeader));

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -32,9 +33,9 @@ function SuccessBestimate(props) {
     if (gameGroup) {
       let selectedGame;
       gameGroup.map((game) => {
-        console.log(gameGroup);
         let curGame = game.achievements.find(item => item.stub === getParams);
         if (curGame) selectedGame = curGame;
+        return null;
       });
       setAchievement(selectedGame);
     }
@@ -48,7 +49,7 @@ function SuccessBestimate(props) {
             {
               finishedFlow ? (
                 <>
-                  <h5 className="ta-c mb-5">You are already an Assessor</h5>
+                  <h5 className="ta-c mb-5">You are already a Bestimate&reg;</h5>
                   <div className="ta-c"><img src={doneBestimate} alt="Done Assessor" /></div>
                   <p className="ta-c mt-5">Would you like to do the condition check again?</p>
                 </>
@@ -56,7 +57,7 @@ function SuccessBestimate(props) {
                 <>
                   <h5 className="ta-c mb-5">Well done. You are now an Assessor.</h5>
                   <div className="ta-c"><img src={newBestimate} alt="Nes Assessor" /></div>
-                  <p className="ta-c mt-5">Congrats. You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
+                  <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                 </>
               )
             }

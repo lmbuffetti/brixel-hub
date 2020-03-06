@@ -120,7 +120,7 @@ const InputSheet = (props) => {
               />
             </div>
           </div>
-          <div className="transparency-container mb-2">
+          <div className="transparency-container mb-3">
             <div className="dis-fl-col ta-l">
               {
                 get(initialValues, 'inputSheet') && (
@@ -133,9 +133,9 @@ const InputSheet = (props) => {
                       backgroundSaturation={100}
                       progressValue={initialValues.inputSheet.totalComplete || 0}
                     />
-                    <div className="dis-f fSizePx12 ff-mono txtPrimary700 pt-1">
-                      <span className="mr-1">{initialValues.inputSheet.totalComplete}%</span>
-                      <span className="">completed</span>
+                    <div className="dis-f body txtPrimary700 pt-1">
+                      <span className="mr-1 ff-mono">{initialValues.inputSheet.totalComplete}%</span>
+                      <span className="ff-mono">completed</span>
                     </div>
                   </>
                 )
@@ -154,7 +154,7 @@ const InputSheet = (props) => {
           labels={[
             'Facts',
             'Media',
-            'Settings',
+            'Publish',
           ]}
           activeTab={checkActiveTab()}
           onClick={(tab) => {
@@ -202,6 +202,7 @@ const InputSheetForm = reduxForm({
   // a unique name for the form
   form: 'InputSheet',
   enableReinitialize: true,
+  destroyOnUnmount: false,
 })(InputSheet);
 
 const mapStateToProps = (state) => {

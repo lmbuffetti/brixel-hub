@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import {
-  Switch, Route, withRouter,
+  Switch, Route, withRouter, Redirect,
 } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import get from 'lodash/get';
@@ -16,11 +16,8 @@ import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
 import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
 import PageHeader from './components/PageHeader';
-import ReactGA from 'react-ga';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setModal } from './actions/CommonActions';
-
-ReactGA.initialize(baseByData.googleAnalyticsIdHub);
+import { setActiveUsertype } from './actions/UserActions';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
@@ -67,7 +64,7 @@ const Documents = Loadable({
 });
 
 const Properties = Loadable({
-  loader: () => import('./components/Properties' /* webpackChunkName: "Properties" */),
+  loader: () => import('./Pages/Properties' /* webpackChunkName: "Properties" */),
   loading: Loading,
 });
 
@@ -90,6 +87,8 @@ const cookies = new Cookies();
 
 const App = (props) => {
   const {
+    activeUserType,
+    handleSetActiveUsertype,
     history,
     handleCheckToken,
     handleSetModal,
@@ -97,6 +96,7 @@ const App = (props) => {
     loggedUser,
     modal,
     notification,
+    property,
     redirectTo,
   } = props;
 
@@ -105,8 +105,15 @@ const App = (props) => {
   }, []);
 
   useEffect(() => {
+    if (property && property.id && loggedUser.user && (property.owner === loggedUser.user.id || property.owner.id === loggedUser.user.id)) {
+      handleSetActiveUsertype('seller');
+    } else if (property && property.id) {
+      handleSetActiveUsertype('buyer');
+    }
+  }, [property]);
+
+  useEffect(() => {
     if (history && history.location) {
-      ReactGA.pageview(history.location.pathname);
       ga('send', 'pageview', history.location.pathname);
     }
   }, [history.location]);
@@ -114,11 +121,10 @@ const App = (props) => {
   useEffect(() => {
     if (redirectTo && redirectTo.history) {
       history.push(redirectTo.history);
-      ReactGA.pageview(redirectTo.history);
     }
   }, [redirectTo]);
 
-  if (!loggedUser) {
+  if (!loggedUser || (!activeUserType && property.id)) {
     return (
       <Loading isLoading={isLoading} />
     )
@@ -147,14 +153,17 @@ const App = (props) => {
 
           { /* SECTION: HUB DASHBOARD */ }
           <ProtectedRoute path="/" exact component={Dashboard} />
-          <ProtectedRoute path="/:propId?/:act/achievement/market-checker" component={MarketChecker} />
-          <ProtectedRoute path="/:propId?/:act/achievement/assessor" component={Assessor} />
-          <ProtectedRoute path="/:propId?/:act/achievement/bestimate" component={Bestimate} />
+          { /* SECTION: SELLER DASHBOARD */ }
+          <ProtectedRoute path="/:propId?/:act/achievement/market-checker" exact component={MarketChecker} protect={activeUserType ? activeUserType !== 'seller' : false} />
+          <ProtectedRoute path="/:propId?/:act/achievement/assessor" exact component={Assessor} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/:act/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'}
+          />
+          { /* SECTION: ALL USER DASHBOARD */ }
           <ProtectedRoute path="/:propId?/home" component={Dashboard} />
           <ProtectedRoute path="/:propId?/property" component={Dashboard} />
           <ProtectedRoute path="/:propId?/support" component={Dashboard} />
           { /* SECTION: REDIRECT */ }
-
+          <Redirect from="*" to="/" />
         </Switch>
       </div>
 
@@ -163,6 +172,7 @@ const App = (props) => {
         modal.state && (
           <BrixelModal
             classHeight={modal.height}
+            classWidth={modal.width}
             title={modal.title}
             titleIcon={modal.titleIcon}
             color={modal.color}
@@ -175,7 +185,8 @@ const App = (props) => {
             multiActions={modal.multiActions}
             clickOutsideToClose={modal.clickOutsideToClose}
           >
-            <div dangerouslySetInnerHTML={{ __html: modal.body }} />
+            <h6 className="mb-2" dangerouslySetInnerHTML={{ __html: modal.hint}} />
+            <div className="body2" dangerouslySetInnerHTML={{ __html: modal.body}} />
           </BrixelModal>
         )
       }
@@ -208,11 +219,17 @@ const App = (props) => {
       <div className="zIndex3">
         <Switch>
           {/* SECTION: DOCUMENTS */}
-          <Route path="/:propId?/property/list" exact component={Properties} />
+          <Route path="/:propId?/:act/list" component={Properties} />
           <Route path="/:propId?/property/documents" exact component={Documents} />
-          <Route path="/:propId?/property/media" exact component={EditProperty} />
-          <Route path="/:propId?/property/settings" exact component={EditProperty} />
-          <Route path="/:propId?/property/facts" exact component={EditProperty} />
+          {
+            activeUserType === 'seller' && (
+              <>
+                <Route path="/:propId?/property/media" exact component={EditProperty} />
+                <Route path="/:propId?/property/settings" exact component={EditProperty} />
+                <Route path="/:propId?/property/facts" exact component={EditProperty} />
+              </>
+            )
+          }
         </Switch>
       </div>
 
@@ -221,6 +238,7 @@ const App = (props) => {
 };
 
 App.propTypes = {
+  handleSetActiveUsertype: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
@@ -239,6 +257,8 @@ App.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeUserType: get(state, 'user.activeUserType', null),
+  property: get(state, 'property.property', {}),
   config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   loggedUser: get(state, 'user.loggedUser', null),
@@ -251,6 +271,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetLanguages: bindActionCreators(setLanguages, dispatch),
+  handleSetActiveUsertype: bindActionCreators(setActiveUsertype, dispatch),
 });
 
 export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);

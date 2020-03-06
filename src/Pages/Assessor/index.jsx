@@ -27,13 +27,10 @@ import { translateTo } from '../../utils/translation';
 import last from 'lodash/last';
 import { addGameHistory, getGameHistory } from '../../actions/GamificationActions';
 import PageHeaderAchievement from '../../components/PageHeaderAchievement';
-import doneAssessor from '../../images/Assessor/doneAssessor.svg';
 
 function Assessor(props) {
   // PROPS
   const {
-    changeFieldValue,
-    checkValid,
     errorValue,
     formValue,
     gameHistory,
@@ -54,7 +51,7 @@ function Assessor(props) {
   const [hidePrevBtn, setHidePrevBtn] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progressBar, setProgressBar] = useState(0);
-  const [Questions, setQuestions] = useState(AssessorQuestions(lang));
+  const [Questions] = useState(AssessorQuestions(lang));
   const [saved, setSaved] = useState(false);
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
@@ -64,7 +61,6 @@ function Assessor(props) {
   useEffect(() => {
     if (gameHistory && gameHistory.data && property.id) {
       const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === property.id);
-      console.log('check', checkGameExist, gameHistory, getAchievement());
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
         if (!saved) {
@@ -230,7 +226,7 @@ function Assessor(props) {
             Questions.map((quest, i) => (
               <div
                 id={`step-${i}`}
-                className={`singleStep ${quest.background || ''} ${quest.className || ''}`}
+                className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
                 key={i.toString()}
                 style={{
                   visibility: i !== currentIndex ? 'hidden' : 'visible',
@@ -249,7 +245,7 @@ function Assessor(props) {
                   {
                     quest.inputs && (
                       <>
-                        <h5 className="mb-4 mb-md-10 fsize-md-800">{quest.title}</h5>
+                        <h5 className="mb-4 mb-md-6">{quest.title}</h5>
 
                         {
                           quest.inputs.map((input, f) => (

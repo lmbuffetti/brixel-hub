@@ -35,26 +35,16 @@ const HomeDashboard = (props) => {
 
   useEffect(() => {
     let filtUsrGroup = [];
-    if (property.id && gameGroup.length > 0) {
-      let userType;
-      if (property.owner.id === loggedUser.user.id || loggedUser.user.role.name === 'Administrator') {
-        userType = 'seller';
-      } else {
-        userType = 'buyer';
-      }
-      filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userType) !== -1);
-      console.log(filtUsrGroup);
-      setUserType(userType);
-      if (property.owner.id === loggedUser.user.id && filtUsrGroup && filtUsrGroup[0].achievements[0].stub !== 'homebase') {
-        const data = {
-          id: loggedUser.user.id,
-          page: property.stub,
-          achievement: 'homebase',
-        };
-        handleAddGameHistory(data);
-      }
+    let userType = null;
+    if (property.id && (property.owner.id === loggedUser.user.id)) {
+      userType = 'seller';
+    } else if (property.id && property.owner.id && property.owner.id !== loggedUser.user.id) {
+      userType = 'buyer';
     }
+    filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userType) !== -1);
+    setUserType(userType);
     if (gameHistory.data) {
+      // CHECK IF DONE HOMEBASE
       gameHistory.data.map((game) => {
         filtUsrGroup.map((group, f) => {
           const idGroup = group.achievements.findIndex(val => val.stub === game.achievement.stub && property.id === game.page);
@@ -67,6 +57,21 @@ const HomeDashboard = (props) => {
     setUsrGroups([...filtUsrGroup]);
   }, [property, gameGroup, gameHistory]);
 
+  useState(() => {
+    if (gameHistory.data && property.id) {
+      // CHECK IF DONE HOMEBASE
+      const getHomeBase = gameHistory.data.findIndex(val => val.achievement.stub === 'homebase' && property.id === val.page);
+      if (getHomeBase === -1 && userType === 'seller') {
+        const data = {
+          id: loggedUser.user.id,
+          page: property.stub,
+          achievement: 'homebase',
+        };
+        handleAddGameHistory(data);
+      }
+    }
+  }, [property, gameHistory]);
+
   if (!property.id && !userType) {
     return <Loading />
   }
@@ -77,7 +82,7 @@ const HomeDashboard = (props) => {
       <div className="hide-md mb-3">
         <span className="heading5">Home of</span>
         {
-          property.properties.typology && (
+          property.properties && property.properties.typology && (
             <h5 className="heading5 txtPrimary400">{property.properties.typology.bedrooms} {property.properties.propertyType} in {property.location.city}</h5>
           )
         }
@@ -86,9 +91,9 @@ const HomeDashboard = (props) => {
         usrGroups && usrGroups.map((group, i) => (
           <Fragment key={i.toString()}>
             {
-              GameGroupConfig[`level${group.stub.replace(/^\D+/g, '')}`] && (
+              GameGroupConfig[`${userType}Level${group.stub.replace(/^\D+/g, '')}`] && (
                 <>
-                  <span className="mb-3 dis-b txtDark700 fweight-500">{GameGroupConfig[`level${group.stub.replace(/^\D+/g, '')}`].name}</span>
+                  <span className="mb-3 fsize-400 dis-b txtDark700 fweight-500">{GameGroupConfig[`${userType}Level${group.stub.replace(/^\D+/g, '')}`].name}</span>
                   <div key={i.toString()} className="pl-5 pos-r">
                     <div className="timelineBar" />
                     {
@@ -96,14 +101,14 @@ const HomeDashboard = (props) => {
                         <div key={f.toString()} className="pos-r">
                           <span className={item.done ? "dotTimelineDone" : "dotTimeline"} />
                           {
-                            (property.location.countryCode !== 'CH' && (item.name.includes('Bestimate') || item.name.includes('Market Checker'))) ? (
+                            (property.location && property.location.countryCode !== 'CH' && (item.name.includes('Bestimate') || item.name.includes('Market Checker'))) ? (
                               <BrixelButtonBox
                                 icon={item.icon}
                                 label={item.name}
                                 subtitle={item.description}
                                 background="light100"
                                 className="mb-2 w-perc-100 opacity5 p-2"
-                                colorIcon={GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].iconColor}
+                                colorIcon={GameGroupConfig[`${userType}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
                                 backIcon="light200 mr-1"
                                 multilineInfo={[
                                   {label: 'Coming', color: 'dark200'},
@@ -115,10 +120,10 @@ const HomeDashboard = (props) => {
                                 icon={item.done ? 'check' : item.icon}
                                 label={item.name}
                                 subtitle={item.description}
-                                background={item.done ? 'light100' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].color}
+                                background={item.done ? 'light100' : GameGroupConfig[`${userType}Level${group.stub.replace( /^\D+/g, '')}`].color}
                                 className={`mb-2 w-perc-100 p-2 ${item.done ? '' : 'shadow-2dp'}`}
-                                colorIcon={item.done ? 'green400'  : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].iconColor}
-                                backIcon={`${item.done ? 'light200' : GameGroupConfig[`level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
+                                colorIcon={item.done ? 'green400'  : GameGroupConfig[`${userType}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
+                                backIcon={`${item.done ? 'light200' : GameGroupConfig[`${userType}Level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
                                 paddingIconClass="fSizePx24 p-small-12"
                                 multilineInfo={[
                                   item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},

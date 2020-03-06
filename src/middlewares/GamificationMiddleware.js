@@ -50,9 +50,11 @@ const checkGamification = (store) => (next) => (action) => {
       delete action.payload.id;
       api.gamification.addGameHistory(id, action.payload)
         .then((res) => {
-          store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });
-          store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
-          store.dispatch({ type: SET_BRIXEL_POINT, payload: res.data.actualPoints });
+          if (typeof res.data.status === 'undefined') {
+            store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });
+            store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
+            store.dispatch({ type: SET_BRIXEL_POINT, payload: res.data.actualPoints });
+          }
         });
       break;
     }

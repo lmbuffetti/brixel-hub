@@ -147,17 +147,17 @@ function RangePriceChart(props) {
       .text(d => d.value)
       .on('mouseover', (e) => {
         let transform = 'transform: translate(-50%,0);';
-        let left = '50%';
+        //let left = '50%';
         if (e && xScale(e.priceRangeStart) < 70) {
           transform = 'transform: translate(-1%, 0)';
-          left = 0;
+          // left = 0;
         }
         const circle = d3.select(`#${randomID}`);
         circle.append('div')
           .attr('id', `tooltip${randomID}`)
           .attr('class', 'range-tip')
           .attr('style', `left: ${e ? xScale(e.priceRangeStart) : 0}px; ${transform}`)
-          .html(`<div>Properties: ${e ? e.numberOfProperties : 0}</div><p class="data-range">${cfg.label} ${e.rangePrice}</p>`);
+          .html(`<p>Properties: ${e ? e.numberOfProperties : 0}</p><span class="data-range">${cfg.label} ${e.rangePrice}</span>`);
       })
       .on('mouseout', () => {
         const circle = d3.select(`#tooltip${randomID}`);
@@ -184,6 +184,20 @@ function RangePriceChart(props) {
     chart.append('g')
       .attr('class', 'slider')
       .attr('transform', `translate(0,${height})`);
+
+    if (type === 'bestimate') {
+      chart.select('.slider')
+        .append('line')
+        .attr('class', 'trackback')
+        .attr('fill', '#00FF00')
+        .attr('x1', () => {
+          return 13;
+        })
+        .attr('x2', () => {
+          let calcMax = xScale(discreteDomainMapper(cfg.maxValue)) + xScale.bandwidth();
+          return calcMax;
+        });
+    }
 
     chart.select('.slider')
       .append('line')
@@ -217,6 +231,8 @@ function RangePriceChart(props) {
         .style('stroke-dasharray', 6);
 
       setTimeout(() => {
+        d3.select(`#${randomID}`).selectAll('.tooltip-marker').remove();
+        d3.select(`#${randomID}`).selectAll('#tooltip-new').remove();
         d3.select(`#${randomID}`)
           .append('div')
           .style('left', `${properties[getPosition] ? xScale(properties[getPosition].priceRangeStart) + 8 : 8}px`)
@@ -247,12 +263,10 @@ function RangePriceChart(props) {
                 break;
             }
             return `
-                              <div class="extended-label">
-                                <p>${titleTooltip}</p>
-                                <span class="curr">${cfg.label} </span>
-                                <span class="num">${formatNum(properties[0].median, "'", ',')}</span>
-                              </div>
-                              `;
+                <p>${titleTooltip}</p>
+                <span class="curr">${cfg.label} </span>
+                <span class="num">${formatNum(properties[0].median, "'", ',')}</span>
+              `;
           });
       }, 0);
     } else if (showTopLabel) {
@@ -304,7 +318,7 @@ function RangePriceChart(props) {
           />
         )
       }
-      <div className="rangeGraph" style={{ marginTop: '0', position: 'relative', left: '-13px' }}>
+      <div className="rangeGraph" style={{ marginTop: '0', position: 'relative' }}>
         {drawChart()}
       </div>
     </div>

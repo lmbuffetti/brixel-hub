@@ -35,6 +35,8 @@ import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.
 import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
+import { getGamegroup } from '../../actions/GamificationActions';
+import last from 'lodash/last';
 
 const cookie = new Cookies();
 
@@ -47,9 +49,12 @@ function OnBoarding(props) {
     country,
     errorValue,
     formValue,
+    gameGroup,
+    gameHistory,
     handleCreatePage,
     handleCreateUser,
     handleGetCompany,
+    handleGetGameGroup,
     handleGetToken,
     handleSetAwards,
     handleSetLanguage,
@@ -90,6 +95,7 @@ function OnBoarding(props) {
       };
       changeFieldValue('location', location);
     }
+    handleGetGameGroup();
   }, []);
 
   const hideOnDesk = getBrowserPlatform().indexOf('desk') !== -1 ? 'hide-desktop' : 'dis-b-mobile';
@@ -167,10 +173,10 @@ function OnBoarding(props) {
 
   // Function to Create the pageTitle
   useEffect(() => {
-    if (formValue && formValue.location && !formValue.pageTitle) {
+    if (formValue && formValue.location) {
       changePageTitle();
     }
-  }, [formValue]);
+  }, [formValue.location, formValue.propertyType, formValue.bedrooms]);
 
   // Function to save the data
   const saveData = (e) => {
@@ -255,6 +261,9 @@ function OnBoarding(props) {
 
   // Function to move next/prev question
   const changeStep = (act) => {
+    const getSellerLv1 = gameGroup.find(item => item.stub === 'seller-lvl1');
+    let getHomeBase = {name: 'Homebase', points: 100};
+    if (getSellerLv1 && getSellerLv1.achievements) getHomeBase = getSellerLv1.achievements.find(item => item.stub === 'homebase');
     let newPosition = position;
     if (act === 'back') {
       setDisableNextBtn(false);
@@ -298,8 +307,12 @@ function OnBoarding(props) {
       Questions[newPosition].cardType &&
       Questions[newPosition].cardType === 'RewardsStep'
     ) {
-      handleSetBrixelPoint([{desc: "First Award", point: 50}]);
-      handleSetAwards([{desc: "First Award", point: 1}]);
+      let newPoints = gameHistory;
+      if (newPoints && newPoints.actualPoints) {}
+      else handleSetAwards(1);
+      if (newPoints && newPoints.actualPoints) newPoints.actualPoints += getHomeBase.points;
+      else newPoints = {actualPoints: getHomeBase.points};
+      handleSetBrixelPoint(newPoints.actualPoints);
     }
     if (
       Questions[newPosition] &&
@@ -367,7 +380,8 @@ function OnBoarding(props) {
       setCookie('brixelStubCompany', defComp);
     }
     // on load page redirect all to first step
-    history.push(`/onBoarding/${Questions[0].history}`);
+    const getCurrentUrl = last(history.location.pathname.split('/'));
+    if (getCurrentUrl !== Questions[0].history) history.push(`/onBoarding/${Questions[0].history}`);
   }, []);
 
   // Function to update the current index in base of History
@@ -403,7 +417,7 @@ function OnBoarding(props) {
   return (
     <main id="onBoarding">
       {
-        Questions[currentIndex].inputs && (
+        Questions[currentIndex] && Questions[currentIndex].inputs && (
           <BrixelProgressBar
             saturation={400}
             barBackground="Light"
@@ -831,9 +845,12 @@ OnBoarding.propTypes = {
   country: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  gameGroup: PropTypes.arrayOf(PropTypes.object),
+  gameHistory: PropTypes.object,
   handleCreateUser: PropTypes.func.isRequired,
   handleCreatePage: PropTypes.func.isRequired,
   handleGetCompany: PropTypes.func.isRequired,
+  handleGetGameGroup: PropTypes.func.isRequired,
   handleGetToken: PropTypes.func.isRequired,
   handleSetAwards: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
@@ -858,6 +875,8 @@ const mapStateToProps = (state, props) => ({
   country: get(state, 'common.country', {}),
   errorValue: get(state, 'form.OnBoarding.syncErrors', {}),
   formValue: get(state, 'form.OnBoarding.values', {}),
+  gameGroup: get(state, 'gamification.gameGroup', []),
+  gameHistory: get(state, 'gamification.gameHistory', []),
   initialValue: get(state, 'form.OnBoarding.initial', {}),
   loggedUser: get(state, 'user.loggedUser', {}),
   redirectTo: get(state, 'common.redirectTo', {}),
@@ -879,6 +898,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleCreateUser: bindActionCreators(validateUser, dispatch),
   handleGetToken: bindActionCreators(getToken, dispatch),
   handleGetCompany: bindActionCreators(getCompany, dispatch),
+  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleCreatePage: bindActionCreators(addProperty, dispatch),
   handleSetErrorMsg: bindActionCreators(errorMessage, dispatch),

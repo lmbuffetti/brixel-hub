@@ -41,6 +41,7 @@ const SupportDashboard = Loadable({
 const Dashboard = (props) => {
   // PROPS
   const {
+    activeUserType,
     handleGetProperties,
     handleGetProperty,
     handleSaveProperty,
@@ -59,7 +60,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (propID) {
-      handleGetProperty({id: propID});
+      handleGetProperty({fullVersion: false, id: propID});
     } else {
       const data = {
         limit: 1,
@@ -77,8 +78,11 @@ const Dashboard = (props) => {
     if (!propID && property.id) {
       history.push(`/${property.id}/home`);
     }
+    if (property.owner === loggedUser.user.id) {
+      handleGetProperty({fullVersion: true, id: propID});
+    }
     const getPercComplete = get(property, 'inputSheet.totalComplete', null);
-    if (property.id && !getPercComplete) {
+    if (property.id && !getPercComplete && property.owner.id) {
       const getPerc = getCalcSectionInputSheets(InputSheets('en'), property, {});
       const data = {
         skipSection: getPerc.section.section,
@@ -88,22 +92,18 @@ const Dashboard = (props) => {
     }
   }, [property]);
 
+  if (!activeUserType) return (<div />);
+
   return (
     <div className="container" id="dashboard">
 
       { /* SECTION: APP HEADER */ }
       {
-        (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) ?
-          (
-            ''
-          ) :
-          (
-            loggedUser && (
-              <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
-                <MenuSidebar />
-              </div>
-            )
-          )
+        !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding') && loggedUser && (
+          <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
+            <MenuSidebar />
+          </div>
+        )
       }
 
       <BrixelTabs
@@ -128,6 +128,7 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
+  activeUserType: PropTypes.string,
   handleGetProperties: PropTypes.func.isRequired,
   handleGetProperty: PropTypes.func.isRequired,
   handleSaveProperty: PropTypes.func.isRequired,
@@ -136,10 +137,11 @@ Dashboard.propTypes = {
 };
 
 Dashboard.defaultProps = {
-
+  activeUserType: null,
 };
 
 const mapStateToProps = (state) => ({
+  activeUserType: get(state, 'user.activeUserType', null),
   loggedUser: get(state, 'user.loggedUser', {}),
   property: get(state, 'property.property', {}),
 });

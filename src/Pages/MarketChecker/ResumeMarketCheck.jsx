@@ -54,7 +54,6 @@ function ResumeMarketCheck(props) {
         packageFlowProcess: property.packageFlowProcess || {},
         properties: property.properties,
       };
-      console.log(data.packageFlowProcess);
       data.properties.building.conditionCode = get(formValue, 'properties.building.conditionCode', null);
       data.packageFlowProcess.rewardScreenData = {
         market_check_date: moment().format(),
@@ -93,19 +92,18 @@ function ResumeMarketCheck(props) {
                   moveMarker
                   draggable
                   showMap
+                  className="brdRadius ov-h"
                   isShowZip={false}
                   similarProperties={marketData.list}
                 />
+                <div className="dis-f jc-fs a-c mt-2">
+                  <BrixelIcon icon='location-pin-simple fsize-400' color="dark" saturationTxt={700} />
+                  <p className="ml-1 txtDark700 fsize-300">{property.location.address}</p>
+                </div>
               </div>
 
-              <div className="dis-f jc-fs a-c mt-1">
-                <BrixelIcon icon='location-pin-simple' color="dark" saturationTxt={700} />
-                <p>{property.location.address}</p>
-              </div>
-
-
-              <div className="row mt-5 px-2">
-                <div className="col-md-6">
+              <div className="dis-fl-col my-5">
+                <div>
                   {
                     marketData && marketData.priceDistribution && marketData.priceDistribution.chartRangePrice && (
                       <>
@@ -113,12 +111,12 @@ function ResumeMarketCheck(props) {
                           properties={marketData.priceDistribution.chartRangePrice}
                           type="priceRange"
                         />
-                        <p className="mt-2 body2">The graph shows you the current distribution of the offer prices of all similar properties. The data are updated daily.</p>
+                        <p className="mt-2 body2 txtDark700">The graph shows you the current distribution of the offer prices of all similar properties. The data are updated daily.</p>
                       </>
                     )
                   }
                 </div>
-                <div className="col-md-6">
+                <div className="mt-5">
                   {
                     marketData && marketData.pricePerSpace && marketData.pricePerSpace.chartRangePrice && (
                       <>
@@ -126,7 +124,7 @@ function ResumeMarketCheck(props) {
                           properties={marketData.pricePerSpace.chartRangePrice}
                           type="priceM2"
                         />
-                        <p className="mt-2 body2">The graph shows you the current distribution of the square meter prices of all similar properties. The data are updated daily.</p>
+                        <p className="mt-2 body2 txtDark700">The graph shows you the current distribution of the square meter prices of all similar properties. The data are updated daily.</p>
                       </>
                     )
                   }
@@ -134,34 +132,34 @@ function ResumeMarketCheck(props) {
               </div>
 
 
-              <div className="boxMarketCheck mt-5">
+              <div className="boxMarketCheck">
                 {
                   marketData && marketData.livingSpacesDistribution && (
                     <div>
-                      <h6 className="mb-1 body2 fweight-600">Living Sapce</h6>
-                      <p className="mb-1"><span>{Math.ceil(marketData.livingSpacesDistribution.median)}</span> m2</p>
+                      <p className="mb-1 body2 fweight-600 txtDark700">Living Sapce</p>
+                      <p><span className="ff-mono txtGreen400 fsize-700">{Math.ceil(marketData.livingSpacesDistribution.median)}</span> <span className="fsize-100 txtDark200">m2</span></p>
                     </div>
                   )
                 }
                 {
                   marketData && marketData.constructionYearDistribution && (
                     <div>
-                      <h6 className="mb-1 body2 fweight-600">Age</h6>
-                      <p className="mb-1"><span>{Math.ceil(marketData.constructionYearDistribution.medianAge)}</span> years</p>
+                      <p className="mb-1 body2 fweight-600 txtDark700">Age</p>
+                      <p><span className="ff-mono txtGreen400 fsize-700">{Math.ceil(marketData.constructionYearDistribution.medianAge)}</span> <span className="fsize-100 txtDark200">years</span></p>
                     </div>
                   )
                 }
                 {
                   marketData && marketData.daysOnMarketDistribution && (
                     <div>
-                      <h6 className="mb-1 body2 fweight-600">Time on Market</h6>
-                      <p><span>{marketData.daysOnMarketDistribution.median}</span> days</p>
+                      <p className="mb-1 body2 fweight-600 txtDark700">Time on Market</p>
+                      <p><span className="ff-mono txtGreen400 fsize-700">{marketData.daysOnMarketDistribution.median}</span> <span className="fsize-100 txtDark200">days </span></p>
                     </div>
                   )
                 }
               </div>
 
-              <p className="mt-1">All numbers are median values</p>
+              <p className="mt-1 fsize-100 txtDark700">All numbers are median values</p>
             </div>
           )
         }

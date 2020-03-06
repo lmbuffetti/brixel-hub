@@ -1,9 +1,7 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import last from 'lodash/last';
-import isNaN from 'lodash/isNaN';
 import { compose } from 'redux';
 import {
   withRouter,
@@ -14,30 +12,15 @@ function ResumeAssessor(props) {
   // PROPS
   const {
     condition,
-    gameGroup,
-    history,
   } = props;
   // STATE
-  const [achievement, setAchievement] = useState(null);
-  const [selBaseRenovation, setSelRenovation] = useState('renovation');
-  // URL PARAMS
-  const getParams = last(history.location.pathname.split('/'));
-
-  useEffect(() => {
-    if (gameGroup) {
-      let selectedGame;
-      gameGroup.map((game) => {
-        let curGame = game.achievements.find(item => item.stub === getParams);
-        if (curGame) selectedGame = curGame;
-      });
-      setAchievement(selectedGame);
-    }
-  }, [gameGroup]);
+  const [selBaseRenovation, setSelRenovation] = useState('construction');
 
   const selOneElement = (el) => {
     let lessNumber = 4;
     Object.keys(el).map((key) => {
       if (el[key] < lessNumber) lessNumber = el[key];
+      return null;
     });
     return lessNumber || 0;
   };
@@ -52,7 +35,7 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].constructor && (
                 <div className='dis-f jc-b mb-2'>
-                  <h6>Construction Material</h6>
+                  <p className="fweight-500 txtDark700">Construction Material</p>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].constructor[Object.keys(condition[selBaseRenovation].constructor)[0]]}
                   />
@@ -62,7 +45,7 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].roof && (
                 <div className='dis-f jc-b mb-2'>
-                  <h6>Roof Type</h6>
+                  <p className="fweight-500 txtDark700">Roof Type</p>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].roof[Object.keys(condition[selBaseRenovation].roof)[0]]}
                   />
@@ -72,7 +55,7 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].facade && (
                 <div className='dis-f jc-b mb-2'>
-                  <h6>Facade</h6>
+                  <p className="fweight-500 txtDark700">Facade</p>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].facade[Object.keys(condition[selBaseRenovation].facade)[0]]}
                   />
@@ -82,7 +65,7 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].heating && (
                 <div className='dis-f jc-b mb-2'>
-                  <h6>Heating</h6>
+                  <p className="fweight-500 txtDark700">Heating</p>
                   <BrixelShowQuality
                     value={selOneElement(condition[selBaseRenovation].heating) || 0}
                   />
@@ -92,7 +75,7 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].kitchen && (
                 <div className='dis-f jc-b mb-2'>
-                  <h6>Kitchen</h6>
+                  <p className="fweight-500 txtDark700">Kitchen</p>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].kitchen}
                   />
@@ -102,7 +85,7 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].wetCells && (
                 <div className='dis-f jc-b mb-2'>
-                  <h6>Wet Cells</h6>
+                  <p className="fweight-500 txtDark700">Wet Cells</p>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].wetCells}
                   />
@@ -112,7 +95,7 @@ function ResumeAssessor(props) {
             {
               condition[selBaseRenovation].electricalSystems && (
                 <div className='dis-f jc-b'>
-                  <h6>Electrical Systems</h6>
+                  <p className="fweight-500 txtDark700">Electrical Systems</p>
                   <BrixelShowQuality
                     value={condition[selBaseRenovation].electricalSystems}
                   />
@@ -120,24 +103,30 @@ function ResumeAssessor(props) {
               )
             }
             <div className="dis-f jc-fe a-c mt-4">
-              <p className="mr-2">based on</p>
-              <BrixelSelect
-                options={[
-                  {
-                    value: 'construction',
-                    label: 'Construction year'
-                  },
-                  {
-                    value: 'renovation',
-                    label: 'Renovation year'
-                  }
-                ]}
-                input={{
-                  onChange: (val) => setSelRenovation(val),
-                  name: 'selBaseRenovation',
-                  value: selBaseRenovation,
-                }}
-              />
+              <p className={`${condition['renovation'] ? 'mr-2' : 'mr-1'} txtDark700`}>based on</p>
+              {
+                condition['renovation'] && condition['renovation'].constructor ? (
+                  <BrixelSelect
+                    options={[
+                      {
+                        value: 'construction',
+                        label: 'Construction year'
+                      },
+                      {
+                        value: 'renovation',
+                        label: 'Renovation year'
+                      }
+                    ]}
+                    input={{
+                      onChange: (val) => setSelRenovation(val),
+                      name: 'selBaseRenovation',
+                      value: selBaseRenovation,
+                    }}
+                  />
+                ) : (
+                  <span className="txtDark700">Construction year</span>
+                )
+              }
             </div>
           </>
         )

@@ -35,6 +35,9 @@
       li {
         padding-top: 8px;
         padding-bottom: 8px;
+        > span {
+          margin-top: 4px;
+        }
         &.active {
           background: map-get($primaryColor, 100);
           color: map-get($primaryColor, 400);
@@ -45,8 +48,13 @@
 
   .property-info-container {
 
-    .buyer-container > div:not(:last-child) {
-      border-right: 1px solid map-get($lightColor, 200);;
+    .buyer-container {
+      > div {
+        flex:  0 0 33.33%;
+        &:not(:last-child) {
+          border-right: 1px solid map-get($lightColor, 200);;
+        }
+      }
     }
 
     .value {
@@ -84,7 +92,7 @@
         }
 
         .text {
-          @include fontStyle(400,'regular',center);
+          @include fontStyle(300,'regular',center);
         }
       }
     }
@@ -93,18 +101,25 @@
   .homeTab {
     .brixel-button-box {
       .labelText {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         .labelTitle {
           font-weight: 500;
           margin-bottom: 0;
         }
         .labelSubtitle {
-          font-size: 12px;
+          @include fontStyle(200);
+          line-height: $step * 2;
           color: map-get($darkColor, 200);
         }
       }
       .rightAction {
-        > p > span {
-          font-size: 12px;
+        > p {
+          line-height: 0;
+          > span {
+            @include fontStyle(100);
+          }
         }
       }
     }
@@ -122,6 +137,7 @@
           width: 99.5%;
           margin-left: auto;
           margin-right: auto;
+          @include fontStyle(400)
         }
       }
     }
@@ -185,7 +201,7 @@
         }
         .propertyTab {
           max-width: 500px;
-          min-width: 340px;
+          min-width: 370px;
           .property-info-container {
             background-color: map-get($lightColor, 100);
           }

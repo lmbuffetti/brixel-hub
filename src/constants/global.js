@@ -1,5 +1,11 @@
 export const GameGroupConfig = {
-  level1: {
+  buyerLevel1: {
+    name: 'Level 1',
+    color: 'blue100',
+    backColor: 'blue400',
+    iconColor: 'white',
+  },
+  sellerLevel1: {
     name: 'Level 1',
     color: 'green100',
     backColor: 'green400',

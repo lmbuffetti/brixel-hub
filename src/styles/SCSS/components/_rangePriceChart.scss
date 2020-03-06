@@ -17,6 +17,8 @@
   position: relative;
   width: 100%;
   max-width: 370px;
+  margin-left: auto;
+  margin-right: auto;
   // height: 190px;
   display: block;
 
@@ -80,6 +82,12 @@
     .track {
       stroke-linecap: round;
       stroke: #555762;
+      stroke-width: 3px;
+    }
+
+    .trackback {
+      stroke-linecap: round;
+      stroke: #abb1b3;
       stroke-width: 3px;
     }
 
@@ -154,7 +162,7 @@
   .tooltip-marker {
     display: block;
     width: 20px;
-    height: 20px;
+    height: 25px;
     background: url(../../../images/getstarted/range-graph-marker.svg);
     position: absolute;
     top: 70px;
@@ -225,22 +233,31 @@
   }
 
   .range-tip {
-    text-align: right;
     // color: $darker-grey;
-    font-family: $font-family-secondary;
     font-weight: 600;
-    font-size: 12px;
+    text-align: center;
     z-index: 100;
     position: absolute;
-    padding: 0.5em 0.7em;
+    padding: 8px 16px 4px;
     background-color: #FFFFFF;
     pointer-events: none;
     white-space: nowrap;
     top: 80px;
-    box-shadow: $shadow-5dp;
-    border: 1px solid map_get($lightColor, 400);
+    box-shadow: $shadow-2dp;
+    //border: 1px solid map_get($lightColor, 400);
     border-radius: $brd-radius-small;
     // border-radius: $brd-radius-small;
+    p {
+      font-size: 14px;
+      font-weight: 600;
+      color: map-get($darkColor, 700 );
+    }
+    span {
+      font-size: 14px;
+      font-weight: 600;
+      font-family: $font-family-secondary;
+      color: map-get($greenColor, 400 );
+    }
     &.top {
       background-color: $brx-white;
       color: map_get($primaryColor, 700);

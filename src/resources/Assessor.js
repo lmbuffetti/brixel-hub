@@ -25,12 +25,13 @@ export const AssessorQuestions = (lang) => [
   },
   {
     title: "What's the basic construction material?",
-    className: "vertCentered",
+    vCentered: true,
     history: "constructionMaterials",
     cardType: "constructionMaterials",
     inputs: [
       {
         component: BrixelRadioButton,
+        pdClass: 'py-3 px-1',
         className: '',
         label: '',
         name: 'properties.building.constructionMaterials',
@@ -42,11 +43,12 @@ export const AssessorQuestions = (lang) => [
   {
     title: "What type of roof",
     history: "roofType",
-    className: "vertCentered",
+    vCentered: true,
     cardType: "roofType",
     inputs: [
       {
         component: BrixelRadioButton,
+        pdClass: 'py-3 px-1',
         className: '',
         label: '',
         name: 'properties.building.roofType',
@@ -58,11 +60,12 @@ export const AssessorQuestions = (lang) => [
   {
     title: "What's the kind of facade?",
     history: "facade",
-    className: "vertCentered",
+    vCentered: true,
     cardType: "facade",
     inputs: [
       {
         component: BrixelRadioButton,
+        pdClass: 'py-3 px-1',
         className: '',
         label: '',
         name: 'properties.building.facade',
@@ -74,11 +77,12 @@ export const AssessorQuestions = (lang) => [
   {
     title: "What heating system do you have?",
     history: "heating",
-    className: "vertCentered",
+    vCentered: true,
     cardType: "heating",
     inputs: [
       {
         component: BrixelCheckbox,
+        pdClass: 'py-3 pl-1 pr-2',
         className: '',
         label: '',
         name: 'properties.building.energy.heating',
@@ -111,7 +115,7 @@ export const AssessorQuestions = (lang) => [
   {
     title: "Result Page",
     subtitle: "Sales strategy & price",
-    className: "vertCentered",
+    vCentered: true,
     history: "resumeFlow",
     cardType: "loadComponent",
     component: ResumeAssessor,
@@ -119,7 +123,7 @@ export const AssessorQuestions = (lang) => [
   {
     title: "Thank you Market Check",
     subtitle: "Sales strategy & price",
-    className: "vertCentered",
+    vCentered: true,
     history: "successAchievement",
     cardType: "loadComponent",
     component: SuccessAssessor,

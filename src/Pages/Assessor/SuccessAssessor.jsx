@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,7 +8,6 @@ import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { BrixelIcon } from '@brixel/brixel-components';
 import { getGamegroup } from '../../actions/GamificationActions';
 import doneAssessor from '../../images/Assessor/doneAssessor.svg';
 import newAssessor from '../../images/Assessor/newAssessor.svg';
@@ -31,11 +31,11 @@ function SuccessAssessor(props) {
 
   useEffect(() => {
     if (gameGroup) {
-      let selectedGame;
+      let selectedGame = null;
       gameGroup.map((game) => {
-        console.log(gameGroup);
         let curGame = game.achievements.find(item => item.stub === getParams);
         if (curGame) selectedGame = curGame;
+        return null;
       });
       setAchievement(selectedGame);
     }
@@ -57,7 +57,7 @@ function SuccessAssessor(props) {
                 <>
                   <h5 className="ta-c mb-5">Well done. You are now an Assessor.</h5>
                   <div className="ta-c"><img src={newAssessor} alt="Nes Assessor" /></div>
-                  <p className="ta-c mt-5">Congrats. You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
+                  <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                 </>
               )
             }

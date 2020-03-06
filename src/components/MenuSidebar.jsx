@@ -10,7 +10,7 @@ import logo from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 const MenuSidebar = (props) => {
   // PROPS
   const {
-    history, match, activeProperty,
+    history, activeProperty,
     // preventExit, setUnsavedModal,
   } = props;
 
@@ -36,7 +36,7 @@ const MenuSidebar = (props) => {
                 noBorder
                 color="dark"
                 saturationTxt={100}
-                className="h-perc-100"
+                className="h-perc-100 w-perc-100"
                 onClick={() => {
                   // if (preventExit) {
                   //   setUnsavedModal({
@@ -57,7 +57,7 @@ const MenuSidebar = (props) => {
                 bgTransparent
                 noBorder
                 color="light"
-                className="h-perc-100"
+                className="h-perc-100 w-perc-100"
                 saturationTxt={300}
               />
             </div>
