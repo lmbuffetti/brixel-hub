@@ -194,11 +194,13 @@ const clientConfig = {
       // Give paths to parse for rules. These should be absolute!
       paths: [
         ...glob.sync(path.join(__dirname, 'src/*.jsx')),
-        ...glob.sync(path.join(__dirname, 'src/*.jsx')),
         ...glob.sync(path.join(__dirname, 'src/**/*.jsx')),
         ...glob.sync(path.join(__dirname, 'src/**/**/*.jsx')),
         ...glob.sync(path.join(__dirname, 'src/*.js')),
+        ...glob.sync(path.join(__dirname, 'src/**/*.js')),
+        ...glob.sync(path.join(__dirname, 'src/**/**/*.js')),
         ...glob.sync(path.join(__dirname, 'src/*.html')),
+        ...glob.sync(path.join(__dirname, 'dist/*.html')),
       ]
     })
   ],

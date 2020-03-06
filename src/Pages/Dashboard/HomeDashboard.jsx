@@ -35,10 +35,10 @@ const HomeDashboard = (props) => {
 
   useEffect(() => {
     let filtUsrGroup = [];
-    let userType;
+    let userType = null;
     if (property.id && (property.owner.id === loggedUser.user.id)) {
       userType = 'seller';
-    } else {
+    } else if (property.id && property.owner.id && property.owner.id !== loggedUser.user.id) {
       userType = 'buyer';
     }
     filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userType) !== -1);

@@ -41,6 +41,7 @@ const SupportDashboard = Loadable({
 const Dashboard = (props) => {
   // PROPS
   const {
+    activeUserType,
     handleGetProperties,
     handleGetProperty,
     handleSaveProperty,
@@ -91,22 +92,18 @@ const Dashboard = (props) => {
     }
   }, [property]);
 
+  if (!activeUserType) return (<div />);
+
   return (
     <div className="container" id="dashboard">
 
       { /* SECTION: APP HEADER */ }
       {
-        (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) ?
-          (
-            ''
-          ) :
-          (
-            loggedUser && (
-              <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
-                <MenuSidebar />
-              </div>
-            )
-          )
+        !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding') && loggedUser && (
+          <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
+            <MenuSidebar />
+          </div>
+        )
       }
 
       <BrixelTabs
@@ -131,6 +128,7 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
+  activeUserType: PropTypes.string,
   handleGetProperties: PropTypes.func.isRequired,
   handleGetProperty: PropTypes.func.isRequired,
   handleSaveProperty: PropTypes.func.isRequired,
@@ -139,10 +137,11 @@ Dashboard.propTypes = {
 };
 
 Dashboard.defaultProps = {
-
+  activeUserType: null,
 };
 
 const mapStateToProps = (state) => ({
+  activeUserType: get(state, 'user.activeUserType', null),
   loggedUser: get(state, 'user.loggedUser', {}),
   property: get(state, 'property.property', {}),
 });
