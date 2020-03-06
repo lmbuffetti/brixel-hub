@@ -29,7 +29,6 @@ const ProtectedRoute = (props) => {
     } else if (typeof cookie.get('brixelToken') === 'undefined') {
       window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
     }
-    console.log(loggedUser.token, activeUserType, allowAccess !== activeUserType)
     if (loggedUser.token && activeUserType && allowAccess && allowAccess !== activeUserType) {
       history.push('/');
     }
