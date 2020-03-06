@@ -190,21 +190,21 @@ const clientConfig = {
       'process.env.BROWSER': JSON.stringify(true)
     }),
     new WebpackAssetsManifest(),
-    new PurifyCSSPlugin({
-      // Give paths to parse for rules. These should be absolute!
-      paths: [
-        ...glob.sync(path.join(__dirname, 'src/*.jsx')),
-        ...glob.sync(path.join(__dirname, 'src/**/*.jsx')),
-        ...glob.sync(path.join(__dirname, 'src/**/**/*.jsx')),
-        ...glob.sync(path.join(__dirname, 'src/**/**/**/*.jsx')),
-        ...glob.sync(path.join(__dirname, 'src/*.js')),
-        ...glob.sync(path.join(__dirname, 'src/**/*.js')),
-        ...glob.sync(path.join(__dirname, 'src/**/**/*.js')),
-        ...glob.sync(path.join(__dirname, 'src/**/**/**/*.js')),
-        ...glob.sync(path.join(__dirname, 'src/*.html')),
-        ...glob.sync(path.join(__dirname, 'dist/*.html')),
-      ]
-    })
+    // new PurifyCSSPlugin({
+    // Give paths to parse for rules. These should be absolute!
+    // paths: [
+    //   ...glob.sync(path.join(__dirname, 'src/*.jsx')),
+    //   ...glob.sync(path.join(__dirname, 'src/**/*.jsx')),
+    //   ...glob.sync(path.join(__dirname, 'src/**/**/*.jsx')),
+    //   ...glob.sync(path.join(__dirname, 'src/**/**/**/*.jsx')),
+    //   ...glob.sync(path.join(__dirname, 'src/*.js')),
+    //   ...glob.sync(path.join(__dirname, 'src/**/*.js')),
+    //   ...glob.sync(path.join(__dirname, 'src/**/**/*.js')),
+    //   ...glob.sync(path.join(__dirname, 'src/**/**/**/*.js')),
+    //   ...glob.sync(path.join(__dirname, 'src/*.html')),
+    //   ...glob.sync(path.join(__dirname, 'dist/*.html')),
+    //   ]
+    // })
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
