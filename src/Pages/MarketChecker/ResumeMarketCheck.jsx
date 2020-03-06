@@ -92,6 +92,7 @@ function ResumeMarketCheck(props) {
                   moveMarker
                   draggable
                   showMap
+                  className="brdRadius ov-h"
                   isShowZip={false}
                   similarProperties={marketData.list}
                 />
