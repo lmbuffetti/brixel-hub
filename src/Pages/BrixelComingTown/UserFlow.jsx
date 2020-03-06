@@ -38,8 +38,6 @@ function UserFlow(props) {
     formValue,
     handleUpdateUser,
     handleGetCompany,
-    handleSetAwards,
-    handleSetBrixelPoint,
     handleSetNotification,
     history,
     lang,
@@ -57,9 +55,6 @@ function UserFlow(props) {
   const [Questions, setQuestions] = useState(QuestionsList(lang));
 
   useEffect(() => {
-    // TODO: Change logic to save/get brixels and awards
-    handleSetBrixelPoint([{desc: "Homebase", point: 50}, {desc: "Newcomer", point: 100}]);
-    handleSetAwards([{desc: "Homebase", point: 1}, {desc: "Newcomer", point: 1}]);
     // On load redirect all to first route of flow
     history.push(`/onBoarding/brixelComingInTown/${Questions[0].history}`);
     // GET Company data by cookie
@@ -223,27 +218,6 @@ function UserFlow(props) {
     setProgressBar(newPosition * 100 / questInputs.length);
     // If the current and the preview are not steps with inputs save the data
     if (Questions[newPosition - 1].inputs && !Questions[newPosition].inputs) saveData();
-    // if the step is the chat step
-    if (Questions[newPosition].cardType === 'chat') {
-      handleSetNotification({
-        small: true,
-        icon: 'mosaic',
-        text: "+ 50 Brixels for completing your onboarding.",
-      });
-      handleSetBrixelPoint([
-        {desc: "Homebase", point: 50},
-        {desc: "Newcomer", point: 100},
-        {desc: "Completing onboarding", point: 50},
-      ]);
-      handleSetAwards([
-        {desc: "Homebase", point: 1},
-        {desc: "Newcomer", point: 1},
-        {desc: "Completing onboarding", point: 1},
-      ]);
-      setTimeout(() => {
-        handleSetNotification(null);
-      }, 5000)
-    }
     // Change the url in base of history key on question object
     history.push(`/onBoarding/brixelComingInTown/${Questions[newPosition].history}`);
   };

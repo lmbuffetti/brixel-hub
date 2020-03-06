@@ -9,6 +9,7 @@ import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
+import last from 'lodash/last';
 import {
   withRouter,
 } from 'react-router-dom'
@@ -367,7 +368,8 @@ function GetStarted(props) {
       handleGetCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);
     }
-    history.push(`/packageFlow/getStarted/${Questions[0].history}`);
+    const getCurrentUrl = last(history.location.pathname.split('/'));
+    if (getCurrentUrl !== Questions[0].history) history.push(`/packageFlow/getStarted/${Questions[0].history}`);
   }, []);
 
   const validateSlide = (val, name, quest) => {
