@@ -64,7 +64,10 @@ const Media = (props) => {
     const imgArray = [];
     order.map((item) => {
       if (item.createdAt) {
+        delete item.chosen;
+        delete item.selected;
         imgArray.push(item);
+
       }
       return null;
     });

@@ -100,7 +100,6 @@ const InputSheet = (props) => {
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
-    console.log(Object.keys(diff(initialValues, formValue)), initialValues, formValue);
     if (formValue.id && initialValues.id) {
       if (Object.keys(diff(initialValues, formValue)).length > 0) {
         let setValid = true;
@@ -138,7 +137,7 @@ const InputSheet = (props) => {
         setNotification({ state: false });
       }
     }
-  }, [formValue, errorValue]);
+  }, [formValue]);
 
   const closeFacts = () => {
     closeNotificationBar()
@@ -292,7 +291,7 @@ const mapStateToProps = (state) => {
     initialValues: {
       id: get(state, 'property.property.id', null),
       description: get(state, 'property.property.description', {}),
-      photos: get(state, 'property.property.photos', []),
+      photos: cloneDeep(get(state, 'property.property.photos', [])),
       floorPlans: get(state, 'property.property.floorPlans', []),
       properties: get(state, 'property.property.properties', {}),
       location: get(state, 'property.property.location', {}),

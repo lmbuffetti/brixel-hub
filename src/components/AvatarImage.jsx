@@ -18,8 +18,6 @@ const AvatarImage = (props) => {
     } else return '';
   };
 
-  console.log(avatarImg);
-
   return (
     <>
       {

@@ -80,7 +80,6 @@ const InputSheet = (props) => {
 
   // FUNCTION TO LOAD DIFFERENT CHACKMAR IF GROUP IS COMPLETE, UNCOMPLETE, DISABLE
   const checkQuestionGroup = (quest, skipped = {}) => {
-    console.log(sectionProgress);
     if (sectionProgress && sectionProgress.sectionComplete && sectionProgress.sectionComplete[quest.history]) {
       return (
         <div>
@@ -120,11 +119,8 @@ const InputSheet = (props) => {
   };
 
   useEffect(() => {
-    //
-    console.log(formValue)
     if (formValue.id) {
       const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
-      console.log(getData);
       setAccordion({...getData.accordion});
       setAccordionAnimatad({...getData.accordion});
       setSectionProgress({...getData.section});

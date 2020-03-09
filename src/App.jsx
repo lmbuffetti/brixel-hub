@@ -217,7 +217,6 @@ const App = (props) => {
 
       { /* SECTION: SIDEBAR */ }
       <div className="zIndex3">
-        {activeUserType}
         <Switch>
           {/* SECTION: DOCUMENTS */}
           <Route path="/:propId?/:act/list" component={Properties} />
