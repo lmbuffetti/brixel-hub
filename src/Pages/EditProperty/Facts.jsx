@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
+//import { CSSTransition } from 'react-transition-group';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reset, Field } from 'redux-form';
@@ -55,6 +56,9 @@ const InputSheet = (props) => {
   }, [initialValues]);
 
   const propID = get(match, 'params.propId', null);
+
+
+  const [showMessage, setShowMessage ] = useState(false);
 
   // FUNCTION ON CLICK TO ENABLE/DISABLE QUESTION GROUP
   const handleSkipSection = async (key) => {
@@ -165,6 +169,8 @@ const InputSheet = (props) => {
         <span>All tasks</span>
       </div>
 
+      {showMessage} {<p> lasjdf </p>}
+
       {
         Questions.map((quest, i) => (
           <div
@@ -198,13 +204,16 @@ const InputSheet = (props) => {
             </div>
             {
               accordion[quest.history] && (
-                <div key={i.toString()} className="accrodContent">
+                <div
+                  key={i.toString()}
+                  className="accrodContent"
+                >
                   {
                     quest.inputs.map((input, f) => (
-                      <div className="singleInput" key={f.toString()}>
+                      <div key={f.toString()}>
                         {
                           checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
-                            <div className="pb-2" key={f.toString()}>
+                            <div key={f.toString()}>
                               {
                                 input.type === 'Map' ? (
                                   <>

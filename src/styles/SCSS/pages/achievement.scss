@@ -6,10 +6,10 @@
   box-shadow: $shadow-2dp;
   border-radius: $brd-radius-small;
 
-  animation: appearPageMd 0.5s 0.5s $custom-easing forwards;
+  animation: appearPageMd 0.5s 0.5s $default-easing forwards;
 
   @media (max-width: $responsive-medium) {
-    animation: appearPageSm 0.5s $custom-easing forwards;
+    animation: appearPageSm 0.5s $default-easing forwards;
   }
 
  @keyframes appearPageMd {
