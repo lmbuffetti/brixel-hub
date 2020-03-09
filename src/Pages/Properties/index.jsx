@@ -74,6 +74,7 @@ const Properties = (props) => {
   return (
     <DrawerLayout
       classNameDrawer="ov-a"
+      closeLink={`/${propID}/${sectionPage}`}
     >
       <div className="properties-header dis-fl-row a-c jc-b mb-3 p-2">
         <div className="dis-fl-row a-c">
