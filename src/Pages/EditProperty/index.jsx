@@ -51,6 +51,11 @@ const Settings = Loadable({
   loading: LoadingSimple,
 });
 
+const DetailMedia = Loadable({
+  loader: () => import('./Media/DetailMedia' /* webpackChunkName: "DetailMedia" */),
+  loading: Loading,
+});
+
 const InputSheet = (props) => {
   // PROPS
   const {
@@ -234,6 +239,7 @@ const InputSheet = (props) => {
           <Route path="/:propId?/:act/edit/facts" exact component={Facts} />
           <Route path="/:propId?/:act/edit/media" exact component={Media} />
           <Route path="/:propId?/:act/edit/settings" exact component={Settings} />
+          <Route path="/:propId?/:act/edit/media/:imgId/:editType" exact component={DetailMedia} />
         </Switch>
 
       </div>
@@ -289,6 +295,7 @@ const mapStateToProps = (state) => {
     notification: get(state, 'common.notification', {}),
     initial: cloneDeep(get(state, 'property.property', {})),
     initialValues: {
+      coverPhoto: get(state, 'property.property.coverPhoto', {}),
       id: get(state, 'property.property.id', null),
       description: get(state, 'property.property.description', {}),
       photos: cloneDeep(get(state, 'property.property.photos', [])),

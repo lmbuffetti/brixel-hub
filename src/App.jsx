@@ -85,11 +85,6 @@ const EditProperty = Loadable({
   loading: Loading,
 });
 
-const DetailMedia = Loadable({
-  loader: () => import('./Pages/EditProperty/Media/DetailMedia' /* webpackChunkName: "DetailMedia" */),
-  loading: Loading,
-});
-
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -231,7 +226,6 @@ const App = (props) => {
           {
             activeUserType === 'seller' && (
               <>
-                <Route path="/:propId?/:act/edit/media/:imgId" exact component={DetailMedia} />
                 <Route path="/:propId?/:act/edit" component={EditProperty} />
               </>
             )

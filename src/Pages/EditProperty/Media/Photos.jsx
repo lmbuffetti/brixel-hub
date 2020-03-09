@@ -135,7 +135,7 @@ const Photos = (props) => {
                               className="mr-2"
                               color="light"
                               icon="arrow-simple-right"
-                              onClick={() => history.push(`/${propID}/property/edit/media/${item.id}`)}
+                              onClick={() => history.push(`/${propID}/property/edit/media/${item.id}/photos`)}
                             />
                           </div>
                         </div>

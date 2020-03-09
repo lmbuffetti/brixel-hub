@@ -6,6 +6,7 @@ import {
   SET_IMAGE_TYPE,
   UPLOAD_IMG,
   DELETE_IMG,
+  SET_COVER_PHOTO,
   UPLOAD_DOCUMENT,
   DELETE_DOCUMENT,
   UPDATE_DOCUMENT,
@@ -129,6 +130,11 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: UPDATE_PROPERTY, payload: data });
           store.dispatch({ type: SPINNER_OFF });
         });
+      break;
+    }
+    case SET_COVER_PHOTO: {
+      next(action);
+      store.dispatch({ type: UPDATE_PROPERTY, payload: action.payload });
       break;
     }
     default:
