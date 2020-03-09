@@ -1,9 +1,9 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React  from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reduxForm } from 'redux-form';
+import { change, reduxForm, reset } from 'redux-form';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import last from 'lodash/last';
@@ -28,6 +28,8 @@ import { updateProperty, getProperty } from '../../actions/PropertyActions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import noCover from '../../images/no_cover.jpg';
 import { BrixelTabs } from '@brixel/brixel-components';
+import { diff } from 'deep-object-diff';
+import { InputSheets } from '../../resources/inputSheets';
 
 const DrawerLayout = Loadable({
   loader: () => import('../../components/DrawerLayout' /* webpackChunkName: "Maps" */),
@@ -50,21 +52,89 @@ const Settings = Loadable({
 });
 
 const InputSheet = (props) => {
+  // PROPS
   const {
+    errorValue,
     formValue,
+    handleSaveProperty,
     history,
     initialValues,
     match,
+    notification,
+    reset,
     setNotification,
   } = props;
-
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
   const checkActiveTab = () => last(history.location.pathname.split('/'));
+  // STATE
+  const [Questions] = useState(InputSheets('en'));
 
   const closeNotificationBar = () => {
     setNotification({ state: false });
   };
+
+  const discardChanges = () => {
+    reset('InputSheet');
+  };
+
+  const saveData = async () => {
+    const dataToSend = formValue;
+    delete dataToSend.owner;
+    delete dataToSend.favoritedByUsers;
+    const data = {
+      id: propID,
+      ...dataToSend,
+    };
+    // For now we still dont use the diff object (TODO: API ticket)
+    // diff(initialValues, formValue)
+    // const dataInputSheet = {
+    //   skipSection: skipSection,
+    // totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion,'getPercentage', null),
+    // };
+
+    // await handleSaveProperty({id: propID, inputSheet: dataInputSheet});
+    await handleSaveProperty(data);
+  };
+
+  useEffect(() => {
+    // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
+    if (Object.keys(diff(initialValues, formValue)).length > 0) {
+      let setValid = true;
+      if (Questions) {
+        Questions.map((input) => {
+          input.inputs.map((inp) => {
+            const curVal = get(errorValue, inp.name, true);
+            if (curVal !== true && curVal !== 'Mark Required') {
+              setValid = false;
+            }
+            return null;
+          });
+          return null;
+        });
+      }
+      if (setValid) {
+        setNotification({
+          state: true,
+          type: 'info',
+          label: 'Save changes?',
+          actions:
+            [
+              { type: 'primary', label: 'Save', func: () => saveData() },
+              { type: 'secondary', label: 'Discard', func: () => discardChanges() },
+            ],
+        });
+      } else {
+        closeNotificationBar()
+      }
+      // SET NOTIFICATION TO SUCCESS SAVE
+    } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'success') {
+      setTimeout(() => closeNotificationBar(), 2000);
+      // REMOVE NOTIFICATION
+    } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'info') {
+      setNotification({ state: false });
+    }
+  }, [formValue, errorValue]);
 
   if (!formValue.id) {
     return (
@@ -123,7 +193,7 @@ const InputSheet = (props) => {
           <div className="transparency-container mb-3">
             <div className="dis-fl-col ta-l">
               {
-                get(initialValues, 'inputSheet') && (
+                get(initialValues, 'Property') && (
                   <>
                     <BrixelProgressBar
                       rounded
@@ -131,10 +201,10 @@ const InputSheet = (props) => {
                       saturation={700}
                       barBackground="Red"
                       backgroundSaturation={100}
-                      progressValue={initialValues.inputSheet.totalComplete || 0}
+                      progressValue={initialValues.Property.totalComplete || 0}
                     />
                     <div className="dis-f body txtPrimary700 pt-1">
-                      <span className="mr-1 ff-mono">{initialValues.inputSheet.totalComplete}%</span>
+                      <span className="mr-1 ff-mono">{initialValues.Property.totalComplete}%</span>
                       <span className="ff-mono">completed</span>
                     </div>
                   </>
@@ -200,27 +270,27 @@ InputSheet.defaultProps = {
 
 const InputSheetForm = reduxForm({
   // a unique name for the form
-  form: 'InputSheet',
+  form: 'Property',
   enableReinitialize: true,
   destroyOnUnmount: false,
 })(InputSheet);
 
 const mapStateToProps = (state) => {
-  const formValue = get(state, 'property.singleUserActiveProperty', {});
+  const formValue = get(state, 'property.Property', {});
   if (formValue.price) {
     delete formValue.history;
     delete formValue.owner;
     delete formValue.price.history;
   }
   return ({
-    errorValue: get(state, 'form.InputSheet.syncErrors', {}),
-    formValue: get(state, 'form.InputSheet.values', {}),
+    errorValue: get(state, 'form.Property.syncErrors', {}),
+    formValue: get(state, 'form.Property.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
     isIntLoading: get(state, 'common.isIntLoading', 0) > 0,
     activeSingleUser: get(state, 'user.activeSingleUser', {}),
     singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
     notification: get(state, 'common.notification', {}),
-    initial: get(state, 'form.InputSheet.initial', {}),
+    initial: get(state, 'form.Property.initial', {}),
     initialValues: cloneDeep(get(state, 'property.property', {})),
     loggedInUser: get(state, 'user.loggedUser', {}),
   });
@@ -228,7 +298,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
-    dispatch(change('InputSheet', field, value));
+    dispatch(change('Property', field, value));
+  },
+  reset(form) {
+    (dispatch(reset(form)))
   },
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),

@@ -231,6 +231,7 @@ function Assessor(props) {
                                 formValue={formValue}
                                 onClick={() => changeStep()}
                                 input={input}
+                                onChangeProgressBar={(val) => setProgressBar(val)}
                               />
                             </div>
                           ))

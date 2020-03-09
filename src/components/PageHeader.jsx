@@ -27,7 +27,7 @@ function PageHeader(props) {
   // PROPS
   const {
     lang, languages, loggedUser, userAwards, userBrixelPoint,
-    handleSetLanguage, history, handleGetGame, property,
+    handleSetLanguage, history, handleGetGame, property, gameHistory,
   } = props;
   // STATE
   const [currentLang, setCurrentLang] = useState(lang);
@@ -42,7 +42,7 @@ function PageHeader(props) {
       setCurrentLang(lang);
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
-      handleGetGame();
+      if (!gameHistory.data) handleGetGame();
     }
   }, [loggedUser, lang]);
 
@@ -271,6 +271,7 @@ function PageHeader(props) {
 }
 
 PageHeader.propTypes = {
+  gameHistory: PropTypes.object.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   languages: PropTypes.arrayOf(PropTypes.object),
   lang: PropTypes.string,
@@ -298,6 +299,7 @@ const mapStateToProps = (state) => ({
   userAwards: get(state, 'user.awards', []),
   property: get(state, 'property.property', {}),
   userBrixelPoint: get(state, 'user.brixelPoint', []),
+  gameHistory: get(state, 'gamification.gameHistory', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

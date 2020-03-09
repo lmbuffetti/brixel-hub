@@ -59,7 +59,7 @@ const Dashboard = (props) => {
   const checkActiveTab = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    if (propID) {
+    if (propID && !property.id) {
       handleGetProperty({fullVersion: false, id: propID});
     } else {
       const data = {
