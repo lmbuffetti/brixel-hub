@@ -9,13 +9,14 @@ import { connect } from 'react-redux';
 import Dropzone, { useDropzone } from 'react-dropzone';
 import get from 'lodash/get';
 import {
-  BrixelIcon, BrixelButtonPrimary,
+  BrixelIcon,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
-import { uploadImg } from '../../actions/UploadActions';
+import { uploadImg } from '../../../actions/UploadActions';
+import last from 'lodash/last';
 
-const Media = (props) => {
+const Plans = (props) => {
   // PROPS
   const {
     changeFieldValue,
@@ -24,13 +25,15 @@ const Media = (props) => {
     loggedUser,
     match,
   } = props;
-  const { photos } = formValue;
+  const { floorPlans } = formValue;
   // STATE
   const [fixPhotos, setFixPhotos] = useState([]);
+  // GET URL PARAMS
+  const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
-    setFixPhotos(photos);
-  }, [photos]);
+    setFixPhotos(floorPlans);
+  }, [floorPlans]);
 
   // DROPZONE SETTINGS
   const dropzoneRef = useRef(null);
@@ -71,7 +74,7 @@ const Media = (props) => {
       }
       return null;
     });
-    changeFieldValue('photos', imgArray);
+    changeFieldValue('floorPlans', imgArray);
   };
 
   return (
@@ -133,7 +136,7 @@ const Media = (props) => {
                               className="mr-2"
                               color="light"
                               icon="arrow-simple-right"
-                              onClick={() => history.push(`${match.url}/${item.id}/editPhoto`)}
+                              onClick={() => history.push(`/${propID}/property/edit/media/${item.id}`)}
                             />
                           </div>
                         </div>
@@ -164,7 +167,7 @@ const Media = (props) => {
   );
 };
 
-Media.propTypes = {
+Plans.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
@@ -172,7 +175,7 @@ Media.propTypes = {
   match: PropTypes.object.isRequired,
 };
 
-Media.defaultProps = {
+Plans.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
@@ -190,4 +193,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(Media);
+)(Plans);

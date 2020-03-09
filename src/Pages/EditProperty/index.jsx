@@ -42,7 +42,7 @@ const Facts = Loadable({
 });
 
 const Media = Loadable({
-  loader: () => import('./Media' /* webpackChunkName: "Maps" */),
+  loader: () => import('./Media/Media' /* webpackChunkName: "Maps" */),
   loading: LoadingSimple,
 });
 

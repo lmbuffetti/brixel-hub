@@ -53,11 +53,6 @@ const Dashboard = Loadable({
   loading: Loading,
 });
 
-const EditProperty = Loadable({
-  loader: () => import('./Pages/EditProperty' /* webpackChunkName: "InputSheet" */),
-  loading: Loading,
-});
-
 const Documents = Loadable({
   loader: () => import('./components/Documents' /* webpackChunkName: "Documents" */),
   loading: Loading,
@@ -68,6 +63,7 @@ const Properties = Loadable({
   loading: Loading,
 });
 
+// FLOW SELLER
 const MarketChecker = Loadable({
   loader: () => import('./Pages/MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
   loading: Loading,
@@ -80,6 +76,17 @@ const Assessor = Loadable({
 
 const Bestimate = Loadable({
   loader: () => import('./Pages/Bestimate' /* webpackChunkName: "AssessorFlor" */),
+  loading: Loading,
+});
+
+// PROPERTY EDITING
+const EditProperty = Loadable({
+  loader: () => import('./Pages/EditProperty' /* webpackChunkName: "InputSheet" */),
+  loading: Loading,
+});
+
+const DetailMedia = Loadable({
+  loader: () => import('./Pages/EditProperty/Media/DetailMedia' /* webpackChunkName: "DetailMedia" */),
   loading: Loading,
 });
 
@@ -224,6 +231,7 @@ const App = (props) => {
           {
             activeUserType === 'seller' && (
               <>
+                <Route path="/:propId?/:act/edit/media/:imgId" exact component={DetailMedia} />
                 <Route path="/:propId?/:act/edit" component={EditProperty} />
               </>
             )
