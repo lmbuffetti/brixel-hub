@@ -17,7 +17,7 @@ const HomeDashboard = (props) => {
     gameHistory,
     handleGetGameAchievement,
     handleGetGameGroup,
-    handleGetGameHistory,
+    // handleGetGameHistory,
     handleAddGameHistory,
     history,
     loggedUser,
@@ -30,7 +30,7 @@ const HomeDashboard = (props) => {
   useEffect(() => {
     handleGetGameAchievement();
     handleGetGameGroup();
-    handleGetGameHistory();
+    // handleGetGameHistory();
   }, []);
 
   useEffect(() => {

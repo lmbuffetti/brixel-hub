@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { change, reset, Field } from 'redux-form';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
-import { diff } from 'deep-object-diff';
 import {
   BrixelButtonIcon,
   BrixelIcon,
@@ -33,17 +32,14 @@ const Maps = Loadable({
 
 const InputSheet = (props) => {
   const {
+    changeFieldValue,
     errorValue,
     formValue,
     handleSaveProperty,
     handleSetModal,
-    initial,
     initialValues,
     isIntLoading,
     match,
-    notification,
-    reset,
-    setNotification,
   } = props;
 
   // STATE
@@ -53,6 +49,10 @@ const InputSheet = (props) => {
   const [skipSection, setSkipSection] = useState(get(initialValues, 'inputSheet.skipSection', {}));
   const [sectionProgress, setSectionProgress] = useState({});
   const [selObj, setSelObj] = useState(null);
+
+  useEffect(() => {
+    if (initialValues.inputSheet) setSkipSection(get(initialValues, 'inputSheet.skipSection', {}));
+  }, [initialValues]);
 
   const propID = get(match, 'params.propId', null);
 
@@ -74,11 +74,12 @@ const InputSheet = (props) => {
     setSectionProgress({...getData.accordion});
     setSectionProgress({...getData.section});
     setSelObj(key);
+    changeFieldValue('inputSheet', data);
     await handleSaveProperty({id: propID, inputSheet: data, smallLoader: true});
   };
 
   // FUNCTION TO LOAD DIFFERENT CHACKMAR IF GROUP IS COMPLETE, UNCOMPLETE, DISABLE
-  const checkQuestionGroup = (quest, skipped) => {
+  const checkQuestionGroup = (quest, skipped = {}) => {
     if (sectionProgress && sectionProgress.sectionComplete && sectionProgress.sectionComplete[quest.history]) {
       return (
         <div>
@@ -117,32 +118,6 @@ const InputSheet = (props) => {
     }
   };
 
-  const discardChanges = () => {
-    reset('InputSheet');
-  };
-
-  const closeNotificationBar = () => {
-    setNotification({ state: false });
-  };
-
-  const saveData = async () => {
-    const dataToSend = formValue;
-    delete dataToSend.owner;
-    const data = {
-      id: propID,
-      ...dataToSend,
-    };
-    // For now we still dont use the diff object (TODO: API ticket)
-    // diff(initialValues, formValue)
-    const dataInputSheet = {
-      skipSection: skipSection,
-      totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion,'getPercentage', null),
-    };
-
-    await handleSaveProperty({id: propID, inputSheet: dataInputSheet});
-    await handleSaveProperty(data);
-  };
-
   useEffect(() => {
     //
     if (formValue.id) {
@@ -150,48 +125,8 @@ const InputSheet = (props) => {
       setAccordion({...getData.accordion});
       setAccordionAnimatad({...getData.accordion});
       setSectionProgress({...getData.section});
-      setSkipSection(get(initialValues, 'inputSheet.skipSection', {}));
     }
   }, [errorValue]);
-
-  useEffect(() => {
-    // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
-    if (Object.keys(diff(initial, formValue)).length > 0) {
-      let setValid = true;
-      if (Questions) {
-        Questions.map((input) => {
-          input.inputs.map((inp) => {
-            const curVal = get(errorValue, inp.name, true);
-            if (curVal !== true && curVal !== 'Mark Required') {
-              setValid = false;
-            }
-            return null;
-          });
-          return null;
-        });
-      }
-      if (setValid) {
-        setNotification({
-          state: true,
-          type: 'info',
-          label: 'Save changes?',
-          actions:
-            [
-              { type: 'primary', label: 'Save', func: () => saveData() },
-              { type: 'secondary', label: 'Discard', func: () => discardChanges() },
-            ],
-        });
-      } else {
-        closeNotificationBar()
-      }
-    // SET NOTIFICATION TO SUCCESS SAVE
-    } else if (Object.keys(diff(initial, formValue)).length === 0 && notification.type === 'success') {
-      setTimeout(() => closeNotificationBar(), 2000);
-    // REMOVE NOTIFICATION
-    } else if (Object.keys(diff(initial, formValue)).length === 0 && notification.type === 'info') {
-      setNotification({ state: false });
-    }
-  }, [formValue, errorValue]);
 
   if (!formValue.id) {
     return (
@@ -385,14 +320,14 @@ const mapStateToProps = (state) => {
     delete formValue.price.history;
   }
   return ({
-    errorValue: get(state, 'form.InputSheet.syncErrors', {}),
-    formValue: get(state, 'form.InputSheet.values', {}),
+    errorValue: get(state, 'form.Property.syncErrors', {}),
+    formValue: get(state, 'form.Property.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
     isIntLoading: get(state, 'common.isIntLoading', 0) > 0,
     activeSingleUser: get(state, 'user.activeSingleUser', {}),
     singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
     notification: get(state, 'common.notification', {}),
-    initial: get(state, 'form.InputSheet.initial', {}),
+    initial: get(state, 'form.Property.initial', {}),
     initialValues: cloneDeep(get(state, 'property.property', {})),
     loggedInUser: get(state, 'user.loggedUser', {}),
   });
@@ -400,7 +335,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
-    dispatch(change('InputSheet', field, value));
+    dispatch(change('Property', field, value));
   },
   reset(form) {
     (dispatch(reset(form)))
