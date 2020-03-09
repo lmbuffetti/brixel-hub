@@ -15,8 +15,7 @@ import { translateTo } from '../utils/translation';
 import awards from '../images/BrxielComingTown/awards.svg';
 import brixels from '../images/BrxielComingTown/brixels.svg';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
-
-const baseByData = require('@brixel/brixel-configuration-partner/src/SettingsWebpack');
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -106,7 +105,7 @@ function PageHeader(props) {
           <img className={`logo dis-b w-fix-40 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`} src={logoNorm} alt="Brixel Logo" id="header-logo" />
           <div className="dis-f a-c">
             {
-              userAwards > 0 && (
+              userAwards >= 0 && (
                 <div className="cur-poi" onClick={() => setModal('awards')}>
                   <img src={awards} alt="icon awards" className="mr-1" />
                   <span className="ff-mono txtGreen600">{userAwards}</span>
@@ -114,7 +113,7 @@ function PageHeader(props) {
               )
             }
             {
-              userBrixelPoint > 0 && (
+              userBrixelPoint >= 0 && (
                 <div className="cur-poi ml-2" onClick={() => setModal('brixelPoint')}>
                   <img src={brixels} alt="icon awards" className="mr-1" />
                   <span className="ff-mono txtRed600">{userBrixelPoint}</span>

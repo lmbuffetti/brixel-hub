@@ -217,6 +217,7 @@ const App = (props) => {
 
       { /* SECTION: SIDEBAR */ }
       <div className="zIndex3">
+        {activeUserType}
         <Switch>
           {/* SECTION: DOCUMENTS */}
           <Route path="/:propId?/:act/list" component={Properties} />
@@ -224,9 +225,7 @@ const App = (props) => {
           {
             activeUserType === 'seller' && (
               <>
-                <Route path="/:propId?/property/media" exact component={EditProperty} />
-                <Route path="/:propId?/property/settings" exact component={EditProperty} />
-                <Route path="/:propId?/property/facts" exact component={EditProperty} />
+                <Route path="/:propId?/:act/edit" component={EditProperty} />
               </>
             )
           }

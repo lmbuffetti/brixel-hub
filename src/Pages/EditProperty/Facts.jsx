@@ -37,7 +37,7 @@ const InputSheet = (props) => {
     formValue,
     handleSaveProperty,
     handleSetModal,
-    initialValues,
+    initial,
     isIntLoading,
     match,
   } = props;
@@ -46,13 +46,13 @@ const InputSheet = (props) => {
   const [Questions] = useState(InputSheets('en'));
   const [accordion, setAccordion] = useState({});
   const [accordionAnimatad, setAccordionAnimatad] = useState({});
-  const [skipSection, setSkipSection] = useState(get(initialValues, 'inputSheet.skipSection', {}));
+  const [skipSection, setSkipSection] = useState(get(initial, 'inputSheet.skipSection', {}));
   const [sectionProgress, setSectionProgress] = useState({});
   const [selObj, setSelObj] = useState(null);
 
   useEffect(() => {
-    if (initialValues.inputSheet) setSkipSection(get(initialValues, 'inputSheet.skipSection', {}));
-  }, [initialValues]);
+    if (initial.inputSheet) setSkipSection(get(initial, 'inputSheet.skipSection', {}));
+  }, [initial]);
 
   const propID = get(match, 'params.propId', null);
 
@@ -80,6 +80,7 @@ const InputSheet = (props) => {
 
   // FUNCTION TO LOAD DIFFERENT CHACKMAR IF GROUP IS COMPLETE, UNCOMPLETE, DISABLE
   const checkQuestionGroup = (quest, skipped = {}) => {
+    console.log(sectionProgress);
     if (sectionProgress && sectionProgress.sectionComplete && sectionProgress.sectionComplete[quest.history]) {
       return (
         <div>
@@ -120,19 +121,15 @@ const InputSheet = (props) => {
 
   useEffect(() => {
     //
+    console.log(formValue)
     if (formValue.id) {
       const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
+      console.log(getData);
       setAccordion({...getData.accordion});
       setAccordionAnimatad({...getData.accordion});
       setSectionProgress({...getData.section});
     }
   }, [errorValue]);
-
-  if (!formValue.id) {
-    return (
-      <Loading />
-    );
-  }
 
   const checkCondition = (val) => {
     let isToShow = true;
@@ -294,7 +291,6 @@ InputSheet.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
-  initialValues: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   initial: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
@@ -328,7 +324,6 @@ const mapStateToProps = (state) => {
     singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
     notification: get(state, 'common.notification', {}),
     initial: get(state, 'form.Property.initial', {}),
-    initialValues: cloneDeep(get(state, 'property.property', {})),
     loggedInUser: get(state, 'user.loggedUser', {}),
   });
 };
