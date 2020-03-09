@@ -145,7 +145,7 @@ const InputSheet = (props) => {
   };
 
   return (
-    <DrawerLayout classNameDrawer="ov-a">
+    <DrawerLayout classNameDrawer="ov-a" closeLink={`/${propID}/property`}>
       <div className="dis-fl-col mt-2">
         <div className="property-info-container px-2">
           <div className="header-section dis-fl-row a-c jc-b mb-2">
