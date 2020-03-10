@@ -1,3 +1,4 @@
+
 #achievementSection {
   height: 0;
   width: calc(100vw - 32px);
@@ -5,21 +6,6 @@
   margin: auto;
   box-shadow: $shadow-2dp;
   border-radius: $brd-radius-small;
-
-  animation: appearPageMd 0.5s 0.5s $default-easing forwards;
-
-  @media (max-width: $responsive-medium) {
-    animation: appearPageSm 0.5s $default-easing forwards;
-  }
-
- @keyframes appearPageMd {
-   0% { height: 8vh; opacity: 0.5; }
-   100% { height: calc(100vh - 32px); opacity: 1; }
- }
- @keyframes appearPageSm {
-   0% { height: 8vh; opacity: 0.5; }
-   100% { height: calc(100vh - 16px); opacity: 1; }
- }
 
   .gm-style {
     .gm-style-cc { display: none}
@@ -53,7 +39,10 @@
     position: relative;
     bottom: $step * 4;
     @media (max-width: $responsive-medium) {
-      bottom: $step * 2;
+      bottom: 52px;
+    }
+    @media (max-width: $responsive-small) {
+      bottom: calc(15vh + 16px);
     }
     span {
       white-space: nowrap;
@@ -124,4 +113,34 @@
     }
   }
 
+  animation: appearPage 0.5s 0.5s $default-easing forwards;
+
+  @media (max-width: $responsive-medium) {
+    animation: appearPageMd 0.5s $default-easing forwards;
+  }
+  @media (max-width: $responsive-small) {
+    animation: appearPageSm 0.5s $default-easing forwards;
+  }
+}
+
+/* .safariSmall #achievementSection {
+  @media (max-width: $responsive-small) {
+    animation: appearPageSafMobile 0.5s $default-easing forwards;
+  }
+} */
+
+
+
+// Achievement Page Animation
+@keyframes appearPage {
+  0% { height: 8vh; opacity: 0.5; }
+  100% { height: calc(100vh - 32px); opacity: 1; }
+}
+@keyframes appearPageMd {
+  0% { height: 8vh; opacity: 0.5; }
+  100% { height: calc(100vh - 52px); opacity: 1; }
+}
+@keyframes appearPageSm {
+  0% { height: 8vh; opacity: 0.5; }
+  100% { height: calc(85vh - 16px); opacity: 1; }
 }
