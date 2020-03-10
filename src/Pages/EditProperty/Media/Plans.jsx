@@ -9,18 +9,19 @@ import { connect } from 'react-redux';
 import Dropzone, { useDropzone } from 'react-dropzone';
 import get from 'lodash/get';
 import {
+  BrixelButtonPrimary,
   BrixelIcon,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
 import { uploadImg } from '../../../actions/UploadActions';
-import last from 'lodash/last';
 
 const Plans = (props) => {
   // PROPS
   const {
     changeFieldValue,
     formValue,
+    handleUploadImg,
     history,
     loggedUser,
     match,
@@ -53,9 +54,9 @@ const Plans = (props) => {
           user: loggedUser.user.id,
           imageType: 0,
           pageID: formValue.id,
-          uploadAction: 'photos',
+          uploadAction: 'plan',
         };
-        // handleUploadImg(binaryStr);
+        handleUploadImg(binaryStr);
       };
     });
   }, []);
@@ -80,6 +81,29 @@ const Plans = (props) => {
   return (
     <>
       <div className="dis-fl-col mt-2 px-2">
+
+        <div className="dis-fl-row jc-b a-c mb-4">
+          <h5>
+            Floor Plans
+          </h5>
+
+          <Dropzone ref={dropzoneRef} onDrop={(acceptedFiles) => onDrop(acceptedFiles)}>
+            { /* eslint-disable-next-line no-shadow */ }
+            {({ getRootProps, getInputProps }) => (
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <BrixelButtonPrimary
+                  leftIcon="plus"
+                  label="Add photos"
+                  rounded
+                />
+              </div>
+            )}
+          </Dropzone>
+
+        </div>
+
+
         <div className={`${fixPhotos && fixPhotos.length > 0 ? 'dis-fl-col' : 'dis-fl-col empty-state a-c'}`}>
           {
             (fixPhotos && fixPhotos.length > 0) ? (

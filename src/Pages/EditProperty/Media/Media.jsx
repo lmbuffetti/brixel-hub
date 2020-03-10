@@ -1,14 +1,15 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { change } from 'redux-form';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import Loadable from 'react-loadable';
 import LoadingSimple from '../../../components/LoadingSimple';
+import { getImageType } from '../../../actions/UploadActions';
 
 const Photos = Loadable({
   loader: () => import('./Photos' /* webpackChunkName: "Photos" */),
@@ -20,13 +21,19 @@ const Plans = Loadable({
 });
 
 const Media = (props) => {
+  // PROPS
+  const {
+    handleGetImageType
+  } = props;
+
+  useEffect(() => {
+    handleGetImageType();
+  }, []);
 
   return (
     <>
       <div className="dis-fl-col mt-2 px-2 pb-10">
-        <h4>Photos</h4>
         <Photos />
-        <h4>Floor Plans</h4>
         <Plans />
       </div>
     </>
@@ -36,6 +43,7 @@ const Media = (props) => {
 Media.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleGetImageType: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -53,6 +61,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
+  handleGetImageType: bindActionCreators(getImageType, dispatch),
 });
 
 export default compose(

@@ -20,6 +20,7 @@ const Photos = (props) => {
   const {
     changeFieldValue,
     formValue,
+    handleUploadImg,
     history,
     loggedUser,
     match,
@@ -54,7 +55,7 @@ const Photos = (props) => {
           pageID: formValue.id,
           uploadAction: 'photos',
         };
-        // handleUploadImg(binaryStr);
+        handleUploadImg(binaryStr);
       };
     });
   }, []);
@@ -79,6 +80,28 @@ const Photos = (props) => {
   return (
     <>
       <div className="dis-fl-col mt-2 px-2">
+
+        <div className="dis-fl-row jc-b a-c mb-4">
+          <h5>
+            Photos
+          </h5>
+
+          <Dropzone ref={dropzoneRef} onDrop={(acceptedFiles) => onDrop(acceptedFiles)}>
+            { /* eslint-disable-next-line no-shadow */ }
+            {({ getRootProps, getInputProps }) => (
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <BrixelButtonPrimary
+                  leftIcon="plus"
+                  label="Add photos"
+                  rounded
+                />
+              </div>
+            )}
+          </Dropzone>
+
+        </div>
+
         <div className={`${fixPhotos && fixPhotos.length > 0 ? 'dis-fl-col' : 'dis-fl-col empty-state a-c'}`}>
           {
             (fixPhotos && fixPhotos.length > 0) ? (

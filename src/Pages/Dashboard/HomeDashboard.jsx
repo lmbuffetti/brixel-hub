@@ -94,7 +94,7 @@ const HomeDashboard = (props) => {
                         <div key={f.toString()} className="pos-r">
                           <span className={item.done ? "dotTimelineDone" : "dotTimeline"} />
                           {
-                            (property.location && property.location.countryCode !== 'CH' && (item.name.includes('Bestimate') || item.name.includes('Market Checker'))) ? (
+                            ((property.location && (property.location.countryCode !== 'CH' && item.stub === 'bestimate') || (property.location.countryCode !== 'CH' && property.location.countryCode !== 'PT' && item.stub === 'market-checker'))) ? (
                               <BrixelButtonBox
                                 icon={item.icon}
                                 label={item.name}
