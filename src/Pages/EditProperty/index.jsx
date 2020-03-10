@@ -304,6 +304,11 @@ const mapStateToProps = (state) => {
       location: get(state, 'property.property.location', {}),
       assessor: get(state, 'property.property.assessor', {}),
       inputSheet: get(state, 'property.property.inputSheet', {}),
+      published: get(state, 'property.property.published', null),
+      listed: get(state, 'property.property.listed', null),
+      portals: get(state, 'property.property.portals', {}),
+      stub: get(state, 'property.property.stub', null),
+      language: get(state, 'property.property.language', null),
     },
     loggedInUser: get(state, 'user.loggedUser', {}),
   });

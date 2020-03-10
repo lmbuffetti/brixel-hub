@@ -42,7 +42,6 @@ const DetailMedia = (props) => {
     if (mediaID && formValue && mediaType) {
       if (formValue[mediaType]) {
         const curId = formValue[mediaType].findIndex(img => img.id === mediaID);
-        console.log(curId);
         setIdImg(curId);
       }
     }
@@ -79,7 +78,6 @@ const DetailMedia = (props) => {
 
   const handleCoverPhoto = (e, photo) => {
     e.preventDefault();
-    console.log(photo);
     const data = {
       id: propID,
       coverPhoto: photo,
@@ -193,7 +191,6 @@ const DetailMedia = (props) => {
           component={BrixelTags}
           className="mb-4 px-md-3"
         />
-        {console.log(formValue[mediaType], idImg)}
         {
           formValue && formValue[mediaType][idImg] && (
             <div className="details dis-fl-col pt-4 px-md-3 pb-12">

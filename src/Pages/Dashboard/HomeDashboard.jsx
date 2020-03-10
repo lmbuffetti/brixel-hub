@@ -76,7 +76,7 @@ const HomeDashboard = (props) => {
         <span className="heading5">Home of</span>
         {
           property.properties && property.properties.typology && (
-            <h5 className="heading5 txtPrimary400">{property.properties.typology.bedrooms} {property.properties.propertyType} in {property.location.city}</h5>
+            <h5 className="heading5 txtPrimary400">{property.properties.typology.bedrooms} {property.properties.propertyType} in {get(property, 'location.city', '')}</h5>
           )
         }
       </div>

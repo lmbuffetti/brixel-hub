@@ -124,6 +124,9 @@ const App = (props) => {
     if (redirectTo && redirectTo.history) {
       history.push(redirectTo.history);
     }
+    if (redirectTo && redirectTo.url) {
+      window.location.href = redirectTo.url;
+    }
   }, [redirectTo]);
 
   if (!loggedUser || (!activeUserType && property.id)) {
