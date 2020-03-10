@@ -69,6 +69,7 @@ export const MarketCheckQuestions = (lang) => [
     inputs: [
       {
         component: BrixelRadioButton,
+        pdClass: 'py-2 py-md-3 px-1',
         icons: true,
         label: '',
         name: 'typeOfBuyer',

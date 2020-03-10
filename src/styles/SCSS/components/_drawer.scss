@@ -15,11 +15,9 @@
     width: 100%;
     background-color: $brx-white;
     max-width: 768px;
-    box-shadow: $shadow-3dp;
+    box-shadow: $shadow-5dp;
 
     @media (min-width: $responsive-medium) {
-      height: calc(100% - 32px);
-      top: 16px;
       border-top-left-radius: $brd-radius-small;
       border-bottom-left-radius: $brd-radius-small;
     }
