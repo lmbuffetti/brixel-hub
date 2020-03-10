@@ -53,11 +53,13 @@ const checkCommon = (store) => (next) => (action) => {
       break;
     case SAVE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
+      console.log('test', action);
       const { id, redirectTo, redirectToHome, smallLoader } = action.payload;
       delete action.payload.id;
       delete action.payload.redirectTo;
       delete action.payload.smallLoader;
       delete action.payload.redirectToHome;
+      console.log(action.payload);
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
       else store.dispatch({ type: SPINNER_ON });
       api.property.updateProperty(id, action.payload)

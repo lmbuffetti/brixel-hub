@@ -76,6 +76,12 @@ const clientConfig = {
         ],
       },
       {
+        test: /\.css/,
+        use: [
+          { loader: 'postcss-loader', options: { sourceMap: true } },
+        ]
+      },
+      {
         test: /\.jsx?/,
         exclude: /node_modules/,
         use: {
