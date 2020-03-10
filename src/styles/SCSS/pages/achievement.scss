@@ -121,34 +121,28 @@
     }
   }
 
-  animation: appearPage 0.5s 0.5s $default-easing forwards;
+  -webkit-animation: appearPage 0.5s 0.5s $default-easing forwards;
 
   @media (max-width: $responsive-medium) {
-    animation: appearPageMd 0.5s $default-easing forwards;
+    -webkit-animation: appearPageMd 0.5s $default-easing forwards;
   }
   @media (max-width: $responsive-small) {
-    animation: appearPageSm 0.5s $default-easing forwards;
+    -webkit-animation: appearPageSm 0.5s $default-easing forwards;
   }
 }
-
-/* .safariSmall #achievementSection {
-  @media (max-width: $responsive-small) {
-    animation: appearPageSafMobile 0.5s $default-easing forwards;
-  }
-} */
 
 
 
 // Achievement Page Animation
-@keyframes appearPage {
+@-webkit-keyframes appearPage {
   0% { height: 8vh; opacity: 0.5; }
   100% { height: calc(100vh - 32px); opacity: 1; }
 }
-@keyframes appearPageMd {
+@-webkit-keyframes appearPageMd {
   0% { height: 8vh; opacity: 0.5; }
   100% { height: calc(100vh - 52px); opacity: 1; }
 }
-@keyframes appearPageSm {
+@-webkit-keyframes appearPageSm {
   0% { height: 8vh; opacity: 0.5; }
   100% { height: calc(85vh - 16px); opacity: 1; }
 }
