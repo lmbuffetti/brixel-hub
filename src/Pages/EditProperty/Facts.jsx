@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reset, Field } from 'redux-form';
 import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelButtonIcon,
   BrixelIcon,
@@ -22,7 +21,6 @@ import { InputSheets } from '../../resources/inputSheets';
 import { getCalcSectionInputSheets } from '../../utils/helpers';
 
 // COMPONENTS
-import Loading from '../../components/Loading';
 import { updateProperty } from '../../actions/PropertyActions';
 
 const Maps = Loadable({

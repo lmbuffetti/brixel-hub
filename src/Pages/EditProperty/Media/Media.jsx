@@ -19,6 +19,10 @@ const Plans = Loadable({
   loader: () => import('./Plans' /* webpackChunkName: "Plans" */),
   loading: LoadingSimple,
 });
+const Tour = Loadable({
+  loader: () => import('./Tour' /* webpackChunkName: "Plans" */),
+  loading: LoadingSimple,
+});
 
 const Media = (props) => {
   // PROPS
@@ -35,6 +39,7 @@ const Media = (props) => {
       <div className="dis-fl-col mt-2 px-2 pb-10">
         <Photos />
         <Plans />
+        <Tour />
       </div>
     </>
   );
