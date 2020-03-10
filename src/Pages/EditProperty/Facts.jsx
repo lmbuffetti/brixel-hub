@@ -57,9 +57,6 @@ const InputSheet = (props) => {
 
   const propID = get(match, 'params.propId', null);
 
-
-  const [showMessage, setShowMessage ] = useState(false);
-
   // FUNCTION ON CLICK TO ENABLE/DISABLE QUESTION GROUP
   const handleSkipSection = async (key) => {
     const newSkipSection = skipSection;
@@ -161,8 +158,6 @@ const InputSheet = (props) => {
         <span>Expand all</span>
         <span>All tasks</span>
       </div>
-
-      {showMessage} {<p> lasjdf </p>}
 
       {
         Questions.map((quest, i) => (

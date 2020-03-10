@@ -30,7 +30,6 @@
     "react-scripts": "3.4.0",
     "react-sortablejs": "^2.0.11",
     "react-svg-loader": "^3.0.3",
-    "react-transition-group": "^4.3.0",
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
