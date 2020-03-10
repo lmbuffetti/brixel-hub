@@ -65,7 +65,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (propID && !property.id) {
       handleGetProperty({fullVersion: false, id: propID});
-    } else {
+    } else if (!propID) {
       const data = {
         limit: 1,
         offset: `0/?owner=${loggedUser.user.id}`,

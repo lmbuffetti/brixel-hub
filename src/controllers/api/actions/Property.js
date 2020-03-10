@@ -18,6 +18,11 @@ class Property extends Base {
     return this.apiClient.get(url, {});
   }
 
+  deleteProperty(id) {
+    const url = ep.property.pageById(id);
+    return this.apiClient.delete(url, {});
+  }
+
   getPropertySimplified(id) {
     const url = ep.property.pageByIdSimplified(id);
     return this.apiClient.get(url, {});

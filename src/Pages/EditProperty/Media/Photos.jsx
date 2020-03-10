@@ -13,9 +13,9 @@ import {
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
-import { uploadImg } from '../../actions/UploadActions';
+import { uploadImg } from '../../../actions/UploadActions';
 
-const Media = (props) => {
+const Photos = (props) => {
   // PROPS
   const {
     changeFieldValue,
@@ -27,6 +27,8 @@ const Media = (props) => {
   const { photos } = formValue;
   // STATE
   const [fixPhotos, setFixPhotos] = useState([]);
+  // GET URL PARAMS
+  const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
     setFixPhotos(photos);
@@ -64,7 +66,10 @@ const Media = (props) => {
     const imgArray = [];
     order.map((item) => {
       if (item.createdAt) {
+        delete item.chosen;
+        delete item.selected;
         imgArray.push(item);
+
       }
       return null;
     });
@@ -130,7 +135,7 @@ const Media = (props) => {
                               className="mr-2"
                               color="light"
                               icon="arrow-simple-right"
-                              onClick={() => history.push(`${match.url}/${item.id}/editPhoto`)}
+                              onClick={() => history.push(`/${propID}/property/edit/media/${item.id}/photos`)}
                             />
                           </div>
                         </div>
@@ -161,7 +166,7 @@ const Media = (props) => {
   );
 };
 
-Media.propTypes = {
+Photos.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
@@ -169,7 +174,7 @@ Media.propTypes = {
   match: PropTypes.object.isRequired,
 };
 
-Media.defaultProps = {
+Photos.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
@@ -187,4 +192,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(Media);
+)(Photos);

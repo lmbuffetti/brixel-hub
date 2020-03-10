@@ -42,13 +42,18 @@ const Facts = Loadable({
 });
 
 const Media = Loadable({
-  loader: () => import('./Media' /* webpackChunkName: "Maps" */),
+  loader: () => import('./Media/Media' /* webpackChunkName: "Maps" */),
   loading: LoadingSimple,
 });
 
 const Settings = Loadable({
   loader: () => import('./Settings' /* webpackChunkName: "Maps" */),
   loading: LoadingSimple,
+});
+
+const DetailMedia = Loadable({
+  loader: () => import('./Media/DetailMedia' /* webpackChunkName: "DetailMedia" */),
+  loading: Loading,
 });
 
 const InputSheet = (props) => {
@@ -58,6 +63,7 @@ const InputSheet = (props) => {
     formValue,
     handleSaveProperty,
     history,
+    initial,
     initialValues,
     match,
     notification,
@@ -99,48 +105,44 @@ const InputSheet = (props) => {
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
-    if (Object.keys(diff(initialValues, formValue)).length > 0) {
-      let setValid = true;
-      if (Questions) {
-        Questions.map((input) => {
-          input.inputs.map((inp) => {
-            const curVal = get(errorValue, inp.name, true);
-            if (curVal !== true && curVal !== 'Mark Required') {
-              setValid = false;
-            }
+    if (formValue.id && initialValues.id) {
+      if (Object.keys(diff(initialValues, formValue)).length > 0) {
+        let setValid = true;
+        if (Questions) {
+          Questions.map((input) => {
+            input.inputs.map((inp) => {
+              const curVal = get(errorValue, inp.name, true);
+              if (curVal !== true && curVal !== 'Mark Required') {
+                setValid = false;
+              }
+              return null;
+            });
             return null;
           });
-          return null;
-        });
+        }
+        if (setValid) {
+          setNotification({
+            state: true,
+            type: 'info',
+            label: 'Save changes?',
+            actions:
+              [
+                { type: 'primary', label: 'Save', func: () => saveData() },
+                { type: 'secondary', label: 'Discard', func: () => discardChanges() },
+              ],
+          });
+        } else {
+          closeNotificationBar()
+        }
+        // SET NOTIFICATION TO SUCCESS SAVE
+      } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'success') {
+        setTimeout(() => closeNotificationBar(), 2000);
+        // REMOVE NOTIFICATION
+      } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'info') {
+        setNotification({ state: false });
       }
-      if (setValid) {
-        setNotification({
-          state: true,
-          type: 'info',
-          label: 'Save changes?',
-          actions:
-            [
-              { type: 'primary', label: 'Save', func: () => saveData() },
-              { type: 'secondary', label: 'Discard', func: () => discardChanges() },
-            ],
-        });
-      } else {
-        closeNotificationBar()
-      }
-      // SET NOTIFICATION TO SUCCESS SAVE
-    } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'success') {
-      setTimeout(() => closeNotificationBar(), 2000);
-      // REMOVE NOTIFICATION
-    } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'info') {
-      setNotification({ state: false });
     }
-  }, [formValue, errorValue]);
-
-  if (!formValue.id) {
-    return (
-      <Loading />
-    );
-  }
+  }, [formValue]);
 
   const closeFacts = () => {
     closeNotificationBar()
@@ -148,15 +150,15 @@ const InputSheet = (props) => {
   };
 
   return (
-    <DrawerLayout classNameDrawer="ov-a">
+    <DrawerLayout classNameDrawer="ov-a" closeLink={`/${propID}/property`}>
       <div className="dis-fl-col mt-2">
         <div className="property-info-container px-2">
           <div className="header-section dis-fl-row a-c jc-b mb-2">
             <div className="dis-fl-row">
               <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
                 {
-                  initialValues.coverPhoto && initialValues.coverPhoto.path ? (
-                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${getConfigEnv.shortPath}${initialValues.coverPhoto.thumbnailPath}`} alt="Brixel Logo" id="avatar" />
+                  initial.coverPhoto && initial.coverPhoto.path ? (
+                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${getConfigEnv.shortPath}${initial.coverPhoto.thumbnailPath}`} alt="Brixel Logo" id="avatar" />
                   ) : (
                     <i
                       className="avatar w-fix-48 h-fix-48 brdRadius pos-r"
@@ -173,9 +175,9 @@ const InputSheet = (props) => {
               </div>
               <div className="title ml-1">
                 <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                  {(has(initialValues.properties, 'typology') && has(initialValues.properties.typology, 'bedrooms')) ? initialValues.properties.typology.bedrooms : ''} {has(initialValues.properties, 'propertyType') ? initialValues.properties.propertyType : 'Property'}
+                  {(has(initial.properties, 'typology') && has(initial.properties.typology, 'bedrooms')) ? initial.properties.typology.bedrooms : ''} {has(initial.properties, 'propertyType') ? initial.properties.propertyType : 'Property'}
                 </span>
-                <span className="address caption txtDark200">{has(initialValues.location, 'zip') ? initialValues.location.zip : ''} {has(initialValues.location, 'state') ? initialValues.location.state : ''}</span>
+                <span className="address caption txtDark200">{has(initial.location, 'zip') ? initial.location.zip : ''} {has(initial.location, 'state') ? initial.location.state : ''}</span>
               </div>
             </div>
             <div className="actions dis-fl-row">
@@ -193,7 +195,7 @@ const InputSheet = (props) => {
           <div className="transparency-container mb-3">
             <div className="dis-fl-col ta-l">
               {
-                get(initialValues, 'Property') && (
+                get(initial, 'Property') && (
                   <>
                     <BrixelProgressBar
                       rounded
@@ -201,10 +203,10 @@ const InputSheet = (props) => {
                       saturation={700}
                       barBackground="Red"
                       backgroundSaturation={100}
-                      progressValue={initialValues.Property.totalComplete || 0}
+                      progressValue={initial.Property.totalComplete || 0}
                     />
                     <div className="dis-f body txtPrimary700 pt-1">
-                      <span className="mr-1 ff-mono">{initialValues.Property.totalComplete}%</span>
+                      <span className="mr-1 ff-mono">{initial.Property.totalComplete}%</span>
                       <span className="ff-mono">completed</span>
                     </div>
                   </>
@@ -228,15 +230,16 @@ const InputSheet = (props) => {
           ]}
           activeTab={checkActiveTab()}
           onClick={(tab) => {
-            history.push(`/${propID}/property/${tab}`);
+            history.push(`/${propID}/property/edit/${tab}`);
           }}
           fullWidth
         />
 
         <Switch>
-          <Route path="/:propId?/:act/facts" exact component={Facts} />
-          <Route path="/:propId?/:act/media" exact component={Media} />
-          <Route path="/:propId?/:act/settings" exact component={Settings} />
+          <Route path="/:propId?/:act/edit/facts" exact component={Facts} />
+          <Route path="/:propId?/:act/edit/media" exact component={Media} />
+          <Route path="/:propId?/:act/edit/settings" exact component={Settings} />
+          <Route path="/:propId?/:act/edit/media/:imgId/:editType" exact component={DetailMedia} />
         </Switch>
 
       </div>
@@ -249,9 +252,9 @@ InputSheet.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
+  initial: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
-  initial: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   singleUserPropertyList: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -290,8 +293,23 @@ const mapStateToProps = (state) => {
     activeSingleUser: get(state, 'user.activeSingleUser', {}),
     singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
     notification: get(state, 'common.notification', {}),
-    initial: get(state, 'form.Property.initial', {}),
-    initialValues: cloneDeep(get(state, 'property.property', {})),
+    initial: cloneDeep(get(state, 'property.property', {})),
+    initialValues: {
+      coverPhoto: get(state, 'property.property.coverPhoto', {}),
+      id: get(state, 'property.property.id', null),
+      description: get(state, 'property.property.description', {}),
+      photos: cloneDeep(get(state, 'property.property.photos', [])),
+      floorPlans: get(state, 'property.property.floorPlans', []),
+      properties: get(state, 'property.property.properties', {}),
+      location: get(state, 'property.property.location', {}),
+      assessor: get(state, 'property.property.assessor', {}),
+      inputSheet: get(state, 'property.property.inputSheet', {}),
+      published: get(state, 'property.property.published', null),
+      listed: get(state, 'property.property.listed', null),
+      portals: get(state, 'property.property.portals', {}),
+      stub: get(state, 'property.property.stub', null),
+      language: get(state, 'property.property.language', null),
+    },
     loggedInUser: get(state, 'user.loggedUser', {}),
   });
 };

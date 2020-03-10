@@ -121,7 +121,9 @@ const Documents = (props) => {
   }
 
   return (
-    <DrawerLayout>
+    <DrawerLayout
+      closeLink={`/${pageId}/${sectionPage}`}
+    >
       <div className="docubox">
         <div className="docubox-header dis-fl-row a-c jc-b mb-3 p-2">
           <div className="dis-fl-row a-c">
