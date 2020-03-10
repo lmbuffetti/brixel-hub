@@ -15,9 +15,7 @@ import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
 import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
-import {
-  getBrowserPlatform
-} from '@brixel/brixel-components/src/utils/helper';
+import { getBrowserPlatform} from '@brixel/brixel-components/src/utils/helper';
 import PageHeader from './components/PageHeader';
 import { setModal } from './actions/CommonActions';
 import { setActiveUsertype } from './actions/UserActions';
@@ -137,14 +135,15 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
     )
   }
+  const isSafari = navigator.vendor.match(/[Aa]+pple/g) ? navigator.vendor.match(/[Aa]+pple/g).length > 0 : false ;
+  const isIosMobile =  getBrowserPlatform().indexOf('mobile ios') !== -1;
 
-
-  const isSmallIOS = getBrowserPlatform().indexOf('mobile ios') !== -1 ? 'smallIos' : '';
 
   return (
-    <main className={`dis-fl-row jc-b ${history.location.pathname.includes('achievement') ? 'h-perc-100 a-c' : ''} ${isSmallIOS}`}>
+    <main className={`dis-fl-row jc-b ${history.location.pathname.includes('achievement') ? 'h-perc-100 a-c' : ''}`}>
+
       <Loading isLoading={isLoading} />
-      <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('achievement')) ? 'no-sidebar' : ''}`}>
+      <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('achievement')) ? 'no-sidebar' : ''} ${isSafari && isIosMobile ? 'safariSmall' : ''}`}>
         {
           !history.location.pathname.includes('achievement') && (
             <PageHeader />
