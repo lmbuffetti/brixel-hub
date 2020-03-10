@@ -45,7 +45,7 @@
       border-color: map_get($primaryColor, 300) ;
     }
   }
-  .accrodContent {
+  .accordContent {
     overflow: hidden;
     max-height: 0;
 
@@ -79,7 +79,7 @@
   }
 
   &:not(.openedAccord) {
-    .accrodContent {
+    .accordContent {
       //animation: expandDown 2s $default-easing forwards;
 
       @keyframes expandDown {
@@ -96,7 +96,7 @@
       background: white;
       //border-top: 1px solid map_get($lightColor, 200);
     }
-    .accrodContent {
+    .accordContent {
       border-bottom: 1px solid map_get($lightColor, 200);
      // animation: expandDown 2s $default-easing forwards;
      max-height: 3000px;
