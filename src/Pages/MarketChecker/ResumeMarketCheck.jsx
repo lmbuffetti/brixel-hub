@@ -41,7 +41,7 @@ function ResumeMarketCheck(props) {
         propertyType: property.properties.propertyType,
         minLivingSpace: +livingSpace - percLivingSpace,
         maxLivingSpace: +livingSpace + percLivingSpace,
-        stateCode: 'CH',
+        stateCode: property.location.countryCode,
       };
       handleGetMarketData(data);
     }
@@ -53,6 +53,8 @@ function ResumeMarketCheck(props) {
         id: match.params.propId,
         packageFlowProcess: property.packageFlowProcess || {},
         properties: property.properties,
+        ownerType: formValue.ownerType,
+        whenToSell: formValue.whenToSell,
       };
       data.properties.building.conditionCode = get(formValue, 'properties.building.conditionCode', null);
       data.packageFlowProcess.rewardScreenData = {
@@ -87,7 +89,7 @@ function ResumeMarketCheck(props) {
 
               <div>
                 <Maps
-                  zoom={12}
+                  zoom={property.location.countryCode === 'PT' ? 15 : 12}
                   scrollZoom={false}
                   moveMarker
                   draggable
