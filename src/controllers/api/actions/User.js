@@ -24,7 +24,7 @@ class Property extends Base {
   }
 
   updateUser(id, data) {
-    const url = ep.user.updateUser(id);
+    const url = ep.user.userById(id);
     return this.apiClient.put(url, {}, data);
   }
 

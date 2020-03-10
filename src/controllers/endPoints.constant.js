@@ -32,8 +32,7 @@ export default {
   property: {
     addPage: () => `/page/`,
     pageById: (id) => `/page/${id}`,
-    pageByIdSimplified: (id) => `/map/property/${id}`,
-    getProperty: (id) => `/map/property/${id}`,
+    mapPageById: (id) => `/map/property/${id}`,
     estimation: (id) => `/page/${id}/estimation`,
     page: (limit, offset) => `/page/${limit}/${offset}`,
   },
@@ -48,12 +47,10 @@ export default {
   user: {
     getToken: () => '/authentication/getToken',
     tokenValidationWithUser: () => '/authentication/getTokenWithUser',
-    getTokenValidation: () => '/authentication/validateToken',
     favoritePages: () => '/user/favoritePages',
     createUser: () => '/user/register',
     recoverPassword: (email) => `/user/recoverPassword/${email}`,
-    updateUser: (userId) => `/user/${userId}`,
-    getUser: (userId) => '/user/fromToken',
+    userById: (userId) => `/user/${userId}`,
     getPropertiesOfUser: (owner) => `/page/0/0?owner=${owner}`,
     validateUser: (email) => `/user/validate/${email}`,
   },

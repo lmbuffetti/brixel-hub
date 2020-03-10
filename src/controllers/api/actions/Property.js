@@ -24,7 +24,7 @@ class Property extends Base {
   }
 
   getPropertySimplified(id) {
-    const url = ep.property.pageByIdSimplified(id);
+    const url = ep.property.mapPageById(id);
     return this.apiClient.get(url, {});
   }
 
