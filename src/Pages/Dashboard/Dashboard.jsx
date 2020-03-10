@@ -10,7 +10,7 @@ import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelTabs } from '@brixel/brixel-components';
-import { getProperties, getProperty, updateProperty } from '../../actions/PropertyActions';
+import { getPropertyListings, getActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
 import { getCalcSectionInputSheets } from '../../utils/helpers';
@@ -42,12 +42,12 @@ const SupportDashboard = Loadable({
 const Dashboard = (props) => {
   // PROPS
   const {
-    activeUserType,
+    userTypes,
     handleGetProperties,
     handleGetProperty,
     handleSaveProperty,
     history,
-    loggedUser,
+    loggedInUser,
     match,
     property,
   } = props;
@@ -68,7 +68,7 @@ const Dashboard = (props) => {
     } else if (!propID) {
       const data = {
         limit: 1,
-        offset: `0/?owner=${loggedUser.user.id}`,
+        offset: `0/?owner=${loggedInUser.user.id}`,
         setAsSingle: true,
       };
       handleGetProperties(data);
@@ -82,7 +82,7 @@ const Dashboard = (props) => {
     if (!propID && property.id) {
       history.push(`/${property.id}/home`);
     }
-    if (property.owner === loggedUser.user.id) {
+    if (property.owner === loggedInUser.user.id) {
       handleGetProperty({fullVersion: true, id: propID});
     }
     const getPercComplete = get(property, 'inputSheet.totalComplete', null);
@@ -96,14 +96,14 @@ const Dashboard = (props) => {
     }
   }, [property]);
 
-  if (!activeUserType) return (<div />);
+  if (!userTypes) return (<div />);
 
   return (
     <div className="container" id="dashboard">
 
       { /* SECTION: APP HEADER */ }
       {
-        !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding') && loggedUser && (
+        !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding') && loggedInUser && (
           <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
             <MenuSidebar />
           </div>
@@ -132,28 +132,28 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
-  activeUserType: PropTypes.string,
+  userTypes: PropTypes.string,
   handleGetProperties: PropTypes.func.isRequired,
   handleGetProperty: PropTypes.func.isRequired,
   handleSaveProperty: PropTypes.func.isRequired,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
 Dashboard.defaultProps = {
-  activeUserType: null,
+  userTypes: null,
 };
 
 const mapStateToProps = (state) => ({
-  activeUserType: get(state, 'user.activeUserType', null),
-  loggedUser: get(state, 'user.loggedUser', {}),
-  property: get(state, 'property.property', {}),
+  userTypes: get(state, 'user.userTypes', null),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
+  property: get(state, 'property.activeSingleProperty', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetProperties: bindActionCreators(getProperties, dispatch),
-  handleGetProperty: bindActionCreators(getProperty, dispatch),
-  handleSaveProperty: bindActionCreators(updateProperty, dispatch),
+  handleGetProperties: bindActionCreators(getPropertyListings, dispatch),
+  handleGetProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleSaveProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 export default compose(

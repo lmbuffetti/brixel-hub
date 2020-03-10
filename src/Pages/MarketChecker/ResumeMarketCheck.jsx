@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { getProperty, getMarketCheck, updateProperty } from '../../actions/PropertyActions';
+import { getActiveSingleProperty, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { sendGenericMail } from '../../actions/CommonActions';
 import Maps from '../../components/Map/Maps';
 import * as moment from 'moment';
@@ -176,7 +176,7 @@ ResumeMarketCheck.propTypes = {
   handleGetPage: PropTypes.func.isRequired,
   handleSendGenericMail: PropTypes.func.isRequired,
   handleUpdatePage: PropTypes.func.isRequired,
-  loggedUser: PropTypes.object,
+  loggedInUser: PropTypes.object,
   match: PropTypes.object.isRequired,
   marketData: PropTypes.object,
   property: PropTypes.object,
@@ -184,22 +184,22 @@ ResumeMarketCheck.propTypes = {
 
 ResumeMarketCheck.defaultProps = {
   formValue: {},
-  loggedUser: {},
+  loggedInUser: {},
   marketData: null,
   property: null,
 };
 
 const mapStateToProps = (state, props) => ({
   formValue: get(state, `form.${props.formName}.values`, {}),
-  property: get(state, 'property.property', {}),
-  loggedUser: get(state, 'user.loggedUser', {}),
+  property: get(state, 'property.activeSingleProperty', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
   marketData: get(state, 'property.marketCheck', {}),
 });
 const mapDispatchToProps = (dispatch) => ({
-  handleGetPage: bindActionCreators(getProperty, dispatch),
+  handleGetPage: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetMarketData: bindActionCreators(getMarketCheck, dispatch),
   handleSendGenericMail: bindActionCreators(sendGenericMail, dispatch),
-  handleUpdatePage: bindActionCreators(updateProperty, dispatch),
+  handleUpdatePage: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 export default compose(

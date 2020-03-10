@@ -352,8 +352,8 @@ const DocumentsForm = reduxForm({
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.documentsForm.values', {}),
-  initialValues: get(state, 'property.property', {}),
-  user: get(state, 'user.loggedUser', {}),
+  initialValues: get(state, 'property.activeSingleProperty', {}),
+  user: get(state, 'user.loggedInUser', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

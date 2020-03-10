@@ -1,17 +1,14 @@
 /* eslint-disable no-case-declarations */
 import get from 'lodash/get';
 import {
-  ADD_PROPERTY,
   GET_ESTIMATION,
-  GET_PROPERTIES,
-  SET_PROPERTIES,
   SET_ESTIMATION,
-  SET_PROPERTY,
-  GET_PROPERTY,
   GET_MARKET_CHECK,
   SET_MARKET_CHECK,
-  UPDATE_PROPERTY,
-  DELETE_PROPERTY,
+  GET_ACTIVE_SINGLE_PROPERTY,
+  CREATE_ACTIVE_SINGLE_PROPERTY,
+  SAVE_ACTIVE_SINGLE_PROPERTY,
+  DELETE_ACTIVE_SINGLE_PROPERTY, GET_PROPERTY_LISTINGS, SET_ACTIVE_SINGLE_PROPERTY, SET_PROPERTY_LISTINGS,
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
@@ -20,7 +17,7 @@ import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
-    case ADD_PROPERTY:
+    case CREATE_ACTIVE_SINGLE_PROPERTY:
       next(action);
       const { getEstimation, token, redirectToUserFlow, redirectToRewards, redirectToHome, smallLoader } = action.payload;
       delete action.payload.getEstimation;
@@ -33,7 +30,7 @@ const checkCommon = (store) => (next) => (action) => {
       else store.dispatch({ type: SPINNER_ON });
       api.property.addProperty(action.payload, token)
         .then((res) => {
-          store.dispatch({ type: SET_PROPERTY, payload: res.data });
+          store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           if (getEstimation) {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
           } else if (redirectToRewards) {
@@ -54,7 +51,7 @@ const checkCommon = (store) => (next) => (action) => {
           else store.dispatch({ type: SPINNER_OFF });
         });
       break;
-    case UPDATE_PROPERTY: {
+    case SAVE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
       const { id, redirectTo, redirectToHome, smallLoader } = action.payload;
       delete action.payload.id;
@@ -67,7 +64,7 @@ const checkCommon = (store) => (next) => (action) => {
         .then((res) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
-          store.dispatch({ type: SET_PROPERTY, payload: res.data });
+          store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           if (redirectTo) {
             store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
           }
@@ -77,14 +74,14 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
-    case DELETE_PROPERTY: {
+    case DELETE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
       api.property.deleteProperty(action.payload.id)
         .then((response) => {
           if (response.meta.status === 200) {
             store.dispatch({
-              type: SET_PROPERTY,
+              type: SET_ACTIVE_SINGLE_PROPERTY,
               payload: {},
             });
             store.dispatch({
@@ -100,14 +97,14 @@ const checkCommon = (store) => (next) => (action) => {
       break;
     }
 
-    case GET_PROPERTY:
+    case GET_ACTIVE_SINGLE_PROPERTY:
       next(action);
       store.dispatch({ type: SPINNER_ON });
       const fullVersion = get(action, 'payload.fullVersion', true);
       const apiEndPoint = (data) => fullVersion ? api.property.getProperty(data) : api.property.getPropertySimplified(data);
       apiEndPoint(action.payload.id)
         .then((res) => {
-          store.dispatch({ type: SET_PROPERTY, payload: res.data });
+          store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
@@ -115,7 +112,7 @@ const checkCommon = (store) => (next) => (action) => {
           window.location.href = `/`;
         });
       break;
-    case GET_PROPERTIES:
+    case GET_PROPERTY_LISTINGS:
       next(action);
       store.dispatch({ type: SPINNER_ON });
       const { setAsSingle } = action.payload;
@@ -123,9 +120,9 @@ const checkCommon = (store) => (next) => (action) => {
       api.property.getProperties(action.payload.limit, action.payload.offset)
         .then((res) => {
           if (setAsSingle) {
-            store.dispatch({ type: SET_PROPERTY, payload: res.data[0] });
+            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data[0] });
           } else {
-            store.dispatch({ type: SET_PROPERTIES, payload: res.data });
+            store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: res.data });
           }
           store.dispatch({ type: SPINNER_OFF });
         })

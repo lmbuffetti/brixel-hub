@@ -14,11 +14,11 @@ import {
 } from '../actions/types/UploadTypes';
 
 import {
-  UPDATE_PROPERTY,
+  SAVE_ACTIVE_SINGLE_PROPERTY,
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
-import { UPDATE_USER } from '../actions/types/UserTypes';
+import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
 import { SPINNER_ON, SPINNER_OFF } from '../actions/types/CommonTypes';
 
 const checkCommon = (store) => (next) => (action) => {
@@ -52,7 +52,7 @@ const checkCommon = (store) => (next) => (action) => {
       console.log(action.payload);
       const { imageType } = store.getState().image;
       const imgType = imageType.find((val) => val.name === 'Gallery');
-      // action.payload.user = store.getState().user.loggedUser.user.id;
+      // action.payload.user = store.getState().user.loggedInUser.user.id;
       action.payload.imageType = imgType.id;
       const {
         pageID, userID, uploadAction,
@@ -86,7 +86,7 @@ const checkCommon = (store) => (next) => (action) => {
               photos: img,
               floorPlans: plan,
             };
-            store.dispatch({ type: UPDATE_PROPERTY, payload: data });
+            store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           } else if (uploadAction === 'singleUserAvatar') {
             let userAvatar = store.getState().form.User.values.avatar[0];
 
@@ -100,7 +100,7 @@ const checkCommon = (store) => (next) => (action) => {
                 fullAvatar: userAvatar,
               },
             };
-            store.dispatch({ type: UPDATE_USER, payload: userData });
+            store.dispatch({ type: SAVE_ACTIVE_SINGLE_USER, payload: userData });
           }
           store.dispatch({ type: SPINNER_OFF });
         })
@@ -130,7 +130,7 @@ const checkCommon = (store) => (next) => (action) => {
             id: pageID,
             documents: docList,
           };
-          store.dispatch({ type: UPDATE_PROPERTY, payload: data });
+          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
@@ -147,7 +147,7 @@ const checkCommon = (store) => (next) => (action) => {
             id: action.payload.pageID,
             documents: arrayImg,
           };
-          store.dispatch({ type: UPDATE_PROPERTY, payload: data });
+          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
         });
       break;
     }
@@ -168,14 +168,14 @@ const checkCommon = (store) => (next) => (action) => {
             id: pageID,
             documents: docList,
           };
-          store.dispatch({ type: UPDATE_PROPERTY, payload: data });
+          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
     case SET_COVER_PHOTO: {
       next(action);
-      store.dispatch({ type: UPDATE_PROPERTY, payload: action.payload });
+      store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: action.payload });
       break;
     }
     default:

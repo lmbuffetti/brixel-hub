@@ -8,7 +8,7 @@ import {
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
-import { getProperty, getMarketCheck, updateProperty } from '../../actions/PropertyActions';
+import { getProperty, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { sendGenericMail } from '../../actions/CommonActions';
 import Maps from '../../components/Map/Maps';
 import * as moment from 'moment';
@@ -207,28 +207,28 @@ Rewards.propTypes = {
   handleGetPage: PropTypes.func.isRequired,
   handleSendGenericMail: PropTypes.func.isRequired,
   handleUpdatePage: PropTypes.func.isRequired,
-  loggedUser: PropTypes.object,
+  loggedInUser: PropTypes.object,
   match: PropTypes.object.isRequired,
   marketData: PropTypes.object,
   property: PropTypes.object,
 };
 
 Rewards.defaultProps = {
-  loggedUser: {},
+  loggedInUser: {},
   marketData: null,
   property: null,
 };
 
 const mapStateToProps = (state) => ({
-  property: get(state, 'property.property', null),
-  loggedUser: get(state, 'user.loggedUser', {}),
+  property: get(state, 'property.activeSingleProperty', null),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
   marketData: get(state, 'property.marketCheck', {}),
 });
 const mapDispatchToProps = (dispatch) => ({
   handleGetPage: bindActionCreators(getProperty, dispatch),
   handleGetMarketData: bindActionCreators(getMarketCheck, dispatch),
   handleSendGenericMail: bindActionCreators(sendGenericMail, dispatch),
-  handleUpdatePage: bindActionCreators(updateProperty, dispatch),
+  handleUpdatePage: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 export default compose(

@@ -13,7 +13,7 @@ import {
   FactsOptions,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { deleteProperty } from '../../actions/PropertyActions';
+import { deleteActiveSingleProperty } from '../../actions/PropertyActions';
 import Loading from '../../components/Loading';
 
 const Settings = (props) => {
@@ -24,7 +24,7 @@ const Settings = (props) => {
   } = props;
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
-  
+
   const { factsOptions } = FactsOptions;
 
   const deletePage = () => {
@@ -115,7 +115,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleDeletePage: bindActionCreators(deleteProperty, dispatch),
+  handleDeletePage: bindActionCreators(deleteActiveSingleProperty, dispatch),
 });
 
 export default compose(

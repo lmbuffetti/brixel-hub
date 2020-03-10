@@ -16,7 +16,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import {
-  setModal, setNotification,
+  setModal, setScreenNotification,
 } from '../../actions/CommonActions';
 import LoadingSimple from '../../components/LoadingSimple';
 import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
@@ -24,7 +24,7 @@ import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 
 // COMPONENTS
 import Loading from '../../components/Loading';
-import { updateProperty, getProperty } from '../../actions/PropertyActions';
+import { saveActiveSingleProperty, getActiveSingleProperty } from '../../actions/PropertyActions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import noCover from '../../images/no_cover.jpg';
 import { BrixelTabs } from '@brixel/brixel-components';
@@ -293,25 +293,25 @@ const mapStateToProps = (state) => {
     activeSingleUser: get(state, 'user.activeSingleUser', {}),
     singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
     notification: get(state, 'common.notification', {}),
-    initial: cloneDeep(get(state, 'property.property', {})),
+    initial: cloneDeep(get(state, 'property.activeSingleProperty', {})),
     initialValues: {
-      assessor: get(state, 'property.property.assessor', {}),
-      coverPhoto: get(state, 'property.property.coverPhoto', {}),
-      description: get(state, 'property.property.description', {}),
-      id: get(state, 'property.property.id', null),
-      floorPlans: get(state, 'property.property.floorPlans', []),
-      inputSheet: get(state, 'property.property.inputSheet', {}),
-      language: get(state, 'property.property.language', null),
-      listed: get(state, 'property.property.listed', null),
-      location: get(state, 'property.property.location', {}),
-      photos: cloneDeep(get(state, 'property.property.photos', [])),
-      portals: get(state, 'property.property.portals', {}),
-      properties: get(state, 'property.property.properties', {}),
-      published: get(state, 'property.property.published', null),
-      stub: get(state, 'property.property.stub', null),
-      virtual: get(state, 'property.property.virtual', null),
+      assessor: get(state, 'property.activeSingleProperty.assessor', {}),
+      coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
+      description: get(state, 'property.activeSingleProperty.description', {}),
+      id: get(state, 'property.activeSingleProperty.id', null),
+      floorPlans: get(state, 'property.activeSingleProperty.floorPlans', []),
+      inputSheet: get(state, 'property.activeSingleProperty.inputSheet', {}),
+      language: get(state, 'property.activeSingleProperty.language', null),
+      listed: get(state, 'property.activeSingleProperty.listed', null),
+      location: get(state, 'property.activeSingleProperty.location', {}),
+      photos: cloneDeep(get(state, 'property.activeSingleProperty.photos', [])),
+      portals: get(state, 'property.activeSingleProperty.portals', {}),
+      properties: get(state, 'property.activeSingleProperty.properties', {}),
+      published: get(state, 'property.activeSingleProperty.published', null),
+      stub: get(state, 'property.activeSingleProperty.stub', null),
+      virtual: get(state, 'property.activeSingleProperty.virtual', null),
     },
-    loggedInUser: get(state, 'user.loggedUser', {}),
+    loggedInUser: get(state, 'user.loggedInUser', {}),
   });
 };
 
@@ -325,10 +325,10 @@ const mapDispatchToProps = (dispatch) => ({
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   // getUser: bindActionCreators(getActiveSingleUser, dispatch),
-  setUserActiveProperty: bindActionCreators(getProperty, dispatch),
-  handleSaveProperty: bindActionCreators(updateProperty, dispatch),
+  setUserActiveProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleSaveProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
-  setNotification: bindActionCreators(setNotification, dispatch),
+  setNotification: bindActionCreators(setScreenNotification, dispatch),
   // setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
   // setUnsavedModal: bindActionCreators(setUnsavedChangesModal, dispatch),
 });

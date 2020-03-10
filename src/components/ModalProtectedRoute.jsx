@@ -16,26 +16,26 @@ const ModalProtectedRoute = (props) => {
     closePath,
     component,
     history,
-    loggedUser,
+    loggedInUser,
     modal,
     path,
     title,
   } = props;
 
   useEffect(() => {
-    if (loggedUser && typeof loggedUser.statusCode !== 'undefined') {
+    if (loggedInUser && typeof loggedInUser.statusCode !== 'undefined') {
       if (window.location.hostname.includes('localhost')) {
         history.push('/tokeninput');
       } else {
         window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
       }
     }
-  }, [loggedUser]);
+  }, [loggedInUser]);
 
   return (
     <>
       {
-        loggedUser.token && (
+        loggedInUser.token && (
           <BrixelModal
             title={title}
             layout="xlarge"
@@ -69,7 +69,7 @@ ModalProtectedRoute.defaultProps = {
 
 
 const mapStateToProps = (state) => ({
-  loggedUser: get(state, 'user.loggedUser', null),
+  loggedInUser: get(state, 'user.loggedInUser', null),
   modal: get(state, 'common.modal', {}),
 });
 

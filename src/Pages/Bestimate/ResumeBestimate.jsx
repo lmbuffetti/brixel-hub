@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
-import { getEstimation, getMarketCheck, updateProperty } from '../../actions/PropertyActions';
+import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import {
   withRouter,
 } from 'react-router-dom';
@@ -121,17 +121,17 @@ ResumeBestimate.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  condition: get(state, 'property.property.estimation.bestimate', {}),
+  condition: get(state, 'property.activeSingleProperty.estimation.bestimate', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   marketData: get(state, 'property.marketCheck', {}),
-  property: get(state, 'property.property', {}),
+  property: get(state, 'property.activeSingleProperty', {}),
   estimation: get(state, 'property.estimation', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetMarketData: bindActionCreators(getMarketCheck, dispatch),
-  handleUpdateProperty: bindActionCreators(updateProperty, dispatch),
+  handleUpdateProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 export default compose(

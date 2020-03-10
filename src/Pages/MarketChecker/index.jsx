@@ -19,7 +19,7 @@ import {
   BrixelIcon,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
-import { updateProperty, getProperty } from '../../actions/PropertyActions';
+import { saveActiveSingleProperty, getActiveSingleProperty } from '../../actions/PropertyActions';
 import { MarketCheckQuestions } from '../../resources/MarketCheck';
 import MultiStepForm from '../../components/MultiStepReduxForm';
 import { translateTo } from '../../utils/translation';
@@ -38,7 +38,7 @@ function Assessor(props) {
     handleGetGameHistory,
     history,
     lang,
-    loggedUser,
+    loggedInUser,
     match,
     property,
   } = props;
@@ -95,7 +95,7 @@ function Assessor(props) {
     // ADD THE ACHIEVEMENT
     if (!finishedFlow) {
       const data = {
-        id: loggedUser.user.id,
+        id: loggedInUser.user.id,
         page: property.stub,
         achievement: getAchievement(),
       };
@@ -339,7 +339,7 @@ Assessor.propTypes = {
   handleUpdateProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   pageState: PropTypes.object,
   property: PropTypes.object.isRequired,
   redirectTo: PropTypes.object,
@@ -351,17 +351,17 @@ Assessor.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => ({
-  company: get(state, 'companies.company', {}),
+  company: get(state, 'companies.activeSingleCompany', {}),
   errorValue: get(state, 'form.GamingFlow.syncErrors', {}),
   formValue: get(state, 'form.GamingFlow.values', {}),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   initialValue: get(state, 'form.GamingFlow.initial', {}),
-  loggedUser: get(state, 'user.loggedUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
   redirectTo: get(state, 'common.redirectTo', {}),
   lang: get(state, 'common.language', {}),
   pageState: get(state, 'common.setPageData', null),
-  property: get(state, 'property.property', null),
-  initialValues: get(state, 'property.property', null),
+  property: get(state, 'property.activeSingleProperty', null),
+  initialValues: get(state, 'property.activeSingleProperty', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -373,8 +373,8 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
-  handleGetProperty: bindActionCreators(getProperty, dispatch),
-  handleUpdateProperty: bindActionCreators(updateProperty, dispatch),
+  handleGetProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleUpdateProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 const OnBoardingForm = reduxForm({

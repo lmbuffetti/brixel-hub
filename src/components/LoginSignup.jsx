@@ -18,14 +18,14 @@ const LoginSignup = (props) => {
     formValue,
     errorValue,
     lang,
-    loggedUser,
+    loggedInUser,
     showErrors,
   } = props;
   // STATE
   const [loginPage, setLoginPage] = useState(false);
 
   useEffect(() => {
-    if (typeof loggedUser.token === 'undefined') {
+    if (typeof loggedInUser.token === 'undefined') {
       changeFieldValue(formName, 'signup', !loginPage);
     }
   }, [loginPage]);
@@ -178,7 +178,7 @@ LoginSignup.propTypes = {
   formValue: PropTypes.object.isRequired,
   formName: PropTypes.string.isRequired,
   lang: PropTypes.string,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   showErrors: PropTypes.bool,
 };
 
@@ -191,7 +191,7 @@ const mapStateToProps = (state, props) => ({
   errorValue: get(state, `form.${props.formName}.syncErrors`, {}),
   formValue: get(state, `form.${props.formName}.values`, {}),
   lang: get(state, 'common.language', {}),
-  loggedUser: get(state, 'user.loggedUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -49,7 +49,7 @@ Tour.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
@@ -58,7 +58,7 @@ Tour.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
-  loggedUser: get(state, 'user.loggedUser', null),
+  loggedInUser: get(state, 'user.loggedInUser', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({

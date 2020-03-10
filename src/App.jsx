@@ -18,7 +18,7 @@ import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-comp
 import { getBrowserPlatform} from '@brixel/brixel-components/src/utils/helper';
 import PageHeader from './components/PageHeader';
 import { setModal } from './actions/CommonActions';
-import { setActiveUsertype } from './actions/UserActions';
+import { setUserTypes } from './actions/UserActions';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
@@ -90,13 +90,13 @@ const cookies = new Cookies();
 
 const App = (props) => {
   const {
-    activeUserType,
+    userTypes,
     handleSetActiveUsertype,
     history,
     handleCheckToken,
     handleSetModal,
     isLoading,
-    loggedUser,
+    loggedInUser,
     modal,
     notification,
     property,
@@ -108,7 +108,7 @@ const App = (props) => {
   }, []);
 
   useEffect(() => {
-    if (property && property.id && loggedUser.user && (property.owner === loggedUser.user.id || property.owner.id === loggedUser.user.id)) {
+    if (property && property.id && loggedInUser.user && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
       handleSetActiveUsertype('seller');
     } else if (property && property.id) {
       handleSetActiveUsertype('buyer');
@@ -130,7 +130,7 @@ const App = (props) => {
     }
   }, [redirectTo]);
 
-  if (!loggedUser || (!activeUserType && property.id)) {
+  if (!loggedInUser || (!userTypes && property.id)) {
     return (
       <Loading isLoading={isLoading} />
     )
@@ -164,7 +164,7 @@ const App = (props) => {
           { /* SECTION: HUB DASHBOARD */ }
           <ProtectedRoute path="/" exact component={Dashboard} />
           { /* SECTION: SELLER DASHBOARD */ }
-          <ProtectedRoute path="/:propId?/:act/achievement/market-checker" exact component={MarketChecker} protect={activeUserType ? activeUserType !== 'seller' : false} />
+          <ProtectedRoute path="/:propId?/:act/achievement/market-checker" exact component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
           <ProtectedRoute path="/:propId?/:act/achievement/assessor" exact component={Assessor} allowAccess={'seller'} />
           <ProtectedRoute path="/:propId?/:act/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'}
           />
@@ -232,7 +232,7 @@ const App = (props) => {
           <Route path="/:propId?/:act/list" component={Properties} />
           <Route path="/:propId?/property/documents" exact component={Documents} />
           {
-            activeUserType === 'seller' && (
+            userTypes === 'seller' && (
               <>
                 <Route path="/:propId?/:act/edit" component={EditProperty} />
               </>
@@ -251,7 +251,7 @@ App.propTypes = {
   handleCheckToken: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   notification: PropTypes.object,
   match: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
@@ -265,11 +265,11 @@ App.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  activeUserType: get(state, 'user.activeUserType', null),
-  property: get(state, 'property.property', {}),
+  userTypes: get(state, 'user.userTypes', null),
+  property: get(state, 'property.activeSingleProperty', {}),
   config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
-  loggedUser: get(state, 'user.loggedUser', null),
+  loggedInUser: get(state, 'user.loggedInUser', null),
   modal: get(state, 'common.modal', {}),
   notification: get(state, 'common.notification', null),
   redirectTo: get(state, 'common.redirectTo', null),
@@ -279,7 +279,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetLanguages: bindActionCreators(setLanguages, dispatch),
-  handleSetActiveUsertype: bindActionCreators(setActiveUsertype, dispatch),
+  handleSetActiveUsertype: bindActionCreators(setUserTypes, dispatch),
 });
 
 export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);

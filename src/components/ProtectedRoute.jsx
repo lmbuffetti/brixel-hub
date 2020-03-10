@@ -15,11 +15,11 @@ const cookie = new Cookies();
 const ProtectedRoute = (props) => {
   const {
     allowAccess,
-    activeUserType,
+    userTypes,
     component,
     exact,
     history,
-    loggedUser,
+    loggedInUser,
     path,
   } = props;
 
@@ -29,19 +29,19 @@ const ProtectedRoute = (props) => {
     } else if (typeof cookie.get('brixelToken') === 'undefined') {
       window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
     }
-    if (loggedUser.token && activeUserType && allowAccess && allowAccess !== activeUserType) {
+    if (loggedInUser.token && userTypes && allowAccess && allowAccess !== userTypes) {
       history.push('/');
     }
-  }, [loggedUser]);
+  }, [loggedInUser]);
 
-  if (allowAccess && activeUserType && allowAccess !== activeUserType) {
+  if (allowAccess && userTypes && allowAccess !== userTypes) {
     return (<div />);
   }
 
   return (
     <>
       {
-        loggedUser.token && (
+        loggedInUser.token && (
           <Route path={path} exact={exact} component={component} />
         )
       }
@@ -50,7 +50,7 @@ const ProtectedRoute = (props) => {
 };
 
 ProtectedRoute.propTypes = {
-  activeUserType: PropTypes.string,
+  userTypes: PropTypes.string,
   component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   exact: PropTypes.bool,
   history: PropTypes.object.isRequired,
@@ -59,14 +59,14 @@ ProtectedRoute.propTypes = {
 };
 
 ProtectedRoute.defaultProps = {
-  activeUserType: null,
+  userTypes: null,
   exact: false,
   protect: false,
 };
 
 const mapStateToProps = (state) => ({
-  activeUserType: get(state, 'user.activeUserType', null),
-  loggedUser: get(state, 'user.loggedUser', null),
+  userTypes: get(state, 'user.userTypes', null),
+  loggedInUser: get(state, 'user.loggedInUser', null),
 });
 
 const mapDispatchToProps = () => ({

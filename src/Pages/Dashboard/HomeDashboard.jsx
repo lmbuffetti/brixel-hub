@@ -13,7 +13,7 @@ import { GameGroupConfig } from '../../constants/global';
 const HomeDashboard = (props) => {
   // PROPS
   const {
-    activeUserType,
+    userTypes,
     gameGroup,
     gameHistory,
     handleGetGameAchievement,
@@ -21,7 +21,7 @@ const HomeDashboard = (props) => {
     // handleGetGameHistory,
     handleAddGameHistory,
     history,
-    loggedUser,
+    loggedInUser,
     property,
   } = props;
   // STATE
@@ -35,7 +35,7 @@ const HomeDashboard = (props) => {
 
   useEffect(() => {
     let filtUsrGroup = [];
-    filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(activeUserType) !== -1);
+    filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userTypes) !== -1);
     if (gameHistory.data) {
       // CHECK IF DONE HOMEBASE
       gameHistory.data.map((game) => {
@@ -48,24 +48,24 @@ const HomeDashboard = (props) => {
       })
     }
     setUsrGroups([...filtUsrGroup]);
-  }, [activeUserType, property, gameGroup, gameHistory]);
+  }, [userTypes, property, gameGroup, gameHistory]);
 
   useState(() => {
     if (gameHistory.data && property.id) {
       // CHECK IF DONE HOMEBASE
       const getHomeBase = gameHistory.data.findIndex(val => val.achievement.stub === 'homebase' && property.id === val.page);
-      if (getHomeBase === -1 && activeUserType === 'seller') {
+      if (getHomeBase === -1 && userTypes === 'seller') {
         const data = {
-          id: loggedUser.user.id,
+          id: loggedInUser.user.id,
           page: property.stub,
           achievement: 'homebase',
         };
         handleAddGameHistory(data);
       }
     }
-  }, [property, gameHistory, activeUserType]);
+  }, [property, gameHistory, userTypes]);
 
-  if (!property.id && !activeUserType) {
+  if (!property.id && !userTypes) {
     return <Loading />
   }
 
@@ -84,9 +84,9 @@ const HomeDashboard = (props) => {
         usrGroups && usrGroups.map((group, i) => (
           <Fragment key={i.toString()}>
             {
-              GameGroupConfig[`${activeUserType}Level${group.stub.replace(/^\D+/g, '')}`] && (
+              GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`] && (
                 <>
-                  <span className="mb-3 fsize-400 dis-b txtDark700 fweight-500">{GameGroupConfig[`${activeUserType}Level${group.stub.replace(/^\D+/g, '')}`].name}</span>
+                  <span className="mb-3 fsize-400 dis-b txtDark700 fweight-500">{GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}</span>
                   <div key={i.toString()} className="pl-5 pos-r">
                     <div className="timelineBar" />
                     {
@@ -101,7 +101,7 @@ const HomeDashboard = (props) => {
                                 subtitle={item.description}
                                 background="light100"
                                 className="mb-2 w-perc-100 opacity5 p-2"
-                                colorIcon={GameGroupConfig[`${activeUserType}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
+                                colorIcon={GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
                                 backIcon="light200 mr-1"
                                 multilineInfo={[
                                   {label: 'Coming', color: 'dark200'},
@@ -113,10 +113,10 @@ const HomeDashboard = (props) => {
                                 icon={item.done ? 'check' : item.icon}
                                 label={item.name}
                                 subtitle={item.description}
-                                background={item.done ? 'light100' : GameGroupConfig[`${activeUserType}Level${group.stub.replace( /^\D+/g, '')}`].color}
+                                background={item.done ? 'light100' : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].color}
                                 className={`mb-2 w-perc-100 p-2 ${item.done ? '' : 'shadow-2dp'}`}
-                                colorIcon={item.done ? 'green400'  : GameGroupConfig[`${activeUserType}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
-                                backIcon={`${item.done ? 'light200' : GameGroupConfig[`${activeUserType}Level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
+                                colorIcon={item.done ? 'green400'  : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
+                                backIcon={`${item.done ? 'light200' : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
                                 paddingIconClass="fSizePx24 p-small-12"
                                 multilineInfo={[
                                   item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
@@ -141,7 +141,7 @@ const HomeDashboard = (props) => {
 };
 
 HomeDashboard.propTypes = {
-  activeUserType: PropTypes.string,
+  userTypes: PropTypes.string,
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
   handleGetGameAchievement: PropTypes.func.isRequired,
@@ -149,7 +149,7 @@ HomeDashboard.propTypes = {
   handleGetGameHistory: PropTypes.func.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
 };
 
 HomeDashboard.defaultProps = {
@@ -158,11 +158,11 @@ HomeDashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  activeUserType: get(state, 'user.activeUserType', null),
+  userTypes: get(state, 'user.userTypes', null),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
-  loggedUser: get(state, 'user.loggedUser', {}),
-  property: get(state, 'property.property', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
+  property: get(state, 'property.activeSingleProperty', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

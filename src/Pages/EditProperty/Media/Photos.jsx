@@ -22,7 +22,7 @@ const Photos = (props) => {
     formValue,
     handleUploadImg,
     history,
-    loggedUser,
+    loggedInUser,
     match,
   } = props;
   const { photos } = formValue;
@@ -50,7 +50,7 @@ const Photos = (props) => {
         const binaryStr = {
           name: Date.now() / 1000,
           file: read.result,
-          user: loggedUser.user.id,
+          user: loggedInUser.user.id,
           imageType: 0,
           pageID: formValue.id,
           uploadAction: 'photos',
@@ -193,7 +193,7 @@ Photos.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
@@ -202,7 +202,7 @@ Photos.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
-  loggedUser: get(state, 'user.loggedUser', null),
+  loggedInUser: get(state, 'user.loggedInUser', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({
