@@ -6,6 +6,7 @@
   margin: auto;
   box-shadow: $shadow-2dp;
   border-radius: $brd-radius-small;
+  position: relative;
 
   .gm-style {
     .gm-style-cc { display: none}
@@ -36,20 +37,21 @@
 
 
   .footerAction {
-    position: relative;
-    bottom: $step * 4;
-    @media (max-width: $responsive-medium) {
+    position: absolute;
+    bottom: 0;
+    /* @media (max-width: $responsive-medium) {
       bottom: 52px;
     }
     @media (max-width: $responsive-small) {
       bottom: calc(15vh + 16px);
-    }
+    } */
     span {
       white-space: nowrap;
     }
   }
 
   .singleStep {
+    padding: $step * 3 $step * 2;
     .subcontainer {
       max-width: 480px;
     }
@@ -74,9 +76,15 @@
     left: 0;
     width: 100%;
   }
+
+  @media (max-width: $responsive-small) {
+    .singleStep {
+      height: calc(85vh - 128px);
+    }
+  }
   @media (min-width: $responsive-medium) {
     .singleStep {
-      height: calc(100vh - 144px);
+      height: calc(100vh - 176px);
     }
     &.withoutFooter {
       height: calc(100vh - 72px);
