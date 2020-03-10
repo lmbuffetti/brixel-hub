@@ -15,6 +15,9 @@ import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
 import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
+import {
+  getBrowserPlatform
+} from '@brixel/brixel-components/src/utils/helper';
 import PageHeader from './components/PageHeader';
 import { setModal } from './actions/CommonActions';
 import { setActiveUsertype } from './actions/UserActions';
@@ -135,8 +138,11 @@ const App = (props) => {
     )
   }
 
+
+  const isSmallIOS = getBrowserPlatform().indexOf('mobile ios') !== -1 ? 'smallIos' : '';
+
   return (
-    <main className={`dis-fl-row jc-b ${history.location.pathname.includes('achievement') ? 'h-perc-100 a-c' : ''}`}>
+    <main className={`dis-fl-row jc-b ${history.location.pathname.includes('achievement') ? 'h-perc-100 a-c' : ''} ${isSmallIOS}`}>
       <Loading isLoading={isLoading} />
       <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('achievement')) ? 'no-sidebar' : ''}`}>
         {
