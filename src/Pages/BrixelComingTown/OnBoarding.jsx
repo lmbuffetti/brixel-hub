@@ -63,7 +63,7 @@ function OnBoarding(props) {
     handleSetNotification,
     history,
     lang,
-    loggedUser,
+    loggedInUser,
     pageState,
   } = props;
   // STATE
@@ -107,10 +107,10 @@ function OnBoarding(props) {
   };
 
   useEffect(() => {
-    if (loggedUser.user) {
-      changeFieldValue('owner', loggedUser.user.id);
+    if (loggedInUser.user) {
+      changeFieldValue('owner', loggedInUser.user.id);
     }
-  }, [loggedUser]);
+  }, [loggedInUser]);
 
   // SET the default language in base of the company
   useEffect(() => {
@@ -184,7 +184,7 @@ function OnBoarding(props) {
     let enableForm = true;
     // Check if exist any invalid field
     Object.keys(errorValue).map((key) => {
-      if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedUser.user) {
+      if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedInUser.user) {
         setShowError(true);
         enableForm = false;
       }
@@ -225,9 +225,9 @@ function OnBoarding(props) {
     // if form is valid
     if (enableForm) {
       // if user is logged in
-      if (loggedUser.user && loggedUser.user.id) {
-        changeFieldValue('owner', loggedUser.user.id);
-        data.owner = loggedUser.user.id;
+      if (loggedInUser.user && loggedInUser.user.id) {
+        changeFieldValue('owner', loggedInUser.user.id);
+        data.owner = loggedInUser.user.id;
         handleCreatePage(data);
       } else if (loginPage) {
         // if user exist and is access by own account
@@ -318,7 +318,7 @@ function OnBoarding(props) {
       Questions[newPosition] &&
       Questions[newPosition].cardType &&
       Questions[newPosition].cardType === 'LastStep' &&
-      loggedUser.user && loggedUser.user.id
+      loggedInUser.user && loggedInUser.user.id
     ) {
       saveData();
     }
@@ -860,7 +860,7 @@ OnBoarding.propTypes = {
   history: PropTypes.object.isRequired,
   initialValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   pageState: PropTypes.object,
   redirectTo: PropTypes.object,
 };
@@ -871,14 +871,14 @@ OnBoarding.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => ({
-  company: get(state, 'companies.company', {}),
+  company: get(state, 'companies.activeSingleCompany', {}),
   country: get(state, 'common.country', {}),
   errorValue: get(state, 'form.OnBoarding.syncErrors', {}),
   formValue: get(state, 'form.OnBoarding.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', []),
   initialValue: get(state, 'form.OnBoarding.initial', {}),
-  loggedUser: get(state, 'user.loggedUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
   redirectTo: get(state, 'common.redirectTo', {}),
   lang: get(state, 'common.language', {}),
   pageState: get(state, 'common.setPageData', null),

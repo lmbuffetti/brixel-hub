@@ -121,10 +121,10 @@ ResumeBestimate.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  condition: get(state, 'property.property.estimation.bestimate', {}),
+  condition: get(state, 'property.activeSingleProperty.estimation.bestimate', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   marketData: get(state, 'property.marketCheck', {}),
-  property: get(state, 'property.property', {}),
+  property: get(state, 'property.activeSingleProperty', {}),
   estimation: get(state, 'property.estimation', {}),
 });
 

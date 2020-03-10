@@ -151,7 +151,7 @@ ResumeAssessor.defaultProps = {
 
 const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
-  condition: get(state, 'property.property.assessor', {}),
+  condition: get(state, 'property.activeSingleProperty.assessor', {}),
 });
 
 const mapDispatchToProps = () => ({

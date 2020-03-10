@@ -669,8 +669,8 @@ Maps.defaultProps = {
 
 const mapStateToProps = (state) => {
   const formName = Object.keys(get(state, 'form'))[0];
-  const lat = get(state, `property.property.location.latitude`, 0);
-  const lng = get(state, `property.property.location.longitude`, 0);
+  const lat = get(state, `property.activeSingleProperty.location.latitude`, 0);
+  const lng = get(state, `property.activeSingleProperty.location.longitude`, 0);
   return ({
     country: get(state, `common.country`, {}),
     formValue: get(state, `form[${formName}].values`, {}),

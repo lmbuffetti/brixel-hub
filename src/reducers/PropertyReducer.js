@@ -9,8 +9,8 @@ import {
 export const defaultState = {
   estimation: {},
   marketCheck: {},
-  properties: [],
-  property: {},
+  propertyListings: [],
+  activeSingleProperty: {},
 };
 
 export default handleActions(
@@ -21,11 +21,11 @@ export default handleActions(
     }),
     [SET_PROPERTY_LISTINGS]: (state, action) => ({
       ...state,
-      properties: action.payload,
+      propertyListings: action.payload,
     }),
     [SET_ACTIVE_SINGLE_PROPERTY]: (state, action) => ({
       ...state,
-      property: action.payload,
+      activeSingleProperty: action.payload,
     }),
     [SET_MARKET_CHECK]: (state, action) => ({
       ...state,

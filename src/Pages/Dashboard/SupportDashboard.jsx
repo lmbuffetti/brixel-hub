@@ -1,5 +1,4 @@
 import React  from 'react';
-import PropTypes from 'prop-types';
 import {
   withRouter,
 } from 'react-router-dom';
@@ -7,7 +6,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelIcon } from '@brixel/brixel-components';
 
-const HomeDashboard = (props) => {
+const HomeDashboard = () => {
 
   return (
     <div className="supportCard pl-md-2 pr-md-1">
@@ -43,7 +42,7 @@ const HomeDashboard = (props) => {
 };
 
 HomeDashboard.propTypes = {
-  handleGetProperties: PropTypes.func.isRequired,
+
 };
 
 HomeDashboard.defaultProps = {

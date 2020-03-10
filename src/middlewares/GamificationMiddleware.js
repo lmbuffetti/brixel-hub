@@ -35,7 +35,7 @@ const checkGamification = (store) => (next) => (action) => {
     }
     case GET_GAME_HISTORY: {
       next(action);
-      const userLoggedIn = store.getState().user.loggedUser.user.id;
+      const userLoggedIn = store.getState().user.loggedInUser.user.id;
       api.gamification.getGameHistoryByUser(userLoggedIn)
         .then((res) => {
           store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });

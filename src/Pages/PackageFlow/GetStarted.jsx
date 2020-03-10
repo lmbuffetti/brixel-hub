@@ -65,7 +65,7 @@ function GetStarted(props) {
     handleGetGameGroup,
     history,
     lang,
-    loggedUser,
+    loggedInUser,
     property,
   } = props;
   // STATE
@@ -133,11 +133,11 @@ function GetStarted(props) {
   }, [lang, gameGroup]);
 
   useEffect(() => {
-    if (loggedUser.user) {
-      changeFieldValue('owner', loggedUser.user.id);
+    if (loggedInUser.user) {
+      changeFieldValue('owner', loggedInUser.user.id);
       changeFieldValue('signup', false);
     }
-  }, [loggedUser]);
+  }, [loggedInUser]);
 
   useEffect(() => {
     let invalidField = false;
@@ -180,7 +180,7 @@ function GetStarted(props) {
       fieldVal = ['firstName', 'lastName', 'email', 'privacy'];
     }
     fieldVal.map((key) => {
-      if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedUser.user) {
+      if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedInUser.user) {
         setShowError(true);
         enableForm = false;
       }
@@ -219,7 +219,7 @@ function GetStarted(props) {
     };
 
     if (enableForm) {
-      if (loggedUser.user && loggedUser.user.id) {
+      if (loggedInUser.user && loggedInUser.user.id) {
         if ((act === 'LastStep' || act === 'lastStep') && property.id) {
           const pageData = {
             id: property.id,
@@ -229,14 +229,14 @@ function GetStarted(props) {
             redirectToHome: true,
           };
           const userData = {
-            id: loggedUser.user.id,
+            id: loggedInUser.user.id,
             userType: formValue.ownerType
           };
           await handleUpdateUser(userData);
           await handleUpdatePage(pageData);
         } else {
-          changeFieldValue('owner', loggedUser.user.id);
-          data.owner = loggedUser.user.id;
+          changeFieldValue('owner', loggedInUser.user.id);
+          data.owner = loggedInUser.user.id;
           await handleCreatePage(data);
         }
       } else if (loginPage) {
@@ -328,8 +328,8 @@ function GetStarted(props) {
         handleSetBrixelPoint(newPoints.actualPoints);
       }
       if (
-        (Questions[position].cardType === 'LastStep' && loggedUser && loggedUser.user) ||
-        (Questions[position].cardType === 'createProfile' && loggedUser && !loggedUser.user)
+        (Questions[position].cardType === 'LastStep' && loggedInUser && loggedInUser.user) ||
+        (Questions[position].cardType === 'createProfile' && loggedInUser && !loggedInUser.user)
       ) {
         saveData();
       }
@@ -716,7 +716,7 @@ GetStarted.propTypes = {
   handleGetGameGroup: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   property: PropTypes.object,
   redirectTo: PropTypes.object,
 };
@@ -728,14 +728,14 @@ GetStarted.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  company: get(state, 'companies.company', {}),
+  company: get(state, 'companies.activeSingleCompany', {}),
   country: get(state, 'common.country', {}),
   errorValue: get(state, 'form.GetStarted.syncErrors', {}),
   formValue: get(state, 'form.GetStarted.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', []),
-  loggedUser: get(state, 'user.loggedUser', {}),
-  property: get(state, 'property.property', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
+  property: get(state, 'property.activeSingleProperty', {}),
   redirectTo: get(state, 'common.redirectTo', {}),
   lang: get(state, 'common.language', {}),
   initialValues: {

@@ -41,7 +41,7 @@ function UserFlow(props) {
     handleSetNotification,
     history,
     lang,
-    loggedUser,
+    loggedInUser,
   } = props;
   // STATE
   const [position, setPosition] = useState(0);
@@ -70,8 +70,8 @@ function UserFlow(props) {
   useEffect(() => {
     // Check if the user token exist or redirect to Onboarding
     if (typeof cookie.get('brixelToken') === 'undefined') history.push('/onBoarding');
-    if (loggedUser.user) {
-      if (loggedUser.user.brixelComingFlowProcess && loggedUser.user.brixelComingFlowProcess.answers && Object.keys(loggedUser.user.brixelComingFlowProcess.answers).length > 0) {
+    if (loggedInUser.user) {
+      if (loggedInUser.user.brixelComingFlowProcess && loggedInUser.user.brixelComingFlowProcess.answers && Object.keys(loggedInUser.user.brixelComingFlowProcess.answers).length > 0) {
         setHasToSave(false);
         history.push(`/onBoarding/brixelComingInTown/chat`);
         const curIndex = Questions.findIndex((item) => 'chat' === item.history);
@@ -79,7 +79,7 @@ function UserFlow(props) {
         setPosition(curIndex);
       }
     }
-  }, [loggedUser]);
+  }, [loggedInUser]);
 
   // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
   useEffect(() => {
@@ -124,9 +124,9 @@ function UserFlow(props) {
   // Function to create the email
   const extractEmaildata = () => {
     let formData = formValue;
-    let email = `<p><b>Name</b> ${loggedUser.user.name}</p>`;
-    email += `<p><b>Email</b> ${loggedUser.user.email}</p>`;
-    email += `<p><b>User Id</b> ${loggedUser.user.id}</p>`;
+    let email = `<p><b>Name</b> ${loggedInUser.user.name}</p>`;
+    email += `<p><b>Email</b> ${loggedInUser.user.email}</p>`;
+    email += `<p><b>User Id</b> ${loggedInUser.user.id}</p>`;
     email += `<p><b>Company</b> ${company.name || 'default'}</p>`;
     const formInputs = QuestionsList('en').filter((itm) => typeof itm.inputs !== 'undefined');
     Object.keys(formData).map((key) => {
@@ -181,7 +181,7 @@ function UserFlow(props) {
       brixelComingFlowProcess: {
         answers: formValue
       },
-      id: loggedUser.user.id,
+      id: loggedInUser.user.id,
       sendEmail: {
         company : company.stub || null, // email destinatary
         recipientEmail : 'support@brixel.io', // email
@@ -551,7 +551,7 @@ UserFlow.propTypes = {
   handleSetBrixelPoint: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   handleSetNotification: PropTypes.func.isRequired,
 };
 
@@ -560,10 +560,10 @@ UserFlow.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => ({
-  company: get(state, 'companies.company', {}),
+  company: get(state, 'companies.activeSingleCompany', {}),
   errorValue: get(state, 'form.UserFlow.syncErrors', {}),
   formValue: get(state, 'form.UserFlow.values', {}),
-  loggedUser: get(state, 'user.loggedUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
   lang: get(state, 'common.language', {}),
 });
 

@@ -52,7 +52,7 @@ const checkCommon = (store) => (next) => (action) => {
       console.log(action.payload);
       const { imageType } = store.getState().image;
       const imgType = imageType.find((val) => val.name === 'Gallery');
-      // action.payload.user = store.getState().user.loggedUser.user.id;
+      // action.payload.user = store.getState().user.loggedInUser.user.id;
       action.payload.imageType = imgType.id;
       const {
         pageID, userID, uploadAction,

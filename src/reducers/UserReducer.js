@@ -9,11 +9,11 @@ import {
 } from '../actions/types/UserTypes';
 
 export const defaultState = {
-  activeUserType: null,
+  userTypes: null,
   awards: [],
-  brixelPoint: [],
+  brixelPoints: [],
   favorites: [],
-  loggedUser: {},
+  loggedInUser: {},
   userProperties: [],
 };
 
@@ -21,7 +21,7 @@ export default handleActions(
   {
     [SET_USER_TYPES]: (state, action) => ({
       ...state,
-      activeUserType: action.payload,
+      userTypes: action.payload,
     }),
     [SET_AWARDS]: (state, action) => ({
       ...state,
@@ -29,7 +29,7 @@ export default handleActions(
     }),
     [SET_BRIXEL_POINTS]: (state, action) => ({
       ...state,
-      brixelPoint: action.payload,
+      brixelPoints: action.payload,
     }),
     [SET_FAVORITES]: (state, action) => ({
       ...state,
@@ -37,7 +37,7 @@ export default handleActions(
     }),
     [SET_LOGGED_IN_USER]: (state, action) => ({
       ...state,
-      loggedUser: action.payload,
+      loggedInUser: action.payload,
     }),
     [SET_USER_PROPERTIES]: (state, action) => ({
       ...state,

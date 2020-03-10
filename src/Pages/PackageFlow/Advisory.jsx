@@ -20,7 +20,7 @@ function Advisory(props) {
     handleGetPage,
     handleSendGenericMail,
     handleUpdatePage,
-    loggedUser,
+    loggedInUser,
     match,
     property,
   } = props;
@@ -71,19 +71,19 @@ function Advisory(props) {
 
     const message = `
             <h1>User requested a personal offer through the package flow channel</h1>
-            <p><b>User ID</b> ${loggedUser.user.id}</p>
-            <p><b>User Name</b> ${loggedUser.user.name}</p>
+            <p><b>User ID</b> ${loggedInUser.user.id}</p>
+            <p><b>User Name</b> ${loggedInUser.user.name}</p>
             <p><b>Page ID</b> ${match.params.propId}</p>
             <p><b>Page Title</b> <a href="${baseByData.pageUrl}/${property.stub}">${property.title}</a></p>
             <p><b>Page Stub</b> ${property.stub}</p>
             <h4>Here are the contents</h4>
-            <p><b>First Name</b> ${loggedUser.user.firstName}</p>
-            <p><b>Last Name</b> ${loggedUser.user.lastName}</p>
+            <p><b>First Name</b> ${loggedInUser.user.firstName}</p>
+            <p><b>Last Name</b> ${loggedInUser.user.lastName}</p>
             <p><b>User already has estimation?</b> ${formValue.alreadyHasEstimation ? formValue.alreadyHasEstimation : 'No response'}</p>
             <p><b>Reason for selling</b> ${reason ? reason : 'No response'}</p>
             <p><b>How much the user wants to do on his own</b> ${formValue.onYourOwn ? formValue.onYourOwn : 'No response'}</p>
             <p><b>Phone number</b> ${formValue.phone ? formValue.phone : 'No response'}</p>
-            <p><b>Email</b> ${loggedUser.user.email}</p>
+            <p><b>Email</b> ${loggedInUser.user.email}</p>
       `;
 
     const mail = {
@@ -209,24 +209,24 @@ Advisory.propTypes = {
   handleGetPage: PropTypes.func.isRequired,
   handleSendGenericMail: PropTypes.func.isRequired,
   handleUpdatePage: PropTypes.func.isRequired,
-  loggedUser: PropTypes.object,
+  loggedInUser: PropTypes.object,
   match: PropTypes.object.isRequired,
   property: PropTypes.object
 };
 
 Advisory.defaultProps = {
   errorValue: null,
-  loggedUser: {},
+  loggedInUser: {},
   property: null,
 };
 
 const mapStateToProps = (state, props) => ({
   errorValue: get(state, 'form.Advisory.syncErrors', {}),
   formValue: get(state, 'form.Advisory.values', {}),
-  property: get(state, 'property.property', null),
-  loggedUser: get(state, 'user.loggedUser', {}),
+  property: get(state, 'property.activeSingleProperty', null),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
   initialValues: {
-    phone: get(state, 'user.loggedUser.user.phone', '')
+    phone: get(state, 'user.loggedInUser.user.phone', '')
   }
 });
 const mapDispatchToProps = (dispatch) => ({

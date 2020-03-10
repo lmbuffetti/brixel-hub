@@ -95,7 +95,7 @@ MenuSidebar.defaultProps = {
 const mapStateToProps = (state) => ({
   isLoading: get(state, 'common.isLoading', 2),
   preventExit: get(state, 'common.preventExitFromScreen', false),
-  activeProperty: get(state, 'property.property', {}),
+  activeProperty: get(state, 'property.activeSingleProperty', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -207,21 +207,21 @@ Rewards.propTypes = {
   handleGetPage: PropTypes.func.isRequired,
   handleSendGenericMail: PropTypes.func.isRequired,
   handleUpdatePage: PropTypes.func.isRequired,
-  loggedUser: PropTypes.object,
+  loggedInUser: PropTypes.object,
   match: PropTypes.object.isRequired,
   marketData: PropTypes.object,
   property: PropTypes.object,
 };
 
 Rewards.defaultProps = {
-  loggedUser: {},
+  loggedInUser: {},
   marketData: null,
   property: null,
 };
 
 const mapStateToProps = (state) => ({
-  property: get(state, 'property.property', null),
-  loggedUser: get(state, 'user.loggedUser', {}),
+  property: get(state, 'property.activeSingleProperty', null),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
   marketData: get(state, 'property.marketCheck', {}),
 });
 const mapDispatchToProps = (dispatch) => ({

@@ -297,7 +297,7 @@ DetailMedia.propTypes = {
   handleDeleteImg: PropTypes.func.isRequired,
   handleSetCoverPhoto: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
@@ -306,7 +306,7 @@ DetailMedia.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
-  loggedUser: get(state, 'user.loggedUser', null),
+  loggedInUser: get(state, 'user.loggedInUser', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({

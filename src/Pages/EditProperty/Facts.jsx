@@ -321,7 +321,7 @@ const mapStateToProps = (state) => {
     singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
     notification: get(state, 'common.notification', {}),
     initial: get(state, 'form.Property.initial', {}),
-    loggedInUser: get(state, 'user.loggedUser', {}),
+    loggedInUser: get(state, 'user.loggedInUser', {}),
   });
 };
 

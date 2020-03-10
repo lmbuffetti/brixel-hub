@@ -21,20 +21,20 @@ const HomeDashboard = (props) => {
     match,
     history,
     langConfig,
-    loggedUser,
+    loggedInUser,
   } = props;
   // STATE
   const [userType, setUserType] = useState();
 
   useEffect(() => {
-    if (property.id && loggedUser.user) {
+    if (property.id && loggedInUser.user) {
       let userType = 'buyer';
-      if (property.id && (property.owner.id === loggedUser.user.id)) {
+      if (property.id && (property.owner.id === loggedInUser.user.id)) {
         userType = 'seller';
       }
       setUserType(userType);
     }
-  }, [property, loggedUser]);
+  }, [property, loggedInUser]);
 
   const goToPreview = (e) => {
     e.preventDefault();
@@ -241,7 +241,7 @@ HomeDashboard.propTypes = {
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   langConfig: PropTypes.string.isRequired,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   userAwards: PropTypes.arrayOf(PropTypes.object.isRequired),
 };
 
@@ -250,8 +250,8 @@ HomeDashboard.defaultProps = {
 
 const mapStateToProps = (state) => ({
   langConfig: get(state, 'common.language', ''),
-  loggedUser: get(state, 'user.loggedUser', {}),
-  property: get(state, 'property.property', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
+  property: get(state, 'property.activeSingleProperty', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

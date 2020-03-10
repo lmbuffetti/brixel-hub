@@ -147,10 +147,10 @@ PropertyList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  user: get(state, 'user.loggedUser', {}),
+  user: get(state, 'user.loggedInUser', {}),
   userProperties: get(state, 'user.userProperties', []),
   favoritesProperties: get(state, 'user.favorites', []),
-  activeProperty: get(state, 'property.property', {}),
+  activeProperty: get(state, 'property.activeSingleProperty', {}),
 });
 
 const mapDispatchToProps = () => ({
