@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { getProperty, getMarketCheck, updateProperty } from '../../actions/PropertyActions';
+import { getActiveSingleProperty, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { sendGenericMail } from '../../actions/CommonActions';
 import Maps from '../../components/Map/Maps';
 import * as moment from 'moment';
@@ -196,10 +196,10 @@ const mapStateToProps = (state, props) => ({
   marketData: get(state, 'property.marketCheck', {}),
 });
 const mapDispatchToProps = (dispatch) => ({
-  handleGetPage: bindActionCreators(getProperty, dispatch),
+  handleGetPage: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetMarketData: bindActionCreators(getMarketCheck, dispatch),
   handleSendGenericMail: bindActionCreators(sendGenericMail, dispatch),
-  handleUpdatePage: bindActionCreators(updateProperty, dispatch),
+  handleUpdatePage: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 export default compose(

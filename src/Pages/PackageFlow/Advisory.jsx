@@ -7,7 +7,7 @@ import {
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { getProperty, updateProperty } from '../../actions/PropertyActions';
+import { getProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { sendGenericMail } from '../../actions/CommonActions';
 import { BrixelRadioButton, BrixelCheckbox, BrixelInputText, BrixelButtonPrimary, Validation } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -232,7 +232,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetPage: bindActionCreators(getProperty, dispatch),
   handleSendGenericMail: bindActionCreators(sendGenericMail, dispatch),
-  handleUpdatePage: bindActionCreators(updateProperty, dispatch),
+  handleUpdatePage: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 const AdvisoryForm = reduxForm({

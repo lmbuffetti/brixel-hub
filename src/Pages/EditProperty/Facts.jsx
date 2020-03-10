@@ -13,7 +13,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import {
-  setModal, setNotification,
+  setModal, setScreenNotification,
 } from '../../actions/CommonActions';
 import LoadingSimple from '../../components/LoadingSimple';
 import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
@@ -21,7 +21,7 @@ import { InputSheets } from '../../resources/inputSheets';
 import { getCalcSectionInputSheets } from '../../utils/helpers';
 
 // COMPONENTS
-import { updateProperty } from '../../actions/PropertyActions';
+import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
@@ -334,9 +334,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
-  handleSaveProperty: bindActionCreators(updateProperty, dispatch),
+  handleSaveProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
-  setNotification: bindActionCreators(setNotification, dispatch),
+  setNotification: bindActionCreators(setScreenNotification, dispatch),
 });
 
 export default compose(

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
-import { getEstimation, getMarketCheck, updateProperty } from '../../actions/PropertyActions';
+import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import {
   withRouter,
 } from 'react-router-dom';
@@ -131,7 +131,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetMarketData: bindActionCreators(getMarketCheck, dispatch),
-  handleUpdateProperty: bindActionCreators(updateProperty, dispatch),
+  handleUpdateProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 export default compose(

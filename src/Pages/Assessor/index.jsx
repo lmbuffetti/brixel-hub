@@ -19,7 +19,7 @@ import {
   BrixelIcon,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
-import { updateProperty, getProperty } from '../../actions/PropertyActions';
+import { saveActiveSingleProperty, getActiveSingleProperty } from '../../actions/PropertyActions';
 import { AssessorQuestions } from '../../resources/Assessor';
 import { calculateAgeByYear, extractAssessorCondition } from '../../utils/helpers';
 import MultiStepForm from '../../components/MultiStepReduxForm';
@@ -396,8 +396,8 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
-  handleGetProperty: bindActionCreators(getProperty, dispatch),
-  handleUpdateProperty: bindActionCreators(updateProperty, dispatch),
+  handleGetProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleUpdateProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 const OnBoardingForm = reduxForm({

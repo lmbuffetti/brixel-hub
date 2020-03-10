@@ -27,10 +27,10 @@ import {
   getBrowserPlatform
 } from '@brixel/brixel-components/src/utils/helper';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
-import { addProperty } from '../../actions/PropertyActions';
-import { errorMessage, setPageData, setLanguage, setNotification } from '../../actions/CommonActions';
-import { getCompany } from '../../actions/CompanyActions';
+import { doLogin, setAwards, setBrixelPoints, validateUser } from '../../actions/UserActions';
+import { createActiveSingleProperty } from '../../actions/PropertyActions';
+import { errorMessage, setPageData, setLanguage, setScreenNotification } from '../../actions/CommonActions';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.js';
 import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
@@ -896,16 +896,16 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(isValid('OnBoarding'))
   },
   handleCreateUser: bindActionCreators(validateUser, dispatch),
-  handleGetToken: bindActionCreators(getToken, dispatch),
-  handleGetCompany: bindActionCreators(getCompany, dispatch),
+  handleGetToken: bindActionCreators(doLogin, dispatch),
+  handleGetCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
-  handleCreatePage: bindActionCreators(addProperty, dispatch),
+  handleCreatePage: bindActionCreators(createActiveSingleProperty, dispatch),
   handleSetErrorMsg: bindActionCreators(errorMessage, dispatch),
-  handleSetNotification: bindActionCreators(setNotification, dispatch),
+  handleSetNotification: bindActionCreators(setScreenNotification, dispatch),
   handleSetPage: bindActionCreators(setPageData, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
-  handleSetBrixelPoint: bindActionCreators(setBrixelPoint, dispatch),
+  handleSetBrixelPoint: bindActionCreators(setBrixelPoints, dispatch),
 });
 
 const OnBoardingForm = reduxForm({

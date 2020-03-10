@@ -19,12 +19,12 @@ import {
   BrixelButtonTertiary,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
-import { updateUser, setAwards, setBrixelPoint } from '../../actions/UserActions';
-import { setNotification } from '../../actions/CommonActions';
+import { saveActiveSingleUser, setAwards, setBrixelPoints } from '../../actions/UserActions';
+import { setScreenNotification } from '../../actions/CommonActions';
 import { QuestionsList } from '../../resources/brixelComintTownUserQuestion.js';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
-import { getCompany } from '../../actions/CompanyActions';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 
 const cookie = new Cookies();
 
@@ -574,11 +574,11 @@ const mapDispatchToProps = (dispatch) => ({
   checkValid() {
     dispatch(isValid('UserFlow'))
   },
-  handleUpdateUser: bindActionCreators(updateUser, dispatch),
-  handleGetCompany: bindActionCreators(getCompany, dispatch),
+  handleUpdateUser: bindActionCreators(saveActiveSingleUser, dispatch),
+  handleGetCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
-  handleSetBrixelPoint: bindActionCreators(setBrixelPoint, dispatch),
-  handleSetNotification: bindActionCreators(setNotification, dispatch),
+  handleSetBrixelPoint: bindActionCreators(setBrixelPoints, dispatch),
+  handleSetNotification: bindActionCreators(setScreenNotification, dispatch),
 });
 
 const UserFlowForm = reduxForm({

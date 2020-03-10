@@ -8,7 +8,7 @@ import {
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
-import { getProperty, getMarketCheck, updateProperty } from '../../actions/PropertyActions';
+import { getProperty, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { sendGenericMail } from '../../actions/CommonActions';
 import Maps from '../../components/Map/Maps';
 import * as moment from 'moment';
@@ -228,7 +228,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetPage: bindActionCreators(getProperty, dispatch),
   handleGetMarketData: bindActionCreators(getMarketCheck, dispatch),
   handleSendGenericMail: bindActionCreators(sendGenericMail, dispatch),
-  handleUpdatePage: bindActionCreators(updateProperty, dispatch),
+  handleUpdatePage: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 export default compose(

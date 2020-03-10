@@ -22,10 +22,10 @@ import {
   BrixelIcon,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
-import { getToken, validateUser, updateUser, setAwards, setBrixelPoint } from '../../actions/UserActions';
-import { addProperty, updateProperty } from '../../actions/PropertyActions';
+import { doLogin, validateUser, saveActiveSingleUser, setAwards, setBrixelPoints } from '../../actions/UserActions';
+import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { errorMessage, setPageData, setLanguage } from '../../actions/CommonActions';
-import { getCompany } from '../../actions/CompanyActions';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.js';
 import { setCookie } from '../../utils/helpers';
@@ -752,17 +752,17 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(isValid('GetStarted'))
   },
   handleCreateUser: bindActionCreators(validateUser, dispatch),
-  handleGetToken: bindActionCreators(getToken, dispatch),
+  handleGetToken: bindActionCreators(doLogin, dispatch),
   handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
-  handleGetCompany: bindActionCreators(getCompany, dispatch),
+  handleGetCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
-  handleCreatePage: bindActionCreators(addProperty, dispatch),
+  handleCreatePage: bindActionCreators(createActiveSingleProperty, dispatch),
   handleSetErrorMsg: bindActionCreators(errorMessage, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
-  handleSetBrixelPoint: bindActionCreators(setBrixelPoint, dispatch),
+  handleSetBrixelPoint: bindActionCreators(setBrixelPoints, dispatch),
   handleSetPage: bindActionCreators(setPageData, dispatch),
-  handleUpdatePage: bindActionCreators(updateProperty, dispatch),
-  handleUpdateUser: bindActionCreators(updateUser, dispatch),
+  handleUpdatePage: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleUpdateUser: bindActionCreators(saveActiveSingleUser, dispatch),
 });
 
 const getStartedForm = reduxForm({

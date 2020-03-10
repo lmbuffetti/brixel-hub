@@ -17,7 +17,7 @@ import { setLanguages } from './actions/CommonActions';
 import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
 import PageHeader from './components/PageHeader';
 import { setModal } from './actions/CommonActions';
-import { setActiveUsertype } from './actions/UserActions';
+import { setUserTypes } from './actions/UserActions';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
@@ -274,7 +274,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetLanguages: bindActionCreators(setLanguages, dispatch),
-  handleSetActiveUsertype: bindActionCreators(setActiveUsertype, dispatch),
+  handleSetActiveUsertype: bindActionCreators(setUserTypes, dispatch),
 });
 
 export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);

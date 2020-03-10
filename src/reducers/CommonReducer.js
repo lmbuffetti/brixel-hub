@@ -13,15 +13,17 @@ import {
   SPINNER_SMALL_ON,
   SET_LANGUAGES,
   SET_LANGUAGE,
-  SET_NOTIFICATION,
+  SET_SCREEN_NOTIFICATION,
   SET_PAGE_DATA, SET_MODAL,
+  PREVENT_EXIT_FROM_SCREEN,
+  SET_UNSAVED_CHANGES_MODAL,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies();
 
 export const defaultState = {
   isLoading: 0,
-  isIntLoading: 0,
+  isSmallLoading: 0,
   requestDone: false,
   redirectTo: null,
   configUrl: getConfigEnv,
@@ -84,6 +86,10 @@ export const defaultState = {
   modal: {
     state: false, title: '', body: '', action: {}, multiActions: [],
   },
+  preventExitFromScreen: false,
+  unsavedChangesModal: {
+    state: false, link: '',
+  },
 };
 
 export default handleActions(
@@ -98,11 +104,11 @@ export default handleActions(
     }),
     [SPINNER_SMALL_ON]: (state) => ({
       ...state,
-      isIntLoading: state.isLoading + 1,
+      isSmallLoading: state.isSmallLoading + 1,
     }),
     [SPINNER_SMALL_OFF]: (state) => ({
       ...state,
-      isIntLoading: state.isLoading - 1,
+      isSmallLoading: state.isSmallLoading - 1,
     }),
     [REQUEST_DONE]: (state) => ({
       ...state,
@@ -128,7 +134,7 @@ export default handleActions(
       ...state,
       language: action.payload,
     }),
-    [SET_NOTIFICATION]: (state, action) => ({
+    [SET_SCREEN_NOTIFICATION]: (state, action) => ({
       ...state,
       notification: action.payload,
     }),
@@ -139,6 +145,14 @@ export default handleActions(
     [SET_PAGE_DATA]: (state, action) => ({
       ...state,
       setPageData: action.payload,
+    }),
+    [PREVENT_EXIT_FROM_SCREEN]: (state, action) => ({
+      ...state,
+      preventExitFromScreen: action.payload,
+    }),
+    [SET_UNSAVED_CHANGES_MODAL]: (state, action) => ({
+      ...state,
+      unsavedChangesModal: action.payload,
     }),
   },
   defaultState,

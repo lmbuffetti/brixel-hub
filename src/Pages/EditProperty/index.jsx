@@ -16,7 +16,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import {
-  setModal, setNotification,
+  setModal, setScreenNotification,
 } from '../../actions/CommonActions';
 import LoadingSimple from '../../components/LoadingSimple';
 import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
@@ -24,7 +24,7 @@ import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 
 // COMPONENTS
 import Loading from '../../components/Loading';
-import { updateProperty, getProperty } from '../../actions/PropertyActions';
+import { saveActiveSingleProperty, getActiveSingleProperty } from '../../actions/PropertyActions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import noCover from '../../images/no_cover.jpg';
 import { BrixelTabs } from '@brixel/brixel-components';
@@ -325,10 +325,10 @@ const mapDispatchToProps = (dispatch) => ({
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   // getUser: bindActionCreators(getActiveSingleUser, dispatch),
-  setUserActiveProperty: bindActionCreators(getProperty, dispatch),
-  handleSaveProperty: bindActionCreators(updateProperty, dispatch),
+  setUserActiveProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleSaveProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
-  setNotification: bindActionCreators(setNotification, dispatch),
+  setNotification: bindActionCreators(setScreenNotification, dispatch),
   // setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
   // setUnsavedModal: bindActionCreators(setUnsavedChangesModal, dispatch),
 });

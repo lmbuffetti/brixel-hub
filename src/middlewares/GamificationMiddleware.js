@@ -10,7 +10,7 @@ import {
 
 import {
   SET_AWARDS,
-  SET_BRIXEL_POINT,
+  SET_BRIXEL_POINTS,
 } from '../actions/types/UserTypes';
 
 import api from '../controllers/api/config';
@@ -40,7 +40,7 @@ const checkGamification = (store) => (next) => (action) => {
         .then((res) => {
           store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });
           store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
-          store.dispatch({ type: SET_BRIXEL_POINT, payload: res.data.actualPoints });
+          store.dispatch({ type: SET_BRIXEL_POINTS, payload: res.data.actualPoints });
         });
       break;
     }
@@ -53,7 +53,7 @@ const checkGamification = (store) => (next) => (action) => {
           if (typeof res.data.status === 'undefined') {
             store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });
             store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
-            store.dispatch({ type: SET_BRIXEL_POINT, payload: res.data.actualPoints });
+            store.dispatch({ type: SET_BRIXEL_POINTS, payload: res.data.actualPoints });
           }
         });
       break;

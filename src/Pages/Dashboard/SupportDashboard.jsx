@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import {
   withRouter,
 } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { getProperties } from '../../actions/PropertyActions';
 import { BrixelIcon } from '@brixel/brixel-components';
 
 const HomeDashboard = (props) => {
@@ -51,14 +50,7 @@ HomeDashboard.defaultProps = {
 
 };
 
-const mapStateToProps = (state, props) => ({
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  handleGetProperties: bindActionCreators(getProperties, dispatch),
-});
-
 export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(null, null),
 )(HomeDashboard);

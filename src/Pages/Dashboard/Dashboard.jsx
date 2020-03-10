@@ -10,7 +10,7 @@ import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelTabs } from '@brixel/brixel-components';
-import { getProperties, getProperty, updateProperty } from '../../actions/PropertyActions';
+import { getPropertyListings, getActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
 import { getCalcSectionInputSheets } from '../../utils/helpers';
@@ -151,9 +151,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetProperties: bindActionCreators(getProperties, dispatch),
-  handleGetProperty: bindActionCreators(getProperty, dispatch),
-  handleSaveProperty: bindActionCreators(updateProperty, dispatch),
+  handleGetProperties: bindActionCreators(getPropertyListings, dispatch),
+  handleGetProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleSaveProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 export default compose(
