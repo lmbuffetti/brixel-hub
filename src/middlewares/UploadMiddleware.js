@@ -1,11 +1,13 @@
 /* eslint-disable no-case-declarations */
 import { change } from 'redux-form';
+import get from 'lodash/get';
 import {
   ROTATE_IMG,
   GET_IMAGE_TYPE,
   SET_IMAGE_TYPE,
   UPLOAD_IMG,
   DELETE_IMG,
+  SET_COVER_PHOTO,
   UPLOAD_DOCUMENT,
   DELETE_DOCUMENT,
   UPDATE_DOCUMENT,
@@ -47,20 +49,60 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case UPLOAD_IMG: {
       next(action);
+      console.log(action.payload);
       const { imageType } = store.getState().image;
-      const imgType = imageType.find((val) => val.name === 'Avatar');
-      action.payload.user = store.getState().user.loggedUser.user.id;
+      const imgType = imageType.find((val) => val.name === 'Gallery');
+      // action.payload.user = store.getState().user.loggedUser.user.id;
       action.payload.imageType = imgType.id;
-      const formData = store.getState().form.UpdateForm.values;
+      const {
+        pageID, userID, uploadAction,
+      } = action.payload;
+      delete action.payload.pageID;
+      delete action.payload.uploadAction;
       store.dispatch({ type: SPINNER_ON });
       api.image.addImage(action.payload)
         .then((res) => {
-          if (formData.avatar && formData.avatar.id) {
-            api.image.deleteImg(formData.avatar.id);
+          console.log(res.data, uploadAction, store.getState().form.Property.values.photos);
+          if (uploadAction === 'photos' ||
+            uploadAction === 'plan' ||
+            uploadAction === 'contactAvatar') {
+            let coverPhoto;
+
+            const img = store.getState().form.Property.values.photos || [];
+            const plan = store.getState().form.Property.values.floorPlans || [];
+
+            if (uploadAction === 'photos') {
+              coverPhoto = get(store.getState(), 'form.Property.values.coverPhoto', null) || res.data;
+              // coverPhoto = Object.keys(store.getState().form.Property.values.coverPhoto).length > 0 ? store.getState().form.Property.values.coverPhoto : res.data;
+              img.push(res.data);
+            }
+            if (uploadAction === 'plan') {
+              plan.push(res.data);
+            }
+            console.log(coverPhoto, img, plan);
+            const data = {
+              id: pageID,
+              coverPhoto,
+              photos: img,
+              floorPlans: plan,
+            };
+            store.dispatch({ type: UPDATE_PROPERTY, payload: data });
+          } else if (uploadAction === 'singleUserAvatar') {
+            let userAvatar = store.getState().form.User.values.avatar[0];
+
+            userAvatar = res.data;
+
+            const userData = {
+              userID,
+              data: {
+                avatar: userAvatar.id,
+                type: 'singleUserAvatar',
+                fullAvatar: userAvatar,
+              },
+            };
+            store.dispatch({ type: UPDATE_USER, payload: userData });
           }
           store.dispatch({ type: SPINNER_OFF });
-          store.dispatch(change('UpdateForm', 'avatar', res.data));
-          store.dispatch({ type: UPDATE_USER, payload: {} });
         })
         .catch((res) => {
           store.dispatch({ type: SPINNER_OFF });
@@ -129,6 +171,11 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: UPDATE_PROPERTY, payload: data });
           store.dispatch({ type: SPINNER_OFF });
         });
+      break;
+    }
+    case SET_COVER_PHOTO: {
+      next(action);
+      store.dispatch({ type: UPDATE_PROPERTY, payload: action.payload });
       break;
     }
     default:

@@ -44,7 +44,7 @@ const HomeDashboard = (props) => {
 
   const goToInputSheet = (e) => {
     e.preventDefault();
-    history.push(`/${match.params.propId}/property/facts`);
+    history.push(`/${match.params.propId}/property/edit/facts`);
   };
 
   const openDocuments = (e) => {

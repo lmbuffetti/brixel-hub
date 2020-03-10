@@ -220,7 +220,7 @@ function GetStarted(props) {
 
     if (enableForm) {
       if (loggedUser.user && loggedUser.user.id) {
-        if (act === 'LastStep' || act === 'lastStep') {
+        if ((act === 'LastStep' || act === 'lastStep') && property.id) {
           const pageData = {
             id: property.id,
             ownerType: formValue.ownerType,

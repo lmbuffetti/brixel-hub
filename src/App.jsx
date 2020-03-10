@@ -53,11 +53,6 @@ const Dashboard = Loadable({
   loading: Loading,
 });
 
-const EditProperty = Loadable({
-  loader: () => import('./Pages/EditProperty' /* webpackChunkName: "InputSheet" */),
-  loading: Loading,
-});
-
 const Documents = Loadable({
   loader: () => import('./components/Documents' /* webpackChunkName: "Documents" */),
   loading: Loading,
@@ -68,6 +63,7 @@ const Properties = Loadable({
   loading: Loading,
 });
 
+// FLOW SELLER
 const MarketChecker = Loadable({
   loader: () => import('./Pages/MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
   loading: Loading,
@@ -80,6 +76,12 @@ const Assessor = Loadable({
 
 const Bestimate = Loadable({
   loader: () => import('./Pages/Bestimate' /* webpackChunkName: "AssessorFlor" */),
+  loading: Loading,
+});
+
+// PROPERTY EDITING
+const EditProperty = Loadable({
+  loader: () => import('./Pages/EditProperty' /* webpackChunkName: "InputSheet" */),
   loading: Loading,
 });
 
@@ -122,6 +124,9 @@ const App = (props) => {
     if (redirectTo && redirectTo.history) {
       history.push(redirectTo.history);
     }
+    if (redirectTo && redirectTo.url) {
+      window.location.href = redirectTo.url;
+    }
   }, [redirectTo]);
 
   if (!loggedUser || (!activeUserType && property.id)) {
@@ -131,7 +136,7 @@ const App = (props) => {
   }
 
   return (
-    <main className="dis-fl-row jc-b">
+    <main className={`dis-fl-row jc-b ${history.location.pathname.includes('achievement') ? 'h-perc-100 a-c' : ''}`}>
       <Loading isLoading={isLoading} />
       <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('achievement')) ? 'no-sidebar' : ''}`}>
         {
@@ -224,9 +229,7 @@ const App = (props) => {
           {
             activeUserType === 'seller' && (
               <>
-                <Route path="/:propId?/property/media" exact component={EditProperty} />
-                <Route path="/:propId?/property/settings" exact component={EditProperty} />
-                <Route path="/:propId?/property/facts" exact component={EditProperty} />
+                <Route path="/:propId?/:act/edit" component={EditProperty} />
               </>
             )
           }

@@ -11,6 +11,7 @@ import {
   GET_MARKET_CHECK,
   SET_MARKET_CHECK,
   UPDATE_PROPERTY,
+  DELETE_PROPERTY,
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
@@ -76,6 +77,29 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    case DELETE_PROPERTY: {
+      next(action);
+      store.dispatch({ type: SPINNER_ON });
+      api.property.deleteProperty(action.payload.id)
+        .then((response) => {
+          if (response.meta.status === 200) {
+            store.dispatch({
+              type: SET_PROPERTY,
+              payload: {},
+            });
+            store.dispatch({
+              type: REDIRECT_TO,
+              payload: { url: '/' },
+            });
+          } else {
+            // TODO: Should dispatch error state
+
+          }
+          store.dispatch({ type: SPINNER_OFF });
+        });
+      break;
+    }
+
     case GET_PROPERTY:
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -88,6 +112,7 @@ const checkCommon = (store) => (next) => (action) => {
         })
         .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
+          window.location.href = `/`;
         });
       break;
     case GET_PROPERTIES:

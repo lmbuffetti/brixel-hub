@@ -30,7 +30,7 @@ export const MarketCheckQuestions = (lang) => [
     inputs: [
       {
         component: BrixelRadioButton,
-        pdClass: 'py-3 px-1',
+        pdClass: 'py-2 py-md-3 px-1',
         label: '',
         name: "ownerType",
         validation: [Validation.required],
@@ -50,7 +50,7 @@ export const MarketCheckQuestions = (lang) => [
     inputs: [
       {
         component: BrixelRadioButton,
-        pdClass: 'py-3 px-1',
+        pdClass: 'py-2 py-md-3 px-1',
         label: '',
         name: 'whenToSell',
         validation: [Validation.required],

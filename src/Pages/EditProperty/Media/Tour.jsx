@@ -1,0 +1,74 @@
+/* eslint-disable max-len */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import get from 'lodash/get';
+import PropTypes from 'prop-types';
+import { bindActionCreators, compose } from 'redux';
+import { change } from 'redux-form';
+import { connect } from 'react-redux';
+import { uploadImg } from '../../../actions/UploadActions';
+
+const Tour = (props) => {
+  // PROPS
+  const {
+    formValue,
+  } = props;
+
+  return (
+    <>
+      <div className="dis-fl-col mt-2 px-2">
+
+        <div className="dis-fl-row jc-b a-c mb-4">
+          <h5>
+            3D Tour
+          </h5>
+        </div>
+        <div>
+          {
+            get(formValue,'virtual.matterport', null) && (
+              <iframe
+                className="min-h-fix-320"
+                width="100%"
+                height="100%"
+                src={`https://my.matterport.com/show/?m=${get(formValue,'virtual.matterport', null)}&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0`}
+                allow="vr"
+                frameBorder="0"
+                allowFullScreen
+                title={get(formValue,'virtual.matterport', null)}
+              />
+            )
+          }
+        </div>
+      </div>
+    </>
+  );
+};
+
+Tour.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
+  formValue: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  loggedUser: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+};
+
+Tour.defaultProps = {
+};
+
+const mapStateToProps = (state) => ({
+  formValue: get(state, 'form.Property.values', {}),
+  loggedUser: get(state, 'user.loggedUser', null),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('Property', field, value));
+  },
+  handleUploadImg: bindActionCreators(uploadImg, dispatch),
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(Tour);

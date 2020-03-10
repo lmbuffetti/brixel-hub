@@ -306,7 +306,7 @@ export const removeCookie = (key) => {
 };
 
 export const getCalcSectionInputSheets = (Questions, initialValues, accordion, act, fixSection) => {
-  const getSkippedSection = fixSection || get(initialValues, 'inputSheet.skipSection', {});
+  const getSkippedSection = fixSection || get(initialValues, 'Property.skipSection', {});
   const getSectionFilt = {};
   const getSectionDone = {};
   const getAccordion = accordion || {};

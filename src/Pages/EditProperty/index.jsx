@@ -1,9 +1,9 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React  from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reduxForm } from 'redux-form';
+import { change, reduxForm, reset } from 'redux-form';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import last from 'lodash/last';
@@ -28,6 +28,8 @@ import { updateProperty, getProperty } from '../../actions/PropertyActions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import noCover from '../../images/no_cover.jpg';
 import { BrixelTabs } from '@brixel/brixel-components';
+import { diff } from 'deep-object-diff';
+import { InputSheets } from '../../resources/inputSheets';
 
 const DrawerLayout = Loadable({
   loader: () => import('../../components/DrawerLayout' /* webpackChunkName: "Maps" */),
@@ -40,7 +42,7 @@ const Facts = Loadable({
 });
 
 const Media = Loadable({
-  loader: () => import('./Media' /* webpackChunkName: "Maps" */),
+  loader: () => import('./Media/Media' /* webpackChunkName: "Maps" */),
   loading: LoadingSimple,
 });
 
@@ -49,28 +51,98 @@ const Settings = Loadable({
   loading: LoadingSimple,
 });
 
+const DetailMedia = Loadable({
+  loader: () => import('./Media/DetailMedia' /* webpackChunkName: "DetailMedia" */),
+  loading: Loading,
+});
+
 const InputSheet = (props) => {
+  // PROPS
   const {
+    errorValue,
     formValue,
+    handleSaveProperty,
     history,
+    initial,
     initialValues,
     match,
+    notification,
+    reset,
     setNotification,
   } = props;
-
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
   const checkActiveTab = () => last(history.location.pathname.split('/'));
+  // STATE
+  const [Questions] = useState(InputSheets('en'));
 
   const closeNotificationBar = () => {
     setNotification({ state: false });
   };
 
-  if (!formValue.id) {
-    return (
-      <Loading />
-    );
-  }
+  const discardChanges = () => {
+    reset('InputSheet');
+  };
+
+  const saveData = async () => {
+    const dataToSend = formValue;
+    delete dataToSend.owner;
+    delete dataToSend.favoritedByUsers;
+    const data = {
+      id: propID,
+      ...dataToSend,
+    };
+    // For now we still dont use the diff object (TODO: API ticket)
+    // diff(initialValues, formValue)
+    // const dataInputSheet = {
+    //   skipSection: skipSection,
+    // totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion,'getPercentage', null),
+    // };
+
+    // await handleSaveProperty({id: propID, inputSheet: dataInputSheet});
+    await handleSaveProperty(data);
+  };
+
+  useEffect(() => {
+    // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
+    if (formValue.id && initialValues.id) {
+      if (Object.keys(diff(initialValues, formValue)).length > 0) {
+        let setValid = true;
+        if (Questions) {
+          Questions.map((input) => {
+            input.inputs.map((inp) => {
+              const curVal = get(errorValue, inp.name, true);
+              if (curVal !== true && curVal !== 'Mark Required') {
+                setValid = false;
+              }
+              return null;
+            });
+            return null;
+          });
+        }
+        if (setValid) {
+          setNotification({
+            state: true,
+            type: 'info',
+            label: 'Save changes?',
+            actions:
+              [
+                { type: 'primary', label: 'Save', func: () => saveData() },
+                { type: 'secondary', label: 'Discard', func: () => discardChanges() },
+              ],
+          });
+        } else {
+          closeNotificationBar()
+        }
+        // SET NOTIFICATION TO SUCCESS SAVE
+      } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'success') {
+        setTimeout(() => closeNotificationBar(), 2000);
+        // REMOVE NOTIFICATION
+      } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'info') {
+        setNotification({ state: false });
+      }
+    }
+  }, [formValue]);
 
   const closeFacts = () => {
     closeNotificationBar()
@@ -78,15 +150,15 @@ const InputSheet = (props) => {
   };
 
   return (
-    <DrawerLayout classNameDrawer="ov-a">
+    <DrawerLayout classNameDrawer="ov-a" closeLink={`/${propID}/property`}>
       <div className="dis-fl-col mt-2">
         <div className="property-info-container px-2">
           <div className="header-section dis-fl-row a-c jc-b mb-2">
             <div className="dis-fl-row">
               <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
                 {
-                  initialValues.coverPhoto && initialValues.coverPhoto.path ? (
-                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${getConfigEnv.shortPath}${initialValues.coverPhoto.thumbnailPath}`} alt="Brixel Logo" id="avatar" />
+                  initial.coverPhoto && initial.coverPhoto.path ? (
+                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${getConfigEnv.shortPath}${initial.coverPhoto.thumbnailPath}`} alt="Brixel Logo" id="avatar" />
                   ) : (
                     <i
                       className="avatar w-fix-48 h-fix-48 brdRadius pos-r"
@@ -103,9 +175,9 @@ const InputSheet = (props) => {
               </div>
               <div className="title ml-1">
                 <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                  {(has(initialValues.properties, 'typology') && has(initialValues.properties.typology, 'bedrooms')) ? initialValues.properties.typology.bedrooms : ''} {has(initialValues.properties, 'propertyType') ? initialValues.properties.propertyType : 'Property'}
+                  {(has(initial.properties, 'typology') && has(initial.properties.typology, 'bedrooms')) ? initial.properties.typology.bedrooms : ''} {has(initial.properties, 'propertyType') ? initial.properties.propertyType : 'Property'}
                 </span>
-                <span className="address caption txtDark200">{has(initialValues.location, 'zip') ? initialValues.location.zip : ''} {has(initialValues.location, 'state') ? initialValues.location.state : ''}</span>
+                <span className="address caption txtDark200">{has(initial.location, 'zip') ? initial.location.zip : ''} {has(initial.location, 'state') ? initial.location.state : ''}</span>
               </div>
             </div>
             <div className="actions dis-fl-row">
@@ -123,7 +195,7 @@ const InputSheet = (props) => {
           <div className="transparency-container mb-3">
             <div className="dis-fl-col ta-l">
               {
-                get(initialValues, 'inputSheet') && (
+                get(initial, 'Property') && (
                   <>
                     <BrixelProgressBar
                       rounded
@@ -131,10 +203,10 @@ const InputSheet = (props) => {
                       saturation={700}
                       barBackground="Red"
                       backgroundSaturation={100}
-                      progressValue={initialValues.inputSheet.totalComplete || 0}
+                      progressValue={initial.Property.totalComplete || 0}
                     />
                     <div className="dis-f body txtPrimary700 pt-1">
-                      <span className="mr-1 ff-mono">{initialValues.inputSheet.totalComplete}%</span>
+                      <span className="mr-1 ff-mono">{initial.Property.totalComplete}%</span>
                       <span className="ff-mono">completed</span>
                     </div>
                   </>
@@ -158,15 +230,16 @@ const InputSheet = (props) => {
           ]}
           activeTab={checkActiveTab()}
           onClick={(tab) => {
-            history.push(`/${propID}/property/${tab}`);
+            history.push(`/${propID}/property/edit/${tab}`);
           }}
           fullWidth
         />
 
         <Switch>
-          <Route path="/:propId?/:act/facts" exact component={Facts} />
-          <Route path="/:propId?/:act/media" exact component={Media} />
-          <Route path="/:propId?/:act/settings" exact component={Settings} />
+          <Route path="/:propId?/:act/edit/facts" exact component={Facts} />
+          <Route path="/:propId?/:act/edit/media" exact component={Media} />
+          <Route path="/:propId?/:act/edit/settings" exact component={Settings} />
+          <Route path="/:propId?/:act/edit/media/:imgId/:editType" exact component={DetailMedia} />
         </Switch>
 
       </div>
@@ -179,9 +252,9 @@ InputSheet.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
+  initial: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
-  initial: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   singleUserPropertyList: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -200,35 +273,54 @@ InputSheet.defaultProps = {
 
 const InputSheetForm = reduxForm({
   // a unique name for the form
-  form: 'InputSheet',
+  form: 'Property',
   enableReinitialize: true,
   destroyOnUnmount: false,
 })(InputSheet);
 
 const mapStateToProps = (state) => {
-  const formValue = get(state, 'property.singleUserActiveProperty', {});
+  const formValue = get(state, 'property.Property', {});
   if (formValue.price) {
     delete formValue.history;
     delete formValue.owner;
     delete formValue.price.history;
   }
   return ({
-    errorValue: get(state, 'form.InputSheet.syncErrors', {}),
-    formValue: get(state, 'form.InputSheet.values', {}),
+    errorValue: get(state, 'form.Property.syncErrors', {}),
+    formValue: get(state, 'form.Property.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
     isIntLoading: get(state, 'common.isIntLoading', 0) > 0,
     activeSingleUser: get(state, 'user.activeSingleUser', {}),
     singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
     notification: get(state, 'common.notification', {}),
-    initial: get(state, 'form.InputSheet.initial', {}),
-    initialValues: cloneDeep(get(state, 'property.property', {})),
+    initial: cloneDeep(get(state, 'property.property', {})),
+    initialValues: {
+      assessor: get(state, 'property.property.assessor', {}),
+      coverPhoto: get(state, 'property.property.coverPhoto', {}),
+      description: get(state, 'property.property.description', {}),
+      id: get(state, 'property.property.id', null),
+      floorPlans: get(state, 'property.property.floorPlans', []),
+      inputSheet: get(state, 'property.property.inputSheet', {}),
+      language: get(state, 'property.property.language', null),
+      listed: get(state, 'property.property.listed', null),
+      location: get(state, 'property.property.location', {}),
+      photos: cloneDeep(get(state, 'property.property.photos', [])),
+      portals: get(state, 'property.property.portals', {}),
+      properties: get(state, 'property.property.properties', {}),
+      published: get(state, 'property.property.published', null),
+      stub: get(state, 'property.property.stub', null),
+      virtual: get(state, 'property.property.virtual', null),
+    },
     loggedInUser: get(state, 'user.loggedUser', {}),
   });
 };
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
-    dispatch(change('InputSheet', field, value));
+    dispatch(change('Property', field, value));
+  },
+  reset(form) {
+    (dispatch(reset(form)))
   },
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),

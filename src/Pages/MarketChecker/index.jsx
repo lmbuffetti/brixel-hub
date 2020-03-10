@@ -206,6 +206,7 @@ function Assessor(props) {
                 key={i.toString()}
                 style={{
                   visibility: i !== currentIndex ? 'hidden' : 'visible',
+                  maxWidth: i !== currentIndex ? '' : '100%',
                 }}
               >
                 <div className={`subcontainer m-a ${quest.className || ''}`}>
@@ -231,6 +232,7 @@ function Assessor(props) {
                                 formValue={formValue}
                                 onClick={() => changeStep()}
                                 input={input}
+                                onChangeProgressBar={(val) => setProgressBar(val)}
                               />
                             </div>
                           ))
