@@ -31,7 +31,7 @@ export const AssessorQuestions = (lang) => [
     inputs: [
       {
         component: BrixelRadioButton,
-        pdClass: 'py-3 px-1',
+        pdClass: 'py-2 py-md-3 px-1',
         className: '',
         label: '',
         name: 'properties.building.constructionMaterials',
@@ -48,7 +48,7 @@ export const AssessorQuestions = (lang) => [
     inputs: [
       {
         component: BrixelRadioButton,
-        pdClass: 'py-3 px-1',
+        pdClass: 'py-2 py-md-3 px-1',
         className: '',
         label: '',
         name: 'properties.building.roofType',
@@ -65,7 +65,7 @@ export const AssessorQuestions = (lang) => [
     inputs: [
       {
         component: BrixelRadioButton,
-        pdClass: 'py-3 px-1',
+        pdClass: 'py-2 py-md-3 px-1',
         className: '',
         label: '',
         name: 'properties.building.facade',

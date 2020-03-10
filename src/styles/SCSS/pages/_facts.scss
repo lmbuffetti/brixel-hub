@@ -45,11 +45,9 @@
       border-color: map_get($primaryColor, 300) ;
     }
   }
-  .accrodContent {
+  .accordContent {
     overflow: hidden;
     max-height: 0;
-    transition: max-height $default-time-long $default-easing;
-    padding: $step $step * 2;
 
     // overwritten styleguide css
     .singleInput {
@@ -80,15 +78,37 @@
     }
   }
 
+  &:not(.openedAccord) {
+    .accordContent {
+      //animation: expandDown 2s $default-easing forwards;
+
+      @keyframes expandDown {
+        0% {max-height: 3000px; opacity: 1;}
+        100% {max-height: 0; opacity: 0;}
+      }
+    }
+  }
+
   &.openedAccord {
+
     .accordControl {
       border-bottom: 0;
       background: white;
       //border-top: 1px solid map_get($lightColor, 200);
     }
-    .accrodContent {
-      max-height: 3000px;
+    .accordContent {
       border-bottom: 1px solid map_get($lightColor, 200);
+     // animation: expandDown 2s $default-easing forwards;
+     max-height: 3000px;
+      @keyframes expandDown {
+        0% {max-height: 0; opacity: 0.6;}
+        100% {max-height: 3000px; opacity: 1;}
+      }
+
+      > div > div {
+        padding: $step $step $step * 2;
+      }
+
     }
   }
 }

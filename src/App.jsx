@@ -136,7 +136,7 @@ const App = (props) => {
   }
 
   return (
-    <main className="dis-fl-row jc-b">
+    <main className={`dis-fl-row jc-b ${history.location.pathname.includes('achievement') ? 'h-perc-100 a-c' : ''}`}>
       <Loading isLoading={isLoading} />
       <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('achievement')) ? 'no-sidebar' : ''}`}>
         {

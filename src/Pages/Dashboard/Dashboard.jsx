@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
+//import { CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import {
   withRouter,
@@ -53,6 +54,9 @@ const Dashboard = (props) => {
 
   // STATE
   const [widthWindow, setWindowWidth] = useState(get(window, 'innerWidth', 0));
+
+  //const [showButton, setShowButton] = useState(true);
+  //const [showMessage, setShowMessage] = useState(false);
 
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);

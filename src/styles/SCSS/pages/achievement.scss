@@ -1,10 +1,66 @@
 #achievementSection {
-  height: 100vh;
-  width: 100vw;
+  height: 0;
+  width: calc(100vw - 32px);
   overflow: hidden;
+  margin: auto;
+  box-shadow: $shadow-2dp;
+  border-radius: $brd-radius-small;
+
+  animation: appearPageMd 0.5s 0.5s $default-easing forwards;
+
+  @media (max-width: $responsive-medium) {
+    animation: appearPageSm 0.5s $default-easing forwards;
+  }
+
+ @keyframes appearPageMd {
+   0% { height: 8vh; opacity: 0.5; }
+   100% { height: calc(100vh - 32px); opacity: 1; }
+ }
+ @keyframes appearPageSm {
+   0% { height: 8vh; opacity: 0.5; }
+   100% { height: calc(100vh - 16px); opacity: 1; }
+ }
+
+  .gm-style {
+    .gm-style-cc { display: none}
+    .gm-bundled-control {
+      > div {
+        border-radius: 8px;
+        overflow: hidden;
+        transform: scale(0.8) translate(8px, 16px);
+        button {
+          img {
+            display: none !important;
+          }
+          &:after {
+            @include icomoon();
+            content: $icon-plus;
+            color: map_get($primaryColor, 400);
+          }
+          &:last-child {
+            border-top: 1px solid map_get($primaryColor, 100) !important;
+            &:after {
+              content: $icon-minus;
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  .footerAction {
+    position: relative;
+    bottom: $step * 4;
+    @media (max-width: $responsive-medium) {
+      bottom: $step * 2;
+    }
+    span {
+      white-space: nowrap;
+    }
+  }
 
   .singleStep {
-    padding: $step * 5 $step * 2;
     .subcontainer {
       max-width: 480px;
     }
@@ -26,6 +82,7 @@
   #progressBar {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
   }
   @media (min-width: $responsive-medium) {
@@ -64,12 +121,6 @@
           vertical-align: baseline;
         }
       }
-    }
-  }
-
-  .footerAction {
-    span {
-      white-space: nowrap;
     }
   }
 

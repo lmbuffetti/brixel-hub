@@ -191,13 +191,16 @@ const InputSheet = (props) => {
             </div>
             {
               accordion[quest.history] && (
-                <div key={i.toString()} className="accrodContent">
+                <div
+                  key={i.toString()}
+                  className="accordContent"
+                >
                   {
                     quest.inputs.map((input, f) => (
                       <div className="singleInput" key={f.toString()}>
                         {
                           checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
-                            <div className="pb-2" key={f.toString()}>
+                            <div key={f.toString()}>
                               {
                                 input.type === 'Map' ? (
                                   <>

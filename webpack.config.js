@@ -189,20 +189,7 @@ const clientConfig = {
       'process.env.client': true,
       'process.env.BROWSER': JSON.stringify(true)
     }),
-    new WebpackAssetsManifest(),
-    new PurifyCSSPlugin({
-      // Give paths to parse for rules. These should be absolute!
-      paths: [
-        ...glob.sync(path.join(__dirname, 'src/*.jsx')),
-        ...glob.sync(path.join(__dirname, 'src/**/*.jsx')),
-        ...glob.sync(path.join(__dirname, 'src/**/**/*.jsx')),
-        ...glob.sync(path.join(__dirname, 'src/**/**/**/*.jsx')),
-        ...glob.sync(path.join(__dirname, 'dist/*.js')),
-        ...glob.sync(path.join(__dirname, 'dist/**/*.js')),
-        ...glob.sync(path.join(__dirname, 'dist/**/**/*.js')),
-        ...glob.sync(path.join(__dirname, 'dist/**/**/**/*.js')),
-      ]
-    })
+    new WebpackAssetsManifest()
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
