@@ -7,7 +7,6 @@ import { bindActionCreators, compose } from 'redux';
 import { Field, change } from 'redux-form';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import Loadable from 'react-loadable';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import {
   BrixelButtonIcon, BrixelInputText, BrixelButtonTertiary,
@@ -26,7 +25,6 @@ const DetailMedia = (props) => {
     match,
   } = props;
   // STATE
-  const [mediaUser, setMediaUser] = useState({});
   const [rotation, setRotation] = useState(0);
   const [idImg, setIdImg] = useState(null);
   // REFS
@@ -199,17 +197,6 @@ const DetailMedia = (props) => {
                 <span className="detail-title w-fix-80 mr-4">ID</span>
                 <span className="detail-info">{formValue[mediaType][idImg].id}</span>
               </div>
-              {
-                mediaUser && (
-                  <div className="dis-fl-row mb-2">
-                    <span className="detail-title w-fix-80 mr-4">Uploaded</span>
-                    <div className="dis-fl-col">
-                      <span className="detail-info mb-1">{mediaUser.name}</span>
-                      <span className="detail-info">{new Date(formValue[mediaType][idImg].createdAt).toDateString()}</span>
-                    </div>
-                  </div>
-                )
-              }
               <div className="dis-fl-row mb-2">
                 <span className="detail-title w-fix-80 mr-4">Type</span>
                 <span className="detail-info">{formValue[mediaType][idImg].mimeType}</span>
