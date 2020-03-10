@@ -42,7 +42,7 @@
       bottom: 52px;
     }
     @media (max-width: $responsive-small) {
-      bottom: 15vh;
+      bottom: calc(15vh + 16px);
     }
     span {
       white-space: nowrap;
@@ -142,5 +142,5 @@
 }
 @keyframes appearPageSm {
   0% { height: 8vh; opacity: 0.5; }
-  100% { height: calc(85vh); opacity: 1; }
+  100% { height: calc(85vh - 16px); opacity: 1; }
 }
