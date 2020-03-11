@@ -12,7 +12,14 @@ import {
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
-import { SPINNER_ON, SPINNER_OFF, SPINNER_SMALL_ON, SPINNER_SMALL_OFF, REDIRECT_TO } from '../actions/types/CommonTypes';
+import {
+  SPINNER_ON,
+  SPINNER_OFF,
+  SPINNER_SMALL_ON,
+  SPINNER_SMALL_OFF,
+  REDIRECT_TO,
+  SET_SCREEN_NOTIFICATION,
+} from '../actions/types/CommonTypes';
 import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
 
 const checkCommon = (store) => (next) => (action) => {
@@ -53,11 +60,12 @@ const checkCommon = (store) => (next) => (action) => {
       break;
     case SAVE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
-      const { id, redirectTo, redirectToHome, smallLoader } = action.payload;
+      const { id, redirectTo, redirectToHome, smallLoader, setSuccessNotification } = action.payload;
       delete action.payload.id;
       delete action.payload.redirectTo;
       delete action.payload.smallLoader;
       delete action.payload.redirectToHome;
+      delete action.payload.setSuccessNotification;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
       else store.dispatch({ type: SPINNER_ON });
       api.property.updateProperty(id, action.payload)
@@ -67,6 +75,14 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           if (redirectTo) {
             store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
+          }
+          if (setSuccessNotification) {
+            const notification = ({
+              state: true,
+              type: 'success',
+              label: 'Changes saved',
+            });
+            store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: notification })
           }
           if (redirectToHome) {
             window.location.href = `/${res.data.id}/home`;
