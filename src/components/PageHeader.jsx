@@ -25,7 +25,7 @@ const AvatarImage = Loadable({
 function PageHeader(props) {
   // PROPS
   const {
-    lang, languages, loggedInUser, userAwards, userBrixelPoint,
+    lang, languages, loggedInUser, userAwards, brixelPoints,
     handleSetLanguage, history, handleGetGame, property, gameHistory,
   } = props;
   // STATE
@@ -113,10 +113,10 @@ function PageHeader(props) {
               )
             }
             {
-              userBrixelPoint >= 0 && (
+              brixelPoints >= 0 && (
                 <div className="cur-poi ml-2" onClick={() => setModal('brixelPoints')}>
                   <img src={brixels} alt="icon awards" className="mr-1" />
-                  <span className="ff-mono txtRed600">{userBrixelPoint}</span>
+                  <span className="ff-mono txtRed600">{brixelPoints}</span>
                 </div>
               )
             }
@@ -129,10 +129,10 @@ function PageHeader(props) {
               )
             }
             {
-              Object.keys(userBrixelPoint).length > 0 && (
+              Object.keys(brixelPoints).length > 0 && (
                 <div className="cur-poi ml-2" onClick={() => setModal('brixelPoints')}>
                   <img src={brixels} alt="icon awards" className="mr-1" />
-                  <span className="ff-mono txtRed600">{userBrixelPoint.reduce((prev,next) => prev + next.point,0)}</span>
+                  <span className="ff-mono txtRed600">{brixelPoints.reduce((prev,next) => prev + next.point,0)}</span>
                 </div>
               )
             }
@@ -279,7 +279,7 @@ PageHeader.propTypes = {
   handleGetGame: PropTypes.func.isRequired,
   property: PropTypes.object.isRequired,
   userAwards: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
-  userBrixelPoint: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
+  brixelPoints: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
 };
 
 PageHeader.defaultProps = {
@@ -287,7 +287,7 @@ PageHeader.defaultProps = {
   loggedInUser: {},
   noMenu: false,
   userAwards: [],
-  userBrixelPoint: [],
+  brixelPoints: [],
   withShadow: false,
 };
 
@@ -297,7 +297,7 @@ const mapStateToProps = (state) => ({
   lang: get(state, 'common.language', []),
   userAwards: get(state, 'user.awards', []),
   property: get(state, 'property.activeSingleProperty', {}),
-  userBrixelPoint: get(state, 'user.brixelPoints', []),
+  brixelPoints: get(state, 'user.brixelPoints', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
 });
 

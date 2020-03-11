@@ -3,19 +3,19 @@ import React, { useEffect, useState } from 'react';
 //import { CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import {
+  Switch,
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelTabs } from '@brixel/brixel-components';
+import { BrixelButtonTertiary, BrixelTabs } from '@brixel/brixel-components';
 import { getPropertyListings, getActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
 import { getCalcSectionInputSheets } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
-
 
 // SIDEBAR MENU
 const MenuSidebar = Loadable({
@@ -24,8 +24,8 @@ const MenuSidebar = Loadable({
 });
 
 
-const HomeDashboard = Loadable({
-  loader: () => import('./HomeDashboard' /* webpackChunkName: "HomeDashboard" */),
+const RewardsDashboard = Loadable({
+  loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
   loading: Loading,
 });
 
@@ -36,6 +36,11 @@ const PropertyDashboard = Loadable({
 
 const SupportDashboard = Loadable({
   loader: () => import('./SupportDashboard' /* webpackChunkName: "SupportDashboard" */),
+  loading: Loading,
+});
+
+const ProtectedRoute = Loadable({
+  loader: () => import('../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
   loading: Loading,
 });
 
@@ -80,7 +85,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (!propID && property.id) {
-      history.push(`/${property.id}/home`);
+      history.push(`/${property.id}/rewards`);
     }
     if (property.owner === loggedInUser.user.id) {
       handleGetProperty({fullVersion: true, id: propID});
@@ -109,24 +114,30 @@ const Dashboard = (props) => {
           </div>
         )
       }
+      <div className="w-perc-100 ">
+        <div className="dis-f jc-b w-perc-100 a-t">
+          <BrixelTabs
+            classNameLi="dis-fl-col"
+            classNameUl="zIndex4"
+            labels={['Rewards', 'Property', 'Listings']}
+            clicksList={['rewards', 'property', 'listings']}
+            classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
+            activeTab={checkActiveTab()}
+            fullWidth={false}
+            onClick={(val) => history.push(val)}
+            showFull={false}
+          />
+          <button className="fsize-400 txtLight400">Support</button>
+        </div>
 
-      <BrixelTabs
-        classNameLi="dis-fl-col"
-        classNameUl="nav-tabs zIndex4"
-        labels={['Home', 'Property', 'Support']}
-        clicksList={['home', 'property', 'support']}
-        labelsIcons={['star', 'property-house', 'question']}
-        classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
-        activeTab={checkActiveTab()}
-        fullWidth
-        onClick={(val) => history.push(val)}
-        showFull={widthWindow > 768}
-        arrayComponents={[
-          <HomeDashboard />,
-          <PropertyDashboard />,
-          <SupportDashboard />,
-        ]}
-      />
+
+        <ProtectedRoute path="/:propId?/rewards" component={RewardsDashboard} />
+        <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
+        <ProtectedRoute path="/:propId?/listings" component={SupportDashboard} />
+        <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
+      </div>
+
+
     </div>
   )
 };

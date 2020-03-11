@@ -1,12 +1,13 @@
 
 #achievementSection {
   height: 0;
-  width: calc(100vw - 32px);
+  width: 100%;
   overflow: hidden;
   margin: auto;
   box-shadow: $shadow-2dp;
   border-radius: $brd-radius-small;
   position: relative;
+  height: 100%;
 
   .gm-style {
     .gm-style-cc { display: none}
@@ -52,6 +53,7 @@
 
   .singleStep {
     padding: $step * 3 $step * 2;
+    height: auto;
     .subcontainer {
       max-width: 480px;
     }
@@ -65,9 +67,9 @@
     }
   } */
   &.withoutFooter {
-    height: calc(100vh - 56px);
+    height: 100%;
     .singleStep {
-      height: calc(100vh - 54px);
+      height: 100%;
     }
   }
   #progressBar {
@@ -75,23 +77,6 @@
     top: 0;
     left: 0;
     width: 100%;
-  }
-
-  @media (max-width: $responsive-small) {
-    .singleStep {
-      height: calc(85vh - 128px);
-    }
-  }
-  @media (min-width: $responsive-medium) {
-    .singleStep {
-      height: calc(100vh - 176px);
-    }
-    &.withoutFooter {
-      height: calc(100vh - 72px);
-      .singleStep {
-        height: calc(100vh - 72px);
-      }
-    }
   }
 
   .boxMarketCheck {
@@ -124,10 +109,10 @@
   -webkit-animation: appearPage 0.5s 0.5s $default-easing forwards;
 
   @media (max-width: $responsive-medium) {
-    -webkit-animation: appearPageMd 0.5s $default-easing forwards;
+   -webkit-animation: appearPageMd 0.5s $default-easing forwards;
   }
   @media (max-width: $responsive-small) {
-    -webkit-animation: appearPageSm 0.5s $default-easing forwards;
+   -webkit-animation: appearPageSm 0.5s $default-easing forwards;
   }
 }
 
@@ -136,13 +121,13 @@
 // Achievement Page Animation
 @-webkit-keyframes appearPage {
   0% { height: 8vh; opacity: 0.5; }
-  100% { height: calc(100vh - 32px); opacity: 1; }
+  100% { height: 100%; opacity: 1; }
 }
 @-webkit-keyframes appearPageMd {
   0% { height: 8vh; opacity: 0.5; }
-  100% { height: calc(100vh - 52px); opacity: 1; }
+  100% { height: 100%; opacity: 1; }
 }
 @-webkit-keyframes appearPageSm {
   0% { height: 8vh; opacity: 0.5; }
-  100% { height: calc(85vh - 16px); opacity: 1; }
+  100% { height: 100%; opacity: 1; }
 }

@@ -55,53 +55,6 @@ const HomeDashboard = (props) => {
   return (
     <>
       <div className="property-info-container brdRadius p-md-2">
-        <div className="header-section dis-fl-row a-c jc-b mb-2">
-          <div className="dis-fl-row">
-            <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
-              {
-                property.coverPhoto && property.coverPhoto.path ? (
-                  <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${getConfigEnv.shortPath}${property.coverPhoto.thumbnailPath}`} alt="Brixel Logo" id="avatar" />
-                ) :
-                  (
-                    <i
-                      className="avatar w-fix-48 h-fix-48 brdRadius pos-r"
-                      style={{
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        display: 'block',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundImage: `url(${noCover})`,
-                      }}
-                    />
-                  )
-              }
-            </div>
-            <div className="title ml-1">
-              <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                {(has(property.properties, 'typology') && has(property.properties.typology, 'bedrooms')) ? property.properties.typology.bedrooms : ''} {has(property.properties, 'propertyType') ? property.properties.propertyType : 'Property'}
-              </span>
-              <span className="address caption txtLight400">{has(property.location, 'zip') ? property.location.zip : ''} {has(property.location, 'state') ? property.location.state : ''}</span>
-            </div>
-          </div>
-          <div className="actions dis-fl-row">
-            <BrixelButtonIcon
-              bgTransparent
-              color="primary"
-              saturationTxt={400}
-              className="mr-2"
-              icon="eye"
-              onClick={(e) => goToPreview(e)}
-            />
-            {
-              userType === 'seller' && (
-                <BrixelButtonIcon
-                  icon="edit"
-                  onClick={(e) => goToInputSheet(e)}
-                />
-              )
-            }
-          </div>
-        </div>
 
         <div className="transparency-container mb-2">
           <div className="dis-fl-col ta-l">
@@ -164,6 +117,25 @@ const HomeDashboard = (props) => {
               <span className="value txtDark500">{(has(property.properties, 'building') && property.properties.building.built) ? property.properties.building.built : 'N/A'}</span>
             </div>
           </div>
+        </div>
+
+        <div>
+          <BrixelButtonIcon
+            bgTransparent
+            color="primary"
+            saturationTxt={400}
+            className="mr-2"
+            icon="eye"
+            onClick={(e) => goToPreview(e)}
+          />
+          {
+            userType === 'seller' && (
+              <BrixelButtonIcon
+                icon="edit"
+                onClick={(e) => goToInputSheet(e)}
+              />
+            )
+          }
         </div>
 
         <div className="boxPanel dis-fl-row jc-b mb-4">

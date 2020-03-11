@@ -16,13 +16,23 @@ import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
 import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
 import { getBrowserPlatform} from '@brixel/brixel-components/src/utils/helper';
-import PageHeader from './components/PageHeader';
 import { setModal } from './actions/CommonActions';
 import { setUserTypes } from './actions/UserActions';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
   loader: () => import('./Pages/PackageFlow/GetStarted' /* webpackChunkName: "GetStarted" */),
+  loading: Loading,
+});
+
+// GENERAL COMPONENTS
+const PageHeaderDashboard = Loadable({
+  loader: () => import('./components/PageHeaderDashboard' /* webpackChunkName: "PageHeaderDashboard" */),
+  loading: Loading,
+});
+
+const PageHeader = Loadable({
+  loader: () => import('./components/PageHeader' /* webpackChunkName: "PageHeader" */),
   loading: Loading,
 });
 
@@ -61,22 +71,6 @@ const Documents = Loadable({
 
 const Properties = Loadable({
   loader: () => import('./Pages/Properties' /* webpackChunkName: "Properties" */),
-  loading: Loading,
-});
-
-// FLOW SELLER
-const MarketChecker = Loadable({
-  loader: () => import('./Pages/MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
-  loading: Loading,
-});
-
-const Assessor = Loadable({
-  loader: () => import('./Pages/Assessor' /* webpackChunkName: "AssessorFlor" */),
-  loading: Loading,
-});
-
-const Bestimate = Loadable({
-  loader: () => import('./Pages/Bestimate' /* webpackChunkName: "AssessorFlor" */),
   loading: Loading,
 });
 
@@ -141,13 +135,18 @@ const App = (props) => {
 
 
   return (
-    <main className={`dis-fl-row jc-b ${history.location.pathname.includes('achievement') ? 'h-perc-100 a-c' : ''}`}>
+    <main className={`dis-fl-row jc-b}`}>
 
       <Loading isLoading={isLoading} />
-      <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('achievement')) ? 'no-sidebar' : ''} ${isSafari && isIosMobile ? 'safariSmall' : ''}`}>
+      <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) ? 'no-sidebar' : ''} ${isSafari && isIosMobile ? 'safariSmall' : ''}`}>
         {
-          !history.location.pathname.includes('achievement') && (
+          (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
             <PageHeader />
+          )
+        }
+        {
+          (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding')) && (
+            <PageHeaderDashboard />
           )
         }
         <Switch>
@@ -164,17 +163,13 @@ const App = (props) => {
 
           { /* SECTION: HUB DASHBOARD */ }
           <ProtectedRoute path="/" exact component={Dashboard} />
-          { /* SECTION: SELLER DASHBOARD */ }
-          <ProtectedRoute path="/:propId?/:act/achievement/market-checker" exact component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
-          <ProtectedRoute path="/:propId?/:act/achievement/assessor" exact component={Assessor} allowAccess={'seller'} />
-          <ProtectedRoute path="/:propId?/:act/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'}
-          />
           { /* SECTION: ALL USER DASHBOARD */ }
-          <ProtectedRoute path="/:propId?/home" component={Dashboard} />
+          <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
           <ProtectedRoute path="/:propId?/property" component={Dashboard} />
+          <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
           <ProtectedRoute path="/:propId?/support" component={Dashboard} />
           { /* SECTION: REDIRECT */ }
-          <Redirect from="*" to="/" />
+
         </Switch>
       </div>
 
