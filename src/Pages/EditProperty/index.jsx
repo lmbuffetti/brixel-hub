@@ -105,11 +105,10 @@ const InputSheet = (props) => {
     // await handleSaveProperty({id: propID, inputSheet: dataInputSheet});
     await handleSaveProperty(data);
   };
-  console.log(load, isSmallLoading);
+
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
     if (formValue.id && initialValues.id) {
-      console.log(diff(initialValues, formValue), formValue, initialValues);
       if (Object.keys(diff(initialValues, formValue)).length > 0) {
         let setValid = true;
         if (Questions) {
