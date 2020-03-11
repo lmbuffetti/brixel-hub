@@ -8,62 +8,20 @@
   border-radius: $brd-radius-small;
   position: relative;
 
-  .gm-style {
-    .gm-style-cc { display: none}
-    .gm-bundled-control {
-      > div {
-        border-radius: 8px;
-        overflow: hidden;
-        transform: scale(0.8) translate(8px, 16px);
-        button {
-          img {
-            display: none !important;
-          }
-          &:after {
-            @include icomoon();
-            content: $icon-plus;
-            color: map_get($primaryColor, 400);
-          }
-          &:last-child {
-            border-top: 1px solid map_get($primaryColor, 100) !important;
-            &:after {
-              content: $icon-minus;
-            }
-          }
-        }
-      }
-    }
-  }
-
 
   .footerAction {
     position: absolute;
     bottom: 0;
-    /* @media (max-width: $responsive-medium) {
-      bottom: 52px;
-    }
-    @media (max-width: $responsive-small) {
-      bottom: calc(15vh + 16px);
-    } */
     span {
       white-space: nowrap;
     }
   }
-
   .singleStep {
     padding: $step * 3 $step * 2;
     .subcontainer {
       max-width: 480px;
     }
   }
-/*
-  .brixel-radio-button-icon {
-    margin-bottom: 16px;
-
-    label .textLabel {
-      margin-left: 16px;
-    }
-  } */
   &.withoutFooter {
     height: calc(100vh - 56px);
     .singleStep {

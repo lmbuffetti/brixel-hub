@@ -198,3 +198,32 @@ header {
 [class^="icon-"].small, [class*=" icon-"].small {
   display: block;
 }
+
+
+// Map iFrame styles
+.gm-style {
+  .gm-style-cc { display: none}
+  .gm-bundled-control {
+    > div {
+      border-radius: 8px;
+      overflow: hidden;
+      transform: scale(0.8) translate(8px, 16px);
+      button {
+        img {
+          display: none !important;
+        }
+        &:after {
+          @include icomoon();
+          content: $icon-plus;
+          color: map_get($primaryColor, 400);
+        }
+        &:last-child {
+          border-top: 1px solid map_get($primaryColor, 100) !important;
+          &:after {
+            content: $icon-minus;
+          }
+        }
+      }
+    }
+  }
+}

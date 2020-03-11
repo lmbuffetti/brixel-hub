@@ -18,6 +18,10 @@
       }
     }
 
+    .noRadius {
+      border-radius: 0;
+    }
+
     i {
       font-size: 24px;
     }
@@ -25,6 +29,11 @@
     .routes {
       .active {
         background-color: rgba($color: map_get($primaryColor, 400), $alpha: 0.1);
+        transition: background-color $default-time $default-easing;
+
+        &:hover {
+          background-color: rgba($color: map_get($primaryColor, 500), $alpha: 0.1);
+        }
 
         &::after {
           content: '';

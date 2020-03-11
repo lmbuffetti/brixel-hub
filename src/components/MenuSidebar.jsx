@@ -36,7 +36,7 @@ const MenuSidebar = (props) => {
                 noBorder
                 color="dark"
                 saturationTxt={100}
-                className="h-perc-100 w-perc-100"
+                className="h-perc-100 w-perc-100 noRadius"
                 onClick={() => {
                   // if (preventExit) {
                   //   setUnsavedModal({
