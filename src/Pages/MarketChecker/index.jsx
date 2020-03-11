@@ -27,7 +27,7 @@ import last from 'lodash/last';
 import { addGameHistory, getGameHistory } from '../../actions/GamificationActions';
 import PageHeaderAchievement from '../../components/PageHeaderAchievement';
 
-function Assessor(props) {
+function MarketCheck(props) {
   // PROPS
   const {
     errorValue,
@@ -327,7 +327,7 @@ function Assessor(props) {
   );
 }
 
-Assessor.propTypes = {
+MarketCheck.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   checkValid: PropTypes.func.isRequired,
   company: PropTypes.object.isRequired,
@@ -345,7 +345,7 @@ Assessor.propTypes = {
   redirectTo: PropTypes.object,
 };
 
-Assessor.defaultProps = {
+MarketCheck.defaultProps = {
   pageState: null,
   redirectTo: null,
 };
@@ -380,7 +380,7 @@ const mapDispatchToProps = (dispatch) => ({
 const OnBoardingForm = reduxForm({
   form: 'GamingFlow', // a unique identifier for this form
   enableReinitialize: true,
-})(Assessor);
+})(MarketCheck);
 
 export default compose(
   withRouter,
