@@ -145,7 +145,7 @@ const InputSheet = (props) => {
     setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] });
     setAccordionAnimatad({ ...accordion, [quest.history]: true });
 
-    setTimeout(() => setAccordionAnimatad({ ...accordionAnimatad, [quest.history]: !accordion[quest.history] }), 1000, );
+    /* setTimeout(() => setAccordionAnimatad({ ...accordionAnimatad, [quest.history]: !accordion[quest.history] }), 1000, ); */
   };
 
   return (

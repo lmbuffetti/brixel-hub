@@ -78,16 +78,6 @@
     }
   }
 
-  &:not(.openedAccord) {
-    .accordContent {
-      //animation: expandDown 2s $default-easing forwards;
-
-      @keyframes expandDown {
-        0% {max-height: 3000px; opacity: 1;}
-        100% {max-height: 0; opacity: 0;}
-      }
-    }
-  }
 
   &.openedAccord {
 
@@ -98,8 +88,7 @@
     }
     .accordContent {
       border-bottom: 1px solid map_get($lightColor, 200);
-     // animation: expandDown 2s $default-easing forwards;
-     max-height: 3000px;
+      animation: expandDown $default-time-long $default-easing forwards;
       @keyframes expandDown {
         0% {max-height: 0; opacity: 0.6;}
         100% {max-height: 3000px; opacity: 1;}
