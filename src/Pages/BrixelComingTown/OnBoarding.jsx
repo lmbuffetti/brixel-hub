@@ -336,9 +336,10 @@ function OnBoarding(props) {
     }, false);
     // Get the company from url or cookie and set on cookie
     let company = get(history, 'location.search', cookie.get('brixelStubCompany') || null);
+    console.log(company);
     const companyCookie = cookie.get('brixelStubCompany') || null;
     if (company || companyCookie) {
-      company = company.replace('?company=', '');
+      company = company.replace('?company=', '').split('&')[0];
       const defComp = company || companyCookie;
       handleGetCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);

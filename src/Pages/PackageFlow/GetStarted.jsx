@@ -342,7 +342,7 @@ function GetStarted(props) {
     const cookieCompany = cookie.get('brixelStubCompany') || null;
     let company = get(history, 'location.search', cookieCompany);
     if (company || cookieCompany) {
-      company = company.replace('?company=', '');
+      company = company.replace('?company=', '').split('&')[0];
       const defComp = company || cookieCompany;
       handleGetCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);
