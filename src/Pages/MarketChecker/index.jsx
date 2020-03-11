@@ -311,7 +311,7 @@ function Assessor(props) {
                         label="Yes, update"
                         background={"primary"}
                         className="max-w-fix-280 w-perc-100 ml-1"
-                        onClick={() => { setPosition(1); setCurrentIndex(1); setSaved(true) } }
+                        onClick={() => { setPosition(Questions.length - 2); setCurrentIndex(Questions.length - 2); setSaved(true) } }
                         rightIcon="arrow-right-small"
                         disabled={disableNextBtn}
                       />

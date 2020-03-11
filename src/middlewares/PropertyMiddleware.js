@@ -59,7 +59,6 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.redirectTo;
       delete action.payload.smallLoader;
       delete action.payload.redirectToHome;
-      console.log(action.payload);
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
       else store.dispatch({ type: SPINNER_ON });
       api.property.updateProperty(id, action.payload)
