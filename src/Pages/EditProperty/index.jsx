@@ -65,6 +65,7 @@ const InputSheet = (props) => {
     history,
     initial,
     initialValues,
+    isSmallLoading,
     match,
     notification,
     reset,
@@ -90,6 +91,7 @@ const InputSheet = (props) => {
     delete dataToSend.favoritedByUsers;
     const data = {
       id: propID,
+      smallLoader: true,
       ...dataToSend,
     };
     // For now we still dont use the diff object (TODO: API ticket)
@@ -105,6 +107,7 @@ const InputSheet = (props) => {
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
+    console.log(diff(initialValues, formValue));
     if (formValue.id && initialValues.id) {
       if (Object.keys(diff(initialValues, formValue)).length > 0) {
         let setValid = true;
@@ -120,19 +123,17 @@ const InputSheet = (props) => {
             return null;
           });
         }
-        if (setValid) {
+        if (setValid && notification.type !== 'success') {
           setNotification({
             state: true,
             type: 'info',
             label: 'Save changes?',
             actions:
               [
-                { type: 'primary', label: 'Save', func: () => saveData() },
+                { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
                 { type: 'secondary', label: 'Discard', func: () => discardChanges() },
               ],
           });
-        } else {
-          closeNotificationBar()
         }
         // SET NOTIFICATION TO SUCCESS SAVE
       } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'success') {
@@ -145,7 +146,7 @@ const InputSheet = (props) => {
   }, [formValue]);
 
   const closeFacts = () => {
-    closeNotificationBar()
+    closeNotificationBar();
     history.push(`/${propID}/property`);
   };
 
@@ -289,6 +290,7 @@ const mapStateToProps = (state) => {
     errorValue: get(state, 'form.Property.syncErrors', {}),
     formValue: get(state, 'form.Property.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
+    isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
     isIntLoading: get(state, 'common.isIntLoading', 0) > 0,
     activeSingleUser: get(state, 'user.activeSingleUser', {}),
     singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),

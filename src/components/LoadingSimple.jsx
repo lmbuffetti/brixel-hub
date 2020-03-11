@@ -5,7 +5,7 @@ function LoadingSimple(props) {
   const { isLoading } = props;
   if (isLoading) {
     return (
-      <span />
+      <div>IS LOADING</div>
     );
   }
   return null;

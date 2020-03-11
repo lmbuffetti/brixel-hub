@@ -36,7 +36,7 @@ const InputSheet = (props) => {
     handleSaveProperty,
     handleSetModal,
     initial,
-    isIntLoading,
+    isSmallLoading,
     match,
   } = props;
 
@@ -109,7 +109,7 @@ const InputSheet = (props) => {
             className={`brdSmall dis-b p-small-4 ${skipped[quest.history] ? 'border-primary' : ''}`}
             iconSize="small"
             onClick={() => handleSkipSection(quest.history)}
-            isLoading={isIntLoading && quest.history === selObj}
+            isLoading={isSmallLoading && quest.history === selObj}
           />
         </div>
       )
@@ -316,7 +316,7 @@ const mapStateToProps = (state) => {
     errorValue: get(state, 'form.Property.syncErrors', {}),
     formValue: get(state, 'form.Property.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
-    isIntLoading: get(state, 'common.isIntLoading', 0) > 0,
+    isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
     activeSingleUser: get(state, 'user.activeSingleUser', {}),
     singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
     notification: get(state, 'common.notification', {}),

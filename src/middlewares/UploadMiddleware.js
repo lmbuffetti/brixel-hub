@@ -19,7 +19,12 @@ import {
 
 import api from '../controllers/api/config';
 import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
-import { SPINNER_ON, SPINNER_OFF } from '../actions/types/CommonTypes';
+import {
+  SPINNER_ON,
+  SPINNER_OFF,
+  SPINNER_SMALL_ON,
+  SPINNER_SMALL_OFF,
+} from '../actions/types/CommonTypes';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -121,17 +126,18 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const { pageID } = action.payload;
       delete action.payload.pageID;
-      store.dispatch({ type: SPINNER_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON });
       api.image.uploadDocument(action.payload)
         .then((res) => {
-          const docList = store.getState().form.documentsForm.values.documents;
+          const docList = store.getState().form.documentsForm.values.documents || [];
           docList.push(res.data);
           const data = {
             id: pageID,
             documents: docList,
+            smallLoader: true,
           };
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }

@@ -28,6 +28,7 @@ import imgDocuments from '../images/dashboard/documents.png';
 
 // COMPONENTS
 import DrawerLayout from '../components/DrawerLayout';
+import LoadingSimple from './LoadingSimple';
 
 const Documents = (props) => {
   const [documentOptionsOpen, setDocumentOptionsOpen] = useState({ id: null, active: false });
@@ -36,7 +37,7 @@ const Documents = (props) => {
 
   // PROPS
   const {
-    history, formValue, handleUploadDocument, user,
+    history, formValue, handleUploadDocument, user, isSmallLoading,
     handleDeleteDocument, handleUpdateDocument, match,
   } = props;
   const { documents } = formValue;
@@ -114,16 +115,11 @@ const Documents = (props) => {
     },
   });
 
-  if (!formValue.id) {
-    return (
-      <Loading />
-    );
-  }
-
   return (
     <DrawerLayout
       closeLink={`/${pageId}/${sectionPage}`}
     >
+      <LoadingSimple isLoading={isSmallLoading} />
       <div className="docubox">
         <div className="docubox-header dis-fl-row a-c jc-b mb-3 p-2">
           <div className="dis-fl-row a-c">
@@ -338,6 +334,7 @@ Documents.propTypes = {
   history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
 };
 
@@ -353,6 +350,7 @@ const DocumentsForm = reduxForm({
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.documentsForm.values', {}),
   initialValues: get(state, 'property.activeSingleProperty', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
   user: get(state, 'user.loggedInUser', {}),
 });
 
