@@ -94,6 +94,7 @@ const InputSheet = (props) => {
       id: propID,
       smallLoader: true,
       ...dataToSend,
+      setSuccessNotification: true,
     };
     // For now we still dont use the diff object (TODO: API ticket)
     // diff(initialValues, formValue)
