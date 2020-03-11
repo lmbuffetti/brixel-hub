@@ -16,7 +16,7 @@ import {
 import { bindActionCreators, compose } from 'redux';
 import { uploadDocument, deleteDocument, updateDocument } from '../actions/UploadActions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
-import Loading from '../components/Loading';
+//import Loading from '../components/Loading';
 // import {
 //   setScreenNotification, preventExitFromScreen,
 //   setUnsavedChangesModal, setModal,

@@ -149,11 +149,14 @@ const checkCommon = (store) => (next) => (action) => {
         .then(() => {
           arrayImg.splice(idImg, 1);
           store.dispatch(change('documentsForm', 'documents', arrayImg));
+          store.dispatch({ type: SPINNER_SMALL_ON });
           const data = {
             id: action.payload.pageID,
             documents: arrayImg,
+            smallLoader: true
           };
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }
@@ -161,7 +164,7 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const { pageID } = action.payload;
       delete action.payload.pageID;
-      store.dispatch({ type: SPINNER_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON });
       api.image.updateDocument(action.payload.id, action.payload.body)
         .then((res) => {
           const docList = store.getState().form.documentsForm.values.documents;
@@ -173,9 +176,10 @@ const checkCommon = (store) => (next) => (action) => {
           const data = {
             id: pageID,
             documents: docList,
+            smallLoader: true
           };
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }
