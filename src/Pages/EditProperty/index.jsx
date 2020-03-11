@@ -76,6 +76,7 @@ const InputSheet = (props) => {
   const checkActiveTab = () => last(history.location.pathname.split('/'));
   // STATE
   const [Questions] = useState(InputSheets('en'));
+  const [load, setLoad] = useState(isSmallLoading);
 
   const closeNotificationBar = () => {
     setNotification({ state: false });
@@ -107,7 +108,6 @@ const InputSheet = (props) => {
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
-    console.log(diff(initialValues, formValue));
     if (formValue.id && initialValues.id) {
       if (Object.keys(diff(initialValues, formValue)).length > 0) {
         let setValid = true;
@@ -123,7 +123,7 @@ const InputSheet = (props) => {
             return null;
           });
         }
-        if (setValid && notification.type !== 'success') {
+        if (setValid && (notification.type !== 'info' || load !== isSmallLoading)) {
           setNotification({
             state: true,
             type: 'info',
@@ -134,6 +134,7 @@ const InputSheet = (props) => {
                 { type: 'secondary', label: 'Discard', func: () => discardChanges() },
               ],
           });
+          setLoad(isSmallLoading);
         }
         // SET NOTIFICATION TO SUCCESS SAVE
       } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'success') {
@@ -143,7 +144,7 @@ const InputSheet = (props) => {
         setNotification({ state: false });
       }
     }
-  }, [formValue]);
+  }, [formValue, isSmallLoading, initialValues]);
 
   const closeFacts = () => {
     closeNotificationBar();

@@ -53,7 +53,6 @@ const checkCommon = (store) => (next) => (action) => {
       break;
     case SAVE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
-      console.log('test', action);
       const { id, redirectTo, redirectToHome, smallLoader } = action.payload;
       delete action.payload.id;
       delete action.payload.redirectTo;

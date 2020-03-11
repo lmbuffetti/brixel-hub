@@ -70,7 +70,7 @@ function ResumeMarketCheck(props) {
       setSaved(true);
     }
   }, [marketData]);
-  console.log(property);
+
   return (
     <main id="rewards" className="pb-4">
       <div className="bgWhite brdRadius">

@@ -54,7 +54,6 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case UPLOAD_IMG: {
       next(action);
-      console.log(action.payload);
       const { imageType } = store.getState().image;
       const imgType = imageType.find((val) => val.name === 'Gallery');
       // action.payload.user = store.getState().user.loggedInUser.user.id;
@@ -67,7 +66,6 @@ const checkCommon = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       api.image.addImage(action.payload)
         .then((res) => {
-          console.log(res.data, uploadAction, store.getState().form.Property.values.photos);
           if (uploadAction === 'photos' ||
             uploadAction === 'plan' ||
             uploadAction === 'contactAvatar') {
@@ -84,7 +82,6 @@ const checkCommon = (store) => (next) => (action) => {
             if (uploadAction === 'plan') {
               plan.push(res.data);
             }
-            console.log(coverPhoto, img, plan);
             const data = {
               id: pageID,
               coverPhoto,
