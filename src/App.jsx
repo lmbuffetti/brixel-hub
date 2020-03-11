@@ -10,12 +10,15 @@ import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
+import { Transition, TransitionGroup } from 'react-transition-group';
+//import { play, exit } from './timelines'
+
 // COMPONENTS
 import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
 import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
-import { getBrowserPlatform} from '@brixel/brixel-components/src/utils/helper';
+//import { getBrowserPlatform} from '@brixel/brixel-components/src/utils/helper';
 import PageHeader from './components/PageHeader';
 import { setModal } from './actions/CommonActions';
 import { setUserTypes } from './actions/UserActions';
@@ -96,7 +99,7 @@ const App = (props) => {
     handleCheckToken,
     handleSetModal,
     isLoading,
-    isSmallLoading,
+    //isSmallLoading,
     loggedInUser,
     modal,
     notification,
@@ -136,15 +139,13 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
     )
   }
-  const isSafari = navigator.vendor.match(/[Aa]+pple/g) ? navigator.vendor.match(/[Aa]+pple/g).length > 0 : false ;
-  const isIosMobile =  getBrowserPlatform().indexOf('mobile ios') !== -1;
 
 
   return (
     <main className={`dis-fl-row jc-b ${history.location.pathname.includes('achievement') ? 'h-perc-100 a-c' : ''}`}>
 
       <Loading isLoading={isLoading} />
-      <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('achievement')) ? 'no-sidebar' : ''} ${isSafari && isIosMobile ? 'safariSmall' : ''}`}>
+      <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('achievement')) ? 'no-sidebar' : ''}`}>
         {
           !history.location.pathname.includes('achievement') && (
             <PageHeader />
@@ -226,20 +227,46 @@ const App = (props) => {
         )
       }
 
-      { /* SECTION: SIDEBAR */ }
+      { /* SECTION: DRAWER */ }
       <div className="zIndex3">
-        <Switch>
-          {/* SECTION: DOCUMENTS */}
-          <Route path="/:propId?/:act/list" component={Properties} />
-          <Route path="/:propId?/property/documents" exact component={Documents} />
-          {
-            userTypes === 'seller' && (
-              <>
-                <Route path="/:propId?/:act/edit" component={EditProperty} />
-              </>
-            )
-          }
-        </Switch>
+        <Route render={({ location }) => {
+          const { key } = location
+
+          return (
+            <TransitionGroup className="top-item" component={null}>
+              <Transition
+                key={key}
+                appear={true}
+                enter={true}
+                exit={true}
+                classNames={{
+                  appear: 'my-appear',
+                  appearActive: 'my-active-appear',
+                  appearDone: 'my-done-appear',
+                  enter: 'my-enter',
+                  enterActive: 'my-active-enter',
+                  enterDone: 'my-done-enter',
+                  exit: 'my-exit',
+                  exitActive: 'my-active-exit',
+                  exitDone: 'my-done-exit',
+                }}
+              >
+                <Switch location={location}>
+                  {/* SECTION: DOCUMENTS */}
+                  <Route path="/:propId?/:act/list" component={Properties} />
+                  <Route path="/:propId?/property/documents" exact component={Documents} />
+                  {
+                    userTypes === 'seller' && (
+                      <>
+                        <Route path="/:propId?/:act/edit" component={EditProperty} />
+                      </>
+                    )
+                  }
+                </Switch>
+              </Transition>
+            </TransitionGroup>
+          )
+        }} />
       </div>
 
     </main>

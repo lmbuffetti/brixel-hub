@@ -32,7 +32,7 @@
         transition: background-color $default-time $default-easing;
 
         &:hover {
-          background-color: rgba($color: map_get($primaryColor, 600), $alpha: 0.5);
+          background-color: rgba($color: map_get($primaryColor, 400), $alpha: 0.2);
         }
 
         &::after {
