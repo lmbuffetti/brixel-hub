@@ -32,7 +32,7 @@ const GetStarted = Loadable({
 // ADMIN ROUTES
 const ProtectedRoute = Loadable({
   loader: () => import('./components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
-  loading: Loading,
+  loading: () => null,
 });
 
 const InsertToken = Loadable({
@@ -59,12 +59,12 @@ const Dashboard = Loadable({
 
 const Documents = Loadable({
   loader: () => import('./components/Documents' /* webpackChunkName: "Documents" */),
-  loading: Loading,
+  loading: () => null,
 });
 
 const Properties = Loadable({
   loader: () => import('./Pages/Properties' /* webpackChunkName: "Properties" */),
-  loading: Loading,
+  loading: () => null,
 });
 
 // FLOW SELLER
