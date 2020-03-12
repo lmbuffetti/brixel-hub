@@ -16,6 +16,7 @@ import { bindActionCreators, compose } from 'redux';
 import last from 'lodash/last';
 import DrawerLayout from '../../components/DrawerLayout';
 import LoadingSimple from '../../components/LoadingSimple';
+
 import {
   getUserProperties,
   getFavorites,
@@ -36,6 +37,7 @@ const Properties = (props) => {
     match,
     user,
     userProperties,
+    isSmallLoading,
   } = props;
 
   // URL PARAMS
@@ -76,6 +78,7 @@ const Properties = (props) => {
       classNameDrawer="ov-a"
       closeLink={`/${propID}/${sectionPage}`}
     >
+      <LoadingSimple isLoading={isSmallLoading} />
       <div className="properties-header dis-fl-row a-c jc-b mb-3 p-2">
         <div className="dis-fl-row a-c">
           <span className="docubox-title fweight-500 txtDark700">Properties</span>
@@ -124,6 +127,7 @@ Properties.propTypes = {
   favoritesProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
   getPropertiesOfUser: PropTypes.func.isRequired,
   getFavoritesOfUser: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.bool.isRequired,
 };
 
 Properties.defaultProps = {
@@ -134,6 +138,7 @@ const mapStateToProps = (state) => ({
   userProperties: get(state, 'user.userProperties', []),
   favoritesProperties: get(state, 'user.favorites', []),
   activeProperty: get(state, 'property.activeSingleProperty', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
 });
 
 const mapDispatchToProps = (dispatch) => ({

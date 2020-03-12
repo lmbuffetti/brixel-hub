@@ -13,6 +13,8 @@ import {
 import {
   SPINNER_ON,
   SPINNER_OFF,
+  SPINNER_SMALL_ON,
+  SPINNER_SMALL_OFF,
   SET_SCREEN_NOTIFICATION,
   SET_PAGE_DATA, REDIRECT_TO,
 } from '../actions/types/CommonTypes';
@@ -170,29 +172,29 @@ const checkUser = (store) => (next) => (action) => {
     }
     case GET_FAVORITES: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON });
       api.user.getFavoritesPages()
         .then((res) => {
           store.dispatch({ type: SET_FAVORITES, payload: res.data });
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         })
         .catch(() => {
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }
     case GET_USER_PROPERTIES: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON });
       api.user.getPropertiesOfUser(action.payload)
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_USER_PROPERTIES, payload: res.data });
           }
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         })
         .catch(() => {
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }
