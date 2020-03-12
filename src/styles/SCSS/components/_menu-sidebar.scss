@@ -49,16 +49,16 @@
     .sidebarSubmenu {
       position: absolute;
       background: rgba($brx-white, 0.8);
-      left: 0;
-      padding-left: 84px;
+      left: 16px;
       width: 100%;
       max-width: 100%;
       .sidebarSubmenuContent {
         height: 100%;
         width: 100%;
+        padding-left: 84px;
         background-color: $brx-white;
         max-width: 768px;
-        box-shadow: $shadow-5dp;
+        box-shadow: $shadow-3dp;
       }
     }
 

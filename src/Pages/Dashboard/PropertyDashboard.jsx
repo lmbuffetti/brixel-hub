@@ -214,7 +214,7 @@ const HomeDashboard = (props) => {
           </div>
 
           <Route path="/:propId?/property/facts" exact component={Facts} />
-          <Route path="/:propId?/property/photos" exact component={Photos} />
+          <Route path="/:propId?/property/photos" component={Photos} />
           <Route path="/:propId?/property/plans" exact component={Plans} />
           <Route path="/:propId?/property/tour" exact component={Tour} />
           <Route path="/:propId?/property/documents" exact component={Documents} />

@@ -17,22 +17,6 @@ const ProtectedRoute = Loadable({
   loading: Loading,
 });
 
-// FLOW SELLER
-const MarketChecker = Loadable({
-  loader: () => import('../MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
-  loading: Loading,
-});
-
-const Assessor = Loadable({
-  loader: () => import('../Assessor' /* webpackChunkName: "AssessorFlor" */),
-  loading: Loading,
-});
-
-const Bestimate = Loadable({
-  loader: () => import('../Bestimate' /* webpackChunkName: "AssessorFlor" */),
-  loading: Loading,
-});
-
 const RewardsDashboard = (props) => {
   // PROPS
   const {
@@ -176,9 +160,7 @@ const RewardsDashboard = (props) => {
         }
 
         <div>
-          <ProtectedRoute path="/:propId?/rewards/achievement/market-checker" exact component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/assessor" exact component={Assessor} allowAccess={'seller'} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
+
         </div>
       </div>
     </div>

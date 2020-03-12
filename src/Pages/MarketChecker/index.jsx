@@ -380,6 +380,7 @@ const mapDispatchToProps = (dispatch) => ({
 const OnBoardingForm = reduxForm({
   form: 'GamingFlow', // a unique identifier for this form
   enableReinitialize: true,
+  destroyOnUnmount: false,
 })(MarketCheck);
 
 export default compose(

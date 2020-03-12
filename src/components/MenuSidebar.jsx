@@ -1,18 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelButtonIcon, useOutsideAlerter } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import Loadable from 'react-loadable';
 import Loading from './Loading';
 
-const Properties = Loadable({
-  loader: () => import('../Pages/Properties' /* webpackChunkName: "Properties" */),
-  loading: Loading,
-});
+import Properties from '../Pages/Properties';
 
 const MenuSidebar = (props) => {
   // PROPS
@@ -22,6 +19,15 @@ const MenuSidebar = (props) => {
   } = props;
   // STATE
   const [activeMenu, setActiveMenu] = useState(null);
+  // REF
+  const wrapperRef = useRef(null);
+
+  useOutsideAlerter(wrapperRef, {
+    action: 'function',
+    func: () => {
+      setActiveMenu(null);
+    },
+  });
 
   return (
     <>
@@ -37,14 +43,14 @@ const MenuSidebar = (props) => {
         <div className="links h-perc-100 w-perc-100 dis-fl-col jc-b pos-r zIndex2">
           <div className="routes dis-fl-col jc-fs">
 
-            <div className={`pos-r h-fix-48 w-perc-100 dis-fl-col a-c ta-c ${(history.location.pathname.includes('home') || history.location.pathname.includes('property')) ? 'active properties-list' : 'properties-list'}`}>
+            <div className={`pos-r h-fix-48 w-perc-100 dis-fl-col a-c ta-c`}>
               <BrixelButtonIcon
                 icon="properties"
                 hoverTextColor="primary"
                 bgTransparent
                 noBorder
-                color="dark"
-                saturationTxt={100}
+                color={activeMenu === 'propertyList' ? 'primary' : 'dark'}
+                saturationTxt={activeMenu === 'propertyList' ? 400 : 100}
                 className="h-perc-100 w-perc-100"
                 onClick={() => {
                   // if (preventExit) {
@@ -88,7 +94,7 @@ const MenuSidebar = (props) => {
         {
           activeMenu && (
             <div className="sidebarSubmenu zIndex1">
-              <div className="sidebarSubmenuContent">
+              <div className="sidebarSubmenuContent" ref={wrapperRef}>
                 {
                   activeMenu === 'propertyList' && (
                     <Properties {...props} closeProperty={() => setActiveMenu(null)}/>

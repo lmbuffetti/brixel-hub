@@ -69,6 +69,11 @@ const Dashboard = Loadable({
   loading: Loading,
 });
 
+const DetailMedia = Loadable({
+  loader: () => import('./Pages/EditProperty/Media/DetailMedia' /* webpackChunkName: "DetailMedia" */),
+  loading: Loading,
+});
+
 const Documents = Loadable({
   loader: () => import('./components/Documents' /* webpackChunkName: "Documents" */),
   loading: Loading,
@@ -79,9 +84,19 @@ const Properties = Loadable({
   loading: Loading,
 });
 
-// PROPERTY EDITING
-const EditProperty = Loadable({
-  loader: () => import('./Pages/EditProperty' /* webpackChunkName: "InputSheet" */),
+// FLOW SELLER
+const MarketChecker = Loadable({
+  loader: () => import('./Pages/MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
+  loading: Loading,
+});
+
+const Assessor = Loadable({
+  loader: () => import('./Pages/Assessor' /* webpackChunkName: "AssessorFlow" */),
+  loading: Loading,
+});
+
+const Bestimate = Loadable({
+  loader: () => import('./Pages/Bestimate' /* webpackChunkName: "BestimateFlow" */),
   loading: Loading,
 });
 
@@ -179,6 +194,81 @@ const App = (props) => {
         </div>
       </div>
 
+
+      { /* SECTION: SIDEBAR RIGHT */ }
+      <div className="zIndex3">
+        <Switch>
+          {/* SECTION: DOCUMENTS */ }
+          {
+            userTypes === 'seller' && (
+              <>
+                <Switch>
+                  <Route path="/:propId?/property/photos/:imgId/:editType" exact component={DetailMedia} />
+                </Switch>
+              </>
+            )
+          }
+        </Switch>
+      </div>
+
+      { /* SECTION: ACHIVEMENT FLOW */ }
+      {
+        <Switch>
+          <ProtectedRoute path="/:propId?/rewards/achievement/market-checker" exact component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/assessor" exact component={Assessor} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
+        </Switch>
+      }
+
+
+      { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
+      {
+        modal.state && (
+          <BrixelModal
+            classHeight={modal.height}
+            classWidth={modal.width}
+            title={modal.title}
+            titleIcon={modal.titleIcon}
+            color={modal.color}
+            saturationTxt={modal.saturationTxt}
+            layout={modal.layout}
+            onClose={() => {
+              handleSetModal({ state: false });
+            }}
+            actions={modal.action}
+            multiActions={modal.multiActions}
+            clickOutsideToClose={modal.clickOutsideToClose}
+          >
+            <h6 className="mb-2" dangerouslySetInnerHTML={{ __html: modal.hint}} />
+            <div className="body2" dangerouslySetInnerHTML={{ __html: modal.body}} />
+          </BrixelModal>
+        )
+      }
+
+      { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
+      {
+        notification && (notification.small || notification.label) && (
+          <>
+            {
+              notification.small ? (
+                <div className="brxNotification">
+                  <BrixelIcon icon={notification.icon} />
+                  <span>{notification.text}</span>
+                </div>
+              ) : (
+                <BrixelNotification
+                  label={notification.label}
+                  type={notification.type}
+                  icon={notification.icon}
+                  actions={notification.actions}
+                  className="zIndex5"
+                />
+              )
+            }
+          </>
+        )
+      }
+
       {/*
 
       <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) ? 'no-sidebar' : ''} ${isSafari && isIosMobile ? 'safariSmall' : ''}`}>
@@ -193,7 +283,7 @@ const App = (props) => {
           )
         }
         <Switch>
-          { /* INFO: <Route> for free access <ProtectedRoute> for restricted access */ }
+          { /* INFO: <Route> for free access <ProtectedRoute> for restricted access * }
           { /* SECTION: ONBOARDING * }
           <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
           <Route path="/onBoarding/" component={OnBoarding} />
@@ -271,21 +361,7 @@ const App = (props) => {
           <Route path="/:propId?/:act/list" component={Properties} />
         </Switch>
       </div>
-
-      { /* SECTION: SIDEBAR RIGHT * }
-      <div className="zIndex3">
-        <Switch>
-          {/* SECTION: DOCUMENTS *}
-          {
-            userTypes === 'seller' && (
-              <>
-                <Route path="/:propId?/:act/edit" component={EditProperty} />
-              </>
-            )
-          }
-        </Switch>
-      </div>
-      */ }
+      */}
     </main>
   );
 };

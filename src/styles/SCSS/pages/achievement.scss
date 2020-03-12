@@ -1,75 +1,32 @@
-
 #achievementSection {
   height: 0;
-  width: 100%;
+  width: calc(100vw - 32px);
   overflow: hidden;
   margin: auto;
   box-shadow: $shadow-2dp;
   border-radius: $brd-radius-small;
-  position: relative;
-  height: 100%;
-
-  .gm-style {
-    .gm-style-cc { display: none}
-    .gm-bundled-control {
-      > div {
-        border-radius: 8px;
-        overflow: hidden;
-        transform: scale(0.8) translate(8px, 16px);
-        button {
-          img {
-            display: none !important;
-          }
-          &:after {
-            @include icomoon();
-            content: $icon-plus;
-            color: map_get($primaryColor, 400);
-          }
-          &:last-child {
-            border-top: 1px solid map_get($primaryColor, 100) !important;
-            &:after {
-              content: $icon-minus;
-            }
-          }
-        }
-      }
-    }
-  }
-
-
+  position: fixed;
+  top: $step * 2;
+  left: $step * 2;
+  background: $brx-white;
+  z-index: 10;
   .footerAction {
     position: absolute;
     bottom: 0;
-    /* @media (max-width: $responsive-medium) {
-      bottom: 52px;
-    }
-    @media (max-width: $responsive-small) {
-      bottom: calc(15vh + 16px);
-    } */
     span {
       white-space: nowrap;
     }
   }
-
   .singleStep {
     padding: $step * 3 $step * 2;
-    height: auto;
     .subcontainer {
       max-width: 480px;
     }
   }
-/*
-  .brixel-radio-button-icon {
-    margin-bottom: 16px;
-
-    label .textLabel {
-      margin-left: 16px;
-    }
-  } */
   &.withoutFooter {
-    height: 100%;
+    height: calc(100vh - 56px);
     .singleStep {
-      height: 100%;
+      height: calc(100vh - 54px);
     }
   }
   #progressBar {
@@ -78,7 +35,22 @@
     left: 0;
     width: 100%;
   }
-
+  @media (max-width: $responsive-small) {
+    .singleStep {
+      height: calc(85vh - 128px);
+    }
+  }
+  @media (min-width: $responsive-medium) {
+    .singleStep {
+      height: calc(100vh - 176px);
+    }
+    &.withoutFooter {
+      height: calc(100vh - 72px);
+      .singleStep {
+        height: calc(100vh - 72px);
+      }
+    }
+  }
   .boxMarketCheck {
     border-radius: $brd-radius-small;
     border: 1px solid map_get($lightColor, 200);
@@ -87,14 +59,12 @@
     align-items: stretch;
     padding: $step * 2 0;
     max-width: 100%;
-
     > div {
       flex: 0 0 33.33%;
       padding-left: $step * 3;
       display: flex;
       flex-direction: column;
       justify-content: center;
-
       &:not(:last-child) {
         border-right: 1px solid map_get($lightColor, 200);
       }
@@ -105,29 +75,24 @@
       }
     }
   }
-
   -webkit-animation: appearPage 0.5s 0.5s $default-easing forwards;
-
   @media (max-width: $responsive-medium) {
-   -webkit-animation: appearPageMd 0.5s $default-easing forwards;
+    -webkit-animation: appearPageMd 0.5s $default-easing forwards;
   }
   @media (max-width: $responsive-small) {
-   -webkit-animation: appearPageSm 0.5s $default-easing forwards;
+    -webkit-animation: appearPageSm 0.5s $default-easing forwards;
   }
 }
-
-
-
 // Achievement Page Animation
 @-webkit-keyframes appearPage {
   0% { height: 8vh; opacity: 0.5; }
-  100% { height: 100%; opacity: 1; }
+  100% { height: calc(100vh - 32px); opacity: 1; }
 }
 @-webkit-keyframes appearPageMd {
   0% { height: 8vh; opacity: 0.5; }
-  100% { height: 100%; opacity: 1; }
+  100% { height: calc(100vh - 52px); opacity: 1; }
 }
 @-webkit-keyframes appearPageSm {
   0% { height: 8vh; opacity: 0.5; }
-  100% { height: 100%; opacity: 1; }
+  100% { height: calc(85vh - 16px); opacity: 1; }
 }
