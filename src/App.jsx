@@ -36,6 +36,11 @@ const PageHeader = Loadable({
   loading: Loading,
 });
 
+const MenuSidebar = Loadable({
+  loader: () => import('./components/MenuSidebar' /* webpackChunkName: "MenuSidebar" */),
+  loading: Loading,
+});
+
 // ADMIN ROUTES
 const ProtectedRoute = Loadable({
   loader: () => import('./components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
@@ -138,6 +143,44 @@ const App = (props) => {
     <main className={`dis-fl-row jc-b}`}>
 
       <Loading isLoading={isLoading} />
+
+      <div className="container pos-r">
+        <div className="dis-f">
+          {
+            !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding') && loggedInUser && (
+              <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
+                <MenuSidebar />
+              </div>
+            )
+          }
+          <div className="zIndex1 w-perc-100">
+            {
+              (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
+                <PageHeader />
+              )
+            }
+            {
+              (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding')) && (
+                <PageHeaderDashboard />
+              )
+            }
+            <Switch>
+              { /* SECTION: HUB DASHBOARD */ }
+              <ProtectedRoute path="/" exact component={Dashboard} />
+              { /* SECTION: ALL USER DASHBOARD */ }
+              <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
+              <ProtectedRoute path="/:propId?/property" component={Dashboard} />
+              <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
+              <ProtectedRoute path="/:propId?/support" component={Dashboard} />
+              <Redirect path="/:propId?/*" to="/:propId?/rewards" component={Dashboard} />
+            </Switch>
+          </div>
+
+        </div>
+      </div>
+
+      {/*
+
       <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) ? 'no-sidebar' : ''} ${isSafari && isIosMobile ? 'safariSmall' : ''}`}>
         {
           (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
@@ -151,29 +194,29 @@ const App = (props) => {
         }
         <Switch>
           { /* INFO: <Route> for free access <ProtectedRoute> for restricted access */ }
-          { /* SECTION: ONBOARDING */ }
+          { /* SECTION: ONBOARDING * }
           <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
           <Route path="/onBoarding/" component={OnBoarding} />
 
-          { /* SECTION: INSERT TOKEN */ }
+          { /* SECTION: INSERT TOKEN * }
           <Route path="/tokeninput" component={InsertToken} />
 
-          { /* SECTION: GET STARTED*/ }
+          { /* SECTION: GET STARTED* }
           <Route path="/packageFlow/getstarted/" component={GetStarted} />
 
-          { /* SECTION: HUB DASHBOARD */ }
+          { /* SECTION: HUB DASHBOARD * }
           <ProtectedRoute path="/" exact component={Dashboard} />
-          { /* SECTION: ALL USER DASHBOARD */ }
+          { /* SECTION: ALL USER DASHBOARD * }
           <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
           <ProtectedRoute path="/:propId?/property" component={Dashboard} />
           <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
           <ProtectedRoute path="/:propId?/support" component={Dashboard} />
-          { /* SECTION: REDIRECT */ }
+          { /* SECTION: REDIRECT * }
 
         </Switch>
       </div>
 
-      { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
+      { /* SECTION: GENERAL MODAL - use redux modal to populate * }
       {
         modal.state && (
           <BrixelModal
@@ -197,7 +240,7 @@ const App = (props) => {
         )
       }
 
-      { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
+      { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate * }
       {
         notification && (notification.small || notification.label) && (
           <>
@@ -221,12 +264,18 @@ const App = (props) => {
         )
       }
 
-      { /* SECTION: SIDEBAR */ }
+      { /* SECTION: SIDEBAR LEFT * }
+      <div className="zIndex2">
+        <Switch>
+          {/* SECTION: DOCUMENTS *}
+          <Route path="/:propId?/:act/list" component={Properties} />
+        </Switch>
+      </div>
+
+      { /* SECTION: SIDEBAR RIGHT * }
       <div className="zIndex3">
         <Switch>
-          {/* SECTION: DOCUMENTS */}
-          <Route path="/:propId?/:act/list" component={Properties} />
-          <Route path="/:propId?/property/documents" exact component={Documents} />
+          {/* SECTION: DOCUMENTS *}
           {
             userTypes === 'seller' && (
               <>
@@ -236,7 +285,7 @@ const App = (props) => {
           }
         </Switch>
       </div>
-
+      */ }
     </main>
   );
 };

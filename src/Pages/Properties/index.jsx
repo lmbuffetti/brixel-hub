@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -21,6 +21,11 @@ import {
   getFavorites,
 } from '../../actions/UserActions';
 
+const DrawerLayoutLeft = Loadable({
+  loader: () => import('../../components/DrawerLayoutLeft' /* webpackChunkName: "DrawerLayoutLeft" */),
+  loading: LoadingSimple,
+});
+
 const PropertyList = Loadable({
   loader: () => import('./PropertyList' /* webpackChunkName: "Maps" */),
   loading: LoadingSimple,
@@ -29,6 +34,7 @@ const PropertyList = Loadable({
 const Properties = (props) => {
   // PROPS
   const {
+    closeProperty,
     getFavoritesOfUser,
     getPropertiesOfUser,
     favoritesProperties,
@@ -37,11 +43,13 @@ const Properties = (props) => {
     user,
     userProperties,
   } = props;
-
+  // STATE
+  const [activeTab, setActiveTab] = useState('');
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  console.log(props, match);
+  const propID = history.location.pathname.split('/')[1];
   const checkActiveTab = () => last(history.location.pathname.split('/'));
-  const sectionPage = get(match, 'params.act', 'home');
+  const sectionPage = get(match, 'params.act', 'rewards');
 
   useEffect(() => {
     if (get(user, 'user.id')) {
@@ -72,10 +80,7 @@ const Properties = (props) => {
   }
 
   return (
-    <DrawerLayout
-      classNameDrawer="ov-a"
-      closeLink={`/${propID}/${sectionPage}`}
-    >
+    <>
       <div className="properties-header dis-fl-row a-c jc-b mb-3 p-2">
         <div className="dis-fl-row a-c">
           <span className="docubox-title fweight-500 txtDark700">Properties</span>
@@ -88,7 +93,7 @@ const Properties = (props) => {
           color="dark"
           saturationTxt={700}
           icon="close-small"
-          onClick={() => history.push(`/${propID}/${sectionPage}`)}
+          onClick={() => closeProperty()}
         />
       </div>
       <BrixelTabs
@@ -103,19 +108,18 @@ const Properties = (props) => {
           `Owner (${countNumProperties('seller')})`,
           `Buyer (${countNumProperties('buyer')})`,
         ]}
-        activeTab={checkActiveTab() === 'list' ? '' : checkActiveTab()}
-        onClick={(tab) => {
-          history.push(`/${propID}/property/list/${tab}`);
-        }}
+        activeTab={activeTab}
+        onClick={(tab) => setActiveTab(tab)}
         fullWidth
       />
 
-      <PropertyList activeSection={checkActiveTab()} />
-    </DrawerLayout>
+      <PropertyList activeSection={activeTab} />
+    </>
   );
 };
 
 Properties.propTypes = {
+  closeProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   activeProperty: PropTypes.object.isRequired,
@@ -127,6 +131,7 @@ Properties.propTypes = {
 };
 
 Properties.defaultProps = {
+
 };
 
 const mapStateToProps = (state) => ({

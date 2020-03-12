@@ -16,6 +16,8 @@ import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
 import { getCalcSectionInputSheets } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
+import { reduxForm } from 'redux-form';
+import cloneDeep from 'lodash/cloneDeep';
 
 // SIDEBAR MENU
 const MenuSidebar = Loadable({
@@ -107,15 +109,9 @@ const Dashboard = (props) => {
     <div className="container" id="dashboard">
 
       { /* SECTION: APP HEADER */ }
-      {
-        !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding') && loggedInUser && (
-          <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
-            <MenuSidebar />
-          </div>
-        )
-      }
-      <div className="w-perc-100 ">
-        <div className="dis-f jc-b w-perc-100 a-t">
+
+      <div className="w-perc-100">
+        <div className="dis-f jc-b w-perc-100 a-t brdLight100">
           <BrixelTabs
             classNameLi="dis-fl-col"
             classNameUl="zIndex4"
@@ -124,7 +120,7 @@ const Dashboard = (props) => {
             classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
             activeTab={checkActiveTab()}
             fullWidth={false}
-            onClick={(val) => history.push(val)}
+            onClick={(val) => history.push(`/${propID}/${val}`)}
             showFull={false}
           />
           <button className="fsize-400 txtLight400">Support</button>
@@ -155,10 +151,34 @@ Dashboard.defaultProps = {
   userTypes: null,
 };
 
+const DashboardForm = reduxForm({
+  // a unique name for the form
+  form: 'Property',
+  enableReinitialize: true,
+  destroyOnUnmount: false,
+})(Dashboard);
+
 const mapStateToProps = (state) => ({
   userTypes: get(state, 'user.userTypes', null),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),
+  initialValues: {
+    assessor: get(state, 'property.activeSingleProperty.assessor', {}),
+    coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
+    description: get(state, 'property.activeSingleProperty.description', {}),
+    id: get(state, 'property.activeSingleProperty.id', null),
+    floorPlans: get(state, 'property.activeSingleProperty.floorPlans', []),
+    inputSheet: get(state, 'property.activeSingleProperty.inputSheet', {}),
+    language: get(state, 'property.activeSingleProperty.language', null),
+    listed: get(state, 'property.activeSingleProperty.listed', null),
+    location: get(state, 'property.activeSingleProperty.location', {}),
+    photos: cloneDeep(get(state, 'property.activeSingleProperty.photos', [])),
+    portals: get(state, 'property.activeSingleProperty.portals', {}),
+    properties: get(state, 'property.activeSingleProperty.properties', {}),
+    published: get(state, 'property.activeSingleProperty.published', null),
+    stub: get(state, 'property.activeSingleProperty.stub', null),
+    virtual: get(state, 'property.activeSingleProperty.virtual', null),
+  },
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -170,4 +190,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(Dashboard);
+)(DashboardForm);

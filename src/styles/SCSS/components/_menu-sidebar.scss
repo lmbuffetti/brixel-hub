@@ -1,5 +1,4 @@
 #menu-sidebar {
-  margin-top: $step * -11;
   header {
     left: 0;
     top: 0;
@@ -46,6 +45,23 @@
     .logout {
       align-self: center;
     }
+
+    .sidebarSubmenu {
+      position: absolute;
+      background: rgba($brx-white, 0.8);
+      left: 0;
+      padding-left: 84px;
+      width: 100%;
+      max-width: 100%;
+      .sidebarSubmenuContent {
+        height: 100%;
+        width: 100%;
+        background-color: $brx-white;
+        max-width: 768px;
+        box-shadow: $shadow-5dp;
+      }
+    }
+
   }
 
   @media screen and(min-width: map-get($grid-breakpoints, lg)) {
