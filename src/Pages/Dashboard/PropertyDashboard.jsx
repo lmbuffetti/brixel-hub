@@ -72,6 +72,11 @@ const HomeDashboard = (props) => {
     }
   }, [property, loggedInUser]);
 
+  const calcLenght = (val) => {
+    if (val) return val.length;
+    return 0
+  };
+
   return (
     <>
       <div className="property-info-container brdRadius">
@@ -155,7 +160,7 @@ const HomeDashboard = (props) => {
               <BrixelButtonBox
                 icon="gallery"
                 label="Photos"
-                subtitle={`${get(formValue, 'photos', []).length} Files`}
+                subtitle={`${calcLenght(get(formValue, 'photos', []))} Files`}
                 background="white"
                 className="w-perc-100 mr-1"
                 colorIcon={'white'}
@@ -165,7 +170,7 @@ const HomeDashboard = (props) => {
               <BrixelButtonBox
                 icon="plans"
                 label="Plans"
-                subtitle={`${get(formValue, 'floorPlans', []).length} Files`}
+                subtitle={`${calcLenght(get(formValue, 'floorPlans', []))} Files`}
                 background="white"
                 className="w-perc-100 ml-1"
                 colorIcon={'white'}
