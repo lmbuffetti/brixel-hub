@@ -16,6 +16,7 @@ import {
   SET_PAGE_DATA,
   PREVENT_EXIT_FROM_SCREEN,
   SET_UNSAVED_CHANGES_MODAL,
+  SET_WINDOW_DIMENSIONS,
 } from './types/CommonTypes';
 
 export const {
@@ -35,6 +36,7 @@ export const {
   setPageData,
   preventExitFromScreen,
   setUnsavedChangesModal,
+  setWindowDimensions,
 } = createActions({
   [ERROR_MESSAGE]: (payload) => payload,
   [REDIRECT_TO]: (payload) => payload,
@@ -52,4 +54,5 @@ export const {
   [SET_PAGE_DATA]: (payload) => payload,
   [PREVENT_EXIT_FROM_SCREEN]: (payload) => payload,
   [SET_UNSAVED_CHANGES_MODAL]: (payload) => payload,
+  [SET_WINDOW_DIMENSIONS]: (payload) => payload,
 });

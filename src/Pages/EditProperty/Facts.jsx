@@ -7,6 +7,7 @@ import { change, reset, Field } from 'redux-form';
 import get from 'lodash/get';
 import {
   BrixelButtonIcon,
+  BrixelButtonPrimary,
   BrixelIcon,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
@@ -48,6 +49,7 @@ const InputSheet = (props) => {
   // STATE
   const [Questions] = useState(InputSheets('en'));
   const [selectedQuest, setSelectedQuest] = useState(null);
+  const [changeSection, setChangeSection] = useState(false);
   // PARAMS URL
   const propID = get(match, 'params.propId', null);
 
@@ -97,57 +99,110 @@ const InputSheet = (props) => {
     return calPerc;
   };
 
-  return (
-    <div className="pb-10">
-      <div className="dis-f">
-        <div>
-          {
-            Questions.map((quest, i) => (
-              <div
-                className={`accordWrap px-0 px-md-2`}
-                key={i.toString()}
-              >
-                {
-                  quest.group && (
-                    <span className="accordGroup fweight-600 dis-b pt-3 pb-1 txtDark700 px-2 px-md-0">
-                      {quest.group || ''}
-                    </span>
-                  )
-                }
-                <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0">
-                  <div
-                    className="accordTitle dis-f a-c cur-poi pt-2 pb-2"
-                    onClick={() => setSelectedQuest(quest)}
-                  >
-                    <BrixelIcon
-                      icon="check"
-                      background={checkSectionDone(quest) ? "green" : "white"}
-                      saturation={checkSectionDone(quest) ? 400 : 0}
-                      color={checkSectionDone(quest) ? "white" : "dark"}
-                      saturationTxt={checkSectionDone(quest) ? 0 : 200}
-                      bgTransparent={!checkSectionDone(quest)}
-                      className={`brdSmall ml-1 dis-b p-small-4 ${checkSectionDone(quest) ? 'border-green' : ''}`}
-                      rounded
-                      iconSize="small"
-                    />
-                    <h4 className={`body ml-1 txtDark400 fweight-500`}>
-                      {quest.title}
-                    </h4>
-                  </div>
-                </div>
+  useEffect(() => {
+    calcPercentage();
+  }, [formValue]);
 
+  useEffect(() => {
+    if (changeSection) {
+      const selectEl = Questions.findIndex(item => item.history === selectedQuest.history);
+      setSelectedQuest(Questions[selectEl + 1]);
+      setChangeSection(false);
+    }
+  }, [isSmallLoading]);
+
+  const saveData = async () => {
+    const dataToSend = formValue;
+    delete dataToSend.owner;
+    delete dataToSend.favoritedByUsers;
+    const data = {
+      id: propID,
+      smallLoader: true,
+      ...dataToSend,
+    };
+    // For now we still dont use the diff object (TODO: API ticket)
+    // diff(initialValues, formValue)
+    // const dataInputSheet = {
+    //   skipSection: skipSection,
+    // totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion,'getPercentage', null),
+    // };
+
+    // await handleSaveProperty({id: propID, inputSheet: dataInputSheet});
+    setChangeSection(true);
+    await handleSaveProperty(data);
+  };
+
+  return (
+    <div className="dis-f h-perc-100 ov-h">
+      <div className="h-perc-100 ov-a w-perc-100">
+        {
+          Questions.map((quest, i) => (
+            <div
+              className={`accordWrap cur-poi px-0 px-md-2 ${selectedQuest && selectedQuest.history === quest.history ? 'active' : ''}`}
+              key={i.toString()}
+              onClick={() => setSelectedQuest(quest)}
+            >
+              {
+                quest.group && (
+                  <span className="accordGroup fweight-600 dis-b pt-3 pb-2 txtDark700 px-2 px-md-0">
+                    {quest.group || ''}
+                  </span>
+                )
+              }
+              <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0">
+                <div
+                  className="accordTitle dis-f a-c pt-2 pb-2"
+                >
+                  <BrixelIcon
+                    icon="check"
+                    background={checkSectionDone(quest) ? "green" : "white"}
+                    saturation={checkSectionDone(quest) ? 400 : 0}
+                    color={checkSectionDone(quest) ? "white" : "dark"}
+                    saturationTxt={checkSectionDone(quest) ? 0 : 200}
+                    bgTransparent={!checkSectionDone(quest)}
+                    className={`brdSmall ml-1 dis-b p-small-4 ${checkSectionDone(quest) ? 'border-green' : ''}`}
+                    rounded
+                    iconSize="small"
+                  />
+                  <h4 className={`body ml-1 txtDark400 fweight-500`}>
+                    {quest.title}
+                  </h4>
+                </div>
               </div>
-            ))
-          }
-        </div>
-        <div>
-          {
-            selectedQuest && (
-              <FactsQuestion quest={selectedQuest} />
-            )
-          }
-        </div>
+
+            </div>
+          ))
+        }
       </div>
+      {
+        selectedQuest && (
+          <div className="dis-fl-col h-perc-100 w-perc-100">
+            <div className="h-perc-100 ov-a p-2">
+              <FactsQuestion quest={selectedQuest} />
+            </div>
+            <div className="dis-f p-2">
+              <BrixelButtonPrimary
+                label='Cancel'
+                background="white"
+                saturation={0}
+                color="dark"
+                saturationTxt={400}
+                rounded
+                className="shadow-3dp"
+                onClick={() => setSelectedQuest(null)}
+              />
+              <BrixelButtonPrimary
+                label='Save & Next'
+                background="primary"
+                saturation={400}
+                rounded
+                onClick={() => saveData()}
+                isLoading={isSmallLoading}
+              />
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 };

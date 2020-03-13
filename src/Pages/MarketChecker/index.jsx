@@ -298,22 +298,12 @@ function MarketCheck(props) {
                 {
                   Questions[currentIndex] && !Questions[currentIndex + 1] && (
                     <>
-                      <BrixelButtonSecondary
-                        rounded
-                        label="Not Now"
-                        background={"primary"}
-                        className="max-w-fix-280 w-perc-100 mr-1"
-                        onClick={() => history.push(`/${propID}/home`)}
-                        disabled={disableNextBtn}
-                      />
                       <BrixelButtonPrimary
                         rounded
-                        label="Yes, update"
+                        label="Finish"
                         background={"primary"}
-                        className="max-w-fix-280 w-perc-100 ml-1"
-                        onClick={() => { setPosition(Questions.length - 2); setCurrentIndex(Questions.length - 2); setSaved(true) } }
-                        rightIcon="arrow-right-small"
-                        disabled={disableNextBtn}
+                        className="max-w-fix-280 w-perc-100 mr-1"
+                        onClick={() => history.push(`/${propID}/rewards`)}
                       />
                     </>
                   )

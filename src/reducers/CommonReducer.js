@@ -17,11 +17,16 @@ import {
   SET_PAGE_DATA, SET_MODAL,
   PREVENT_EXIT_FROM_SCREEN,
   SET_UNSAVED_CHANGES_MODAL,
+  SET_WINDOW_DIMENSIONS,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies();
 
 export const defaultState = {
+  windowDimensions: {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  },
   isLoading: 0,
   isSmallLoading: 0,
   requestDone: false,
@@ -94,6 +99,10 @@ export const defaultState = {
 
 export default handleActions(
   {
+    [SET_WINDOW_DIMENSIONS]: (state) => ({
+      ...state,
+      isLoading: state.isLoading + 1,
+    }),
     [SPINNER_ON]: (state) => ({
       ...state,
       isLoading: state.isLoading + 1,

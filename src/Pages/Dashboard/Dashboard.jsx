@@ -157,7 +157,7 @@ const Dashboard = (props) => {
         }
         if (setValid && (notification.type !== 'info' || load !== isSmallLoading)) {
           setNotification({
-            state: true,
+            state: false,
             type: 'info',
             label: 'Save changes?',
             actions:
@@ -169,7 +169,7 @@ const Dashboard = (props) => {
         }
         // SET NOTIFICATION TO SUCCESS SAVE
       } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'success') {
-        setTimeout(() => closeNotificationBar(), 2000);
+        //setTimeout(() => closeNotificationBar(), 2000);
         // REMOVE NOTIFICATION
       } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'info') {
         // setNotification({ state: false });
@@ -187,22 +187,6 @@ const Dashboard = (props) => {
       { /* SECTION: APP HEADER */ }
 
       <div className="w-perc-100">
-        <div className="dis-f jc-b w-perc-100 a-t brdLight100">
-          <BrixelTabs
-            classNameLi="dis-fl-col"
-            classNameUl="zIndex4"
-            labels={['Rewards', 'Property', 'Listings']}
-            clicksList={['rewards', 'property', 'listings']}
-            classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
-            activeTab={checkActiveTab()}
-            fullWidth={false}
-            onClick={(val) => history.push(`/${propID}/${val}`)}
-            showFull={false}
-          />
-          <button className="fsize-400 txtLight400">Support</button>
-        </div>
-
-
         <ProtectedRoute path="/:propId?/rewards" component={RewardsDashboard} />
         <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
         <ProtectedRoute path="/:propId?/listings" component={SupportDashboard} />

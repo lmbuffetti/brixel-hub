@@ -54,6 +54,7 @@ const HomeDashboard = (props) => {
     loggedInUser,
     match,
     property,
+    windowDimensions,
   } = props;
   // STATE
   const [userType, setUserType] = useState();
@@ -71,25 +72,9 @@ const HomeDashboard = (props) => {
     }
   }, [property, loggedInUser]);
 
-  const goToPreview = (e) => {
-    e.preventDefault();
-    if (userType === 'seller') window.open(`${getConfigEnv.pageUrl}preview/${property.stub}`, '_blank');
-    else window.open(`${getConfigEnv.pageUrl}${property.stub}`, '_blank');
-  };
-
-  const goToInputSheet = (e) => {
-    e.preventDefault();
-    history.push(`/${propID}/property/edit/facts`);
-  };
-
-  const openDocuments = (e) => {
-    e.preventDefault();
-    history.push(`/${propID}/property/documents`);
-  };
-
   return (
     <>
-      <div className="property-info-container brdRadius p-md-2">
+      <div className="property-info-container brdRadius">
         <div className="dis-f">
           <div className="bgLight100 p-2">
             <div className="bgWhite brdRadius shadow-3dp" onClick={() => history.push(`/${propID}/property/facts`)}>
@@ -213,12 +198,13 @@ const HomeDashboard = (props) => {
 
           </div>
 
-          <Route path="/:propId?/property/facts" exact component={Facts} />
-          <Route path="/:propId?/property/photos" component={Photos} />
-          <Route path="/:propId?/property/plans" exact component={Plans} />
-          <Route path="/:propId?/property/tour" exact component={Tour} />
-          <Route path="/:propId?/property/documents" exact component={Documents} />
-
+          <div className="w-perc-100" style={{ height: windowDimensions.height - 121 }}>
+            <Route path="/:propId?/property/facts" exact component={Facts} />
+            <Route path="/:propId?/property/photos" component={Photos} />
+            <Route path="/:propId?/property/plans" exact component={Plans} />
+            <Route path="/:propId?/property/tour" exact component={Tour} />
+            <Route path="/:propId?/property/documents" exact component={Documents} />
+          </div>
         </div>
 
       </div>
@@ -234,12 +220,14 @@ HomeDashboard.propTypes = {
   match: PropTypes.object.isRequired,
   property: PropTypes.object.isRequired,
   userAwards: PropTypes.arrayOf(PropTypes.object.isRequired),
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 HomeDashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  windowDimensions: get(state, 'common.windowDimensions', {}),
   formValue: get(state, 'form.Property.values', {}),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),

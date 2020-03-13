@@ -12,8 +12,8 @@ import { GameGroupConfig } from '../../constants/global';
 import brixels from '../../images/BrxielComingTown/brixels.svg';
 import Loadable from 'react-loadable';
 
-const ProtectedRoute = Loadable({
-  loader: () => import('../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
+const SuccessMarketCheck = Loadable({
+  loader: () => import('../MarketChecker/SuccessMarketCheck' /* webpackChunkName: "SuccessMarketCheck" */),
   loading: Loading,
 });
 
@@ -27,14 +27,14 @@ const RewardsDashboard = (props) => {
     gameHistory,
     handleGetGameAchievement,
     handleGetGameGroup,
-    // handleGetGameHistory,
     handleAddGameHistory,
-    history,
     loggedInUser,
     property,
   } = props;
   // STATE
   const [usrGroups, setUsrGroups] = useState(gameGroup);
+  const [activeGameGroup, setActiveGameGroup] = useState(null);
+  const [activeAchievement, setActiveAchievement] = useState(null);
 
   useEffect(() => {
     handleGetGameAchievement();
@@ -73,6 +73,11 @@ const RewardsDashboard = (props) => {
       }
     }
   }, [property, gameHistory, userTypes]);
+
+  const onClickAchievement = (game, achievement) => {
+    setActiveGameGroup(game);
+    setActiveAchievement(achievement);
+  };
 
   if (!property.id && !userTypes) {
     return <Loading />
@@ -144,7 +149,8 @@ const RewardsDashboard = (props) => {
                                     item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
                                     {label: item.points, color: 'dark200'},
                                   ]}
-                                  onClick={() => history.push(`/${property.id}/rewards/achievement/${item.stub}`)}
+                                  onClick={() => onClickAchievement(item.stub, item)}
+                                  //onClick={() => history.push(`/${property.id}/rewards/achievement/${item.stub}`)}
                                 />
                               )
                             }
@@ -159,9 +165,13 @@ const RewardsDashboard = (props) => {
           ))
         }
 
-        <div>
-
-        </div>
+        {
+          activeGameGroup && (
+            <div>
+              <SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />
+            </div>
+          )
+        }
       </div>
     </div>
   )

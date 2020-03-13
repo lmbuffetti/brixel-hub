@@ -1,103 +1,14 @@
-.factSection {
-  .container {
-    @media (max-width: $responsive-medium) {
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }
+.accordControl {
+  border-bottom: 1px solid map_get($lightColor, 400);
+  border-top: 1px solid map_get($lightColor, 400);
+  margin-bottom: -1px;
 }
 
-.property-info-container {
-  .title {
-    line-height: 0;
-  }
-}
-
-.accordWrap {
-  .accordTitle {
-    width: 100%;
-    > h4 {
-      transition: color $default-time-long $default-easing;
-    }
-  }
-  &.openedAccord  {
-    .accordGroup + {
-      .accordControl {
-        border-top: 1px solid map_get($lightColor, 100);
-      }
-    }
-  }
-  .accordGroup + {
-    .accordControl {
-      border-top: 1px solid transparent;
-    }
-  }
-
+.active {
   .accordControl {
-    background: map-get($lightColor, 100 );
-    border-bottom: 2px solid #fff;
-   // border-bottom: 1px solid map_get($lightColor, 400);
-
-    i.border-green {
-      border-color: map_get($greenColor, 400);
-    }
-    i.border-primary {
-      border-color: map_get($primaryColor, 300) ;
-    }
-  }
-  .accordContent {
-    overflow: hidden;
-    max-height: 0;
-
-    // overwritten styleguide css
-    .singleInput {
-      .brixel-label {
-        display: block;
-      }
-      .brixel-text-input[type=number] {
-        max-width: 164px;
-      }
-      .message:empty {
-        display: none;
-      }
-      .helpLink .message.cur-poi {
-        color: map-get($primaryColor, 400);
-        &:before {
-          @include icomoon();
-          content: $icon-info;
-          font-size: 14px;
-          top: 3px;
-          position: relative;
-          padding-right: 4px;
-        }
-      }
-      .wrap-brixel-input-step {
-        padding: 0;
-        background: white;
-      }
-    }
-  }
-
-
-  &.openedAccord {
-
-    .accordControl {
-      border-bottom: 0;
-      background: white;
-      //border-top: 1px solid map_get($lightColor, 200);
-    }
-    .accordContent {
-      border-bottom: 1px solid map_get($lightColor, 200);
-      animation: expandDown $default-time-long $default-easing forwards;
-      @keyframes expandDown {
-        0% {max-height: 0; opacity: 0.6;}
-        100% {max-height: 3000px; opacity: 1;}
-      }
-
-      > div > div {
-        padding: $step $step $step * 2;
-      }
-
-    }
+    border-top: 1px solid map_get($darkColor, 400);
+    border-bottom: 1px solid map_get($darkColor, 400);
+    position: relative;
+    z-index: 1;
   }
 }

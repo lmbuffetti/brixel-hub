@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
-import { BrixelButtonIcon, BrixelDropdown } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelDropdown, BrixelTabs } from '@brixel/brixel-components';
 import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
@@ -13,6 +13,7 @@ import { getGameHistory } from '../actions/GamificationActions';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import noCover from '../images/no_cover.jpg';
 import has from 'lodash/has';
+import last from 'lodash/last';
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -28,12 +29,17 @@ function PageHeaderDashboard(props) {
     gameHistory,
     handleGetGame,
     handleSetLanguage,
+    history,
     property,
   } = props;
   // STATE
   const [currentLang, setCurrentLang] = useState(lang);
   const [dropLang, setDropLang] = useState([]);
   const [widthScreen, setWidthScreen] = useState(0);
+
+  // URL PARAMS
+  const checkActiveTab = () => last(history.location.pathname.split('/'));
+  const propID = history.location.pathname.split('/')[1];
 
   useEffect(() => {
     if (loggedInUser && loggedInUser.user) {
@@ -156,6 +162,22 @@ function PageHeaderDashboard(props) {
             }
           </div>
         </div>
+
+        <div className="dis-f jc-b w-perc-100 a-t brdLight100">
+          <BrixelTabs
+            classNameLi="dis-fl-col"
+            classNameUl="zIndex4"
+            labels={['Rewards', 'Property', 'Listings']}
+            clicksList={['rewards', 'property', 'listings']}
+            classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
+            activeTab={checkActiveTab()}
+            fullWidth={false}
+            onClick={(val) => history.push(`/${propID}/${val}`)}
+            showFull={false}
+          />
+          <button className="fsize-400 txtLight400">Support</button>
+        </div>
+
       </header>
     </>
   );

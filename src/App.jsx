@@ -1,6 +1,6 @@
 /* global ga */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Switch, Route, withRouter, Redirect,
 } from 'react-router-dom';
@@ -16,7 +16,7 @@ import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
 import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
 import { getBrowserPlatform} from '@brixel/brixel-components/src/utils/helper';
-import { setModal } from './actions/CommonActions';
+import { setModal, setWindowDimensions } from './actions/CommonActions';
 import { setUserTypes } from './actions/UserActions';
 
 // GET STARTED ADD ADD PROPERTY
@@ -103,12 +103,14 @@ const Bestimate = Loadable({
 const cookies = new Cookies();
 
 const App = (props) => {
+  // PROPS
   const {
     userTypes,
     handleSetActiveUsertype,
     history,
     handleCheckToken,
     handleSetModal,
+    handleSetWindowsDimension,
     isLoading,
     isSmallLoading,
     loggedInUser,
@@ -116,10 +118,19 @@ const App = (props) => {
     notification,
     property,
     redirectTo,
+    windowDimensions,
   } = props;
+  // STATE
+  const [height, setHeight] = useState(window.innerHeight);
 
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) handleCheckToken();
+    window.addEventListener('resize', () => {
+      handleSetWindowsDimension({
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
+    })
   }, []);
 
   useEffect(() => {
@@ -159,7 +170,7 @@ const App = (props) => {
 
       <Loading isLoading={isLoading} />
 
-      <div className="container pos-r">
+      <div className="container pos-r ov-h">
         <div className="dis-f">
           {
             !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding') && loggedInUser && (
@@ -168,7 +179,7 @@ const App = (props) => {
               </div>
             )
           }
-          <div className="zIndex1 w-perc-100">
+          <div className="zIndex1 w-perc-100 dis-fl-col" style={{ height: windowDimensions.height }}>
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
                 <PageHeader />
@@ -371,12 +382,14 @@ App.propTypes = {
   history: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
+  handleSetWindowsDimension: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   loggedInUser: PropTypes.object.isRequired,
   notification: PropTypes.object,
   match: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
   redirectTo: PropTypes.object,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 App.defaultProps = {
@@ -386,6 +399,7 @@ App.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  windowDimensions: get(state, 'common.windowDimensions', {}),
   userTypes: get(state, 'user.userTypes', null),
   property: get(state, 'property.activeSingleProperty', {}),
   config: get(state, 'common.config', {}),
@@ -402,6 +416,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetLanguages: bindActionCreators(setLanguages, dispatch),
   handleSetActiveUsertype: bindActionCreators(setUserTypes, dispatch),
+  handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 
 export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);
