@@ -26,7 +26,7 @@
 
 // ALL DEVICES
 #dashboard {
-
+  height: calc(100% - 121px);
   .panelTab {
     padding-bottom: 100px;
   }
@@ -206,20 +206,10 @@
             min-height: 100%;
           }
         }
-        .homeTab,
-        .propertyTab {
-          flex: 0 0 42% !important;
-        }
-        .supportTab {
-          flex: 0 0 16% !important;
-          top: 78px;
-        }
         .homeTab {
           top: 29px;
         }
         .propertyTab {
-          max-width: 500px;
-          min-width: 370px;
           .property-info-container {
             background-color: map-get($lightColor, 100);
           }
@@ -238,16 +228,13 @@ and (max-width : $responsive-large) {
     .brixel-tabs .panelTab {
       .scrollTab {
         .propertyTab {
-          flex: 0 0 30% !important;
           padding-right: 0;
         }
         .homeTab {
-          flex: 0 0 38% !important;
           padding: 0;
           padding-left: 8px;
         }
         .supportTab {
-          flex: 0 0 18% !important;
           padding-left: 0;
         }
       }
@@ -271,29 +258,6 @@ and (max-width : $responsive-large) {
         .propertyTab {
           padding-left: 0;
         }
-      }
-    }
-  }
-}
-
-// LARGE DESKTOP SCREEN
-@media screen and(min-width: map-get($grid-breakpoints, xl)) {
-
-  #dashboard.container {
-    .brixel-tabs .panelTab {
-
-      .scrollTab {
-
-        .propertyTab {
-          flex: 0 0 40% !important;
-        }
-        .homeTab {
-          flex: 0 0 45% !important;
-        }
-        .supportTab {
-          flex: 0 0 15% !important;
-        }
-
       }
     }
   }

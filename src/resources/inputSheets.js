@@ -156,7 +156,6 @@ export const InputSheets = (lang) => [
               '<p class="body2"><b>Fair quality:</b> Noise insulation (within the building and from outside) with small defects; sufficient heat insulation; small problems with humidity or airtightness; sufficient indoor climate; fair room layout; obsolete but fully working kitchen and sanitation; particular construction parts can only be replaced with some effort; no architectural attractiveness; marginal view from within and from outside; appropriate green areas with ordinary planting and seating areas.</p>' +
               '<p class="body2"><b>Poor quality:</b> Noise insulation with defects; heat insulation is below average and not fulfilling current standard; obvious problems with humidity or airtightness; insufficient indoor climate; insufficient room layout; obsolete kitchen and sanitation with small defects; particular construction parts can only be replaced with much effort; missing architectural attractiveness; no view from within and from outside; litle green areas and seating areas.</p>',
           },
-          validation: [Validation.markRequired]
         }
       },
       {

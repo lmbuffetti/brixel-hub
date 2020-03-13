@@ -7,6 +7,7 @@ import { change, reset, Field } from 'redux-form';
 import get from 'lodash/get';
 import {
   BrixelButtonIcon,
+  BrixelButtonPrimary,
   BrixelIcon,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
@@ -22,6 +23,9 @@ import { getCalcSectionInputSheets } from '../../utils/helpers';
 
 // COMPONENTS
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
+import FactsQuestion from './FactsQuestion';
+import { diff } from 'deep-object-diff';
+import set from 'lodash/set';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
@@ -38,246 +42,166 @@ const InputSheet = (props) => {
     initial,
     isSmallLoading,
     match,
+    notification,
+    setNotification,
   } = props;
 
   // STATE
   const [Questions] = useState(InputSheets('en'));
-  const [accordion, setAccordion] = useState({});
-  const [accordionAnimatad, setAccordionAnimatad] = useState({});
-  const [skipSection, setSkipSection] = useState(get(initial, 'inputSheet.skipSection', {}));
-  const [sectionProgress, setSectionProgress] = useState({});
-  const [selObj, setSelObj] = useState(null);
-
-  useEffect(() => {
-    if (initial.inputSheet) setSkipSection(get(initial, 'inputSheet.skipSection', {}));
-  }, [initial]);
-
+  const [selectedQuest, setSelectedQuest] = useState(null);
+  const [changeSection, setChangeSection] = useState(false);
+  // PARAMS URL
   const propID = get(match, 'params.propId', null);
 
-  // FUNCTION ON CLICK TO ENABLE/DISABLE QUESTION GROUP
-  const handleSkipSection = async (key) => {
-    const newSkipSection = skipSection;
-    newSkipSection[key] = !newSkipSection[key];
-    setSkipSection({...newSkipSection});
-    setSectionProgress({
-      ...sectionProgress,
-      section: newSkipSection,
+  const checkSectionDone = (val, act = 'section') => {
+    let sectionDone = true;
+    val.inputs.map((item) => {
+      if (item.validation) {
+        if (sectionDone) {
+          if (get(formValue, `inputSheet.skipSection[${item.name}]`, true) !== true) {
+            sectionDone = false;
+          }
+          else if (get(formValue, item.name, false) === false) {
+            sectionDone = false;
+          }
+        }
+      }
     });
-
-    const data = {
-      skipSection: newSkipSection,
-      totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion, 'getPercentage', newSkipSection),
-    };
-    const getData = getCalcSectionInputSheets(Questions, formValue, accordion, null, newSkipSection);
-    setSectionProgress({...getData.accordion});
-    setSectionProgress({...getData.section});
-    setSelObj(key);
-    changeFieldValue('inputSheet', data);
-    await handleSaveProperty({id: propID, inputSheet: data, smallLoader: true});
+    if (act === 'section') return sectionDone;
   };
 
-  // FUNCTION TO LOAD DIFFERENT CHACKMAR IF GROUP IS COMPLETE, UNCOMPLETE, DISABLE
-  const checkQuestionGroup = (quest, skipped = {}) => {
-    if (sectionProgress && sectionProgress.sectionComplete && sectionProgress.sectionComplete[quest.history]) {
-      return (
-        <div>
-          <BrixelIcon
-            className="brdSmall dis-b border-green"
-            icon="check"
-            rounded
-            background="green"
-            saturation={400}
-            color="white"
-            saturationTxt={0}
-            iconSize="small"
-            padding="p-small-7"
-          />
-        </div>
-      )
-    } else {
-      return (
-        <div>
-          <BrixelButtonIcon
-            icon="check"
-            rounded
-            bgTransparent={!skipped[quest.history]}
-            background={skipped[quest.history] ? 'primary' : ''}
-            saturation={skipped[quest.history] ? 300 : 0}
-            noBorder={skipped[quest.history]}
-            color={skipped[quest.history] ? "white" : "dark"}
-            saturationTxt={skipped[quest.history] ? 0 : 400}
-            className={`brdSmall dis-b p-small-4 ${skipped[quest.history] ? 'border-primary' : ''}`}
-            iconSize="small"
-            onClick={() => handleSkipSection(quest.history)}
-            isLoading={isSmallLoading && quest.history === selObj}
-          />
-        </div>
-      )
+  const calcPercentage = () => {
+    let countTotal = 0;
+    let countDone = 0;
+    Questions.map((val) => {
+      val.inputs.map((item) => {
+        if (item.validation) {
+          if (get(formValue, `inputSheet.skipSection[${item.name}]`, false)) {
+            countTotal += 1;
+            countDone += 1;
+          }
+          else if (get(formValue, item.name, false) !== false) {
+            countTotal += 1;
+            countDone += 1;
+          } else {
+            countTotal += 1;
+          }
+        }
+      });
+    });
+    const inputSheet = get(formValue, 'inputSheet', {});
+    const calPerc = countDone * countTotal / 100;
+    const savedPerc = get(formValue, `inputSheet.totalComplete`, 0);
+    if (calPerc !== savedPerc) {
+      inputSheet.totalComplete = calPerc;
+      changeFieldValue('inputSheet', inputSheet);
     }
+    return calPerc;
   };
 
   useEffect(() => {
-    if (formValue.id) {
-      const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
-      setAccordion({...getData.accordion});
-      setAccordionAnimatad({...getData.accordion});
-      setSectionProgress({...getData.section});
+    calcPercentage();
+  }, [formValue]);
+
+  useEffect(() => {
+    if (changeSection) {
+      const selectEl = Questions.findIndex(item => item.history === selectedQuest.history);
+      setSelectedQuest(Questions[selectEl + 1]);
+      setChangeSection(false);
     }
-  }, [errorValue]);
+  }, [isSmallLoading]);
 
-  const checkCondition = (val) => {
-    let isToShow = true;
-    if (val && val.condition) {
-      const formCurVal = get(formValue, val.condition.name, null);
-      if (val.condition.value === 'isPositive') isToShow = formCurVal > 0;
-      else if (val.condition.value !== formCurVal) isToShow = false;
-    }
-    return isToShow;
-  };
+  const saveData = async () => {
+    const dataToSend = formValue;
+    delete dataToSend.owner;
+    delete dataToSend.favoritedByUsers;
+    const data = {
+      id: propID,
+      smallLoader: true,
+      ...dataToSend,
+    };
+    // For now we still dont use the diff object (TODO: API ticket)
+    // diff(initialValues, formValue)
+    // const dataInputSheet = {
+    //   skipSection: skipSection,
+    // totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion,'getPercentage', null),
+    // };
 
-  const getCalcPerc = () => {
-    const getData = getCalcSectionInputSheets(Questions, formValue, accordion,null, null);
-    setSectionProgress({...getData.accordion});
-    setSectionProgress({...getData.section});
-  };
-
-  const toggleAccordion = (quest) => {
-    setAccordion({ ...accordion, [quest.history]: !accordion[quest.history] });
-    setAccordionAnimatad({ ...accordion, [quest.history]: true });
-
-    /* setTimeout(() => setAccordionAnimatad({ ...accordionAnimatad, [quest.history]: !accordion[quest.history] }), 1000, ); */
+    // await handleSaveProperty({id: propID, inputSheet: dataInputSheet});
+    setChangeSection(true);
+    await handleSaveProperty(data);
   };
 
   return (
-    <div className="pb-10">
-
-      <div className="dis-f a-c my-2 jc-b body2 txtDark200 px-2">
-        <span>Expand all</span>
-        <span>All tasks</span>
-      </div>
-
-      {
-        Questions.map((quest, i) => (
-          <div
-            className={`accordWrap px-0 px-md-2 ${accordion[quest.history] ? 'openedAccord' : 'closedAccord'}`}
-            key={i.toString()}
-          >
-            {
-              quest.group && (
-                <span className="accordGroup fweight-600 dis-b pt-3 pb-1 txtDark700 px-2 px-md-0">
-                  {quest.group || ''}
-                </span>
-              )
-            }
-            <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0">
-              <div
-                className="accordTitle dis-f a-c cur-poi pt-2 pb-2"
-                onClick={() => toggleAccordion(quest)}
-              >
-                <BrixelIcon
-                  icon={accordion[quest.history] ? "minus" : "plus"}
-                  color="dark"
-                  saturationTxt={accordion[quest.history] ? 400 : 200}
-                  iconSize="small"
-                  className="ml-1"
-                />
-                <h4 className={`body ml-1 ${accordion[quest.history] ? "txtDark400 fweight-500" : "txtDark200"}`}>
-                  {quest.title}
-                </h4>
-              </div>
-              {checkQuestionGroup(quest, skipSection)}
-            </div>
-            {
-              accordion[quest.history] && (
+    <div className="dis-f h-perc-100 ov-h">
+      <div className="h-perc-100 ov-a w-perc-100">
+        {
+          Questions.map((quest, i) => (
+            <div
+              className={`accordWrap cur-poi px-0 px-md-2 ${selectedQuest && selectedQuest.history === quest.history ? 'active' : ''}`}
+              key={i.toString()}
+              onClick={() => setSelectedQuest(quest)}
+            >
+              {
+                quest.group && (
+                  <span className="accordGroup fweight-600 dis-b pt-3 pb-2 txtDark700 px-2 px-md-0">
+                    {quest.group || ''}
+                  </span>
+                )
+              }
+              <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0">
                 <div
-                  key={i.toString()}
-                  className="accordContent"
+                  className="accordTitle dis-f a-c pt-2 pb-2"
                 >
-                  {
-                    quest.inputs.map((input, f) => (
-                      <div className="singleInput" key={f.toString()}>
-                        {
-                          checkCondition(input) && (typeof accordion[quest.history] !== 'undefined' ? accordion[quest.history] : accordionAnimatad[quest.history]) && (
-                            <div key={f.toString()}>
-                              {
-                                input.type === 'Map' ? (
-                                  <>
-                                    <div className="mb-20 pos-r zIndex1">
-                                      <Field
-                                        name={input.name}
-                                        label={input.label}
-                                        component={() => (
-                                          <Maps
-                                            zoom={14}
-                                            scrollZoom
-                                            moveMarker
-                                            draggable
-                                            showSearchLocation
-                                            showSelectCountry={true}
-                                            showMap={true}
-                                            isShowZip={false}
-                                            className="w-perc-100"
-                                          />
-                                        )}
-                                        options={input.options}
-                                        validate={input.validation}
-                                        type={input.type}
-                                      />
-                                    </div>
-                                  </>
-                                ) : (
-                                  <div className="dis-f a-c jc-b">
-                                    <div
-                                      className={`${input.classNameBox || ''} dis-fl-col w-perc-100`}
-                                      tabIndex="-1"
-                                    >
-                                      {input.deactivable ? input.deactivable.toString() : ''}
-                                      <Field
-                                        className={input.className || ''}
-                                        inputClassName={input.inputClassName || ''}
-                                        isHorizontal={input.isHorizontal}
-                                        name={input.name}
-                                        label={input.label}
-                                        icons={input.icons}
-                                        component={input.component}
-                                        fluid={false}
-                                        options={input.options}
-                                        validate={input.validation}
-                                        type={input.type}
-                                        step={+input.step}
-                                        min={input.min}
-                                        deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
-                                        placeholder={input.placeholder || ''}
-                                        meta={{
-                                          dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                          invalid: true,
-                                        }}
-                                        modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
-                                        message={{
-                                          help: null,
-                                          error: errorValue[input.name],
-                                        }}
-                                        minLenghtNum={input.minLenghtNum || null}
-                                        maxLengthNum={input.maxLenghtNum || null}
-                                        onBlur={() => getCalcPerc()}
-                                        unit={input.unit}
-                                      />
-                                    </div>
-                                  </div>
-                                )
-                              }
-                              <p className="body2">{input.help}</p>
-                            </div>
-                          )
-                        }
-                      </div>
-                    ))
-                  }
+                  <BrixelIcon
+                    icon="check"
+                    background={checkSectionDone(quest) ? "green" : "white"}
+                    saturation={checkSectionDone(quest) ? 400 : 0}
+                    color={checkSectionDone(quest) ? "white" : "dark"}
+                    saturationTxt={checkSectionDone(quest) ? 0 : 200}
+                    bgTransparent={!checkSectionDone(quest)}
+                    className={`brdSmall ml-1 dis-b p-small-4 ${checkSectionDone(quest) ? 'border-green' : ''}`}
+                    rounded
+                    iconSize="small"
+                  />
+                  <h4 className={`body ml-1 txtDark400 fweight-500`}>
+                    {quest.title}
+                  </h4>
                 </div>
-              )
-            }
+              </div>
+
+            </div>
+          ))
+        }
+      </div>
+      {
+        selectedQuest && (
+          <div className="dis-fl-col h-perc-100 w-perc-100">
+            <div className="h-perc-100 ov-a p-2">
+              <FactsQuestion quest={selectedQuest} />
+            </div>
+            <div className="dis-f p-2">
+              <BrixelButtonPrimary
+                label='Cancel'
+                background="white"
+                saturation={0}
+                color="dark"
+                saturationTxt={400}
+                rounded
+                className="shadow-3dp"
+                onClick={() => setSelectedQuest(null)}
+              />
+              <BrixelButtonPrimary
+                label='Save & Next'
+                background="primary"
+                saturation={400}
+                rounded
+                onClick={() => saveData()}
+                isLoading={isSmallLoading}
+              />
+            </div>
           </div>
-        ))
+        )
       }
     </div>
   );

@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 
 import { configureStore } from '../store';
-const configLang = configureStore.getState().common.languages;
+const configLang = configureStore ? get(configureStore.getState(), 'common.languages', 'en') : {};
 
 const dynImport = {};
 Object.keys(configLang).map((key) => {

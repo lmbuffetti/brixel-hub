@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 //import { CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import {
+  Route,
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
@@ -15,17 +16,14 @@ import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
 import { getCalcSectionInputSheets } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
+import { reduxForm, reset } from 'redux-form';
+import cloneDeep from 'lodash/cloneDeep';
+import { diff } from 'deep-object-diff';
+import { deleteDocument, uploadDocument } from '../../actions/UploadActions';
+import { setModal, setScreenNotification } from '../../actions/CommonActions';
 
-
-// SIDEBAR MENU
-const MenuSidebar = Loadable({
-  loader: () => import('../../components/MenuSidebar' /* webpackChunkName: "header" */),
-  loading: Loading,
-});
-
-
-const HomeDashboard = Loadable({
-  loader: () => import('./HomeDashboard' /* webpackChunkName: "HomeDashboard" */),
+const RewardsDashboard = Loadable({
+  loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
   loading: Loading,
 });
 
@@ -39,21 +37,35 @@ const SupportDashboard = Loadable({
   loading: Loading,
 });
 
+const ProtectedRoute = Loadable({
+  loader: () => import('../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
+  loading: Loading,
+});
+
 const Dashboard = (props) => {
   // PROPS
   const {
     userTypes,
+    errorValue,
+    formValue,
     handleGetProperties,
     handleGetProperty,
     handleSaveProperty,
     history,
+    initialValues,
+    isSmallLoading,
     loggedInUser,
     match,
+    notification,
     property,
+    regFields,
+    setNotification,
   } = props;
 
   // STATE
   const [widthWindow, setWindowWidth] = useState(get(window, 'innerWidth', 0));
+  const [Questions] = useState(InputSheets('en'));
+  const [load, setLoad] = useState(isSmallLoading);
 
   //const [showButton, setShowButton] = useState(true);
   //const [showMessage, setShowMessage] = useState(false);
@@ -80,7 +92,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (!propID && property.id) {
-      history.push(`/${property.id}/home`);
+      history.push(`/${property.id}/rewards`);
     }
     if (property.owner === loggedInUser.user.id) {
       handleGetProperty({fullVersion: true, id: propID});
@@ -96,67 +108,163 @@ const Dashboard = (props) => {
     }
   }, [property]);
 
+  const saveData = async () => {
+    const dataToSend = formValue;
+    delete dataToSend.owner;
+    delete dataToSend.favoritedByUsers;
+    const data = {
+      id: propID,
+      smallLoader: true,
+      ...dataToSend,
+      setSuccessNotification: true,
+    };
+    // For now we still dont use the diff object (TODO: API ticket)
+    // diff(initialValues, formValue)
+    // const dataInputSheet = {
+    //   skipSection: skipSection,
+    // totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion,'getPercentage', null),
+    // };
+
+    // await handleSaveProperty({id: propID, inputSheet: dataInputSheet});
+    await handleSaveProperty(data);
+  };
+
+  const closeNotificationBar = () => {
+    setNotification({ state: false });
+  };
+
+  const discardChanges = () => {
+    reset('Property');
+  };
+
+  useEffect(() => {
+    // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
+    console.log(formValue.id && initialValues.id, diff(initialValues, formValue), regFields);
+    if (formValue.id && initialValues.id && regFields) {
+      if (Object.keys(diff(initialValues, formValue)).length > 0) {
+        let setValid = true;
+        if (Questions) {
+          Questions.map((input) => {
+            input.inputs.map((inp) => {
+              const curVal = get(errorValue, inp.name, true);
+              if (curVal !== true && curVal !== 'Mark Required') {
+                setValid = false;
+              }
+              return null;
+            });
+            return null;
+          });
+        }
+        if (setValid && (notification.type !== 'info' || load !== isSmallLoading)) {
+          setNotification({
+            state: false,
+            type: 'info',
+            label: 'Save changes?',
+            actions:
+              [
+                { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
+                { type: 'secondary', label: 'Discard', func: () => discardChanges() },
+              ],
+          });
+        }
+        // SET NOTIFICATION TO SUCCESS SAVE
+      } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'success') {
+        //setTimeout(() => closeNotificationBar(), 2000);
+        // REMOVE NOTIFICATION
+      } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'info') {
+        // setNotification({ state: false });
+      } else {
+        // closeNotificationBar()
+      }
+    }
+  }, [formValue, isSmallLoading, initialValues]);
+
   if (!userTypes) return (<div />);
 
   return (
     <div className="container" id="dashboard">
 
       { /* SECTION: APP HEADER */ }
-      {
-        !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding') && loggedInUser && (
-          <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
-            <MenuSidebar />
-          </div>
-        )
-      }
 
-      <BrixelTabs
-        classNameLi="dis-fl-col"
-        classNameUl="nav-tabs zIndex4"
-        labels={['Home', 'Property', 'Support']}
-        clicksList={['home', 'property', 'support']}
-        labelsIcons={['star', 'property-house', 'question']}
-        classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
-        activeTab={checkActiveTab()}
-        fullWidth
-        onClick={(val) => history.push(val)}
-        showFull={widthWindow > 768}
-        arrayComponents={[
-          <HomeDashboard />,
-          <PropertyDashboard />,
-          <SupportDashboard />,
-        ]}
-      />
+      <div className="w-perc-100">
+        <ProtectedRoute path="/:propId?/rewards" component={RewardsDashboard} />
+        <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
+        <ProtectedRoute path="/:propId?/listings" component={SupportDashboard} />
+        <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
+      </div>
+
+
     </div>
   )
 };
 
 Dashboard.propTypes = {
+  errorValue: PropTypes.object,
+  formValue: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.bool,
   userTypes: PropTypes.string,
   handleGetProperties: PropTypes.func.isRequired,
   handleGetProperty: PropTypes.func.isRequired,
   handleSaveProperty: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  notification: PropTypes.object.isRequired,
+  regFields: PropTypes.object,
+  setNotification: PropTypes.func.isRequired,
 };
 
 Dashboard.defaultProps = {
+  errorValue: null,
+  regFields: null,
   userTypes: null,
 };
+
+const DashboardForm = reduxForm({
+  // a unique name for the form
+  form: 'Property',
+  enableReinitialize: true,
+  destroyOnUnmount: false,
+})(Dashboard);
 
 const mapStateToProps = (state) => ({
   userTypes: get(state, 'user.userTypes', null),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),
+  formValue: get(state, 'form.Property.values', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  errorValue: get(state, 'form.Property.syncErrors', null),
+  regFields: get(state, 'form.Property.registeredFields', null),
+  notification: get(state, 'common.notification', {}),
+  initialValues: {
+    assessor: get(state, 'property.activeSingleProperty.assessor', {}),
+    coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
+    description: get(state, 'property.activeSingleProperty.description', {}),
+    id: get(state, 'property.activeSingleProperty.id', null),
+    floorPlans: get(state, 'property.activeSingleProperty.floorPlans', []),
+    inputSheet: get(state, 'property.activeSingleProperty.inputSheet', {}),
+    language: get(state, 'property.activeSingleProperty.language', null),
+    listed: get(state, 'property.activeSingleProperty.listed', null),
+    location: get(state, 'property.activeSingleProperty.location', {}),
+    photos: cloneDeep(get(state, 'property.activeSingleProperty.photos', [])),
+    portals: get(state, 'property.activeSingleProperty.portals', {}),
+    properties: get(state, 'property.activeSingleProperty.properties', {}),
+    published: get(state, 'property.activeSingleProperty.published', null),
+    stub: get(state, 'property.activeSingleProperty.stub', null),
+    virtual: get(state, 'property.activeSingleProperty.virtual', null),
+  },
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetProperties: bindActionCreators(getPropertyListings, dispatch),
   handleGetProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSaveProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
+  handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
+  setNotification: bindActionCreators(setScreenNotification, dispatch),
 });
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(Dashboard);
+)(DashboardForm);

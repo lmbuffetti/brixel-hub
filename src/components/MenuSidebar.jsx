@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelButtonIcon, useOutsideAlerter } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo.svg';
+import Loadable from 'react-loadable';
+import Loading from './Loading';
+
+import Properties from '../Pages/Properties';
 
 const MenuSidebar = (props) => {
   // PROPS
@@ -13,6 +17,17 @@ const MenuSidebar = (props) => {
     history, activeProperty,
     // preventExit, setUnsavedModal,
   } = props;
+  // STATE
+  const [activeMenu, setActiveMenu] = useState(null);
+  // REF
+  const wrapperRef = useRef(null);
+
+  useOutsideAlerter(wrapperRef, {
+    action: 'function',
+    func: () => {
+      setActiveMenu(null);
+    },
+  });
 
   return (
     <>
@@ -25,18 +40,18 @@ const MenuSidebar = (props) => {
           <img className="pos-r w-fix-32" src={logo} alt="Brixel Logo" id="logo" />
         </div>
 
-        <div className="links h-perc-100 w-perc-100 dis-fl-col jc-b">
+        <div className="links h-perc-100 w-perc-100 dis-fl-col jc-b pos-r zIndex2">
           <div className="routes dis-fl-col jc-fs">
 
-            <div className={`pos-r h-fix-48 w-perc-100 dis-fl-col a-c ta-c ${(history.location.pathname.includes('home') || history.location.pathname.includes('property')) ? 'active properties-list' : 'properties-list'}`}>
+            <div className={`pos-r h-fix-48 w-perc-100 dis-fl-col a-c ta-c`}>
               <BrixelButtonIcon
                 icon="properties"
                 hoverTextColor="primary"
                 bgTransparent
                 noBorder
-                color="dark"
-                saturationTxt={100}
-                className="h-perc-100 w-perc-100 noRadius"
+                color={activeMenu === 'propertyList' ? 'primary' : 'dark'}
+                saturationTxt={activeMenu === 'propertyList' ? 400 : 100}
+                className="h-perc-100 w-perc-100"
                 onClick={() => {
                   // if (preventExit) {
                   //   setUnsavedModal({
@@ -45,7 +60,7 @@ const MenuSidebar = (props) => {
                   //   });
                   //   return;
                   // }
-                  history.push(`/${activeProperty.id}/property/list`);
+                  setActiveMenu('propertyList')
                 }}
               />
             </div>
@@ -76,6 +91,19 @@ const MenuSidebar = (props) => {
 
           </div>
         </div>
+        {
+          activeMenu && (
+            <div className="sidebarSubmenu zIndex1">
+              <div className="sidebarSubmenuContent" ref={wrapperRef}>
+                {
+                  activeMenu === 'propertyList' && (
+                    <Properties {...props} closeProperty={() => setActiveMenu(null)}/>
+                  )
+                }
+              </div>
+            </div>
+          )
+        }
       </header>
     </>
   );

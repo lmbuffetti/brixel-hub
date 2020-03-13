@@ -119,9 +119,10 @@ const Plans = (props) => {
                   {
                     fixPhotos.map((item, i) => (
                       <li
-                        className="dis-fl-row a-c"
+                        className="dis-fl-row a-c cur-poi"
                         key={i.toString()}
                         data-id={JSON.stringify(item)}
+                        onClick={() => history.push(`/${propID}/property/edit/media/${item.id}/floorPlans`)}
                       >
                         <BrixelIcon
                           className="mr-2 grab"
@@ -160,7 +161,6 @@ const Plans = (props) => {
                               className="mr-2"
                               color="light"
                               icon="arrow-simple-right"
-                              onClick={() => history.push(`/${propID}/property/edit/media/${item.id}/floorPlans`)}
                             />
                           </div>
                         </div>

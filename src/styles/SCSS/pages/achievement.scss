@@ -6,9 +6,11 @@
   margin: auto;
   box-shadow: $shadow-2dp;
   border-radius: $brd-radius-small;
-  position: relative;
-
-
+  position: fixed;
+  top: $step * 2;
+  left: $step * 2;
+  background: $brx-white;
+  z-index: 10;
   .footerAction {
     position: absolute;
     bottom: 0;
@@ -34,7 +36,6 @@
     left: 0;
     width: 100%;
   }
-
   @media (max-width: $responsive-small) {
     .singleStep {
       height: calc(85vh - 128px);
@@ -51,7 +52,6 @@
       }
     }
   }
-
   .boxMarketCheck {
     border-radius: $brd-radius-small;
     border: 1px solid map_get($lightColor, 200);
@@ -60,14 +60,12 @@
     align-items: stretch;
     padding: $step * 2 0;
     max-width: 100%;
-
     > div {
       flex: 0 0 33.33%;
       padding-left: $step * 3;
       display: flex;
       flex-direction: column;
       justify-content: center;
-
       &:not(:last-child) {
         border-right: 1px solid map_get($lightColor, 200);
       }
@@ -78,9 +76,7 @@
       }
     }
   }
-
   -webkit-animation: appearPage 0.5s 0.5s $default-easing forwards;
-
   @media (max-width: $responsive-medium) {
     -webkit-animation: appearPageMd 0.5s $default-easing forwards;
   }
@@ -88,9 +84,6 @@
     -webkit-animation: appearPageSm 0.5s $default-easing forwards;
   }
 }
-
-
-
 // Achievement Page Animation
 @-webkit-keyframes appearPage {
   0% { height: 8vh; opacity: 0.5; }
