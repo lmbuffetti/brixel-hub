@@ -115,7 +115,7 @@ const DetailMedia = (props) => {
   }
 
   return (
-    <DrawerLayout classNameDrawer="ov-a" closeLink={`/${propID}/property`}>
+    <>
       <div className="dis-fl-col mt-2 px-2 pb-10">
         <div className="image-detail ov-a pt-md-6">
           <div className="dis-fl-row jc-b a-c mb-4 px-md-3">
@@ -295,7 +295,7 @@ const DetailMedia = (props) => {
           }
         </div>
       </div>
-    </DrawerLayout>
+    </>
   );
 };
 

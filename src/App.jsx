@@ -18,11 +18,7 @@ import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
 import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
-import { getBrowserPlatform} from '@brixel/brixel-components/src/utils/helper';
 import { setModal, setWindowDimensions } from './actions/CommonActions';
-//import { getBrowserPlatform} from '@brixel/brixel-components/src/utils/helper';
-import PageHeader from './components/PageHeader';
-import { setModal } from './actions/CommonActions';
 import { setUserTypes } from './actions/UserActions';
 
 // GET STARTED ADD ADD PROPERTY
@@ -173,12 +169,6 @@ const App = (props) => {
     <main className={`dis-fl-row jc-b}`}>
 
       <Loading isLoading={isLoading} />
-      <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('achievement')) ? 'no-sidebar' : ''}`}>
-        {
-          !history.location.pathname.includes('achievement') && (
-            <PageHeader />
-          )
-        }
 
       <div className="container pos-r ov-h">
         <div className="dis-f">
@@ -336,48 +326,6 @@ const App = (props) => {
           </>
         )
       }
-
-      { /* SECTION: DRAWER */ }
-      <div className="zIndex3">
-        <Route render={({ location }) => {
-          const { key } = location
-
-          return (
-            <TransitionGroup className="top-item" component={null}>
-              <Transition
-                key={key}
-                appear={true}
-                enter={true}
-                exit={true}
-                classNames={{
-                  appear: 'my-appear',
-                  appearActive: 'my-active-appear',
-                  appearDone: 'my-done-appear',
-                  enter: 'my-enter',
-                  enterActive: 'my-active-enter',
-                  enterDone: 'my-done-enter',
-                  exit: 'my-exit',
-                  exitActive: 'my-active-exit',
-                  exitDone: 'my-done-exit',
-                }}
-              >
-                <Switch location={location}>
-                  {/* SECTION: DOCUMENTS */}
-                  <Route path="/:propId?/:act/list" component={Properties} />
-                  <Route path="/:propId?/property/documents" exact component={Documents} />
-                  {
-                    userTypes === 'seller' && (
-                      <>
-                        <Route path="/:propId?/:act/edit" component={EditProperty} />
-                      </>
-                    )
-                  }
-                </Switch>
-              </Transition>
-            </TransitionGroup>
-          )
-        }} />
-      </div>
     </main>
   );
 };

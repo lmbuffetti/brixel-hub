@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -82,11 +82,6 @@ const Properties = (props) => {
   }
 
   return (
-    <DrawerLayout
-      classNameDrawer="ov-a"
-      closeLink={`/${propID}/${sectionPage}`}
-    >
-      <LoadingSimple isLoading={isSmallLoading} />
     <>
       <div className="properties-header dis-fl-row a-c jc-b mb-3 p-2">
         <div className="dis-fl-row a-c">
