@@ -24,6 +24,7 @@ import { getCalcSectionInputSheets } from '../../utils/helpers';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import FactsQuestion from './FactsQuestion';
 import { diff } from 'deep-object-diff';
+import set from 'lodash/set';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
@@ -50,26 +51,54 @@ const InputSheet = (props) => {
   // PARAMS URL
   const propID = get(match, 'params.propId', null);
 
-  const checkSectionDone = (val) => {
+  const checkSectionDone = (val, act = 'section') => {
     let sectionDone = true;
     val.inputs.map((item) => {
       if (item.validation) {
         if (sectionDone) {
-          if (get(formValue, `inputSheet.skipSection[${item.name}]`, true) !== true) sectionDone = false;
-          else if (get(formValue, item.name, false) === false) sectionDone = false;
+          if (get(formValue, `inputSheet.skipSection[${item.name}]`, true) !== true) {
+            sectionDone = false;
+          }
+          else if (get(formValue, item.name, false) === false) {
+            sectionDone = false;
+          }
         }
       }
     });
-    return sectionDone;
+    if (act === 'section') return sectionDone;
+  };
+
+  const calcPercentage = () => {
+    let countTotal = 0;
+    let countDone = 0;
+    Questions.map((val) => {
+      val.inputs.map((item) => {
+        if (item.validation) {
+          if (get(formValue, `inputSheet.skipSection[${item.name}]`, false)) {
+            countTotal += 1;
+            countDone += 1;
+          }
+          else if (get(formValue, item.name, false) !== false) {
+            countTotal += 1;
+            countDone += 1;
+          } else {
+            countTotal += 1;
+          }
+        }
+      });
+    });
+    const inputSheet = get(formValue, 'inputSheet', {});
+    const calPerc = countDone * countTotal / 100;
+    const savedPerc = get(formValue, `inputSheet.totalComplete`, 0);
+    if (calPerc !== savedPerc) {
+      inputSheet.totalComplete = calPerc;
+      changeFieldValue('inputSheet', inputSheet);
+    }
+    return calPerc;
   };
 
   return (
     <div className="pb-10">
-
-      <div className="dis-f a-c my-2 jc-b body2 txtDark200 px-2">
-        <span>Expand all</span>
-        <span>All tasks</span>
-      </div>
       <div className="dis-f">
         <div>
           {

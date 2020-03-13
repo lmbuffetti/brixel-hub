@@ -55,27 +55,6 @@ export const InputSheets = (lang) => [
           }
         ],
       },
-      {
-        component: BrixelInputScale,
-        className: 'helpLink',
-        label: 'What\'s the building quality of the whole building?',
-        name: 'properties.building.quality',
-        options: factsOptions.quality,
-        modal: {
-          className: '',
-          func: {
-            layout: 'xlarge',
-            hint: 'Know more about building quality',
-            state: true,
-            group: 'Building quality',
-            body: '<p class="body2">With this variable, the basic structure independent of its current condition is assessed. Pay attention to following points: <br>the modes of construction; <br>the quality of the materials used in construction, insulation, glazing; <br>the kitchen and bath furnishing; <br>the quality of outdoor and environment design; <br>the quality of the plan (floor plan, lighting conditions, access to rooms etc.); <br>quality of heatgeneration and distribution.</p>' +
-              '<p class="body2"><b>Exceptional quality:</b> Very good noise insulation (within the building and from outside); heat insulation surpasses common standard; no problems with humidity or airtightness; very good indoor climate; ideal room layout with developable reserves; superior kitchen and sanitation; particular construction parts can easily be replaced; very good room proportions; versatile view from within and from outside; many green areas with exquisite planting and generous seating areas.</p>' +
-              '<p class="body2"><b>Good quality:</b> Good noise insulation (within the building and from outside); heat insulation fulfill current standard; no problems with humidity or airtightness; good indoor climate; good room layout; contemporary kitchen and sanitation; particular construction parts can be replaced with little effort; good room proportions; good view from within and from outside; many green areas with harmonic planting and generous seating areas.</p>' +
-              '<p class="body2"><b>Fair quality:</b> Noise insulation (within the building and from outside) with small defects; sufficient heat insulation; small problems with humidity or airtightness; sufficient indoor climate; fair room layout; obsolete but fully working kitchen and sanitation; particular construction parts can only be replaced with some effort; no architectural attractiveness; marginal view from within and from outside; appropriate green areas with ordinary planting and seating areas.</p>' +
-              '<p class="body2"><b>Poor quality:</b> Noise insulation with defects; heat insulation is below average and not fulfilling current standard; obvious problems with humidity or airtightness; insufficient indoor climate; insufficient room layout; obsolete kitchen and sanitation with small defects; particular construction parts can only be replaced with much effort; missing architectural attractiveness; no view from within and from outside; litle green areas and seating areas.</p>',
-          },
-        }
-      },
     ]
   },
   // SECTION: LOCATION
@@ -157,6 +136,27 @@ export const InputSheets = (lang) => [
         name: 'properties.building.built',
         validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear, Validation.required],
         placeholder: "YYYY (ex.: 2020)",
+      },
+      {
+        component: BrixelInputScale,
+        className: 'helpLink',
+        label: 'What\'s the building quality of the whole building?',
+        name: 'properties.building.quality',
+        options: factsOptions.quality,
+        modal: {
+          className: '',
+          func: {
+            layout: 'xlarge',
+            hint: 'Know more about building quality',
+            state: true,
+            group: 'Building quality',
+            body: '<p class="body2">With this variable, the basic structure independent of its current condition is assessed. Pay attention to following points: <br>the modes of construction; <br>the quality of the materials used in construction, insulation, glazing; <br>the kitchen and bath furnishing; <br>the quality of outdoor and environment design; <br>the quality of the plan (floor plan, lighting conditions, access to rooms etc.); <br>quality of heatgeneration and distribution.</p>' +
+              '<p class="body2"><b>Exceptional quality:</b> Very good noise insulation (within the building and from outside); heat insulation surpasses common standard; no problems with humidity or airtightness; very good indoor climate; ideal room layout with developable reserves; superior kitchen and sanitation; particular construction parts can easily be replaced; very good room proportions; versatile view from within and from outside; many green areas with exquisite planting and generous seating areas.</p>' +
+              '<p class="body2"><b>Good quality:</b> Good noise insulation (within the building and from outside); heat insulation fulfill current standard; no problems with humidity or airtightness; good indoor climate; good room layout; contemporary kitchen and sanitation; particular construction parts can be replaced with little effort; good room proportions; good view from within and from outside; many green areas with harmonic planting and generous seating areas.</p>' +
+              '<p class="body2"><b>Fair quality:</b> Noise insulation (within the building and from outside) with small defects; sufficient heat insulation; small problems with humidity or airtightness; sufficient indoor climate; fair room layout; obsolete but fully working kitchen and sanitation; particular construction parts can only be replaced with some effort; no architectural attractiveness; marginal view from within and from outside; appropriate green areas with ordinary planting and seating areas.</p>' +
+              '<p class="body2"><b>Poor quality:</b> Noise insulation with defects; heat insulation is below average and not fulfilling current standard; obvious problems with humidity or airtightness; insufficient indoor climate; insufficient room layout; obsolete kitchen and sanitation with small defects; particular construction parts can only be replaced with much effort; missing architectural attractiveness; no view from within and from outside; litle green areas and seating areas.</p>',
+          },
+        }
       },
       {
         component: BrixelRadioButton,
