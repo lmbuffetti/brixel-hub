@@ -101,7 +101,6 @@ const RewardsDashboard = (props) => {
           return null;
         })
       }
-      console.log(selectEl);
       setActiveGameGroup(rewardType);
       setActiveAchievement(selectEl);
     }
