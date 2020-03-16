@@ -8,14 +8,11 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import {
   BrixelButtonBox,
-  BrixelButtonIcon, BrixelIcon, BrixelProgressBar,
+  BrixelProgressBar,
 } from '@brixel/brixel-components';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import noCover from '../../images/no_cover.jpg';
 import { roundFifty } from '../../utils/helpers';
-import { GameGroupConfig } from '../../constants/global';
 import Loadable from 'react-loadable';
 import LoadingSimple from '../../components/LoadingSimple';
 import Loading from '../../components/Loading';

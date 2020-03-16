@@ -3,14 +3,11 @@ import React, { useEffect, useState } from 'react';
 //import { CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import {
-  Route,
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
-import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelTabs } from '@brixel/brixel-components';
 import { getPropertyListings, getActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
@@ -63,16 +60,15 @@ const Dashboard = (props) => {
   } = props;
 
   // STATE
-  const [widthWindow, setWindowWidth] = useState(get(window, 'innerWidth', 0));
   const [Questions] = useState(InputSheets('en'));
-  const [load, setLoad] = useState(isSmallLoading);
+  const load = useState(isSmallLoading);
 
   //const [showButton, setShowButton] = useState(true);
   //const [showMessage, setShowMessage] = useState(false);
 
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
-  const checkActiveTab = () => last(history.location.pathname.split('/'));
+  // const checkActiveTab = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
     if (propID && !property.id) {
@@ -84,9 +80,6 @@ const Dashboard = (props) => {
         setAsSingle: true,
       };
       handleGetProperties(data);
-    }
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', () => setWindowWidth(window.innerWidth));
     }
   }, []);
 
@@ -129,17 +122,12 @@ const Dashboard = (props) => {
     await handleSaveProperty(data);
   };
 
-  const closeNotificationBar = () => {
-    setNotification({ state: false });
-  };
-
   const discardChanges = () => {
     reset('Property');
   };
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
-    console.log(formValue.id && initialValues.id, diff(initialValues, formValue), regFields);
     if (formValue.id && initialValues.id && regFields) {
       if (Object.keys(diff(initialValues, formValue)).length > 0) {
         let setValid = true;
@@ -187,7 +175,7 @@ const Dashboard = (props) => {
       { /* SECTION: APP HEADER */ }
 
       <div className="w-perc-100">
-        <ProtectedRoute path="/:propId?/rewards" component={RewardsDashboard} />
+        <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
         <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
         <ProtectedRoute path="/:propId?/listings" component={SupportDashboard} />
         <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />

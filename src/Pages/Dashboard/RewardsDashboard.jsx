@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Switch, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
+import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelButtonBox, BrixelIcon } from '@brixel/brixel-components';
@@ -14,6 +15,14 @@ import Loadable from 'react-loadable';
 
 const SuccessMarketCheck = Loadable({
   loader: () => import('../MarketChecker/SuccessMarketCheck' /* webpackChunkName: "SuccessMarketCheck" */),
+  loading: Loading,
+});
+const SuccessBestimate = Loadable({
+  loader: () => import('../Bestimate/SuccessBestimate' /* webpackChunkName: "SuccessBestimate" */),
+  loading: Loading,
+});
+const SuccessAssessor = Loadable({
+  loader: () => import('../Assessor/SuccessAssessor' /* webpackChunkName: "SuccessAssessor" */),
   loading: Loading,
 });
 
@@ -28,13 +37,18 @@ const RewardsDashboard = (props) => {
     handleGetGameAchievement,
     handleGetGameGroup,
     handleAddGameHistory,
+    history,
     loggedInUser,
+    match,
     property,
   } = props;
   // STATE
   const [usrGroups, setUsrGroups] = useState(gameGroup);
   const [activeGameGroup, setActiveGameGroup] = useState(null);
   const [activeAchievement, setActiveAchievement] = useState(null);
+  // PARAMS URL
+  const rewardType = last(get(history, 'location.pathname', '').split('/'));
+  const propID = get(match, 'params.propId', '');
 
   useEffect(() => {
     handleGetGameAchievement();
@@ -59,7 +73,7 @@ const RewardsDashboard = (props) => {
     setUsrGroups([...filtUsrGroup]);
   }, [userTypes, property, gameGroup, gameHistory]);
 
-  useState(() => {
+  useEffect(() => {
     if (gameHistory.data && property.id) {
       // CHECK IF DONE HOMEBASE
       const getHomeBase = gameHistory.data.findIndex(val => val.achievement.stub === 'homebase' && property.id === val.page);
@@ -74,8 +88,30 @@ const RewardsDashboard = (props) => {
     }
   }, [property, gameHistory, userTypes]);
 
+  useEffect(() => {
+    console.log('EHHHH', rewardType);
+    if (gameHistory.data && rewardType && rewardType !== 'rewards') {
+      let selectEl;
+      selectEl = gameHistory.data.find(el => el.achievement.stub === rewardType && el.page === property.id);
+      if (typeof selectEl !== 'undefined') {
+        console.log(selectEl);
+        selectEl.done = true;
+      } else {
+        console.log(usrGroups);
+        usrGroups.map((item) => {
+          if (!selectEl) selectEl = item.achievements.find(el => el.stub === rewardType);
+          return null;
+        })
+      }
+      setActiveGameGroup(rewardType);
+      setActiveAchievement(selectEl);
+      console.log(selectEl, gameHistory.data, property.id);
+    }
+  }, [gameHistory, usrGroups]);
+
   const onClickAchievement = (game, achievement) => {
     setActiveGameGroup(game);
+    history.push({pathname: `/${propID}/rewards/${game}` });
     setActiveAchievement(achievement);
   };
 
@@ -168,7 +204,9 @@ const RewardsDashboard = (props) => {
         {
           activeGameGroup && (
             <div>
-              <SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />
+              {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+              {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+              {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
             </div>
           )
         }

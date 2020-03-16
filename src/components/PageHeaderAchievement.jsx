@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { BrixelButtonIcon, BrixelIcon } from '@brixel/brixel-components';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import last from 'lodash/last';
 
 function PageHeaderAchievement(props) {
   // PROPS
@@ -16,6 +17,7 @@ function PageHeaderAchievement(props) {
   } = props;
 
   const pageId = get(match, 'params.propId', '');
+  const rewardType = last(get(history, 'location.pathname', '').split('/'));
 
   return (
     <header className="bgGreen100">
@@ -42,7 +44,7 @@ function PageHeaderAchievement(props) {
           color="dark"
           saturationTxt={700}
           icon="close-small"
-          onClick={() => history.push(`/${pageId}/home`)}
+          onClick={() => history.push(`/${pageId}/rewards/${rewardType}`)}
         />
       </div>
 

@@ -14,6 +14,7 @@ export const MarketCheckQuestions = (lang) => [
     title: translateTo(lang,"What do you need the market check for?"),
     history: "ownerType",
     vCentered: true,
+    toSave: true,
     inputs: [
       {
         component: BrixelRadioButton,

@@ -14,7 +14,6 @@ import {
 import { change, isValid, reduxForm } from 'redux-form';
 import {
   BrixelButtonPrimary,
-  BrixelButtonSecondary,
   BrixelButtonIcon,
   BrixelIcon,
   BrixelProgressBar,
@@ -50,7 +49,7 @@ function MarketCheck(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progressBar, setProgressBar] = useState(0);
   const [Questions] = useState(MarketCheckQuestions(lang));
-  const [saved, setSaved] = useState(false);
+  const [saved] = useState(false);
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
@@ -159,9 +158,7 @@ function MarketCheck(props) {
         return null;
       });
     }
-    if (currentIndex === 0) {
-      label = translateTo(lang, "Ok, show me");
-    } else if (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) {
+    if (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) {
       label = oneValueField ? translateTo(lang, "Skip") : translateTo(lang, "Continue");
     } else if (Questions[currentIndex + 1]) {
       label = translateTo(lang, "Finish");
@@ -210,15 +207,6 @@ function MarketCheck(props) {
                 }}
               >
                 <div className={`subcontainer m-a ${quest.className || ''}`}>
-                  {
-                    currentIndex === 0 && (
-                      <>
-                        <h5 className="ta-c mb-5">{quest.title}</h5>
-                        <div className="ta-c"><img className="w-perc-100" src={quest.img} alt="Done Assessor" /></div>
-                        <p className="ta-c mt-5 txtDark700">{quest.description}</p>
-                      </>
-                    )
-                  }
                   {
                     quest.inputs && (
                       <>
@@ -303,7 +291,7 @@ function MarketCheck(props) {
                         label="Finish"
                         background={"primary"}
                         className="max-w-fix-280 w-perc-100 mr-1"
-                        onClick={() => history.push(`/${propID}/rewards`)}
+                        onClick={() => history.push(`/${propID}/rewards/${finishedFlow ? '' : 'done'}`)}
                       />
                     </>
                   )

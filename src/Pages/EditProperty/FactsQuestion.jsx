@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React  from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reset, Field } from 'redux-form';
@@ -35,7 +35,6 @@ const FactsQuestion = (props) => {
     const skipSection = get(formValue, 'inputSheet.skipSection', {});
     set(skipSection, val, true);
     inputSheet.skipSection = skipSection;
-    console.log(skipSection, val);
 
     await handleSaveProperty({id: propID, inputSheet: inputSheet, smallLoader: true});
     changeFieldValue('inputSheet', inputSheet);

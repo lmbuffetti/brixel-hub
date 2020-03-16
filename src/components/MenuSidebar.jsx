@@ -6,17 +6,12 @@ import { compose } from 'redux';
 import { BrixelButtonIcon, useOutsideAlerter } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo.svg';
-import Loadable from 'react-loadable';
-import Loading from './Loading';
 
 import Properties from '../Pages/Properties';
 
 const MenuSidebar = (props) => {
   // PROPS
-  const {
-    history, activeProperty,
-    // preventExit, setUnsavedModal,
-  } = props;
+
   // STATE
   const [activeMenu, setActiveMenu] = useState(null);
   // REF

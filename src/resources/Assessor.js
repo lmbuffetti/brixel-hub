@@ -7,22 +7,11 @@ import {
   Validation,
 } from '@brixel/brixel-components';
 import ResumeAssessor from '../Pages/Assessor/ResumeAssessor';
-import SuccessAssessor from '../Pages/Assessor/SuccessAssessor';
-import becomeAssessor from '../images/Assessor/becomeAssessor.svg';
 import { translateTo } from '../utils/translation';
 
 const { factsOptions } = FactsOptions;
 
 export const AssessorQuestions = (lang) => [
-  // SECTION: PROPERTY TYPE
-  {
-    background: 'bgGreen100',
-    img: becomeAssessor,
-    title: "Assess your property with a condition check",
-    description: "As an assessor, you know about the condition of the most important parts of your property.",
-    history: "introFlow",
-    cardType: "text",
-  },
   {
     title: "What's the basic construction material?",
     vCentered: true,
@@ -120,14 +109,6 @@ export const AssessorQuestions = (lang) => [
     cardType: "loadComponent",
     component: ResumeAssessor,
   },
-  {
-    title: "Thank you Market Check",
-    subtitle: "Sales strategy & price",
-    vCentered: true,
-    history: "successAchievement",
-    cardType: "loadComponent",
-    component: SuccessAssessor,
-  }
 ];
 
 export const AssessorAvgLifespan = {

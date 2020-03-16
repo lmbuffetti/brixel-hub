@@ -13,19 +13,12 @@ import {
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 // COMPONENTS
-import last from 'lodash/last';
-import DrawerLayout from '../../components/DrawerLayout';
 import LoadingSimple from '../../components/LoadingSimple';
 
 import {
   getUserProperties,
   getFavorites,
 } from '../../actions/UserActions';
-
-const DrawerLayoutLeft = Loadable({
-  loader: () => import('../../components/DrawerLayoutLeft' /* webpackChunkName: "DrawerLayoutLeft" */),
-  loading: LoadingSimple,
-});
 
 const PropertyList = Loadable({
   loader: () => import('./PropertyList' /* webpackChunkName: "Maps" */),
@@ -39,19 +32,11 @@ const Properties = (props) => {
     getFavoritesOfUser,
     getPropertiesOfUser,
     favoritesProperties,
-    history,
-    match,
     user,
     userProperties,
-    isSmallLoading,
   } = props;
   // STATE
   const [activeTab, setActiveTab] = useState('');
-  // URL PARAMS
-  console.log(props, match);
-  const propID = history.location.pathname.split('/')[1];
-  const checkActiveTab = () => last(history.location.pathname.split('/'));
-  const sectionPage = get(match, 'params.act', 'rewards');
 
   useEffect(() => {
     if (get(user, 'user.id')) {
@@ -130,6 +115,7 @@ Properties.propTypes = {
   favoritesProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
   getPropertiesOfUser: PropTypes.func.isRequired,
   getFavoritesOfUser: PropTypes.func.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 Properties.defaultProps = {
@@ -137,10 +123,11 @@ Properties.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeProperty: get(state, 'property.activeSingleProperty', {}),
+  favoritesProperties: get(state, 'user.favorites', []),
   user: get(state, 'user.loggedInUser', {}),
   userProperties: get(state, 'user.userProperties', []),
-  favoritesProperties: get(state, 'user.favorites', []),
-  activeProperty: get(state, 'property.activeSingleProperty', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

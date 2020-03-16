@@ -1,6 +1,6 @@
 /* global ga */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Switch, Route, withRouter, Redirect,
 } from 'react-router-dom';
@@ -10,8 +10,6 @@ import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
-import { Transition, TransitionGroup } from 'react-transition-group';
-//import { play, exit } from './timelines'
 
 // COMPONENTS
 import Loading from './components/Loading';
@@ -76,16 +74,6 @@ const DetailMedia = Loadable({
   loading: Loading,
 });
 
-const Documents = Loadable({
-  loader: () => import('./components/Documents' /* webpackChunkName: "Documents" */),
-  loading: () => null,
-});
-
-const Properties = Loadable({
-  loader: () => import('./Pages/Properties' /* webpackChunkName: "Properties" */),
-  loading: () => null,
-});
-
 // FLOW SELLER
 const MarketChecker = Loadable({
   loader: () => import('./Pages/MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
@@ -114,7 +102,6 @@ const App = (props) => {
     handleSetModal,
     handleSetWindowsDimension,
     isLoading,
-    isSmallLoading,
     loggedInUser,
     modal,
     notification,
@@ -122,8 +109,6 @@ const App = (props) => {
     redirectTo,
     windowDimensions,
   } = props;
-  // STATE
-  const [height, setHeight] = useState(window.innerHeight);
 
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) handleCheckToken();
@@ -191,6 +176,16 @@ const App = (props) => {
               )
             }
             <Switch>
+              { /* SECTION: ONBOARDING */ }
+              <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
+              <Route path="/onBoarding/" component={OnBoarding} />
+
+              { /* SECTION: INSERT TOKEN */ }
+              <Route path="/tokeninput" component={InsertToken} />
+
+              { /* SECTION: GET STARTED*/ }
+              <Route path="/packageFlow/getstarted/" component={GetStarted} />
+
               { /* SECTION: HUB DASHBOARD */ }
               <ProtectedRoute path="/" exact component={Dashboard} />
               { /* SECTION: ALL USER DASHBOARD */ }
@@ -352,16 +347,16 @@ App.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  windowDimensions: get(state, 'common.windowDimensions', {}),
-  userTypes: get(state, 'user.userTypes', null),
-  property: get(state, 'property.activeSingleProperty', {}),
   config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
   loggedInUser: get(state, 'user.loggedInUser', null),
   modal: get(state, 'common.modal', {}),
   notification: get(state, 'common.notification', null),
+  property: get(state, 'property.activeSingleProperty', {}),
   redirectTo: get(state, 'common.redirectTo', null),
+  userTypes: get(state, 'user.userTypes', null),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

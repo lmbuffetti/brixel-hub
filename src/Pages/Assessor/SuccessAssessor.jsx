@@ -11,27 +11,28 @@ import {
 import { getGamegroup } from '../../actions/GamificationActions';
 import doneAssessor from '../../images/Assessor/doneAssessor.svg';
 import newAssessor from '../../images/Assessor/newAssessor.svg';
+import becomeAssessor from '../../images/Assessor/becomeAssessor.svg';
+import { BrixelButtonPrimary } from '@brixel/brixel-components';
 
 function SuccessAssessor(props) {
   // PROPS
   const {
-    finishedFlow,
     gameGroup,
-    handleGetGameGroup,
     history,
+    gameStub,
+    groupdAchievement,
+    match,
   } = props;
   // STATE
   const [achievement, setAchievement] = useState(null);
   // URL PARAMS
-  const getParams = last(history.location.pathname.split('/'));
-
-  useEffect(() => {
-    handleGetGameGroup();
-  }, []);
+  const getParams = gameStub;
+  const propID = get(match, 'params.propId', null);
+  const getDoneFirstTime = () => last(history.location.pathname.split('/'))[last(history.location.pathname.split('/')).length - 1];
 
   useEffect(() => {
     if (gameGroup) {
-      let selectedGame = null;
+      let selectedGame;
       gameGroup.map((game) => {
         let curGame = game.achievements.find(item => item.stub === getParams);
         if (curGame) selectedGame = curGame;
@@ -39,28 +40,58 @@ function SuccessAssessor(props) {
       });
       setAchievement(selectedGame);
     }
-  }, [gameGroup]);
+  }, [gameGroup, getParams]);
 
   return (
     <main id="rewards" className="pb-4">
+
       {
-        achievement && (
+        groupdAchievement.done || getDoneFirstTime() === 'done' ? (
           <>
             {
-              finishedFlow ? (
+              achievement && (
                 <>
-                  <h5 className="ta-c mb-5">You are already an Assessor</h5>
-                  <div className="ta-c"><img src={doneAssessor} alt="Done Assessor" /></div>
-                  <p className="ta-c mt-5">Would you like to do the condition check again?</p>
-                </>
-              ) : (
-                <>
-                  <h5 className="ta-c mb-5">Well done. You are now an Assessor.</h5>
-                  <div className="ta-c"><img src={newAssessor} alt="Nes Assessor" /></div>
-                  <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
+                  {
+                    getDoneFirstTime() === 'done' ? (
+                      <>
+                        <h5 className="ta-c mb-5">You are already an Assessor</h5>
+                        <div className="ta-c"><img src={doneAssessor} alt="Done Assessor" /></div>
+                        <p className="ta-c mt-5">Would you like to do the condition check again?</p>
+                      </>
+                    ) : (
+
+                      <>
+                        <h5 className="ta-c mb-5">You are already an Assessor</h5>
+                        <div className="ta-c"><img src={newAssessor} alt="Done Assessor" /></div>
+                        <p className="ta-c mt-5">Would you like to do the condition check again?</p>
+                        <BrixelButtonPrimary
+                          rounded
+                          label="Yes, update"
+                          background={"primary"}
+                          className="max-w-fix-280 w-perc-100 ml-1"
+                          onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                          rightIcon="arrow-right-small"
+                        />
+                      </>
+                    )
+                  }
                 </>
               )
             }
+          </>
+        ) : (
+          <>
+            <h5 className="ta-c mb-5">Assess your property with a condition check</h5>
+            <div className="ta-c"><img className="w-fix-100" src={becomeAssessor} alt="Done Assessor" /></div>
+            <p className="ta-c mt-5 txtDark700">As an assessor, you know about the condition of the most important parts of your property.</p>
+            <BrixelButtonPrimary
+              rounded
+              label="Ok, show me"
+              background={"primary"}
+              className="max-w-fix-280 w-perc-100 ml-1"
+              onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+              rightIcon="arrow-right-small"
+            />
           </>
         )
       }
@@ -71,12 +102,18 @@ function SuccessAssessor(props) {
 SuccessAssessor.propTypes = {
   finishedFlow: PropTypes.bool,
   gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
+  groupdAchievement: PropTypes.object,
+  gameStub: PropTypes.string,
   history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   handleGetGameGroup: PropTypes.func.isRequired,
 };
 
 SuccessAssessor.defaultProps = {
   finishedFlow: false,
+  groupdAchievement: {},
+  gameStub: null,
+
 };
 
 const mapStateToProps = (state) => ({

@@ -235,15 +235,6 @@ function Assessor(props) {
               >
                 <div className={`subcontainer ${quest.className || ''}`}>
                   {
-                    currentIndex === 0 && (
-                      <>
-                        <h5 className="ta-c mb-4">{quest.title}</h5>
-                        <div className="ta-c"><img src={quest.img} alt="Done Assessor" /></div>
-                        <p className="ta-c mt-2">{quest.description}</p>
-                      </>
-                    )
-                  }
-                  {
                     quest.inputs && (
                       <>
                         <h5 className="mb-4 mb-md-6">{quest.title}</h5>

@@ -3,47 +3,31 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reset, Field } from 'redux-form';
+import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelIcon,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import Loadable from 'react-loadable';
 import {
   setModal, setScreenNotification,
 } from '../../actions/CommonActions';
-import LoadingSimple from '../../components/LoadingSimple';
 import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { InputSheets } from '../../resources/inputSheets';
-import { getCalcSectionInputSheets } from '../../utils/helpers';
 
 // COMPONENTS
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import FactsQuestion from './FactsQuestion';
-import { diff } from 'deep-object-diff';
-import set from 'lodash/set';
-
-const Maps = Loadable({
-  loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
-  loading: LoadingSimple,
-});
 
 const InputSheet = (props) => {
   const {
     changeFieldValue,
-    errorValue,
     formValue,
     handleSaveProperty,
-    handleSetModal,
-    initial,
     isSmallLoading,
     match,
-    notification,
-    setNotification,
   } = props;
 
   // STATE
@@ -66,6 +50,7 @@ const InputSheet = (props) => {
           }
         }
       }
+      return null;
     });
     if (act === 'section') return sectionDone;
   };
@@ -87,7 +72,9 @@ const InputSheet = (props) => {
             countTotal += 1;
           }
         }
+        return null;
       });
+      return null;
     });
     const inputSheet = get(formValue, 'inputSheet', {});
     const calPerc = countDone * countTotal / 100;

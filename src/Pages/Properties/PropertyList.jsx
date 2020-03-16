@@ -21,6 +21,7 @@ const PropertyList = (props) => {
     history,
     userProperties,
     user,
+    windowDimensions,
   } = props;
 
   // STATE
@@ -43,7 +44,7 @@ const PropertyList = (props) => {
   }, [activeSection, favoritesProperties, userProperties]);
 
   return (
-    <div className="properties">
+    <div className="properties ov-a" style={{ height: windowDimensions.height }}>
       {
         (activeProperties && activeProperties.length > 0) && (
           <div className="px-2 pb-5">
@@ -140,6 +141,7 @@ PropertyList.propTypes = {
   match: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
   favoritesProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 PropertyList.defaultProps = {
@@ -147,10 +149,11 @@ PropertyList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeProperty: get(state, 'property.activeSingleProperty', {}),
+  favoritesProperties: get(state, 'user.favorites', []),
   user: get(state, 'user.loggedInUser', {}),
   userProperties: get(state, 'user.userProperties', []),
-  favoritesProperties: get(state, 'user.favorites', []),
-  activeProperty: get(state, 'property.activeSingleProperty', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = () => ({

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
-import { BrixelButtonIcon, BrixelDropdown, BrixelTabs } from '@brixel/brixel-components';
+import { BrixelDropdown, BrixelTabs } from '@brixel/brixel-components';
 import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';

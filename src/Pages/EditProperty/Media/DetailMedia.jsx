@@ -14,13 +14,6 @@ import {
 } from '@brixel/brixel-components';
 import Loading from '../../../components/Loading';
 import { rotateImg, deleteImg, setCoverPhoto } from '../../../actions/UploadActions';
-import Loadable from 'react-loadable';
-import LoadingSimple from '../../../components/LoadingSimple';
-
-const DrawerLayout = Loadable({
-  loader: () => import('../../../components/DrawerLayout' /* webpackChunkName: "DrawerLayout" */),
-  loading: LoadingSimple,
-});
 
 const DetailMedia = (props) => {
   const {
