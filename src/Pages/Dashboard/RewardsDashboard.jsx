@@ -89,15 +89,12 @@ const RewardsDashboard = (props) => {
   }, [property, gameHistory, userTypes]);
 
   useEffect(() => {
-    console.log('EHHHH', rewardType);
     if (gameHistory.data && rewardType && rewardType !== 'rewards') {
       let selectEl;
       selectEl = gameHistory.data.find(el => el.achievement.stub === rewardType && el.page === property.id);
       if (typeof selectEl !== 'undefined') {
-        console.log(selectEl);
         selectEl.done = true;
       } else {
-        console.log(usrGroups);
         usrGroups.map((item) => {
           if (!selectEl) selectEl = item.achievements.find(el => el.stub === rewardType);
           return null;
@@ -105,7 +102,6 @@ const RewardsDashboard = (props) => {
       }
       setActiveGameGroup(rewardType);
       setActiveAchievement(selectEl);
-      console.log(selectEl, gameHistory.data, property.id);
     }
   }, [gameHistory, usrGroups]);
 
