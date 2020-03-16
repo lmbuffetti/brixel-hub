@@ -60,12 +60,14 @@ const InputSheet = (props) => {
     let countDone = 0;
     Questions.map((val) => {
       val.inputs.map((item) => {
-        if (item.validation) {
+        const name = get(item, 'condition.name', '');
+        const valA = get(formValue, name, 'a');
+        if (item.validation && (!item.condition || (item.condition && valA === item.condition.value))) {
           if (get(formValue, `inputSheet.skipSection[${item.name}]`, false)) {
             countTotal += 1;
             countDone += 1;
           }
-          else if (get(formValue, item.name, false) !== false) {
+          else if (get(formValue, item.name, false)) {
             countTotal += 1;
             countDone += 1;
           } else {
