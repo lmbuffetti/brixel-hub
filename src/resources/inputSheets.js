@@ -192,6 +192,18 @@ export const InputSheets = (lang) => [
         validation: [Validation.markRequired]
       },
       {
+        component: BrixelInputStepNumber,
+        condition: {
+          name: 'properties.propertyType',
+          value: 'Apartment'
+        },
+        className: '',
+        label: 'On which floor is the apartment\'s entrance?',
+        name: 'properties.typology.floorNumber',
+        step: 1,
+        validation: [Validation.markRequired],
+      },
+      {
         component: BrixelInputScale,
         condition: {
           name: 'properties.propertyType',
@@ -210,6 +222,82 @@ export const InputSheets = (lang) => [
         name: 'properties.building.secondaryResidence',
         isHorizontal: true,
         options: factsOptions.secondaryResidenceOptions,
+        validation: [Validation.markRequired]
+      },
+      // BUILDING
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the construction year?',
+        type: "number",
+        name: 'properties.building.built',
+        validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear, Validation.required],
+        placeholder: "YYYY (ex.: 2020)",
+      },
+      {
+        component: BrixelInputScale,
+        className: 'helpLink',
+        label: 'What\'s the building quality of the whole building?',
+        name: 'properties.building.quality',
+        options: factsOptions.quality,
+        modal: {
+          className: '',
+          func: {
+            layout: 'xlarge',
+            hint: 'Know more about building quality',
+            state: true,
+            group: 'Building quality',
+            body: '<p class="body2">With this variable, the basic structure independent of its current condition is assessed. Pay attention to following points: <br>the modes of construction; <br>the quality of the materials used in construction, insulation, glazing; <br>the kitchen and bath furnishing; <br>the quality of outdoor and environment design; <br>the quality of the plan (floor plan, lighting conditions, access to rooms etc.); <br>quality of heatgeneration and distribution.</p>' +
+              '<p class="body2"><b>Exceptional quality:</b> Very good noise insulation (within the building and from outside); heat insulation surpasses common standard; no problems with humidity or airtightness; very good indoor climate; ideal room layout with developable reserves; superior kitchen and sanitation; particular construction parts can easily be replaced; very good room proportions; versatile view from within and from outside; many green areas with exquisite planting and generous seating areas.</p>' +
+              '<p class="body2"><b>Good quality:</b> Good noise insulation (within the building and from outside); heat insulation fulfill current standard; no problems with humidity or airtightness; good indoor climate; good room layout; contemporary kitchen and sanitation; particular construction parts can be replaced with little effort; good room proportions; good view from within and from outside; many green areas with harmonic planting and generous seating areas.</p>' +
+              '<p class="body2"><b>Fair quality:</b> Noise insulation (within the building and from outside) with small defects; sufficient heat insulation; small problems with humidity or airtightness; sufficient indoor climate; fair room layout; obsolete but fully working kitchen and sanitation; particular construction parts can only be replaced with some effort; no architectural attractiveness; marginal view from within and from outside; appropriate green areas with ordinary planting and seating areas.</p>' +
+              '<p class="body2"><b>Poor quality:</b> Noise insulation with defects; heat insulation is below average and not fulfilling current standard; obvious problems with humidity or airtightness; insufficient indoor climate; insufficient room layout; obsolete kitchen and sanitation with small defects; particular construction parts can only be replaced with much effort; missing architectural attractiveness; no view from within and from outside; litle green areas and seating areas.</p>',
+          },
+        }
+      },
+      {
+        component: BrixelInputScale,
+        className: 'helpLink',
+        label: 'In which condition is the property?',
+        name: 'properties.building.conditionCode',
+        options: factsOptions.quality,
+        modal: {
+          func: {
+            layout: 'xlarge',
+            hint: 'Building quality',
+            state: true,
+            group: 'Renovations',
+            body: 'To assess the condition of a building, consider the building shell (facade, windows, roof), the supporting structure, the general technical systems (heating, sanitation, principal electrical distribution, ventilation system, elevator) and the expansion of general surfaces (cellar rooms, washrooms and drying rooms, staircases etc.). <br><br>' +
+              '<b>Exceptional quality:</b> Everything is as good as new and fully working. The building is maximal 5 years old or is completely renovated within the last 3 years.<br>' +
+              '<b>Good quality:</b> Everything is fully working but show traces of use. The building is 5-15 years old or is completely renovated within the last 3-10 years.<br>' +
+              '<b>Fair quality:</b> Everything is already used and show clear traces of use and wear with small functional defects. The building is 15-30 years old or is completely renovated within the last 10-25 years. Partial replacement is needed.<br>' +
+              '<b>Poor quality:</b> Everything is already used and show clear traces of use with some parts having defects or not working anymore. The building is more than 30 years old or is completely renovated more than 25 years ago. Complete replacement is needed.<br>',
+          },
+        },
+        validation: [Validation.markRequired]
+      },
+      {
+        component: BrixelInputStepNumber,
+        condition: {
+          name: 'properties.propertyType',
+          value: 'House'
+        },
+        className: '',
+        label: 'How many floors does the house have?',
+        name: 'properties.typology.numberOfHouseFloors',
+        step: 1,
+        validation: [Validation.markRequired]
+      },
+      {
+        component: BrixelInputStepNumber,
+        condition: {
+          name: 'properties.propertyType',
+          value: 'Apartment'
+        },
+        className: '',
+        label: 'Number of apartments in building',
+        name: 'properties.typology.numberOfFlats',
+        step: 1,
         validation: [Validation.markRequired]
       },
     ]
@@ -389,48 +477,6 @@ export const InputSheets = (lang) => [
         name: 'description.needRenovation',
         options: factsOptions.yesNoOpt,
         validation: [Validation.markRequired]
-      },
-      {
-        component: BrixelInputScale,
-        className: 'helpLink',
-        label: 'In which condition is the property?',
-        name: 'properties.building.conditionCode',
-        options: factsOptions.quality,
-        modal: {
-          func: {
-            layout: 'xlarge',
-            hint: 'Building quality',
-            state: true,
-            group: 'Renovations',
-            body: 'To assess the condition of a building, consider the building shell (facade, windows, roof), the supporting structure, the general technical systems (heating, sanitation, principal electrical distribution, ventilation system, elevator) and the expansion of general surfaces (cellar rooms, washrooms and drying rooms, staircases etc.). <br><br>' +
-              '<b>Exceptional quality:</b> Everything is as good as new and fully working. The building is maximal 5 years old or is completely renovated within the last 3 years.<br>' +
-              '<b>Good quality:</b> Everything is fully working but show traces of use. The building is 5-15 years old or is completely renovated within the last 3-10 years.<br>' +
-              '<b>Fair quality:</b> Everything is already used and show clear traces of use and wear with small functional defects. The building is 15-30 years old or is completely renovated within the last 10-25 years. Partial replacement is needed.<br>' +
-              '<b>Poor quality:</b> Everything is already used and show clear traces of use with some parts having defects or not working anymore. The building is more than 30 years old or is completely renovated more than 25 years ago. Complete replacement is needed.<br>',
-          },
-        },
-        validation: [Validation.markRequired]
-      },
-      {
-        component: BrixelInputScale,
-        className: 'helpLink',
-        label: 'What\'s the building quality of the whole building?',
-        name: 'properties.building.quality',
-        options: factsOptions.quality,
-        modal: {
-          className: '',
-          func: {
-            layout: 'xlarge',
-            hint: 'Know more about building quality',
-            state: true,
-            group: 'Building quality',
-            body: '<p class="body2">With this variable, the basic structure independent of its current condition is assessed. Pay attention to following points: <br>the modes of construction; <br>the quality of the materials used in construction, insulation, glazing; <br>the kitchen and bath furnishing; <br>the quality of outdoor and environment design; <br>the quality of the plan (floor plan, lighting conditions, access to rooms etc.); <br>quality of heatgeneration and distribution.</p>' +
-              '<p class="body2"><b>Exceptional quality:</b> Very good noise insulation (within the building and from outside); heat insulation surpasses common standard; no problems with humidity or airtightness; very good indoor climate; ideal room layout with developable reserves; superior kitchen and sanitation; particular construction parts can easily be replaced; very good room proportions; versatile view from within and from outside; many green areas with exquisite planting and generous seating areas.</p>' +
-              '<p class="body2"><b>Good quality:</b> Good noise insulation (within the building and from outside); heat insulation fulfill current standard; no problems with humidity or airtightness; good indoor climate; good room layout; contemporary kitchen and sanitation; particular construction parts can be replaced with little effort; good room proportions; good view from within and from outside; many green areas with harmonic planting and generous seating areas.</p>' +
-              '<p class="body2"><b>Fair quality:</b> Noise insulation (within the building and from outside) with small defects; sufficient heat insulation; small problems with humidity or airtightness; sufficient indoor climate; fair room layout; obsolete but fully working kitchen and sanitation; particular construction parts can only be replaced with some effort; no architectural attractiveness; marginal view from within and from outside; appropriate green areas with ordinary planting and seating areas.</p>' +
-              '<p class="body2"><b>Poor quality:</b> Noise insulation with defects; heat insulation is below average and not fulfilling current standard; obvious problems with humidity or airtightness; insufficient indoor climate; insufficient room layout; obsolete kitchen and sanitation with small defects; particular construction parts can only be replaced with much effort; missing architectural attractiveness; no view from within and from outside; litle green areas and seating areas.</p>',
-          },
-        }
       },
       {
         component: BrixelInputScale,
@@ -670,6 +716,38 @@ export const InputSheets = (lang) => [
         validation: [Validation.markRequired],
       },
       {
+        condition: {
+          name: 'properties.propertyType',
+          value: 'House'
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the boiler capacity?',
+        name: 'properties.energy.boiler.capacity',
+        type: 'number',
+        validation: [Validation.markRequired],
+      },
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Is there an air conditioner?',
+        isHorizontal: true,
+        name: 'properties.energy.ac',
+        options: factsOptions.acOptions,
+        validation: [Validation.markRequired],
+      },
+      {
+        condition: {
+          name: 'properties.propertyType',
+          value: 'House'
+        },
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the boiler type?',
+        name: 'properties.energy.boiler.type',
+        validation: [Validation.markRequired],
+      },
+      {
         component: BrixelRadioButton,
         className: '',
         label: 'Is there a window insulation?',
@@ -712,6 +790,23 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'What\'s the equipments and materials in the bathrooms?',
         name: 'properties.building.bathrooms.materials',
+        validation: [Validation.markRequired],
+      },
+      {
+        component: BrixelInputQuality,
+        className: '',
+        label: 'What\'s the energy efficiency of the property?',
+        name: 'properties.energy.efficiency',
+        options: factsOptions.energyEfficiencyOptions,
+        validation: [Validation.markRequired],
+      },
+      {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Is the property Minergie certified?',
+        isHorizontal: true,
+        name: 'properties.energy.minergieCertified',
+        options: factsOptions.minergieCertifiedOptions,
         validation: [Validation.markRequired],
       },
     ],
@@ -945,6 +1040,14 @@ export const InputSheets = (lang) => [
     cardType: "salesStrategyPrice",
     inputs: [
       {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Status',
+        name: 'status',
+        options: factsOptions.propertyStatus,
+        validation: [Validation.markRequired],
+      },
+      {
         component: BrixelSelect,
         className: 'zIndex3',
         label: 'Currency',
@@ -1000,170 +1103,6 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'How do you want to split the fees?',
         name: 'properties.salesStrategy.feesSplit',
-        validation: [Validation.markRequired],
-      },
-    ],
-  },
-  // SECTION: OTHER
-  {
-    title: "Other",
-    history: "other",
-    cardType: "other",
-    inputs: [
-      {
-        component: BrixelInputText,
-        className: '',
-        label: 'What\'s the construction year?',
-        type: "number",
-        name: 'properties.building.built',
-        validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear, Validation.required],
-        placeholder: "YYYY (ex.: 2020)",
-      },
-
-
-
-
-
-
-
-      {
-        component: BrixelInputStepNumber,
-        condition: {
-          name: 'properties.propertyType',
-          value: 'House'
-        },
-        className: '',
-        label: 'How many floors does the house have?',
-        name: 'properties.typology.numberOfHouseFloors',
-        step: 1,
-        validation: [Validation.markRequired]
-      },
-      {
-        component: BrixelInputStepNumber,
-        condition: {
-          name: 'properties.propertyType',
-          value: 'Apartment'
-        },
-        className: '',
-        label: 'Number of apartments in building',
-        name: 'properties.typology.numberOfFlats',
-        step: 1,
-        validation: [Validation.markRequired]
-      },
-
-
-
-
-      {
-        component: BrixelRadioButton,
-        condition: {
-          name: 'properties.propertyType',
-          value: 'Apartment'
-        },
-        options: factsOptions.multiStoreyApartmentOptions,
-        className: '',
-        label: 'Does the apartment have multiple floors?',
-        name: 'properties.building.multiStoreyApartment',
-        type: "number",
-        isHorizontal: true,
-        validation: [Validation.markRequired]
-      },
-
-
-      {
-        component: BrixelInputStepNumber,
-        condition: {
-          name: 'properties.propertyType',
-          value: 'Apartment'
-        },
-        className: '',
-        label: 'On which floor is the apartment\'s entrance?',
-        name: 'properties.typology.floorNumber',
-        step: 1,
-        validation: [Validation.markRequired],
-      },
-      {
-        condition: {
-          name: 'properties.propertyType',
-          value: 'House'
-        },
-        component: BrixelInputText,
-        className: '',
-        label: 'What\'s the boiler capacity?',
-        name: 'properties.energy.boiler.capacity',
-        type: 'number',
-        validation: [Validation.markRequired],
-      },
-      {
-        condition: {
-          name: 'properties.propertyType',
-          value: 'House'
-        },
-        component: BrixelInputText,
-        className: '',
-        label: 'What\'s the boiler type?',
-        name: 'properties.energy.boiler.type',
-        validation: [Validation.markRequired],
-      },
-
-      {
-        component: BrixelRadioButton,
-        className: '',
-        label: 'Is there an air conditioner?',
-        isHorizontal: true,
-        name: 'properties.energy.ac',
-        options: factsOptions.acOptions,
-        validation: [Validation.markRequired],
-      },
-
-
-
-      {
-        component: BrixelInputQuality,
-        className: '',
-        label: 'What\'s the energy efficiency of the property?',
-        name: 'properties.energy.efficiency',
-        options: factsOptions.energyEfficiencyOptions,
-        validation: [Validation.markRequired],
-      },
-      {
-        component: BrixelRadioButton,
-        className: '',
-        label: 'Is the property Minergie certified?',
-        isHorizontal: true,
-        name: 'properties.energy.minergieCertified',
-        options: factsOptions.minergieCertifiedOptions,
-        validation: [Validation.markRequired],
-      },
-      {
-        component: BrixelRadioButton,
-        className: '',
-        label: 'Status',
-        name: 'status',
-        options: factsOptions.propertyStatus,
-        validation: [Validation.markRequired],
-      },
-      {
-        component: BrixelInputText,
-        className: '',
-        label: 'How do you want to process the showings?',
-        name: 'properties.salesStrategy.processShowing',
-        validation: [Validation.markRequired],
-      },
-
-
-      {
-        component: BrixelInputText,
-        className: '',
-        label: 'Conditions for the offers and negotiation?',
-        name: 'properties.salesStrategy.offersConditions',
-        validation: [Validation.markRequired],
-      },
-      {
-        component: BrixelInputText,
-        className: '',
-        label: 'Support for the contract and notary?',
-        name: 'properties.salesStrategy.supportContract',
         validation: [Validation.markRequired],
       },
     ],
