@@ -80,90 +80,107 @@ const FactsQuestion = (props) => {
     }
   };
 
+  const checkCondition = (input) => {
+    console.log(input)
+    let condition = true;
+    if (input.condition) {
+      const valA = get(formValue, input.condition.name, 'a');
+      if (valA === input.condition.value) condition = true;
+      else condition = false;
+    }
+    return condition;
+  };
+
   return (
     <div
       className="questContent"
     >
       {
         quest.inputs.map((input, f) => (
-          <div className="singleInput mb-3" key={f.toString()}>
-            <div className="dis-f">
-              {
-                input.validation && (
-                  <>{checkQuestionGroup(input)}</>
-                )
-              }
-            </div>
-            <div key={f.toString()}>
-              {
-                input.type === 'Map' ? (
-                  <>
-                    <div className="mb-20 pos-r zIndex1">
-                      <Field
-                        name={input.name}
-                        label={input.label}
-                        component={() => (
-                          <Maps
-                            zoom={14}
-                            scrollZoom
-                            moveMarker
-                            draggable
-                            showSearchLocation
-                            showSelectCountry={true}
-                            showMap={true}
-                            isShowZip={false}
-                            className="w-perc-100"
-                          />
-                        )}
-                        options={input.options}
-                        validate={input.validation}
-                        type={input.type}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <div className="dis-f a-c jc-b">
-                    <div
-                      className={`${input.classNameBox || ''} dis-fl-col w-perc-100`}
-                      tabIndex="-1"
-                    >
-                      {input.deactivable ? input.deactivable.toString() : ''}
-                      <Field
-                        className={input.className || ''}
-                        inputClassName={input.inputClassName || ''}
-                        isHorizontal={input.isHorizontal}
-                        name={input.name}
-                        label={input.label}
-                        icons={input.icons}
-                        component={input.component}
-                        fluid={false}
-                        options={input.options}
-                        validate={input.validation}
-                        type={input.type}
-                        step={+input.step}
-                        min={input.min}
-                        deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
-                        placeholder={input.placeholder || ''}
-                        meta={{
-                          dirty: formValue[input.name] && errorValue[input.name] !== true,
-                          invalid: true,
-                        }}
-                        //modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
-                        message={{
-                          help: null,
-                          error: errorValue[input.name],
-                        }}
-                        minLenghtNum={input.minLenghtNum || null}
-                        maxLengthNum={input.maxLenghtNum || null}
-                        unit={input.unit}
-                      />
-                    </div>
+          <>
+            {
+              checkCondition(input) && (
+                <div className="singleInput mb-3" key={f.toString()}>
+                  <div className="dis-f">
+                    {
+                      input.validation && (
+                        <>{checkQuestionGroup(input)}</>
+                      )
+                    }
                   </div>
-                )
-              }
-              <p className="body2">{input.help}</p>
-            </div>
-          </div>
+                  <div key={f.toString()}>
+                    {
+                      input.type === 'Map' ? (
+                        <>
+                          <div className="mb-20 pos-r zIndex1">
+                            <Field
+                              name={input.name}
+                              label={input.label}
+                              component={() => (
+                                <Maps
+                                  zoom={14}
+                                  scrollZoom
+                                  moveMarker
+                                  draggable
+                                  showSearchLocation
+                                  showSelectCountry={true}
+                                  showMap={true}
+                                  isShowZip={false}
+                                  className="w-perc-100"
+                                />
+                              )}
+                              options={input.options}
+                              validate={input.validation}
+                              type={input.type}
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <div className="dis-f a-c jc-b">
+                          <div
+                            className={`${input.classNameBox || ''} dis-fl-col w-perc-100`}
+                            tabIndex="-1"
+                          >
+                            {input.deactivable ? input.deactivable.toString() : ''}
+                            <Field
+                              className={input.className || ''}
+                              inputClassName={input.inputClassName || ''}
+                              isHorizontal={input.isHorizontal}
+                              name={input.name}
+                              label={input.label}
+                              icons={input.icons}
+                              component={input.component}
+                              fluid={false}
+                              options={input.options}
+                              validate={input.validation}
+                              type={input.type}
+                              step={+input.step}
+                              min={input.min}
+                              deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
+                              placeholder={input.placeholder || ''}
+                              meta={{
+                                dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                invalid: true,
+                              }}
+                              //modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
+                              message={{
+                                help: null,
+                                error: errorValue[input.name],
+                              }}
+                              minLenghtNum={input.minLenghtNum || null}
+                              maxLengthNum={input.maxLenghtNum || null}
+                              unit={input.unit}
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                    <p className="body2">{input.help}</p>
+                  </div>
+                </div>
+              )
+            }
+          </>
         ))
       }
     </div>

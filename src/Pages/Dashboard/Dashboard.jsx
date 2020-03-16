@@ -144,7 +144,7 @@ const Dashboard = (props) => {
           });
         }
         if (setValid && (notification.type !== 'info' || load !== isSmallLoading)) {
-          setNotification({
+          /*setNotification({
             state: false,
             type: 'info',
             label: 'Save changes?',
@@ -153,7 +153,7 @@ const Dashboard = (props) => {
                 { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
                 { type: 'secondary', label: 'Discard', func: () => discardChanges() },
               ],
-          });
+          });*/
         }
         // SET NOTIFICATION TO SUCCESS SAVE
       } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'success') {
