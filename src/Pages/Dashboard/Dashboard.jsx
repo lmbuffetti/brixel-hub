@@ -13,7 +13,7 @@ import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
 import { getCalcSectionInputSheets } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
-import { reduxForm, reset } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import { deleteDocument, uploadDocument } from '../../actions/UploadActions';
@@ -56,7 +56,6 @@ const Dashboard = (props) => {
     notification,
     property,
     regFields,
-    setNotification,
   } = props;
 
   // STATE
@@ -100,31 +99,6 @@ const Dashboard = (props) => {
       handleSaveProperty({id: property.id, inputSheet: data});
     }
   }, [property]);
-
-  const saveData = async () => {
-    const dataToSend = formValue;
-    delete dataToSend.owner;
-    delete dataToSend.favoritedByUsers;
-    const data = {
-      id: propID,
-      smallLoader: true,
-      ...dataToSend,
-      setSuccessNotification: true,
-    };
-    // For now we still dont use the diff object (TODO: API ticket)
-    // diff(initialValues, formValue)
-    // const dataInputSheet = {
-    //   skipSection: skipSection,
-    // totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion,'getPercentage', null),
-    // };
-
-    // await handleSaveProperty({id: propID, inputSheet: dataInputSheet});
-    await handleSaveProperty(data);
-  };
-
-  const discardChanges = () => {
-    reset('Property');
-  };
 
   useEffect(() => {
     // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED

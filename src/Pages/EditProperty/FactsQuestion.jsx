@@ -81,7 +81,6 @@ const FactsQuestion = (props) => {
   };
 
   const checkCondition = (input) => {
-    console.log(input)
     let condition = true;
     if (input.condition) {
       const valA = get(formValue, input.condition.name, 'a');
