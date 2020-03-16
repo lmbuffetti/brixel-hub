@@ -14,7 +14,6 @@ import {
 import { change, isValid, reduxForm } from 'redux-form';
 import {
   BrixelButtonPrimary,
-  BrixelButtonSecondary,
   BrixelButtonIcon,
   BrixelIcon,
   BrixelProgressBar,
@@ -312,20 +311,12 @@ function Assessor(props) {
                 {
                   Questions[currentIndex] && !Questions[currentIndex + 1] && (
                     <>
-                      <BrixelButtonSecondary
-                        rounded
-                        label="Not Now"
-                        background={"primary"}
-                        className="max-w-fix-280 w-perc-100 mr-1"
-                        onClick={() => history.push(`/${propID}/home`)}
-                        disabled={disableNextBtn}
-                      />
                       <BrixelButtonPrimary
                         rounded
-                        label="Let's do it"
+                        label="Finish"
                         background={"primary"}
                         className="max-w-fix-280 w-perc-100 ml-1"
-                        onClick={() => { setPosition(1); setCurrentIndex(1) } }
+                        onClick={() => history.push(`/${propID}/rewards/assessor`)}
                         rightIcon="arrow-right-small"
                         disabled={disableNextBtn}
                       />

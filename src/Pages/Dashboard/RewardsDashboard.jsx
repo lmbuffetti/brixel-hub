@@ -49,6 +49,7 @@ const RewardsDashboard = (props) => {
   // PARAMS URL
   const rewardType = last(get(history, 'location.pathname', '').split('/'));
   const propID = get(match, 'params.propId', '');
+  const gameHistoryData = get(gameHistory, 'data', null);
 
   useEffect(() => {
     handleGetGameAchievement();
@@ -100,10 +101,11 @@ const RewardsDashboard = (props) => {
           return null;
         })
       }
+      console.log(selectEl);
       setActiveGameGroup(rewardType);
       setActiveAchievement(selectEl);
     }
-  }, [gameHistory, usrGroups]);
+  }, [gameHistoryData, usrGroups, history]);
 
   const onClickAchievement = (game, achievement) => {
     setActiveGameGroup(game);
