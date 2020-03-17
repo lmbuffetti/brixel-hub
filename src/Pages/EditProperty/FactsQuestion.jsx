@@ -118,7 +118,7 @@ const FactsQuestion = (props) => {
                               component={() => (
                                 <Maps
                                   zoom={14}
-                                  scrollZoom
+                                  scrollZoom={false}
                                   moveMarker
                                   draggable
                                   showSearchLocation

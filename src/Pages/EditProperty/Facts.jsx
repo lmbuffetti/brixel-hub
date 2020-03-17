@@ -70,7 +70,7 @@ const InputSheet = (props) => {
             countTotal += 1;
             countDone += 1;
           }
-          else if (get(formValue, item.name, false)) {
+          else if (get(formValue, item.name, false) !== false) {
             countTotal += 1;
             countDone += 1;
           } else {
@@ -81,9 +81,9 @@ const InputSheet = (props) => {
       });
       return null;
     });
-    const inputSheet = get(formValue, 'inputSheet', {});
-    const calPerc = countDone * countTotal / 100;
-    const savedPerc = get(formValue, `inputSheet.totalComplete`, 0);
+    const inputSheet = get(formValue, 'inputSheet', {}) || {};
+    const calPerc = Math.floor(countDone * countTotal / 100);
+    const savedPerc = Math.floor(get(formValue, `inputSheet.totalComplete`, 0) || 0);
     if (calPerc !== savedPerc) {
       inputSheet.totalComplete = calPerc;
       changeFieldValue('inputSheet', inputSheet);

@@ -106,12 +106,12 @@ const HomeDashboard = (props) => {
                 <div className="transparency-container">
                   <div className="dis-fl-col ta-l">
                     {
-                      get(property, 'inputSheet', null) && userType === 'seller' && (
+                      userType === 'seller' && (
                         <>
                           <BrixelButtonBox
                             icon="document"
                             label="Facts"
-                            subtitle={`${property.inputSheet.totalComplete}%`}
+                            subtitle={`${get(formValue, 'inputSheet.totalComplete', 0)}%`}
                             subtitleClass={'ff-mono'}
                             background="white"
                             className="w-perc-100"
@@ -126,7 +126,7 @@ const HomeDashboard = (props) => {
                               small
                               barBackground="Red"
                               backgroundSaturation={100}
-                              progressValue={property.inputSheet.totalComplete}
+                              progressValue={get(formValue, 'inputSheet.totalComplete', 0)}
                             />
                           </div>
                         </>
