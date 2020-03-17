@@ -11,20 +11,10 @@ import { getAchievement, getGamegroup, getGameHistory, addGameHistory } from '..
 import Loading from '../../components/Loading';
 import { GameGroupConfig } from '../../constants/global';
 import brixels from '../../images/BrxielComingTown/brixels.svg';
-import Loadable from 'react-loadable';
 
-const SuccessMarketCheck = Loadable({
-  loader: () => import('../MarketChecker/SuccessMarketCheck' /* webpackChunkName: "SuccessMarketCheck" */),
-  loading: Loading,
-});
-const SuccessBestimate = Loadable({
-  loader: () => import('../Bestimate/SuccessBestimate' /* webpackChunkName: "SuccessBestimate" */),
-  loading: Loading,
-});
-const SuccessAssessor = Loadable({
-  loader: () => import('../Assessor/SuccessAssessor' /* webpackChunkName: "SuccessAssessor" */),
-  loading: Loading,
-});
+import SuccessMarketCheck from '../MarketChecker/SuccessMarketCheck';
+import SuccessBestimate from '../Bestimate/SuccessBestimate';
+import SuccessAssessor from '../Assessor/SuccessAssessor';
 
 const RewardsDashboard = (props) => {
   // PROPS

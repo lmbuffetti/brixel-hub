@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import { getPropertyListings, getActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
-import { getCalcSectionInputSheets } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
 import { reduxForm } from 'redux-form';
 import cloneDeep from 'lodash/cloneDeep';
@@ -47,7 +46,7 @@ const Dashboard = (props) => {
     formValue,
     handleGetProperties,
     handleGetProperty,
-    handleSaveProperty,
+    // handleSaveProperty,
     history,
     initialValues,
     isSmallLoading,
@@ -91,11 +90,11 @@ const Dashboard = (props) => {
     }
     const getPercComplete = get(property, 'inputSheet.totalComplete', null);
     if (property.id && !getPercComplete && property.owner.id) {
-      const getPerc = getCalcSectionInputSheets(InputSheets('en'), property, {});
-      const data = {
+      // const getPerc = getCalcSectionInputSheets(InputSheets('en'), property, {});
+      /*const data = {
         skipSection: getPerc.section.section,
         totalComplete: getPerc.section.percComplete,
-      };
+      };*/
       //handleSaveProperty({id: property.id, inputSheet: data});
     }
   }, [property]);

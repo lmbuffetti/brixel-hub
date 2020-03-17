@@ -3,7 +3,6 @@ import React, { useEffect, useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
@@ -56,7 +55,7 @@ function SuccessAssessor(props) {
                     isNew ? (
                       <>
                         <h5 className="ta-c mb-5">Well done. You are now an Assessor.</h5>
-                        <div className="ta-c"><img src={newAssessor} alt="Nes Assessor" /></div>
+                        <div className="ta-c"><img src={doneAssessor} alt="Nes Assessor" /></div>
                         <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
@@ -65,14 +64,16 @@ function SuccessAssessor(props) {
                         <h5 className="ta-c mb-5">You are already an Assessor</h5>
                         <div className="ta-c"><img src={newAssessor} alt="Done Assessor" /></div>
                         <p className="ta-c mt-5">Would you like to do the condition check again?</p>
-                        <BrixelButtonPrimary
-                          rounded
-                          label="Yes, update"
-                          background={"primary"}
-                          className="max-w-fix-280 w-perc-100 ml-1"
-                          onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                          rightIcon="arrow-right-small"
-                        />
+                        <div className="dis-r jc-c">
+                          <BrixelButtonPrimary
+                            rounded
+                            label="Yes, update"
+                            background={"primary"}
+                            className="max-w-fix-280 w-perc-100 m-a mt-3"
+                            onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                            rightIcon="arrow-right-small"
+                          />
+                        </div>
                       </>
                     )
                   }
@@ -89,7 +90,7 @@ function SuccessAssessor(props) {
               rounded
               label="Ok, show me"
               background={"primary"}
-              className="max-w-fix-280 w-perc-100 ml-1"
+              className="max-w-fix-280 w-perc-100 m-a mt-3"
               onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
               rightIcon="arrow-right-small"
             />

@@ -67,7 +67,7 @@ function SuccessMarketCheck(props) {
                           rounded
                           label="Yes, update"
                           background={"primary"}
-                          className="max-w-fix-280 w-perc-100 ml-1"
+                          className="max-w-fix-280 w-perc-100 m-a mt-3"
                           onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
                           rightIcon="arrow-right-small"
                         />
@@ -87,7 +87,7 @@ function SuccessMarketCheck(props) {
               rounded
               label="Ok, show me"
               background={"primary"}
-              className="max-w-fix-280 w-perc-100 ml-1"
+              className="max-w-fix-280 w-perc-100 m-a mt-3"
               onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
               rightIcon="arrow-right-small"
             />
