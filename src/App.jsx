@@ -149,13 +149,15 @@ const App = (props) => {
     )
   }
 
+  let classMain = 'container pos-r ov-h';
+  if (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) classMain = '';
 
   return (
-    <main className={`dis-fl-row jc-b}`}>
+    <main className={`dis-fl-row jc-b`}>
 
       <Loading isLoading={isLoading} />
 
-      <div className="container pos-r ov-h">
+      <div className={classMain}>
         <div className="dis-f">
           {
             !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding') && loggedInUser && (

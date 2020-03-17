@@ -96,7 +96,7 @@ const Dashboard = (props) => {
         skipSection: getPerc.section.section,
         totalComplete: getPerc.section.percComplete,
       };
-      handleSaveProperty({id: property.id, inputSheet: data});
+      //handleSaveProperty({id: property.id, inputSheet: data});
     }
   }, [property]);
 

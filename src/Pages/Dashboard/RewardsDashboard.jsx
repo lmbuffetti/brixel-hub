@@ -119,34 +119,44 @@ const RewardsDashboard = (props) => {
   return (
     <div className="pt-3">
       <div className="dis-f">
-        <div className="rewardsScreen mr-5">
-          <h4 className="mb-5">Rewards</h4>
-          <div className="dis-f a-c">
-            {
-              awards >= 0 && (
-                <div className="cur-poi">
-                  <BrixelIcon icon="cup-awards" color="green" />
-                  <span className="ff-mono txtDark700">{awards}</span>
-                </div>
-              )
-            }
-            {
-              brixelPoints >= 0 && (
-                <div className="cur-poi ml-2">
-                  <img src={brixels} alt="icon awards" className="mr-1" />
-                  <span className="ff-mono txtDark700">{brixelPoints}</span>
-                </div>
-              )
-            }
-          </div>
-        </div>
         {
           usrGroups && usrGroups.map((group, i) => (
             <div key={i.toString()}>
               {
                 GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`] && (
                   <>
-                    <span className="mb-3 fsize-400 dis-b txtDark700 fweight-500">{GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}</span>
+                    {
+                      i === 0 ? (
+                        <div className="dis-f jc-b a-c mb-3">
+                          <span className="fsize-400 dis-b txtDark700 fweight-500">
+                            {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
+                          </span>
+                          <div className="dis-f a-c">
+                            {
+                              awards >= 0 && (
+                                <div className="cur-poi">
+                                  <BrixelIcon icon="cup-awards" color="green" />
+                                  <span className="ff-mono txtDark700">{awards}</span>
+                                </div>
+                              )
+                            }
+                            {
+                              brixelPoints >= 0 && (
+                                <div className="cur-poi ml-2">
+                                  <img src={brixels} alt="icon awards" className="mr-1" />
+                                  <span className="ff-mono txtDark700">{brixelPoints}</span>
+                                </div>
+                              )
+                            }
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="mb-3 fsize-400 dis-b txtDark700 fweight-500">
+                          {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
+                        </span>
+                      )
+                    }
+
                     <div key={i.toString()} className="pl-5 pos-r">
                       <div className="timelineBar" />
                       {
@@ -200,7 +210,7 @@ const RewardsDashboard = (props) => {
 
         {
           activeGameGroup && (
-            <div>
+            <div className="pl-4 w-perc-100 max-w-fix-400 m-a mt-2">
               {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
               {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
               {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
