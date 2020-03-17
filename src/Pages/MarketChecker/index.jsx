@@ -291,7 +291,10 @@ function MarketCheck(props) {
                         label="Finish"
                         background={"primary"}
                         className="max-w-fix-280 w-perc-100 mr-1"
-                        onClick={() => history.push(`/${propID}/rewards/market-checker}`)}
+                        onClick={() => history.push({
+                          pathname: `/${propID}/rewards/market-checker`,
+                          state: { isNew: !finishedFlow }
+                        })}
                       />
                     </>
                   )

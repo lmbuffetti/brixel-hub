@@ -316,7 +316,10 @@ function Assessor(props) {
                         label="Finish"
                         background={"primary"}
                         className="max-w-fix-280 w-perc-100 ml-1"
-                        onClick={() => history.push(`/${propID}/rewards/assessor`)}
+                        onClick={() => history.push({
+                          pathname: `/${propID}/rewards/assessor`,
+                          state: { isNew: !finishedFlow }
+                        })}
                         rightIcon="arrow-right-small"
                         disabled={disableNextBtn}
                       />

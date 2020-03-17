@@ -28,7 +28,8 @@ function SuccessAssessor(props) {
   // URL PARAMS
   const getParams = gameStub;
   const propID = get(match, 'params.propId', null);
-  const getDoneFirstTime = () => last(history.location.pathname.split('/'))[last(history.location.pathname.split('/')).length - 1];
+  const isNew = get(history, 'location.state.isNew', false);
+
 
   useEffect(() => {
     if (gameGroup) {
@@ -46,17 +47,17 @@ function SuccessAssessor(props) {
     <main id="rewards" className="pb-4">
 
       {
-        groupdAchievement.done || getDoneFirstTime() === 'done' ? (
+        groupdAchievement.done ? (
           <>
             {
               achievement && (
                 <>
                   {
-                    getDoneFirstTime() === 'done' ? (
+                    isNew ? (
                       <>
-                        <h5 className="ta-c mb-5">You are already an Assessor</h5>
-                        <div className="ta-c"><img src={doneAssessor} alt="Done Assessor" /></div>
-                        <p className="ta-c mt-5">Would you like to do the condition check again?</p>
+                        <h5 className="ta-c mb-5">Well done. You are now an Assessor.</h5>
+                        <div className="ta-c"><img src={newAssessor} alt="Nes Assessor" /></div>
+                        <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
 

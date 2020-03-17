@@ -99,9 +99,9 @@ export const defaultState = {
 
 export default handleActions(
   {
-    [SET_WINDOW_DIMENSIONS]: (state) => ({
+    [SET_WINDOW_DIMENSIONS]: (state, action) => ({
       ...state,
-      isLoading: state.isLoading + 1,
+      windowDimensions: action.payload,
     }),
     [SPINNER_ON]: (state) => ({
       ...state,
