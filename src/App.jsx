@@ -149,7 +149,7 @@ const App = (props) => {
     )
   }
 
-  let classMain = 'container pos-r ov-h';
+  let classMain = 'container pos-r ov-h p-0';
   if (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) classMain = '';
 
   return (
@@ -177,26 +177,28 @@ const App = (props) => {
                 <PageHeaderDashboard />
               )
             }
-            <Switch>
-              { /* SECTION: ONBOARDING */ }
-              <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
-              <Route path="/onBoarding/" component={OnBoarding} />
+            <div className="pos-r">
+              <Switch>
+                { /* SECTION: ONBOARDING */ }
+                <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
+                <Route path="/onBoarding/" component={OnBoarding} />
 
-              { /* SECTION: INSERT TOKEN */ }
-              <Route path="/tokeninput" component={InsertToken} />
+                { /* SECTION: INSERT TOKEN */ }
+                <Route path="/tokeninput" component={InsertToken} />
 
-              { /* SECTION: GET STARTED*/ }
-              <Route path="/packageFlow/getstarted/" component={GetStarted} />
+                { /* SECTION: GET STARTED*/ }
+                <Route path="/packageFlow/getstarted/" component={GetStarted} />
 
-              { /* SECTION: HUB DASHBOARD */ }
-              <ProtectedRoute path="/" exact component={Dashboard} />
-              { /* SECTION: ALL USER DASHBOARD */ }
-              <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
-              <ProtectedRoute path="/:propId?/property" component={Dashboard} />
-              <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
-              <ProtectedRoute path="/:propId?/support" component={Dashboard} />
-              <Redirect path="/:propId?/*" to="/:propId?/rewards" component={Dashboard} />
-            </Switch>
+                { /* SECTION: HUB DASHBOARD */ }
+                <ProtectedRoute path="/" exact component={Dashboard} />
+                { /* SECTION: ALL USER DASHBOARD */ }
+                <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
+                <ProtectedRoute path="/:propId?/property" component={Dashboard} />
+                <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
+                <ProtectedRoute path="/:propId?/support" component={Dashboard} />
+                <Redirect path="/:propId?/*" to="/:propId?/rewards" component={Dashboard} />
+              </Switch>
+            </div>
           </div>
 
         </div>

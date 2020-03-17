@@ -31,6 +31,7 @@ function PageHeaderDashboard(props) {
     handleSetLanguage,
     history,
     property,
+    windowDimensions,
   } = props;
   // STATE
   const [currentLang, setCurrentLang] = useState(lang);
@@ -108,8 +109,8 @@ function PageHeaderDashboard(props) {
 
   return (
     <>
-      <header className={`dashboardHeaderHub container`}>
-        <div className={`container dis-f a-c p-1 p-md-2 jc-b pos-r zIndex4 pl-11`}>
+      <header className={`dashboardHeaderHub`}>
+        <div className={`container dis-f a-c p-1 p-md-2 jc-b pos-r zIndex4`}>
 
           <div className="header-section dis-fl-row a-c jc-b">
             <div className="dis-fl-row a-c">
@@ -172,19 +173,20 @@ function PageHeaderDashboard(props) {
           </div>
         </div>
 
-        <div className="dis-f jc-b w-perc-100 a-t brdLight100">
+        <div className="dis-f jc-b w-perc-100 a-t brdLight100 brixelNavMenu">
           <BrixelTabs
             classNameLi="dis-fl-col"
             classNameUl="zIndex4"
             labels={['Rewards', 'Property', 'Listings']}
+            labelsIcons={windowDimensions.width < 768 ? ['first-time-occupancy', 'property-house', 'upload'] : []}
             clicksList={['rewards', 'property', 'listings']}
             classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
             activeTab={checkActiveTab()}
-            fullWidth={false}
+            fullWidth={windowDimensions.width < 768}
             onClick={(val) => history.push(`/${propID}/${val}`)}
             showFull={false}
           />
-          <button className="fsize-400 txtLight400">Support</button>
+          <button className="fsize-400 txtLight400 hide dis-b-md">Support</button>
         </div>
 
       </header>
@@ -203,6 +205,7 @@ PageHeaderDashboard.propTypes = {
   property: PropTypes.object.isRequired,
   userAwards: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
   userBrixelPoint: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {
@@ -222,6 +225,7 @@ const mapStateToProps = (state) => ({
   property: get(state, 'property.activeSingleProperty', {}),
   userBrixelPoint: get(state, 'user.brixelPoints', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

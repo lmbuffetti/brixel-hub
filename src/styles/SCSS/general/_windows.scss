@@ -1,0 +1,25 @@
+.secondLevel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: $brx-white;
+  z-index: 2;
+}
+
+.thirdLevel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: $brx-white;
+  z-index: 3;
+}
+
+@media (min-width: $responsive-medium) {
+  .secondLevel, .thirdLevel {
+    position: static;
+  }
+}

@@ -3,6 +3,7 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 @import '~@brixel/brixel-configuration-partner/src/Variables';
 @import '~@brixel/brixel-components/src/styles/SCSS/general/main.scss';
 // UTILS
+@import "./windows";
 
 // COMPONENTS
 @import "../components/loading",

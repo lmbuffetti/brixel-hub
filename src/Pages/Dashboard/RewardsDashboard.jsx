@@ -112,98 +112,104 @@ const RewardsDashboard = (props) => {
   return (
     <div className="pt-3">
       <div className={`dis-f ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'}`}>
+
         {
-          usrGroups && usrGroups.map((group, i) => (
-            <div key={i.toString()}>
+          usrGroups && (
+            <div className="firstLevel">
               {
-                GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`] && (
-                  <>
+                usrGroups.map((group, i) => (
+                  <div key={i.toString()}>
                     {
-                      i === 0 ? (
-                        <div className="dis-f jc-b a-c mb-3">
+                      GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`] && (
+                        <>
+                          {
+                            i === 0 ? (
+                              <div className="dis-f jc-b a-c mb-3">
                           <span className="fsize-400 dis-b txtDark700 fweight-500">
                             {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
                           </span>
-                          <div className="dis-f a-c">
-                            {
-                              awards >= 0 && (
-                                <div className="cur-poi">
-                                  <BrixelIcon icon="cup-awards" color="green" />
-                                  <span className="ff-mono txtDark700">{awards}</span>
+                                <div className="dis-f a-c">
+                                  {
+                                    awards >= 0 && (
+                                      <div className="cur-poi">
+                                        <BrixelIcon icon="cup-awards" color="green" />
+                                        <span className="ff-mono txtDark700">{awards}</span>
+                                      </div>
+                                    )
+                                  }
+                                  {
+                                    brixelPoints >= 0 && (
+                                      <div className="cur-poi ml-2">
+                                        <img src={brixels} alt="icon awards" className="mr-1" />
+                                        <span className="ff-mono txtDark700">{brixelPoints}</span>
+                                      </div>
+                                    )
+                                  }
                                 </div>
-                              )
-                            }
-                            {
-                              brixelPoints >= 0 && (
-                                <div className="cur-poi ml-2">
-                                  <img src={brixels} alt="icon awards" className="mr-1" />
-                                  <span className="ff-mono txtDark700">{brixelPoints}</span>
-                                </div>
-                              )
-                            }
-                          </div>
-                        </div>
-                      ) : (
-                        <span className="mb-3 fsize-400 dis-b txtDark700 fweight-500">
+                              </div>
+                            ) : (
+                              <span className="mb-3 fsize-400 dis-b txtDark700 fweight-500">
                           {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
                         </span>
-                      )
-                    }
+                            )
+                          }
 
-                    <div key={i.toString()} className="pl-5 pos-r">
-                      <div className="timelineBar" />
-                      {
-                        group.achievements && group.achievements.map((item, f) => (
-                          <div key={f.toString()} className="pos-r">
-                            <span className={item.done ? "dotTimelineDone" : "dotTimeline"} />
+                          <div key={i.toString()} className="pl-5 pos-r">
+                            <div className="timelineBar" />
                             {
-                              ((property.location && ((property.location.countryCode !== 'CH' && item.stub === 'bestimate') || (property.location.countryCode !== 'CH' && property.location.countryCode !== 'PT' && item.stub === 'market-checker')))) ? (
-                                <BrixelButtonBox
-                                  icon={item.icon}
-                                  label={item.name}
-                                  subtitle={item.description}
-                                  background="light100"
-                                  className="mb-2 w-perc-100 opacity5 p-2"
-                                  colorIcon={GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
-                                  backIcon="light200 mr-1"
-                                  multilineInfo={[
-                                    {label: 'Coming', color: 'dark200'},
-                                    {label: 'soon', color: 'dark200'},
-                                  ]}
-                                />
-                              ) : (
-                                <BrixelButtonBox
-                                  icon={item.done ? 'check' : item.icon}
-                                  label={item.name}
-                                  subtitle={item.description}
-                                  background={item.done ? 'light100' : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].color}
-                                  className={`mb-2 w-perc-100 p-2 ${item.done ? '' : 'shadow-2dp'}`}
-                                  colorIcon={item.done ? 'green400'  : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
-                                  backIcon={`${item.done ? 'light200' : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
-                                  paddingIconClass="fSizePx24 p-small-12"
-                                  multilineInfo={[
-                                    item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
-                                    {label: item.points, color: 'dark200'},
-                                  ]}
-                                  onClick={() => onClickAchievement(item.stub, item)}
-                                  //onClick={() => history.push(`/${property.id}/rewards/achievement/${item.stub}`)}
-                                />
-                              )
+                              group.achievements && group.achievements.map((item, f) => (
+                                <div key={f.toString()} className="pos-r">
+                                  <span className={item.done ? "dotTimelineDone" : "dotTimeline"} />
+                                  {
+                                    ((property.location && ((property.location.countryCode !== 'CH' && item.stub === 'bestimate') || (property.location.countryCode !== 'CH' && property.location.countryCode !== 'PT' && item.stub === 'market-checker')))) ? (
+                                      <BrixelButtonBox
+                                        icon={item.icon}
+                                        label={item.name}
+                                        subtitle={item.description}
+                                        background="light100"
+                                        className="mb-2 w-perc-100 opacity5 p-2"
+                                        colorIcon={GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
+                                        backIcon="light200 mr-1"
+                                        multilineInfo={[
+                                          {label: 'Coming', color: 'dark200'},
+                                          {label: 'soon', color: 'dark200'},
+                                        ]}
+                                      />
+                                    ) : (
+                                      <BrixelButtonBox
+                                        icon={item.done ? 'check' : item.icon}
+                                        label={item.name}
+                                        subtitle={item.description}
+                                        background={item.done ? 'light100' : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].color}
+                                        className={`mb-2 w-perc-100 p-2 ${item.done ? '' : 'shadow-2dp'}`}
+                                        colorIcon={item.done ? 'green400'  : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
+                                        backIcon={`${item.done ? 'light200' : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
+                                        paddingIconClass="fSizePx24 p-small-12"
+                                        multilineInfo={[
+                                          item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
+                                          {label: item.points, color: 'dark200'},
+                                        ]}
+                                        onClick={() => onClickAchievement(item.stub, item)}
+                                        //onClick={() => history.push(`/${property.id}/rewards/achievement/${item.stub}`)}
+                                      />
+                                    )
+                                  }
+                                </div>
+                              ))
                             }
                           </div>
-                        ))
-                      }
-                    </div>
-                  </>
-                )
+                        </>
+                      )
+                    }
+                  </div>
+                ))
               }
             </div>
-          ))
+          )
         }
-
         {
           activeGameGroup && rewardType !== 'rewards' && (
-            <div className="pl-4 w-perc-100 max-w-fix-400 m-a mt-2">
+            <div className="secondLevel px-2 pl-md-4 pr-md-0 w-perc-100 max-w-fix-400 m-a mt-2">
               {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
               {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
               {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}

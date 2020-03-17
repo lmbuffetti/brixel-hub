@@ -180,7 +180,7 @@ const InputSheet = (props) => {
       </div>
       {
         selectedQuest && getFact() !== 'facts' && (
-          <div className="dis-fl-col h-perc-100 w-perc-100">
+          <div className="thirdLevel dis-fl-col h-perc-100 w-perc-100">
             <div className="h-perc-100 ov-a p-2">
               <FactsQuestion quest={selectedQuest} />
             </div>

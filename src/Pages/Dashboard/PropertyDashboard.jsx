@@ -87,7 +87,7 @@ const HomeDashboard = (props) => {
     <>
       <div className="property-info-container brdRadius">
         <div className="dis-f">
-          <div className={`bgLight100 p-2 expendableColumn ${openCloseColumn()}`}>
+          <div className={`firstLevel bgLight100 p-2 expendableColumn ${openCloseColumn()}`}>
             <div className={`jc-c mb-2 ${openCloseColumn() === 'close' ? 'dis-f' : 'hide'}`}>
               <BrixelButtonIcon
                 background="white"
@@ -223,13 +223,17 @@ const HomeDashboard = (props) => {
 
             </div>
           </div>
-          <div className="w-perc-100" style={{ height: windowDimensions.height - 121 }}>
-            <Route path="/:propId?/property/facts" component={Facts} />
-            <Route path="/:propId?/property/photos" component={Photos} />
-            <Route path="/:propId?/property/plans" exact component={Plans} />
-            <Route path="/:propId?/property/tour" exact component={Tour} />
-            <Route path="/:propId?/property/documents" exact component={Documents} />
-          </div>
+          {
+            getFact() !== 'property' && (
+              <div className="secondLevel w-perc-100" style={{ height: windowDimensions.height - 121 }}>
+                <Route path="/:propId?/property/facts" component={Facts} />
+                <Route path="/:propId?/property/photos" component={Photos} />
+                <Route path="/:propId?/property/plans" exact component={Plans} />
+                <Route path="/:propId?/property/tour" exact component={Tour} />
+                <Route path="/:propId?/property/documents" exact component={Documents} />
+              </div>
+            )
+          }
         </div>
 
       </div>

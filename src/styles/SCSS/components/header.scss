@@ -1,3 +1,13 @@
-.dashboardHeaderHub {
+.brixelNavMenu {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
 
+
+@media (min-width: $responsive-medium) {
+  .brixelNavMenu {
+    position: static;
+  }
 }
