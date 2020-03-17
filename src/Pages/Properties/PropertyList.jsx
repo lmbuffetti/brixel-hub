@@ -44,7 +44,7 @@ const PropertyList = (props) => {
   }, [activeSection, favoritesProperties, userProperties]);
 
   return (
-    <div className="properties ov-a" style={{ height: windowDimensions.height }}>
+    <div className="properties ov-a h-perc-100">
       {
         (activeProperties && activeProperties.length > 0) && (
           <div className="px-2 pb-5">

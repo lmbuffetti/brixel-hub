@@ -11,7 +11,9 @@ import Properties from '../Pages/Properties';
 
 const MenuSidebar = (props) => {
   // PROPS
-
+  const {
+    windowDimensions,
+  } = props;
   // STATE
   const [activeMenu, setActiveMenu] = useState(null);
   // REF
@@ -88,8 +90,8 @@ const MenuSidebar = (props) => {
         </div>
         {
           activeMenu && (
-            <div className="sidebarSubmenu zIndex1">
-              <div className="sidebarSubmenuContent" ref={wrapperRef}>
+            <div className="sidebarSubmenu zIndex1" style={{ height: windowDimensions.height }}>
+              <div className="sidebarSubmenuContent dis-fl-col" ref={wrapperRef}>
                 {
                   activeMenu === 'propertyList' && (
                     <Properties {...props} closeProperty={() => setActiveMenu(null)}/>
@@ -110,6 +112,7 @@ MenuSidebar.propTypes = {
   match: PropTypes.object.isRequired,
   preventExit: PropTypes.bool.isRequired,
   // setUnsavedModal: PropTypes.func.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 MenuSidebar.defaultProps = {
@@ -119,6 +122,7 @@ const mapStateToProps = (state) => ({
   isLoading: get(state, 'common.isLoading', 2),
   preventExit: get(state, 'common.preventExitFromScreen', false),
   activeProperty: get(state, 'property.activeSingleProperty', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

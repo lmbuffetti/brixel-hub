@@ -68,7 +68,7 @@ const Properties = (props) => {
 
   return (
     <>
-      <div className="properties-header dis-fl-row a-c jc-b mb-3 p-2">
+      <div className="properties-header dis-fl-row a-c jc-b mb-3 p-2 pos-r zIndex1">
         <div className="dis-fl-row a-c">
           <span className="docubox-title fweight-500 txtDark700">Properties</span>
         </div>
@@ -84,7 +84,7 @@ const Properties = (props) => {
         />
       </div>
       <BrixelTabs
-        className={`tabs mb-1-neg mr-3`}
+        className={`tabs mb-1-neg mr-3 bgWhite zIndex1`}
         clicksList={[
           '',
           'seller',
