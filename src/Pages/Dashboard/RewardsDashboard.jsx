@@ -93,6 +93,9 @@ const RewardsDashboard = (props) => {
       }
       setActiveGameGroup(rewardType);
       setActiveAchievement(selectEl);
+    } else {
+      setActiveGameGroup(null);
+      setActiveAchievement(null);
     }
   }, [gameHistoryData, usrGroups, history]);
 
@@ -108,7 +111,7 @@ const RewardsDashboard = (props) => {
 
   return (
     <div className="pt-3">
-      <div className="dis-f">
+      <div className={`dis-f ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'}`}>
         {
           usrGroups && usrGroups.map((group, i) => (
             <div key={i.toString()}>
@@ -199,7 +202,7 @@ const RewardsDashboard = (props) => {
         }
 
         {
-          activeGameGroup && (
+          activeGameGroup && rewardType !== 'rewards' && (
             <div className="pl-4 w-perc-100 max-w-fix-400 m-a mt-2">
               {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
               {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}

@@ -38,8 +38,17 @@ function PageHeaderDashboard(props) {
   const [widthScreen, setWidthScreen] = useState(0);
 
   // URL PARAMS
-  const checkActiveTab = () => last(history.location.pathname.split('/'));
   const propID = history.location.pathname.split('/')[1];
+
+  const checkActiveTab = () => {
+    let curTab = '';
+    if (history) {
+      if (history.location.pathname.includes('rewards')) curTab = 'rewards';
+      else if (history.location.pathname.includes('property')) curTab = 'property';
+      else if (history.location.pathname.includes('listings')) curTab = 'listings';
+    }
+    return curTab;
+  };
 
   useEffect(() => {
     if (loggedInUser && loggedInUser.user) {

@@ -20,12 +20,14 @@ import { InputSheets } from '../../resources/inputSheets';
 // COMPONENTS
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import FactsQuestion from './FactsQuestion';
+import last from 'lodash/last';
 
 const InputSheet = (props) => {
   const {
     changeFieldValue,
     formValue,
     handleSaveProperty,
+    history,
     isSmallLoading,
     match,
   } = props;
@@ -36,6 +38,7 @@ const InputSheet = (props) => {
   const [changeSection, setChangeSection] = useState(false);
   // PARAMS URL
   const propID = get(match, 'params.propId', null);
+  const getFact = () => last(history.location.pathname.split('/'));
 
   const checkSectionDone = (val, act = 'section') => {
     let sectionDone = true;
@@ -121,23 +124,28 @@ const InputSheet = (props) => {
     await handleSaveProperty(data);
   };
 
+  useEffect(() => {
+    if (history && !selectedQuest && getFact() !== 'facts') {
+      const quest = Questions.find(item => item.history === getFact());
+      setSelectedQuest(quest);
+    }
+  }, [history]);
+
+  const onSelectQuest = (quest) => {
+    history.push(`/${propID}/property/facts/${quest.history}`);
+    setSelectedQuest(quest)
+  };
+
   return (
     <div className="dis-f h-perc-100 ov-h">
-      <div className="h-perc-100 ov-a w-perc-100">
+      <div className="h-perc-100 ov-a w-perc-100 pt-4">
         {
           Questions.map((quest, i) => (
             <div
               className={`accordWrap cur-poi px-0 px-md-2 ${selectedQuest && selectedQuest.history === quest.history ? 'active' : ''}`}
               key={i.toString()}
-              onClick={() => setSelectedQuest(quest)}
+              onClick={() => onSelectQuest(quest)}
             >
-              {
-                quest.group && (
-                  <span className="accordGroup fweight-600 dis-b pt-3 pb-2 txtDark700 px-2 px-md-0">
-                    {quest.group || ''}
-                  </span>
-                )
-              }
               <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0">
                 <div
                   className="accordTitle dis-f a-c pt-2 pb-2"
@@ -157,6 +165,13 @@ const InputSheet = (props) => {
                     {quest.title}
                   </h4>
                 </div>
+                <BrixelIcon
+                  icon="arrow-simple-right"
+                  color={"dark"}
+                  saturationTxt={200}
+                  bgTransparent
+                  iconSize="small"
+                />
               </div>
 
             </div>
@@ -164,7 +179,7 @@ const InputSheet = (props) => {
         }
       </div>
       {
-        selectedQuest && (
+        selectedQuest && getFact() !== 'facts' && (
           <div className="dis-fl-col h-perc-100 w-perc-100">
             <div className="h-perc-100 ov-a p-2">
               <FactsQuestion quest={selectedQuest} />

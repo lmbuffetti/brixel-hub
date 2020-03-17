@@ -12,3 +12,18 @@
     z-index: 1;
   }
 }
+
+.expendableColumn {
+  max-width: 380px;
+  min-width: 320px;
+  width: 100%;
+  transition: all;
+  &.close {
+    min-width: 88px;
+    max-width: 88px;
+    overflow: hidden;
+    .hideOnExpanded {
+      opacity: 0;
+    }
+  }
+}

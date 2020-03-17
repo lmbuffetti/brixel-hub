@@ -102,6 +102,10 @@ p.cutRow {
   text-overflow: ellipsis;
 }
 
+.container {
+  max-width: 1024px;
+}
+
 .brixel-modal {
   .modal-body {
     p {
