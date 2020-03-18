@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
-import { BrixelDropdown, BrixelTabs } from '@brixel/brixel-components';
+import { BrixelDropdown, BrixelTabs, BrixelButtonPrimary } from '@brixel/brixel-components';
 import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
@@ -142,6 +142,7 @@ function PageHeaderDashboard(props) {
           </div>
 
           <div className="dis-f a-c">
+            <BrixelButtonPrimary label="UPGRADE" background="red" rounded />
             {
               !loggedInUser.token ? (
                 <div className="">

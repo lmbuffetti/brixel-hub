@@ -3,11 +3,22 @@
   left: 0;
   bottom: 0;
   width: 100%;
+  .brixel-tabs {
+    ul.tabsList {
+      li {
+        color: map_get($darkColor, 200);
+        &.active {
+          color: map_get($primaryColor, 400);
+        }
+      }
+    }
+  }
 }
 
 
 @media (min-width: $responsive-medium) {
   .brixelNavMenu {
     position: static;
+    border-bottom: 1px solid map_get($lightColor, 300);
   }
 }

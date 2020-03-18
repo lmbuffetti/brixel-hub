@@ -37,7 +37,7 @@ const RewardsDashboard = (props) => {
   const [activeGameGroup, setActiveGameGroup] = useState(null);
   const [activeAchievement, setActiveAchievement] = useState(null);
   // PARAMS URL
-  const rewardType = last(get(history, 'location.pathname', '').split('/'));
+  const rewardType = last(get(history, 'location.pathname', '').split('/')).replace('-done', '');
   const propID = get(match, 'params.propId', '');
   const gameHistoryData = get(gameHistory, 'data', null);
 
@@ -125,9 +125,9 @@ const RewardsDashboard = (props) => {
                           {
                             i === 0 ? (
                               <div className="dis-f jc-b a-c mb-3">
-                          <span className="fsize-400 dis-b txtDark700 fweight-500">
-                            {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
-                          </span>
+                                <span className="fsize-400 dis-b txtDark700 fweight-500">
+                                  {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
+                                </span>
                                 <div className="dis-f a-c">
                                   {
                                     awards >= 0 && (
@@ -149,8 +149,8 @@ const RewardsDashboard = (props) => {
                               </div>
                             ) : (
                               <span className="mb-3 fsize-400 dis-b txtDark700 fweight-500">
-                          {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
-                        </span>
+                                {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
+                              </span>
                             )
                           }
 

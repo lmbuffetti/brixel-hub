@@ -29,7 +29,7 @@ function SuccessBestimate(props) {
   // URL PARAMS
   const getParams = gameStub;
   const propID = get(match, 'params.propId', null);
-  const getDoneFirstTime = () => last(history.location.pathname.split('/'))[last(history.location.pathname.split('/')).length - 1];
+  const getDoneFirstTime = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
     handleGetGameGroup();
@@ -56,7 +56,7 @@ function SuccessBestimate(props) {
               achievement && (
                 <>
                   {
-                    getDoneFirstTime() === 'done' ? (
+                    getDoneFirstTime().includes('-done') ? (
                       <>
                         <h5 className="ta-c mb-5">Well done. You are now an Assessor.</h5>
                         <div className="ta-c"><img src={newBestimate} alt="Nes Assessor" /></div>

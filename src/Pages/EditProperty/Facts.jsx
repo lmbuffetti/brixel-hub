@@ -107,6 +107,7 @@ const InputSheet = (props) => {
     const dataToSend = formValue;
     delete dataToSend.owner;
     delete dataToSend.favoritedByUsers;
+    console.log(propID);
     const data = {
       id: propID,
       smallLoader: true,
