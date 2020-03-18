@@ -3,17 +3,18 @@ import React, { useEffect, useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { getGamegroup } from '../../actions/GamificationActions';
-import doneAssessor from '../../images/Assessor/doneAssessor.svg';
-import newAssessor from '../../images/Assessor/newAssessor.svg';
-import becomeAssessor from '../../images/Assessor/becomeAssessor.svg';
+import { getGamegroup } from '../../../actions/GamificationActions';
+import doneMarketCheck from '../../../images/MarketCheck/doneMarketCheck.svg';
+import newMarketCheck from '../../../images/MarketCheck/newMarketCheck.svg';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import startMarketCheck from '../../../images/MarketCheck/startMarketCheck.svg';
 
-function SuccessAssessor(props) {
+function SuccessMarketCheck(props) {
   // PROPS
   const {
     gameGroup,
@@ -27,8 +28,7 @@ function SuccessAssessor(props) {
   // URL PARAMS
   const getParams = gameStub;
   const propID = get(match, 'params.propId', null);
-  const isNew = get(history, 'location.state.isNew', false);
-
+  const getDoneFirstTime = () => last(history.location.pathname.split('/'))[last(history.location.pathname.split('/')).length - 1];
 
   useEffect(() => {
     if (gameGroup) {
@@ -44,47 +44,44 @@ function SuccessAssessor(props) {
 
   return (
     <main id="rewards" className="pb-4">
-
       {
-        groupdAchievement.done ? (
+        groupdAchievement.done || getDoneFirstTime() === 'done' ? (
           <>
             {
               achievement && (
                 <>
                   {
-                    isNew ? (
+                    getDoneFirstTime() === 'done' ? (
                       <>
-                        <h5 className="ta-c mb-5">Well done. You are now an Assessor.</h5>
-                        <div className="ta-c"><img src={doneAssessor} alt="Nes Assessor" /></div>
-                        <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
+                        <h5 className="ta-c mb-5">Great, now you know what is out there.</h5>
+                        <div className="ta-c"><img src={newMarketCheck} alt="Nes Assessor" /></div>
+                        <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Market Checker</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
 
                       <>
-                        <h5 className="ta-c mb-5">You are already an Assessor</h5>
-                        <div className="ta-c"><img src={newAssessor} alt="Done Assessor" /></div>
-                        <p className="ta-c mt-5">Would you like to do the condition check again?</p>
-                        <div className="dis-r jc-c">
-                          <div className="dis-f jc-b mt-3 a-c">
-                            <BrixelButtonPrimary
-                              rounded
-                              label="Cancel"
-                              background={"white"}
-                              saturation={0}
-                              color="dark"
-                              saturationTxt={700}
-                              className="max-w-fix-280 w-perc-100 mr-2 shadow-3dp"
-                              onClick={() => history.push(`/${propID}/rewards`) }
-                            />
-                            <BrixelButtonPrimary
-                              rounded
-                              label="Yes, update"
-                              background={"primary"}
-                              className="max-w-fix-280 w-perc-100 m-a"
-                              onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                              rightIcon="arrow-right-small"
-                            />
-                          </div>
+                        <h5 className="ta-c mb-5">Looks like you can’t get enough data.</h5>
+                        <div className="ta-c"><img src={doneMarketCheck} alt="Done Assessor" /></div>
+                        <p className="ta-c mt-5">We update these data daily. Would you like to update it now?</p>
+                        <div className="dis-f jc-b mt-3 a-c">
+                          <BrixelButtonPrimary
+                            rounded
+                            label="Cancel"
+                            background={"white"}
+                            saturation={0}
+                            color="dark"
+                            saturationTxt={700}
+                            className="max-w-fix-280 w-perc-100 mr-2 shadow-3dp"
+                            onClick={() => history.push(`/${propID}/rewards`) }
+                          />
+                          <BrixelButtonPrimary
+                            rounded
+                            label="Yes, update"
+                            background={"primary"}
+                            className="max-w-fix-280 w-perc-100 ml-2"
+                            onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                            rightIcon="arrow-right-small"
+                          />
                         </div>
                       </>
                     )
@@ -95,9 +92,9 @@ function SuccessAssessor(props) {
           </>
         ) : (
           <>
-            <h5 className="ta-c mb-5">Assess your property with a condition check</h5>
-            <div className="ta-c"><img className="w-fix-100" src={becomeAssessor} alt="Done Assessor" /></div>
-            <p className="ta-c mt-5 txtDark700">As an assessor, you know about the condition of the most important parts of your property.</p>
+            <h5 className="ta-c mb-5">Check your local market</h5>
+            <div className="ta-c"><img className="w-perc-100" src={startMarketCheck} alt="Done Assessor" /></div>
+            <p className="ta-c mt-5 txtDark700">Stop browsing all the portals. I show you all similar properties on sale. Instantly.</p>
             <div className="dis-f jc-b mt-3 a-c">
               <BrixelButtonPrimary
                 rounded
@@ -125,7 +122,7 @@ function SuccessAssessor(props) {
   );
 }
 
-SuccessAssessor.propTypes = {
+SuccessMarketCheck.propTypes = {
   finishedFlow: PropTypes.bool,
   gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
   groupdAchievement: PropTypes.object,
@@ -135,7 +132,7 @@ SuccessAssessor.propTypes = {
   handleGetGameGroup: PropTypes.func.isRequired,
 };
 
-SuccessAssessor.defaultProps = {
+SuccessMarketCheck.defaultProps = {
   finishedFlow: false,
   groupdAchievement: {},
   gameStub: null,
@@ -153,4 +150,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(SuccessAssessor);
+)(SuccessMarketCheck);

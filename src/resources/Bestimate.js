@@ -5,7 +5,7 @@ import {
   FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
-import ResumeBestimate from '../Pages/Bestimate/ResumeBestimate';
+import ResumeBestimate from '../Pages/GameHistory/Bestimate/ResumeBestimate';
 
 const { factsOptions } = FactsOptions;
 

@@ -29,7 +29,7 @@ const MenuSidebar = (props) => {
   return (
     <>
       <header
-        className="sideHeader dis-fl-col a-c jc-fs h-perc-100"
+        className="sideHeader dis-fl-col a-c jc-fs h-perc-100 shadow-2dp"
       >
         <div
           className="admin-info w-perc-100 dis-fl-col a-c mb-6 py-3"

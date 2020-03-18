@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
-import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
+import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import {
   withRouter,
 } from 'react-router-dom';
-import RangePriceChart from '../../components/Charts/RangePriceChart';
+import RangePriceChart from '../../../components/Charts/RangePriceChart';
 
 function ResumeBestimate(props) {
   // PROPS

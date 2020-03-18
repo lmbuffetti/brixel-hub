@@ -18,23 +18,21 @@ import {
   BrixelIcon,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
-import { saveActiveSingleProperty, getActiveSingleProperty } from '../../actions/PropertyActions';
-import { BestimateQuestions } from '../../resources/Bestimate';
-import { calculateAgeByYear, extractAssessorCondition } from '../../utils/helpers';
-import MultiStepForm from '../../components/MultiStepReduxForm';
-import { translateTo } from '../../utils/translation';
+import { saveActiveSingleProperty, getActiveSingleProperty } from '../../../actions/PropertyActions';
+import { MarketCheckQuestions } from '../../../resources/MarketCheck';
+import MultiStepForm from '../../../components/MultiStepReduxForm';
+import { translateTo } from '../../../utils/translation';
 import last from 'lodash/last';
-import { addGameHistory, getGameHistory } from '../../actions/GamificationActions';
-import PageHeaderAchievement from '../../components/PageHeaderAchievement';
+import { addGameHistory, getGameHistory } from '../../../actions/GamificationActions';
+import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 
-function Bestimate(props) {
+function MarketCheck(props) {
   // PROPS
   const {
     errorValue,
     formValue,
     gameHistory,
     handleGetProperty,
-    handleUpdateProperty,
     handleAddGameHistory,
     handleGetGameHistory,
     history,
@@ -50,8 +48,8 @@ function Bestimate(props) {
   const [hidePrevBtn, setHidePrevBtn] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progressBar, setProgressBar] = useState(0);
-  const [Questions] = useState(BestimateQuestions(lang));
-  const [saved, setSaved] = useState(false);
+  const [Questions] = useState(MarketCheckQuestions(lang));
+  const [saved] = useState(false);
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
@@ -93,31 +91,6 @@ function Bestimate(props) {
 
   // Function to save the data
   const saveData = (e) => {
-    const dataProp = formValue;
-    delete dataProp.owner;
-    delete dataProp.favoritedByUsers;
-    // CALC THE PROPERTY CONDITION
-    const yearBuilt = get(formValue, 'properties.building.built', null);
-    const yearRenovate = get(formValue, 'properties.building.renovated', null);
-    const age = calculateAgeByYear(yearBuilt);
-    const valueConstruction = get(formValue, 'properties.building.constructionMaterials', null);
-    const valueRoof = get(formValue, 'properties.building.roofType', null);
-    const valueFacade = get(formValue, 'properties.building.facade', null);
-    const valueHeating = get(formValue, 'properties.building.energy.heating', null);
-    dataProp.assessor = {
-      date: new Date(),
-      construction: extractAssessorCondition(age, valueConstruction, valueRoof, valueFacade, valueHeating),
-    };
-    if (yearRenovate) {
-      const ageRenovation = calculateAgeByYear(yearRenovate);
-      dataProp.assessor.renovation = extractAssessorCondition(ageRenovation, valueConstruction, valueRoof, valueFacade, valueHeating);
-      dataProp.properties.building.isPropertyRenovated = 1;
-    }
-    // eslint-disable-next-line no-use-before-define
-    changeStep();
-    // UPDATE PROPERTY
-    handleUpdateProperty(dataProp);
-    setSaved(true);
     // ADD THE ACHIEVEMENT
     if (!finishedFlow) {
       const data = {
@@ -126,6 +99,8 @@ function Bestimate(props) {
         achievement: getAchievement(),
       };
       handleAddGameHistory(data);
+      // eslint-disable-next-line no-use-before-define
+      changeStep();
     }
   };
 
@@ -183,9 +158,7 @@ function Bestimate(props) {
         return null;
       });
     }
-    if (currentIndex === 0) {
-      label = translateTo(lang, "Ok, let’s go");
-    } else if (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) {
+    if (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) {
       label = oneValueField ? translateTo(lang, "Skip") : translateTo(lang, "Continue");
     } else if (Questions[currentIndex + 1]) {
       label = translateTo(lang, "Finish");
@@ -212,9 +185,9 @@ function Bestimate(props) {
         )
       }
       <PageHeaderAchievement
-        icon="money"
-        title="Bestimate&reg;"
-        subtitle="Your indicative price estimation"
+        icon="location-pin-simple"
+        title="Market Checker"
+        subtitle="Compare to your local market"
       />
       <form
         id="multiStepForm"
@@ -233,12 +206,11 @@ function Bestimate(props) {
                   maxWidth: i !== currentIndex ? '' : '100%',
                 }}
               >
-                <div className={`subcontainer ${quest.className || ''}`}>
+                <div className={`subcontainer m-a ${quest.className || ''}`}>
                   {
                     quest.inputs && (
                       <>
-                        { quest.extraInfo && ( <p className="mb-3">{quest.extraInfo}</p> )}
-                        <h5 className="mb-4 mb-md-6 fsize-md-700">{quest.title}</h5>
+                        <h5 className="mb-4 mb-md-10">{quest.title}</h5>
 
                         {
                           quest.inputs.map((input, f) => (
@@ -248,6 +220,7 @@ function Bestimate(props) {
                                 formValue={formValue}
                                 onClick={() => changeStep()}
                                 input={input}
+                                onChangeProgressBar={(val) => setProgressBar(val)}
                               />
                             </div>
                           ))
@@ -317,10 +290,8 @@ function Bestimate(props) {
                         rounded
                         label="Finish"
                         background={"primary"}
-                        className="max-w-fix-280 w-perc-100 ml-1"
-                        onClick={() => history.push(finishedFlow ? `/${propID}/rewards/bestimate` : `/${propID}/rewards/bestimate-done`)}
-                        rightIcon="arrow-right-small"
-                        disabled={disableNextBtn}
+                        className="max-w-fix-280 w-perc-100 mr-1"
+                        onClick={() => history.push(finishedFlow ? `/${propID}/rewards/market-checker` : `/${propID}/rewards/market-checker-done`)}
                       />
                     </>
                   )
@@ -334,7 +305,7 @@ function Bestimate(props) {
   );
 }
 
-Bestimate.propTypes = {
+MarketCheck.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   checkValid: PropTypes.func.isRequired,
   company: PropTypes.object.isRequired,
@@ -352,7 +323,7 @@ Bestimate.propTypes = {
   redirectTo: PropTypes.object,
 };
 
-Bestimate.defaultProps = {
+MarketCheck.defaultProps = {
   pageState: null,
   redirectTo: null,
 };
@@ -387,7 +358,8 @@ const mapDispatchToProps = (dispatch) => ({
 const OnBoardingForm = reduxForm({
   form: 'GamingFlow', // a unique identifier for this form
   enableReinitialize: true,
-})(Bestimate);
+  destroyOnUnmount: false,
+})(MarketCheck);
 
 export default compose(
   withRouter,

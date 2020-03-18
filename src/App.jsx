@@ -76,17 +76,17 @@ const DetailMedia = Loadable({
 
 // FLOW SELLER
 const MarketChecker = Loadable({
-  loader: () => import('./Pages/MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
+  loader: () => import('./Pages/GameHistory/MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
   loading: Loading,
 });
 
 const Assessor = Loadable({
-  loader: () => import('./Pages/Assessor' /* webpackChunkName: "AssessorFlow" */),
+  loader: () => import('./Pages/GameHistory/Assessor' /* webpackChunkName: "AssessorFlow" */),
   loading: Loading,
 });
 
 const Bestimate = Loadable({
-  loader: () => import('./Pages/Bestimate' /* webpackChunkName: "BestimateFlow" */),
+  loader: () => import('./Pages/GameHistory/Bestimate' /* webpackChunkName: "BestimateFlow" */),
   loading: Loading,
 });
 
@@ -150,7 +150,11 @@ const App = (props) => {
   }
 
   let classMain = 'container pos-r ov-h p-0';
-  if (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) classMain = '';
+  let isFlow = false;
+  if (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) {
+    classMain = '';
+    isFlow = true;
+  }
 
   return (
     <main className={`dis-fl-row jc-b`}>
@@ -177,7 +181,7 @@ const App = (props) => {
                 <PageHeaderDashboard />
               )
             }
-            <div className="pos-r">
+            <div className={`pos-r bgLigth100 ${!isFlow ? 'bgLight100 h-perc-100' : ''}`}>
               <Switch>
                 { /* SECTION: ONBOARDING */ }
                 <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />

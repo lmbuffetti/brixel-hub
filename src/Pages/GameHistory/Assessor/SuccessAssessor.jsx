@@ -3,22 +3,20 @@ import React, { useEffect, useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { getGamegroup } from '../../actions/GamificationActions';
-import doneBestimate from '../../images/Bestimate/doneBestimate.svg';
-import newBestimate from '../../images/Bestimate/newBestimate.svg';
-import startBestimate from '../../images/Bestimate/startBestimate.svg';
+import { getGamegroup } from '../../../actions/GamificationActions';
+import doneAssessor from '../../../images/Assessor/doneAssessor.svg';
+import newAssessor from '../../../images/Assessor/newAssessor.svg';
+import becomeAssessor from '../../../images/Assessor/becomeAssessor.svg';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
 
-function SuccessBestimate(props) {
+function SuccessAssessor(props) {
   // PROPS
   const {
     gameGroup,
-    handleGetGameGroup,
     history,
     gameStub,
     groupdAchievement,
@@ -29,11 +27,8 @@ function SuccessBestimate(props) {
   // URL PARAMS
   const getParams = gameStub;
   const propID = get(match, 'params.propId', null);
-  const getDoneFirstTime = () => last(history.location.pathname.split('/'));
+  const isNew = get(history, 'location.state.isNew', false);
 
-  useEffect(() => {
-    handleGetGameGroup();
-  }, []);
 
   useEffect(() => {
     if (gameGroup) {
@@ -45,48 +40,51 @@ function SuccessBestimate(props) {
       });
       setAchievement(selectedGame);
     }
-  }, [gameGroup]);
+  }, [gameGroup, getParams]);
 
   return (
     <main id="rewards" className="pb-4">
+
       {
-        groupdAchievement.done || getDoneFirstTime() === 'done' ? (
+        groupdAchievement.done ? (
           <>
             {
               achievement && (
                 <>
                   {
-                    getDoneFirstTime().includes('-done') ? (
+                    isNew ? (
                       <>
                         <h5 className="ta-c mb-5">Well done. You are now an Assessor.</h5>
-                        <div className="ta-c"><img src={newBestimate} alt="Nes Assessor" /></div>
+                        <div className="ta-c"><img src={doneAssessor} alt="Nes Assessor" /></div>
                         <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
 
                       <>
-                        <h5 className="ta-c mb-5">You are already a Bestimate&reg;</h5>
-                        <div className="ta-c"><img src={doneBestimate} alt="Done Assessor" /></div>
+                        <h5 className="ta-c mb-5">You are already an Assessor</h5>
+                        <div className="ta-c"><img src={newAssessor} alt="Done Assessor" /></div>
                         <p className="ta-c mt-5">Would you like to do the condition check again?</p>
-                        <div className="dis-f jc-b mt-3 a-c">
-                          <BrixelButtonPrimary
-                            rounded
-                            label="Cancel"
-                            background={"white"}
-                            saturation={0}
-                            color="dark"
-                            saturationTxt={700}
-                            className="max-w-fix-280 w-perc-100 mr-2 shadow-3dp"
-                            onClick={() => history.push(`/${propID}/rewards`) }
-                          />
-                          <BrixelButtonPrimary
-                            rounded
-                            label="Yes, update"
-                            background={"primary"}
-                            className="max-w-fix-280 w-perc-100 m-a"
-                            onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                            rightIcon="arrow-right-small"
-                          />
+                        <div className="dis-r jc-c">
+                          <div className="dis-f jc-b mt-3 a-c">
+                            <BrixelButtonPrimary
+                              rounded
+                              label="Cancel"
+                              background={"white"}
+                              saturation={0}
+                              color="dark"
+                              saturationTxt={700}
+                              className="max-w-fix-280 w-perc-100 mr-2 shadow-3dp"
+                              onClick={() => history.push(`/${propID}/rewards`) }
+                            />
+                            <BrixelButtonPrimary
+                              rounded
+                              label="Yes, update"
+                              background={"primary"}
+                              className="max-w-fix-280 w-perc-100 m-a"
+                              onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                              rightIcon="arrow-right-small"
+                            />
+                          </div>
                         </div>
                       </>
                     )
@@ -97,9 +95,9 @@ function SuccessBestimate(props) {
           </>
         ) : (
           <>
-            <h5 className="ta-c mb-5">Get a free price indication</h5>
-            <div className="ta-c"><img className="w-fix-100" src={startBestimate} alt="Done Assessor" /></div>
-            <p className="ta-c mt-5 txtDark700">Compare your property to real transaction data to better define the pricing.</p>
+            <h5 className="ta-c mb-5">Assess your property with a condition check</h5>
+            <div className="ta-c"><img className="w-fix-100" src={becomeAssessor} alt="Done Assessor" /></div>
+            <p className="ta-c mt-5 txtDark700">As an assessor, you know about the condition of the most important parts of your property.</p>
             <div className="dis-f jc-b mt-3 a-c">
               <BrixelButtonPrimary
                 rounded
@@ -127,20 +125,21 @@ function SuccessBestimate(props) {
   );
 }
 
-SuccessBestimate.propTypes = {
+SuccessAssessor.propTypes = {
   finishedFlow: PropTypes.bool,
   gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
   groupdAchievement: PropTypes.object,
   gameStub: PropTypes.string,
   history: PropTypes.object.isRequired,
-  handleGetGameGroup: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
+  handleGetGameGroup: PropTypes.func.isRequired,
 };
 
-SuccessBestimate.defaultProps = {
+SuccessAssessor.defaultProps = {
   finishedFlow: false,
   groupdAchievement: {},
   gameStub: null,
+
 };
 
 const mapStateToProps = (state) => ({
@@ -154,4 +153,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(SuccessBestimate);
+)(SuccessAssessor);

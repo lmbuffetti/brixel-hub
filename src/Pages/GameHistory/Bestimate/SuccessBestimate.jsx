@@ -8,16 +8,17 @@ import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { getGamegroup } from '../../actions/GamificationActions';
-import doneMarketCheck from '../../images/MarketCheck/doneMarketCheck.svg';
-import newMarketCheck from '../../images/MarketCheck/newMarketCheck.svg';
+import { getGamegroup } from '../../../actions/GamificationActions';
+import doneBestimate from '../../../images/Bestimate/doneBestimate.svg';
+import newBestimate from '../../../images/Bestimate/newBestimate.svg';
+import startBestimate from '../../../images/Bestimate/startBestimate.svg';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
-import startMarketCheck from '../../images/MarketCheck/startMarketCheck.svg';
 
-function SuccessMarketCheck(props) {
+function SuccessBestimate(props) {
   // PROPS
   const {
     gameGroup,
+    handleGetGameGroup,
     history,
     gameStub,
     groupdAchievement,
@@ -28,7 +29,11 @@ function SuccessMarketCheck(props) {
   // URL PARAMS
   const getParams = gameStub;
   const propID = get(match, 'params.propId', null);
-  const getDoneFirstTime = () => last(history.location.pathname.split('/'))[last(history.location.pathname.split('/')).length - 1];
+  const getDoneFirstTime = () => last(history.location.pathname.split('/'));
+
+  useEffect(() => {
+    handleGetGameGroup();
+  }, []);
 
   useEffect(() => {
     if (gameGroup) {
@@ -40,7 +45,7 @@ function SuccessMarketCheck(props) {
       });
       setAchievement(selectedGame);
     }
-  }, [gameGroup, getParams]);
+  }, [gameGroup]);
 
   return (
     <main id="rewards" className="pb-4">
@@ -51,18 +56,18 @@ function SuccessMarketCheck(props) {
               achievement && (
                 <>
                   {
-                    getDoneFirstTime() === 'done' ? (
+                    getDoneFirstTime().includes('-done') ? (
                       <>
-                        <h5 className="ta-c mb-5">Great, now you know what is out there.</h5>
-                        <div className="ta-c"><img src={newMarketCheck} alt="Nes Assessor" /></div>
-                        <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Market Checker</span> Award and +{achievement.points} Brixels.</p>
+                        <h5 className="ta-c mb-5">Well done. You are now an Assessor.</h5>
+                        <div className="ta-c"><img src={newBestimate} alt="Nes Assessor" /></div>
+                        <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
 
                       <>
-                        <h5 className="ta-c mb-5">Looks like you can’t get enough data.</h5>
-                        <div className="ta-c"><img src={doneMarketCheck} alt="Done Assessor" /></div>
-                        <p className="ta-c mt-5">We update these data daily. Would you like to update it now?</p>
+                        <h5 className="ta-c mb-5">You are already a Bestimate&reg;</h5>
+                        <div className="ta-c"><img src={doneBestimate} alt="Done Assessor" /></div>
+                        <p className="ta-c mt-5">Would you like to do the condition check again?</p>
                         <div className="dis-f jc-b mt-3 a-c">
                           <BrixelButtonPrimary
                             rounded
@@ -78,7 +83,7 @@ function SuccessMarketCheck(props) {
                             rounded
                             label="Yes, update"
                             background={"primary"}
-                            className="max-w-fix-280 w-perc-100 ml-2"
+                            className="max-w-fix-280 w-perc-100 m-a"
                             onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
                             rightIcon="arrow-right-small"
                           />
@@ -92,9 +97,9 @@ function SuccessMarketCheck(props) {
           </>
         ) : (
           <>
-            <h5 className="ta-c mb-5">Check your local market</h5>
-            <div className="ta-c"><img className="w-perc-100" src={startMarketCheck} alt="Done Assessor" /></div>
-            <p className="ta-c mt-5 txtDark700">Stop browsing all the portals. I show you all similar properties on sale. Instantly.</p>
+            <h5 className="ta-c mb-5">Get a free price indication</h5>
+            <div className="ta-c"><img className="w-fix-100" src={startBestimate} alt="Done Assessor" /></div>
+            <p className="ta-c mt-5 txtDark700">Compare your property to real transaction data to better define the pricing.</p>
             <div className="dis-f jc-b mt-3 a-c">
               <BrixelButtonPrimary
                 rounded
@@ -122,21 +127,20 @@ function SuccessMarketCheck(props) {
   );
 }
 
-SuccessMarketCheck.propTypes = {
+SuccessBestimate.propTypes = {
   finishedFlow: PropTypes.bool,
   gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
   groupdAchievement: PropTypes.object,
   gameStub: PropTypes.string,
   history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   handleGetGameGroup: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
-SuccessMarketCheck.defaultProps = {
+SuccessBestimate.defaultProps = {
   finishedFlow: false,
   groupdAchievement: {},
   gameStub: null,
-
 };
 
 const mapStateToProps = (state) => ({
@@ -150,4 +154,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(SuccessMarketCheck);
+)(SuccessBestimate);

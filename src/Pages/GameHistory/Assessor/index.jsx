@@ -18,14 +18,14 @@ import {
   BrixelIcon,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
-import { saveActiveSingleProperty, getActiveSingleProperty } from '../../actions/PropertyActions';
-import { AssessorQuestions } from '../../resources/Assessor';
-import { calculateAgeByYear, extractAssessorCondition } from '../../utils/helpers';
-import MultiStepForm from '../../components/MultiStepReduxForm';
-import { translateTo } from '../../utils/translation';
+import { saveActiveSingleProperty, getActiveSingleProperty } from '../../../actions/PropertyActions';
+import { AssessorQuestions } from '../../../resources/Assessor';
+import { calculateAgeByYear, extractAssessorCondition } from '../../../utils/helpers';
+import MultiStepForm from '../../../components/MultiStepReduxForm';
+import { translateTo } from '../../../utils/translation';
 import last from 'lodash/last';
-import { addGameHistory, getGameHistory } from '../../actions/GamificationActions';
-import PageHeaderAchievement from '../../components/PageHeaderAchievement';
+import { addGameHistory, getGameHistory } from '../../../actions/GamificationActions';
+import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 
 function Assessor(props) {
   // PROPS

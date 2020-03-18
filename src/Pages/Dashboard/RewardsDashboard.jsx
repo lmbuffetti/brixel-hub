@@ -12,9 +12,10 @@ import Loading from '../../components/Loading';
 import { GameGroupConfig } from '../../constants/global';
 import brixels from '../../images/BrxielComingTown/brixels.svg';
 
-import SuccessMarketCheck from '../MarketChecker/SuccessMarketCheck';
-import SuccessBestimate from '../Bestimate/SuccessBestimate';
-import SuccessAssessor from '../Assessor/SuccessAssessor';
+import SuccessMarketCheck from '../GameHistory/MarketChecker/SuccessMarketCheck';
+import SuccessBestimate from '../GameHistory/Bestimate/SuccessBestimate';
+import SuccessAssessor from '../GameHistory/Assessor/SuccessAssessor';
+import SuccessHomebase from '../GameHistory/Homebase/SuccessHomebase';
 
 const RewardsDashboard = (props) => {
   // PROPS
@@ -31,6 +32,7 @@ const RewardsDashboard = (props) => {
     loggedInUser,
     match,
     property,
+    windowDimensions,
   } = props;
   // STATE
   const [usrGroups, setUsrGroups] = useState(gameGroup);
@@ -46,6 +48,13 @@ const RewardsDashboard = (props) => {
     handleGetGameGroup();
     // handleGetGameHistory();
   }, []);
+
+  useEffect(() => {
+    if (windowDimensions && windowDimensions.width > 768 && rewardType === 'rewards') {
+      history.push({pathname: `/${propID}/rewards/homebase` });
+      setActiveGameGroup('homebase');
+    }
+  }, [windowDimensions, rewardType]);
 
   useEffect(() => {
     let filtUsrGroup = [];
@@ -189,6 +198,7 @@ const RewardsDashboard = (props) => {
                                           item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
                                           {label: item.points, color: 'dark200'},
                                         ]}
+                                        selected={item.stub === activeGameGroup}
                                         onClick={() => onClickAchievement(item.stub, item)}
                                         //onClick={() => history.push(`/${property.id}/rewards/achievement/${item.stub}`)}
                                       />
@@ -209,10 +219,12 @@ const RewardsDashboard = (props) => {
         }
         {
           activeGameGroup && rewardType !== 'rewards' && (
-            <div className="secondLevel px-2 pl-md-4 pr-md-0 w-perc-100 max-w-fix-400 m-a mt-2">
+            <div className="secondLevel">
+              {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
               {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
               {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
               {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+
             </div>
           )
         }
@@ -233,6 +245,7 @@ RewardsDashboard.propTypes = {
   loggedInUser: PropTypes.object.isRequired,
   awards: PropTypes.number,
   brixelPoints: PropTypes.number,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 RewardsDashboard.defaultProps = {
@@ -248,6 +261,7 @@ const mapStateToProps = (state) => ({
   awards: get(state, 'user.awards', []),
   property: get(state, 'property.activeSingleProperty', {}),
   brixelPoints: get(state, 'user.brixelPoints', []),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

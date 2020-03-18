@@ -7,11 +7,11 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { getActiveSingleProperty, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { sendGenericMail } from '../../actions/CommonActions';
-import Maps from '../../components/Map/Maps';
+import { getActiveSingleProperty, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
+import { sendGenericMail } from '../../../actions/CommonActions';
+import Maps from '../../../components/Map/Maps';
 import * as moment from 'moment';
-import RangePriceChart from '../../components/Charts/RangePriceChart';
+import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import { BrixelIcon } from '@brixel/brixel-components';
 
 function ResumeMarketCheck(props) {

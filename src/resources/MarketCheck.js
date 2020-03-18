@@ -4,7 +4,7 @@ import {
   FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
-import ResumeMarketCheck from '../Pages/MarketChecker/ResumeMarketCheck';
+import ResumeMarketCheck from '../Pages/GameHistory/MarketChecker/ResumeMarketCheck';
 import { translateTo } from '../utils/translation';
 
 const { factsOptions } = FactsOptions;
