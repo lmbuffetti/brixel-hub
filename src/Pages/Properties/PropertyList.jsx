@@ -21,7 +21,6 @@ const PropertyList = (props) => {
     history,
     userProperties,
     user,
-    windowDimensions,
   } = props;
 
   // STATE

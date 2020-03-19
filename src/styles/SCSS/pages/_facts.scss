@@ -17,7 +17,7 @@
   max-width: 380px;
   min-width: 320px;
   width: 100%;
-  transition: all;
+  transition: all 0.5s;
   &.close {
     min-width: 88px;
     max-width: 88px;

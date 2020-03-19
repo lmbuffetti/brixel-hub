@@ -24,7 +24,7 @@ import last from 'lodash/last';
 
 const InputSheet = (props) => {
   const {
-    changeFieldValue,
+    // changeFieldValue,
     formValue,
     handleSaveProperty,
     history,
@@ -86,7 +86,7 @@ const InputSheet = (props) => {
     const savedPerc = Math.floor(get(formValue, `inputSheet.totalComplete`, 0) || 0);
     if (calPerc !== savedPerc) {
       inputSheet.totalComplete = calPerc;
-      changeFieldValue('inputSheet', inputSheet);
+      //changeFieldValue('inputSheet', inputSheet);
     }
     return calPerc;
   };
@@ -107,7 +107,6 @@ const InputSheet = (props) => {
     const dataToSend = formValue;
     delete dataToSend.owner;
     delete dataToSend.favoritedByUsers;
-    console.log(propID);
     const data = {
       id: propID,
       smallLoader: true,
@@ -139,71 +138,75 @@ const InputSheet = (props) => {
 
   return (
     <div className="dis-f h-perc-100 ov-h">
-      <div className="h-perc-100 ov-a w-perc-100 pt-4">
-        {
-          Questions.map((quest, i) => (
-            <div
-              className={`accordWrap cur-poi px-0 px-md-2 ${selectedQuest && selectedQuest.history === quest.history ? 'active' : ''}`}
-              key={i.toString()}
-              onClick={() => onSelectQuest(quest)}
-            >
-              <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0">
-                <div
-                  className="accordTitle dis-f a-c pt-2 pb-2"
-                >
+      <div className="secondLevel h-perc-100 w-perc-100">
+        <div className="ov-a max-h-perc-100">
+          {
+            Questions.map((quest, i) => (
+              <div
+                className={`accordWrap cur-poi px-0 px-md-2 ${selectedQuest && selectedQuest.history === quest.history ? 'active' : ''}`}
+                key={i.toString()}
+                onClick={() => onSelectQuest(quest)}
+              >
+                <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0">
+                  <div
+                    className="accordTitle dis-f a-c pt-2 pb-2"
+                  >
+                    <BrixelIcon
+                      icon="check"
+                      background={checkSectionDone(quest) ? "green" : "white"}
+                      saturation={checkSectionDone(quest) ? 400 : 0}
+                      color={checkSectionDone(quest) ? "white" : "dark"}
+                      saturationTxt={checkSectionDone(quest) ? 0 : 200}
+                      bgTransparent={!checkSectionDone(quest)}
+                      className={`brdSmall ml-1 dis-b p-small-4 ${checkSectionDone(quest) ? 'border-green' : ''}`}
+                      rounded
+                      iconSize="small"
+                    />
+                    <h4 className={`body ml-1 txtDark400 fweight-500`}>
+                      {quest.title}
+                    </h4>
+                  </div>
                   <BrixelIcon
-                    icon="check"
-                    background={checkSectionDone(quest) ? "green" : "white"}
-                    saturation={checkSectionDone(quest) ? 400 : 0}
-                    color={checkSectionDone(quest) ? "white" : "dark"}
-                    saturationTxt={checkSectionDone(quest) ? 0 : 200}
-                    bgTransparent={!checkSectionDone(quest)}
-                    className={`brdSmall ml-1 dis-b p-small-4 ${checkSectionDone(quest) ? 'border-green' : ''}`}
-                    rounded
+                    icon="arrow-simple-right"
+                    color={"dark"}
+                    saturationTxt={200}
+                    bgTransparent
                     iconSize="small"
                   />
-                  <h4 className={`body ml-1 txtDark400 fweight-500`}>
-                    {quest.title}
-                  </h4>
                 </div>
-                <BrixelIcon
-                  icon="arrow-simple-right"
-                  color={"dark"}
-                  saturationTxt={200}
-                  bgTransparent
-                  iconSize="small"
-                />
-              </div>
 
-            </div>
-          ))
-        }
+              </div>
+            ))
+          }
+        </div>
       </div>
       {
         selectedQuest && getFact() !== 'facts' && (
-          <div className="thirdLevel dis-fl-col h-perc-100 w-perc-100">
-            <div className="h-perc-100 ov-a p-2">
-              <FactsQuestion quest={selectedQuest} />
-            </div>
-            <div className="dis-f p-2">
-              <BrixelButtonPrimary
-                label='Cancel'
-                background="white"
-                saturation={0}
-                color="dark"
-                saturationTxt={400}
-                rounded
-                className="shadow-3dp"
-                onClick={() => setSelectedQuest(null)}
-              />
-              <BrixelButtonPrimary
-                label='Save & Next'
-                background="primary"
-                saturation={400}
-                rounded
-                onClick={() => saveData()}
-                isLoading={isSmallLoading}
-              />
+          <div className="thirdLevel dis-fl-col w-perc-100">
+            <div className="h-perc-100">
+              <div className="max-h-perc-100 ov-a p-2">
+                <FactsQuestion quest={selectedQuest} />
+              </div>
+              <div className="dis-f p-2">
+                <BrixelButtonPrimary
+                  label='Cancel'
+                  background="white"
+                  saturation={0}
+                  color="dark"
+                  saturationTxt={400}
+                  rounded
+                  className="shadow-3dp"
+                  onClick={() => setSelectedQuest(null)}
+                />
+                <BrixelButtonPrimary
+                  label='Save & Next'
+                  background="primary"
+                  saturation={400}
+                  rounded
+                  onClick={() => saveData()}
+                  isLoading={isSmallLoading}
+                />
+              </div>
             </div>
           </div>
         )

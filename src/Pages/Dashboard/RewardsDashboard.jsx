@@ -185,23 +185,47 @@ const RewardsDashboard = (props) => {
                                         ]}
                                       />
                                     ) : (
-                                      <BrixelButtonBox
-                                        icon={item.done ? 'check' : item.icon}
-                                        label={item.name}
-                                        subtitle={item.description}
-                                        background={item.done ? 'light100' : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].color}
-                                        className={`mb-2 w-perc-100 p-2 ${item.done ? '' : 'shadow-2dp'}`}
-                                        colorIcon={item.done ? 'green400'  : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
-                                        backIcon={`${item.done ? 'light200' : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
-                                        paddingIconClass="fSizePx24 p-small-12"
-                                        multilineInfo={[
-                                          item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
-                                          {label: item.points, color: 'dark200'},
-                                        ]}
-                                        selected={item.stub === activeGameGroup}
-                                        onClick={() => onClickAchievement(item.stub, item)}
-                                        //onClick={() => history.push(`/${property.id}/rewards/achievement/${item.stub}`)}
-                                      />
+                                      <>
+                                        {
+                                          item.stub === activeGameGroup ? (
+                                            <BrixelButtonBox
+                                              icon={item.done ? 'check' : item.icon}
+                                              label={item.name}
+                                              subtitle={item.description}
+                                              background={'white'}
+                                              className={`shadow-1dp mb-2 w-perc-100 p-2 brdPrimary400 brdSmall ${item.done ? '' : 'shadow-2dp'}`}
+                                              colorIcon={item.done ? 'green400'  : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
+                                              backIcon={`${item.done ? 'light200' : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
+                                              paddingIconClass="fSizePx24 p-small-12"
+                                              multilineInfo={[
+                                                item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
+                                                {label: item.points, color: 'dark200'},
+                                              ]}
+                                              selected={item.stub === activeGameGroup}
+                                              onClick={() => onClickAchievement(item.stub, item)}
+                                              //onClick={() => history.push(`/${property.id}/rewards/achievement/${item.stub}`)}
+                                            />
+                                          ) : (
+                                            <BrixelButtonBox
+                                              icon={item.done ? 'check' : item.icon}
+                                              label={item.name}
+                                              subtitle={item.description}
+                                              background={item.done ? 'light100' : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].color}
+                                              className={`shadow-1dp mb-2 w-perc-100 p-2 ${item.done ? '' : 'shadow-2dp'}`}
+                                              colorIcon={item.done ? 'green400'  : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
+                                              backIcon={`${item.done ? 'light200' : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
+                                              paddingIconClass="fSizePx24 p-small-12"
+                                              multilineInfo={[
+                                                item.done ? {icon: 'cup-awards', color: 'green400'} : {label: 'free', color: 'green400'},
+                                                {label: item.points, color: 'dark200'},
+                                              ]}
+                                              selected={item.stub === activeGameGroup}
+                                              onClick={() => onClickAchievement(item.stub, item)}
+                                              //onClick={() => history.push(`/${property.id}/rewards/achievement/${item.stub}`)}
+                                            />
+                                          )
+                                        }
+                                      </>
                                     )
                                   }
                                 </div>
@@ -219,13 +243,13 @@ const RewardsDashboard = (props) => {
         }
         {
           activeGameGroup && rewardType !== 'rewards' && (
-            <div className="secondLevel">
+            <divs>
               {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
               {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
               {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
               {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
 
-            </div>
+            </divs>
           )
         }
       </div>

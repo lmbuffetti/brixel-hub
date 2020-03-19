@@ -5,11 +5,11 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reset, Field } from 'redux-form';
 import get from 'lodash/get';
-import set from 'lodash/set';
+// import set from 'lodash/set';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
-import { BrixelButtonIcon, BrixelIcon } from '@brixel/brixel-components';
+// import { BrixelButtonIcon, BrixelIcon } from '@brixel/brixel-components';
 import LoadingSimple from '../../components/LoadingSimple';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 
@@ -20,16 +20,17 @@ const Maps = Loadable({
 
 const FactsQuestion = (props) => {
   const {
-    changeFieldValue,
+    // changeFieldValue,
     errorValue,
     formValue,
-    handleSaveProperty,
-    match,
+    // handleSaveProperty,
+    // match,
     quest,
   } = props;
   // PARAMS URL
-  const propID = get(match, 'params.propId', null);
+  // const propID = get(match, 'params.propId', null);
 
+  /*
   const handleSkipSection = async (val) => {
     const inputSheet = get(formValue, 'inputSheet', {});
     const skipSection = get(formValue, 'inputSheet.skipSection', {});
@@ -39,8 +40,9 @@ const FactsQuestion = (props) => {
     await handleSaveProperty({id: propID, inputSheet: inputSheet, smallLoader: true});
     changeFieldValue('inputSheet', inputSheet);
   };
-
+  */
   // FUNCTION TO LOAD DIFFERENT CHACKMAR IF GROUP IS COMPLETE, UNCOMPLETE, DISABLE
+  /*
   const checkQuestionGroup = (questInput, skipped = {}) => {
     const sectionSkip = get(formValue, `inputSheet.skipSection[${questInput.name}]`, false);
     if (get(errorValue, questInput.name, null) === true) {
@@ -79,6 +81,7 @@ const FactsQuestion = (props) => {
       )
     }
   };
+  */
 
   const checkCondition = (input) => {
     let condition = true;
@@ -100,13 +103,6 @@ const FactsQuestion = (props) => {
             {
               checkCondition(input) && (
                 <div className="singleInput mb-3" key={f.toString()}>
-                  <div className="dis-f">
-                    {
-                      input.validation && (
-                        <>{checkQuestionGroup(input)}</>
-                      )
-                    }
-                  </div>
                   <div key={f.toString()}>
                     {
                       input.type === 'Map' ? (

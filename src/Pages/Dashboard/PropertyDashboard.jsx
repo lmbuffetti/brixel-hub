@@ -85,7 +85,7 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-info-container brdRadius">
+      <div className="property-info-container brdRadius pt-3">
         <div className="dis-f">
           <div className={`firstLevel bgLight100 p-2 expendableColumn ${openCloseColumn()}`}>
             <div className={`jc-c mb-2 ${openCloseColumn() === 'close' ? 'dis-f' : 'hide'}`}>
@@ -144,7 +144,7 @@ const HomeDashboard = (props) => {
                           <div className="dis-fl-col">
                             <span className="subtitle fsize-300 txtDark200">Price</span>
                             <div className="dis-fl-row jc-b">
-                              <span className="value txtDark500">{property.price.currency} {property.price.total.toLocaleString(langConfig.localString)}</span>
+                              <span className="value txtDark500">{get(property, 'price.currency', 'CHF')} {get(property, 'price.total', 0).toLocaleString(langConfig.localString)}</span>
                               {
                                 has(property, 'price.pricePerM2') && (
                                   <div className="dis-f a-c">
@@ -162,7 +162,7 @@ const HomeDashboard = (props) => {
                   <div className="dis-fl-row jc-b a-c">
                     <div className="fourth dis-fl-col ta-l">
                       <span className="subtitle fsize-300 txtDark200">Rooms</span>
-                      <span className="value txtDark500">{get(property, 'properties.typology.bedrooms') ? property.properties.typology.bedrooms : 'N/A'}</span>
+                      <span className="value txtDark500">{has(property, 'properties.typology.bedrooms') ? property.properties.typology.bedrooms : 'N/A'}</span>
                     </div>
                     <div className="dis-fl-col ta-l">
                       <span className="subtitle fsize-300 txtDark200">Living space</span>
@@ -225,7 +225,7 @@ const HomeDashboard = (props) => {
           </div>
           {
             getFact() !== 'property' && (
-              <div className="secondLevel w-perc-100" style={{ height: windowDimensions.height - 121 }}>
+              <div className="w-perc-100" style={{ height: windowDimensions.height - 121 }}>
                 <Route path="/:propId?/property/facts" component={Facts} />
                 <Route path="/:propId?/property/photos" component={Photos} />
                 <Route path="/:propId?/property/plans" exact component={Plans} />

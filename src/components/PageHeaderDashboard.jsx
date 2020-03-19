@@ -13,7 +13,6 @@ import { getGameHistory } from '../actions/GamificationActions';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import noCover from '../images/no_cover.jpg';
 import has from 'lodash/has';
-import last from 'lodash/last';
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),

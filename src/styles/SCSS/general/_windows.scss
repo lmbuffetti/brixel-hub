@@ -1,6 +1,6 @@
 .firstLevel {
   min-width: 300px;
-  max-width: 400px;
+  max-width: 470px;
   width: 100%;
   padding-left: 24px;
   padding-right: 24px;
@@ -27,18 +27,25 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: 100%;
+  padding-left: 24px;
+  padding-right: 24px;
   height: 100%;
-  background: $brx-white;
+  background: transparent;
   z-index: 3;
+  > * {
+    box-shadow: $shadow-1dp;
+    background: $brx-white;
+    border-radius: $brd-radius-small;
+    padding: $step * 4;
+  }
 }
 
 @media (min-width: $responsive-medium) {
   .secondLevel {
     width: calc(100% - #{$step * 6});
-    margin-left: $step * 3;
   }
   .secondLevel, .thirdLevel {
     position: static;
+    margin-left: $step * 3;
   }
 }

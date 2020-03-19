@@ -5,8 +5,7 @@ import {
 } from 'react-router-dom';
 import doneHomebase from '../../../images/Homebase/doneHomebase.svg';
 import get from 'lodash/get';
-import { bindActionCreators, compose } from 'redux';
-import { getGamegroup } from '../../../actions/GamificationActions';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 function SuccessHomebase(props) {
@@ -26,7 +25,6 @@ function SuccessHomebase(props) {
         if (curGame) selectedGame = curGame;
         return null;
       });
-      console.log(gameGroup, getParams);
       setAchievement(selectedGame || {});
     }
   }, [gameGroup, getParams]);
