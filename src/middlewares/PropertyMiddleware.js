@@ -22,8 +22,8 @@ import {
 } from '../actions/types/CommonTypes';
 import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
 import { SET_LOGGED_IN_USER } from '../actions/types/UserTypes';
-import properties from '../resources/localData/properties';
-import page from '../resources/localData/page';
+import properties from '../resources/localData/properties.json';
+import page from '../resources/localData/page.json';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {

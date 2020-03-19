@@ -1,4 +1,4 @@
-import user from '../resources/localData/user';
+import user from '../resources/localData/user.json';
 import {
   CHECK_TOKEN,
   CREATE_USER,

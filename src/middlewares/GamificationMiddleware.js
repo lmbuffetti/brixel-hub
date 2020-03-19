@@ -14,10 +14,10 @@ import {
 } from '../actions/types/UserTypes';
 
 import api from '../controllers/api/config';
-import gameAchievement from '../resources/localData/gameAchievement';
-import gameGroup from '../resources/localData/gameGroup';
-import gameHistory from '../resources/localData/gameHistory';
-import { SPINNER_OFF } from '../actions/types/CommonTypes';
+import gameAchievement from '../resources/localData/gameAchievement.json';
+import gameGroup from '../resources/localData/gameGroup.json';
+import gameHistory from '../resources/localData/gameHistory.json';
+import { SPINNER_OFF } from '../actions/types/CommonTypes.json';
 
 const checkGamification = (store) => (next) => (action) => {
   switch (action.type) {
