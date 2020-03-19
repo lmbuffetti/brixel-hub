@@ -243,13 +243,13 @@ const RewardsDashboard = (props) => {
         }
         {
           activeGameGroup && rewardType !== 'rewards' && (
-            <divs>
+            <div className="secondLevel">
               {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
               {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
               {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
               {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
 
-            </divs>
+            </div>
           )
         }
       </div>

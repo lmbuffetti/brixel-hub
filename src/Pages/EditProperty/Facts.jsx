@@ -169,7 +169,7 @@ const InputSheet = (props) => {
                         bgTransparent
                         color="green"
                         saturationTxt={400}
-                        className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity1'}  ml-1 dis-b p-small-4`}
+                        className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity0'}  ml-1 dis-b p-small-4`}
                         rounded
                         iconSize="small"
                       />

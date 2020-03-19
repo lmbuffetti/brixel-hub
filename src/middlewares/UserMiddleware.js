@@ -36,7 +36,6 @@ const checkUser = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       api.user.validateToken(action.payload)
         .then((response) => {
-          console.log(JSON.stringify(response.data))
           if (response.data && response.data.statusCode && response.data.statusCode === 401 && window.location.hostname.includes('localhost')) {
             removeCookie('brixelToken');
             window.location.href = `/tokeninput`;
