@@ -10,14 +10,14 @@ import {
 
 import {
   SET_AWARDS,
-  SET_BRIXEL_POINTS, SET_LOGGED_IN_USER,
+  SET_BRIXEL_POINTS,
 } from '../actions/types/UserTypes';
 
 import api from '../controllers/api/config';
 import gameAchievement from '../resources/localData/gameAchievement.json';
 import gameGroup from '../resources/localData/gameGroup.json';
 import gameHistory from '../resources/localData/gameHistory.json';
-import { SPINNER_OFF } from '../actions/types/CommonTypes.json';
+import { SPINNER_OFF } from '../actions/types/CommonTypes';
 
 const checkGamification = (store) => (next) => (action) => {
   switch (action.type) {
