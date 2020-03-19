@@ -29,7 +29,7 @@ export const InputSheets = (lang) => [
   {
     className: 'radioBtnImg',
     group: "Type",
-    title: "Property Type",
+    title: "Property",
     history: "propertyType",
     cardType: "propertyType",
     inputs: [
@@ -37,7 +37,7 @@ export const InputSheets = (lang) => [
         icons: true,
         component: BrixelRadioButton,
         className: 'radioBtnImg max-w-fix-md-464',
-        label: '',
+        label: 'What is the property type?',
         name: 'properties.propertyType',
         validation: [Validation.required],
         deactivable: false,

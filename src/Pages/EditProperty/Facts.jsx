@@ -7,7 +7,7 @@ import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import {
   BrixelButtonPrimary,
-  BrixelIcon,
+  BrixelIcon, BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -24,7 +24,7 @@ import last from 'lodash/last';
 
 const InputSheet = (props) => {
   const {
-    // changeFieldValue,
+    changeFieldValue,
     formValue,
     handleSaveProperty,
     history,
@@ -86,7 +86,7 @@ const InputSheet = (props) => {
     const savedPerc = Math.floor(get(formValue, `inputSheet.totalComplete`, 0) || 0);
     if (calPerc !== savedPerc) {
       inputSheet.totalComplete = calPerc;
-      //changeFieldValue('inputSheet', inputSheet);
+      changeFieldValue('inputSheet', inputSheet);
     }
     return calPerc;
   };
@@ -138,52 +138,64 @@ const InputSheet = (props) => {
 
   return (
     <div className="dis-f h-perc-100 ov-h">
-      <div className="secondLevel h-perc-100 w-perc-100">
-        <div className="ov-a max-h-perc-100">
-          {
-            Questions.map((quest, i) => (
-              <div
-                className={`accordWrap cur-poi px-0 px-md-2 ${selectedQuest && selectedQuest.history === quest.history ? 'active' : ''}`}
-                key={i.toString()}
-                onClick={() => onSelectQuest(quest)}
-              >
-                <div className="accordControl dis-f a-c jc-b pl-1 pr-1 pl-md-0">
-                  <div
-                    className="accordTitle dis-f a-c pt-2 pb-2"
-                  >
+      <div className="secondLevel h-perc-100 dis-fl-col w-perc-100">
+        <div className="max-h-perc-100 dis-fl-col">
+          <h5>Facts</h5>
+          <div className="mt-3 mb-1">
+            <BrixelProgressBar
+              rounded
+              saturation={700}
+              small
+              barBackground="Red"
+              backgroundSaturation={100}
+              progressValue={get(formValue, 'inputSheet.totalComplete', 0)}
+            />
+            <h6 className="mt-1 ff-mono txtPrimary700">{get(formValue, 'inputSheet.totalComplete', 0)}% complete</h6>
+          </div>
+          <div className="ov-a h-perc-100">
+            {
+              Questions.map((quest, i) => (
+                <div
+                  className={`accordWrap cur-poi ${selectedQuest && selectedQuest.history === quest.history ? 'active' : ''}`}
+                  key={i.toString()}
+                  onClick={() => onSelectQuest(quest)}
+                >
+                  <div className="accordControl dis-f a-c jc-b">
+                    <div
+                      className="accordTitle dis-f a-c pt-2 pb-2"
+                    >
+                      <BrixelIcon
+                        icon="check"
+                        bgTransparent
+                        color="green"
+                        saturationTxt={400}
+                        className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity1'}  ml-1 dis-b p-small-4`}
+                        rounded
+                        iconSize="small"
+                      />
+                      <h4 className={`body ml-1 txtDark400 fweight-500 ${checkSectionDone(quest)? 'txtGreen400 td-lt' : ''}`}>
+                        {quest.title}
+                      </h4>
+                    </div>
                     <BrixelIcon
-                      icon="check"
-                      background={checkSectionDone(quest) ? "green" : "white"}
-                      saturation={checkSectionDone(quest) ? 400 : 0}
-                      color={checkSectionDone(quest) ? "white" : "dark"}
-                      saturationTxt={checkSectionDone(quest) ? 0 : 200}
-                      bgTransparent={!checkSectionDone(quest)}
-                      className={`brdSmall ml-1 dis-b p-small-4 ${checkSectionDone(quest) ? 'border-green' : ''}`}
-                      rounded
+                      icon="arrow-simple-right"
+                      color={"dark"}
+                      saturationTxt={200}
+                      bgTransparent
                       iconSize="small"
                     />
-                    <h4 className={`body ml-1 txtDark400 fweight-500`}>
-                      {quest.title}
-                    </h4>
                   </div>
-                  <BrixelIcon
-                    icon="arrow-simple-right"
-                    color={"dark"}
-                    saturationTxt={200}
-                    bgTransparent
-                    iconSize="small"
-                  />
-                </div>
 
-              </div>
-            ))
-          }
+                </div>
+              ))
+            }
+          </div>
         </div>
       </div>
       {
         selectedQuest && getFact() !== 'facts' && (
           <div className="thirdLevel dis-fl-col w-perc-100">
-            <div className="h-perc-100">
+            <div className="h-perc-100 dis-fl-col">
               <div className="max-h-perc-100 ov-a p-2">
                 <FactsQuestion quest={selectedQuest} />
               </div>

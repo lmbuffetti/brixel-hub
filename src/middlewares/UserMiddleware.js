@@ -1,3 +1,4 @@
+import user from '../resources/localData/user';
 import {
   CHECK_TOKEN,
   CREATE_USER,
@@ -35,6 +36,7 @@ const checkUser = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       api.user.validateToken(action.payload)
         .then((response) => {
+          console.log(JSON.stringify(response.data))
           if (response.data && response.data.statusCode && response.data.statusCode === 401 && window.location.hostname.includes('localhost')) {
             removeCookie('brixelToken');
             window.location.href = `/tokeninput`;
@@ -46,6 +48,9 @@ const checkUser = (store) => (next) => (action) => {
           store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
+          if (window.location.href.includes('localhost')) {
+            store.dispatch({ type: SET_LOGGED_IN_USER, payload: user });
+          }
           store.dispatch({ type: SPINNER_OFF });
         });
       break;

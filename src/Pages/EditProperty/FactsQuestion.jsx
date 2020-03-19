@@ -97,6 +97,7 @@ const FactsQuestion = (props) => {
     <div
       className="questContent"
     >
+      <h5 className="mb-3">{quest.title}</h5>
       {
         quest.inputs.map((input, f) => (
           <>

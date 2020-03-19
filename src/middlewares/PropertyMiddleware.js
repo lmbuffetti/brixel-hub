@@ -21,6 +21,9 @@ import {
   SET_SCREEN_NOTIFICATION,
 } from '../actions/types/CommonTypes';
 import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
+import { SET_LOGGED_IN_USER } from '../actions/types/UserTypes';
+import properties from '../resources/localData/properties';
+import page from '../resources/localData/page';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -125,7 +128,10 @@ const checkCommon = (store) => (next) => (action) => {
         })
         .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
-          window.location.href = `/`;
+          if (window.location.href.includes('localhost')) {
+            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: page });
+          }
+          // window.location.href = `/`;
         });
       break;
     case GET_PROPERTY_LISTINGS:
@@ -143,6 +149,13 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
+          if (window.location.href.includes('localhost')) {
+            if (setAsSingle) {
+              store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: page });
+            } else {
+              store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: properties });
+            }
+          }
           store.dispatch({ type: SPINNER_OFF });
         });
       break;

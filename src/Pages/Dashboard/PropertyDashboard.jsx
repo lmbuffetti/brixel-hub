@@ -64,7 +64,7 @@ const HomeDashboard = (props) => {
   useEffect(() => {
     if (property.id && loggedInUser.user) {
       let userType = 'buyer';
-      if (property.id && (property.owner.id === loggedInUser.user.id)) {
+      if (property.id && (property.owner === loggedInUser.user.id)) {
         userType = 'seller';
       }
       setUserType(userType);
