@@ -12,6 +12,7 @@ import Loadable from 'react-loadable';
 // import { BrixelButtonIcon, BrixelIcon } from '@brixel/brixel-components';
 import LoadingSimple from '../../components/LoadingSimple';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
+import { BrixelButtonIcon } from '@brixel/brixel-components';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
@@ -24,11 +25,12 @@ const FactsQuestion = (props) => {
     errorValue,
     formValue,
     // handleSaveProperty,
-    // match,
+    history,
+    match,
     quest,
   } = props;
   // PARAMS URL
-  // const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'params.propId', null);
 
   /*
   const handleSkipSection = async (val) => {
@@ -97,7 +99,18 @@ const FactsQuestion = (props) => {
     <div
       className="questContent"
     >
-      <h5 className="mb-3">{quest.title}</h5>
+      <div className="headerSection pos-r mb-3">
+        <BrixelButtonIcon
+          className="shadow-2dp"
+          icon="arrow-simple-left"
+          color="primary"
+          saturationTxt={400}
+          bgTransparent
+          noBorder
+          onClick={() => history.push(`/${propID}/property/facts`)}
+        />
+        <h5>{quest.title}</h5>
+      </div>
       {
         quest.inputs.map((input, f) => (
           <>

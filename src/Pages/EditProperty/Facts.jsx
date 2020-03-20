@@ -7,7 +7,9 @@ import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import {
   BrixelButtonPrimary,
-  BrixelIcon, BrixelProgressBar,
+  BrixelIcon,
+  BrixelProgressBar,
+  BrixelButtonIcon,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -128,8 +130,11 @@ const InputSheet = (props) => {
     if (history && !selectedQuest && getFact() !== 'facts') {
       const quest = Questions.find(item => item.history === getFact());
       setSelectedQuest(quest);
+    } else if (getFact() === 'facts') {
+      console.log('reset');
+      setSelectedQuest(null);
     }
-  }, [history]);
+  }, [history, getFact()]);
 
   const onSelectQuest = (quest) => {
     history.push(`/${propID}/property/facts/${quest.history}`);
@@ -140,7 +145,18 @@ const InputSheet = (props) => {
     <div className="dis-f h-perc-100 ov-h">
       <div className="secondLevel h-perc-100 dis-fl-col w-perc-100">
         <div className="max-h-perc-100 dis-fl-col">
-          <h5>Facts</h5>
+          <div className="headerSection pos-r">
+            <BrixelButtonIcon
+              className="shadow-2dp"
+              icon="close"
+              color="primary"
+              saturationTxt={400}
+              bgTransparent
+              noBorder
+              onClick={() => history.push(`/${propID}/property`)}
+            />
+            <h5>Facts</h5>
+          </div>
           <div className="mt-3 mb-1">
             <BrixelProgressBar
               rounded
@@ -196,7 +212,7 @@ const InputSheet = (props) => {
         selectedQuest && getFact() !== 'facts' && (
           <div className="thirdLevel dis-fl-col w-perc-100">
             <div className="h-perc-100 dis-fl-col">
-              <div className="max-h-perc-100 ov-a p-2">
+              <div className="max-h-perc-100 ov-a">
                 <FactsQuestion quest={selectedQuest} />
               </div>
               <div className="dis-f p-2">
@@ -208,7 +224,7 @@ const InputSheet = (props) => {
                   saturationTxt={400}
                   rounded
                   className="shadow-3dp"
-                  onClick={() => setSelectedQuest(null)}
+                  onClick={() => history.push(`${propID}/property/facts`)}
                 />
                 <BrixelButtonPrimary
                   label='Save & Next'

@@ -3,7 +3,12 @@
   left: 0;
   bottom: 0;
   width: 100%;
+  z-index: 2;
   .brixel-tabs {
+    border-radius: $step $step 0 0;
+    background: $brx-white;
+    box-shadow: $shadow-1dp;
+    padding-top: $step;
     ul.tabsList {
       li {
         color: map_get($darkColor, 200);
