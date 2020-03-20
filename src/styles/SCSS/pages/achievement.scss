@@ -1,14 +1,14 @@
 
 #achievementSection {
   height: 0;
-  width: calc(100vw - 32px);
+  width: calc(100vw - #{$step * 2});
   overflow: hidden;
   margin: auto;
   box-shadow: $shadow-2dp;
   border-radius: $brd-radius-small;
   position: fixed;
-  top: $step * 2;
-  left: $step * 2;
+  top: $step;
+  left: $step;
   background: $brx-white;
   z-index: 10;
   .footerAction {
@@ -77,23 +77,25 @@
     }
   }
   -webkit-animation: appearPage 0.5s 0.5s $default-easing forwards;
-  @media (max-width: $responsive-medium) {
-    -webkit-animation: appearPageMd 0.5s $default-easing forwards;
-  }
-  @media (max-width: $responsive-small) {
-    -webkit-animation: appearPageSm 0.5s $default-easing forwards;
-  }
 }
+
 // Achievement Page Animation
 @-webkit-keyframes appearPage {
   0% { height: 8vh; opacity: 0.5; }
-  100% { height: calc(100vh - 32px); opacity: 1; }
+  100% { height: calc(100vh - #{$step * 2}); opacity: 1; }
 }
-@-webkit-keyframes appearPageMd {
-  0% { height: 8vh; opacity: 0.5; }
-  100% { height: calc(100vh - 52px); opacity: 1; }
-}
-@-webkit-keyframes appearPageSm {
-  0% { height: 8vh; opacity: 0.5; }
-  100% { height: calc(85vh - 16px); opacity: 1; }
+
+@media (min-width: $responsive-medium) {
+  #achievementSection {
+    height: 0;
+    width: calc(100vw - #{$step * 4});
+    top: $step * 2;
+    left: $step * 2;
+  }
+
+  // Achievement Page Animation
+  @-webkit-keyframes appearPage {
+    0% { height: 8vh; opacity: 0.5; }
+    100% { height: calc(100vh - #{$step * 4}); opacity: 1; }
+  }
 }

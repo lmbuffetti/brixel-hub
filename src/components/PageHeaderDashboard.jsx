@@ -5,14 +5,15 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
-import { BrixelDropdown, BrixelTabs, BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelTabs, BrixelButtonPrimary } from '@brixel/brixel-components';
 import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import noCover from '../images/no_cover.jpg';
 import has from 'lodash/has';
+import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -36,6 +37,7 @@ function PageHeaderDashboard(props) {
   const [currentLang, setCurrentLang] = useState(lang);
   const [dropLang, setDropLang] = useState([]);
   const [widthScreen, setWidthScreen] = useState(0);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
@@ -106,12 +108,17 @@ function PageHeaderDashboard(props) {
     }
   };
 
+  const onClickMenu = (link) => {
+    history.push(link);
+    setShowMobileMenu(false);
+  };
+
   return (
     <>
       <header className={`dashboardHeaderHub`}>
         <div className={`container dis-f a-c p-1 p-md-2 jc-b pos-r zIndex4`}>
 
-          <div className="header-section dis-fl-row a-c jc-b">
+          <div className="header-section dis-fl-row a-t jc-b">
             <div className="dis-fl-row a-c">
               <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
                 {
@@ -141,22 +148,23 @@ function PageHeaderDashboard(props) {
           </div>
 
           <div className="dis-f a-c">
-            <BrixelButtonPrimary label="UPGRADE" background="red" rounded />
+            <BrixelButtonPrimary
+              className="hide dis-b-md"
+              label="UPGRADE"
+              background="red"
+              rounded
+            />
             {
-              !loggedInUser.token ? (
+              windowDimensions.width < 768 ? (
                 <div className="">
-                  <BrixelDropdown
+                  <BrixelButtonIcon
                     bgTransparent
+                    color="primary"
+                    saturationTxt={400}
                     noBorder
-                    className="langMenu"
-                    color="dark"
-                    saturationTxt={700}
-                    lang={lang}
-                    keyType="label"
-                    selected={currentLang}
-                    options={dropLang}
-                    onSelect={(e, keys) => newLang(e, keys)}
-                    liClass="tt-low"
+                    className="shadow-2dp"
+                    icon={showMobileMenu ? "close" : "menu"}
+                    onClick={() => setShowMobileMenu(!showMobileMenu)}
                   />
                 </div>
               ) : (
@@ -186,9 +194,54 @@ function PageHeaderDashboard(props) {
             onClick={(val) => history.push(`/${propID}/${val}`)}
             showFull={false}
           />
-          <button className="fsize-400 txtLight400 hide dis-b-md mr-2">Support</button>
+          <button className="fsize-400 txtLight400 mr-2 hide dis-b-md">Support</button>
         </div>
-
+        {
+          showMobileMenu && (
+            <div className="mobile-menu bgGreen700 w-perc-100 h-perc-100 pos-a dis-fl-col a-c p-1 zIndex5">
+              <BrixelButtonIcon
+                className="as-fe mb-5"
+                icon="close-small"
+                background="light"
+                saturation={100}
+                color="green"
+                saturationTxt={700}
+                onClick={() => {
+                  setShowMobileMenu(false);
+                  document.body.classList.remove('ov-h');
+                }}
+              />
+              <div className="links dis-fl-col as-b pl-4">
+                <button
+                  className="txtLight100 fweight-700 fSizePx28 mb-4"
+                  onClick={() => onClickMenu(`/${property.id}/property/list`)}
+                >
+                  Properties
+                </button>
+                <button
+                  className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
+                  onClick={() => ''}
+                >
+                  Messages
+                </button>
+                <button
+                  className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
+                  onClick={() => ''}
+                >
+                  Calendar
+                </button>
+                <a
+                  className="txtLight100 fweight-700 fSizePx28 mb-4"
+                  href={baseByData(null,'io').profileURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Profile
+                </a>
+              </div>
+            </div>
+          )
+        }
       </header>
     </>
   );

@@ -244,7 +244,7 @@ const RewardsDashboard = (props) => {
         {
           activeGameGroup && rewardType !== 'rewards' && (
             <div className="secondLevel">
-              <div className="p-2-2 p-md-4">
+              <div className="pt-4 p-md-4">
                 {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
                 {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
                 {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
