@@ -145,7 +145,7 @@ const InputSheet = (props) => {
     <div className="dis-f h-perc-100 ov-h">
       <div className="secondLevel h-perc-100 dis-fl-col w-perc-100">
         <div className="max-h-perc-100 dis-fl-col">
-          <div className="headerSection pos-r">
+          <div className="headerSection pos-r px-2 pt-2 px-md-4 pt-md-4">
             <BrixelButtonIcon
               className="shadow-2dp"
               icon="close"
@@ -157,7 +157,7 @@ const InputSheet = (props) => {
             />
             <h5>Facts</h5>
           </div>
-          <div className="mt-3 mb-1">
+          <div className="mt-3 mb-1 px-2 px-md-4">
             <BrixelProgressBar
               rounded
               saturation={700}
@@ -176,7 +176,7 @@ const InputSheet = (props) => {
                   key={i.toString()}
                   onClick={() => onSelectQuest(quest)}
                 >
-                  <div className="accordControl dis-f a-c jc-b">
+                  <div className="accordControl dis-f a-c jc-b pr-1">
                     <div
                       className="accordTitle dis-f a-c pt-2 pb-2"
                     >

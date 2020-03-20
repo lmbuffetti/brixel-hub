@@ -125,13 +125,13 @@ const Documents = (props) => {
 
   return (
     <div className="secondLevel">
-      <div className="docubox">
+      <div className="docubox p-2 p-md-4">
         <h5>Docubox</h5>
 
         {
           (documents && documents.length > 0) && (
             <>
-              <div className="documents-container dis-fl-col ml-2 mr-2">
+              <div className="documents-container dis-fl-col">
                 {
                   documents.map((doc, i) => (
                     <li key={i.toString()} className="single-document dis-fl-row a-c jc-b pb-1 pt-1">

@@ -102,7 +102,7 @@ const HomeDashboard = (props) => {
             </div>
             <div className="hideOnExpanded">
               <div
-                className={`brdRadius shadow-1dp brdPrimary400 ${getFact() === 'facts' ? 'brdMedium' : ''}`}
+                className={`cur-poi brdRadius shadow-1dp brdPrimary400 ${getFact() === 'facts' ? 'brdMedium' : ''}`}
                 onClick={() => history.push(`/${propID}/property/facts`)}>
                 <div className="transparency-container">
                   <div className="dis-fl-col ta-l">
@@ -114,7 +114,7 @@ const HomeDashboard = (props) => {
                             icon="document"
                             label="Facts"
                             subtitle={`${get(formValue, 'inputSheet.totalComplete', 0)}%`}
-                            subtitleClass={'ff-mono'}
+                            subtitleClass={'ff-mono txtPrimary700 mt-small-4'}
                             className="w-perc-100"
                             colorIcon={'primary'}
                             backIcon="primary100 mr-1"

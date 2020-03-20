@@ -16,7 +16,7 @@
   width: 100%;
   background: $brx-white;
   z-index: 2;
-  > * {
+  .ov-a {
     padding: $step * 2;
   }
 }
@@ -73,6 +73,8 @@
       box-shadow: $shadow-1dp;
       background: $brx-white;
       border-radius: $brd-radius-small;
+    }
+    .ov-a {
       padding: $step * 4;
     }
   }

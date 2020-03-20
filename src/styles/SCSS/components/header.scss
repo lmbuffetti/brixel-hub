@@ -25,5 +25,9 @@
   .brixelNavMenu {
     position: static;
     border-bottom: 1px solid map_get($lightColor, 300);
+    .brixel-tabs {
+      box-shadow: none;
+      border-radius: 0;
+    }
   }
 }
