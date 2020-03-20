@@ -1,14 +1,20 @@
-.accordControl {
-  border-bottom: 1px solid map_get($lightColor, 200);
-  border-top: 1px solid map_get($lightColor, 200);
-  margin-bottom: -1px;
-}
-
-.active {
+.accordWrap {
   .accordControl {
-    background: map_get($blueColor, 100);
-    position: relative;
-    z-index: 1;
+    border-bottom: 1px solid map_get($lightColor, 200);
+    border-top: 1px solid map_get($lightColor, 200);
+    margin-bottom: -1px;
+  }
+  &:last-child {
+    .accordControl {
+      margin-bottom: 0;
+    }
+  }
+  &.active {
+    .accordControl {
+      background: map_get($blueColor, 100);
+      position: relative;
+      z-index: 1;
+    }
   }
 }
 

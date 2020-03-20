@@ -8,12 +8,10 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import {
   BrixelButtonBox,
-  BrixelProgressBar,
   BrixelButtonIcon,
 } from '@brixel/brixel-components';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { roundFifty } from '../../utils/helpers';
 import Loadable from 'react-loadable';
 import LoadingSimple from '../../components/LoadingSimple';
 import Loading from '../../components/Loading';
@@ -49,7 +47,6 @@ const HomeDashboard = (props) => {
   const {
     formValue,
     history,
-    langConfig,
     loggedInUser,
     match,
     property,
@@ -72,7 +69,10 @@ const HomeDashboard = (props) => {
   }, [property, loggedInUser]);
 
   const openCloseColumn = () => {
-    if (history.location.pathname.includes('facts') && getFact() !== 'facts') {
+    if (
+      (history.location.pathname.includes('facts') && getFact() !== 'facts') ||
+      (history.location.pathname.includes('edit'))
+    ) {
       return 'close';
     }
     return 'open';
@@ -102,33 +102,25 @@ const HomeDashboard = (props) => {
             </div>
             <div className="hideOnExpanded">
               <h5 className="mb-3">Property</h5>
-              <div className="bgWhite brdRadius shadow-3dp" onClick={() => history.push(`/${propID}/property/facts`)}>
+              <div
+                className={`brdRadius shadow-1dp brdPrimary400 ${getFact() === 'facts' ? 'brdMedium' : ''}`}
+                onClick={() => history.push(`/${propID}/property/facts`)}>
                 <div className="transparency-container">
                   <div className="dis-fl-col ta-l">
                     {
                       userType === 'seller' && (
                         <>
                           <BrixelButtonBox
+                            bgTransparent
                             icon="document"
                             label="Facts"
                             subtitle={`${get(formValue, 'inputSheet.totalComplete', 0)}%`}
                             subtitleClass={'ff-mono'}
-                            background="white"
                             className="w-perc-100"
-                            colorIcon={'white'}
-                            backIcon="primary700 mr-1"
+                            colorIcon={'primary'}
+                            backIcon="primary100 mr-1"
                             hoverEffect={false}
                           />
-                          <div className="px-1">
-                            <BrixelProgressBar
-                              rounded
-                              saturation={700}
-                              small
-                              barBackground="Red"
-                              backgroundSaturation={100}
-                              progressValue={get(formValue, 'inputSheet.totalComplete', 0)}
-                            />
-                          </div>
                         </>
                       )
                     }
@@ -137,28 +129,6 @@ const HomeDashboard = (props) => {
 
 
                 <div className="details dis-fl-col p-1">
-                  <div className="dis-fl-row jc-b">
-                    <div className="first mb-2 dis-fl-col jc-b w-perc-100">
-                      {
-                        property.status === 'on-sale' && (
-                          <div className="dis-fl-col">
-                            <span className="subtitle fsize-300 txtDark200">Price</span>
-                            <div className="dis-fl-row jc-b">
-                              <span className="value txtDark500">{get(property, 'price.currency', 'CHF')} {get(property, 'price.total', 0).toLocaleString(langConfig.localString)}</span>
-                              {
-                                has(property, 'price.pricePerM2') && (
-                                  <div className="dis-f a-c">
-                                    <span className="value txtDark500">{roundFifty(property.price.pricePerM2).toLocaleString(langConfig.localString)}</span>
-                                    <span className="fsize-300 txtDark500"> / m2</span>
-                                  </div>
-                                )
-                              }
-                            </div>
-                          </div>
-                        )
-                      }
-                    </div>
-                  </div>
                   <div className="dis-fl-row jc-b a-c">
                     <div className="fourth dis-fl-col ta-l">
                       <span className="subtitle fsize-300 txtDark200">Rooms</span>
@@ -178,49 +148,54 @@ const HomeDashboard = (props) => {
 
               <div className="dis-f mt-2">
                 <BrixelButtonBox
+                  verticalView
+                  bgTransparent
                   icon="gallery"
                   label="Photos"
                   subtitle={`${calcLenght(get(formValue, 'photos', []))} Files`}
-                  background="white"
-                  className="w-perc-100 mr-1"
-                  colorIcon={'white'}
-                  backIcon="primary700 mr-1"
+                  className={`w-perc-100 mr-1 shadow-1dp brdPrimary400 ${getFact() === 'photos' ? 'brdMedium' : ''}`}
+                  colorIcon={'primary400'}
+                  backIcon="primary100 mr-1"
                   onClick={() => history.push(`/${propID}/property/photos`)}
+                  selected
                 />
                 <BrixelButtonBox
+                  verticalView
+                  bgTransparent
                   icon="plans"
                   label="Plans"
                   subtitle={`${calcLenght(get(formValue, 'floorPlans', []))} Files`}
-                  background="white"
-                  className="w-perc-100 ml-1"
-                  colorIcon={'white'}
-                  backIcon="primary700 mr-1"
-                  onClick={() => history.push(`/${propID}/property/plans`)}
+                  className={`w-perc-100 ml-1 shadow-1dp brdPrimary400 ${getFact() === 'floorPlans' ? 'brdMedium' : ''}`}
+                  colorIcon={'primary400'}
+                  backIcon="primary100 mr-1"
+                  onClick={() => history.push(`/${propID}/property/floorPlans`)}
                 />
               </div>
+              <div className="dis-f mt-2">
+                <BrixelButtonBox
+                  verticalView
+                  bgTransparent
+                  icon="tour"
+                  label="3d Tour"
+                  subtitle={`0 Files`}
+                  className={`w-perc-100 shadow-1dp mr-1 brdPrimary400 ${getFact() === 'tour' ? 'brdMedium' : ''}`}
+                  colorIcon={'primary400'}
+                  backIcon="primary100 mr-1"
+                  onClick={() => history.push(`/${propID}/property/tour`)}
+                />
 
-              <BrixelButtonBox
-                icon="tour"
-                label="3d Tour"
-                subtitle={`0 Files`}
-                background="white"
-                className="w-perc-100 mt-5"
-                colorIcon={'white'}
-                backIcon="primary700 mr-1"
-                onClick={() => history.push(`/${propID}/property/tour`)}
-              />
-
-              <BrixelButtonBox
-                icon="folder"
-                label="Docubox"
-                subtitle={`0 Files`}
-                background="white"
-                className="w-perc-100 mt-2"
-                colorIcon={'white'}
-                backIcon="primary700 mr-1"
-                onClick={() => history.push(`/${propID}/property/documents`)}
-              />
-
+                <BrixelButtonBox
+                  verticalView
+                  bgTransparent
+                  icon="folder"
+                  label="Docubox"
+                  subtitle={`0 Files`}
+                  className={`w-perc-100 shadow-1dp ml-1 brdPrimary400 ${getFact() === 'documents' ? 'brdMedium' : ''}`}
+                  colorIcon={'primary400'}
+                  backIcon="primary100 mr-1"
+                  onClick={() => history.push(`/${propID}/property/documents`)}
+                />
+              </div>
             </div>
           </div>
           {
@@ -228,7 +203,7 @@ const HomeDashboard = (props) => {
               <div className="w-perc-100" style={{ height: windowDimensions.height - 121 }}>
                 <Route path="/:propId?/property/facts" component={Facts} />
                 <Route path="/:propId?/property/photos" component={Photos} />
-                <Route path="/:propId?/property/plans" exact component={Plans} />
+                <Route path="/:propId?/property/floorPlans" component={Plans} />
                 <Route path="/:propId?/property/tour" exact component={Tour} />
                 <Route path="/:propId?/property/documents" exact component={Documents} />
               </div>

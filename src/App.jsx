@@ -69,11 +69,6 @@ const Dashboard = Loadable({
   loading: Loading,
 });
 
-const DetailMedia = Loadable({
-  loader: () => import('./Pages/EditProperty/Media/DetailMedia' /* webpackChunkName: "DetailMedia" */),
-  loading: Loading,
-});
-
 // FLOW SELLER
 const MarketChecker = Loadable({
   loader: () => import('./Pages/GameHistory/MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
@@ -206,23 +201,6 @@ const App = (props) => {
           </div>
 
         </div>
-      </div>
-
-
-      { /* SECTION: SIDEBAR RIGHT */ }
-      <div className="zIndex3">
-        <Switch>
-          {/* SECTION: DOCUMENTS */ }
-          {
-            userTypes === 'seller' && (
-              <>
-                <Switch>
-                  <Route path="/:propId?/property/photos/:imgId/:editType" exact component={DetailMedia} />
-                </Switch>
-              </>
-            )
-          }
-        </Switch>
       </div>
 
       { /* SECTION: ACHIVEMENT FLOW */ }

@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-//import { CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import {
   withRouter,

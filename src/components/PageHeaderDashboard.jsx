@@ -186,7 +186,7 @@ function PageHeaderDashboard(props) {
             onClick={(val) => history.push(`/${propID}/${val}`)}
             showFull={false}
           />
-          <button className="fsize-400 txtLight400 hide dis-b-md">Support</button>
+          <button className="fsize-400 txtLight400 hide dis-b-md mr-2">Support</button>
         </div>
 
       </header>

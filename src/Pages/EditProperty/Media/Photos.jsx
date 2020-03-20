@@ -1,19 +1,21 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { change } from 'redux-form';
 import { connect } from 'react-redux';
-import Dropzone, { useDropzone } from 'react-dropzone';
+import { useDropzone } from 'react-dropzone';
 import get from 'lodash/get';
 import {
-  BrixelIcon, BrixelButtonPrimary,
+  BrixelButtonIcon, BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
-import { uploadImg } from '../../../actions/UploadActions';
+import { deleteImg, uploadImg } from '../../../actions/UploadActions';
+import DetailMedia from './DetailMedia';
+import upload_photos_empty from '../../../images/Upload/upload_photos_empty.svg'
 
 const Photos = (props) => {
   // PROPS
@@ -21,6 +23,7 @@ const Photos = (props) => {
     changeFieldValue,
     formValue,
     handleUploadImg,
+    handleDeleteImg,
     history,
     loggedInUser,
     match,
@@ -35,8 +38,22 @@ const Photos = (props) => {
     setFixPhotos(photos);
   }, [photos]);
 
+  const deleteImage = (id) => {
+    const propID = get(match, 'params.propId', null);
+    const mediaID = id;
+    const data = {
+      id: mediaID,
+      pageID: propID,
+      type: 'photos',
+    };
+    // eslint-disable-next-line no-alert
+    if (window.confirm('Are you sure you want to delete this item?')) {
+      handleDeleteImg(data);
+    }
+  };
+
   // DROPZONE SETTINGS
-  const dropzoneRef = useRef(null);
+  // const dropzoneRef = useRef(null);
   const onDrop = useCallback((acceptedFiles) => {
     const reader = new FileReader();
     // const imgType = imageType.find((val) => val.name === 'Gallery');
@@ -78,120 +95,105 @@ const Photos = (props) => {
   };
 
   return (
-    <>
-      <div className="dis-fl-col mt-2 px-2">
+    <div className="dis-f h-perc-100">
+      <div className="dis-fl-col secondLevel">
+        <div className="max-h-perc-100 ov-a">
+          <div className="dis-fl-row jc-b a-c">
+            <h5>
+              Photos
+            </h5>
 
-        <div className="dis-fl-row jc-b a-c mb-4">
-          <h5>
-            Photos
-          </h5>
+          </div>
 
-          <Dropzone ref={dropzoneRef} onDrop={(acceptedFiles) => onDrop(acceptedFiles)}>
-            { /* eslint-disable-next-line no-shadow */ }
-            {({ getRootProps, getInputProps }) => (
-              <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                <BrixelButtonPrimary
-                  leftIcon="plus"
-                  label="Add photos"
-                  rounded
-                />
-              </div>
-            )}
-          </Dropzone>
-
-        </div>
-
-        <div className={`${fixPhotos && fixPhotos.length > 0 ? 'dis-fl-col' : 'dis-fl-col empty-state a-c'}`}>
-          {
-            (fixPhotos && fixPhotos.length > 0) ? (
-              <>
-                <ReactSortable
-                  tag="ul"
-                  className="dis-fl-col image-list"
-                  list={fixPhotos}
-                  setList={(order, evt) => {
-                    changeOrder(order);
-                  }}
-                >
-                  {
-                    fixPhotos.map((item, i) => (
-                      <li
-                        className="dis-fl-row a-c cur-poi"
-                        key={i.toString()}
-                        data-id={JSON.stringify(item)}
-                        onClick={() => history.push(`/${propID}/property/photos/${item.id}/photos`)}
-                      >
-                        <BrixelIcon
-                          className="mr-2 grab"
-                          color="light"
-                          icon="menu"
-                        />
-                        <div
-                          className="media-image-container mb-2 dis-fl-row a-c jc-b h-fix-136 brdRadius w-perc-100 shadow-1dp"
+          <div className={`${fixPhotos && fixPhotos.length > 0 ? 'dis-fl-col' : 'dis-fl-col empty-state a-c'}`}>
+            {
+              (fixPhotos && fixPhotos.length > 0) && (
+                <>
+                  <ReactSortable
+                    tag="ul"
+                    className="image-list row-cols-3-gut-1"
+                    list={fixPhotos}
+                    setList={(order, evt) => {
+                      changeOrder(order);
+                    }}
+                  >
+                    {
+                      fixPhotos.map((item, i) => (
+                        <li
+                          className="dis-fl-row a-c cur-poi pos-r"
+                          key={i.toString()}
+                          data-id={JSON.stringify(item)}
                         >
-                          <div className="dis-fl-row h-perc-100">
-                            <img
-                              src={`${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`}`}
-                              className="pos-r w-fix-136 mr-3 image"
-                              alt="Property"
-                            />
-                            <div className="photo-info dis-fl-col jc-c">
-                              <span className="mb-2 photo-description">{item.name ? item.name : 'Photo'}</span>
-                              <span className="mb-2">{item.tags ? item.tags : ''}</span>
-                              <span className="photo-id">{item.id}</span>
+                          <div
+                            className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp"
+                          >
+                            <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}>
+                              <div className="photo-action dis-f a-c">
+                                <BrixelButtonIcon
+                                  background="white"
+                                  saturation={0}
+                                  color="red"
+                                  saturationTxt={400}
+                                  noBorder
+                                  icon="bin"
+                                  className="shadow-2dp"
+                                  onClick={() => deleteImage(item.id)}
+                                />
+                                <BrixelButtonIcon
+                                  background="white"
+                                  saturation={0}
+                                  color="primary"
+                                  saturationTxt={400}
+                                  noBorder
+                                  icon="edit"
+                                  className="shadow-2dp ml-1"
+                                  onClick={() => history.push(`/${propID}/property/photos/${item.id}/edit/photos`)}
+                                />
+                              </div>
                             </div>
                           </div>
-                          <div className="dis-fl-row">
-                            {
-                              (item.id === get(formValue.coverPhoto, 'id')) ? (
-                                <div className="dis-fl-row mr-3">
-                                  <BrixelIcon
-                                    icon="star-fill"
-                                    className="mr-1"
-                                    color="green"
-                                  />
-                                  <span className="cover-info">This is your cover photo</span>
-                                </div>
-                              ) : ''
-                            }
-                            <BrixelIcon
-                              className="mr-2"
-                              color="light"
-                              icon="arrow-simple-right"
-                            />
-                          </div>
-                        </div>
-                      </li>
-                    ))
-                  }
-                </ReactSortable>
-              </>
-            ) : ( // Empty state
-              <>
-                <div
-                  className="upload-container dis-fl-col a-c mb-5 max-w-fix-600 max-h-fix-400 p-8"
-                  {...getRootProps()}
-                >
-                  <BrixelIcon
-                    icon="document"
-                  />
-                  <input {...getInputProps()} />
-                  <span>Drag & drop to upload</span>
-                </div>
-                <h4>Your page needs some photos of your property. Start uploading here.</h4>
-              </>
-            )
-          }
+                        </li>
+                      ))
+                    }
+                  </ReactSortable>
+                </>
+              )
+            }
+            <>
+              <div
+                className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState' : 'hasImages'} upload-container dis-fl-col a-c mb-5 max-w-fix-600 max-h-fix-400 p-8 mt-3`}
+                {...getRootProps()}
+              >
+                <input {...getInputProps()} />
+                {
+                  (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
+                    <div>
+                      <img src={upload_photos_empty} alt="Empty State" />
+                      <h5 className="mt-2 mb-1">Uplaod your fist photo</h5>
+                    </div>
+                  )
+                }
+                <span>Choose .pdf .jpeg .png with max. 10 MB size</span>
+                <BrixelButtonPrimary
+                  label="upload"
+                  rightIcon="upload"
+                  rounded
+                  className="mt-3"
+                />
+              </div>
+            </>
+          </div>
         </div>
       </div>
-    </>
+      <Route path="/:propId?/property/photos/:imgId/edit/:editType" exact component={DetailMedia} />
+    </div>
   );
 };
 
 Photos.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleDeleteImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -209,6 +211,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
+  handleDeleteImg: bindActionCreators(deleteImg, dispatch),
   handleUploadImg: bindActionCreators(uploadImg, dispatch),
 });
 

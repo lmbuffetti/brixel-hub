@@ -114,8 +114,19 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case DELETE_IMG: {
       next(action);
+      const arrayImg = store.getState().form.Property.values[action.payload.type];
+      const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
       api.image.deleteImg(action.payload.id)
         .then(() => {
+          arrayImg.splice(idImg, 1);
+          store.dispatch(change('Property', action.payload.type, arrayImg));
+          store.dispatch({ type: SPINNER_SMALL_ON });
+          const data = {
+            id: action.payload.pageID,
+            [action.payload.type]: arrayImg,
+            smallLoader: true
+          };
+          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
         });
       break;
     }
