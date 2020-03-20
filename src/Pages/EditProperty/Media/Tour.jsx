@@ -8,6 +8,7 @@ import { bindActionCreators, compose } from 'redux';
 import { change } from 'redux-form';
 import { connect } from 'react-redux';
 import { uploadImg } from '../../../actions/UploadActions';
+import { BrixelButtonPrimary } from '@brixel/brixel-components';
 
 const Tour = (props) => {
   // PROPS
@@ -16,7 +17,7 @@ const Tour = (props) => {
   } = props;
 
   return (
-    <>
+    <div className="secondLevel">
       <div className="dis-fl-col mt-2 px-2">
 
         <div className="dis-fl-row jc-b a-c mb-4">
@@ -26,7 +27,7 @@ const Tour = (props) => {
         </div>
         <div>
           {
-            get(formValue,'virtual.matterport', null) && (
+            get(formValue,'virtual.matterport', null) ? (
               <iframe
                 className="min-h-fix-320"
                 width="100%"
@@ -37,11 +38,34 @@ const Tour = (props) => {
                 allowFullScreen
                 title={get(formValue,'virtual.matterport', null)}
               />
+            ) : (
+              <div className="ta-c">
+                <iframe
+                  className="min-h-fix-320"
+                  width="100%"
+                  height="100%"
+                  src={`https://my.matterport.com/show/?m=ctWod3ggrZi&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0`}
+                  allow="vr"
+                  frameBorder="0"
+                  allowFullScreen
+                  title={get(formValue,'virtual.matterport', null)}
+                />
+                <h5 className="mt-3 mb-1">Get your own 3D-Tour</h5>
+                <p className="txtDark200">3D-Tour and much more is part of Brixel Premium.</p>
+                <div className="dis-f jc-c mt-3">
+                  <BrixelButtonPrimary
+                    label="Upgrade now"
+                    background="red"
+                    saturation={400}
+                    rounded
+                  />
+                </div>
+              </div>
             )
           }
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

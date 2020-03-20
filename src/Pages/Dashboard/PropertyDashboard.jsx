@@ -38,7 +38,7 @@ const Tour = Loadable({
 });
 
 const Documents = Loadable({
-  loader: () => import('../../components/Documents' /* webpackChunkName: "Documents" */),
+  loader: () => import('../EditProperty/Documents' /* webpackChunkName: "Documents" */),
   loading: Loading,
 });
 
@@ -101,7 +101,6 @@ const HomeDashboard = (props) => {
               />
             </div>
             <div className="hideOnExpanded">
-              <h5 className="mb-3">Property</h5>
               <div
                 className={`brdRadius shadow-1dp brdPrimary400 ${getFact() === 'facts' ? 'brdMedium' : ''}`}
                 onClick={() => history.push(`/${propID}/property/facts`)}>

@@ -134,7 +134,7 @@ const DetailMedia = (props) => {
 
   return (
     <div className="thirdLevel">
-      <div className="dis-fl-col h-perc-100">
+      <div className="dis-fl-col max-h-perc-100">
         <div className="max-h-perc-100 ov-a">
           <div className="image-detail ov-a">
             <div className="dis-fl-row jc-b a-c">
@@ -195,14 +195,6 @@ const DetailMedia = (props) => {
               </div>
             </div>
             <Field
-              name={`${mediaType}[${idImg}].name`}
-              label="Name"
-              component={BrixelInputText}
-              placeholder="Name the photo"
-              type="text"
-              className="p-md-0 mb-2"
-            />
-            <Field
               name={`${mediaType}[${idImg}].description`}
               label="Description"
               component={BrixelTextArea}
@@ -210,108 +202,6 @@ const DetailMedia = (props) => {
               type="text"
               className="p-md-0 mb-2"
             />
-            <Field
-              name={`${mediaType}[${idImg}].tags`}
-              label="New tag"
-              component={BrixelTags}
-              className="mb-4"
-            />
-            {
-              formValue && formValue[mediaType][idImg] && (
-                <div className="details dis-fl-col pt-4">
-                  <span className="caption mb-3">Details</span>
-                  <div className="dis-fl-row mb-2">
-                    <span className="detail-title w-fix-80 mr-4">ID</span>
-                    <span className="detail-info">{formValue[mediaType][idImg].id}</span>
-                  </div>
-                  <div className="dis-fl-row mb-2">
-                    <span className="detail-title w-fix-80 mr-4">Type</span>
-                    <span className="detail-info">{formValue[mediaType][idImg].mimeType}</span>
-                  </div>
-                  <div className="dis-fl-col">
-                    <span className="detail-title mb-1">URLs</span>
-                    <div className="dis-fl-row">
-                      <BrixelButtonTertiary
-                        className="detail-info link mr-1"
-                        label={formValue[mediaType][idImg].path}
-                        onClick={(e) => openLink(e, formValue[mediaType][idImg].path)}
-                      />
-                      <BrixelButtonIcon
-                        icon="copy-link"
-                        noBorder
-                        bgTransparent
-                        color="primary"
-                        saturationTxt={400}
-                        fontSize={16}
-                        onClick={(e) => copyLinkToClipboard(e, 'first')}
-                      />
-                      <textarea
-                        style={{
-                          opacity: 0,
-                          width: 0,
-                          height: 0,
-                        }}
-                        readOnly
-                        ref={textAreaRef1}
-                        value={`${baseByData.apiPath}${formValue[mediaType][idImg].path}`}
-                      />
-                    </div>
-                    <div className="dis-fl-row">
-                      <BrixelButtonTertiary
-                        className="detail-info link mr-1"
-                        label={formValue[mediaType][idImg].bigPath}
-                        onClick={(e) => openLink(e, formValue[mediaType][idImg].bigPath)}
-                      />
-                      <BrixelButtonIcon
-                        icon="copy-link"
-                        noBorder
-                        bgTransparent
-                        color="primary"
-                        saturationTxt={400}
-                        fontSize={16}
-                        onClick={(e) => copyLinkToClipboard(e, 'second')}
-                      />
-                      <textarea
-                        style={{
-                          opacity: 0,
-                          width: 0,
-                          height: 0,
-                        }}
-                        readOnly
-                        ref={textAreaRef2}
-                        value={`${baseByData.apiPath}${formValue[mediaType][idImg].bigPath}`}
-                      />
-                    </div>
-                    <div className="dis-fl-row">
-                      <BrixelButtonTertiary
-                        className="detail-info link mr-1"
-                        label={formValue[mediaType][idImg].thumbnailPath}
-                        onClick={(e) => openLink(e, formValue[mediaType][idImg].thumbnailPath)}
-                      />
-                      <BrixelButtonIcon
-                        icon="copy-link"
-                        noBorder
-                        bgTransparent
-                        color="primary"
-                        saturationTxt={400}
-                        fontSize={16}
-                        onClick={(e) => copyLinkToClipboard(e, 'third')}
-                      />
-                      <textarea
-                        style={{
-                          opacity: 0,
-                          width: 0,
-                          height: 0,
-                        }}
-                        readOnly
-                        ref={textAreaRef3}
-                        value={`${baseByData.apiPath}${formValue[mediaType][idImg].thumbnailPath}`}
-                      />
-                    </div>
-                  </div>
-                </div>
-              )
-            }
           </div>
         </div>
         <div className="dis-f p-2">
