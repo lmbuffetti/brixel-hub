@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
@@ -9,8 +9,8 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import {
-  BrixelButtonIcon, BrixelInputText, BrixelButtonTertiary,
-  BrixelTags, BrixelButtonPrimary, BrixelTextArea,
+  BrixelButtonIcon, BrixelButtonTertiary,
+  BrixelButtonPrimary, BrixelTextArea,
 } from '@brixel/brixel-components';
 import Loading from '../../../components/Loading';
 import { rotateImg, deleteImg, setCoverPhoto } from '../../../actions/UploadActions';
@@ -31,10 +31,6 @@ const DetailMedia = (props) => {
   const [rotation, setRotation] = useState(0);
   const [idImg, setIdImg] = useState(null);
   const [changeSection, setChangeSection] = useState(false);
-  // REFS
-  const textAreaRef1 = useRef(null);
-  const textAreaRef2 = useRef(null);
-  const textAreaRef3 = useRef(null);
   // PARAMS URL
   const mediaID = get(match, 'params.imgId', null);
   const propID = get(match, 'params.propId', null);
@@ -106,24 +102,6 @@ const DetailMedia = (props) => {
       coverPhoto: photo,
     };
     handleSetCoverPhoto(data);
-  };
-
-  const openLink = (e, link) => {
-    e.preventDefault();
-    window.open(`${baseByData.apiPath}${link}`, '_blank');
-  };
-
-  // COPY DOCUMENT LINK
-  const copyLinkToClipboard = (e, ref) => {
-    e.preventDefault();
-    if (ref === 'first') {
-      textAreaRef1.current.select();
-    } else if (ref === 'second') {
-      textAreaRef2.current.select();
-    } else if (ref === 'third') {
-      textAreaRef3.current.select();
-    }
-    document.execCommand('copy');
   };
 
   if (!formValue || !formValue[mediaType]) {

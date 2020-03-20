@@ -16,11 +16,6 @@ import {
 import { bindActionCreators, compose } from 'redux';
 import { uploadDocument, deleteDocument, updateDocument } from '../../actions/UploadActions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
-//import Loading from '../components/Loading';
-// import {
-//   setScreenNotification, preventExitFromScreen,
-//   setUnsavedChangesModal, setModal,
-// } from '../actions/CommonActions';
 
 // IMAGES
 import upload_documents_empty from '../../images/Upload/upload_documents_empty.svg';
@@ -36,7 +31,7 @@ const Documents = (props) => {
 
   // PROPS
   const {
-    history, formValue, handleUploadDocument, user,
+    formValue, handleUploadDocument, user,
     handleDeleteDocument, handleUpdateDocument, match,
   } = props;
   const { documents } = formValue;
@@ -47,7 +42,6 @@ const Documents = (props) => {
 
   // PAGE ID
   const pageId = get(match, 'params.propId', formValue.id);
-  const sectionPage = get(match, 'params.act', 'home');
 
   // UPLOAD DOCUMENTS
   const saveDocuments = (doc) => {
