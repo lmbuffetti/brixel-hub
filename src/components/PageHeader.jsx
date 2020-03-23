@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
 import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import Loadable from 'react-loadable';
@@ -156,7 +157,7 @@ function PageHeader(props) {
               ) : (
                 <div className="ml-2">
                   <AvatarImage
-                    avatarImg={ loggedInUser.user.avatar && loggedInUser.user.avatar[0] ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
+                    avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
                     name={loggedInUser.user.name}
                     size={40}
                     onClick={() => avatarAction()}

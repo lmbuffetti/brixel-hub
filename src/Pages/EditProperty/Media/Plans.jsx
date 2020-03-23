@@ -177,8 +177,7 @@ const Photos = (props) => {
                 <BrixelButtonPrimary
                   label="upload"
                   rightIcon="upload"
-                  rounded
-                  className="mt-3"
+ncu                  className="mt-3"
                 />
               </div>
             </>
