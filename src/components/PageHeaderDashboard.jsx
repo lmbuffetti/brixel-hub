@@ -24,7 +24,6 @@ function PageHeaderDashboard(props) {
   // PROPS
   const {
     lang,
-    languages,
     loggedInUser,
     gameHistory,
     handleGetGame,
@@ -34,8 +33,8 @@ function PageHeaderDashboard(props) {
     windowDimensions,
   } = props;
   // STATE
-  const [currentLang, setCurrentLang] = useState(lang);
-  const [dropLang, setDropLang] = useState([]);
+  //const [currentLang, setCurrentLang] = useState(lang);
+  //const [dropLang, setDropLang] = useState([]);
   const [widthScreen, setWidthScreen] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
@@ -55,28 +54,11 @@ function PageHeaderDashboard(props) {
   useEffect(() => {
     if (loggedInUser && loggedInUser.user) {
       const langUsr = loggedInUser.user.language;
-      setCurrentLang(lang);
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
       if (!gameHistory.data) handleGetGame();
     }
-  }, [loggedInUser, lang]);
-
-  useEffect(() => {
-    const drpLng = [];
-    languages.map((lng, i) => {
-      drpLng[i] = {
-        value: lng.value,
-        label: lng.label.replace('_US', ''),
-      };
-      return null;
-    });
-    setDropLang(drpLng);
-  }, [languages]);
-
-  useEffect(() => {
-    setCurrentLang(lang);
-  }, [lang]);
+  }, [loggedInUser]);
 
   const screenResize = () => {
     setWidthScreen(window.innerWidth);
@@ -91,13 +73,6 @@ function PageHeaderDashboard(props) {
       window.addEventListener('resize', () => screenResize());
     }
   }, []);
-
-  const newLang = (e, langCode) => {
-    e.stopPropagation();
-    setCurrentLang(langCode.value);
-    handleSetLanguage(langCode.value);
-    setCookie('brixelLang', langCode.value);
-  };
 
   const avatarAction = () => {
     // Mobile actions for the avatar click
@@ -154,30 +129,14 @@ function PageHeaderDashboard(props) {
               background="red"
               rounded
             />
-            {
-              windowDimensions.width < 768 ? (
-                <div className="">
-                  <BrixelButtonIcon
-                    bgTransparent
-                    color="primary"
-                    saturationTxt={400}
-                    noBorder
-                    className="shadow-2dp"
-                    icon={showMobileMenu ? "close" : "menu"}
-                    onClick={() => setShowMobileMenu(!showMobileMenu)}
-                  />
-                </div>
-              ) : (
-                <div className="ml-2">
-                  <AvatarImage
-                    avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
-                    name={has(loggedInUser, 'user.name') ? loggedInUser.user.name : ''}
-                    size={40}
-                    onClick={() => avatarAction()}
-                  />
-                </div>
-              )
-            }
+            <div className="ml-2 hide dis-b-md">
+              <AvatarImage
+                avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
+                name={has(loggedInUser, 'user.name') ? loggedInUser.user.name : ''}
+                size={40}
+                onClick={() => avatarAction()}
+              />
+            </div>
           </div>
         </div>
 
@@ -196,52 +155,6 @@ function PageHeaderDashboard(props) {
           />
           <button className="fsize-400 txtLight400 mr-2 hide dis-b-md">Support</button>
         </div>
-        {
-          showMobileMenu && (
-            <div className="mobile-menu bgGreen700 w-perc-100 h-perc-100 pos-a dis-fl-col a-c p-1 zIndex5">
-              <BrixelButtonIcon
-                className="as-fe mb-5"
-                icon="close-small"
-                background="light"
-                saturation={100}
-                color="green"
-                saturationTxt={700}
-                onClick={() => {
-                  setShowMobileMenu(false);
-                  document.body.classList.remove('ov-h');
-                }}
-              />
-              <div className="links dis-fl-col as-b pl-4">
-                <button
-                  className="txtLight100 fweight-700 fSizePx28 mb-4"
-                  onClick={() => onClickMenu(`/${property.id}/property/list`)}
-                >
-                  Properties
-                </button>
-                <button
-                  className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
-                  onClick={() => ''}
-                >
-                  Messages
-                </button>
-                <button
-                  className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
-                  onClick={() => ''}
-                >
-                  Calendar
-                </button>
-                <a
-                  className="txtLight100 fweight-700 fSizePx28 mb-4"
-                  href={baseByData(null,'io').profileURL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Profile
-                </a>
-              </div>
-            </div>
-          )
-        }
       </header>
     </>
   );

@@ -69,6 +69,11 @@ const Dashboard = Loadable({
   loading: Loading,
 });
 
+const Properties = Loadable({
+  loader: () => import('./Pages/Properties/' /* webpackChunkName: "Properties" */),
+  loading: Loading,
+});
+
 // FLOW SELLER
 const MarketChecker = Loadable({
   loader: () => import('./Pages/GameHistory/MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
@@ -160,9 +165,7 @@ const App = (props) => {
         <div className="dis-f">
           {
             !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding') && loggedInUser && (
-              <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
-                <MenuSidebar />
-              </div>
+              <MenuSidebar />
             )
           }
           <div className="zIndex1 w-perc-100 dis-fl-col" style={{ height: windowDimensions.height }}>
@@ -211,7 +214,6 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
         </Switch>
       }
-
 
       { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
       {

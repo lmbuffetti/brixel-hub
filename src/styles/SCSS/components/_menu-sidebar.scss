@@ -1,9 +1,8 @@
 #menu-sidebar {
-  header {
     left: 0;
     top: 0;
     background-color: white;
-    width: 84px;
+    width: 0;
 
     .admin-info {
       // border-bottom: 1px solid map_get($lightColor, 400);
@@ -55,26 +54,39 @@
       align-self: center;
     }
 
-    .sidebarSubmenu {
-      position: absolute;
-      background: rgba($brx-white, 0.8);
-      left: 16px;
+  .sidebarSubmenu {
+    position: absolute;
+    background: rgba($brx-white, 0.8);
+    left: 0;
+    width: 100%;
+    top: 0;
+    max-width: 100%;
+    .sidebarSubmenuContent {
+      height: 100%;
       width: 100%;
-      max-width: 100%;
-      .sidebarSubmenuContent {
-        height: 100%;
-        width: 100%;
-        padding-left: 84px;
-        background-color: $brx-white;
-        max-width: 768px;
-        box-shadow: $shadow-3dp;
-      }
+      padding-left: 0;
+      background-color: $brx-white;
+      max-width: 768px;
+      box-shadow: $shadow-3dp;
     }
-
   }
-
-  @media screen and(min-width: map-get($grid-breakpoints, lg)) {
-    // TODO
+  .btnMainMenu {
+    position: absolute;
+    right: $step;
+    top: $step;
+    z-index: 2;
   }
 }
 
+@media (min-width: $responsive-medium) {
+  #menu-sidebar {
+    width: 84px;
+    height: 100vh;
+    z-index: 2;
+    .sidebarSubmenu {
+      .sidebarSubmenuContent {
+        padding-left: 84px;
+      }
+    }
+  }
+}
