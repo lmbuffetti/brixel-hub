@@ -13,20 +13,16 @@ import {
   BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonTertiary, BrixelTabs,
   BrixelTimeSlots,
 } from '@brixel/brixel-components';
-import { diff } from 'deep-object-diff';
-import {
-  preventExitFromScreen, setUnsavedChangesModal,
-  setModal, setScreenNotification,
-} from '../../actions/CommonActions';
 import {
   savePropertyVisitSchedule, createPropertyVisitSchedule,
 } from '../../actions/PropertyActions';
 
 const Showings = (props) => {
   const {
-    history, preventExit, setUnsavedModal, isUnsavedChangesModal,
-    setPreventExit, handleSetModal, setNotification, formValue,
-    handleSavePropertyVisitSchedule, notification, handleCreatePropertyVisitSchedule,
+    history,
+    formValue,
+    handleSavePropertyVisitSchedule,
+    handleCreatePropertyVisitSchedule,
   } = props;
 
   const schedule = has(formValue, 'schedule.id') ? formValue.schedule : {};
@@ -83,13 +79,6 @@ const Showings = (props) => {
                 saturationTxt={700}
                 noBorder
                 onClick={() => {
-                  if (preventExit) {
-                    setUnsavedModal({
-                      state: true,
-                      link: './',
-                    });
-                    return;
-                  }
                   document.body.classList.remove('ov-h');
                   history.push('./');
                 }}
@@ -160,7 +149,7 @@ const Showings = (props) => {
                 saturationTxt={400}
                 rounded
                 className="shadow-3dp"
-                //onClick={() => history.push(`${propID}/property/facts`)}
+                onClick={() => discardChanges()}
               />
               <BrixelButtonPrimary
                 label='Save & Next'
@@ -181,16 +170,9 @@ const Showings = (props) => {
 
 Showings.propTypes = {
   history: PropTypes.object.isRequired,
-  setPreventExit: PropTypes.func.isRequired,
-  setUnsavedModal: PropTypes.func.isRequired,
-  setNotification: PropTypes.func.isRequired,
-  handleSetModal: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
-  preventExit: PropTypes.bool.isRequired,
-  isUnsavedChangesModal: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  notification: PropTypes.object.isRequired,
 };
 
 Showings.defaultProps = {
@@ -207,10 +189,6 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('propertyOverview', field, value));
   },
-  setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
-  setUnsavedModal: bindActionCreators(setUnsavedChangesModal, dispatch),
-  handleSetModal: bindActionCreators(setModal, dispatch),
-  setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
 });
