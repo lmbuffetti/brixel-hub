@@ -53,16 +53,16 @@ function GetStarted(props) {
     formValue,
     gameGroup,
     gameHistory,
-    handleCreatePage,
-    handleCreateUser,
-    handleGetCompany,
-    handleGetToken,
+    handleCreateActiveSingleProperty,
+    handleValidateUser,
+    handleGetActiveSingleCompany,
+    handleDoLogin,
     handleSetLanguage,
     handleSetAwards,
-    handleSetBrixelPoint,
-    handleUpdatePage,
-    handleUpdateUser,
-    handleGetGameGroup,
+    handleSetBrixelPoints,
+    handleSaveActiveSingleProperty,
+    handleSaveActiveSingleUser,
+    handleGetGamegroup,
     history,
     lang,
     loggedInUser,
@@ -109,7 +109,7 @@ function GetStarted(props) {
       };
       changeFieldValue('location', location);
     }
-    handleGetGameGroup();
+    handleGetGamegroup();
   }, []);
 
   useEffect(() => {
@@ -232,19 +232,19 @@ function GetStarted(props) {
             id: loggedInUser.user.id,
             userType: formValue.ownerType
           };
-          await handleUpdateUser(userData);
-          await handleUpdatePage(pageData);
+          await handleSaveActiveSingleUser(userData);
+          await handleSaveActiveSingleProperty(pageData);
         } else {
           changeFieldValue('owner', loggedInUser.user.id);
           data.owner = loggedInUser.user.id;
-          await handleCreatePage(data);
+          await handleCreateActiveSingleProperty(data);
         }
       } else if (loginPage) {
         data.user = {
           username: formValue.email,
           password: formValue.password,
         };
-        await handleGetToken(data);
+        await handleDoLogin(data);
       } else {
         data.user = {
           email: formValue.email,
@@ -262,7 +262,7 @@ function GetStarted(props) {
           ignoreEmail: false,
           redirectTo: '/packageFlow/getStarted/success'
         };
-        await handleCreateUser(data);
+        await handleValidateUser(data);
       }
     }
   };
@@ -325,7 +325,7 @@ function GetStarted(props) {
         else handleSetAwards(1);
         if (newPoints && newPoints.actualPoints) newPoints.actualPoints += getHomeBase.points;
         else newPoints = {actualPoints: getHomeBase.points};
-        handleSetBrixelPoint(newPoints.actualPoints);
+        handleSetBrixelPoints(newPoints.actualPoints);
       }
       if (
         (Questions[position].cardType === 'LastStep' && loggedInUser && loggedInUser.user) ||
@@ -365,7 +365,7 @@ function GetStarted(props) {
     if (company || cookieCompany) {
       company = company.replace('?company=', '');
       const defComp = company || cookieCompany;
-      handleGetCompany({stub: defComp});
+      handleGetActiveSingleCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
@@ -704,16 +704,16 @@ GetStarted.propTypes = {
   formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
-  handleCreateUser: PropTypes.func.isRequired,
-  handleCreatePage: PropTypes.func.isRequired,
-  handleGetCompany: PropTypes.func.isRequired,
-  handleGetToken: PropTypes.func.isRequired,
+  handleValidateUser: PropTypes.func.isRequired,
+  handleCreateActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleDoLogin: PropTypes.func.isRequired,
   handleSetAwards: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
-  handleSetBrixelPoint: PropTypes.func.isRequired,
-  handleUpdateUser: PropTypes.func.isRequired,
-  handleUpdatePage: PropTypes.func.isRequired,
-  handleGetGameGroup: PropTypes.func.isRequired,
+  handleSetBrixelPoints: PropTypes.func.isRequired,
+  handleSaveActiveSingleUser: PropTypes.func.isRequired,
+  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetGamegroup: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
@@ -751,18 +751,18 @@ const mapDispatchToProps = (dispatch) => ({
   checkValid() {
     dispatch(isValid('GetStarted'))
   },
-  handleCreateUser: bindActionCreators(validateUser, dispatch),
-  handleGetToken: bindActionCreators(doLogin, dispatch),
-  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
-  handleGetCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleValidateUser: bindActionCreators(validateUser, dispatch),
+  handleDoLogin: bindActionCreators(doLogin, dispatch),
+  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
-  handleCreatePage: bindActionCreators(createActiveSingleProperty, dispatch),
-  handleSetErrorMsg: bindActionCreators(errorMessage, dispatch),
+  handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
+  handleSetError: bindActionCreators(errorMessage, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
-  handleSetBrixelPoint: bindActionCreators(setBrixelPoints, dispatch),
-  handleSetPage: bindActionCreators(setPageData, dispatch),
-  handleUpdatePage: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleUpdateUser: bindActionCreators(saveActiveSingleUser, dispatch),
+  handleSetBrixelPoints: bindActionCreators(setBrixelPoints, dispatch),
+  handleSetPageData: bindActionCreators(setPageData, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
 });
 
 const getStartedForm = reduxForm({

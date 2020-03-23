@@ -91,7 +91,7 @@ const App = (props) => {
   // PROPS
   const {
     userTypes,
-    handleSetActiveUsertype,
+    handleSetUserTypes,
     history,
     handleCheckToken,
     handleSetModal,
@@ -117,9 +117,9 @@ const App = (props) => {
 
   useEffect(() => {
     if (property && property.id && loggedInUser.user && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
-      handleSetActiveUsertype('seller');
+      handleSetUserTypes('seller');
     } else if (property && property.id) {
-      handleSetActiveUsertype('buyer');
+      handleSetUserTypes('buyer');
     }
   }, [property]);
 
@@ -309,7 +309,7 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  handleSetActiveUsertype: PropTypes.func.isRequired,
+  handleSetUserTypes: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
@@ -346,7 +346,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetLanguages: bindActionCreators(setLanguages, dispatch),
-  handleSetActiveUsertype: bindActionCreators(setUserTypes, dispatch),
+  handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 

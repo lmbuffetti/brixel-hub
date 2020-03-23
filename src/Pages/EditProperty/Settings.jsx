@@ -19,7 +19,7 @@ import Loading from '../../components/Loading';
 const Settings = (props) => {
   const {
     formValue,
-    handleDeletePage,
+    handleDeleteActiveSingleProperty,
     match,
   } = props;
   // URL PARAMS
@@ -33,7 +33,7 @@ const Settings = (props) => {
     };
     // eslint-disable-next-line no-alert
     if (window.confirm('Are you sure you want to delete this page?')) {
-      handleDeletePage(data);
+      handleDeleteActiveSingleProperty(data);
     }
   };
 
@@ -102,7 +102,7 @@ const Settings = (props) => {
 
 Settings.propTypes = {
   formValue: PropTypes.object.isRequired,
-  handleDeletePage: PropTypes.func.isRequired,
+  handleDeleteActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -115,7 +115,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleDeletePage: bindActionCreators(deleteActiveSingleProperty, dispatch),
+  handleDeleteActiveSingleProperty: bindActionCreators(deleteActiveSingleProperty, dispatch),
 });
 
 export default compose(

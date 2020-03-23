@@ -24,7 +24,7 @@ const FactsQuestion = (props) => {
     // changeFieldValue,
     errorValue,
     formValue,
-    // handleSaveProperty,
+    // handleSaveActiveSingleProperty,
     history,
     match,
     quest,
@@ -39,7 +39,7 @@ const FactsQuestion = (props) => {
     set(skipSection, val, true);
     inputSheet.skipSection = skipSection;
 
-    await handleSaveProperty({id: propID, inputSheet: inputSheet, smallLoader: true});
+    await handleSaveActiveSingleProperty({id: propID, inputSheet: inputSheet, smallLoader: true});
     changeFieldValue('inputSheet', inputSheet);
   };
   */
@@ -200,7 +200,7 @@ FactsQuestion.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleSaveProperty: PropTypes.func.isRequired,
+  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   quest: PropTypes.arrayOf(PropTypes.object),
 };
@@ -218,7 +218,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  handleSaveProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   reset(form) {
     (dispatch(reset(form)))
   },

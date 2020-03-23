@@ -25,8 +25,8 @@ const RewardsDashboard = (props) => {
     userTypes,
     gameGroup,
     gameHistory,
-    handleGetGameAchievement,
-    handleGetGameGroup,
+    handleGetAchievement,
+    handleGetGamegroup,
     handleAddGameHistory,
     history,
     loggedInUser,
@@ -44,8 +44,8 @@ const RewardsDashboard = (props) => {
   const gameHistoryData = get(gameHistory, 'data', null);
 
   useEffect(() => {
-    handleGetGameAchievement();
-    handleGetGameGroup();
+    handleGetAchievement();
+    handleGetGamegroup();
     // handleGetGameHistory();
   }, []);
 
@@ -262,8 +262,8 @@ RewardsDashboard.propTypes = {
   userTypes: PropTypes.string,
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
-  handleGetGameAchievement: PropTypes.func.isRequired,
-  handleGetGameGroup: PropTypes.func.isRequired,
+  handleGetAchievement: PropTypes.func.isRequired,
+  handleGetGamegroup: PropTypes.func.isRequired,
   handleGetGameHistory: PropTypes.func.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
@@ -290,8 +290,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetGameAchievement: bindActionCreators(getAchievement, dispatch),
-  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
+  handleGetAchievement: bindActionCreators(getAchievement, dispatch),
+  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });

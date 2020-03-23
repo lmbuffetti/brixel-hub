@@ -129,7 +129,7 @@ SuccessMarketCheck.propTypes = {
   gameStub: PropTypes.string,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  handleGetGameGroup: PropTypes.func.isRequired,
+  handleGetGamegroup: PropTypes.func.isRequired,
 };
 
 SuccessMarketCheck.defaultProps = {
@@ -144,7 +144,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
+  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
 });
 
 export default compose(

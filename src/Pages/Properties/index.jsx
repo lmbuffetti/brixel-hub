@@ -29,8 +29,8 @@ const Properties = (props) => {
   // PROPS
   const {
     closeProperty,
-    getFavoritesOfUser,
-    getPropertiesOfUser,
+    handleGetFavorites,
+    handleGetUserProperties,
     favoritesProperties,
     user,
     userProperties,
@@ -40,8 +40,8 @@ const Properties = (props) => {
 
   useEffect(() => {
     if (get(user, 'user.id')) {
-      getPropertiesOfUser(user.user.id);
-      getFavoritesOfUser()
+      handleGetUserProperties(user.user.id);
+      handleGetFavorites()
     }
   }, [user]);
 
@@ -113,8 +113,8 @@ Properties.propTypes = {
   match: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
   favoritesProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
-  getPropertiesOfUser: PropTypes.func.isRequired,
-  getFavoritesOfUser: PropTypes.func.isRequired,
+  handleGetUserProperties: PropTypes.func.isRequired,
+  handleGetFavorites: PropTypes.func.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -131,8 +131,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getPropertiesOfUser: bindActionCreators(getUserProperties, dispatch),
-  getFavoritesOfUser: bindActionCreators(getFavorites, dispatch),
+  handleGetUserProperties: bindActionCreators(getUserProperties, dispatch),
+  handleGetFavorites: bindActionCreators(getFavorites, dispatch),
 });
 
 export default compose(

@@ -48,9 +48,9 @@ const Dashboard = (props) => {
     userTypes,
     errorValue,
     formValue,
-    handleGetProperties,
-    handleGetProperty,
-    // handleSaveProperty,
+    handleGetPropertyListings,
+    handleGetActiveSingleProperty,
+    // handleSaveActiveSingleProperty,
     history,
     initialValues,
     isSmallLoading,
@@ -74,14 +74,14 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (propID && !property.id) {
-      handleGetProperty({fullVersion: false, id: propID});
+      handleGetActiveSingleProperty({fullVersion: false, id: propID});
     } else if (!propID) {
       const data = {
         limit: 1,
         offset: `0/?owner=${loggedInUser.user.id}`,
         setAsSingle: true,
       };
-      handleGetProperties(data);
+      handleGetPropertyListings(data);
     }
   }, []);
 
@@ -90,7 +90,7 @@ const Dashboard = (props) => {
       history.push(`/${property.id}/rewards`);
     }
     if (property.owner === loggedInUser.user.id) {
-      handleGetProperty({fullVersion: true, id: propID});
+      handleGetActiveSingleProperty({fullVersion: true, id: propID});
     }
     const getPercComplete = get(property, 'inputSheet.totalComplete', null);
     if (property.id && !getPercComplete && property.owner.id) {
@@ -99,7 +99,7 @@ const Dashboard = (props) => {
         skipSection: getPerc.section.section,
         totalComplete: getPerc.section.percComplete,
       };*/
-      //handleSaveProperty({id: property.id, inputSheet: data});
+      //handleSaveActiveSingleProperty({id: property.id, inputSheet: data});
     }
   }, [property]);
 
@@ -121,7 +121,7 @@ const Dashboard = (props) => {
           });
         }
         if (setValid && (notification.type !== 'info' || load !== isSmallLoading)) {
-          /*setNotification({
+          /*handleSetScreenNotification({
             state: false,
             type: 'info',
             label: 'Save changes?',
@@ -137,7 +137,7 @@ const Dashboard = (props) => {
         //setTimeout(() => closeNotificationBar(), 2000);
         // REMOVE NOTIFICATION
       } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'info') {
-        // setNotification({ state: false });
+        // handleSetScreenNotification({ state: false });
       } else {
         // closeNotificationBar()
       }
@@ -168,14 +168,14 @@ Dashboard.propTypes = {
   formValue: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.bool,
   userTypes: PropTypes.string,
-  handleGetProperties: PropTypes.func.isRequired,
-  handleGetProperty: PropTypes.func.isRequired,
-  handleSaveProperty: PropTypes.func.isRequired,
+  handleGetPropertyListings: PropTypes.func.isRequired,
+  handleGetActiveSingleProperty: PropTypes.func.isRequired,
+  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   notification: PropTypes.object.isRequired,
   regFields: PropTypes.object,
-  setNotification: PropTypes.func.isRequired,
+  handleSetScreenNotification: PropTypes.func.isRequired,
 };
 
 Dashboard.defaultProps = {
@@ -223,13 +223,13 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetProperties: bindActionCreators(getPropertyListings, dispatch),
-  handleGetProperty: bindActionCreators(getActiveSingleProperty, dispatch),
-  handleSaveProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
-  setNotification: bindActionCreators(setScreenNotification, dispatch),
+  handleSetScreenNotification: bindActionCreators(setScreenNotification, dispatch),
 });
 
 export default compose(

@@ -18,7 +18,7 @@ function SuccessBestimate(props) {
   // PROPS
   const {
     gameGroup,
-    handleGetGameGroup,
+    handleGetGamegroup,
     history,
     gameStub,
     groupdAchievement,
@@ -32,7 +32,7 @@ function SuccessBestimate(props) {
   const getDoneFirstTime = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    handleGetGameGroup();
+    handleGetGamegroup();
   }, []);
 
   useEffect(() => {
@@ -133,7 +133,7 @@ SuccessBestimate.propTypes = {
   groupdAchievement: PropTypes.object,
   gameStub: PropTypes.string,
   history: PropTypes.object.isRequired,
-  handleGetGameGroup: PropTypes.func.isRequired,
+  handleGetGamegroup: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
 };
 
@@ -148,7 +148,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
+  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
 });
 
 export default compose(

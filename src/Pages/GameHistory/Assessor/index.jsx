@@ -33,8 +33,8 @@ function Assessor(props) {
     errorValue,
     formValue,
     gameHistory,
-    handleGetProperty,
-    handleUpdateProperty,
+    handleGetActiveSingleProperty,
+    handleSaveActiveSingleProperty,
     handleAddGameHistory,
     handleGetGameHistory,
     history,
@@ -74,7 +74,7 @@ function Assessor(props) {
 
   // GET DEFAULT PROPERTY
   useEffect(() => {
-    handleGetProperty({id: propID});
+    handleGetActiveSingleProperty({id: propID});
     handleGetGameHistory();
   }, []);
 
@@ -115,7 +115,7 @@ function Assessor(props) {
     // eslint-disable-next-line no-use-before-define
     changeStep();
     // UPDATE PROPERTY
-    handleUpdateProperty(dataProp);
+    handleSaveActiveSingleProperty(dataProp);
     setSaved(true);
     // ADD THE ACHIEVEMENT
     if (!finishedFlow) {
@@ -341,7 +341,7 @@ Assessor.propTypes = {
   gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleGetGameHistory: PropTypes.func.isRequired,
-  handleUpdateProperty: PropTypes.func.isRequired,
+  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
@@ -378,8 +378,8 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
-  handleGetProperty: bindActionCreators(getActiveSingleProperty, dispatch),
-  handleUpdateProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 const OnBoardingForm = reduxForm({

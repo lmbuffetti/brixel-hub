@@ -32,7 +32,7 @@ function MarketCheck(props) {
     errorValue,
     formValue,
     gameHistory,
-    handleGetProperty,
+    handleGetActiveSingleProperty,
     handleAddGameHistory,
     handleGetGameHistory,
     history,
@@ -72,7 +72,7 @@ function MarketCheck(props) {
 
   // GET DEFAULT PROPERTY
   useEffect(() => {
-    handleGetProperty({id: propID});
+    handleGetActiveSingleProperty({id: propID});
     handleGetGameHistory();
   }, []);
 
@@ -314,7 +314,7 @@ MarketCheck.propTypes = {
   gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleGetGameHistory: PropTypes.func.isRequired,
-  handleUpdateProperty: PropTypes.func.isRequired,
+  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
@@ -351,8 +351,8 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
-  handleGetProperty: bindActionCreators(getActiveSingleProperty, dispatch),
-  handleUpdateProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 const OnBoardingForm = reduxForm({

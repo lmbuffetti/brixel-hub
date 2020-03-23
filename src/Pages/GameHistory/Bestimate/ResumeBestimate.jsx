@@ -16,8 +16,8 @@ function ResumeBestimate(props) {
     condition,
     estimation,
     handleGetEstimation,
-    handleGetMarketData,
-    handleUpdateProperty,
+    handleGetMarketCheck,
+    handleSaveActiveSingleProperty,
     marketData,
     match,
     property,
@@ -44,7 +44,7 @@ function ResumeBestimate(props) {
         maxLivingSpace: +livingSpace + percLivingSpace,
         stateCode: 'CH',
       };
-      handleGetMarketData(data);
+      handleGetMarketCheck(data);
       handleGetEstimation(propID);
     }
   }, [property]);
@@ -62,7 +62,7 @@ function ResumeBestimate(props) {
       if (property && property.estimation && property.estimation.bestimate) data.estimation.bestimate.updatedAt = new Date();
       else data.estimation.bestimate.createdAt = new Date();
       if (estimation && !saved) {
-        handleUpdateProperty(data);
+        handleSaveActiveSingleProperty(data);
         setSaved(true);
       }
     }
@@ -108,8 +108,8 @@ ResumeBestimate.propTypes = {
   finishStep: PropTypes.bool,
   gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
   handleGetEstimation: PropTypes.func.isRequired,
-  handleGetMarketData: PropTypes.func.isRequired,
-  handleUpdateProperty: PropTypes.func.isRequired,
+  handleGetMarketCheck: PropTypes.func.isRequired,
+  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -130,8 +130,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
-  handleGetMarketData: bindActionCreators(getMarketCheck, dispatch),
-  handleUpdateProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleGetMarketCheck: bindActionCreators(getMarketCheck, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 export default compose(

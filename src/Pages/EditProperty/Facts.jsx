@@ -28,7 +28,7 @@ const InputSheet = (props) => {
   const {
     changeFieldValue,
     formValue,
-    handleSaveProperty,
+    handleSaveActiveSingleProperty,
     history,
     isSmallLoading,
     match,
@@ -121,9 +121,9 @@ const InputSheet = (props) => {
     // totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion,'getPercentage', null),
     // };
 
-    // await handleSaveProperty({id: propID, inputSheet: dataInputSheet});
+    // await handleSaveActiveSingleProperty({id: propID, inputSheet: dataInputSheet});
     setChangeSection(true);
-    await handleSaveProperty(data);
+    await handleSaveActiveSingleProperty(data);
   };
 
   useEffect(() => {
@@ -253,7 +253,7 @@ InputSheet.propTypes = {
   formValue: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   singleUserPropertyList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleSaveProperty: PropTypes.func.isRequired,
+  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   notification: PropTypes.object.isRequired,
   setNotification: PropTypes.func.isRequired,
@@ -294,7 +294,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
-  handleSaveProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   setNotification: bindActionCreators(setScreenNotification, dispatch),
 });

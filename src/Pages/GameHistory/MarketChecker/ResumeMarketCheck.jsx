@@ -19,7 +19,7 @@ function ResumeMarketCheck(props) {
   const {
     formValue,
     handleGetMarketData,
-    handleUpdatePage,
+    handleSaveActiveSingleProperty,
     marketData,
     property,
     match,
@@ -66,7 +66,7 @@ function ResumeMarketCheck(props) {
         median_age: Math.ceil(marketData.constructionYearDistribution.medianAge).toString(),
         median_time_on_market: marketData.daysOnMarketDistribution.median ? marketData.daysOnMarketDistribution.median.toString() : 0,
       };
-      handleUpdatePage(data);
+      handleSaveActiveSingleProperty(data);
       setSaved(true);
     }
   }, [marketData]);
@@ -175,7 +175,7 @@ ResumeMarketCheck.propTypes = {
   handleGetMarketData: PropTypes.func.isRequired,
   handleGetPage: PropTypes.func.isRequired,
   handleSendGenericMail: PropTypes.func.isRequired,
-  handleUpdatePage: PropTypes.func.isRequired,
+  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object,
   match: PropTypes.object.isRequired,
   marketData: PropTypes.object,
@@ -199,7 +199,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetPage: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetMarketData: bindActionCreators(getMarketCheck, dispatch),
   handleSendGenericMail: bindActionCreators(sendGenericMail, dispatch),
-  handleUpdatePage: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 export default compose(

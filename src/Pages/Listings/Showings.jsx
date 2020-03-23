@@ -66,103 +66,103 @@ const Showings = (props) => {
   return (
     <div className="showings secondLevel h-perc-100 dis-fl-col">
       <div className="h-perc-100 dis-fl-col">
-      <div className={`dis-fl-row ${manageAvailability ? 'jc-fs mb-0' : 'jc-b mb-2'} a-c`}>
+        <div className={`dis-fl-row ${manageAvailability ? 'jc-fs mb-0' : 'jc-b mb-2'} a-c`}>
+          {
+            !manageAvailability ? (
+              <>
+                <span className="subheader">Showings</span>
+                <BrixelButtonIcon
+                  className="shadow-3dp"
+                  icon="arrow-simple-right"
+                  background="White"
+                  color="dark"
+                  saturationTxt={700}
+                  noBorder
+                  onClick={() => {
+                    document.body.classList.remove('ov-h');
+                    history.push('./');
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <BrixelButtonIcon
+                  className="shadow-3dp mr-3"
+                  icon="arrow-simple-right"
+                  background="White"
+                  color="dark"
+                  saturationTxt={700}
+                  noBorder
+                  onClick={() => setManageAvailability(false)}
+                />
+                <span className="subheader">Manage availability</span>
+              </>
+            )
+          }
+        </div>
         {
           !manageAvailability ? (
             <>
-              <span className="subheader">Showings</span>
-              <BrixelButtonIcon
-                className="shadow-3dp"
-                icon="arrow-simple-right"
-                background="White"
-                color="dark"
-                saturationTxt={700}
-                noBorder
-                onClick={() => {
-                  document.body.classList.remove('ov-h');
-                  history.push('./');
-                }}
+              <BrixelButtonTertiary
+                className="p-0 mb-3"
+                label="Manage availability"
+                onClick={() => setManageAvailability(true)}
               />
+
+              <BrixelTabs
+                fullWidth
+                className="facts-tabs mb-3"
+                clicksList={[
+                  '',
+                  'Pending',
+                  'Accepted',
+                ]}
+                labels={[
+                  'All',
+                  'Pending',
+                  'Accepted',
+                ]}
+                activeTab={activeTab}
+                onClick={(tab) => setActiveTab(tab)}
+              />
+
+              {/* Print showings list based on active tab */}
+              {/* <PropertyList activeSection={activeTab} /> */}
             </>
           ) : (
             <>
-              <BrixelButtonIcon
-                className="shadow-3dp mr-3"
-                icon="arrow-simple-right"
-                background="White"
-                color="dark"
-                saturationTxt={700}
-                noBorder
-                onClick={() => setManageAvailability(false)}
-              />
-              <span className="subheader">Manage availability</span>
+              <div className="max-h-perc-100 ov-a">
+                <BrixelTimeSlots
+                  className="zIndex1"
+                  propertySlots={selectedSlots}
+                  onSelect={(e, value) => {
+                    setSelectedSlots(value);
+                  }}
+                />
+              </div>
+              <div className="dis-f p-2">
+                <BrixelButtonPrimary
+                  label='Cancel'
+                  background="white"
+                  saturation={0}
+                  color="dark"
+                  saturationTxt={400}
+                  rounded
+                  className="shadow-3dp"
+                  onClick={() => discardChanges()}
+                />
+                <BrixelButtonPrimary
+                  label='Save & Next'
+                  background="primary"
+                  saturation={400}
+                  rounded
+                  onClick={() => saveData()}
+                  //isLoading={isSmallLoading}
+                />
+              </div>
             </>
           )
         }
-      </div>
-      {
-        !manageAvailability ? (
-          <>
-            <BrixelButtonTertiary
-              className="p-0 mb-3"
-              label="Manage availability"
-              onClick={() => setManageAvailability(true)}
-            />
-
-            <BrixelTabs
-              fullWidth
-              className="facts-tabs mb-3"
-              clicksList={[
-                '',
-                'Pending',
-                'Accepted',
-              ]}
-              labels={[
-                'All',
-                'Pending',
-                'Accepted',
-              ]}
-              activeTab={activeTab}
-              onClick={(tab) => setActiveTab(tab)}
-            />
-
-            {/* Print showings list based on active tab */}
-            {/* <PropertyList activeSection={activeTab} /> */}
-          </>
-        ) : (
-          <>
-            <div className="max-h-perc-100 ov-a">
-              <BrixelTimeSlots
-                className="zIndex1"
-                propertySlots={selectedSlots}
-                onSelect={(e, value) => {
-                  setSelectedSlots(value);
-                }}
-              />
-            </div>
-            <div className="dis-f p-2">
-              <BrixelButtonPrimary
-                label='Cancel'
-                background="white"
-                saturation={0}
-                color="dark"
-                saturationTxt={400}
-                rounded
-                className="shadow-3dp"
-                onClick={() => discardChanges()}
-              />
-              <BrixelButtonPrimary
-                label='Save & Next'
-                background="primary"
-                saturation={400}
-                rounded
-                onClick={() => saveData()}
-                //isLoading={isSmallLoading}
-              />
-            </div>
-          </>
-        )
-      }
       </div>
     </div>
   );
@@ -180,8 +180,6 @@ Showings.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.propertyOverview.values', {}),
-  preventExit: get(state, 'common.preventExitFromScreen', false),
-  isUnsavedChangesModal: get(state, 'common.unsavedChangesModal', {}),
   notification: get(state, 'common.notification', {}),
 });
 

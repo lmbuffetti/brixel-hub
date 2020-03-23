@@ -36,8 +36,8 @@ function UserFlow(props) {
     company,
     errorValue,
     formValue,
-    handleUpdateUser,
-    handleGetCompany,
+    handleSaveActiveSingleUser,
+    handleGetActiveSingleCompany,
     handleSetNotification,
     history,
     lang,
@@ -59,7 +59,7 @@ function UserFlow(props) {
     history.push(`/onBoarding/brixelComingInTown/${Questions[0].history}`);
     // GET Company data by cookie
     const companyCookie = cookie.get('brixelStubCompany') || null;
-    if (companyCookie) handleGetCompany({stub: companyCookie});
+    if (companyCookie) handleGetActiveSingleCompany({stub: companyCookie});
   }, []);
 
   // LOAD QUESTIONS ON CHANGING LANGUAGE
@@ -191,7 +191,7 @@ function UserFlow(props) {
     };
     // Call to redux funciton to update the user
     if (hasToSave) {
-      handleUpdateUser(data);
+      handleSaveActiveSingleUser(data);
     }
   };
 
@@ -545,10 +545,10 @@ UserFlow.propTypes = {
   company: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleGetCompany: PropTypes.func.isRequired,
-  handleUpdateUser: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetAwards: PropTypes.func.isRequired,
-  handleSetBrixelPoint: PropTypes.func.isRequired,
+  handleSetBrixelPoints: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
@@ -574,10 +574,10 @@ const mapDispatchToProps = (dispatch) => ({
   checkValid() {
     dispatch(isValid('UserFlow'))
   },
-  handleUpdateUser: bindActionCreators(saveActiveSingleUser, dispatch),
-  handleGetCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
-  handleSetBrixelPoint: bindActionCreators(setBrixelPoints, dispatch),
+  handleSetBrixelPoints: bindActionCreators(setBrixelPoints, dispatch),
   handleSetNotification: bindActionCreators(setScreenNotification, dispatch),
 });
 
