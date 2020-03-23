@@ -8,7 +8,13 @@ import {
   GET_ACTIVE_SINGLE_PROPERTY,
   CREATE_ACTIVE_SINGLE_PROPERTY,
   SAVE_ACTIVE_SINGLE_PROPERTY,
-  DELETE_ACTIVE_SINGLE_PROPERTY, GET_PROPERTY_LISTINGS, SET_ACTIVE_SINGLE_PROPERTY, SET_PROPERTY_LISTINGS,
+  DELETE_ACTIVE_SINGLE_PROPERTY,
+  GET_PROPERTY_LISTINGS,
+  SET_ACTIVE_SINGLE_PROPERTY,
+  SET_PROPERTY_LISTINGS,
+  CREATE_PROPERTY_VISIT_SCHEDULE,
+  SAVE_PROPERTY_VISIT_SCHEDULE,
+  DELETE_PROPERTY_VISIT_SCHEDULE,
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
@@ -280,6 +286,72 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({ type: SPINNER_OFF });
       };
       getMarketData();
+      break;
+    }
+    case CREATE_PROPERTY_VISIT_SCHEDULE: {
+      next(action);
+      store.dispatch({ type: SPINNER_ON });
+      api.property.createPropertyVisitSchedule(action.payload)
+        .then((response) => {
+          if (response.meta.status === 201) {
+            store.dispatch({
+              type: GET_ACTIVE_SINGLE_PROPERTY,
+              payload: action.payload.page,
+            });
+            store.dispatch({
+              type: SET_SCREEN_NOTIFICATION,
+              payload: { state: true, label: 'Schedule created successfully', type: 'success' },
+            });
+            store.dispatch({ type: SPINNER_OFF });
+          } else {
+            // TODO: Should dispatch error state
+            store.dispatch({ type: SPINNER_OFF });
+          }
+        });
+      break;
+    }
+    case SAVE_PROPERTY_VISIT_SCHEDULE: {
+      next(action);
+      store.dispatch({ type: SPINNER_ON });
+      api.property.updatePropertyVisitSchedule(action.payload.scheduleId, action.payload.data)
+        .then((response) => {
+          if (response.meta.status === 200) {
+            store.dispatch({
+              type: GET_ACTIVE_SINGLE_PROPERTY,
+              payload: action.payload.data.page,
+            });
+            store.dispatch({
+              type: SET_SCREEN_NOTIFICATION,
+              payload: { state: true, label: 'Schedule updated successfully', type: 'success' },
+            });
+            store.dispatch({ type: SPINNER_OFF });
+          } else {
+            // TODO: Should dispatch error state
+            store.dispatch({ type: SPINNER_OFF });
+          }
+        });
+      break;
+    }
+    case DELETE_PROPERTY_VISIT_SCHEDULE: {
+      next(action);
+      store.dispatch({ type: SPINNER_ON });
+      api.property.deletePropertyVisitSchedule(action.payload.scheduleId)
+        .then((response) => {
+          if (response.meta.status === 200) {
+            store.dispatch({
+              type: GET_ACTIVE_SINGLE_PROPERTY,
+              payload: action.payload.pageId,
+            });
+            store.dispatch({
+              type: SET_SCREEN_NOTIFICATION,
+              payload: { state: true, label: 'Schedule deleted successfully', type: 'success' },
+            });
+            store.dispatch({ type: SPINNER_OFF });
+          } else {
+            // TODO: Should dispatch error state
+            store.dispatch({ type: SPINNER_OFF });
+          }
+        });
       break;
     }
     default:

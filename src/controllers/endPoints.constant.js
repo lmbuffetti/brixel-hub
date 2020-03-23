@@ -35,6 +35,13 @@ export default {
     mapPageById: (id) => `/map/property/${id}`,
     estimation: (id) => `/page/${id}/estimation`,
     page: (limit, offset) => `/page/${limit}/${offset}`,
+    getPropertyScheduleListings: (id) => `/schedule/10/0?pageId=${id}&order=name&direction=desc`,
+    createPropertyVisitSchedule: () => '/schedule',
+    propertyVisitScheduleById: (id) => `/schedule/${id}`,
+    getPropertyVisitListings: () => '/scheduleVisit/10/0?order=name&direction=desc',
+    createPropertyVisit: () => '/scheduleVisit',
+    propertyVisitById: (id) => `/schedule/${id}`,
+    getPageVisits: (id) => `/page/${id}/visit`,
   },
   upload: {
     rotate: (id, rotation) => `/image/${id}/rotate/${rotation}`,

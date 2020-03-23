@@ -27,6 +27,11 @@ const PropertyDashboard = Loadable({
   loading: Loading,
 });
 
+const ListingsDashboard = Loadable({
+  loader: () => import('./ListingsDashboard' /* webpackChunkName: "ListingsDashboard" */),
+  loading: Loading,
+});
+
 const SupportDashboard = Loadable({
   loader: () => import('./SupportDashboard' /* webpackChunkName: "SupportDashboard" */),
   loading: Loading,
@@ -149,7 +154,7 @@ const Dashboard = (props) => {
       <div className="w-perc-100">
         <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
         <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
-        <ProtectedRoute path="/:propId?/listings" component={SupportDashboard} />
+        <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
         <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
       </div>
 

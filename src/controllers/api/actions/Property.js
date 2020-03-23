@@ -38,6 +38,63 @@ class Property extends Base {
     return this.apiClient.put(url, {});
   }
 
+  // Endpoints for time slots available in order to book a visit to a property
+  getPropertyScheduleListings(id) {
+    const url = ep.property.getPropertyScheduleListings(id);
+    return this.apiClient.get(url);
+  }
+
+  createPropertyVisitSchedule(data) {
+    const url = ep.property.createPropertyVisitSchedule();
+    return this.apiClient.post(url, {}, data);
+  }
+
+  deletePropertyVisitSchedule(id) {
+    const url = ep.property.propertyVisitScheduleById(id);
+    return this.apiClient.delete(url, {});
+  }
+
+  getPropertyVisitSchedule(id) {
+    const url = ep.property.propertyVisitScheduleById(id);
+    return this.apiClient.get(url, {});
+  }
+
+  updatePropertyVisitSchedule(id, data) {
+    const url = ep.property.propertyVisitScheduleById(id);
+    return this.apiClient.put(url, {}, data);
+  }
+
+  // Endpoints for property visits requested by users
+  getPropertyVisitListings() {
+    const url = ep.property.getPropertyVisitListings();
+    return this.apiClient.get(url);
+  }
+
+  createPropertyVisit(data) {
+    const url = ep.property.createPropertyVisit();
+    return this.apiClient.post(url, {}, data);
+  }
+
+  deletePropertyVisit(id) {
+    const url = ep.property.propertyVisitById(id);
+    return this.apiClient.delete(url, {});
+  }
+
+  getPropertyVisit(id) {
+    const url = ep.property.propertyVisitById(id);
+    return this.apiClient.get(url, {});
+  }
+
+  updatePropertyVisit(id, data) {
+    const url = ep.property.propertyVisitById(id);
+    return this.apiClient.put(url, {}, data);
+  }
+
+  getPageVisits(id) {
+    const url = ep.property.getPageVisits(id);
+    return this.apiClient.get(url, {});
+  }
+
   // BRIXELATOR
   getPriceDistribution(data) {
     const url = ep.brixelator.getPriceDistribution(data);

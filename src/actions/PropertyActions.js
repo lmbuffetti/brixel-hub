@@ -11,6 +11,13 @@ import {
   DELETE_ACTIVE_SINGLE_PROPERTY,
   GET_MARKET_CHECK,
   SET_MARKET_CHECK,
+  CREATE_PROPERTY_VISIT_SCHEDULE,
+  SAVE_PROPERTY_VISIT_SCHEDULE,
+  DELETE_PROPERTY_VISIT_SCHEDULE,
+  GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
+  CREATE_PROPERTY_VISIT_BOOKING,
+  SAVE_PROPERTY_VISIT_BOOKING,
+  DELETE_PROPERTY_VISIT_BOOKING,
 } from './types/PropertyTypes';
 
 export const {
@@ -25,6 +32,13 @@ export const {
   deleteActiveSingleProperty,
   getMarketCheck,
   setMarketChack,
+  createPropertyVisitSchedule,
+  savePropertyVisitSchedule,
+  deletePropertyVisitSchedule,
+  getActiveSinglePropertyBookings,
+  createPropertyVisitBooking,
+  savePropertyVisitBooking,
+  deletePropertyVisitBooking,
 } = createActions({
   [GET_ESTIMATION]: (payload) => payload,
   [SET_ESTIMATION]: (payload) => payload,
@@ -37,4 +51,11 @@ export const {
   [DELETE_ACTIVE_SINGLE_PROPERTY]: (payload) => payload,
   [GET_MARKET_CHECK]: (payload) => payload,
   [SET_MARKET_CHECK]: (payload) => payload,
+  [CREATE_PROPERTY_VISIT_SCHEDULE]: (payload) => payload,
+  [SAVE_PROPERTY_VISIT_SCHEDULE]: (payload) => payload,
+  [DELETE_PROPERTY_VISIT_SCHEDULE]: (payload) => payload,
+  [GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS]: (payload) => payload,
+  [CREATE_PROPERTY_VISIT_BOOKING]: (payload) => payload,
+  [SAVE_PROPERTY_VISIT_BOOKING]: (payload) => payload,
+  [DELETE_PROPERTY_VISIT_BOOKING]: (payload) => payload,
 });
