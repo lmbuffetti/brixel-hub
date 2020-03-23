@@ -13,7 +13,6 @@ import { getGameHistory } from '../actions/GamificationActions';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import noCover from '../images/no_cover.jpg';
 import has from 'lodash/has';
-import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -36,7 +35,6 @@ function PageHeaderDashboard(props) {
   //const [currentLang, setCurrentLang] = useState(lang);
   //const [dropLang, setDropLang] = useState([]);
   const [widthScreen, setWidthScreen] = useState(0);
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
@@ -81,11 +79,6 @@ function PageHeaderDashboard(props) {
     } else {
       window.open(baseByData(null,'io').profileURL, '_blank');
     }
-  };
-
-  const onClickMenu = (link) => {
-    history.push(link);
-    setShowMobileMenu(false);
   };
 
   return (

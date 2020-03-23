@@ -69,11 +69,6 @@ const Dashboard = Loadable({
   loading: Loading,
 });
 
-const Properties = Loadable({
-  loader: () => import('./Pages/Properties/' /* webpackChunkName: "Properties" */),
-  loading: Loading,
-});
-
 // FLOW SELLER
 const MarketChecker = Loadable({
   loader: () => import('./Pages/GameHistory/MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
