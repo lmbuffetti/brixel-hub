@@ -1,66 +1,64 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change } from 'redux-form';
+import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonTertiary, BrixelTabs,
+  BrixelButtonIcon,
+  BrixelButtonPrimary,
+  BrixelButtonTertiary,
+  BrixelTabs,
   BrixelTimeSlots,
 } from '@brixel/brixel-components';
 import {
-  savePropertyVisitSchedule, createPropertyVisitSchedule,
+  savePropertyVisitSchedule,
+  createPropertyVisitSchedule,
 } from '../../actions/PropertyActions';
 
 const Showings = (props) => {
   const {
+    activeSinglePropertyBooking,
+    changeFieldValue,
     history,
     formValue,
     handleSavePropertyVisitSchedule,
     handleCreatePropertyVisitSchedule,
+    isSmallLoading,
+    reset,
   } = props;
-
-  const schedule = has(formValue, 'schedule.id') ? formValue.schedule : {};
-  const slots = has(formValue, 'schedule.id') ? schedule.slots : [];
 
   const [activeTab, setActiveTab] = useState('');
   const [manageAvailability, setManageAvailability] = useState(false);
-  const [selectedSlots, setSelectedSlots] = useState(slots);
-
-  useEffect(() => {
-    document.body.classList.add('ov-h');
-  }, []);
 
   const saveData = () => {
     // Update schedule
-    if (has(schedule, 'id')) {
+    if (has(formValue, 'schedule.id')) {
       const data = {
-        scheduleId: schedule.id,
+        scheduleId: formValue.schedule.id,
         data: {
           page: formValue.id,
-          slots: selectedSlots,
+          slots: formValue.schedule.slots,
         },
       };
-
       handleSavePropertyVisitSchedule(data);
     } else {
       // Create schedule
       const data = {
         page: formValue.id,
-        slots: selectedSlots,
+        slots: formValue.schedule.slots,
       };
       handleCreatePropertyVisitSchedule(data);
     }
   };
 
   const discardChanges = () => {
-    setSelectedSlots(slots);
-    document.body.classList.remove('ov-h');
+    reset('Property');
   };
 
   return (
@@ -78,10 +76,7 @@ const Showings = (props) => {
                   color="dark"
                   saturationTxt={700}
                   noBorder
-                  onClick={() => {
-                    document.body.classList.remove('ov-h');
-                    history.push('./');
-                  }}
+                  onClick={() => history.push('./') }
                 />
               </>
             ) : (
@@ -125,7 +120,22 @@ const Showings = (props) => {
                 activeTab={activeTab}
                 onClick={(tab) => setActiveTab(tab)}
               />
-
+              {
+                activeSinglePropertyBooking.map((book, i) => (
+                  <div key={i.toString()}>
+                    {
+                      book.slots.map((day, f) =>(
+                        <div key={f.toString()}>
+                          {day.slot}
+                          {book.buyer.name}
+                          {book.buyer.phone}
+                          {book.buyer.email}
+                        </div>
+                      ))
+                    }
+                  </div>
+                ))
+              }
               {/* Print showings list based on active tab */}
               {/* <PropertyList activeSection={activeTab} /> */}
             </>
@@ -134,10 +144,8 @@ const Showings = (props) => {
               <div className="max-h-perc-100 ov-a">
                 <BrixelTimeSlots
                   className="zIndex1"
-                  propertySlots={selectedSlots}
-                  onSelect={(e, value) => {
-                    setSelectedSlots(value);
-                  }}
+                  propertySlots={get(formValue, 'schedule.slots', [])}
+                  onSelect={(e, value) => changeFieldValue('schedule.slots', value) }
                 />
               </div>
               <div className="dis-f p-2">
@@ -157,7 +165,7 @@ const Showings = (props) => {
                   saturation={400}
                   rounded
                   onClick={() => saveData()}
-                  //isLoading={isSmallLoading}
+                  isLoading={isSmallLoading}
                 />
               </div>
             </>
@@ -169,9 +177,11 @@ const Showings = (props) => {
 };
 
 Showings.propTypes = {
+  activeSinglePropertyBooking: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.object.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.bool.isRequired,
   formValue: PropTypes.object.isRequired,
 };
 
@@ -179,13 +189,18 @@ Showings.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'form.propertyOverview.values', {}),
+  activeSinglePropertyBooking: get(state, 'property.activeSinglePropertyBooking', []),
+  formValue: get(state, 'form.Property.values', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
   notification: get(state, 'common.notification', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
-    dispatch(change('propertyOverview', field, value));
+    dispatch(change('Property', field, value));
+  },
+  reset(form) {
+    (dispatch(reset(form)))
   },
   handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),

@@ -51,7 +51,6 @@ const Documents = (props) => {
   // DROPZONE SETTINGS
   // const dropzoneRef = useRef(null);
   const onDrop = useCallback((acceptedFiles) => {
-    console.log(acceptedFiles);
     const reader = new FileReader();
     // const imgType = imageType.find((val) => val.name === 'Gallery');
     reader.onabort = () => console.log('file reading was aborted');
@@ -59,7 +58,6 @@ const Documents = (props) => {
     acceptedFiles.forEach((file) => {
       const read = new FileReader();
       read.readAsDataURL(file);
-      console.log(file);
       const name = file.name || Date.now() / 1000;
       read.onload = () => {
         const data = {
@@ -69,7 +67,6 @@ const Documents = (props) => {
           file: read.result,
           pageID: pageId,
         };
-        console.log(data);
         saveDocuments(data);
       };
     });

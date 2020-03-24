@@ -7,14 +7,19 @@ import {
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { getPropertyListings, getActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
+import {
+  getPropertyListings,
+  getActiveSingleProperty,
+  saveActiveSingleProperty,
+  getActiveSinglePropertyBookings,
+} from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
 import { InputSheets } from '../../resources/inputSheets';
 import { reduxForm } from 'redux-form';
 import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
-import { deleteDocument, uploadDocument } from '../../actions/UploadActions';
+import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
 import { setModal, setScreenNotification } from '../../actions/CommonActions';
 
 const RewardsDashboard = Loadable({
@@ -50,7 +55,8 @@ const Dashboard = (props) => {
     formValue,
     handleGetPropertyListings,
     handleGetActiveSingleProperty,
-    // handleSaveActiveSingleProperty,
+    handleGetActiveSinglePropertyBookings,
+    handleGetImageType,
     history,
     initialValues,
     isSmallLoading,
@@ -91,6 +97,8 @@ const Dashboard = (props) => {
     }
     if (property.owner === loggedInUser.user.id) {
       handleGetActiveSingleProperty({fullVersion: true, id: propID});
+      handleGetActiveSinglePropertyBookings({id: propID});
+      handleGetImageType();
     }
     const getPercComplete = get(property, 'inputSheet.totalComplete', null);
     if (property.id && !getPercComplete && property.owner.id) {
@@ -170,7 +178,9 @@ Dashboard.propTypes = {
   userTypes: PropTypes.string,
   handleGetPropertyListings: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetImageType: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   notification: PropTypes.object.isRequired,
@@ -215,6 +225,7 @@ const mapStateToProps = (state) => ({
     photos: cloneDeep(get(state, 'property.activeSingleProperty.photos', [])),
     // portals: get(state, 'property.activeSingleProperty.portals', {}),
     properties: get(state, 'property.activeSingleProperty.properties', {}),
+    schedule: get(state, 'property.activeSingleProperty.schedule', {}),
     published: get(state, 'property.activeSingleProperty.published', null),
     stub: get(state, 'property.activeSingleProperty.stub', null),
     title: get(state, 'property.activeSingleProperty.title', null),
@@ -225,11 +236,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetScreenNotification: bindActionCreators(setScreenNotification, dispatch),
+  handleGetImageType: bindActionCreators(getImageType, dispatch),
 });
 
 export default compose(

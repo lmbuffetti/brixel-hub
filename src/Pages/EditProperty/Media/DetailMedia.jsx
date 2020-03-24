@@ -52,7 +52,6 @@ const DetailMedia = (props) => {
       if (curImgID >= 0 && arrayImages[curImgID + 1]) {
         history.push(`/${propID}/property/photos/${arrayImages[curImgID + 1].id}/edit/${mediaType}`)
       }
-      console.log(arrayImages, curImgID);
     }
   }, [isSmallLoading]);
 

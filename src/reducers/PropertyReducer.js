@@ -4,6 +4,7 @@ import {
   SET_PROPERTY_LISTINGS,
   SET_ACTIVE_SINGLE_PROPERTY,
   SET_MARKET_CHECK,
+  SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
 } from '../actions/types/PropertyTypes';
 
 export const defaultState = {
@@ -11,6 +12,7 @@ export const defaultState = {
   marketCheck: {},
   propertyListings: [],
   activeSingleProperty: {},
+  activeSinglePropertyBooking: [],
 };
 
 export default handleActions(
@@ -26,6 +28,10 @@ export default handleActions(
     [SET_ACTIVE_SINGLE_PROPERTY]: (state, action) => ({
       ...state,
       activeSingleProperty: action.payload,
+    }),
+    [SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS]: (state, action) => ({
+      ...state,
+      activeSinglePropertyBooking: action.payload,
     }),
     [SET_MARKET_CHECK]: (state, action) => ({
       ...state,

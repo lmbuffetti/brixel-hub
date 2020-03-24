@@ -109,6 +109,7 @@ const InputSheet = (props) => {
     const dataToSend = formValue;
     delete dataToSend.owner;
     delete dataToSend.favoritedByUsers;
+    delete dataToSend.schedule;
     const data = {
       id: propID,
       smallLoader: true,
@@ -131,7 +132,6 @@ const InputSheet = (props) => {
       const quest = Questions.find(item => item.history === getFact());
       setSelectedQuest(quest);
     } else if (getFact() === 'facts') {
-      console.log('reset');
       setSelectedQuest(null);
     }
   }, [history, getFact()]);
