@@ -15,6 +15,7 @@ import {
   BrixelButtonTertiary,
   BrixelTabs,
   BrixelTimeSlots,
+  BrixelBookingCard,
 } from '@brixel/brixel-components';
 import {
   savePropertyVisitSchedule,
@@ -97,48 +98,51 @@ const Showings = (props) => {
         </div>
         {
           !manageAvailability ? (
-            <>
-              <BrixelButtonTertiary
-                className="p-0 mb-3"
-                label="Manage availability"
-                onClick={() => setManageAvailability(true)}
-              />
+            <div className="dis-fl-col h-perc-100">
+              <div>
+                <BrixelButtonTertiary
+                  className="p-0 mb-3"
+                  label="Manage availability"
+                  onClick={() => setManageAvailability(true)}
+                />
 
-              <BrixelTabs
-                fullWidth
-                className="facts-tabs mb-3"
-                clicksList={[
-                  '',
-                  'Pending',
-                  'Accepted',
-                ]}
-                labels={[
-                  'All',
-                  'Pending',
-                  'Accepted',
-                ]}
-                activeTab={activeTab}
-                onClick={(tab) => setActiveTab(tab)}
-              />
-              {
-                activeSinglePropertyBooking.map((book, i) => (
-                  <div key={i.toString()}>
-                    {
-                      book.slots.map((day, f) =>(
-                        <div key={f.toString()}>
-                          {day.slot}
-                          {book.buyer.name}
-                          {book.buyer.phone}
-                          {book.buyer.email}
-                        </div>
-                      ))
-                    }
-                  </div>
-                ))
-              }
+                <BrixelTabs
+                  fullWidth
+                  className="facts-tabs mb-3"
+                  clicksList={[
+                    '',
+                    'Pending',
+                    'Accepted',
+                  ]}
+                  labels={[
+                    'All',
+                    'Pending',
+                    'Accepted',
+                  ]}
+                  activeTab={activeTab}
+                  onClick={(tab) => setActiveTab(tab)}
+                />
+              </div>
+              <div className="h-perc-100 pb-2 ov-a">
+                {
+                  activeSinglePropertyBooking.map((book, i) => (
+                    <React.Fragment key={i.toString()}>
+                      {
+                        book.slots.map((day, f) =>(
+                          <BrixelBookingCard
+                            className="mb-1"
+                            slot={day}
+                            buyer={book.buyer}
+                          />
+                        ))
+                      }
+                    </React.Fragment>
+                  ))
+                }
+              </div>
               {/* Print showings list based on active tab */}
               {/* <PropertyList activeSection={activeTab} /> */}
-            </>
+            </div>
           ) : (
             <>
               <div className="max-h-perc-100 ov-a">

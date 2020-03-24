@@ -29,7 +29,7 @@ const ListingsDashboard = (props) => {
   const getFact = () => last(history.location.pathname.split('/'));
 
   return (
-    <div className="dis-f">
+    <div className="dis-f h-perc-100">
       <div className="firstLevel">
         <div className="dis-f">
           <BrixelButtonBox
