@@ -20,22 +20,27 @@ import {
 import {
   savePropertyVisitSchedule,
   createPropertyVisitSchedule,
+  savePropertyVisitBooking,
 } from '../../actions/PropertyActions';
 
 const Showings = (props) => {
+  // PROPS
   const {
-    activeSinglePropertyBooking,
     changeFieldValue,
     history,
     formValue,
+    handleSavePropertyVisitBooking,
     handleSavePropertyVisitSchedule,
     handleCreatePropertyVisitSchedule,
     isSmallLoading,
+    match,
     reset,
   } = props;
-
+  // STATE
   const [activeTab, setActiveTab] = useState('');
   const [manageAvailability, setManageAvailability] = useState(false);
+  // URL PARAMS
+  const propID = get(match, 'params.propId', null);
 
   const saveData = () => {
     // Update schedule
@@ -62,24 +67,43 @@ const Showings = (props) => {
     reset('Property');
   };
 
+  const manageBooking = (idBooking, idSlot, action) => {
+    const selectBooking = get(formValue, `booking[${idBooking}]`, []);
+    if (has(selectBooking, `slots[${idSlot}]`)) selectBooking.slots[idSlot].status = action;
+    changeFieldValue(`booking[${idBooking}]`, selectBooking);
+    const data = {
+      scheduleId: get(formValue, `booking[${idBooking}].id`, []),
+      data: {
+        message: get(formValue, `booking[${idBooking}].message`, []),
+        page: propID,
+        slots: get(formValue, `booking[${idBooking}].slots`, []),
+        buyer: get(formValue, `booking[${idBooking}].buyer`, []),
+      }
+    };
+    handleSavePropertyVisitBooking(data);
+    console.log(selectBooking);
+  };
+
   return (
     <div className="showings secondLevel h-perc-100 dis-fl-col">
       <div className="h-perc-100 dis-fl-col">
         <div className={`dis-fl-row ${manageAvailability ? 'jc-fs mb-0' : 'jc-b mb-2'} a-c`}>
           {
             !manageAvailability ? (
-              <>
-                <span className="subheader">Showings</span>
-                <BrixelButtonIcon
-                  className="shadow-3dp"
-                  icon="arrow-simple-right"
-                  background="White"
-                  color="dark"
-                  saturationTxt={700}
-                  noBorder
-                  onClick={() => history.push('./') }
-                />
-              </>
+              <div className="headerSection p-1">
+                <div className="pos-r">
+                  <BrixelButtonIcon
+                    className="shadow-2dp"
+                    icon="close-small"
+                    color="primary"
+                    saturationTxt={400}
+                    bgTransparent
+                    noBorder
+                    onClick={() => history.push(`${propID}/listings`)}
+                  />
+                  <h5>Showing</h5>
+                </div>
+              </div>
             ) : (
               <>
                 <BrixelButtonIcon
@@ -125,14 +149,17 @@ const Showings = (props) => {
               </div>
               <div className="h-perc-100 pb-2 ov-a">
                 {
-                  activeSinglePropertyBooking.map((book, i) => (
+                  formValue.booking.map((book, i) => (
                     <React.Fragment key={i.toString()}>
                       {
                         book.slots.map((day, f) =>(
                           <BrixelBookingCard
+                            key={f.toString()}
                             className="mb-1"
                             slot={day}
                             buyer={book.buyer}
+                            onAccept={() => manageBooking(i, f, 'accepted')}
+                            onCancel={() => manageBooking(i, f, 'canceled')}
                           />
                         ))
                       }
@@ -185,8 +212,10 @@ Showings.propTypes = {
   history: PropTypes.object.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
+  handleSavePropertyVisitBooking: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.bool.isRequired,
   formValue: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 Showings.defaultProps = {
@@ -208,6 +237,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
+  handleSavePropertyVisitBooking: bindActionCreators(savePropertyVisitBooking, dispatch),
 });
 
 export default compose(

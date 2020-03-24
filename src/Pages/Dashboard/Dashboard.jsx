@@ -212,6 +212,7 @@ const mapStateToProps = (state) => ({
   notification: get(state, 'common.notification', {}),
   initialValues: {
     assessor: get(state, 'property.activeSingleProperty.assessor', {}),
+    booking: get(state, 'property.activeSinglePropertyBooking', []),
     coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
     description: get(state, 'property.activeSingleProperty.description', {}),
     id: get(state, 'property.activeSingleProperty.id', null),
