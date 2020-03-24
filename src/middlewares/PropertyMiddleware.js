@@ -371,8 +371,8 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.id;
       api.property.updatePropertyVisit(scheduleId, data).then((response) => {
         store.dispatch({
-          type: SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-          payload: response.data,
+          type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
+          payload: { id: data.page },
         });
         store.dispatch({ type: SPINNER_SMALL_OFF });
       });
