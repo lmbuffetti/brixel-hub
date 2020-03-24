@@ -118,7 +118,7 @@ const DetailMedia = (props) => {
               <h5>{mediaType === 'photos' ? 'Edit photo' : 'Edit floor plan'}</h5>
               <BrixelButtonIcon
                 className="shadow-3dp"
-                icon="close"
+                icon="close-small"
                 background="White"
                 color="dark"
                 saturationTxt={700}

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
-import { BrixelTabs, BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelTabs, BrixelButtonPrimary, BrixelButtonIcon } from '@brixel/brixel-components';
 import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
@@ -13,6 +13,7 @@ import { getGameHistory } from '../actions/GamificationActions';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import noCover from '../images/no_cover.jpg';
 import has from 'lodash/has';
+import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -35,6 +36,8 @@ function PageHeaderDashboard(props) {
   //const [currentLang, setCurrentLang] = useState(lang);
   //const [dropLang, setDropLang] = useState([]);
   const [widthScreen, setWidthScreen] = useState(0);
+  const [activeMenu, setActiveMenu] = useState(null);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
@@ -81,10 +84,16 @@ function PageHeaderDashboard(props) {
     }
   };
 
+  const onClickMobileMenu = (link) => {
+    setShowMobileMenu(false);
+    setActiveMenu(link);
+    document.body.classList.remove('ov-h');
+  };
+
   return (
     <>
       <header className={`dashboardHeaderHub`}>
-        <div className={`container dis-f a-c p-1 p-md-2 jc-b pos-r zIndex4`}>
+        <div className={`container dis-f a-t p-1 p-md-2 jc-b pos-r zIndex4`}>
 
           <div className="header-section dis-fl-row a-t jc-b">
             <div className="dis-fl-row a-c">
@@ -115,7 +124,7 @@ function PageHeaderDashboard(props) {
             </div>
           </div>
 
-          <div className="dis-f a-c">
+          <div className="dis-f a-t">
             <BrixelButtonPrimary
               className="hide dis-b-md"
               label="UPGRADE"
@@ -130,6 +139,65 @@ function PageHeaderDashboard(props) {
                 onClick={() => avatarAction()}
               />
             </div>
+            { /* SECTION SIDEBAR MENU MOBILE */ }
+            <div className="hide-md">
+              <BrixelButtonIcon
+                bgTransparent
+                color="primary"
+                saturationTxt={400}
+                noBorder
+                className={`shadow-2dp btnMainMenu`}
+                icon={showMobileMenu ? "close-small" : "menu"}
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+              />
+              {
+                showMobileMenu && (
+                  <div className="mobile-menu bgGreen700 w-perc-100 h-100 pos-a dis-fl-col a-c p-1 zIndex5" style={{ height: windowDimensions.height }}>
+                    <BrixelButtonIcon
+                      className="as-fe mb-5"
+                      icon="close-small"
+                      background="light"
+                      saturation={100}
+                      color="green"
+                      saturationTxt={700}
+                      onClick={() => {
+                        setShowMobileMenu(false);
+                        document.body.classList.remove('ov-h');
+                      }}
+                    />
+                    <div className="links dis-fl-col as-b pl-4">
+                      <button
+                        className="txtLight100 fweight-700 fSizePx28 mb-4"
+                        onClick={() => onClickMobileMenu('propertyList')}
+                      >
+                        Properties
+                      </button>
+                      <button
+                        className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
+                        onClick={() => ''}
+                      >
+                        Messages
+                      </button>
+                      <button
+                        className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
+                        onClick={() => ''}
+                      >
+                        Calendar
+                      </button>
+                      <a
+                        className="txtLight100 fweight-700 fSizePx28 mb-4"
+                        href={baseByData(null,'io').profileURL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Profile
+                      </a>
+                    </div>
+                  </div>
+                )
+              }
+            </div>
+            <MenuNavigationSubmenu windowDimensions={windowDimensions} activeMenu={activeMenu} onClose={() => setActiveMenu(null)} />
           </div>
         </div>
 

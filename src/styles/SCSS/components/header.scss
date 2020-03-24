@@ -20,6 +20,10 @@
   }
 }
 
+.dashboardHeaderHub {
+  box-shadow: $shadow-1dp;
+}
+
 
 @media (min-width: $responsive-medium) {
   .brixelNavMenu {
@@ -30,4 +34,9 @@
       border-radius: 0;
     }
   }
+
+  .dashboardHeaderHub {
+    box-shadow: none;
+  }
 }
+

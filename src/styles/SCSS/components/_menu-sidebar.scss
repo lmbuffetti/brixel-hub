@@ -54,22 +54,6 @@
       align-self: center;
     }
 
-  .sidebarSubmenu {
-    position: absolute;
-    background: rgba($brx-white, 0.8);
-    left: 0;
-    width: 100%;
-    top: 0;
-    max-width: 100%;
-    .sidebarSubmenuContent {
-      height: 100%;
-      width: 100%;
-      padding-left: 0;
-      background-color: $brx-white;
-      max-width: 768px;
-      box-shadow: $shadow-3dp;
-    }
-  }
   .btnMainMenu {
     position: absolute;
     right: $step;
@@ -78,15 +62,32 @@
   }
 }
 
+.sidebarSubmenu {
+  position: absolute;
+  background: rgba($brx-white, 0.8);
+  left: 0;
+  width: 100%;
+  top: 0;
+  max-width: 100%;
+  .sidebarSubmenuContent {
+    height: 100%;
+    width: 100%;
+    padding-left: 0;
+    background-color: $brx-white;
+    max-width: 768px;
+    box-shadow: $shadow-3dp;
+  }
+}
+
 @media (min-width: $responsive-medium) {
   #menu-sidebar {
     width: 84px;
     height: 100vh;
     z-index: 2;
-    .sidebarSubmenu {
-      .sidebarSubmenuContent {
-        padding-left: 84px;
-      }
+  }
+  .sidebarSubmenu {
+    .sidebarSubmenuContent {
+      padding-left: 84px;
     }
   }
 }

@@ -148,7 +148,7 @@ const InputSheet = (props) => {
           <div className="headerSection pos-r px-2 pt-2 px-md-4 pt-md-4">
             <BrixelButtonIcon
               className="shadow-2dp"
-              icon="close"
+              icon="close-small"
               color="primary"
               saturationTxt={400}
               bgTransparent

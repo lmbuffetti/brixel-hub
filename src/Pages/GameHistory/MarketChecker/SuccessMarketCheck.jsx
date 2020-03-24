@@ -63,17 +63,7 @@ function SuccessMarketCheck(props) {
                         <h5 className="ta-c mb-5">Looks like you can’t get enough data.</h5>
                         <div className="ta-c"><img src={doneMarketCheck} alt="Done Assessor" /></div>
                         <p className="ta-c mt-5">We update these data daily. Would you like to update it now?</p>
-                        <div className="dis-f jc-b mt-3 a-c">
-                          <BrixelButtonPrimary
-                            rounded
-                            label="Cancel"
-                            background={"white"}
-                            saturation={0}
-                            color="dark"
-                            saturationTxt={700}
-                            className="max-w-fix-280 w-perc-100 mr-2 shadow-3dp"
-                            onClick={() => history.push(`/${propID}/rewards`) }
-                          />
+                        <div className="dis-f jc-c mt-3 a-c">
                           <BrixelButtonPrimary
                             rounded
                             label="Yes, update"
@@ -95,17 +85,7 @@ function SuccessMarketCheck(props) {
             <h5 className="ta-c mb-5">Check your local market</h5>
             <div className="ta-c"><img className="w-perc-100" src={startMarketCheck} alt="Done Assessor" /></div>
             <p className="ta-c mt-5 txtDark700">Stop browsing all the portals. I show you all similar properties on sale. Instantly.</p>
-            <div className="dis-f jc-b mt-3 a-c">
-              <BrixelButtonPrimary
-                rounded
-                label="Cancel"
-                background={"white"}
-                saturation={0}
-                color="dark"
-                saturationTxt={700}
-                className="max-w-fix-280 w-perc-100 mr-2 shadow-3dp"
-                onClick={() => history.push(`/${propID}/rewards`) }
-              />
+            <div className="dis-f jc-c mt-3 a-c">
               <BrixelButtonPrimary
                 rounded
                 label="Ok, show me"

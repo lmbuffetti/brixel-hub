@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelButtonBox, BrixelIcon } from '@brixel/brixel-components';
+import { BrixelButtonBox, BrixelIcon, BrixelButtonIcon } from '@brixel/brixel-components';
 import { getAchievement, getGamegroup, getGameHistory, addGameHistory } from '../../actions/GamificationActions';
 import Loading from '../../components/Loading';
 import { GameGroupConfig } from '../../constants/global';
@@ -112,6 +112,12 @@ const RewardsDashboard = (props) => {
     setActiveGameGroup(game);
     history.push({pathname: `/${propID}/rewards/${game}` });
     setActiveAchievement(achievement);
+  };
+
+  const closeAchievement = () => {
+    history.push(`/${propID}/rewards`);
+    setActiveAchievement(null);
+    setActiveGameGroup(null);
   };
 
   if (!property.id && !userTypes) {
@@ -244,11 +250,27 @@ const RewardsDashboard = (props) => {
         {
           activeGameGroup && rewardType !== 'rewards' && (
             <div className="secondLevel">
-              <div className="pt-4 p-md-4">
-                {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+              <div>
+                <div className="headerSection hide-md p-1">
+                  <div className="pos-r">
+                    <BrixelButtonIcon
+                      className="shadow-2dp"
+                      icon="close-small"
+                      color="primary"
+                      saturationTxt={400}
+                      bgTransparent
+                      noBorder
+                      onClick={() => closeAchievement()}
+                    />
+                    <h5>{activeGameGroup.replace('-', ' ')}</h5>
+                  </div>
+                </div>
+                <div className="pt-4 p-md-4">
+                  {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                  {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                  {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                  {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                </div>
               </div>
             </div>
           )

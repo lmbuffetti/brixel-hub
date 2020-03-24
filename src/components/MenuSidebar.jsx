@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -7,17 +7,19 @@ import { BrixelButtonIcon, useOutsideAlerter } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 
-import Properties from '../Pages/Properties';
+import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 
 const MenuSidebar = (props) => {
   // PROPS
   const {
+    history,
     windowDimensions,
   } = props;
   // STATE
   const [activeMenu, setActiveMenu] = useState(null);
   const [showMobileMenu, setShowMobileMenu] = useState(null);
+  const [menuClass, setMenuClass] = useState(null);
   // REF
   const wrapperRef = useRef(null);
 
@@ -28,9 +30,29 @@ const MenuSidebar = (props) => {
     },
   });
 
+  const additionalBtnClassMobile = () => {
+    let classMenu = '';
+    if (windowDimensions && windowDimensions.width < 768) {
+      console.log('eh', document.getElementsByClassName('secondLevel').length , document.getElementsByClassName('thirdLevel').length );
+      if (document.getElementsByClassName('secondLevel').length > 0 || document.getElementsByClassName('thirdLevel').length > 0) {
+        classMenu = 'hide';
+      }
+      // if (document.getElementsByClassName('secondLevel'))
+    }
+    setMenuClass(classMenu);
+  };
+
+  useEffect(() => {
+    console.log(history);
+    if (history) {
+      additionalBtnClassMobile();
+    }
+  }, [history]);
+
   const onClickMobileMenu = (link) => {
     setShowMobileMenu(false);
     setActiveMenu(link);
+    additionalBtnClassMobile();
     document.body.classList.remove('ov-h');
   };
 
@@ -41,7 +63,7 @@ const MenuSidebar = (props) => {
       >
         <div>
           { /* SECTION SIDEBAR MENU DESKTOP */ }
-          <div className="sidebar zIndex3 hide dis-b-md pos-r">
+          <div className="pos-r zIndex3 sidebar hide dis-b-md">
             <div
               className="admin-info w-perc-100 dis-fl-col a-c mb-6 py-3"
             >
@@ -100,77 +122,7 @@ const MenuSidebar = (props) => {
               </div>
             </div>
           </div>
-          { /* SECTION SIDEBAR MENU MOBILE */ }
-          <div className="hide-md">
-            <BrixelButtonIcon
-              bgTransparent
-              color="primary"
-              saturationTxt={400}
-              noBorder
-              className="shadow-2dp btnMainMenu"
-              icon={showMobileMenu ? "close" : "menu"}
-              onClick={() => setShowMobileMenu(!showMobileMenu)}
-            />
-            {
-              showMobileMenu && (
-                <div className="mobile-menu bgGreen700 w-perc-100 h-perc-100 pos-a dis-fl-col a-c p-1 zIndex5">
-                  <BrixelButtonIcon
-                    className="as-fe mb-5"
-                    icon="close-small"
-                    background="light"
-                    saturation={100}
-                    color="green"
-                    saturationTxt={700}
-                    onClick={() => {
-                      setShowMobileMenu(false);
-                      document.body.classList.remove('ov-h');
-                    }}
-                  />
-                  <div className="links dis-fl-col as-b pl-4">
-                    <button
-                      className="txtLight100 fweight-700 fSizePx28 mb-4"
-                      onClick={() => onClickMobileMenu('propertyList')}
-                    >
-                      Properties
-                    </button>
-                    <button
-                      className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
-                      onClick={() => ''}
-                    >
-                      Messages
-                    </button>
-                    <button
-                      className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
-                      onClick={() => ''}
-                    >
-                      Calendar
-                    </button>
-                    <a
-                      className="txtLight100 fweight-700 fSizePx28 mb-4"
-                      href={baseByData(null,'io').profileURL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Profile
-                    </a>
-                  </div>
-                </div>
-              )
-            }
-          </div>
-          {
-            activeMenu && (
-              <div className="sidebarSubmenu zIndex2 bgWhite" style={{ height: windowDimensions.height }}>
-                <div className="sidebarSubmenuContent dis-fl-col h-perc-100" ref={wrapperRef}>
-                  {
-                    activeMenu === 'propertyList' && (
-                      <Properties {...props} closeProperty={() => setActiveMenu(null)}/>
-                    )
-                  }
-                </div>
-              </div>
-            )
-          }
+          <MenuNavigationSubmenu activeMenu={activeMenu} onClose={() => setActiveMenu(null)} />
         </div>
       </header>
     </>
