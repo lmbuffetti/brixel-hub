@@ -355,7 +355,6 @@ const checkCommon = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_SMALL_ON });
       const { id } = action.payload
       api.property.getPageVisits(id).then((response) => {
-        console.log(response);
         store.dispatch({
           type: SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
           payload: response.data,

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -8,18 +8,13 @@ import get from 'lodash/get';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
-import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 
 const MenuSidebar = (props) => {
-  // PROPS
   const {
-    history,
     windowDimensions,
   } = props;
   // STATE
   const [activeMenu, setActiveMenu] = useState(null);
-  const [showMobileMenu, setShowMobileMenu] = useState(null);
-  const [menuClass, setMenuClass] = useState(null);
   // REF
   const wrapperRef = useRef(null);
 
@@ -29,32 +24,6 @@ const MenuSidebar = (props) => {
       setActiveMenu(null);
     },
   });
-
-  const additionalBtnClassMobile = () => {
-    let classMenu = '';
-    if (windowDimensions && windowDimensions.width < 768) {
-      console.log('eh', document.getElementsByClassName('secondLevel').length , document.getElementsByClassName('thirdLevel').length );
-      if (document.getElementsByClassName('secondLevel').length > 0 || document.getElementsByClassName('thirdLevel').length > 0) {
-        classMenu = 'hide';
-      }
-      // if (document.getElementsByClassName('secondLevel'))
-    }
-    setMenuClass(classMenu);
-  };
-
-  useEffect(() => {
-    console.log(history);
-    if (history) {
-      additionalBtnClassMobile();
-    }
-  }, [history]);
-
-  const onClickMobileMenu = (link) => {
-    setShowMobileMenu(false);
-    setActiveMenu(link);
-    additionalBtnClassMobile();
-    document.body.classList.remove('ov-h');
-  };
 
   return (
     <>
@@ -122,7 +91,7 @@ const MenuSidebar = (props) => {
               </div>
             </div>
           </div>
-          <MenuNavigationSubmenu activeMenu={activeMenu} onClose={() => setActiveMenu(null)} />
+          <MenuNavigationSubmenu windowDimensions={windowDimensions} activeMenu={activeMenu} onClose={() => setActiveMenu(null)} />
         </div>
       </header>
     </>
@@ -130,11 +99,6 @@ const MenuSidebar = (props) => {
 };
 
 MenuSidebar.propTypes = {
-  history: PropTypes.object.isRequired,
-  activeProperty: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  preventExit: PropTypes.bool.isRequired,
-  // setUnsavedModal: PropTypes.func.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -142,14 +106,10 @@ MenuSidebar.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  isLoading: get(state, 'common.isLoading', 2),
-  preventExit: get(state, 'common.preventExitFromScreen', false),
-  activeProperty: get(state, 'property.activeSingleProperty', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // setUnsavedModal: bindActionCreators(setUnsavedChangesModal, dispatch),
 });
 
 export default compose(
