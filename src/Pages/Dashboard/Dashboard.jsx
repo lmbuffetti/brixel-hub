@@ -2,11 +2,19 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Route,
+  Switch,
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import {
+  CSSTransition,
+  TransitionGroup,
+} from 'react-transition-group';
+
+
 import {
   getPropertyListings,
   getActiveSingleProperty,
@@ -154,19 +162,29 @@ const Dashboard = (props) => {
 
   if (!userTypes) return (<div />);
 
+  console.log(history)
+
   return (
     <div className="container" id="dashboard">
-
       { /* SECTION: APP HEADER */ }
+      <Route render={({location}) => (
 
-      <div className="w-perc-100">
-        <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
-        <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
-        <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
-        <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
-      </div>
+        <TransitionGroup>
+          <CSSTransition
+            key={location.key}
+            timeout={300}
+            classNames="fade"
+          >
 
-
+            <Switch location={location}>
+              <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
+              <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
+              <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
+              <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
+            </Switch>
+          </CSSTransition>
+        </TransitionGroup>
+      )} />
     </div>
   )
 };

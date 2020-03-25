@@ -35,7 +35,7 @@ const ListingsDashboard = (props) => {
   const getFact = () => last(history.location.pathname.split('/'));
 
   const calcHeaderHeight = () => {
-    const head = document.getElementsByClassName('dashboardHeaderHub');
+    const head = document.getElementsByClassName('hubDasHeader');
     const wrapper = document.getElementById('test');
     let paddingTop = 0;
     let paddingBottom = 0;
@@ -66,9 +66,9 @@ const ListingsDashboard = (props) => {
   };
 
   return (
-    <div className="pt-5" id="test">
+    <div className="listings-container" id="test">
       <div className="dis-f h-perc-100">
-        <div className="firstLevel px-2">
+        <div className="firstLevel">
           <div className="dis-f">
             <BrixelButtonBox
               verticalView

@@ -1,3 +1,7 @@
+// CUSTOM VARIABLES
+$sidebarWidth: 84px;
+$iphone5: 320px;
+
 // GENERAL
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 @import '~@brixel/brixel-configuration-partner/src/Variables';
@@ -31,8 +35,6 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 "../pages/onBoarding";
 // TRANSITIONS
 @import "./transitions";
-
-$sidebarWidth: 84px;
 
 html, body {
   position: relative;

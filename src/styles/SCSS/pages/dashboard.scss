@@ -1,14 +1,5 @@
-@mixin disabledAread {
-  cursor: not-allowed;
-  filter: grayscale(100%);
-  opacity: 0.6;
-}
-
-
 // ALL DEVICES
-#dashboard {
-  height: 100%;
-}
+
 
 // IPAD AND DESKTOP VERSION
 @media (max-width: $responsive-medium) {

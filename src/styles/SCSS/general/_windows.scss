@@ -1,83 +1,109 @@
-.firstLevel {
-  min-width: 300px;
-  max-width: 470px;
-  width: 100%;
-  padding-left: 24px;
-  padding-right: 12px;
-}
+.hubDasContent {
 
-.secondLevel, .thirdLevel {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background: $brx-white;
-  z-index: 100;
-  .ov-a {
+  @media (max-width: $iphone5) {
+    overflow-y: auto;
+  }
+
+  .container {
+    height: 100%;
     padding: $step * 2;
+    padding-bottom: $step * 8;
+
+    @media (min-width: $responsive-medium) {
+      padding: $step * 3;
+      padding-right: $step * 8;
+    }
+    @media (max-width: $iphone5) {
+      overflow-y: auto;
+    }
   }
-}
 
-.thirdLevel {
-  z-index: 101;
-}
-
-.secondLevel {
-  .headerSection {
-    position: relative;
+  .firstLevel {
+    min-width: 320px;
+    max-width: 480px;
     width: 100%;
-    .iconBtn {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
 
-    h5 {
-      text-align: center;
-      line-height: 40px;
-      text-transform: capitalize;
+    @media (max-width: $iphone5) {
+      min-width: 260px;
     }
   }
-}
 
-.thirdLevel {
-  .headerSection {
-    .iconBtn {
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
+  .secondLevel,
+  .thirdLevel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: $brx-white;
+    z-index: 100;
 
-    h5 {
-      text-align: center;
-      line-height: 40px;
+    .ov-a {
+      padding: $step * 2;
     }
   }
-}
 
-@media (min-width: $responsive-medium) {
-  .secondLevel, .thirdLevel {
-    position: static;
+  .thirdLevel {
+    z-index: 101;
   }
-  .secondLevel, .thirdLevel {
-    background: transparent;
+
+  .secondLevel {
+
     .headerSection {
+      position: relative;
+      width: 100%;
+
       .iconBtn {
-        display: none;
+        position: absolute;
+        right: 0;
+        top: 0;
       }
       h5 {
-        text-align: left;
+        text-align: center;
+        line-height: 40px;
+        text-transform: capitalize;
       }
-    }
-    > * {
-      box-shadow: $shadow-1dp;
-      background: $brx-white;
-      border-radius: $brd-radius-small;
-    }
-    .ov-a {
-      padding: $step * 4;
     }
   }
 
+  .thirdLevel {
+    .headerSection {
+      .iconBtn {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      h5 {
+        text-align: center;
+        line-height: 40px;
+      }
+    }
+  }
+
+  @media (min-width: $responsive-medium) {
+    .secondLevel,
+    .thirdLevel {
+      position: static;
+      background: transparent;
+
+      .headerSection {
+        .iconBtn {
+          display: none;
+        }
+        h5 {
+          text-align: left;
+        }
+      }
+
+      > * {
+        box-shadow: $shadow-1dp;
+        background: $brx-white;
+        border-radius: $brd-radius-small;
+      }
+      .ov-a {
+        padding: $step * 4;
+      }
+    }
+
+  }
 }

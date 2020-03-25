@@ -125,15 +125,13 @@ const RewardsDashboard = (props) => {
   }
 
   return (
-    <div className="pt-3">
-      <div className={`dis-f ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'}`}>
-
+    <div className={`rewards-container dis-f ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'}`}>
         {
           usrGroups && (
-            <div className="firstLevel">
+            <>
               {
                 usrGroups.map((group, i) => (
-                  <div key={i.toString()}>
+                  <div className="firstLevel mr-md-2" key={i.toString()}>
                     {
                       GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`] && (
                         <>
@@ -244,13 +242,13 @@ const RewardsDashboard = (props) => {
                   </div>
                 ))
               }
-            </div>
+            </>
           )
         }
         {
           activeGameGroup && rewardType !== 'rewards' && (
-            <div className="secondLevel">
-              <div>
+            <div className="secondLevel ml-md-2">
+              <>
                 <div className="headerSection hide-md p-1">
                   <div className="pos-r">
                     <BrixelButtonIcon
@@ -271,11 +269,10 @@ const RewardsDashboard = (props) => {
                   {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
                   {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
                 </div>
-              </div>
+              </>
             </div>
           )
         }
-      </div>
     </div>
   )
 };

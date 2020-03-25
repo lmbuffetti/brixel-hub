@@ -73,9 +73,9 @@ const HomeDashboard = (props) => {
       (history.location.pathname.includes('facts') && getFact() !== 'facts') ||
       (history.location.pathname.includes('edit'))
     ) {
-      return 'close';
+      return 'closed';
     }
-    return 'open';
+    return 'opened';
   };
 
   const calcLenght = (val) => {
@@ -84,7 +84,7 @@ const HomeDashboard = (props) => {
   };
 
   const calcHeaderHeight = () => {
-    const head = document.getElementsByClassName('dashboardHeaderHub');
+    const head = document.getElementsByClassName('hubDasHeader');
     const wrapper = document.getElementById('test');
     let paddingTop = 0;
     let paddingBottom = 0;
@@ -97,10 +97,9 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-info-container pt-5">
-        <div className="dis-f">
-          <div className={`firstLevel bgLight100 px-2 expendableColumn ${openCloseColumn()}`}>
-            <div className={`jc-c mb-2 ${openCloseColumn() === 'close' ? 'dis-f' : 'hide'}`}>
+      <div className="property-container dis-f">
+          <div className={`firstLevel bgLight100 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2 opened' : 'closed'}`}>
+            <div className={`jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-f' : 'hide'}`}>
               <BrixelButtonIcon
                 background="white"
                 saturation={0}
@@ -211,7 +210,7 @@ const HomeDashboard = (props) => {
           </div>
           {
             getFact() !== 'property' && (
-              <div className="w-perc-100" style={{ height: windowDimensions.height - calcHeaderHeight() }}>
+              <div className={`levesWrapper w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-2 closed': 'opened'}`} style={{ height: windowDimensions.height - calcHeaderHeight() }}>
                 <Route path="/:propId?/property/facts" component={Facts} />
                 <Route path="/:propId?/property/photos" component={Photos} />
                 <Route path="/:propId?/property/floorPlans" component={Plans} />
@@ -221,8 +220,6 @@ const HomeDashboard = (props) => {
             )
           }
         </div>
-
-      </div>
     </>
   )
 };

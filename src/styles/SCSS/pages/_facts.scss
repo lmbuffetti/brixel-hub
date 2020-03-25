@@ -18,17 +18,33 @@
   }
 }
 
-.expendableColumn {
-  max-width: 380px;
-  min-width: 320px;
-  width: 100%;
-  transition: all 0.5s;
-  &.close {
-    min-width: 88px;
-    max-width: 88px;
+.expandableColumn {
+  transition: max-width $default-time-long;
+
+  &.closed {
+    min-width: 42px;
+    max-width: 42px;
     overflow: hidden;
+
     .hideOnExpanded {
       opacity: 0;
+      transform: translateX(-50%);
+    }
+  }
+}
+
+.levesWrapper {
+  &.opened {
+    .facts-wrapper {
+      @media (min-width: $responsive-medium) {
+        .secondLevel {
+          margin-right: $step * 1.5;
+          margin-left: $step * 3;
+        }
+        .thirdLevel {
+          margin-left: $step * 1.5;
+        }
+      }
     }
   }
 }
