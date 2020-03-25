@@ -1,0 +1,26 @@
+
+.alert-enter {
+    .sidebarSubmenuContent {
+      opacity: 0;
+      transform: translateX(-10%);
+    }
+  }
+  .alert-enter-active {
+    .sidebarSubmenuContent {
+      opacity: 1;
+      transform: translateX(0);
+      transition: opacity 300ms, transform 300ms;
+    }
+  }
+  .alert-exit {
+    .sidebarSubmenuContent {
+      opacity: 1;
+    }
+  }
+  .alert-exit-active {
+    .sidebarSubmenuContent {
+      opacity: 0;
+      transform: translateX(-10%);
+      transition: opacity 300ms, transform 300ms;
+    }
+  }

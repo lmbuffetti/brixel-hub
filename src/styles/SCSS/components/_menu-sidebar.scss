@@ -17,35 +17,40 @@
       }
     }
 
-    .noRadius {
-      border-radius: 0;
-    }
+
 
     i {
       font-size: 24px;
     }
 
     .routes {
-      .active {
-        background-color: rgba($color: map_get($primaryColor, 400), $alpha: 0.1);
-        transition: background-color $default-time $default-easing;
-
-        &:hover {
-          background-color: rgba($color: map_get($primaryColor, 400), $alpha: 0.2);
+      button {
+        transition: color $default-time $default-easing;
+        &:hover:not(.active) {
+          color: map_get($primaryColor, 400);
         }
-
-        &::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 2px;
-          height: 48px;
-          background-color: map-get($primaryColor, 400);
+        &.noRadius {
+          border-radius: 0;
         }
+        &.active {
+          i {
+            color: map_get($primaryColor, 400);
+          }
+        }
+      }
 
-        i {
-          color: map_get($darkColor, 700);
+      .clicked {
+        button {
+          // background-color: map-get($primaryColor, 100);
+          &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 48px;
+            background-color: map-get($primaryColor, 400);
+          }
         }
       }
     }
@@ -64,15 +69,26 @@
 
 .sidebarSubmenu {
   position: absolute;
-  background: rgba($brx-white, 0.8);
   left: 0;
   width: 100%;
   top: 0;
   max-width: 100%;
+  &::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba($brx-white, 0.8);
+    z-index: -1;
+  }
+
   .sidebarSubmenuContent {
     height: 100%;
     width: 100%;
     padding-left: 0;
+    position: relative;
     background-color: $brx-white;
     max-width: 768px;
     box-shadow: $shadow-3dp;

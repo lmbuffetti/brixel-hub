@@ -1,0 +1,9 @@
+.properties {
+    .single-property {
+        transition: box-shadow $default-time $default-easing;
+        &:hover {
+            box-shadow: $shadow-2dp;
+            border-color: map-get($lightColor, 100);
+        }
+    }
+}

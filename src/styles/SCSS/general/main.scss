@@ -19,7 +19,8 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 "../components/timeline_achievement",
 "../components/options-menu",
 "../components/documents",
-"../components/menu-sidebar";
+"../components/menu-sidebar",
+"../components/property-list";
 // PAGES
 @import "../pages/getStarted",
 "../pages/achievement",
@@ -27,6 +28,8 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 "../pages/images",
 "../pages/facts",
 "../pages/onBoarding";
+// TRANSITIONS
+@import "./transitions";
 
 $sidebarWidth: 84px;
 
