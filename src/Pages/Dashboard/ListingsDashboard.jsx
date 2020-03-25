@@ -58,6 +58,35 @@ const ListingsDashboard = (props) => {
       label = 'Review';
       colorIcon = 'yellow';
     } else if (formValue.published) {
+      label = 'Published';
+      colorIcon = 'green';
+    } else {
+      label = 'Offline';
+      colorIcon = 'red';
+    }
+    return {
+      label,
+      colorIcon,
+    }
+  };
+
+  const checkPortalsOnline = () => {
+    let isOnline = false;
+    const portals = get(formValue, 'portals', {});
+    Object.keys(portals).map((key) => {
+      if (portals[key]) isOnline = true;
+      return null;
+    });
+    return isOnline;
+  };
+
+  const statusPortals = () => {
+    let label;
+    let colorIcon;
+    if (formValue.portalsReview) {
+      label = 'Review';
+      colorIcon = 'yellow';
+    } else if (checkPortalsOnline()) {
       label = 'Live';
       colorIcon = 'green';
     } else {
@@ -92,12 +121,12 @@ const ListingsDashboard = (props) => {
               bgTransparent
               icon="photo-list"
               label="Portals"
-              subtitle="Offline"
+              subtitle={statusPortals().label}
               className={`w-perc-100 ml-1 shadow-1dp brdPrimary400 ${getFact() === 'portals' ? 'brdMedium bgWhite' : ''}`}
               colorIcon={'primary700'}
               backIcon="primary100 mr-1"
               onClick={() => history.push(`/${propID}/listings/portals`)}
-              status="red"
+              status={statusPortals().colorIcon}
               selected
             />
           </div>
