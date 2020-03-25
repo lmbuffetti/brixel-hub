@@ -83,11 +83,23 @@ const HomeDashboard = (props) => {
     return 0
   };
 
+  const calcHeaderHeight = () => {
+    const head = document.getElementsByClassName('dashboardHeaderHub');
+    const wrapper = document.getElementById('test');
+    let paddingTop = 0;
+    let paddingBottom = 0;
+    if (wrapper) {
+      paddingTop = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-top').replace('px', '');
+      paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
+    }
+    return head[0].offsetHeight + +paddingTop + +paddingBottom;
+  };
+
   return (
     <>
-      <div className="property-info-container brdRadius pt-3">
+      <div className="property-info-container pt-5">
         <div className="dis-f">
-          <div className={`firstLevel bgLight100 p-2 expendableColumn ${openCloseColumn()}`}>
+          <div className={`firstLevel bgLight100 px-2 expendableColumn ${openCloseColumn()}`}>
             <div className={`jc-c mb-2 ${openCloseColumn() === 'close' ? 'dis-f' : 'hide'}`}>
               <BrixelButtonIcon
                 background="white"
@@ -199,7 +211,7 @@ const HomeDashboard = (props) => {
           </div>
           {
             getFact() !== 'property' && (
-              <div className="w-perc-100" style={{ height: windowDimensions.height - 121 }}>
+              <div className="w-perc-100" style={{ height: windowDimensions.height - calcHeaderHeight() }}>
                 <Route path="/:propId?/property/facts" component={Facts} />
                 <Route path="/:propId?/property/photos" component={Photos} />
                 <Route path="/:propId?/property/floorPlans" component={Plans} />

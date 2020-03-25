@@ -28,43 +28,57 @@ const ListingsDashboard = (props) => {
   const propID = get(match, 'params.propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
+  const calcHeaderHeight = () => {
+    const head = document.getElementsByClassName('dashboardHeaderHub');
+    const wrapper = document.getElementById('test');
+    let paddingTop = 0;
+    let paddingBottom = 0;
+    if (wrapper) {
+      paddingTop = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-top').replace('px', '');
+      paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
+    }
+    return head[0].offsetHeight + +paddingTop + +paddingBottom;
+  };
+
   return (
-    <div className="dis-f h-perc-100">
-      <div className="firstLevel">
-        <div className="dis-f">
-          <BrixelButtonBox
-            verticalView
-            bgTransparent
-            icon="gallery"
-            label="Brixel Page"
-            subtitle={`Draft`}
-            className={`w-perc-100 mr-1 shadow-1dp brdPrimary400`}
-            colorIcon={'red400'}
-            backIcon="red100 mr-1"
-            onClick={() => history.push(`/${propID}/listings/page`)}
-            selected
-          />
-          <BrixelButtonBox
-            verticalView
-            bgTransparent
-            icon="gallery"
-            label="Showings"
-            subtitle={`No showings`}
-            className={`w-perc-100 ml-1 shadow-1dp brdPrimary400`}
-            colorIcon={'red400'}
-            backIcon="red100 mr-1"
-            onClick={() => history.push(`/${propID}/listings/showings`)}
-            selected
-          />
-        </div>
-      </div>
-      {
-        getFact() !== 'listings' && (
-          <div className="w-perc-100" style={{ height: windowDimensions.height - 121 }}>
-            <Route path="/:propId?/listings/showings" component={Showings} />
+    <div className="pt-5" id="test">
+      <div className="dis-f h-perc-100">
+        <div className="firstLevel px-2">
+          <div className="dis-f">
+            <BrixelButtonBox
+              verticalView
+              bgTransparent
+              icon="gallery"
+              label="Brixel Page"
+              subtitle={`Draft`}
+              className={`w-perc-100 mr-1 shadow-1dp brdPrimary400`}
+              colorIcon={'red400'}
+              backIcon="red100 mr-1"
+              onClick={() => history.push(`/${propID}/listings/page`)}
+              selected
+            />
+            <BrixelButtonBox
+              verticalView
+              bgTransparent
+              icon="gallery"
+              label="Showings"
+              subtitle={`No showings`}
+              className={`w-perc-100 ml-1 shadow-1dp brdPrimary400`}
+              colorIcon={'red400'}
+              backIcon="red100 mr-1"
+              onClick={() => history.push(`/${propID}/listings/showings`)}
+              selected
+            />
           </div>
-        )
-      }
+        </div>
+        {
+          getFact() !== 'listings' && (
+            <div className="w-perc-100" style={{ height: windowDimensions.height - calcHeaderHeight() }}>
+              <Route path="/:propId?/listings/showings" component={Showings} />
+            </div>
+          )
+        }
+      </div>
     </div>
   )
 };

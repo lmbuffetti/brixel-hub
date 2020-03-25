@@ -85,123 +85,107 @@ const Showings = (props) => {
   };
 
   return (
-    <div className="showings secondLevel h-perc-100 dis-fl-col">
-      <div className="h-perc-100 dis-fl-col">
-        <div className={`dis-fl-row ${manageAvailability ? 'jc-fs mb-0' : 'jc-b mb-2'} a-c`}>
+    <div className="dis-f h-perc-100 ov-h">
+      <div className="showings secondLevel h-perc-100 dis-fl-col">
+        <div className="max-h-perc-100 dis-fl-col">
+          <div className=" pos-r px-2 pt-2 px-md-3 pt-md-3">
+            <div className="dis-f jc-b a-c">
+              <h5>Showings</h5>
+              <BrixelButtonIcon
+                className="shadow-3dp"
+                icon={manageAvailability ? "close-small" : "calendar-edit"}
+                background="White"
+                color="primary"
+                saturationTxt={400}
+                noBorder
+                onClick={() => setManageAvailability(!manageAvailability)}
+              />
+            </div>
+            {
+              !manageAvailability && (
+                <div className="mt-3">
+                  <BrixelTabs
+                    fullWidth
+                    className="facts-tabs"
+                    clicksList={[
+                      '',
+                      'pending',
+                      'accepted',
+                    ]}
+                    labels={[
+                      'All',
+                      'Pending',
+                      'Accepted',
+                    ]}
+                    activeTab={activeTab}
+                    onClick={(tab) => setActiveTab(tab)}
+                  />
+                </div>
+              )
+            }
+          </div>
           {
             !manageAvailability ? (
-              <div className="headerSection p-1">
-                <div className="pos-r">
-                  <BrixelButtonIcon
-                    className="shadow-2dp"
-                    icon="close-small"
-                    color="primary"
-                    saturationTxt={400}
-                    bgTransparent
-                    noBorder
-                    onClick={() => history.push(`${propID}/listings`)}
-                  />
-                  <h5>Showing</h5>
-                </div>
-              </div>
-            ) : (
-              <>
-                <BrixelButtonIcon
-                  className="shadow-3dp mr-3"
-                  icon="arrow-simple-right"
-                  background="White"
-                  color="dark"
-                  saturationTxt={700}
-                  noBorder
-                  onClick={() => setManageAvailability(false)}
-                />
-                <span className="subheader">Manage availability</span>
-              </>
-            )
-          }
-        </div>
-        {
-          !manageAvailability ? (
-            <div className="dis-fl-col h-perc-100">
-              <div>
-                <BrixelButtonTertiary
-                  className="p-0 mb-3"
-                  label="Manage availability"
-                  onClick={() => setManageAvailability(true)}
-                />
-
-                <BrixelTabs
-                  fullWidth
-                  className="facts-tabs mb-3"
-                  clicksList={[
-                    '',
-                    'Pending',
-                    'Accepted',
-                  ]}
-                  labels={[
-                    'All',
-                    'Pending',
-                    'Accepted',
-                  ]}
-                  activeTab={activeTab}
-                  onClick={(tab) => setActiveTab(tab)}
-                />
-              </div>
-              <div className="h-perc-100 pb-2 ov-a">
+              <div className="max-h-perc-100 pb-4 ov-a">
                 {
                   formValue.booking.map((book, i) => (
                     <React.Fragment key={i.toString()}>
                       {
                         book.slots.map((day, f) =>(
-                          <BrixelBookingCard
-                            key={f.toString()}
-                            className="mb-1"
-                            slot={day}
-                            buyer={book.buyer}
-                            onAccept={() => manageBooking(i, f, 'accepted')}
-                            onCancel={() => manageBooking(i, f, 'canceled')}
-                          />
+                          <>
+                            {
+                              (activeTab === '' || (day.status && day.status === activeTab)) && (
+                                <BrixelBookingCard
+                                  key={f.toString()}
+                                  className="mb-1"
+                                  slot={day}
+                                  buyer={book.buyer}
+                                  onAccept={() => manageBooking(i, f, 'accepted')}
+                                  onCancel={() => manageBooking(i, f, 'canceled')}
+                                />
+                              )
+                            }
+                          </>
                         ))
                       }
                     </React.Fragment>
                   ))
                 }
               </div>
-              {/* Print showings list based on active tab */}
-              {/* <PropertyList activeSection={activeTab} /> */}
-            </div>
-          ) : (
-            <>
-              <div className="max-h-perc-100 ov-a">
-                <BrixelTimeSlots
-                  className="zIndex1"
-                  propertySlots={get(formValue, 'schedule.slots', [])}
-                  onSelect={(e, value) => changeFieldValue('schedule.slots', value) }
-                />
-              </div>
-              <div className="dis-f p-2">
-                <BrixelButtonPrimary
-                  label='Cancel'
-                  background="white"
-                  saturation={0}
-                  color="dark"
-                  saturationTxt={400}
-                  rounded
-                  className="shadow-3dp"
-                  onClick={() => discardChanges()}
-                />
-                <BrixelButtonPrimary
-                  label='Save & Next'
-                  background="primary"
-                  saturation={400}
-                  rounded
-                  onClick={() => saveData()}
-                  isLoading={isSmallLoading}
-                />
-              </div>
-            </>
-          )
-        }
+            ) : (
+              <>
+                <div className="max-h-perc-100 ov-a">
+                  <BrixelTimeSlots
+                    className="zIndex1"
+                    propertySlots={get(formValue, 'schedule.slots', [])}
+                    onSelect={(e, value) => changeFieldValue('schedule.slots', value) }
+                  />
+                </div>
+                <div className="dis-f p-2">
+                  <BrixelButtonPrimary
+                    label='Cancel'
+                    background="white"
+                    saturation={0}
+                    color="dark"
+                    saturationTxt={400}
+                    rounded
+                    className="shadow-3dp w-perc-100 mr-1"
+                    onClick={() => setManageAvailability(false)}
+                  />
+                  <BrixelButtonPrimary
+                    className="shadow-3dp w-perc-100 ml-1"
+                    label='Save'
+                    background="primary"
+                    saturation={400}
+                    rounded
+                    onClick={() => saveData()}
+                    isLoading={isSmallLoading}
+                  />
+                </div>
+              </>
+            )
+          }
+        </div>
       </div>
     </div>
   );
