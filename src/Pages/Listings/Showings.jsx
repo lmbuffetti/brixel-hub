@@ -12,7 +12,6 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelButtonTertiary,
   BrixelTabs,
   BrixelTimeSlots,
   BrixelBookingCard,
@@ -27,7 +26,6 @@ const Showings = (props) => {
   // PROPS
   const {
     changeFieldValue,
-    history,
     formValue,
     handleSavePropertyVisitBooking,
     handleSavePropertyVisitSchedule,
@@ -64,6 +62,7 @@ const Showings = (props) => {
   };
 
   const discardChanges = () => {
+    setManageAvailability(false);
     reset('Property');
   };
 
@@ -132,11 +131,11 @@ const Showings = (props) => {
                     <React.Fragment key={i.toString()}>
                       {
                         book.slots.map((day, f) =>(
-                          <>
+                          <React.Fragment key={f.toString()}>
                             {
                               (activeTab === '' || (day.status && day.status === activeTab)) && (
                                 <BrixelBookingCard
-                                  key={f.toString()}
+                                  dimensionsFixed={false}
                                   className="mb-1"
                                   slot={day}
                                   buyer={book.buyer}
@@ -145,7 +144,7 @@ const Showings = (props) => {
                                 />
                               )
                             }
-                          </>
+                          </React.Fragment>
                         ))
                       }
                     </React.Fragment>
@@ -170,7 +169,7 @@ const Showings = (props) => {
                     saturationTxt={400}
                     rounded
                     className="shadow-3dp w-perc-100 mr-1"
-                    onClick={() => setManageAvailability(false)}
+                    onClick={() => discardChanges()}
                   />
                   <BrixelButtonPrimary
                     className="shadow-3dp w-perc-100 ml-1"

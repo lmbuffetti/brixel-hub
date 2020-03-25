@@ -17,9 +17,15 @@ const Showings = Loadable({
   loading: Loading,
 });
 
+const Page = Loadable({
+  loader: () => import('../Listings/Page' /* webpackChunkName: "Page" */),
+  loading: Loading,
+});
+
 const ListingsDashboard = (props) => {
   // PROPS
   const {
+    formValue,
     history,
     match,
     windowDimensions,
@@ -40,6 +46,25 @@ const ListingsDashboard = (props) => {
     return head[0].offsetHeight + +paddingTop + +paddingBottom;
   };
 
+  const statusPage = () => {
+    let label;
+    let colorIcon;
+    if (formValue.publishedReview) {
+      label = 'Review';
+      colorIcon = 'yellow';
+    } else if (formValue.published) {
+      label = 'Live';
+      colorIcon = 'green';
+    } else {
+      label = 'Unpublished';
+      colorIcon = 'red';
+    }
+    return {
+      label,
+      colorIcon,
+    }
+  };
+
   return (
     <div className="pt-5" id="test">
       <div className="dis-f h-perc-100">
@@ -50,22 +75,36 @@ const ListingsDashboard = (props) => {
               bgTransparent
               icon="gallery"
               label="Brixel Page"
-              subtitle={`Draft`}
-              className={`w-perc-100 mr-1 shadow-1dp brdPrimary400`}
-              colorIcon={'red400'}
-              backIcon="red100 mr-1"
+              subtitle={statusPage().label}
+              className={`w-perc-100 mr-1 shadow-1dp brdPrimary400 ${getFact() === 'page' ? 'brdMedium bgWhite' : ''}`}
+              colorIcon="primary700"
+              backIcon="primary100 mr-1"
               onClick={() => history.push(`/${propID}/listings/page`)}
-              selected
+              status={statusPage().colorIcon}
             />
             <BrixelButtonBox
               verticalView
               bgTransparent
+              icon="photo-list"
+              label="Portals"
+              subtitle="Offline"
+              className={`w-perc-100 ml-1 shadow-1dp brdPrimary400 ${getFact() === 'portals' ? 'brdMedium bgWhite' : ''}`}
+              colorIcon={'primary700'}
+              backIcon="primary100 mr-1"
+              onClick={() => history.push(`/${propID}/listings/portals`)}
+              status="red"
+              selected
+            />
+          </div>
+          <div>
+            <BrixelButtonBox
+              bgTransparent
               icon="gallery"
               label="Showings"
               subtitle={`No showings`}
-              className={`w-perc-100 ml-1 shadow-1dp brdPrimary400`}
-              colorIcon={'red400'}
-              backIcon="red100 mr-1"
+              className={`w-perc-100 mt-1 shadow-1dp brdPrimary400 ${getFact() === 'showings' ? 'brdMedium bgWhite' : ''}`}
+              colorIcon={'primary700'}
+              backIcon="primary100 mr-1"
               onClick={() => history.push(`/${propID}/listings/showings`)}
               selected
             />
@@ -75,6 +114,7 @@ const ListingsDashboard = (props) => {
           getFact() !== 'listings' && (
             <div className="w-perc-100" style={{ height: windowDimensions.height - calcHeaderHeight() }}>
               <Route path="/:propId?/listings/showings" component={Showings} />
+              <Route path="/:propId?/listings/page" component={Page} />
             </div>
           )
         }
@@ -84,6 +124,7 @@ const ListingsDashboard = (props) => {
 };
 
 ListingsDashboard.propTypes = {
+  formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
@@ -94,8 +135,8 @@ ListingsDashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  windowDimensions: get(state, 'common.windowDimensions', {}),
   formValue: get(state, 'form.Property.values', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 export default compose(
