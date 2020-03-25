@@ -8,196 +8,14 @@
 // ALL DEVICES
 #dashboard {
   height: 100%;
-  .panelTab {
-    padding-bottom: 100px;
-  }
-
-  .brixel-tabs {
-    .activeBar {
-      height: 3px;
-    }
-  }
-
-  .nav-tabs {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    background: #fff;
-    width: 100%;
-    display: flex;
-    border-radius: 8px 8px 0 0;
-    box-shadow: 0 2px 4px 0 rgba(40,41,61,.04), 0 8px 16px 0 rgba(96,97,112,.16);
-    overflow: hidden;
-
-    &.tabsList {
-
-      li {
-        padding-top: 8px;
-        padding-bottom: 8px;
-        > span {
-          margin-top: 4px;
-        }
-        &.active {
-          background: map-get($primaryColor, 100);
-          color: map-get($primaryColor, 400);
-        }
-      }
-    }
-  }
-
-  .property-info-container {
-
-    .buyer-container {
-      > div {
-        flex:  0 0 33.33%;
-        &:not(:last-child) {
-          border-right: 1px solid map-get($lightColor, 200);;
-        }
-      }
-    }
-
-    .value {
-      font-family: $font-family-secondary;
-      color: map-get($darkColor, 500);
-    }
-
-    .boxPanel {
-      > div {
-        flex: 0 0 50%;
-        max-width: calc(50% - 8px);
-        cursor: pointer;
-        @include border('Dark', 200);
-
-        &:nth-child(2) {
-          @include disabledAread();
-        }
-
-        transition: background-color $default-time-long $default-easing;
-        &:hover {
-          background-color: #fff;
-        }
-      }
-    }
-
-    .buyer {
-
-      .buyer-container {
-        @include disabledAread();
-        @include border('Dark', 200);
-
-        .number {
-          font-family: $font-family-secondary;
-          @include fontStyle(700,'medium',center);
-        }
-
-        .text {
-          @include fontStyle(300,'regular',center);
-        }
-      }
-    }
-  }
-
-  .homeTab {
-    .brixel-button-box {
-      .labelText {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        .labelTitle {
-          font-weight: 500;
-          margin-bottom: 0;
-        }
-        .labelSubtitle {
-          @include fontStyle(200);
-          line-height: $step * 2;
-          color: map-get($darkColor, 200);
-        }
-      }
-      .rightAction {
-        > p {
-          line-height: 0;
-          > span {
-            @include fontStyle(100);
-          }
-        }
-      }
-    }
-  }
-
 }
 
 // IPAD AND DESKTOP VERSION
 @media (max-width: $responsive-medium) {
-  #dashboard.container {
-    .brixel-tabs .panelTab {
-      .scrollTab > div {
-        overflow-x: hidden;
-        > div {
-          width: 99.5%;
-          margin-left: auto;
-          margin-right: auto;
-          @include fontStyle(400)
-        }
-      }
-    }
-  }
 }
 
 // IPAD PRO AND DESKTOP VERSION
 @media (min-width: $responsive-medium) {
-
-  .dashboardHeader {
-    position: absolute;
-    width: 100%;
-
-    &.shadow-1dp {
-      box-shadow: none;
-    }
-    > .container {
-      padding: 20px;
-      z-index: inherit;
-
-      > :last-child {
-        z-index: 5;
-      }
-    }
-  }
-
-  #dashboard.container {
-    padding: 0;
-    display: flex;
-
-    .brixel-tabs .panelTab {
-      overflow: hidden;
-      padding: 0;
-
-      .scrollTab {
-        justify-content: space-between;
-
-        .homeTab,
-        .propertyTab,
-        .supportTab {
-          position: relative;
-        }
-        .propertyTab,
-        .supportCard {
-          min-height: 100vh;
-
-          > div {
-            min-height: 100%;
-          }
-        }
-        .homeTab {
-          top: 29px;
-        }
-        .propertyTab {
-          .property-info-container {
-            background-color: map-get($lightColor, 100);
-          }
-        }
-      }
-    }
-  }
 }
 
 // FLUID LAYOUT BETWEEN IPAD AND IPAD PRO
@@ -205,41 +23,9 @@
 and (min-width : $responsive-medium)
 and (max-width : $responsive-large) {
 
-  #dashboard.container {
-    .brixel-tabs .panelTab {
-      .scrollTab {
-        .propertyTab {
-          padding-right: 0;
-        }
-        .homeTab {
-          padding: 0;
-          padding-left: 8px;
-        }
-        .supportTab {
-          padding-left: 0;
-        }
-      }
-    }
-  }
 }
 
  // DESKTOP SCREEN
  @media screen and(max-width: map-get($grid-breakpoints, xl)) {
-  .dashboardHeader {
-    > .container {
-      max-width: 100%;
-    }
-  }
 
-  #dashboard.container {
-    max-width: 100%;
-
-    .brixel-tabs .panelTab {
-      .scrollTab {
-        .propertyTab {
-          padding-left: 0;
-        }
-      }
-    }
-  }
 }

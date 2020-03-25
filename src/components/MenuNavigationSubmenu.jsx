@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
@@ -13,9 +13,6 @@ const MenuNavigationSubmenu = (props) => {
     onClose,
     windowDimensions,
   } = props;
-
-  // STATE
-  //const [inProp, setInProp] = useState(true);
 
   // REF
   const wrapperRef = useRef(null);

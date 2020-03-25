@@ -63,7 +63,7 @@ function PageHeaderDashboard(props) {
 
   const screenResize = () => {
     setWidthScreen(window.innerWidth);
-    if (window.innerWidth > 768) {
+    if (window.innerWidth >= 768) {
       document.body.classList.remove('ov-h');
     }
   };
@@ -77,7 +77,7 @@ function PageHeaderDashboard(props) {
 
   const avatarAction = () => {
     // Mobile actions for the avatar click
-    if (widthScreen < 769) {
+    if (widthScreen <= 768) {
       document.body.classList.add('ov-h');
     } else {
       window.open(baseByData(null,'io').profileURL, '_blank');
@@ -206,11 +206,11 @@ function PageHeaderDashboard(props) {
             classNameLi="dis-fl-col"
             classNameUl="zIndex4"
             labels={['Rewards', 'Property', 'Listings']}
-            labelsIcons={windowDimensions.width < 768 ? ['first-time-occupancy', 'property-house', 'upload'] : []}
+            labelsIcons={windowDimensions.width <= 768 ? ['first-time-occupancy', 'property-house', 'upload'] : []}
             clicksList={['rewards', 'property', 'listings']}
             classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
             activeTab={checkActiveTab()}
-            fullWidth={windowDimensions.width < 768}
+            fullWidth={windowDimensions.width <= 768}
             onClick={(val) => history.push(`/${propID}/${val}`)}
             showFull={false}
           />
