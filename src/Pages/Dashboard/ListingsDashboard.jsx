@@ -6,7 +6,7 @@ import {
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelButtonBox } from '@brixel/brixel-components';
+import { BrixelButtonBox, BrixelProgressBar } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import last from 'lodash/last';
 import Loadable from 'react-loadable';
@@ -19,6 +19,11 @@ const Showings = Loadable({
 
 const Page = Loadable({
   loader: () => import('../Listings/Page' /* webpackChunkName: "Page" */),
+  loading: Loading,
+});
+
+const Portals = Loadable({
+  loader: () => import('../Listings/Portals' /* webpackChunkName: "Portals" */),
   loading: Loading,
 });
 
@@ -109,12 +114,65 @@ const ListingsDashboard = (props) => {
               selected
             />
           </div>
+
+          <div className="brdRadius shadow-1dp brdPrimary400 mt-1">
+            <div className="transparency-container">
+              <div className="dis-fl-col ta-l">
+                <BrixelButtonBox
+                  bgTransparent
+                  icon="users"
+                  label="Buyers"
+                  className="w-perc-100"
+                  colorIcon={'primary700'}
+                  backIcon="primary100 mr-1"
+                  hoverEffect={false}
+                />
+              </div>
+            </div>
+
+
+            <div className="details dis-fl-col p-1">
+              <div className="dis-fl-row jc-b a-c mb-2">
+                <span className="mr-1 body2 w-fix-80">Request</span>
+                <div className="w-fix-304">
+                  <BrixelProgressBar
+                    progressValue={35}
+                    saturation={700}
+                  />
+                </div>
+                <span className="ml-1 body2 ff-mono txtPrimary700">12</span>
+              </div>
+
+              <div className="dis-fl-row jc-b a-c mb-2">
+                <span className="mr-1 body2 w-fix-80">Showings</span>
+                <div className="w-fix-304">
+                  <BrixelProgressBar
+                    progressValue={12}
+                    saturation={700}
+                  />
+                </div>
+                <span className="ml-1 body2 ff-mono txtPrimary700">5</span>
+              </div>
+
+              <div className="dis-fl-row jc-b a-c mb-2">
+                <span className="mr-1 body2 w-fix-80">Offers</span>
+                <div className="w-fix-304">
+                  <BrixelProgressBar
+                    progressValue={60}
+                    saturation={700}
+                  />
+                </div>
+                <span className="ml-1 body2 ff-mono txtPrimary700">8</span>
+              </div>
+            </div>
+          </div>
         </div>
         {
           getFact() !== 'listings' && (
             <div className="w-perc-100" style={{ height: windowDimensions.height - calcHeaderHeight() }}>
               <Route path="/:propId?/listings/showings" component={Showings} />
               <Route path="/:propId?/listings/page" component={Page} />
+              <Route path="/:propId?/listings/portals" component={Portals} />
             </div>
           )
         }

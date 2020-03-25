@@ -168,19 +168,6 @@ const Page = (props) => {
                             <span className="dis-b ta-c txtDark700">Twitter</span>
                           </a>
                           <a
-                            href={`https://www.facebook.com/sharer/sharer.php?u=${baseByData.pageUrl}${formValue.stub}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="dis-b"
-                          >
-                            <BrixelIcon
-                              icon="instagram"
-                              color="primary"
-                              saturationTxt={700}
-                            />
-                            <span className="dis-b ta-c txtDark700">Instagram</span>
-                          </a>
-                          <a
                             href={`https://www.linkedin.com/shareArticle?url=${baseByData.pageUrl}${formValue.stub}&title=${formValue.title}`}
                             target="_blank"
                             rel="noopener noreferrer"
