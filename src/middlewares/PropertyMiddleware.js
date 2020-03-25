@@ -17,6 +17,7 @@ import {
   DELETE_PROPERTY_VISIT_SCHEDULE,
   GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
   SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
+  SAVE_PROPERTY_VISIT_BOOKING,
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
@@ -359,6 +360,21 @@ const checkCommon = (store) => (next) => (action) => {
           type: SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
           payload: response.data,
         });
+        store.dispatch({ type: SPINNER_SMALL_OFF });
+      });
+      break;
+    }
+    case SAVE_PROPERTY_VISIT_BOOKING: {
+      next(action);
+      store.dispatch({ type: SPINNER_SMALL_ON });
+      const { scheduleId, data } = action.payload;
+      delete action.payload.id;
+      api.property.updatePropertyVisit(scheduleId, data).then((response) => {
+        store.dispatch({
+          type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
+          payload: { id: data.page },
+        });
+        store.dispatch({ type: SPINNER_SMALL_OFF });
       });
       break;
     }

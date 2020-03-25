@@ -40,7 +40,7 @@ export default {
     propertyVisitScheduleById: (id) => `/schedule/${id}`,
     getPropertyVisitListings: () => '/scheduleVisit/10/0?order=name&direction=desc',
     createPropertyVisit: () => '/scheduleVisit',
-    propertyVisitById: (id) => `/schedule/${id}`,
+    propertyVisitById: (id) => `/scheduleVisit/${id}`,
     getPageVisits: (id) => `/page/${id}/visit`,
   },
   upload: {

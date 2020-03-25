@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reset } from 'redux-form';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelButtonPrimary,
   BrixelIcon,
@@ -83,7 +84,7 @@ const InputSheet = (props) => {
       });
       return null;
     });
-    const inputSheet = get(formValue, 'inputSheet', {}) || {};
+    const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
     const calPerc = Math.floor(countDone * countTotal / 100);
     const savedPerc = Math.floor(get(formValue, `inputSheet.totalComplete`, 0) || 0);
     if (calPerc !== savedPerc) {
@@ -110,6 +111,7 @@ const InputSheet = (props) => {
     delete dataToSend.owner;
     delete dataToSend.favoritedByUsers;
     delete dataToSend.schedule;
+    delete dataToSend.booking;
     const data = {
       id: propID,
       smallLoader: true,
@@ -143,7 +145,7 @@ const InputSheet = (props) => {
 
   return (
     <div className="dis-f h-perc-100 ov-h">
-      <div className="secondLevel h-perc-100 dis-fl-col w-perc-100">
+      <div className="secondLevel h-perc-100 dis-fl-col w-perc-100 mr-md-1">
         <div className="max-h-perc-100 dis-fl-col">
           <div className="headerSection pos-r px-2 pt-2 px-md-4 pt-md-4">
             <BrixelButtonIcon
@@ -210,7 +212,7 @@ const InputSheet = (props) => {
       </div>
       {
         selectedQuest && getFact() !== 'facts' && (
-          <div className="thirdLevel dis-fl-col w-perc-100">
+          <div className="thirdLevel dis-fl-col w-perc-100 ml-md-1">
             <div className="h-perc-100 dis-fl-col">
               <div className="max-h-perc-100 ov-a">
                 <FactsQuestion quest={selectedQuest} />
@@ -266,12 +268,6 @@ InputSheet.defaultProps = {
 };
 
 const mapStateToProps = (state) => {
-  const formValue = get(state, 'property.singleUserActiveProperty', {});
-  if (formValue.price) {
-    delete formValue.history;
-    delete formValue.owner;
-    delete formValue.price.history;
-  }
   return ({
     errorValue: get(state, 'form.Property.syncErrors', {}),
     formValue: get(state, 'form.Property.values', {}),
