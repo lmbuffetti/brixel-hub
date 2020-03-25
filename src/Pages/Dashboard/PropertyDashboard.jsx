@@ -114,7 +114,7 @@ const HomeDashboard = (props) => {
             </div>
             <div className="hideOnExpanded">
               <div
-                className={`cur-poi brdRadius shadow-1dp brdPrimary400 ${getFact() === 'facts' ? 'brdMedium' : ''}`}
+                className={`cur-poi brdRadius shadow-1dp brdPrimary400 ${getFact() === 'facts' ? 'brdMedium bgWhite' : ''}`}
                 onClick={() => history.push(`/${propID}/property/facts`)}>
                 <div className="transparency-container">
                   <div className="dis-fl-col ta-l">
@@ -164,7 +164,7 @@ const HomeDashboard = (props) => {
                   icon="gallery"
                   label="Photos"
                   subtitle={`${calcLenght(get(formValue, 'photos', []))} Files`}
-                  className={`w-perc-100 mr-1 shadow-1dp brdPrimary400 ${getFact() === 'photos' ? 'brdMedium' : ''}`}
+                  className={`w-perc-100 mr-1 shadow-1dp brdPrimary400 ${getFact() === 'photos' ? 'brdMedium bgWhite' : ''}`}
                   colorIcon={'primary400'}
                   backIcon="primary100 mr-1"
                   onClick={() => history.push(`/${propID}/property/photos`)}
@@ -176,7 +176,7 @@ const HomeDashboard = (props) => {
                   icon="plans"
                   label="Plans"
                   subtitle={`${calcLenght(get(formValue, 'floorPlans', []))} Files`}
-                  className={`w-perc-100 ml-1 shadow-1dp brdPrimary400 ${getFact() === 'floorPlans' ? 'brdMedium' : ''}`}
+                  className={`w-perc-100 ml-1 shadow-1dp brdPrimary400 ${getFact() === 'floorPlans' ? 'brdMedium bgWhite' : ''}`}
                   colorIcon={'primary400'}
                   backIcon="primary100 mr-1"
                   onClick={() => history.push(`/${propID}/property/floorPlans`)}
@@ -189,7 +189,7 @@ const HomeDashboard = (props) => {
                   icon="tour"
                   label="3d Tour"
                   subtitle={`0 Files`}
-                  className={`w-perc-100 shadow-1dp mr-1 brdPrimary400 ${getFact() === 'tour' ? 'brdMedium' : ''}`}
+                  className={`w-perc-100 shadow-1dp mr-1 brdPrimary400 ${getFact() === 'tour' ? 'brdMedium bgWhite' : ''}`}
                   colorIcon={'primary400'}
                   backIcon="primary100 mr-1"
                   onClick={() => history.push(`/${propID}/property/tour`)}
@@ -201,7 +201,7 @@ const HomeDashboard = (props) => {
                   icon="folder"
                   label="Docubox"
                   subtitle={`0 Files`}
-                  className={`w-perc-100 shadow-1dp ml-1 brdPrimary400 ${getFact() === 'documents' ? 'brdMedium' : ''}`}
+                  className={`w-perc-100 shadow-1dp ml-1 brdPrimary400 ${getFact() === 'documents' ? 'brdMedium bgWhite' : ''}`}
                   colorIcon={'primary400'}
                   backIcon="primary100 mr-1"
                   onClick={() => history.push(`/${propID}/property/documents`)}

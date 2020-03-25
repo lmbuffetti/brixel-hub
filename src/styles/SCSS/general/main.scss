@@ -24,6 +24,7 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 @import "../pages/getStarted",
 "../pages/achievement",
 "../pages/dashboard",
+"../pages/listings",
 "../pages/images",
 "../pages/facts",
 "../pages/onBoarding";
@@ -83,6 +84,11 @@ a {
 img {
   max-width: 100%;
   height: auto;
+}
+
+hr {
+  border: none;
+  border-top:1px solid map_get($lightColor, 400);
 }
 
 #page-header {
