@@ -85,7 +85,7 @@ const HomeDashboard = (props) => {
 
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('dashboardHeaderHub');
-    const wrapper = document.getElementById('test');
+    const wrapper = document.getElementById('propertyDashboard');
     let paddingTop = 0;
     let paddingBottom = 0;
     if (wrapper) {
@@ -97,7 +97,7 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-info-container pt-5">
+      <div className="property-info-container pt-5" id="propertyDashboard">
         <div className="dis-f">
           <div className={`firstLevel bgLight100 px-2 expendableColumn ${openCloseColumn()}`}>
             <div className={`jc-c mb-2 ${openCloseColumn() === 'close' ? 'dis-f' : 'hide'}`}>
@@ -211,7 +211,7 @@ const HomeDashboard = (props) => {
           </div>
           {
             getFact() !== 'property' && (
-              <div className="w-perc-100" style={{ height: windowDimensions.height - calcHeaderHeight() }}>
+              <div className="w-perc-100 px-md-2" style={{ height: windowDimensions.height - calcHeaderHeight() }}>
                 <Route path="/:propId?/property/facts" component={Facts} />
                 <Route path="/:propId?/property/photos" component={Photos} />
                 <Route path="/:propId?/property/floorPlans" component={Plans} />

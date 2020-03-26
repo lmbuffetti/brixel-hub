@@ -9,6 +9,7 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
+  BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelIcon,
 } from '@brixel/brixel-components';
@@ -22,6 +23,7 @@ const Page = (props) => {
   const {
     formValue,
     handleSaveActiveSingleProperty,
+    history,
     isSmallLoading,
     match,
   } = props;
@@ -43,6 +45,15 @@ const Page = (props) => {
         <div className="max-h-perc-100 dis-fl-col">
           <div className=" pos-r px-2 pt-2 px-md-3 pt-md-3">
             <div className="dis-f jc-b a-c">
+              <BrixelButtonIcon
+                className="shadow-3dp hide-md"
+                icon="arrow-simple-left"
+                background="White"
+                color="primary"
+                saturationTxt={400}
+                noBorder
+                onClick={() => history.push(`${propID}/listings`)}
+              />
               <h5>Brixel Page</h5>
               {
                 formValue.published ? (

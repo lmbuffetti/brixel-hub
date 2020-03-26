@@ -6,7 +6,7 @@ import {
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelButtonBox, BrixelProgressBar } from '@brixel/brixel-components';
+import { BrixelButtonBox, BrixelButtonIcon, BrixelProgressBar } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import last from 'lodash/last';
 import Loadable from 'react-loadable';
@@ -41,7 +41,7 @@ const ListingsDashboard = (props) => {
 
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('dashboardHeaderHub');
-    const wrapper = document.getElementById('test');
+    const wrapper = document.getElementById('listingsDashaboard');
     let paddingTop = 0;
     let paddingBottom = 0;
     if (wrapper) {
@@ -99,52 +99,74 @@ const ListingsDashboard = (props) => {
     }
   };
 
-  return (
-    <div className="pt-5" id="test">
-      <div className="dis-f h-perc-100">
-        <div className="firstLevel px-2">
-          <div className="dis-f">
-            <BrixelButtonBox
-              verticalView
-              bgTransparent
-              icon="gallery"
-              label="Brixel Page"
-              subtitle={statusPage().label}
-              className={`w-perc-100 mr-1 shadow-1dp brdPrimary400 ${getFact() === 'page' ? 'brdMedium bgWhite' : ''}`}
-              colorIcon="primary700"
-              backIcon="primary100 mr-1"
-              onClick={() => history.push(`/${propID}/listings/page`)}
-              status={statusPage().colorIcon}
-            />
-            <BrixelButtonBox
-              verticalView
-              bgTransparent
-              icon="photo-list"
-              label="Portals"
-              subtitle={statusPortals().label}
-              className={`w-perc-100 ml-1 shadow-1dp brdPrimary400 ${getFact() === 'portals' ? 'brdMedium bgWhite' : ''}`}
-              colorIcon={'primary700'}
-              backIcon="primary100 mr-1"
-              onClick={() => history.push(`/${propID}/listings/portals`)}
-              status={statusPortals().colorIcon}
-              selected
-            />
-          </div>
-          <div>
-            <BrixelButtonBox
-              bgTransparent
-              icon="gallery"
-              label="Showings"
-              subtitle={`No showings`}
-              className={`w-perc-100 mt-1 shadow-1dp brdPrimary400 ${getFact() === 'showings' ? 'brdMedium bgWhite' : ''}`}
-              colorIcon={'primary700'}
-              backIcon="primary100 mr-1"
-              onClick={() => history.push(`/${propID}/listings/showings`)}
-              selected
-            />
-          </div>
+  const openCloseColumn = () => {
+    if (
+      (history.location.pathname.includes('showings') && getFact() !== 'showings')
+    ) {
+      return 'close';
+    }
+    return 'open';
+  };
 
-          <div className="brdRadius shadow-1dp brdPrimary400 mt-1">
+  return (
+    <div className="pt-5" id="listingsDashaboard">
+      <div className="dis-f h-perc-100 pr-md-2">
+        <div className={`firstLevel px-2 expendableColumn ${openCloseColumn()}`}>
+          <div className={`jc-c mb-2 ${openCloseColumn() === 'close' ? 'dis-f' : 'hide'}`}>
+            <BrixelButtonIcon
+              background="white"
+              saturation={0}
+              color="primary"
+              saturationTxt={400}
+              icon="arrow-simple-right"
+              noBorder
+              className="shadow-2dp"
+              onClick={() => history.push(`${propID}/listings/showings`)}
+            />
+          </div>
+          <div className="hideOnExpanded">
+            <div className="dis-f">
+              <BrixelButtonBox
+                verticalView
+                bgTransparent
+                icon="gallery"
+                label="Brixel Page"
+                subtitle={statusPage().label}
+                className={`w-perc-100 mr-1 shadow-1dp ${getFact() === 'page' ? 'brdMedium bgWhite brdPrimary400' : 'brdMedium brdLight100'}`}
+                colorIcon="primary700"
+                backIcon="primary100 mr-1"
+                onClick={() => history.push(`/${propID}/listings/page`)}
+                status={statusPage().colorIcon}
+              />
+              <BrixelButtonBox
+                verticalView
+                bgTransparent
+                icon="photo-list"
+                label="Portals"
+                subtitle={statusPortals().label}
+                className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'portals' ? 'brdPrimary400 bgWhite' : 'brdLight100'}`}
+                colorIcon={'primary700'}
+                backIcon="primary100 mr-1"
+                onClick={() => history.push(`/${propID}/listings/portals`)}
+                status={statusPortals().colorIcon}
+                selected
+              />
+            </div>
+            <div>
+              <BrixelButtonBox
+                bgTransparent
+                icon="gallery"
+                label="Showings"
+                subtitle={`No showings`}
+                className={`w-perc-100 mt-1 shadow-1dp brdMedium ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdLight100'}`}
+                colorIcon={'primary700'}
+                backIcon="primary100 mr-1"
+                onClick={() => history.push(`/${propID}/listings/showings`)}
+                selected
+              />
+            </div>
+
+            <div className="brdRadius shadow-1dp brdPrimary400 mt-1">
             <div className="transparency-container">
               <div className="dis-fl-col ta-l">
                 <BrixelButtonBox
@@ -194,6 +216,7 @@ const ListingsDashboard = (props) => {
                 <span className="ml-1 body2 ff-mono txtPrimary700">8</span>
               </div>
             </div>
+          </div>
           </div>
         </div>
         {

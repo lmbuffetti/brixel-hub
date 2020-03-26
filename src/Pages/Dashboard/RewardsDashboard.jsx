@@ -124,8 +124,21 @@ const RewardsDashboard = (props) => {
     return <Loading />
   }
 
+  const calcHeaderHeight = () => {
+    const head = document.getElementsByClassName('dashboardHeaderHub');
+    const wrapper = document.getElementById('rewardsDashboard');
+    let paddingTop = 0;
+    let paddingBottom = 0;
+    if (wrapper) {
+      paddingTop = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-top').replace('px', '');
+      paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
+    }
+    console.log(paddingTop, paddingBottom);
+    return head[0].offsetHeight + +paddingTop + +paddingBottom;
+  };
+
   return (
-    <div className="pt-3">
+    <div className="pt-5" id="rewardsDashboard">
       <div className={`dis-f ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'}`}>
 
         {
@@ -249,27 +262,29 @@ const RewardsDashboard = (props) => {
         }
         {
           activeGameGroup && rewardType !== 'rewards' && (
-            <div className="secondLevel">
-              <div>
-                <div className="headerSection hide-md p-1">
-                  <div className="pos-r">
-                    <BrixelButtonIcon
-                      className="shadow-2dp"
-                      icon="close-small"
-                      color="primary"
-                      saturationTxt={400}
-                      bgTransparent
-                      noBorder
-                      onClick={() => closeAchievement()}
-                    />
-                    <h5>{activeGameGroup.replace('-', ' ')}</h5>
+            <div className="w-perc-100 px-md-2" style={{ height: windowDimensions.height - calcHeaderHeight() }}>
+              <div className="secondLevel">
+                <div>
+                  <div className="headerSection hide-md p-1">
+                    <div className="pos-r">
+                      <BrixelButtonIcon
+                        className="shadow-2dp"
+                        icon="close-small"
+                        color="primary"
+                        saturationTxt={400}
+                        bgTransparent
+                        noBorder
+                        onClick={() => closeAchievement()}
+                      />
+                      <h5>{activeGameGroup.replace('-', ' ')}</h5>
+                    </div>
                   </div>
-                </div>
-                <div className="pt-4 p-md-4">
-                  {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                  {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                  {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                  {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                  <div className="pt-4 p-md-4">
+                    {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                    {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                    {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                    {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                  </div>
                 </div>
               </div>
             </div>

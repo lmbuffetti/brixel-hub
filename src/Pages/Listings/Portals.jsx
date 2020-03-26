@@ -9,12 +9,11 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
+  BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelIcon,
 } from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
-import defaultCover from '../../images/no_cover.jpg';
 import page_review from '../../images/Listings/page_review.svg';
 import portalsImg from '../../images/Listings/portals.svg';
 
@@ -23,6 +22,7 @@ const Portals = (props) => {
   const {
     formValue,
     handleSaveActiveSingleProperty,
+    history,
     isSmallLoading,
     match,
     portals,
@@ -54,7 +54,17 @@ const Portals = (props) => {
         <div className="max-h-perc-100 dis-fl-col">
           <div className=" pos-r px-2 pt-2 px-md-3 pt-md-3">
             <div className="dis-f jc-b a-c">
+              <BrixelButtonIcon
+                className="shadow-3dp hide-md"
+                icon="arrow-simple-left"
+                background="White"
+                color="primary"
+                saturationTxt={400}
+                noBorder
+                onClick={() => history.push(`${propID}/listings`)}
+              />
               <h5>Portals</h5>
+              <span />
             </div>
           </div>
           <div className="max-h-perc-100 pb-4 ov-a">

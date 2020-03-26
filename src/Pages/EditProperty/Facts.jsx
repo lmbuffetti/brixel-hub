@@ -142,7 +142,7 @@ const InputSheet = (props) => {
 
   return (
     <div className="dis-f h-perc-100 ov-h">
-      <div className="secondLevel h-perc-100 dis-fl-col w-perc-100 mr-md-1">
+      <div className="secondLevel h-perc-100 dis-fl-col w-perc-100">
         <div className="max-h-perc-100 dis-fl-col">
           <div className="headerSection pos-r px-2 pt-2 px-md-4 pt-md-4">
             <BrixelButtonIcon
@@ -209,7 +209,7 @@ const InputSheet = (props) => {
       </div>
       {
         selectedQuest && getFact() !== 'facts' && (
-          <div className="thirdLevel dis-fl-col w-perc-100 ml-md-1">
+          <div className="thirdLevel dis-fl-col w-perc-100 ml-md-2">
             <div className="h-perc-100 dis-fl-col">
               <div className="max-h-perc-100 ov-a">
                 <FactsQuestion quest={selectedQuest} />

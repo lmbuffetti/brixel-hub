@@ -2,13 +2,18 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import has from 'lodash/has';
+import last from 'lodash/last';
+import cloneDeep from 'lodash/cloneDeep';
+import groupBy from 'lodash/groupBy';
+import without from 'lodash/without';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
@@ -21,6 +26,13 @@ import {
   createPropertyVisitSchedule,
   savePropertyVisitBooking,
 } from '../../actions/PropertyActions';
+import Loadable from 'react-loadable';
+import LoadingSimple from '../../components/LoadingSimple';
+
+const AddShowings = Loadable({
+  loader: () => import('./AddShowings' /* webpackChunkName: "AddShowings" */),
+  loading: LoadingSimple,
+});
 
 const Showings = (props) => {
   // PROPS
@@ -30,6 +42,7 @@ const Showings = (props) => {
     handleSavePropertyVisitBooking,
     handleSavePropertyVisitSchedule,
     handleCreatePropertyVisitSchedule,
+    history,
     isSmallLoading,
     match,
     reset,
@@ -39,6 +52,7 @@ const Showings = (props) => {
   const [manageAvailability, setManageAvailability] = useState(false);
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
+  const getFact = () => last(history.location.pathname.split('/'));
 
   const saveData = () => {
     // Update schedule
@@ -66,21 +80,43 @@ const Showings = (props) => {
     reset('Property');
   };
 
-  const manageBooking = (idBooking, idSlot, action) => {
-    const selectBooking = get(formValue, `booking[${idBooking}]`, []);
-    if (has(selectBooking, `slots[${idSlot}]`)) selectBooking.slots[idSlot].status = action;
-    changeFieldValue(`booking[${idBooking}]`, selectBooking);
+  const manageBooking = (book, action) => {
+    const allBook = get(formValue, `booking`, []);
+    const selectSlots = allBook.find(item => item.id === book.id);
+    const idSlot = selectSlots.slots.findIndex(item => moment(item.slot).format('YYYY.MM.DD HH:mm') === moment(book.slot).format('YYYY.MM.DD HH:mm'));
+    selectSlots.slots[idSlot].status = action;
     const data = {
-      scheduleId: get(formValue, `booking[${idBooking}].id`, []),
+      scheduleId: book.id,
       data: {
-        message: get(formValue, `booking[${idBooking}].message`, []),
+        message: get(selectSlots, `message`, []),
         page: propID,
-        slots: get(formValue, `booking[${idBooking}].slots`, []),
-        buyer: get(formValue, `booking[${idBooking}].buyer`, []),
+        slots: selectSlots.slots,
+        buyer: book.buyer,
       }
     };
     handleSavePropertyVisitBooking(data);
-    console.log(selectBooking);
+  };
+
+  const getBooking = (slot) => {
+    const allBook = cloneDeep(formValue.booking);
+    const curBook = allBook.map((book, i) => {
+      const filteredData = book.slots.filter(book => moment(book.slot).format('YYYY.MM.DD HH:mm') === moment(slot).format('YYYY.MM.DD HH:mm'));
+      if (filteredData.length > 0) {
+        return filteredData.map((filt) => {
+          filt.buyer = book.buyer;
+          filt.id = book.id;
+          return filt;
+        });
+      }
+      return null;
+    });
+    return without(curBook, null);
+  };
+
+  const gorupByMonth = () => {
+    const selectedSlots = get(formValue, 'schedule.slots', []);
+    const grouped = groupBy(selectedSlots, (d) => moment(d).format('MM.YYYY'));
+    return grouped || {};
   };
 
   return (
@@ -89,6 +125,15 @@ const Showings = (props) => {
         <div className="max-h-perc-100 dis-fl-col">
           <div className=" pos-r px-2 pt-2 px-md-3 pt-md-3">
             <div className="dis-f jc-b a-c">
+              <BrixelButtonIcon
+                className="shadow-3dp hide-md"
+                icon="arrow-simple-left"
+                background="White"
+                color="primary"
+                saturationTxt={400}
+                noBorder
+                onClick={() => setManageAvailability(!manageAvailability)}
+              />
               <h5>Showings</h5>
               <BrixelButtonIcon
                 className="shadow-3dp"
@@ -127,24 +172,68 @@ const Showings = (props) => {
             !manageAvailability ? (
               <div className="max-h-perc-100 pb-4 ov-a">
                 {
-                  formValue.booking.map((book, i) => (
-                    <React.Fragment key={i.toString()}>
+                  Object.keys(gorupByMonth()).map((key, e) => (
+                    <React.Fragment key={e.toString()}>
+                      <h6 className="txtLight400 mb-1">
+                        <span>{moment(key, 'MM.YYYY').format('MMMM')}</span>
+                        &nbsp;-&nbsp;
+                        <span>{moment(key, 'MM.YYYY').format('YYYY')}</span>
+                      </h6>
                       {
-                        book.slots.map((day, f) =>(
-                          <React.Fragment key={f.toString()}>
+                        gorupByMonth()[key].map((day, g) => (
+                          <div key={g.toString()}>
                             {
-                              (activeTab === '' || (day.status && day.status === activeTab)) && (
-                                <BrixelBookingCard
-                                  dimensionsFixed={false}
-                                  className="mb-1"
-                                  slot={day}
-                                  buyer={book.buyer}
-                                  onAccept={() => manageBooking(i, f, 'accepted')}
-                                  onCancel={() => manageBooking(i, f, 'canceled')}
-                                />
+                              getBooking(day).length > 0 ? (
+                                <>
+                                  {
+                                    getBooking(day).map((book, i) => (
+                                      <React.Fragment key={i.toString()}>
+                                        {
+                                          book && book.map((day, f) =>(
+                                            <React.Fragment key={f.toString()}>
+                                              {
+                                                (activeTab === '' || (day.status && day.status === activeTab && moment(day.slot).isAfter(moment(), 'day'))) && (
+                                                  <BrixelBookingCard
+                                                    dimensionsFixed={false}
+                                                    className="mb-1"
+                                                    slot={day}
+                                                    buyer={day.buyer || {}}
+                                                    onAccept={() => manageBooking(day, 'accepted')}
+                                                    onCancel={() => manageBooking(day, 'canceled')}
+                                                    countryLang={'en'}
+                                                    showActions={moment(day.slot).isAfter(moment(), 'day')}
+                                                  />
+                                                )
+                                              }
+                                            </React.Fragment>
+                                          ))
+                                        }
+                                      </React.Fragment>
+                                    ))
+                                  }
+                                </>
+                              ) : (
+                                <>
+                                  {
+                                    moment(day).isAfter(moment(), 'day') && (
+                                      <BrixelBookingCard
+                                        dimensionsFixed={false}
+                                        className="mb-1"
+                                        slot={{slot: day}}
+                                        buyer={{}}
+                                        onAccept={() => manageBooking(day, 'accepted')}
+                                        onCancel={() => manageBooking(day, 'canceled')}
+                                        countryLang={'en'}
+                                        insertBooking={true}
+                                        onAdd={() => history.push(`/${propID}/listings/showings/addBooking/${g}`)}
+                                      />
+                                    )
+                                  }
+                                </>
                               )
                             }
-                          </React.Fragment>
+
+                          </div>
                         ))
                       }
                     </React.Fragment>
@@ -186,6 +275,15 @@ const Showings = (props) => {
           }
         </div>
       </div>
+      {
+        getFact() !== 'showings' && (
+          <Route
+            path={'/:propId/listings/showings/addBooking/:idShowing'}
+            exact
+            component={AddShowings}
+          />
+        )
+      }
     </div>
   );
 };
