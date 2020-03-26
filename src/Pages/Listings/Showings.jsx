@@ -85,6 +85,9 @@ const Showings = (props) => {
     const selectSlots = allBook.find(item => item.id === book.id);
     const idSlot = selectSlots.slots.findIndex(item => moment(item.slot).format('YYYY.MM.DD HH:mm') === moment(book.slot).format('YYYY.MM.DD HH:mm'));
     selectSlots.slots[idSlot].status = action;
+    if (action === 'canceled') {
+      selectSlots.slots.splice(idSlot, 1);
+    }
     const data = {
       scheduleId: book.id,
       data: {

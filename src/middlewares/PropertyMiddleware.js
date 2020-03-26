@@ -17,8 +17,7 @@ import {
   DELETE_PROPERTY_VISIT_SCHEDULE,
   GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
   SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-  SAVE_PROPERTY_VISIT_BOOKING,
-  CREATE_PROPERTY_VISIT_BOOKING,
+  SAVE_PROPERTY_VISIT_BOOKING, CREATE_PROPERTY_VISIT_BOOKING,
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
@@ -124,6 +123,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+
     case GET_ACTIVE_SINGLE_PROPERTY: {
       next(action);
       const { smallLoader } = action.payload;
@@ -297,7 +297,7 @@ const checkCommon = (store) => (next) => (action) => {
       getMarketData();
       break;
     }
-    case SAVE_PROPERTY_VISIT_BOOKING: {
+    case CREATE_PROPERTY_VISIT_SCHEDULE: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON });
       api.property.createPropertyVisitSchedule(action.payload)
