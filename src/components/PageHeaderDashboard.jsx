@@ -90,6 +90,11 @@ function PageHeaderDashboard(props) {
     document.body.classList.remove('ov-h');
   };
 
+  const onUpgrade = () => {
+    localStorage.setItem('backUrl', history.location.pathname);
+    history.push(`/${propID}/upgrade`);
+  };
+
   return (
     <>
       <header className={`dashboardHeaderHub`}>
@@ -130,6 +135,7 @@ function PageHeaderDashboard(props) {
               label="UPGRADE"
               background="red"
               rounded
+              onClick={() => onUpgrade()}
             />
             <div className="ml-2 hide dis-b-md">
               <AvatarImage

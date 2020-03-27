@@ -42,6 +42,12 @@ const SupportDashboard = Loadable({
   loading: Loading,
 });
 
+// UPGRADE
+const Upgrade = Loadable({
+  loader: () => import('../Upgrade/Upgrade' /* webpackChunkName: "Upgrade" */),
+  loading: Loading,
+});
+
 const ProtectedRoute = Loadable({
   loader: () => import('../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
   loading: Loading,
@@ -164,6 +170,7 @@ const Dashboard = (props) => {
         <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
         <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
         <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
+        <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
       </div>
 
 

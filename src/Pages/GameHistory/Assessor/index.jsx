@@ -355,7 +355,7 @@ Assessor.defaultProps = {
   redirectTo: null,
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   company: get(state, 'companies.activeSingleCompany', {}),
   errorValue: get(state, 'form.GamingFlow.syncErrors', {}),
   formValue: get(state, 'form.GamingFlow.values', {}),
