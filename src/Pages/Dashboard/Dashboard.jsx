@@ -171,9 +171,9 @@ const Dashboard = (props) => {
 
         <TransitionGroup>
           <CSSTransition
-            key={location.key}
+           /*  key={location.key}
             timeout={300}
-            classNames="fade"
+            classNames="fade" */
           >
 
             <Switch location={location}>

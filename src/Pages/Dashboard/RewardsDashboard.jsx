@@ -125,7 +125,7 @@ const RewardsDashboard = (props) => {
   }
 
   const calcHeaderHeight = () => {
-    const head = document.getElementsByClassName('dashboardHeaderHub');
+    const head = document.getElementsByClassName('hubDasHeader');
     const wrapper = document.getElementById('rewardsDashboard');
     let paddingTop = 0;
     let paddingBottom = 0;
@@ -133,7 +133,6 @@ const RewardsDashboard = (props) => {
       paddingTop = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-top').replace('px', '');
       paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
     }
-    console.log(paddingTop, paddingBottom);
     return head[0].offsetHeight + +paddingTop + +paddingBottom;
   };
 
