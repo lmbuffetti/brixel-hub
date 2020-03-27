@@ -85,7 +85,7 @@ const HomeDashboard = (props) => {
 
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
-    const wrapper = document.getElementById('test');
+    const wrapper = document.getElementById('propertyDashboard');
     let paddingTop = 0;
     let paddingBottom = 0;
     if (wrapper) {
@@ -97,7 +97,7 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-container dis-f">
+      <div className="property-container dis-f" id="propertyDashboard">
           <div className={`firstLevel bgLight100 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2 opened' : 'closed'}`}>
             <div className={`jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-f' : 'hide'}`}>
               <BrixelButtonIcon

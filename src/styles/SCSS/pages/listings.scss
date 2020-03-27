@@ -40,3 +40,16 @@
     }
   }
 }
+
+.portalsList {
+  a {
+    text-transform: capitalize;
+    margin-right: $step * 4;
+    span {
+      color: map_get($darkColor, 400);
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

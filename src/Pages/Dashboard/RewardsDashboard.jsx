@@ -124,8 +124,21 @@ const RewardsDashboard = (props) => {
     return <Loading />
   }
 
+  const calcHeaderHeight = () => {
+    const head = document.getElementsByClassName('dashboardHeaderHub');
+    const wrapper = document.getElementById('rewardsDashboard');
+    let paddingTop = 0;
+    let paddingBottom = 0;
+    if (wrapper) {
+      paddingTop = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-top').replace('px', '');
+      paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
+    }
+    console.log(paddingTop, paddingBottom);
+    return head[0].offsetHeight + +paddingTop + +paddingBottom;
+  };
+
   return (
-    <div className={`rewards-container dis-f ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'}`}>
+    <div className={`rewards-container dis-f ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'}`} id="rewardsDashboard">
         {
           usrGroups && (
             <>
@@ -247,7 +260,7 @@ const RewardsDashboard = (props) => {
         }
         {
           activeGameGroup && rewardType !== 'rewards' && (
-            <div className="secondLevel ml-md-2">
+            <div className="secondLevel w-perc-100 px-md-2" style={{ height: windowDimensions.height - calcHeaderHeight() }}>
               <>
                 <div className="headerSection hide-md p-1">
                   <div className="pos-r">
