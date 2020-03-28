@@ -159,7 +159,10 @@ const App = (props) => {
       <div className={classMain}>
         <div className="dis-f">
           {
-            !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding') && loggedInUser && (
+            !history.location.pathname.includes('packageFlow') &&
+            !history.location.pathname.includes('onBoarding') &&
+            !history.location.pathname.includes('upgrade') &&
+            loggedInUser && (
               <MenuSidebar />
             )
           }
@@ -170,7 +173,11 @@ const App = (props) => {
               )
             }
             {
-              (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding')) && (
+              (
+                !history.location.pathname.includes('packageFlow') &&
+                !history.location.pathname.includes('onBoarding')) &&
+                !history.location.pathname.includes('upgrade') &&
+              (
                 <PageHeaderDashboard />
               )
             }
@@ -193,6 +200,7 @@ const App = (props) => {
                 <ProtectedRoute path="/:propId?/property" component={Dashboard} />
                 <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
                 <ProtectedRoute path="/:propId?/support" component={Dashboard} />
+                <ProtectedRoute path="/:propId?/upgrade" component={Dashboard} />
                 <Redirect path="/:propId?/*" to="/:propId?/rewards" component={Dashboard} />
               </Switch>
             </div>
@@ -206,6 +214,7 @@ const App = (props) => {
         <Switch>
           <ProtectedRoute path="/:propId?/rewards/achievement/market-checker" exact component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
           <ProtectedRoute path="/:propId?/rewards/achievement/assessor" exact component={Assessor} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
           <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
         </Switch>
       }

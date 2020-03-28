@@ -50,6 +50,12 @@ const SupportDashboard = Loadable({
   loading: Loading,
 });
 
+// UPGRADE
+const Upgrade = Loadable({
+  loader: () => import('../Upgrade/Upgrade' /* webpackChunkName: "Upgrade" */),
+  loading: Loading,
+});
+
 const ProtectedRoute = Loadable({
   loader: () => import('../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
   loading: Loading,
@@ -170,12 +176,7 @@ const Dashboard = (props) => {
       <Route render={({location}) => (
 
         <TransitionGroup>
-          <CSSTransition
-           /*  key={location.key}
-            timeout={300}
-            classNames="fade" */
-          >
-
+          <CSSTransition>
             <Switch location={location}>
               <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
               <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />

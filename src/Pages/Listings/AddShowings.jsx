@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
+import React  from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, Field, reduxForm, reset } from 'redux-form';
@@ -62,7 +62,6 @@ const Showings = (props) => {
     Object.keys(errorValue).map((key) => {
       if (errorValue[key] !== true) isValid = false;
     });
-    console.log(isValid);
     return isValid;
   };
 
