@@ -111,8 +111,8 @@ const ListingsDashboard = (props) => {
 
   return (
     <div className="listings-container" id="listingsDashaboard">
-      <div className="dis-f h-perc-100 pr-md-2">
-        <div className={`firstLevel px-2 expendableColumn ${openCloseColumn()}`}>
+      <div className="dis-f h-perc-100">
+        <div className={`firstLevel mr-md-2 expendableColumn ${openCloseColumn()}`}>
           <div className={`jc-c mb-2 ${openCloseColumn() === 'close' ? 'dis-f' : 'hide'}`}>
             <BrixelButtonIcon
               background="white"
@@ -133,7 +133,7 @@ const ListingsDashboard = (props) => {
                 icon="gallery"
                 label="Brixel Page"
                 subtitle={statusPage().label}
-                className={`w-perc-100 mr-1 shadow-1dp ${getFact() === 'page' ? 'brdMedium bgWhite brdPrimary400' : 'brdMedium brdLight100'}`}
+                className={`w-perc-100 mr-1 shadow-1dp brdMedium${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                 colorIcon="primary700"
                 backIcon="primary100 mr-1"
                 onClick={() => history.push(`/${propID}/listings/page`)}
@@ -145,7 +145,7 @@ const ListingsDashboard = (props) => {
                 icon="photo-list"
                 label="Portals"
                 subtitle={statusPortals().label}
-                className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'portals' ? 'brdPrimary400 bgWhite' : 'brdLight100'}`}
+                className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'portals' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                 colorIcon={'primary700'}
                 backIcon="primary100 mr-1"
                 onClick={() => history.push(`/${propID}/listings/portals`)}
@@ -159,7 +159,7 @@ const ListingsDashboard = (props) => {
                 icon="gallery"
                 label="Showings"
                 subtitle={`No showings`}
-                className={`w-perc-100 mt-1 shadow-1dp brdMedium ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdLight100'}`}
+                className={`w-perc-100 mt-1 shadow-1dp brdMedium ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                 colorIcon={'primary700'}
                 backIcon="primary100 mr-1"
                 onClick={() => history.push(`/${propID}/listings/showings`)}
