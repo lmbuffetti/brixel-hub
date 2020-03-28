@@ -209,7 +209,7 @@ const RewardsDashboard = (props) => {
                                               label={item.name}
                                               subtitle={item.description}
                                               background={'white'}
-                                              className={`shadow-1dp mb-2 w-perc-100 p-2 brdPrimary400 brdSmall ${item.done ? '' : 'shadow-2dp'}`}
+                                              className={`shadow-1dp mb-2 w-perc-100 p-2 brdPrimary400 brdMedium ${item.done ? '' : 'shadow-2dp'}`}
                                               colorIcon={item.done ? 'green400'  : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
                                               backIcon={`${item.done ? 'light200' : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
                                               paddingIconClass="fSizePx24 p-small-12"
@@ -227,7 +227,7 @@ const RewardsDashboard = (props) => {
                                               label={item.name}
                                               subtitle={item.description}
                                               background={item.done ? 'light100' : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].color}
-                                              className={`shadow-1dp mb-2 w-perc-100 p-2 ${item.done ? '' : 'shadow-2dp'}`}
+                                              className={`shadow-1dp mb-2 w-perc-100 p-2 brdLight100 brdMedium ${item.done ? '' : 'shadow-2dp'}`}
                                               colorIcon={item.done ? 'green400'  : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].iconColor}
                                               backIcon={`${item.done ? 'light200' : GameGroupConfig[`${userTypes}Level${group.stub.replace( /^\D+/g, '')}`].backColor} mr-1`}
                                               paddingIconClass="fSizePx24 p-small-12"
