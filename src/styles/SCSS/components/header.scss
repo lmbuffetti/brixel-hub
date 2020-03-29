@@ -8,10 +8,14 @@
     border-radius: $step $step 0 0;
     background: $brx-white;
     box-shadow: $shadow-1dp;
-    padding-top: $step;
     ul.tabsList {
       li {
+        padding-top: $step;
         color: map_get($darkColor, 200);
+        transition: color $default-time $default-easing;
+        &:hover {
+          color: map_get($primaryColor, 400);
+        }
         &.active {
           color: map_get($primaryColor, 400);
         }
@@ -20,7 +24,7 @@
   }
 }
 
-.dashboardHeaderHub {
+.hubDasHeader {
   box-shadow: $shadow-1dp;
 }
 
@@ -35,7 +39,7 @@
     }
   }
 
-  .dashboardHeaderHub {
+  .hubDasHeader {
     box-shadow: none;
   }
 }

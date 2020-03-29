@@ -181,7 +181,7 @@ const App = (props) => {
                 <PageHeaderDashboard />
               )
             }
-            <div className={`bgLigth100 ${!isFlow ? 'bgLight100 h-perc-100' : ''}`}>
+            <div className={`${!isFlow ? 'hubDasContent bgLight100 h-perc-100' : ''}`}>
               <Switch>
                 { /* SECTION: ONBOARDING */ }
                 <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />

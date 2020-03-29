@@ -40,8 +40,8 @@ const Page = (props) => {
   };
 
   return (
-    <div className="dis-f h-perc-100 ov-h">
-      <div className="showings secondLevel h-perc-100 dis-fl-col">
+    <div className="dis-f h-perc-100">
+      <div className="showings secondLevel h-perc-100 dis-fl-col ml-md-1">
         <div className="max-h-perc-100 dis-fl-col">
           <div className=" pos-r px-2 pt-2 px-md-3 pt-md-3">
             <div className="dis-f jc-b a-c">

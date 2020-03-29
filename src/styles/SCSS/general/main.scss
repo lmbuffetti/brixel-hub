@@ -1,3 +1,7 @@
+// CUSTOM VARIABLES
+$sidebarWidth: 84px;
+$iphone5: 320px;
+
 // GENERAL
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 @import '~@brixel/brixel-configuration-partner/src/Variables';
@@ -20,7 +24,8 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 "../components/timeline_achievement",
 "../components/options-menu",
 "../components/documents",
-"../components/menu-sidebar";
+"../components/menu-sidebar",
+"../components/property-list";
 // PAGES
 @import "../pages/getStarted",
 "../pages/achievement",
@@ -30,8 +35,8 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 "../pages/images",
 "../pages/facts",
 "../pages/onBoarding";
-
-$sidebarWidth: 84px;
+// TRANSITIONS
+@import "./transitions";
 
 html, body {
   position: relative;

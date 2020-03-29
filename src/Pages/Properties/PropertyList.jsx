@@ -21,6 +21,7 @@ const PropertyList = (props) => {
     history,
     userProperties,
     user,
+    className,
   } = props;
 
   // STATE
@@ -43,14 +44,14 @@ const PropertyList = (props) => {
   }, [activeSection, favoritesProperties, userProperties]);
 
   return (
-    <div className="properties ov-a h-perc-100">
+    <div className={`properties ov-a h-perc-100 ${className}`}>
       {
         (activeProperties && activeProperties.length > 0) && (
-          <div className="px-2 pb-5">
+          <div className="px-2 pb-5 py-1">
             {
               activeProperties.map((property, i) => (
                 <a key={i.toString()} className="link" href={`/${property.id}/home`}>
-                  <li className="single-property dis-fl-row a-c jc-b cur-poi brdSmall brdLight200 brdRadius mt-3">
+                  <li className="single-property dis-fl-row a-c jc-b cur-poi brdSmall brdLight200 brdRadius mt-2">
                     <div className="dis-f jc-b w-perc-100 a-c">
                       <div className="dis-f a-c">
                         <div className="avatar w-fix-96 h-fix-96 a-c jc-c pos-r brdRadius ov-h">

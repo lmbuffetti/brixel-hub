@@ -6,15 +6,17 @@ import { compose } from 'redux';
 import { BrixelButtonIcon, useOutsideAlerter } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo.svg';
+import { CSSTransition } from 'react-transition-group';
 
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 
 const MenuSidebar = (props) => {
   const {
-    windowDimensions,
+    windowDimensions, history
   } = props;
   // STATE
   const [activeMenu, setActiveMenu] = useState(null);
+  const [slideIn, setSlideIn] = useState(false);
   // REF
   const wrapperRef = useRef(null);
 
@@ -25,32 +27,28 @@ const MenuSidebar = (props) => {
     },
   });
 
+  const propertyUrls = (history.location.pathname.includes('rewards')) || (history.location.pathname.includes('property')) || (history.location.pathname.includes('listings')) ? true : false;
+
   return (
     <>
-      <header
-        className="sideHeader dis-fl-col a-c jc-fs h-perc-100 shadow-2dp" id="menu-sidebar"
-      >
-        <div>
+      <header className="sideHeader dis-fl-col a-c jc-fs h-perc-100 shadow-2dp" id="menu-sidebar">
+        <div className="w-perc-100 h-perc-100">
           { /* SECTION SIDEBAR MENU DESKTOP */ }
-          <div className="pos-r zIndex3 sidebar hide dis-b-md">
-            <div
-              className="admin-info w-perc-100 dis-fl-col a-c mb-6 py-3"
-            >
+          <div className="pos-r sidebar hide dis-b-md w-perc-100 h-perc-100 bgWhite zIndex3">
+            <div className="admin-info w-perc-100 dis-fl-col a-c mb-10 py-3">
               <img className="pos-r w-fix-32" src={logo} alt="Brixel Logo" id="logo" />
             </div>
-
             <div className="links h-perc-100 w-perc-100 dis-fl-col jc-b pos-r zIndex2">
               <div className="routes dis-fl-col jc-fs">
-
-                <div className={`pos-r h-fix-48 w-perc-100 dis-fl-col a-c ta-c`}>
+                <div className={`pos-r h-fix-48 w-perc-100 dis-fl-col a-c ta-c ${activeMenu === 'propertyList'? 'clicked' : ''}`}>
                   <BrixelButtonIcon
                     icon="properties"
                     hoverTextColor="primary"
                     bgTransparent
                     noBorder
-                    color={activeMenu === 'propertyList' ? 'primary' : 'dark'}
-                    saturationTxt={activeMenu === 'propertyList' ? 400 : 100}
-                    className="h-perc-100 w-perc-100"
+                    color="dark"
+                    saturationTxt={300}
+                    className={`noRadius h-perc-100 w-perc-100 ${propertyUrls ? 'active' : '' }`}
                     onClick={() => {
                       // if (preventExit) {
                       //   setUnsavedModal({
@@ -59,7 +57,8 @@ const MenuSidebar = (props) => {
                       //   });
                       //   return;
                       // }
-                      setActiveMenu('propertyList')
+                      setActiveMenu('propertyList');
+                      setSlideIn(true)
                     }}
                   />
                 </div>
@@ -71,7 +70,7 @@ const MenuSidebar = (props) => {
                     bgTransparent
                     noBorder
                     color="light"
-                    className="h-perc-100 w-perc-100"
+                    className="noRadius h-perc-100 w-perc-100"
                     saturationTxt={300}
                   />
                 </div>
@@ -83,7 +82,7 @@ const MenuSidebar = (props) => {
                     bgTransparent
                     noBorder
                     color="light"
-                    className="h-perc-100"
+                    className="noRadius h-perc-100 w-perc-100"
                     saturationTxt={300}
                   />
                 </div>
@@ -91,7 +90,16 @@ const MenuSidebar = (props) => {
               </div>
             </div>
           </div>
-          <MenuNavigationSubmenu windowDimensions={windowDimensions} activeMenu={activeMenu} onClose={() => setActiveMenu(null)} />
+          <CSSTransition
+            in={slideIn}
+            timeout={350}
+            classNames="slideIn"
+            onEnter={() => setSlideIn(true)}
+            onExited={() => setActiveMenu(null)}
+            unmountOnExit
+          >
+            <MenuNavigationSubmenu windowDimensions={windowDimensions} activeMenu={activeMenu} onClose={() => { setSlideIn(false)}} />
+          </CSSTransition>
         </div>
       </header>
     </>

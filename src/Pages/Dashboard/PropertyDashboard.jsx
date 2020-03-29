@@ -73,9 +73,9 @@ const HomeDashboard = (props) => {
       (history.location.pathname.includes('facts') && getFact() !== 'facts') ||
       (history.location.pathname.includes('edit'))
     ) {
-      return 'close';
+      return 'closed';
     }
-    return 'open';
+    return 'opened';
   };
 
   const calcLenght = (val) => {
@@ -84,7 +84,7 @@ const HomeDashboard = (props) => {
   };
 
   const calcHeaderHeight = () => {
-    const head = document.getElementsByClassName('dashboardHeaderHub');
+    const head = document.getElementsByClassName('hubDasHeader');
     const wrapper = document.getElementById('propertyDashboard');
     let paddingTop = 0;
     let paddingBottom = 0;
@@ -98,10 +98,9 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-info-container pt-5" id="propertyDashboard">
-        <div className="dis-f">
-          <div className={`firstLevel bgLight100 px-2 expendableColumn ${openCloseColumn()}`}>
-            <div className={`jc-c mb-2 ${openCloseColumn() === 'close' ? 'dis-f' : 'hide'}`}>
+      <div className="property-container dis-f" id="propertyDashboard">
+          <div className={`firstLevel bgLight100 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2 opened' : 'closed'}`}>
+            <div className={`jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-f' : 'hide'}`}>
               <BrixelButtonIcon
                 background="white"
                 saturation={0}
@@ -115,7 +114,7 @@ const HomeDashboard = (props) => {
             </div>
             <div className="hideOnExpanded">
               <div
-                className={`cur-poi brdRadius shadow-1dp brdPrimary400 ${getFact() === 'facts' ? 'brdMedium bgWhite' : ''}`}
+                className={`cur-poi brdRadius shadow-1dp brdMedium ${getFact() === 'facts' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                 onClick={() => history.push(`/${propID}/property/facts`)}>
                 <div className="transparency-container">
                   <div className="dis-fl-col ta-l">
@@ -165,7 +164,7 @@ const HomeDashboard = (props) => {
                   icon="gallery"
                   label="Photos"
                   subtitle={`${calcLenght(get(formValue, 'photos', []))} Files`}
-                  className={`w-perc-100 mr-1 shadow-1dp brdPrimary400 ${getFact() === 'photos' ? 'brdMedium bgWhite' : ''}`}
+                  className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'photos' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                   colorIcon={'primary400'}
                   backIcon="primary100 mr-1"
                   onClick={() => history.push(`/${propID}/property/photos`)}
@@ -177,7 +176,7 @@ const HomeDashboard = (props) => {
                   icon="plans"
                   label="Plans"
                   subtitle={`${calcLenght(get(formValue, 'floorPlans', []))} Files`}
-                  className={`w-perc-100 ml-1 shadow-1dp brdPrimary400 ${getFact() === 'floorPlans' ? 'brdMedium bgWhite' : ''}`}
+                  className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'floorPlans' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                   colorIcon={'primary400'}
                   backIcon="primary100 mr-1"
                   onClick={() => history.push(`/${propID}/property/floorPlans`)}
@@ -190,7 +189,7 @@ const HomeDashboard = (props) => {
                   icon="tour"
                   label="3d Tour"
                   subtitle={`0 Files`}
-                  className={`w-perc-100 shadow-1dp mr-1 brdPrimary400 ${getFact() === 'tour' ? 'brdMedium bgWhite' : ''}`}
+                  className={`w-perc-100 shadow-1dp mr-1 brdMedium ${getFact() === 'tour' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                   colorIcon={'primary400'}
                   backIcon="primary100 mr-1"
                   onClick={() => history.push(`/${propID}/property/tour`)}
@@ -202,7 +201,7 @@ const HomeDashboard = (props) => {
                   icon="folder"
                   label="Docubox"
                   subtitle={`0 Files`}
-                  className={`w-perc-100 shadow-1dp ml-1 brdPrimary400 ${getFact() === 'documents' ? 'brdMedium bgWhite' : ''}`}
+                  className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                   colorIcon={'primary400'}
                   backIcon="primary100 mr-1"
                   onClick={() => history.push(`/${propID}/property/documents`)}
@@ -212,7 +211,7 @@ const HomeDashboard = (props) => {
           </div>
           {
             getFact() !== 'property' && (
-              <div className="w-perc-100 px-md-2" style={{ height: windowDimensions.height - calcHeaderHeight() }}>
+              <div className={`levesWrapper w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed': 'opened'}`} style={{ height: windowDimensions.height - calcHeaderHeight() }}>
                 <Route path="/:propId?/property/facts" component={Facts} />
                 <Route path="/:propId?/property/photos" component={Photos} />
                 <Route path="/:propId?/property/floorPlans" component={Plans} />
@@ -222,8 +221,6 @@ const HomeDashboard = (props) => {
             )
           }
         </div>
-
-      </div>
     </>
   )
 };

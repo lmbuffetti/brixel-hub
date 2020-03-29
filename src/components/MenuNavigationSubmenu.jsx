@@ -13,6 +13,7 @@ const MenuNavigationSubmenu = (props) => {
     onClose,
     windowDimensions,
   } = props;
+
   // REF
   const wrapperRef = useRef(null);
 
@@ -27,7 +28,7 @@ const MenuNavigationSubmenu = (props) => {
     <>
       {
         activeMenu && (
-          <div className="sidebarSubmenu zIndex2 bgWhite" style={{ height: windowDimensions.height }}>
+          <div className="sidebarSubmenu zIndex2" style={{ height: windowDimensions.height }}>
             <div className="sidebarSubmenuContent dis-fl-col h-perc-100" ref={wrapperRef}>
               {
                 activeMenu === 'propertyList' && (
