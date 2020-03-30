@@ -1,4 +1,5 @@
-import React, { Fragment, useState, useEffect, forwardRef } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
 import { BrixelButtonTertiary, BrixelIcon } from '@brixel/brixel-components';
@@ -7,13 +8,12 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
   const {
     className,
     disabled,
-    img,
     input,
     label,
     options,
   } = props;
   const [arrVal, setArrVal] = useState(input.value || []);
-  const [openDetail, setOpenDetail] = useState(false);
+  const [openDetail, setOpenDetail] = useState([]);
 
   useEffect(() => {
     setArrVal(input.value || []);
@@ -29,6 +29,12 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
     input.onChange(value);
   };
 
+  const onToggleAccordion = (id) => {
+    let getOpenDetail = openDetail;
+    getOpenDetail[id] = !getOpenDetail[id];
+    setOpenDetail([...getOpenDetail]);
+  };
+
   return (
     <div className="brixel-checkbox-with-detail">
       {
@@ -40,7 +46,7 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
         {
           options.map((option, i) => (
             <div
-              className={`p-3 single-chackbox ${arrVal.includes(option.value) ? `brd${option.color} checked` : 'brdWhite'}`}
+              className={`p-3 single-chackbox ${className} ${arrVal.includes(option.value) ? `brd${option.color} checked` : 'brdWhite'}`}
               key={i.toString()}>
               <label
                 className={`dis-fl-col dis-fl-row-md ${arrVal.includes(option.value) ? 'checked' : ''}`}
@@ -65,16 +71,16 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
               <hr className="mt-3 mb-1" />
               <div className="dis-f a-c jc-b">
                 <BrixelButtonTertiary
-                  rightIcon={openDetail ? "arrow-simple-up" : "arrow-simple-down"}
+                  rightIcon={openDetail[i] ? "arrow-simple-up" : "arrow-simple-down"}
                   label="All Detail"
                   color="dark"
                   saturationTxt={700}
-                  onClick={() => setOpenDetail(!openDetail)}
+                  onClick={() => onToggleAccordion(i)}
                   className={'td-n'}
                 />
                 <p className={`txt${option.color} fweight-700 ff-mono`}>{option.priceInfo}</p>
               </div>
-              <div className={`detailCheckbox ${openDetail ? 'open' : 'close'}`}>
+              <div className={`detailCheckbox ${openDetail[i] ? 'open' : 'close'}`}>
                 <ul>
                   {
                     option.moreDetails.map((detail, i) => (

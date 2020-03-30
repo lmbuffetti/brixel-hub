@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { BrixelButtonIcon } from '@brixel/brixel-components';
@@ -38,17 +39,17 @@ const Upgrade = (props) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
-            console.log(get(formValue, item.name, null), item.name, item.value)
             if (get(formValue, item.name, null) !== item.value) {
               isValid = false
             }
+            return null;
           });
           if (isValid) newQuest.push(quest);
         } else {
           newQuest.push(quest);
         }
+        return null;
       });
-      console.log('EHHH', newQuest);
       setQuestions(newQuest);
     }
   }, [formValue]);
@@ -60,6 +61,7 @@ const Upgrade = (props) => {
         if (get(formValue, item.name, null) !== item.value) {
           isVerified = false;
         }
+        return null;
       });
     }
     return isVerified;

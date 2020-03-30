@@ -168,8 +168,6 @@ const Dashboard = (props) => {
 
   if (!userTypes) return (<div />);
 
-  console.log(history)
-
   return (
     <div className="container" id="dashboard">
       { /* SECTION: APP HEADER */ }
@@ -182,6 +180,7 @@ const Dashboard = (props) => {
               <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
               <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
               <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
+              <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
             </Switch>
           </CSSTransition>
         </TransitionGroup>
