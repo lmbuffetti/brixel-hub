@@ -55,7 +55,7 @@ const ListingsDashboard = (props) => {
   const statusPage = () => {
     let label;
     let colorIcon;
-    if (formValue.publishedReview) {
+    if (formValue.publishReview) {
       label = 'Review';
       colorIcon = 'yellow';
     } else if (formValue.published) {

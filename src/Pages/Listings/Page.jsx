@@ -14,7 +14,7 @@ import {
   BrixelIcon,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { saveActiveSingleProperty } from '../../actions/PropertyActions';
+import { updatePublishedReview } from '../../actions/PropertyActions';
 import defaultCover from '../../images/no_cover.jpg';
 import page_review from '../../images/Listings/page_review.svg';
 
@@ -22,7 +22,7 @@ const Page = (props) => {
   // PROPS
   const {
     formValue,
-    handleSaveActiveSingleProperty,
+    handleUpdatePublishedReview,
     history,
     isSmallLoading,
     match,
@@ -32,11 +32,11 @@ const Page = (props) => {
 
   const changeReviewStatus = (status) => {
     const data = {
-      id: propID,
+      page: propID,
       smallLoader: true,
-      publishedReview: status,
+      status: status,
     };
-    handleSaveActiveSingleProperty(data);
+    handleUpdatePublishedReview(data);
   };
 
   return (
@@ -78,7 +78,7 @@ const Page = (props) => {
           </div>
           <div className="max-h-perc-100 pb-4 ov-a">
             {
-              formValue.publishedReview ? (
+              formValue.publishReview ? (
                 <>
                   <div className="ta-c mt-3">
                     <img src={page_review} alt="Page Under review" />
@@ -236,7 +236,7 @@ const Page = (props) => {
 
 Page.propTypes = {
   history: PropTypes.object.isRequired,
-  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  handleUpdatePublishedReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.bool.isRequired,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -257,7 +257,7 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)))
   },
-  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
 });
 
 export default compose(

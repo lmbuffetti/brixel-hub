@@ -13,7 +13,7 @@ import {
   BrixelButtonPrimary,
   BrixelIcon,
 } from '@brixel/brixel-components';
-import { saveActiveSingleProperty } from '../../actions/PropertyActions';
+import { updatePortalsReview } from '../../actions/PropertyActions';
 import page_review from '../../images/Listings/page_review.svg';
 import portalsImg from '../../images/Listings/portals.svg';
 
@@ -21,7 +21,7 @@ const Portals = (props) => {
   // PROPS
   const {
     formValue,
-    handleSaveActiveSingleProperty,
+    handleUpdatePortalsReview,
     history,
     isSmallLoading,
     match,
@@ -41,11 +41,11 @@ const Portals = (props) => {
 
   const changeReviewStatus = (status) => {
     const data = {
-      id: propID,
+      page: propID,
       smallLoader: true,
-      portalsReview: status,
+      status: status,
     };
-    handleSaveActiveSingleProperty(data);
+    handleUpdatePortalsReview(data);
   };
 
   return (
@@ -184,7 +184,7 @@ const Portals = (props) => {
 
 Portals.propTypes = {
   history: PropTypes.object.isRequired,
-  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  handleUpdatePortalsReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.bool.isRequired,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -210,7 +210,7 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)))
   },
-  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleUpdatePortalsReview: bindActionCreators(updatePortalsReview, dispatch),
 });
 
 export default compose(

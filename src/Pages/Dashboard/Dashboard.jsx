@@ -247,7 +247,7 @@ const mapStateToProps = (state) => ({
     properties: get(state, 'property.activeSingleProperty.properties', {}),
     schedule: get(state, 'property.activeSingleProperty.schedule', {}),
     published: get(state, 'property.activeSingleProperty.published', null),
-    publishedReview: get(state, 'property.activeSingleProperty.publishedReview', null),
+    publishReview: get(state, 'property.activeSingleProperty.publishReview', null),
     stub: get(state, 'property.activeSingleProperty.stub', null),
     title: get(state, 'property.activeSingleProperty.title', null),
     virtual: get(state, 'property.activeSingleProperty.virtual', null),

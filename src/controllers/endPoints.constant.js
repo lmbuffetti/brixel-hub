@@ -42,6 +42,8 @@ export default {
     createPropertyVisit: () => '/scheduleVisit',
     propertyVisitById: (id) => `/scheduleVisit/${id}`,
     getPageVisits: (id) => `/page/${id}/visit`,
+    publishReview: (id, status) => `/page/${id}/publishReview?status=${status}`,
+    portalsReview: (id, status) => `/page/${id}/portalsReview?status=${status}`,
   },
   upload: {
     rotate: (id, rotation) => `/image/${id}/rotate/${rotation}`,

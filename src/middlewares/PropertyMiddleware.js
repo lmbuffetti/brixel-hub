@@ -17,7 +17,10 @@ import {
   DELETE_PROPERTY_VISIT_SCHEDULE,
   GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
   SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-  SAVE_PROPERTY_VISIT_BOOKING, CREATE_PROPERTY_VISIT_BOOKING,
+  SAVE_PROPERTY_VISIT_BOOKING,
+  CREATE_PROPERTY_VISIT_BOOKING,
+  UPDATE_PORTALS_REVIEW,
+  UPDATE_PUBLISHED_REVIEW,
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
@@ -35,9 +38,12 @@ import page from '../resources/localData/page.json';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
-    case CREATE_ACTIVE_SINGLE_PROPERTY:
+    case CREATE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
-      const { getEstimation, token, redirectToUserFlow, redirectToRewards, redirectToHome, smallLoader } = action.payload;
+      const {
+        getEstimation, token, redirectToUserFlow, redirectToRewards,
+        redirectToHome, smallLoader
+      } = action.payload;
       delete action.payload.getEstimation;
       delete action.payload.token;
       delete action.payload.redirectToUserFlow;
@@ -69,6 +75,7 @@ const checkCommon = (store) => (next) => (action) => {
           else store.dispatch({ type: SPINNER_OFF });
         });
       break;
+    }
     case SAVE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
       const { id, redirectTo, redirectToHome, smallLoader, setSuccessNotification } = action.payload;
@@ -227,14 +234,14 @@ const checkCommon = (store) => (next) => (action) => {
               });
             marketData.priceDistribution.chartRangePrice = newPriceDistribution;
           })
-          .catch((res) => {
+          .catch(() => {
             store.dispatch({ type: SPINNER_OFF });
           });
         await api.property.getLivingSpaceDistribution(urlSpace)
           .then((res) => {
             marketData.livingSpacesDistribution = res.data;
           })
-          .catch((res) => {
+          .catch(() => {
             store.dispatch({ type: SPINNER_OFF });
           });
         await api.property.getPricePerSpace(urlSpace)
@@ -260,35 +267,35 @@ const checkCommon = (store) => (next) => (action) => {
               });
             marketData.pricePerSpace.chartRangePrice = newPriceDistribution;
           })
-          .catch((res) => {
+          .catch(() => {
             store.dispatch({ type: SPINNER_OFF });
           });
         await api.property.getMarketDays(urlSpace)
           .then((res) => {
             marketData.daysOnMarketDistribution = res.data;
           })
-          .catch((res) => {
+          .catch(() => {
             store.dispatch({ type: SPINNER_OFF });
           });
         await api.property.getContructionYears(urlSpace)
           .then((res) => {
             marketData.constructionYearDistribution = res.data;
           })
-          .catch((res) => {
+          .catch(() => {
             store.dispatch({ type: SPINNER_OFF });
           });
         await api.property.getMerged(urlSpace)
           .then((res) => {
             marketData.list = res.data;
           })
-          .catch((res) => {
+          .catch(() => {
             store.dispatch({ type: SPINNER_OFF });
           });
         await api.property.getMergedBySubtype(urlSpace)
           .then((res) => {
             marketData.countBySubType = res.data;
           })
-          .catch((res) => {
+          .catch(() => {
             store.dispatch({ type: SPINNER_OFF });
           });
         store.dispatch({ type: SET_MARKET_CHECK, payload: marketData });
@@ -354,7 +361,7 @@ const checkCommon = (store) => (next) => (action) => {
     case GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON });
-      const { id } = action.payload
+      const { id } = action.payload;
       api.property.getPageVisits(id).then((response) => {
         store.dispatch({
           type: SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
@@ -369,25 +376,52 @@ const checkCommon = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_SMALL_ON });
       const { scheduleId, data } = action.payload;
       delete action.payload.id;
-      api.property.updatePropertyVisit(scheduleId, data).then((response) => {
-        store.dispatch({
-          type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-          payload: { id: data.page },
+      api.property.updatePropertyVisit(scheduleId, data)
+        .then(() => {
+          store.dispatch({
+            type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
+            payload: { id: data.page },
+          });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
-        store.dispatch({ type: SPINNER_SMALL_OFF });
-      });
       break;
     }
     case CREATE_PROPERTY_VISIT_BOOKING: {
       next(action);
       const { page } = action.payload;
       api.property.createPropertyVisit(action.payload)
-        .then((res) => {
+        .then(() => {
           store.dispatch({
             type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
             payload: { id: page },
           });
-        })
+        });
+      break;
+    }
+    case UPDATE_PORTALS_REVIEW: {
+      next(action);
+      const { smallLoader, page, status } = action.payload;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
+      api.property.changePortalsReview(page, status)
+        .then((res) => {
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
+        });
+      break;
+    }
+    case UPDATE_PUBLISHED_REVIEW: {
+      next(action);
+      const { smallLoader, page, status } = action.payload;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
+      api.property.changePublishReview(page, status)
+        .then((res) => {
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
+        });
       break;
     }
     default:

@@ -19,6 +19,8 @@ import {
   CREATE_PROPERTY_VISIT_BOOKING,
   SAVE_PROPERTY_VISIT_BOOKING,
   DELETE_PROPERTY_VISIT_BOOKING,
+  UPDATE_PORTALS_REVIEW,
+  UPDATE_PUBLISHED_REVIEW,
 } from './types/PropertyTypes';
 
 export const {
@@ -41,6 +43,8 @@ export const {
   createPropertyVisitBooking,
   savePropertyVisitBooking,
   deletePropertyVisitBooking,
+  updatePortalsReview,
+  updatePublishedReview,
 } = createActions({
   [GET_ESTIMATION]: (payload) => payload,
   [SET_ESTIMATION]: (payload) => payload,
@@ -61,4 +65,6 @@ export const {
   [CREATE_PROPERTY_VISIT_BOOKING]: (payload) => payload,
   [SAVE_PROPERTY_VISIT_BOOKING]: (payload) => payload,
   [DELETE_PROPERTY_VISIT_BOOKING]: (payload) => payload,
+  [UPDATE_PORTALS_REVIEW]: (payload) => payload,
+  [UPDATE_PUBLISHED_REVIEW]: (payload) => payload,
 });

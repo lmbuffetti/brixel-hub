@@ -95,6 +95,16 @@ class Property extends Base {
     return this.apiClient.get(url, {});
   }
 
+  changePublishReview(id, status) {
+    const url = ep.property.publishReview(id, status);
+    return this.apiClient.put(url, {}, {});
+  }
+
+  changePortalsReview(id, status) {
+    const url = ep.property.portalsReview(id, status);
+    return this.apiClient.put(url, {}, {});
+  }
+
   // BRIXELATOR
   getPriceDistribution(data) {
     const url = ep.brixelator.getPriceDistribution(data);
