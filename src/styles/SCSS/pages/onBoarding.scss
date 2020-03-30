@@ -43,8 +43,13 @@
   display: flex;
   transition: transform $default-loader-time;
 }
+.bodyModalFlow {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 .singleStep {
-  height: calc(100vh - 112px);
+  height: 100%;
   flex: 0 0 100vw;
   padding: 16px 16px 40px;
   overflow-y: auto;

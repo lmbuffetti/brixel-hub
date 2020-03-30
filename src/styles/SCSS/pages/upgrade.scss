@@ -6,11 +6,28 @@
   height: 100%;
 
   .singleStepUpgrade {
-    flex: 0 0 100vw;
+    flex: 0 0 calc(100vw - #{$step * 2});
     padding: 16px 16px 40px;
-    overflow-y: auto;
-    overflow-x: hidden;
     align-items: center;
 
+  }
+}
+
+.enter {
+  transform: translate(100vw, 0);
+}
+
+
+
+@media (min-width: $responsive-medium) {
+  #upgrade {
+
+    .footerActionUpgrade {
+      .backBtn {
+        position: absolute;
+        left: $step * 2;
+        bottom: $step * 2;
+      }
+    }
   }
 }

@@ -250,6 +250,10 @@ const mapStateToProps = (state) => ({
     publishReview: get(state, 'property.activeSingleProperty.publishReview', null),
     stub: get(state, 'property.activeSingleProperty.stub', null),
     title: get(state, 'property.activeSingleProperty.title', null),
+    packageUpgrade: {
+      contactEmail: get(state, 'user.loggedInUser.user.email', ''),
+      contactPhone: get(state, 'user.loggedInUser.user.phone', ''),
+    },
     virtual: get(state, 'property.activeSingleProperty.virtual', null),
   },
 });

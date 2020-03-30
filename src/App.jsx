@@ -146,7 +146,11 @@ const App = (props) => {
 
   let classMain = 'container pos-r ov-h p-0';
   let isFlow = false;
-  if (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) {
+  if (
+    history.location.pathname.includes('packageFlow') ||
+    history.location.pathname.includes('onBoarding') ||
+    history.location.pathname.includes('upgrade')
+  ) {
     classMain = '';
     isFlow = true;
   }

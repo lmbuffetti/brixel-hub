@@ -49,12 +49,12 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
               className={`p-3 single-chackbox ${className} ${arrVal.includes(option.value) ? `brd${option.color} checked` : 'brdWhite'}`}
               key={i.toString()}>
               <label
-                className={`dis-fl-col dis-fl-row-md ${arrVal.includes(option.value) ? 'checked' : ''}`}
+                className={`dis-fl-col dis-fl-row-md a-t a-md-c ${arrVal.includes(option.value) ? 'checked' : ''}`}
                 htmlFor={`${input.name}_${i}`}
               >
-                <img src={option.img} alt={option.label} />
-                <div className="pl-3 pr-5">
-                  <h5 className={`txt${option.color} mb-3`}>{option.label}</h5>
+                <img src={option.img} alt={option.label} className="max-w-fix-80 max-w-fix-md-112" />
+                <div className="pl-md-3 pr-5 mt-2 mt-md-0">
+                  <h5 className={`txt${option.color} mb-md-2 mb-3`}>{option.label}</h5>
                   <p className="txtDark700">{option.description}</p>
                 </div>
                 <input

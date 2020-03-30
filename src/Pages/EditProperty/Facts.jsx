@@ -108,7 +108,15 @@ const InputSheet = (props) => {
   }, [isSmallLoading]);
 
   const saveData = async () => {
-    const dataToSend = omit(formValue, ['owner', 'favoritedByUsers', 'schedule', 'booking', 'published', 'publishReview', 'portals', 'portalsReview', 'schedule']);
+    const dataToSend = {
+      description: get(formValue, 'description', {}),
+      location: get(formValue, 'location', {}),
+      properties: get(formValue, 'properties', {}),
+      inputSheet: get(formValue, 'inputSheet', {}),
+      price: get(formValue, 'price', {}),
+      status: get(formValue, 'price', {}),
+      title: get(formValue, 'title', {}),
+    };
     const data = {
       id: propID,
       smallLoader: true,

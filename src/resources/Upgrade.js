@@ -17,13 +17,12 @@ export const UpgradeQuestions = (lang) => [
     subtitle: "Here are my options for you",
     history: 'upgradeType',
     vCentered: true,
-    toSave: true,
     inputs: [
       {
         component: BrixelCheckboxWithDetail,
         pdClass: 'py-2 py-md-3 px-1',
         label: '',
-        name: "upgradeType",
+        name: "packageUpgrade.upgradeType",
         validation: [Validation.required],
         options: [
           {
@@ -62,22 +61,17 @@ export const UpgradeQuestions = (lang) => [
     ],
   },
   {
-    condition: [{
-      name: 'upgradeType',
-      value: null,
-    }],
     title: translateTo(lang,"When do you want to start?"),
     subtitle: "This helps me planing your journey.",
     history: 'wantToStart',
     vCentered: true,
-    toSave: true,
     inputs: [
       {
         component: BrixelRadioButton,
         pdClass: 'py-2 py-md-3 px-1',
         icons: true,
         label: '',
-        name: "wantsStart",
+        name: "packageUpgrade.wantsStart",
         validation: [Validation.required],
         options: [
           {
@@ -101,29 +95,18 @@ export const UpgradeQuestions = (lang) => [
     ],
   },
   {
-    condition: [
-      {
-        name: 'upgradeType[0]',
-        value: 'premium',
-      },
-      {
-        name: 'upgradeType[1]',
-        value: null,
-      }
-    ],
     title: translateTo(lang,"Is the property currently inhabited?"),
     subtitle: "",
     history: 'propertyInhabited',
     vCentered: true,
-    toSave: true,
     inputs: [
       {
         component: BrixelRadioButton,
         pdClass: 'py-2 py-md-3 px-1',
         icons: true,
         label: '',
-        name: "propertyInhabited",
-        validation: [Validation.required],
+        name: "packageUpgrade.propertyInhabited",
+        validation: [Validation.booleanRequired],
         options: [
           {
             label: 'Yes',
@@ -137,15 +120,15 @@ export const UpgradeQuestions = (lang) => [
       },
       {
         condition: [{
-          name: "propertyInhabited",
+          name: "packageUpgrade.propertyInhabited",
           value: true,
         }],
         component: BrixelRadioButton,
         pdClass: 'py-2 py-md-3 px-1',
         icons: true,
         label: 'Are you currently living there?',
-        name: "livingThere",
-        validation: [Validation.required],
+        name: "packageUpgrade.livingThere",
+        validation: [Validation.booleanRequired],
         options: [
           {
             label: 'Yes',
@@ -160,21 +143,10 @@ export const UpgradeQuestions = (lang) => [
     ],
   },
   {
-    condition: [
-      {
-        name: 'upgradeType[0]',
-        value: 'plus',
-      },
-      {
-        name: 'upgradeType[1]',
-        value: null,
-      }
-    ],
     title: translateTo(lang,"How can I reach you best?"),
     subtitle: "",
-    history: 'propertyInhabited',
+    history: 'packageUpgrade.propertyInhabited',
     vCentered: true,
-    toSave: true,
     inputs: [
       {
         component: BrixelRadioButton,
@@ -199,29 +171,29 @@ export const UpgradeQuestions = (lang) => [
         ]
       },
       {
+        title: 'Are this your correct contact informations?',
         component: BrixelInputText,
-        pdClass: 'py-2 py-md-3 px-1',
-        icons: true,
+        classNameBox: 'bgLight100 p-1',
         label: 'Phone number',
-        name: "contactPhone",
+        name: "packageUpgrade.contactPhone",
         placeholder: '+41 78 852 58 76',
         validation: [Validation.required],
       },
       {
         component: BrixelInputText,
-        pdClass: 'py-2 py-md-3 px-1',
-        icons: true,
+        classNameBox: 'bgLight100 p-1 mb-2',
         label: 'E-mail',
-        name: "contactEmail",
+        name: "packageUpgrade.contactEmail",
         placeholder: 'hans.muster@amazon.com',
-        validation: [Validation.required],
+        validation: [Validation.isEmail, Validation.required],
       },
       {
+        title: 'When is the best time to contact you?',
         component: BrixelCheckbox,
         pdClass: 'py-2 py-md-3 px-1',
         icons: true,
         label: '',
-        name: "contactTime",
+        name: "packageUpgrade.contactTime",
         validation: [Validation.required],
         options: [
           {
@@ -238,40 +210,73 @@ export const UpgradeQuestions = (lang) => [
           },
         ]
       },
-    ],
-  },
-  {
-    condition: [
+      // TO REMOVE
       {
-        name: 'upgradeType[0]',
-        value: 'plus',
-      },
-      {
-        name: 'upgradeType[1]',
-        value: 'premium',
-      }
-    ],
-    title: translateTo(lang,"Is the property currently inhabited?"),
-    subtitle: "",
-    history: 'propertyInhabited',
-    vCentered: true,
-    toSave: true,
-    inputs: [
-      {
-        component: BrixelRadioButton,
+        title: 'When is the best time to contact you?',
+        component: BrixelCheckbox,
         pdClass: 'py-2 py-md-3 px-1',
         icons: true,
         label: '',
-        name: "propertyInhabited",
+        name: "packageUpgrade.contactTime",
         validation: [Validation.required],
         options: [
           {
-            label: 'Yes',
-            value: true,
+            label: 'In the morning',
+            value: 'morning',
           },
           {
-            label: 'No',
-            value: false,
+            label: 'In the afternoon',
+            value: 'afternoon',
+          },
+          {
+            label: 'In the evening',
+            value: 'evening',
+          },
+        ]
+      },
+      {
+        title: 'When is the best time to contact you?',
+        component: BrixelCheckbox,
+        pdClass: 'py-2 py-md-3 px-1',
+        icons: true,
+        label: '',
+        name: "packageUpgrade.contactTime",
+        validation: [Validation.required],
+        options: [
+          {
+            label: 'In the morning',
+            value: 'morning',
+          },
+          {
+            label: 'In the afternoon',
+            value: 'afternoon',
+          },
+          {
+            label: 'In the evening',
+            value: 'evening',
+          },
+        ]
+      },
+      {
+        title: 'When is the best time to contact you?',
+        component: BrixelCheckbox,
+        pdClass: 'py-2 py-md-3 px-1',
+        icons: true,
+        label: '',
+        name: "packageUpgrade.contactTime",
+        validation: [Validation.required],
+        options: [
+          {
+            label: 'In the morning',
+            value: 'morning',
+          },
+          {
+            label: 'In the afternoon',
+            value: 'afternoon',
+          },
+          {
+            label: 'In the evening',
+            value: 'evening',
           },
         ]
       },
