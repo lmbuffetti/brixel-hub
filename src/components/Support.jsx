@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { BrixelIcon } from '@brixel/brixel-components';
 import SupportImg from '../images/Support/supportImg.png';
 import CallUsImg from '../images/Support/call_us.svg';

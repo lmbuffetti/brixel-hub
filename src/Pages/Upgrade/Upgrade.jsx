@@ -154,11 +154,10 @@ const Upgrade = (props) => {
                     {quest.subtitle && ( <p className="mb-4">{quest.subtitle}</p> )}
                     {
                       quest.inputs.map((input, f) => (
-                        <>
+                        <React.Fragment key={f.toString()}>
                           {
                             valideConditionInput(input) && (
                               <MultiStepForm
-                                key={f.toString()}
                                 disableNextBtn={false}
                                 formValue={formValue}
                                 onClick={() => ''}
@@ -166,7 +165,7 @@ const Upgrade = (props) => {
                               />
                             )
                           }
-                        </>
+                        </React.Fragment>
                       ))
                     }
                   </div>
