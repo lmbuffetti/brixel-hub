@@ -15,6 +15,7 @@ import {
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { uploadDocument, deleteDocument, updateDocument } from '../../actions/UploadActions';
+import { setScreenNotification } from '../../actions/CommonActions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import { diff } from 'deep-object-diff';
 
@@ -34,7 +35,7 @@ const Documents = (props) => {
   const {
     formValue, handleUploadDocument, user,
     handleDeleteDocument, handleUpdateDocument, match,
-    initialValues, changeFieldValue,
+    initialValues, changeFieldValue, setNotification,
   } = props;
   const { documents } = formValue;
 
@@ -113,6 +114,12 @@ const Documents = (props) => {
     e.preventDefault();
     textAreaRef.current.select();
     document.execCommand('copy');
+    setNotification({
+      state: true,
+      type: 'success',
+      label: 'Link copied!',
+    });
+    setTimeout(() => setNotification({ state: false }), 2000);
   };
 
   // Function to close the small menus when we click outside
@@ -349,7 +356,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('documentsForm', field, value));
   },
-  // setNotification: bindActionCreators(setScreenNotification, dispatch),
+  setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   handleUpdateDocument: bindActionCreators(updateDocument, dispatch),  // setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),

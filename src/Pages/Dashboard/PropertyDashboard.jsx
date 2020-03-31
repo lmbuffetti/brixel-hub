@@ -106,7 +106,7 @@ const HomeDashboard = (props) => {
               saturation={0}
               color="primary"
               saturationTxt={400}
-              icon="arrow-simple-right"
+              icon="arrow-simple-left"
               noBorder
               className="shadow-2dp"
               onClick={() => history.push('../facts')}
