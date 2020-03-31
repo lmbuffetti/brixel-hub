@@ -69,8 +69,17 @@ const Showings = (props) => {
   return (
     <div className="thirdLevel dis-fl-col w-perc-100 ml-md-2">
       <div className="h-perc-100 dis-fl-col">
-        <div className="dis-f jc-b p-1 p-md-2 a-c">
-          <h5>Add Booking</h5>
+        <div className="dis-f jc-b p-1 p-md-2 a-t">
+          <div>
+            <h5>Add Booking</h5>
+            {
+              schedule.slots && (
+                <p className="txtDark200 mt-1">
+                  {moment(schedule.slots[idShowing]).format('DD MMMM YYYY HH:mm')}
+                </p>
+              )
+            }
+          </div>
           <BrixelButtonIcon
             className="shadow-2dp"
             icon="close-small"
@@ -81,7 +90,7 @@ const Showings = (props) => {
             onClick={() => history.push(`/${propID}/listings/showings`)}
           />
         </div>
-        <div className="max-h-perc-100 ov-a">
+        <div className="h-perc-100 ov-a">
           <div>
             <Field
               name={'name'}
@@ -144,12 +153,13 @@ const Showings = (props) => {
             color="dark"
             saturationTxt={400}
             rounded
-            className="shadow-3dp"
+            className="shadow-3dp w-perc-100 mr-1"
             onClick={() => history.push(`${propID}/listings/showings`)}
           />
           <BrixelButtonPrimary
             label='Save & Next'
             background="primary"
+            className="shadow-3dp w-perc-100 ml-1"
             saturation={400}
             rounded
             onClick={() => saveData()}
