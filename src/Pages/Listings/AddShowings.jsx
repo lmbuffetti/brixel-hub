@@ -157,7 +157,7 @@ const Showings = (props) => {
             onClick={() => history.push(`${propID}/listings/showings`)}
           />
           <BrixelButtonPrimary
-            label='Save & Next'
+            label='Save'
             background="primary"
             className="shadow-3dp w-perc-100 ml-1"
             saturation={400}
