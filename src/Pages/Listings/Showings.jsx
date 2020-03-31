@@ -54,7 +54,7 @@ const Showings = (props) => {
   const getFact = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    if (formValue.booking) {
+    if (formValue.booking && formValue.schedule.slots) {
       const allSlots = [];
       formValue.booking.map((slot) => {
         slot.slots.map((book) =>{
@@ -66,9 +66,22 @@ const Showings = (props) => {
         });
       });
       allSlots.sort((a,b) => moment(a.slot.slot).format('YYYYMMDDHHmm') - new moment(b.slot.slot).format('YYYYMMDDHHmm'));
+      console.log(formValue.schedule.slots, allSlots);
+      formValue.schedule.slots.map((item, i) => {
+        const checkExist = allSlots.find(day => moment(day.slot.slot).format('YYYYMMDDHHmm') === moment(item).format('YYYYMMDDHHmm') && day.slot.status !== 'canceled');
+        if (typeof checkExist === 'undefined' && moment(item).isAfter(moment(), 'hour')) {
+          allSlots.push({
+            id: i,
+            slot: {
+              slot: item,
+              status: 'free',
+            },
+          })
+        }
+      });
       setBookingSlot([...allSlots]);
     }
-  }, [formValue.booking]);
+  }, [formValue.booking, formValue.schedule]);
 
 
   const saveData = () => {
@@ -142,7 +155,7 @@ const Showings = (props) => {
                 color="primary"
                 saturationTxt={400}
                 noBorder
-                onClick={() => setManageAvailability(!manageAvailability)}
+                onClick={() => manageAvailability ? discardChanges() : setManageAvailability(!manageAvailability)}
               />
             </div>
             {
@@ -155,13 +168,11 @@ const Showings = (props) => {
                       '',
                       'pending',
                       'accepted',
-                      'canceled',
                     ]}
                     labels={[
                       'All',
                       'Pending',
                       'Accepted',
-                      'Canceled',
                     ]}
                     activeTab={activeTab}
                     onClick={(tab) => setActiveTab(tab)}
@@ -185,7 +196,7 @@ const Showings = (props) => {
                         gorupByMonth()[key].map((day, g) => (
                           <div key={g.toString()}>
                             {
-                              (!activeTab || (activeTab && day.slot.status === activeTab)) && (
+                              ((!activeTab || (activeTab && day.slot.status === activeTab)) && day.slot.status !== 'canceled') && (
                                 <BrixelBookingCard
                                   dimensionsFixed={false}
                                   className="mb-1"
@@ -193,6 +204,9 @@ const Showings = (props) => {
                                   buyer={day.buyer || {}}
                                   onAccept={() => manageBooking(day, 'accepted')}
                                   onCancel={() => manageBooking(day, 'canceled')}
+                                  onAdd={() => history.push(`/${propID}/listings/showings/addBooking/${day.id}`)}
+                                  insertBooking={day.slot.status === 'free'}
+                                  addI
                                   countryLang={'en'}
                                   showActions={moment(day.slot.slot).isAfter(moment(), 'hour')}
                                 />
