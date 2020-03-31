@@ -134,7 +134,6 @@ const RewardsDashboard = (props) => {
       paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
     }
     const heightContent = head[0] ? head[0].offsetHeight : 0;
-    console.log(windowDimensions);
     if (windowDimensions.width < 768) return 0;
     return heightContent + +paddingTop + +paddingBottom;
   };

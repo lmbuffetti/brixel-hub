@@ -92,7 +92,6 @@ const HomeDashboard = (props) => {
       paddingTop = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-top').replace('px', '');
       paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
     }
-    console.log(paddingTop, wrapper);
     const heightContent = head[0] ? head[0].offsetHeight : 0;
     return heightContent + +paddingTop;
   };

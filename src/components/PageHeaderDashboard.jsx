@@ -80,7 +80,7 @@ function PageHeaderDashboard(props) {
     if (widthScreen <= 768) {
       document.body.classList.add('ov-h');
     } else {
-      window.open(baseByData(null,'io').profileURL, '_blank');
+      window.open(baseByData(undefined,'io').profileURL, '_blank');
     }
   };
 
@@ -139,7 +139,7 @@ function PageHeaderDashboard(props) {
             />
             <div className="ml-2 hide dis-b-md">
               <AvatarImage
-                avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
+                avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData().shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
                 name={has(loggedInUser, 'user.name') ? loggedInUser.user.name : ''}
                 size={40}
                 onClick={() => avatarAction()}

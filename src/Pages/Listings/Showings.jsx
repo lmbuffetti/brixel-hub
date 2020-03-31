@@ -66,7 +66,6 @@ const Showings = (props) => {
         });
       });
       allSlots.sort((a,b) => moment(a.slot.slot).format('YYYYMMDDHHmm') - new moment(b.slot.slot).format('YYYYMMDDHHmm'));
-      console.log(formValue.schedule.slots, allSlots);
       formValue.schedule.slots.map((item, i) => {
         const checkExist = allSlots.find(day => moment(day.slot.slot).format('YYYYMMDDHHmm') === moment(item).format('YYYYMMDDHHmm') && day.slot.status !== 'canceled');
         if (typeof checkExist === 'undefined' && moment(item).isAfter(moment(), 'hour')) {
