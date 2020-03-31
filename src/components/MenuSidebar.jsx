@@ -57,8 +57,12 @@ const MenuSidebar = (props) => {
                       //   });
                       //   return;
                       // }
-                      setActiveMenu('propertyList');
-                      setSlideIn(true)
+                      if (activeMenu === 'propertyList') {
+                        setSlideIn(false);
+                      } else {
+                        setActiveMenu('propertyList');
+                        setSlideIn(true);
+                      }
                     }}
                   />
                 </div>

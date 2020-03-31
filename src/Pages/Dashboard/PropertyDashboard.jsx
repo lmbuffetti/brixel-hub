@@ -200,7 +200,7 @@ const HomeDashboard = (props) => {
                 bgTransparent
                 icon="folder"
                 label="Docubox"
-                subtitle={`0 Files`}
+                subtitle={`${property.documents.length} Files`}
                 className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                 colorIcon={'primary400'}
                 backIcon="primary100 mr-1"
