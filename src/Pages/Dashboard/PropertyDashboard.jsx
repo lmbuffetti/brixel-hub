@@ -114,10 +114,10 @@ const HomeDashboard = (props) => {
           </div>
           <div className="hideOnExpanded">
             <div
-              className={`cur-poi brdRadius shadow-1dp brdMedium ${getFact() === 'facts' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+              className={`cur-poi showHover brdRadius shadow-1dp brdMedium ${getFact() === 'facts' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
               onClick={() => history.push(`/${propID}/property/facts`)}>
               <div className="transparency-container">
-                <div className="dis-fl-col ta-l">
+                <div className="dis-fl-col ta-l cur-poi">
                   {
                     userType === 'seller' && (
                       <>
@@ -127,7 +127,7 @@ const HomeDashboard = (props) => {
                           label="Facts"
                           subtitle={`${get(formValue, 'inputSheet.totalComplete', 0)}%`}
                           subtitleClass={'ff-mono txtPrimary700 mt-small-4'}
-                          className="w-perc-100"
+                          className="w-perc-100 cur-poi p-2"
                           colorIcon={'primary'}
                           backIcon="primary100 mr-1"
                           hoverEffect={false}
@@ -139,7 +139,7 @@ const HomeDashboard = (props) => {
               </div>
 
 
-              <div className="details dis-fl-col p-1">
+              <div className="details dis-fl-col p-2">
                 <div className="dis-fl-row jc-b a-c">
                   <div className="fourth dis-fl-col ta-l">
                     <span className="subtitle fsize-300 txtDark200">Rooms</span>
@@ -164,7 +164,7 @@ const HomeDashboard = (props) => {
                 icon="gallery"
                 label="Photos"
                 subtitle={`${calcLenght(get(formValue, 'photos', []))} Files`}
-                className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'photos' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+                className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'photos' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                 colorIcon={'primary400'}
                 backIcon="primary100 mr-1"
                 onClick={() => history.push(`/${propID}/property/photos`)}
@@ -176,7 +176,7 @@ const HomeDashboard = (props) => {
                 icon="plans"
                 label="Plans"
                 subtitle={`${calcLenght(get(formValue, 'floorPlans', []))} Files`}
-                className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'floorPlans' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+                className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'floorPlans' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                 colorIcon={'primary400'}
                 backIcon="primary100 mr-1"
                 onClick={() => history.push(`/${propID}/property/floorPlans`)}
@@ -189,7 +189,7 @@ const HomeDashboard = (props) => {
                 icon="tour"
                 label="3d Tour"
                 subtitle={`0 Files`}
-                className={`w-perc-100 shadow-1dp mr-1 brdMedium ${getFact() === 'tour' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+                className={`w-perc-100 shadow-1dp mr-1 brdMedium ${getFact() === 'tour' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                 colorIcon={'primary400'}
                 backIcon="primary100 mr-1"
                 onClick={() => history.push(`/${propID}/property/tour`)}
