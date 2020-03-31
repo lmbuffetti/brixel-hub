@@ -126,7 +126,7 @@ const RewardsDashboard = (props) => {
 
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
-    const wrapper = document.getElementById('rewardsDashboard');
+    const wrapper = document.getElementById('dashboard');
     let paddingTop = 0;
     let paddingBottom = 0;
     if (wrapper) {

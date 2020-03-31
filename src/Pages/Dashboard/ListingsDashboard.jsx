@@ -41,7 +41,7 @@ const ListingsDashboard = (props) => {
 
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
-    const wrapper = document.getElementById('listingsDashaboard');
+    const wrapper = document.getElementById('dashboard');
     let paddingTop = 0;
     let paddingBottom = 0;
     if (wrapper) {

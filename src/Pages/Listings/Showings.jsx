@@ -155,11 +155,13 @@ const Showings = (props) => {
                       '',
                       'pending',
                       'accepted',
+                      'canceled',
                     ]}
                     labels={[
                       'All',
                       'Pending',
                       'Accepted',
+                      'Canceled',
                     ]}
                     activeTab={activeTab}
                     onClick={(tab) => setActiveTab(tab)}
@@ -183,7 +185,7 @@ const Showings = (props) => {
                         gorupByMonth()[key].map((day, g) => (
                           <div key={g.toString()}>
                             {
-                              day.slot.status !== 'canceled' && (
+                              (!activeTab || (activeTab && day.slot.status === activeTab)) && (
                                 <BrixelBookingCard
                                   dimensionsFixed={false}
                                   className="mb-1"

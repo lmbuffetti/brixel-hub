@@ -222,7 +222,7 @@ const InputSheet = (props) => {
               <div className="max-h-perc-100 ov-a">
                 <FactsQuestion quest={selectedQuest} />
               </div>
-              <div className="dis-f p-2">
+              <div className="dis-f p-2 jc-b">
                 <BrixelButtonPrimary
                   label='Cancel'
                   background="white"
@@ -230,12 +230,13 @@ const InputSheet = (props) => {
                   color="dark"
                   saturationTxt={400}
                   rounded
-                  className="shadow-3dp"
+                  className="shadow-3dp w-perc-100 mr-1"
                   onClick={() => history.push(`${propID}/property/facts`)}
                 />
                 <BrixelButtonPrimary
                   label='Save & Next'
                   background="primary"
+                  className="shadow-3dp w-perc-100 ml-1"
                   saturation={400}
                   rounded
                   onClick={() => saveData()}

@@ -74,7 +74,6 @@ export const InputSheets = (lang) => [
           value: 'Apartment'
         },
         label: 'What\'s the type of the building?',
-        isHorizontal: true,
         name: 'properties.building.typeFlatBuildingCode',
         options: factsOptions.typeFlatBuildingCode,
         validation: [Validation.markRequired]
