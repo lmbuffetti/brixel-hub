@@ -48,6 +48,7 @@ const Showings = (props) => {
   // STATE
   const [activeTab, setActiveTab] = useState('');
   const [manageAvailability, setManageAvailability] = useState(false);
+  const [unavailableSlots, setUnavailableSlots] = useState([]);
   const [bookingSlot, setBookingSlot] = useState([]);
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
@@ -56,13 +57,15 @@ const Showings = (props) => {
   useEffect(() => {
     if (formValue.booking && formValue.schedule.slots) {
       const allSlots = [];
+      const allUnavailableSlots = [];
       formValue.booking.map((slot) => {
         slot.slots.map((book) =>{
           allSlots.push({
             buyer: slot.buyer,
             id: slot.id,
             slot: book,
-          })
+          });
+          allUnavailableSlots.push(book.slot);
         });
       });
       allSlots.sort((a,b) => moment(a.slot.slot).format('YYYYMMDDHHmm') - new moment(b.slot.slot).format('YYYYMMDDHHmm'));
@@ -78,6 +81,7 @@ const Showings = (props) => {
           })
         }
       });
+      setUnavailableSlots([...allUnavailableSlots]);
       setBookingSlot([...allSlots]);
     }
   }, [formValue.booking, formValue.schedule]);
@@ -224,6 +228,7 @@ const Showings = (props) => {
                   <BrixelTimeSlots
                     className="zIndex1"
                     propertySlots={get(formValue, 'schedule.slots', [])}
+                    occupedSlots={unavailableSlots}
                     onSelect={(e, value) => changeFieldValue('schedule.slots', value) }
                   />
                 </div>
