@@ -65,7 +65,7 @@ const Showings = (props) => {
             id: slot.id,
             slot: book,
           });
-          allUnavailableSlots.push(book.slot);
+          if (book.status !== 'canceled') allUnavailableSlots.push(book.slot);
         });
       });
       allSlots.sort((a,b) => moment(a.slot.slot).format('YYYYMMDDHHmm') - new moment(b.slot.slot).format('YYYYMMDDHHmm'));
