@@ -174,7 +174,11 @@ const Dashboard = (props) => {
       <Route render={({location}) => (
 
         <TransitionGroup>
-          <CSSTransition timeout={500}>
+          <CSSTransition
+            key={location.key}
+            timeout={300}
+            classNames="fade"
+          >
             <Switch location={location}>
               <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
               <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
