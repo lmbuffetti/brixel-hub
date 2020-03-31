@@ -7,6 +7,7 @@ import {
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
+import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -32,33 +33,33 @@ import { setModal, setScreenNotification } from '../../actions/CommonActions';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
-  loading: Loading,
+  loading: () => null,
 });
 
 const PropertyDashboard = Loadable({
   loader: () => import('./PropertyDashboard' /* webpackChunkName: "PropertyDashboard" */),
-  loading: Loading,
+  loading: () => null,
 });
 
 const ListingsDashboard = Loadable({
   loader: () => import('./ListingsDashboard' /* webpackChunkName: "ListingsDashboard" */),
-  loading: Loading,
+  loading: () => null,
 });
 
 const SupportDashboard = Loadable({
   loader: () => import('./SupportDashboard' /* webpackChunkName: "SupportDashboard" */),
-  loading: Loading,
+  loading: () => null,
 });
 
 // UPGRADE
 const Upgrade = Loadable({
   loader: () => import('../Upgrade/Upgrade' /* webpackChunkName: "Upgrade" */),
-  loading: Loading,
+  loading: () => null,
 });
 
 const ProtectedRoute = Loadable({
   loader: () => import('../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
-  loading: Loading,
+  loading: () => null,
 });
 
 const Dashboard = (props) => {
@@ -171,24 +172,28 @@ const Dashboard = (props) => {
   return (
     <div className="container" id="dashboard">
       { /* SECTION: APP HEADER */ }
-      <Route render={({location}) => (
-
-        <TransitionGroup>
-          <CSSTransition
-            key={location.key}
-            timeout={300}
-            classNames="fade"
-          >
-            <Switch location={location}>
-              <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
-              <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
-              <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
-              <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
-              <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
-            </Switch>
-          </CSSTransition>
-        </TransitionGroup>
-      )} />
+      <Route render={({location}) => {
+        const url = location.pathname.split('/');
+        let locationKey = url[2];
+        console.log(locationKey);
+        return (
+          <TransitionGroup>
+            <CSSTransition
+              key={locationKey}
+              timeout={300}
+              classNames="fade"
+            >
+              <Switch location={location}>
+                <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
+                <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
+                <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
+                <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
+                <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
+              </Switch>
+            </CSSTransition>
+          </TransitionGroup>
+        )
+      }} />
     </div>
   )
 };
