@@ -67,7 +67,7 @@ const checkCommon = (store) => (next) => (action) => {
       api.image.addImage(action.payload)
         .then((res) => {
           if (uploadAction === 'photos' ||
-            uploadAction === 'plan' ||
+            uploadAction === 'floorPlans' ||
             uploadAction === 'contactAvatar') {
             let coverPhoto;
 
@@ -79,7 +79,7 @@ const checkCommon = (store) => (next) => (action) => {
               // coverPhoto = Object.keys(store.getState().form.Property.values.coverPhoto).length > 0 ? store.getState().form.Property.values.coverPhoto : res.data;
               img.push(res.data);
             }
-            if (uploadAction === 'plan') {
+            if (uploadAction === 'floorPlans') {
               plan.push(res.data);
             }
             const data = {
