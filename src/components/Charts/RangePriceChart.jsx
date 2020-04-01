@@ -86,7 +86,9 @@ function RangePriceChart(props) {
         if (cfg.label === 'm2') {
           return `${formatNum(firstRange, "'", ',')} ${cfg.label}`;
         }
-        return `${cfg.label} ${formatNum(+firstRange.toFixed(0), "'", ',')} +`;
+        if (type !== 'bestimate') {
+          return `${cfg.label} ${formatNum(+firstRange.toFixed(0), "'", ',')} +`;
+        }
       });
 
     chart
@@ -99,7 +101,9 @@ function RangePriceChart(props) {
         if (cfg.label === 'm2') {
           return `${formatNum(lastRange, "'", ',')} ${cfg.label} +`;
         }
-        return `${cfg.label} ${formatNum(+lastRange.toFixed(0), "'", ',')} +`;
+        if (type !== 'bestimate') {
+          return `${cfg.label} ${formatNum(+lastRange.toFixed(0), "'", ',')} +`;
+        }
       });
 
     chart.selectAll('.filter-bar')

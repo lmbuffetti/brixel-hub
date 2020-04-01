@@ -82,7 +82,7 @@ export const AssessorQuestions = (lang) => [
     ]
   },
   {
-    title: "What was your last renovation?",
+    title: "When was your last renovation?",
     history: "yearRenovation",
     cardType: "yearRenovation",
     toSave: true,

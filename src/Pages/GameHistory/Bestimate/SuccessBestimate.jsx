@@ -65,9 +65,9 @@ function SuccessBestimate(props) {
                     ) : (
 
                       <>
-                        <h5 className="ta-c mb-5">You are already a Bestimate&reg;</h5>
+                        <h5 className="ta-c mb-5">You already calculated your Bestimate&reg;</h5>
                         <div className="ta-c"><img src={doneBestimate} alt="Done Assessor" /></div>
-                        <p className="ta-c mt-5">Would you like to do the condition check again?</p>
+                        <p className="ta-c mt-5">We update your Bestimate&reg; every quarter.<br />Do you want to update now?</p>
                         <div className="dis-f jc-c mt-3 a-c">
                           <BrixelButtonPrimary
                             rounded

@@ -287,6 +287,18 @@ function GetStarted(props) {
         return null;
       });
     }
+    if (Questions[newPosition] && Questions[newPosition].conditions) {
+      let checkCond = true;
+      Questions[newPosition].conditions.map((cond) => {
+        const val = get(formValue, cond.name, null);
+        if (val !== cond.value && checkCond) {
+          if (act === 'back') newPosition = newPosition - 1;
+          else newPosition = newPosition + 1;
+          checkCond = false;
+        }
+        return null;
+      });
+    }
     if (typeof Questions[newPosition] === 'undefined') {
 
     }

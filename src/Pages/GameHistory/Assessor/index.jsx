@@ -63,8 +63,8 @@ function Assessor(props) {
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
         if (!saved) {
-          setCurrentIndex(Questions.length - 1);
-          setPosition(Questions.length - 1);
+          setCurrentIndex(0);
+          setPosition(0);
         }
       } else {
         setFinishedFlow(false);
@@ -183,7 +183,7 @@ function Assessor(props) {
       });
     }
     if (currentIndex === 0) {
-      label = translateTo(lang, "Ok, let’s do this");
+      label = translateTo(lang, "Continue");
     } else if (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) {
       label = oneValueField ? translateTo(lang, "Skip") : translateTo(lang, "Continue");
     } else if (Questions[currentIndex + 1]) {
