@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
+import omit from 'lodash/omit';
 import {
   BrixelButtonPrimary,
   BrixelIcon,

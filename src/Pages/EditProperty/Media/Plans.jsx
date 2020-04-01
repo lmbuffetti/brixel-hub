@@ -70,7 +70,7 @@ const Photos = (props) => {
           user: loggedInUser.user.id,
           imageType: 0,
           pageID: formValue.id,
-          uploadAction: 'floorPlans',
+          uploadAction: 'plan',
         };
         handleUploadImg(binaryStr);
       };
