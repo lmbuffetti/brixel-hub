@@ -90,9 +90,9 @@ function SuccessBestimate(props) {
         ) : (
           <>
             <h5 className="ta-c px-2 px-md-4">Get a free price indication</h5>
-            <div className="ta-c"><img className="w-fix-100" src={startBestimate} alt="Done Assessor" /></div>
+            <div className="ta-c m-a h-perc-50"><img className="h-perc-100" src={startBestimate} alt="Done Assessor" /></div>
             <div className="dis-fl-col jc-c a-c">
-              <p className="ta-c txtDark700 px-2 px-md-4">Compare your property to real transaction data to better define the pricing.</p>
+              <p className="ta-c txtDark700 px-2 px-md-4 w-perc-md-75">Compare your property to real transaction data to better define the pricing.</p>
               <div className="shadow-1dp-top w-perc-100 p-1 p-md-2 mt-2 brdRadiusTop">
                 <BrixelButtonPrimary
                   rounded

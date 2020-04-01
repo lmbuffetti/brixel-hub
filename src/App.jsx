@@ -156,7 +156,7 @@ const App = (props) => {
   }
 
   return (
-    <main className={`dis-fl-row jc-b`}>
+    <main className={`${!isFlow ? 'hubDashboard' : ''} dis-fl-row jc-b`}>
 
       <Loading isLoading={isLoading} />
 

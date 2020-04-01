@@ -1,0 +1,42 @@
+.hubDashboard {
+  .property-container,
+  .listings-container {
+    .showHover {
+      transition: $default-time-long $default-easing;
+      &:hover {
+        box-shadow: $shadow-3dp;
+        background: #fff;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .brixel-button-box {
+    &.labelAend {
+      > div {
+        align-content: flex-end;
+        align-items: flex-end;
+      }
+    }
+  }
+
+  // IPAD AND DESKTOP VERSION
+  @media (max-width: $responsive-medium) {
+  }
+
+  // IPAD PRO AND DESKTOP VERSION
+  @media (min-width: $responsive-medium) {
+  }
+
+  // FLUID LAYOUT BETWEEN IPAD AND IPAD PRO
+  @media only screen
+  and (min-width : $responsive-medium)
+  and (max-width : $responsive-large) {
+
+  }
+
+  // DESKTOP SCREEN
+  @media screen and(max-width: map-get($grid-breakpoints, xl)) {
+
+  }
+}

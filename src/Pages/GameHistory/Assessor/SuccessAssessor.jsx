@@ -86,9 +86,9 @@ function SuccessAssessor(props) {
         ) : (
           <>
             <h5 className="ta-c px-2 px-md-4">Assess your property with a condition check</h5>
-            <div className="ta-c"><img className="w-fix-100" src={becomeAssessor} alt="Done Assessor" /></div>
-            <p className="ta-c txtDark700 px-2 px-md-4">As an assessor, you know about the condition of the most important parts of your property.</p>
+            <div className="ta-c m-a h-perc-50"><img className="h-perc-100" src={becomeAssessor} alt="Done Assessor" /></div>
             <div className="dis-fl-col jc-c a-c">
+              <p className="ta-c txtDark700 px-2 px-md-4 w-perc-md-75">As an assessor, you know about the condition of the most important parts of your property.</p>
               <div className="shadow-1dp-top w-perc-100 p-1 p-md-2 mt-2 brdRadiusTop">
                 <BrixelButtonPrimary
                   rounded
