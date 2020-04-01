@@ -646,7 +646,7 @@ function OnBoarding(props) {
                                       type="email"
                                       validate={[Validation.required]}
                                       meta={{
-                                        dirty: (showErrors || formValue.email) && errorValue.email !== true,
+                                        dirty: (showErrors || formValue.email),
                                         invalid: (showErrors || formValue.email) && errorValue.email !== true,
                                       }}
                                       message={{
@@ -662,7 +662,7 @@ function OnBoarding(props) {
                                       type="password"
                                       validate={[Validation.required]}
                                       meta={{
-                                        dirty: (showErrors || formValue.password) && errorValue.password !== true,
+                                        dirty: (showErrors || formValue.password),
                                         invalid: (showErrors || formValue.password) && errorValue.password !== true,
                                       }}
                                       message={{
@@ -700,7 +700,7 @@ function OnBoarding(props) {
                                         type="text"
                                         validate={[Validation.required]}
                                         meta={{
-                                          dirty: (showErrors || formValue.firstName) && errorValue.firstName !== true,
+                                          dirty: (showErrors || formValue.firstName),
                                           invalid: (showErrors || formValue.firstName) && errorValue.firstName !== true,
                                         }}
                                         message={{
@@ -716,7 +716,7 @@ function OnBoarding(props) {
                                         type="text"
                                         validate={[Validation.required]}
                                         meta={{
-                                          dirty: (showErrors || formValue.lastName) && errorValue.lastName !== true,
+                                          dirty: (showErrors || formValue.lastName),
                                           invalid: (showErrors || formValue.lastName) && errorValue.lastName !== true,
                                         }}
                                         message={{
@@ -733,7 +733,7 @@ function OnBoarding(props) {
                                       type="email"
                                       validate={formValue.email ? [Validation.isEmail] : [Validation.required]}
                                       meta={{
-                                        dirty: (showErrors || formValue.email) && errorValue.email !== true,
+                                        dirty: (showErrors || formValue.email),
                                         invalid: (showErrors || formValue.email) && errorValue.email !== true,
                                       }}
                                       message={{
