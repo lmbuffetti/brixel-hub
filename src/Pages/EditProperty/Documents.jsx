@@ -132,9 +132,8 @@ const Documents = (props) => {
 
   return (
     <div className="secondLevel">
-      <div className="docubox p-2 p-md-4">
+      <div className="docubox">
         <h5>Docubox</h5>
-
         {
           (documents && documents.length > 0) && (
             <>

@@ -18,7 +18,7 @@ const Tour = (props) => {
 
   return (
     <div className="secondLevel">
-      <div className="dis-fl-col p-2 p-md-4">
+      <div className="tourWrapper dis-fl-col">
 
         <div className="dis-fl-row jc-b a-c mb-4">
           <h5>

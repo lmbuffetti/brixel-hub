@@ -151,14 +151,14 @@ const InputSheet = (props) => {
     setTimeout(() => {
       history.push(`/${propID}/property/facts/${quest.history}`);
       setSelectedQuest(quest)
-    }, 10);
+    }, 0);
   };
 
   return (
     <div className="facts-wrapper dis-f h-perc-100">
-      <div className="secondLevel h-perc-100 dis-fl-col w-perc-100">
-        <div className="max-h-perc-100 dis-fl-col">
-          <div className="headerSection pos-r px-2 pt-2 px-md-4 pt-md-4">
+      <div className="secondLevel dis-fl-col w-perc-100 h-perc-100">
+        <div className="dis-fl-col max-h-perc-100">
+          <div className="headerSection pos-r">
             <BrixelButtonIcon
               className="shadow-2dp"
               icon="close-small"
@@ -170,11 +170,11 @@ const InputSheet = (props) => {
             />
             <h5>Facts</h5>
           </div>
-          <div className="mt-3 mb-1 px-2 px-md-4">
+          <div className="mt-3 mb-1">
             <BrixelProgressBar
               rounded
               saturation={700}
-              small
+              large
               barBackground="Red"
               backgroundSaturation={100}
               progressValue={get(formValue, 'inputSheet.totalComplete', 0)}
