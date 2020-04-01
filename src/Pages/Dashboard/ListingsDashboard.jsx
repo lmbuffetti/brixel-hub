@@ -139,7 +139,7 @@ const ListingsDashboard = (props) => {
                 icon="gallery"
                 label="Brixel Page"
                 subtitle={statusPage().label}
-                className={`w-perc-100 mr-1 shadow-1dp brdMedium${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+                className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                 colorIcon="primary700"
                 backIcon="primary100 mr-1"
                 onClick={() => history.push(`/${propID}/listings/page`)}

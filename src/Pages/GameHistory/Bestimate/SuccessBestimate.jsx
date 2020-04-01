@@ -48,7 +48,7 @@ function SuccessBestimate(props) {
   }, [gameGroup]);
 
   return (
-    <main id="rewards" className="pb-4">
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-b ${getDoneFirstTime().includes('-done') ? "p-2 p-md-4 pb-5" : "pt-2 pt-md-4"}`}>
       {
         groupdAchievement.done || getDoneFirstTime() === 'done' ? (
           <>
@@ -58,25 +58,27 @@ function SuccessBestimate(props) {
                   {
                     getDoneFirstTime().includes('-done') ? (
                       <>
-                        <h5 className="ta-c mb-5">Well done. You are now an Assessor.</h5>
+                        <h5 className="ta-c">Well done. You are now an Assessor.</h5>
                         <div className="ta-c"><img src={newBestimate} alt="Nes Assessor" /></div>
-                        <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
+                        <p className="ta-c mb-2">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
 
                       <>
-                        <h5 className="ta-c mb-5">You already calculated your Bestimate&reg;</h5>
+                        <h5 className="ta-c px-2 px-md-4">You already calculated your Bestimate&reg;</h5>
                         <div className="ta-c"><img src={doneBestimate} alt="Done Assessor" /></div>
-                        <p className="ta-c mt-5">We update your Bestimate&reg; every quarter.<br />Do you want to update now?</p>
-                        <div className="dis-f jc-c mt-3 a-c">
-                          <BrixelButtonPrimary
-                            rounded
-                            label="Yes, update"
-                            background={"primary"}
-                            className="max-w-fix-280 w-perc-100 m-a"
-                            onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                            rightIcon="arrow-right-small"
-                          />
+                        <div className="dis-fl-col jc-c a-c">
+                          <p className="ta-c px-2 px-md-4">We update your Bestimate&reg; every quarter.<br />Do you want to update now?</p>
+                          <div className="shadow-1dp-top w-perc-100 p-1 p-md-2 mt-2 brdRadiusTop">
+                            <BrixelButtonPrimary
+                              rounded
+                              label="Yes, update"
+                              background={"primary"}
+                              className="max-w-fix-280 w-perc-100 m-a"
+                              onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                              rightIcon="arrow-right-small"
+                            />
+                          </div>
                         </div>
                       </>
                     )
@@ -87,18 +89,20 @@ function SuccessBestimate(props) {
           </>
         ) : (
           <>
-            <h5 className="ta-c mb-5">Get a free price indication</h5>
-            <div className="ta-c"><img className="w-fix-100" src={startBestimate} alt="Done Assessor" /></div>
-            <p className="ta-c mt-5 txtDark700">Compare your property to real transaction data to better define the pricing.</p>
-            <div className="dis-f jc-c mt-3 a-c">
-              <BrixelButtonPrimary
-                rounded
-                label="Ok, show me"
-                background={"primary"}
-                className="max-w-fix-280 w-perc-100 m-a"
-                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                rightIcon="arrow-right-small"
-              />
+            <h5 className="ta-c px-2 px-md-4">Get a free price indication</h5>
+            <div className="ta-c m-a h-perc-50"><img className="h-perc-100" src={startBestimate} alt="Done Assessor" /></div>
+            <div className="dis-fl-col jc-c a-c">
+              <p className="ta-c txtDark700 px-2 px-md-4 w-perc-md-75">Compare your property to real transaction data to better define the pricing.</p>
+              <div className="shadow-1dp-top w-perc-100 p-1 p-md-2 mt-2 brdRadiusTop">
+                <BrixelButtonPrimary
+                  rounded
+                  label="Ok, show me"
+                  background={"primary"}
+                  className="max-w-fix-280 w-perc-100 m-a"
+                  onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                  rightIcon="arrow-right-small"
+                />
+              </div>
             </div>
           </>
         )

@@ -18,10 +18,8 @@
   }
 }
 
-.expandableColumn {
-  transition: max-width $default-time-long;
-
-  &.closed {
+.property-container {
+  /* &.closed {
     min-width: 42px;
     max-width: 42px;
     overflow: hidden;
@@ -30,10 +28,10 @@
       opacity: 0;
       transform: translateX(-50%);
     }
-  }
+  } */
 }
 
-.levesWrapper {
+.levelsWrapper {
   &.opened {
     .facts-wrapper {
       @media (min-width: $responsive-medium) {

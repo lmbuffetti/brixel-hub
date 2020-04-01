@@ -102,28 +102,17 @@ const HomeDashboard = (props) => {
     return heightContent + +paddingTop;
   };
 
+
   return (
     <>
       <div className="property-container dis-f" id="propertyDashboard">
-        <div className={`firstLevel bgLight100 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2 opened' : 'closed'}`}>
-          <div className={`jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-f' : 'hide'}`}>
-            <BrixelButtonIcon
-              background="white"
-              saturation={0}
-              color="primary"
-              saturationTxt={400}
-              icon="arrow-simple-left"
-              noBorder
-              className="shadow-2dp"
-              onClick={() => history.push('../facts')}
-            />
-          </div>
+        <div className={`firstLevel bgLight100 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
           <div className="hideOnExpanded">
             <div
-              className={`cur-poi brdRadius shadow-1dp brdMedium ${getFact() === 'facts' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+              className={`cur-poi showHover brdRadius shadow-1dp brdMedium ${getFact() === 'facts' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
               onClick={() => history.push(`/${propID}/property/facts`)}>
               <div className="transparency-container">
-                <div className="dis-fl-col ta-l">
+                <div className="dis-fl-col ta-l cur-poi">
                   {
                     userType === 'seller' && (
                       <>
@@ -131,11 +120,12 @@ const HomeDashboard = (props) => {
                           bgTransparent
                           icon="document"
                           label="Facts"
-                          subtitle={`${get(formValue, 'inputSheet.totalComplete', 0)}%`}
-                          subtitleClass={'ff-mono txtPrimary700 mt-small-4'}
-                          className="w-perc-100"
-                          colorIcon={'primary'}
-                          backIcon="primary100 mr-1"
+                          labelClass="fweight-400"
+                          subtitle={`${get(formValue, 'inputSheet.totalComplete', 0)}% completed`}
+                          subtitleClass={'ff-mono fsize-200 txtPrimary700 mt-small-4'}
+                          className="w-perc-100 cur-poi p-2 labelAend"
+                          colorIcon={'primary700'}
+                          backIcon="primary100"
                           hoverEffect={false}
                         />
                       </>
@@ -145,19 +135,19 @@ const HomeDashboard = (props) => {
               </div>
 
 
-              <div className="details dis-fl-col p-1">
+              <div className="details dis-fl-col p-2">
                 <div className="dis-fl-row jc-b a-c">
                   <div className="fourth dis-fl-col ta-l">
-                    <span className="subtitle fsize-300 txtDark200">Rooms</span>
-                    <span className="value txtDark500">{has(property, 'properties.typology.bedrooms') ? property.properties.typology.bedrooms : 'N/A'}</span>
+                    <span className="subtitle fsize-200 txtDark200">Rooms</span>
+                    <span className="value ff-mono txtDark400">{has(property, 'properties.typology.bedrooms') ? property.properties.typology.bedrooms : 'N/A'}</span>
                   </div>
                   <div className="dis-fl-col ta-l">
-                    <span className="subtitle fsize-300 txtDark200">Living space</span>
-                    <span className="value txtDark500">{(has(property.properties, 'typology') && property.properties.typology.livingArea) ? property.properties.typology.livingArea.value : 'N/A'} m2</span>
+                    <span className="subtitle fsize-200 txtDark200">Living space</span>
+                    <span className="value ff-mono txtDark400">{(has(property.properties, 'typology') && property.properties.typology.livingArea) ? property.properties.typology.livingArea.value : 'N/A'} m2</span>
                   </div>
                   <div className="dis-fl-col ta-l">
-                    <span className="subtitle fsize-300 txtDark200">Year built</span>
-                    <span className="value txtDark500">{(has(property.properties, 'building') && property.properties.building.built) ? property.properties.building.built : 'N/A'}</span>
+                    <span className="subtitle fsize-200 txtDark200">Year built</span>
+                    <span className="value ff-mono txtDark400">{(has(property.properties, 'building') && property.properties.building.built) ? property.properties.building.built : 'N/A'}</span>
                   </div>
                 </div>
               </div>
@@ -169,10 +159,12 @@ const HomeDashboard = (props) => {
                 bgTransparent
                 icon="gallery"
                 label="Photos"
+                labelClass="fweight-400"
                 subtitle={`${calcLenght(get(formValue, 'photos', []))} Files`}
-                className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'photos' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
-                colorIcon={'primary400'}
-                backIcon="primary100 mr-1"
+                subtitleClass={'fsize-200 txtDark200 pt-small-6'}
+                className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'photos' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                colorIcon={'primary700'}
+                backIcon="primary100"
                 onClick={() => history.push(`/${propID}/property/photos`)}
                 selected
               />
@@ -181,10 +173,12 @@ const HomeDashboard = (props) => {
                 bgTransparent
                 icon="plans"
                 label="Plans"
+                labelClass="fweight-400"
                 subtitle={`${calcLenght(get(formValue, 'floorPlans', []))} Files`}
-                className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'floorPlans' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
-                colorIcon={'primary400'}
-                backIcon="primary100 mr-1"
+                subtitleClass={'fsize-200 txtDark200 pt-small-6'}
+                className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'floorPlans' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                colorIcon={'primary700'}
+                backIcon="primary100 "
                 onClick={() => history.push(`/${propID}/property/floorPlans`)}
               />
             </div>
@@ -194,10 +188,12 @@ const HomeDashboard = (props) => {
                 bgTransparent
                 icon="tour"
                 label="3d Tour"
+                labelClass="fweight-400"
                 subtitle={`0 Files`}
-                className={`w-perc-100 shadow-1dp mr-1 brdMedium ${getFact() === 'tour' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
-                colorIcon={'primary400'}
-                backIcon="primary100 mr-1"
+                subtitleClass={'fsize-200 txtDark200 pt-small-6'}
+                className={`w-perc-100 shadow-1dp mr-1 brdMedium ${getFact() === 'tour' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                colorIcon={'primary700'}
+                backIcon="primary100"
                 onClick={() => history.push(`/${propID}/property/tour`)}
               />
 
@@ -206,18 +202,32 @@ const HomeDashboard = (props) => {
                 bgTransparent
                 icon="folder"
                 label="Docubox"
+                labelClass="fweight-400"
                 subtitle={`${get(formValue, 'documents.length', [])} Files`}
+                subtitleClass={'fsize-200 txtDark200 pt-small-6'}
                 className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                 colorIcon={'primary400'}
-                backIcon="primary100 mr-1"
+                backIcon="primary100"
                 onClick={() => history.push(`/${propID}/property/documents`)}
               />
             </div>
           </div>
         </div>
+        <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
+          <BrixelButtonIcon
+            background="white"
+            saturation={0}
+            color="primary"
+            saturationTxt={400}
+            icon="arrow-simple-right"
+            noBorder
+            className="shadow-2dp"
+            onClick={() => history.push('../facts')}
+          />
+        </div>
         {
           getFact() !== 'property' && (
-            <div className={`levesWrapper w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed': 'opened'}`} style={{ height: windowDimensions.height - calcHeaderHeight() }}>
+            <div className={`levelsWrapper w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed': 'opened'}`} style={{ height: windowDimensions.height - calcHeaderHeight() }}>
               <Route path="/:propId?/property/facts" component={Facts} />
               <Route path="/:propId?/property/photos" component={Photos} />
               <Route path="/:propId?/property/floorPlans" component={Plans} />

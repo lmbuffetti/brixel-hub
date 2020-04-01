@@ -1,31 +1,72 @@
+// tab sections
+.hubDasContent .container .listings-container,
+.hubDasContent .container .rewards-container .firstLevel,
+.hubDasContent .container .property-container {
+  animation: slideInSec $default-time-long ease-in-out;
+}
+// rewards splash
+.hubDasContent .container .rewards-container .secondLevel,
+.hubDasContent .container .rewards-container #rewards {
+  opacity: 0;
+  animation: fadeInSec $default-time $default-time ease-in-out forwards;
+}
 
-.slideIn-enter {
+// property
+.property-container .secondLevel {
+  animation: slideInSec $default-time-long ease-in-out;
+}
+
+.property-container .expandableColumn {
+  transition: all 0.2s ease-in-out;
+  &.collapsed {
+    transform: translateX(-100%);
+    margin-right: -480px;
+    opacity: 0;
+  }
+}
+
+.property-container .levelsWrapper {
+  &.opened {
+    .secondLevel {
+      animation: slideInLong 0s ease-in-out forwards;
+    }
+    .thirdLevel {
+      opacity: 0;
+      transform: translateX(100%);
+      animation: slideInLong $default-time-long ease-in-out forwards;
+    }
+  }
+}
+
+
+// sidebar menu drawer
+.drawerSlide-enter {
     .sidebarSubmenuContent {
       opacity: 0;
       transform: translateX(-100%);
     }
   }
-  .slideIn-enter-active {
-    .sidebarSubmenuContent {
-      opacity: 1;
-      transform: translateX(0);
-      transition: opacity $default-time-long, transform $default-time-long;
-    }
+.drawerSlide-enter-active {
+  .sidebarSubmenuContent {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity $default-time-long, transform $default-time-long;
   }
-  .slideIn-exit {
-    .sidebarSubmenuContent {
-      opacity: 1;
-    }
+}
+.drawerSlide-exit {
+  .sidebarSubmenuContent {
+    opacity: 1;
   }
-  .slideIn-exit-active {
-    .sidebarSubmenuContent {
-      opacity: 0;
-      transform: translateX(-100%);
-      transition: opacity $default-time-long, transform $default-time-long;
-    }
+}
+.drawerSlide-exit-active {
+  .sidebarSubmenuContent {
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: slideInLong $default-time-long, transform $default-time-long;
   }
+}
 
-  /* simple - enter transition 300ms, exit 150ms */
+/* react transition group fade effect */
 .fade-appear,
 .fade-enter {
     opacity: 0;
@@ -44,4 +85,44 @@
 .fade-exit.fade-exit-active {
     opacity: 0;
     transition: opacity 150ms linear;
+}
+
+
+@keyframes slideInSec {
+  0% {
+    opacity: 0;
+    transform: translateX(5%);
+  } 100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLong {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  } 100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+@keyframes slideOutSec {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  } 100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes fadeInSec {
+  0% {
+    opacity: 0;
+  } 100% {
+    opacity: 1;
+  }
 }

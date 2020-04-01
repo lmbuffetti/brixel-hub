@@ -283,7 +283,7 @@ const RewardsDashboard = (props) => {
                   <h5>{activeGameGroup.replace('-', ' ')}</h5>
                 </div>
               </div>
-              <div className="pt-4 p-md-4">
+              <div className="rewadsSplash h-perc-100 h-perc-md-65">
                 {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
                 {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
                 {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}

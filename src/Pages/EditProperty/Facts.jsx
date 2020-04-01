@@ -7,6 +7,10 @@ import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import {
+  CSSTransition,
+  TransitionGroup,
+} from 'react-transition-group';
+import {
   BrixelButtonPrimary,
   BrixelIcon,
   BrixelProgressBar,
@@ -143,8 +147,11 @@ const InputSheet = (props) => {
   }, [history, getFact()]);
 
   const onSelectQuest = (quest) => {
-    history.push(`/${propID}/property/facts/${quest.history}`);
-    setSelectedQuest(quest)
+    //TODO
+    setTimeout(() => {
+      history.push(`/${propID}/property/facts/${quest.history}`);
+      setSelectedQuest(quest)
+    }, 10);
   };
 
   return (

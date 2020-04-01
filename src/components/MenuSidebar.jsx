@@ -97,7 +97,7 @@ const MenuSidebar = (props) => {
           <CSSTransition
             in={slideIn}
             timeout={350}
-            classNames="slideIn"
+            classNames="drawerSlide"
             onEnter={() => setSlideIn(true)}
             onExited={() => setActiveMenu(null)}
             unmountOnExit

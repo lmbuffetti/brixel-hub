@@ -30,12 +30,10 @@ function SuccessHomebase(props) {
   }, [gameGroup, getParams]);
 
   return (
-    <main id="rewards" className="w-perc-100">
-      <div className="bgWhite">
-        <h5 className="ta-c mb-5">And the first award goes to… You!</h5>
-        <div className="ta-c"><img src={doneHomebase} alt="Done Assessor" /></div>
-        <p className="ta-c mt-5">You earned the <span className="txtGreen400">„{achievement.name}“</span> Award and +{achievement.points} Brixels.</p>
-      </div>
+    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col jc-b p-2 p-md-4">
+      <h5 className="ta-c">And the first award goes to… You!</h5>
+      <img className="ta-c" src={doneHomebase} alt="Done Assessor" />
+      <p className="ta-c mb-2">You earned the <span className="txtGreen400">„{achievement.name}“</span> Award and +{achievement.points} Brixels.</p>
     </main>
   );
 }

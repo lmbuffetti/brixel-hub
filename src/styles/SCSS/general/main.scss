@@ -6,8 +6,10 @@ $iphone5: 320px;
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 @import '~@brixel/brixel-configuration-partner/src/Variables';
 @import '~@brixel/brixel-components/src/styles/SCSS/general/main.scss';
-// UTILS
-@import "./windows";
+
+// DASHBOARD STUFF
+@import "./windows",
+"./hubDashboard";
 
 // COMPONENTS
 @import "../components/loading",
@@ -27,17 +29,19 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 "../components/documents",
 "../components/menu-sidebar",
 "../components/property-list";
+
 // PAGES
 @import "../pages/getStarted",
-"../pages/achievement",
-"../pages/dashboard",
+"../pages/onBoarding",
 "../pages/listings",
 "../pages/upgrade",
 "../pages/images",
-"../pages/facts",
-"../pages/onBoarding";
+"../pages/achievement",
+"../pages/facts";
+
 // TRANSITIONS
 @import "./transitions";
+
 
 html, body {
   position: relative;

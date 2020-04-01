@@ -43,7 +43,7 @@ function SuccessAssessor(props) {
   }, [gameGroup, getParams]);
 
   return (
-    <main id="rewards" className="pb-4">
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-b ${ isNew ? "p-2 p-md-4 pb-5" : "pt-2 pt-md-4"}`}>
 
       {
         groupdAchievement.done ? (
@@ -54,18 +54,18 @@ function SuccessAssessor(props) {
                   {
                     isNew ? (
                       <>
-                        <h5 className="ta-c mb-5">Well done. You are now an Assessor.</h5>
+                        <h5 className="ta-c">Well done. You are now an Assessor.</h5>
                         <div className="ta-c"><img src={doneAssessor} alt="Nes Assessor" /></div>
                         <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
 
                       <>
-                        <h5 className="ta-c mb-5">You are already an Assessor</h5>
+                        <h5 className="ta-c px-2 px-md-4">You are already an Assessor</h5>
                         <div className="ta-c"><img src={newAssessor} alt="Done Assessor" /></div>
-                        <p className="ta-c mt-5">Would you like to do the condition check again?</p>
-                        <div className="dis-r jc-c">
-                          <div className="dis-f jc-c mt-3 a-c">
+                        <div className="dis-fl-col jc-c a-c">
+                          <p className="ta-c px-2 px-md-4">Would you like to do the condition check again?</p>
+                          <div className="shadow-1dp-top w-perc-100 p-1 p-md-2 mt-2 brdRadiusTop">
                             <BrixelButtonPrimary
                               rounded
                               label="Yes, update"
@@ -85,18 +85,20 @@ function SuccessAssessor(props) {
           </>
         ) : (
           <>
-            <h5 className="ta-c mb-5">Assess your property with a condition check</h5>
-            <div className="ta-c"><img className="w-fix-100" src={becomeAssessor} alt="Done Assessor" /></div>
-            <p className="ta-c mt-5 txtDark700">As an assessor, you know about the condition of the most important parts of your property.</p>
-            <div className="dis-f jc-c mt-3 a-c">
-              <BrixelButtonPrimary
-                rounded
-                label="Ok, show me"
-                background={"primary"}
-                className="max-w-fix-280 w-perc-100 m-a"
-                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                rightIcon="arrow-right-small"
-              />
+            <h5 className="ta-c px-2 px-md-4">Assess your property with a condition check</h5>
+            <div className="ta-c m-a h-perc-50"><img className="h-perc-100" src={becomeAssessor} alt="Done Assessor" /></div>
+            <div className="dis-fl-col jc-c a-c">
+              <p className="ta-c txtDark700 px-2 px-md-4 w-perc-md-75">As an assessor, you know about the condition of the most important parts of your property.</p>
+              <div className="shadow-1dp-top w-perc-100 p-1 p-md-2 mt-2 brdRadiusTop">
+                <BrixelButtonPrimary
+                  rounded
+                  label="Ok, show me"
+                  background={"primary"}
+                  className="max-w-fix-280 w-perc-100 m-a"
+                  onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                  rightIcon="arrow-right-small"
+                />
+              </div>
             </div>
           </>
         )
