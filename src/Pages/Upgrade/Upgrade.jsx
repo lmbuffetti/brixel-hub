@@ -29,7 +29,7 @@ const Upgrade = (props) => {
   } = props;
   // STATE
   const [questions, setQuestions] = useState(UpgradeQuestions('en'));
-  const [position, setPosition] = useState(0);
+  //const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quest, setQuest] = useState(UpgradeQuestions('en')[0]);
   const [isEnter, setIsEnter] = useState(true);
@@ -67,7 +67,7 @@ const Upgrade = (props) => {
       saveData();
     }
     setCurrentIndex(newIndex);
-    setPosition(newIndex);
+    //setPosition(newIndex);
     setQuest(questions[newIndex]);
   };
 
