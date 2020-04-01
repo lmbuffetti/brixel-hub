@@ -60,13 +60,13 @@ function GetStarted(props) {
     handleSetLanguage,
     handleSetAwards,
     handleSetBrixelPoints,
-    handleSaveActiveSingleProperty,
-    handleSaveActiveSingleUser,
+    //handleSaveActiveSingleProperty,
+    //handleSaveActiveSingleUser,
     handleGetGamegroup,
     history,
     lang,
     loggedInUser,
-    property,
+    //property,
   } = props;
   // STATE
   const [position, setPosition] = useState(0);
@@ -210,7 +210,6 @@ function GetStarted(props) {
         }
       },
       location: formValue.location,
-      ownerType: 'seller',
       getEstimation: formValue.location.country === 'CH',
       addProperty: true,
       redirectToUserFlow: false,
