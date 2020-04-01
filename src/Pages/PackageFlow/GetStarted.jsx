@@ -60,13 +60,13 @@ function GetStarted(props) {
     handleSetLanguage,
     handleSetAwards,
     handleSetBrixelPoints,
-    handleSaveActiveSingleProperty,
-    handleSaveActiveSingleUser,
+    //handleSaveActiveSingleProperty,
+    //handleSaveActiveSingleUser,
     handleGetGamegroup,
     history,
     lang,
     loggedInUser,
-    property,
+    //property,
   } = props;
   // STATE
   const [position, setPosition] = useState(0);
@@ -210,7 +210,6 @@ function GetStarted(props) {
         }
       },
       location: formValue.location,
-      ownerType: 'seller',
       getEstimation: formValue.location.country === 'CH',
       addProperty: true,
       redirectToUserFlow: false,
@@ -220,25 +219,8 @@ function GetStarted(props) {
 
     if (enableForm) {
       if (loggedInUser.user && loggedInUser.user.id) {
-        if ((act === 'LastStep' || act === 'lastStep') && property.id) {
-          const pageData = {
-            id: property.id,
-            ownerType: formValue.ownerType,
-            typeOfBuyer: formValue.typeOfBuyer,
-            whenToSell: formValue.apartmentSellTiming,
-            redirectToHome: true,
-          };
-          const userData = {
-            id: loggedInUser.user.id,
-            userType: formValue.ownerType
-          };
-          await handleSaveActiveSingleUser(userData);
-          await handleSaveActiveSingleProperty(pageData);
-        } else {
-          changeFieldValue('owner', loggedInUser.user.id);
-          data.owner = loggedInUser.user.id;
-          await handleCreateActiveSingleProperty(data);
-        }
+        data.owner = loggedInUser.user.id;
+        await handleCreateActiveSingleProperty(data);
       } else if (loginPage) {
         data.user = {
           username: formValue.email,
@@ -292,6 +274,18 @@ function GetStarted(props) {
         }
         return null;
       })
+    }
+    if (Questions[newPosition] && Questions[newPosition].conditions) {
+      let checkCond = true;
+      Questions[newPosition].conditions.map((cond) => {
+        const val = get(formValue, cond.name, null);
+        if (val !== cond.value && checkCond) {
+          if (act === 'back') newPosition = newPosition - 1;
+          else newPosition = newPosition + 1;
+          checkCond = false;
+        }
+        return null;
+      });
     }
     if (Questions[newPosition] && Questions[newPosition].conditions) {
       let checkCond = true;

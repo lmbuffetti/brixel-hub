@@ -137,7 +137,7 @@ function PageHeaderDashboard(props) {
               rounded
               onClick={() => onUpgrade()}
             />
-            <div className="ml-2 hide dis-b-md">
+            <div className="ml-2 hide dis-b-md cur-poi">
               <AvatarImage
                 avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData().shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
                 name={has(loggedInUser, 'user.name') ? loggedInUser.user.name : ''}

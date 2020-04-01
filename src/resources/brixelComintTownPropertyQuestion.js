@@ -149,6 +149,10 @@ export const QuestionsList = (lang, gameGroup) => {
       imgHouse: resumeHouse,
     },
     {
+      conditions: [{
+        name: 'owner',
+        value: null,
+      }],
       title: translateTo(lang, "And the first award goes to…You!"),
       subtitle: translateTo(lang, `You earned the <span class="txtGreen400">"${getHomeBase.name}"</span> Award and +${getHomeBase.points} Brixels.`),
       history: "rewardsStep",
@@ -157,6 +161,10 @@ export const QuestionsList = (lang, gameGroup) => {
       img: Cat,
     },
     {
+      conditions: [{
+        name: 'owner',
+        value: null,
+      }],
       title: translateTo(lang, "Every home needs an owner."),
       history: "lastStep",
       cardType: 'LastStep',

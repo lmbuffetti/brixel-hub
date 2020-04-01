@@ -59,6 +59,12 @@ const HomeDashboard = (props) => {
   const getFact = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
+    if (windowDimensions && windowDimensions.width > 768 && getFact() === 'property') {
+      history.push({pathname: `/${propID}/property/facts` });
+    }
+  }, [windowDimensions, getFact()]);
+
+  useEffect(() => {
     if (property.id && loggedInUser.user) {
       let userType = 'buyer';
       if (property.id && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
@@ -87,10 +93,10 @@ const HomeDashboard = (props) => {
     const head = document.getElementsByClassName('hubDasHeader');
     const wrapper = document.getElementById('dashboard');
     let paddingTop = 0;
-    let paddingBottom = 0;
+    // let paddingBottom = 0;
     if (wrapper) {
       paddingTop = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-top').replace('px', '');
-      paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
+      // paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
     }
     const heightContent = head[0] ? head[0].offsetHeight : 0;
     return heightContent + +paddingTop;
@@ -197,7 +203,7 @@ const HomeDashboard = (props) => {
                 icon="folder"
                 label="Docubox"
                 labelClass="fweight-400"
-                subtitle={`0 Files`}
+                subtitle={`${get(formValue, 'documents.length', [])} Files`}
                 subtitleClass={'fsize-200 txtDark200 pt-small-6'}
                 className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                 colorIcon={'primary400'}
@@ -207,18 +213,18 @@ const HomeDashboard = (props) => {
             </div>
           </div>
         </div>
-          <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
-            <BrixelButtonIcon
-              background="white"
-              saturation={0}
-              color="primary"
-              saturationTxt={400}
-              icon="arrow-simple-right"
-              noBorder
-              className="shadow-2dp"
-              onClick={() => history.push('../facts')}
-            />
-          </div>
+        <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
+          <BrixelButtonIcon
+            background="white"
+            saturation={0}
+            color="primary"
+            saturationTxt={400}
+            icon="arrow-simple-right"
+            noBorder
+            className="shadow-2dp"
+            onClick={() => history.push('../facts')}
+          />
+        </div>
         {
           getFact() !== 'property' && (
             <div className={`levelsWrapper w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed': 'opened'}`} style={{ height: windowDimensions.height - calcHeaderHeight() }}>

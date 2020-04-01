@@ -67,7 +67,7 @@ const checkCommon = (store) => (next) => (action) => {
       api.image.addImage(action.payload)
         .then((res) => {
           if (uploadAction === 'photos' ||
-            uploadAction === 'plan' ||
+            uploadAction === 'floorPlans' ||
             uploadAction === 'contactAvatar') {
             let coverPhoto;
 
@@ -79,7 +79,7 @@ const checkCommon = (store) => (next) => (action) => {
               // coverPhoto = Object.keys(store.getState().form.Property.values.coverPhoto).length > 0 ? store.getState().form.Property.values.coverPhoto : res.data;
               img.push(res.data);
             }
-            if (uploadAction === 'plan') {
+            if (uploadAction === 'floorPlans') {
               plan.push(res.data);
             }
             const data = {
@@ -116,17 +116,19 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const arrayImg = store.getState().form.Property.values[action.payload.type];
       const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
+      store.dispatch({ type: SPINNER_SMALL_ON });
       api.image.deleteImg(action.payload.id)
         .then(() => {
           arrayImg.splice(idImg, 1);
           store.dispatch(change('Property', action.payload.type, arrayImg));
-          store.dispatch({ type: SPINNER_SMALL_ON });
           const data = {
             id: action.payload.pageID,
             [action.payload.type]: arrayImg,
             smallLoader: true
           };
+          if (action.payload.type === 'photos' && arrayImg.length === 0) data.coverPhoto = null;
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }
