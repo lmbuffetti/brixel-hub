@@ -220,25 +220,8 @@ function GetStarted(props) {
 
     if (enableForm) {
       if (loggedInUser.user && loggedInUser.user.id) {
-        if ((act === 'LastStep' || act === 'lastStep') && property.id) {
-          const pageData = {
-            id: property.id,
-            ownerType: formValue.ownerType,
-            typeOfBuyer: formValue.typeOfBuyer,
-            whenToSell: formValue.apartmentSellTiming,
-            redirectToHome: true,
-          };
-          const userData = {
-            id: loggedInUser.user.id,
-            userType: formValue.ownerType
-          };
-          await handleSaveActiveSingleUser(userData);
-          await handleSaveActiveSingleProperty(pageData);
-        } else {
-          changeFieldValue('owner', loggedInUser.user.id);
-          data.owner = loggedInUser.user.id;
-          await handleCreateActiveSingleProperty(data);
-        }
+        data.owner = loggedInUser.user.id;
+        await handleCreateActiveSingleProperty(data);
       } else if (loginPage) {
         data.user = {
           username: formValue.email,
