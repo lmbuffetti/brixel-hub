@@ -25,7 +25,7 @@ import {
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
 import { InputSheets } from '../../resources/inputSheets';
-import { reduxForm } from 'redux-form';
+import { reduxForm, reset } from 'redux-form';
 import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
@@ -72,13 +72,17 @@ const Dashboard = (props) => {
     handleGetActiveSingleProperty,
     handleGetActiveSinglePropertyBookings,
     handleGetImageType,
+    handleSaveActiveSingleProperty,
     history,
     initialValues,
+    isLoading,
     isSmallLoading,
     loggedInUser,
     match,
     notification,
+    handleSetScreenNotification,
     property,
+    reset,
     regFields,
   } = props;
 
@@ -126,46 +130,50 @@ const Dashboard = (props) => {
     }
   }, [property]);
 
+  const saveData = () => {
+    const changeObj = diff(initialValues, formValue);
+    if (Object.keys(changeObj).length > 0) {
+      const objToSave = {};
+      Object.keys(changeObj).map((key) => {
+        objToSave[key] = get(formValue, key, {});
+      });
+      console.log(objToSave);
+      const data = {
+        id: propID,
+        smallLoader: true,
+        setSuccessNotification: true,
+        ...objToSave,
+      };
+      // For now we still dont use the diff object (TODO: API ticket)
+      // diff(initialValues, formValue)
+
+      handleSaveActiveSingleProperty(data);
+    }
+  };
+
+  const discardChanges = () => {
+    handleSetScreenNotification(null);
+    reset('Property');
+  };
+
   useEffect(() => {
-    // SET NOTIFICATION AND CHECK IF VALUES ARE CHANGED
-    if (formValue.id && initialValues.id && regFields) {
-      if (Object.keys(diff(initialValues, formValue)).length > 0) {
-        let setValid = true;
-        if (Questions) {
-          Questions.map((input) => {
-            input.inputs.map((inp) => {
-              const curVal = get(errorValue, inp.name, true);
-              if (curVal !== true && curVal !== 'Mark Required') {
-                setValid = false;
-              }
-              return null;
-            });
-            return null;
-          });
-        }
-        if (setValid && (notification.type !== 'info' || load !== isSmallLoading)) {
-          /*handleSetScreenNotification({
-            state: false,
-            type: 'info',
-            label: 'Save changes?',
-            actions:
-              [
-                { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
-                { type: 'secondary', label: 'Discard', func: () => discardChanges() },
-              ],
-          });*/
-        }
-        // SET NOTIFICATION TO SUCCESS SAVE
-      } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'success') {
-        //setTimeout(() => closeNotificationBar(), 2000);
-        // REMOVE NOTIFICATION
-      } else if (Object.keys(diff(initialValues, formValue)).length === 0 && notification.type === 'info') {
-        // handleSetScreenNotification({ state: false });
-      } else {
-        // closeNotificationBar()
+    if (formValue.id && initialValues.id && !isLoading ) {
+      const changeObj = diff(initialValues, formValue);
+      console.log(changeObj);
+      if (Object.keys(changeObj).length > 0) {
+        handleSetScreenNotification({
+          state: true,
+          type: 'infoHub',
+          label: 'You have unsaved changes',
+          actions:
+            [
+              { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
+              { type: 'secondary', label: 'Discard changes', func: () => discardChanges() },
+            ],
+        });
       }
     }
-  }, [formValue, isSmallLoading, initialValues]);
+  }, [formValue, isSmallLoading]);
 
   if (!userTypes) return (<div />);
 
@@ -199,6 +207,7 @@ const Dashboard = (props) => {
 Dashboard.propTypes = {
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool,
   isSmallLoading: PropTypes.bool,
   userTypes: PropTypes.string,
   handleGetPropertyListings: PropTypes.func.isRequired,
@@ -232,6 +241,7 @@ const mapStateToProps = (state) => ({
   property: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'form.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  isLoading: get(state, 'common.isLoading', 0) > 0,
   errorValue: get(state, 'form.Property.syncErrors', null),
   regFields: get(state, 'form.Property.registeredFields', null),
   notification: get(state, 'common.notification', {}),
@@ -266,6 +276,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  reset(form) {
+    (dispatch(reset(form)))
+  },
   handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),

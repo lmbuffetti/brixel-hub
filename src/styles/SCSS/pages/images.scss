@@ -1,5 +1,7 @@
 .image-list {
   li {
+    list-style: none;
+    width: 100%;
     .photo-action {
       opacity: 0;
       position: absolute;
@@ -9,6 +11,15 @@
     .imgConver {
       background-size: cover;
       background-position: center;
+      position: relative;
+    }
+    .coverIconImg {
+      position: absolute;
+      left: $step;
+      bottom: $step;
+    }
+    p {
+      word-break: break-all;
     }
   }
   li {

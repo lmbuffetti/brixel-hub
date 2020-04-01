@@ -161,14 +161,6 @@ const DetailMedia = (props) => {
                   saturationTxt={400}
                   onClick={(e) => rotateImage(e)}
                 />
-                <BrixelButtonIcon
-                  bgTransparent
-                  background="red"
-                  icon="bin"
-                  color="red"
-                  saturationTxt={400}
-                  onClick={(e) => deleteImage(e)}
-                />
               </div>
             </div>
             <Field
@@ -180,27 +172,6 @@ const DetailMedia = (props) => {
               className="p-md-0 mb-2"
             />
           </div>
-        </div>
-        <div className="dis-f p-2">
-          <BrixelButtonPrimary
-            label='Cancel'
-            background="white"
-            saturation={0}
-            color="dark"
-            saturationTxt={400}
-            rounded
-            className="shadow-3dp w-perc-100 mr-1"
-            onClick={() => history.push(`/${propID}/property/${mediaType}`)}
-          />
-          <BrixelButtonPrimary
-            onClick={() => saveImage()}
-            background="primary"
-            saturation={400}
-            rounded
-            label="Save & Next"
-            isLoading={isSmallLoading}
-            className="w-perc-100 ml-1"
-          />
         </div>
       </div>
     </div>

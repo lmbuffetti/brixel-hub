@@ -138,6 +138,19 @@ const App = (props) => {
     }
   }, [redirectTo]);
 
+  const calcHeaderHeight = () => {
+    const head = document.getElementsByClassName('hubDasHeader');
+    const wrapper = document.getElementById('dashboard');
+    let paddingTop = 0;
+    // let paddingBottom = 0;
+    if (wrapper) {
+      paddingTop = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-top').replace('px', '');
+      // paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
+    }
+    const heightContent = head[0] ? head[0].offsetHeight : 0;
+    return heightContent;
+  };
+
   if (!loggedInUser || (!userTypes && property.id)) {
     return (
       <Loading isLoading={isLoading} />
@@ -154,6 +167,7 @@ const App = (props) => {
     classMain = '';
     isFlow = true;
   }
+
 
   return (
     <main className={`${!isFlow ? 'hubDashboard' : ''} dis-fl-row jc-b`}>
@@ -185,7 +199,7 @@ const App = (props) => {
                 <PageHeaderDashboard />
               )
             }
-            <div className={`${!isFlow ? 'hubDasContent bgLight100 h-perc-100' : ''}`}>
+            <div className={`${!isFlow ? 'hubDasContent bgLight100 h-perc-100 ov-a' : ''}`}  style={{ height: windowDimensions.height - calcHeaderHeight() }}>
               <Switch>
                 { /* SECTION: ONBOARDING */ }
                 <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
@@ -296,7 +310,7 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification && (notification.small || notification.label) && (
+        notification && (notification.small || notification.state) && (
           <>
             {
               notification.small ? (
