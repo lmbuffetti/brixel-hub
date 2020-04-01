@@ -37,3 +37,9 @@
     border-radius: $brd-radius-small;
   }
 }
+
+.fixedActionsBtmRight {
+  position: absolute;
+  right: $step;
+  bottom: $step;
+}

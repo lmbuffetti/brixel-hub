@@ -152,14 +152,9 @@ const Photos = (props) => {
                               </div>
                               {
                                 item.id === get(formValue, 'coverPhoto.id', null) && (
-                                  <BrixelIcon
-                                    bgTransparent
-                                    color="primary"
-                                    saturationTxt={400}
-                                    noBorder
-                                    icon="star-fill"
-                                    className="shadow-2dp coverIconImg"
-                                  />
+                                  <div className="fixedActionsBtmRight">
+                                    <div className="brdRadius bgWhite txtPrimary400 px-1 body2 brdSmall brdPrimary400">Cover</div>
+                                  </div>
                                 )
                               }
                             </div>
