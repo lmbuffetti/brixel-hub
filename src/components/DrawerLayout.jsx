@@ -6,11 +6,12 @@ import {
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { useOutsideAlerter } from '@brixel/brixel-components';
+import get from 'lodash/get';
 
 const DrawerLayout = (props) => {
   const {
     children, className, classNameDrawer,
-    closeLink, history,
+    closeLink, history, onClose, windowDimensions,
   } = props;
 
   const drawerRef = useRef(null);
@@ -19,13 +20,21 @@ const DrawerLayout = (props) => {
   useOutsideAlerter(drawerRef, {
     action: 'function',
     func: () => {
-      history.push(closeLink);
+      closeLink ? history.push(closeLink) : onClose();
     },
   });
 
+  const calcHeaderHeight = () => {
+    const head = document.getElementsByClassName('hubDasHeader');
+    const headTabs = document.getElementsByClassName('brixelNavMenu');
+    const headHight =  head[0] ? head[0].offsetHeight : 0;
+    const tabsHeight = headTabs[0] ? headTabs[0].offsetHeight : 0;
+    return headHight - tabsHeight;
+  };
+
   return (
     <div className={`wrapDrawer ${className}`}>
-      <div className={`drawer ${classNameDrawer}`} ref={drawerRef}>
+      <div className={`drawer shadow-1pd ${classNameDrawer}`} ref={drawerRef} style={{ marginTop: calcHeaderHeight(), height: windowDimensions.height - calcHeaderHeight() }}>
         {children}
       </div>
     </div>
@@ -38,15 +47,19 @@ DrawerLayout.propTypes = {
   classNameDrawer: PropTypes.string,
   history: PropTypes.object.isRequired,
   closeLink: PropTypes.string,
+  onClose: PropTypes.func,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 DrawerLayout.defaultProps = {
   className: '',
   classNameDrawer: '',
-  closeLink: './',
+  closeLink: null,
+  onClose: () => '',
 };
 
-const mapStateToProps = () => ({
+const mapStateToProps = (state) => ({
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = () => ({

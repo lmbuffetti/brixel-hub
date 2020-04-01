@@ -95,12 +95,20 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
           }
           if (setSuccessNotification) {
+            const closeNotification = () => store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null });
             const notification = ({
               state: true,
-              type: 'success',
-              label: 'Changes saved',
+              type: 'successHub',
+              label: '',
+              actions:
+                [
+                  { type: 'primary', label: 'Saved', func: () => closeNotification(), rightIcon: 'check' },
+                ],
             });
-            store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: notification })
+            store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: notification });
+            setTimeout(() => {
+              store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null })
+            }, 3000)
           }
           if (redirectToHome) {
             window.location.href = `/${res.data.id}/home`;

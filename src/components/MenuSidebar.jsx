@@ -38,7 +38,7 @@ const MenuSidebar = (props) => {
             <div className="admin-info w-perc-100 dis-fl-col a-c mb-10 py-3">
               <img className="pos-r w-fix-32" src={logo} alt="Brixel Logo" id="logo" />
             </div>
-            <div className="links h-perc-100 w-perc-100 dis-fl-col jc-b pos-r zIndex2">
+            <div className="links w-perc-100 dis-fl-col jc-b pos-r zIndex2">
               <div className="routes dis-fl-col jc-fs">
                 <div className={`pos-r h-fix-48 w-perc-100 dis-fl-col a-c ta-c ${activeMenu === 'propertyList'? 'clicked' : ''}`}>
                   <BrixelButtonIcon

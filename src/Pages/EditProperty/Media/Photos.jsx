@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary,
+  BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
@@ -120,7 +120,7 @@ const Photos = (props) => {
                     {
                       fixPhotos.map((item, i) => (
                         <li
-                          className="dis-fl-row a-c cur-poi pos-r"
+                          className="cur-poi pos-r"
                           key={i.toString()}
                           data-id={JSON.stringify(item)}
                         >
@@ -150,8 +150,16 @@ const Photos = (props) => {
                                   onClick={() => history.push(`/${propID}/property/photos/${item.id}/edit/photos`)}
                                 />
                               </div>
+                              {
+                                item.id === get(formValue, 'coverPhoto.id', null) && (
+                                  <div className="fixedActionsBtmRight">
+                                    <div className="brdRadius bgWhite txtPrimary400 px-1 body2 brdSmall brdPrimary400">Cover</div>
+                                  </div>
+                                )
+                              }
                             </div>
                           </div>
+                          <p className="ta-l mt-1 body2 w-prec-100">{item.description}</p>
                         </li>
                       ))
                     }

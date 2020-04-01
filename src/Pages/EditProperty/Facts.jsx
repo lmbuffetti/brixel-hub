@@ -91,6 +91,7 @@ const InputSheet = (props) => {
     const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
     const calPerc = Math.floor(countDone * countTotal / 100);
     const savedPerc = Math.floor(get(formValue, `inputSheet.totalComplete`, 0) || 0);
+    console.log(calPerc);
     if (calPerc !== savedPerc) {
       inputSheet.totalComplete = calPerc;
       changeFieldValue('inputSheet', inputSheet);
@@ -109,33 +110,6 @@ const InputSheet = (props) => {
       setChangeSection(false);
     }
   }, [isSmallLoading]);
-
-  const saveData = async () => {
-    const dataToSend = {
-      description: get(formValue, 'description', {}),
-      location: get(formValue, 'location', {}),
-      properties: get(formValue, 'properties', {}),
-      inputSheet: get(formValue, 'inputSheet', {}),
-      price: get(formValue, 'price', {}),
-      status: get(formValue, 'status', {}),
-      title: get(formValue, 'title', {}),
-    };
-    const data = {
-      id: propID,
-      smallLoader: true,
-      ...dataToSend,
-    };
-    // For now we still dont use the diff object (TODO: API ticket)
-    // diff(initialValues, formValue)
-    // const dataInputSheet = {
-    //   skipSection: skipSection,
-    // totalComplete: getCalcSectionInputSheets(Questions, formValue, accordion,'getPercentage', null),
-    // };
-
-    // await handleSaveActiveSingleProperty({id: propID, inputSheet: dataInputSheet});
-    setChangeSection(true);
-    await handleSaveActiveSingleProperty(data);
-  };
 
   useEffect(() => {
     if (history && !selectedQuest && getFact() !== 'facts') {
@@ -181,7 +155,7 @@ const InputSheet = (props) => {
             />
             <h6 className="mt-1 ff-mono txtPrimary700">{get(formValue, 'inputSheet.totalComplete', 0)}% complete</h6>
           </div>
-          <div className="ov-a h-perc-100">
+          <div className="p-2">
             {
               Questions.map((quest, i) => (
                 <div
@@ -224,30 +198,9 @@ const InputSheet = (props) => {
       {
         selectedQuest && getFact() !== 'facts' && (
           <div className="thirdLevel dis-fl-col w-perc-100 ml-md-2">
-            <div className="h-perc-100 dis-fl-col">
-              <div className="max-h-perc-100 ov-a">
+            <div className="p-3">
+              <div className="">
                 <FactsQuestion quest={selectedQuest} />
-              </div>
-              <div className="dis-f p-2 jc-b">
-                <BrixelButtonPrimary
-                  label='Cancel'
-                  background="white"
-                  saturation={0}
-                  color="dark"
-                  saturationTxt={400}
-                  rounded
-                  className="shadow-3dp w-perc-100 mr-1"
-                  onClick={() => history.push(`${propID}/property/facts`)}
-                />
-                <BrixelButtonPrimary
-                  label='Save & Next'
-                  background="primary"
-                  className="shadow-3dp w-perc-100 ml-1"
-                  saturation={400}
-                  rounded
-                  onClick={() => saveData()}
-                  isLoading={isSmallLoading}
-                />
               </div>
             </div>
           </div>

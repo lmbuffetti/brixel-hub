@@ -30,7 +30,7 @@ const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
     case ROTATE_IMG: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON });
       api.image.rotateImg(action.payload.id, action.payload.rotate)
         .then((res) => {
           const arrayImg = store.getState().form.Media.values.photos;
@@ -38,7 +38,7 @@ const checkCommon = (store) => (next) => (action) => {
           const idImg = arrayImg.findIndex((val) => { val.id = action.payload.id; });
           arrayImg[idImg] = res.data;
           store.dispatch(change('Property', 'photos', arrayImg));
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }

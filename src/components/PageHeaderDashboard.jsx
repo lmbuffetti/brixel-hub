@@ -37,6 +37,7 @@ function PageHeaderDashboard(props) {
   //const [dropLang, setDropLang] = useState([]);
   const [widthScreen, setWidthScreen] = useState(0);
   const [activeMenu, setActiveMenu] = useState(null);
+  const [righteMenu, setRighteMenu] = useState(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   // URL PARAMS
@@ -97,8 +98,8 @@ function PageHeaderDashboard(props) {
 
   return (
     <>
-      <header className={`hubDasHeader`}>
-        <div className={`container dis-f a-t p-1 pt-md-2 pr-md-2 pl-md-3 pb-md-4 jc-b pos-r zIndex4`}>
+      <header className={`hubDasHeader ${righteMenu ? 'rightMenuOpen' : ''}`}>
+        <div className={`container dis-f a-t p-1 pt-md-2 pr-md-2 pl-md-3 jc-b pos-r zIndex4 bgWhite`}>
 
           <div className="header-section dis-fl-row a-t jc-b">
             <div className="dis-fl-row a-c">
@@ -206,22 +207,22 @@ function PageHeaderDashboard(props) {
             <MenuNavigationSubmenu windowDimensions={windowDimensions} activeMenu={activeMenu} onClose={() => setActiveMenu(null)} />
           </div>
         </div>
-
         <div className="dis-f jc-b w-perc-100 a-t brdLight100 pl-md-3 brixelNavMenu">
           <BrixelTabs
             classNameLi="dis-fl-col"
             classNameUl="zIndex4"
             labels={['Rewards', 'Property', 'Listings']}
-            labelsIcons={windowDimensions.width <= 768 ? ['first-time-occupancy', 'property-house', 'upload'] : []}
-            clicksList={['rewards', 'property', 'listings']}
+            labelsRight={['Support']}
+            labelsIcons={windowDimensions.width <= 768 ? ['first-time-occupancy', 'property-house', 'upload', 'question'] : []}
+            clicksList={['rewards', 'property', 'listings', 'support']}
             classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
             activeTab={checkActiveTab()}
             fullWidth={windowDimensions.width <= 768}
-            onClick={(val) => history.push(`/${propID}/${val}`)}
+            onClick={(val) => val === 'support' ? setRighteMenu(val) : history.push(`/${propID}/${val}`)}
             showFull={false}
           />
-          <button className="fsize-400 txtLight400 mr-2 hide dis-b-md">Support</button>
         </div>
+        <MenuNavigationSubmenu windowDimensions={windowDimensions} rightMenu={righteMenu} onClose={() => setRighteMenu(null)} />
       </header>
     </>
   );
