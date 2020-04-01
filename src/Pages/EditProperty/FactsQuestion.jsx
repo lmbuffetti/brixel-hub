@@ -99,17 +99,17 @@ const FactsQuestion = (props) => {
     <div
       className="questContent"
     >
-      <div className="headerSection pos-r mb-3">
+      <div className="dis-f a-c jc-b pos-r mb-3">
+        <h5>{quest.title}</h5>
         <BrixelButtonIcon
           className="shadow-2dp"
-          icon="arrow-simple-left"
+          icon="close-small"
           color="primary"
           saturationTxt={400}
           bgTransparent
           noBorder
           onClick={() => history.push(`/${propID}/property/facts`)}
         />
-        <h5>{quest.title}</h5>
       </div>
       {
         quest.inputs.map((input, f) => (

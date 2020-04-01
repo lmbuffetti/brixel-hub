@@ -59,6 +59,12 @@ const HomeDashboard = (props) => {
   const getFact = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
+    if (windowDimensions && windowDimensions.width > 768 && getFact() === 'property') {
+      history.push({pathname: `/${propID}/property/facts` });
+    }
+  }, [windowDimensions, getFact()]);
+
+  useEffect(() => {
     if (property.id && loggedInUser.user) {
       let userType = 'buyer';
       if (property.id && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {

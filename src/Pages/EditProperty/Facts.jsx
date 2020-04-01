@@ -113,7 +113,7 @@ const InputSheet = (props) => {
       properties: get(formValue, 'properties', {}),
       inputSheet: get(formValue, 'inputSheet', {}),
       price: get(formValue, 'price', {}),
-      status: get(formValue, 'price', {}),
+      status: get(formValue, 'status', {}),
       title: get(formValue, 'title', {}),
     };
     const data = {
