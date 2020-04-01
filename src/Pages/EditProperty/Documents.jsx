@@ -15,7 +15,9 @@ import {
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { uploadDocument, deleteDocument, updateDocument } from '../../actions/UploadActions';
+import { setScreenNotification } from '../../actions/CommonActions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import { diff } from 'deep-object-diff';
 
 // IMAGES
 import upload_documents_empty from '../../images/Upload/upload_documents_empty.svg';
@@ -33,6 +35,7 @@ const Documents = (props) => {
   const {
     formValue, handleUploadDocument, user,
     handleDeleteDocument, handleUpdateDocument, match,
+    initialValues, changeFieldValue, setNotification,
   } = props;
   const { documents } = formValue;
 
@@ -71,6 +74,7 @@ const Documents = (props) => {
       };
     });
   }, []);
+
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: 'image/png,image/jpg,image/jpeg,.pdf',
@@ -95,7 +99,7 @@ const Documents = (props) => {
       pageID: formValue.id,
       id: doc.id,
       body: {
-        name: formValue.editedName,
+        name: doc.name,
         isPrivate: selectedVisibility !== 'Public',
         path: doc.path,
         mimeType: doc.mimeType,
@@ -110,6 +114,12 @@ const Documents = (props) => {
     e.preventDefault();
     textAreaRef.current.select();
     document.execCommand('copy');
+    setNotification({
+      state: true,
+      type: 'success',
+      label: 'Link copied!',
+    });
+    setTimeout(() => setNotification({ state: false }), 2000);
   };
 
   // Function to close the small menus when we click outside
@@ -149,7 +159,7 @@ const Documents = (props) => {
                             <div className="dis-fl-row a-c">
                               <Field
                                 className="zIndex1"
-                                name="editedName"
+                                name={`documents[${i}].name`}
                                 placeholder="Name this document"
                                 component={BrixelInputText}
                               />
@@ -182,7 +192,7 @@ const Documents = (props) => {
                               selected={`${doc.isPrivate ? 'Private' : 'Public'}`}
                               onSelect={(e, value) => {
                                 e.preventDefault();
-                                set(doc, 'isPrivate', value.label !== 'Public');
+                                changeFieldValue(`documents[${i}].isPrivate`, value.label !== 'Public');
                                 setSelectedVisibility(doc.isPrivate ? 'Private' : 'Public');
                               }}
                             />
@@ -216,7 +226,14 @@ const Documents = (props) => {
                                   color="red"
                                   saturationTxt={400}
                                   label="Cancel"
-                                  onClick={() => setEditDocument({ id: null, active: false })}
+                                  onClick={() => {
+                                    if (Object.keys(diff(initialValues.documents[i], doc)).length > 0) {
+                                      changeFieldValue(`documents[${i}]`, initialValues.documents[i]);
+                                      setEditDocument({ id: null, active: false });
+                                    } else {
+                                      setEditDocument({ id: null, active: false });
+                                    }
+                                  }}
                                 />
                               </div>
                             ) : (
@@ -339,7 +356,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('documentsForm', field, value));
   },
-  // setNotification: bindActionCreators(setScreenNotification, dispatch),
+  setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   handleUpdateDocument: bindActionCreators(updateDocument, dispatch),  // setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),

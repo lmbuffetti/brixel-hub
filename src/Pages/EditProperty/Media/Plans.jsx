@@ -70,7 +70,7 @@ const Photos = (props) => {
           user: loggedInUser.user.id,
           imageType: 0,
           pageID: formValue.id,
-          uploadAction: 'floorPlans',
+          uploadAction: 'plan',
         };
         handleUploadImg(binaryStr);
       };
@@ -177,7 +177,7 @@ const Photos = (props) => {
                 <BrixelButtonPrimary
                   label="upload"
                   rightIcon="upload"
-ncu                  className="mt-3"
+                  className="mt-3"
                 />
               </div>
             </>
