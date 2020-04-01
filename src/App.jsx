@@ -144,7 +144,7 @@ const App = (props) => {
     )
   }
 
-  let classMain = 'container pos-r ov-h p-0';
+  let classMain = 'container pos-r p-0';
   let isFlow = false;
   if (
     history.location.pathname.includes('packageFlow') ||

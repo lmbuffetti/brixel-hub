@@ -5,12 +5,15 @@ import { compose } from 'redux';
 import { useOutsideAlerter } from '@brixel/brixel-components';
 
 import Properties from '../Pages/Properties';
+import DrawerLayout from './DrawerLayout';
+import Support from './Support';
 
 const MenuNavigationSubmenu = (props) => {
   // PROPS
   const {
     activeMenu,
     onClose,
+    rightMenu,
     windowDimensions,
   } = props;
 
@@ -39,6 +42,16 @@ const MenuNavigationSubmenu = (props) => {
           </div>
         )
       }
+      {
+        rightMenu && (
+          <DrawerLayout onClose={() => onClose()}>
+            <Support
+              isFixed={false}
+              expanded
+            />
+          </DrawerLayout>
+        )
+      }
     </>
   );
 };
@@ -46,11 +59,13 @@ const MenuNavigationSubmenu = (props) => {
 MenuNavigationSubmenu.propTypes = {
   activeMenu: PropTypes.string,
   onClose: PropTypes.func.isRequired,
+  rightMenu: PropTypes.string,
   windowDimensions: PropTypes.object,
 };
 
 MenuNavigationSubmenu.defaultProps = {
   activeMenu: null,
+  rightMenu: null,
   windowDimensions: {},
 };
 

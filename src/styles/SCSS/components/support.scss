@@ -12,8 +12,10 @@
 
 @media (min-width: $responsive-medium) {
   #supportBox {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+    &.fixed {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
   }
 }

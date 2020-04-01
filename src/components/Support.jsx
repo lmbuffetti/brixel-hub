@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { BrixelIcon } from '@brixel/brixel-components';
 import SupportImg from '../images/Support/supportImg.png';
 import CallUsImg from '../images/Support/call_us.svg';
 import WriteUsImg from '../images/Support/wite_us.svg';
 import WhatAppImg from '../images/Support/whatsapp.svg';
 
-const Support = () => {
+const Support = (props) => {
+  const {
+    expanded,
+    isFixed,
+  } = props;
 
-  const [openDetail, setOpenDetail] = useState(false);
+  const [openDetail, setOpenDetail] = useState(expanded);
 
   return (
-    <div className="max-w-perc-100 w-fix-md-344 mb-4 bgWhite p-2" id="supportBox">
-      <div className="shadow-1dp p-3">
+    <div className={`max-w-perc-100 w-fix-md-344 mb-4 bgWhite p-2 ${isFixed ? 'fixed' : 'noFixed'}`} id="supportBox">
+      <div className={`${isFixed ? 'shadow-1dp' : ''} p-3`}>
         <h5 className="mb-1">Do you need  support?</h5>
         <p className="txtDark200 mb-2">Get in touch with us.</p>
         <div
@@ -19,9 +24,13 @@ const Support = () => {
           onClick={() => setOpenDetail(!openDetail)}
         >
           <img src={SupportImg} alt="Support Team" className="w-fix-160" />
-          <BrixelIcon
-            icon={openDetail ? "arrow-simple-up" : "arrow-simple-down"}
-          />
+          {
+            !expanded && (
+              <BrixelIcon
+                icon={openDetail ? "arrow-simple-up" : "arrow-simple-down"}
+              />
+            )
+          }
         </div>
         <div className={`moreInfoSupport ${openDetail ? 'open' : 'close'}`}>
           <hr className="my-3" />
@@ -55,7 +64,16 @@ const Support = () => {
       </div>
     </div>
   )
+};
 
+Support.propTypes = {
+  isFixed: PropTypes.bool,
+  expanded: PropTypes.bool,
+};
+
+Support.defaultTypes = {
+  isFixed: true,
+  expanded: false,
 };
 
 export default Support;

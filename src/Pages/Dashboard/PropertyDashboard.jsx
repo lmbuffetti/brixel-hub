@@ -227,7 +227,7 @@ const HomeDashboard = (props) => {
         </div>
         {
           getFact() !== 'property' && (
-            <div className={`levelsWrapper w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed': 'opened'}`} style={{ height: windowDimensions.height - calcHeaderHeight() }}>
+            <div className={`levelsWrapper w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed': 'opened'}`} style={{ /* height: windowDimensions.height - calcHeaderHeight()*/ }}>
               <Route path="/:propId?/property/facts" component={Facts} />
               <Route path="/:propId?/property/photos" component={Photos} />
               <Route path="/:propId?/property/floorPlans" component={Plans} />

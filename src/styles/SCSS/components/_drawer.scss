@@ -4,8 +4,8 @@
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 4;
-  background: rgba($brx-white, 0.8);
+  z-index: 101;
+  background: rgba($brx-black, 0.56);
 
   .drawer {
     position: absolute;
@@ -14,7 +14,7 @@
     height: 100%;
     width: 100%;
     background-color: $brx-white;
-    max-width: 768px;
+    max-width: 344px;
     box-shadow: $shadow-5dp;
 
     @media (min-width: $responsive-medium) {

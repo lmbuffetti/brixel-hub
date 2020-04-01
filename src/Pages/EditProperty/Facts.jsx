@@ -156,8 +156,8 @@ const InputSheet = (props) => {
 
   return (
     <div className="facts-wrapper dis-f h-perc-100">
-      <div className="secondLevel h-perc-100 dis-fl-col w-perc-100">
-        <div className="max-h-perc-100 dis-fl-col">
+      <div className="secondLevel dis-fl-col w-perc-100">
+        <div className="dis-fl-col">
           <div className="headerSection pos-r px-2 pt-2 px-md-4 pt-md-4">
             <BrixelButtonIcon
               className="shadow-2dp"
@@ -181,7 +181,7 @@ const InputSheet = (props) => {
             />
             <h6 className="mt-1 ff-mono txtPrimary700">{get(formValue, 'inputSheet.totalComplete', 0)}% complete</h6>
           </div>
-          <div className="ov-a h-perc-100">
+          <div className="p-2">
             {
               Questions.map((quest, i) => (
                 <div
@@ -224,8 +224,8 @@ const InputSheet = (props) => {
       {
         selectedQuest && getFact() !== 'facts' && (
           <div className="thirdLevel dis-fl-col w-perc-100 ml-md-2">
-            <div className="h-perc-100 dis-fl-col">
-              <div className="max-h-perc-100 ov-a">
+            <div className="p-3">
+              <div className="">
                 <FactsQuestion quest={selectedQuest} />
               </div>
               <div className="dis-f p-2 jc-b">

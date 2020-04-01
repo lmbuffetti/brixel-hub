@@ -173,14 +173,11 @@ const Dashboard = (props) => {
     <div className="container" id="dashboard">
       { /* SECTION: APP HEADER */ }
       <Route render={({location}) => {
-         const url = location.pathname.split('/');
-         let locationKey = url[2];
-        console.log(url)
-
+        // const url = location.pathname.split('/');
         return (
           <TransitionGroup>
             <CSSTransition
-             // key={locationKey}
+              // key={locationKey}
               //timeout={300}
               //classNames="fade"
             >
