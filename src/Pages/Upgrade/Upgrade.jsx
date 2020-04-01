@@ -52,7 +52,7 @@ const Upgrade = (props) => {
   };
 
   const saveData = () => {
-    console.log('saveData');
+    console.log('saveData', formValue.packageUpgrade);
   };
 
   const changeStep = (act) => {
