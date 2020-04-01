@@ -71,6 +71,18 @@ export const InputSheets = (lang) => [
         component: BrixelRadioButton,
         condition: {
           name: 'properties.propertyType',
+          value: 'House'
+        },
+        className: '',
+        label: 'What\'s the type of the house?',
+        name: 'properties.building.typeHouseCode',
+        options: factsOptions.typeHouseCode,
+        validation: [Validation.markRequired]
+      },
+      {
+        component: BrixelRadioButton,
+        condition: {
+          name: 'properties.propertyType',
           value: 'Apartment'
         },
         label: 'What\'s the type of the building?',
