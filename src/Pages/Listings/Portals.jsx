@@ -138,7 +138,7 @@ const Portals = (props) => {
                           <div className="ta-l max-w-fix-344 m-a">
                             <p className="mb-1">
                               <BrixelIcon icon="check" color="green" />
-                              <span className="ml-1">Publish all your listing with one click</span>
+                              <span className="ml-1">Publish all your listings with one click</span>
                             </p>
 
                             <p className="mb-1">

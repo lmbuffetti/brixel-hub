@@ -39,6 +39,12 @@ const ListingsDashboard = (props) => {
   const propID = get(match, 'params.propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
+  useEffect(() => {
+    if (windowDimensions && windowDimensions.width > 768 && getFact() === 'listings') {
+      history.push({pathname: `/${propID}/listings/page` });
+    }
+  }, [windowDimensions, getFact()]);
+
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
     const wrapper = document.getElementById('dashboard');
@@ -167,7 +173,7 @@ const ListingsDashboard = (props) => {
               />
             </div>
 
-            <div className="brdRadius shadow-1dp brdPrimary400 mt-1">
+            <div className="brdRadius shadow-1dp brdPrimary400 mt-1 hide">
               <div className="transparency-container">
                 <div className="dis-fl-col ta-l">
                   <BrixelButtonBox

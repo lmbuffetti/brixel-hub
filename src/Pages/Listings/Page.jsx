@@ -90,7 +90,7 @@ const Page = (props) => {
 
                     <hr className="my-3" />
 
-                    <p className="txtDark200">Any question?</p>
+                    <p className="txtDark200">Any questions?</p>
                     <p className="txtDark200">Call us: <a className="txtDark200" href="tel:+41 43 333 57 00">+41 43 333 57 00</a></p>
                     <p className="txtDark200">Write us: <a className="txtDark200" href="mailto:support@brixel.ch">support@brixel.ch</a></p>
 
