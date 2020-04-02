@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^1.2.77",
+    "@brixel/brixel-components": "^1.2.78",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
-    "d3": "^5.15.0",
+    "d3": "^5.15.1",
     "deep-object-diff": "^1.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
@@ -34,7 +34,7 @@
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
-    "redux-form": "^8.3.1",
+    "redux-form": "^8.3.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "universal-cookie": "^4.0.3"
@@ -86,6 +86,7 @@
     "postcss-cli": "^7.1.0",
     "postcss-loader": "^3.0.0",
     "react-dev-utils": "^10.2.1",
+    "reactotron-react-js": "^3.3.7",
     "reload": "^3.0.4",
     "resolve-url-loader": "^3.1.1",
     "svg-inline-loader": "^0.8.2",

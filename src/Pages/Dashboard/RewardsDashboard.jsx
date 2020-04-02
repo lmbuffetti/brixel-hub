@@ -124,20 +124,6 @@ const RewardsDashboard = (props) => {
     return <Loading />
   }
 
-  const calcHeaderHeight = () => {
-    const head = document.getElementsByClassName('hubDasHeader');
-    const wrapper = document.getElementById('dashboard');
-    let paddingTop = 0;
-    let paddingBottom = 0;
-    if (wrapper) {
-      paddingTop = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-top').replace('px', '');
-      paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
-    }
-    const heightContent = head[0] ? head[0].offsetHeight : 0;
-    if (windowDimensions.width < 768) return 0;
-    return heightContent + +paddingTop + +paddingBottom;
-  };
-
   return (
     <div className={`rewards-container dis-f ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'}`} id="rewardsDashboard">
       {
@@ -267,7 +253,7 @@ const RewardsDashboard = (props) => {
       }
       {
         activeGameGroup && rewardType !== 'rewards' && (
-          <div className="secondLevel h-perc-100 w-perc-100 dis-fl-col ml-md-1" style={{ height: windowDimensions.height - calcHeaderHeight() }}>
+          <div className="secondLevel w-perc-100 dis-fl-col ml-md-1">
             <>
               <div className="headerSection hide-md p-1">
                 <div className="pos-r">
@@ -283,7 +269,7 @@ const RewardsDashboard = (props) => {
                   <h5>{activeGameGroup.replace('-', ' ')}</h5>
                 </div>
               </div>
-              <div className="rewadsSplash h-perc-100 h-perc-md-65">
+              <div className="rewadsSplash">
                 {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
                 {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
                 {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}

@@ -151,7 +151,7 @@ const Page = (props) => {
                         <h5 className="mb-1">Share for free.</h5>
                         <p>Use the power of social media.</p>
 
-                        <div className="dis-f jc-b a-c">
+                        <div className="dis-f jc-b a-c max-w-fix-344 m-a mt-3">
                           <a
                             href={`https://www.facebook.com/sharer/sharer.php?u=${baseByData.pageUrl}${formValue.stub}`}
                             target="_blank"

@@ -113,7 +113,7 @@ const FactsQuestion = (props) => {
       </div>
       {
         quest.inputs.map((input, f) => (
-          <>
+          <React.Fragment key={f.toString()}>
             {
               checkCondition(input) && (
                 <div className="singleInput mb-3" key={f.toString()}>
@@ -165,6 +165,7 @@ const FactsQuestion = (props) => {
                               type={input.type}
                               step={+input.step}
                               min={input.min}
+                              formatText={input.formatText}
                               deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
                               placeholder={input.placeholder || ''}
                               meta={{
@@ -189,7 +190,7 @@ const FactsQuestion = (props) => {
                 </div>
               )
             }
-          </>
+          </React.Fragment>
         ))
       }
     </div>
@@ -202,7 +203,7 @@ FactsQuestion.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
-  quest: PropTypes.arrayOf(PropTypes.object),
+  quest: PropTypes.object,
 };
 
 FactsQuestion.defaultProps = {

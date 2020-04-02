@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import {
   Route,
@@ -44,19 +45,6 @@ const ListingsDashboard = (props) => {
       history.push({pathname: `/${propID}/listings/page` });
     }
   }, [windowDimensions, getFact()]);
-
-  const calcHeaderHeight = () => {
-    const head = document.getElementsByClassName('hubDasHeader');
-    const wrapper = document.getElementById('dashboard');
-    let paddingTop = 0;
-    let paddingBottom = 0;
-    if (wrapper) {
-      paddingTop = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-top').replace('px', '');
-      paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
-    }
-    const heightContent = head[0] ? head[0].offsetHeight : 0;
-    return heightContent + +paddingTop + +paddingBottom;
-  };
 
   const statusPage = () => {
     let label;
@@ -117,7 +105,7 @@ const ListingsDashboard = (props) => {
 
   return (
     <div className="listings-container" id="listingsDashaboard">
-      <div className="dis-f h-perc-100">
+      <div className="dis-f">
         <div className={`firstLevel mr-md-2 expandableColumn ${openCloseColumn()}`}>
           <div className={`jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-f' : 'hide'}`}>
             <BrixelButtonIcon
@@ -228,7 +216,7 @@ const ListingsDashboard = (props) => {
         </div>
         {
           getFact() !== 'listings' && (
-            <div className="w-perc-100" style={{ height: windowDimensions.height - calcHeaderHeight() }}>
+            <div className="w-perc-100">
               <Route path="/:propId?/listings/showings" component={Showings} />
               <Route path="/:propId?/listings/page" component={Page} />
               <Route path="/:propId?/listings/portals" component={Portals} />

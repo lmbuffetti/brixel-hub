@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState }  from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -88,20 +89,6 @@ const HomeDashboard = (props) => {
     if (val) return val.length;
     return 0
   };
-
-  const calcHeaderHeight = () => {
-    const head = document.getElementsByClassName('hubDasHeader');
-    const wrapper = document.getElementById('dashboard');
-    let paddingTop = 0;
-    // let paddingBottom = 0;
-    if (wrapper) {
-      paddingTop = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-top').replace('px', '');
-      // paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
-    }
-    const heightContent = head[0] ? head[0].offsetHeight : 0;
-    return heightContent + +paddingTop;
-  };
-
 
   return (
     <>
@@ -227,7 +214,7 @@ const HomeDashboard = (props) => {
         </div>
         {
           getFact() !== 'property' && (
-            <div className={`levelsWrapper w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed': 'opened'}`} style={{ /* height: windowDimensions.height - calcHeaderHeight()*/ }}>
+            <div className={`levelsWrapper w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed': 'opened'}`}>
               <Route path="/:propId?/property/facts" component={Facts} />
               <Route path="/:propId?/property/photos" component={Photos} />
               <Route path="/:propId?/property/floorPlans" component={Plans} />

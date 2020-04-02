@@ -441,3 +441,13 @@ export const sortObject = (key, order = 'asc') => {
     );
   };
 }
+
+export const Truncate = (text, limit, showAllDescription = false) => {
+  let txt = text;
+  if (txt.length > limit && !showAllDescription) {
+    txt = `${txt.substr(0, limit).replace(/\s+$/, '')}...`;
+  } else if (txt.length > limit && showAllDescription) {
+    txt = `${txt}`;
+  }
+  return txt;
+};

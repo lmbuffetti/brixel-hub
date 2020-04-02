@@ -54,13 +54,13 @@ function SuccessMarketCheck(props) {
                     getDoneFirstTime() === 'done' ? (
                       <>
                         <h5 className="ta-c">Great, now you know what is out there.</h5>
-                        <div className="ta-c"><img src={newMarketCheck} alt="Nes Assessor" /></div>
+                        <div className="ta-c mb-5 mt-5"><img src={newMarketCheck} alt="Nes Assessor" /></div>
                         <p className="ta-c mb-2">Congrats! <br/> You earned the <span className="txtGreen400">Market Checker</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
                       <>
                         <h5 className="ta-c px-2 px-md-4">Looks like you can’t get enough data.</h5>
-                        <div className="ta-c"><img src={doneMarketCheck} alt="Done Assessor" /></div>
+                        <div className="ta-c mb-5 mt-5"><img src={doneMarketCheck} alt="Done Assessor" /></div>
                         <div className="dis-fl-col jc-c a-c">
                           <p className="ta-c px-2 px-md-4">We update these data daily. Would you like to update it now?</p>
                           <div className="shadow-1dp-top w-perc-100 p-1 p-md-2 mt-2 brdRadiusTop">
@@ -84,7 +84,7 @@ function SuccessMarketCheck(props) {
         ) : (
           <>
             <h5 className="ta-c px-2 px-md-4">Check your local market</h5>
-            <div className="ta-c m-a w-perc-md-75"><img className="w-perc-md-75" src={startMarketCheck} alt="Done Assessor" /></div>
+            <div className="ta-c m-a mb-5 mt-5"><img className="w-perc-md-75" src={startMarketCheck} alt="Done Assessor" /></div>
             <div className="dis-fl-col jc-c a-c">
               <p className="ta-c txtDark700 px-2 px-md-4 w-perc-md-75">Stop browsing all the portals. I show you all similar properties on sale. Instantly.</p>
               <div className="shadow-1dp-top w-perc-100 p-1 p-md-2 mt-2 brdRadiusTop">

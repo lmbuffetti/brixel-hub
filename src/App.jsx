@@ -10,6 +10,7 @@ import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
+import Reactotron from 'reactotron-react-js'
 
 // COMPONENTS
 import Loading from './components/Loading';
@@ -127,6 +128,7 @@ const App = (props) => {
     if (history && history.location) {
       ga('send', 'pageview', history.location.pathname);
     }
+    Reactotron.log(history.location.pathname);
   }, [history.location]);
 
   useEffect(() => {
@@ -140,15 +142,7 @@ const App = (props) => {
 
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
-    const wrapper = document.getElementById('dashboard');
-    let paddingTop = 0;
-    // let paddingBottom = 0;
-    if (wrapper) {
-      paddingTop = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-top').replace('px', '');
-      // paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
-    }
-    const heightContent = head[0] ? head[0].offsetHeight : 0;
-    return heightContent;
+    return head[0] ? head[0].offsetHeight : 0;
   };
 
   if (!loggedInUser || (!userTypes && property.id)) {
@@ -199,7 +193,11 @@ const App = (props) => {
                 <PageHeaderDashboard />
               )
             }
-            <div className={`${!isFlow ? 'hubDasContent bgLight100 h-perc-100 ov-a' : ''}`}  style={{ height: windowDimensions.height - calcHeaderHeight() }}>
+            <div
+              id="bodyScroll"
+              className={`${!isFlow ? 'hubDasContent bgLight100 h-perc-100 ov-a' : ''} ${notification && (notification.small || notification.state) ? 'pb-10' : ''}`}
+              style={{ height: windowDimensions.height - calcHeaderHeight() }}
+            >
               <Switch>
                 { /* SECTION: ONBOARDING */ }
                 <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
@@ -237,53 +235,6 @@ const App = (props) => {
         </Switch>
       }
 
-      { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
-      {
-        modal.state && (
-          <BrixelModal
-            classHeight={modal.height}
-            classWidth={modal.width}
-            title={modal.title}
-            titleIcon={modal.titleIcon}
-            color={modal.color}
-            saturationTxt={modal.saturationTxt}
-            layout={modal.layout}
-            onClose={() => {
-              handleSetModal({ state: false });
-            }}
-            actions={modal.action}
-            multiActions={modal.multiActions}
-            clickOutsideToClose={modal.clickOutsideToClose}
-          >
-            <h6 className="mb-2" dangerouslySetInnerHTML={{ __html: modal.hint}} />
-            <div className="body2" dangerouslySetInnerHTML={{ __html: modal.body}} />
-          </BrixelModal>
-        )
-      }
-
-      { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
-      {
-        notification && (notification.small || notification.label) && (
-          <>
-            {
-              notification.small ? (
-                <div className="brxNotification">
-                  <BrixelIcon icon={notification.icon} />
-                  <span>{notification.text}</span>
-                </div>
-              ) : (
-                <BrixelNotification
-                  label={notification.label}
-                  type={notification.type}
-                  icon={notification.icon}
-                  actions={notification.actions}
-                  className="zIndex5"
-                />
-              )
-            }
-          </>
-        )
-      }
       { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
       {
         modal.state && (

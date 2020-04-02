@@ -7,14 +7,10 @@ import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import {
-  CSSTransition,
-  TransitionGroup,
-} from 'react-transition-group';
-import {
-  BrixelButtonPrimary,
   BrixelIcon,
   BrixelProgressBar,
   BrixelButtonIcon,
+  BrixelButtonTertiary,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -29,11 +25,10 @@ import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import FactsQuestion from './FactsQuestion';
 import last from 'lodash/last';
 
-const InputSheet = (props) => {
+const Facts = (props) => {
   const {
     changeFieldValue,
     formValue,
-    handleSaveActiveSingleProperty,
     history,
     isSmallLoading,
     match,
@@ -91,7 +86,6 @@ const InputSheet = (props) => {
     const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
     const calPerc = Math.floor(countDone * countTotal / 100);
     const savedPerc = Math.floor(get(formValue, `inputSheet.totalComplete`, 0) || 0);
-    console.log(calPerc);
     if (calPerc !== savedPerc) {
       inputSheet.totalComplete = calPerc;
       changeFieldValue('inputSheet', inputSheet);
@@ -126,6 +120,21 @@ const InputSheet = (props) => {
       history.push(`/${propID}/property/facts/${quest.history}`);
       setSelectedQuest(quest)
     }, 0);
+  };
+
+  const onNextSection = (act) => {
+    const findCurrentId = Questions.findIndex(quest => quest.history === selectedQuest.history);
+    console.log(findCurrentId);
+    if (findCurrentId > -1 && Questions[findCurrentId + 1]) {
+      if (act === 'label') {
+        return Questions[findCurrentId + 1].title;
+      }
+      if (act === 'click') {
+        onSelectQuest(Questions[findCurrentId + 1]);
+        const scrollElement = document.getElementById('bodyScroll');
+        scrollElement.scrollTo({top: 0, behavior: 'smooth'});
+      }
+    }
   };
 
   return (
@@ -197,6 +206,17 @@ const InputSheet = (props) => {
             <div className="p-3">
               <div className="">
                 <FactsQuestion quest={selectedQuest} />
+                <div className="dis-f jc-fe">
+                  {
+                    onNextSection('label') && (
+                      <BrixelButtonTertiary
+                        rightIcon="arrow-right"
+                        onClick={() => onNextSection('click')}
+                        label={onNextSection('label')}
+                      />
+                    )
+                  }
+                </div>
               </div>
             </div>
           </div>
@@ -206,7 +226,7 @@ const InputSheet = (props) => {
   );
 };
 
-InputSheet.propTypes = {
+Facts.propTypes = {
   isLoading: PropTypes.bool,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -218,12 +238,11 @@ InputSheet.propTypes = {
   singleUserPropertyList: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
-  notification: PropTypes.object.isRequired,
   setNotification: PropTypes.func.isRequired,
   isUnsavedChangesModal: PropTypes.object,
 };
 
-InputSheet.defaultProps = {
+Facts.defaultProps = {
   isUnsavedChangesModal: {},
   isLoading: false,
 };
@@ -259,4 +278,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(InputSheet);
+)(Facts);

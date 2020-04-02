@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
@@ -7,7 +7,6 @@ import {
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
-import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -20,16 +19,15 @@ import {
   getPropertyListings,
   getActiveSingleProperty,
   saveActiveSingleProperty,
-  getActiveSinglePropertyBookings,
+  getActiveSinglePropertyBookings, savePropertyVisitSchedule, createPropertyVisitSchedule, savePropertyVisitBooking,
 } from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
-import Loading from '../../components/Loading';
-import { InputSheets } from '../../resources/inputSheets';
 import { reduxForm, reset } from 'redux-form';
 import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
 import { setModal, setScreenNotification } from '../../actions/CommonActions';
+import has from 'lodash/has';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -66,30 +64,24 @@ const Dashboard = (props) => {
   // PROPS
   const {
     userTypes,
-    errorValue,
     formValue,
     handleGetPropertyListings,
     handleGetActiveSingleProperty,
     handleGetActiveSinglePropertyBookings,
     handleGetImageType,
     handleSaveActiveSingleProperty,
+    handleSavePropertyVisitSchedule,
+    handleCreatePropertyVisitSchedule,
     history,
     initialValues,
     isLoading,
     isSmallLoading,
     loggedInUser,
     match,
-    notification,
     handleSetScreenNotification,
     property,
     reset,
-    regFields,
   } = props;
-
-  // STATE
-  const [Questions] = useState(InputSheets('en'));
-  const load = useState(isSmallLoading);
-
   //const [showButton, setShowButton] = useState(true);
   //const [showMessage, setShowMessage] = useState(false);
 
@@ -117,37 +109,46 @@ const Dashboard = (props) => {
     if (property.owner === loggedInUser.user.id) {
       handleGetActiveSingleProperty({fullVersion: true, id: propID});
       handleGetActiveSinglePropertyBookings({id: propID});
-      handleGetImageType();
     }
-    const getPercComplete = get(property, 'inputSheet.totalComplete', null);
-    if (property.id && !getPercComplete && property.owner.id) {
-      // const getPerc = getCalcSectionInputSheets(InputSheets('en'), property, {});
-      /*const data = {
-        skipSection: getPerc.section.section,
-        totalComplete: getPerc.section.percComplete,
-      };*/
-      //handleSaveActiveSingleProperty({id: property.id, inputSheet: data});
-    }
+    handleGetImageType();
   }, [property]);
 
   const saveData = () => {
     const changeObj = diff(initialValues, formValue);
-    if (Object.keys(changeObj).length > 0) {
-      const objToSave = {};
-      Object.keys(changeObj).map((key) => {
-        objToSave[key] = get(formValue, key, {});
-      });
-      console.log(objToSave);
-      const data = {
-        id: propID,
-        smallLoader: true,
-        setSuccessNotification: true,
-        ...objToSave,
-      };
-      // For now we still dont use the diff object (TODO: API ticket)
-      // diff(initialValues, formValue)
-
-      handleSaveActiveSingleProperty(data);
+    if (Object.keys(changeObj).length > 0 && (changeObj.length > 1 || !changeObj.inputSheet )) {
+      if (changeObj.schedule) {
+        // Update schedule
+        if (has(formValue, 'schedule.id')) {
+          const data = {
+            scheduleId: formValue.schedule.id,
+            data: {
+              page: formValue.id,
+              slots: formValue.schedule.slots,
+            },
+          };
+          handleSavePropertyVisitSchedule(data);
+        } else {
+          // Create schedule
+          const data = {
+            page: formValue.id,
+            slots: formValue.schedule.slots,
+          };
+          handleCreatePropertyVisitSchedule(data);
+        }
+      } else {
+        const objToSave = {};
+        Object.keys(changeObj).map((key) => {
+          objToSave[key] = get(formValue, key, {});
+          return null;
+        });
+        const data = {
+          id: propID,
+          smallLoader: true,
+          setSuccessNotification: true,
+          ...objToSave,
+        };
+        handleSaveActiveSingleProperty(data);
+      }
     }
   };
 
@@ -159,7 +160,6 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (formValue.id && initialValues.id && !isLoading ) {
       const changeObj = diff(initialValues, formValue);
-      console.log(changeObj);
       if (Object.keys(changeObj).length > 0) {
         handleSetScreenNotification({
           state: true,
@@ -167,10 +167,12 @@ const Dashboard = (props) => {
           label: 'You have unsaved changes',
           actions:
             [
-              { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
               { type: 'secondary', label: 'Discard changes', func: () => discardChanges() },
+              { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
             ],
         });
+      }  else if (Object.keys(changeObj).length === 0) {
+        handleSetScreenNotification(null);
       }
     }
   }, [formValue, isSmallLoading]);
@@ -200,9 +202,12 @@ Dashboard.propTypes = {
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
+  handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
+  handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
+  handleSavePropertyVisitBooking: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  notification: PropTypes.object.isRequired,
+  notification: PropTypes.object,
   regFields: PropTypes.object,
   handleSetScreenNotification: PropTypes.func.isRequired,
 };
@@ -211,6 +216,7 @@ Dashboard.defaultProps = {
   errorValue: null,
   regFields: null,
   userTypes: null,
+  notification: null,
 };
 
 const DashboardForm = reduxForm({
@@ -273,6 +279,9 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetScreenNotification: bindActionCreators(setScreenNotification, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
+  handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),
+  handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
+  handleSavePropertyVisitBooking: bindActionCreators(savePropertyVisitBooking, dispatch),
 });
 
 export default compose(

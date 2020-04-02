@@ -9,9 +9,6 @@ import {
   Validation,
 } from '@brixel/brixel-components';
 // import { isEmpty } from '@brixel/brixel-components/src/utils/helper';
-import { translateTo } from '../utils/translation';
-import apartment from '../images/BrxielComingTown/apartment.svg';
-import house from '../images/BrxielComingTown/house.svg';
 const { factsOptions } = FactsOptions;
 
 const formatPrice = (value) => {
@@ -41,19 +38,7 @@ export const InputSheets = (lang) => [
         name: 'properties.propertyType',
         validation: [Validation.required],
         deactivable: false,
-        options: [
-          {
-            label: translateTo(lang, "Apartment"),
-            value: "Apartment",
-            img: apartment,
-          },
-          {
-            label: translateTo(lang, "House"),
-            value: "House",
-            img: house,
-
-          }
-        ],
+        options: factsOptions.propertyTypeNoIcon,
       },
       {
         component: BrixelRadioButton,
@@ -1021,6 +1006,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'Room layout',
         name: 'description.roomLayout',
+        formatText: true,
         validation: [Validation.markRequired],
       },
       {
