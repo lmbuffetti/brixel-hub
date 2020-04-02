@@ -443,7 +443,7 @@ const checkCommon = (store) => (next) => (action) => {
       const { smallLoader, page, data } = action.payload;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
       else store.dispatch({ type: SPINNER_ON });
-      api.property.upgradePlan(page, data)
+      api.property.saveUpgradePlan(page, data)
         .then((res) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
