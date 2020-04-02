@@ -3,6 +3,7 @@
     overflow-y: auto;
   }
   .container {
+    height: 100%;
     padding: $step * 2;
     padding-bottom: $step * 8;
 
@@ -34,9 +35,6 @@
     width: 100%;
     background: $brx-white;
     z-index: 100;
-    .rewadsSplash {
-      height: 100%;
-    }
     > div {
       &:not(.rewadsSplash) {
         padding: $step * 2;
@@ -93,6 +91,8 @@
         box-shadow: $shadow-1dp;
         background: $brx-white;
         border-radius: $brd-radius-small;
+        min-height: 70%;
+
         &:not(.rewadsSplash) {
           padding: $step * 3;
         }

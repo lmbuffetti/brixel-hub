@@ -26,7 +26,7 @@ function ResumeAssessor(props) {
   };
 
   return (
-    <main id="rewards" className="pb-4">
+    <main id="rewards" className="pb-4 h-perc-100">
       <h5 className='ta-c'>Voila!</h5>
       <h5 className='ta-c mb-5'>Here is your condition check.</h5>
       {

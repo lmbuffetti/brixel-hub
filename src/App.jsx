@@ -149,7 +149,7 @@ const App = (props) => {
     )
   }
 
-  let classMain = 'container pos-r p-0';
+  let classMain = 'container pos-r p-0 ov-h';
   let zIndex = 1;
   let isFlow = false;
   if (

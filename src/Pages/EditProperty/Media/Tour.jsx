@@ -20,11 +20,10 @@ const Tour = (props) => {
     <div className="secondLevel">
       <div className="tourWrapper dis-fl-col">
 
-        <div className="dis-fl-row jc-b a-c mb-4">
-          <h5>
+          <h5 className="mb-3">
             3D Tour
           </h5>
-        </div>
+
         <div>
           {
             get(formValue,'virtual.matterport', null) ? (
