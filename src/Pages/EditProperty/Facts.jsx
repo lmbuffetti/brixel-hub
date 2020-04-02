@@ -10,6 +10,7 @@ import {
   BrixelIcon,
   BrixelProgressBar,
   BrixelButtonIcon,
+  BrixelButtonTertiary,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -121,6 +122,21 @@ const Facts = (props) => {
     }, 10);
   };
 
+  const onNextSection = (act) => {
+    const findCurrentId = Questions.findIndex(quest => quest.history === selectedQuest.history);
+    console.log(findCurrentId);
+    if (findCurrentId > -1 && Questions[findCurrentId + 1]) {
+      if (act === 'label') {
+        return Questions[findCurrentId + 1].title;
+      }
+      if (act === 'click') {
+        onSelectQuest(Questions[findCurrentId + 1]);
+        const scrollElement = document.getElementById('bodyScroll');
+        scrollElement.scrollTo({top: 0, behavior: 'smooth'});
+      }
+    }
+  };
+
   return (
     <div className="facts-wrapper dis-f h-perc-100">
       <div className="secondLevel dis-fl-col w-perc-100">
@@ -194,6 +210,17 @@ const Facts = (props) => {
             <div className="p-3">
               <div className="">
                 <FactsQuestion quest={selectedQuest} />
+                <div className="dis-f jc-fe">
+                  {
+                    onNextSection('label') && (
+                      <BrixelButtonTertiary
+                        rightIcon="arrow-right"
+                        onClick={() => onNextSection('click')}
+                        label={onNextSection('label')}
+                      />
+                    )
+                  }
+                </div>
               </div>
             </div>
           </div>

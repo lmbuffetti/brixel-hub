@@ -1006,6 +1006,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'Room layout',
         name: 'description.roomLayout',
+        formatText: true,
         validation: [Validation.markRequired],
       },
       {

@@ -161,9 +161,13 @@ const Photos = (props) => {
                               }
                             </div>
                           </div>
-                          <p className="ta-l mt-1 body2 w-prec-100">
-                            {Truncate(item.description, 35)}
-                          </p>
+                          {
+                            item.description && (
+                              <p className="ta-l mt-1 body2 w-prec-100">
+                                {Truncate(item.description, 35)}
+                              </p>
+                            )
+                          }
                         </li>
                       ))
                     }

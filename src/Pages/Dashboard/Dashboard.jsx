@@ -109,8 +109,8 @@ const Dashboard = (props) => {
     if (property.owner === loggedInUser.user.id) {
       handleGetActiveSingleProperty({fullVersion: true, id: propID});
       handleGetActiveSinglePropertyBookings({id: propID});
-      handleGetImageType();
     }
+    handleGetImageType();
   }, [property]);
 
   const saveData = () => {
