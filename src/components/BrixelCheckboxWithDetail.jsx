@@ -72,7 +72,7 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
               <div className="dis-f a-c jc-b">
                 <BrixelButtonTertiary
                   rightIcon={openDetail[i] ? "arrow-simple-up" : "arrow-simple-down"}
-                  label="All Detail"
+                  label="All Details"
                   color="dark"
                   saturationTxt={700}
                   onClick={() => onToggleAccordion(i)}

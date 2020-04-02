@@ -34,8 +34,10 @@ const DrawerLayout = (props) => {
 
   return (
     <div className={`wrapDrawer ${className}`}>
-      <div className={`drawer shadow-1pd ${classNameDrawer}`} ref={drawerRef} style={{ marginTop: calcHeaderHeight(), height: windowDimensions.height - calcHeaderHeight() }}>
-        {children}
+      <div className="container pos-r">
+        <div className={`drawer shadow-1pd ${classNameDrawer}`} ref={drawerRef} style={{ marginTop: calcHeaderHeight(), height: windowDimensions.height - calcHeaderHeight() }}>
+          {children}
+        </div>
       </div>
     </div>
   );

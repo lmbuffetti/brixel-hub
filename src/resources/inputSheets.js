@@ -31,7 +31,6 @@ export const InputSheets = (lang) => [
     cardType: "propertyType",
     inputs: [
       {
-        icons: true,
         component: BrixelRadioButton,
         className: 'radioBtnImg max-w-fix-md-464',
         label: 'What is the property type?',
@@ -79,6 +78,8 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the net living space of the property?',
+        labelLeft: 'Living Space',
+        unit: 'm2',
         name: 'properties.typology.livingArea.value',
         type: "number",
         validation: [Validation.markRequired]
@@ -88,6 +89,7 @@ export const InputSheets = (lang) => [
         options: factsOptions.constructedVolumeCode,
         className: '',
         label: 'How many rooms does the house have?',
+        labelLeft: 'Rooms',
         name: 'properties.typology.bedrooms',
         step: 0.5,
         validation: [Validation.maxLengthNumRooms, Validation.markRequired]

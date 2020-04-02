@@ -98,7 +98,10 @@ const Page = (props) => {
                 </>
               ) : (
                 <>
-                  <div className="websitePage brdRadius ov-h shadow-3dp pos-r">
+                  <div
+                    className="websitePage brdRadius ov-h shadow-3dp pos-r cur-poi"
+                    onClick={() => window.open(formValue.published ? `${baseByData.pageUrl}${formValue.stub}` : `${baseByData.pageUrl}preview/${formValue.stub}` , '_blank')}
+                  >
                     <div className="dis-f bgLight100 p-1">
                       <div className="square brdCircle w-fix-8 bgRed400 mr-1" />
                       <div className="square brdCircle w-fix-8 bgYellow400 mr-1" />

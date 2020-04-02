@@ -95,7 +95,7 @@ function PageHeaderDashboard(props) {
     localStorage.setItem('backUrl', history.location.pathname);
     history.push(`/${propID}/upgrade`);
   };
-
+  console.log(checkActiveTab());
   return (
     <>
       <header className={`hubDasHeader ${righteMenu ? 'rightMenuOpen' : ''}`}>
@@ -216,7 +216,7 @@ function PageHeaderDashboard(props) {
             labelsIcons={windowDimensions.width <= 768 ? ['first-time-occupancy', 'property-house', 'upload', 'question'] : []}
             clicksList={['rewards', 'property', 'listings', 'support']}
             classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
-            activeTab={checkActiveTab()}
+            activeTab={righteMenu || checkActiveTab()}
             fullWidth={windowDimensions.width <= 768}
             onClick={(val) => val === 'support' ? setRighteMenu(val) : history.push(`/${propID}/${val}`)}
             showFull={false}

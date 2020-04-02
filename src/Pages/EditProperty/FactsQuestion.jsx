@@ -157,6 +157,7 @@ const FactsQuestion = (props) => {
                               isHorizontal={input.isHorizontal}
                               name={input.name}
                               label={input.label}
+                              labelLeft={input.labelLeft}
                               icons={input.icons}
                               component={input.component}
                               fluid={false}

@@ -47,6 +47,7 @@ const MenuNavigationSubmenu = (props) => {
           <DrawerLayout onClose={() => onClose()}>
             <Support
               isFixed={false}
+              onClose={() => onClose()}
               expanded
             />
           </DrawerLayout>

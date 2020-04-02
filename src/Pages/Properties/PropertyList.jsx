@@ -18,6 +18,7 @@ const PropertyList = (props) => {
   const {
     activeSection,
     favoritesProperties,
+    formValue,
     history,
     userProperties,
     user,
@@ -42,6 +43,25 @@ const PropertyList = (props) => {
     propertiesList.sort(sortObject('updatedAt', 'desc'));
     setActiveProperties(propertiesList);
   }, [activeSection, favoritesProperties, userProperties]);
+
+  const statusPage = () => {
+    let label;
+    let colorIcon;
+    if (formValue.publishReview) {
+      label = 'Review';
+      colorIcon = 'yellow';
+    } else if (formValue.published) {
+      label = 'Published';
+      colorIcon = 'green';
+    } else {
+      label = 'Offline';
+      colorIcon = 'red';
+    }
+    return {
+      label,
+      colorIcon,
+    }
+  };
 
   return (
     <div className={`properties ov-a h-perc-100 ${className}`}>
@@ -94,8 +114,8 @@ const PropertyList = (props) => {
                                 )
                               }
                               <span className="dis-f a-c">
-                                <BrixelStatus color={property.published ? "green" : "red"} />
-                                <span className="ml-1 txtDark200">Published</span>
+                                <BrixelStatus color={statusPage().colorIcon} />
+                                <span className="ml-1 txtDark200">{statusPage().label}</span>
                               </span>
                             </>
                           ) : (
@@ -138,6 +158,7 @@ PropertyList.propTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   activeProperty: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
   favoritesProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
@@ -151,6 +172,7 @@ PropertyList.defaultProps = {
 const mapStateToProps = (state) => ({
   activeProperty: get(state, 'property.activeSingleProperty', {}),
   favoritesProperties: get(state, 'user.favorites', []),
+  formValue: get(state, 'form.Property.values', {}),
   user: get(state, 'user.loggedInUser', {}),
   userProperties: get(state, 'user.userProperties', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
