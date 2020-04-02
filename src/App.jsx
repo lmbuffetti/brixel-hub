@@ -10,7 +10,6 @@ import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
-import Reactotron from 'reactotron-react-js'
 
 // COMPONENTS
 import Loading from './components/Loading';
@@ -128,7 +127,6 @@ const App = (props) => {
     if (history && history.location) {
       ga('send', 'pageview', history.location.pathname);
     }
-    Reactotron.log(history.location.pathname);
   }, [history.location]);
 
   useEffect(() => {
