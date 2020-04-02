@@ -116,7 +116,7 @@ const FactsQuestion = (props) => {
           <React.Fragment key={f.toString()}>
             {
               checkCondition(input) && (
-                <div className="singleInput mb-3" key={f.toString()}>
+                <div className="singleInput mb-5" key={f.toString()}>
                   <div key={f.toString()}>
                     {
                       input.type === 'Map' ? (
@@ -164,6 +164,7 @@ const FactsQuestion = (props) => {
                               validate={input.validation}
                               type={input.type}
                               step={+input.step}
+                              labelLeft={input.labelLeft}
                               min={input.min}
                               formatText={input.formatText}
                               deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}

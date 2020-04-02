@@ -18,6 +18,12 @@
       border-color: transparent;
     }
   }
+  &:hover {
+    .accordControl {
+      background: map_get($blueColor, 100);
+      border-color: transparent;
+    }
+  }
 }
 
 .property-container {
@@ -45,6 +51,22 @@
           margin-left: $step * 1.5;
         }
       }
+    }
+  }
+}
+
+
+// FActs Question
+.questContent {
+  .singleInput {
+    label.brixel-label {
+      display: inline-block;
+      margin-bottom: $step * 2;
+      color: map-get($darkColor, 200);
+      @include fontStyle(400);
+    }
+    .brixel-radio-button {
+      margin-bottom: $step * 2;
     }
   }
 }
