@@ -115,7 +115,7 @@ const Dashboard = (props) => {
 
   const saveData = () => {
     const changeObj = diff(initialValues, formValue);
-    if (Object.keys(changeObj).length > 0 && (changeObj.length > 1 || !changeObj.inputSheet )) {
+    if (Object.keys(changeObj).length > 0) {
       if (changeObj.schedule) {
         // Update schedule
         if (has(formValue, 'schedule.id')) {
@@ -160,7 +160,8 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (formValue.id && initialValues.id && !isLoading ) {
       const changeObj = diff(initialValues, formValue);
-      if (Object.keys(changeObj).length > 0) {
+      console.log(changeObj);
+      if (Object.keys(changeObj).length > 0 && (Object.keys(changeObj).length > 1 || !changeObj.inputSheet )) {
         handleSetScreenNotification({
           state: true,
           type: 'infoHub',
@@ -171,7 +172,7 @@ const Dashboard = (props) => {
               { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
             ],
         });
-      }  else if (Object.keys(changeObj).length === 0) {
+      }  else {
         handleSetScreenNotification(null);
       }
     }
