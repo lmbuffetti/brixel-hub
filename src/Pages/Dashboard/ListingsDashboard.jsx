@@ -104,7 +104,7 @@ const ListingsDashboard = (props) => {
   };
 
   return (
-    <div className="listings-container" id="listingsDashaboard">
+    <div className="listings-container h-perc-md-100 ov-y-a" id="listingsDashaboard">
       <div className="dis-f">
         <div className={`firstLevel mr-md-2 expandableColumn ${openCloseColumn()}`}>
           <div className={`jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-f' : 'hide'}`}>
