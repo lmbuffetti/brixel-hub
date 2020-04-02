@@ -125,7 +125,7 @@ const RewardsDashboard = (props) => {
   }
 
   return (
-    <div className={`rewards-container dis-f h-perc-100 ov-y-a ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'}`} id="rewardsDashboard">
+    <div className={`rewards-container dis-f h-perc-100 ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'}`} id="rewardsDashboard">
       {
         usrGroups && (
           <>
