@@ -141,7 +141,6 @@ const Dashboard = (props) => {
           objToSave[key] = get(formValue, key, {});
           return null;
         });
-        console.log(objToSave);
         const data = {
           id: propID,
           smallLoader: true,
@@ -161,7 +160,6 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (formValue.id && initialValues.id && !isLoading ) {
       const changeObj = diff(initialValues, formValue);
-      console.log(changeObj);
       if (Object.keys(changeObj).length > 0) {
         handleSetScreenNotification({
           state: true,
@@ -169,8 +167,8 @@ const Dashboard = (props) => {
           label: 'You have unsaved changes',
           actions:
             [
-              { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
               { type: 'secondary', label: 'Discard changes', func: () => discardChanges() },
+              { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
             ],
         });
       }  else if (Object.keys(changeObj).length === 0) {
@@ -224,7 +222,7 @@ Dashboard.propTypes = {
   handleSavePropertyVisitBooking: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  notification: PropTypes.object.isRequired,
+  notification: PropTypes.object,
   regFields: PropTypes.object,
   handleSetScreenNotification: PropTypes.func.isRequired,
 };
@@ -233,6 +231,7 @@ Dashboard.defaultProps = {
   errorValue: null,
   regFields: null,
   userTypes: null,
+  notification: null,
 };
 
 const DashboardForm = reduxForm({

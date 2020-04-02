@@ -113,7 +113,7 @@ const FactsQuestion = (props) => {
       </div>
       {
         quest.inputs.map((input, f) => (
-          <>
+          <React.Fragment key={f.toString()}>
             {
               checkCondition(input) && (
                 <div className="singleInput mb-3" key={f.toString()}>
@@ -189,7 +189,7 @@ const FactsQuestion = (props) => {
                 </div>
               )
             }
-          </>
+          </React.Fragment>
         ))
       }
     </div>
@@ -202,7 +202,7 @@ FactsQuestion.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
-  quest: PropTypes.arrayOf(PropTypes.object),
+  quest: PropTypes.object,
 };
 
 FactsQuestion.defaultProps = {
