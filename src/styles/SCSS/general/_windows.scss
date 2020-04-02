@@ -1,9 +1,7 @@
 .hubDasContent {
-
   @media (max-width: $iphone5) {
     overflow-y: auto;
   }
-
   .container {
     padding: $step * 2;
     padding-bottom: $step * 8;
@@ -36,18 +34,20 @@
     width: 100%;
     background: $brx-white;
     z-index: 100;
-
-    .ov-a {
-      padding: $step * 2;
+    .rewadsSplash {
+      height: 100%;
+    }
+    > div {
+      &:not(.rewadsSplash) {
+        padding: $step * 2;
+      }
     }
   }
 
   .thirdLevel {
     z-index: 101;
   }
-
   .secondLevel {
-
     .headerSection {
       position: relative;
       width: 100%;
@@ -85,7 +85,18 @@
       position: static;
       background: transparent;
       max-width: 768px;
+      &.inputSheet {
+        max-width: 448px;
+      }
 
+      > div {
+        box-shadow: $shadow-1dp;
+        background: $brx-white;
+        border-radius: $brd-radius-small;
+        &:not(.rewadsSplash) {
+          padding: $step * 3;
+        }
+      }
       .headerSection {
         .iconBtn {
           display: none;
@@ -94,16 +105,6 @@
           text-align: left;
         }
       }
-
-      > * {
-        box-shadow: $shadow-1dp;
-        background: $brx-white;
-        border-radius: $brd-radius-small;
-      }
-      .ov-a {
-        padding: $step * 4;
-      }
     }
-
   }
 }

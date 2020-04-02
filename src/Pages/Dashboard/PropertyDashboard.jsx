@@ -192,7 +192,7 @@ const HomeDashboard = (props) => {
                 labelClass="fweight-400"
                 subtitle={`${get(formValue, 'documents.length', [])} Files`}
                 subtitleClass={'fsize-200 txtDark200 pt-small-6'}
-                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                 colorIcon={'primary400'}
                 backIcon="primary100"
                 onClick={() => history.push(`/${propID}/property/documents`)}

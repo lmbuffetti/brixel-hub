@@ -1,68 +1,69 @@
-// tab sections
-.hubDasContent .container .listings-container,
-.hubDasContent .container .rewards-container .firstLevel,
-.hubDasContent .container .property-container {
-  animation: slideInSec $default-time-long ease-in-out;
-}
-// rewards splash
-.hubDasContent .container .rewards-container .secondLevel,
-.hubDasContent .container .rewards-container #rewards {
-  opacity: 0;
-  animation: fadeInSec $default-time $default-time ease-in-out forwards;
-}
-
-// property
-.property-container .secondLevel {
-  animation: slideInSec $default-time-long ease-in-out;
-}
-
-.property-container .expandableColumn {
-  transition: all 0.2s ease-in-out;
-  &.collapsed {
-    transform: translateX(-100%);
-    margin-right: -480px;
-    opacity: 0;
+.hubDasContent .container {
+  // tab sections
+  .listings-container,
+  .rewards-container .firstLevel,
+  .property-container {
+    animation: slideInSec $default-time-long ease-in-out;
   }
-}
+  // rewards splash
+  .rewards-container .secondLevel,
+  .rewards-container #rewards,
+  .property-container .facts-wrapper,
+  .property-container .secondLevel,
+  .listings-container .secondLevel {
+    opacity: 0;
+    animation: fadeInSec $default-time-long 100ms ease-in-out forwards;
+  }
 
-.property-container .levelsWrapper {
-  &.opened {
-    .secondLevel {
-      animation: slideInLong 0s ease-in-out forwards;
-    }
-    .thirdLevel {
+  // proparty thirdlevel expand
+  .property-container .expandableColumn {
+    transition: all 0.2s ease-in-out;
+    &.collapsed {
+      transform: translateX(-100%);
+      margin-right: -480px;
       opacity: 0;
-      transform: translateX(100%);
-      animation: slideInLong $default-time-long ease-in-out forwards;
+    }
+  }
+
+  .property-container .levelsWrapper {
+    &.opened {
+      .secondLevel {
+        animation: slideInLong 0s ease-in-out forwards;
+      }
+      .thirdLevel {
+        opacity: 0;
+        transform: translateX(100%);
+        animation: slideInLong $default-time-long ease-in-out forwards;
+      }
     }
   }
 }
 
 
 // sidebar menu drawer
-.drawerSlide-enter {
+.slideIn-enter {
     .sidebarSubmenuContent {
       opacity: 0;
       transform: translateX(-100%);
     }
   }
-.drawerSlide-enter-active {
+.slideIn-enter-active {
   .sidebarSubmenuContent {
     opacity: 1;
     transform: translateX(0);
     transition: opacity $default-time-long, transform $default-time-long;
   }
 }
-.drawerSlide-exit {
+.slideIn-exit {
   .sidebarSubmenuContent {
     opacity: 1;
   }
 }
-.drawerSlide-exit-active {
+.slideIn-exit-active {
   .sidebarSubmenuContent {
     opacity: 0;
     transform: translateX(-100%);
-    transition: slideInLong $default-time-long, transform $default-time-long;
+    transition: opacity $default-time-long, transform $default-time-long;
   }
 }
 

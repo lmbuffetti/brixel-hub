@@ -3,6 +3,7 @@
     border-bottom: 1px solid map_get($lightColor, 200);
     border-top: 1px solid map_get($lightColor, 200);
     margin-bottom: -1px;
+    transition: $default-time-long ease-in;
   }
   &:last-child {
     .accordControl {
@@ -11,9 +12,16 @@
   }
   &.active {
     .accordControl {
-      background: map_get($blueColor, 100);
       position: relative;
       z-index: 1;
+      background: map_get($blueColor, 100);
+      border-color: transparent;
+    }
+  }
+  &:hover {
+    .accordControl {
+      background: map_get($blueColor, 100);
+      border-color: transparent;
     }
   }
 }
@@ -42,6 +50,24 @@
         .thirdLevel {
           margin-left: $step * 1.5;
         }
+      }
+    }
+  }
+}
+
+
+// FActs Question
+.questContent {
+  .singleInput {
+    label.brixel-label {
+      display: inline-block;
+      margin-bottom: $step * 2;
+      color: map-get($darkColor, 200);
+      @include fontStyle(400);
+    }
+    .brixel-radio-button {
+      &[class*="mb-1"]{
+        margin-bottom: $step * 2;
       }
     }
   }

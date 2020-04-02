@@ -82,6 +82,8 @@ export const InputSheets = (lang) => [
         unit: 'm2',
         name: 'properties.typology.livingArea.value',
         type: "number",
+        labelLeft: 'Living space',
+        unit: 'm2',
         validation: [Validation.markRequired]
       },
       {
@@ -91,6 +93,7 @@ export const InputSheets = (lang) => [
         label: 'How many rooms does the house have?',
         labelLeft: 'Rooms',
         name: 'properties.typology.bedrooms',
+        labelLeft: 'Rooms',
         step: 0.5,
         validation: [Validation.maxLengthNumRooms, Validation.markRequired]
       },
@@ -100,6 +103,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'How many bathrooms does the property have?',
         name: 'properties.typology.bathrooms',
+        labelLeft: 'Bathrooms',
         step: 1,
         validation: [Validation.maxLengthNumRooms, Validation.markRequired]
       },
@@ -109,6 +113,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'How many separate toilets does the property have?',
         name: 'properties.typology.separateToilets',
+        labelLeft: 'Toilets',
         step: 1,
         validation: [Validation.maxLengthNumRooms, Validation.markRequired]
       },
@@ -123,6 +128,7 @@ export const InputSheets = (lang) => [
         name: 'properties.typology.lotArea.value',
         type: "number",
         unit: 'm2',
+        labelLeft: 'Lot Size',
         placeholder: 'e.g. 140',
         validation: [Validation.markRequired]
       },
@@ -133,7 +139,9 @@ export const InputSheets = (lang) => [
           value: 'House'
         },
         className: '',
-        label: 'What\'s the house\'s volume? (m3)',
+        label: 'What\'s the house\'s volume?',
+        unit: 'm3',
+        labelLeft: 'Volume',
         name: 'properties.typology.constructedVolume.value',
         type: "number",
         validation: [Validation.markRequired]
@@ -146,7 +154,9 @@ export const InputSheets = (lang) => [
         },
         options: factsOptions.constructedVolumeCode,
         className: '',
-        label: 'What\'s the house\'s volume? (m3)',
+        label: 'What\'s the house\'s volume?',
+        unit: 'm2',
+        labelLeft: 'Volume',
         name: 'properties.typology.constructedVolumeCode',
         type: "number",
         validation: [Validation.markRequired]
@@ -162,7 +172,6 @@ export const InputSheets = (lang) => [
         label: 'Does the apartment have multiple floors?',
         name: 'properties.building.multiStoreyApartment',
         type: "number",
-        isHorizontal: true,
         validation: [Validation.markRequired]
       },
       {
@@ -173,6 +182,7 @@ export const InputSheets = (lang) => [
         },
         className: '',
         label: 'How many floors are there in the whole building?',
+        labelLeft: 'Floors',
         name: 'properties.typology.numberOfFloors',
         step: 1,
         validation: [Validation.markRequired]
@@ -185,6 +195,7 @@ export const InputSheets = (lang) => [
         },
         className: '',
         label: 'On which floor is the apartment\'s entrance?',
+        labelLeft: 'Which floor',
         name: 'properties.typology.floorNumber',
         step: 1,
         validation: [Validation.markRequired],
@@ -206,7 +217,6 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'Is the property a holiday home?',
         name: 'properties.building.secondaryResidence',
-        isHorizontal: true,
         options: factsOptions.secondaryResidenceOptions,
         validation: [Validation.markRequired]
       },
@@ -216,6 +226,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'What\'s the construction year?',
         type: "number",
+        labelLeft: 'Year',
         name: 'properties.building.built',
         validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear, Validation.required],
         placeholder: "YYYY (ex.: 2020)",
@@ -271,6 +282,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'How many floors does the house have?',
         name: 'properties.typology.numberOfHouseFloors',
+        labelLeft: 'Floors',
         step: 1,
         validation: [Validation.markRequired]
       },
@@ -283,6 +295,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'Number of apartments in building',
         name: 'properties.typology.numberOfFlats',
+        labelLeft: 'Number',
         step: 1,
         validation: [Validation.markRequired]
       },
@@ -406,7 +419,6 @@ export const InputSheets = (lang) => [
         label: 'Is the property renovated?',
         name: 'properties.building.isPropertyRenovated',
         options: factsOptions.isPropertyRenovatedOptions,
-        isHorizontal: true,
         modal: {
           func: {
             layout: 'xlarge',
@@ -429,6 +441,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'If yes, when was the property last time renovated?',
         name: 'properties.building.renovated',
+        labelLeft: 'Year',
         placeholder: 'YYYY (ex.: 2020)',
         validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear, Validation.markRequired],
       },
@@ -448,7 +461,6 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'Are there some major renovation works needed within the next years?',
         name: 'properties.building.isNeedRenovation',
-        isHorizontal: true,
         options: factsOptions.yesNoOpt,
         validation: [Validation.markRequired]
       },
@@ -477,6 +489,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'Date of last electrical inspection',
         type: "number",
+        labelLeft: 'Date',
         name: 'properties.building.electricalInspection',
         validation: [Validation.markRequired],
         placeholder: "mm/yyyy (ex.: 01/2020)",
@@ -548,7 +561,6 @@ export const InputSheets = (lang) => [
         label: 'Is there a basement?',
         name: 'properties.typology.basement',
         options: factsOptions.basementOptions,
-        isHorizontal: true,
         validation: [Validation.markRequired]
       },
       {
@@ -556,7 +568,6 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'Is there a storeroom?',
         name: 'properties.building.properties.typology.storeroom',
-        isHorizontal: true,
         options: factsOptions.yesNoOpt,
         validation: [Validation.markRequired]
       },
@@ -576,7 +587,6 @@ export const InputSheets = (lang) => [
         component: BrixelRadioButton,
         className: '',
         label: 'Is there some other collective used spaces?',
-        isHorizontal: true,
         name: 'properties.typology.collectiveSpaces',
         options: factsOptions.yesNoOpt,
         validation: [Validation.markRequired]
@@ -606,6 +616,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'How many garage parking lots belong to the property?',
         name: 'properties.parking.garage',
+        labelLeft: 'How many',
         step: 1,
         validation: [Validation.markRequired]
       },
@@ -625,6 +636,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'How many external parking lots belong to the property?',
         name: 'properties.parking.outside',
+        labelLeft: 'How many',
         step: 1,
         validation: [Validation.markRequired]
       },
@@ -643,6 +655,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputStepNumber,
         className: '',
         label: 'How many underground parking lots belong to the property?',
+        labelLeft: 'How many',
         name: 'properties.parking.underground',
         step: 1,
         validation: [Validation.markRequired]
@@ -696,7 +709,6 @@ export const InputSheets = (lang) => [
         component: BrixelRadioButton,
         classNameBox: 'dis-fl-row',
         label: 'Is there a solar plant?',
-        isHorizontal: true,
         name: 'properties.energy.solar',
         options: factsOptions.solarOptions,
         validation: [Validation.markRequired],
@@ -717,7 +729,6 @@ export const InputSheets = (lang) => [
         component: BrixelRadioButton,
         className: '',
         label: 'Is there an air conditioner?',
-        isHorizontal: true,
         name: 'properties.energy.ac',
         options: factsOptions.acOptions,
         validation: [Validation.markRequired],
@@ -737,7 +748,6 @@ export const InputSheets = (lang) => [
         component: BrixelRadioButton,
         className: '',
         label: 'Is there a window insulation?',
-        isHorizontal: true,
         name: 'properties.building.windows.insulation',
         options: factsOptions.windowsInsulationOptions,
         validation: [Validation.markRequired],
@@ -790,7 +800,6 @@ export const InputSheets = (lang) => [
         component: BrixelRadioButton,
         className: '',
         label: 'Is the property Minergie certified?',
-        isHorizontal: true,
         name: 'properties.energy.minergieCertified',
         options: factsOptions.minergieCertifiedOptions,
         validation: [Validation.markRequired],
@@ -847,7 +856,6 @@ export const InputSheets = (lang) => [
         component: BrixelRadioButton,
         className: '',
         label: 'Is there a value-relevant building right or servitude on the property?',
-        isHorizontal: true,
         name: 'properties.building.valueRelevantServitude',
         options: factsOptions.valueRelevantServitudeOptions,
         validation: [Validation.markRequired],
@@ -1046,6 +1054,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What is the selling price of the house?',
+        labelLeft: 'Price',
         name: 'price.total',
         format: formatPrice,
         normalize: normalizePrice,

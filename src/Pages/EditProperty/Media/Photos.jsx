@@ -98,8 +98,8 @@ const Photos = (props) => {
 
   return (
     <div className="dis-f h-perc-100">
-      <div className="dis-fl-col secondLevel">
-        <div className="max-h-perc-100 ov-a">
+      <div className="secondLevel dis-fl-col">
+        <div className="photosWrapper max-h-perc-100 ov-a">
           <div className="dis-fl-row jc-b a-c">
             <h5>
               Photos

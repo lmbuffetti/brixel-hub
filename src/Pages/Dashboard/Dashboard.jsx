@@ -183,26 +183,11 @@ const Dashboard = (props) => {
   return (
     <div className="container" id="dashboard">
       { /* SECTION: APP HEADER */ }
-      <Route render={({location}) => {
-        // const url = location.pathname.split('/');
-        return (
-          <TransitionGroup>
-            <CSSTransition
-              // key={locationKey}
-              //timeout={300}
-              //classNames="fade"
-            >
-              <Switch location={location}>
-                <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
-                <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
-                <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
-                <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
-                <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
-              </Switch>
-            </CSSTransition>
-          </TransitionGroup>
-        )
-      }} />
+      <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
+      <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
+      <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
+      <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
+      <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
     </div>
   )
 };

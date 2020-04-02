@@ -119,7 +119,7 @@ const Facts = (props) => {
     setTimeout(() => {
       history.push(`/${propID}/property/facts/${quest.history}`);
       setSelectedQuest(quest)
-    }, 10);
+    }, 0);
   };
 
   const onNextSection = (act) => {
@@ -138,9 +138,9 @@ const Facts = (props) => {
 
   return (
     <div className="facts-wrapper dis-f h-perc-100">
-      <div className="secondLevel dis-fl-col w-perc-100">
-        <div className="dis-fl-col">
-          <div className="headerSection pos-r px-2 pt-2 px-md-4 pt-md-4">
+      <div className="secondLevel dis-fl-col w-perc-100 h-perc-100">
+        <div className="dis-fl-col max-h-perc-100">
+          <div className="headerSection pos-r">
             <BrixelButtonIcon
               className="shadow-2dp"
               icon="close-small"
@@ -152,18 +152,18 @@ const Facts = (props) => {
             />
             <h5>Facts</h5>
           </div>
-          <div className="mt-3 mb-1 px-2 px-md-4">
+          <div className="mt-3 mb-3">
             <BrixelProgressBar
               rounded
               saturation={700}
-              small
+              large
               barBackground="Red"
               backgroundSaturation={100}
               progressValue={get(formValue, 'inputSheet.totalComplete', 0)}
             />
             <h6 className="mt-1 ff-mono txtPrimary700">{get(formValue, 'inputSheet.totalComplete', 0)}% complete</h6>
           </div>
-          <div className="p-2">
+          <div className="inputSheet">
             {
               Questions.map((quest, i) => (
                 <div
@@ -171,29 +171,25 @@ const Facts = (props) => {
                   key={i.toString()}
                   onClick={() => onSelectQuest(quest)}
                 >
-                  <div className="accordControl dis-f a-c jc-b pr-1">
-                    <div
-                      className="accordTitle dis-f a-c pt-2 pb-2"
-                    >
+                  <div className="accordControl dis-f a-c jc-b py-small-14">
+                    <div className="accordTitle dis-f a-c">
                       <BrixelIcon
                         icon="check"
                         bgTransparent
                         color="green"
                         saturationTxt={400}
-                        className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity0'}  ml-1 dis-b p-small-4`}
-                        rounded
-                        iconSize="small"
+                        className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity0'} mx-1 dis-b`}
                       />
-                      <h4 className={`body ml-1 txtDark400 fweight-500 ${checkSectionDone(quest)? 'txtGreen400 td-lt' : ''}`}>
+                      <h4 className={`body ml-1 fweight-400 ${checkSectionDone(quest) ? 'txtGreen400 td-lt' : 'txtDark200'}`}>
                         {quest.title}
                       </h4>
                     </div>
                     <BrixelIcon
                       icon="arrow-simple-right"
-                      color={"dark"}
-                      saturationTxt={200}
+                      color={`${selectedQuest && selectedQuest.history === quest.history ? 'dark' : 'light'}`}
+                      saturationTxt={selectedQuest && selectedQuest.history === quest.history ? 70 : 200}
                       bgTransparent
-                      iconSize="small"
+                      className={'mr-1'}
                     />
                   </div>
 
@@ -205,7 +201,7 @@ const Facts = (props) => {
       </div>
       {
         selectedQuest && getFact() !== 'facts' && (
-          <div className="thirdLevel dis-fl-col w-perc-100 ml-md-2">
+          <div className="thirdLevel inputSheet dis-fl-col w-perc-100 ml-md-2">
             <div className="p-3">
               <div className="">
                 <FactsQuestion quest={selectedQuest} />
