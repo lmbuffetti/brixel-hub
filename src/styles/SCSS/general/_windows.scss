@@ -34,6 +34,9 @@
     width: 100%;
     background: $brx-white;
     z-index: 100;
+    .rewadsSplash {
+      height: 100%;
+    }
     > div {
       &:not(.rewadsSplash) {
         padding: $step * 2;
@@ -82,6 +85,9 @@
       position: static;
       background: transparent;
       max-width: 768px;
+      &.inputSheet {
+        max-width: 448px;
+      }
 
       > div {
         box-shadow: $shadow-1dp;

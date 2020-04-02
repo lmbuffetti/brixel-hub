@@ -187,7 +187,7 @@ const Facts = (props) => {
                     <BrixelIcon
                       icon="arrow-simple-right"
                       color={`${selectedQuest && selectedQuest.history === quest.history ? 'dark' : 'light'}`}
-                      saturationTxt={`${selectedQuest && selectedQuest.history === quest.history ? '700' : '200'}`}
+                      saturationTxt={selectedQuest && selectedQuest.history === quest.history ? 70 : 200}
                       bgTransparent
                       className={'mr-1'}
                     />
@@ -201,7 +201,7 @@ const Facts = (props) => {
       </div>
       {
         selectedQuest && getFact() !== 'facts' && (
-          <div className="thirdLevel dis-fl-col w-perc-100 ml-md-2">
+          <div className="thirdLevel inputSheet dis-fl-col w-perc-100 ml-md-2">
             <div className="p-3">
               <div className="">
                 <FactsQuestion quest={selectedQuest} />
