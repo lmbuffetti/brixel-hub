@@ -31,14 +31,14 @@ export const UpgradeQuestions = (lang, packagesProperty) => {
     {
       title: translateTo(lang,"Do you want to upgrade?"),
       subtitle: "Here are my options for you",
-      history: 'upgradeType',
+      history: 'servicePackage',
       vCentered: true,
       inputs: [
         {
           component: BrixelCheckboxWithDetail,
           pdClass: 'py-2 py-md-3 px-1',
           label: '',
-          name: "packageUpgrade.upgradeType",
+          name: "packageUpgrade.servicePackage",
           validation: [Validation.required],
           options: optionsPackages,
         },
@@ -55,7 +55,7 @@ export const UpgradeQuestions = (lang, packagesProperty) => {
           pdClass: 'py-2 py-md-3 px-1',
           icons: true,
           label: '',
-          name: "packageUpgrade.wantsStart",
+          name: "packageUpgrade.whenToStart",
           validation: [Validation.required],
           options: [
             {
@@ -129,11 +129,11 @@ export const UpgradeQuestions = (lang, packagesProperty) => {
     {
       title: translateTo(lang,"How can I reach you best?"),
       subtitle: "",
-      history: 'packageUpgrade.propertyInhabited',
+      history: 'contactDetails',
       vCentered: true,
       inputs: [
         {
-          component: BrixelRadioButton,
+          component: BrixelCheckbox,
           pdClass: 'py-2 py-md-3 px-1',
           icons: true,
           label: '',

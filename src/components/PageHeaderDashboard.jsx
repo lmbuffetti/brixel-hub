@@ -95,7 +95,7 @@ function PageHeaderDashboard(props) {
     localStorage.setItem('backUrl', history.location.pathname);
     history.push(`/${propID}/upgrade`);
   };
-  console.log(checkActiveTab());
+
   return (
     <>
       <header className={`hubDasHeader ${righteMenu ? 'rightMenuOpen' : ''}`}>

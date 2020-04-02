@@ -28,6 +28,7 @@ import { diff } from 'deep-object-diff';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
 import { setModal, setScreenNotification } from '../../actions/CommonActions';
 import has from 'lodash/has';
+import actions from 'redux-form/lib/actions';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -72,13 +73,14 @@ const Dashboard = (props) => {
     handleSaveActiveSingleProperty,
     handleSavePropertyVisitSchedule,
     handleCreatePropertyVisitSchedule,
+    handleSetScreenNotification,
     history,
     initialValues,
     isLoading,
     isSmallLoading,
     loggedInUser,
     match,
-    handleSetScreenNotification,
+    notification,
     property,
     reset,
   } = props;
@@ -158,10 +160,9 @@ const Dashboard = (props) => {
   };
 
   useEffect(() => {
-    if (formValue.id && initialValues.id && !isLoading ) {
+    if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
-      console.log(changeObj);
-      if (Object.keys(changeObj).length > 0 && (Object.keys(changeObj).length > 1 || !changeObj.inputSheet )) {
+      if (Object.keys(changeObj).length > 0 && (Object.keys(changeObj).length > 1 || !changeObj.inputSheet ) && !isSmallLoading && !isLoading && get(notification, 'type', null) !== 'saved') {
         handleSetScreenNotification({
           state: true,
           type: 'infoHub',
@@ -172,7 +173,7 @@ const Dashboard = (props) => {
               { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
             ],
         });
-      }  else {
+      } else if (!isSmallLoading && !isLoading && notification && notification.type !== 'saved' ) {
         handleSetScreenNotification(null);
       }
     }

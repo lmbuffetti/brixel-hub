@@ -2,6 +2,8 @@ import {
   SPINNER_ON,
   SPINNER_OFF,
   SEND_GENERIC_MAIL,
+  SET_SAVED_SCREEN,
+  SET_SCREEN_NOTIFICATION,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -18,6 +20,18 @@ const checkCommon = (store) => (next) => (action) => {
         .catch((res) => {
           // console.log(res.data);
         });
+      break;
+    }
+    case SET_SAVED_SCREEN: {
+      next(action);
+      const notification = ({
+        state: true,
+        type: 'saved',
+      });
+      store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: notification });
+      setTimeout(() => {
+        store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null })
+      }, 3000)
       break;
     }
     default:

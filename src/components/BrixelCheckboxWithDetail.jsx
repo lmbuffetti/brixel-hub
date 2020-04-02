@@ -43,7 +43,6 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
         )
       }
       <div>
-        {console.log(options)}
         {
           options.map((option, i) => (
             <div

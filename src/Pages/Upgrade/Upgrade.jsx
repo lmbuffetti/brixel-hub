@@ -57,7 +57,6 @@ const Upgrade = (props) => {
   }, [currentIndex]);
 
   useEffect(() => {
-    console.log(packagesProperty.length);
     if (packagesProperty.length > 0) {
       setQuestions(UpgradeQuestions('en', packagesProperty));
       setQuest(UpgradeQuestions('en', packagesProperty)[0]);
