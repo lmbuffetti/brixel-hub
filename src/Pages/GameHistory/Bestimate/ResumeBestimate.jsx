@@ -69,7 +69,7 @@ function ResumeBestimate(props) {
   }, [estimation]);
 
   return (
-    <main id="rewards" className="pb-4 txtDark700">
+    <main id="rewards" className="pb-4 h-perc-100 txtDark700">
       <h5 className='ta-c mb-5'>We proudly present you your Bestimate&reg;.</h5>
       {
         condition.higherValue && (

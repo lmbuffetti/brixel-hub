@@ -95,15 +95,12 @@ const Photos = (props) => {
   };
 
   return (
-    <div className="dis-f h-perc-100">
+    <div className="plansWrapper dis-f h-perc-100">
       <div className="secondLevel dis-fl-col ">
-        <div className="plansWrapper max-h-perc-100 ov-a">
-          <div className="dis-fl-row jc-b a-c">
-            <h5>
-              Floor Plans
-            </h5>
-
-          </div>
+        <div className="max-h-perc-100 ov-a">
+          <h5 className="mb-3">
+            Floor Plans
+          </h5>
 
           <div className={`${fixPhotos && fixPhotos.length > 0 ? 'dis-fl-col' : 'dis-fl-col empty-state a-c'}`}>
             {

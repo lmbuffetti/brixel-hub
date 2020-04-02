@@ -72,7 +72,7 @@ function ResumeMarketCheck(props) {
   }, [marketData]);
 
   return (
-    <main id="rewards" className="pb-4">
+    <main id="rewards" className="pb-4 h-perc-100">
       <div className="bgWhite brdRadius">
         <h5 className="ta-c">Voila!</h5>
         <h5 className="ta-c mb-3">

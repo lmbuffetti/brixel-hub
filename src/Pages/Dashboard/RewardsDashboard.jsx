@@ -125,7 +125,7 @@ const RewardsDashboard = (props) => {
   }
 
   return (
-    <div className={`rewards-container dis-f ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'}`} id="rewardsDashboard">
+    <div className={`rewards-container dis-f h-perc-100 ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'}`} id="rewardsDashboard">
       {
         usrGroups && (
           <>
@@ -269,7 +269,7 @@ const RewardsDashboard = (props) => {
                   <h5>{activeGameGroup.replace('-', ' ')}</h5>
                 </div>
               </div>
-              <div className="rewadsSplash">
+              <div className="rewadsSplash h-perc-100 h-perc-md-50">
                 {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
                 {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
                 {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}

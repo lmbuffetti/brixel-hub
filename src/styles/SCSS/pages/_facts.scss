@@ -26,22 +26,9 @@
   }
 }
 
-.property-container {
-  /* &.closed {
-    min-width: 42px;
-    max-width: 42px;
-    overflow: hidden;
-
-    .hideOnExpanded {
-      opacity: 0;
-      transform: translateX(-50%);
-    }
-  } */
-}
-
 .levelsWrapper {
   &.opened {
-    .facts-wrapper {
+    > div {
       @media (min-width: $responsive-medium) {
         .secondLevel {
           margin-right: $step * 1.5;

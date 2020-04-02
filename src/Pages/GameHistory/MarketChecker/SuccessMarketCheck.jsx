@@ -84,7 +84,7 @@ function SuccessMarketCheck(props) {
         ) : (
           <>
             <h5 className="ta-c px-2 px-md-4">Check your local market</h5>
-            <div className="ta-c m-a mb-5 mt-5"><img className="w-perc-md-75" src={startMarketCheck} alt="Done Assessor" /></div>
+            <div className="ta-c m-a mb-5 mt-5"><img className="w-perc-md-100" src={startMarketCheck} alt="Done Assessor" /></div>
             <div className="dis-fl-col jc-c a-c">
               <p className="ta-c txtDark700 px-2 px-md-4 w-perc-md-75">Stop browsing all the portals. I show you all similar properties on sale. Instantly.</p>
               <div className="shadow-1dp-top w-perc-100 p-1 p-md-2 mt-2 brdRadiusTop">

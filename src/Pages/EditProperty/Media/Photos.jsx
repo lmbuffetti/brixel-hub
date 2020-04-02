@@ -97,15 +97,13 @@ const Photos = (props) => {
   };
 
   return (
-    <div className="dis-f h-perc-100">
+    <div className="photosWrapper dis-f h-perc-100">
       <div className="secondLevel dis-fl-col">
-        <div className="photosWrapper max-h-perc-100 ov-a">
-          <div className="dis-fl-row jc-b a-c">
-            <h5>
+        <div className="max-h-perc-100 ov-a">
+
+            <h5 className="mb-3">
               Photos
             </h5>
-
-          </div>
 
           <div className={`${fixPhotos && fixPhotos.length > 0 ? 'dis-fl-col' : 'dis-fl-col empty-state a-c'}`}>
             {
@@ -177,14 +175,14 @@ const Photos = (props) => {
             }
             <>
               <div
-                className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState' : 'hasImages'} upload-container dis-fl-col a-c mb-5 max-w-fix-600 max-h-fix-400 p-8 mt-3`}
+                className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState' : 'hasImages'} upload-container dis-fl-col a-c mt-3 mb-5 max-w-fix-400 max-h-fix-400 ta-c`}
                 {...getRootProps()}
               >
                 <input {...getInputProps()} />
                 {
                   (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
-                    <div>
-                      <img src={upload_photos_empty} alt="Empty State" />
+                    <div className="w-perc-100">
+                      <img className="w-perc-100" src={upload_photos_empty} alt="Empty State" />
                       <h5 className="mt-2 mb-1">Uplaod your fist photo</h5>
                     </div>
                   )
