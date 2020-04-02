@@ -115,7 +115,7 @@ const Dashboard = (props) => {
 
   const saveData = () => {
     const changeObj = diff(initialValues, formValue);
-    if (Object.keys(changeObj).length > 0) {
+    if (Object.keys(changeObj).length > 0 && (changeObj.length > 1 || !changeObj.inputSheet )) {
       if (changeObj.schedule) {
         // Update schedule
         if (has(formValue, 'schedule.id')) {
