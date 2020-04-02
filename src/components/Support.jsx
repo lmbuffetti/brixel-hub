@@ -23,15 +23,19 @@ const Support = (props) => {
             <h5 className="mb-1">Do you need  support?</h5>
             <p className="txtDark200 mb-2">Get in touch with us.</p>
           </div>
-          <BrixelButtonIcon
-            className="shadow-3dp hide dis-b-md"
-            icon="close-small"
-            background="White"
-            color="primary"
-            saturationTxt={400}
-            noBorder
-            onClick={() => onClose()}
-          />
+          {
+            !isFixed && (
+              <BrixelButtonIcon
+                className="shadow-3dp hide dis-b-md"
+                icon="close-small"
+                background="White"
+                color="primary"
+                saturationTxt={400}
+                noBorder
+                onClick={() => onClose()}
+              />
+            )
+          }
         </div>
         <div
           className="dis-f jc-b a-c cur-poi"

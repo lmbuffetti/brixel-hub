@@ -44,6 +44,8 @@ export default {
     getPageVisits: (id) => `/page/${id}/visit`,
     publishReview: (id, status) => `/page/${id}/publishReview?status=${status}`,
     portalsReview: (id, status) => `/page/${id}/portalsReview?status=${status}`,
+    packagesList: (limit, offset) => `/servicePackage/${limit}/${offset}`,
+    upgradePlan: (id) => `/page/${id}/upgradePlan`
   },
   upload: {
     rotate: (id, rotation) => `/image/${id}/rotate/${rotation}`,

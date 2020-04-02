@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { BrixelButtonIcon } from '@brixel/brixel-components';
 import MultiStepForm from '../../components/MultiStepReduxForm';
 import { UpgradeQuestions } from '../../resources/Upgrade';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
@@ -13,6 +13,7 @@ import InfoImg from '../../images/Upgrade/info.svg';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
 import { reset } from 'redux-form';
+import { getPackagesProperty, saveUpgradePlan } from '../../actions/PropertyActions';
 
 const Support = Loadable({
   loader: () => import('../../components/Support' /* webpackChunkName: "Support" */),
@@ -24,26 +25,44 @@ const Upgrade = (props) => {
   const {
     errorValue,
     formValue,
+    handleGetPackagesProperty,
+    handleSaveUpgradePlan,
     history,
+    match,
+    packagesProperty,
     reset,
   } = props;
   // STATE
-  const [questions, setQuestions] = useState(UpgradeQuestions('en'));
+  const [questions, setQuestions] = useState(UpgradeQuestions('en', packagesProperty));
   // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(UpgradeQuestions('en')[0]);
+  const [quest, setQuest] = useState(UpgradeQuestions('en', packagesProperty)[0]);
   const [isEnter, setIsEnter] = useState(true);
+  // GET URL PARAMS
+  const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
+    const data = {
+      smallLoader: true,
+    };
+    handleGetPackagesProperty(data);
     return () => {
       setCurrentIndex(0);
       reset('Property');
-    }
+    };
   }, []);
 
   useEffect(() => {
     setIsEnter(true);
   }, [currentIndex]);
+
+  useEffect(() => {
+    console.log(packagesProperty.length);
+    if (packagesProperty.length > 0) {
+      setQuestions(UpgradeQuestions('en', packagesProperty));
+      setQuest(UpgradeQuestions('en', packagesProperty)[0]);
+    }
+  }, [packagesProperty]);
 
   const closeWindow = () => {
     const url = localStorage.getItem('backUrl');
@@ -53,6 +72,11 @@ const Upgrade = (props) => {
 
   const saveData = () => {
     console.log('saveData', formValue.packageUpgrade);
+    const data = {
+      page: propID,
+      data: formValue.packageUpgrade
+    };
+    // handleSaveUpgradePlan(data);
   };
 
   const changeStep = (act) => {
@@ -239,19 +263,27 @@ const Upgrade = (props) => {
 Upgrade.propTypes = {
   formValue: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
+  handleGetPackagesProperty: PropTypes.func.isRequired,
+  handleSaveUpgradePlan: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   reset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   errorValue: get(state, 'form.Property.syncErrors', {}),
   formValue: get(state, 'form.Property.values', {}),
+  packagesProperty: get(state, 'property.packagesProperty', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)))
   },
+  handleGetPackagesProperty: bindActionCreators(getPackagesProperty, dispatch),
+  handleSaveUpgradePlan: bindActionCreators(saveUpgradePlan, dispatch),
+
 });
 
 export default compose(

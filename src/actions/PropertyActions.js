@@ -21,6 +21,9 @@ import {
   DELETE_PROPERTY_VISIT_BOOKING,
   UPDATE_PORTALS_REVIEW,
   UPDATE_PUBLISHED_REVIEW,
+  GET_PACKAGES_PROPERTY,
+  SET_PACKAGES_PROPERTY,
+  SAVE_UPGRADE_PLAN,
 } from './types/PropertyTypes';
 
 export const {
@@ -45,6 +48,9 @@ export const {
   deletePropertyVisitBooking,
   updatePortalsReview,
   updatePublishedReview,
+  getPackagesProperty,
+  setPackagesProperty,
+  saveUpgradePlan,
 } = createActions({
   [GET_ESTIMATION]: (payload) => payload,
   [SET_ESTIMATION]: (payload) => payload,
@@ -67,4 +73,7 @@ export const {
   [DELETE_PROPERTY_VISIT_BOOKING]: (payload) => payload,
   [UPDATE_PORTALS_REVIEW]: (payload) => payload,
   [UPDATE_PUBLISHED_REVIEW]: (payload) => payload,
+  [GET_PACKAGES_PROPERTY]: (payload) => payload,
+  [SET_PACKAGES_PROPERTY]: (payload) => payload,
+  [SAVE_UPGRADE_PLAN]: (payload) => payload,
 });

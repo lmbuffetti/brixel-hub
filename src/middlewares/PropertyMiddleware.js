@@ -21,6 +21,9 @@ import {
   CREATE_PROPERTY_VISIT_BOOKING,
   UPDATE_PORTALS_REVIEW,
   UPDATE_PUBLISHED_REVIEW,
+  GET_PACKAGES_PROPERTY,
+  SET_PACKAGES_PROPERTY,
+  SAVE_UPGRADE_PLAN,
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
@@ -95,15 +98,9 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
           }
           if (setSuccessNotification) {
-            const closeNotification = () => store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null });
             const notification = ({
               state: true,
-              type: 'successHub',
-              label: '',
-              actions:
-                [
-                  { type: 'primary', label: 'Saved', func: () => closeNotification(), rightIcon: 'check' },
-                ],
+              type: 'saved',
             });
             store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: notification });
             setTimeout(() => {
@@ -138,7 +135,6 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
-
     case GET_ACTIVE_SINGLE_PROPERTY: {
       next(action);
       const { smallLoader } = action.payload;
@@ -429,6 +425,33 @@ const checkCommon = (store) => (next) => (action) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
           store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
+        });
+      break;
+    }
+    case GET_PACKAGES_PROPERTY: {
+      next(action);
+      const { smallLoader, page, status } = action.payload;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
+      api.property.getPackageList(10, 0)
+        .then((res) => {
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SET_PACKAGES_PROPERTY, payload: res.data });
+        });
+      break;
+    }
+    case SAVE_UPGRADE_PLAN: {
+      next(action);
+      const { smallLoader, page, data } = action.payload;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
+      api.property.upgradePlan(page, data)
+        .then((res) => {
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
+          //store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
+          console.log(res.data);
         });
       break;
     }

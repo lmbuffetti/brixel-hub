@@ -43,6 +43,7 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
         )
       }
       <div>
+        {console.log(options)}
         {
           options.map((option, i) => (
             <div
@@ -90,7 +91,7 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
                           color="green"
                           saturationTxt={400}
                         />
-                        <span>{detail}</span>
+                        <span>{detail.description}</span>
                       </li>
                     ))
                   }

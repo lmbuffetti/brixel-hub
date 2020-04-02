@@ -50,7 +50,7 @@ const Tour = (props) => {
                   allowFullScreen
                   title={get(formValue,'virtual.matterport', null)}
                 />
-                <h5 className="mt-3 mb-1">Get your own 3D-Tour</h5>
+                <h5 className="mt-3 mb-1">Get your own 3D Tour</h5>
                 <p className="txtDark200">3D-Tour and much more is part of Brixel Premium.</p>
                 <div className="dis-f jc-c mt-3">
                   <BrixelButtonPrimary
