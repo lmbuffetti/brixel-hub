@@ -7,11 +7,6 @@ import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import {
-  CSSTransition,
-  TransitionGroup,
-} from 'react-transition-group';
-import {
-  BrixelButtonPrimary,
   BrixelIcon,
   BrixelProgressBar,
   BrixelButtonIcon,
@@ -29,11 +24,10 @@ import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import FactsQuestion from './FactsQuestion';
 import last from 'lodash/last';
 
-const InputSheet = (props) => {
+const Facts = (props) => {
   const {
     changeFieldValue,
     formValue,
-    handleSaveActiveSingleProperty,
     history,
     isSmallLoading,
     match,
@@ -210,7 +204,7 @@ const InputSheet = (props) => {
   );
 };
 
-InputSheet.propTypes = {
+Facts.propTypes = {
   isLoading: PropTypes.bool,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -222,12 +216,11 @@ InputSheet.propTypes = {
   singleUserPropertyList: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
-  notification: PropTypes.object.isRequired,
   setNotification: PropTypes.func.isRequired,
   isUnsavedChangesModal: PropTypes.object,
 };
 
-InputSheet.defaultProps = {
+Facts.defaultProps = {
   isUnsavedChangesModal: {},
   isLoading: false,
 };
@@ -263,4 +256,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(InputSheet);
+)(Facts);

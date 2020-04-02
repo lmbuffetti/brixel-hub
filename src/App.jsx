@@ -10,6 +10,7 @@ import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
+import Reactotron from 'reactotron-react-js'
 
 // COMPONENTS
 import Loading from './components/Loading';
@@ -127,6 +128,7 @@ const App = (props) => {
     if (history && history.location) {
       ga('send', 'pageview', history.location.pathname);
     }
+    Reactotron.log(history.location.pathname);
   }, [history.location]);
 
   useEffect(() => {
@@ -140,15 +142,7 @@ const App = (props) => {
 
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
-    const wrapper = document.getElementById('dashboard');
-    let paddingTop = 0;
-    // let paddingBottom = 0;
-    if (wrapper) {
-      paddingTop = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-top').replace('px', '');
-      // paddingBottom = document.defaultView.getComputedStyle(wrapper, "").getPropertyValue('padding-bottom').replace('px', '');
-    }
-    const heightContent = head[0] ? head[0].offsetHeight : 0;
-    return heightContent;
+    return head[0] ? head[0].offsetHeight : 0;
   };
 
   if (!loggedInUser || (!userTypes && property.id)) {

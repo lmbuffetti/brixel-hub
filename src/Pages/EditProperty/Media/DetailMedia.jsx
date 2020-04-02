@@ -9,8 +9,9 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import {
-  BrixelButtonIcon, BrixelButtonTertiary,
-  BrixelButtonPrimary, BrixelTextArea,
+  BrixelButtonIcon,
+  BrixelButtonTertiary,
+  BrixelTextArea,
 } from '@brixel/brixel-components';
 import Loading from '../../../components/Loading';
 import { rotateImg, deleteImg, setCoverPhoto } from '../../../actions/UploadActions';
@@ -19,10 +20,8 @@ import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 const DetailMedia = (props) => {
   const {
     formValue,
-    handleDeleteImg,
     handleRotateImg,
     handleSetCoverPhoto,
-    handleSaveActiveSingleProperty,
     history,
     isSmallLoading,
     match,
@@ -30,7 +29,7 @@ const DetailMedia = (props) => {
   // STATE
   const [rotation, setRotation] = useState(0);
   const [idImg, setIdImg] = useState(null);
-  const [changeSection, setChangeSection] = useState(false);
+  const [changeSection] = useState(false);
   // PARAMS URL
   const mediaID = get(match, 'params.imgId', null);
   const propID = get(match, 'params.propId', null);
@@ -54,31 +53,6 @@ const DetailMedia = (props) => {
       }
     }
   }, [isSmallLoading]);
-
-  const deleteImage = (e) => {
-    e.preventDefault();
-    const data = {
-      id: propID,
-      mediaID: mediaID,
-      type: mediaType,
-    };
-    // eslint-disable-next-line no-alert
-    if (window.confirm('Are you sure you want to delete this item?')) {
-      handleDeleteImg(data);
-    }
-  };
-
-  const saveImage = () => {
-    const data = {
-      id: propID,
-      photos: formValue.photos,
-      floorPlans: formValue.floorPlans,
-      smallLoader: true,
-    };
-    setChangeSection(true);
-    // eslint-disable-next-line no-alert
-    handleSaveActiveSingleProperty(data);
-  };
 
   const rotateImage = (e) => {
     const mediaID = get(match, 'params.mediaID', null);

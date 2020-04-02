@@ -9,13 +9,15 @@ import { connect } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon,
+  BrixelButtonIcon,
+  BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
 import { deleteImg, uploadImg } from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
-import upload_photos_empty from '../../../images/Upload/upload_photos_empty.svg'
+import { Truncate } from '../../../utils/helpers';
+import upload_photos_empty from '../../../images/Upload/upload_photos_empty.svg';
 
 const Photos = (props) => {
   // PROPS
@@ -159,7 +161,9 @@ const Photos = (props) => {
                               }
                             </div>
                           </div>
-                          <p className="ta-l mt-1 body2 w-prec-100">{item.description}</p>
+                          <p className="ta-l mt-1 body2 w-prec-100">
+                            {Truncate(item.description, 35)}
+                          </p>
                         </li>
                       ))
                     }

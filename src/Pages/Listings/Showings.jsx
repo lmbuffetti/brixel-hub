@@ -6,7 +6,6 @@ import { withRouter, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reset } from 'redux-form';
 import get from 'lodash/get';
-import has from 'lodash/has';
 import last from 'lodash/last';
 import groupBy from 'lodash/groupBy';
 import { bindActionCreators, compose } from 'redux';
@@ -14,7 +13,6 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import {
   BrixelButtonIcon,
-  BrixelButtonPrimary,
   BrixelTabs,
   BrixelTimeSlots,
   BrixelBookingCard,
@@ -38,10 +36,7 @@ const Showings = (props) => {
     changeFieldValue,
     formValue,
     handleSavePropertyVisitBooking,
-    handleSavePropertyVisitSchedule,
-    handleCreatePropertyVisitSchedule,
     history,
-    isSmallLoading,
     match,
     reset,
   } = props;
@@ -55,7 +50,7 @@ const Showings = (props) => {
   const getFact = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    if (formValue.booking && formValue.schedule.slots) {
+    if (formValue.booking && formValue.schedule && formValue.schedule.slots) {
       const allSlots = [];
       const allUnavailableSlots = [];
       formValue.booking.map((slot) => {
@@ -85,28 +80,6 @@ const Showings = (props) => {
       setBookingSlot([...allSlots]);
     }
   }, [formValue.booking, formValue.schedule]);
-
-
-  const saveData = () => {
-    // Update schedule
-    if (has(formValue, 'schedule.id')) {
-      const data = {
-        scheduleId: formValue.schedule.id,
-        data: {
-          page: formValue.id,
-          slots: formValue.schedule.slots,
-        },
-      };
-      handleSavePropertyVisitSchedule(data);
-    } else {
-      // Create schedule
-      const data = {
-        page: formValue.id,
-        slots: formValue.schedule.slots,
-      };
-      handleCreatePropertyVisitSchedule(data);
-    }
-  };
 
   const discardChanges = () => {
     setManageAvailability(false);
@@ -230,27 +203,6 @@ const Showings = (props) => {
                     propertySlots={get(formValue, 'schedule.slots', [])}
                     occupedSlots={unavailableSlots}
                     onSelect={(e, value) => changeFieldValue('schedule.slots', value) }
-                  />
-                </div>
-                <div className="dis-f p-2">
-                  <BrixelButtonPrimary
-                    label='Cancel'
-                    background="white"
-                    saturation={0}
-                    color="dark"
-                    saturationTxt={400}
-                    rounded
-                    className="shadow-3dp w-perc-100 mr-1"
-                    onClick={() => discardChanges()}
-                  />
-                  <BrixelButtonPrimary
-                    className="shadow-3dp w-perc-100 ml-1"
-                    label='Save'
-                    background="primary"
-                    saturation={400}
-                    rounded
-                    onClick={() => saveData()}
-                    isLoading={isSmallLoading}
                   />
                 </div>
               </>

@@ -9,6 +9,8 @@ import App from './App';
 import { configureStore } from './store';
 import * as serviceWorker from './serviceWorker';
 import './styles/SCSS/general/main.scss';
+import './utils/ReactotronConfig';
+
 
 const store = configureStore;
 const root = document.getElementById('root');
