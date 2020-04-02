@@ -187,11 +187,11 @@ const Upgrade = (props) => {
           </div>
           {
             currentIndex === 0 && (
-              <Support/>
+              <Support isFixed />
             )
           }
         </div>
-        <div className="footerActionUpgrade dis-f p-1 p-md-2 a-c jc-c container pos-r">
+        <div className="footerActionUpgrade dis-f p-1 p-md-2 a-c jc-c container pos-r shadow-1dp">
           <div className={`max-w-fix-544 w-perc-100 jc-b jc-c-md a-c ${currentIndex === 0 ? 'dis-fl-col dis-fl-row-md' : 'dis-fl-row'}`}>
             {
               currentIndex === 0 && (

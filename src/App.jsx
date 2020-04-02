@@ -152,6 +152,7 @@ const App = (props) => {
   }
 
   let classMain = 'container pos-r p-0';
+  let zIndex = 1;
   let isFlow = false;
   if (
     history.location.pathname.includes('packageFlow') ||
@@ -160,6 +161,7 @@ const App = (props) => {
   ) {
     classMain = '';
     isFlow = true;
+    zIndex = 6;
   }
 
 
@@ -178,7 +180,7 @@ const App = (props) => {
               <MenuSidebar />
             )
           }
-          <div className="zIndex1 w-perc-100 dis-fl-col" style={{ height: windowDimensions.height }}>
+          <div className={`zIndex${zIndex} w-perc-100 dis-fl-col`} style={{ height: windowDimensions.height }}>
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
                 <PageHeader />
