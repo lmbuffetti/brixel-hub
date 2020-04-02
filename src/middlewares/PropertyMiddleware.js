@@ -33,7 +33,7 @@ import {
   SPINNER_SMALL_ON,
   SPINNER_SMALL_OFF,
   REDIRECT_TO,
-  SET_SCREEN_NOTIFICATION, SET_SAVED_SCREEN,
+  SET_SAVED_SCREEN,
 } from '../actions/types/CommonTypes';
 import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
 import properties from '../resources/localData/properties.json';
@@ -427,7 +427,7 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case GET_PACKAGES_PROPERTY: {
       next(action);
-      const { smallLoader, page, status } = action.payload;
+      const { smallLoader } = action.payload;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
       else store.dispatch({ type: SPINNER_ON });
       api.property.getPackageList(10, 0)
@@ -443,13 +443,14 @@ const checkCommon = (store) => (next) => (action) => {
       const { smallLoader, page, data } = action.payload;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
       else store.dispatch({ type: SPINNER_ON });
-      api.property.upgradePlan(page, data)
+      console.log(page, data);
+      /*api.property.upgradePlan(page, data)
         .then((res) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
           //store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           console.log(res.data);
-        });
+        }); */
       break;
     }
     default:

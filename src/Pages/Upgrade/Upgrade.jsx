@@ -70,12 +70,12 @@ const Upgrade = (props) => {
   };
 
   const saveData = () => {
-    console.log('saveData', formValue.packageUpgrade);
     const data = {
       page: propID,
+      smallLoader: true,
       data: formValue.packageUpgrade
     };
-    // handleSaveUpgradePlan(data);
+    handleSaveUpgradePlan(data);
   };
 
   const changeStep = (act) => {

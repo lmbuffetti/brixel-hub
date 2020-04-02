@@ -23,7 +23,8 @@ import {
   SPINNER_ON,
   SPINNER_OFF,
   SPINNER_SMALL_ON,
-  SPINNER_SMALL_OFF, SET_SCREEN_NOTIFICATION, SET_SAVED_SCREEN,
+  SPINNER_SMALL_OFF,
+  SET_SAVED_SCREEN,
 } from '../actions/types/CommonTypes';
 
 const checkCommon = (store) => (next) => (action) => {

@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
@@ -8,13 +8,17 @@ import { bindActionCreators, compose } from 'redux';
 import { change } from 'redux-form';
 import { connect } from 'react-redux';
 import { uploadImg } from '../../../actions/UploadActions';
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, BrixelButtonIcon } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import defaultCover from '../../../images/no_cover.jpg';
 
 const Tour = (props) => {
   // PROPS
   const {
     formValue,
   } = props;
+  // STATE
+  const [showTour, setShowTour] = useState(false);
 
   return (
     <div className="secondLevel">
@@ -27,31 +31,76 @@ const Tour = (props) => {
         </div>
         <div>
           {
-            get(formValue,'virtual.matterport', null) ? (
-              <iframe
-                className="min-h-fix-320"
-                width="100%"
-                height="100%"
-                src={`https://my.matterport.com/show/?m=${get(formValue,'virtual.matterport', null)}&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0`}
-                allow="vr"
-                frameBorder="0"
-                allowFullScreen
-                title={get(formValue,'virtual.matterport', null)}
-              />
+            !showTour ? (
+              <div className="pos-r brdRadius ov-h">
+                {
+                  formValue.coverPhoto ? (
+                    <img
+                      className="dis-b"
+                      src={`${baseByData.shortPath}${formValue.coverPhoto.path}`}
+                      alt="Cover"
+                    />
+                  ) : (
+                    <img
+                      className="dis-b"
+                      src={defaultCover}
+                      alt="Cover"
+                    />
+                  )
+                }
+                <div className="pos-a w-perc-100 h-perc-100 bgBlack opacity5" />
+                <div className="pos-a xy-c">
+                  <BrixelButtonIcon
+                    noBorder
+                    padding="24px"
+                    icon="play-fill"
+                    background="white"
+                    saturation={0}
+                    color="dark"
+                    className="m-a"
+                    saturationTxt={700}
+                    onClick={() => setShowTour(true)}
+                  />
+                  <p className="ta-c txtWhite mt-2">Start 3D Tour</p>
+                </div>
+              </div>
             ) : (
-              <div className="ta-c">
-                <iframe
-                  className="min-h-fix-320"
-                  width="100%"
-                  height="100%"
-                  src={`https://my.matterport.com/show/?m=ctWod3ggrZi&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0`}
-                  allow="vr"
-                  frameBorder="0"
-                  allowFullScreen
-                  title={get(formValue,'virtual.matterport', null)}
-                />
-                <h5 className="mt-3 mb-1">Get your own 3D Tour</h5>
-                <p className="txtDark200">3D-Tour and much more is part of Brixel Premium.</p>
+              <>
+                {
+                  get(formValue,'virtual.matterport', null) ? (
+                    <iframe
+                      className="min-h-fix-320"
+                      width="100%"
+                      height="100%"
+                      src={`https://my.matterport.com/show/?m=${get(formValue,'virtual.matterport', null)}&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0`}
+                      allow="vr"
+                      frameBorder="0"
+                      allowFullScreen
+                      title={get(formValue,'virtual.matterport', null)}
+                    />
+                  ) : (
+                    <div className="ta-c">
+                      <iframe
+                        className="min-h-fix-320"
+                        width="100%"
+                        height="100%"
+                        src={`https://my.matterport.com/show/?m=ctWod3ggrZi&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0`}
+                        allow="vr"
+                        frameBorder="0"
+                        allowFullScreen
+                        title={get(formValue,'virtual.matterport', null)}
+                      />
+                    </div>
+                  )
+                }
+              </>
+            )
+          }
+          {
+            !get(formValue, 'virtual.matterport', null) && (
+              <>
+                <h5 className="mt-3 mb-1 ta-c">Get your own 3D Tour</h5>
+                <p className="txtDark200 ta-c">3D Tour and much more is part of Brixel Premium.</p>
                 <div className="dis-f jc-c mt-3">
                   <BrixelButtonPrimary
                     label="Upgrade now"
@@ -60,7 +109,7 @@ const Tour = (props) => {
                     rounded
                   />
                 </div>
-              </div>
+              </>
             )
           }
         </div>
