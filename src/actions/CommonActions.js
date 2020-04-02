@@ -17,6 +17,7 @@ import {
   PREVENT_EXIT_FROM_SCREEN,
   SET_UNSAVED_CHANGES_MODAL,
   SET_WINDOW_DIMENSIONS,
+  SET_SAVED_SCREEN,
 } from './types/CommonTypes';
 
 export const {
@@ -37,6 +38,7 @@ export const {
   preventExitFromScreen,
   setUnsavedChangesModal,
   setWindowDimensions,
+  setSavedScreen,
 } = createActions({
   [ERROR_MESSAGE]: (payload) => payload,
   [REDIRECT_TO]: (payload) => payload,
@@ -55,4 +57,5 @@ export const {
   [PREVENT_EXIT_FROM_SCREEN]: (payload) => payload,
   [SET_UNSAVED_CHANGES_MODAL]: (payload) => payload,
   [SET_WINDOW_DIMENSIONS]: (payload) => payload,
+  [SET_SAVED_SCREEN]: (payload) => payload,
 });

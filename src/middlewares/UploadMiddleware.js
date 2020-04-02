@@ -23,7 +23,7 @@ import {
   SPINNER_ON,
   SPINNER_OFF,
   SPINNER_SMALL_ON,
-  SPINNER_SMALL_OFF,
+  SPINNER_SMALL_OFF, SET_SCREEN_NOTIFICATION, SET_SAVED_SCREEN,
 } from '../actions/types/CommonTypes';
 
 const checkCommon = (store) => (next) => (action) => {
@@ -44,11 +44,11 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case GET_IMAGE_TYPE: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON });
       api.image.getImageType()
         .then((res) => {
           store.dispatch({ type: SET_IMAGE_TYPE, payload: res.data });
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }
@@ -88,7 +88,8 @@ const checkCommon = (store) => (next) => (action) => {
               photos: img,
               floorPlans: plan,
             };
-            store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
+            store.dispatch({ type: SET_SAVED_SCREEN });
+            store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
           } else if (uploadAction === 'singleUserAvatar') {
             let userAvatar = store.getState().form.User.values.avatar[0];
 
@@ -127,7 +128,8 @@ const checkCommon = (store) => (next) => (action) => {
             smallLoader: true
           };
           if (action.payload.type === 'photos' && arrayImg.length === 0) data.coverPhoto = null;
-          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
+          store.dispatch({ type: SET_SAVED_SCREEN });
+          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
@@ -146,7 +148,7 @@ const checkCommon = (store) => (next) => (action) => {
             documents: docList,
             smallLoader: true,
           };
-          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
+          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;

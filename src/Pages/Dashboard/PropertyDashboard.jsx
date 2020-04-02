@@ -174,7 +174,7 @@ const HomeDashboard = (props) => {
                 verticalView
                 bgTransparent
                 icon="tour"
-                label="3d Tour"
+                label="3D Tour"
                 labelClass="fweight-400"
                 subtitle={`0 Files`}
                 subtitleClass={'fsize-200 txtDark200 pt-small-6'}

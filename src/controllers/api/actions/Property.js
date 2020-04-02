@@ -105,6 +105,17 @@ class Property extends Base {
     return this.apiClient.put(url, {}, {});
   }
 
+  // PACAKGE - UPGRADE
+  getPackageList(limit, offset) {
+    const url = ep.property.packagesList(limit, offset);
+    return this.apiClient.get(url, {});
+  }
+
+  saveUpgradePlan(id) {
+    const url = ep.property.upgradePlan(id);
+    return this.apiClient.put(url, {}, {});
+  }
+
   // BRIXELATOR
   getPriceDistribution(data) {
     const url = ep.brixelator.getPriceDistribution(data);

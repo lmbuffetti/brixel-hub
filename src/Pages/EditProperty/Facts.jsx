@@ -124,7 +124,6 @@ const Facts = (props) => {
 
   const onNextSection = (act) => {
     const findCurrentId = Questions.findIndex(quest => quest.history === selectedQuest.history);
-    console.log(findCurrentId);
     if (findCurrentId > -1 && Questions[findCurrentId + 1]) {
       if (act === 'label') {
         return Questions[findCurrentId + 1].title;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { BrixelButtonIcon } from '@brixel/brixel-components';
 import MultiStepForm from '../../components/MultiStepReduxForm';
 import { UpgradeQuestions } from '../../resources/Upgrade';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
@@ -13,6 +13,7 @@ import InfoImg from '../../images/Upgrade/info.svg';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
 import { reset } from 'redux-form';
+import { getPackagesProperty, saveUpgradePlan } from '../../actions/PropertyActions';
 
 const Support = Loadable({
   loader: () => import('../../components/Support' /* webpackChunkName: "Support" */),
@@ -24,26 +25,43 @@ const Upgrade = (props) => {
   const {
     errorValue,
     formValue,
+    handleGetPackagesProperty,
+    handleSaveUpgradePlan,
     history,
+    match,
+    packagesProperty,
     reset,
   } = props;
   // STATE
-  const [questions, setQuestions] = useState(UpgradeQuestions('en'));
+  const [questions, setQuestions] = useState(UpgradeQuestions('en', packagesProperty));
   // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(UpgradeQuestions('en')[0]);
+  const [quest, setQuest] = useState(UpgradeQuestions('en', packagesProperty)[0]);
   const [isEnter, setIsEnter] = useState(true);
+  // GET URL PARAMS
+  const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
+    const data = {
+      smallLoader: true,
+    };
+    handleGetPackagesProperty(data);
     return () => {
       setCurrentIndex(0);
       reset('Property');
-    }
+    };
   }, []);
 
   useEffect(() => {
     setIsEnter(true);
   }, [currentIndex]);
+
+  useEffect(() => {
+    if (packagesProperty.length > 0) {
+      setQuestions(UpgradeQuestions('en', packagesProperty));
+      setQuest(UpgradeQuestions('en', packagesProperty)[0]);
+    }
+  }, [packagesProperty]);
 
   const closeWindow = () => {
     const url = localStorage.getItem('backUrl');
@@ -53,6 +71,11 @@ const Upgrade = (props) => {
 
   const saveData = () => {
     console.log('saveData', formValue.packageUpgrade);
+    const data = {
+      page: propID,
+      data: formValue.packageUpgrade
+    };
+    // handleSaveUpgradePlan(data);
   };
 
   const changeStep = (act) => {
@@ -191,42 +214,44 @@ const Upgrade = (props) => {
             )
           }
         </div>
-        <div className="footerActionUpgrade dis-f p-1 p-md-2 a-c jc-c container pos-r shadow-1dp">
-          <div className={`max-w-fix-544 w-perc-100 jc-b jc-c-md a-c ${currentIndex === 0 ? 'dis-fl-col dis-fl-row-md' : 'dis-fl-row'}`}>
-            {
-              currentIndex === 0 && (
-                <div className="dis-fl-col dis-fl-row-md a-c">
-                  <img src={InfoImg} alt="Info" className="mb-1 mb-md-0" />
-                  <p className="body2 ml-1 mb-1 mb-md-0 ta-c ta-l-md">
-                    Don't worry. You will not be charged for now. Get the result first. Pay later.
-                  </p>
-                </div>
-              )
-            }
-            {
-              currentIndex > 0 && questions[currentIndex].inputs && (
-                <BrixelButtonIcon
-                  className={`shadow-2dp backBtn`}
-                  icon="arrow-simple-left"
-                  onClick={() => changeStep('back')}
-                  background="white"
-                  saturation={0}
-                  color="primary"
-                  saturationTxt={400}
-                  noBorder
-                />
-              )
-            }
-            <BrixelButtonPrimary
-              className="noWrap w-perc-100 max-w-fix-160"
-              disabled={!checkValidateField()}
-              rounded
-              background={questions[currentIndex -1] ? 'primary' : 'red'}
-              saturation={400}
-              label={buttonLabel()}
-              rightIcon="arrow-right-small"
-              onClick={() => questions[currentIndex +1] ? changeStep() : closeWindow()}
-            />
+        <div className="footerActionUpgrade dis-f p-1 p-md-2 a-c jc-c pos-r shadow-1dp">
+          <div className="container pos-r">
+            <div className={`max-w-fix-544 w-perc-100 jc-b jc-c-md a-c ${currentIndex === 0 ? 'dis-fl-col dis-fl-row-md' : 'dis-fl-row'} m-a`}>
+              {
+                currentIndex === 0 && (
+                  <div className="dis-fl-col dis-fl-row-md a-c">
+                    <img src={InfoImg} alt="Info" className="mb-1 mb-md-0" />
+                    <p className="body2 ml-1 mb-1 mb-md-0 ta-c ta-l-md">
+                      Don't worry. You will not be charged for now. Get the result first. Pay later.
+                    </p>
+                  </div>
+                )
+              }
+              {
+                currentIndex > 0 && questions[currentIndex].inputs && (
+                  <BrixelButtonIcon
+                    className={`shadow-2dp backBtn`}
+                    icon="arrow-simple-left"
+                    onClick={() => changeStep('back')}
+                    background="white"
+                    saturation={0}
+                    color="primary"
+                    saturationTxt={400}
+                    noBorder
+                  />
+                )
+              }
+              <BrixelButtonPrimary
+                className="noWrap w-perc-100 max-w-fix-160"
+                disabled={!checkValidateField()}
+                rounded
+                background={questions[currentIndex -1] ? 'primary' : 'red'}
+                saturation={400}
+                label={buttonLabel()}
+                rightIcon="arrow-right-small"
+                onClick={() => questions[currentIndex +1] ? changeStep() : closeWindow()}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -237,19 +262,27 @@ const Upgrade = (props) => {
 Upgrade.propTypes = {
   formValue: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
+  handleGetPackagesProperty: PropTypes.func.isRequired,
+  handleSaveUpgradePlan: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   reset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   errorValue: get(state, 'form.Property.syncErrors', {}),
   formValue: get(state, 'form.Property.values', {}),
+  packagesProperty: get(state, 'property.packagesProperty', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)))
   },
+  handleGetPackagesProperty: bindActionCreators(getPackagesProperty, dispatch),
+  handleSaveUpgradePlan: bindActionCreators(saveUpgradePlan, dispatch),
+
 });
 
 export default compose(
