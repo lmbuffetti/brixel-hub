@@ -448,7 +448,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
           //store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
-          console.log(res.data);
+          // console.log(res.data);
         });
       break;
     }

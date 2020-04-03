@@ -5,6 +5,7 @@ import {
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
+import isObject from 'lodash/isObject';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -58,6 +59,7 @@ const Dashboard = (props) => {
   // PROPS
   const {
     userTypes,
+    errorValue,
     formValue,
     handleGetPropertyListings,
     handleGetActiveSingleProperty,
@@ -147,6 +149,31 @@ const Dashboard = (props) => {
     }
   };
 
+  const validForm = () => {
+    const changeObj = diff(initialValues, formValue);
+    const allVal = [];
+    let isValid = true;
+    const extrackKey = (obj, parent) => {
+      Object.keys(obj).map((key) => {
+        if (isObject(obj[key])) {
+          let newKey = parent ? `${parent}.${key}` : key;
+          extrackKey(obj[key], newKey);
+        }
+        else {
+          allVal.push(`${parent}.${key}`);
+        }
+        return null;
+      });
+    };
+    extrackKey(changeObj);
+    allVal.map((name) => {
+      const getError = get(errorValue, name, true);
+      if (getError !== 'Mark Required' && getError !== true && isValid) isValid = false;
+      return null;
+    });
+    return isValid;
+  };
+
   const discardChanges = () => {
     handleSetScreenNotification(null);
     reset('Property');
@@ -155,7 +182,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
-      if (Object.keys(changeObj).length > 0 && (Object.keys(changeObj).length > 1 || !changeObj.inputSheet ) && !isSmallLoading && !isLoading && get(notification, 'type', null) !== 'saved') {
+      if (Object.keys(changeObj).length > 0 && (Object.keys(changeObj).length > 1 || !changeObj.inputSheet ) && !isSmallLoading && !isLoading && get(notification, 'type', null) !== 'saved' && validForm()) {
         handleSetScreenNotification({
           state: true,
           type: 'infoHub',
@@ -170,7 +197,7 @@ const Dashboard = (props) => {
         handleSetScreenNotification(null);
       }
     }
-  }, [formValue, isSmallLoading]);
+  }, [formValue, isSmallLoading, errorValue]);
 
   if (!userTypes) return (<div />);
 

@@ -21,7 +21,7 @@ const Maps = Loadable({
 
 const FactsQuestion = (props) => {
   const {
-    // changeFieldValue,
+    changeFieldValue,
     errorValue,
     formValue,
     // handleSaveActiveSingleProperty,
@@ -90,6 +90,7 @@ const FactsQuestion = (props) => {
     if (input.condition) {
       const valA = get(formValue, input.condition.name, 'a');
       if (valA === input.condition.value) condition = true;
+      else if (input.condition.value === 'isPositive' && valA > 0) condition = true;
       else condition = false;
     }
     return condition;
@@ -137,6 +138,8 @@ const FactsQuestion = (props) => {
                                   showMap={false}
                                   isShowZip={false}
                                   className="w-perc-100"
+                                  changeCountry={(val) => changeFieldValue('location.country', val)}
+                                  selCountry={get(formValue, 'location.countryCode', '')}
                                 />
                               )}
                               options={input.options}
@@ -164,6 +167,8 @@ const FactsQuestion = (props) => {
                             tabIndex="-1"
                           >
                             {input.deactivable ? input.deactivable.toString() : ''}
+
+
                             <Field
                               className={input.className || ''}
                               inputClassName={input.inputClassName || ''}
@@ -183,16 +188,18 @@ const FactsQuestion = (props) => {
                               deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
                               placeholder={input.placeholder || ''}
                               meta={{
-                                dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                invalid: true,
+                                dirty: get(formValue, input.name, null) !== null,
+                                invalid: get(errorValue, input.name, true) !== true,
                               }}
                               //modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
                               message={{
                                 help: null,
-                                error: errorValue[input.name],
+                                error: get(errorValue, input.name, 'Invalid Input'),
                               }}
                               minLenghtNum={input.minLenghtNum || null}
                               maxLengthNum={input.maxLenghtNum || null}
+                              format={input.format}
+                              normalize={input.normalize}
                               unit={input.unit}
                             />
                           </div>

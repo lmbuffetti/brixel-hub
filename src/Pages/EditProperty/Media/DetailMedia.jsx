@@ -55,9 +55,8 @@ const DetailMedia = (props) => {
     }
   }, [isSmallLoading]);
 
-  const deleteImage = (id) => {
+  const deleteImage = () => {
     const propID = get(match, 'params.propId', null);
-    const mediaID = id;
     const data = {
       id: mediaID,
       pageID: propID,
@@ -69,9 +68,7 @@ const DetailMedia = (props) => {
     }
   };
 
-  const rotateImage = (e) => {
-    const mediaID = get(match, 'params.mediaID', null);
-    if (e) e.preventDefault();
+  const rotateImage = () => {
     let rotate = rotation + 90;
     // if (rotate > 360) rotate = 90;
     const data = {
@@ -123,9 +120,9 @@ const DetailMedia = (props) => {
                   //   style={{ transform: `rotate(${rotation}deg)`, backgroundImage: `url(${getConfigEnv().shortPath}${formValue[mediaType][idImg].thumbnailPath})` }}
                   // />
                   <img
-                    className="square img-cov img-cen max-h-fix-400 shadow-2dp brdRadius"
-                    style={{ transform: `rotate(${rotation}deg)` }}
-                    src={`${baseByData.shortPath}${formValue[mediaType][idImg].path}`}
+                    className="max-w-perc-100 shadow-2dp brdRadius ov-h w-perc-100"
+                    //style={{ transform: `rotate(${rotation}deg)` }}
+                    src={`${baseByData.shortPath}${formValue[mediaType][idImg].path}?${Date.now()}`}
                     alt="Edit Media"
                   />
                 )

@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import isNaN from 'lodash/isNaN';
 import {
   BrixelCheckbox,
   BrixelExtraFeature, BrixelInputQuality,
@@ -19,6 +20,26 @@ const formatPrice = (value) => {
 const normalizePrice = (value) => {
   if (value.length === 0) return '';
   return Number(value.replace(/\D/g, ''));
+};
+
+const normalizeData = (value, prevValue) => {
+  if (!value) return value;
+
+  const valueOnlyNumbers = value.replace(/[^\d]/g, '');
+  const prevValueOnlyNumbers = prevValue && prevValue.replace(/[^\d]/g, '');
+
+  // Enable backspacing:
+  // if the user is backspacing and they backspace a forward slash, the date's
+  // numbers won't be affected so just return the value.
+  if (valueOnlyNumbers === prevValueOnlyNumbers) return value;
+
+  const month = valueOnlyNumbers.slice(0, 2);
+  const year = valueOnlyNumbers.slice(2, 6);
+  console.log(month, year);
+  if (valueOnlyNumbers.length < 2 && !isNaN(+month) && +month <= 12) return `${month}`;
+  if (valueOnlyNumbers.length === 2 && !isNaN(+month) && +month <= 12) return `${month}/`;
+  if (valueOnlyNumbers.length > 2 && !isNaN(+year) && +year <= 2020) return `${month}/${year}`;
+  return prevValue;
 };
 
 export const InputSheets = (lang) => [
@@ -79,6 +100,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'What\'s the net living space of the property?',
         labelLeft: 'Living Space',
+        placeholder: '120',
         unit: 'm2',
         name: 'properties.typology.livingArea.value',
         type: "number",
@@ -231,6 +253,8 @@ export const InputSheets = (lang) => [
         labelLeft: 'Year',
         name: 'properties.building.built',
         validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear, Validation.required],
+        minLenghtNum: 999,
+        maxLenghtNum: 9999,
         placeholder: "YYYY (ex.: 2020)",
       },
       {
@@ -333,6 +357,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'How many people live in your community?',
+        placeholder: '34’565 (2018)',
         name: 'location.community.basisTaxation',
         labelLeft: 'Population',
         validation: [Validation.markRequired],
@@ -341,6 +366,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What is the basis of taxation in your community?',
+        placeholder: '105 %',
         name: 'location.community.population',
         labelLeft: 'Basis of taxation',
         validation: [Validation.markRequired],
@@ -349,6 +375,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the altitude of your community?',
+        placeholder: '630 MAMSL',
         name: 'location.community.altitude',
         labelLeft: 'Altitude',
         validation: [Validation.markRequired],
@@ -356,7 +383,8 @@ export const InputSheets = (lang) => [
       {
         component: BrixelInputText,
         className: '',
-        label: 'How large is the are of your community?',
+        label: 'How large is the area of your community?',
+        placeholder: '15 sq. km',
         name: 'location.community.area',
         labelLeft: 'Area',
         validation: [Validation.markRequired],
@@ -365,6 +393,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the distance to the next public transport stop?',
+        placeholder: '200 m (Hardplatz)',
         name: 'location.distances.publicTransport',
         validation: [Validation.markRequired],
       },
@@ -372,6 +401,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the distance to the next grocery?',
+        placeholder: '350 m (Migros)',
         name: 'location.distances.shopping',
         validation: [Validation.markRequired],
       },
@@ -379,6 +409,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the distance to the next highway?',
+        placeholder: '1500 m (A1)',
         name: 'location.distances.highway',
         validation: [Validation.markRequired],
       },
@@ -386,6 +417,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the distance to the next kindergarten?',
+        placeholder: '150 m',
         name: 'location.distances.kindergarten',
         validation: [Validation.markRequired],
       },
@@ -393,6 +425,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the distance to the next primary school?',
+        placeholder: '300 m',
         name: 'location.distances.primarySchool',
         validation: [Validation.markRequired],
       },
@@ -400,6 +433,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the distance to the next high school?',
+        placeholder: '300 m',
         name: 'location.distances.highSchool',
         validation: [Validation.markRequired],
       },
@@ -407,6 +441,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the distance to the next recreation area?',
+        placeholder: '600 m (Park)',
         name: 'location.distances.nature',
         validation: [Validation.markRequired],
       },
@@ -460,6 +495,7 @@ export const InputSheets = (lang) => [
         component: BrixelTextArea,
         className: '',
         label: 'What has been renovated?',
+        placeholder: '2015: Replacement of boiler',
         name: 'description.investment',
         validation: [Validation.markRequired]
       },
@@ -479,6 +515,7 @@ export const InputSheets = (lang) => [
         component: BrixelTextArea,
         className: '',
         label: 'What renovation works are needed within the next years?',
+        placeholder: 'Oil heating needs to be replaced.',
         name: 'description.needRenovation',
         options: factsOptions.yesNoOpt,
         validation: [Validation.markRequired]
@@ -495,11 +532,11 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'Date of last electrical inspection',
-        type: "number",
         labelLeft: 'Date',
         name: 'properties.building.electricalInspection',
         validation: [Validation.markRequired],
         placeholder: "mm/yyyy (ex.: 01/2020)",
+        normalize: normalizeData,
       },
     ],
   },
@@ -514,8 +551,8 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'What\'s the surface of the balcony?',
         unit: 'm2',
+        placeholder: '140',
         labelLeft: 'Surface',
-        placeholder: 'e.g. 140',
         name: 'properties.typology.balconyArea.value',
         type: 'number',
         validation: [Validation.markRequired]
@@ -528,7 +565,7 @@ export const InputSheets = (lang) => [
         unit: 'm2',
         name: 'properties.typology.gardenArea.value',
         type: 'number',
-        placeholder: 'e.g. 140',
+        placeholder: '140',
         validation: [Validation.markRequired],
       },
       {
@@ -549,7 +586,7 @@ export const InputSheets = (lang) => [
         label: 'What\'s the size of the attic?',
         labelLeft: 'Size',
         unit: 'm2',
-        placeholder: 'e.g. 140',
+        placeholder: '25 m2',
         name: 'properties.building.expandableAtticArea.value',
         validation: [Validation.markRequired]
       },
@@ -571,7 +608,7 @@ export const InputSheets = (lang) => [
         label: 'What\'s the size of the basement?',
         labelLeft: 'Size',
         unit: 'm2',
-        placeholder: 'e.g. 140',
+        placeholder: '30',
         name: 'properties.typology.basementArea.value',
         type: 'number',
         validation: [Validation.markRequired]
@@ -594,6 +631,7 @@ export const InputSheets = (lang) => [
         label: 'What\'s the size of the storeroom?',
         labelLeft: 'Size',
         unit: 'm2',
+        placeholder: '8 m2',
         name: 'properties.building.properties.typology.storeroomArea.value',
         type: 'number',
         validation: [Validation.markRequired]
@@ -616,6 +654,7 @@ export const InputSheets = (lang) => [
         label: 'What\'s the size of collective used spaces?',
         labelLeft: 'Size',
         unit: 'm2',
+        placeholder: '35 m2',
         name: 'properties.typology.collectiveSpacesArea.value',
         type: 'number',
         validation: [Validation.markRequired]
@@ -776,6 +815,7 @@ export const InputSheets = (lang) => [
         component: BrixelCheckbox,
         className: '',
         label: 'What is the material of the windows?',
+        placeholder: 'Aluminium frames',
         name: 'properties.building.windows.materials',
         options: factsOptions.windows,
         validation: [Validation.markRequired],
@@ -784,6 +824,7 @@ export const InputSheets = (lang) => [
         component: BrixelTextArea,
         className: '',
         label: 'What\'s the material of the blinds?',
+        placeholder: 'Venetian blinds',
         name: 'properties.building.blinds.materials',
         validation: [Validation.markRequired],
       },
@@ -791,6 +832,7 @@ export const InputSheets = (lang) => [
         component: BrixelTextArea,
         className: '',
         label: 'What\'s the material of the floors?',
+        placeholder: 'Timber flooring',
         name: 'properties.building.floors.materials',
         validation: [Validation.markRequired],
       },
@@ -798,6 +840,7 @@ export const InputSheets = (lang) => [
         component: BrixelTextArea,
         className: '',
         label: 'What\'s the equipment and materials in the kitchen?',
+        placeholder: 'V-Zug dishwasher',
         name: 'properties.building.kitchen.materials',
         validation: [Validation.markRequired],
       },
@@ -805,6 +848,7 @@ export const InputSheets = (lang) => [
         component: BrixelTextArea,
         className: '',
         label: 'What\'s the equipments and materials in the bathrooms?',
+        placeholder: 'Mosaic tiles',
         name: 'properties.building.bathrooms.materials',
         validation: [Validation.markRequired],
       },
@@ -835,7 +879,8 @@ export const InputSheets = (lang) => [
       {
         component: BrixelInputText,
         className: '',
-        label: 'What are the seller\'s contact data?',
+        label: 'Who is the owner of the property?',
+        placeholder: 'Bruce Brixel',
         name: 'properties.building.landRegister.owner',
         validation: [Validation.markRequired],
       },
@@ -843,6 +888,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What are the seller\'s contact data?',
+        placeholder: 'Bianca Brixel',
         name: 'properties.building.landRegister.contact',
         validation: [Validation.markRequired],
       },
@@ -850,6 +896,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the cadaster nr. of the property?',
+        placeholder: '914',
         name: 'properties.building.landRegister.cadaster',
         validation: [Validation.markRequired],
       },
@@ -857,6 +904,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the property index nr. of the property?',
+        placeholder: 'WD4311GB',
         name: 'properties.building.landRegister.propertyIndex',
         validation: [Validation.markRequired],
       },
@@ -868,6 +916,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the official apartment nr.?',
+        placeholder: '998',
         name: 'properties.typology.officialApartmentNumber',
         type: 'number',
         validation: [Validation.markRequired],
@@ -884,21 +933,43 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'Describe the servitudes',
+        placeholder: 'Right of way for neighboring plot',
         name: 'properties.building.rightsAndServitudes',
         validation: [Validation.markRequired],
       },
     ],
   },
-  // SECTION: FINANCIAL INFORMATION
+  // SECTION: PRICE & FINANCIAL
   {
-    title: "Financial information",
-    history: "financialInformation",
-    cardType: "financialInformation",
+    title: "Price & financials",
+    history: "priceAndFinacials",
+    cardType: "priceAndFinacials",
     inputs: [
+      {
+        component: BrixelSelect,
+        className: 'zIndex3',
+        label: 'Currency',
+        name: 'price.currency',
+        options: factsOptions.currency,
+        validation: [Validation.markRequired],
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What is the selling price of the house?',
+        labelLeft: 'Price',
+        placeholder: '1’500’000',
+        name: 'price.total',
+        format: formatPrice,
+        normalize: normalizePrice,
+        validation: [Validation.markRequired],
+        type: 'number',
+      },
       {
         component: BrixelInputText,
         className: '',
         label: 'What are the additional costs per year?',
+        placeholder: '7400',
         name: 'properties.building.maintenanceCost',
         labelLeft: 'Cost',
         format: formatPrice,
@@ -906,11 +977,11 @@ export const InputSheets = (lang) => [
         validation: [Validation.markRequired],
       },
       {
-        component: BrixelInputText,
+        component: BrixelTextArea,
         className: '',
-        label: 'How are these additional costs calculated?',
+        label: 'For what are these additional costs used?',
+        placeholder: 'Costs for heating, electricity and gardening.',
         name: 'price.financial.additionalCosts',
-        labelLeft: 'How',
         validation: [Validation.markRequired],
       },
       {
@@ -921,9 +992,10 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the total amount of the renewal funds?',
+        placeholder: '120’000',
         name: 'properties.building.renewalTotalAmount.value',
         type: 'number',
-        labelLeft: 'Amount',
+        labelLeft: 'Renewal Funds',
         validation: [Validation.markRequired],
       },
       {
@@ -934,8 +1006,9 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the owner\'s amount of the renewal funds?',
+        placeholder: '15’000',
         name: 'properties.building.renewalOwnerAmount.value',
-        labelLeft: 'Amount',
+        labelLeft: 'Renewal Funds',
         type: 'number',
         validation: [Validation.markRequired],
       },
@@ -947,8 +1020,9 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the owner\'s share of the co-ownership?',
+        placeholder: '25',
         name: 'properties.building.ownershipPermil',
-        labelLeft: 'Share',
+        labelLeft: 'Co-ownership',
         type: 'number',
         unit: '‰',
         validation: [Validation.markRequired],
@@ -961,17 +1035,19 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'How many condominium owners are there?',
+        placeholder: '37',
         name: 'properties.building.condominiumOwners',
-        labelLeft: 'How many',
+        labelLeft: 'Nr. of owners',
         type: 'number',
         validation: [Validation.markRequired],
       },
       {
         component: BrixelInputText,
         className: '',
-        label: 'What\'s the current national rental value?',
+        label: 'What\'s the current notional rental value?',
+        placeholder: '16’000',
         name: 'price.national',
-        labelLeft: 'Value',
+        labelLeft: 'Notional Value',
         type: 'number',
         format: formatPrice,
         normalize: normalizePrice,
@@ -990,6 +1066,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'For what price did you buy the property?',
+        placeholder: '480’000',
         name: 'properties.building.purchasePrice',
         labelLeft: 'Price',
         type: 'number',
@@ -1030,6 +1107,7 @@ export const InputSheets = (lang) => [
         component: BrixelTextArea,
         className: '',
         label: 'What are the highlights of the property?',
+        placeholder: 'Add some description about the highlights of your property. Try to think about your potential buyers.',
         name: 'description.highlight',
         validation: [Validation.markRequired],
       },
@@ -1053,6 +1131,7 @@ export const InputSheets = (lang) => [
         component: BrixelTextArea,
         className: '',
         label: 'How\'s the relationship with the neighbors?',
+        placeholder: 'There are many young families around the property.',
         name: 'description.neighborsRelationship',
         validation: [Validation.markRequired],
       },
@@ -1071,25 +1150,6 @@ export const InputSheets = (lang) => [
         name: 'status',
         options: factsOptions.propertyStatus,
         validation: [Validation.markRequired],
-      },
-      {
-        component: BrixelSelect,
-        className: 'zIndex3',
-        label: 'Currency',
-        name: 'price.currency',
-        options: factsOptions.currency,
-        validation: [Validation.markRequired],
-      },
-      {
-        component: BrixelInputText,
-        className: '',
-        label: 'What is the selling price of the house?',
-        labelLeft: 'Price',
-        name: 'price.total',
-        format: formatPrice,
-        normalize: normalizePrice,
-        validation: [Validation.markRequired],
-        type: 'number',
       },
       {
         component: BrixelRadioButton,
@@ -1114,6 +1174,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'What\'s the reason to sell?',
+        Placeholder: 'Inherited property.',
         name: 'properties.salesStrategy.reasonToSell',
         validation: [Validation.markRequired],
       },
@@ -1121,6 +1182,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'Are there some special selection criteria for the potential buyers?',
+        Placeholder: 'Families will be preferred.',
         name: 'properties.salesStrategy.criteriaBuyers',
         validation: [Validation.markRequired],
       },
@@ -1128,6 +1190,7 @@ export const InputSheets = (lang) => [
         component: BrixelInputText,
         className: '',
         label: 'How do you want to split the fees?',
+        Placeholder: 'Fees will be evenly split.',
         name: 'properties.salesStrategy.feesSplit',
         validation: [Validation.markRequired],
       },

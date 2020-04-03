@@ -28,13 +28,13 @@
 @media (min-width: 1025px) {
   .image-list {
     li {
-      .photo-action {
+      .photo-action.hoverShow {
         opacity: 0;
       }
     }
     li {
       &:hover {
-        .photo-action {
+        .photo-action.hoverShow {
           opacity: 1;
         }
       }
