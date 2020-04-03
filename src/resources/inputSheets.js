@@ -307,8 +307,8 @@ export const InputSheets = (lang) => [
   },
   // SECTION: LOCATION
   {
-    group: "Address",
-    title: "Address",
+    group: "Location",
+    title: "Location",
     history: "locationInput",
     cardType: "location",
     inputs: [
