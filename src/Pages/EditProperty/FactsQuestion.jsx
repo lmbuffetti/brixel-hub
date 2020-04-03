@@ -162,6 +162,8 @@ const FactsQuestion = (props) => {
                             tabIndex="-1"
                           >
                             {input.deactivable ? input.deactivable.toString() : ''}
+
+
                             <Field
                               className={input.className || ''}
                               inputClassName={input.inputClassName || ''}
@@ -181,13 +183,13 @@ const FactsQuestion = (props) => {
                               deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
                               placeholder={input.placeholder || ''}
                               meta={{
-                                dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                invalid: true,
+                                dirty: get(formValue, input.name, null) !== null,
+                                invalid: get(errorValue, input.name, true) !== true,
                               }}
                               //modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
                               message={{
                                 help: null,
-                                error: errorValue[input.name],
+                                error: get(errorValue, input.name, 'Invalid Input'),
                               }}
                               minLenghtNum={input.minLenghtNum || null}
                               maxLengthNum={input.maxLenghtNum || null}

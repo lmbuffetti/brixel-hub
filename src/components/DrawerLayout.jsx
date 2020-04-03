@@ -29,7 +29,6 @@ const DrawerLayout = (props) => {
     const headTabs = document.getElementsByClassName('brixelNavMenu');
     const headHeight =  head[0] ? head[0].offsetHeight : 0;
     const tabsHeight = headTabs[0] ? headTabs[0].offsetHeight : 0;
-    console.log(headHeight, tabsHeight);
     return {
       height: windowDimensions.height > 767 ? headHeight - tabsHeight : headHeight,
       marginTop: windowDimensions.height > 767 ? headHeight - tabsHeight : headHeight

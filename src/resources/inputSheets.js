@@ -231,6 +231,8 @@ export const InputSheets = (lang) => [
         labelLeft: 'Year',
         name: 'properties.building.built',
         validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear, Validation.required],
+        minLenghtNum: 999,
+        maxLenghtNum: 9999,
         placeholder: "YYYY (ex.: 2020)",
       },
       {
@@ -875,12 +877,31 @@ export const InputSheets = (lang) => [
       },
     ],
   },
-  // SECTION: FINANCIAL INFORMATION
+  // SECTION: PRICE & FINANCIAL
   {
-    title: "Financial information",
-    history: "financialInformation",
-    cardType: "financialInformation",
+    title: "Price & financials",
+    history: "priceAndFinacials",
+    cardType: "priceAndFinacials",
     inputs: [
+      {
+        component: BrixelSelect,
+        className: 'zIndex3',
+        label: 'Currency',
+        name: 'price.currency',
+        options: factsOptions.currency,
+        validation: [Validation.markRequired],
+      },
+      {
+        component: BrixelInputText,
+        className: '',
+        label: 'What is the selling price of the house?',
+        labelLeft: 'Price',
+        name: 'price.total',
+        format: formatPrice,
+        normalize: normalizePrice,
+        validation: [Validation.markRequired],
+        type: 'number',
+      },
       {
         component: BrixelInputText,
         className: '',
@@ -1057,25 +1078,6 @@ export const InputSheets = (lang) => [
         name: 'status',
         options: factsOptions.propertyStatus,
         validation: [Validation.markRequired],
-      },
-      {
-        component: BrixelSelect,
-        className: 'zIndex3',
-        label: 'Currency',
-        name: 'price.currency',
-        options: factsOptions.currency,
-        validation: [Validation.markRequired],
-      },
-      {
-        component: BrixelInputText,
-        className: '',
-        label: 'What is the selling price of the house?',
-        labelLeft: 'Price',
-        name: 'price.total',
-        format: formatPrice,
-        normalize: normalizePrice,
-        validation: [Validation.markRequired],
-        type: 'number',
       },
       {
         component: BrixelRadioButton,
