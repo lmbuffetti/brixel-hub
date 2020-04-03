@@ -22,7 +22,7 @@ const swissZipCode = require('../../resources/swissZipCodes.json');
 
 const images = require.context('../../images', true);
 
-const Maps = (props) => {
+const Maps = React.memo((props) => {
   // PROPS
   const {
     className,
@@ -613,7 +613,7 @@ const Maps = (props) => {
       </div>
     </div>
   );
-};
+});
 
 Maps.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
