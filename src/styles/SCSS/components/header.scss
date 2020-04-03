@@ -3,7 +3,6 @@
   left: 0;
   bottom: 0;
   width: 100%;
-  z-index: 2;
   .brixel-tabs {
     border-radius: $step $step 0 0;
     background: $brx-white;
@@ -28,7 +27,7 @@
 .hubDasHeader {
   box-shadow: $shadow-1dp;
   &.rightMenuOpen {
-    > .zIndex4 {
+    > .zIndex4-md {
       z-index: 105;
     }
   }
@@ -39,6 +38,7 @@
   .brixelNavMenu {
     position: static;
     border-bottom: 1px solid map_get($lightColor, 300);
+    z-index: 2;
     .brixel-tabs {
       box-shadow: none;
       border-radius: 0;

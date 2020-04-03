@@ -14,13 +14,7 @@
     height: 100%;
     width: 100%;
     background-color: $brx-white;
-    max-width: 344px;
     box-shadow: $shadow-5dp;
-
-    @media (min-width: $responsive-medium) {
-      border-top-left-radius: $brd-radius-small;
-      border-bottom-left-radius: $brd-radius-small;
-    }
 
     //animation: drawerSlide $default-time-long $default-easing forwards;
 
@@ -34,35 +28,16 @@
         transform: translateX(0%)
       }
     }
+  }
+}
 
-    // Media edit styles
-    /* .image-detail {
-      height: 100%;
-      background-color: $brx-white;
-
-      .title {
-        @include fontStyle(500, 'medium', left);
-        color: map-get($darkColor, 700);
-      }
-
-      .details {
-        background-color: map-get($lightColor, 100);
-
-        .detail-title,
-        .detail-info {
-          @include fontStyle(400, 'regular', left);
-          color: map-get($darkColor, 200);
-        }
-
-        .detail-info {
-          color: map-get($darkColor, 700);
-
-          &.link {
-            align-self: end;
-          }
-        }
-      }
-    } */
+@media (min-width: $responsive-medium) {
+  .wrapDrawer {
+    .drawer {
+      max-width: 344px;
+      border-top-left-radius: $brd-radius-small;
+      border-bottom-left-radius: $brd-radius-small;
+    }
   }
 }
 

@@ -27,15 +27,19 @@ const DrawerLayout = (props) => {
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
     const headTabs = document.getElementsByClassName('brixelNavMenu');
-    const headHight =  head[0] ? head[0].offsetHeight : 0;
+    const headHeight =  head[0] ? head[0].offsetHeight : 0;
     const tabsHeight = headTabs[0] ? headTabs[0].offsetHeight : 0;
-    return headHight - tabsHeight;
+    console.log(headHeight, tabsHeight);
+    return {
+      height: windowDimensions.height > 767 ? headHeight - tabsHeight : headHeight,
+      marginTop: windowDimensions.height > 767 ? headHeight - tabsHeight : headHeight
+    };
   };
 
   return (
     <div className={`wrapDrawer ${className}`}>
       <div className="container pos-r">
-        <div className={`drawer shadow-1pd ${classNameDrawer}`} ref={drawerRef} style={{ marginTop: calcHeaderHeight(), height: windowDimensions.height - calcHeaderHeight() }}>
+        <div className={`drawer shadow-1pd ${classNameDrawer}`} ref={drawerRef} style={{ marginTop: calcHeaderHeight().marginTop, height: windowDimensions.height - calcHeaderHeight().height }}>
           {children}
         </div>
       </div>

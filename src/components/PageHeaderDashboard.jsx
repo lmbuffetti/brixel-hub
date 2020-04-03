@@ -99,7 +99,7 @@ function PageHeaderDashboard(props) {
   return (
     <>
       <header className={`hubDasHeader ${rightMenu ? 'rightMenuOpen' : ''}`}>
-        <div className={`container dis-f a-t p-1 pt-md-2 pr-md-2 pl-md-3 jc-b pos-r zIndex4 bgWhite`}>
+        <div className={`container dis-f a-t p-1 pt-md-2 pr-md-2 pl-md-3 jc-b pos-r zIndex4-md bgWhite`}>
 
           <div className="header-section dis-fl-row a-t jc-b">
             <div className="dis-fl-row a-c">

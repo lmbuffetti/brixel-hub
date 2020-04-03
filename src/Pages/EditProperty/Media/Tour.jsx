@@ -16,18 +16,31 @@ const Tour = (props) => {
   // PROPS
   const {
     formValue,
+    history,
+    match,
   } = props;
   // STATE
   const [showTour, setShowTour] = useState(false);
+  // URL PARAMS
+  const propID = get(match, 'params.propId', null);
 
   return (
     <div className="secondLevel">
       <div className="tourWrapper dis-fl-col">
-
-          <h5 className="mb-3">
-            3D Tour
+        <div className="dis-f jc-b a-c mb-3">
+          <BrixelButtonIcon
+            className="shadow-3dp hide-md"
+            icon="arrow-simple-left"
+            background="White"
+            color="primary"
+            saturationTxt={400}
+            noBorder
+            onClick={() => history.push(`${propID}/property`)}
+          />
+          <h5 className="m-a m-md-0">
+            3d Tour
           </h5>
-
+        </div>
         <div>
           {
             !showTour ? (

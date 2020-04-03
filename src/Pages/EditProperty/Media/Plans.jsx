@@ -98,9 +98,20 @@ const Photos = (props) => {
     <div className="plansWrapper dis-f h-perc-100">
       <div className="secondLevel dis-fl-col ">
         <div className="max-h-perc-100 ov-a">
-          <h5 className="mb-3">
-            Floor Plans
-          </h5>
+          <div className="dis-f jc-b a-c mb-3">
+            <BrixelButtonIcon
+              className="shadow-3dp hide-md"
+              icon="arrow-simple-left"
+              background="White"
+              color="primary"
+              saturationTxt={400}
+              noBorder
+              onClick={() => history.push(`${propID}/property`)}
+            />
+            <h5 className="m-a m-md-0">
+              Floor Plans
+            </h5>
+          </div>
 
           <div className={`${fixPhotos && fixPhotos.length > 0 ? 'dis-fl-col' : 'dis-fl-col empty-state a-c'}`}>
             {
