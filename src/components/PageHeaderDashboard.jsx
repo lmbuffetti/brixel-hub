@@ -37,7 +37,7 @@ function PageHeaderDashboard(props) {
   //const [dropLang, setDropLang] = useState([]);
   const [widthScreen, setWidthScreen] = useState(0);
   const [activeMenu, setActiveMenu] = useState(null);
-  const [righteMenu, setRighteMenu] = useState(null);
+  const [rightMenu, setRightMenu] = useState(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   // URL PARAMS
@@ -98,7 +98,7 @@ function PageHeaderDashboard(props) {
 
   return (
     <>
-      <header className={`hubDasHeader ${righteMenu ? 'rightMenuOpen' : ''}`}>
+      <header className={`hubDasHeader ${rightMenu ? 'rightMenuOpen' : ''}`}>
         <div className={`container dis-f a-t p-1 pt-md-2 pr-md-2 pl-md-3 jc-b pos-r zIndex4 bgWhite`}>
 
           <div className="header-section dis-fl-row a-t jc-b">
@@ -216,13 +216,17 @@ function PageHeaderDashboard(props) {
             labelsIcons={windowDimensions.width <= 768 ? ['first-time-occupancy', 'property-house', 'upload', 'question'] : []}
             clicksList={['rewards', 'property', 'listings', 'support']}
             classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
-            activeTab={righteMenu || checkActiveTab()}
+            activeTab={rightMenu || checkActiveTab()}
             fullWidth={windowDimensions.width <= 768}
-            onClick={(val) => val === 'support' ? setRighteMenu(val) : history.push(`/${propID}/${val}`)}
+            onClick={(val) => val === 'support' ? setRightMenu(val) : history.push(`/${propID}/${val}`)}
             showFull={false}
           />
         </div>
-        <MenuNavigationSubmenu windowDimensions={windowDimensions} rightMenu={righteMenu} onClose={() => setRighteMenu(null)} />
+        <MenuNavigationSubmenu
+          windowDimensions={windowDimensions}
+          rightMenu={rightMenu}
+          onClose={() => setRightMenu(null)}
+        />
       </header>
     </>
   );

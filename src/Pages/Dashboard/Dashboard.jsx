@@ -2,17 +2,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Route,
-  Switch,
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import {
-  CSSTransition,
-  TransitionGroup,
-} from 'react-transition-group';
 
 
 import {

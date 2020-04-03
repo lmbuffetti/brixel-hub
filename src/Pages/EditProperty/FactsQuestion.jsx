@@ -165,7 +165,6 @@ const FactsQuestion = (props) => {
                               validate={input.validation}
                               type={input.type}
                               step={+input.step}
-                              labelLeft={input.labelLeft}
                               min={input.min}
                               formatText={input.formatText}
                               deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}

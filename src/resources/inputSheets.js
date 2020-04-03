@@ -82,8 +82,6 @@ export const InputSheets = (lang) => [
         unit: 'm2',
         name: 'properties.typology.livingArea.value',
         type: "number",
-        labelLeft: 'Living space',
-        unit: 'm2',
         validation: [Validation.markRequired]
       },
       {
@@ -91,7 +89,6 @@ export const InputSheets = (lang) => [
         options: factsOptions.constructedVolumeCode,
         className: '',
         label: 'How many rooms does the house have?',
-        labelLeft: 'Rooms',
         name: 'properties.typology.bedrooms',
         labelLeft: 'Rooms',
         step: 0.5,
