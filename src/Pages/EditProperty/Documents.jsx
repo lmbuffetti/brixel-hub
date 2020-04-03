@@ -152,7 +152,7 @@ const Documents = (props) => {
             noBorder
             onClick={() => history.push(`${propID}/property`)}
           />
-          <h5 className="m-a m-md-0 mb-3">
+          <h5 className="m-a m-md-0">
             Docubox
           </h5>
         </div>
@@ -335,7 +335,7 @@ const Documents = (props) => {
                 </div>
               )
             }
-            <span className="body2 txtDark200 fileDetailsTxt">Choose .pdf .jpeg .png with max. 10 MB size</span>
+            <span className="body2 txtDark200 max-width-220">Choose .pdf .jpeg .png with max. 10 MB size</span>
             <BrixelButtonPrimary
               label="upload"
               rightIcon="upload"
