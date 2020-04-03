@@ -121,7 +121,7 @@ const FactsQuestion = (props) => {
                     {
                       input.type === 'Map' ? (
                         <>
-                          <div className="mb-20 pos-r zIndex1">
+                          <div className="pos-r zIndex1">
                             <Field
                               name={input.name}
                               label={input.label}
@@ -133,7 +133,7 @@ const FactsQuestion = (props) => {
                                   draggable
                                   showSearchLocation
                                   showSelectCountry={true}
-                                  showMap={true}
+                                  showMap={false}
                                   isShowZip={false}
                                   className="w-perc-100"
                                 />
@@ -141,6 +141,17 @@ const FactsQuestion = (props) => {
                               options={input.options}
                               validate={input.validation}
                               type={input.type}
+                            />
+                            <Maps
+                              zoom={14}
+                              scrollZoom={false}
+                              moveMarker
+                              draggable
+                              showSearchLocation={false}
+                              showSelectCountry={false}
+                              showMap={true}
+                              isShowZip={false}
+                              className="w-perc-100"
                             />
                           </div>
                         </>
