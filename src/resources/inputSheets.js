@@ -307,8 +307,8 @@ export const InputSheets = (lang) => [
   },
   // SECTION: LOCATION
   {
-    group: "Address",
-    title: "Address",
+    group: "Location",
+    title: "Location",
     history: "locationInput",
     cardType: "location",
     inputs: [
@@ -546,6 +546,14 @@ export const InputSheets = (lang) => [
         validation: [Validation.markRequired]
       },
       {
+        component: BrixelRadioButton,
+        className: '',
+        label: 'Is there a basement?',
+        name: 'properties.typology.basement',
+        options: factsOptions.basementOptions,
+        validation: [Validation.markRequired]
+      },
+      {
         condition: {
           name: 'properties.typology.basement',
           value: true,
@@ -557,14 +565,6 @@ export const InputSheets = (lang) => [
         placeholder: 'e.g. 140',
         name: 'properties.typology.basementArea.value',
         type: 'number',
-        validation: [Validation.markRequired]
-      },
-      {
-        component: BrixelRadioButton,
-        className: '',
-        label: 'Is there a basement?',
-        name: 'properties.typology.basement',
-        options: factsOptions.basementOptions,
         validation: [Validation.markRequired]
       },
       {
