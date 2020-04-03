@@ -436,28 +436,16 @@ const Maps = React.memo((props) => {
               {
                 showSelectCountry && (
                   <div className="mt-2 mb-2">
-                    {
-                      showSelCountry ? (
-                        <BrixelSelect
-                          className="w-perc-100 max-w-fix-216 mt-1 pos-r zIndex2"
-                          input={{
-                            onChange: (val) => changeCountry(val),
-                            name: 'country',
-                            value: defCountry,
-                          }}
-                          options={selectOpt}
-                        />
-                      ) : (
-                        <BrixelButtonTertiary
-                          label={
-                            defCountry ?
-                              translateTo(lang, selectOpt.find(val => val.value === defCountry).label) :
-                              `🌍 ${translateTo(lang, 'Everywhere')}`
-                          }
-                          onClick={() => setShowSelCountry(true)}
-                        />
-                      )
-                    }
+                    <BrixelSelect
+                      className="w-perc-100 max-w-fix-216 mt-1 pos-r zIndex2"
+                      input={{
+                        onChange: (val) => changeCountry(val.toUpperCase()),
+                        name: 'country',
+                        value: defCountry.toLowerCase(),
+                      }}
+                      bigDropDown
+                      options={selectOpt}
+                    />
                   </div>
                 )
               }

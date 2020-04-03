@@ -21,7 +21,7 @@ const Maps = Loadable({
 
 const FactsQuestion = (props) => {
   const {
-    // changeFieldValue,
+    changeFieldValue,
     errorValue,
     formValue,
     // handleSaveActiveSingleProperty,
@@ -90,6 +90,7 @@ const FactsQuestion = (props) => {
     if (input.condition) {
       const valA = get(formValue, input.condition.name, 'a');
       if (valA === input.condition.value) condition = true;
+      else if (input.condition.value === 'isPositive' && valA > 0) condition = true;
       else condition = false;
     }
     return condition;
@@ -136,6 +137,8 @@ const FactsQuestion = (props) => {
                                   showMap={false}
                                   isShowZip={false}
                                   className="w-perc-100"
+                                  changeCountry={(val) => changeFieldValue('location.country', val)}
+                                  selCountry={get(formValue, 'location.countryCode', '')}
                                 />
                               )}
                               options={input.options}
@@ -193,6 +196,8 @@ const FactsQuestion = (props) => {
                               }}
                               minLenghtNum={input.minLenghtNum || null}
                               maxLengthNum={input.maxLenghtNum || null}
+                              format={input.format}
+                              normalize={input.normalize}
                               unit={input.unit}
                             />
                           </div>

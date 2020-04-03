@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
@@ -11,6 +11,7 @@ import get from 'lodash/get';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
+  BrixelButtonSecondary,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
@@ -18,6 +19,7 @@ import { deleteImg, uploadImg } from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
 import { Truncate } from '../../../utils/helpers';
 import upload_photos_empty from '../../../images/Upload/upload_photos_empty.svg';
+import useOutsideAlerter from '../../../components/OutsideElement';
 
 const Photos = (props) => {
   // PROPS
@@ -34,8 +36,11 @@ const Photos = (props) => {
   const { photos } = formValue;
   // STATE
   const [fixPhotos, setFixPhotos] = useState([]);
+  const [confirmDelete, setConfirmDelete] = useState(null);
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
+  // REF
+  const wrappImg = useRef(null);
 
   useEffect(() => {
     setFixPhotos(photos);
@@ -97,6 +102,15 @@ const Photos = (props) => {
     changeFieldValue('photos', imgArray);
   };
 
+  const onConfirmDelete = (id) => {
+    setConfirmDelete(id);
+  };
+
+  useOutsideAlerter(wrappImg, {
+    action: 'function',
+    func: () => { setConfirmDelete(null) },
+  });
+
   return (
     <div className="photosWrapper dis-f h-perc-100">
       <div className="secondLevel dis-fl-col">
@@ -139,27 +153,44 @@ const Photos = (props) => {
                             className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
                           >
                             <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}>
-                              <div className="photo-action a-c hide dis-f-md">
-                                <BrixelButtonIcon
-                                  background="white"
-                                  saturation={0}
-                                  color="red"
-                                  saturationTxt={400}
-                                  noBorder
-                                  icon="bin"
-                                  className="shadow-2dp"
-                                  onClick={() => deleteImage(item.id)}
-                                />
-                                <BrixelButtonIcon
-                                  background="white"
-                                  saturation={0}
-                                  color="primary"
-                                  saturationTxt={400}
-                                  noBorder
-                                  icon="edit"
-                                  className="shadow-2dp ml-1"
-                                  onClick={() => history.push(`/${propID}/property/photos/${item.id}/edit/photos`)}
-                                />
+                              <div className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`} ref={wrappImg}>
+                                {
+                                  confirmDelete === i ? (
+                                    <BrixelButtonSecondary
+                                      rounded
+                                      color="red"
+                                      saturation={400}
+                                      saturationTxt={400}
+                                      rightIcon="bin"
+                                      label="delete?"
+                                      className="shadow-2dp"
+                                      onClick={() => deleteImage(item.id)}
+                                    />
+                                  ) : (
+                                    <>
+                                      <BrixelButtonIcon
+                                        background="white"
+                                        saturation={0}
+                                        color="red"
+                                        saturationTxt={400}
+                                        noBorder4
+                                        icon="bin"
+                                        className="shadow-2dp"
+                                        onClick={() => onConfirmDelete(i)}
+                                      />
+                                      <BrixelButtonIcon
+                                        background="white"
+                                        saturation={0}
+                                        color="primary"
+                                        saturationTxt={400}
+                                        noBorder
+                                        icon="edit"
+                                        className="shadow-2dp ml-1"
+                                        onClick={() => history.push(`/${propID}/property/photos/${item.id}/edit/photos`)}
+                                      />
+                                    </>
+                                  )
+                                }
                               </div>
                               {
                                 item.id === get(formValue, 'coverPhoto.id', null) && (

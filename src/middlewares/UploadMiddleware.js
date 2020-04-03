@@ -32,9 +32,10 @@ const checkCommon = (store) => (next) => (action) => {
     case ROTATE_IMG: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON });
+      console.log(action.payload)
       api.image.rotateImg(action.payload.id, action.payload.rotate)
         .then((res) => {
-          const arrayImg = store.getState().form.Media.values.photos;
+          const arrayImg = store.getState().form.Property.values.photos;
           // eslint-disable-next-line array-callback-return
           const idImg = arrayImg.findIndex((val) => { val.id = action.payload.id; });
           arrayImg[idImg] = res.data;
