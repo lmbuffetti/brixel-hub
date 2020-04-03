@@ -99,7 +99,7 @@ const DetailMedia = (props) => {
     <div className="thirdLevel">
       <div className="dis-fl-col max-h-perc-100">
         <div className="max-h-perc-100">
-          <div className="image-detail">
+          <div className="image-detail ov-h">
             <div className="dis-f jc-b a-c mb-3">
               <h5 className="">{mediaType === 'photos' ? 'Edit photo' : 'Edit floor plan'}</h5>
               <BrixelButtonIcon
@@ -140,7 +140,7 @@ const DetailMedia = (props) => {
                   />
                 )
               }
-              <div className="dis-f">
+              <div className="dis-f ml-a">
                 <BrixelButtonIcon
                   className="mr-1 shadow-2dp"
                   background="white"

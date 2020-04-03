@@ -50,6 +50,7 @@ const Maps = React.memo((props) => {
     showSelectCountry,
     similarProperties,
     zoom,
+    minHeight,
   } = props;
   // STATE
   const [selectedPlace, setSelectedPlace] = useState([]);
@@ -392,7 +393,7 @@ const Maps = React.memo((props) => {
     // Important! Always set the container height explicitly
     <div
       style={showMap ? {
-        minHeight: '300px', position: 'relative',
+        minHeight: minHeight > 0 ? `${minHeight}px` : '300px', position: 'relative',
       } : {
         minHeight: '100%', position: 'relative',
       }}
@@ -437,7 +438,8 @@ const Maps = React.memo((props) => {
                 showSelectCountry && (
                   <div className="mt-2 mb-2">
                     <BrixelSelect
-                      className="w-perc-100 max-w-fix-216 mt-1 pos-r zIndex2"
+                      compact
+                      className="w-perc-100 mt-1 pos-r zIndex2"
                       input={{
                         onChange: (val) => changeCountry(val.toUpperCase()),
                         name: 'country',
@@ -631,6 +633,7 @@ Maps.propTypes = {
   showSearchLocation: PropTypes.bool,
   showSelectCountry: PropTypes.bool,
   zoom: PropTypes.number,
+  minHeight: PropTypes.string,
 };
 
 Maps.defaultProps = {
@@ -653,6 +656,7 @@ Maps.defaultProps = {
   similarProperties: [],
   showMap: false,
   zoom: 14,
+  minHeight: 0,
 };
 
 const mapStateToProps = (state) => {
