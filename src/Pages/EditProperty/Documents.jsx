@@ -133,7 +133,9 @@ const Documents = (props) => {
   return (
     <div className="secondLevel">
       <div className="docubox">
-        <h5>Docubox</h5>
+        <h5 className="mb-3">
+          Docubox
+        </h5>
         {
           (documents && documents.length > 0) && (
             <>
@@ -301,7 +303,7 @@ const Documents = (props) => {
 
         <>
           <div
-            className={`${(!documents || (documents && documents.length === 0)) ? 'emptyState' : 'hasImages'} upload-container dis-fl-col a-c mb-5 max-w-fix-400 max-h-fix-400 p-8 mt-3 ta-c`}
+            className={`${(!documents || (documents && documents.length === 0)) ? 'emptyState' : 'hasImages py-3'} upload-container dis-fl-col a-c mb-5 mt-3 ta-c m-a`}
             {...getRootProps()}
           >
             <input {...getInputProps()} />
@@ -313,7 +315,7 @@ const Documents = (props) => {
                 </div>
               )
             }
-            <span>Choose .pdf .jpeg .png with max. 10 MB size</span>
+            <span className="body2 txtDark200 fileDetailsTxt">Choose .pdf .jpeg .png with max. 10 MB size</span>
             <BrixelButtonPrimary
               label="upload"
               rightIcon="upload"
