@@ -220,6 +220,10 @@ header {
   display: block;
 }
 
+.moveForward {
+  z-index: 110;
+}
+
 
 // Map iFrame styles
 .gm-style {
