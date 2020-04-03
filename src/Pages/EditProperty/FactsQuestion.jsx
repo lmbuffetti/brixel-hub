@@ -201,6 +201,7 @@ const FactsQuestion = (props) => {
                               format={input.format}
                               normalize={input.normalize}
                               unit={input.unit}
+                              compact={input.compact}
                             />
                           </div>
                         </div>

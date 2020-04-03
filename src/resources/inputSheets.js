@@ -950,6 +950,7 @@ export const InputSheets = (lang) => [
         className: 'zIndex3',
         label: 'Currency',
         name: 'price.currency',
+        compact: true,
         options: factsOptions.currency,
         validation: [Validation.markRequired],
       },

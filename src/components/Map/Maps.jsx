@@ -438,7 +438,8 @@ const Maps = React.memo((props) => {
                 showSelectCountry && (
                   <div className="mt-2 mb-2">
                     <BrixelSelect
-                      className="w-perc-100 max-w-fix-216 mt-1 pos-r zIndex2"
+                      compact
+                      className="w-perc-100 mt-1 pos-r zIndex2"
                       input={{
                         onChange: (val) => changeCountry(val.toUpperCase()),
                         name: 'country',
