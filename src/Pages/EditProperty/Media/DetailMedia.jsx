@@ -22,6 +22,7 @@ const DetailMedia = (props) => {
     formValue,
     handleRotateImg,
     handleSetCoverPhoto,
+    handleDeleteImg,
     history,
     isSmallLoading,
     match,
@@ -53,6 +54,20 @@ const DetailMedia = (props) => {
       }
     }
   }, [isSmallLoading]);
+
+  const deleteImage = (id) => {
+    const propID = get(match, 'params.propId', null);
+    const mediaID = id;
+    const data = {
+      id: mediaID,
+      pageID: propID,
+      type: mediaType,
+    };
+    // eslint-disable-next-line no-alert
+    if (window.confirm('Are you sure you want to delete this item?')) {
+      handleDeleteImg(data);
+    }
+  };
 
   const rotateImage = (e) => {
     const mediaID = get(match, 'params.mediaID', null);
@@ -115,7 +130,7 @@ const DetailMedia = (props) => {
                   />
                 )
               }
-              <div className="fixedActionsBtmRight">
+              <div className="fixedActionsBtmRight dis-f">
                 <BrixelButtonIcon
                   className="mr-1"
                   background="white"
@@ -125,6 +140,16 @@ const DetailMedia = (props) => {
                   saturationTxt={400}
                   isLoading={isSmallLoading}
                   onClick={(e) => rotateImage(e)}
+                />
+                <BrixelButtonIcon
+                  className="mr-1"
+                  background="white"
+                  saturation={0}
+                  icon="bin"
+                  color="red"
+                  saturationTxt={400}
+                  isLoading={isSmallLoading}
+                  onClick={(e) => deleteImage(e)}
                 />
               </div>
             </div>

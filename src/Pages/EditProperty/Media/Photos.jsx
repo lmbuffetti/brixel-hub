@@ -29,6 +29,7 @@ const Photos = (props) => {
     history,
     loggedInUser,
     match,
+    windowDimensions,
   } = props;
   const { photos } = formValue;
   // STATE
@@ -132,12 +133,13 @@ const Photos = (props) => {
                           className="cur-poi pos-r"
                           key={i.toString()}
                           data-id={JSON.stringify(item)}
+                          onClick={() => windowDimensions.width < 1025 ? history.push(`/${propID}/property/photos/${item.id}/edit/photos`) : ''}
                         >
                           <div
                             className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp"
                           >
                             <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}>
-                              <div className="photo-action dis-f a-c">
+                              <div className="photo-action a-c hide dis-f-md">
                                 <BrixelButtonIcon
                                   background="white"
                                   saturation={0}
@@ -220,6 +222,7 @@ Photos.propTypes = {
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 Photos.defaultProps = {
@@ -228,6 +231,7 @@ Photos.defaultProps = {
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', null),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
