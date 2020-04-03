@@ -130,6 +130,7 @@ const FactsQuestion = (props) => {
                                   zoom={14}
                                   scrollZoom={false}
                                   moveMarker
+                                  inputLabel={input.label}
                                   draggable
                                   showSearchLocation
                                   showSelectCountry={true}

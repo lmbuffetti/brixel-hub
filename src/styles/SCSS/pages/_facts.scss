@@ -1,9 +1,12 @@
 .accordWrap {
+  &:first-child {
+    .accordControl {
+      border-top: 1px solid map_get($lightColor, 200);
+    }
+  }
   .accordControl {
     border-bottom: 1px solid map_get($lightColor, 200);
-    border-top: 1px solid map_get($lightColor, 200);
-    margin-bottom: -1px;
-    transition: $default-time-long ease-in;
+    transition: $default-time ease-in-out;
   }
   &:last-child {
     .accordControl {
@@ -15,13 +18,15 @@
       position: relative;
       z-index: 1;
       background: map_get($blueColor, 100);
-      border-color: transparent;
+      border-color: map_get($blueColor, 100);
     }
   }
   &:hover {
     .accordControl {
       background: map_get($blueColor, 100);
-      border-color: transparent;
+      i {
+        color: map_get($lightColor, 300);;
+      }
     }
   }
 }

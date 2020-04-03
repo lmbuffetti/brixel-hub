@@ -290,17 +290,16 @@ export const InputSheets = (lang) => [
         validation: [Validation.markRequired]
       },
       {
-        component: BrixelInputStepNumber,
+        component: BrixelInputText,
         condition: {
           name: 'properties.propertyType',
           value: 'Apartment'
         },
         className: '',
-        placeholder: '0',
-        label: 'Number of apartments in building',
+        label: 'Number of apartments in building.',
         name: 'properties.typology.numberOfFlats',
-        labelLeft: 'Number',
-        step: 1,
+        labelLeft: 'Apartments',
+        type: 'number',
         validation: [Validation.markRequired]
       },
     ]
@@ -313,7 +312,7 @@ export const InputSheets = (lang) => [
     cardType: "location",
     inputs: [
       {
-        label: 'What\'s the exact address of the property?',
+        label: 'Property address',
         name: 'location.address',
         type: 'Map',
         validation: [Validation.required]
@@ -335,6 +334,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'How many people live in your community?',
         name: 'location.community.basisTaxation',
+        labelLeft: 'Population',
         validation: [Validation.markRequired],
       },
       {
@@ -342,6 +342,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'What is the basis of taxation in your community?',
         name: 'location.community.population',
+        labelLeft: 'Basis of taxation',
         validation: [Validation.markRequired],
       },
       {
@@ -349,6 +350,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'What\'s the altitude of your community?',
         name: 'location.community.altitude',
+        labelLeft: 'Altitude',
         validation: [Validation.markRequired],
       },
       {
@@ -356,6 +358,7 @@ export const InputSheets = (lang) => [
         className: '',
         label: 'How large is the are of your community?',
         name: 'location.community.area',
+        labelLeft: 'Area',
         validation: [Validation.markRequired],
       },
       {

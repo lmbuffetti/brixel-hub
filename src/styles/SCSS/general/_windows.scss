@@ -84,6 +84,8 @@
       position: static;
       background: transparent;
       max-width: 768px;
+      margin-bottom: $step * 3;
+
       &.inputSheet {
         max-width: 448px;
       }
