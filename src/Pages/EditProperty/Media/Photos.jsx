@@ -120,7 +120,7 @@ const Photos = (props) => {
                 <>
                   <ReactSortable
                     tag="ul"
-                    className="image-list row-cols-3-gut-1"
+                    className="image-list row-cols-2-gut-1 row-cols-md-3-gut-1"
                     list={fixPhotos}
                     setList={(order, evt) => {
                       changeOrder(order);
