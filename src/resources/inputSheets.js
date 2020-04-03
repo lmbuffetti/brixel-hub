@@ -92,6 +92,7 @@ export const InputSheets = (lang) => [
         name: 'properties.typology.bedrooms',
         labelLeft: 'Rooms',
         step: 0.5,
+        placeholder: '0',
         validation: [Validation.maxLengthNumRooms, Validation.markRequired]
       },
       {
@@ -102,6 +103,7 @@ export const InputSheets = (lang) => [
         name: 'properties.typology.bathrooms',
         labelLeft: 'Bathrooms',
         step: 1,
+        placeholder: '0',
         validation: [Validation.maxLengthNumRooms, Validation.markRequired]
       },
       {
@@ -112,6 +114,7 @@ export const InputSheets = (lang) => [
         name: 'properties.typology.separateToilets',
         labelLeft: 'Toilets',
         step: 1,
+        placeholder: '0',
         validation: [Validation.maxLengthNumRooms, Validation.markRequired]
       },
       {
@@ -177,6 +180,7 @@ export const InputSheets = (lang) => [
           name: 'properties.propertyType',
           value: 'Apartment'
         },
+        placeholder: '0',
         className: '',
         label: 'How many floors are there in the whole building?',
         labelLeft: 'Floors',
@@ -191,6 +195,7 @@ export const InputSheets = (lang) => [
           value: 'Apartment'
         },
         className: '',
+        placeholder: '0',
         label: 'On which floor is the apartment\'s entrance?',
         labelLeft: 'Which floor',
         name: 'properties.typology.floorNumber',
@@ -277,6 +282,7 @@ export const InputSheets = (lang) => [
           value: 'House'
         },
         className: '',
+        placeholder: '0',
         label: 'How many floors does the house have?',
         name: 'properties.typology.numberOfHouseFloors',
         labelLeft: 'Floors',
@@ -290,6 +296,7 @@ export const InputSheets = (lang) => [
           value: 'Apartment'
         },
         className: '',
+        placeholder: '0',
         label: 'Number of apartments in building',
         name: 'properties.typology.numberOfFlats',
         labelLeft: 'Number',
@@ -615,6 +622,7 @@ export const InputSheets = (lang) => [
         name: 'properties.parking.garage',
         labelLeft: 'How many',
         step: 1,
+        placeholder: '0',
         validation: [Validation.markRequired]
       },
       {
@@ -631,6 +639,7 @@ export const InputSheets = (lang) => [
       {
         component: BrixelInputStepNumber,
         className: '',
+        placeholder: '0',
         label: 'How many external parking lots belong to the property?',
         name: 'properties.parking.outside',
         labelLeft: 'How many',

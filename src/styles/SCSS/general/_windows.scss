@@ -28,10 +28,10 @@
 
   .secondLevel,
   .thirdLevel {
+    min-height: 100%;
     position: absolute;
     left: 0;
     top: 0;
-    height: 100%;
     width: 100%;
     background: $brx-white;
     z-index: 100;
@@ -80,6 +80,7 @@
   @media (min-width: $responsive-medium) {
     .secondLevel,
     .thirdLevel {
+      min-height: 0;
       position: static;
       background: transparent;
       max-width: 768px;

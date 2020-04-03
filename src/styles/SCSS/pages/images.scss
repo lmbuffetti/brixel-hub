@@ -5,7 +5,6 @@
     margin-bottom: $step;;
 
     .photo-action {
-      opacity: 0;
       position: absolute;
       left: $step;
       top: $step;
@@ -24,10 +23,20 @@
       word-break: break-all;
     }
   }
-  li {
-    &:hover {
+}
+
+@media (min-width: 1025px) {
+  .image-list {
+    li {
       .photo-action {
-        opacity: 1;
+        opacity: 0;
+      }
+    }
+    li {
+      &:hover {
+        .photo-action {
+          opacity: 1;
+        }
       }
     }
   }

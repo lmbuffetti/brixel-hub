@@ -33,11 +33,20 @@ const Documents = (props) => {
 
   // PROPS
   const {
-    formValue, handleUploadDocument, user,
-    handleDeleteDocument, handleUpdateDocument, match,
-    initialValues, changeFieldValue, setNotification,
+    formValue,
+    handleUploadDocument,
+    user,
+    handleDeleteDocument,
+    handleUpdateDocument,
+    history,
+    match,
+    initialValues,
+    changeFieldValue,
+    setNotification,
   } = props;
   const { documents } = formValue;
+  // URL PARAMS
+  const propID = get(match, 'params.propId', null);
 
   // REF
   const documentRef = useRef(null);
@@ -133,9 +142,20 @@ const Documents = (props) => {
   return (
     <div className="secondLevel">
       <div className="docubox">
-        <h5 className="mb-3">
-          Docubox
-        </h5>
+        <div className="dis-f jc-b a-c mb-3">
+          <BrixelButtonIcon
+            className="shadow-3dp hide-md"
+            icon="arrow-simple-left"
+            background="White"
+            color="primary"
+            saturationTxt={400}
+            noBorder
+            onClick={() => history.push(`${propID}/property`)}
+          />
+          <h5 className="m-a m-md-0 mb-3">
+            Docubox
+          </h5>
+        </div>
         {
           (documents && documents.length > 0) && (
             <>

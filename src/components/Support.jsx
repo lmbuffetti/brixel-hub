@@ -74,7 +74,7 @@ const Support = (props) => {
           >
             <img src={WhatAppImg} alt="Call Us" />
             <p className="ml-2">
-              <span className="dis-b txtDark200">Call Us</span>
+              <span className="dis-b txtDark200">Text Us</span>
               <span className="txtDark700">+41 79 933 29 18</span>
             </p>
           </a>

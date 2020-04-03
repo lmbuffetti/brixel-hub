@@ -92,7 +92,7 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-container dis-f h-perc-md-100 ov-y-a" id="propertyDashboard">
+      <div className="property-container dis-f" id="propertyDashboard">
         <div className={`firstLevel bgLight100 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
           <div className="hideOnExpanded">
             <div

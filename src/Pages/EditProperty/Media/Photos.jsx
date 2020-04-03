@@ -29,6 +29,7 @@ const Photos = (props) => {
     history,
     loggedInUser,
     match,
+    windowDimensions,
   } = props;
   const { photos } = formValue;
   // STATE
@@ -100,18 +101,27 @@ const Photos = (props) => {
     <div className="photosWrapper dis-f h-perc-100">
       <div className="secondLevel dis-fl-col">
         <div className="max-h-perc-100 ov-a">
-
-            <h5 className="mb-3">
+          <div className="dis-f jc-b a-c mb-3">
+            <BrixelButtonIcon
+              className="shadow-3dp hide-md"
+              icon="arrow-simple-left"
+              background="White"
+              color="primary"
+              saturationTxt={400}
+              noBorder
+              onClick={() => history.push(`${propID}/property`)}
+            />
+            <h5 className="m-a m-md-0">
               Photos
             </h5>
-
+          </div>
           <div className={`${fixPhotos && fixPhotos.length > 0 ? 'dis-fl-col' : 'dis-fl-col empty-state a-c'}`}>
             {
               (fixPhotos && fixPhotos.length > 0) && (
                 <>
                   <ReactSortable
                     tag="ul"
-                    className="image-list row-cols-3-gut-1"
+                    className="image-list row-cols-2-gut-1 row-cols-md-3-gut-1"
                     list={fixPhotos}
                     setList={(order, evt) => {
                       changeOrder(order);
@@ -123,12 +133,13 @@ const Photos = (props) => {
                           className="cur-poi pos-r"
                           key={i.toString()}
                           data-id={JSON.stringify(item)}
+                          onClick={() => windowDimensions.width < 1025 ? history.push(`/${propID}/property/photos/${item.id}/edit/photos`) : ''}
                         >
                           <div
                             className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
                           >
                             <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}>
-                              <div className="photo-action dis-f a-c">
+                              <div className="photo-action a-c hide dis-f-md">
                                 <BrixelButtonIcon
                                   background="white"
                                   saturation={0}
@@ -211,6 +222,7 @@ Photos.propTypes = {
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 Photos.defaultProps = {
@@ -219,6 +231,7 @@ Photos.defaultProps = {
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', null),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
