@@ -133,7 +133,7 @@ const Photos = (props) => {
                           data-id={JSON.stringify(item)}
                         >
                           <div
-                            className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp"
+                            className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
                           >
                             <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}>
                               <div className="photo-action dis-f a-c">
@@ -169,7 +169,7 @@ const Photos = (props) => {
             }
             <>
               <div
-                className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState' : 'hasImages'} upload-container dis-fl-col a-c mb-5 max-w-fix-600 max-h-fix-400 p-8 mt-3`}
+                className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState' : 'hasImages py-3'} upload-container dis-fl-col a-c mb-5 mt-3 ta-c`}
                 {...getRootProps()}
               >
                 <input {...getInputProps()} />
@@ -181,8 +181,9 @@ const Photos = (props) => {
                     </div>
                   )
                 }
-                <span>Choose .pdf .jpeg .png with max. 10 MB size</span>
+                <span className="body2 txtDark200 max-width-220">Choose .pdf .jpeg .png with max. 10 MB size</span>
                 <BrixelButtonPrimary
+                  rounded
                   label="upload"
                   rightIcon="upload"
                   className="mt-3"

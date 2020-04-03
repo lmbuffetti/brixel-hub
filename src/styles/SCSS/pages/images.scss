@@ -2,6 +2,8 @@
   li {
     list-style: none;
     width: 100%;
+    margin-bottom: $step;;
+
     .photo-action {
       position: absolute;
       left: $step;
@@ -41,10 +43,17 @@
 }
 
 .upload-container {
+  &.emptyState {
+    max-width: 270px;
+  }
   &.hasImages {
     border: 1px dashed map_get($lightColor, 200);
     border-radius: $brd-radius-small;
   }
+}
+
+.max-width-220 {
+  max-width: 220px;
 }
 
 .fixedActionsBtmRight {

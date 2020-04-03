@@ -101,10 +101,10 @@ const DetailMedia = (props) => {
   return (
     <div className="thirdLevel">
       <div className="dis-fl-col max-h-perc-100">
-        <div className="max-h-perc-100 ov-a">
-          <div className="image-detail ov-a">
-            <div className="dis-fl-row jc-b a-c">
-              <h5>{mediaType === 'photos' ? 'Edit photo' : 'Edit floor plan'}</h5>
+        <div className="max-h-perc-100">
+          <div className="image-detail">
+            <div className="dis-f jc-b a-c mb-3">
+              <h5 className="">{mediaType === 'photos' ? 'Edit photo' : 'Edit floor plan'}</h5>
               <BrixelButtonIcon
                 className="shadow-3dp"
                 icon="close-small"
@@ -123,37 +123,15 @@ const DetailMedia = (props) => {
                   //   style={{ transform: `rotate(${rotation}deg)`, backgroundImage: `url(${getConfigEnv().shortPath}${formValue[mediaType][idImg].thumbnailPath})` }}
                   // />
                   <img
-                    className="square max-h-fix-256 img-cov img-cen"
+                    className="square img-cov img-cen shadow-2dp brdRadius ov-h w-perc-100"
                     style={{ transform: `rotate(${rotation}deg)` }}
                     src={`${baseByData.shortPath}${formValue[mediaType][idImg].path}`}
                     alt="Edit Media"
                   />
                 )
               }
-              <div className="fixedActionsBtmRight dis-f">
-                <BrixelButtonIcon
-                  className="mr-1"
-                  background="white"
-                  saturation={0}
-                  icon="rotate"
-                  color="primary"
-                  saturationTxt={400}
-                  isLoading={isSmallLoading}
-                  onClick={(e) => rotateImage(e)}
-                />
-                <BrixelButtonIcon
-                  className="mr-1"
-                  background="white"
-                  saturation={0}
-                  icon="bin"
-                  color="red"
-                  saturationTxt={400}
-                  isLoading={isSmallLoading}
-                  onClick={(e) => deleteImage(e)}
-                />
-              </div>
             </div>
-            <div className="actions dis-fl-row jc-b a-c mt-2 mb-4">
+            <div className="actions dis-fl-row jc-b a-c mt-2 mb-4 pos-r">
               {
                 mediaType === 'photos' && (get(formValue[mediaType][idImg], 'id') !== formValue.coverPhoto.id)
                 && (
@@ -165,6 +143,28 @@ const DetailMedia = (props) => {
                   />
                 )
               }
+              <div className="dis-f">
+                <BrixelButtonIcon
+                  className="mr-1 shadow-2dp"
+                  background="white"
+                  saturation={0}
+                  icon="rotate"
+                  color="primary"
+                  saturationTxt={400}
+                  isLoading={isSmallLoading}
+                  onClick={(e) => rotateImage(e)}
+                />
+                <BrixelButtonIcon
+                  className="shadow-2dp"
+                  background="white"
+                  saturation={0}
+                  icon="bin"
+                  color="red"
+                  saturationTxt={400}
+                  isLoading={isSmallLoading}
+                  onClick={(e) => deleteImage(e)}
+                />
+              </div>
             </div>
             <Field
               name={`${mediaType}[${idImg}].description`}
@@ -172,7 +172,7 @@ const DetailMedia = (props) => {
               component={BrixelTextArea}
               placeholder="Describe the photo"
               type="text"
-              className="p-md-0 mb-2"
+              className="p-md-0 mb-2 txtDark300 fweight-400"
             />
           </div>
         </div>
