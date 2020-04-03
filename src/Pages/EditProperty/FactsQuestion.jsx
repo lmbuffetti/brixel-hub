@@ -144,6 +144,7 @@ const FactsQuestion = (props) => {
                               type={input.type}
                             />
                             <Maps
+                              minHeight={200}
                               zoom={14}
                               scrollZoom={false}
                               moveMarker

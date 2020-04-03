@@ -50,6 +50,7 @@ const Maps = React.memo((props) => {
     showSelectCountry,
     similarProperties,
     zoom,
+    minHeight,
   } = props;
   // STATE
   const [selectedPlace, setSelectedPlace] = useState([]);
@@ -392,7 +393,7 @@ const Maps = React.memo((props) => {
     // Important! Always set the container height explicitly
     <div
       style={showMap ? {
-        minHeight: '300px', position: 'relative',
+        minHeight: minHeight > 0 ? `${minHeight}px` : '300px', position: 'relative',
       } : {
         minHeight: '100%', position: 'relative',
       }}
@@ -643,6 +644,7 @@ Maps.propTypes = {
   showSearchLocation: PropTypes.bool,
   showSelectCountry: PropTypes.bool,
   zoom: PropTypes.number,
+  minHeight: PropTypes.string,
 };
 
 Maps.defaultProps = {
@@ -665,6 +667,7 @@ Maps.defaultProps = {
   similarProperties: [],
   showMap: false,
   zoom: 14,
+  minHeight: 0,
 };
 
 const mapStateToProps = (state) => {
