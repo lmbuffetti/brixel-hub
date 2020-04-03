@@ -10,6 +10,7 @@ import { useDropzone } from 'react-dropzone';
 import get from 'lodash/get';
 import {
   BrixelButtonIcon,
+  BrixelIcon,
   BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -164,7 +165,12 @@ const Photos = (props) => {
                               {
                                 item.id === get(formValue, 'coverPhoto.id', null) && (
                                   <div className="fixedActionsBtmRight">
-                                    <div className="brdRadius bgWhite txtPrimary400 px-1 body2 brdSmall brdPrimary400">Cover</div>
+                                    <BrixelIcon
+                                      icon={'star-fill'}
+                                      color={'primary'}
+                                      saturationTxt={400}
+                                      className={'fSizePx24'}
+                                    />
                                   </div>
                                 )
                               }
@@ -172,8 +178,8 @@ const Photos = (props) => {
                           </div>
                           {
                             item.description && (
-                              <p className="ta-l mt-1 body2 w-prec-100">
-                                {Truncate(item.description, 35)}
+                              <p className="ta-l mt-1 fsize-200 txtDark700 w-prec-100">
+                                {Truncate(item.description, 60)}
                               </p>
                             )
                           }
