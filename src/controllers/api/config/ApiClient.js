@@ -3,6 +3,7 @@ import queryString from 'query-string';
 import httpAdapter from 'axios/lib/adapters/http';
 import Cookies from 'universal-cookie';
 import { failureHandler, successHandler } from '../utils/api.helper';
+import { SET_UPLOADING_PERCENTAGE } from '../../../actions/types/CommonTypes';
 
 const cookies = new Cookies();
 
@@ -54,6 +55,7 @@ class ApiClient {
       headers,
       type,
       baseUrlType,
+      moreActions: options.action,
     });
   }
 
@@ -68,6 +70,7 @@ class ApiClient {
       headers,
       type,
       baseUrlType,
+      moreActions: options.action,
     });
   }
 
@@ -88,9 +91,18 @@ class ApiClient {
     });
   }
 
-  request({
-    url, method, params = {}, headers, data, type = 'data', baseUrlType = 'baseUrl',
-  }) {
+  request(
+    {
+      url,
+      method,
+      params = {},
+      headers,
+      data,
+      type = 'data',
+      baseUrlType = 'baseUrl',
+      moreActions,
+    }
+  ) {
     let head;
     if (type === 'login') {
       const auth = btoa(`${data.username}:${data.password}`);
@@ -120,6 +132,11 @@ class ApiClient {
         return queryString.stringify(p, { encode: true });
       },
       headers: head,
+      onUploadProgress: ( progressEvent ) => {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        if (moreActions && moreActions.uploading) moreActions.uploading.dispatch({ type: SET_UPLOADING_PERCENTAGE, payload: percentCompleted });
+        return percentCompleted;
+      },
       withCredentials: false,
       data,
     };

@@ -45,7 +45,9 @@ const Facts = (props) => {
     let sectionDone = true;
     val.inputs.map((item) => {
       if (item.validation) {
-        if (sectionDone) {
+        const nameCondition = get(item, 'condition.name', '');
+        const valA = get(formValue, nameCondition, 'a');
+        if (sectionDone && (!item.condition || (item.condition && valA === item.condition.value))) {
           if (get(formValue, `inputSheet.skipSection[${item.name}]`, true) !== true) {
             sectionDone = false;
           }

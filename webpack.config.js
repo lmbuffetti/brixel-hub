@@ -181,7 +181,7 @@ const clientConfig = {
         removeStyleLinkTypeAttributes: true,
         useShortDoctype: true
       },
-      treansifexKey: baseByData(getEnvBuild).transifexIdHub,
+      transifexKey: baseByData(getEnvBuild).transifexIdHub,
       googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
       facebookPixelId: baseByData(getEnvBuild).facebookPixel
     }),

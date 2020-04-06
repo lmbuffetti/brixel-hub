@@ -88,10 +88,30 @@ const FactsQuestion = (props) => {
   const checkCondition = (input) => {
     let condition = true;
     if (input.condition) {
-      const valA = get(formValue, input.condition.name, 'a');
-      if (valA === input.condition.value) condition = true;
-      else if (input.condition.value === 'isPositive' && valA > 0) condition = true;
-      else condition = false;
+      if (input.name) {
+        const valA = get(formValue, input.condition.name, 'a');
+        if (valA === input.condition.value) condition = true;
+        else if (input.condition.value === 'isPositive' && valA > 0) condition = true;
+        else condition = false;
+      } else if (input.condition.length > 0) {
+        input.condition.map((item) => {
+          const valA = get(formValue, input.condition.name, 'a');
+          if (valA === input.condition.value) condition = true;
+          else if (input.condition.value === 'isPositive' && valA > 0) condition = true;
+          else condition = false;
+        });
+      }
+    }
+    if (input.conditions) {
+      condition = false;
+      input.conditions.map((item) => {
+        if (!condition) {
+          const valA = get(formValue, item.name, 'a');
+          if (valA === item.value) condition = true;
+          else if (item.value === 'isPositive' && valA > 0) condition = true;
+          else condition = false;
+        }
+      });
     }
     return condition;
   };

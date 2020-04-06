@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { uploadImg } from '../../../actions/UploadActions';
 import { BrixelButtonPrimary, BrixelButtonIcon } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import defaultCover from '../../../images/no_cover.jpg';
+import defaultCover from '../../../images/3d-tour-placeholder.jpg';
 
 const Tour = (props) => {
   // PROPS
@@ -45,22 +45,11 @@ const Tour = (props) => {
           {
             !showTour ? (
               <div className="pos-r brdRadius ov-h">
-                {
-                  formValue.coverPhoto ? (
-                    <img
-                      className="dis-b"
-                      src={`${baseByData.shortPath}${formValue.coverPhoto.path}`}
-                      alt="Cover"
-                    />
-                  ) : (
-                    <img
-                      className="dis-b"
-                      src={defaultCover}
-                      alt="Cover"
-                    />
-                  )
-                }
-                <div className="pos-a w-perc-100 h-perc-100 bgBlack opacity5" />
+                <img
+                  className="dis-b"
+                  src={defaultCover}
+                  alt="Cover"
+                />
                 <div className="pos-a xy-c">
                   <BrixelButtonIcon
                     noBorder

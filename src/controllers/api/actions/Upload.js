@@ -8,9 +8,9 @@ class Upload extends Base {
     return this.apiClient.put(url);
   }
 
-  addImage(data) {
+  addImage(data, onUploading) {
     const url = ep.upload.addImage();
-    return this.apiClient.post(url, {}, data);
+    return this.apiClient.post(url, {action: onUploading}, data);
   }
 
   getImageType() {
@@ -23,9 +23,9 @@ class Upload extends Base {
     return this.apiClient.delete(url);
   }
 
-  uploadDocument(data) {
+  uploadDocument(data, onUploading) {
     const url = ep.upload.document();
-    return this.apiClient.post(url, {}, data);
+    return this.apiClient.post(url, {action: onUploading}, data);
   }
 
   deleteDocument(id) {
@@ -33,9 +33,9 @@ class Upload extends Base {
     return this.apiClient.delete(url);
   }
 
-  updateDocument(id, data) {
+  updateDocument(id, data, onUploading) {
     const url = ep.upload.singleDocument(id);
-    return this.apiClient.put(url, {}, data);
+    return this.apiClient.put(url, {action: onUploading}, data);
   }
 }
 
