@@ -18,6 +18,14 @@
     }
   }
 
+  .property-container .levelsWrapper.closed .secondLevel {
+    @media (max-width: $responsive-medium) {
+      animation: none;
+      opacity: 1;
+    }
+  }
+
+
   // proparty thirdlevel expand
   .property-container .expandableColumn {
     transition: all 0.2s ease-in-out;
