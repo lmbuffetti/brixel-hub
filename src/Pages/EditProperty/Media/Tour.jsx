@@ -25,7 +25,7 @@ const Tour = (props) => {
   const propID = get(match, 'params.propId', null);
 
   return (
-    <div className="secondLevel">
+    <div className="secondLevel h-perc-md-100">
       <div className="tourWrapper dis-fl-col">
         <div className="dis-f jc-b a-c mb-3">
           <BrixelButtonIcon

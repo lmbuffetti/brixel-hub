@@ -134,8 +134,8 @@ const Facts = (props) => {
   };
 
   return (
-    <div className="factsWrapper dis-f h-perc-100">
-      <div className="secondLevel dis-fl-col w-perc-100 h-perc-100">
+    <div className="factsWrapper dis-f h-perc-md-100">
+      <div className="secondLevel dis-fl-col w-perc-100 h-perc-md-100">
         <div className="dis-fl-col max-h-perc-100">
           <div className="headerSection pos-r">
             <BrixelButtonIcon

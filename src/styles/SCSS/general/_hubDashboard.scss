@@ -1,6 +1,12 @@
 .hubDashboard {
   .property-container,
   .listings-container {
+    .photosWrapper .secondLevel > div,
+    .tourWrapper,
+    .secondLevel .docubox,
+    .plansWrapper .secondLevel > div {
+      min-height: 70%;
+    }
     .showHover {
       transition: $default-time-long $default-easing;
       &:hover {

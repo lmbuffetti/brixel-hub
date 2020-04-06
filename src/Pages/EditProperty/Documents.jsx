@@ -140,7 +140,7 @@ const Documents = (props) => {
   });
 
   return (
-    <div className="secondLevel">
+    <div className="secondLevel h-perc-md-100">
       <div className="docubox">
         <div className="dis-f jc-b a-c mb-3">
           <BrixelButtonIcon
