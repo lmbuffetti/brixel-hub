@@ -242,12 +242,6 @@ const Photos = (props) => {
                                 className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
                               >
                                 <div className="perc-r w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${upImg.galleryThumbnailPath})` }} />
-                                <div
-                                  className="uploadingBar"
-                                  style={{
-                                    width: `${percentage}%`,
-                                  }}
-                                />
                               </div>
                             )
                           }
@@ -278,6 +272,7 @@ const Photos = (props) => {
                   rightIcon="upload"
                   rounded
                   className="mt-3"
+                  isLoading={isSmallLoading}
                 />
               </div>
             </>
