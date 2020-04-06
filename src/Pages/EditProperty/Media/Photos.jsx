@@ -7,6 +7,7 @@ import { bindActionCreators, compose } from 'redux';
 import { change } from 'redux-form';
 import { connect } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
+import { diff } from 'deep-object-diff';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import {
@@ -14,7 +15,6 @@ import {
   BrixelIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
-  useOutsideAlerter,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
@@ -22,6 +22,7 @@ import { deleteImg, uploadImg } from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
 import { Truncate } from '../../../utils/helpers';
 import upload_photos_empty from '../../../images/Upload/upload_photos_empty.svg';
+import OutsideElement from '../../../components/OutsideElement';
 
 const Photos = (props) => {
   // PROPS
@@ -34,23 +35,25 @@ const Photos = (props) => {
     isSmallLoading,
     loggedInUser,
     match,
-    percentage,
     windowDimensions,
   } = props;
   const { photos } = formValue;
   // STATE
   const [fixPhotos, setFixPhotos] = useState([]);
   const [confirmDelete, setConfirmDelete] = useState(null);
-  const [toUpdate, setToUpdate] = useState(false);
+  const [btnActive, setBtnActive] = useState(null);
   const [newImages, setNewImages] = useState([]);
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
   // REF
-  const wrappImg = useRef([]);
+  const arrayDates = [...Array(photos.length)].map((_, index) => React.createRef());
+  const wrappImg = useRef(arrayDates);
 
   useEffect(() => {
     //setNewImages([]);
     setNewImages([]);
+    setConfirmDelete(null);
+    setBtnActive(null);
     setFixPhotos(cloneDeep(photos));
   }, [photos]);
 
@@ -63,7 +66,6 @@ const Photos = (props) => {
       type: 'photos',
     };
     // eslint-disable-next-line no-alert
-    setConfirmDelete(null);
     handleDeleteImg(data);
   };
 
@@ -75,7 +77,7 @@ const Photos = (props) => {
     reader.onabort = () => console.log('file reading was aborted');
     reader.onerror = () => console.log('file reading has failed');
     const arrayDates = [];
-    setToUpdate(true);
+    setBtnActive('uploading');
     acceptedFiles.forEach((file) => {
       const read = new FileReader();
       read.readAsDataURL(file);
@@ -112,14 +114,17 @@ const Photos = (props) => {
       }
       return null;
     });
-    changeFieldValue('photos', imgArray);
+    const changeObj = diff(fixPhotos, imgArray);
+    if (Object.keys(changeObj).length > 0) changeFieldValue('photos', imgArray);
   };
 
   const onConfirmDelete = (id) => {
+    setBtnActive('delete');
     setConfirmDelete(id);
   };
 
-  useOutsideAlerter(wrappImg, {
+  OutsideElement(wrappImg, {
+    id: confirmDelete || 0,
     action: 'function',
     func: () => { setConfirmDelete(null) },
   });
@@ -142,7 +147,9 @@ const Photos = (props) => {
               Photos
             </h5>
           </div>
-          <div className={`${fixPhotos && fixPhotos.length > 0 ? 'dis-fl-col' : 'dis-fl-col empty-state a-c'}`}>
+          <div
+            className={`${fixPhotos && fixPhotos.length > 0 ? 'dis-fl-col' : 'dis-fl-col empty-state a-c'}`}
+          >
             {
               (fixPhotos && fixPhotos.length > 0) && (
                 <>
@@ -166,44 +173,46 @@ const Photos = (props) => {
                             className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
                           >
                             <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}>
-                              <div className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`} ref={wrappImg}>
-                                {
-                                  confirmDelete === i ? (
-                                    <BrixelButtonSecondary
-                                      rounded
-                                      color="red"
-                                      saturation={400}
-                                      saturationTxt={400}
-                                      rightIcon="bin"
-                                      label="delete?"
-                                      className="shadow-2dp"
-                                      onClick={() => deleteImage(item.id)}
-                                    />
-                                  ) : (
-                                    <>
-                                      <BrixelButtonIcon
-                                        background="white"
-                                        saturation={0}
-                                        color="red"
-                                        saturationTxt={400}
-                                        noBorder4
-                                        icon="bin"
-                                        className="shadow-2dp"
-                                        onClick={() => onConfirmDelete(i)}
-                                      />
-                                      <BrixelButtonIcon
-                                        background="white"
-                                        saturation={0}
-                                        color="primary"
-                                        saturationTxt={400}
-                                        noBorder
-                                        icon="edit"
-                                        className="shadow-2dp ml-1"
-                                        onClick={() => history.push(`/${propID}/property/photos/${item.id}/edit/photos`)}
-                                      />
-                                    </>
-                                  )
-                                }
+                              <div
+                                className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
+                                ref={wrappImg.current[i]}
+                              >
+                                {confirmDelete}
+                                <>
+                                  <BrixelButtonSecondary
+                                    rounded
+                                    color="red"
+                                    saturation={400}
+                                    saturationTxt={400}
+                                    rightIcon="bin"
+                                    label="delete?"
+                                    className={`shadow-2dp ${confirmDelete === i ? '' : 'hide'}`}
+                                    onClick={() => deleteImage(item.id)}
+                                    isLoading={isSmallLoading && btnActive === 'delete'}
+                                  />
+                                  <BrixelButtonIcon
+                                    background="white"
+                                    saturation={0}
+                                    color="red"
+                                    saturationTxt={400}
+                                    noBorder4
+                                    icon="bin"
+                                    className={`shadow-2dp ${confirmDelete === i ? 'hide' : ''}`}
+                                    onClick={() => onConfirmDelete(i)}
+                                  />
+                                  <BrixelButtonIcon
+                                    background="white"
+                                    saturation={0}
+                                    color="primary"
+                                    saturationTxt={400}
+                                    noBorder
+                                    icon="edit"
+                                    className={`shadow-2dp ml-1 ${confirmDelete === i ? 'hide' : ''}`}
+                                    onClick={() => history.push(`/${propID}/property/photos/${item.id}/edit/photos`)}
+                                  />
+                                </>
+
+
                               </div>
                               {
                                 item.id === get(formValue, 'coverPhoto.id', null) && (
@@ -272,7 +281,7 @@ const Photos = (props) => {
                   rightIcon="upload"
                   rounded
                   className="mt-3"
-                  isLoading={isSmallLoading}
+                  isLoading={isSmallLoading && btnActive === 'uploading'}
                 />
               </div>
             </>

@@ -56,7 +56,7 @@ export const defaultState = {
       value: 'ch',
     },
     {
-      label: '🇩🇪 DEU',
+      label: '🇩🇪 Germany',
       full: 'Germany',
       short: 'DEU',
       value: 'de',

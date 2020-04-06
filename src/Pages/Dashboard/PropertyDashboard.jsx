@@ -176,12 +176,12 @@ const HomeDashboard = (props) => {
                 icon="tour"
                 label="3D Tour"
                 labelClass="fweight-400"
-                subtitle={`0 Files`}
-                subtitleClass={'fsize-200 txtDark200 pt-small-6'}
+                subtitle={get(formValue, 'virtual.matterport', null) ? 'Available' : 'Not set'}
                 className={`w-perc-100 shadow-1dp mr-1 brdMedium ${getFact() === 'tour' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                 colorIcon={'primary700'}
                 backIcon="primary100"
                 onClick={() => history.push(`/${propID}/property/tour`)}
+                status={get(formValue, 'virtual.matterport', null) ? 'green' : 'red'}
               />
 
               <BrixelButtonBox
