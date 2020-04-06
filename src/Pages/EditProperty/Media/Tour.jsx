@@ -64,13 +64,14 @@ const Tour = (props) => {
                 <div className="pos-a xy-c">
                   <BrixelButtonIcon
                     noBorder
-                    padding="24px"
+                    padding="16"
                     icon="play-fill"
                     background="white"
                     saturation={0}
-                    color="dark"
-                    className="m-a"
-                    saturationTxt={700}
+                    color="primary"
+                    fontSize="16"
+                    className="m-a opacity8"
+                    saturationTxt={400}
                     onClick={() => setShowTour(true)}
                   />
                   <p className="ta-c txtWhite mt-2">Start 3D Tour</p>
@@ -113,7 +114,7 @@ const Tour = (props) => {
               <>
                 <div className="max-width-220 m-a">
                   <h5 className="mt-3 mb-1 ta-c">Get your own 3D Tour</h5>
-                  <p className="txtDark200 ta-c">3D Tour and much more is part of Brixel Premium.</p>
+                  <p className="body2 txtDark200 ta-c">3D Tour and much more is part of Brixel Premium.</p>
                   <div className="dis-f jc-c mt-3">
                     <BrixelButtonPrimary
                       label="Upgrade now"
