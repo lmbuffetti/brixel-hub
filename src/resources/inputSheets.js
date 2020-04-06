@@ -1204,7 +1204,7 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
-          component: BrixelInputText,
+          component: BrixelTextArea,
           className: '',
           label: 'What\'s the reason to sell?',
           Placeholder: 'Inherited property.',
@@ -1212,7 +1212,7 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
-          component: BrixelInputText,
+          component: BrixelTextArea,
           className: '',
           label: 'Are there some special selection criteria for the potential buyers?',
           Placeholder: 'Families will be preferred.',
@@ -1220,7 +1220,7 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
-          component: BrixelInputText,
+          component: BrixelTextArea,
           className: '',
           label: 'How do you want to split the fees?',
           Placeholder: 'Fees will be evenly split.',
