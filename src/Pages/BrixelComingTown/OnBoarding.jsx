@@ -415,7 +415,7 @@ function OnBoarding(props) {
   };
 
   return (
-    <main id="onBoarding">
+    <main id="onBoarding" className="notranslate">
       {
         Questions[currentIndex] && Questions[currentIndex].inputs && (
           <BrixelProgressBar

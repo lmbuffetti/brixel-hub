@@ -233,7 +233,7 @@ function UserFlow(props) {
   return (
     <main
       id="onBoarding"
-      className={Questions[currentIndex].cardType !== 'chat' ? 'withFooter' : 'withoutFooter'}
+      className={`${Questions[currentIndex].cardType !== 'chat' ? 'withFooter' : 'withoutFooter'} notranslate`}
     >
       {
         Questions[currentIndex].inputs && (

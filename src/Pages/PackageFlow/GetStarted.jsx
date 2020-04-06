@@ -389,7 +389,7 @@ function GetStarted(props) {
   };
 
   return (
-    <main id="getStarted">
+    <main id="getStarted" className="notranslate">
       {
         Questions[currentIndex].inputs && (
           <BrixelProgressBar

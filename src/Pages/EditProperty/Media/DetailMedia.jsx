@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
@@ -10,8 +10,10 @@ import get from 'lodash/get';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import {
   BrixelButtonIcon,
+  BrixelButtonSecondary,
   BrixelButtonTertiary,
   BrixelTextArea,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
 import Loading from '../../../components/Loading';
 import { rotateImg, deleteImg, setCoverPhoto } from '../../../actions/UploadActions';
@@ -31,10 +33,13 @@ const DetailMedia = (props) => {
   const [rotation, setRotation] = useState(0);
   const [idImg, setIdImg] = useState(null);
   const [changeSection] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   // PARAMS URL
   const mediaID = get(match, 'params.imgId', null);
   const propID = get(match, 'params.propId', null);
   const mediaType = get(match, 'params.editType', null);
+  // REF
+  const wrapImg = useRef(null);
 
   useEffect(() => {
     if (mediaID && formValue && mediaType) {
@@ -88,6 +93,11 @@ const DetailMedia = (props) => {
     };
     handleSetCoverPhoto(data);
   };
+
+  useOutsideAlerter(wrapImg, {
+    action: 'function',
+    func: () => { setConfirmDelete(false) },
+  });
 
   if (!formValue || !formValue[mediaType]) {
     return (
@@ -151,16 +161,33 @@ const DetailMedia = (props) => {
                   isLoading={isSmallLoading}
                   onClick={(e) => rotateImage(e)}
                 />
-                <BrixelButtonIcon
-                  className="shadow-2dp"
-                  background="white"
-                  saturation={0}
-                  icon="bin"
-                  color="red"
-                  saturationTxt={400}
-                  isLoading={isSmallLoading}
-                  onClick={(e) => deleteImage(e)}
-                />
+                {
+                  confirmDelete ? (
+                    <div ref={wrapImg}>
+                      <BrixelButtonSecondary
+                        rounded
+                        color="red"
+                        saturation={400}
+                        saturationTxt={400}
+                        rightIcon="bin"
+                        label="delete?"
+                        className="shadow-2dp"
+                        onClick={() => deleteImage()}
+                      />
+                    </div>
+                  ) : (
+                    <BrixelButtonIcon
+                      className="shadow-2dp"
+                      background="white"
+                      saturation={0}
+                      icon="bin"
+                      color="red"
+                      saturationTxt={400}
+                      isLoading={isSmallLoading}
+                      onClick={(e) => setConfirmDelete(true)}
+                    />
+                  )
+                }
               </div>
             </div>
             <Field

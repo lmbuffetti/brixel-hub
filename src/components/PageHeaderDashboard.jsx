@@ -81,7 +81,7 @@ function PageHeaderDashboard(props) {
     if (widthScreen <= 768) {
       document.body.classList.add('ov-h');
     } else {
-      window.open(baseByData(undefined,'io').profileURL, '_blank');
+      window.location.href = `${baseByData(undefined,'io').profileURL}?url=${window.location.href}`;
     }
   };
 

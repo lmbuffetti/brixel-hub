@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { change } from 'redux-form';
-import { BrixelButtonTertiary, BrixelIcon, BrixelInputText, BrixelSelect, useOutsideAlerter } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelInputText, BrixelSelect, useOutsideAlerter } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import markerImg from '../../images/location/icon_location.svg';

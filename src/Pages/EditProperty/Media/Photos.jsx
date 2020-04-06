@@ -12,6 +12,7 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
@@ -19,7 +20,6 @@ import { deleteImg, uploadImg } from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
 import { Truncate } from '../../../utils/helpers';
 import upload_photos_empty from '../../../images/Upload/upload_photos_empty.svg';
-import useOutsideAlerter from '../../../components/OutsideElement';
 
 const Photos = (props) => {
   // PROPS
@@ -40,7 +40,7 @@ const Photos = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
   // REF
-  const wrappImg = useRef(null);
+  const wrappImg = useRef([]);
 
   useEffect(() => {
     setFixPhotos(photos);

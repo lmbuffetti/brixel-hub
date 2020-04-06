@@ -1,4 +1,4 @@
-/* global ga */
+/* global ga, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import {
@@ -114,6 +114,15 @@ const App = (props) => {
       });
     })
   }, []);
+
+  useEffect(() => {
+    console.log(loggedInUser);
+    if (loggedInUser.user) {
+      console.log(Transifex);
+      const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
+      Transifex.live.translateTo(lang);
+    }
+  }, [Transifex, loggedInUser]);
 
   useEffect(() => {
     if (property && property.id && loggedInUser.user && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
