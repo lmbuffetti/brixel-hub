@@ -156,7 +156,7 @@ const Documents = (props) => {
             Docubox
           </h5>
         </div>
-        <div className="dis-fl-col uploadPanel a-c jc-b">
+        <div className="dis-fl-col uploadPanel a-c">
           {
             (documents && documents.length > 0) && (
               <>

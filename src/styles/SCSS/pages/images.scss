@@ -54,6 +54,9 @@
 
 .uploadPanel {
   flex: 1;
+  @media (min-width: $responsive-medium) {
+    justify-content: space-between;
+  }
 }
 
 .upload-container {
