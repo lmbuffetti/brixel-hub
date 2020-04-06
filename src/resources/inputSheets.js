@@ -37,7 +37,6 @@ const normalizeData = (value, prevValue) => {
 
   const month = valueOnlyNumbers.slice(0, 2);
   const year = valueOnlyNumbers.slice(2, 6);
-  console.log(month, year);
   if (valueOnlyNumbers.length < 2 && !isNaN(+month) && +month <= 12) return `${month}`;
   if (valueOnlyNumbers.length === 2 && !isNaN(+month) && +month <= 12) return `${month}/`;
   if (valueOnlyNumbers.length > 2 && !isNaN(+year) && +year <= 2020) return `${month}/${year}`;

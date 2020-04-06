@@ -8,7 +8,6 @@ function useOutsideAlerter(ref, action) {
     const getClass = document.getElementsByClassName('brixel-notification');
     const getClassMore = document.getElementsByClassName('block-click');
     if (getClass.length + getClassMore.length === 0) {
-      console.log(ref);
       if (ref.current && !ref.current.contains(event.target)) {
         if (action.action === 'push') {
           action.history.push(action.loc);

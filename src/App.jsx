@@ -116,9 +116,7 @@ const App = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log(loggedInUser);
     if (loggedInUser.user) {
-      console.log(Transifex);
       const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
       Transifex.live.translateTo(lang);
     }
