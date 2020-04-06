@@ -205,7 +205,7 @@ const Facts = (props) => {
             <div className="p-3">
               <div className="">
                 <FactsQuestion quest={selectedQuest} />
-                <div className="dis-f jc-fe">
+                <div className="dis-f jc-fe mb-1">
                   {
                     onNextSection('label') && (
                       <BrixelButtonTertiary

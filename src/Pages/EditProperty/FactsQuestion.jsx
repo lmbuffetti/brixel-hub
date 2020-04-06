@@ -131,6 +131,7 @@ const FactsQuestion = (props) => {
                                   zoom={14}
                                   scrollZoom={false}
                                   moveMarker
+                                  inputLabel={input.label}
                                   draggable
                                   showSearchLocation
                                   showSelectCountry={true}
@@ -146,6 +147,7 @@ const FactsQuestion = (props) => {
                               type={input.type}
                             />
                             <Maps
+                              minHeight={200}
                               zoom={14}
                               scrollZoom={false}
                               moveMarker
@@ -199,6 +201,7 @@ const FactsQuestion = (props) => {
                               format={input.format}
                               normalize={input.normalize}
                               unit={input.unit}
+                              compact={input.compact}
                             />
                           </div>
                         </div>
