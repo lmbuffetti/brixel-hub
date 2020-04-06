@@ -17,12 +17,11 @@
   }
 
   .firstLevel {
-    min-width: 320px;
     max-width: 480px;
+    min-width: 320px;
     width: 100%;
-
-    @media (max-width: $iphone5) {
-      min-width: 260px;
+    @media (max-width: $responsive-medium) {
+      min-width: 100%;
     }
   }
 
@@ -94,7 +93,6 @@
         box-shadow: $shadow-1dp;
         background: $brx-white;
         border-radius: $brd-radius-small;
-        min-height: 70%;
 
         &:not(.rewadsSplash) {
           padding: $step * 3;

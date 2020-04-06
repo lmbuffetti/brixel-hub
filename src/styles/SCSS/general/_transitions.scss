@@ -13,6 +13,9 @@
   .listings-container .secondLevel {
     opacity: 0;
     animation: fadeInSec $default-time-long 100ms ease-in-out forwards;
+    @media (max-width: $responsive-medium) {
+      animation: fadeInSec $default-time ease-in-out forwards;
+    }
   }
 
   // proparty thirdlevel expand
@@ -34,6 +37,9 @@
         opacity: 0;
         transform: translateX(100%);
         animation: slideInLong $default-time-long ease-in-out forwards;
+        @media (max-width: $responsive-medium) {
+          animation: slideInLong $default-time ease-in-out forwards;
+        }
       }
     }
   }
