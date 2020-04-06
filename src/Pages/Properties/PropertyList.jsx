@@ -67,7 +67,7 @@ const PropertyList = (props) => {
     <div className={`properties ov-a h-perc-100 ${className}`}>
       {
         (activeProperties && activeProperties.length > 0) && (
-          <div className="px-2 pb-5 py-1">
+          <div className="px-0 px-md-2 pb-5 py-1">
             {
               activeProperties.map((property, i) => (
                 <a key={i.toString()} className="link" href={`/${property.id}/home`}>
