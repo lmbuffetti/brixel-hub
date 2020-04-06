@@ -303,6 +303,18 @@ export const InputSheets = () => {
           validation: [Validation.markRequired]
         },
         {
+          condition: {
+            name: 'properties.propertyType',
+            value: 'Apartment',
+          },
+          component: BrixelInputScale,
+          className: '',
+          label: 'How is the condition of the apartment?',
+          name: 'properties.building.apartmentQuality',
+          options: factsOptions.quality,
+          validation: [Validation.markRequired]
+        },
+        {
           component: BrixelInputStepNumber,
           condition: {
             name: 'properties.propertyType',
@@ -634,7 +646,7 @@ export const InputSheets = () => {
           component: BrixelInputText,
           className: '',
           label: 'What\'s the size of the storeroom?',
-          labelLeft: 'Size',
+          labelLeft: 'Storeroom',
           unit: 'm2',
           placeholder: '8 m2',
           name: 'properties.building.properties.typology.storeroomArea.value',
@@ -657,7 +669,7 @@ export const InputSheets = () => {
           component: BrixelInputText,
           className: '',
           label: 'What\'s the size of collective used spaces?',
-          labelLeft: 'Size',
+          labelLeft: 'Collective used space',
           unit: 'm2',
           placeholder: '35 m2',
           name: 'properties.typology.collectiveSpacesArea.value',
@@ -842,7 +854,7 @@ export const InputSheets = () => {
         {
           component: BrixelTextArea,
           className: '',
-          label: 'What\'s the material of the blinds?',
+          label: 'What kind of blinds are there?',
           placeholder: 'Venetian blinds',
           name: 'properties.building.blinds.materials',
           validation: [Validation.markRequired],
@@ -995,7 +1007,7 @@ export const InputSheets = () => {
           label: 'What are the additional costs per year?',
           placeholder: '7400',
           name: 'properties.building.maintenanceCost',
-          labelLeft: 'Cost',
+          labelLeft: 'Additional costs',
           format: formatPrice,
           normalize: normalizePrice,
           validation: [Validation.markRequired],

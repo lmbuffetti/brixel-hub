@@ -10,9 +10,7 @@ function useOutsideAlerter(ref, action) {
     if (getClass.length + getClassMore.length === 0 && event.target) {
       const curRef = action.id ? ref.current[action.id] : ref.current;
       if (curRef.current) {
-        console.log(curRef, action.id, curRef.current, !curRef.current.contains(event.target));
         if (!curRef.current.contains(event.target)) {
-          console.log('POROCO DOOO')
           if (action.action === 'push') {
             action.history.push(action.loc);
           }

@@ -134,7 +134,6 @@ class ApiClient {
       headers: head,
       onUploadProgress: ( progressEvent ) => {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-        console.log(moreActions);
         if (moreActions && moreActions.uploading) moreActions.uploading.dispatch({ type: SET_UPLOADING_PERCENTAGE, payload: percentCompleted });
         return percentCompleted;
       },
