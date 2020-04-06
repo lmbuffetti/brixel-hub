@@ -1,19 +1,22 @@
 .hubDashboard {
-  .property-container,
-  .listings-container {
-    .photosWrapper .secondLevel > div,
-    .tourWrapper,
-    .secondLevel .docubox,
-    .plansWrapper .secondLevel > div {
-      min-height: 50vh;
+    .property-container,
+    .listings-container {
+      .photosWrapper .secondLevel > div,
+      .tourWrapper,
+      .secondLevel .docubox,
+      .plansWrapper .secondLevel > div {
+        min-height: 50vh;
     }
-    .showHover {
-      transition: $default-time-long $default-easing;
-      &:hover {
-        box-shadow: $shadow-3dp;
-        background: #fff;
-        cursor: pointer;
-      }
+  }
+  .rewards-container .rewardsSplash {
+    min-height: 55vh;
+  }
+  .showHover {
+    transition: $default-time-long $default-easing;
+    &:hover {
+      box-shadow: $shadow-3dp;
+      background: #fff;
+      cursor: pointer;
     }
   }
 

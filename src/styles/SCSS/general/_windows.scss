@@ -34,7 +34,7 @@
     background: $brx-white;
     z-index: 100;
     > div {
-      &:not(.rewadsSplash) {
+      &:not(.rewardsSplash) {
         padding: $step * 2;
       }
     }
@@ -93,7 +93,7 @@
         background: $brx-white;
         border-radius: $brd-radius-small;
 
-        &:not(.rewadsSplash) {
+        &:not(.rewardsSplash) {
           padding: $step * 3;
         }
       }
