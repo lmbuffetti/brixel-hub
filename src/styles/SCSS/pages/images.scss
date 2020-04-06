@@ -25,6 +25,16 @@
   }
 }
 
+
+@media (max-width: $responsive-medium) {
+  .photosWrapper .secondLevel,
+  .photosWrapper .secondLevel > div,
+  .plansWrapper .secondLevel,
+  .plansWrapper .secondLevel > div {
+      height: 100%;
+  }
+}
+
 @media (min-width: 1025px) {
   .image-list {
     li {
@@ -40,6 +50,10 @@
       }
     }
   }
+}
+
+.uploadPanel {
+  flex: 1;
 }
 
 .upload-container {
