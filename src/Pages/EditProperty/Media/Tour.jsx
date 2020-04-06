@@ -25,7 +25,7 @@ const Tour = (props) => {
   const propID = get(match, 'params.propId', null);
 
   return (
-    <div className="secondLevel">
+    <div className="secondLevel h-perc-md-100">
       <div className="tourWrapper dis-fl-col">
         <div className="dis-f jc-b a-c mb-3">
           <BrixelButtonIcon
@@ -53,12 +53,13 @@ const Tour = (props) => {
                 <div className="pos-a xy-c">
                   <BrixelButtonIcon
                     noBorder
-                    padding={24}
+                    padding="16"
                     icon="play-fill"
                     background="white"
                     saturation={0}
                     color="primary"
-                    className="m-a"
+                    fontSize="16"
+                    className="m-a opacity8"
                     saturationTxt={400}
                     onClick={() => setShowTour(true)}
                   />
@@ -102,7 +103,7 @@ const Tour = (props) => {
               <>
                 <div className="max-width-220 m-a">
                   <h5 className="mt-3 mb-1 ta-c">Get your own 3D Tour</h5>
-                  <p className="txtDark200 ta-c">3D Tour and much more is part of Brixel Premium.</p>
+                  <p className="body2 txtDark200 ta-c">3D Tour and much more is part of Brixel Premium.</p>
                   <div className="dis-f jc-c mt-3">
                     <BrixelButtonPrimary
                       label="Upgrade now"

@@ -132,7 +132,7 @@ const Photos = (props) => {
   return (
     <div className="photosWrapper dis-f h-perc-100">
       <div className="secondLevel dis-fl-col">
-        <div className="max-h-perc-100 ov-a">
+        <div className="max-h-perc-100 dis-fl-col ov-a">
           <div className="dis-f jc-b a-c mb-3">
             <BrixelButtonIcon
               className="shadow-3dp hide-md"
@@ -147,9 +147,7 @@ const Photos = (props) => {
               Photos
             </h5>
           </div>
-          <div
-            className={`${fixPhotos && fixPhotos.length > 0 ? 'dis-fl-col' : 'dis-fl-col empty-state a-c'}`}
-          >
+          <div className={`dis-fl-col ${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel' : 'empty-state a-c'}`}>
             {
               (fixPhotos && fixPhotos.length > 0) && (
                 <>
@@ -263,7 +261,7 @@ const Photos = (props) => {
             }
             <>
               <div
-                className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState' : 'hasImages py-3'} upload-container dis-fl-col a-c mt-3 mb-5 ta-c`}
+                className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c`}
                 {...getRootProps()}
               >
                 <input {...getInputProps()} />

@@ -7,13 +7,24 @@
   }
   // rewards splash
   .rewards-container .secondLevel,
-  .rewards-container #rewards,
+  .rewards-container .rewardsSplash > div,
   .property-container .factsWrapper,
   .property-container .secondLevel,
   .listings-container .secondLevel {
     opacity: 0;
     animation: fadeInSec $default-time-long 100ms ease-in-out forwards;
+    @media (max-width: $responsive-medium) {
+      animation: fadeInSec $default-time ease-in-out forwards;
+    }
   }
+
+  .property-container .levelsWrapper.closed .secondLevel {
+    @media (max-width: $responsive-medium) {
+      animation: none;
+      opacity: 1;
+    }
+  }
+
 
   // proparty thirdlevel expand
   .property-container .expandableColumn {
@@ -34,6 +45,9 @@
         opacity: 0;
         transform: translateX(100%);
         animation: slideInLong $default-time-long ease-in-out forwards;
+        @media (max-width: $responsive-medium) {
+          animation: slideInLong $default-time ease-in-out forwards;
+        }
       }
     }
   }

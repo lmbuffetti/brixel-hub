@@ -68,7 +68,7 @@ const Properties = (props) => {
 
   return (
     <>
-      <div className="properties-header dis-fl-row a-c jc-b mb-5 py-2 px-3 pos-r zIndex1">
+      <div className="properties-header dis-fl-row a-c jc-b mb-2 mb-md-5 py-2 px-3 pos-r zIndex1">
         <div className="dis-fl-row a-c">
           <span className="docubox-title fweight-500 txtDark700">Properties ({countNumProperties()})</span>
         </div>
@@ -84,7 +84,7 @@ const Properties = (props) => {
         />
       </div>
       <BrixelTabs
-        className={`tabs mb-1-neg px-3 py-2 bgWhite zIndex1`}
+        className={`tabs mb-1-neg px-2 px-md-3 py-2 bgWhite zIndex1`}
         clicksList={[
           '',
           'seller',
@@ -100,7 +100,7 @@ const Properties = (props) => {
         fullWidth
       />
 
-      <PropertyList className="px-3" activeSection={activeTab} />
+      <PropertyList className="px-2 px-md-3" activeSection={activeTab} />
     </>
   );
 };

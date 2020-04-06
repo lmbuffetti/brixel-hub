@@ -92,9 +92,9 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-container dis-f" id="propertyDashboard">
+      <div className="property-container dis-f h-perc-md-100" id="propertyDashboard">
         <div className={`firstLevel bgLight100 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
-          <div className="hideOnExpanded">
+
             <div
               className={`cur-poi showHover brdRadius shadow-1dp brdMedium ${getFact() === 'facts' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
               onClick={() => history.push(`/${propID}/property/facts`)}>
@@ -198,7 +198,7 @@ const HomeDashboard = (props) => {
                 onClick={() => history.push(`/${propID}/property/documents`)}
               />
             </div>
-          </div>
+
         </div>
         <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
           <BrixelButtonIcon

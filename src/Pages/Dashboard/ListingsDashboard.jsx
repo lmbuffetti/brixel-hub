@@ -119,7 +119,7 @@ const ListingsDashboard = (props) => {
               onClick={() => history.push(`${propID}/listings/showings`)}
             />
           </div>
-          <div className="hideOnExpanded">
+
             <div className="dis-f">
               <BrixelButtonBox
                 verticalView
@@ -212,7 +212,7 @@ const ListingsDashboard = (props) => {
                 </div>
               </div>
             </div>
-          </div>
+
         </div>
         {
           getFact() !== 'listings' && (
