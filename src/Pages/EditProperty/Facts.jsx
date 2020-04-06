@@ -35,9 +35,8 @@ const Facts = (props) => {
   } = props;
 
   // STATE
-  const [Questions] = useState(InputSheets('en'));
+  const [Questions, setQuestions] = useState(InputSheets(formValue));
   const [selectedQuest, setSelectedQuest] = useState(null);
-  const [changeSection, setChangeSection] = useState(false);
   // PARAMS URL
   const propID = get(match, 'params.propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
@@ -95,15 +94,13 @@ const Facts = (props) => {
 
   useEffect(() => {
     calcPercentage();
-  }, [formValue]);
-
-  useEffect(() => {
-    if (changeSection) {
-      const selectEl = Questions.findIndex(item => item.history === selectedQuest.history);
-      setSelectedQuest(Questions[selectEl + 1]);
-      setChangeSection(false);
+    if (selectedQuest) {
+      const findCurrentId = Questions.findIndex(quest => quest.history === selectedQuest.history);
+      const quest = InputSheets(formValue)[findCurrentId];
+      setQuestions(InputSheets(formValue));
+      setSelectedQuest(quest);
     }
-  }, [isSmallLoading]);
+  }, [formValue]);
 
   useEffect(() => {
     if (history && !selectedQuest && getFact() !== 'facts') {

@@ -22,7 +22,7 @@ const swissZipCode = require('../../resources/swissZipCodes.json');
 
 const images = require.context('../../images', true);
 
-const Maps = React.memo((props) => {
+export const ComponentMap =(props) => {
   // PROPS
   const {
     className,
@@ -603,9 +603,9 @@ const Maps = React.memo((props) => {
       </div>
     </div>
   );
-});
+};
 
-Maps.propTypes = {
+ComponentMap.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   changeCountry: PropTypes.func,
   className: PropTypes.string,
@@ -636,7 +636,7 @@ Maps.propTypes = {
   minHeight: PropTypes.string,
 };
 
-Maps.defaultProps = {
+ComponentMap.defaultProps = {
   className: '',
   changeCountry: () => '',
   disableZoom: false,
@@ -678,6 +678,10 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(form, field, value) {
     dispatch(change(form, field, value));
   },
+});
+
+export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
+  return prevProps.formValue.location.latitude === nextProps.formValue.location.latitude &&  prevProps.formValue.location.longitude === nextProps.formValue.location.longitude
 });
 
 export default compose(
