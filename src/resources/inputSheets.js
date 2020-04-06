@@ -1205,7 +1205,7 @@ export const InputSheets = () => {
           className: '',
           label: 'Status',
           name: 'status',
-          options: factsOptions.propertyStatus,
+          options: factsOptions.propertyStatusNoRent,
           validation: [Validation.markRequired],
         },
         {
