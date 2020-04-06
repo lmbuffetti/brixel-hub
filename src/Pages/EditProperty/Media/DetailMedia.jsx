@@ -109,7 +109,7 @@ const DetailMedia = (props) => {
     <div className="thirdLevel">
       <div className="dis-fl-col max-h-perc-100">
         <div className="max-h-perc-100">
-          <div className="image-detail ov-h">
+          <div className="image-detail">
             <div className="dis-f jc-b a-c mb-3">
               <h5 className="">{mediaType === 'photos' ? 'Edit photo' : 'Edit floor plan'}</h5>
               <BrixelButtonIcon
@@ -130,7 +130,7 @@ const DetailMedia = (props) => {
                   //   style={{ transform: `rotate(${rotation}deg)`, backgroundImage: `url(${getConfigEnv().shortPath}${formValue[mediaType][idImg].thumbnailPath})` }}
                   // />
                   <img
-                    className="max-w-perc-100 shadow-2dp brdRadius ov-h w-perc-100"
+                    className="max-w-perc-100 shadow-2dp brdRadius w-perc-100"
                     //style={{ transform: `rotate(${rotation}deg)` }}
                     src={`${baseByData.shortPath}${formValue[mediaType][idImg].path}?${Date.now()}`}
                     alt="Edit Media"
