@@ -18,6 +18,7 @@ import {
   SET_UNSAVED_CHANGES_MODAL,
   SET_WINDOW_DIMENSIONS,
   SET_SAVED_SCREEN,
+  SET_UPLOADING_PERCENTAGE,
 } from './types/CommonTypes';
 
 export const {
@@ -39,6 +40,7 @@ export const {
   setUnsavedChangesModal,
   setWindowDimensions,
   setSavedScreen,
+  setUploadingPercentage,
 } = createActions({
   [ERROR_MESSAGE]: (payload) => payload,
   [REDIRECT_TO]: (payload) => payload,
@@ -58,4 +60,5 @@ export const {
   [SET_UNSAVED_CHANGES_MODAL]: (payload) => payload,
   [SET_WINDOW_DIMENSIONS]: (payload) => payload,
   [SET_SAVED_SCREEN]: (payload) => payload,
+  [SET_UPLOADING_PERCENTAGE]: (payload) => payload,
 });

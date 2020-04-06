@@ -8,6 +8,7 @@ import { change } from 'redux-form';
 import { connect } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelButtonIcon,
   BrixelIcon,
@@ -30,21 +31,27 @@ const Photos = (props) => {
     handleUploadImg,
     handleDeleteImg,
     history,
+    isSmallLoading,
     loggedInUser,
     match,
+    percentage,
     windowDimensions,
   } = props;
   const { photos } = formValue;
   // STATE
   const [fixPhotos, setFixPhotos] = useState([]);
   const [confirmDelete, setConfirmDelete] = useState(null);
+  const [toUpdate, setToUpdate] = useState(false);
+  const [newImages, setNewImages] = useState([]);
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
   // REF
   const wrappImg = useRef([]);
 
   useEffect(() => {
-    setFixPhotos(photos);
+    //setNewImages([]);
+    setNewImages([]);
+    setFixPhotos(cloneDeep(photos));
   }, [photos]);
 
   const deleteImage = (id) => {
@@ -56,9 +63,8 @@ const Photos = (props) => {
       type: 'photos',
     };
     // eslint-disable-next-line no-alert
-    if (window.confirm('Are you sure you want to delete this item?')) {
-      handleDeleteImg(data);
-    }
+    setConfirmDelete(null);
+    handleDeleteImg(data);
   };
 
   // DROPZONE SETTINGS
@@ -68,6 +74,8 @@ const Photos = (props) => {
     // const imgType = imageType.find((val) => val.name === 'Gallery');
     reader.onabort = () => console.log('file reading was aborted');
     reader.onerror = () => console.log('file reading has failed');
+    const arrayDates = [];
+    setToUpdate(true);
     acceptedFiles.forEach((file) => {
       const read = new FileReader();
       read.readAsDataURL(file);
@@ -80,10 +88,14 @@ const Photos = (props) => {
           imageType: 0,
           pageID: formValue.id,
           uploadAction: 'photos',
+          smallLoader: true,
         };
+        arrayDates.push({galleryThumbnailPath: read.result, createdAt: Date().now});
+        setNewImages([...arrayDates]);
         handleUploadImg(binaryStr);
       };
     });
+    setNewImages([...arrayDates]);
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
@@ -137,7 +149,7 @@ const Photos = (props) => {
                   <ReactSortable
                     tag="ul"
                     className="image-list row-cols-2-gut-1 row-cols-md-3-gut-1"
-                    list={fixPhotos}
+                    list={cloneDeep(fixPhotos).concat(newImages)}
                     setList={(order, evt) => {
                       changeOrder(order);
                     }}
@@ -217,6 +229,31 @@ const Photos = (props) => {
                         </li>
                       ))
                     }
+                    {
+                      newImages.map((upImg, i) => (
+                        <li
+                          className="cur-poi pos-r"
+                          key={(fixPhotos.length + i).toString()}
+                          data-id={JSON.stringify(fixPhotos[0])}
+                        >
+                          {
+                            isSmallLoading && (
+                              <div
+                                className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
+                              >
+                                <div className="perc-r w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${upImg.galleryThumbnailPath})` }} />
+                                <div
+                                  className="uploadingBar"
+                                  style={{
+                                    width: `${percentage}%`,
+                                  }}
+                                />
+                              </div>
+                            )
+                          }
+                        </li>
+                      ))
+                    }
                   </ReactSortable>
                 </>
               )
@@ -257,6 +294,7 @@ Photos.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.bool.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
@@ -267,6 +305,8 @@ Photos.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  percentage: get(state, 'common.percentage', 0),
   loggedInUser: get(state, 'user.loggedInUser', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

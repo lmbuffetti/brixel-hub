@@ -18,6 +18,7 @@ import {
   PREVENT_EXIT_FROM_SCREEN,
   SET_UNSAVED_CHANGES_MODAL,
   SET_WINDOW_DIMENSIONS,
+  SET_UPLOADING_PERCENTAGE,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies();
@@ -95,6 +96,7 @@ export const defaultState = {
   unsavedChangesModal: {
     state: false, link: '',
   },
+  percentage: 0,
 };
 
 export default handleActions(
@@ -162,6 +164,10 @@ export default handleActions(
     [SET_UNSAVED_CHANGES_MODAL]: (state, action) => ({
       ...state,
       unsavedChangesModal: action.payload,
+    }),
+    [SET_UPLOADING_PERCENTAGE]: (state, action) => ({
+      ...state,
+      percentage: action.payload,
     }),
   },
   defaultState,

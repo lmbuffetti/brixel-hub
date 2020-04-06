@@ -25,6 +25,7 @@ import {
   SPINNER_SMALL_ON,
   SPINNER_SMALL_OFF,
   SET_SAVED_SCREEN,
+  SET_PSEUDO_SAVED_SCREEN,
 } from '../actions/types/CommonTypes';
 
 const checkCommon = (store) => (next) => (action) => {
@@ -60,12 +61,14 @@ const checkCommon = (store) => (next) => (action) => {
       // action.payload.user = store.getState().user.loggedInUser.user.id;
       action.payload.imageType = imgType.id;
       const {
-        pageID, userID, uploadAction,
+        pageID, userID, uploadAction, smallLoader,
       } = action.payload;
       delete action.payload.pageID;
       delete action.payload.uploadAction;
-      store.dispatch({ type: SPINNER_ON });
-      api.image.addImage(action.payload)
+      delete action.payload.smallLoader;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
+      api.image.addImage(action.payload, {uploading: store})
         .then((res) => {
           if (uploadAction === 'photos' ||
             uploadAction === 'floorPlans' ||
@@ -88,9 +91,14 @@ const checkCommon = (store) => (next) => (action) => {
               coverPhoto,
               photos: img,
               floorPlans: plan,
+              smallLoader: smallLoader,
             };
-            store.dispatch({ type: SET_SAVED_SCREEN });
-            store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
+            store.dispatch({ type: SET_PSEUDO_SAVED_SCREEN });
+            store.dispatch({
+              type: SAVE_ACTIVE_SINGLE_PROPERTY,
+              payload: data,
+              setSuccessNotification: true,
+            });
           } else if (uploadAction === 'singleUserAvatar') {
             let userAvatar = store.getState().form.User.values.avatar[0];
 
@@ -106,10 +114,12 @@ const checkCommon = (store) => (next) => (action) => {
             };
             store.dispatch({ type: SAVE_ACTIVE_SINGLE_USER, payload: userData });
           }
-          store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
         })
         .catch((res) => {
-          store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
         });
 
       break;

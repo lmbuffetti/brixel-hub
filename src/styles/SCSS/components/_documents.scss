@@ -30,3 +30,11 @@
     opacity: 0;
   }
 }
+
+.uploadingBar {
+  height: 5px;
+  position: absolute;
+  bottom: 0;
+  background: map_get($primaryColor, 400);
+  transition: all $default-time;
+}
