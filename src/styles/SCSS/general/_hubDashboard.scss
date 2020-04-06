@@ -5,7 +5,7 @@
     .tourWrapper,
     .secondLevel .docubox,
     .plansWrapper .secondLevel > div {
-      min-height: 70%;
+      min-height: 50vh;
     }
     .showHover {
       transition: $default-time-long $default-easing;
