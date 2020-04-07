@@ -54,7 +54,7 @@ const Photos = (props) => {
     setNewImages([]);
     setConfirmDelete(null);
     setBtnActive(null);
-    setFixPhotos(cloneDeep(photos));
+    setFixPhotos(photos ? cloneDeep(photos) : []);
   }, [photos]);
 
   const deleteImage = (id) => {
