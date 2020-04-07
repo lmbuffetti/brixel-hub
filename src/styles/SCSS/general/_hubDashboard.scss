@@ -4,10 +4,17 @@
       .photosWrapper .secondLevel > div,
       .tourWrapper,
       .secondLevel .docubox,
-      .plansWrapper .secondLevel > div {
-        min-height: 50vh;
+      .plansWrapper .secondLevel > div,
+      .brixelPageWrapper,
+      .showingsWrapper,
+      .portalsWrapper {
+        // min height for  secondlevel container
+        @media (min-width: $responsive-medium) {
+          min-height: 65vh;
+        }
+      }
     }
-  }
+
   .rewards-container .rewardsSplash {
     min-height: 55vh;
   }

@@ -7,7 +7,7 @@
   }
   // rewards splash
   .rewards-container .secondLevel,
-  .rewards-container .rewardsSplash > div,
+  .rewards-container  #rewards,
   .property-container .factsWrapper,
   .property-container .secondLevel,
   .listings-container .secondLevel {
@@ -27,6 +27,7 @@
 
 
   // proparty thirdlevel expand
+  .listings-container .expandableColumn,
   .property-container .expandableColumn {
     transition: all 0.2s ease-in-out;
     &.collapsed {
