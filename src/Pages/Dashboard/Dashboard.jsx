@@ -191,7 +191,7 @@ const Dashboard = (props) => {
           label: 'You have unsaved changes',
           actions:
             [
-              { type: 'secondary', label: 'Discard changes', func: () => discardChanges() },
+              { type: 'secondary', label: 'Discard', func: () => discardChanges() },
               { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
             ],
         });

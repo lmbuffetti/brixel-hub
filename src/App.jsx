@@ -1,6 +1,6 @@
 /* global ga, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Switch, Route, withRouter, Redirect,
 } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
+import { CSSTransition } from 'react-transition-group';
 
 // COMPONENTS
 import Loading from './components/Loading';
@@ -104,6 +105,18 @@ const App = (props) => {
     redirectTo,
     windowDimensions,
   } = props;
+
+  // STATES
+  const [slideIn, setSlideIn] = useState(false);
+
+
+  useEffect(()=> {
+    if (get(notification, 'state', false) && notification.state === true) {
+      setSlideIn(true)
+    } else {
+      setSlideIn(false)
+    }
+  },[notification]);
 
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) handleCheckToken();
@@ -267,6 +280,22 @@ const App = (props) => {
       }
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
+      <CSSTransition
+        in={slideIn}
+        timeout={350}
+        classNames="fade"
+        onEnter={() => setSlideIn(true)}
+        onExited={() => setSlideIn(false)}
+        unmountOnExit
+      >
+          {/* <BrixelNotification
+            label={notification.label}
+            type={notification.type}
+            icon={notification.icon}
+            actions={notification.actions}
+            className="zIndex5"
+          /> */}
+      </CSSTransition>
       {
         notification && (notification.small || notification.state) && (
           <>
@@ -276,15 +305,7 @@ const App = (props) => {
                   <BrixelIcon icon={notification.icon} />
                   <span>{notification.text}</span>
                 </div>
-              ) : (
-                <BrixelNotification
-                  label={notification.label}
-                  type={notification.type}
-                  icon={notification.icon}
-                  actions={notification.actions}
-                  className="zIndex5"
-                />
-              )
+              ) : null
             }
           </>
         )
