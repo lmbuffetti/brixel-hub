@@ -113,7 +113,7 @@ const Showings = (props) => {
       <div className="showings secondLevel dis-fl-col ml-md-1">
         <div className="showingsWrapper dis-fl-col">
           <div className="pos-r">
-            <div className="dis-f jc-b a-c">
+            <div className="dis-f jc-b a-c mb-3">
               <BrixelButtonIcon
                 className={`shadow-3dp hide-md ${manageAvailability ? "opacity0" : ""}`}
                 icon="arrow-simple-left"
@@ -136,7 +136,7 @@ const Showings = (props) => {
             </div>
             {
               !manageAvailability && (
-                <div className="mt-3">
+                <div>
                   <BrixelTabs
                     fullWidth
                     className="facts-tabs"
@@ -159,11 +159,11 @@ const Showings = (props) => {
           </div>
           {
             !manageAvailability ? (
-              <div className="max-h-perc-100 pb-4 ov-a">
+              <div className="pb-3">
                 {
                   Object.keys(gorupByMonth()).map((key, e) => (
                     <React.Fragment key={e.toString()}>
-                      <h6 className="txtLight400 mb-1">
+                      <h6 className="txtLight400 mt-3 mb-1">
                         <span>{moment(key, 'MM.YYYY').format('MMMM')}</span>
                         &nbsp;-&nbsp;
                         <span>{moment(key, 'MM.YYYY').format('YYYY')}</span>

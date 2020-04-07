@@ -42,9 +42,9 @@ const Page = (props) => {
   return (
     <div className="dis-f">
       <div className="secondLevel dis-fl-col ml-md-1">
-        <div className="brixelPageWrapper max-h-perc-100 dis-fl-col">
+        <div className="brixelPageWrapper dis-fl-col">
           <div className="pos-r">
-            <div className="dis-f jc-b a-c">
+            <div className="dis-f jc-b a-c mb-3">
               <BrixelButtonIcon
                 className="shadow-3dp hide-md"
                 icon="arrow-simple-left"
@@ -76,7 +76,7 @@ const Page = (props) => {
               }
             </div>
           </div>
-          <div className="max-h-perc-100 pb-4 ov-a">
+          <div className="pb-4">
             {
               formValue.publishReview ? (
                 <>
@@ -150,36 +150,39 @@ const Page = (props) => {
 
                   {
                     formValue.published ? (
-                      <div className="ta-c mt-3">
+                      <div className="ta-c mt-4">
                         <h5 className="mb-1">Share for free.</h5>
-                        <p>Use the power of social media.</p>
+                        <p className="fsize-300 txtDark200">Use the power of social media.</p>
 
-                        <div className="dis-f jc-b a-c max-w-fix-344 m-a mt-3">
+                        <div className="dis-f jc-c a-c max-w-fix-344 m-a mt-3">
                           <a
                             href={`https://www.facebook.com/sharer/sharer.php?u=${baseByData.pageUrl}${formValue.stub}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="dis-b"
+                            className="dis-b mr-4"
                           >
                             <BrixelIcon
                               icon="facebook"
                               color="primary"
+                              iconSize="large"
                               saturationTxt={700}
                             />
-                            <span className="dis-b ta-c txtDark700">Facebook</span>
+                            <span className="dis-b ta-c txtDark700 fsize-300">Facebook</span>
                           </a>
                           <a
                             href={`https://twitter.com/share?url=${baseByData.pageUrl}${formValue.stub}`}
                             target="_blank"
+                            iconSize="large"
                             rel="noopener noreferrer"
-                            className="dis-b"
+                            className="dis-b mr-4"
                           >
                             <BrixelIcon
                               icon="twitter"
                               color="primary"
+                              iconSize="large"
                               saturationTxt={700}
                             />
-                            <span className="dis-b ta-c txtDark700">Twitter</span>
+                            <span className="dis-b ta-c txtDark700 fsize-300">Twitter</span>
                           </a>
                           <a
                             href={`https://www.linkedin.com/shareArticle?url=${baseByData.pageUrl}${formValue.stub}&title=${formValue.title}`}
@@ -190,13 +193,16 @@ const Page = (props) => {
                             <BrixelIcon
                               icon="linkedin"
                               color="primary"
+                              iconSize="large"
                               saturationTxt={700}
                             />
-                            <span className="dis-b ta-c txtDark700">Linkedin</span>
+                            <span className="dis-b ta-c txtDark700 fsize-300">Linkedin</span>
                           </a>
                         </div>
 
                         <hr className="my-3" />
+
+                        <p className="fsize-300 txtDark200 w-fix-200 m-a">Your property should not be visible anymore?</p>
 
                         <BrixelButtonPrimary
                           className="m-a mt-3 w-fix-176"
