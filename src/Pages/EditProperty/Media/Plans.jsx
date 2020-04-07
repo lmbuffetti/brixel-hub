@@ -49,7 +49,7 @@ const Photos = (props) => {
     setNewImages([]);
     setConfirmDelete(null);
     setBtnActive(null);
-    setFixPhotos(cloneDeep(floorPlans));
+    setFixPhotos(floorPlans ? cloneDeep(floorPlans) : []);
   }, [floorPlans]);
 
   const deleteImage = (id) => {
