@@ -280,22 +280,20 @@ const App = (props) => {
       }
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
-      <CSSTransition
-        in={slideIn}
-        timeout={350}
-        classNames="fade"
-        onEnter={() => setSlideIn(true)}
-        onExited={() => setSlideIn(false)}
-        unmountOnExit
-      >
-          {/* <BrixelNotification
+      {
+        notification && (
+          <BrixelNotification
             label={notification.label}
             type={notification.type}
             icon={notification.icon}
             actions={notification.actions}
-            className="zIndex5"
-          /> */}
-      </CSSTransition>
+            className={`zIndex5 ${notification.state ? 'open' : 'close'}`}
+          />
+        )
+      }
+      <style>
+
+      </style>
       {
         notification && (notification.small || notification.state) && (
           <>

@@ -23,6 +23,7 @@ import { diff } from 'deep-object-diff';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
 import { setModal, setScreenNotification } from '../../actions/CommonActions';
 import has from 'lodash/has';
+import actions from 'redux-form/lib/actions';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -177,14 +178,35 @@ const Dashboard = (props) => {
   };
 
   const discardChanges = () => {
-    handleSetScreenNotification(null);
+    handleSetScreenNotification({
+      ...notification,
+      state: false,
+    });
     reset('Property');
   };
 
   useEffect(() => {
+    if (notification && notification.actions && notification.type === 'infoHub') {
+      const getID = notification.actions.findIndex(item => item.label === 'Save');
+      const newNotification = cloneDeep(notification);
+      newNotification.actions[getID].isLoading = isSmallLoading;
+      handleSetScreenNotification({
+        ...newNotification,
+      })
+    }
+  }, [isSmallLoading]);
+
+  useEffect(() => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
-      if (Object.keys(changeObj).length > 0 && (Object.keys(changeObj).length > 1 || !changeObj.inputSheet ) && !isSmallLoading && !isLoading && get(notification, 'type', null) !== 'saved' && validForm()) {
+      if (
+        Object.keys(changeObj).length > 0 &&
+        (Object.keys(changeObj).length > 1 || !changeObj.inputSheet ) &&
+        !isSmallLoading &&
+        !isLoading &&
+        get(notification, 'type', null) !== 'saved' &&
+        validForm()
+      ) {
         handleSetScreenNotification({
           state: true,
           type: 'infoHub',
@@ -196,10 +218,13 @@ const Dashboard = (props) => {
             ],
         });
       } else if (!isSmallLoading && !isLoading && notification && notification.type !== 'saved' ) {
-        handleSetScreenNotification(null);
+        handleSetScreenNotification({
+          ...notification,
+          state: false,
+        });
       }
     }
-  }, [formValue, isSmallLoading, errorValue]);
+  }, [formValue, errorValue]);
 
   if (!userTypes) return (<div />);
 
