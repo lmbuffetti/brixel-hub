@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^1.3.4",
+    "@brixel/brixel-components": "^1.3.5",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "d3": "^5.15.1",
     "deep-object-diff": "^1.1.0",
@@ -71,7 +71,7 @@
     "compression": "^1.7.4",
     "concurrently": "^5.1.0",
     "copy-webpack-plugin": "^5.1.1",
-    "css-loader": "^3.5.0",
+    "css-loader": "^3.5.1",
     "eslint-plugin-flowtype": "^4.7.0",
     "eslint-plugin-react-hooks": "^3.0.0",
     "extract-css-chunks-webpack-plugin": "^4.7.4",

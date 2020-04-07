@@ -104,7 +104,7 @@ const ListingsDashboard = (props) => {
   };
 
   return (
-    <div className="listings-container h-perc-md-100 ov-y-a" id="listingsDashaboard">
+    <div className="listings-container" id="listingsDashaboard">
       <div className="dis-f">
         <div className={`firstLevel mr-md-2 expandableColumn ${openCloseColumn()}`}>
           <div className={`jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-f' : 'hide'}`}>
@@ -126,10 +126,12 @@ const ListingsDashboard = (props) => {
                 bgTransparent
                 icon="gallery"
                 label="Brixel Page"
+                labelClass="fweight-400 pb-small-6"
                 subtitle={statusPage().label}
-                className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+                subtitleClass={'fsize-200 txtDark200'}
+                className={`w-perc-100 mr-1 shadow-1dp brdMedium p-2 ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                 colorIcon="primary700"
-                backIcon="primary100 mr-1"
+                backIcon="primary100"
                 onClick={() => history.push(`/${propID}/listings/page`)}
                 status={statusPage().colorIcon}
               />
@@ -138,24 +140,28 @@ const ListingsDashboard = (props) => {
                 bgTransparent
                 icon="photo-list"
                 label="Portals"
+                labelClass="fweight-400 pb-small-6"
                 subtitle={statusPortals().label}
-                className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'portals' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
-                colorIcon={'primary700'}
-                backIcon="primary100 mr-1"
+                subtitleClass={'fsize-200 txtDark200'}
+                className={`w-perc-100 ml-1 shadow-1dp brdMedium p-2 ${getFact() === 'portals' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+                colorIcon="primary700"
+                backIcon="primary100"
                 onClick={() => history.push(`/${propID}/listings/portals`)}
                 status={statusPortals().colorIcon}
                 selected
               />
             </div>
-            <div>
+            <div className="mt-2">
               <BrixelButtonBox
                 bgTransparent
                 icon="gallery"
                 label="Showings"
+                labelClass="fweight-400 pb-small-6"
                 subtitle={`No showings`}
-                className={`w-perc-100 mt-1 shadow-1dp brdMedium ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
-                colorIcon={'primary700'}
-                backIcon="primary100 mr-1"
+                subtitleClass={'fsize-200 txtDark200'}
+                className={`w-perc-100 shadow-1dp brdMedium p-2 ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+                colorIcon="primary700"
+                backIcon="primary100"
                 onClick={() => history.push(`/${propID}/listings/showings`)}
                 selected
               />

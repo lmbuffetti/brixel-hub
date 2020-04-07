@@ -53,7 +53,7 @@ const Portals = (props) => {
       <div className="secondLevel h-perc-100 dis-fl-col ml-md-1">
         <div className="portalsWrapper max-h-perc-100 dis-fl-col">
           <div className="pos-r">
-            <div className="dis-f jc-b a-c">
+            <div className="dis-f jc-b a-c mb-3">
               <BrixelButtonIcon
                 className="shadow-3dp hide-md"
                 icon="arrow-simple-left"
@@ -154,7 +154,7 @@ const Portals = (props) => {
 
                           <hr className="my-3" />
 
-                          <p className="txtDark200">
+                          <p className="txtDark700">
                             Only CHF 750 for 3 months.
                             <br />
                             Save 20% compared to listing prices.

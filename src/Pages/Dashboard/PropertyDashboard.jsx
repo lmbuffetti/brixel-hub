@@ -150,7 +150,7 @@ const HomeDashboard = (props) => {
                 subtitle={`${calcLenght(get(formValue, 'photos', []))} Files`}
                 subtitleClass={'fsize-200 txtDark200 pt-small-6'}
                 className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'photos' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
-                colorIcon={'primary700'}
+                colorIcon="primary700"
                 backIcon="primary100"
                 onClick={() => history.push(`/${propID}/property/photos`)}
                 selected
