@@ -19,6 +19,7 @@ import upload_floorPlans_empty from '../../../images/Upload/upload_floorPlans_em
 import cloneDeep from 'lodash/cloneDeep';
 import OutsideElement from '../../../components/OutsideElement';
 import { Truncate } from '../../../utils/helpers';
+import { diff } from 'deep-object-diff';
 
 const Photos = (props) => {
   // PROPS
@@ -45,12 +46,13 @@ const Photos = (props) => {
   const wrappImg = useRef(arrayImg);
 
   useEffect(() => {
-    //setNewImages([]);
-    setNewImages([]);
-    setConfirmDelete(null);
-    setBtnActive(null);
-    setFixPhotos(floorPlans ? cloneDeep(floorPlans) : []);
-  }, [floorPlans]);
+    if (Object.keys(diff(floorPlans, fixPhotos)).length > 0) {
+      setNewImages([]);
+      setConfirmDelete(null);
+      setBtnActive(null);
+      setFixPhotos(floorPlans ? cloneDeep(floorPlans) : []);
+    }
+  });
 
   const deleteImage = (id) => {
     const propID = get(match, 'params.propId', null);
@@ -61,9 +63,8 @@ const Photos = (props) => {
       type: 'floorPlans',
     };
     // eslint-disable-next-line no-alert
-    if (window.confirm('Are you sure you want to delete this item?')) {
-      handleDeleteImg(data);
-    }
+    handleDeleteImg(data);
+    history.push(`/${propID}/property/floorPlans`)
   };
 
   // DROPZONE SETTINGS

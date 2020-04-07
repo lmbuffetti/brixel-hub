@@ -68,9 +68,8 @@ const DetailMedia = (props) => {
       type: mediaType,
     };
     // eslint-disable-next-line no-alert
-    if (window.confirm('Are you sure you want to delete this item?')) {
-      handleDeleteImg(data);
-    }
+    handleDeleteImg(data);
+    history.push(`/${propID}/property/${mediaType}`)
   };
 
   const rotateImage = () => {

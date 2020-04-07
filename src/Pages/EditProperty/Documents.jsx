@@ -41,7 +41,6 @@ const Documents = (props) => {
     history,
     isSmallLoading,
     match,
-    initialValues,
     changeFieldValue,
     setNotification,
   } = props;
@@ -192,7 +191,7 @@ const Documents = (props) => {
                                 />
                               </div>
                             ) : (
-                              <div className="dis-fl-col">
+                              <div className="dis-fl-col cur-poi" onClick={() => window.open(`${getConfigEnv.shortPath}/document/${doc.id}`, "_blank")}>
                                 <span className="document-title txtDark700">{doc.name}</span>
                                 <span className="date body2 txtDark200">{new Date(doc.createdAt).toDateString()}</span>
                               </div>
@@ -254,8 +253,8 @@ const Documents = (props) => {
                                     saturationTxt={400}
                                     label="Cancel"
                                     onClick={() => {
-                                      if (Object.keys(diff(initialValues.documents[i], doc)).length > 0) {
-                                        changeFieldValue(`documents[${i}]`, initialValues.documents[i]);
+                                      if (Object.keys(diff(formValue.documents[i], doc)).length > 0) {
+                                        changeFieldValue(`documents[${i}]`, formValue.documents[i]);
                                         setEditDocument({ id: null, active: false });
                                       } else {
                                         setEditDocument({ id: null, active: false });
@@ -367,22 +366,15 @@ Documents.propTypes = {
 Documents.defaultProps = {
 };
 
-const DocumentsForm = reduxForm({
-  // a unique name for the form
-  form: 'documentsForm',
-  enableReinitialize: true,
-})(Documents);
-
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'form.documentsForm.values', {}),
-  initialValues: get(state, 'property.activeSingleProperty', {}),
+  formValue: get(state, 'form.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
   user: get(state, 'user.loggedInUser', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
-    dispatch(change('documentsForm', field, value));
+    dispatch(change('Property', field, value));
   },
   setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
@@ -395,4 +387,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(DocumentsForm);
+)(Documents);

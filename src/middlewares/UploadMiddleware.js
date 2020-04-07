@@ -34,11 +34,14 @@ const checkCommon = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_SMALL_ON });
       api.image.rotateImg(action.payload.id, action.payload.rotate)
         .then((res) => {
-          const arrayImg = store.getState().form.Property.values.photos;
+          const arrayImg = store.getState().form.Property.values[action.payload.type];
           // eslint-disable-next-line array-callback-return
-          const idImg = arrayImg.findIndex((val) => { val.id = action.payload.id; });
-          arrayImg[idImg] = res.data;
-          store.dispatch(change('Property', 'photos', arrayImg));
+          const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
+          console.log(arrayImg, idImg, action.payload.id)
+          if (idImg > -1) {
+            arrayImg[idImg] = res.data;
+            store.dispatch(change('Property', 'photos', arrayImg));
+          }
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
@@ -153,7 +156,7 @@ const checkCommon = (store) => (next) => (action) => {
       else store.dispatch({ type: SPINNER_ON });
       api.image.uploadDocument(action.payload)
         .then((res) => {
-          const docList = store.getState().form.documentsForm.values.documents || [];
+          const docList = store.getState().form.Property.values.documents || [];
           docList.push(res.data);
           const data = {
             id: pageID,
@@ -170,14 +173,14 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const { smallLoader } = action.payload;
       delete action.payload.smallLaoder;
-      const arrayImg = store.getState().form.documentsForm.values.documents;
+      const arrayImg = store.getState().form.Property.values.documents;
       const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
       else store.dispatch({ type: SPINNER_ON });
       api.image.deleteDocument(action.payload.id)
         .then(() => {
           arrayImg.splice(idImg, 1);
-          store.dispatch(change('documentsForm', 'documents', arrayImg));
+          store.dispatch(change('Property', 'documents', arrayImg));
           const data = {
             id: action.payload.pageID,
             documents: arrayImg,
@@ -198,7 +201,7 @@ const checkCommon = (store) => (next) => (action) => {
       else store.dispatch({ type: SPINNER_ON });
       api.image.updateDocument(action.payload.id, action.payload.body)
         .then((res) => {
-          const docList = store.getState().form.documentsForm.values.documents;
+          const docList = store.getState().form.Property.values.documents;
           docList.forEach((el, index) => {
             if (el.id === res.data.id) {
               docList[index] = res.data;

@@ -51,11 +51,14 @@ const Photos = (props) => {
 
   useEffect(() => {
     //setNewImages([]);
-    setNewImages([]);
-    setConfirmDelete(null);
-    setBtnActive(null);
-    setFixPhotos(cloneDeep(photos));
-  }, [photos]);
+    if (Object.keys(diff(photos, fixPhotos)).length > 0) {
+      console.log(diff(photos, fixPhotos))
+      setNewImages([]);
+      setConfirmDelete(null);
+      setBtnActive(null);
+      setFixPhotos(cloneDeep(photos));
+    }
+  });
 
   const deleteImage = (id) => {
     const propID = get(match, 'params.propId', null);
@@ -67,6 +70,7 @@ const Photos = (props) => {
     };
     // eslint-disable-next-line no-alert
     handleDeleteImg(data);
+    history.push(`/${propID}/property/photos`)
   };
 
   // DROPZONE SETTINGS
