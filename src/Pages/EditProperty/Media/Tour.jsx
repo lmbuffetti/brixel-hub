@@ -24,6 +24,11 @@ const Tour = (props) => {
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
 
+  const onUpgrade = () => {
+    localStorage.setItem('backUrl', history.location.pathname);
+    history.push(`/${propID}/upgrade`);
+  };
+
   return (
     <div className="secondLevel h-perc-md-100">
       <div className="tourWrapper dis-fl-col">
@@ -53,12 +58,12 @@ const Tour = (props) => {
                 <div className="pos-a xy-c">
                   <BrixelButtonIcon
                     noBorder
-                    padding="16"
+                    padding={16}
                     icon="play-fill"
                     background="white"
                     saturation={0}
                     color="primary"
-                    fontSize="16"
+                    fontSize={16}
                     className="m-a opacity8"
                     saturationTxt={400}
                     onClick={() => setShowTour(true)}
@@ -106,6 +111,7 @@ const Tour = (props) => {
                   <p className="body2 txtDark200 ta-c">3D Tour and much more is part of Brixel Premium.</p>
                   <div className="dis-f jc-c mt-3">
                     <BrixelButtonPrimary
+                      onClick={() => onUpgrade()}
                       label="Upgrade now"
                       background="red"
                       saturation={400}

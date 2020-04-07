@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { change, Field } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -39,12 +39,15 @@ const Documents = (props) => {
     handleDeleteDocument,
     handleUpdateDocument,
     history,
+    isSmallLoading,
     match,
     initialValues,
     changeFieldValue,
     setNotification,
   } = props;
   const { documents } = formValue;
+  // STATE
+  const [newDocs, setNewDocs] = useState([]);
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
 
@@ -54,6 +57,10 @@ const Documents = (props) => {
 
   // PAGE ID
   const pageId = get(match, 'params.propId', formValue.id);
+
+  useEffect(() => {
+    setNewDocs([]);
+  }, [documents]);
 
   // UPLOAD DOCUMENTS
   const saveDocuments = (doc) => {
@@ -67,6 +74,7 @@ const Documents = (props) => {
     // const imgType = imageType.find((val) => val.name === 'Gallery');
     reader.onabort = () => console.log('file reading was aborted');
     reader.onerror = () => console.log('file reading has failed');
+    const arrayDocs = [];
     acceptedFiles.forEach((file) => {
       const read = new FileReader();
       read.readAsDataURL(file);
@@ -78,7 +86,10 @@ const Documents = (props) => {
           isBrochure: false,
           file: read.result,
           pageID: pageId,
+          smallLoader: true,
         };
+        arrayDocs.push({name: name, createdAt: Date().now});
+        setNewDocs([...arrayDocs]);
         saveDocuments(data);
       };
     });
@@ -94,9 +105,11 @@ const Documents = (props) => {
   // REMOVE DOCUMENTS
   const deleteDocs = (e, idDocs) => {
     e.preventDefault();
+    setDocumentOptionsOpen({ id: null, active: false });
     const data = {
       id: idDocs,
       pageID: formValue.id,
+      smallLoader: true,
     };
     handleDeleteDocument(data);
   };
@@ -107,6 +120,7 @@ const Documents = (props) => {
     const data = {
       pageID: formValue.id,
       id: doc.id,
+      smallLoader: true,
       body: {
         name: doc.name,
         isPrivate: selectedVisibility !== 'Public',
@@ -321,29 +335,30 @@ const Documents = (props) => {
               </>
             )
           }
-        <>
-          <div
-            className={`${(!documents || (documents && documents.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c w-perc-100`}
-            {...getRootProps()}
-          >
-            <input {...getInputProps()} />
-            {
-              (!documents || (documents && documents.length === 0)) && (
-                <div>
-                  <img src={upload_documents_empty} alt="Empty Documents" />
-                  <h5 className="mt-2 mb-1">Uplaod your fist document</h5>
-                </div>
-              )
-            }
-            <span className="body2 txtDark200 max-width-220">Choose .pdf .jpeg .png with max. 10 MB size</span>
-            <BrixelButtonPrimary
-              label="upload"
-              rightIcon="upload"
-              rounded
-              className="mt-3"
-            />
-          </div>
-        </>
+          <>
+            <div
+              className={`${(!documents || (documents && documents.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c w-perc-100`}
+              {...getRootProps()}
+            >
+              <input {...getInputProps()} />
+              {
+                (!documents || (documents && documents.length === 0)) && (
+                  <div>
+                    <img src={upload_documents_empty} alt="Empty Documents" />
+                    <h5 className="mt-2 mb-1">Uplaod your fist document</h5>
+                  </div>
+                )
+              }
+              <span className="body2 txtDark200 max-width-220">Choose .pdf .jpeg .png with max. 10 MB size</span>
+              <BrixelButtonPrimary
+                label="upload"
+                rightIcon="upload"
+                rounded
+                className="mt-3"
+                isLoading={isSmallLoading}
+              />
+            </div>
+          </>
         </div>
       </div>
     </div>

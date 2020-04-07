@@ -66,7 +66,7 @@ const Upgrade = (props) => {
   const closeWindow = () => {
     const url = localStorage.getItem('backUrl');
     localStorage.removeItem('backUrl');
-    history.push(url);
+    history.push(url || `/${propID}`);
   };
 
   const saveData = () => {

@@ -46,8 +46,8 @@ const Photos = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
   // REF
-  const arrayDates = [...Array(photos.length)].map((_, index) => React.createRef());
-  const wrappImg = useRef(arrayDates);
+  const arrayImg = [...Array(photos.length)].map((_, index) => React.createRef());
+  const wrappImg = useRef(arrayImg);
 
   useEffect(() => {
     //setNewImages([]);
@@ -97,7 +97,6 @@ const Photos = (props) => {
         handleUploadImg(binaryStr);
       };
     });
-    setNewImages([...arrayDates]);
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
@@ -175,42 +174,37 @@ const Photos = (props) => {
                                 className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
                                 ref={wrappImg.current[i]}
                               >
-                                {confirmDelete}
-                                <>
-                                  <BrixelButtonSecondary
-                                    rounded
-                                    color="red"
-                                    saturation={400}
-                                    saturationTxt={400}
-                                    rightIcon="bin"
-                                    label="delete?"
-                                    className={`shadow-2dp ${confirmDelete === i ? '' : 'hide'}`}
-                                    onClick={() => deleteImage(item.id)}
-                                    isLoading={isSmallLoading && btnActive === 'delete'}
-                                  />
-                                  <BrixelButtonIcon
-                                    background="white"
-                                    saturation={0}
-                                    color="red"
-                                    saturationTxt={400}
-                                    noBorder4
-                                    icon="bin"
-                                    className={`shadow-2dp ${confirmDelete === i ? 'hide' : ''}`}
-                                    onClick={() => onConfirmDelete(i)}
-                                  />
-                                  <BrixelButtonIcon
-                                    background="white"
-                                    saturation={0}
-                                    color="primary"
-                                    saturationTxt={400}
-                                    noBorder
-                                    icon="edit"
-                                    className={`shadow-2dp ml-1 ${confirmDelete === i ? 'hide' : ''}`}
-                                    onClick={() => history.push(`/${propID}/property/photos/${item.id}/edit/photos`)}
-                                  />
-                                </>
-
-
+                                <BrixelButtonSecondary
+                                  rounded
+                                  color="red"
+                                  saturation={400}
+                                  saturationTxt={400}
+                                  rightIcon="bin"
+                                  label="delete?"
+                                  className={`shadow-2dp ${confirmDelete === i ? '' : 'hide'}`}
+                                  onClick={() => deleteImage(item.id)}
+                                  isLoading={isSmallLoading && btnActive === 'delete'}
+                                />
+                                <BrixelButtonIcon
+                                  background="white"
+                                  saturation={0}
+                                  color="red"
+                                  saturationTxt={400}
+                                  noBorder4
+                                  icon="bin"
+                                  className={`shadow-2dp ${confirmDelete === i ? 'hide' : ''}`}
+                                  onClick={() => onConfirmDelete(i)}
+                                />
+                                <BrixelButtonIcon
+                                  background="white"
+                                  saturation={0}
+                                  color="primary"
+                                  saturationTxt={400}
+                                  noBorder
+                                  icon="edit"
+                                  className={`shadow-2dp ml-1 ${confirmDelete === i ? 'hide' : ''}`}
+                                  onClick={() => history.push(`/${propID}/property/photos/${item.id}/edit/photos`)}
+                                />
                               </div>
                               {
                                 item.id === get(formValue, 'coverPhoto.id', null) && (
