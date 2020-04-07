@@ -462,7 +462,7 @@ export const InputSheets = () => {
         },
       ],
     },
-    // SECTION: PROPERTY
+    // SECTION: CONDITION
     {
       className: '',
       group: "Condition",

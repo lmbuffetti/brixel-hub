@@ -50,7 +50,7 @@ const Facts = (props) => {
           if (get(formValue, `inputSheet.skipSection[${item.name}]`, true) !== true) {
             sectionDone = false;
           }
-          else if (get(formValue, item.name, false) === false) {
+          else if (get(formValue, item.name, 'ayc') === 'ayc') {
             sectionDone = false;
           }
         }
