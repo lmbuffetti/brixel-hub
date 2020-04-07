@@ -100,25 +100,14 @@ const ListingsDashboard = (props) => {
     ) {
       return 'closed';
     }
-    return 'open';
+    return 'opened';
   };
 
   return (
     <div className="listings-container" id="listingsDashaboard">
       <div className="dis-f">
-        <div className={`firstLevel mr-md-2 expandableColumn ${openCloseColumn()}`}>
-          <div className={`jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-f' : 'hide'}`}>
-            <BrixelButtonIcon
-              background="white"
-              saturation={0}
-              color="primary"
-              saturationTxt={400}
-              icon="arrow-simple-right"
-              noBorder
-              className="shadow-2dp"
-              onClick={() => history.push(`${propID}/listings/showings`)}
-            />
-          </div>
+        <div className={`firstLevel mr-md-2 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
+
 
             <div className="dis-f">
               <BrixelButtonBox
@@ -219,6 +208,18 @@ const ListingsDashboard = (props) => {
               </div>
             </div>
 
+        </div>
+        <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
+          <BrixelButtonIcon
+            background="white"
+            saturation={0}
+            color="primary"
+            saturationTxt={400}
+            icon="arrow-simple-right"
+            noBorder
+            className="shadow-2dp"
+            onClick={() => history.push(`${propID}/listings/showings`)}
+          />
         </div>
         {
           getFact() !== 'listings' && (

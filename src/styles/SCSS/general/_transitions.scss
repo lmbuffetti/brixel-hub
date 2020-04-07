@@ -27,6 +27,7 @@
 
 
   // proparty thirdlevel expand
+  .listings-container .expandableColumn,
   .property-container .expandableColumn {
     transition: all 0.2s ease-in-out;
     &.collapsed {
