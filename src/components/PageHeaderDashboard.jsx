@@ -131,13 +131,17 @@ function PageHeaderDashboard(props) {
           </div>
 
           <div className="dis-f a-t">
-            <BrixelButtonPrimary
-              className="hide dis-b-md"
-              label="UPGRADE"
-              background="red"
-              rounded
-              onClick={() => onUpgrade()}
-            />
+            {
+              propID && (
+                <BrixelButtonPrimary
+                  className="hide dis-b-md"
+                  label="UPGRADE"
+                  background="red"
+                  rounded
+                  onClick={() => onUpgrade()}
+                />
+              )
+            }
             <div className="ml-2 hide dis-b-md cur-poi">
               <AvatarImage
                 avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData().shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
