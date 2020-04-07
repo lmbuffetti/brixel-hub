@@ -62,7 +62,6 @@ export const ComponentMap =(props) => {
   const [streetViewAvailable, setStretViewAvailable] = useState(false);
   const [showZipCode, setShowZipCode] = useState(false);
   const [optMap, setOptMap] = useState({});
-  const [showSelCountry, setShowSelCountry] = useState(false);
   const inputSearch = createRef(null);
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
   const [defCountry, setDefCountry] = useState('');

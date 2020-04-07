@@ -30,7 +30,6 @@ const Facts = (props) => {
     changeFieldValue,
     formValue,
     history,
-    isSmallLoading,
     match,
   } = props;
 

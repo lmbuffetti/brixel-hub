@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { change, Field } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -46,8 +46,6 @@ const Documents = (props) => {
     setNotification,
   } = props;
   const { documents } = formValue;
-  // STATE
-  const [newDocs, setNewDocs] = useState([]);
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
 
@@ -57,10 +55,6 @@ const Documents = (props) => {
 
   // PAGE ID
   const pageId = get(match, 'params.propId', formValue.id);
-
-  useEffect(() => {
-    setNewDocs([]);
-  }, [documents]);
 
   // UPLOAD DOCUMENTS
   const saveDocuments = (doc) => {
@@ -74,7 +68,6 @@ const Documents = (props) => {
     // const imgType = imageType.find((val) => val.name === 'Gallery');
     reader.onabort = () => console.log('file reading was aborted');
     reader.onerror = () => console.log('file reading has failed');
-    const arrayDocs = [];
     acceptedFiles.forEach((file) => {
       const read = new FileReader();
       read.readAsDataURL(file);
@@ -88,8 +81,6 @@ const Documents = (props) => {
           pageID: pageId,
           smallLoader: true,
         };
-        arrayDocs.push({name: name, createdAt: Date().now});
-        setNewDocs([...arrayDocs]);
         saveDocuments(data);
       };
     });

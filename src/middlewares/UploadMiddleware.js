@@ -24,7 +24,6 @@ import {
   SPINNER_OFF,
   SPINNER_SMALL_ON,
   SPINNER_SMALL_OFF,
-  SET_SAVED_SCREEN,
   SET_PSEUDO_SAVED_SCREEN,
 } from '../actions/types/CommonTypes';
 

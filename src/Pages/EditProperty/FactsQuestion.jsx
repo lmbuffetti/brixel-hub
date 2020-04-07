@@ -99,6 +99,7 @@ const FactsQuestion = (props) => {
           if (valA === input.condition.value) condition = true;
           else if (input.condition.value === 'isPositive' && valA > 0) condition = true;
           else condition = false;
+          return null;
         });
       }
     }
@@ -111,6 +112,7 @@ const FactsQuestion = (props) => {
           else if (item.value === 'isPositive' && valA > 0) condition = true;
           else condition = false;
         }
+        return null;
       });
     }
     return condition;

@@ -18,7 +18,6 @@ import {
 } from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
 import { reduxForm, reset } from 'redux-form';
-import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
 import { setModal, setScreenNotification } from '../../actions/CommonActions';
