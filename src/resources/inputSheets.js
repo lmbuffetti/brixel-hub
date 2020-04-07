@@ -1089,7 +1089,6 @@ export const InputSheets = () => {
           placeholder: '16’000',
           name: 'price.national',
           labelLeft: 'Notional Value',
-          type: 'number',
           format: formatPrice,
           normalize: normalizePrice,
           validation: [Validation.markRequired],

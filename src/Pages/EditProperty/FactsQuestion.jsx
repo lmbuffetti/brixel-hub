@@ -209,7 +209,7 @@ const FactsQuestion = (props) => {
                               placeholder={input.placeholder || ''}
                               meta={{
                                 dirty: get(formValue, input.name, null) !== null,
-                                invalid: get(errorValue, input.name, true) !== true,
+                                invalid: get(errorValue, input.name, true) !== true && get(errorValue, input.name, true) !== 'Mark Required',
                               }}
                               //modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
                               message={{

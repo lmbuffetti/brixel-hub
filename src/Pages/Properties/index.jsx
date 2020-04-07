@@ -91,9 +91,9 @@ const Properties = (props) => {
           'buyer',
         ]}
         labels={[
-          `All (${countNumProperties()})`,
-          `Owner (${countNumProperties('seller')})`,
-          `Buyer (${countNumProperties('buyer')})`,
+          `<span>All</span>&nbsp;<span>(${countNumProperties()})</span>`,
+          `<span>Owner</span>&nbsp;<span>(${countNumProperties('seller')})</span>`,
+          `<span>Buyer</span>&nbsp;<span>(${countNumProperties('buyer')})</span>`,
         ]}
         activeTab={activeTab}
         onClick={(tab) => setActiveTab(tab)}

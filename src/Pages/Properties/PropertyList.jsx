@@ -99,7 +99,13 @@ const PropertyList = (props) => {
                         </div>
                         <div className="title ml-1">
                           <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                            {(has(property.properties, 'typology') && has(property.properties.typology, 'bedrooms')) ? property.properties.typology.bedrooms : ''} {has(property.properties, 'propertyType') ? property.properties.propertyType : 'Property'}
+                            <span>
+                              {(has(property.properties, 'typology') && has(property.properties.typology, 'bedrooms')) ? property.properties.typology.bedrooms : ''}
+                            </span>
+                            &nbsp;
+                            <span>
+                              {has(property.properties, 'propertyType') ? property.properties.propertyType : 'Property'}
+                            </span>
                           </span>
                           <span className="address caption txtLight400">{has(property.location, 'zip') ? property.location.zip : ''} {has(property.location, 'state') ? property.location.state : ''}</span>
                         </div>

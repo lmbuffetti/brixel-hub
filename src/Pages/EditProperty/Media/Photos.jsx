@@ -263,7 +263,7 @@ const Photos = (props) => {
                   (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
                     <div className="w-perc-100">
                       <img className="w-perc-100" src={upload_photos_empty} alt="Empty State" />
-                      <h5 className="mt-2 mb-1">Uplaod your fist photo</h5>
+                      <h5 className="mt-2 mb-1">Upload your fist photo</h5>
                     </div>
                   )
                 }
