@@ -41,7 +41,7 @@ const Photos = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
   // REF
-  const arrayImg = [...Array(floorPlans.length)].map((_, index) => React.createRef());
+  const arrayImg = [...Array(floorPlans ? floorPlans.length : 0)].map((_, index) => React.createRef());
   const wrappImg = useRef(arrayImg);
 
   useEffect(() => {

@@ -46,7 +46,7 @@ const Photos = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
   // REF
-  const arrayImg = [...Array(photos.length)].map((_, index) => React.createRef());
+  const arrayImg = [...Array(photos ? photos.length : 0)].map((_, index) => React.createRef());
   const wrappImg = useRef(arrayImg);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const Photos = (props) => {
     setNewImages([]);
     setConfirmDelete(null);
     setBtnActive(null);
-    setFixPhotos(photos ? cloneDeep(photos) : []);
+    setFixPhotos(cloneDeep(photos));
   }, [photos]);
 
   const deleteImage = (id) => {

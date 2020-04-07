@@ -76,7 +76,7 @@ const Dashboard = (props) => {
     loggedInUser,
     match,
     notification,
-    property,
+    activeSingleProperty,
     reset,
   } = props;
   //const [showButton, setShowButton] = useState(true);
@@ -87,7 +87,7 @@ const Dashboard = (props) => {
   // const checkActiveTab = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    if (propID && !property.id) {
+    if (propID && !activeSingleProperty.id) {
       handleGetActiveSingleProperty({fullVersion: false, id: propID});
     } else if (!propID) {
       const data = {
@@ -100,15 +100,17 @@ const Dashboard = (props) => {
   }, []);
 
   useEffect(() => {
-    if (!propID && property.id) {
-      history.push(`/${property.id}/rewards`);
+    if (typeof activeSingleProperty !== 'undefined') {
+      if (!propID && activeSingleProperty.id) {
+        history.push(`/${activeSingleProperty.id}/rewards`);
+      }
+      if (activeSingleProperty.owner === loggedInUser.user.id) {
+        handleGetActiveSingleProperty({ fullVersion: true, id: propID });
+        handleGetActiveSinglePropertyBookings({ id: propID });
+      }
+      handleGetImageType();
     }
-    if (property.owner === loggedInUser.user.id) {
-      handleGetActiveSingleProperty({fullVersion: true, id: propID});
-      handleGetActiveSinglePropertyBookings({id: propID});
-    }
-    handleGetImageType();
-  }, [property]);
+  }, [activeSingleProperty]);
 
   const saveData = () => {
     const changeObj = diff(initialValues, formValue);
@@ -251,7 +253,7 @@ const DashboardForm = reduxForm({
 const mapStateToProps = (state) => ({
   userTypes: get(state, 'user.userTypes', null),
   loggedInUser: get(state, 'user.loggedInUser', {}),
-  property: get(state, 'property.activeSingleProperty', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', undefined),
   formValue: get(state, 'form.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
   isLoading: get(state, 'common.isLoading', 0) > 0,
@@ -271,7 +273,7 @@ const mapStateToProps = (state) => ({
     // language: get(state, 'property.activeSingleProperty.language', null),
     // listed: get(state, 'property.activeSingleProperty.listed', null),
     location: get(state, 'property.activeSingleProperty.location', {}),
-    photos: cloneDeep(get(state, 'property.activeSingleProperty.photos', [])),
+    photos: get(state, 'property.activeSingleProperty.photos', []),
     portals: get(state, 'property.activeSingleProperty.portals', {}),
     portalsReview: get(state, 'property.activeSingleProperty.portalsReview', null),
     properties: get(state, 'property.activeSingleProperty.properties', {}),

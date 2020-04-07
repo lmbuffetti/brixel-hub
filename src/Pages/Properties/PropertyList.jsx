@@ -134,18 +134,18 @@ const PropertyList = (props) => {
                 </a>
               ))
             }
-            {
-              activeSection !== 'buyer' && (
-                <div className="dis-f jc-c mt-3">
-                  <BrixelButtonPrimary
-                    label="Create new"
-                    rightIcon="plus"
-                    rounded
-                    onClick={() => history.push('/packageFlow/getStarted')}
-                  />
-                </div>
-              )
-            }
+          </div>
+        )
+      }
+      {
+        activeSection !== 'buyer' && (
+          <div className={`dis-f jc-c mb-3 ${activeProperties.length === 0 ? 'mt-3' : ''}`}>
+            <BrixelButtonPrimary
+              label="Create new"
+              rightIcon="plus"
+              rounded
+              onClick={() => history.push('/packageFlow/getStarted')}
+            />
           </div>
         )
       }
