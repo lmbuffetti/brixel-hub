@@ -255,19 +255,17 @@ const RewardsDashboard = (props) => {
         activeGameGroup && rewardType !== 'rewards' && (
           <div className="secondLevel w-perc-100 dis-fl-col ml-md-1">
             <>
-              <div className="headerSection hide-md p-1">
-                <div className="pos-r">
-                  <BrixelButtonIcon
-                    className="shadow-2dp"
-                    icon="close-small"
-                    color="primary"
-                    saturationTxt={400}
-                    bgTransparent
-                    noBorder
-                    onClick={() => closeAchievement()}
-                  />
-                  <h5>{activeGameGroup.replace('-', ' ')}</h5>
-                </div>
+              <div className="dis-f a-c jc-b hide-md">
+                <BrixelButtonIcon
+                  className="shadow-2dp"
+                  icon="arrow-simple-left"
+                  color="primary"
+                  saturationTxt={400}
+                  bgTransparent
+                  noBorder
+                  onClick={() => closeAchievement()}
+                />
+                <h5 className="m-a m-md-0">{activeGameGroup.replace('-', ' ')}</h5>
               </div>
               <div className="rewardsSplash h-perc-100">
                 {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}

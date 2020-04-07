@@ -115,7 +115,7 @@ const Showings = (props) => {
           <div className="pos-r">
             <div className="dis-f jc-b a-c">
               <BrixelButtonIcon
-                className="shadow-3dp hide-md"
+                className={`shadow-3dp hide-md ${manageAvailability ? "opacity0" : ""}`}
                 icon="arrow-simple-left"
                 background="White"
                 color="primary"
@@ -123,7 +123,7 @@ const Showings = (props) => {
                 noBorder
                 onClick={() => history.push(`${propID}/listings`)}
               />
-              <h5>Showings</h5>
+              <h5 className="m-a m-md-0">Showings</h5>
               <BrixelButtonIcon
                 className="shadow-3dp"
                 icon={manageAvailability ? "close-small" : "calendar-edit"}

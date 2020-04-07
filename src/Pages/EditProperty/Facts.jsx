@@ -139,17 +139,17 @@ const Facts = (props) => {
     <div className="factsWrapper dis-f h-perc-md-100">
       <div className="secondLevel dis-fl-col w-perc-100 h-perc-md-100">
         <div className="dis-fl-col max-h-perc-100">
-          <div className="headerSection pos-r">
+          <div className="dis-f a-c jc-b">
             <BrixelButtonIcon
-              className="shadow-2dp"
-              icon="close-small"
+              className="shadow-2dp hide-md"
+              icon="arrow-simple-left"
               color="primary"
               saturationTxt={400}
               bgTransparent
               noBorder
               onClick={() => history.push(`/${propID}/property`)}
             />
-            <h5>Facts</h5>
+            <h5 className="m-a m-md-0">Facts</h5>
           </div>
           <div className="mt-3 mb-3">
             <BrixelProgressBar

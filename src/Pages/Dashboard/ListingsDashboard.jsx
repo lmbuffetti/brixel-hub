@@ -104,7 +104,7 @@ const ListingsDashboard = (props) => {
   };
 
   return (
-    <div className="listings-container h-perc-md-100 ov-y-a" id="listingsDashaboard">
+    <div className="listings-container" id="listingsDashaboard">
       <div className="dis-f">
         <div className={`firstLevel mr-md-2 expandableColumn ${openCloseColumn()}`}>
           <div className={`jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-f' : 'hide'}`}>
@@ -120,98 +120,98 @@ const ListingsDashboard = (props) => {
             />
           </div>
 
-            <div className="dis-f">
-              <BrixelButtonBox
-                verticalView
-                bgTransparent
-                icon="gallery"
-                label="Brixel Page"
-                subtitle={statusPage().label}
-                className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
-                colorIcon="primary700"
-                backIcon="primary100 mr-1"
-                onClick={() => history.push(`/${propID}/listings/page`)}
-                status={statusPage().colorIcon}
-              />
-              <BrixelButtonBox
-                verticalView
-                bgTransparent
-                icon="photo-list"
-                label="Portals"
-                subtitle={statusPortals().label}
-                className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'portals' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
-                colorIcon={'primary700'}
-                backIcon="primary100 mr-1"
-                onClick={() => history.push(`/${propID}/listings/portals`)}
-                status={statusPortals().colorIcon}
-                selected
-              />
-            </div>
-            <div>
-              <BrixelButtonBox
-                bgTransparent
-                icon="gallery"
-                label="Showings"
-                subtitle={`No showings`}
-                className={`w-perc-100 mt-1 shadow-1dp brdMedium ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
-                colorIcon={'primary700'}
-                backIcon="primary100 mr-1"
-                onClick={() => history.push(`/${propID}/listings/showings`)}
-                selected
-              />
+          <div className="dis-f">
+            <BrixelButtonBox
+              verticalView
+              bgTransparent
+              icon="gallery"
+              label="Brixel Page"
+              subtitle={statusPage().label}
+              className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+              colorIcon="primary700"
+              backIcon="primary100 mr-1"
+              onClick={() => history.push(`/${propID}/listings/page`)}
+              status={statusPage().colorIcon}
+            />
+            <BrixelButtonBox
+              verticalView
+              bgTransparent
+              icon="photo-list"
+              label="Portals"
+              subtitle={statusPortals().label}
+              className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'portals' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+              colorIcon={'primary700'}
+              backIcon="primary100 mr-1"
+              onClick={() => history.push(`/${propID}/listings/portals`)}
+              status={statusPortals().colorIcon}
+              selected
+            />
+          </div>
+          <div>
+            <BrixelButtonBox
+              bgTransparent
+              icon="gallery"
+              label="Showings"
+              subtitle={`No showings`}
+              className={`w-perc-100 mt-1 shadow-1dp brdMedium ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+              colorIcon={'primary700'}
+              backIcon="primary100 mr-1"
+              onClick={() => history.push(`/${propID}/listings/showings`)}
+              selected
+            />
+          </div>
+
+          <div className="brdRadius shadow-1dp brdPrimary400 mt-1 hide">
+            <div className="transparency-container">
+              <div className="dis-fl-col ta-l">
+                <BrixelButtonBox
+                  bgTransparent
+                  icon="users"
+                  label="Buyers"
+                  className="w-perc-100"
+                  colorIcon={'primary700'}
+                  backIcon="primary100 mr-1"
+                  hoverEffect={false}
+                />
+              </div>
             </div>
 
-            <div className="brdRadius shadow-1dp brdPrimary400 mt-1 hide">
-              <div className="transparency-container">
-                <div className="dis-fl-col ta-l">
-                  <BrixelButtonBox
-                    bgTransparent
-                    icon="users"
-                    label="Buyers"
-                    className="w-perc-100"
-                    colorIcon={'primary700'}
-                    backIcon="primary100 mr-1"
-                    hoverEffect={false}
+
+            <div className="details dis-fl-col p-1">
+              <div className="dis-fl-row jc-b a-c mb-2">
+                <span className="mr-1 body2 w-fix-80">Request</span>
+                <div className="w-fix-304">
+                  <BrixelProgressBar
+                    progressValue={35}
+                    saturation={700}
                   />
                 </div>
+                <span className="ml-1 body2 ff-mono txtPrimary700">12</span>
               </div>
 
-
-              <div className="details dis-fl-col p-1">
-                <div className="dis-fl-row jc-b a-c mb-2">
-                  <span className="mr-1 body2 w-fix-80">Request</span>
-                  <div className="w-fix-304">
-                    <BrixelProgressBar
-                      progressValue={35}
-                      saturation={700}
-                    />
-                  </div>
-                  <span className="ml-1 body2 ff-mono txtPrimary700">12</span>
+              <div className="dis-fl-row jc-b a-c mb-2">
+                <span className="mr-1 body2 w-fix-80">Showings</span>
+                <div className="w-fix-304">
+                  <BrixelProgressBar
+                    progressValue={12}
+                    saturation={700}
+                  />
                 </div>
+                <span className="ml-1 body2 ff-mono txtPrimary700">5</span>
+              </div>
 
-                <div className="dis-fl-row jc-b a-c mb-2">
-                  <span className="mr-1 body2 w-fix-80">Showings</span>
-                  <div className="w-fix-304">
-                    <BrixelProgressBar
-                      progressValue={12}
-                      saturation={700}
-                    />
-                  </div>
-                  <span className="ml-1 body2 ff-mono txtPrimary700">5</span>
+              <div className="dis-fl-row jc-b a-c mb-2">
+                <span className="mr-1 body2 w-fix-80">Offers</span>
+                <div className="w-fix-304">
+                  <BrixelProgressBar
+                    progressValue={60}
+                    saturation={700}
+                  />
                 </div>
-
-                <div className="dis-fl-row jc-b a-c mb-2">
-                  <span className="mr-1 body2 w-fix-80">Offers</span>
-                  <div className="w-fix-304">
-                    <BrixelProgressBar
-                      progressValue={60}
-                      saturation={700}
-                    />
-                  </div>
-                  <span className="ml-1 body2 ff-mono txtPrimary700">8</span>
-                </div>
+                <span className="ml-1 body2 ff-mono txtPrimary700">8</span>
               </div>
             </div>
+          </div>
 
         </div>
         {
