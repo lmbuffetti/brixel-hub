@@ -97,7 +97,8 @@ const HomeDashboard = (props) => {
 
             <div
               className={`cur-poi showHover brdRadius shadow-1dp brdMedium ${getFact() === 'facts' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
-              onClick={() => history.push(`/${propID}/property/facts`)}>
+              onClick={() => history.push(`/${propID}/property/facts`)}
+            >
               <div className="transparency-container">
                 <div className="dis-fl-col ta-l cur-poi">
                   {
