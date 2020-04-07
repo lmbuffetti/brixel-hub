@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
@@ -9,13 +9,16 @@ import { connect } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary,
+  BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonSecondary,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
 import { deleteImg, uploadImg } from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
 import upload_floorPlans_empty from '../../../images/Upload/upload_floorPlans_empty.svg';
+import cloneDeep from 'lodash/cloneDeep';
+import OutsideElement from '../../../components/OutsideElement';
+import { Truncate } from '../../../utils/helpers';
 
 const Photos = (props) => {
   // PROPS
@@ -25,17 +28,28 @@ const Photos = (props) => {
     handleUploadImg,
     handleDeleteImg,
     history,
+    isSmallLoading,
     loggedInUser,
     match,
   } = props;
   const { floorPlans } = formValue;
   // STATE
   const [fixPhotos, setFixPhotos] = useState([]);
+  const [confirmDelete, setConfirmDelete] = useState(null);
+  const [btnActive, setBtnActive] = useState(null);
+  const [newImages, setNewImages] = useState([]);
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
+  // REF
+  const arrayImg = [...Array(floorPlans.length)].map((_, index) => React.createRef());
+  const wrappImg = useRef(arrayImg);
 
   useEffect(() => {
-    setFixPhotos(floorPlans);
+    //setNewImages([]);
+    setNewImages([]);
+    setConfirmDelete(null);
+    setBtnActive(null);
+    setFixPhotos(floorPlans ? cloneDeep(floorPlans) : []);
   }, [floorPlans]);
 
   const deleteImage = (id) => {
@@ -59,6 +73,8 @@ const Photos = (props) => {
     // const imgType = imageType.find((val) => val.name === 'Gallery');
     reader.onabort = () => console.log('file reading was aborted');
     reader.onerror = () => console.log('file reading has failed');
+    const arrayDates = [];
+    setBtnActive('uploading');
     acceptedFiles.forEach((file) => {
       const read = new FileReader();
       read.readAsDataURL(file);
@@ -72,6 +88,8 @@ const Photos = (props) => {
           pageID: formValue.id,
           uploadAction: 'floorPlans',
         };
+        arrayDates.push({galleryThumbnailPath: read.result, createdAt: Date().now});
+        setNewImages([...arrayDates]);
         handleUploadImg(binaryStr);
       };
     });
@@ -93,6 +111,17 @@ const Photos = (props) => {
     });
     changeFieldValue('floorPlans', imgArray);
   };
+
+  const onConfirmDelete = (id) => {
+    setBtnActive('delete');
+    setConfirmDelete(id);
+  };
+
+  OutsideElement(wrappImg, {
+    id: confirmDelete || 0,
+    action: 'function',
+    func: () => { setConfirmDelete(null) },
+  });
 
   return (
     <div className="plansWrapper dis-f h-perc-100">
@@ -120,7 +149,7 @@ const Photos = (props) => {
                   <ReactSortable
                     tag="ul"
                     className="image-list row-cols-2-gut-1 row-cols-md-3-gut-1"
-                    list={fixPhotos}
+                    list={cloneDeep(fixPhotos).concat(newImages)}
                     setList={(order, evt) => {
                       changeOrder(order);
                     }}
@@ -135,17 +164,33 @@ const Photos = (props) => {
                           <div
                             className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
                           >
-                            <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}>
-                              <div className="photo-action dis-f a-c">
+                            <div
+                              className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}
+                            >
+                              <div
+                                className={`photo-action dis-f a-c ${confirmDelete === i ? 'show' : 'hoverShow'}`}
+                                ref={wrappImg.current[i]}
+                              >
+                                <BrixelButtonSecondary
+                                  rounded
+                                  color="red"
+                                  saturation={400}
+                                  saturationTxt={400}
+                                  rightIcon="bin"
+                                  label="delete?"
+                                  className={`shadow-2dp ${confirmDelete === i ? '' : 'hide'}`}
+                                  onClick={() => deleteImage(item.id)}
+                                  isLoading={isSmallLoading && btnActive === 'delete'}
+                                />
                                 <BrixelButtonIcon
                                   background="white"
                                   saturation={0}
                                   color="red"
                                   saturationTxt={400}
-                                  noBorder
+                                  noBorder4
                                   icon="bin"
-                                  className="shadow-2dp"
-                                  onClick={() => deleteImage(item.id)}
+                                  className={`shadow-2dp ${confirmDelete === i ? 'hide' : ''}`}
+                                  onClick={() => onConfirmDelete(i)}
                                 />
                                 <BrixelButtonIcon
                                   background="white"
@@ -154,12 +199,38 @@ const Photos = (props) => {
                                   saturationTxt={400}
                                   noBorder
                                   icon="edit"
-                                  className="shadow-2dp ml-1"
+                                  className={`shadow-2dp ml-1 ${confirmDelete === i ? 'hide' : ''}`}
                                   onClick={() => history.push(`/${propID}/property/floorPlans/${item.id}/edit/floorPlans`)}
                                 />
                               </div>
                             </div>
                           </div>
+                          {
+                            item.description && (
+                              <p className="ta-l mt-1 fsize-200 txtDark700 w-prec-100">
+                                {Truncate(item.description, 60)}
+                              </p>
+                            )
+                          }
+                        </li>
+                      ))
+                    }
+                    {
+                      newImages.map((upImg, i) => (
+                        <li
+                          className="cur-poi pos-r"
+                          key={(fixPhotos.length + i).toString()}
+                          data-id={JSON.stringify(fixPhotos[0])}
+                        >
+                          {
+                            isSmallLoading && (
+                              <div
+                                className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
+                              >
+                                <div className="perc-r w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${upImg.galleryThumbnailPath})` }} />
+                              </div>
+                            )
+                          }
                         </li>
                       ))
                     }
@@ -187,6 +258,7 @@ const Photos = (props) => {
                   label="upload"
                   rightIcon="upload"
                   className="mt-3"
+                  isLoading={isSmallLoading && btnActive === 'uploading'}
                 />
               </div>
             </>
@@ -203,6 +275,7 @@ Photos.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.bool.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -212,6 +285,7 @@ Photos.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
   loggedInUser: get(state, 'user.loggedInUser', null),
 });
 

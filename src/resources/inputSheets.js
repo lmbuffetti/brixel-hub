@@ -179,7 +179,7 @@ export const InputSheets = () => {
           },
           options: factsOptions.constructedVolumeCode,
           className: '',
-          label: 'What\'s the house\'s volume?',
+          label: 'What\'s the volume standard?',
           unit: 'm2',
           labelLeft: 'Volume',
           name: 'properties.typology.constructedVolumeCode',

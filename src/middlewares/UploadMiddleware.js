@@ -147,9 +147,11 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case UPLOAD_DOCUMENT: {
       next(action);
-      const { pageID } = action.payload;
+      const { pageID, smallLoader } = action.payload;
       delete action.payload.pageID;
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      delete action.payload.smallLaoder;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
       api.image.uploadDocument(action.payload)
         .then((res) => {
           const docList = store.getState().form.documentsForm.values.documents || [];
@@ -160,34 +162,41 @@ const checkCommon = (store) => (next) => (action) => {
             smallLoader: true,
           };
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
-          store.dispatch({ type: SPINNER_SMALL_OFF });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
     case DELETE_DOCUMENT: {
       next(action);
+      const { smallLoader } = action.payload;
+      delete action.payload.smallLaoder;
       const arrayImg = store.getState().form.documentsForm.values.documents;
       const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
       api.image.deleteDocument(action.payload.id)
         .then(() => {
           arrayImg.splice(idImg, 1);
           store.dispatch(change('documentsForm', 'documents', arrayImg));
-          store.dispatch({ type: SPINNER_SMALL_ON });
           const data = {
             id: action.payload.pageID,
             documents: arrayImg,
             smallLoader: true
           };
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
-          store.dispatch({ type: SPINNER_SMALL_OFF });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
     case UPDATE_DOCUMENT: {
       next(action);
-      const { pageID } = action.payload;
+      const { pageID, smallLoader } = action.payload;
       delete action.payload.pageID;
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      delete action.payload.smallLaoder;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
       api.image.updateDocument(action.payload.id, action.payload.body)
         .then((res) => {
           const docList = store.getState().form.documentsForm.values.documents;
@@ -202,7 +211,8 @@ const checkCommon = (store) => (next) => (action) => {
             smallLoader: true
           };
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
-          store.dispatch({ type: SPINNER_SMALL_OFF });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
