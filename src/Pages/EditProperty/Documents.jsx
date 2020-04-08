@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { change, Field } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -41,13 +41,10 @@ const Documents = (props) => {
     history,
     isSmallLoading,
     match,
-    initialValues,
     changeFieldValue,
     setNotification,
   } = props;
   const { documents } = formValue;
-  // STATE
-  const [newDocs, setNewDocs] = useState([]);
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
 
@@ -57,10 +54,6 @@ const Documents = (props) => {
 
   // PAGE ID
   const pageId = get(match, 'params.propId', formValue.id);
-
-  useEffect(() => {
-    setNewDocs([]);
-  }, [documents]);
 
   // UPLOAD DOCUMENTS
   const saveDocuments = (doc) => {
@@ -74,7 +67,6 @@ const Documents = (props) => {
     // const imgType = imageType.find((val) => val.name === 'Gallery');
     reader.onabort = () => console.log('file reading was aborted');
     reader.onerror = () => console.log('file reading has failed');
-    const arrayDocs = [];
     acceptedFiles.forEach((file) => {
       const read = new FileReader();
       read.readAsDataURL(file);
@@ -88,8 +80,6 @@ const Documents = (props) => {
           pageID: pageId,
           smallLoader: true,
         };
-        arrayDocs.push({name: name, createdAt: Date().now});
-        setNewDocs([...arrayDocs]);
         saveDocuments(data);
       };
     });
@@ -201,7 +191,7 @@ const Documents = (props) => {
                                 />
                               </div>
                             ) : (
-                              <div className="dis-fl-col">
+                              <div className="dis-fl-col cur-poi" onClick={() => window.open(`${getConfigEnv.shortPath}/document/${doc.id}`, "_blank")}>
                                 <span className="document-title txtDark700">{doc.name}</span>
                                 <span className="date body2 txtDark200">{new Date(doc.createdAt).toDateString()}</span>
                               </div>
@@ -263,8 +253,8 @@ const Documents = (props) => {
                                     saturationTxt={400}
                                     label="Cancel"
                                     onClick={() => {
-                                      if (Object.keys(diff(initialValues.documents[i], doc)).length > 0) {
-                                        changeFieldValue(`documents[${i}]`, initialValues.documents[i]);
+                                      if (Object.keys(diff(formValue.documents[i], doc)).length > 0) {
+                                        changeFieldValue(`documents[${i}]`, formValue.documents[i]);
                                         setEditDocument({ id: null, active: false });
                                       } else {
                                         setEditDocument({ id: null, active: false });
@@ -345,7 +335,7 @@ const Documents = (props) => {
                 (!documents || (documents && documents.length === 0)) && (
                   <div>
                     <img src={upload_documents_empty} alt="Empty Documents" />
-                    <h5 className="mt-2 mb-1">Uplaod your fist document</h5>
+                    <h5 className="mt-2 mb-1">Upload your fist document</h5>
                   </div>
                 )
               }
@@ -376,22 +366,15 @@ Documents.propTypes = {
 Documents.defaultProps = {
 };
 
-const DocumentsForm = reduxForm({
-  // a unique name for the form
-  form: 'documentsForm',
-  enableReinitialize: true,
-})(Documents);
-
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'form.documentsForm.values', {}),
-  initialValues: get(state, 'property.activeSingleProperty', {}),
+  formValue: get(state, 'form.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
   user: get(state, 'user.loggedInUser', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
-    dispatch(change('documentsForm', field, value));
+    dispatch(change('Property', field, value));
   },
   setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
@@ -404,4 +387,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(DocumentsForm);
+)(Documents);

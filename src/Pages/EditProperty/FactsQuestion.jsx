@@ -99,6 +99,7 @@ const FactsQuestion = (props) => {
           if (valA === input.condition.value) condition = true;
           else if (input.condition.value === 'isPositive' && valA > 0) condition = true;
           else condition = false;
+          return null;
         });
       }
     }
@@ -111,6 +112,7 @@ const FactsQuestion = (props) => {
           else if (item.value === 'isPositive' && valA > 0) condition = true;
           else condition = false;
         }
+        return null;
       });
     }
     return condition;
@@ -209,7 +211,7 @@ const FactsQuestion = (props) => {
                               placeholder={input.placeholder || ''}
                               meta={{
                                 dirty: get(formValue, input.name, null) !== null,
-                                invalid: get(errorValue, input.name, true) !== true,
+                                invalid: get(errorValue, input.name, true) !== true && get(errorValue, input.name, true) !== 'Mark Required',
                               }}
                               //modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
                               message={{

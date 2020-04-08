@@ -51,11 +51,13 @@ const Photos = (props) => {
 
   useEffect(() => {
     //setNewImages([]);
-    setNewImages([]);
-    setConfirmDelete(null);
-    setBtnActive(null);
-    setFixPhotos(cloneDeep(photos));
-  }, [photos]);
+    if (Object.keys(diff(photos, fixPhotos)).length > 0) {
+      setNewImages([]);
+      setConfirmDelete(null);
+      setBtnActive(null);
+      setFixPhotos(cloneDeep(photos));
+    }
+  });
 
   const deleteImage = (id) => {
     const propID = get(match, 'params.propId', null);
@@ -67,6 +69,7 @@ const Photos = (props) => {
     };
     // eslint-disable-next-line no-alert
     handleDeleteImg(data);
+    history.push(`/${propID}/property/photos`)
   };
 
   // DROPZONE SETTINGS
@@ -263,7 +266,7 @@ const Photos = (props) => {
                   (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
                     <div className="w-perc-100">
                       <img className="w-perc-100" src={upload_photos_empty} alt="Empty State" />
-                      <h5 className="mt-2 mb-1">Uplaod your fist photo</h5>
+                      <h5 className="mt-2 mb-1">Upload your fist photo</h5>
                     </div>
                   )
                 }

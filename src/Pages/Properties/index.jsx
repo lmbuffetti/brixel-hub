@@ -70,7 +70,11 @@ const Properties = (props) => {
     <>
       <div className="properties-header dis-fl-row a-c jc-b mb-2 mb-md-5 py-2 px-3 pos-r zIndex1">
         <div className="dis-fl-row a-c">
-          <span className="docubox-title fweight-500 txtDark700">Properties ({countNumProperties()})</span>
+          <span className="docubox-title fweight-500 txtDark700">
+            <span>Properties</span>
+            &nbsp;
+            <span>({countNumProperties()})</span>
+          </span>
         </div>
 
         <BrixelButtonIcon
@@ -91,9 +95,9 @@ const Properties = (props) => {
           'buyer',
         ]}
         labels={[
-          `All (${countNumProperties()})`,
-          `Owner (${countNumProperties('seller')})`,
-          `Buyer (${countNumProperties('buyer')})`,
+          `<span>All</span>&nbsp;<span>(${countNumProperties()})</span>`,
+          `<span>Owner</span>&nbsp;<span>(${countNumProperties('seller')})</span>`,
+          `<span>Buyer</span>&nbsp;<span>(${countNumProperties('buyer')})</span>`,
         ]}
         activeTab={activeTab}
         onClick={(tab) => setActiveTab(tab)}

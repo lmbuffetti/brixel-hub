@@ -37,6 +37,7 @@ const Showings = (props) => {
     formValue,
     handleSavePropertyVisitBooking,
     history,
+    lang,
     match,
     reset,
   } = props;
@@ -174,6 +175,7 @@ const Showings = (props) => {
                             {
                               ((!activeTab || (activeTab && day.slot.status === activeTab)) && day.slot.status !== 'canceled') && (
                                 <BrixelBookingCard
+                                  countryLang={lang}
                                   dimensionsFixed={false}
                                   className="mb-1"
                                   slot={day.slot}
@@ -183,7 +185,6 @@ const Showings = (props) => {
                                   onAdd={() => history.push(`/${propID}/listings/showings/addBooking/${day.id}`)}
                                   insertBooking={day.slot.status === 'free'}
                                   addI
-                                  countryLang={'en'}
                                   showActions={moment(day.slot.slot).isAfter(moment(), 'hour')}
                                 />
                               )
@@ -199,6 +200,7 @@ const Showings = (props) => {
               <>
                 <div className="max-h-perc-100 ov-a">
                   <BrixelTimeSlots
+                    countryLang={lang}
                     className="zIndex1"
                     propertySlots={get(formValue, 'schedule.slots', [])}
                     occupedSlots={unavailableSlots}
@@ -231,6 +233,7 @@ Showings.propTypes = {
   handleSavePropertyVisitBooking: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.bool.isRequired,
   formValue: PropTypes.object.isRequired,
+  lang: PropTypes.string,
   match: PropTypes.object.isRequired,
 };
 
@@ -242,6 +245,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
   notification: get(state, 'common.notification', {}),
+  lang: get(state, 'user.loggedInUser.user.language', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

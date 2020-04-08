@@ -68,9 +68,8 @@ const DetailMedia = (props) => {
       type: mediaType,
     };
     // eslint-disable-next-line no-alert
-    if (window.confirm('Are you sure you want to delete this item?')) {
-      handleDeleteImg(data);
-    }
+    handleDeleteImg(data);
+    history.push(`/${propID}/property/${mediaType}`)
   };
 
   const rotateImage = () => {
@@ -122,7 +121,7 @@ const DetailMedia = (props) => {
                 onClick={() => history.push(`/${propID}/property/${mediaType}`) }
               />
             </div>
-            <div className="pos-r">
+            <div className="pos-r image-ratio ov-h">
               {
                 formValue && formValue[mediaType][idImg] && (
                   // <div
@@ -132,7 +131,7 @@ const DetailMedia = (props) => {
                   <img
                     className="max-w-perc-100 shadow-2dp brdRadius w-perc-100"
                     //style={{ transform: `rotate(${rotation}deg)` }}
-                    src={`${baseByData.shortPath}${formValue[mediaType][idImg].path}?${Date.now()}`}
+                    src={`${baseByData.shortPath}${formValue[mediaType][idImg].path}?${formValue[mediaType][idImg].updatedAt}`}
                     alt="Edit Media"
                   />
                 )

@@ -18,7 +18,6 @@ import {
 } from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
 import { reduxForm, reset } from 'redux-form';
-import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
 import { setModal, setScreenNotification } from '../../actions/CommonActions';
@@ -287,6 +286,7 @@ const mapStateToProps = (state) => ({
   initialValues: {
     assessor: get(state, 'property.activeSingleProperty.assessor', {}),
     booking: get(state, 'property.activeSinglePropertyBooking', []),
+    documents: get(state, 'property.activeSingleProperty.documents', []),
     coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
     description: get(state, 'property.activeSingleProperty.description', {}),
     id: get(state, 'property.activeSingleProperty.id', null),

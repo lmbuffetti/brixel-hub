@@ -9,7 +9,6 @@ import { change } from 'redux-form';
 import { connect } from 'react-redux';
 import { uploadImg } from '../../../actions/UploadActions';
 import { BrixelButtonPrimary, BrixelButtonIcon } from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import defaultCover from '../../../images/3d-tour-placeholder.jpg';
 
 const Tour = (props) => {

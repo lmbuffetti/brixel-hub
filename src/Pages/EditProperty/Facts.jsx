@@ -30,7 +30,6 @@ const Facts = (props) => {
     changeFieldValue,
     formValue,
     history,
-    isSmallLoading,
     match,
   } = props;
 
@@ -47,11 +46,11 @@ const Facts = (props) => {
       if (item.validation) {
         const nameCondition = get(item, 'condition.name', '');
         const valA = get(formValue, nameCondition, 'a');
+
         if (sectionDone && (!item.condition || (item.condition && valA === item.condition.value))) {
           if (get(formValue, `inputSheet.skipSection[${item.name}]`, true) !== true) {
             sectionDone = false;
-          }
-          else if (get(formValue, item.name, false) === false) {
+          } else if (get(formValue, item.name, 'ayc') === 'ayc' || get(formValue, item.name, 'ayc') === null) {
             sectionDone = false;
           }
         }
@@ -72,8 +71,7 @@ const Facts = (props) => {
           if (get(formValue, `inputSheet.skipSection[${item.name}]`, false)) {
             countTotal += 1;
             countDone += 1;
-          }
-          else if (get(formValue, item.name, false) !== false) {
+          } else if (get(formValue, item.name, 'ayc') !== 'ayc' && get(formValue, item.name, 'ayc') !== null) {
             countTotal += 1;
             countDone += 1;
           } else {
@@ -160,7 +158,7 @@ const Facts = (props) => {
               backgroundSaturation={100}
               progressValue={get(formValue, 'inputSheet.totalComplete', 0)}
             />
-            <h6 className="mt-1 ff-mono txtPrimary700">{get(formValue, 'inputSheet.totalComplete', 0)}% complete</h6>
+            <h6 className="mt-1 ff-mono txtPrimary700"><span>{get(formValue, 'inputSheet.totalComplete', 0)}%</span>&nbsp;<span>complete</span></h6>
           </div>
           <div className="inputSheet">
             {

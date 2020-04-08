@@ -252,3 +252,16 @@ header {
     }
   }
 }
+
+
+.image-ratio {
+  position: relative;
+  padding-bottom: 56.2%;
+}
+
+.image-ratio img {
+  position: absolute;
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}

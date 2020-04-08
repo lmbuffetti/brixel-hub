@@ -109,7 +109,7 @@ const HomeDashboard = (props) => {
                         icon="document"
                         label="Facts"
                         labelClass="fweight-400"
-                        subtitle={`${get(formValue, 'inputSheet.totalComplete', 0)}% completed`}
+                        subtitle={`<span>${get(formValue, 'inputSheet.totalComplete', 0)}%</span>&nbsp;<span>complete</span>`}
                         subtitleClass={'ff-mono fsize-200 txtPrimary700 mt-small-4'}
                         className="w-perc-100 cur-poi p-2 labelAend"
                         colorIcon={'primary700'}
@@ -148,7 +148,7 @@ const HomeDashboard = (props) => {
               icon="gallery"
               label="Photos"
               labelClass="fweight-400"
-              subtitle={`${calcLenght(get(formValue, 'photos', []))} Files`}
+              subtitle={`<span>${calcLenght(get(formValue, 'photos', []))}</span>&nbsp;<span>Files</span>`}
               subtitleClass={'fsize-200 txtDark200 pt-small-6'}
               className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'photos' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
               colorIcon={'primary700'}
@@ -162,7 +162,7 @@ const HomeDashboard = (props) => {
               icon="plans"
               label="Plans"
               labelClass="fweight-400"
-              subtitle={`${calcLenght(get(formValue, 'floorPlans', []))} Files`}
+              subtitle={`<span>${calcLenght(get(formValue, 'floorPlans', []))}</span>&nbsp;<span>Files</span>`}
               subtitleClass={'fsize-200 txtDark200 pt-small-6'}
               className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'floorPlans' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
               colorIcon={'primary700'}
@@ -192,7 +192,7 @@ const HomeDashboard = (props) => {
               icon="folder"
               label="Docubox"
               labelClass="fweight-400"
-              subtitle={`${get(formValue, 'documents.length', [])} Files`}
+              subtitle={`<span>${calcLenght(get(formValue, 'documents', []))}</span>&nbsp;<span>Files</span>`}
               subtitleClass={'fsize-200 txtDark200 pt-small-6'}
               className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
               colorIcon={'primary400'}
