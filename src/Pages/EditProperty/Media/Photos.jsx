@@ -51,7 +51,7 @@ const Photos = (props) => {
 
   useEffect(() => {
     //setNewImages([]);
-    if (Object.keys(diff(photos, fixPhotos)).length > 0) {
+    if (Object.keys(diff(photos, fixPhotos)).length > 0 && !isSmallLoading) {
       setNewImages([]);
       setConfirmDelete(null);
       setBtnActive(null);
@@ -96,8 +96,8 @@ const Photos = (props) => {
           smallLoader: true,
         };
         arrayDates.push({galleryThumbnailPath: read.result, createdAt: Date().now});
-        setNewImages([...arrayDates]);
         handleUploadImg(binaryStr);
+        setNewImages([...arrayDates]);
       };
     });
   }, []);

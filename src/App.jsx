@@ -10,7 +10,7 @@ import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
-
+import moment from 'moment';
 // COMPONENTS
 import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
@@ -119,6 +119,13 @@ const App = (props) => {
     if (loggedInUser.user) {
       const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
       Transifex.live.translateTo(lang);
+      if (lang === 'ch' || lang === 'de') {
+        moment.locale('de-ch');
+      } else if (lang === 'en' || lang === 'en_US') {
+        moment.locale('en-gb');
+      } else {
+        moment.locale(lang);
+      }
     }
   }, [Transifex, loggedInUser]);
 
