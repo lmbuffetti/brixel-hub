@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { change, Field } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -22,6 +22,7 @@ import { diff } from 'deep-object-diff';
 // IMAGES
 import upload_documents_empty from '../../images/Upload/upload_documents_empty.svg';
 import { useDropzone } from 'react-dropzone';
+import moment from 'moment';
 
 
 // COMPONENTS
@@ -59,6 +60,14 @@ const Documents = (props) => {
   const saveDocuments = (doc) => {
     handleUploadDocument(doc);
   };
+
+  useEffect(() => {
+    if (!isSmallLoading) {
+      setDocumentOptionsOpen({ id: null, active: false });
+      setEditDocument({ id: null, active: false });
+    }
+  }, [isSmallLoading]);
+
 
   // DROPZONE SETTINGS
   // const dropzoneRef = useRef(null);
@@ -193,7 +202,7 @@ const Documents = (props) => {
                             ) : (
                               <div className="dis-fl-col cur-poi" onClick={() => window.open(`${getConfigEnv.shortPath}/document/${doc.id}`, "_blank")}>
                                 <span className="document-title txtDark700">{doc.name}</span>
-                                <span className="date body2 txtDark200">{new Date(doc.createdAt).toDateString()}</span>
+                                <span className="date body2 txtDark200">{moment(doc.createdAt).format('ddd MMM DD YYYY')}</span>
                               </div>
                             )
                           }
@@ -358,7 +367,6 @@ const Documents = (props) => {
 Documents.propTypes = {
   history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
 };

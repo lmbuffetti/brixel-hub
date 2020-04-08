@@ -59,7 +59,7 @@ export const UpgradeQuestions = (lang, packagesProperty) => {
           validation: [Validation.required],
           options: [
             {
-              label: 'Yesterday',
+              label: 'Yesterday ;-)',
               value: 'yesterday',
             },
             {

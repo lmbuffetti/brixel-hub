@@ -46,7 +46,7 @@ const Photos = (props) => {
   const wrappImg = useRef(arrayImg);
 
   useEffect(() => {
-    if (Object.keys(diff(floorPlans, fixPhotos)).length > 0) {
+    if (Object.keys(diff(floorPlans, fixPhotos)).length > 0 && !isSmallLoading) {
       setNewImages([]);
       setConfirmDelete(null);
       setBtnActive(null);
