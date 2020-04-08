@@ -68,7 +68,7 @@ const Showings = (props) => {
   // URL PARAMS
   return (
     <div className="thirdLevel dis-fl-col w-perc-100 ml-md-2">
-      <div className="h-perc-100 dis-fl-col">
+      <div className="">
         <div className="dis-f jc-b a-t pb-3">
           <div>
             <h5>Add Booking</h5>
@@ -90,7 +90,7 @@ const Showings = (props) => {
             onClick={() => history.push(`/${propID}/listings/showings`)}
           />
         </div>
-        <div className="h-perc-100 ov-a">
+        <div className="mb-3">
           <div>
             <Field
               name={'name'}
