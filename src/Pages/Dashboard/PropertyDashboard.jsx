@@ -176,8 +176,9 @@ const HomeDashboard = (props) => {
               bgTransparent
               icon="tour"
               label="3D Tour"
-              labelClass="fweight-400"
+              labelClass="fweight-400 pb-small-6"
               subtitle={get(formValue, 'virtual.matterport', null) ? 'Available' : 'Not set'}
+              subtitleClass={'fsize-200 txtDark200'}
               className={`w-perc-100 shadow-1dp mr-1 brdMedium ${getFact() === 'tour' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
               colorIcon={'primary700'}
               backIcon="primary100"
