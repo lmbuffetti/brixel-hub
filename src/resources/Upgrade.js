@@ -32,7 +32,6 @@ export const UpgradeQuestions = (lang, packagesProperty) => {
       title: translateTo(lang,"Do you want to upgrade?"),
       subtitle: "Here are my options for you",
       history: 'servicePackage',
-      vCentered: true,
       inputs: [
         {
           component: BrixelCheckboxWithDetail,
@@ -81,14 +80,14 @@ export const UpgradeQuestions = (lang, packagesProperty) => {
     {
       title: translateTo(lang,"Is the property currently inhabited?"),
       subtitle: "",
-      history: 'propertyInhabited',
       vCentered: true,
+      history: 'propertyInhabited',
       inputs: [
         {
           component: BrixelRadioButton,
           pdClass: 'py-2 py-md-3 px-1',
-          icons: true,
           label: '',
+          icons: true,
           name: "packageUpgrade.propertyInhabited",
           validation: [Validation.booleanRequired],
           options: [
@@ -110,7 +109,7 @@ export const UpgradeQuestions = (lang, packagesProperty) => {
           component: BrixelRadioButton,
           pdClass: 'py-2 py-md-3 px-1',
           icons: true,
-          label: 'Are you currently living there?',
+          title: 'Are you currently living there?',
           name: "packageUpgrade.livingThere",
           validation: [Validation.booleanRequired],
           options: [
@@ -129,8 +128,8 @@ export const UpgradeQuestions = (lang, packagesProperty) => {
     {
       title: translateTo(lang,"How can I reach you best?"),
       subtitle: "",
-      history: 'contactDetails',
       vCentered: true,
+      history: 'contactDetails',
       inputs: [
         {
           component: BrixelCheckbox,

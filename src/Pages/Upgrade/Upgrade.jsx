@@ -163,18 +163,18 @@ const Upgrade = (props) => {
             onClick={() => closeWindow()}
           />
         </div>
-        <div className="slideIn-enter bodyModalFlow pos-r">
+        <div className={`slideIn-enter bodyModalFlow pos-r ${quest.vCentered ? 'vCentered dis-fl-col' : ''}`}>
           <div
             className={`slideMultiStepForm ${isEnter ? 'slideIn-enter-active' : ''}`}
           >
             <div
-              className={`sidebarSubmenuContent max-h-perc-100 dis-fl-col a-c singleStepUpgrade ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
+              className={`sidebarSubmenuContent max-h-perc-100 dis-fl-col a-c singleStepUpgrade ${quest.background || ''}`}
             >
               {
                 quest.inputs ? (
-                  <div className={`subcontainer ${quest.className || ''}`}>
-                    <h3 className="mb-1">{quest.title}</h3>
-                    {quest.subtitle && ( <p className="mb-4">{quest.subtitle}</p> )}
+                  <div className={`subcontainer ${quest.className || ''} ${quest.vCentered ? 'max-w-fix-400' : ''}`}>
+                    <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
+                    {quest.subtitle && ( <p className="mb-5">{quest.subtitle}</p> )}
                     {
                       quest.inputs.map((input, f) => (
                         <React.Fragment key={f.toString()}>
@@ -185,6 +185,7 @@ const Upgrade = (props) => {
                                 formValue={formValue}
                                 onClick={() => ''}
                                 input={input}
+                                className={input.className}
                               />
                             )
                           }
@@ -193,8 +194,10 @@ const Upgrade = (props) => {
                     }
                   </div>
                 ) : (
-                  <div className={`subcontainer ta-c ${quest.className || ''}`}>
-                    <img src={quest.img} alt={quest.title} />
+                  <div className={`subcontainer ta-c finalScreen ${quest.className || ''} ${quest.vCentered ? 'max-w-fix-400' : ''}`}>
+                    <div className="h-fix-248">
+                      <img src={quest.img} alt={quest.title} />
+                    </div>
                     <h3
                       className="mt-5"
                       dangerouslySetInnerHTML={{ __html: quest.title }}

@@ -138,8 +138,10 @@ header {
 
 .subcontainer {
   width: 100%;
-  max-width: 620px;
   margin: auto;
+  &:not([class*="max-w-fix"]) {
+    max-width: 620px;
+  }
 }
 
 @media (min-width: $responsive-medium) {
