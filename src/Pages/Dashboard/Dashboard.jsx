@@ -8,7 +8,7 @@ import get from 'lodash/get';
 import isObject from 'lodash/isObject';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-
+import cloneDeep from 'lodash/cloneDeep';
 
 import {
   getPropertyListings,
@@ -22,7 +22,6 @@ import { diff } from 'deep-object-diff';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
 import { setModal, setScreenNotification } from '../../actions/CommonActions';
 import has from 'lodash/has';
-import actions from 'redux-form/lib/actions';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),

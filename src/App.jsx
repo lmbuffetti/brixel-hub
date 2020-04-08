@@ -1,6 +1,6 @@
 /* global ga, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Switch, Route, withRouter, Redirect,
 } from 'react-router-dom';
@@ -10,7 +10,6 @@ import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
-import { CSSTransition } from 'react-transition-group';
 
 // COMPONENTS
 import Loading from './components/Loading';
