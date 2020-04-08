@@ -275,22 +275,28 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
+        notification && (
+          <BrixelNotification
+            label={notification.label}
+            type={notification.type}
+            icon={notification.icon}
+            actions={notification.actions}
+            className={`zIndex5 ${notification.state ? 'open' : 'close'}`}
+          />
+        )
+      }
+      <style>
+
+      </style>
+      {
         notification && (notification.small || notification.state) && (
           <>
             {
-              notification.small ? (
+              notification.small && (
                 <div className="brxNotification">
                   <BrixelIcon icon={notification.icon} />
                   <span>{notification.text}</span>
                 </div>
-              ) : (
-                <BrixelNotification
-                  label={notification.label}
-                  type={notification.type}
-                  icon={notification.icon}
-                  actions={notification.actions}
-                  className="zIndex5"
-                />
               )
             }
           </>

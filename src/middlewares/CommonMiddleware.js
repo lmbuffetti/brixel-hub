@@ -29,9 +29,17 @@ const checkCommon = (store) => (next) => (action) => {
         state: true,
         type: 'saved',
       });
-      store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: notification });
       setTimeout(() => {
-        store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null })
+        store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: notification });
+      }, 100);
+      setTimeout(() => {
+        store.dispatch({
+          type: SET_SCREEN_NOTIFICATION,
+          payload: {
+            ...notification,
+            state: false,
+          }
+        })
       }, 3000)
       break;
     }

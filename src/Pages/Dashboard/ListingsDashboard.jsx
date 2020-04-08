@@ -222,7 +222,7 @@ const ListingsDashboard = (props) => {
         </div>
         {
           getFact() !== 'listings' && (
-            <div className="w-perc-100">
+            <div className={`levelsWrapper zIndex2 w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed': 'opened'}`}>
               <Route path="/:propId?/listings/showings" component={Showings} />
               <Route path="/:propId?/listings/page" component={Page} />
               <Route path="/:propId?/listings/portals" component={Portals} />

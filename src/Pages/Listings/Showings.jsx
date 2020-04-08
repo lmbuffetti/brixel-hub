@@ -179,7 +179,7 @@ const Showings = (props) => {
                                   dimensionsFixed={false}
                                   className="mb-1"
                                   slot={day.slot}
-                                  buyer={day.buyer || {}}
+                                  buyer={day.buyer}
                                   onAccept={() => manageBooking(day, 'accepted')}
                                   onCancel={() => manageBooking(day, 'canceled')}
                                   onAdd={() => history.push(`/${propID}/listings/showings/addBooking/${day.id}`)}
