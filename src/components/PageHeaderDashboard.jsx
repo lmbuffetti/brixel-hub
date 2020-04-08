@@ -211,7 +211,7 @@ function PageHeaderDashboard(props) {
             <MenuNavigationSubmenu windowDimensions={windowDimensions} activeMenu={activeMenu} onClose={() => setActiveMenu(null)} />
           </div>
         </div>
-        <div className={`dis-f jc-b w-perc-100 a-t brdLight100 pl-md-3 brixelNavMenu ${rightMenu ? 'moveForward' : ''}`}>
+        <div className={`dis-f jc-b w-perc-100 a-t brdLight100 pl-md-3 brixelNavMenu zIndex1 ${rightMenu ? 'moveForward' : ''}`}>
           <BrixelTabs
             classNameLi="dis-fl-col"
             classNameUl="zIndex4"
