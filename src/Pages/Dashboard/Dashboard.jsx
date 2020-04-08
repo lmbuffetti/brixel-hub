@@ -204,7 +204,6 @@ const Dashboard = (props) => {
         (Object.keys(changeObj).length > 1 || !changeObj.inputSheet ) &&
         !isSmallLoading &&
         !isLoading &&
-        get(notification, 'type', null) !== 'saved' &&
         validForm()
       ) {
         handleSetScreenNotification({
