@@ -93,8 +93,9 @@ function Assessor(props) {
 
   // Function to save the data
   const saveData = (e) => {
-    const dataProp = formValue;
-    delete dataProp.owner;
+    const dataProp = {};
+    dataProp.properties = formValue.properties;
+    dataProp.id = formValue.id;
     // CALC THE PROPERTY CONDITION
     const yearBuilt = get(formValue, 'properties.building.built', null);
     const yearRenovate = get(formValue, 'properties.building.renovated', null);
