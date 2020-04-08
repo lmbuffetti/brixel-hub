@@ -69,12 +69,12 @@ const Showings = (props) => {
   return (
     <div className="thirdLevel dis-fl-col w-perc-100 ml-md-2">
       <div className="h-perc-100 dis-fl-col">
-        <div className="dis-f jc-b p-1 p-md-2 a-t">
+        <div className="dis-f jc-b a-t pb-3">
           <div>
             <h5>Add Booking</h5>
             {
               schedule.slots && (
-                <p className="txtDark200 mt-1">
+                <p className="txtDark200 fsize-300">
                   {moment(schedule.slots[idShowing]).format('DD MMMM YYYY HH:mm')}
                 </p>
               )
