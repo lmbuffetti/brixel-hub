@@ -252,14 +252,3 @@ header {
     }
   }
 }
-
-// HUAZAIFA TO MOVE ON STYLEGUIDE
-.brixel-notification {
-  transition: all $default-loader-time;
-  &.open {
-    bottom: 0;
-  }
-  &.close {
-    bottom: -100%;
-  }
-}

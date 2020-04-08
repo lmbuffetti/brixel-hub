@@ -106,18 +106,6 @@ const App = (props) => {
     windowDimensions,
   } = props;
 
-  // STATES
-  const [slideIn, setSlideIn] = useState(false);
-
-
-  useEffect(()=> {
-    if (get(notification, 'state', false) && notification.state === true) {
-      setSlideIn(true)
-    } else {
-      setSlideIn(false)
-    }
-  },[notification]);
-
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) handleCheckToken();
     window.addEventListener('resize', () => {
@@ -298,12 +286,12 @@ const App = (props) => {
         notification && (notification.small || notification.state) && (
           <>
             {
-              notification.small ? (
+              notification.small && (
                 <div className="brxNotification">
                   <BrixelIcon icon={notification.icon} />
                   <span>{notification.text}</span>
                 </div>
-              ) : null
+              )
             }
           </>
         )
