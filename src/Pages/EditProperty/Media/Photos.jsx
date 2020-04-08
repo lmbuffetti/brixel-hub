@@ -52,7 +52,6 @@ const Photos = (props) => {
   useEffect(() => {
     //setNewImages([]);
     if (Object.keys(diff(photos, fixPhotos)).length > 0) {
-      console.log(diff(photos, fixPhotos))
       setNewImages([]);
       setConfirmDelete(null);
       setBtnActive(null);

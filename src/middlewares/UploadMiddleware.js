@@ -37,7 +37,6 @@ const checkCommon = (store) => (next) => (action) => {
           const arrayImg = store.getState().form.Property.values[action.payload.type];
           // eslint-disable-next-line array-callback-return
           const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
-          console.log(arrayImg, idImg, action.payload.id)
           if (idImg > -1) {
             arrayImg[idImg] = res.data;
             store.dispatch(change('Property', 'photos', arrayImg));
