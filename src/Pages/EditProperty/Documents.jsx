@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import get from 'lodash/get';
 import set from 'lodash/set';
+import cloneDeep from 'lodash/cloneDeep';
+import { ReactSortable } from 'react-sortablejs';
 import {
   BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelDropdown,
   BrixelButtonTertiary, useOutsideAlerter, BrixelInputText,
@@ -46,6 +48,22 @@ const Documents = (props) => {
     setNotification,
   } = props;
   const { documents } = formValue;
+
+  // ORDER DOCUMENTS
+  const changeOrder = (order) => {
+    const docArray = [];
+    // eslint-disable-next-line array-callback-return
+    order.map((item) => {
+      if (item.id) {
+        delete item.chosen;
+        delete item.selected;
+        docArray.push(item);
+      }
+      return null;
+    });
+    changeFieldValue('documents', docArray);
+  };
+
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
 
@@ -174,161 +192,173 @@ const Documents = (props) => {
             (documents && documents.length > 0) && (
               <>
                 <div className="documents-container dis-fl-col w-perc-100">
-                  {
-                    documents.map((doc, i) => (
-                      <li key={i.toString()} className="single-document dis-fl-row a-c jc-b pb-1 pt-1">
+                  <ReactSortable
+                    list={cloneDeep(documents)}
+                    setList={(order, evt) => {
+                      changeOrder(order);
+                    }}
+                    className="document-list"
+                  >
+                    {
+                      documents.map((doc, i) => (
+                        <li
+                          key={i.toString()}
+                          data-id={JSON.stringify(doc)}
+                          className="single-document dis-fl-row a-c jc-b pb-1 pt-1"
+                        >
 
-                        <div className="name dis-fl-row a-c">
+                          <div className="name dis-fl-row a-c">
 
-                          <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
-                            <BrixelIcon
-                              icon="document"
-                              background="primary"
-                              saturation={100}
-                              color="dark"
-                              saturationTxt={700}
-                            />
-                          </div>
-                          {
-                            (editDocument.id === doc.id && editDocument.active) ? (
-                              <div className="dis-fl-row a-c">
-                                <Field
-                                  className="zIndex1"
-                                  name={`documents[${i}].name`}
-                                  placeholder="Name this document"
-                                  component={BrixelInputText}
-                                />
-                              </div>
-                            ) : (
-                              <div className="dis-fl-col cur-poi" onClick={() => window.open(`${getConfigEnv.shortPath}/document/${doc.id}`, "_blank")}>
-                                <span className="document-title txtDark700">{doc.name}</span>
-                                <span className="date body2 txtDark200">{moment(doc.createdAt).format('ddd MMM DD YYYY')}</span>
-                              </div>
-                            )
-                          }
-                        </div>
-
-                        <div className="visibility-info dis-fl-row a-c">
-                          {
-                            (editDocument.id === doc.id && editDocument.active) ? (
-                              <BrixelDropdown
-                                className="zIndex2 w-fix-120"
-                                borderColor="light"
-                                color="light"
-                                options={[
-                                  {
-                                    label: 'Private',
-                                    value: true,
-                                  },
-                                  {
-                                    label: 'Public',
-                                    value: true,
-                                  }]}
-                                selected={`${doc.isPrivate ? 'Private' : 'Public'}`}
-                                onSelect={(e, value) => {
-                                  e.preventDefault();
-                                  changeFieldValue(`documents[${i}].isPrivate`, value.label !== 'Public');
-                                  setSelectedVisibility(doc.isPrivate ? 'Private' : 'Public');
-                                }}
-                              />
-                            ) : (
+                            <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
                               <BrixelIcon
-                                className="mr-1"
-                                color={`${doc.isPrivate ? 'red' : 'green'}`}
-                                icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
+                                icon="document"
+                                background="primary"
+                                saturation={100}
+                                color="dark"
+                                saturationTxt={700}
                               />
-                            )
-                          }
-                          <div className="pos-r">
+                            </div>
                             {
                               (editDocument.id === doc.id && editDocument.active) ? (
-                                <div className="dis-fl-row">
-                                  <BrixelButtonIcon
-                                    icon="check-small"
-                                    bgTransparent
-                                    noBorder
-                                    color="green"
-                                    saturationTxt={400}
-                                    className="add-button"
-                                    label="Save"
-                                    onClick={(e) => updateDoc(e, doc)}
-                                  />
-                                  <BrixelButtonIcon
-                                    icon="close-circle"
-                                    bgTransparent
-                                    noBorder
-                                    className="add-button"
-                                    color="red"
-                                    saturationTxt={400}
-                                    label="Cancel"
-                                    onClick={() => {
-                                      if (Object.keys(diff(formValue.documents[i], doc)).length > 0) {
-                                        changeFieldValue(`documents[${i}]`, formValue.documents[i]);
-                                        setEditDocument({ id: null, active: false });
-                                      } else {
-                                        setEditDocument({ id: null, active: false });
-                                      }
-                                    }}
+                                <div className="dis-fl-row a-c">
+                                  <Field
+                                    className="zIndex1"
+                                    name={`documents[${i}].name`}
+                                    placeholder="Name this document"
+                                    component={BrixelInputText}
                                   />
                                 </div>
                               ) : (
-                                <BrixelButtonIcon
-                                  className="p-md-0 mr-1-neg"
-                                  bgTransparent
-                                  noBorder
-                                  color="dark"
-                                  saturationTxt={400}
-                                  icon="options-vertical"
-                                  onClick={() => {
-                                    setDocumentOptionsOpen({ id: doc.id, active: !documentOptionsOpen.active });
-                                  }}
-                                />
-                              )
-                            }
-                            {
-                              (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
-                                <div className="options-menu w-fix-160 zIndex3 shadow-1dp dis-fl-col p-1 pos-a a-bl" ref={documentRef}>
-                                  <BrixelButtonTertiary
-                                    className="copy p-0"
-                                    color="red"
-                                    label="Copy Link"
-                                    onClick={(e) => copyLinkToClipboard(e)}
-                                  />
-                                  <textarea
-                                    style={{
-                                      opacity: 0,
-                                      width: 0,
-                                      height: 0,
-                                    }}
-                                    readOnly
-                                    ref={textAreaRef}
-                                    value={`${getConfigEnv.shortPath}/document/${doc.id}`}
-                                  />
-                                  <BrixelButtonTertiary
-                                    className="edit p-0"
-                                    color="dark"
-                                    label="Edit"
-                                    saturation={100}
-                                    onClick={() => {
-                                      setEditDocument({ id: doc.id, active: !editDocument.active });
-                                      set(formValue, '', doc.companyRole);
-                                      setDocumentOptionsOpen({ id: null, active: false });
-                                    }}
-                                  />
-                                  <BrixelButtonTertiary
-                                    className="remove p-0"
-                                    color="red"
-                                    label="Remove"
-                                    onClick={(e) => deleteDocs(e, doc.id)}
-                                  />
+                                <div className="dis-fl-col cur-poi" onClick={() => window.open(`${getConfigEnv.shortPath}/document/${doc.id}`, "_blank")}>
+                                  <span className="document-title txtDark700">{doc.name}</span>
+                                  <span className="date body2 txtDark200">{moment(doc.createdAt).format('ddd MMM DD YYYY')}</span>
                                 </div>
                               )
                             }
                           </div>
-                        </div>
-                      </li>
-                    ))
-                  }
+
+                          <div className="visibility-info dis-fl-row a-c">
+                            {
+                              (editDocument.id === doc.id && editDocument.active) ? (
+                                <BrixelDropdown
+                                  className="zIndex2 w-fix-120"
+                                  borderColor="light"
+                                  color="light"
+                                  options={[
+                                    {
+                                      label: 'Private',
+                                      value: true,
+                                    },
+                                    {
+                                      label: 'Public',
+                                      value: true,
+                                    }]}
+                                  selected={`${doc.isPrivate ? 'Private' : 'Public'}`}
+                                  onSelect={(e, value) => {
+                                    e.preventDefault();
+                                    changeFieldValue(`documents[${i}].isPrivate`, value.label !== 'Public');
+                                    setSelectedVisibility(doc.isPrivate ? 'Private' : 'Public');
+                                  }}
+                                />
+                              ) : (
+                                <BrixelIcon
+                                  className="mr-1"
+                                  color={`${doc.isPrivate ? 'red' : 'green'}`}
+                                  icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
+                                />
+                              )
+                            }
+                            <div className="pos-r">
+                              {
+                                (editDocument.id === doc.id && editDocument.active) ? (
+                                  <div className="dis-fl-row">
+                                    <BrixelButtonIcon
+                                      icon="check-small"
+                                      bgTransparent
+                                      noBorder
+                                      color="green"
+                                      saturationTxt={400}
+                                      className="add-button"
+                                      label="Save"
+                                      onClick={(e) => updateDoc(e, doc)}
+                                    />
+                                    <BrixelButtonIcon
+                                      icon="close-circle"
+                                      bgTransparent
+                                      noBorder
+                                      className="add-button"
+                                      color="red"
+                                      saturationTxt={400}
+                                      label="Cancel"
+                                      onClick={() => {
+                                        if (Object.keys(diff(formValue.documents[i], doc)).length > 0) {
+                                          changeFieldValue(`documents[${i}]`, formValue.documents[i]);
+                                          setEditDocument({ id: null, active: false });
+                                        } else {
+                                          setEditDocument({ id: null, active: false });
+                                        }
+                                      }}
+                                    />
+                                  </div>
+                                ) : (
+                                  <BrixelButtonIcon
+                                    className="p-md-0 mr-1-neg"
+                                    bgTransparent
+                                    noBorder
+                                    color="dark"
+                                    saturationTxt={400}
+                                    icon="options-vertical"
+                                    onClick={() => {
+                                      setDocumentOptionsOpen({ id: doc.id, active: !documentOptionsOpen.active });
+                                    }}
+                                  />
+                                )
+                              }
+                              {
+                                (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
+                                  <div className="options-menu w-fix-160 zIndex3 shadow-1dp dis-fl-col p-1 pos-a a-bl" ref={documentRef}>
+                                    <BrixelButtonTertiary
+                                      className="copy p-0"
+                                      color="red"
+                                      label="Copy Link"
+                                      onClick={(e) => copyLinkToClipboard(e)}
+                                    />
+                                    <textarea
+                                      style={{
+                                        opacity: 0,
+                                        width: 0,
+                                        height: 0,
+                                      }}
+                                      readOnly
+                                      ref={textAreaRef}
+                                      value={`${getConfigEnv.shortPath}/document/${doc.id}`}
+                                    />
+                                    <BrixelButtonTertiary
+                                      className="edit p-0"
+                                      color="dark"
+                                      label="Edit"
+                                      saturation={100}
+                                      onClick={() => {
+                                        setEditDocument({ id: doc.id, active: !editDocument.active });
+                                        set(formValue, '', doc.companyRole);
+                                        setDocumentOptionsOpen({ id: null, active: false });
+                                      }}
+                                    />
+                                    <BrixelButtonTertiary
+                                      className="remove p-0"
+                                      color="red"
+                                      label="Remove"
+                                      onClick={(e) => deleteDocs(e, doc.id)}
+                                    />
+                                  </div>
+                                )
+                              }
+                            </div>
+                          </div>
+                        </li>
+                      ))
+                    }
+                  </ReactSortable>
                 </div>
 
               </>

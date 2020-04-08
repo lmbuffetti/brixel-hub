@@ -112,7 +112,6 @@ const Photos = (props) => {
         delete item.chosen;
         delete item.selected;
         imgArray.push(item);
-
       }
       return null;
     });
