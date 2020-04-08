@@ -12,11 +12,23 @@
         @media (min-width: $responsive-medium) {
           min-height: 65vh;
         }
+        @media only screen
+        and (min-width : $responsive-small)
+        and (max-width : $responsive-large) {
+            min-height: 50vh;
+        }
       }
     }
 
   .rewards-container .rewardsSplash {
-    min-height: 55vh;
+    @media (min-width: $responsive-medium) {
+      min-height: 50vh;
+    }
+    @media only screen
+    and (min-width : $responsive-small)
+    and (max-width : $responsive-large) {
+        min-height: 35vh;
+    }
   }
   .showHover {
     transition: $default-time-long $default-easing;
@@ -46,9 +58,8 @@
 
   // FLUID LAYOUT BETWEEN IPAD AND IPAD PRO
   @media only screen
-  and (min-width : $responsive-medium)
+  and (min-width : $responsive-small)
   and (max-width : $responsive-large) {
-
   }
 
   // DESKTOP SCREEN
