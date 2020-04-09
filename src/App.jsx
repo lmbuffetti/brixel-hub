@@ -237,6 +237,18 @@ const App = (props) => {
           </div>
 
         </div>
+        { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
+        {
+          notification && (
+            <BrixelNotification
+              label={notification.label}
+              type={notification.type}
+              icon={notification.icon}
+              actions={notification.actions}
+              className={`zIndex5 ${notification.state ? 'open' : 'close'}`}
+            />
+          )
+        }
       </div>
 
       { /* SECTION: ACHIVEMENT FLOW */ }
@@ -273,21 +285,6 @@ const App = (props) => {
         )
       }
 
-      { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
-      {
-        notification && (
-          <BrixelNotification
-            label={notification.label}
-            type={notification.type}
-            icon={notification.icon}
-            actions={notification.actions}
-            className={`zIndex5 ${notification.state ? 'open' : 'close'}`}
-          />
-        )
-      }
-      <style>
-
-      </style>
       {
         notification && (notification.small || notification.state) && (
           <>

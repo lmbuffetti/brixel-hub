@@ -60,6 +60,12 @@
     }
   }
 
+  .brixel-notification {
+    position: absolute;
+    border-top-left-radius: $step;
+    border-top-right-radius: $step;
+  }
+
   // IPAD AND DESKTOP VERSION
   @media (max-width: $responsive-medium) {
   }
