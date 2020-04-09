@@ -209,7 +209,7 @@ const Photos = (props) => {
                                 />
                               </div>
                               {
-                                item.id === get(formValue, 'coverPhoto.id', null) && (
+                                i === 0 && (
                                   <div className="fixedActionsBtmRight">
                                     <BrixelIcon
                                       icon={'star-fill'}
