@@ -67,14 +67,6 @@
     }
   }
 
-  .brixel-notification {
-    position: absolute;
-    bottom: 0;
-    transform: translateY(-100%);
-    border-top-left-radius: $step;
-    border-top-right-radius: $step;
-  }
-
   // IPAD AND DESKTOP VERSION
   @media (max-width: $responsive-medium) {
   }
@@ -93,4 +85,21 @@
   @media screen and(max-width: map-get($grid-breakpoints, xl)) {
 
   }
+  // TODO
+.brixel-notification {
+  left: 50%;
+  transform: translate(-50%, 0);
+  transition: transform $default-time-long $default-time-long;
+    &.fullWidth {
+      border-top-left-radius: $step;
+      border-top-right-radius: $step;
+    }
+    &.open {
+      transform: translate(-50%, 0);
+    }
+    &.close {
+      transform: translate(-50%, 100%);
+    }
+  }
 }
+
