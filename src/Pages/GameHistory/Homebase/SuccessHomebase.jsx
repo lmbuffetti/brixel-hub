@@ -38,7 +38,7 @@ function SuccessHomebase(props) {
   }, [gameGroup, getParams]);
 
   return (
-    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col jc-b px-2 px-md-4">
+    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col jc-b pt-md-4 pt-2 px-2 px-md-4">
       <div className="bgWhite max-w-fix-344 m-a brdRadius shadow-4dp ov-h">
         <img
           src={formValue.propertyType === 'Apartment' ? resumeApartment : resumeHouse}
