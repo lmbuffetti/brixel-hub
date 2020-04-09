@@ -196,23 +196,9 @@ const Dashboard = (props) => {
   }, [isSmallLoading]);
 
   useEffect(() => {
-    // eslint-disable-next-line consistent-return
-    const isDocEdit = find(diff(initialValues, formValue).documents, (el) => {
-      if ((has(el, 'isPrivate') || has(el, 'name')) && !has(el, 'id')) {
-        return true;
-      }
-      return false;
-    });
-    // Conditions to remove the notification bar for document edit
-    // It is redundant to have the edit buttons to confirm and discard
-    // together with the notification bar
-
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
       if (
-        typeof isDocEdit !== 'undefined' &&
-        !has(isDocEdit, 'name') &&
-        !has(isDocEdit, 'isPrivate') &&
         Object.keys(changeObj).length > 0 &&
         (Object.keys(changeObj).length > 1 || !changeObj.inputSheet ) &&
         !isSmallLoading &&

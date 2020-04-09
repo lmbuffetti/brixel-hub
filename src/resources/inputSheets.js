@@ -603,7 +603,7 @@ export const InputSheets = () => {
           label: 'What\'s the size of the attic?',
           labelLeft: 'Attic',
           unit: 'm2',
-          placeholder: '25 m2',
+          placeholder: '25',
           name: 'properties.building.expandableAtticArea.value',
           validation: [Validation.markRequired]
         },
@@ -648,7 +648,7 @@ export const InputSheets = () => {
           label: 'What\'s the size of the storeroom?',
           labelLeft: 'Storeroom',
           unit: 'm2',
-          placeholder: '8 m2',
+          placeholder: '8',
           name: 'properties.building.properties.typology.storeroomArea.value',
           type: 'number',
           validation: [Validation.markRequired]
@@ -671,7 +671,7 @@ export const InputSheets = () => {
           label: 'What\'s the size of collective used spaces?',
           labelLeft: 'Collective used space',
           unit: 'm2',
-          placeholder: '35 m2',
+          placeholder: '35',
           name: 'properties.typology.collectiveSpacesArea.value',
           type: 'number',
           validation: [Validation.markRequired]

@@ -134,13 +134,14 @@ const Documents = (props) => {
   // UPDATE DOCUMENTS
   const updateDoc = (e, doc) => {
     e.preventDefault();
+    const selDoc = documents.find(item => item.id === editDocument.id);
     const data = {
       pageID: formValue.id,
       id: doc.id,
       smallLoader: true,
       body: {
         name: doc.name,
-        isPrivate: selectedVisibility !== 'Public',
+        isPrivate: selDoc.isPrivate,
         path: doc.path,
         mimeType: doc.mimeType,
       },
@@ -207,7 +208,7 @@ const Documents = (props) => {
                           className="single-document dis-fl-row a-c jc-b pb-1 pt-1"
                         >
 
-                          <div className="name dis-fl-row a-c">
+                          <div className="name dis-fl-row a-c w-perc-100 pr-1">
 
                             <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
                               <BrixelIcon
@@ -220,9 +221,9 @@ const Documents = (props) => {
                             </div>
                             {
                               (editDocument.id === doc.id && editDocument.active) ? (
-                                <div className="dis-fl-row a-c">
+                                <div className="dis-fl-row a-c w-perc-100">
                                   <Field
-                                    className="zIndex1"
+                                    className="zIndex1 w-perc-100"
                                     name={`documents[${i}].name`}
                                     placeholder="Name this document"
                                     component={BrixelInputText}
@@ -241,7 +242,7 @@ const Documents = (props) => {
                             {
                               (editDocument.id === doc.id && editDocument.active) ? (
                                 <BrixelDropdown
-                                  className="zIndex2 w-fix-120"
+                                  className="zIndex2"
                                   borderColor="light"
                                   color="light"
                                   options={[
@@ -417,9 +418,7 @@ const mapDispatchToProps = (dispatch) => ({
   setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
-  handleUpdateDocument: bindActionCreators(updateDocument, dispatch),  // setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
-  // setUnsavedModal: bindActionCreators(setUnsavedChangesModal, dispatch),
-  // handleSetModal: bindActionCreators(setModal, dispatch),
+  handleUpdateDocument: bindActionCreators(updateDocument, dispatch),
 });
 
 export default compose(

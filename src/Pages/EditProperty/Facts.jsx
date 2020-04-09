@@ -46,8 +46,15 @@ const Facts = (props) => {
       if (item.validation) {
         const nameCondition = get(item, 'condition.name', '');
         const valA = get(formValue, nameCondition, 'a');
-
-        if (sectionDone && (!item.condition || (item.condition && valA === item.condition.value))) {
+        if (item.conditions) {
+          item.conditions.map((cond) => {
+            if (sectionDone) {
+              const valB = get(formValue, cond.name, 'a');
+              if (valB === cond.value && (get(formValue, item.name, 'ayc') === 'ayc' || get(formValue, item.name, 'ayc') === null)) sectionDone = false;
+            }
+            return null;
+          });
+        } else if (sectionDone && (!item.condition || (item.condition && valA === item.condition.value))) {
           if (get(formValue, `inputSheet.skipSection[${item.name}]`, true) !== true) {
             sectionDone = false;
           } else if (get(formValue, item.name, 'ayc') === 'ayc' || get(formValue, item.name, 'ayc') === null) {
@@ -67,7 +74,16 @@ const Facts = (props) => {
       val.inputs.map((item) => {
         const name = get(item, 'condition.name', '');
         const valA = get(formValue, name, 'a');
-        if (item.validation && (!item.condition || (item.condition && valA === item.condition.value))) {
+        if (item.conditions) {
+          item.conditions.map((cond) => {
+            const valB = get(formValue, cond.name, 'a');
+            if (valB === cond.value && (get(formValue, item.name, 'ayc') !== 'ayc' || get(formValue, item.name, 'ayc') !== null)) {
+              countTotal += 1;
+              countDone += 1;
+            }
+            return null;
+          });
+        } else if (item.validation && (!item.condition || (item.condition && valA === item.condition.value))) {
           if (get(formValue, `inputSheet.skipSection[${item.name}]`, false)) {
             countTotal += 1;
             countDone += 1;
