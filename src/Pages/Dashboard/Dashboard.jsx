@@ -140,6 +140,10 @@ const Dashboard = (props) => {
           objToSave[key] = get(formValue, key, {});
           return null;
         });
+        if (changeObj.photos) {
+          objToSave.coverPhoto = changeObj.photos[0];
+        }
+        console.log(changeObj);
         const data = {
           id: propID,
           smallLoader: true,

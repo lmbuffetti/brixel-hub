@@ -86,10 +86,15 @@ const DetailMedia = (props) => {
 
   const handleCoverPhoto = (e, photo) => {
     e.preventDefault();
+    const allPhotos = formValue.photos;
+    const getCoverID = allPhotos.findIndex(item => item.id === photo.id);
+    allPhotos.unshift(allPhotos.splice(getCoverID, 1)[0]);
     const data = {
       id: propID,
       coverPhoto: photo,
+      photos: allPhotos,
     };
+    console.log(data);
     handleSetCoverPhoto(data);
   };
 
