@@ -7,6 +7,7 @@ import doneHomebase from '../../../images/Homebase/doneHomebase.svg';
 import get from 'lodash/get';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { BrixelIcon } from '@brixel/brixel-components';
 
 function SuccessHomebase(props) {
   // PROPS
@@ -31,7 +32,10 @@ function SuccessHomebase(props) {
 
   return (
     <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col jc-b p-2 p-md-4">
-      <h5 className="ta-c">And the first award goes to… You!</h5>
+      <h5>
+        <span>{achievement.name}</span>
+        <BrixelIcon icon="icon-awards" color="green" />
+      </h5>
       <img className="ta-c mb-5 mt-5" src={doneHomebase} alt="Done Assessor" />
       {
         achievement.points && (

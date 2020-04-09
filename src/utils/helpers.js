@@ -283,6 +283,28 @@ export const setCookie = (key, val) => {
   cookies.set(key, val, options);
 };
 
+export const getCookie = (key) => {
+  const host = window.location.host.split('.');
+  const localhost = host[0].match(/localhost/gi);
+  const localip = host[0].match(/0/gi);
+  let domain;
+  if (localhost) {
+    domain = 'localhost';
+  } else if (localip) {
+    domain = '0.0.0.0';
+  } else {
+    const curDomain = document.location.hostname.split('.')[document.location.hostname.split('.').length - 1];
+    domain = `.brixel.${curDomain}`;
+  }
+  const options = {
+    domain: domain,
+    path: '/',
+    expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+    sameSite: 'strict',
+  };
+  return cookies.get(key, options);
+};
+
 export const removeCookie = (key) => {
   const host = window.location.host.split('.');
   const localhost = host[0].match(/localhost/gi);

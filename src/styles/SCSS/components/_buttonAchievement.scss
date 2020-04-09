@@ -1,0 +1,20 @@
+.brixel-button-achievement {
+  border: 2px solid transparent;
+  transition: $default-time-long $default-easing;
+  margin-bottom: $step * 3;
+  &.active {
+    border-color: map_get($primaryColor, 400)
+  }
+  &:hover {
+    box-shadow: $shadow-3dp;
+  }
+}
+
+.lineAfter {
+  position: absolute;
+  width: 1px;
+  height: 24px;
+  top: 100%;
+  left: 28px;
+  background: map_get($greenColor, 200);
+}
