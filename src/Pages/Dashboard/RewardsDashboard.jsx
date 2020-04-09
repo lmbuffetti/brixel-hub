@@ -103,6 +103,7 @@ const RewardsDashboard = (props) => {
           return null;
         })
       }
+      console.log(selectEl);
       setActiveGameGroup(rewardType);
       setActiveAchievement(selectEl);
     } else {
@@ -223,6 +224,23 @@ const RewardsDashboard = (props) => {
             <div className="secondLevel w-perc-100 dis-fl-col ml-md-1 pt-md-5">
               <>
                 <div className="rewardsSplash h-perc-100">
+                  {
+                    activeAchievement && (
+                      <div className="dis-f a-c jc-b px-3 pt-3">
+                        <div className="dis-f a-c">
+                          <h5 className="mr-1">{activeAchievement.title || activeAchievement.name}</h5>
+                          <BrixelIcon
+                            icon="cup-awards"
+                            color="green"
+                          />
+                        </div>
+                        <div className="cur-poi ml-2">
+                          <img src={brixels} alt="icon awards" className="mr-1" />
+                          <span className="ff-mono txtDark700">{activeAchievement.points}</span>
+                        </div>
+                      </div>
+                    )
+                  }
                   {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
                   {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
                   {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
