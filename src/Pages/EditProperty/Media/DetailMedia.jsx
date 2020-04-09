@@ -7,6 +7,7 @@ import { bindActionCreators, compose } from 'redux';
 import { Field, change, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import {
   BrixelButtonIcon,
@@ -23,7 +24,7 @@ const DetailMedia = (props) => {
   const {
     formValue,
     handleRotateImg,
-    handleSetCoverPhoto,
+    changeFieldValue,
     handleDeleteImg,
     history,
     isSmallLoading,
@@ -86,16 +87,11 @@ const DetailMedia = (props) => {
 
   const handleCoverPhoto = (e, photo) => {
     e.preventDefault();
-    const allPhotos = formValue.photos;
+    const allPhotos = cloneDeep(formValue.photos);
     const getCoverID = allPhotos.findIndex(item => item.id === photo.id);
     allPhotos.unshift(allPhotos.splice(getCoverID, 1)[0]);
-    const data = {
-      id: propID,
-      coverPhoto: photo,
-      photos: allPhotos,
-    };
-    console.log(data);
-    handleSetCoverPhoto(data);
+    changeFieldValue('photos', allPhotos);
+    changeFieldValue('coverPhoto', photo);
   };
 
   useOutsideAlerter(wrapImg, {

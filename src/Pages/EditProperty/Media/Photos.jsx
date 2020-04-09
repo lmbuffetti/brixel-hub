@@ -51,6 +51,7 @@ const Photos = (props) => {
 
   useEffect(() => {
     //setNewImages([]);
+    console.log()
     if (Object.keys(diff(photos, fixPhotos)).length > 0 && !isSmallLoading) {
       setNewImages([]);
       setConfirmDelete(null);
