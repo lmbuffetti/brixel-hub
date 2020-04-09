@@ -20,18 +20,30 @@
       }
     }
 
-  .rewards-container .rewardsSplash {
-    @media (min-width: $responsive-medium) {
-      min-height: 50vh;
+  .rewards-container {
+    .rewardsSplash {
+      @media (min-width: $responsive-medium) {
+        min-height: 50vh;
+      }
+      @media only screen
+      and (min-width : $responsive-small)
+      and (max-width : $responsive-large) {
+          min-height: 35vh;
+      }
     }
-    @media only screen
-    and (min-width : $responsive-small)
-    and (max-width : $responsive-large) {
-        min-height: 35vh;
+    .secondLevel {
+      @media (max-width: $responsive-medium) {
+        height: 100%;
+        min-height: auto;
+        .rewardsSplash {
+          height: calc(100% - 72px)
+        }
+      }
     }
   }
   .showHover {
     transition: $default-time-long $default-easing;
+
     &:hover {
       box-shadow: $shadow-3dp;
       background: #fff;

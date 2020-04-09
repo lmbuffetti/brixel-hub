@@ -1,57 +1,66 @@
 
 #achievementSection {
-  height: 0;
-  width: calc(100vw - #{$step * 2});
+  height: calc(100% -  #{$step * 2});
   overflow: hidden;
   margin: auto;
   box-shadow: $shadow-2dp;
   border-radius: $brd-radius-small;
   position: fixed;
+  width: calc(100vw - #{$step * 2});
   top: $step;
   left: $step;
   background: $brx-white;
   z-index: 10;
-  .footerAction {
-    position: absolute;
-    bottom: 0;
-    span {
-      white-space: nowrap;
+  opacity: 0;
+  animation: fadeInSec $default-time-long $default-easing forwards;
+
+  @media (min-width: $responsive-medium) {
+    height: calc(100% -  #{$step * 4});
+    width: calc(100vw - #{$step * 4});
+    top: $step * 2;
+    left: $step * 2;
+  }
+
+  #multiStepForm {
+    height: 100%;
+
+    .slideMultiStepForm {
+      height: 100%;
+
+      .singleStep {
+        height: calc(100% - 144px);
+        padding: $step * 3 $step * 2;
+
+        @media (max-width: $responsive-medium) {
+          height: calc(100% - 112px);
+        }
+        .subcontainer {
+          max-width: 480px;
+        }
+      }
     }
   }
-  .singleStep {
-    padding: $step * 3 $step * 2;
-    .subcontainer {
-      max-width: 480px;
-    }
-  }
-  &.withoutFooter {
-    height: calc(100vh - 56px);
-    .singleStep {
-      height: calc(100vh - 54px);
-    }
-  }
+
   #progressBar {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
   }
-  @media (max-width: $responsive-small) {
-    .singleStep {
-      height: calc(85vh - 128px);
+
+  .footerAction {
+    position: absolute;
+    bottom: 0;
+
+    span {
+      white-space: nowrap;
     }
   }
-  @media (min-width: $responsive-medium) {
+  &.withoutFooter {
     .singleStep {
-      height: calc(100vh - 176px);
-    }
-    &.withoutFooter {
-      height: calc(100vh - 72px);
-      .singleStep {
-        height: calc(100vh - 72px);
-      }
     }
   }
+
   .boxMarketCheck {
     border-radius: $brd-radius-small;
     border: 1px solid map_get($lightColor, 200);
@@ -75,27 +84,5 @@
         }
       }
     }
-  }
-  -webkit-animation: appearPage 0.5s 0.5s $default-easing forwards;
-}
-
-// Achievement Page Animation
-@-webkit-keyframes appearPage {
-  0% { height: 8vh; opacity: 0.5; }
-  100% { height: calc(100vh - #{$step * 2}); opacity: 1; }
-}
-
-@media (min-width: $responsive-medium) {
-  #achievementSection {
-    height: 0;
-    width: calc(100vw - #{$step * 4});
-    top: $step * 2;
-    left: $step * 2;
-  }
-
-  // Achievement Page Animation
-  @-webkit-keyframes appearPage {
-    0% { height: 8vh; opacity: 0.5; }
-    100% { height: calc(100vh - #{$step * 4}); opacity: 1; }
   }
 }
