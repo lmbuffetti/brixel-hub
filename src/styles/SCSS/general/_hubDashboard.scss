@@ -34,9 +34,16 @@
     .secondLevel {
       @media (max-width: $responsive-medium) {
         height: 100%;
-        min-height: auto;
+        min-height: inherit;
+        position: fixed;
+
         .rewardsSplash {
-          height: calc(100% - 72px)
+          height: 100%;
+          width: 100%;
+          max-width: 100%;
+          overflow-y: auto;
+          overflow-x: hidden;
+          margin: auto;
         }
       }
     }
@@ -62,6 +69,8 @@
 
   .brixel-notification {
     position: absolute;
+    bottom: 0;
+    transform: translateY(-100%);
     border-top-left-radius: $step;
     border-top-right-radius: $step;
   }
