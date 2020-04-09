@@ -11,7 +11,9 @@ import { getAchievement, getGamegroup, getGameHistory, addGameHistory } from '..
 import Loading from '../../components/Loading';
 import { GameGroupConfig } from '../../constants/global';
 import brixels from '../../images/BrxielComingTown/brixels.svg';
+import helloImg from '../../images/hello.svg';
 import BrixelButtonAchievement from '../../components/BrixelButtonAchievement';
+import { setCookie, getCookie } from '../../utils/helpers';
 
 import SuccessMarketCheck from '../GameHistory/MarketChecker/SuccessMarketCheck';
 import SuccessBestimate from '../GameHistory/Bestimate/SuccessBestimate';
@@ -126,101 +128,111 @@ const RewardsDashboard = (props) => {
   }
 
   return (
-    <div className={`rewards-container dis-f h-perc-md-100 ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'} pos-r`} id="rewardsDashboard">
+    <div className={`rewards-container`} id="rewardsDashboard">
       {
-        usrGroups && (
-          <>
-            {
-              usrGroups.map((group, i) => (
-                <div className="firstLevel mr-md-2" key={i.toString()}>
-                  {
-                    GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`] && (
-                      <>
-                        {
-                          i === 0 ? (
-                            <div className="dis-f jc-b a-c mb-3">
-                              <span className="fsize-400 dis-b txtDark700 fweight-500">
-                                {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
-                              </span>
-                              <div className="dis-f a-c pos-a-fix x-r-0 x-t-0">
-                                {
-                                  awards >= 0 && (
-                                    <div className="cur-poi">
-                                      <BrixelIcon icon="cup-awards" color="green" />
-                                      <span className="ff-mono txtDark700">{awards}</span>
-                                    </div>
-                                  )
-                                }
-                                {
-                                  brixelPoints >= 0 && (
-                                    <div className="cur-poi ml-2">
-                                      <img src={brixels} alt="icon awards" className="mr-1" />
-                                      <span className="ff-mono txtDark700">{brixelPoints}</span>
-                                    </div>
-                                  )
-                                }
-                              </div>
-                            </div>
-                          ) : (
-                            <span className="mb-3 fsize-400 dis-b txtDark700 fweight-500">
-                              {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
-                            </span>
-                          )
-                        }
-
-                        <div key={i.toString()} className="pos-r">
-                          {
-                            group.achievements && group.achievements.map((item, f) => (
-                              <div key={f.toString()} className="pos-r">
-                                <BrixelButtonAchievement
-                                  done={item.done}
-                                  active={item.stub === activeGameGroup}
-                                  icon={item.icon}
-                                  title={item.description}
-                                  subtitle={item.name}
-                                  isFree={true}
-                                  onClick={() => onClickAchievement(item.stub, item)}
-                                  lineAfter={group.achievements.length - 1 > f}
-                                />
-                              </div>
-                            ))
-                          }
-                        </div>
-                      </>
-                    )
-                  }
-                </div>
-              ))
-            }
-          </>
-        )
-      }
-      {
-        activeGameGroup && rewardType !== 'rewards' && (
-          <div className="secondLevel w-perc-100 dis-fl-col ml-md-1 pt-5">
-            <>
-              <div className="dis-f a-c jc-b hide-md">
-                <BrixelButtonIcon
-                  className="shadow-2dp"
-                  icon="arrow-simple-left"
-                  color="primary"
-                  saturationTxt={400}
-                  bgTransparent
-                  noBorder
-                  onClick={() => closeAchievement()}
-                />
-                <h5 className="m-a m-md-0">{activeGameGroup.replace('-', ' ')}</h5>
-              </div>
-              <div className="rewardsSplash h-perc-100">
-                {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-              </div>
-            </>
+        getCookie('brixelSayHello') && JSON.parse(getCookie('brixelSayHello')) !== true && (
+          <div className="brdRadius bgWhite p-1 dis-f jc-b a-c p-1 p-md-2 mb-5">
+            <img src={helloImg} />
+            <div className="txtDark700 w-perc-100 pl-3">
+              <span>Hello {loggedInUser.user.firstName}!</span><br />
+              <span>Welcome to your Brixel Hub. I prepared a list of rewards to simplify your sale. Enjoy.</span>
+            </div>
+            <BrixelButtonIcon
+              className="shadow-2dp"
+              icon="close-small"
+              color="primary"
+              saturationTxt={400}
+              bgTransparent
+              noBorder
+              onClick={() => setCookie('brixelSayHello', true)}
+            />
           </div>
         )
       }
+      <div className={`dis-f h-perc-md-100 ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'} pos-r-md`}>
+        {
+          usrGroups && (
+            <>
+              {
+                usrGroups.map((group, i) => (
+                  <div className="firstLevel mr-md-2" key={i.toString()}>
+                    {
+                      GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`] && (
+                        <>
+                          {
+                            i === 0 ? (
+                              <div className="dis-f jc-b a-c mb-3">
+                                <span className="fsize-400 dis-b txtDark700 fweight-500">
+                                  {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
+                                </span>
+                                <div className="dis-f a-c pos-a-fix-md x-r-0 x-t-0">
+                                  {
+                                    awards >= 0 && (
+                                      <div className="cur-poi">
+                                        <BrixelIcon icon="cup-awards" color="green" />
+                                        <span className="ff-mono txtDark700">{awards}</span>
+                                      </div>
+                                    )
+                                  }
+                                  {
+                                    brixelPoints >= 0 && (
+                                      <div className="cur-poi ml-2">
+                                        <img src={brixels} alt="icon awards" className="mr-1" />
+                                        <span className="ff-mono txtDark700">{brixelPoints}</span>
+                                      </div>
+                                    )
+                                  }
+                                </div>
+                              </div>
+                            ) : (
+                              <span className="mb-3 fsize-400 dis-b txtDark700 fweight-500">
+                                {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
+                              </span>
+                            )
+                          }
+
+                          <div key={i.toString()} className="pos-r">
+                            {
+                              group.achievements && group.achievements.map((item, f) => (
+                                <div key={f.toString()} className="pos-r">
+                                  <BrixelButtonAchievement
+                                    done={item.done}
+                                    active={item.stub === activeGameGroup}
+                                    icon={item.icon}
+                                    title={item.description}
+                                    subtitle={item.name}
+                                    isFree={true}
+                                    onClick={() => onClickAchievement(item.stub, item)}
+                                    lineAfter={group.achievements.length - 1 > f}
+                                  />
+                                </div>
+                              ))
+                            }
+                          </div>
+                        </>
+                      )
+                    }
+                  </div>
+                ))
+              }
+            </>
+          )
+        }
+        {
+          activeGameGroup && rewardType !== 'rewards' && (
+            <div className="secondLevel w-perc-100 dis-fl-col ml-md-1 pt-md-5">
+              <>
+                <div className="rewardsSplash h-perc-100">
+                  {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                  {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                  {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                  {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                </div>
+              </>
+            </div>
+          )
+        }
+      </div>
     </div>
   )
 };
