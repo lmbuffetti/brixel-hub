@@ -219,7 +219,7 @@ const Dashboard = (props) => {
         handleSetScreenNotification({
           state: true,
           type: 'infoHub',
-          label: 'Save changes?',
+          label: 'Unsaved changes',
           actions:
             [
               { type: 'secondary', label: 'Discard', func: () => discardChanges(notification) },
