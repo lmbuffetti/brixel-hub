@@ -37,7 +37,7 @@ const DrawerLayout = (props) => {
 
   return (
     <div className={`wrapDrawer ${className}`}>
-      <div className="container pos-r">
+      <div className="container h-perc-100 ov-x-h pos-r">
         <div className={`drawer shadow-1pd ${classNameDrawer}`} ref={drawerRef} style={{ marginTop: calcHeaderHeight().marginTop, height: windowDimensions.height - calcHeaderHeight().height }}>
           {children}
         </div>
