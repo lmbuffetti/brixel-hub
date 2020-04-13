@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   withRouter,
 } from 'react-router-dom';
-import doneHomebase from '../../../images/Homebase/doneHomebase.svg';
 import get from 'lodash/get';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -15,27 +14,11 @@ function SuccessHomebase(props) {
   // PROPS
   const {
     formValue,
-    gameGroup,
-    gameStub,
     history,
     match,
   } = props;
-  const getParams = gameStub;
-  const [achievement, setAchievement] = useState({});
   // PARAMS URL
   const propID = get(match, 'params.propId', null);
-
-  useEffect(() => {
-    if (gameGroup) {
-      let selectedGame;
-      gameGroup.map((game) => {
-        let curGame = game.achievements.find(item => item.stub === getParams);
-        if (curGame) selectedGame = curGame;
-        return null;
-      });
-      setAchievement(selectedGame || {});
-    }
-  }, [gameGroup, getParams]);
 
   return (
     <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col jc-b pt-md-4 pt-2 px-2 px-md-4">

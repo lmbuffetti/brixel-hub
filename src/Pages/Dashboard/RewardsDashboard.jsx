@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelButtonBox, BrixelIcon, BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelButtonIcon } from '@brixel/brixel-components';
 import { getAchievement, getGamegroup, getGameHistory, addGameHistory } from '../../actions/GamificationActions';
 import Loading from '../../components/Loading';
 import { GameGroupConfig } from '../../constants/global';
@@ -103,7 +103,6 @@ const RewardsDashboard = (props) => {
           return null;
         })
       }
-      console.log(selectEl);
       setActiveGameGroup(rewardType);
       setActiveAchievement(selectEl);
     } else {
@@ -118,11 +117,11 @@ const RewardsDashboard = (props) => {
     setActiveAchievement(achievement);
   };
 
-  const closeAchievement = () => {
+  /*const closeAchievement = () => {
     history.push(`/${propID}/rewards`);
     setActiveAchievement(null);
     setActiveGameGroup(null);
-  };
+  };*/
 
   if (!property.id && !userTypes) {
     return <Loading />
@@ -133,7 +132,7 @@ const RewardsDashboard = (props) => {
       {
         getCookie('brixelSayHello') && JSON.parse(getCookie('brixelSayHello')) !== true && (
           <div className="brdRadius bgWhite p-1 dis-f jc-b a-c p-1 p-md-2 mb-5">
-            <img src={helloImg} />
+            <img src={helloImg} alt="Hell User" />
             <div className="txtDark700 w-perc-100 pl-3">
               <span>Hello {loggedInUser.user.firstName}!</span><br />
               <span>Welcome to your Brixel Hub. I prepared a list of rewards to simplify your sale. Enjoy.</span>

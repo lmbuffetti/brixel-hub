@@ -9,10 +9,10 @@ import {
   withRouter,
 } from 'react-router-dom';
 import { getGamegroup } from '../../../actions/GamificationActions';
-import doneMarketCheck from '../../../images/MarketCheck/doneMarketCheck.svg';
 import newMarketCheck from '../../../images/MarketCheck/newMarketCheck.svg';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import startMarketCheck from '../../../images/MarketCheck/startMarketCheck.svg';
+import moment from 'moment';
 
 function SuccessMarketCheck(props) {
   // PROPS
@@ -22,6 +22,7 @@ function SuccessMarketCheck(props) {
     gameStub,
     groupdAchievement,
     match,
+    marketData,
   } = props;
   // STATE
   const [achievement, setAchievement] = useState(null);
@@ -59,20 +60,25 @@ function SuccessMarketCheck(props) {
                       </>
                     ) : (
                       <>
-                        <h5 className="ta-c px-2 px-md-4">Looks like you can’t get enough data.</h5>
-                        <div className="ta-c mb-5 mt-5"><img src={doneMarketCheck} alt="Done Assessor" /></div>
+                        <div className="ta-c mb-3 mt-3">
+                          <img src={startMarketCheck} alt="Done Market Check" />
+                        </div>
                         <div className="dis-fl-col jc-c a-c">
-                          <p className="ta-c px-2 px-md-4">We update these data daily. Would you like to update it now?</p>
-                          <div className="shadow-1dp-top w-perc-100 p-1 p-md-2 mt-2 brdRadiusTop">
-                            <BrixelButtonPrimary
-                              rounded
-                              label="Yes, update"
-                              background={"primary"}
-                              className="max-w-fix-280 w-perc-100 m-a"
-                              onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                              rightIcon="arrow-right-small"
-                            />
-                          </div>
+                          <h5 className="mb-2 max-w-fix-340 m-a ta-c">
+                            <span>{marketData.similar_properties}</span>&nbsp;
+                            <span>similar properties in your area.</span>
+                          </h5>
+                          <p className="body2 txtDark200 max-w-fix-320 m-a ta-c">Last updated: {moment(marketData.market_check_date).format('MMMM DD YYYY / HH:mm')}</p>
+                        </div>
+                        <div className="w-perc-100 p-1 p-md-2 mt-2">
+                          <BrixelButtonPrimary
+                            rounded
+                            label="Yes, update"
+                            background={"primary"}
+                            className="max-w-fix-280 w-perc-100 m-a"
+                            onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                            rightIcon="arrow-right-small"
+                          />
                         </div>
                       </>
                     )
@@ -83,20 +89,26 @@ function SuccessMarketCheck(props) {
           </>
         ) : (
           <>
-            <h5 className="ta-c px-2 px-md-4">Check your local market</h5>
-            <div className="ta-c m-a mb-5 mt-5"><img className="w-perc-md-100" src={startMarketCheck} alt="Done Assessor" /></div>
+            <div className="ta-c mb-3 mt-3">
+              <img src={startMarketCheck} alt="Start Market Check" />
+            </div>
             <div className="dis-fl-col jc-c a-c">
-              <p className="ta-c txtDark700 px-2 px-md-4 w-perc-md-75">Stop browsing all the portals. I show you all similar properties on sale. Instantly.</p>
-              <div className="shadow-1dp-top w-perc-100 p-1 p-md-2 mt-2 brdRadiusTop">
-                <BrixelButtonPrimary
-                  rounded
-                  label="Ok, show me"
-                  background={"primary"}
-                  className="max-w-fix-280 w-perc-100 m-a"
-                  onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                  rightIcon="arrow-right-small"
-                />
-              </div>
+              <h5 className="mb-2 max-w-fix-340 m-a">
+                Compare your local market.
+              </h5>
+              <p className="body2 txtDark200 max-w-fix-320 m-a ta-c">
+                Stop browsing all the portals. I show you all similar properti es on sale. Instantly.
+              </p>
+            </div>
+            <div className="w-perc-100 p-1 p-md-2 mt-2">
+              <BrixelButtonPrimary
+                rounded
+                label="Check market now"
+                background={"primary"}
+                className="max-w-fix-280 w-perc-100 m-a"
+                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                rightIcon="arrow-right-small"
+              />
             </div>
           </>
         )
@@ -112,6 +124,7 @@ SuccessMarketCheck.propTypes = {
   gameStub: PropTypes.string,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  marketData: PropTypes.object.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
 };
 
@@ -124,6 +137,7 @@ SuccessMarketCheck.defaultProps = {
 
 const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
+  marketData: get(state, 'property.activeSingleProperty.packageFlowProcess.rewardScreenData', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

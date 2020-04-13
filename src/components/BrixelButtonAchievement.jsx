@@ -14,7 +14,6 @@ const BrixelButtonAchievement = (props) => {
     onClick,
   } = props;
 
-  const formatColor = (col) => `${col.charAt(0).toUpperCase()}${col.slice(1)}`;
   const activeClass = active ? 'active' : '';
   const defaultClass = 'brixel-button-achievement dis-f a-c jc-b w-perc-100 p-1 brdRadius';
 
