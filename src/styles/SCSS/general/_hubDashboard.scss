@@ -38,6 +38,16 @@
       and (max-width : $responsive-large) {
           min-height: 35vh;
       }
+      #rewards {
+        > div:first-child {
+          max-width: 340px;
+
+          @media (max-width: $responsive-medium) {
+            margin-top: auto;
+            margin-bottom: auto;
+          }
+        }
+      }
     }
     .secondLevel {
       @media (max-width: $responsive-medium) {

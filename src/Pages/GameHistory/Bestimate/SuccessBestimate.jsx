@@ -48,7 +48,7 @@ function SuccessBestimate(props) {
   }, [gameGroup]);
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-b ${getDoneFirstTime().includes('-done') ? "p-2 p-md-4 pb-5" : "pt-2 pt-md-4"}`}>
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-b a-c`}>
       {
         groupdAchievement.done || getDoneFirstTime() === 'done' ? (
           <>
@@ -59,7 +59,7 @@ function SuccessBestimate(props) {
                     getDoneFirstTime().includes('-done') ? (
                       <>
                         <h5 className="ta-c">Well done. You are now an Assessor.</h5>
-                        <div className="ta-c m-a h-perc-50 mb-5 mt-5">
+                        <div className="ta-c m-a h-perc-50 my-3">
                           <img src={newBestimate} alt="Nes Assessor" />
                         </div>
                         <p className="ta-c mb-2">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
@@ -67,15 +67,15 @@ function SuccessBestimate(props) {
                     ) : (
 
                       <>
-                        <div className="ta-c mb-5 mt-5">
-                          <img src={doneBestimate} alt="Done Assessor" />
-                        </div>
                         <div className="dis-fl-col jc-c a-c">
-                          <p className="body2 txtDark200 max-w-fix-320 m-a ta-c">
+                          <div className="ta-c mb-3">
+                            <img src={doneBestimate} alt="Done Assessor" />
+                          </div>
+                          <p className="body2 txtDark200 m-a ta-c">
                             Based on similar transaction.
                           </p>
                         </div>
-                        <div className="w-perc-100 p-1 p-md-2 mt-2">
+                        <div className="w-perc-100 mt-2">
                           <BrixelButtonPrimary
                             rounded
                             label="See full Bestimate®"
@@ -94,14 +94,14 @@ function SuccessBestimate(props) {
           </>
         ) : (
           <>
-            <div className="ta-c m-a mb-3 mt-3">
-              <img src={startBestimate} alt="Done Assessor" />
-            </div>
             <div className="dis-fl-col jc-c a-c">
-              <h5 className="mb-2 max-w-fix-340 m-a ta-c">
+              <div className="ta-c m-a mb-3">
+                <img src={startBestimate} alt="Done Assessor" />
+              </div>
+              <h5 className="mb-2 m-a ta-c">
                 Get a free price indication.
               </h5>
-              <p className="body2 txtDark200 max-w-fix-320 m-a ta-c">
+              <p className="body2 txtDark200 m-a ta-c">
                 Compare your property to real transaction data to better define the pricing.
               </p>
             </div>
