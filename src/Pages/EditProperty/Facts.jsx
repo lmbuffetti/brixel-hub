@@ -99,8 +99,9 @@ const Facts = (props) => {
       return null;
     });
     const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
-    const calPerc = Math.floor(countDone * countTotal / 100);
+    const calPerc = Math.floor(countDone * 100 / countTotal);
     const savedPerc = Math.floor(get(formValue, `inputSheet.totalComplete`, 0) || 0);
+    console.log(countDone, countTotal, calPerc, countDone * countTotal / 100);
     if (calPerc !== savedPerc) {
       inputSheet.totalComplete = calPerc;
       changeFieldValue('inputSheet', inputSheet);

@@ -51,7 +51,6 @@ const Photos = (props) => {
 
   useEffect(() => {
     //setNewImages([]);
-    console.log()
     if (Object.keys(diff(photos, fixPhotos)).length > 0 && !isSmallLoading) {
       setNewImages([]);
       setConfirmDelete(null);
@@ -103,7 +102,12 @@ const Photos = (props) => {
     });
   }, []);
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: 'image/png,image/jpg,image/jpeg',
+    minSize: 0,
+    maxSize: 1e+7,
+  });
 
   // ORDER IMAGE SETTINGS
   const changeOrder = (order) => {
@@ -132,9 +136,9 @@ const Photos = (props) => {
   });
 
   return (
-    <div className="photosWrapper dis-f h-perc-100">
+    <div className="photosWrapper dis-f">
       <div className="secondLevel dis-fl-col">
-        <div className="max-h-perc-100 dis-fl-col ov-a">
+        <div>
           <div className="dis-f jc-b a-c mb-3">
             <BrixelButtonIcon
               className="shadow-3dp hide-md"
@@ -149,7 +153,7 @@ const Photos = (props) => {
               Photos
             </h5>
           </div>
-          <div className={`dis-fl-col ${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel' : 'empty-state a-c'}`}>
+          <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel' : 'empty-state a-c'}`}>
             {
               (fixPhotos && fixPhotos.length > 0) && (
                 <>

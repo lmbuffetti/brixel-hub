@@ -61,6 +61,7 @@ const Photos = (props) => {
       id: mediaID,
       pageID: propID,
       type: 'floorPlans',
+      smallLoader: true,
     };
     // eslint-disable-next-line no-alert
     handleDeleteImg(data);
@@ -88,6 +89,7 @@ const Photos = (props) => {
           imageType: 0,
           pageID: formValue.id,
           uploadAction: 'floorPlans',
+          smallLoader: true,
         };
         arrayDates.push({galleryThumbnailPath: read.result, createdAt: Date().now});
         setNewImages([...arrayDates]);
@@ -96,7 +98,12 @@ const Photos = (props) => {
     });
   }, []);
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: 'image/png,image/jpg,image/jpeg',
+    minSize: 0,
+    maxSize: 1e+7,
+  });
 
   // ORDER IMAGE SETTINGS
   const changeOrder = (order) => {
@@ -125,9 +132,9 @@ const Photos = (props) => {
   });
 
   return (
-    <div className="plansWrapper dis-f h-perc-100">
+    <div className="plansWrapper dis-f">
       <div className="secondLevel dis-fl-col ">
-        <div className="max-h-perc-100 dis-fl-col ov-a">
+        <div>
           <div className="dis-f jc-b a-c mb-3">
             <BrixelButtonIcon
               className="shadow-3dp hide-md"
@@ -143,7 +150,7 @@ const Photos = (props) => {
             </h5>
           </div>
 
-          <div className={`dis-fl-col ${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel' : 'empty-state a-c'}`}>
+          <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel' : 'empty-state a-c'}`}>
             {
               (fixPhotos && fixPhotos.length > 0) && (
                 <>
@@ -158,7 +165,7 @@ const Photos = (props) => {
                     {
                       fixPhotos.map((item, i) => (
                         <li
-                          className="dis-fl-row a-c cur-poi pos-r"
+                          className="cur-poi pos-r"
                           key={i.toString()}
                           data-id={JSON.stringify(item)}
                         >
