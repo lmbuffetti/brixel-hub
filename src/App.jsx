@@ -250,7 +250,7 @@ const App = (props) => {
               type={notification.type}
               icon={notification.icon}
               actions={notification.actions}
-              className={`zIndex5 container ${notification.state ? 'open' : 'close'}`}
+              className={`zIndex5 container jc-fe pr-2 pr-md-4 ${notification.state ? 'open' : 'close'}`}
             />
           )
         }
