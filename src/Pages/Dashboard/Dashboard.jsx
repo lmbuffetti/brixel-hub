@@ -5,7 +5,6 @@ import {
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
-import find from 'lodash/find';
 import isObject from 'lodash/isObject';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -143,7 +142,6 @@ const Dashboard = (props) => {
         if (changeObj.photos) {
           objToSave.coverPhoto = changeObj.photos[0];
         }
-        console.log(changeObj);
         const data = {
           id: propID,
           smallLoader: true,

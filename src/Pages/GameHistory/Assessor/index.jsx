@@ -63,8 +63,10 @@ function Assessor(props) {
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
         if (!saved) {
-          setCurrentIndex(0);
-          setPosition(0);
+          const toDo = get(history, 'location.state.redo', false);
+          const id = toDo ? 0 : Questions.length - 1;
+          setCurrentIndex(id);
+          setPosition(id);
         }
       } else {
         setFinishedFlow(false);
@@ -116,6 +118,7 @@ function Assessor(props) {
     // eslint-disable-next-line no-use-before-define
     changeStep();
     // UPDATE PROPERTY
+    history.push({state: {}});
     handleSaveActiveSingleProperty(dataProp);
     setSaved(true);
     // ADD THE ACHIEVEMENT

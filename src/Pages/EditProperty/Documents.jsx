@@ -6,7 +6,6 @@ import { change, Field } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
@@ -32,7 +31,6 @@ import moment from 'moment';
 const Documents = (props) => {
   const [documentOptionsOpen, setDocumentOptionsOpen] = useState({ id: null, active: false });
   const [editDocument, setEditDocument] = useState({ id: null, active: false });
-  const [selectedVisibility, setSelectedVisibility] = useState(null);
 
   // PROPS
   const {
@@ -258,7 +256,6 @@ const Documents = (props) => {
                                   onSelect={(e, value) => {
                                     e.preventDefault();
                                     changeFieldValue(`documents[${i}].isPrivate`, value.label !== 'Public');
-                                    setSelectedVisibility(doc.isPrivate ? 'Private' : 'Public');
                                   }}
                                 />
                               ) : (
