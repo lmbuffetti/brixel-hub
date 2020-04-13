@@ -19,7 +19,15 @@
         }
       }
     }
-
+  .hubDasContent {
+    &.saveActionOn {
+      .inputSheet {
+        @media (max-width: $responsive-medium) {
+          padding-bottom: $step * 8;
+        }
+      }
+    }
+  }
   .rewards-container {
     .rewardsSplash {
       @media (min-width: $responsive-medium) {
