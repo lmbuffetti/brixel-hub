@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   withRouter,
@@ -78,7 +78,7 @@ const Dashboard = (props) => {
     activeSingleProperty,
     reset,
   } = props;
-  //const [showButton, setShowButton] = useState(true);
+  const [isDiscardChanges, setIsDiscardChanges] = useState(false);
   //const [showMessage, setShowMessage] = useState(false);
 
   // GET URL PARAMS
@@ -178,12 +178,19 @@ const Dashboard = (props) => {
     return isValid;
   };
 
-  const discardChanges = () => {
-    handleSetScreenNotification({
-      ...notification,
-      state: false,
-    });
-    reset('Property');
+  useEffect(() =>{
+    if (isDiscardChanges) {
+      const newNotification = cloneDeep(notification);
+      newNotification.state = false;
+      handleSetScreenNotification({
+        ...newNotification,
+      });
+      setIsDiscardChanges(false);
+    }
+  }, [isDiscardChanges]);
+
+  const discardChanges = (not) => {
+    setIsDiscardChanges(true)
   };
 
   useEffect(() => {
@@ -213,7 +220,7 @@ const Dashboard = (props) => {
           label: 'Save changes?',
           actions:
             [
-              { type: 'secondary', label: 'Discard', func: () => discardChanges() },
+              { type: 'secondary', label: 'Discard', func: () => discardChanges(notification) },
               { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
             ],
         });

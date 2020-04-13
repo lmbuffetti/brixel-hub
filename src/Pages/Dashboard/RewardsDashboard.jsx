@@ -225,8 +225,17 @@ const RewardsDashboard = (props) => {
                 <div className="rewardsSplash h-perc-100 dis-fl-col">
                   {
                     activeAchievement && (
-                      <div className="dis-f a-c jc-b px-3 pt-3">
+                      <div className="dis-f a-c jc-b px-md-3 px-2 pt-3">
                         <div className="dis-f a-c">
+                          <BrixelButtonIcon
+                            className="shadow-2dp mr-2 hide-md"
+                            icon="arrow-simple-left"
+                            color="primary"
+                            saturationTxt={400}
+                            bgTransparent
+                            noBorder
+                            onClick={() => history.push(`/${propID}/rewards`)}
+                          />
                           <h5 className="mr-1">{activeAchievement.title || activeAchievement.name}</h5>
                           <BrixelIcon
                             icon="cup-awards"
