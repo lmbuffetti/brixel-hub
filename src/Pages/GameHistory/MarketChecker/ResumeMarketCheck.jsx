@@ -6,6 +6,7 @@ import {
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import PropTypes from 'prop-types';
 import { getActiveSingleProperty, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { sendGenericMail } from '../../../actions/CommonActions';
@@ -70,18 +71,18 @@ function ResumeMarketCheck(props) {
       setSaved(true);
     }
   }, [marketData]);
+  // eslint-disable-next-line no-undef
 
   return (
     <main id="rewards" className="pb-4 h-perc-100">
       <div className="bgWhite brdRadius">
         <h5 className="ta-c">Voila!</h5>
         <h5 className="ta-c mb-3">
-          {
-            marketData.priceDistribution && marketData.priceDistribution.numberOfProperties && (
-              <span className="txtGreen400 mr-1">{marketData.priceDistribution.numberOfProperties}</span>
-            )
-          }
-          similar apartments in your area are on sale.
+          <span className="txtGreen400 mr-1">
+            {get(marketData, 'priceDistribution.numberOfProperties', 0)}
+          </span>
+          &nbsp;
+          <span>similar apartments in your area are on sale.</span>
         </h5>
         {
           property && property.location && property.packageFlowProcess && property.packageFlowProcess.rewardScreenData && marketData.priceDistribution && (
@@ -107,7 +108,7 @@ function ResumeMarketCheck(props) {
               <div className="dis-fl-col my-5">
                 <div>
                   {
-                    marketData && marketData.priceDistribution && marketData.priceDistribution.chartRangePrice && (
+                    has(marketData, 'priceDistribution.chartRangePrice') && (
                       <>
                         <RangePriceChart
                           properties={marketData.priceDistribution.chartRangePrice}
@@ -120,7 +121,7 @@ function ResumeMarketCheck(props) {
                 </div>
                 <div className="mt-5">
                   {
-                    marketData && marketData.pricePerSpace && marketData.pricePerSpace.chartRangePrice && (
+                    has(marketData, 'pricePerSpace.chartRangePrice') && (
                       <>
                         <RangePriceChart
                           properties={marketData.pricePerSpace.chartRangePrice}

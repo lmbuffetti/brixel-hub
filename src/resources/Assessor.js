@@ -30,7 +30,7 @@ export const AssessorQuestions = (lang) => [
     ]
   },
   {
-    title: "What type of roof",
+    title: "What type of roof?",
     history: "roofType",
     vCentered: true,
     cardType: "roofType",

@@ -22,6 +22,8 @@ import { diff } from 'deep-object-diff';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
 import { setModal, setScreenNotification } from '../../actions/CommonActions';
 import has from 'lodash/has';
+import EmptyHubImg from '../../images/emptyHub.svg';
+import { BrixelButtonPrimary } from '@brixel/brixel-components';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -86,7 +88,7 @@ const Dashboard = (props) => {
   // const checkActiveTab = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    if (propID && !activeSingleProperty.id) {
+    if (propID && !get(activeSingleProperty, 'id', null)) {
       handleGetActiveSingleProperty({fullVersion: false, id: propID});
     } else if (!propID) {
       const data = {
@@ -100,7 +102,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (typeof activeSingleProperty !== 'undefined') {
-      if (!propID && activeSingleProperty.id) {
+      if (!propID && get(activeSingleProperty, 'id', null)) {
         history.push(`/${activeSingleProperty.id}/rewards`);
       }
       if (activeSingleProperty.owner === loggedInUser.user.id) {
@@ -234,7 +236,7 @@ const Dashboard = (props) => {
   }, [formValue, errorValue]);
 
   if (!userTypes) return (<div />);
-
+  console.log(activeSingleProperty);
   return (
     <div className="container ov-x-h" id="dashboard">
       { /* SECTION: APP HEADER */ }
@@ -243,6 +245,22 @@ const Dashboard = (props) => {
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
       <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
       <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
+      {
+        typeof activeSingleProperty === 'undefined' && (
+          <div className="bgWhite brdRadius ta-c p-3 p-md-5 shadow-1dp">
+            <img src={EmptyHubImg} alt="Emtpy Hub" />
+            <h5 className="ta-c mt-3 mb-2">Anybody home?</h5>
+            <p className="ta-c txtDark200 max-w-fix-320 m-a">For using the Brixel Hub you need at least one property.</p>
+            <BrixelButtonPrimary
+              rounded
+              className="m-a mt-3"
+              label="Add property now"
+              rightIcon="arrow-right"
+              onClick={() => history.push('/packageFlow/getStarted')}
+            />
+          </div>
+        )
+      }
     </div>
   )
 };
