@@ -345,6 +345,8 @@ const Maps = (props) => {
               formattedPlace.countryCode = el.short_name;
             } else if (el.types.indexOf('street_number') !== -1) {
               formattedPlace.streetNumber = el.long_name;
+            } else if (el.types.indexOf('route') !== -1) {
+              formattedPlace.name = el.long_name;
             }
           });
         }
