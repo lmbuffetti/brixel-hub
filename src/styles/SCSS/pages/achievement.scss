@@ -26,10 +26,12 @@
 
     .slideMultiStepForm {
       height: 100%;
+      transition: none;
 
       .singleStep {
         height: calc(100% - 144px);
         padding: $step * 3 $step * 2;
+        transition: opacity $default-time-long $default-easing;
 
         @media (max-width: $responsive-medium) {
           height: calc(100% - 112px);
