@@ -20,6 +20,9 @@
       }
     }
   .hubDasContent {
+    @media (min-width: $responsive-medium) {
+      overflow-y: auto;
+    }
     &.saveActionOn {
       .inputSheet {
         @media (max-width: $responsive-medium) {
