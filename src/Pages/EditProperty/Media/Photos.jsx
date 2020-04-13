@@ -260,31 +260,31 @@ const Photos = (props) => {
                 </>
               )
             }
-          <>
-            <div
-              className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c`}
-              {...getRootProps()}
-            >
-              <input {...getInputProps()} />
-              {
-                (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
-                  <div className="w-perc-100">
-                    <img className="w-perc-100" src={upload_photos_empty} alt="Empty State" />
-                    <h5 className="mt-2 mb-1">Upload your fist photo</h5>
-                  </div>
-                )
-              }
-              <span className="body2 txtDark200 max-width-220">Choose .pdf .jpeg .png with max. 10 MB size</span>
-              <BrixelButtonPrimary
-                label="upload"
-                rightIcon="upload"
-                rounded
-                className="mt-3"
-                isLoading={isSmallLoading && btnActive === 'uploading'}
-              />
-            </div>
-          </>
-        </div>
+            <>
+              <div
+                className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c`}
+                {...getRootProps()}
+              >
+                <input {...getInputProps()} />
+                {
+                  (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
+                    <div className="w-perc-100">
+                      <img className="w-perc-100" src={upload_photos_empty} alt="Empty State" />
+                      <h5 className="mt-2 mb-1">Upload your fist photo</h5>
+                    </div>
+                  )
+                }
+                <span className="body2 txtDark200 max-width-220">Choose .pdf .jpeg .png with max. 10 MB size</span>
+                <BrixelButtonPrimary
+                  label="upload"
+                  rightIcon="upload"
+                  rounded
+                  className="mt-3"
+                  isLoading={isSmallLoading && btnActive === 'uploading'}
+                />
+              </div>
+            </>
+          </div>
         </div>
       </div>
       <Route path="/:propId?/property/photos/:imgId/edit/:editType" exact component={DetailMedia} />
