@@ -303,7 +303,6 @@ export const ComponentMap =(props) => {
         formattedPlace.city = null;
 
         const location = result[0];
-        console.log(location);
         if (location.geometry) {
           formattedPlace.geometry = location.geometry;
           formattedPlace.latitude = location.geometry.location.lat();

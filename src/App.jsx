@@ -1,6 +1,6 @@
 /* global ga, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Switch, Route, withRouter, Redirect,
 } from 'react-router-dom';
@@ -104,6 +104,8 @@ const App = (props) => {
     redirectTo,
     windowDimensions,
   } = props;
+  // STATE
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) handleCheckToken();
@@ -127,6 +129,9 @@ const App = (props) => {
         moment.locale(lang);
       }
     }
+    Transifex.live.onReady(() => {
+      setIsLoaded(true);
+    });
   }, [Transifex, loggedInUser]);
 
   useEffect(() => {
@@ -157,7 +162,7 @@ const App = (props) => {
     return head[0] ? head[0].offsetHeight : 0;
   };
 
-  if (!loggedInUser || (!userTypes && property.id)) {
+  if (!loggedInUser || (!userTypes && property.id) || !isLoaded) {
     return (
       <Loading isLoading={isLoading} />
     )
