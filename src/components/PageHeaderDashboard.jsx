@@ -96,6 +96,15 @@ function PageHeaderDashboard(props) {
     history.push(`/${propID}/upgrade`);
   };
 
+  const onTabClick = (val) => {
+    if (val === 'support') {
+      setRightMenu(val)
+    } else {
+      setRightMenu(null);
+      history.push(`/${propID}/${val}`)
+    }
+  };
+
   return (
     <>
       <header className={`hubDasHeader ${rightMenu ? 'rightMenuOpen' : ''}`}>
@@ -222,7 +231,7 @@ function PageHeaderDashboard(props) {
             classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
             activeTab={rightMenu || checkActiveTab()}
             fullWidth={windowDimensions.width <= 768}
-            onClick={(val) => val === 'support' ? setRightMenu(val) : history.push(`/${propID}/${val}`)}
+            onClick={(val) => onTabClick(val)}
             showFull={false}
           />
         </div>
