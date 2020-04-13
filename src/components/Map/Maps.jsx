@@ -303,6 +303,7 @@ export const ComponentMap =(props) => {
         formattedPlace.city = null;
 
         const location = result[0];
+        console.log(location);
         if (location.geometry) {
           formattedPlace.geometry = location.geometry;
           formattedPlace.latitude = location.geometry.location.lat();
@@ -341,6 +342,8 @@ export const ComponentMap =(props) => {
               formattedPlace.countryCode = el.short_name;
             } else if (el.types.indexOf('street_number') !== -1) {
               formattedPlace.streetNumber = el.long_name;
+            } else if (el.types.indexOf('route') !== -1) {
+              formattedPlace.name = el.long_name;
             }
           });
         }
