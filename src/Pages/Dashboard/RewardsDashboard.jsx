@@ -220,12 +220,12 @@ const RewardsDashboard = (props) => {
         }
         {
           activeGameGroup && rewardType !== 'rewards' && (
-            <div className="secondLevel w-perc-100 dis-fl-col ml-md-1 pt-md-5">
+            <div className="secondLevel w-perc-100 dis-fl-col ml-md-1 pt-md-6">
               <>
-                <div className="rewardsSplash h-perc-100 dis-fl-col">
+                <div className="rewardsSplash h-perc-100 dis-fl-col p-2 p-md-3">
                   {
                     activeAchievement && (
-                      <div className="dis-f a-c jc-b px-md-3 px-2 pt-3">
+                      <div className="dis-f a-c jc-b mb-4">
                         <div className="dis-f a-c">
                           <BrixelButtonIcon
                             className="shadow-2dp mr-2 hide-md"

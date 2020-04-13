@@ -44,7 +44,7 @@ function SuccessMarketCheck(props) {
   }, [gameGroup, getParams]);
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-b ${getDoneFirstTime() === 'done' ? "p-2 p-md-4 pb-5" : "pt-2 pt-md-4"}`}>
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-b a-c`}>
       {
         groupdAchievement.done || getDoneFirstTime() === 'done' ? (
           <>
@@ -55,20 +55,20 @@ function SuccessMarketCheck(props) {
                     getDoneFirstTime() === 'done' ? (
                       <>
                         <h5 className="ta-c">Great, now you know what is out there.</h5>
-                        <div className="ta-c mb-5 mt-5"><img src={newMarketCheck} alt="Nes Assessor" /></div>
+                        <div className="ta-c my-3"><img src={newMarketCheck} alt="Nes Assessor" /></div>
                         <p className="ta-c mb-2">Congrats! <br/> You earned the <span className="txtGreen400">Market Checker</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
                       <>
-                        <div className="ta-c mb-3 mt-3">
-                          <img src={startMarketCheck} alt="Done Market Check" />
-                        </div>
                         <div className="dis-fl-col jc-c a-c">
-                          <h5 className="mb-2 max-w-fix-340 m-a ta-c">
+                          <div className="ta-c mb-3">
+                            <img src={startMarketCheck} alt="Done Market Check" />
+                          </div>
+                          <h5 className="mb-2 m-a ta-c">
                             <span>{marketData.similar_properties}</span>&nbsp;
                             <span>similar properties in your area.</span>
                           </h5>
-                          <p className="body2 txtDark200 max-w-fix-320 m-a ta-c">Last updated: {moment(marketData.market_check_date).format('MMMM DD YYYY / HH:mm')}</p>
+                          <p className="body2 txtDark200 m-a ta-c">Last updated: {moment(marketData.market_check_date).format('MMMM DD YYYY / HH:mm')}</p>
                         </div>
                         <div className="w-perc-100 p-1 p-md-2 mt-2">
                           <BrixelButtonPrimary
@@ -89,14 +89,14 @@ function SuccessMarketCheck(props) {
           </>
         ) : (
           <>
-            <div className="ta-c mb-3 mt-3">
-              <img src={startMarketCheck} alt="Start Market Check" />
-            </div>
             <div className="dis-fl-col jc-c a-c">
-              <h5 className="mb-2 max-w-fix-340 m-a">
+              <div className="ta-c mb-3">
+                <img src={startMarketCheck} alt="Start Market Check" />
+              </div>
+              <h5 className="mb-2 m-a">
                 Compare your local market.
               </h5>
-              <p className="body2 txtDark200 max-w-fix-320 m-a ta-c">
+              <p className="body2 txtDark200 m-a ta-c">
                 Stop browsing all the portals. I show you all similar properti es on sale. Instantly.
               </p>
             </div>

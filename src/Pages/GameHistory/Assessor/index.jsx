@@ -234,6 +234,7 @@ function Assessor(props) {
                 style={{
                   visibility: i !== currentIndex ? 'hidden' : 'visible',
                   maxWidth: i !== currentIndex ? '' : '100%',
+                  opacity: i !== currentIndex ? '0' : '1',
                 }}
               >
                 <div className={`subcontainer ${quest.className || ''}`}>

@@ -150,7 +150,7 @@ const Photos = (props) => {
             </h5>
           </div>
 
-          <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel' : 'empty-state a-c'}`}>
+          <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel' : 'empty-state dis-fl-col a-c'}`}>
             {
               (fixPhotos && fixPhotos.length > 0) && (
                 <>

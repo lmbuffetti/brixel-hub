@@ -32,10 +32,10 @@ const BrixelButtonAchievement = (props) => {
                 color="green"
                 saturationTxt={400}
                 icon="check"
-                className="p-1"
+                className="p-small-9"
               />
               <div className="ta-l w-perc-100 pl-2">
-                <h6 className="txtGreen400 td-lt">{title}</h6>
+                <p className="body txtGreen400 td-lt">{title}</p>
               </div>
               <BrixelIcon
                 rounded
@@ -68,13 +68,15 @@ const BrixelButtonAchievement = (props) => {
                   &nbsp;
                   <span className="txtDark200">{subtitle}</span>
                 </span>
-                <h6>{title}</h6>
+                <p className="body txtDark700">{title}</p>
               </div>
               <BrixelIcon
                 rounded
                 bgTransparent
                 color="dark"
                 saturationTxt={700}
+                iconSize="fsize-400"
+                className="p-small-9"
                 icon="arrow-simple-right"
               />
             </>

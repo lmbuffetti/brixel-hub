@@ -163,12 +163,12 @@ const Upgrade = (props) => {
             onClick={() => closeWindow()}
           />
         </div>
-        <div className={`slideIn-enter bodyModalFlow pos-r ${quest.vCentered ? 'vCentered dis-fl-col' : ''}`}>
+        <div className={`bodyModalFlow pos-r ${quest.vCentered ? 'vCentered dis-fl-col' : ''}`}>
           <div
-            className={`slideMultiStepForm ${isEnter ? 'slideIn-enter-active' : ''}`}
+            className={`slideMultiStepForm`}
           >
             <div
-              className={`sidebarSubmenuContent max-h-perc-100 dis-fl-col a-c singleStepUpgrade ${quest.background || ''}`}
+              className={`max-h-perc-100 dis-fl-col a-c singleStepUpgrade ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
               {
                 quest.inputs ? (

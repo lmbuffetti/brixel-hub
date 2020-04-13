@@ -43,7 +43,7 @@ function SuccessAssessor(props) {
   }, [gameGroup, getParams]);
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-b ${ isNew ? "p-2 p-md-4 pb-5" : "pt-2 pt-md-4"}`}>
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-b a-c`}>
 
       {
         groupdAchievement.done ? (
@@ -55,20 +55,19 @@ function SuccessAssessor(props) {
                     isNew ? (
                       <>
                         <h5 className="ta-c">Well done. You are now an Assessor.</h5>
-                        <div className="ta-c mb-5 mt-5"><img src={newAssessor} alt="Nes Assessor" /></div>
+                        <div className="ta-c my-3"><img src={newAssessor} alt="Nes Assessor" /></div>
                         <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
-
                       <>
-                        <div className="ta-c mb-3 mt-3">
-                          <img src={doneAssessor} alt="Done Assessor" />
-                        </div>
                         <div className="dis-fl-col jc-c a-c">
-                          <h5 className="mb-2 max-w-fix-340 m-a ta-c">
+                          <div className="ta-c mb-3">
+                            <img src={doneAssessor} alt="Done Assessor" />
+                          </div>
+                          <h5 className="mb-2 m-a ta-c">
                             Your property’s conditon
                           </h5>
-                          <p className="body2 txtDark200 max-w-fix-320 m-a ta-c">
+                          <p className="body2 txtDark200 m-a ta-c">
                             The values are calculated with the average lifespan of each element.
                           </p>
                         </div>
@@ -99,14 +98,14 @@ function SuccessAssessor(props) {
           </>
         ) : (
           <>
-            <div className="ta-c m-a h-perc-50 mb-5 mt-5"><
-              img className="h-perc-100" src={startAssessor} alt="Done Assessor" />
-            </div>
             <div className="dis-fl-col jc-c a-c">
-              <h5 className="mb-2 max-w-fix-340 m-a ta-c">
+              <div className="ta-c m-a h-perc-50 mb-3">
+                <img className="h-perc-100" src={startAssessor} alt="Done Assessor" />
+              </div>
+              <h5 className="mb-2 m-a ta-c">
                 Assess your property with a condition check
               </h5>
-              <p className="body2 txtDark200 max-w-fix-320 m-a ta-c">
+              <p className="body2 txtDark200 m-a ta-c">
                 As an assessor, you know about the condition of the most important parts of your property.
               </p>
             </div>

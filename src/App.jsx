@@ -214,7 +214,7 @@ const App = (props) => {
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? 'hubDasContent bgLight100 h-perc-100 ov-a' : ''} ${notification && (notification.small || notification.state) ? 'pb-10' : ''}`}
+              className={`${!isFlow ? 'hubDasContent bgLight100 h-perc-100 ov-a' : ''} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
               style={{ height: windowDimensions.height - calcHeaderHeight() }}
             >
               <Switch>
@@ -250,7 +250,7 @@ const App = (props) => {
               type={notification.type}
               icon={notification.icon}
               actions={notification.actions}
-              className={`zIndex5 container ${notification.state ? 'open' : 'close'}`}
+              className={`zIndex5 container jc-fe pr-2 pr-md-4 ${notification.state ? 'open' : 'close'}`}
             />
           )
         }

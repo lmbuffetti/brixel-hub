@@ -19,7 +19,15 @@
         }
       }
     }
-
+  .hubDasContent {
+    &.saveActionOn {
+      .inputSheet {
+        @media (max-width: $responsive-medium) {
+          padding-bottom: $step * 8;
+        }
+      }
+    }
+  }
   .rewards-container {
     .rewardsSplash {
       @media (min-width: $responsive-medium) {
@@ -29,6 +37,16 @@
       and (min-width : $responsive-small)
       and (max-width : $responsive-large) {
           min-height: 35vh;
+      }
+      #rewards {
+        > div:first-child {
+          max-width: 340px;
+
+          @media (max-width: $responsive-medium) {
+            margin-top: auto;
+            margin-bottom: auto;
+          }
+        }
       }
     }
     .secondLevel {
@@ -83,22 +101,14 @@
 
   // DESKTOP SCREEN
   @media screen and(max-width: map-get($grid-breakpoints, xl)) {
-
   }
-  // TODO
-.brixel-notification {
-  left: 50%;
-  transform: translate(-50%, 0);
-  transition: transform $default-time-long $default-time-long;
-    &.fullWidth {
-      border-top-left-radius: $step;
-      border-top-right-radius: $step;
-    }
-    &.open {
-      transform: translate(-50%, 0);
-    }
-    &.close {
-      transform: translate(-50%, 100%);
+
+  // todo
+  .brixel-notification {
+    @media (max-width: $responsive-medium) {
+      > div:first-child {
+        display: none;
+      }
     }
   }
 }
