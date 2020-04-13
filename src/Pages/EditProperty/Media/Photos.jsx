@@ -51,7 +51,6 @@ const Photos = (props) => {
 
   useEffect(() => {
     //setNewImages([]);
-    console.log()
     if (Object.keys(diff(photos, fixPhotos)).length > 0 && !isSmallLoading) {
       setNewImages([]);
       setConfirmDelete(null);
@@ -103,7 +102,12 @@ const Photos = (props) => {
     });
   }, []);
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: 'image/png,image/jpg,image/jpeg',
+    minSize: 0,
+    maxSize: 1e+7,
+  });
 
   // ORDER IMAGE SETTINGS
   const changeOrder = (order) => {
@@ -132,9 +136,9 @@ const Photos = (props) => {
   });
 
   return (
-    <div className="photosWrapper dis-f h-perc-100">
+    <div className="photosWrapper dis-f">
       <div className="secondLevel dis-fl-col">
-        <div className="max-h-perc-100 dis-fl-col ov-a">
+        <div>
           <div className="dis-f jc-b a-c mb-3">
             <BrixelButtonIcon
               className="shadow-3dp hide-md"
@@ -149,7 +153,7 @@ const Photos = (props) => {
               Photos
             </h5>
           </div>
-          <div className={`dis-fl-col ${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel' : 'empty-state a-c'}`}>
+          <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel' : 'empty-state a-c'}`}>
             {
               (fixPhotos && fixPhotos.length > 0) && (
                 <>
@@ -256,31 +260,31 @@ const Photos = (props) => {
                 </>
               )
             }
-            <>
-              <div
-                className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c`}
-                {...getRootProps()}
-              >
-                <input {...getInputProps()} />
-                {
-                  (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
-                    <div className="w-perc-100">
-                      <img className="w-perc-100" src={upload_photos_empty} alt="Empty State" />
-                      <h5 className="mt-2 mb-1">Upload your fist photo</h5>
-                    </div>
-                  )
-                }
-                <span className="body2 txtDark200 max-width-220">Choose .pdf .jpeg .png with max. 10 MB size</span>
-                <BrixelButtonPrimary
-                  label="upload"
-                  rightIcon="upload"
-                  rounded
-                  className="mt-3"
-                  isLoading={isSmallLoading && btnActive === 'uploading'}
-                />
-              </div>
-            </>
-          </div>
+          <>
+            <div
+              className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c`}
+              {...getRootProps()}
+            >
+              <input {...getInputProps()} />
+              {
+                (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
+                  <div className="w-perc-100">
+                    <img className="w-perc-100" src={upload_photos_empty} alt="Empty State" />
+                    <h5 className="mt-2 mb-1">Upload your fist photo</h5>
+                  </div>
+                )
+              }
+              <span className="body2 txtDark200 max-width-220">Choose .pdf .jpeg .png with max. 10 MB size</span>
+              <BrixelButtonPrimary
+                label="upload"
+                rightIcon="upload"
+                rounded
+                className="mt-3"
+                isLoading={isSmallLoading && btnActive === 'uploading'}
+              />
+            </div>
+          </>
+        </div>
         </div>
       </div>
       <Route path="/:propId?/property/photos/:imgId/edit/:editType" exact component={DetailMedia} />
