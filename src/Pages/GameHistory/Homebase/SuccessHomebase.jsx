@@ -23,7 +23,7 @@ function SuccessHomebase(props) {
   return (
     <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col jc-b a-c">
       <div className="dis-fl-col jc-c a-c">
-        <div className="bgWhite brdRadius shadow-4dp ov-h">
+        <div className="bgWhite brdRadius shadow-4dp ov-h w-perc-100">
           <img
             src={formValue.propertyType === 'Apartment' ? resumeApartment : resumeHouse}
             className="dis-b"
