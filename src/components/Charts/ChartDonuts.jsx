@@ -24,7 +24,6 @@ function ChartDonuts(props) {
 
   useEffect(() => {
     const newData = [];
-    console.log(assessor);
     if (properties) {
       properties.map(item => (
         newData.push(item.numberOfProperties)
@@ -52,7 +51,7 @@ function ChartDonuts(props) {
       setData(newData);
     }
   }, [assessor]);
-  console.log(data);
+
   const pie = d3.pie()(data);
 
   const textOnPieChart = () => {
