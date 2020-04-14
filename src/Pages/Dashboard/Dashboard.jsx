@@ -106,7 +106,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (typeof activeSingleProperty !== 'undefined') {
       if (!propID && get(activeSingleProperty, 'id', null)) {
-        //history.push(`/${activeSingleProperty.id}/rewards`);
+        history.push(`/${activeSingleProperty.id}/rewards`);
       }
       if (activeSingleProperty.owner === loggedInUser.user.id) {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID });
