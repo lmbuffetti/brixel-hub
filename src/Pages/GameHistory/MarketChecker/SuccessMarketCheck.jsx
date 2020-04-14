@@ -69,8 +69,8 @@ function SuccessMarketCheck(props) {
                             <span>similar properties in your area.</span>
                           </h5>
                           <p className="body2 txtDark200 m-a ta-c">
-                            <span>Last updated</span>:&nbsp;
-                            <span>{moment(marketData.market_check_date).format('MMMM DD YYYY / HH:mm')}</span>
+                            <span>Last updated</span>
+                            <span>:&nbsp;{moment(marketData.market_check_date).format('MMMM DD YYYY / HH:mm')}</span>
                           </p>
                         </div>
                         <div className="w-perc-100 p-1 p-md-2 mt-2">
