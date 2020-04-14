@@ -17,6 +17,7 @@ import { BrixelButtonPrimary } from '@brixel/brixel-components';
 function SuccessBestimate(props) {
   // PROPS
   const {
+    bestimate,
     gameGroup,
     handleGetGamegroup,
     history,
@@ -47,6 +48,8 @@ function SuccessBestimate(props) {
     }
   }, [gameGroup]);
 
+  const bestimateValue = get(bestimate, 'higherValue', 0);
+
   return (
     <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-b a-c`}>
       {
@@ -68,8 +71,15 @@ function SuccessBestimate(props) {
 
                       <>
                         <div className="dis-fl-col jc-c a-c">
-                          <div className="ta-c mb-3">
+                          <div className="ta-c mb-3 pos-r">
                             <img src={doneBestimate} alt="Done Assessor" />
+                            <div className="ta-l pl-4 pb-2 pos-a-fix x-l-0 x-b-0">
+                              <p className="body2 txtDark200">Worth up to</p>
+                              <h5 className="ff-mono fweight-700">
+                                <span>{bestimate.currency}</span>&nbsp;
+                                <span>{bestimateValue.toLocaleString('de-CH')}</span>
+                              </h5>
+                            </div>
                           </div>
                           <p className="body2 txtDark200 m-a ta-c">
                             Based on similar transaction.
@@ -123,6 +133,7 @@ function SuccessBestimate(props) {
 }
 
 SuccessBestimate.propTypes = {
+  bestimate: PropTypes.object.isRequired,
   finishedFlow: PropTypes.bool,
   gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
   groupdAchievement: PropTypes.object,
@@ -140,6 +151,7 @@ SuccessBestimate.defaultProps = {
 
 const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
+  bestimate: get(state, 'property.activeSingleProperty.estimation.bestimate', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

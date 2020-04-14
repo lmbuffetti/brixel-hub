@@ -12,6 +12,20 @@ export const colorCharts = [
   '#111820',
 ];
 
+export const colorChartsQuality = [
+  '#C83251',
+  '#F57785',
+  '#85CBA8',
+  '#218B80',
+  '#F03C50',
+  '#FBD769',
+  '#FFBB48',
+  '#21CD89',
+  '#6A6E7D',
+  '#01575A',
+  '#111820',
+];
+
 export const APIGoogle = 'AIzaSyD4tV7awt_UqVqk0vhyk3_zKi_RN--br5w';
 
 export const mapStyles = [

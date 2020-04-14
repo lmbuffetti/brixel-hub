@@ -1,25 +1,56 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import * as d3 from 'd3';
+import isObject from 'lodash/isObject';
 import PropTypes from 'prop-types';
 import SliceDonuts from './SliceDonuts';
-import { colorCharts } from '../../utils/constants';
-
+import { colorCharts, colorChartsQuality } from '../../utils/constants';
+import { FactsOptions } from '@brixel/brixel-components';
+const { factsOptions } = FactsOptions;
 // const data = [1, 2, 3, 20];
 
 function ChartDonuts(props) {
-  const height = 220;
-  const width = 220;
+  // PROPS
+  const {
+    assessor,
+    properties,
+  } = props;
+  // STATE
   const [data, setData] = useState([]);
-  const { properties } = props;
   const [isHover, setIsHover] = useState(null);
+  // CONFIGURATION
+  const height = props.smallPie ? 134 : 220;
+  const width = props.smallPie ? 134 : 220;
+
   useEffect(() => {
     const newData = [];
-    properties.map(item => (
-      newData.push(item.numberOfProperties)
-    ));
+    if (properties) {
+      properties.map(item => (
+        newData.push(item.numberOfProperties)
+      ));
+    }
     setData(newData);
-  }, []);
+  }, [properties]);
+
+  useEffect(() => {
+    if (assessor) {
+      const newData = [0, 0, 0, 0];
+      Object.keys(assessor).map((key) => {
+        if (isObject(assessor[key])) {
+          Object.keys(assessor[key]).map((subkey) => {
+            const newID = assessor[key][subkey] - 1;
+            newData[newID] = newData[newID] + 1;
+            return null;
+          })
+        } else {
+          const newID = assessor[key] - 1;
+          newData[newID] = +newData[newID] + 1;
+        }
+        return null;
+      });
+      setData(newData);
+    }
+  }, [assessor]);
 
   const pie = d3.pie()(data);
 
@@ -46,34 +77,69 @@ function ChartDonuts(props) {
   return (
     <div className="donut-graph mt-medium">
       <div className="donut-content donutsPieChart">
-        <div className="svg-range-container">
+        <div
+          className="svg-range-container"
+          style={{width: width, height: height, flex: `0 0 ${width}px`}}
+        >
           <svg height={height} width={width}>
-            <g transform={`translate(${width / 2},${height / 2})`}>
-              <SliceDonuts pie={pie} hovered={val => setIsHover(val)} isHover={isHover} />
+            <g style={{ transform: `translate(${width / 2}px,${height / 2}px)`}}>
+              <SliceDonuts
+                pie={pie}
+                hovered={val => setIsHover(val)}
+                isHover={isHover}
+                radius={(width / 2) - 10}
+                colors={assessor ? colorChartsQuality : colorCharts}
+              />
             </g>
           </svg>
-          {textOnPieChart()}
+          {!props.noText ? textOnPieChart() : ''}
         </div>
-        <div className="donut-labels">
-          {
-            properties.map((item, i) => (
-              <div key={i.toString()} className={`label-container ${isHover === i ? 'hover' : ''}`}>
-                <div className="number-container">
-                  <i className="color" style={{ backgroundColor: colorCharts[i] }} />
-                  <span className="number">{item.numberOfProperties}</span>
-                </div>
-                <div className="type"><span>{item.subType}</span></div>
-              </div>
-            ))
-          }
-        </div>
+        {
+          properties.length > 0 && (
+            <div className="donut-labels">
+              {
+                properties.map((item, i) => (
+                  <div key={i.toString()} className={`label-container ${isHover === i ? 'hover' : ''}`}>
+                    <div className="number-container">
+                      <i className="color" style={{ backgroundColor: colorCharts[i] }} />
+                      <span className="number">{item.numberOfProperties}</span>
+                    </div>
+                    <div className="type"><span>{item.subType}</span></div>
+                  </div>
+                ))
+              }
+            </div>
+          )
+        }
+        {
+          assessor && (
+            <div className="donut-labels-vert dis-f-col">
+              {
+                data.map((item, i) => (
+                  <div key={i.toString()} className={`label-container ${isHover === i ? 'hover' : ''}`}>
+                    <div className="number-container">
+                      <i className="color" style={{ backgroundColor: colorChartsQuality[i] }} />
+                      <span className="number">{factsOptions.qualityAssessor[i].label}</span>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          )
+        }
       </div>
     </div>
   );
 }
 
 ChartDonuts.propTypes = {
-  properties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  assessor: PropTypes.object,
+  properties: PropTypes.arrayOf(PropTypes.object),
+};
+
+ChartDonuts.defaultProps = {
+  assessor: null,
+  properties: [],
 };
 
 export default ChartDonuts;

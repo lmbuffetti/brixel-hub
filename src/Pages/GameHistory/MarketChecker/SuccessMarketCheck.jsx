@@ -68,7 +68,10 @@ function SuccessMarketCheck(props) {
                             <span>{marketData.similar_properties}</span>&nbsp;
                             <span>similar properties in your area.</span>
                           </h5>
-                          <p className="body2 txtDark200 m-a ta-c">Last updated: {moment(marketData.market_check_date).format('MMMM DD YYYY / HH:mm')}</p>
+                          <p className="body2 txtDark200 m-a ta-c">
+                            <span>Last updated</span>:&nbsp;
+                            <span>{moment(marketData.market_check_date).format('MMMM DD YYYY / HH:mm')}</span>
+                          </p>
                         </div>
                         <div className="w-perc-100 p-1 p-md-2 mt-2">
                           <BrixelButtonPrimary
@@ -97,7 +100,7 @@ function SuccessMarketCheck(props) {
                 Compare your local market.
               </h5>
               <p className="body2 txtDark200 m-a ta-c">
-                Stop browsing all the portals. I show you all similar properti es on sale. Instantly.
+                Stop browsing all the portals. I show you all similar properties on sale. Instantly.
               </p>
             </div>
             <div className="w-perc-100 p-1 p-md-2 mt-2">
