@@ -5,6 +5,7 @@ import { BrixelIcon } from '@brixel/brixel-components';
 const BrixelButtonAchievement = (props) => {
   const {
     active,
+    award,
     isFree,
     done,
     icon,
@@ -37,13 +38,17 @@ const BrixelButtonAchievement = (props) => {
               <div className="ta-l w-perc-100 pl-2">
                 <p className="body txtGreen400 td-lt">{title}</p>
               </div>
-              <BrixelIcon
-                rounded
-                bgTransparent
-                color="green"
-                saturationTxt={400}
-                icon="cup-awards"
-              />
+              {
+                award && (
+                  <BrixelIcon
+                    rounded
+                    bgTransparent
+                    color="green"
+                    saturationTxt={400}
+                    icon="cup-awards"
+                  />
+                )
+              }
             </>
           ) : (
             <>
@@ -94,6 +99,7 @@ const BrixelButtonAchievement = (props) => {
 
 BrixelButtonAchievement.propTypes = {
   active: PropTypes.bool,
+  award: PropTypes.bool,
   isFree: PropTypes.bool,
   done: PropTypes.bool,
   icon: PropTypes.string,
@@ -103,7 +109,7 @@ BrixelButtonAchievement.propTypes = {
 };
 
 BrixelButtonAchievement.defaultProps = {
-
+  award: false,
 };
 
 export default BrixelButtonAchievement;

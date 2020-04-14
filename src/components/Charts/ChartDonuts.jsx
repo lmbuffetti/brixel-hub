@@ -119,7 +119,7 @@ function ChartDonuts(props) {
                   <div key={i.toString()} className={`label-container ${isHover === i ? 'hover' : ''}`}>
                     <div className="number-container">
                       <i className="color" style={{ backgroundColor: colorChartsQuality[i] }} />
-                      <span className="number">{factsOptions.quality[i].label}</span>
+                      <span className="number">{factsOptions.qualityAssessor[i].label}</span>
                     </div>
                   </div>
                 ))

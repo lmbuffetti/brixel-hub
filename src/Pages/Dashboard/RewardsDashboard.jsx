@@ -204,6 +204,7 @@ const RewardsDashboard = (props) => {
                                     isFree={true}
                                     onClick={() => onClickAchievement(item.stub, item)}
                                     lineAfter={group.achievements.length - 1 > f}
+                                    award={item.achievementType === 'award'}
                                   />
                                 </div>
                               ))
