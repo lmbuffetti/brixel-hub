@@ -109,7 +109,7 @@
   // todo
   .brixel-notification {
     @media (max-width: $responsive-medium) {
-      > div:first-child {
+      > .container p.label {
         display: none;
       }
     }
