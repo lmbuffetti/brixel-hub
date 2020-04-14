@@ -40,7 +40,7 @@ const checkCommon = (store) => (next) => (action) => {
             state: false,
           }
         })
-      }, 3000)
+      }, 1000)
       break;
     }
     case SET_PSEUDO_SAVED_SCREEN: {
@@ -52,7 +52,7 @@ const checkCommon = (store) => (next) => (action) => {
       store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: notification });
       setTimeout(() => {
         store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null })
-      }, 3000)
+      }, 1000)
       break;
     }
     default:
