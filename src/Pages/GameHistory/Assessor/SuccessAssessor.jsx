@@ -8,7 +8,6 @@ import {
   withRouter,
 } from 'react-router-dom';
 import { getGamegroup } from '../../../actions/GamificationActions';
-import doneAssessor from '../../../images/Assessor/doneAssessor.svg';
 import newAssessor from '../../../images/Assessor/newAssessor.svg';
 import startAssessor from '../../../images/Assessor/startAssessor.svg';
 import { BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
@@ -64,7 +63,7 @@ function SuccessAssessor(props) {
                         <div className="dis-fl-col jc-c a-c">
                           <div className="brdRadius bgGreen100 p-2 mb-3">
                             <ChartDonuts
-                              assessor={get(formValue, 'assessor.construction', {})}
+                              assessor={get(formValue, 'assessor.renovation', get(formValue, 'assessor.construction', {}))}
                               smallPie
                               noText
                             />

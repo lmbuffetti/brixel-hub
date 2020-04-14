@@ -35,21 +35,24 @@ function ChartDonuts(props) {
 
   useEffect(() => {
     if (assessor) {
-      const newData = ['0', '0', '0', '0'];
+      const newData = [0, 0, 0, 0];
       Object.keys(assessor).map((key) => {
-        console.log(assessor[key])
         if (isObject(assessor[key])) {
           Object.keys(assessor[key]).map((subkey) => {
-            newData[+assessor[key][subkey]] = newData[assessor[key][subkey]] + 1;
+            const newID = assessor[key][subkey] - 1;
+            newData[newID] = newData[newID] + 1;
+            return null;
           })
         } else {
-          newData[+assessor[key]] = newData[assessor[key]] + 1;
+          const newID = assessor[key] - 1;
+          newData[newID] = +newData[newID] + 1;
         }
+        return null;
       });
       setData(newData);
     }
   }, [assessor]);
-
+  console.log(data);
   const pie = d3.pie()(data);
 
   const textOnPieChart = () => {

@@ -183,6 +183,7 @@ const Dashboard = (props) => {
   useEffect(() =>{
     if (isDiscardChanges) {
       const newNotification = cloneDeep(notification);
+      reset('Property');
       newNotification.state = false;
       handleSetScreenNotification({
         ...newNotification,
