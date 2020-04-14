@@ -12,10 +12,12 @@ import doneAssessor from '../../../images/Assessor/doneAssessor.svg';
 import newAssessor from '../../../images/Assessor/newAssessor.svg';
 import startAssessor from '../../../images/Assessor/startAssessor.svg';
 import { BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
+import ChartDonuts from '../../../components/Charts/ChartDonuts';
 
 function SuccessAssessor(props) {
   // PROPS
   const {
+    formValue,
     gameGroup,
     history,
     gameStub,
@@ -44,7 +46,6 @@ function SuccessAssessor(props) {
 
   return (
     <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-b a-c`}>
-
       {
         groupdAchievement.done ? (
           <>
@@ -61,8 +62,12 @@ function SuccessAssessor(props) {
                     ) : (
                       <>
                         <div className="dis-fl-col jc-c a-c">
-                          <div className="ta-c mb-3">
-                            <img src={doneAssessor} alt="Done Assessor" />
+                          <div className="brdRadius bgGreen100 p-2 mb-3">
+                            <ChartDonuts
+                              assessor={get(formValue, 'assessor.construction', {})}
+                              smallPie
+                              noText
+                            />
                           </div>
                           <h5 className="mb-2 m-a ta-c">
                             Your property’s conditon
@@ -128,6 +133,7 @@ function SuccessAssessor(props) {
 
 SuccessAssessor.propTypes = {
   finishedFlow: PropTypes.bool,
+  formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
   groupdAchievement: PropTypes.object,
   gameStub: PropTypes.string,
@@ -145,6 +151,7 @@ SuccessAssessor.defaultProps = {
 
 const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
+  formValue: get(state, 'form.Property.values', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -236,7 +236,7 @@ const Dashboard = (props) => {
   }, [formValue, errorValue]);
 
   if (!userTypes) return (<div />);
-  console.log(activeSingleProperty);
+
   return (
     <div className="container ov-x-h" id="dashboard">
       { /* SECTION: APP HEADER */ }

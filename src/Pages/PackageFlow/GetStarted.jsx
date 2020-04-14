@@ -87,8 +87,40 @@ function GetStarted(props) {
   };
 
   const changePageTitle = () => {
-    const pageTitle = `${formValue.bedrooms} ${translateTo(lang, 'Rooms')} ${translateTo(lang, formValue.propertyType)} - ${formValue.location.city}`;
-    changeFieldValue('pageTitle', pageTitle);
+    if (formValue && formValue.location && !formValue.pageTitle) {
+      var titleAdjectives = [
+        'Beautiful',
+        'Charming',
+        'Elegant',
+        'Prestigious',
+        'One-of-a-kind',
+        'Exquisite',
+        'Spacious',
+        'Gorgeous',
+        'Wonderful',
+        'Lovely',
+        'Superb',
+        'Amazing',
+        'Stunning',
+        'Sophisticated',
+        'Modern',
+        'Incredible'
+      ];
+      // Create the title of the page
+      let pageTitle = `${titleAdjectives[Math.floor(Math.random() * titleAdjectives.length)]} ${formValue.propertyType}`;
+
+      // Try to add location to the title
+      if (formValue.location.city) {
+        pageTitle += ' in ' + formValue.location.city;
+      } else if (formValue.location.state) {
+        pageTitle += ' in ' + formValue.location.state;
+      } else if (formValue.location.country) {
+        pageTitle += ' in ' + formValue.location.country;
+      } else {
+        pageTitle += ' in ' + formValue.location.address;
+      }
+      changeFieldValue('pageTitle', pageTitle);
+    }
   };
 
   useEffect(() => {
