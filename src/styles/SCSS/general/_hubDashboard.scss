@@ -113,6 +113,10 @@
         display: none;
       }
     }
+    .primaryBtn,
+    .secondaryBtn {
+      min-width: 110px;
+    }
   }
 
 }
