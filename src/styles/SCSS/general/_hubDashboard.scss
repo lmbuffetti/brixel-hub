@@ -109,8 +109,11 @@
   // todo
   .brixel-notification {
     @media (max-width: $responsive-medium) {
-      > .container p.label {
+      p.label {
         display: none;
+      }
+      &.saved p.label {
+        display: block;
       }
     }
     .primaryBtn,
