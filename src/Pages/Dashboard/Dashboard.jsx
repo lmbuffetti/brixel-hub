@@ -200,7 +200,7 @@ const Dashboard = (props) => {
   };
 
   useEffect(() => {
-    if (notification && notification.actions && notification.type === 'infoHub') {
+    if (notification && notification.actions && notification.type === 'infoHub' && isSmallLoading) {
       const getID = notification.actions.findIndex(item => item.label === 'Save');
       if (getID > -1) {
         const newNotification = cloneDeep(notification);
