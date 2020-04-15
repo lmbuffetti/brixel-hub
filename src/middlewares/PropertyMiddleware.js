@@ -81,12 +81,13 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case SAVE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
-      const { id, redirectTo, redirectToHome, smallLoader, setSuccessNotification } = action.payload;
+      const { id, redirectTo, redirectToHome, smallLoader, setSuccessNotification, getEstimation } = action.payload;
       delete action.payload.id;
       delete action.payload.redirectTo;
       delete action.payload.smallLoader;
       delete action.payload.redirectToHome;
       delete action.payload.setSuccessNotification;
+      delete action.payload.getEstimation;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
       else store.dispatch({ type: SPINNER_ON });
       api.property.updateProperty(id, action.payload)
@@ -94,6 +95,9 @@ const checkCommon = (store) => (next) => (action) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
           store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
+          if (getEstimation) {
+            store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
+          }
           if (redirectTo) {
             store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
           }

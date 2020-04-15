@@ -93,26 +93,11 @@ function Bestimate(props) {
 
   // Function to save the data
   const saveData = (e) => {
-    const dataProp = formValue;
-    delete dataProp.owner;
-    delete dataProp.favoritedByUsers;
-    // CALC THE PROPERTY CONDITION
-    const yearBuilt = get(formValue, 'properties.building.built', null);
-    const yearRenovate = get(formValue, 'properties.building.renovated', null);
-    const age = calculateAgeByYear(yearBuilt);
-    const valueConstruction = get(formValue, 'properties.building.constructionMaterials', null);
-    const valueRoof = get(formValue, 'properties.building.roofType', null);
-    const valueFacade = get(formValue, 'properties.building.facade', null);
-    const valueHeating = get(formValue, 'properties.building.energy.heating', null);
-    dataProp.assessor = {
-      date: new Date(),
-      construction: extractAssessorCondition(age, valueConstruction, valueRoof, valueFacade, valueHeating),
+    const dataProp = {
+      getEstimation: true,
+      id: get(formValue, 'id', 0)
     };
-    if (yearRenovate) {
-      const ageRenovation = calculateAgeByYear(yearRenovate);
-      dataProp.assessor.renovation = extractAssessorCondition(ageRenovation, valueConstruction, valueRoof, valueFacade, valueHeating);
-      dataProp.properties.building.isPropertyRenovated = 1;
-    }
+    dataProp.properties = get(formValue, 'properties', {});
     // eslint-disable-next-line no-use-before-define
     changeStep();
     // UPDATE PROPERTY
