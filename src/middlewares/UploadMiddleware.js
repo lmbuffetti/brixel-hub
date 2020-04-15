@@ -139,9 +139,12 @@ const checkCommon = (store) => (next) => (action) => {
             [action.payload.type]: arrayImg,
             smallLoader: true
           };
+          if (action.payload.type === 'photos') {
+            data.coverPhoto = arrayImg[0] || {};
+          }
           if (action.payload.type === 'photos' && arrayImg.length === 0) data.coverPhoto = null;
           store.dispatch({ type: SET_PSEUDO_SAVED_SCREEN });
-          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
+          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;

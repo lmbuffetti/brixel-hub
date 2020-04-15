@@ -23,6 +23,7 @@ const AvatarImage = Loadable({
 function PageHeaderDashboard(props) {
   // PROPS
   const {
+    formValue,
     lang,
     loggedInUser,
     gameHistory,
@@ -115,7 +116,7 @@ function PageHeaderDashboard(props) {
               <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
                 {
                   property.coverPhoto && property.coverPhoto.path ? (
-                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${baseByData().shortPath}${property.coverPhoto.thumbnailPath}`} alt="Brixel Logo" id="avatar" />
+                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${baseByData().shortPath}${formValue.coverPhoto.thumbnailPath}`} alt="Brixel Logo" id="avatar" />
                   ) : (
                     <i
                       className="avatar w-fix-48 h-fix-48 brdRadius pos-r"
@@ -248,6 +249,7 @@ function PageHeaderDashboard(props) {
 PageHeaderDashboard.propTypes = {
   gameHistory: PropTypes.object.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
+  formValue: PropTypes.object.isRequired,
   languages: PropTypes.arrayOf(PropTypes.object),
   lang: PropTypes.string,
   loggedInUser: PropTypes.object,
@@ -270,6 +272,7 @@ PageHeaderDashboard.defaultProps = {
 
 const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser', {}),
+  formValue: get(state, 'form.Property.values', {}),
   languages: get(state, 'common.languages', []),
   lang: get(state, 'common.language', []),
   userAwards: get(state, 'user.awards', []),
