@@ -202,11 +202,13 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (notification && notification.actions && notification.type === 'infoHub') {
       const getID = notification.actions.findIndex(item => item.label === 'Save');
-      const newNotification = cloneDeep(notification);
-      newNotification.actions[getID].isLoading = isSmallLoading;
-      handleSetScreenNotification({
-        ...newNotification,
-      })
+      if (getID > -1) {
+        const newNotification = cloneDeep(notification);
+        newNotification.actions[getID].isLoading = isSmallLoading;
+        handleSetScreenNotification({
+          ...newNotification,
+        })
+      }
     }
   }, [isSmallLoading]);
 

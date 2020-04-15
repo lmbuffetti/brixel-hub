@@ -11,7 +11,7 @@ import { translateTo } from '../utils/translation';
 
 const { factsOptions } = FactsOptions;
 
-export const AssessorQuestions = (lang) => [
+export const AssessorQuestions = (lang = 'en') => [
   {
     title: "What's the basic construction material?",
     vCentered: true,
@@ -108,6 +108,7 @@ export const AssessorQuestions = (lang) => [
     history: "resumeFlow",
     cardType: "loadComponent",
     component: ResumeAssessor,
+    resumeFlow: true,
   },
 ];
 
@@ -141,4 +142,14 @@ export const AssessorAvgLifespan = {
   kitchen: 15,
   wetCells: 30,
   electricalSystems: 35,
+};
+
+export const AssessorLabel = {
+  construction: 'Construction Material',
+  roof: 'Roof Type',
+  facade: 'Facade',
+  heating: 'Heating',
+  kitchen: 'Kitchen',
+  wetCells: 'Wet Cells',
+  electricalSystems: 'Electrical Systems',
 };

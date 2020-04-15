@@ -25,10 +25,17 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case SET_SAVED_SCREEN: {
       next(action);
-      const notification = ({
-        state: true,
-        type: 'saved',
-      });
+      const { notification } = store.getState().common;
+      notification.actions = [
+        {
+          type: 'primary',
+          label: '',
+          func: () => '',
+          leftIcon: 'check',
+          isLoading: null,
+        }
+      ];
+      notification.label = 'Saved';
       setTimeout(() => {
         store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: notification });
       }, 100);

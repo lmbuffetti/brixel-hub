@@ -88,3 +88,12 @@
     }
   }
 }
+
+.barAssessor {
+  height: 8px;
+  width: 100%;
+}
+
+.word-b {
+  @include line-break;
+}

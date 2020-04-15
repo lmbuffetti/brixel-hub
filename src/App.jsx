@@ -279,17 +279,17 @@ const App = (props) => {
       }
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
-        {
-          notification && (
-            <BrixelNotification
-              label={notification.label}
-              type={notification.type}
-              icon={notification.icon}
-              actions={notification.actions}
-              className={`zIndex5 slideInTrans jc-fe pr-2 pr-md-4 ${notification.state ? 'open' : 'close'}`}
-            />
-          )
-        }
+      {
+        notification && (
+          <BrixelNotification
+            label={notification.label}
+            type={notification.type}
+            icon={notification.icon}
+            actions={notification.actions}
+            className={`zIndex5 slideInTrans jc-fe pr-2 pr-md-4 ${notification.state ? 'open' : 'close'}`}
+          />
+        )
+      }
 
       {
         notification && (notification.small || notification.state) && (

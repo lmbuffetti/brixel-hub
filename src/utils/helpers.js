@@ -416,7 +416,7 @@ export const extractAssessorCondition = (age, construction, roof, facade, heatin
     electricalSystems: calcConditionAssessor(age, 'electricalSystems') || null,
   };
   if (construction) {
-    assessor.constructor = {
+    assessor.construction = {
       [construction]: calcConditionAssessor(age, 'construction', construction) || null,
     };
   }

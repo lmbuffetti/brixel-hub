@@ -237,7 +237,7 @@ function Assessor(props) {
                   opacity: i !== currentIndex ? '0' : '1',
                 }}
               >
-                <div className={`subcontainer ${quest.className || ''}`}>
+                <div className={`${quest.resumeFlow ? 'max-w-fix-720 w-perc-100 m-a' : 'subcontainer'} ${quest.className || ''}`}>
                   {
                     quest.inputs && (
                       <>
@@ -272,12 +272,12 @@ function Assessor(props) {
           className={`footerAction p-1 p-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
         >
           <div className="container pos-r">
-            <div className="subcontainer">
+            <div className={Questions[currentIndex].resumeFlow ? 'max-w-fix-720' : 'subcontainer'}>
               {
                 !disableNextBtn &&
                 Questions[currentIndex] &&
                 Questions[currentIndex].inputs &&
-                Questions[currentIndex].successMessage && (
+                Questions[currentIndex].resumeFlow && (
                   <p className="txtGreen700 ta-r mb-2 textSuccess">
                     {Questions[currentIndex].successMessage}
                     <BrixelIcon icon="check" className="ml-1" />

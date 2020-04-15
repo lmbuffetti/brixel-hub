@@ -2,16 +2,22 @@ import React, { useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import isObject from 'lodash/isObject';
 import { compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { BrixelShowQuality, BrixelSelect } from '@brixel/brixel-components';
+import { BrixelShowQuality, BrixelSelect, FactsOptions } from '@brixel/brixel-components';
+import { AssessorAvgLifespan, AssessorLabel } from '../../../resources/Assessor';
+import ChartDonuts from '../../../components/Charts/ChartDonuts';
+import Portals from '../../Listings/Portals';
+const { factsOptions } = FactsOptions;
 
 function ResumeAssessor(props) {
   // PROPS
   const {
     condition,
+    formValue,
   } = props;
   // STATE
   const [selBaseRenovation, setSelRenovation] = useState('construction');
@@ -25,112 +31,148 @@ function ResumeAssessor(props) {
     return lessNumber || 0;
   };
 
+  const getValue = (type, act) => {
+    if (act === 'key') return Object.keys(condition[selBaseRenovation][type])[0];
+    return condition[selBaseRenovation][type][Object.keys(condition[selBaseRenovation][type])[0]];
+  };
+
+  const getLabel = (type) => {
+    let getElement = {};
+    const value = getValue(type, 'key');
+    let name = type;
+    if (type === 'construction') name = 'constructionMaterials';
+    if (type === 'roof') name = 'roofType';
+    if (factsOptions[name]) {
+      getElement = factsOptions[name].find(val => val.value === value);
+    }
+    let year = AssessorAvgLifespan[type][value];
+    if (typeof year === 'undefined') year = AssessorAvgLifespan[type];
+    let label = '';
+    if (getElement.label) {
+      label = `<span>${getElement.label}</span><span>,</span>`;
+    }
+    return {
+      label: getElement.label,
+      year: year,
+      string: `${label}<span> ø ${year}&nbsp;</span><span>years</span>`
+    }
+  };
+
+  const startEndYear = (type) => {
+    const avgYear = getLabel(type).year;
+    let startYear = get(formValue, 'properties.building.built', 1500);
+    if (selBaseRenovation === 'renovation') startYear = get(formValue, 'properties.building.renovated', 1500);
+    const endYear = +startYear + avgYear;
+    const currentYear = new Date().getFullYear();
+    const percentage = Math.round(((currentYear - startYear) * 100) / (+endYear - +startYear));
+    return ({
+      start: startYear,
+      end: +startYear + avgYear,
+      lineValue: percentage > 100 ? 100 : percentage,
+    })
+  };
+
+  const getEvaluationScale = (type) => {
+    let value = condition[selBaseRenovation][type];
+    if (isObject(value)) value = value[Object.keys(value)[0]];
+    const color = [
+      'bgRed500',
+      'bgRed300',
+      'bgGreen300',
+      'bgGreen600',
+    ];
+    return {
+      label: factsOptions.qualityAssessor[value - 1].label,
+      color: color[value - 1],
+    }
+  };
+
   return (
     <main id="rewards" className="pb-4 h-perc-100">
       <h5 className='ta-c'>Voila!</h5>
       <h5 className='ta-c mb-5'>Here is your condition check.</h5>
+      <div className="brdRadius bgGreen100 p-2 mb-3">
+        <ChartDonuts
+          assessor={condition[selBaseRenovation]}
+          smallPie
+          noText
+        />
+      </div>
+
+      <hr />
+
+      <div className="my-4 pos-r zIndex1">
+        <p className={`${condition['renovation'] ? 'mr-2' : 'mr-1'} txtDark700 mb-1`}>based on</p>
+        {
+          condition['renovation'] && condition['renovation'].construction ? (
+            <BrixelSelect
+              options={[
+                {
+                  value: 'construction',
+                  label: 'Construction year'
+                },
+                {
+                  value: 'renovation',
+                  label: 'Renovation year'
+                }
+              ]}
+              input={{
+                onChange: (val) => setSelRenovation(val),
+                name: 'selBaseRenovation',
+                value: selBaseRenovation,
+              }}
+            />
+          ) : (
+            <span className="txtDark700">Construction year</span>
+          )
+        }
+      </div>
+
       {
         condition && condition[selBaseRenovation] && (
           <>
-            {
-              condition[selBaseRenovation].constructor && (
-                <div className='dis-f jc-b mb-2'>
-                  <p className="fweight-500 txtDark700">Construction Material</p>
-                  <BrixelShowQuality
-                    value={condition[selBaseRenovation].constructor[Object.keys(condition[selBaseRenovation].constructor)[0]]}
-                  />
-                </div>
-              )
-            }
-            {
-              condition[selBaseRenovation].roof && (
-                <div className='dis-f jc-b mb-2'>
-                  <p className="fweight-500 txtDark700">Roof Type</p>
-                  <BrixelShowQuality
-                    value={condition[selBaseRenovation].roof[Object.keys(condition[selBaseRenovation].roof)[0]]}
-                  />
-                </div>
-              )
-            }
-            {
-              condition[selBaseRenovation].facade && (
-                <div className='dis-f jc-b mb-2'>
-                  <p className="fweight-500 txtDark700">Facade</p>
-                  <BrixelShowQuality
-                    value={condition[selBaseRenovation].facade[Object.keys(condition[selBaseRenovation].facade)[0]]}
-                  />
-                </div>
-              )
-            }
-            {
-              condition[selBaseRenovation].heating && (
-                <div className='dis-f jc-b mb-2'>
-                  <p className="fweight-500 txtDark700">Heating</p>
-                  <BrixelShowQuality
-                    value={selOneElement(condition[selBaseRenovation].heating) || 0}
-                  />
-                </div>
-              )
-            }
-            {
-              condition[selBaseRenovation].kitchen && (
-                <div className='dis-f jc-b mb-2'>
-                  <p className="fweight-500 txtDark700">Kitchen</p>
-                  <BrixelShowQuality
-                    value={condition[selBaseRenovation].kitchen}
-                  />
-                </div>
-              )
-            }
-            {
-              condition[selBaseRenovation].wetCells && (
-                <div className='dis-f jc-b mb-2'>
-                  <p className="fweight-500 txtDark700">Wet Cells</p>
-                  <BrixelShowQuality
-                    value={condition[selBaseRenovation].wetCells}
-                  />
-                </div>
-              )
-            }
-            {
-              condition[selBaseRenovation].electricalSystems && (
-                <div className='dis-f jc-b'>
-                  <p className="fweight-500 txtDark700">Electrical Systems</p>
-                  <BrixelShowQuality
-                    value={condition[selBaseRenovation].electricalSystems}
-                  />
-                </div>
-              )
-            }
-            <div className="dis-f jc-fe a-c mt-4">
-              <p className={`${condition['renovation'] ? 'mr-2' : 'mr-1'} txtDark700`}>based on</p>
-              {
-                condition['renovation'] && condition['renovation'].constructor ? (
-                  <BrixelSelect
-                    options={[
-                      {
-                        value: 'construction',
-                        label: 'Construction year'
-                      },
-                      {
-                        value: 'renovation',
-                        label: 'Renovation year'
-                      }
-                    ]}
-                    input={{
-                      onChange: (val) => setSelRenovation(val),
-                      name: 'selBaseRenovation',
-                      value: selBaseRenovation,
-                    }}
-                  />
-                ) : (
-                  <span className="txtDark700">Construction year</span>
-                )
-              }
+            <div className="jc-b mb-3 hide dis-f-md">
+              <div className="max-w-fix-md-176 fsize-100 w-perc-100">Elements</div>
+              <div className="dis-f jc-b w-perc-100 ml-3">
+                <div className="fsize-100">Construction year</div>
+                <div className="fsize-100">Expireation</div>
+              </div>
+              <div className="fsize-100 w-perc-100 max-w-fix-80 ta-r ml-3">Condition</div>
             </div>
+            {
+              Object.keys(AssessorAvgLifespan).map((key) => (
+                <>
+                  {
+                    condition[selBaseRenovation][key] && (
+                      <div className='dis-f-md jc-b mb-3 mb-md-4'>
+                        <div className="max-w-fix-md-176 w-perc-100 mb-1 mb-md-0">
+                          <p className="fweight-500 txtDark700">{AssessorLabel[key]}</p>
+                          <p className="body2" dangerouslySetInnerHTML={{ __html: getLabel(key).string}} />
+                        </div>
+                        <div className="dis-f jc-b w-perc-100">
+                          <div className="w-perc-100 ml-md-3">
+                            <div className="barAssessor pos-r bgLight200 mt-1">
+                              <div className={`w-perc-${startEndYear(key).lineValue} ${getEvaluationScale(key).color} h-perc-100 pos-a-fix x-l-0 x-t-0`} />
+                            </div>
+                            <div className="dis-f jc-b a-c fsize-100 mt-1">
+                              <p className="body2 txtDark200">{startEndYear(key).start}</p>
+                              <p className="body2 txtDark200">{startEndYear(key).end}</p>
+                            </div>
+                          </div>
+                          <div className="w-perc-100 max-w-fix-80 ta-r ml-3 word-b">
+                            <p className="fweight-500 txtDark700">{getEvaluationScale(key).label}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  }
+                </>
+              ))
+            }
           </>
         )
       }
+
       <div>
 
       </div>
@@ -141,6 +183,7 @@ function ResumeAssessor(props) {
 ResumeAssessor.propTypes = {
   condition: PropTypes.object,
   finishStep: PropTypes.bool,
+  formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
   history: PropTypes.object.isRequired,
 };
@@ -152,6 +195,7 @@ ResumeAssessor.defaultProps = {
 const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
   condition: get(state, 'property.activeSingleProperty.assessor', {}),
+  formValue: get(state, 'form.Property.values', {}),
 });
 
 const mapDispatchToProps = () => ({
