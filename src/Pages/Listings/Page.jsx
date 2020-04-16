@@ -109,11 +109,13 @@ const Page = (props) => {
                     </div>
                     {
                       formValue.coverPhoto ? (
-                        <img
-                          className="dis-b"
-                          src={`${baseByData.shortPath}${formValue.coverPhoto.path}`}
-                          alt="Cover"
-                        />
+                        <div className="pos-r image-ratio ov-h">
+                          <img
+                            className="dis-b cover"
+                            src={`${baseByData.shortPath}${formValue.coverPhoto.path}`}
+                            alt="Cover"
+                          />
+                        </div>
                       ) : (
                         <img
                           className="dis-b"

@@ -203,7 +203,7 @@ function Assessor(props) {
   }
 
   return (
-    <main id="achievementSection">
+    <main id="modalOverlaySection">
       {
         Questions[currentIndex].inputs && (
           <BrixelProgressBar
@@ -214,125 +214,128 @@ function Assessor(props) {
           />
         )
       }
-      <PageHeaderAchievement
-        icon="property-house"
-        title="Assessor"
-        subtitle="Check your property condition"
-      />
-      <form
-        id="multiStepForm"
-        // onSubmit={(e) => {e.preventDefault(); changeStep()}}
-        autoComplete="off"
-      >
-        <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
-          {
-            Questions.map((quest, i) => (
-              <div
-                id={`step-${i}`}
-                className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
-                key={i.toString()}
-                style={{
-                  visibility: i !== currentIndex ? 'hidden' : 'visible',
-                  maxWidth: i !== currentIndex ? '' : '100%',
-                  opacity: i !== currentIndex ? '0' : '1',
-                }}
-              >
-                <div className={`${quest.resumeFlow ? 'max-w-fix-720 w-perc-100 m-a' : 'subcontainer'} ${quest.className || ''}`}>
-                  {
-                    quest.inputs && (
-                      <>
-                        <h5 className="mb-4 mb-md-6">{quest.title}</h5>
+      <div className="bodyModal">
+        <PageHeaderAchievement
+          icon="location-pin-simple"
+          title="Check condition"
+          isFree
+          subtitle="Assessor"
+        />
+        <form
+          id="multiStepForm"
+          // onSubmit={(e) => {e.preventDefault(); changeStep()}}
+          autoComplete="off"
+        >
+          <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
+            {
+              Questions.map((quest, i) => (
+                <div
+                  id={`step-${i}`}
+                  className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
+                  key={i.toString()}
+                  style={{
+                    visibility: i !== currentIndex ? 'hidden' : 'visible',
+                    maxWidth: i !== currentIndex ? '' : '100%',
+                    opacity: i !== currentIndex ? '0' : '1',
+                  }}
+                >
+                  <div className={`${quest.resumeFlow ? 'max-w-fix-720 w-perc-100 m-a' : 'subcontainer'} ${quest.className || ''}`}>
+                    {
+                      quest.inputs && (
+                        <>
+                          <h5 className="mb-4 mb-md-6">{quest.title}</h5>
 
-                        {
-                          quest.inputs.map((input, f) => (
-                            <div key={f.toString()}>
-                              <MultiStepForm
-                                disableNextBtn={disableNextBtn}
-                                formValue={formValue}
-                                onClick={() => changeStep()}
-                                input={input}
-                              />
-                            </div>
-                          ))
-                        }
-                      </>
+                          {
+                            quest.inputs.map((input, f) => (
+                              <div key={f.toString()}>
+                                <MultiStepForm
+                                  disableNextBtn={disableNextBtn}
+                                  formValue={formValue}
+                                  onClick={() => changeStep()}
+                                  input={input}
+                                />
+                              </div>
+                            ))
+                          }
+                        </>
+                      )
+                    }
+                    {
+                      quest.cardType === 'loadComponent' && quest.history === Questions[currentIndex].history && (
+                        React.createElement(quest.component, {formName: 'GamingFlow', finishedFlow, initialValue: formValue})
+                      )
+                    }
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+          <div
+            className={`footerAction p-1 p-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
+          >
+            <div className="container pos-r">
+              <div className={Questions[currentIndex].resumeFlow ? 'max-w-fix-720' : 'subcontainer'}>
+                {
+                  !disableNextBtn &&
+                  Questions[currentIndex] &&
+                  Questions[currentIndex].inputs &&
+                  Questions[currentIndex].resumeFlow && (
+                    <p className="txtGreen700 ta-r mb-2 textSuccess">
+                      {Questions[currentIndex].successMessage}
+                      <BrixelIcon icon="check" className="ml-1" />
+                    </p>
+                  )
+                }
+                <div
+                  className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
+                  {
+                    Questions[currentIndex].inputs && (
+                      <BrixelButtonIcon
+                        className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
+                        icon="arrow-simple-left"
+                        onClick={() => changeStep('back')}
+                        background="white"
+                        saturation={0}
+                        color="primary"
+                        saturationTxt={400}
+                        noBorder
+                      />
                     )
                   }
                   {
-                    quest.cardType === 'loadComponent' && quest.history === Questions[currentIndex].history && (
-                      React.createElement(quest.component, {formName: 'GamingFlow', finishedFlow, initialValue: formValue})
+                    Questions[currentIndex] && Questions[currentIndex + 1] && (
+                      <BrixelButtonPrimary
+                        rounded
+                        label={buttonLabel()}
+                        background={Questions[currentIndex].inputs ? "green" : "primary"}
+                        className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
+                        onClick={() => Questions[currentIndex + 1] && Questions[currentIndex].toSave ? saveData() : changeStep()}
+                        rightIcon="arrow-right-small"
+                        disabled={disableNextBtn}
+                      />
+                    )
+                  }
+                  {
+                    Questions[currentIndex] && !Questions[currentIndex + 1] && (
+                      <>
+                        <BrixelButtonPrimary
+                          rounded
+                          label="Finish"
+                          background={"primary"}
+                          className="max-w-fix-280 w-perc-100 ml-1"
+                          onClick={() => history.push(finishedFlow ? `/${propID}/rewards/assessor` : `/${propID}/rewards/assessor-done`)}
+                          rightIcon="arrow-right-small"
+                          disabled={disableNextBtn}
+                        />
+                      </>
                     )
                   }
                 </div>
               </div>
-            ))
-          }
-        </div>
-        <div
-          className={`footerAction p-1 p-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
-        >
-          <div className="container pos-r">
-            <div className={Questions[currentIndex].resumeFlow ? 'max-w-fix-720' : 'subcontainer'}>
-              {
-                !disableNextBtn &&
-                Questions[currentIndex] &&
-                Questions[currentIndex].inputs &&
-                Questions[currentIndex].resumeFlow && (
-                  <p className="txtGreen700 ta-r mb-2 textSuccess">
-                    {Questions[currentIndex].successMessage}
-                    <BrixelIcon icon="check" className="ml-1" />
-                  </p>
-                )
-              }
-              <div
-                className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
-                {
-                  Questions[currentIndex].inputs && (
-                    <BrixelButtonIcon
-                      className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
-                      icon="arrow-simple-left"
-                      onClick={() => changeStep('back')}
-                      background="white"
-                      saturation={0}
-                      color="primary"
-                      saturationTxt={400}
-                      noBorder
-                    />
-                  )
-                }
-                {
-                  Questions[currentIndex] && Questions[currentIndex + 1] && (
-                    <BrixelButtonPrimary
-                      rounded
-                      label={buttonLabel()}
-                      background={Questions[currentIndex].inputs ? "green" : "primary"}
-                      className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                      onClick={() => Questions[currentIndex + 1] && Questions[currentIndex].toSave ? saveData() : changeStep()}
-                      rightIcon="arrow-right-small"
-                      disabled={disableNextBtn}
-                    />
-                  )
-                }
-                {
-                  Questions[currentIndex] && !Questions[currentIndex + 1] && (
-                    <>
-                      <BrixelButtonPrimary
-                        rounded
-                        label="Finish"
-                        background={"primary"}
-                        className="max-w-fix-280 w-perc-100 ml-1"
-                        onClick={() => history.push(finishedFlow ? `/${propID}/rewards/assessor` : `/${propID}/rewards/assessor-done`)}
-                        rightIcon="arrow-right-small"
-                        disabled={disableNextBtn}
-                      />
-                    </>
-                  )
-                }
-              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </main>
   );
 }

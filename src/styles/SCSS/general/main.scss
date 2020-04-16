@@ -19,6 +19,7 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 "../components/checkboxWithDetail",
 "../components/rangePriceChart",
 "../components/buttonAchievement",
+"../components/modal",
 "../components/map",
 "../components/radioButtonCard",
 "../components/avatar",
@@ -265,6 +266,9 @@ header {
 .image-ratio img {
   position: absolute;
   object-fit: contain;
+  &.cover {
+    object-fit: cover;
+  }
   width: 100%;
   height: 100%;
 }

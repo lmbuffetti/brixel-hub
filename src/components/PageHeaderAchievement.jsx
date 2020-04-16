@@ -11,6 +11,7 @@ function PageHeaderAchievement(props) {
   const {
     history,
     icon,
+    isFree,
     match,
     subtitle,
     title,
@@ -20,20 +21,25 @@ function PageHeaderAchievement(props) {
   const rewardType = last(get(history, 'location.pathname', '').split('/'));
 
   return (
-    <header className="bgGreen100">
+    <header className="shadow-1dp">
       <div className="container p-1 p-md-2 dis-f jc-b a-c">
         <div className="dis-f a-c">
           <BrixelIcon
+            rounded
             icon={icon}
             background="green"
-            saturation={500}
-            color="white"
-            saturationTxt={0}
+            saturation={100}
+            color="green"
+            saturationTxt={400}
             padding="p-small-9"
           />
           <div className="ml-2 dis-fl-col as-fe">
-            <p className="mb-1-neg fsize-400 fweight-500 txtDark700">{title}</p>
-            <p className="fsize-100 pt-small-6 txtDark200">{subtitle}</p>
+            <p className="fsize-100 txtDark200">
+              {isFree && (<span className="txtGreen400">Free</span>)}
+              <span>&nbsp;</span>
+              <span>{subtitle}</span>
+            </p>
+            <p className="fsize-400 fweight-500 txtDark700">{title}</p>
           </div>
         </div>
         <BrixelButtonIcon

@@ -121,7 +121,10 @@ const Photos = (props) => {
       return null;
     });
     const changeObj = diff(fixPhotos, imgArray);
-    if (Object.keys(changeObj).length > 0) changeFieldValue('photos', imgArray);
+    if (Object.keys(changeObj).length > 0) {
+      changeFieldValue('photos', imgArray);
+      changeFieldValue('coverPhoto', imgArray[0]);
+    }
   };
 
   const onConfirmDelete = (id) => {

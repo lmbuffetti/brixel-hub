@@ -91,7 +91,7 @@ function ResumeAssessor(props) {
     <main id="rewards" className="pb-4 h-perc-100">
       <h5 className='ta-c'>Voila!</h5>
       <h5 className='ta-c mb-5'>Here is your condition check.</h5>
-      <div className="brdRadius bgGreen100 p-2 mb-3">
+      <div className="p-2 mb-3 ta-c max-w-fix-320 m-a">
         <ChartDonuts
           assessor={condition[selBaseRenovation]}
           smallPie
@@ -134,8 +134,10 @@ function ResumeAssessor(props) {
             <div className="jc-b mb-3 hide dis-f-md">
               <div className="max-w-fix-md-176 fsize-100 w-perc-100">Elements</div>
               <div className="dis-f jc-b w-perc-100 ml-3">
-                <div className="fsize-100">Construction year</div>
-                <div className="fsize-100">Expireation</div>
+                <div className="fsize-100">
+                  {selBaseRenovation === 'construction' ? 'Construction' : 'Renovation'} year
+                </div>
+                <div className="fsize-100">Expiration</div>
               </div>
               <div className="fsize-100 w-perc-100 max-w-fix-80 ta-r ml-3">Condition</div>
             </div>
