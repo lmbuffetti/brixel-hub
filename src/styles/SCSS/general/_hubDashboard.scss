@@ -106,22 +106,6 @@
   @media screen and(max-width: map-get($grid-breakpoints, xl)) {
   }
 
-  // todo
-  .brixel-notification {
-    @media (max-width: $responsive-medium) {
-      p.label {
-        display: none;
-      }
-      &.saved p.label {
-        display: block;
-      }
-    }
-    .primaryBtn,
-    .secondaryBtn {
-      min-width: 110px;
-    }
-  }
-
 }
 // todo
 #dashboard {

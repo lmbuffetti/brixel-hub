@@ -48,7 +48,7 @@ const checkCommon = (store) => (next) => (action) => {
             state: false,
           }
         })
-      }, 1000)
+      }, 1500)
       break;
     }
     case SET_PSEUDO_SAVED_SCREEN: {
