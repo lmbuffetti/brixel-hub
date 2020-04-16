@@ -161,7 +161,7 @@ const Upgrade = (props) => {
 
   return (
     <div id="achievementSection">
-      <div className="bodyModal dis-fl-col upgradeModal">
+      <div className={`bodyModal dis-fl-col upgradeModal stepNo${currentIndex}`}>
         <div className="dis-f jc-fe p-1 p-md-2 h-fix-72">
           <BrixelButtonIcon
             icon="close-small"
@@ -169,7 +169,7 @@ const Upgrade = (props) => {
             saturationTxt={400}
             bgTransparent
             noBorder
-            className="shadow-1dp"
+            className="shadow-1dp as-c"
             onClick={() => closeWindow()}
           />
         </div>
