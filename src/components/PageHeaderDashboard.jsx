@@ -116,7 +116,7 @@ function PageHeaderDashboard(props) {
               <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
                 {
                   property.coverPhoto && property.coverPhoto.path ? (
-                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${baseByData().shortPath}${formValue.coverPhoto.thumbnailPath}`} alt="Brixel Logo" id="avatar" />
+                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${baseByData().shortPath}${formValue.coverPhoto.thumbnailPath}?&${formValue.coverPhoto.updatedAt}`} alt="Brixel Logo" id="avatar" />
                   ) : (
                     <i
                       className="avatar w-fix-48 h-fix-48 brdRadius pos-r"

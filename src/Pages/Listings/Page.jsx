@@ -112,7 +112,7 @@ const Page = (props) => {
                         <div className="pos-r image-ratio ov-h">
                           <img
                             className="dis-b cover"
-                            src={`${baseByData.shortPath}${formValue.coverPhoto.path}`}
+                            src={`${baseByData.shortPath}${get(formValue, 'coverPhoto.path', 0)}?${get(formValue, 'coverPhoto.updatedAt', 0)}`}
                             alt="Cover"
                           />
                         </div>

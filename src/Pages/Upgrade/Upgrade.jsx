@@ -33,10 +33,10 @@ const Upgrade = (props) => {
     reset,
   } = props;
   // STATE
-  const [questions, setQuestions] = useState(UpgradeQuestions('en', packagesProperty));
+  const [questions, setQuestions] = useState(UpgradeQuestions('en', packagesProperty, get(formValue, 'location', {})));
   // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(UpgradeQuestions('en', packagesProperty)[0]);
+  const [quest, setQuest] = useState(UpgradeQuestions('en', packagesProperty, get(formValue, 'location', {})[0]));
   const [isEnter, setIsEnter] = useState(true);
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
@@ -58,8 +58,8 @@ const Upgrade = (props) => {
 
   useEffect(() => {
     if (packagesProperty.length > 0) {
-      setQuestions(UpgradeQuestions('en', packagesProperty));
-      setQuest(UpgradeQuestions('en', packagesProperty)[0]);
+      setQuestions(UpgradeQuestions('en', packagesProperty, get(formValue, 'location', {})));
+      setQuest(UpgradeQuestions('en', packagesProperty, get(formValue, 'location', {}))[0]);
     }
   }, [packagesProperty]);
 
@@ -134,7 +134,17 @@ const Upgrade = (props) => {
     if (questions[currentIndex].inputs) {
       questions[currentIndex].inputs.map((input) => {
         const err = get(errorValue, input.name, null);
-        if (err !== true && isValid) isValid = false;
+        console.log(input.name, err);
+        if (input.condition) {
+          input.condition.map((item) => {
+            if (get(formValue, item.name, null) === item.value) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+            return null;
+          });
+        } else {
+          if (err !== true && err !== false && isValid) isValid = false;
+        }
         return null;
       });
     }
@@ -150,8 +160,8 @@ const Upgrade = (props) => {
   };
 
   return (
-    <div className="bgLight200 p-1 h-perc-100" id="upgrade">
-      <div className="w-perc-100 h-perc-100 bgWhite brdRadius shadow-1dp dis-fl-col ov-h">
+    <div id="achievementSection">
+      <div className="bodyModal dis-fl-col">
         <div className="dis-f jc-fe p-1 p-md-2 h-fix-72">
           <BrixelButtonIcon
             icon="close-small"
@@ -163,100 +173,109 @@ const Upgrade = (props) => {
             onClick={() => closeWindow()}
           />
         </div>
-        <div className={`bodyModalFlow pos-r ${quest.vCentered ? 'vCentered dis-fl-col' : ''}`}>
-          <div
-            className={`slideMultiStepForm`}
-          >
+        <form
+          id="multiStepForm"
+          // onSubmit={(e) => {e.preventDefault(); changeStep()}}
+          autoComplete="off"
+          className="dis-fl-col jc-b"
+        >
+          <div className={`slideMultiStepForm`}>
             <div
-              className={`max-h-perc-100 dis-fl-col a-c singleStepUpgrade ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
+              className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
-              {
-                quest.inputs ? (
-                  <div className={`subcontainer ${quest.className || ''} ${quest.vCentered ? 'max-w-fix-400' : ''}`}>
-                    <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
-                    {quest.subtitle && ( <p className="mb-5">{quest.subtitle}</p> )}
-                    {
-                      quest.inputs.map((input, f) => (
-                        <React.Fragment key={f.toString()}>
-                          {
-                            valideConditionInput(input) && (
-                              <MultiStepForm
-                                disableNextBtn={false}
-                                formValue={formValue}
-                                onClick={() => ''}
-                                input={input}
-                                className={input.className}
-                              />
-                            )
-                          }
-                        </React.Fragment>
-                      ))
-                    }
-                  </div>
-                ) : (
-                  <div className={`subcontainer ta-c finalScreen ${quest.className || ''} ${quest.vCentered ? 'max-w-fix-400' : ''}`}>
-                    <div className="h-fix-248">
-                      <img src={quest.img} alt={quest.title} />
+              <div className="m-a">
+                {
+                  quest.inputs ? (
+                    <div>
+                      <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
+                      {quest.subtitle && ( <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle}} /> )}
+                      {
+                        quest.inputs.map((input, f) => (
+                          <React.Fragment key={f.toString()}>
+                            {
+                              valideConditionInput(input) && (
+                                <MultiStepForm
+                                  disableNextBtn={false}
+                                  formValue={formValue}
+                                  onClick={() => ''}
+                                  input={input}
+                                  className={input.className}
+                                />
+                              )
+                            }
+                          </React.Fragment>
+                        ))
+                      }
                     </div>
-                    <h3
-                      className="mt-5"
-                      dangerouslySetInnerHTML={{ __html: quest.title }}
-                    />
-                    <p
-                      className="mt-2"
-                      dangerouslySetInnerHTML={{ __html: quest.subtitle }}
-                    />
-                  </div>
-                )
-              }
+                  ) : (
+                    <div className="ta-c">
+                      <div className="h-fix-248">
+                        <img src={quest.img} alt={quest.title} />
+                      </div>
+                      <h3
+                        className="mt-5"
+                        dangerouslySetInnerHTML={{ __html: quest.title }}
+                      />
+                      <p
+                        className="mt-2 max-w-fix-400"
+                        dangerouslySetInnerHTML={{ __html: quest.subtitle }}
+                      />
+                    </div>
+                  )
+                }
+                {
+                  currentIndex === 0 && (
+                    <div className="max-w-fix-272 shadow-1dp mt-3 m-a">
+                      <Support hideClose />
+                    </div>
+                  )
+                }
+              </div>
             </div>
           </div>
-          {
-            currentIndex === 0 && (
-              <Support isFixed />
-            )
-          }
-        </div>
-        <div className="footerActionUpgrade dis-f p-1 p-md-2 a-c jc-c pos-r shadow-1dp">
-          <div className="container pos-r">
-            <div className={`max-w-fix-544 w-perc-100 jc-b jc-c-md a-c ${currentIndex === 0 ? 'dis-fl-col dis-fl-row-md' : 'dis-fl-row'} m-a`}>
-              {
-                currentIndex === 0 && (
-                  <div className="dis-fl-col dis-fl-row-md a-c">
-                    <img src={InfoImg} alt="Info" className="mb-1 mb-md-0" />
-                    <p className="body2 ml-1 mb-1 mb-md-0 ta-c ta-l-md">
-                      Don't worry. You will not be charged for now. Get the result first. Pay later.
-                    </p>
-                  </div>
-                )
-              }
-              {
-                currentIndex > 0 && questions[currentIndex].inputs && (
-                  <BrixelButtonIcon
-                    className={`shadow-2dp backBtn`}
-                    icon="arrow-simple-left"
-                    onClick={() => changeStep('back')}
-                    background="white"
-                    saturation={0}
-                    color="primary"
-                    saturationTxt={400}
-                    noBorder
-                  />
-                )
-              }
-              <BrixelButtonPrimary
-                className="noWrap w-perc-100 max-w-fix-160"
-                disabled={!checkValidateField()}
-                rounded
-                background={questions[currentIndex -1] ? 'primary' : 'red'}
-                saturation={400}
-                label={buttonLabel()}
-                rightIcon="arrow-right-small"
-                onClick={() => questions[currentIndex +1] ? changeStep() : closeWindow()}
-              />
+          <div
+            className={`footerAction p-1 p-md-2 shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'}`}
+          >
+            <div className="container pos-r">
+              <div className={`w-perc-100 a-c ${currentIndex === 0 ? 'dis-fl-col dis-fl-row-md jc-c-md' : 'dis-fl-row jc-b'} m-a ${currentIndex === questions.length - 1 ? 'jc-c' : 'jc-b'}`}>
+                {
+                  currentIndex === 0 && (
+                    <div className="dis-fl-col dis-fl-row-md a-c w-perc-100">
+                      <img src={InfoImg} alt="Info" className="mb-1 mb-md-0" />
+                      <p className="body2 ml-1 mb-1 mb-md-0 ta-c ta-l-md  max-w-fix-384">
+                        Don't worry. You will not be charged for now. Get the result first. Pay later.
+                      </p>
+                    </div>
+                  )
+                }
+                {
+                  currentIndex > 0 && questions[currentIndex].inputs && (
+                    <BrixelButtonIcon
+                      className={`shadow-2dp backBtn`}
+                      icon="arrow-simple-left"
+                      onClick={() => changeStep('back')}
+                      background="white"
+                      saturation={0}
+                      color="primary"
+                      saturationTxt={400}
+                      noBorder
+                    />
+                  )
+                }
+                <BrixelButtonPrimary
+                  className="noWrap w-perc-100 max-w-fix-160"
+                  disabled={!checkValidateField()}
+                  rounded
+                  background={questions[currentIndex -1] ? 'primary' : 'red'}
+                  saturation={400}
+                  label={buttonLabel()}
+                  rightIcon="arrow-right-small"
+                  onClick={() => questions[currentIndex +1] ? changeStep() : closeWindow()}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   )

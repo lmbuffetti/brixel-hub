@@ -74,6 +74,16 @@ function ChartDonuts(props) {
     );
   };
 
+  const percOnHover = () => {
+    const total = data.reduce((a, b) => a + b, 0);
+    const perc = Math.round(data[isHover] * 100 / total);
+    return (
+      <div className="donut-tip">
+        <span className="body ff-mono">{perc}%</span>
+      </div>
+    );
+  };
+  console.log(isHover);
   return (
     <div className="donut-graph mt-medium">
       <div className="donut-content donutsPieChart">
@@ -93,6 +103,8 @@ function ChartDonuts(props) {
             </g>
           </svg>
           {!props.noText ? textOnPieChart() : ''}
+          {props.showPercOnHover && isHover !== null ? percOnHover() : ''}
+          {isHover}
         </div>
         {
           properties.length > 0 && (
@@ -116,7 +128,12 @@ function ChartDonuts(props) {
             <div className="donut-labels-vert dis-f-col">
               {
                 data.map((item, i) => (
-                  <div key={i.toString()} className={`label-container ${isHover === i ? 'hover' : ''}`}>
+                  <div
+                    key={i.toString()}
+                    onMouseEnter={() => setIsHover(i)}
+                    onMouseLeave={() => setIsHover(null)}
+                    className={`label-container ${isHover === i ? 'hover' : ''}`}
+                  >
                     <div className="number-container">
                       <i className="color" style={{ backgroundColor: colorChartsQuality[i] }} />
                       <span className="number word-b">{factsOptions.qualityAssessor[i].label}</span>

@@ -11,7 +11,7 @@ import brixelPlus from '../images/Upgrade/brixel_plus.svg';
 import brixelPremium from '../images/Upgrade/brixel_premium.svg';
 import upgradeComplete from '../images/Upgrade/upgrade_complete.svg';
 
-export const UpgradeQuestions = (lang, packagesProperty) => {
+export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
   const optionsPackages = [];
   if (packagesProperty) {
     packagesProperty.map((item) => {
@@ -27,10 +27,14 @@ export const UpgradeQuestions = (lang, packagesProperty) => {
       return null;
     });
   }
+  let price = 'CHF 26\'000';
+  if (location.countryCode === 'CH') price = 'CHF 26\'000';
+  if (location.countryCode === 'PT') price = 'EUR 12\'000';
+
   return [
     {
       title: translateTo(lang,"Do you want to upgrade?"),
-      subtitle: "Here are my options for you",
+      subtitle: `<span class="txtGreen400">Save ${price}</span> on average compared to traditional agents.`,
       history: 'servicePackage',
       inputs: [
         {

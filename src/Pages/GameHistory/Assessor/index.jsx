@@ -32,6 +32,7 @@ function Assessor(props) {
   const {
     errorValue,
     formValue,
+    gameGroup,
     gameHistory,
     handleGetActiveSingleProperty,
     handleSaveActiveSingleProperty,
@@ -52,9 +53,18 @@ function Assessor(props) {
   const [progressBar, setProgressBar] = useState(0);
   const [Questions] = useState(AssessorQuestions(lang));
   const [saved, setSaved] = useState(false);
+  const [selGameGroup, setSelGameGroup] = useState({});
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
+
+  useEffect(() => {
+    if (gameGroup.length > 0) {
+      const group = gameGroup.find(game => game.achievements.some(item => item.stub === getAchievement()));
+      const defGroup = group.achievements.find(item => item.stub === getAchievement());
+      setSelGameGroup(defGroup);
+    }
+  }, [gameGroup]);
 
   // CHECK IF THE ACHIEVEMENT IS DONE
   useEffect(() => {
@@ -203,7 +213,7 @@ function Assessor(props) {
   }
 
   return (
-    <main id="modalOverlaySection">
+    <main id="achievementSection">
       {
         Questions[currentIndex].inputs && (
           <BrixelProgressBar
@@ -216,17 +226,17 @@ function Assessor(props) {
       }
       <div className="bodyModal">
         <PageHeaderAchievement
-          icon="location-pin-simple"
-          title="Check condition"
+          icon={selGameGroup.icon}
+          title={selGameGroup.description}
           isFree
-          subtitle="Assessor"
+          subtitle={selGameGroup.name}
         />
         <form
           id="multiStepForm"
           // onSubmit={(e) => {e.preventDefault(); changeStep()}}
           autoComplete="off"
         >
-          <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
+          <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}%, 0)` }}>
             {
               Questions.map((quest, i) => (
                 <div
@@ -239,7 +249,7 @@ function Assessor(props) {
                     opacity: i !== currentIndex ? '0' : '1',
                   }}
                 >
-                  <div className={`${quest.resumeFlow ? 'max-w-fix-720 w-perc-100 m-a' : 'subcontainer'} ${quest.className || ''}`}>
+                  <div className={`w-perc-100 m-a ${quest.className || ''}`}>
                     {
                       quest.inputs && (
                         <>
@@ -346,6 +356,7 @@ Assessor.propTypes = {
   company: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleGetGameHistory: PropTypes.func.isRequired,
@@ -368,6 +379,7 @@ const mapStateToProps = (state) => ({
   errorValue: get(state, 'form.GamingFlow.syncErrors', {}),
   formValue: get(state, 'form.GamingFlow.values', {}),
   gameHistory: get(state, 'gamification.gameHistory', {}),
+  gameGroup: get(state, 'gamification.gameGroup', []),
   initialValue: get(state, 'form.GamingFlow.initial', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   redirectTo: get(state, 'common.redirectTo', {}),
