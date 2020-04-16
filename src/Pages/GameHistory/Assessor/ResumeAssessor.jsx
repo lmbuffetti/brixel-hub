@@ -2,15 +2,15 @@ import React, { useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import isObject from 'lodash/isObject';
 import { compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { BrixelShowQuality, BrixelSelect, FactsOptions } from '@brixel/brixel-components';
+import { BrixelSelect, FactsOptions } from '@brixel/brixel-components';
 import { AssessorAvgLifespan, AssessorLabel } from '../../../resources/Assessor';
 import ChartDonuts from '../../../components/Charts/ChartDonuts';
-import Portals from '../../Listings/Portals';
 const { factsOptions } = FactsOptions;
 
 function ResumeAssessor(props) {
@@ -21,15 +21,6 @@ function ResumeAssessor(props) {
   } = props;
   // STATE
   const [selBaseRenovation, setSelRenovation] = useState('construction');
-
-  const selOneElement = (el) => {
-    let lessNumber = 4;
-    Object.keys(el).map((key) => {
-      if (el[key] < lessNumber) lessNumber = el[key];
-      return null;
-    });
-    return lessNumber || 0;
-  };
 
   const getValue = (type, act) => {
     if (act === 'key') return Object.keys(condition[selBaseRenovation][type])[0];
@@ -91,20 +82,11 @@ function ResumeAssessor(props) {
     <main id="rewards" className="pb-4 h-perc-100">
       <h5 className='ta-c'>Voila!</h5>
       <h5 className='ta-c mb-5'>Here is your condition check.</h5>
-      <div className="p-2 mb-3 ta-c max-w-fix-320 m-a">
-        <ChartDonuts
-          assessor={condition[selBaseRenovation]}
-          smallPie
-          noText
-        />
-      </div>
 
-      <hr />
-
-      <div className="my-4 pos-r zIndex1">
-        <p className={`${condition['renovation'] ? 'mr-2' : 'mr-1'} txtDark700 mb-1`}>based on</p>
+      <div className="my-4 pos-r zIndex2 ta-c dis-fl-col a-c jc-c">
+        <p className={`ta-c ${condition['renovation'] ? 'mr-2' : 'mr-1'} txtDark700 mb-1`}>based on {!has(condition, 'renovation.construction') && (<span className="txtDark700">construction year</span>)}</p>
         {
-          condition['renovation'] && condition['renovation'].construction ? (
+          has(condition, 'renovation.construction') && (
             <BrixelSelect
               options={[
                 {
@@ -122,16 +104,24 @@ function ResumeAssessor(props) {
                 value: selBaseRenovation,
               }}
             />
-          ) : (
-            <span className="txtDark700">Construction year</span>
           )
         }
       </div>
 
+
+      <div className="p-2 mb-3 ta-c max-w-fix-320 m-a">
+        <ChartDonuts
+          assessor={condition[selBaseRenovation]}
+          smallPie
+          noText
+        />
+      </div>
+
+      <hr />
       {
-        condition && condition[selBaseRenovation] && (
+        has(condition, selBaseRenovation) && (
           <>
-            <div className="jc-b mb-3 hide dis-f-md">
+            <div className="jc-b my-3 hide dis-f-md">
               <div className="max-w-fix-md-176 fsize-100 w-perc-100">Elements</div>
               <div className="dis-f jc-b w-perc-100 ml-3">
                 <div className="fsize-100">
@@ -139,11 +129,11 @@ function ResumeAssessor(props) {
                 </div>
                 <div className="fsize-100">Expiration</div>
               </div>
-              <div className="fsize-100 w-perc-100 max-w-fix-80 ta-r ml-3">Condition</div>
+              <div className="fsize-100 w-perc-100 max-w-fix-120 ta-r ml-3">Condition</div>
             </div>
             {
-              Object.keys(AssessorAvgLifespan).map((key) => (
-                <>
+              Object.keys(AssessorAvgLifespan).map((key, i) => (
+                <React.Fragment key={i.toString()}>
                   {
                     condition[selBaseRenovation][key] && (
                       <div className='dis-f-md jc-b mb-3 mb-md-4'>
@@ -161,14 +151,14 @@ function ResumeAssessor(props) {
                               <p className="body2 txtDark200">{startEndYear(key).end}</p>
                             </div>
                           </div>
-                          <div className="w-perc-100 max-w-fix-80 ta-r ml-3 word-b">
-                            <p className="fweight-500 txtDark700">{getEvaluationScale(key).label}</p>
+                          <div className="w-perc-100 max-w-fix-120 ta-r ml-3 word-b">
+                            <p className="fweight-500 txtDark700 body2">{getEvaluationScale(key).label}</p>
                           </div>
                         </div>
                       </div>
                     )
                   }
-                </>
+                </React.Fragment>
               ))
             }
           </>

@@ -26,7 +26,7 @@ function PageHeaderAchievement(props) {
         <div className="dis-f a-c">
           <BrixelIcon
             rounded
-            icon={icon}
+            icon={icon || ''}
             background="green"
             saturation={100}
             color="green"

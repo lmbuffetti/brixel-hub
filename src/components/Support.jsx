@@ -9,6 +9,7 @@ import WhatAppImg from '../images/Support/whatsapp.svg';
 const Support = (props) => {
   const {
     expanded,
+    hideClose,
     isFixed,
     onClose,
   } = props;
@@ -24,7 +25,7 @@ const Support = (props) => {
             <p className="txtDark200 mb-2">Get in touch with us.</p>
           </div>
           {
-            !isFixed && (
+            !isFixed && !hideClose && (
               <BrixelButtonIcon
                 className="shadow-3dp hide dis-b-md"
                 icon="close-small"
@@ -85,12 +86,14 @@ const Support = (props) => {
 };
 
 Support.propTypes = {
+  hideClose: PropTypes.bool,
   isFixed: PropTypes.bool,
   expanded: PropTypes.bool,
   onClose: PropTypes.func,
 };
 
 Support.defaultTypes = {
+  hideClose: true,
   isFixed: true,
   expanded: false,
   onClose: () => '',
