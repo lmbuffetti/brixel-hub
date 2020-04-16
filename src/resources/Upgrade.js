@@ -30,7 +30,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
   let price = 'CHF 26\'000';
   if (location.countryCode === 'CH') price = 'CHF 26\'000';
   if (location.countryCode === 'PT') price = 'EUR 12\'000';
-  console.log(location)
+
   return [
     {
       title: translateTo(lang,"Do you want to upgrade?"),
