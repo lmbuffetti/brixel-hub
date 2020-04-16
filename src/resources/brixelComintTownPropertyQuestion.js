@@ -73,7 +73,7 @@ export const QuestionsList = (lang, gameGroup) => {
       component: BrixelInputStepNumber,
       history: "allRooms",
       cardType: "allRooms",
-      className: 'max-w-fix-md-232',
+      className: '',
       inputs: [
         {
           classNameBox: 'max-w-fix-md-232',

@@ -249,7 +249,7 @@ function Assessor(props) {
                     opacity: i !== currentIndex ? '0' : '1',
                   }}
                 >
-                  <div className={`w-perc-100 m-a ${quest.className || ''}`}>
+                  <div className={`subcontainer w-perc-100 m-a ${quest.className || ''}`}>
                     {
                       quest.inputs && (
                         <>

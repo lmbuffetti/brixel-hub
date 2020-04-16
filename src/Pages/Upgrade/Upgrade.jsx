@@ -161,7 +161,7 @@ const Upgrade = (props) => {
 
   return (
     <div id="achievementSection">
-      <div className="bodyModal dis-fl-col">
+      <div className="bodyModal dis-fl-col upgradeModal">
         <div className="dis-f jc-fe p-1 p-md-2 h-fix-72">
           <BrixelButtonIcon
             icon="close-small"
@@ -183,7 +183,7 @@ const Upgrade = (props) => {
             <div
               className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
-              <div className="m-a">
+              <div className="subcontainer m-a">
                 {
                   quest.inputs ? (
                     <div>
@@ -217,7 +217,7 @@ const Upgrade = (props) => {
                         dangerouslySetInnerHTML={{ __html: quest.title }}
                       />
                       <p
-                        className="mt-2 max-w-fix-400"
+                        className="m-a mt-2 max-w-fix-400"
                         dangerouslySetInnerHTML={{ __html: quest.subtitle }}
                       />
                     </div>

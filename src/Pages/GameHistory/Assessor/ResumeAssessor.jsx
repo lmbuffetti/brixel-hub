@@ -125,13 +125,15 @@ function ResumeAssessor(props) {
           <>
             <div className="jc-b my-3 hide dis-f-md">
               <div className="max-w-fix-md-176 fsize-100 w-perc-100">Elements</div>
-              <div className="dis-f jc-b w-perc-100 ml-3">
-                <div className="fsize-100">
-                  {selBaseRenovation === 'construction' ? 'Construction' : 'Renovation'} year
+              <div className="dis-f jc-b w-perc-100">
+                <div className="dis-f jc-b w-perc-100">
+                  <div className="fsize-100 ml-3">
+                    {selBaseRenovation === 'construction' ? 'Construction' : 'Renovation'} year
+                  </div>
+                  <div className="fsize-100 ta-r">Expiration year</div>
                 </div>
-                <div className="fsize-100">Expiration year</div>
+                <div className="fsize-100 w-perc-100 max-w-fix-120 ta-r ml-3">Condition</div>
               </div>
-              <div className="fsize-100 w-perc-100 max-w-fix-120 ta-r ml-3">Condition</div>
             </div>
             {
               Object.keys(AssessorAvgLifespan).map((key, i) => (

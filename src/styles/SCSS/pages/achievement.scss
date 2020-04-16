@@ -117,6 +117,10 @@
       left: 50%;
       transform: translate(-50%, 0);
 
+      &:not(.upgradeModal) {
+        height: calc(100% - #{$step * 2});
+        top: $step * 2;
+      }
     }
   }
 }
