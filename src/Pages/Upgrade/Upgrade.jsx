@@ -134,7 +134,17 @@ const Upgrade = (props) => {
     if (questions[currentIndex].inputs) {
       questions[currentIndex].inputs.map((input) => {
         const err = get(errorValue, input.name, null);
-        if (err !== true && isValid) isValid = false;
+        console.log(input.name, err);
+        if (input.condition) {
+          input.condition.map((item) => {
+            if (get(formValue, item.name, null) === item.value) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+            return null;
+          });
+        } else {
+          if (err !== true && err !== false && isValid) isValid = false;
+        }
         return null;
       });
     }
