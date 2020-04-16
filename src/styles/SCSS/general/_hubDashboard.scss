@@ -106,4 +106,20 @@
   @media screen and(max-width: map-get($grid-breakpoints, xl)) {
   }
 
+  .brixel-notification {
+    &.saved {
+      button.primaryBtn {
+        animation: changeBg $default-time-long $default-easing forwards;
+
+        @keyframes changeBg {
+          0% {
+            background: map-get($primaryColor, 400);
+          } 100% {
+            background: map-get($greenColor, 400);
+          }
+        }
+      }
+    }
+  }
+
 }
