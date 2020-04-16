@@ -84,6 +84,7 @@ const Dashboard = (props) => {
     reset,
   } = props;
   const [isDiscardChanges, setIsDiscardChanges] = useState(false);
+  const [userType, setUserType] = useState(null);
   //const [showMessage, setShowMessage] = useState(false);
 
   // GET URL PARAMS
@@ -113,6 +114,8 @@ const Dashboard = (props) => {
         handleGetActiveSinglePropertyBookings({ id: propID });
       }
       handleGetImageType();
+    } else {
+      setUserType('emptyState');
     }
   }, [activeSingleProperty]);
 
@@ -241,7 +244,7 @@ const Dashboard = (props) => {
     }
   }, [formValue, errorValue]);
 
-  if (!userTypes) return (<div />);
+  if (!userTypes && !userType) return (<div />);
 
   return (
     <div className="container ov-x-h" id="dashboard">
