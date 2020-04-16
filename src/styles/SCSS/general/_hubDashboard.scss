@@ -106,24 +106,4 @@
   @media screen and(max-width: map-get($grid-breakpoints, xl)) {
   }
 
-  // todo
-  .brixel-notification {
-    @media (max-width: $responsive-medium) {
-      > .container p.label {
-        display: none;
-      }
-    }
-    .primaryBtn,
-    .secondaryBtn {
-      min-width: 110px;
-    }
-  }
-
-}
-// todo
-#dashboard {
-  .brixel-radio-button-icon label.checked,
-  .brixel-checkbox-icon label.checked {
-    background: map-get($primaryColor, 200 );
-  }
 }

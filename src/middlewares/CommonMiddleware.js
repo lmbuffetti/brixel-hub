@@ -35,7 +35,8 @@ const checkCommon = (store) => (next) => (action) => {
           isLoading: null,
         }
       ];
-      notification.label = 'Saved';
+      notification.label = 'Saved!';
+      notification.className = 'saved';
       setTimeout(() => {
         store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: notification });
       }, 100);
@@ -47,7 +48,7 @@ const checkCommon = (store) => (next) => (action) => {
             state: false,
           }
         })
-      }, 1000)
+      }, 1500)
       break;
     }
     case SET_PSEUDO_SAVED_SCREEN: {
