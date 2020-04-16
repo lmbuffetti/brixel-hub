@@ -114,10 +114,12 @@ function ResumeAssessor(props) {
           assessor={condition[selBaseRenovation]}
           smallPie
           noText
+          showPercOnHover
         />
       </div>
 
       <hr />
+      <h5 className="mt-3">Lifespan calculation</h5>
       {
         has(condition, selBaseRenovation) && (
           <>
@@ -127,7 +129,7 @@ function ResumeAssessor(props) {
                 <div className="fsize-100">
                   {selBaseRenovation === 'construction' ? 'Construction' : 'Renovation'} year
                 </div>
-                <div className="fsize-100">Expiration</div>
+                <div className="fsize-100">Expiration year</div>
               </div>
               <div className="fsize-100 w-perc-100 max-w-fix-120 ta-r ml-3">Condition</div>
             </div>
@@ -146,7 +148,7 @@ function ResumeAssessor(props) {
                             <div className="barAssessor pos-r bgLight200 mt-1">
                               <div className={`w-perc-${startEndYear(key).lineValue} ${getEvaluationScale(key).color} h-perc-100 pos-a-fix x-l-0 x-t-0`} />
                             </div>
-                            <div className="dis-f jc-b a-c fsize-100 mt-1">
+                            <div className="dis-f jc-b a-c fsize-100 mt-1 pr-small-4 pl-small-4">
                               <p className="body2 txtDark200">{startEndYear(key).start}</p>
                               <p className="body2 txtDark200">{startEndYear(key).end}</p>
                             </div>
