@@ -1,4 +1,4 @@
-import React, { useState }  from 'react';
+import React, { useState, useEffect }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -21,6 +21,12 @@ function ResumeAssessor(props) {
   } = props;
   // STATE
   const [selBaseRenovation, setSelRenovation] = useState('construction');
+
+  useEffect(() => {
+    if (condition['renovation']) {
+      setSelRenovation('renovation');
+    }
+  }, [condition]);
 
   const getValue = (type, act) => {
     if (act === 'key') return Object.keys(condition[selBaseRenovation][type])[0];

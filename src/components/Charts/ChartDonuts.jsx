@@ -83,7 +83,7 @@ function ChartDonuts(props) {
       </div>
     );
   };
-  console.log(isHover);
+
   return (
     <div className="donut-graph mt-medium">
       <div className="donut-content donutsPieChart">

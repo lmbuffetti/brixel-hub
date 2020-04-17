@@ -11,7 +11,6 @@ function SliceDonuts(props) {
 
   return pie.map((slice, index) => {
     const sliceColor = colors[index];
-    console.log(isHover, index)
     return (
       <PathDonuts
         key={index.toString()}
