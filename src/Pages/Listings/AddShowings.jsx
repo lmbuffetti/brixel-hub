@@ -154,7 +154,7 @@ const Showings = (props) => {
             saturationTxt={400}
             rounded
             className="shadow-3dp w-perc-100 mr-1"
-            onClick={() => history.push(`${propID}/listings/showings`)}
+            onClick={() => history.push(`/${propID}/listings/showings`)}
           />
           <BrixelButtonPrimary
             label='Save'

@@ -31,7 +31,6 @@ const HomeDashboard = () => {
           background="primary"
           padding="p-small-9"
           saturation={300}
-          iconSize="large"
           color="white"
           saturationTxt={0}
         />

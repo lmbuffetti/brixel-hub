@@ -10,8 +10,8 @@ import {
 
 export const defaultState = {
   userTypes: null,
-  awards: [],
-  brixelPoints: [],
+  awards: 0,
+  brixelPoints: 0,
   favorites: [],
   loggedInUser: {},
   userProperties: [],

@@ -7,8 +7,7 @@ import get from 'lodash/get';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelIcon, BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
-import resumeApartment from '../../../images/BrxielComingTown/resumeApartement.svg';
-import resumeHouse from '../../../images/BrxielComingTown/resumeHouse.svg';
+import CoverPropertyImage from '../../../components/CoverPropertyImage';
 
 function SuccessHomebase(props) {
   // PROPS
@@ -24,11 +23,13 @@ function SuccessHomebase(props) {
     <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col jc-b a-c">
       <div className="dis-fl-col jc-c a-c">
         <div className="bgWhite brdRadius shadow-4dp ov-h w-perc-100">
-          <img
-            src={formValue.propertyType === 'Apartment' ? resumeApartment : resumeHouse}
-            className="dis-b"
-            alt={formValue.propertyType || 'Apartment'}
-          />
+          <div className="image-ratio">
+            <CoverPropertyImage
+              className="cover"
+              coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
+              propertyType={get(formValue, 'properties.propertyType', undefined)}
+            />
+          </div>
           <div className="pt-1 pb-2 px-2">
             {
               formValue.location && (

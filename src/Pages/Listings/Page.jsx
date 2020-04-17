@@ -15,8 +15,8 @@ import {
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { updatePublishedReview } from '../../actions/PropertyActions';
-import defaultCover from '../../images/no_cover.jpg';
 import page_review from '../../images/Listings/page_review.svg';
+import CoverPropertyImage from '../../components/CoverPropertyImage';
 
 const Page = (props) => {
   // PROPS
@@ -52,7 +52,7 @@ const Page = (props) => {
                 color="primary"
                 saturationTxt={400}
                 noBorder
-                onClick={() => history.push(`${propID}/listings`)}
+                onClick={() => history.push(`/${propID}/listings`)}
               />
               <h5>Brixel Page</h5>
               {
@@ -107,23 +107,13 @@ const Page = (props) => {
                       <div className="square brdCircle w-fix-8 bgYellow400 mr-1" />
                       <div className="square brdCircle w-fix-8 bgGreen400" />
                     </div>
-                    {
-                      formValue.coverPhoto ? (
-                        <div className="pos-r image-ratio ov-h">
-                          <img
-                            className="dis-b cover"
-                            src={`${baseByData.shortPath}${get(formValue, 'coverPhoto.path', 0)}?${get(formValue, 'coverPhoto.updatedAt', 0)}`}
-                            alt="Cover"
-                          />
-                        </div>
-                      ) : (
-                        <img
-                          className="dis-b"
-                          src={defaultCover}
-                          alt="Cover"
-                        />
-                      )
-                    }
+                    <div className="image-ratio">
+                      <CoverPropertyImage
+                        className="cover"
+                        coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
+                        propertyType={get(formValue, 'properties.propertyType', undefined)}
+                      />
+                    </div>
                     <div className="cardPageInfo">
                       <div className="w-fix-80 bgPrimary400 opacity5 h-fix-8 mb-1" />
                       <h6>{formValue.title}</h6>
@@ -166,7 +156,6 @@ const Page = (props) => {
                             <BrixelIcon
                               icon="facebook"
                               color="primary"
-                              iconSize="large"
                               saturationTxt={700}
                             />
                             <span className="dis-b ta-c txtDark700 fsize-300">Facebook</span>
@@ -174,14 +163,12 @@ const Page = (props) => {
                           <a
                             href={`https://twitter.com/share?url=${baseByData.pageUrl}${formValue.stub}`}
                             target="_blank"
-                            iconSize="large"
                             rel="noopener noreferrer"
                             className="dis-b mr-4"
                           >
                             <BrixelIcon
                               icon="twitter"
                               color="primary"
-                              iconSize="large"
                               saturationTxt={700}
                             />
                             <span className="dis-b ta-c txtDark700 fsize-300">Twitter</span>
@@ -195,7 +182,6 @@ const Page = (props) => {
                             <BrixelIcon
                               icon="linkedin"
                               color="primary"
-                              iconSize="large"
                               saturationTxt={700}
                             />
                             <span className="dis-b ta-c txtDark700 fsize-300">Linkedin</span>

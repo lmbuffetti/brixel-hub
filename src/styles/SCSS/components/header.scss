@@ -10,7 +10,6 @@
     width: 100%;
     ul.tabsList {
       li {
-        padding-top: $step;
         color: map_get($darkColor, 200);
         transition: color $default-time $default-easing;
         &:hover {
@@ -37,8 +36,9 @@
 @media (min-width: $responsive-medium) {
   .brixelNavMenu {
     position: static;
-    border-bottom: 1px solid map_get($lightColor, 300);
     z-index: 2;
+    border-radius: 0;
+    box-shadow: none;
     .brixel-tabs {
       box-shadow: none;
       border-radius: 0;

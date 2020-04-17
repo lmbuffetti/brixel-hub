@@ -180,7 +180,7 @@ const Documents = (props) => {
             color="primary"
             saturationTxt={400}
             noBorder
-            onClick={() => history.push(`${propID}/property`)}
+            onClick={() => history.push(`/${propID}/property`)}
           />
           <h5 className="m-a m-md-0">
             Docubox
