@@ -217,7 +217,7 @@ function Bestimate(props) {
           // onSubmit={(e) => {e.preventDefault(); changeStep()}}
           autoComplete="off"
         >
-          <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
+          <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}%, 0)` }}>
             {
               Questions.map((quest, i) => (
                 <div

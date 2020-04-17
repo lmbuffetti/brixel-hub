@@ -14,6 +14,8 @@ import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack
 import noCover from '../images/no_cover.jpg';
 import has from 'lodash/has';
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
+import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
+import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -109,7 +111,7 @@ function PageHeaderDashboard(props) {
   return (
     <>
       <header className={`hubDasHeader ${rightMenu ? 'rightMenuOpen' : ''}`}>
-        <div className={`container dis-f a-t p-1 pt-md-2 pr-md-2 pl-md-3 jc-b pos-r zIndex4-md bgWhite`}>
+        <div className={`dis-f a-t p-1 pt-md-2 pr-md-2 pl-md-3 jc-b pos-r zIndex4-md bgWhite`}>
 
           <div className="header-section dis-fl-row a-t jc-b">
             <div className="dis-fl-row a-c">
@@ -220,21 +222,6 @@ function PageHeaderDashboard(props) {
             </div>
             <MenuNavigationSubmenu windowDimensions={windowDimensions} activeMenu={activeMenu} onClose={() => setActiveMenu(null)} />
           </div>
-        </div>
-        <div className={`dis-f jc-b w-perc-100 a-t brdLight100 pl-md-3 brixelNavMenu zIndex1 ${rightMenu ? 'moveForward' : ''}`}>
-          <BrixelTabs
-            classNameLi="dis-fl-col"
-            classNameUl="zIndex4"
-            labels={['Rewards', 'Property', 'Listings']}
-            labelsRight={['Support']}
-            labelsIcons={windowDimensions.width <= 768 ? ['first-time-occupancy', 'property-house', 'upload', 'question'] : []}
-            clicksList={['rewards', 'property', 'listings', 'support']}
-            classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
-            activeTab={rightMenu || checkActiveTab()}
-            fullWidth={windowDimensions.width <= 768}
-            onClick={(val) => onTabClick(val)}
-            showFull={false}
-          />
         </div>
         <MenuNavigationSubmenu
           windowDimensions={windowDimensions}

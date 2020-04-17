@@ -260,7 +260,17 @@ header {
 
 .image-ratio {
   position: relative;
-  padding-bottom: 56.2%;
+  &:after {
+    content: '';
+    display: block;
+    padding-bottom: 56.2%;
+  }
+  &.squared {
+    &:after {
+      padding-bottom: 0;
+      padding-top: 100%;
+    }
+  }
 }
 
 .image-ratio img {
@@ -271,4 +281,8 @@ header {
   }
   width: 100%;
   height: 100%;
+}
+
+.brixel-tabs ul.tabsList li.left {
+  padding-bottom: 0;
 }

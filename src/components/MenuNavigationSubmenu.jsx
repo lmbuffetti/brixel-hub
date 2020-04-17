@@ -38,19 +38,17 @@ const MenuNavigationSubmenu = (props) => {
                   <Properties {...props} closeProperty={() => onClose(null)}/>
                 )
               }
+              {
+                activeMenu === 'support' && (
+                  <Support
+                    isFixed={false}
+                    onClose={() => onClose()}
+                    expanded
+                  />
+                )
+              }
             </div>
           </div>
-        )
-      }
-      {
-        rightMenu && (
-          <DrawerLayout onClose={() => onClose()}>
-            <Support
-              isFixed={false}
-              onClose={() => onClose()}
-              expanded
-            />
-          </DrawerLayout>
         )
       }
     </>

@@ -97,13 +97,16 @@
 
 @media (min-width: $responsive-medium) {
   #menu-sidebar {
-    width: 84px;
+    width: 210px;
+    flex: 0 0 210px;
     height: 100vh;
     z-index: 2;
+    position: fixed;
+    left: 0;
   }
   .sidebarSubmenu {
     .sidebarSubmenuContent {
-      padding-left: 84px;
+      padding-left: 210px;
     }
   }
 }
