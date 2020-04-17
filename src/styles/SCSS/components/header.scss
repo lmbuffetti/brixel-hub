@@ -51,3 +51,29 @@
   }
 }
 
+
+.accountMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: $brx-white;
+  z-index: 101;
+  box-shadow: $shadow-3dp;
+  border-radius: $brd-radius-small;
+  margin-top: $step;
+  overflow: hidden;
+  max-height: 0;
+  transition: all $default-loader-time;
+  &.open {
+    max-height: 500px;
+  }
+  ul {
+    padding: $step * 2;
+    li {
+      list-style: none;
+      margin-bottom: $step;
+      white-space: nowrap;
+      &:last-child { margin-bottom: 0}
+    }
+  }
+}

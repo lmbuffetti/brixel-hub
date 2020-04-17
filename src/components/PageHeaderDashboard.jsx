@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import { BrixelIcon, BrixelButtonSecondary, BrixelButtonIcon } from '@brixel/brixel-components';
+import useOutsideAlerter from './OutsideElement';
 import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
@@ -41,7 +42,9 @@ function PageHeaderDashboard(props) {
   const [activeMenu, setActiveMenu] = useState(null);
   const [rightMenu, setRightMenu] = useState(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  // REF
+  const profileMenu = useRef(null);
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
 
@@ -98,10 +101,18 @@ function PageHeaderDashboard(props) {
     return currentPath || {};
   };
 
+  // Function to close the drawer menus when we click outside
+  useOutsideAlerter(profileMenu, {
+    action: 'function',
+    func: () => {
+      setShowProfileMenu(false)
+    },
+  });
+
   return (
     <>
       <header className={`hubDasHeader ${rightMenu ? 'rightMenuOpen' : ''}`}>
-        <div className={`dis-f a-c p-1 pt-md-2 pr-md-2 pl-md-3 jc-b pos-r zIndex4-md bgWhite`}>
+        <div className={`dis-f a-c p-1 pt-md-2 pr-md-2 pl-md-3 jc-b pos-r bgWhite`}>
 
           <div className="header-section dis-fl-row a-c jc-b">
             <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} />
@@ -138,13 +149,31 @@ function PageHeaderDashboard(props) {
                 />
               )
             }
-            <div className="ml-2 hide dis-b-md cur-poi">
+            <div className="ml-2 hide dis-f a-c cur-poi pos-r" onClick={() => setShowProfileMenu(!showProfileMenu)} ref={profileMenu}>
               <AvatarImage
                 avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData().shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
                 name={has(loggedInUser, 'user.name') ? loggedInUser.user.name : ''}
                 size={40}
                 onClick={() => avatarAction()}
               />
+              <p className="ml-1">{get(loggedInUser, 'user.name', '')}</p>
+              <BrixelIcon
+                className="ml-1"
+                icon={showProfileMenu ? "arrow-simple-up" : "arrow-simple-down"}
+              />
+              <div className={`${showProfileMenu ? 'open' : 'close'} accountMenu`}>
+                <ul>
+                  <li>
+                    <a
+                      href={`${baseByData().loginBasePath}/account/profile?url=${window.location.href}`}
+                      className="txtDark200"
+                    >
+                      Personal Information</a></li>
+                  <li><a className="txtDark200" href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}>Password</a></li>
+                  <li><a className="txtDark200" href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}>Preferences</a></li>
+                  <li><a className="txtRed400" href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}>Logout</a></li>
+                </ul>
+              </div>
             </div>
             { /* SECTION SIDEBAR MENU MOBILE */ }
             <div className="hide-md">
