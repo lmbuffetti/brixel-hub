@@ -23,8 +23,6 @@ import SuccessHomebase from '../GameHistory/Homebase/SuccessHomebase';
 const RewardsDashboard = (props) => {
   // PROPS
   const {
-    awards,
-    brixelPoints,
     userTypes,
     gameGroup,
     gameHistory,

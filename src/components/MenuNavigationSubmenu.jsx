@@ -5,7 +5,6 @@ import { compose } from 'redux';
 import { useOutsideAlerter } from '@brixel/brixel-components';
 
 import Properties from '../Pages/Properties';
-import DrawerLayout from './DrawerLayout';
 import Support from './Support';
 
 const MenuNavigationSubmenu = (props) => {
@@ -13,7 +12,6 @@ const MenuNavigationSubmenu = (props) => {
   const {
     activeMenu,
     onClose,
-    rightMenu,
     windowDimensions,
   } = props;
 

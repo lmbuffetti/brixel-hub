@@ -7,7 +7,7 @@ import { BrixelButtonTertiary, BrixelTabs, useOutsideAlerter } from '@brixel/bri
 import get from 'lodash/get';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import { CSSTransition } from 'react-transition-group';
-import { firstRoutes, routes, secondRoutes } from '../resources/navigationRoutes';
+import { firstRoutes, secondRoutes } from '../resources/navigationRoutes';
 
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 import CoverPropertyImage from './CoverPropertyImage';
