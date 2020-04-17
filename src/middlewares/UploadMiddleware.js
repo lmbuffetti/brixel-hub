@@ -14,57 +14,65 @@ import {
 } from '../actions/types/UploadTypes';
 
 import {
-  UPDATE_PROPERTY,
+  SAVE_ACTIVE_SINGLE_PROPERTY,
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
-import { UPDATE_USER } from '../actions/types/UserTypes';
-import { SPINNER_ON, SPINNER_OFF } from '../actions/types/CommonTypes';
+import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
+import {
+  SPINNER_ON,
+  SPINNER_OFF,
+  SPINNER_SMALL_ON,
+  SPINNER_SMALL_OFF,
+  SET_PSEUDO_SAVED_SCREEN,
+} from '../actions/types/CommonTypes';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
     case ROTATE_IMG: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON });
       api.image.rotateImg(action.payload.id, action.payload.rotate)
         .then((res) => {
-          const arrayImg = store.getState().form.Media.values.photos;
+          const arrayImg = store.getState().form.Property.values[action.payload.type];
           // eslint-disable-next-line array-callback-return
-          const idImg = arrayImg.findIndex((val) => { val.id = action.payload.id; });
-          arrayImg[idImg] = res.data;
-          store.dispatch(change('Property', 'photos', arrayImg));
-          store.dispatch({ type: SPINNER_OFF });
+          const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
+          if (idImg > -1) {
+            arrayImg[idImg] = res.data;
+            store.dispatch(change('Property', 'photos', arrayImg));
+          }
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }
     case GET_IMAGE_TYPE: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON });
       api.image.getImageType()
         .then((res) => {
           store.dispatch({ type: SET_IMAGE_TYPE, payload: res.data });
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }
     case UPLOAD_IMG: {
       next(action);
-      console.log(action.payload);
       const { imageType } = store.getState().image;
       const imgType = imageType.find((val) => val.name === 'Gallery');
-      // action.payload.user = store.getState().user.loggedUser.user.id;
+      // action.payload.user = store.getState().user.loggedInUser.user.id;
       action.payload.imageType = imgType.id;
       const {
-        pageID, userID, uploadAction,
+        pageID, userID, uploadAction, smallLoader,
       } = action.payload;
       delete action.payload.pageID;
       delete action.payload.uploadAction;
-      store.dispatch({ type: SPINNER_ON });
-      api.image.addImage(action.payload)
+      delete action.payload.smallLoader;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
+      api.image.addImage(action.payload, {uploading: store})
         .then((res) => {
-          console.log(res.data, uploadAction, store.getState().form.Property.values.photos);
           if (uploadAction === 'photos' ||
-            uploadAction === 'plan' ||
+            uploadAction === 'floorPlans' ||
             uploadAction === 'contactAvatar') {
             let coverPhoto;
 
@@ -76,17 +84,22 @@ const checkCommon = (store) => (next) => (action) => {
               // coverPhoto = Object.keys(store.getState().form.Property.values.coverPhoto).length > 0 ? store.getState().form.Property.values.coverPhoto : res.data;
               img.push(res.data);
             }
-            if (uploadAction === 'plan') {
+            if (uploadAction === 'floorPlans') {
               plan.push(res.data);
             }
-            console.log(coverPhoto, img, plan);
             const data = {
               id: pageID,
               coverPhoto,
               photos: img,
               floorPlans: plan,
+              smallLoader: smallLoader,
             };
-            store.dispatch({ type: UPDATE_PROPERTY, payload: data });
+            store.dispatch({ type: SET_PSEUDO_SAVED_SCREEN });
+            store.dispatch({
+              type: SAVE_ACTIVE_SINGLE_PROPERTY,
+              payload: data,
+              setSuccessNotification: true,
+            });
           } else if (uploadAction === 'singleUserAvatar') {
             let userAvatar = store.getState().form.User.values.avatar[0];
 
@@ -100,65 +113,97 @@ const checkCommon = (store) => (next) => (action) => {
                 fullAvatar: userAvatar,
               },
             };
-            store.dispatch({ type: UPDATE_USER, payload: userData });
+            store.dispatch({ type: SAVE_ACTIVE_SINGLE_USER, payload: userData });
           }
-          store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
         })
         .catch((res) => {
-          store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
         });
 
       break;
     }
     case DELETE_IMG: {
       next(action);
+      const arrayImg = store.getState().form.Property.values[action.payload.type];
+      const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
+      store.dispatch({ type: SPINNER_SMALL_ON });
       api.image.deleteImg(action.payload.id)
         .then(() => {
+          arrayImg.splice(idImg, 1);
+          store.dispatch(change('Property', action.payload.type, arrayImg));
+          const data = {
+            id: action.payload.pageID,
+            [action.payload.type]: arrayImg,
+            smallLoader: true
+          };
+          if (action.payload.type === 'photos') {
+            data.coverPhoto = arrayImg[0] || {};
+          }
+          if (action.payload.type === 'photos' && arrayImg.length === 0) data.coverPhoto = null;
+          store.dispatch({ type: SET_PSEUDO_SAVED_SCREEN });
+          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }
     case UPLOAD_DOCUMENT: {
       next(action);
-      const { pageID } = action.payload;
+      const { pageID, smallLoader } = action.payload;
       delete action.payload.pageID;
-      store.dispatch({ type: SPINNER_ON });
+      delete action.payload.smallLaoder;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
       api.image.uploadDocument(action.payload)
         .then((res) => {
-          const docList = store.getState().form.documentsForm.values.documents;
+          const docList = store.getState().form.Property.values.documents || [];
           docList.push(res.data);
           const data = {
             id: pageID,
             documents: docList,
+            smallLoader: true,
           };
-          store.dispatch({ type: UPDATE_PROPERTY, payload: data });
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
     case DELETE_DOCUMENT: {
       next(action);
-      const arrayImg = store.getState().form.documentsForm.values.documents;
+      const { smallLoader } = action.payload;
+      delete action.payload.smallLaoder;
+      const arrayImg = store.getState().form.Property.values.documents;
       const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
       api.image.deleteDocument(action.payload.id)
         .then(() => {
           arrayImg.splice(idImg, 1);
-          store.dispatch(change('documentsForm', 'documents', arrayImg));
+          store.dispatch(change('Property', 'documents', arrayImg));
           const data = {
             id: action.payload.pageID,
             documents: arrayImg,
+            smallLoader: true
           };
-          store.dispatch({ type: UPDATE_PROPERTY, payload: data });
+          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
     case UPDATE_DOCUMENT: {
       next(action);
-      const { pageID } = action.payload;
+      const { pageID, smallLoader } = action.payload;
       delete action.payload.pageID;
-      store.dispatch({ type: SPINNER_ON });
+      delete action.payload.smallLaoder;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      else store.dispatch({ type: SPINNER_ON });
       api.image.updateDocument(action.payload.id, action.payload.body)
         .then((res) => {
-          const docList = store.getState().form.documentsForm.values.documents;
+          const docList = store.getState().form.Property.values.documents;
           docList.forEach((el, index) => {
             if (el.id === res.data.id) {
               docList[index] = res.data;
@@ -167,15 +212,17 @@ const checkCommon = (store) => (next) => (action) => {
           const data = {
             id: pageID,
             documents: docList,
+            smallLoader: true
           };
-          store.dispatch({ type: UPDATE_PROPERTY, payload: data });
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
     case SET_COVER_PHOTO: {
       next(action);
-      store.dispatch({ type: UPDATE_PROPERTY, payload: action.payload });
+      store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: action.payload });
       break;
     }
     default:

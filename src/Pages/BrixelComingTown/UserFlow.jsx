@@ -19,12 +19,12 @@ import {
   BrixelButtonTertiary,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
-import { updateUser, setAwards, setBrixelPoint } from '../../actions/UserActions';
-import { setNotification } from '../../actions/CommonActions';
+import { saveActiveSingleUser, setAwards, setBrixelPoints } from '../../actions/UserActions';
+import { setScreenNotification } from '../../actions/CommonActions';
 import { QuestionsList } from '../../resources/brixelComintTownUserQuestion.js';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
-import { getCompany } from '../../actions/CompanyActions';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 
 const cookie = new Cookies();
 
@@ -36,12 +36,12 @@ function UserFlow(props) {
     company,
     errorValue,
     formValue,
-    handleUpdateUser,
-    handleGetCompany,
+    handleSaveActiveSingleUser,
+    handleGetActiveSingleCompany,
     handleSetNotification,
     history,
     lang,
-    loggedUser,
+    loggedInUser,
   } = props;
   // STATE
   const [position, setPosition] = useState(0);
@@ -59,7 +59,7 @@ function UserFlow(props) {
     history.push(`/onBoarding/brixelComingInTown/${Questions[0].history}`);
     // GET Company data by cookie
     const companyCookie = cookie.get('brixelStubCompany') || null;
-    if (companyCookie) handleGetCompany({stub: companyCookie});
+    if (companyCookie) handleGetActiveSingleCompany({stub: companyCookie});
   }, []);
 
   // LOAD QUESTIONS ON CHANGING LANGUAGE
@@ -70,8 +70,8 @@ function UserFlow(props) {
   useEffect(() => {
     // Check if the user token exist or redirect to Onboarding
     if (typeof cookie.get('brixelToken') === 'undefined') history.push('/onBoarding');
-    if (loggedUser.user) {
-      if (loggedUser.user.brixelComingFlowProcess && loggedUser.user.brixelComingFlowProcess.answers && Object.keys(loggedUser.user.brixelComingFlowProcess.answers).length > 0) {
+    if (loggedInUser.user) {
+      if (loggedInUser.user.brixelComingFlowProcess && loggedInUser.user.brixelComingFlowProcess.answers && Object.keys(loggedInUser.user.brixelComingFlowProcess.answers).length > 0) {
         setHasToSave(false);
         history.push(`/onBoarding/brixelComingInTown/chat`);
         const curIndex = Questions.findIndex((item) => 'chat' === item.history);
@@ -79,7 +79,7 @@ function UserFlow(props) {
         setPosition(curIndex);
       }
     }
-  }, [loggedUser]);
+  }, [loggedInUser]);
 
   // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
   useEffect(() => {
@@ -124,9 +124,9 @@ function UserFlow(props) {
   // Function to create the email
   const extractEmaildata = () => {
     let formData = formValue;
-    let email = `<p><b>Name</b> ${loggedUser.user.name}</p>`;
-    email += `<p><b>Email</b> ${loggedUser.user.email}</p>`;
-    email += `<p><b>User Id</b> ${loggedUser.user.id}</p>`;
+    let email = `<p><b>Name</b> ${loggedInUser.user.name}</p>`;
+    email += `<p><b>Email</b> ${loggedInUser.user.email}</p>`;
+    email += `<p><b>User Id</b> ${loggedInUser.user.id}</p>`;
     email += `<p><b>Company</b> ${company.name || 'default'}</p>`;
     const formInputs = QuestionsList('en').filter((itm) => typeof itm.inputs !== 'undefined');
     Object.keys(formData).map((key) => {
@@ -181,7 +181,7 @@ function UserFlow(props) {
       brixelComingFlowProcess: {
         answers: formValue
       },
-      id: loggedUser.user.id,
+      id: loggedInUser.user.id,
       sendEmail: {
         company : company.stub || null, // email destinatary
         recipientEmail : 'support@brixel.io', // email
@@ -191,7 +191,7 @@ function UserFlow(props) {
     };
     // Call to redux funciton to update the user
     if (hasToSave) {
-      handleUpdateUser(data);
+      handleSaveActiveSingleUser(data);
     }
   };
 
@@ -233,7 +233,7 @@ function UserFlow(props) {
   return (
     <main
       id="onBoarding"
-      className={Questions[currentIndex].cardType !== 'chat' ? 'withFooter' : 'withoutFooter'}
+      className={`${Questions[currentIndex].cardType !== 'chat' ? 'withFooter' : 'withoutFooter'} notranslate`}
     >
       {
         Questions[currentIndex].inputs && (
@@ -545,13 +545,13 @@ UserFlow.propTypes = {
   company: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleGetCompany: PropTypes.func.isRequired,
-  handleUpdateUser: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetAwards: PropTypes.func.isRequired,
-  handleSetBrixelPoint: PropTypes.func.isRequired,
+  handleSetBrixelPoints: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   handleSetNotification: PropTypes.func.isRequired,
 };
 
@@ -560,10 +560,10 @@ UserFlow.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => ({
-  company: get(state, 'companies.company', {}),
+  company: get(state, 'companies.activeSingleCompany', {}),
   errorValue: get(state, 'form.UserFlow.syncErrors', {}),
   formValue: get(state, 'form.UserFlow.values', {}),
-  loggedUser: get(state, 'user.loggedUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
   lang: get(state, 'common.language', {}),
 });
 
@@ -574,11 +574,11 @@ const mapDispatchToProps = (dispatch) => ({
   checkValid() {
     dispatch(isValid('UserFlow'))
   },
-  handleUpdateUser: bindActionCreators(updateUser, dispatch),
-  handleGetCompany: bindActionCreators(getCompany, dispatch),
+  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
-  handleSetBrixelPoint: bindActionCreators(setBrixelPoint, dispatch),
-  handleSetNotification: bindActionCreators(setNotification, dispatch),
+  handleSetBrixelPoints: bindActionCreators(setBrixelPoints, dispatch),
+  handleSetNotification: bindActionCreators(setScreenNotification, dispatch),
 });
 
 const UserFlowForm = reduxForm({

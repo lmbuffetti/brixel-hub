@@ -11,9 +11,7 @@ const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
-const PurifyCSSPlugin = require('purifycss-webpack');
 const CopyPlugin = require('copy-webpack-plugin');
-const glob = require('glob');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -74,6 +72,12 @@ const clientConfig = {
             },
           },
         ],
+      },
+      {
+        test: /\.css/,
+        use: [
+          { loader: 'postcss-loader', options: { sourceMap: true } },
+        ]
       },
       {
         test: /\.jsx?/,
@@ -177,7 +181,7 @@ const clientConfig = {
         removeStyleLinkTypeAttributes: true,
         useShortDoctype: true
       },
-      treansifexKey: baseByData(getEnvBuild).transifexIdHub,
+      transifexKey: baseByData(getEnvBuild).transifexIdHub,
       googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
       facebookPixelId: baseByData(getEnvBuild).facebookPixel
     }),

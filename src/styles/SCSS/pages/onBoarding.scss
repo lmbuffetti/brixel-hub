@@ -2,10 +2,13 @@
   height: calc(100vh - 144px);
   width: 100vw;
   overflow: hidden;
+
   .brixel-radio-button-icon {
     margin-bottom: 16px;
+
     label .textLabel {
       margin-left: 16px;
+
       @media (min-width: $responsive-medium) {
         font-size: 1.2rem;
       }
@@ -28,6 +31,7 @@
     }
     &.withoutFooter {
       height: calc(100vh - 72px);
+
       .singleStep {
         height: calc(100vh - 72px);
       }
@@ -43,8 +47,13 @@
   display: flex;
   transition: transform $default-loader-time;
 }
+.bodyModalFlow {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 .singleStep {
-  height: calc(100vh - 112px);
+  height: 100%;
   flex: 0 0 100vw;
   padding: 16px 16px 40px;
   overflow-y: auto;
@@ -79,14 +88,15 @@
   width: 100%;
   left: 0;
   bottom: 0;
+
   &.successNext {
     background: map_get($greenColor, 200);
+
     .backBtn {
       opacity: .5;
     }
   }
 }
-
 .messageChat {
   box-shadow: $shadow-1dp;
   background: map_get($lightColor, 100);

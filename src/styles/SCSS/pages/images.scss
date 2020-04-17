@@ -1,0 +1,80 @@
+.image-list {
+  li {
+    list-style: none;
+    width: 100%;
+    margin-bottom: $step;;
+
+    .photo-action {
+      position: absolute;
+      left: $step;
+      top: $step;
+    }
+    .imgConver {
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .coverIconImg {
+      position: absolute;
+      left: $step;
+      bottom: $step;
+    }
+    p {
+      word-break: break-all;
+    }
+  }
+}
+
+
+@media (max-width: $responsive-medium) {
+  .photosWrapper .secondLevel,
+  .photosWrapper .secondLevel > div,
+  .plansWrapper .secondLevel,
+  .plansWrapper .secondLevel > div {
+      height: 100%;
+  }
+}
+
+@media (min-width: 1025px) {
+  .image-list {
+    li {
+      .photo-action.hoverShow {
+        opacity: 0;
+      }
+    }
+    li {
+      &:hover {
+        .photo-action.hoverShow {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+.uploadPanel {
+  flex: 1;
+  @media (min-width: $responsive-medium) {
+    justify-content: space-between;
+  }
+}
+
+.upload-container {
+  &.emptyState {
+    max-width: 270px;
+  }
+  &.hasImages {
+    border: 1px dashed map_get($lightColor, 200);
+    border-radius: $brd-radius-small;
+  }
+}
+
+.max-width-220 {
+  max-width: 220px;
+}
+
+.fixedActionsBtmRight {
+  position: absolute;
+  right: $step;
+  bottom: $step;
+}

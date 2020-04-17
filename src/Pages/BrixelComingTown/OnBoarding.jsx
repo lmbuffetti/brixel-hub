@@ -27,10 +27,10 @@ import {
   getBrowserPlatform
 } from '@brixel/brixel-components/src/utils/helper';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { getToken, setAwards, setBrixelPoint, validateUser } from '../../actions/UserActions';
-import { addProperty } from '../../actions/PropertyActions';
-import { errorMessage, setPageData, setLanguage, setNotification } from '../../actions/CommonActions';
-import { getCompany } from '../../actions/CompanyActions';
+import { doLogin, setAwards, setBrixelPoints, validateUser } from '../../actions/UserActions';
+import { createActiveSingleProperty } from '../../actions/PropertyActions';
+import { errorMessage, setPageData, setLanguage, setScreenNotification } from '../../actions/CommonActions';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.js';
 import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
@@ -51,19 +51,19 @@ function OnBoarding(props) {
     formValue,
     gameGroup,
     gameHistory,
-    handleCreatePage,
-    handleCreateUser,
-    handleGetCompany,
-    handleGetGameGroup,
-    handleGetToken,
+    handleCreateActiveSingleProperty,
+    handleValidateUser,
+    handleGetActiveSingleCompany,
+    handleGetGamegroup,
+    handleDoLogin,
     handleSetAwards,
     handleSetLanguage,
-    handleSetBrixelPoint,
-    handleSetPage,
+    handleSetBrixelPoints,
+    handleSetPageData,
     handleSetNotification,
     history,
     lang,
-    loggedUser,
+    loggedInUser,
     pageState,
   } = props;
   // STATE
@@ -95,7 +95,7 @@ function OnBoarding(props) {
       };
       changeFieldValue('location', location);
     }
-    handleGetGameGroup();
+    handleGetGamegroup();
   }, []);
 
   const hideOnDesk = getBrowserPlatform().indexOf('desk') !== -1 ? 'hide-desktop' : 'dis-b-mobile';
@@ -107,10 +107,10 @@ function OnBoarding(props) {
   };
 
   useEffect(() => {
-    if (loggedUser.user) {
-      changeFieldValue('owner', loggedUser.user.id);
+    if (loggedInUser.user) {
+      changeFieldValue('owner', loggedInUser.user.id);
     }
-  }, [loggedUser]);
+  }, [loggedInUser]);
 
   // SET the default language in base of the company
   useEffect(() => {
@@ -124,8 +124,40 @@ function OnBoarding(props) {
   }, [company]);
 
   const changePageTitle = () => {
-    const pageTitle = `${formValue.bedrooms} ${translateTo(lang, 'Rooms')} ${translateTo(lang, formValue.propertyType)} - ${formValue.location.city}`;
-    changeFieldValue('pageTitle', pageTitle);
+    if (formValue && formValue.location && !formValue.pageTitle) {
+      var titleAdjectives = [
+        'Beautiful',
+        'Charming',
+        'Elegant',
+        'Prestigious',
+        'One-of-a-kind',
+        'Exquisite',
+        'Spacious',
+        'Gorgeous',
+        'Wonderful',
+        'Lovely',
+        'Superb',
+        'Amazing',
+        'Stunning',
+        'Sophisticated',
+        'Modern',
+        'Incredible'
+      ];
+      // Create the title of the page
+      let pageTitle = `${titleAdjectives[Math.floor(Math.random() * titleAdjectives.length)]} ${formValue.propertyType}`;
+
+      // Try to add location to the title
+      if (formValue.location.city) {
+        pageTitle += ' in ' + formValue.location.city;
+      } else if (formValue.location.state) {
+        pageTitle += ' in ' + formValue.location.state;
+      } else if (formValue.location.country) {
+        pageTitle += ' in ' + formValue.location.country;
+      } else {
+        pageTitle += ' in ' + formValue.location.address;
+      }
+      changeFieldValue('pageTitle', pageTitle);
+    }
   };
 
   // LOAD QUESTIONS ON CHANGING LANGUAGE
@@ -184,7 +216,7 @@ function OnBoarding(props) {
     let enableForm = true;
     // Check if exist any invalid field
     Object.keys(errorValue).map((key) => {
-      if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedUser.user) {
+      if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedInUser.user) {
         setShowError(true);
         enableForm = false;
       }
@@ -225,17 +257,17 @@ function OnBoarding(props) {
     // if form is valid
     if (enableForm) {
       // if user is logged in
-      if (loggedUser.user && loggedUser.user.id) {
-        changeFieldValue('owner', loggedUser.user.id);
-        data.owner = loggedUser.user.id;
-        handleCreatePage(data);
+      if (loggedInUser.user && loggedInUser.user.id) {
+        changeFieldValue('owner', loggedInUser.user.id);
+        data.owner = loggedInUser.user.id;
+        handleCreateActiveSingleProperty(data);
       } else if (loginPage) {
         // if user exist and is access by own account
         data.user = {
           username: formValue.email,
           password: formValue.password,
         };
-        handleGetToken(data);
+        handleDoLogin(data);
       } else {
         // if user not exist
         data.user = {
@@ -254,7 +286,7 @@ function OnBoarding(props) {
           ignoreEmail: true, // not send the email to user with password,
           redirectTo: '/onBoarding/success',
         };
-        handleCreateUser(data);
+        handleValidateUser(data);
       }
     }
   };
@@ -312,13 +344,13 @@ function OnBoarding(props) {
       else handleSetAwards(1);
       if (newPoints && newPoints.actualPoints) newPoints.actualPoints += getHomeBase.points;
       else newPoints = {actualPoints: getHomeBase.points};
-      handleSetBrixelPoint(newPoints.actualPoints);
+      handleSetBrixelPoints(newPoints.actualPoints);
     }
     if (
       Questions[newPosition] &&
       Questions[newPosition].cardType &&
       Questions[newPosition].cardType === 'LastStep' &&
-      loggedUser.user && loggedUser.user.id
+      loggedInUser.user && loggedInUser.user.id
     ) {
       saveData();
     }
@@ -376,7 +408,7 @@ function OnBoarding(props) {
     if (company || companyCookie) {
       company = company.replace('?company=', '');
       const defComp = company || companyCookie;
-      handleGetCompany({stub: defComp});
+      handleGetActiveSingleCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);
     }
     // on load page redirect all to first step
@@ -394,7 +426,7 @@ function OnBoarding(props) {
 
   // Chack if user account just exist and redirect him to login part
   const switchLoginSignUpPage = (act) => {
-    handleSetPage(null);
+    handleSetPageData(null);
     handleSetNotification(null);
     setLoginPage(act);
   };
@@ -415,7 +447,7 @@ function OnBoarding(props) {
   };
 
   return (
-    <main id="onBoarding">
+    <main id="onBoarding" className="notranslate">
       {
         Questions[currentIndex] && Questions[currentIndex].inputs && (
           <BrixelProgressBar
@@ -646,7 +678,7 @@ function OnBoarding(props) {
                                       type="email"
                                       validate={[Validation.required]}
                                       meta={{
-                                        dirty: (showErrors || formValue.email) && errorValue.email !== true,
+                                        dirty: (showErrors || formValue.email),
                                         invalid: (showErrors || formValue.email) && errorValue.email !== true,
                                       }}
                                       message={{
@@ -662,7 +694,7 @@ function OnBoarding(props) {
                                       type="password"
                                       validate={[Validation.required]}
                                       meta={{
-                                        dirty: (showErrors || formValue.password) && errorValue.password !== true,
+                                        dirty: (showErrors || formValue.password),
                                         invalid: (showErrors || formValue.password) && errorValue.password !== true,
                                       }}
                                       message={{
@@ -700,7 +732,7 @@ function OnBoarding(props) {
                                         type="text"
                                         validate={[Validation.required]}
                                         meta={{
-                                          dirty: (showErrors || formValue.firstName) && errorValue.firstName !== true,
+                                          dirty: (showErrors || formValue.firstName),
                                           invalid: (showErrors || formValue.firstName) && errorValue.firstName !== true,
                                         }}
                                         message={{
@@ -716,7 +748,7 @@ function OnBoarding(props) {
                                         type="text"
                                         validate={[Validation.required]}
                                         meta={{
-                                          dirty: (showErrors || formValue.lastName) && errorValue.lastName !== true,
+                                          dirty: (showErrors || formValue.lastName),
                                           invalid: (showErrors || formValue.lastName) && errorValue.lastName !== true,
                                         }}
                                         message={{
@@ -733,7 +765,7 @@ function OnBoarding(props) {
                                       type="email"
                                       validate={formValue.email ? [Validation.isEmail] : [Validation.required]}
                                       meta={{
-                                        dirty: (showErrors || formValue.email) && errorValue.email !== true,
+                                        dirty: (showErrors || formValue.email),
                                         invalid: (showErrors || formValue.email) && errorValue.email !== true,
                                       }}
                                       message={{
@@ -847,20 +879,20 @@ OnBoarding.propTypes = {
   formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
-  handleCreateUser: PropTypes.func.isRequired,
-  handleCreatePage: PropTypes.func.isRequired,
-  handleGetCompany: PropTypes.func.isRequired,
-  handleGetGameGroup: PropTypes.func.isRequired,
-  handleGetToken: PropTypes.func.isRequired,
+  handleValidateUser: PropTypes.func.isRequired,
+  handleCreateActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleGetGamegroup: PropTypes.func.isRequired,
+  handleDoLogin: PropTypes.func.isRequired,
   handleSetAwards: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
-  handleSetPage: PropTypes.func.isRequired,
-  handleSetBrixelPoint: PropTypes.func.isRequired,
+  handleSetPageData: PropTypes.func.isRequired,
+  handleSetBrixelPoints: PropTypes.func.isRequired,
   handleSetNotification: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initialValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   pageState: PropTypes.object,
   redirectTo: PropTypes.object,
 };
@@ -871,14 +903,14 @@ OnBoarding.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => ({
-  company: get(state, 'companies.company', {}),
+  company: get(state, 'companies.activeSingleCompany', {}),
   country: get(state, 'common.country', {}),
   errorValue: get(state, 'form.OnBoarding.syncErrors', {}),
   formValue: get(state, 'form.OnBoarding.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', []),
   initialValue: get(state, 'form.OnBoarding.initial', {}),
-  loggedUser: get(state, 'user.loggedUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
   redirectTo: get(state, 'common.redirectTo', {}),
   lang: get(state, 'common.language', {}),
   pageState: get(state, 'common.setPageData', null),
@@ -895,17 +927,17 @@ const mapDispatchToProps = (dispatch) => ({
   checkValid() {
     dispatch(isValid('OnBoarding'))
   },
-  handleCreateUser: bindActionCreators(validateUser, dispatch),
-  handleGetToken: bindActionCreators(getToken, dispatch),
-  handleGetCompany: bindActionCreators(getCompany, dispatch),
-  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
+  handleValidateUser: bindActionCreators(validateUser, dispatch),
+  handleDoLogin: bindActionCreators(doLogin, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
-  handleCreatePage: bindActionCreators(addProperty, dispatch),
-  handleSetErrorMsg: bindActionCreators(errorMessage, dispatch),
-  handleSetNotification: bindActionCreators(setNotification, dispatch),
-  handleSetPage: bindActionCreators(setPageData, dispatch),
+  handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
+  handleErrorMsg: bindActionCreators(errorMessage, dispatch),
+  handleSetNotification: bindActionCreators(setScreenNotification, dispatch),
+  handleSetPageData: bindActionCreators(setPageData, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
-  handleSetBrixelPoint: bindActionCreators(setBrixelPoint, dispatch),
+  handleSetBrixelPoints: bindActionCreators(setBrixelPoints, dispatch),
 });
 
 const OnBoardingForm = reduxForm({

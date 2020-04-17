@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { change } from 'redux-form';
-import { BrixelButtonTertiary, BrixelIcon, BrixelInputText, BrixelSelect, useOutsideAlerter } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelInputText, BrixelSelect, useOutsideAlerter } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import markerImg from '../../images/location/icon_location.svg';
@@ -22,7 +22,7 @@ const swissZipCode = require('../../resources/swissZipCodes.json');
 
 const images = require.context('../../images', true);
 
-const Maps = (props) => {
+export const ComponentMap =(props) => {
   // PROPS
   const {
     className,
@@ -50,6 +50,7 @@ const Maps = (props) => {
     showSelectCountry,
     similarProperties,
     zoom,
+    minHeight,
   } = props;
   // STATE
   const [selectedPlace, setSelectedPlace] = useState([]);
@@ -61,7 +62,6 @@ const Maps = (props) => {
   const [streetViewAvailable, setStretViewAvailable] = useState(false);
   const [showZipCode, setShowZipCode] = useState(false);
   const [optMap, setOptMap] = useState({});
-  const [showSelCountry, setShowSelCountry] = useState(false);
   const inputSearch = createRef(null);
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
   const [defCountry, setDefCountry] = useState('');
@@ -341,6 +341,8 @@ const Maps = (props) => {
               formattedPlace.countryCode = el.short_name;
             } else if (el.types.indexOf('street_number') !== -1) {
               formattedPlace.streetNumber = el.long_name;
+            } else if (el.types.indexOf('route') !== -1) {
+              formattedPlace.name = el.long_name;
             }
           });
         }
@@ -392,7 +394,7 @@ const Maps = (props) => {
     // Important! Always set the container height explicitly
     <div
       style={showMap ? {
-        minHeight: '300px', position: 'relative',
+        minHeight: minHeight > 0 ? `${minHeight}px` : '300px', position: 'relative',
       } : {
         minHeight: '100%', position: 'relative',
       }}
@@ -436,28 +438,17 @@ const Maps = (props) => {
               {
                 showSelectCountry && (
                   <div className="mt-2 mb-2">
-                    {
-                      showSelCountry ? (
-                        <BrixelSelect
-                          className="w-perc-100 max-w-fix-216 mt-1 pos-r zIndex2"
-                          input={{
-                            onChange: (val) => changeCountry(val),
-                            name: 'country',
-                            value: defCountry,
-                          }}
-                          options={selectOpt}
-                        />
-                      ) : (
-                        <BrixelButtonTertiary
-                          label={
-                            defCountry ?
-                              translateTo(lang, selectOpt.find(val => val.value === defCountry).label) :
-                              `🌍 ${translateTo(lang, 'Everywhere')}`
-                          }
-                          onClick={() => setShowSelCountry(true)}
-                        />
-                      )
-                    }
+                    <BrixelSelect
+                      compact
+                      className="w-perc-100 mt-1 pos-r zIndex2"
+                      input={{
+                        onChange: (val) => changeCountry(val.toUpperCase()),
+                        name: 'country',
+                        value: defCountry.toLowerCase(),
+                      }}
+                      bigDropDown
+                      options={selectOpt}
+                    />
                   </div>
                 )
               }
@@ -615,7 +606,7 @@ const Maps = (props) => {
   );
 };
 
-Maps.propTypes = {
+ComponentMap.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   changeCountry: PropTypes.func,
   className: PropTypes.string,
@@ -643,9 +634,10 @@ Maps.propTypes = {
   showSearchLocation: PropTypes.bool,
   showSelectCountry: PropTypes.bool,
   zoom: PropTypes.number,
+  minHeight: PropTypes.string,
 };
 
-Maps.defaultProps = {
+ComponentMap.defaultProps = {
   className: '',
   changeCountry: () => '',
   disableZoom: false,
@@ -665,12 +657,13 @@ Maps.defaultProps = {
   similarProperties: [],
   showMap: false,
   zoom: 14,
+  minHeight: '0',
 };
 
 const mapStateToProps = (state) => {
   const formName = Object.keys(get(state, 'form'))[0];
-  const lat = get(state, `property.property.location.latitude`, 0);
-  const lng = get(state, `property.property.location.longitude`, 0);
+  const lat = get(state, `property.activeSingleProperty.location.latitude`, 0);
+  const lng = get(state, `property.activeSingleProperty.location.longitude`, 0);
   return ({
     country: get(state, `common.country`, {}),
     formValue: get(state, `form[${formName}].values`, {}),
@@ -686,6 +679,10 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(form, field, value) {
     dispatch(change(form, field, value));
   },
+});
+
+export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
+  return prevProps.formValue.location.latitude === nextProps.formValue.location.latitude &&  prevProps.formValue.location.longitude === nextProps.formValue.location.longitude
 });
 
 export default compose(

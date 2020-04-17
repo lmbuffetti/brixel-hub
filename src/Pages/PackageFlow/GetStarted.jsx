@@ -22,10 +22,10 @@ import {
   BrixelIcon,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
-import { getToken, validateUser, updateUser, setAwards, setBrixelPoint } from '../../actions/UserActions';
-import { addProperty, updateProperty } from '../../actions/PropertyActions';
+import { doLogin, validateUser, saveActiveSingleUser, setAwards, setBrixelPoints } from '../../actions/UserActions';
+import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { errorMessage, setPageData, setLanguage } from '../../actions/CommonActions';
-import { getCompany } from '../../actions/CompanyActions';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.js';
 import { setCookie } from '../../utils/helpers';
@@ -53,20 +53,20 @@ function GetStarted(props) {
     formValue,
     gameGroup,
     gameHistory,
-    handleCreatePage,
-    handleCreateUser,
-    handleGetCompany,
-    handleGetToken,
+    handleCreateActiveSingleProperty,
+    handleValidateUser,
+    handleGetActiveSingleCompany,
+    handleDoLogin,
     handleSetLanguage,
     handleSetAwards,
-    handleSetBrixelPoint,
-    handleUpdatePage,
-    handleUpdateUser,
-    handleGetGameGroup,
+    handleSetBrixelPoints,
+    //handleSaveActiveSingleProperty,
+    //handleSaveActiveSingleUser,
+    handleGetGamegroup,
     history,
     lang,
-    loggedUser,
-    property,
+    loggedInUser,
+    //property,
   } = props;
   // STATE
   const [position, setPosition] = useState(0);
@@ -87,8 +87,40 @@ function GetStarted(props) {
   };
 
   const changePageTitle = () => {
-    const pageTitle = `${formValue.bedrooms} ${translateTo(lang, 'Rooms')} ${translateTo(lang, formValue.propertyType)} - ${formValue.location.city}`;
-    changeFieldValue('pageTitle', pageTitle);
+    if (formValue && formValue.location && !formValue.pageTitle) {
+      var titleAdjectives = [
+        'Beautiful',
+        'Charming',
+        'Elegant',
+        'Prestigious',
+        'One-of-a-kind',
+        'Exquisite',
+        'Spacious',
+        'Gorgeous',
+        'Wonderful',
+        'Lovely',
+        'Superb',
+        'Amazing',
+        'Stunning',
+        'Sophisticated',
+        'Modern',
+        'Incredible'
+      ];
+      // Create the title of the page
+      let pageTitle = `${titleAdjectives[Math.floor(Math.random() * titleAdjectives.length)]} ${formValue.propertyType}`;
+
+      // Try to add location to the title
+      if (formValue.location.city) {
+        pageTitle += ' in ' + formValue.location.city;
+      } else if (formValue.location.state) {
+        pageTitle += ' in ' + formValue.location.state;
+      } else if (formValue.location.country) {
+        pageTitle += ' in ' + formValue.location.country;
+      } else {
+        pageTitle += ' in ' + formValue.location.address;
+      }
+      changeFieldValue('pageTitle', pageTitle);
+    }
   };
 
   useEffect(() => {
@@ -109,7 +141,7 @@ function GetStarted(props) {
       };
       changeFieldValue('location', location);
     }
-    handleGetGameGroup();
+    handleGetGamegroup();
   }, []);
 
   useEffect(() => {
@@ -133,11 +165,11 @@ function GetStarted(props) {
   }, [lang, gameGroup]);
 
   useEffect(() => {
-    if (loggedUser.user) {
-      changeFieldValue('owner', loggedUser.user.id);
+    if (loggedInUser.user) {
+      changeFieldValue('owner', loggedInUser.user.id);
       changeFieldValue('signup', false);
     }
-  }, [loggedUser]);
+  }, [loggedInUser]);
 
   useEffect(() => {
     let invalidField = false;
@@ -180,7 +212,7 @@ function GetStarted(props) {
       fieldVal = ['firstName', 'lastName', 'email', 'privacy'];
     }
     fieldVal.map((key) => {
-      if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedUser.user) {
+      if (errorValue[key] !== true && !isObject(errorValue[key]) && !loggedInUser.user) {
         setShowError(true);
         enableForm = false;
       }
@@ -210,7 +242,6 @@ function GetStarted(props) {
         }
       },
       location: formValue.location,
-      ownerType: 'seller',
       getEstimation: formValue.location.country === 'CH',
       addProperty: true,
       redirectToUserFlow: false,
@@ -219,32 +250,15 @@ function GetStarted(props) {
     };
 
     if (enableForm) {
-      if (loggedUser.user && loggedUser.user.id) {
-        if ((act === 'LastStep' || act === 'lastStep') && property.id) {
-          const pageData = {
-            id: property.id,
-            ownerType: formValue.ownerType,
-            typeOfBuyer: formValue.typeOfBuyer,
-            whenToSell: formValue.apartmentSellTiming,
-            redirectToHome: true,
-          };
-          const userData = {
-            id: loggedUser.user.id,
-            userType: formValue.ownerType
-          };
-          await handleUpdateUser(userData);
-          await handleUpdatePage(pageData);
-        } else {
-          changeFieldValue('owner', loggedUser.user.id);
-          data.owner = loggedUser.user.id;
-          await handleCreatePage(data);
-        }
+      if (loggedInUser.user && loggedInUser.user.id) {
+        data.owner = loggedInUser.user.id;
+        await handleCreateActiveSingleProperty(data);
       } else if (loginPage) {
         data.user = {
           username: formValue.email,
           password: formValue.password,
         };
-        await handleGetToken(data);
+        await handleDoLogin(data);
       } else {
         data.user = {
           email: formValue.email,
@@ -262,7 +276,7 @@ function GetStarted(props) {
           ignoreEmail: false,
           redirectTo: '/packageFlow/getStarted/success'
         };
-        await handleCreateUser(data);
+        await handleValidateUser(data);
       }
     }
   };
@@ -305,6 +319,18 @@ function GetStarted(props) {
         return null;
       });
     }
+    if (Questions[newPosition] && Questions[newPosition].conditions) {
+      let checkCond = true;
+      Questions[newPosition].conditions.map((cond) => {
+        const val = get(formValue, cond.name, null);
+        if (val !== cond.value && checkCond) {
+          if (act === 'back') newPosition = newPosition - 1;
+          else newPosition = newPosition + 1;
+          checkCond = false;
+        }
+        return null;
+      });
+    }
     if (typeof Questions[newPosition] === 'undefined') {
 
     }
@@ -325,11 +351,11 @@ function GetStarted(props) {
         else handleSetAwards(1);
         if (newPoints && newPoints.actualPoints) newPoints.actualPoints += getHomeBase.points;
         else newPoints = {actualPoints: getHomeBase.points};
-        handleSetBrixelPoint(newPoints.actualPoints);
+        handleSetBrixelPoints(newPoints.actualPoints);
       }
       if (
-        (Questions[position].cardType === 'LastStep' && loggedUser && loggedUser.user) ||
-        (Questions[position].cardType === 'createProfile' && loggedUser && !loggedUser.user)
+        (Questions[position].cardType === 'LastStep' && loggedInUser && loggedInUser.user) ||
+        (Questions[position].cardType === 'createProfile' && loggedInUser && !loggedInUser.user)
       ) {
         saveData();
       }
@@ -365,7 +391,7 @@ function GetStarted(props) {
     if (company || cookieCompany) {
       company = company.replace('?company=', '');
       const defComp = company || cookieCompany;
-      handleGetCompany({stub: defComp});
+      handleGetActiveSingleCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
@@ -395,7 +421,7 @@ function GetStarted(props) {
   };
 
   return (
-    <main id="getStarted">
+    <main id="getStarted" className="notranslate">
       {
         Questions[currentIndex].inputs && (
           <BrixelProgressBar
@@ -704,19 +730,19 @@ GetStarted.propTypes = {
   formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
-  handleCreateUser: PropTypes.func.isRequired,
-  handleCreatePage: PropTypes.func.isRequired,
-  handleGetCompany: PropTypes.func.isRequired,
-  handleGetToken: PropTypes.func.isRequired,
+  handleValidateUser: PropTypes.func.isRequired,
+  handleCreateActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleDoLogin: PropTypes.func.isRequired,
   handleSetAwards: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
-  handleSetBrixelPoint: PropTypes.func.isRequired,
-  handleUpdateUser: PropTypes.func.isRequired,
-  handleUpdatePage: PropTypes.func.isRequired,
-  handleGetGameGroup: PropTypes.func.isRequired,
+  handleSetBrixelPoints: PropTypes.func.isRequired,
+  handleSaveActiveSingleUser: PropTypes.func.isRequired,
+  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetGamegroup: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   property: PropTypes.object,
   redirectTo: PropTypes.object,
 };
@@ -728,14 +754,14 @@ GetStarted.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  company: get(state, 'companies.company', {}),
+  company: get(state, 'companies.activeSingleCompany', {}),
   country: get(state, 'common.country', {}),
   errorValue: get(state, 'form.GetStarted.syncErrors', {}),
   formValue: get(state, 'form.GetStarted.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', []),
-  loggedUser: get(state, 'user.loggedUser', {}),
-  property: get(state, 'property.property', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
+  property: get(state, 'property.activeSingleProperty', {}),
   redirectTo: get(state, 'common.redirectTo', {}),
   lang: get(state, 'common.language', {}),
   initialValues: {
@@ -751,18 +777,18 @@ const mapDispatchToProps = (dispatch) => ({
   checkValid() {
     dispatch(isValid('GetStarted'))
   },
-  handleCreateUser: bindActionCreators(validateUser, dispatch),
-  handleGetToken: bindActionCreators(getToken, dispatch),
-  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
-  handleGetCompany: bindActionCreators(getCompany, dispatch),
+  handleValidateUser: bindActionCreators(validateUser, dispatch),
+  handleDoLogin: bindActionCreators(doLogin, dispatch),
+  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
-  handleCreatePage: bindActionCreators(addProperty, dispatch),
-  handleSetErrorMsg: bindActionCreators(errorMessage, dispatch),
+  handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
+  handleSetError: bindActionCreators(errorMessage, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
-  handleSetBrixelPoint: bindActionCreators(setBrixelPoint, dispatch),
-  handleSetPage: bindActionCreators(setPageData, dispatch),
-  handleUpdatePage: bindActionCreators(updateProperty, dispatch),
-  handleUpdateUser: bindActionCreators(updateUser, dispatch),
+  handleSetBrixelPoints: bindActionCreators(setBrixelPoints, dispatch),
+  handleSetPageData: bindActionCreators(setPageData, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
 });
 
 const getStartedForm = reduxForm({

@@ -1,0 +1,21 @@
+#supportBox {
+
+  .moreInfoSupport {
+    max-height: 0;
+    overflow: hidden;
+    transition: all $default-loader-time;
+    &.open {
+      max-height: 500px;
+    }
+  }
+}
+
+@media (min-width: $responsive-medium) {
+  #supportBox {
+    &.fixed {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  }
+}

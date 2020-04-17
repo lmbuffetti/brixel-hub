@@ -18,14 +18,14 @@ const LoginSignup = (props) => {
     formValue,
     errorValue,
     lang,
-    loggedUser,
+    loggedInUser,
     showErrors,
   } = props;
   // STATE
   const [loginPage, setLoginPage] = useState(false);
 
   useEffect(() => {
-    if (typeof loggedUser.token === 'undefined') {
+    if (typeof loggedInUser.token === 'undefined') {
       changeFieldValue(formName, 'signup', !loginPage);
     }
   }, [loginPage]);
@@ -49,7 +49,7 @@ const LoginSignup = (props) => {
               type="email"
               validate={[Validation.required]}
               meta={{
-                dirty: (showErrors || formValue.email) && errorValue.email !== true,
+                dirty: (showErrors || formValue.email),
                 invalid: (showErrors || formValue.email) && errorValue.email !== true,
               }}
               message={{
@@ -65,7 +65,7 @@ const LoginSignup = (props) => {
               type="password"
               validate={[Validation.required]}
               meta={{
-                dirty: (showErrors || formValue.password) && errorValue.password !== true,
+                dirty: (showErrors || formValue.password),
                 invalid: (showErrors || formValue.password) && errorValue.password !== true,
               }}
               message={{
@@ -101,7 +101,7 @@ const LoginSignup = (props) => {
                 type="text"
                 validate={[Validation.required]}
                 meta={{
-                  dirty: (showErrors || formValue.firstName) && errorValue.firstName !== true,
+                  dirty: (showErrors || formValue.firstName),
                   invalid: (showErrors || formValue.firstName) && errorValue.firstName !== true,
                 }}
                 message={{
@@ -117,7 +117,7 @@ const LoginSignup = (props) => {
                 type="text"
                 validate={[Validation.required]}
                 meta={{
-                  dirty: (showErrors || formValue.lastName) && errorValue.lastName !== true,
+                  dirty: (showErrors || formValue.lastName),
                   invalid: (showErrors || formValue.lastName) && errorValue.lastName !== true,
                 }}
                 message={{
@@ -134,7 +134,7 @@ const LoginSignup = (props) => {
               type="email"
               validate={formValue.email ? [Validation.isEmail] : [Validation.required]}
               meta={{
-                dirty: (showErrors || formValue.email) && errorValue.email !== true,
+                dirty: (showErrors || formValue.email),
                 invalid: (showErrors || formValue.email) && errorValue.email !== true,
               }}
               message={{
@@ -157,7 +157,7 @@ const LoginSignup = (props) => {
                 className="body2 w-perc-100 max-w-perc-100"
                 validate={[Validation.required]}
                 meta={{
-                  dirty: (showErrors || formValue.privacy) && errorValue.privacy !== true,
+                  dirty: (showErrors || formValue.privacy),
                   invalid: (showErrors || formValue.privacy) && errorValue.privacy !== true,
                 }}
                 message={{
@@ -178,7 +178,7 @@ LoginSignup.propTypes = {
   formValue: PropTypes.object.isRequired,
   formName: PropTypes.string.isRequired,
   lang: PropTypes.string,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   showErrors: PropTypes.bool,
 };
 
@@ -191,7 +191,7 @@ const mapStateToProps = (state, props) => ({
   errorValue: get(state, `form.${props.formName}.syncErrors`, {}),
   formValue: get(state, `form.${props.formName}.values`, {}),
   lang: get(state, 'common.language', {}),
-  loggedUser: get(state, 'user.loggedUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

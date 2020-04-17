@@ -20,6 +20,7 @@ const MultiStepForm = (props) => {
 
   return (
     <div>
+      {input.title && ( <h6 className="mt-5 mb-3">{input.title}</h6> ) }
       <div className="dis-f a-c jc-b">
         <div
           className={`${input.classNameBox || ''} dis-f-col a-c jc-b w-perc-100`}

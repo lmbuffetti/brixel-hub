@@ -1,162 +1,359 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-//import { CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import {
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
-import last from 'lodash/last';
+import isObject from 'lodash/isObject';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelTabs } from '@brixel/brixel-components';
-import { getProperties, getProperty, updateProperty } from '../../actions/PropertyActions';
+import cloneDeep from 'lodash/cloneDeep';
+
+import {
+  getPropertyListings,
+  getActiveSingleProperty,
+  saveActiveSingleProperty,
+  getActiveSinglePropertyBookings, savePropertyVisitSchedule, createPropertyVisitSchedule, savePropertyVisitBooking,
+} from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
-import Loading from '../../components/Loading';
-import { getCalcSectionInputSheets } from '../../utils/helpers';
-import { InputSheets } from '../../resources/inputSheets';
+import { reduxForm, reset } from 'redux-form';
+import { diff } from 'deep-object-diff';
+import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
+import { setModal, setScreenNotification } from '../../actions/CommonActions';
+import has from 'lodash/has';
 
-
-// SIDEBAR MENU
-const MenuSidebar = Loadable({
-  loader: () => import('../../components/MenuSidebar' /* webpackChunkName: "header" */),
-  loading: Loading,
-});
-
-
-const HomeDashboard = Loadable({
-  loader: () => import('./HomeDashboard' /* webpackChunkName: "HomeDashboard" */),
-  loading: Loading,
+const RewardsDashboard = Loadable({
+  loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
+  loading: () => null,
 });
 
 const PropertyDashboard = Loadable({
   loader: () => import('./PropertyDashboard' /* webpackChunkName: "PropertyDashboard" */),
-  loading: Loading,
+  loading: () => null,
+});
+
+const ListingsDashboard = Loadable({
+  loader: () => import('./ListingsDashboard' /* webpackChunkName: "ListingsDashboard" */),
+  loading: () => null,
 });
 
 const SupportDashboard = Loadable({
   loader: () => import('./SupportDashboard' /* webpackChunkName: "SupportDashboard" */),
-  loading: Loading,
+  loading: () => null,
+});
+
+const EmptyProperty = Loadable({
+  loader: () => import('./EmptyProperty' /* webpackChunkName: "EmptyProperty" */),
+  loading: () => null,
+});
+
+// UPGRADE
+const Upgrade = Loadable({
+  loader: () => import('../Upgrade/Upgrade' /* webpackChunkName: "Upgrade" */),
+  loading: () => null,
+});
+
+const ProtectedRoute = Loadable({
+  loader: () => import('../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
+  loading: () => null,
 });
 
 const Dashboard = (props) => {
   // PROPS
   const {
-    activeUserType,
-    handleGetProperties,
-    handleGetProperty,
-    handleSaveProperty,
+    userTypes,
+    errorValue,
+    formValue,
+    handleGetPropertyListings,
+    handleGetActiveSingleProperty,
+    handleGetActiveSinglePropertyBookings,
+    handleGetImageType,
+    handleSaveActiveSingleProperty,
+    handleSavePropertyVisitSchedule,
+    handleCreatePropertyVisitSchedule,
+    handleSetScreenNotification,
     history,
-    loggedUser,
+    initialValues,
+    isLoading,
+    isSmallLoading,
+    loggedInUser,
     match,
-    property,
+    notification,
+    activeSingleProperty,
+    reset,
   } = props;
-
-  // STATE
-  const [widthWindow, setWindowWidth] = useState(get(window, 'innerWidth', 0));
-
-  //const [showButton, setShowButton] = useState(true);
+  const [isDiscardChanges, setIsDiscardChanges] = useState(false);
+  const [userType, setUserType] = useState(null);
   //const [showMessage, setShowMessage] = useState(false);
 
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
-  const checkActiveTab = () => last(history.location.pathname.split('/'));
+  // const checkActiveTab = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    if (propID && !property.id) {
-      handleGetProperty({fullVersion: false, id: propID});
+    if (propID && !get(activeSingleProperty, 'id', null)) {
+      handleGetActiveSingleProperty({fullVersion: false, id: propID});
     } else if (!propID) {
       const data = {
         limit: 1,
-        offset: `0/?owner=${loggedUser.user.id}`,
+        offset: `0/?owner=${loggedInUser.user.id}`,
         setAsSingle: true,
       };
-      handleGetProperties(data);
-    }
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', () => setWindowWidth(window.innerWidth));
+      handleGetPropertyListings(data);
     }
   }, []);
 
   useEffect(() => {
-    if (!propID && property.id) {
-      history.push(`/${property.id}/home`);
+    if (typeof activeSingleProperty !== 'undefined') {
+      if (!propID && get(activeSingleProperty, 'id', null)) {
+        history.push(`/${activeSingleProperty.id}/rewards`);
+      }
+      if (activeSingleProperty.owner === loggedInUser.user.id) {
+        handleGetActiveSingleProperty({ fullVersion: true, id: propID });
+        handleGetActiveSinglePropertyBookings({ id: propID });
+      }
+      handleGetImageType();
+    } else {
+      setUserType('emptyState');
     }
-    if (property.owner === loggedUser.user.id) {
-      handleGetProperty({fullVersion: true, id: propID});
-    }
-    const getPercComplete = get(property, 'inputSheet.totalComplete', null);
-    if (property.id && !getPercComplete && property.owner.id) {
-      const getPerc = getCalcSectionInputSheets(InputSheets('en'), property, {});
-      const data = {
-        skipSection: getPerc.section.section,
-        totalComplete: getPerc.section.percComplete,
-      };
-      handleSaveProperty({id: property.id, inputSheet: data});
-    }
-  }, [property]);
+  }, [activeSingleProperty]);
 
-  if (!activeUserType) return (<div />);
+  const saveData = () => {
+    const changeObj = diff(initialValues, formValue);
+    if (Object.keys(changeObj).length > 0) {
+      if (changeObj.schedule) {
+        // Update schedule
+        if (has(formValue, 'schedule.id')) {
+          const data = {
+            scheduleId: formValue.schedule.id,
+            data: {
+              page: formValue.id,
+              slots: formValue.schedule.slots,
+            },
+          };
+          handleSavePropertyVisitSchedule(data);
+        } else {
+          // Create schedule
+          const data = {
+            page: formValue.id,
+            slots: formValue.schedule.slots,
+          };
+          handleCreatePropertyVisitSchedule(data);
+        }
+      } else {
+        const objToSave = {};
+        Object.keys(changeObj).map((key) => {
+          objToSave[key] = get(formValue, key, {});
+          return null;
+        });
+        if (changeObj.photos) {
+          objToSave.coverPhoto = changeObj.photos[0];
+        }
+        const data = {
+          id: propID,
+          smallLoader: true,
+          setSuccessNotification: true,
+          ...objToSave,
+        };
+        handleSaveActiveSingleProperty(data);
+      }
+    }
+  };
+
+  const validForm = () => {
+    const changeObj = diff(initialValues, formValue);
+    const allVal = [];
+    let isValid = true;
+    const extrackKey = (obj, parent) => {
+      Object.keys(obj).map((key) => {
+        if (isObject(obj[key])) {
+          let newKey = parent ? `${parent}.${key}` : key;
+          extrackKey(obj[key], newKey);
+        }
+        else {
+          allVal.push(`${parent}.${key}`);
+        }
+        return null;
+      });
+    };
+    extrackKey(changeObj);
+    allVal.map((name) => {
+      const getError = get(errorValue, name, true);
+      if (getError !== 'Mark Required' && getError !== true && isValid) isValid = false;
+      return null;
+    });
+    return isValid;
+  };
+
+  useEffect(() =>{
+    if (isDiscardChanges) {
+      const newNotification = cloneDeep(notification);
+      reset('Property');
+      newNotification.state = false;
+      handleSetScreenNotification({
+        ...newNotification,
+      });
+      setIsDiscardChanges(false);
+    }
+  }, [isDiscardChanges]);
+
+  const discardChanges = (not) => {
+    setIsDiscardChanges(true)
+  };
+
+  useEffect(() => {
+    if (notification && notification.actions && notification.type === 'infoHub' && isSmallLoading) {
+      const getID = notification.actions.findIndex(item => item.label === 'Save');
+      if (getID > -1) {
+        const newNotification = cloneDeep(notification);
+        newNotification.actions[getID].isLoading = isSmallLoading;
+        handleSetScreenNotification({
+          ...newNotification,
+        })
+      }
+    }
+  }, [isSmallLoading]);
+
+  useEffect(() => {
+    if (formValue.id && initialValues.id) {
+      const changeObj = diff(initialValues, formValue);
+      if (
+        Object.keys(changeObj).length > 0 &&
+        (Object.keys(changeObj).length > 1 || !changeObj.inputSheet ) &&
+        !isSmallLoading &&
+        !isLoading &&
+        validForm()
+      ) {
+        handleSetScreenNotification({
+          state: true,
+          type: 'infoHub',
+          label: 'Unsaved changes',
+          actions:
+            [
+              { type: 'secondary', label: 'Discard', func: () => discardChanges(notification) },
+              { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
+            ],
+        });
+      } else if (!isSmallLoading && !isLoading && notification && notification.type !== 'saved' ) {
+        handleSetScreenNotification({
+          ...notification,
+          state: false,
+        });
+      }
+    }
+  }, [formValue, errorValue]);
+
+  if (!userTypes && !userType) return (<div />);
 
   return (
-    <div className="container" id="dashboard">
-
+    <div className="container ov-x-h" id="dashboard">
       { /* SECTION: APP HEADER */ }
-      {
-        !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding') && loggedUser && (
-          <div className="sidebar zIndex2 hide dis-md" id="menu-sidebar">
-            <MenuSidebar />
-          </div>
-        )
-      }
-
-      <BrixelTabs
-        classNameLi="dis-fl-col"
-        classNameUl="nav-tabs zIndex4"
-        labels={['Home', 'Property', 'Support']}
-        clicksList={['home', 'property', 'support']}
-        labelsIcons={['star', 'property-house', 'question']}
-        classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
-        activeTab={checkActiveTab()}
-        fullWidth
-        onClick={(val) => history.push(val)}
-        showFull={widthWindow > 768}
-        arrayComponents={[
-          <HomeDashboard />,
-          <PropertyDashboard />,
-          <SupportDashboard />,
-        ]}
-      />
+      <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
+      <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
+      <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
+      <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
+      <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
+      <ProtectedRoute path="/" exact component={EmptyProperty} />
     </div>
   )
 };
 
 Dashboard.propTypes = {
-  activeUserType: PropTypes.string,
-  handleGetProperties: PropTypes.func.isRequired,
-  handleGetProperty: PropTypes.func.isRequired,
-  handleSaveProperty: PropTypes.func.isRequired,
-  loggedUser: PropTypes.object.isRequired,
+  errorValue: PropTypes.object,
+  formValue: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool,
+  isSmallLoading: PropTypes.bool,
+  userTypes: PropTypes.string,
+  handleGetPropertyListings: PropTypes.func.isRequired,
+  handleGetActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
+  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetImageType: PropTypes.func.isRequired,
+  handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
+  handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
+  handleSavePropertyVisitBooking: PropTypes.func.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  notification: PropTypes.object,
+  regFields: PropTypes.object,
+  handleSetScreenNotification: PropTypes.func.isRequired,
 };
 
 Dashboard.defaultProps = {
-  activeUserType: null,
+  errorValue: null,
+  regFields: null,
+  userTypes: null,
+  notification: null,
 };
 
+const DashboardForm = reduxForm({
+  // a unique name for the form
+  form: 'Property',
+  enableReinitialize: true,
+  destroyOnUnmount: false,
+})(Dashboard);
+
 const mapStateToProps = (state) => ({
-  activeUserType: get(state, 'user.activeUserType', null),
-  loggedUser: get(state, 'user.loggedUser', {}),
-  property: get(state, 'property.property', {}),
+  userTypes: get(state, 'user.userTypes', null),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', undefined),
+  formValue: get(state, 'form.Property.values', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  isLoading: get(state, 'common.isLoading', 0) > 0,
+  errorValue: get(state, 'form.Property.syncErrors', null),
+  regFields: get(state, 'form.Property.registeredFields', null),
+  notification: get(state, 'common.notification', {}),
+  initialValues: {
+    assessor: get(state, 'property.activeSingleProperty.assessor', {}),
+    booking: get(state, 'property.activeSinglePropertyBooking', []),
+    documents: get(state, 'property.activeSingleProperty.documents', []),
+    coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
+    description: get(state, 'property.activeSingleProperty.description', {}),
+    id: get(state, 'property.activeSingleProperty.id', null),
+    floorPlans: get(state, 'property.activeSingleProperty.floorPlans', []),
+    inputSheet: get(state, 'property.activeSingleProperty.inputSheet', {}),
+    price: get(state, 'property.activeSingleProperty.price', {}),
+    status: get(state, 'property.activeSingleProperty.status', null),
+    // language: get(state, 'property.activeSingleProperty.language', null),
+    // listed: get(state, 'property.activeSingleProperty.listed', null),
+    location: get(state, 'property.activeSingleProperty.location', {}),
+    photos: get(state, 'property.activeSingleProperty.photos', []),
+    portals: get(state, 'property.activeSingleProperty.portals', {}),
+    portalsReview: get(state, 'property.activeSingleProperty.portalsReview', null),
+    properties: get(state, 'property.activeSingleProperty.properties', {}),
+    schedule: get(state, 'property.activeSingleProperty.schedule', {}),
+    published: get(state, 'property.activeSingleProperty.published', null),
+    publishReview: get(state, 'property.activeSingleProperty.publishReview', null),
+    stub: get(state, 'property.activeSingleProperty.stub', null),
+    title: get(state, 'property.activeSingleProperty.title', null),
+    packageUpgrade: {
+      contactEmail: get(state, 'user.loggedInUser.user.email', ''),
+      contactPhone: get(state, 'user.loggedInUser.user.phone', ''),
+    },
+    virtual: get(state, 'property.activeSingleProperty.virtual', null),
+  },
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetProperties: bindActionCreators(getProperties, dispatch),
-  handleGetProperty: bindActionCreators(getProperty, dispatch),
-  handleSaveProperty: bindActionCreators(updateProperty, dispatch),
+  reset(form) {
+    (dispatch(reset(form)))
+  },
+  handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
+  handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
+  handleSetScreenNotification: bindActionCreators(setScreenNotification, dispatch),
+  handleGetImageType: bindActionCreators(getImageType, dispatch),
+  handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),
+  handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
+  handleSavePropertyVisitBooking: bindActionCreators(savePropertyVisitBooking, dispatch),
 });
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(Dashboard);
+)(DashboardForm);

@@ -13,15 +13,23 @@ import {
   SPINNER_SMALL_ON,
   SET_LANGUAGES,
   SET_LANGUAGE,
-  SET_NOTIFICATION,
+  SET_SCREEN_NOTIFICATION,
   SET_PAGE_DATA, SET_MODAL,
+  PREVENT_EXIT_FROM_SCREEN,
+  SET_UNSAVED_CHANGES_MODAL,
+  SET_WINDOW_DIMENSIONS,
+  SET_UPLOADING_PERCENTAGE,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies();
 
 export const defaultState = {
+  windowDimensions: {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  },
   isLoading: 0,
-  isIntLoading: 0,
+  isSmallLoading: 0,
   requestDone: false,
   redirectTo: null,
   configUrl: getConfigEnv,
@@ -48,7 +56,7 @@ export const defaultState = {
       value: 'ch',
     },
     {
-      label: '🇩🇪 DEU',
+      label: '🇩🇪 Germany',
       full: 'Germany',
       short: 'DEU',
       value: 'de',
@@ -84,10 +92,19 @@ export const defaultState = {
   modal: {
     state: false, title: '', body: '', action: {}, multiActions: [],
   },
+  preventExitFromScreen: false,
+  unsavedChangesModal: {
+    state: false, link: '',
+  },
+  percentage: 0,
 };
 
 export default handleActions(
   {
+    [SET_WINDOW_DIMENSIONS]: (state, action) => ({
+      ...state,
+      windowDimensions: action.payload,
+    }),
     [SPINNER_ON]: (state) => ({
       ...state,
       isLoading: state.isLoading + 1,
@@ -98,11 +115,11 @@ export default handleActions(
     }),
     [SPINNER_SMALL_ON]: (state) => ({
       ...state,
-      isIntLoading: state.isLoading + 1,
+      isSmallLoading: state.isSmallLoading + 1,
     }),
     [SPINNER_SMALL_OFF]: (state) => ({
       ...state,
-      isIntLoading: state.isLoading - 1,
+      isSmallLoading: state.isSmallLoading - 1,
     }),
     [REQUEST_DONE]: (state) => ({
       ...state,
@@ -128,7 +145,7 @@ export default handleActions(
       ...state,
       language: action.payload,
     }),
-    [SET_NOTIFICATION]: (state, action) => ({
+    [SET_SCREEN_NOTIFICATION]: (state, action) => ({
       ...state,
       notification: action.payload,
     }),
@@ -139,6 +156,18 @@ export default handleActions(
     [SET_PAGE_DATA]: (state, action) => ({
       ...state,
       setPageData: action.payload,
+    }),
+    [PREVENT_EXIT_FROM_SCREEN]: (state, action) => ({
+      ...state,
+      preventExitFromScreen: action.payload,
+    }),
+    [SET_UNSAVED_CHANGES_MODAL]: (state, action) => ({
+      ...state,
+      unsavedChangesModal: action.payload,
+    }),
+    [SET_UPLOADING_PERCENTAGE]: (state, action) => ({
+      ...state,
+      percentage: action.payload,
     }),
   },
   defaultState,

@@ -1,0 +1,52 @@
+#upgrade {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  animation: fadeInSec $default-time-long $default-easing forwards;
+
+  .bodyModalFlow.vCentered {
+    > div {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+  }
+
+  .subcontainer {
+    &:not([class*="max-w-fix"]) {
+      max-width: 548px;
+    }
+    &.finalScreen {
+      animation: fadeInSec $default-time-long $default-easing;
+    }
+  }
+  .singleStepUpgrade {
+    flex: 0 0 calc(100vw - #{$step * 2});
+    padding: 16px 16px 40px;
+    align-items: center;
+    &[class*="bg"],
+    &.vertCentered {
+      align-items: center;
+      justify-content: center;
+      display: flex;
+    }
+  }
+}
+
+.enter {
+  transform: translate(100vw, 0);
+}
+
+@media (min-width: $responsive-medium) {
+  #upgrade {
+
+    .footerActionUpgrade {
+      .backBtn {
+        position: absolute;
+        left: $step * 2;
+      }
+    }
+  }
+}

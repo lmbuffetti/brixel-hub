@@ -1,114 +1,66 @@
-.factSection {
-  .container {
-    @media (max-width: $responsive-medium) {
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }
-}
-
-.property-info-container {
-  .title {
-    line-height: 0;
-  }
-}
-
 .accordWrap {
-  .accordTitle {
-    width: 100%;
-    > h4 {
-      transition: color $default-time-long $default-easing;
-    }
-  }
-  &.openedAccord  {
-    .accordGroup + {
-      .accordControl {
-        border-top: 1px solid map_get($lightColor, 100);
-      }
-    }
-  }
-  .accordGroup + {
+  &:first-child {
     .accordControl {
-      border-top: 1px solid transparent;
+      border-top: 1px solid map_get($lightColor, 200);
     }
   }
-
   .accordControl {
-    background: map-get($lightColor, 100 );
-    border-bottom: 2px solid #fff;
-   // border-bottom: 1px solid map_get($lightColor, 400);
-
-    i.border-green {
-      border-color: map_get($greenColor, 400);
-    }
-    i.border-primary {
-      border-color: map_get($primaryColor, 300) ;
+    border-bottom: 1px solid map_get($lightColor, 200);
+    transition: $default-time ease-in-out;
+  }
+  &:last-child {
+    .accordControl {
+      margin-bottom: 0;
     }
   }
-  .accordContent {
-    overflow: hidden;
-    max-height: 0;
+  &.active {
+    .accordControl {
+      position: relative;
+      z-index: 1;
+      background: map_get($blueColor, 100);
+      border-color: map_get($blueColor, 100);
+    }
+  }
+  &:hover {
+    .accordControl {
+      background: map_get($blueColor, 100);
+      i {
+        color: map_get($lightColor, 300);;
+      }
+    }
+  }
+}
 
-    // overwritten styleguide css
-    .singleInput {
-      .brixel-label {
-        display: block;
-      }
-      .brixel-text-input[type=number] {
-        max-width: 164px;
-      }
-      .message:empty {
-        display: none;
-      }
-      .helpLink .message.cur-poi {
-        color: map-get($primaryColor, 400);
-        &:before {
-          @include icomoon();
-          content: $icon-info;
-          font-size: 14px;
-          top: 3px;
-          position: relative;
-          padding-right: 4px;
+.levelsWrapper {
+  &.opened {
+    > div {
+      @media (min-width: $responsive-medium) {
+        .secondLevel {
+          margin-right: $step * 1.5;
+          margin-left: $step * 3;
+        }
+        .thirdLevel {
+          margin-left: $step * 1.5;
         }
       }
-      .wrap-brixel-input-step {
-        padding: 0;
-        background: white;
-      }
     }
   }
+}
 
-  &:not(.openedAccord) {
-    .accordContent {
-      //animation: expandDown 2s $default-easing forwards;
 
-      @keyframes expandDown {
-        0% {max-height: 3000px; opacity: 1;}
-        100% {max-height: 0; opacity: 0;}
-      }
+// FActs Question
+.questContent {
+  .singleInput {
+    label.brixel-label {
+      display: inline-block;
+      margin-bottom: $step * 2;
+      color: map-get($darkColor, 200);
+      @include fontStyle(400);
     }
-  }
-
-  &.openedAccord {
-
-    .accordControl {
-      border-bottom: 0;
-      background: white;
-      //border-top: 1px solid map_get($lightColor, 200);
-    }
-    .accordContent {
-      border-bottom: 1px solid map_get($lightColor, 200);
-     // animation: expandDown 2s $default-easing forwards;
-     max-height: 3000px;
-      @keyframes expandDown {
-        0% {max-height: 0; opacity: 0.6;}
-        100% {max-height: 3000px; opacity: 1;}
+    .brixel-radio-button {
+      &[class*="mb-1"]{
+        margin-bottom: $step * 2;
       }
-
-      > div > div {
-        padding: $step $step $step * 2;
-      }
-
     }
   }
 }

@@ -1,0 +1,144 @@
+.hubDasContent {
+  // tab sections
+  .listings-container,
+  .rewards-container .firstLevel,
+  .property-container {
+    animation: slideInSec $default-time-long ease-in-out;
+  }
+  // rewards splash
+  .rewards-container .secondLevel,
+  .rewards-container  #rewards,
+  .property-container .factsWrapper,
+  .property-container .secondLevel,
+  .listings-container .secondLevel {
+    opacity: 0;
+    animation: fadeInSec $default-time-long 100ms ease-in-out forwards;
+    @media (max-width: $responsive-medium) {
+      animation: fadeInSec $default-time ease-in-out forwards;
+    }
+  }
+
+  .property-container .levelsWrapper.closed .secondLevel {
+    @media (max-width: $responsive-medium) {
+      animation: none;
+      opacity: 1;
+    }
+  }
+
+
+  // proparty thirdlevel expand
+  .listings-container .expandableColumn,
+  .property-container .expandableColumn {
+    transition: all 0.2s ease-in-out;
+    &.collapsed {
+      transform: translateX(-100%);
+      margin-right: -480px;
+      opacity: 0;
+    }
+  }
+
+  .property-container .levelsWrapper {
+    &.opened {
+      .secondLevel {
+        animation: slideInLong 0s ease-in-out forwards;
+      }
+      .thirdLevel {
+        opacity: 0;
+        transform: translateX(100%);
+        animation: slideInLong $default-time-long ease-in-out forwards;
+        @media (max-width: $responsive-medium) {
+          animation: slideInLong $default-time ease-in-out forwards;
+        }
+      }
+    }
+  }
+}
+
+
+// sidebar menu drawer
+.slideIn-enter {
+    .sidebarSubmenuContent {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+  }
+.slideIn-enter-active {
+  .sidebarSubmenuContent {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity $default-time-long, transform $default-time-long;
+  }
+}
+.slideIn-exit {
+  .sidebarSubmenuContent {
+    opacity: 1;
+  }
+}
+.slideIn-exit-active {
+  .sidebarSubmenuContent {
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: opacity $default-time-long, transform $default-time-long;
+  }
+}
+
+/* react transition group fade effect */
+.fade-appear,
+.fade-enter {
+    opacity: 0;
+    z-index: 1;
+}
+.fade-appear-active,
+.fade-enter-active {
+    opacity: 1;
+    transition: opacity $default-time $default-easing 150ms;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+    opacity: 0;
+    transition: opacity 150ms linear;
+}
+
+
+@keyframes slideInSec {
+  0% {
+    opacity: 0;
+    transform: translateX(5%);
+  } 100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLong {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  } 100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+@keyframes slideOutSec {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  } 100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes fadeInSec {
+  0% {
+    opacity: 0;
+  } 100% {
+    opacity: 1;
+  }
+}

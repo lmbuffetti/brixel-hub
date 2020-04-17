@@ -1,233 +1,226 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState }  from 'react';
 import PropTypes from 'prop-types';
 import {
+  Route,
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
-  BrixelButtonIcon, BrixelIcon, BrixelProgressBar,
+  BrixelButtonBox,
+  BrixelButtonIcon,
 } from '@brixel/brixel-components';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import noCover from '../../images/no_cover.jpg';
-import { roundFifty } from '../../utils/helpers';
+import Loadable from 'react-loadable';
+import LoadingSimple from '../../components/LoadingSimple';
+import Loading from '../../components/Loading';
+import last from 'lodash/last';
+
+const Facts = Loadable({
+  loader: () => import('../EditProperty/Facts' /* webpackChunkName: "Facts" */),
+  loading: LoadingSimple,
+});
+
+const Photos = Loadable({
+  loader: () => import('../EditProperty/Media/Photos' /* webpackChunkName: "Photos" */),
+  loading: LoadingSimple,
+});
+
+const Plans = Loadable({
+  loader: () => import('../EditProperty/Media/Plans' /* webpackChunkName: "Plans" */),
+  loading: LoadingSimple,
+});
+
+const Tour = Loadable({
+  loader: () => import('../EditProperty/Media/Tour' /* webpackChunkName: "Tour" */),
+  loading: LoadingSimple,
+});
+
+const Documents = Loadable({
+  loader: () => import('../EditProperty/Documents' /* webpackChunkName: "Documents" */),
+  loading: Loading,
+});
 
 const HomeDashboard = (props) => {
   // PROPS
   const {
-    property,
-    match,
+    formValue,
     history,
-    langConfig,
-    loggedUser,
+    loggedInUser,
+    match,
+    property,
+    windowDimensions,
   } = props;
   // STATE
   const [userType, setUserType] = useState();
+  // URL PARAMS
+  const propID = get(match, 'params.propId', null);
+  const getFact = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    if (property.id && loggedUser.user) {
+    if (windowDimensions && windowDimensions.width > 768 && getFact() === 'property') {
+      history.push({pathname: `/${propID}/property/facts` });
+    }
+  }, [windowDimensions, getFact()]);
+
+  useEffect(() => {
+    if (property.id && loggedInUser.user) {
       let userType = 'buyer';
-      if (property.id && (property.owner.id === loggedUser.user.id)) {
+      if (property.id && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
         userType = 'seller';
       }
       setUserType(userType);
     }
-  }, [property, loggedUser]);
+  }, [property, loggedInUser]);
 
-  const goToPreview = (e) => {
-    e.preventDefault();
-    if (userType === 'seller') window.open(`${getConfigEnv.pageUrl}preview/${property.stub}`, '_blank');
-    else window.open(`${getConfigEnv.pageUrl}${property.stub}`, '_blank');
+  const openCloseColumn = () => {
+    if (
+      (history.location.pathname.includes('facts') && getFact() !== 'facts') ||
+      (history.location.pathname.includes('edit'))
+    ) {
+      return 'closed';
+    }
+    return 'opened';
   };
 
-  const goToInputSheet = (e) => {
-    e.preventDefault();
-    history.push(`/${match.params.propId}/property/edit/facts`);
-  };
-
-  const openDocuments = (e) => {
-    e.preventDefault();
-    history.push(`/${match.params.propId}/property/documents`);
+  const calcLenght = (val) => {
+    if (val) return val.length;
+    return 0
   };
 
   return (
     <>
-      <div className="property-info-container brdRadius p-md-2">
-        <div className="header-section dis-fl-row a-c jc-b mb-2">
-          <div className="dis-fl-row">
-            <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
-              {
-                property.coverPhoto && property.coverPhoto.path ? (
-                  <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${getConfigEnv.shortPath}${property.coverPhoto.thumbnailPath}`} alt="Brixel Logo" id="avatar" />
-                ) :
-                  (
-                    <i
-                      className="avatar w-fix-48 h-fix-48 brdRadius pos-r"
-                      style={{
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        display: 'block',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundImage: `url(${noCover})`,
-                      }}
-                    />
-                  )
-              }
-            </div>
-            <div className="title ml-1">
-              <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                {(has(property.properties, 'typology') && has(property.properties.typology, 'bedrooms')) ? property.properties.typology.bedrooms : ''} {has(property.properties, 'propertyType') ? property.properties.propertyType : 'Property'}
-              </span>
-              <span className="address caption txtLight400">{has(property.location, 'zip') ? property.location.zip : ''} {has(property.location, 'state') ? property.location.state : ''}</span>
-            </div>
-          </div>
-          <div className="actions dis-fl-row">
-            <BrixelButtonIcon
-              bgTransparent
-              color="primary"
-              saturationTxt={400}
-              className="mr-2"
-              icon="eye"
-              onClick={(e) => goToPreview(e)}
-            />
-            {
-              userType === 'seller' && (
-                <BrixelButtonIcon
-                  icon="edit"
-                  onClick={(e) => goToInputSheet(e)}
-                />
-              )
-            }
-          </div>
-        </div>
+      <div className="property-container dis-f h-perc-md-100" id="propertyDashboard">
+        <div className={`firstLevel bgLight100 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
 
-        <div className="transparency-container mb-2">
-          <div className="dis-fl-col ta-l">
-            {
-              get(property, 'inputSheet') && userType === 'seller' && (
-                <>
-                  <span className="subtitle fsize-300 txtDark200">Transparency</span>
-                  <div className="dis-f txtPrimary700">
-                    <span className="ff-mono pr-1">{property.inputSheet.totalComplete}%</span>
-                  </div>
-                  <BrixelProgressBar
-                    rounded
-                    saturation={700}
-                    small
-                    barBackground="Red"
-                    backgroundSaturation={100}
-                    progressValue={property.inputSheet.totalComplete}
-                  />
-                </>
-              )
-            }
-          </div>
-        </div>
-
-
-        <div className="details dis-fl-col mb-4">
-          <div className="dis-fl-row jc-b">
-            <div className="first mb-2 dis-fl-col jc-b w-perc-100">
-              {
-                property.status === 'on-sale' && (
-                  <div className="dis-fl-col">
-                    <span className="subtitle fsize-300 txtDark200">Price</span>
-                    <div className="dis-fl-row jc-b">
-                      <span className="value txtDark500">{property.price.currency} {property.price.total.toLocaleString(langConfig.localString)}</span>
-                      {
-                        has(property, 'price.pricePerM2') && (
-                          <div className="dis-f a-c">
-                            <span className="value txtDark500">{roundFifty(property.price.pricePerM2).toLocaleString(langConfig.localString)}</span>
-                            <span className="fsize-300 txtDark500"> / m2</span>
-                          </div>
-                        )
-                      }
-                    </div>
-                  </div>
-                )
-              }
-            </div>
-          </div>
-          <div className="dis-fl-row jc-b a-c">
-            <div className="fourth dis-fl-col ta-l">
-              <span className="subtitle fsize-300 txtDark200">Rooms</span>
-              <span className="value txtDark500">{get(property, 'properties.typology.bedrooms') ? property.properties.typology.bedrooms : 'N/A'}</span>
-            </div>
-            <div className="dis-fl-col ta-l">
-              <span className="subtitle fsize-300 txtDark200">Living space</span>
-              <span className="value txtDark500">{(has(property.properties, 'typology') && property.properties.typology.livingArea) ? property.properties.typology.livingArea.value : 'N/A'} m2</span>
-            </div>
-            <div className="dis-fl-col ta-l">
-              <span className="subtitle fsize-300 txtDark200">Year built</span>
-              <span className="value txtDark500">{(has(property.properties, 'building') && property.properties.building.built) ? property.properties.building.built : 'N/A'}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="boxPanel dis-fl-row jc-b mb-4">
-          {
-            userType === 'seller' && (
-              <div
-                className="dis-fl-row a-c p-1 brdRadius"
-                onClick={(e) => openDocuments(e)}
-              >
-                <BrixelIcon
-                  className="mr-1"
-                  icon="folder"
-                  color="light"
-                  padding="p-small-9"
-                  saturationTxt={100}
-                  background="primary"
-                  saturation={300}
-                />
-                <div className="dis-fl-col a-l">
-                  <span className="tabTitle fsize-400 txtDark700">Docubox</span>
-                  <div className="length dis-fl-row txtDark200 fsize-300">
-                    <span>{property.documents && property.documents.length > 0 ? property.documents.length : 0}&nbsp;</span>
-                    <span> files</span></div>
-                </div>
-              </div>
-            )
-          }
           <div
-            className="dis-fl-row a-c p-1 brdRadius"
+            className={`cur-poi showHover brdRadius shadow-1dp brdMedium ${getFact() === 'facts' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+            onClick={() => history.push(`/${propID}/property/facts`)}
           >
-            <BrixelIcon
-              className="mr-1"
-              icon="calendar"
-              color="light"
-              padding="p-small-9"
-              saturationTxt={100}
-              background="primary"
-              saturation={300}
-            />
-            <div className="dis-fl-col">
-              <span className="tabTitle fsize-400 txtDark700">Showings</span>
-              <div className="length dis-fl-row txtDark200 fsize-300"><span>No upcoming</span></div>
+            <div className="transparency-container">
+              <div className="dis-fl-col ta-l cur-poi">
+                {
+                  userType === 'seller' && (
+                    <>
+                      <BrixelButtonBox
+                        bgTransparent
+                        icon="document"
+                        label="Facts"
+                        labelClass="fweight-400"
+                        subtitle={`<span>${get(formValue, 'inputSheet.totalComplete', 0)}%</span>&nbsp;<span>complete</span>`}
+                        subtitleClass={'ff-mono fsize-200 txtPrimary700 mt-small-4'}
+                        className="w-perc-100 cur-poi p-2 labelAend"
+                        colorIcon={'primary700'}
+                        backIcon="primary100"
+                        hoverEffect={false}
+                      />
+                    </>
+                  )
+                }
+              </div>
             </div>
-          </div>
-        </div>
 
-        {
-          userType === 'seller' && (
-            <div className="buyer">
-              <h5 className="mb-1 txtDark700">Buyer</h5>
-              <div className="buyer-container dis-fl-row row-cols-3 jc-b a-c brdRadius py-2">
-                <div className="dis-fl-col">
-                  <span className="number txtDark500">0</span>
-                  <span className="text">Requests</span>
+            <div className="details dis-fl-col p-2">
+              <div className="dis-fl-row jc-b a-c">
+                <div className="fourth dis-fl-col ta-l">
+                  <span className="subtitle fsize-200 txtDark200">Rooms</span>
+                  <span className="value ff-mono txtDark400">{has(property, 'properties.typology.bedrooms') ? property.properties.typology.bedrooms : 'N/A'}</span>
                 </div>
-                <div className="dis-fl-col">
-                  <span className="number txtDark500">0</span>
-                  <span className="text">Visits</span>
+                <div className="dis-fl-col ta-l">
+                  <span className="subtitle fsize-200 txtDark200">Living space</span>
+                  <span className="value ff-mono txtDark400">{(has(property.properties, 'typology') && property.properties.typology.livingArea) ? property.properties.typology.livingArea.value : 'N/A'} m2</span>
                 </div>
-                <div className="dis-fl-col">
-                  <span className="number txtDark500">0</span>
-                  <span className="text">Offers</span>
+                <div className="dis-fl-col ta-l">
+                  <span className="subtitle fsize-200 txtDark200">Year built</span>
+                  <span className="value ff-mono txtDark400">{(has(property.properties, 'building') && property.properties.building.built) ? property.properties.building.built : 'N/A'}</span>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div className="dis-f mt-2">
+            <BrixelButtonBox
+              verticalView
+              bgTransparent
+              icon="gallery"
+              label="Photos"
+              labelClass="fweight-400"
+              subtitle={`<span>${calcLenght(get(formValue, 'photos', []))}</span>&nbsp;<span>${calcLenght(get(formValue, 'photos', [])) > 1 ? 'Files' : 'File'}</span>`}
+              subtitleClass={'fsize-200 txtDark200 pt-small-6'}
+              className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'photos' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+              colorIcon={'primary700'}
+              backIcon="primary100"
+              onClick={() => history.push(`/${propID}/property/photos`)}
+              selected
+            />
+            <BrixelButtonBox
+              verticalView
+              bgTransparent
+              icon="plans"
+              label="Plans"
+              labelClass="fweight-400"
+              subtitle={`<span>${calcLenght(get(formValue, 'floorPlans', []))}</span>&nbsp;<span>${calcLenght(get(formValue, 'floorPlans', [])) > 1 ? 'Files' : 'File'}</span>`}
+              subtitleClass={'fsize-200 txtDark200 pt-small-6'}
+              className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'floorPlans' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+              colorIcon={'primary700'}
+              backIcon="primary100 "
+              onClick={() => history.push(`/${propID}/property/floorPlans`)}
+            />
+          </div>
+          <div className="dis-f mt-2">
+            <BrixelButtonBox
+              verticalView
+              bgTransparent
+              icon="tour"
+              label="3D Tour"
+              labelClass="fweight-400 pb-small-6"
+              subtitle={get(formValue, 'virtual.matterport', null) ? 'Available' : 'Not set'}
+              subtitleClass={'fsize-200 txtDark200'}
+              className={`w-perc-100 shadow-1dp mr-1 brdMedium ${getFact() === 'tour' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+              colorIcon={'primary700'}
+              backIcon="primary100"
+              onClick={() => history.push(`/${propID}/property/tour`)}
+              status={get(formValue, 'virtual.matterport', null) ? 'green' : 'red'}
+            />
+
+            <BrixelButtonBox
+              verticalView
+              bgTransparent
+              icon="folder"
+              label="Docubox"
+              labelClass="fweight-400"
+              subtitle={`<span>${calcLenght(get(formValue, 'documents', []))}</span>&nbsp;<span>${calcLenght(get(formValue, 'documents', [])) > 1 ? 'Files' : 'File'}</span>`}
+              subtitleClass={'fsize-200 txtDark200 pt-small-6'}
+              className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+              colorIcon={'primary400'}
+              backIcon="primary100"
+              onClick={() => history.push(`/${propID}/property/documents`)}
+            />
+          </div>
+
+        </div>
+        <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
+          <BrixelButtonIcon
+            background="white"
+            saturation={0}
+            color="primary"
+            saturationTxt={400}
+            icon="arrow-simple-right"
+            noBorder
+            className="shadow-2dp"
+            onClick={() => history.push('../facts')}
+          />
+        </div>
+        {
+          getFact() !== 'property' && (
+            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed': 'opened'}`}>
+              <Route path="/:propId?/property/facts" component={Facts} />
+              <Route path="/:propId?/property/photos" component={Photos} />
+              <Route path="/:propId?/property/floorPlans" component={Plans} />
+              <Route path="/:propId?/property/tour" exact component={Tour} />
+              <Route path="/:propId?/property/documents" exact component={Documents} />
             </div>
           )
         }
@@ -237,21 +230,25 @@ const HomeDashboard = (props) => {
 };
 
 HomeDashboard.propTypes = {
-  property: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   langConfig: PropTypes.string.isRequired,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  property: PropTypes.object.isRequired,
   userAwards: PropTypes.arrayOf(PropTypes.object.isRequired),
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 HomeDashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  windowDimensions: get(state, 'common.windowDimensions', {}),
+  formValue: get(state, 'form.Property.values', {}),
   langConfig: get(state, 'common.language', ''),
-  loggedUser: get(state, 'user.loggedUser', {}),
-  property: get(state, 'property.property', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
+  property: get(state, 'property.activeSingleProperty', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

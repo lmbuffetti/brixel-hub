@@ -6,23 +6,12 @@ import {
   FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
-import ResumeAssessor from '../Pages/Assessor/ResumeAssessor';
-import SuccessAssessor from '../Pages/Assessor/SuccessAssessor';
-import becomeAssessor from '../images/Assessor/becomeAssessor.svg';
+import ResumeAssessor from '../Pages/GameHistory/Assessor/ResumeAssessor';
 import { translateTo } from '../utils/translation';
 
 const { factsOptions } = FactsOptions;
 
-export const AssessorQuestions = (lang) => [
-  // SECTION: PROPERTY TYPE
-  {
-    background: 'bgGreen100',
-    img: becomeAssessor,
-    title: "Assess your property with a condition check",
-    description: "As an assessor, you know about the condition of the most important parts of your property.",
-    history: "introFlow",
-    cardType: "text",
-  },
+export const AssessorQuestions = (lang = 'en') => [
   {
     title: "What's the basic construction material?",
     vCentered: true,
@@ -41,7 +30,7 @@ export const AssessorQuestions = (lang) => [
     ]
   },
   {
-    title: "What type of roof",
+    title: "What type of roof?",
     history: "roofType",
     vCentered: true,
     cardType: "roofType",
@@ -93,7 +82,7 @@ export const AssessorQuestions = (lang) => [
     ]
   },
   {
-    title: "What was your last renovation?",
+    title: "When was your last renovation?",
     history: "yearRenovation",
     cardType: "yearRenovation",
     toSave: true,
@@ -119,15 +108,8 @@ export const AssessorQuestions = (lang) => [
     history: "resumeFlow",
     cardType: "loadComponent",
     component: ResumeAssessor,
+    resumeFlow: true,
   },
-  {
-    title: "Thank you Market Check",
-    subtitle: "Sales strategy & price",
-    vCentered: true,
-    history: "successAchievement",
-    cardType: "loadComponent",
-    component: SuccessAssessor,
-  }
 ];
 
 export const AssessorAvgLifespan = {
@@ -160,4 +142,14 @@ export const AssessorAvgLifespan = {
   kitchen: 15,
   wetCells: 30,
   electricalSystems: 35,
+};
+
+export const AssessorLabel = {
+  construction: 'Construction',
+  roof: 'Roof',
+  facade: 'Facade',
+  heating: 'Heating',
+  kitchen: 'Kitchen',
+  wetCells: 'Wet Cells',
+  electricalSystems: 'Electrical Systems',
 };

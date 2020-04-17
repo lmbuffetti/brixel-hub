@@ -5,21 +5,11 @@ import {
   FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
-import ResumeBestimate from '../Pages/Bestimate/ResumeBestimate';
-import SuccessBestimate from '../Pages/Bestimate/SuccessBestimate';
-import startBestimate from '../images/Bestimate/startBestimate.svg';
+import ResumeBestimate from '../Pages/GameHistory/Bestimate/ResumeBestimate';
 
 const { factsOptions } = FactsOptions;
 
 export const BestimateQuestions = (lang) => [
-  {
-    title: "Get a free price indication",
-    background: 'bgGreen100',
-    img: startBestimate,
-    description: "Compare your property to real transaction data to better define the pricing.",
-    history: "introBestimate",
-    cardType: "introBestimate",
-  },
   {
     title: "How many bathrooms do you have?",
     extraInfo: "We need some extra information about your property.",
@@ -60,13 +50,5 @@ export const BestimateQuestions = (lang) => [
     history: "resumeFlow",
     cardType: "loadComponent",
     component: ResumeBestimate,
-  },
-  {
-    title: "Thank you Market Check",
-    vCentered: true,
-    subtitle: "Sales strategy & price",
-    history: "successAchievement",
-    cardType: "loadComponent",
-    component: SuccessBestimate,
   },
 ];

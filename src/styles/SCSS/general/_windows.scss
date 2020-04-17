@@ -1,0 +1,110 @@
+.hubDasContent {
+  @media (max-width: $iphone5) {
+    overflow-y: auto;
+  }
+  .container {
+    padding: $step * 2;
+    padding-bottom: $step * 8;
+
+    @media (min-width: $responsive-medium) {
+      padding: $step * 3;
+      padding-right: $step * 8;
+    }
+    @media (max-width: $iphone5) {
+      overflow-y: auto;
+    }
+  }
+
+  .firstLevel {
+    max-width: 480px;
+    min-width: 320px;
+    width: 100%;
+    @media (max-width: $responsive-medium) {
+      min-width: 100%;
+    }
+  }
+
+  .secondLevel,
+  .thirdLevel {
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: $brx-white;
+    z-index: 100;
+    > div {
+      &:not(.rewardsSplash) {
+        padding: $step * 2;
+      }
+    }
+  }
+
+  .thirdLevel {
+    z-index: 101;
+  }
+  .secondLevel {
+    .headerSection {
+      position: relative;
+      width: 100%;
+
+      .iconBtn {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      h5 {
+        text-align: center;
+        line-height: 40px;
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .thirdLevel {
+    .headerSection {
+      .iconBtn {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      h5 {
+        text-align: center;
+        line-height: 40px;
+      }
+    }
+  }
+
+  @media (min-width: $responsive-medium) {
+    .secondLevel,
+    .thirdLevel {
+      min-height: 0;
+      position: static;
+      background: transparent;
+      max-width: 768px;
+      margin-bottom: $step * 3;
+
+      &.inputSheet {
+        max-width: 448px;
+      }
+
+      > div {
+        box-shadow: $shadow-1dp;
+        background: $brx-white;
+        border-radius: $brd-radius-small;
+
+        &:not(.rewardsSplash) {
+          padding: $step * 3;
+        }
+      }
+      .headerSection {
+        .iconBtn {
+          display: none;
+        }
+        h5 {
+          text-align: left;
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
-/* global ga */
+/* global ga, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Switch, Route, withRouter, Redirect,
 } from 'react-router-dom';
@@ -10,14 +10,14 @@ import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
+import moment from 'moment';
 // COMPONENTS
 import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
 import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
-import PageHeader from './components/PageHeader';
-import { setModal } from './actions/CommonActions';
-import { setActiveUsertype } from './actions/UserActions';
+import { setModal, setWindowDimensions } from './actions/CommonActions';
+import { setUserTypes } from './actions/UserActions';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
@@ -25,10 +25,26 @@ const GetStarted = Loadable({
   loading: Loading,
 });
 
+// GENERAL COMPONENTS
+const PageHeaderDashboard = Loadable({
+  loader: () => import('./components/PageHeaderDashboard' /* webpackChunkName: "PageHeaderDashboard" */),
+  loading: Loading,
+});
+
+const PageHeader = Loadable({
+  loader: () => import('./components/PageHeader' /* webpackChunkName: "PageHeader" */),
+  loading: Loading,
+});
+
+const MenuSidebar = Loadable({
+  loader: () => import('./components/MenuSidebar' /* webpackChunkName: "MenuSidebar" */),
+  loading: Loading,
+});
+
 // ADMIN ROUTES
 const ProtectedRoute = Loadable({
   loader: () => import('./components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
-  loading: Loading,
+  loading: () => null,
 });
 
 const InsertToken = Loadable({
@@ -53,64 +69,76 @@ const Dashboard = Loadable({
   loading: Loading,
 });
 
-const Documents = Loadable({
-  loader: () => import('./components/Documents' /* webpackChunkName: "Documents" */),
-  loading: Loading,
-});
-
-const Properties = Loadable({
-  loader: () => import('./Pages/Properties' /* webpackChunkName: "Properties" */),
-  loading: Loading,
-});
-
 // FLOW SELLER
 const MarketChecker = Loadable({
-  loader: () => import('./Pages/MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
+  loader: () => import('./Pages/GameHistory/MarketChecker' /* webpackChunkName: "MarketCheckFlow" */),
   loading: Loading,
 });
 
 const Assessor = Loadable({
-  loader: () => import('./Pages/Assessor' /* webpackChunkName: "AssessorFlor" */),
+  loader: () => import('./Pages/GameHistory/Assessor' /* webpackChunkName: "AssessorFlow" */),
   loading: Loading,
 });
 
 const Bestimate = Loadable({
-  loader: () => import('./Pages/Bestimate' /* webpackChunkName: "AssessorFlor" */),
-  loading: Loading,
-});
-
-// PROPERTY EDITING
-const EditProperty = Loadable({
-  loader: () => import('./Pages/EditProperty' /* webpackChunkName: "InputSheet" */),
+  loader: () => import('./Pages/GameHistory/Bestimate' /* webpackChunkName: "BestimateFlow" */),
   loading: Loading,
 });
 
 const cookies = new Cookies();
 
 const App = (props) => {
+  // PROPS
   const {
-    activeUserType,
-    handleSetActiveUsertype,
+    userTypes,
+    handleSetUserTypes,
     history,
     handleCheckToken,
     handleSetModal,
+    handleSetWindowsDimension,
     isLoading,
-    loggedUser,
+    loggedInUser,
     modal,
     notification,
     property,
     redirectTo,
+    windowDimensions,
   } = props;
+  // STATE
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) handleCheckToken();
+    window.addEventListener('resize', () => {
+      handleSetWindowsDimension({
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
+    })
   }, []);
 
   useEffect(() => {
-    if (property && property.id && loggedUser.user && (property.owner === loggedUser.user.id || property.owner.id === loggedUser.user.id)) {
-      handleSetActiveUsertype('seller');
+    if (loggedInUser.user) {
+      const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
+      Transifex.live.translateTo(lang);
+      if (lang === 'ch' || lang === 'de') {
+        moment.locale('de-ch');
+      } else if (lang === 'en' || lang === 'en_US') {
+        moment.locale('en-gb');
+      } else {
+        moment.locale(lang);
+      }
+    }
+    Transifex.live.onReady(() => {
+      setIsLoaded(true);
+    });
+  }, [Transifex, loggedInUser]);
+
+  useEffect(() => {
+    if (property && property.id && loggedInUser.user && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
+      handleSetUserTypes('seller');
     } else if (property && property.id) {
-      handleSetActiveUsertype('buyer');
+      handleSetUserTypes('buyer');
     }
   }, [property]);
 
@@ -129,48 +157,102 @@ const App = (props) => {
     }
   }, [redirectTo]);
 
-  if (!loggedUser || (!activeUserType && property.id)) {
+  const calcHeaderHeight = () => {
+    const head = document.getElementsByClassName('hubDasHeader');
+    return head[0] ? head[0].offsetHeight : 0;
+  };
+
+  if (!loggedInUser || (!userTypes && property.id) || !isLoaded) {
     return (
       <Loading isLoading={isLoading} />
     )
   }
 
+  let classMain = 'w-perc-100 pos-r hubContainer';
+  let zIndex = 1;
+  let isFlow = false;
+  if (
+    history.location.pathname.includes('packageFlow') ||
+    history.location.pathname.includes('onBoarding') ||
+    history.location.pathname.includes('upgrade')
+  ) {
+    classMain = '';
+    isFlow = true;
+    zIndex = 6;
+  }
+
+
   return (
-    <main className={`dis-fl-row jc-b ${history.location.pathname.includes('achievement') ? 'h-perc-100 a-c' : ''}`}>
+    <main className={`${!isFlow ? 'hubDashboard' : ''} dis-fl-row jc-b`}>
+
       <Loading isLoading={isLoading} />
-      <div className={`content pos-r zIndex1 ${(history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('achievement')) ? 'no-sidebar' : ''}`}>
-        {
-          !history.location.pathname.includes('achievement') && (
-            <PageHeader />
-          )
-        }
-        <Switch>
-          { /* INFO: <Route> for free access <ProtectedRoute> for restricted access */ }
-          { /* SECTION: ONBOARDING */ }
-          <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
-          <Route path="/onBoarding/" component={OnBoarding} />
 
-          { /* SECTION: INSERT TOKEN */ }
-          <Route path="/tokeninput" component={InsertToken} />
+      <div className={classMain}>
+        <div className="dis-f">
+          {
+            !history.location.pathname.includes('packageFlow') &&
+            !history.location.pathname.includes('onBoarding') &&
+            !history.location.pathname.includes('upgrade') &&
+            loggedInUser && (
+              <MenuSidebar />
+            )
+          }
+          <div className={`zIndex${zIndex} w-perc-100 dis-fl-col`} style={{ height: windowDimensions.height }}>
+            {
+              (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
+                <PageHeader />
+              )
+            }
+            {
+              (
+                !history.location.pathname.includes('packageFlow') &&
+                !history.location.pathname.includes('onBoarding')) &&
+                !history.location.pathname.includes('upgrade') &&
+              (
+                <PageHeaderDashboard />
+              )
+            }
+            <div
+              id="bodyScroll"
+              className={`${!isFlow ? 'hubDasContent bgLight100 h-perc-100' : ''} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
+              style={{ height: windowDimensions.height - calcHeaderHeight() }}
+            >
+              <Switch>
+                { /* SECTION: ONBOARDING */ }
+                <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
+                <Route path="/onBoarding/" component={OnBoarding} />
 
-          { /* SECTION: GET STARTED*/ }
-          <Route path="/packageFlow/getstarted/" component={GetStarted} />
+                { /* SECTION: INSERT TOKEN */ }
+                <Route path="/tokeninput" component={InsertToken} />
 
-          { /* SECTION: HUB DASHBOARD */ }
-          <ProtectedRoute path="/" exact component={Dashboard} />
-          { /* SECTION: SELLER DASHBOARD */ }
-          <ProtectedRoute path="/:propId?/:act/achievement/market-checker" exact component={MarketChecker} protect={activeUserType ? activeUserType !== 'seller' : false} />
-          <ProtectedRoute path="/:propId?/:act/achievement/assessor" exact component={Assessor} allowAccess={'seller'} />
-          <ProtectedRoute path="/:propId?/:act/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'}
-          />
-          { /* SECTION: ALL USER DASHBOARD */ }
-          <ProtectedRoute path="/:propId?/home" component={Dashboard} />
-          <ProtectedRoute path="/:propId?/property" component={Dashboard} />
-          <ProtectedRoute path="/:propId?/support" component={Dashboard} />
-          { /* SECTION: REDIRECT */ }
-          <Redirect from="*" to="/" />
-        </Switch>
+                { /* SECTION: GET STARTED*/ }
+                <Route path="/packageFlow/getstarted/" component={GetStarted} />
+
+                { /* SECTION: HUB DASHBOARD */ }
+                <ProtectedRoute path="/" exact component={Dashboard} />
+                { /* SECTION: ALL USER DASHBOARD */ }
+                <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
+                <ProtectedRoute path="/:propId?/property" component={Dashboard} />
+                <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
+                <ProtectedRoute path="/:propId?/support" component={Dashboard} />
+                <ProtectedRoute path="/:propId?/upgrade" component={Dashboard} />
+                <Redirect path="/:propId?/*" to="/:propId?/rewards" component={Dashboard} />
+              </Switch>
+            </div>
+          </div>
+
+        </div>
       </div>
+
+      { /* SECTION: ACHIVEMENT FLOW */ }
+      {
+        <Switch>
+          <ProtectedRoute path="/:propId?/rewards/achievement/market-checker" exact component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/assessor" exact component={Assessor} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
+        </Switch>
+      }
 
       { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
       {
@@ -198,59 +280,48 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification && (notification.small || notification.label) && (
+        notification && (
+          <BrixelNotification
+            label={notification.label}
+            type={notification.type}
+            icon={notification.icon}
+            actions={notification.actions}
+            className={`zIndex5 slideInTrans jc-fe pr-2 pr-md-4 ${notification.className} ${notification.state ? 'open' : 'close'}`}
+          />
+        )
+      }
+
+      {
+        notification && (notification.small || notification.state) && (
           <>
             {
-              notification.small ? (
+              notification.small && (
                 <div className="brxNotification">
                   <BrixelIcon icon={notification.icon} />
                   <span>{notification.text}</span>
                 </div>
-              ) : (
-                <BrixelNotification
-                  label={notification.label}
-                  type={notification.type}
-                  icon={notification.icon}
-                  actions={notification.actions}
-                  className="zIndex5"
-                />
               )
             }
           </>
         )
       }
-
-      { /* SECTION: SIDEBAR */ }
-      <div className="zIndex3">
-        <Switch>
-          {/* SECTION: DOCUMENTS */}
-          <Route path="/:propId?/:act/list" component={Properties} />
-          <Route path="/:propId?/property/documents" exact component={Documents} />
-          {
-            activeUserType === 'seller' && (
-              <>
-                <Route path="/:propId?/:act/edit" component={EditProperty} />
-              </>
-            )
-          }
-        </Switch>
-      </div>
-
     </main>
   );
 };
 
 App.propTypes = {
-  handleSetActiveUsertype: PropTypes.func.isRequired,
+  handleSetUserTypes: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
+  handleSetWindowsDimension: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   notification: PropTypes.object,
   match: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
   redirectTo: PropTypes.object,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 App.defaultProps = {
@@ -260,21 +331,24 @@ App.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  activeUserType: get(state, 'user.activeUserType', null),
-  property: get(state, 'property.property', {}),
   config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
-  loggedUser: get(state, 'user.loggedUser', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  loggedInUser: get(state, 'user.loggedInUser', null),
   modal: get(state, 'common.modal', {}),
   notification: get(state, 'common.notification', null),
+  property: get(state, 'property.activeSingleProperty', {}),
   redirectTo: get(state, 'common.redirectTo', null),
+  userTypes: get(state, 'user.userTypes', null),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetLanguages: bindActionCreators(setLanguages, dispatch),
-  handleSetActiveUsertype: bindActionCreators(setActiveUsertype, dispatch),
+  handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
+  handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 
 export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);

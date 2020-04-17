@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
 import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import Loadable from 'react-loadable';
@@ -25,7 +26,7 @@ const AvatarImage = Loadable({
 function PageHeader(props) {
   // PROPS
   const {
-    lang, languages, loggedUser, userAwards, userBrixelPoint,
+    lang, languages, loggedInUser, userAwards, brixelPoints,
     handleSetLanguage, history, handleGetGame, property, gameHistory,
   } = props;
   // STATE
@@ -36,14 +37,14 @@ function PageHeader(props) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   useEffect(() => {
-    if (loggedUser && loggedUser.user) {
-      const langUsr = loggedUser.user.language;
+    if (loggedInUser && loggedInUser.user) {
+      const langUsr = loggedInUser.user.language;
       setCurrentLang(lang);
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
       if (!gameHistory.data) handleGetGame();
     }
-  }, [loggedUser, lang]);
+  }, [loggedInUser, lang]);
 
   useEffect(() => {
     const drpLng = [];
@@ -113,10 +114,10 @@ function PageHeader(props) {
               )
             }
             {
-              userBrixelPoint >= 0 && (
-                <div className="cur-poi ml-2" onClick={() => setModal('brixelPoint')}>
+              brixelPoints >= 0 && (
+                <div className="cur-poi ml-2" onClick={() => setModal('brixelPoints')}>
                   <img src={brixels} alt="icon awards" className="mr-1" />
-                  <span className="ff-mono txtRed600">{userBrixelPoint}</span>
+                  <span className="ff-mono txtRed600">{brixelPoints}</span>
                 </div>
               )
             }
@@ -129,15 +130,15 @@ function PageHeader(props) {
               )
             }
             {
-              Object.keys(userBrixelPoint).length > 0 && (
-                <div className="cur-poi ml-2" onClick={() => setModal('brixelPoint')}>
+              Object.keys(brixelPoints).length > 0 && (
+                <div className="cur-poi ml-2" onClick={() => setModal('brixelPoints')}>
                   <img src={brixels} alt="icon awards" className="mr-1" />
-                  <span className="ff-mono txtRed600">{userBrixelPoint.reduce((prev,next) => prev + next.point,0)}</span>
+                  <span className="ff-mono txtRed600">{brixelPoints.reduce((prev,next) => prev + next.point,0)}</span>
                 </div>
               )
             }
             {
-              !loggedUser.token ? (
+              !loggedInUser.token ? (
                 <div className="">
                   <BrixelDropdown
                     bgTransparent
@@ -156,8 +157,8 @@ function PageHeader(props) {
               ) : (
                 <div className="ml-2">
                   <AvatarImage
-                    avatarImg={ loggedUser.user.avatar && loggedUser.user.avatar[0] ? `${baseByData.shortPath}${loggedUser.user.avatar[0].thumbnailPath}` : null}
-                    name={loggedUser.user.name}
+                    avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
+                    name={loggedInUser.user.name}
                     size={40}
                     onClick={() => avatarAction()}
                   />
@@ -194,7 +195,7 @@ function PageHeader(props) {
               )
             }
             {
-              modal === 'brixelPoint' && (
+              modal === 'brixelPoints' && (
                 <BrixelModal
                   onClose={() => setModal(false)}
                 >
@@ -274,30 +275,30 @@ PageHeader.propTypes = {
   handleSetLanguage: PropTypes.func.isRequired,
   languages: PropTypes.arrayOf(PropTypes.object),
   lang: PropTypes.string,
-  loggedUser: PropTypes.object,
+  loggedInUser: PropTypes.object,
   history: PropTypes.object.isRequired,
   handleGetGame: PropTypes.func.isRequired,
   property: PropTypes.object.isRequired,
   userAwards: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
-  userBrixelPoint: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
+  brixelPoints: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
 };
 
 PageHeader.defaultProps = {
   languages: [],
-  loggedUser: {},
+  loggedInUser: {},
   noMenu: false,
   userAwards: [],
-  userBrixelPoint: [],
+  brixelPoints: [],
   withShadow: false,
 };
 
 const mapStateToProps = (state) => ({
-  loggedUser: get(state, 'user.loggedUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
   languages: get(state, 'common.languages', []),
   lang: get(state, 'common.language', []),
   userAwards: get(state, 'user.awards', []),
-  property: get(state, 'property.property', {}),
-  userBrixelPoint: get(state, 'user.brixelPoint', []),
+  property: get(state, 'property.activeSingleProperty', {}),
+  brixelPoints: get(state, 'user.brixelPoints', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
 });
 

@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as d3 from 'd3';
 import PropTypes from 'prop-types';
 
 function PathDonuts(props) {
   const {
-    radius, slice, sliceColor, hovered, id,
+    radius, slice, sliceColor, hovered, id, isHover,
   } = props;
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(isHover);
+
+  useEffect(() => {
+    setIsHovered(isHover);
+  }, [isHover]);
 
   const onMouseOver = () => {
     hovered(id);
@@ -29,14 +33,15 @@ function PathDonuts(props) {
     .cornerRadius(2);
 
   return (
-    <g>
+    <g
+      onMouseOver={() => onMouseOver()}
+      onMouseOut={() => onMouseOut()}
+      onFocus={() => onMouseOver()}
+      onBlur={() => onMouseOut()}
+    >
       <path
         d={arc(slice)}
         fill={sliceColor}
-        onMouseOver={() => onMouseOver()}
-        onMouseOut={() => onMouseOut()}
-        onFocus={() => onMouseOver()}
-        onBlur={() => onMouseOut()}
       />
     </g>
   );

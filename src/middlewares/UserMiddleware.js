@@ -1,9 +1,10 @@
+import user from '../resources/localData/user.json';
 import {
   CHECK_TOKEN,
   CREATE_USER,
-  GET_TOKEN,
-  SET_USER,
-  UPDATE_USER,
+  DO_LOGIN,
+  SET_LOGGED_IN_USER,
+  SAVE_ACTIVE_SINGLE_USER,
   VALIDATE_USER,
   GET_USER_PROPERTIES,
   SET_USER_PROPERTIES,
@@ -13,11 +14,13 @@ import {
 import {
   SPINNER_ON,
   SPINNER_OFF,
-  SET_NOTIFICATION,
+  SPINNER_SMALL_ON,
+  SPINNER_SMALL_OFF,
+  SET_SCREEN_NOTIFICATION,
   SET_PAGE_DATA, REDIRECT_TO,
 } from '../actions/types/CommonTypes';
 
-import { ADD_PROPERTY } from '../actions/types/PropertyTypes';
+import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
 
@@ -39,16 +42,19 @@ const checkUser = (store) => (next) => (action) => {
           } else if (response.data && response.data.statusCode && response.data.statusCode === 401) {
             window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
           } else {
-            store.dispatch({ type: SET_USER, payload: response.data });
+            store.dispatch({ type: SET_LOGGED_IN_USER, payload: response.data });
           }
           store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
+          if (window.location.href.includes('localhost')) {
+            store.dispatch({ type: SET_LOGGED_IN_USER, payload: user });
+          }
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
-    case GET_TOKEN: {
+    case DO_LOGIN: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
       const data = action.payload.user;
@@ -63,7 +69,7 @@ const checkUser = (store) => (next) => (action) => {
               const dataProperty = action.payload;
               dataProperty.token = res.data.token;
               dataProperty.owner = res.data.user.id;
-              store.dispatch({ type: ADD_PROPERTY, payload: dataProperty })
+              store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty })
             }
           } else {
             const alertProps = {
@@ -72,10 +78,10 @@ const checkUser = (store) => (next) => (action) => {
               type: 'alert',
               actions: [{
                 type: 'close',
-                func: () => store.dispatch({ type: SET_NOTIFICATION, payload: null }),
+                func: () => store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null }),
               }],
             };
-            store.dispatch({ type: SET_NOTIFICATION, payload: alertProps });
+            store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: alertProps });
           }
           store.dispatch({ type: SPINNER_OFF });
         })
@@ -103,13 +109,13 @@ const checkUser = (store) => (next) => (action) => {
               userData.user = res.data;
               userData.token = res.data.token;
             }
-            store.dispatch({ type: SET_USER, payload: userData });
+            store.dispatch({ type: SET_LOGGED_IN_USER, payload: userData });
             if (redirectTo) store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
             if (addProperty) {
               const dataProperty = action.payload;
               dataProperty.token = userData.token;
               dataProperty.owner = userData.user.id;
-              store.dispatch({ type: ADD_PROPERTY, payload: dataProperty })
+              store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty })
             }
             store.dispatch({ type: SPINNER_OFF });
           }
@@ -119,7 +125,7 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
-    case UPDATE_USER: {
+    case SAVE_ACTIVE_SINGLE_USER: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
       const { id } = action.payload;
@@ -170,29 +176,29 @@ const checkUser = (store) => (next) => (action) => {
     }
     case GET_FAVORITES: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON });
       api.user.getFavoritesPages()
         .then((res) => {
           store.dispatch({ type: SET_FAVORITES, payload: res.data });
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         })
         .catch(() => {
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }
     case GET_USER_PROPERTIES: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON });
       api.user.getPropertiesOfUser(action.payload)
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_USER_PROPERTIES, payload: res.data });
           }
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         })
         .catch(() => {
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }

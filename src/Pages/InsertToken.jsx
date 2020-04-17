@@ -63,7 +63,7 @@ TokenInput.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  user: get(state, 'user.loggedUser', []),
+  user: get(state, 'user.loggedInUser', []),
   request: get(state, 'common.requestDone', false),
 });
 

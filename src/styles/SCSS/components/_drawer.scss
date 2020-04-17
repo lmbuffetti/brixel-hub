@@ -4,8 +4,8 @@
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 4;
-  background: rgba(map_get($darkColor, 700), .7);
+  z-index: 102;
+  background: rgba($brx-black, 0.56);
 
   .drawer {
     position: absolute;
@@ -14,9 +14,61 @@
     height: 100%;
     width: 100%;
     background-color: $brx-white;
-    max-width: 768px;
+    box-shadow: $shadow-5dp;
 
-    animation: drawerSlide $default-time-long $default-easing forwards;
+    @keyframes drawerSlide {
+      0% {
+        opacity: 0.5;
+        transform: translateX(100%)
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0%)
+      }
+    }
+  }
+}
+
+@media (min-width: $responsive-medium) {
+  .wrapDrawer {
+    .drawer {
+      width: 344px;
+      animation: drawerSlide $default-time-long $default-easing forwards;
+    }
+  }
+}
+@media (max-width: $responsive-medium) {
+  .wrapDrawer {
+    animation: slideInSec $default-time-long $default-easing;
+  }
+}
+
+
+.wrapDrawerLeft {
+  position: absolute;
+  left: 84px;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  background: rgba($brx-white, 0.8);
+
+  .drawer {
+    position: absolute;
+    left: 84px;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $brx-white;
+    max-width: 768px;
+    box-shadow: $shadow-5dp;
+
+    @media (min-width: $responsive-medium) {
+      border-top-left-radius: $brd-radius-small;
+      border-bottom-left-radius: $brd-radius-small;
+    }
+
+    //animation: drawerSlide $default-time-long $default-easing forwards;
 
     @keyframes drawerSlide {
       0% {

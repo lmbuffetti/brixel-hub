@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -13,9 +13,8 @@ import {
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 // COMPONENTS
-import last from 'lodash/last';
-import DrawerLayout from '../../components/DrawerLayout';
 import LoadingSimple from '../../components/LoadingSimple';
+
 import {
   getUserProperties,
   getFavorites,
@@ -29,24 +28,20 @@ const PropertyList = Loadable({
 const Properties = (props) => {
   // PROPS
   const {
-    getFavoritesOfUser,
-    getPropertiesOfUser,
+    closeProperty,
+    handleGetFavorites,
+    handleGetUserProperties,
     favoritesProperties,
-    history,
-    match,
     user,
     userProperties,
   } = props;
-
-  // URL PARAMS
-  const propID = get(match, 'params.propId', null);
-  const checkActiveTab = () => last(history.location.pathname.split('/'));
-  const sectionPage = get(match, 'params.act', 'home');
+  // STATE
+  const [activeTab, setActiveTab] = useState('');
 
   useEffect(() => {
     if (get(user, 'user.id')) {
-      getPropertiesOfUser(user.user.id);
-      getFavoritesOfUser()
+      handleGetUserProperties(user.user.id);
+      handleGetFavorites()
     }
   }, [user]);
 
@@ -72,13 +67,14 @@ const Properties = (props) => {
   }
 
   return (
-    <DrawerLayout
-      classNameDrawer="ov-a"
-      closeLink={`/${propID}/${sectionPage}`}
-    >
-      <div className="properties-header dis-fl-row a-c jc-b mb-3 p-2">
+    <>
+      <div className="properties-header dis-fl-row a-c jc-b mb-2 mb-md-5 py-2 px-3 pos-r zIndex1">
         <div className="dis-fl-row a-c">
-          <span className="docubox-title fweight-500 txtDark700">Properties</span>
+          <span className="docubox-title fweight-500 txtDark700">
+            <span>Properties</span>
+            &nbsp;
+            <span>({countNumProperties()})</span>
+          </span>
         </div>
 
         <BrixelButtonIcon
@@ -88,57 +84,59 @@ const Properties = (props) => {
           color="dark"
           saturationTxt={700}
           icon="close-small"
-          onClick={() => history.push(`/${propID}/${sectionPage}`)}
+          onClick={() => closeProperty()}
         />
       </div>
       <BrixelTabs
-        className={`tabs mb-1-neg mr-3`}
+        className={`tabs mb-1-neg px-2 px-md-3 py-2 bgWhite zIndex1`}
         clicksList={[
           '',
           'seller',
           'buyer',
         ]}
         labels={[
-          `All (${countNumProperties()})`,
-          `Owner (${countNumProperties('seller')})`,
-          `Buyer (${countNumProperties('buyer')})`,
+          `<span>All</span>&nbsp;<span>(${countNumProperties()})</span>`,
+          `<span>Owner</span>&nbsp;<span>(${countNumProperties('seller')})</span>`,
+          `<span>Buyer</span>&nbsp;<span>(${countNumProperties('buyer')})</span>`,
         ]}
-        activeTab={checkActiveTab() === 'list' ? '' : checkActiveTab()}
-        onClick={(tab) => {
-          history.push(`/${propID}/property/list/${tab}`);
-        }}
+        activeTab={activeTab}
+        onClick={(tab) => setActiveTab(tab)}
         fullWidth
       />
 
-      <PropertyList activeSection={checkActiveTab()} />
-    </DrawerLayout>
+      <PropertyList className="px-2 px-md-3" activeSection={activeTab} />
+    </>
   );
 };
 
 Properties.propTypes = {
+  closeProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   activeProperty: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
   favoritesProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
-  getPropertiesOfUser: PropTypes.func.isRequired,
-  getFavoritesOfUser: PropTypes.func.isRequired,
+  handleGetUserProperties: PropTypes.func.isRequired,
+  handleGetFavorites: PropTypes.func.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 Properties.defaultProps = {
+
 };
 
 const mapStateToProps = (state) => ({
-  user: get(state, 'user.loggedUser', {}),
-  userProperties: get(state, 'user.userProperties', []),
+  activeProperty: get(state, 'property.activeSingleProperty', {}),
   favoritesProperties: get(state, 'user.favorites', []),
-  activeProperty: get(state, 'property.property', {}),
+  user: get(state, 'user.loggedInUser', {}),
+  userProperties: get(state, 'user.userProperties', []),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getPropertiesOfUser: bindActionCreators(getUserProperties, dispatch),
-  getFavoritesOfUser: bindActionCreators(getFavorites, dispatch),
+  handleGetUserProperties: bindActionCreators(getUserProperties, dispatch),
+  handleGetFavorites: bindActionCreators(getFavorites, dispatch),
 });
 
 export default compose(

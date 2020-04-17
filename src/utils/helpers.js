@@ -283,6 +283,28 @@ export const setCookie = (key, val) => {
   cookies.set(key, val, options);
 };
 
+export const getCookie = (key) => {
+  const host = window.location.host.split('.');
+  const localhost = host[0].match(/localhost/gi);
+  const localip = host[0].match(/0/gi);
+  let domain;
+  if (localhost) {
+    domain = 'localhost';
+  } else if (localip) {
+    domain = '0.0.0.0';
+  } else {
+    const curDomain = document.location.hostname.split('.')[document.location.hostname.split('.').length - 1];
+    domain = `.brixel.${curDomain}`;
+  }
+  const options = {
+    domain: domain,
+    path: '/',
+    expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+    sameSite: 'strict',
+  };
+  return cookies.get(key, options);
+};
+
 export const removeCookie = (key) => {
   const host = window.location.host.split('.');
   const localhost = host[0].match(/localhost/gi);
@@ -394,7 +416,7 @@ export const extractAssessorCondition = (age, construction, roof, facade, heatin
     electricalSystems: calcConditionAssessor(age, 'electricalSystems') || null,
   };
   if (construction) {
-    assessor.constructor = {
+    assessor.construction = {
       [construction]: calcConditionAssessor(age, 'construction', construction) || null,
     };
   }
@@ -441,3 +463,13 @@ export const sortObject = (key, order = 'asc') => {
     );
   };
 }
+
+export const Truncate = (text, limit, showAllDescription = false) => {
+  let txt = text;
+  if (txt.length > limit && !showAllDescription) {
+    txt = `${txt.substr(0, limit).replace(/\s+$/, '')}...`;
+  } else if (txt.length > limit && showAllDescription) {
+    txt = `${txt}`;
+  }
+  return txt;
+};

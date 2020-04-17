@@ -1,31 +1,49 @@
+// CUSTOM VARIABLES
+$sidebarWidth: 84px;
+$iphone5: 320px;
+
 // GENERAL
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 @import '~@brixel/brixel-configuration-partner/src/Variables';
 @import '~@brixel/brixel-components/src/styles/SCSS/general/main.scss';
-// UTILS
+
+// DASHBOARD STUFF
+@import "./windows",
+"./hubDashboard";
 
 // COMPONENTS
 @import "../components/loading",
 "../components/radioButtonEmoji",
 "../components/donut",
+"../components/header",
+"../components/checkboxWithDetail",
 "../components/rangePriceChart",
+"../components/buttonAchievement",
+"../components/assessor",
 "../components/map",
 "../components/radioButtonCard",
 "../components/avatar",
 "../components/multi_stepform_modal",
 "../components/drawer",
+"../components/support",
 "../components/timeline_achievement",
 "../components/options-menu",
 "../components/documents",
-"../components/menu-sidebar";
+"../components/menu-sidebar",
+"../components/property-list";
+
 // PAGES
 @import "../pages/getStarted",
+"../pages/onBoarding",
+"../pages/listings",
+"../pages/upgrade",
+"../pages/images",
 "../pages/achievement",
-"../pages/dashboard",
-"../pages/facts",
-"../pages/onBoarding";
+"../pages/facts";
 
-$sidebarWidth: 84px;
+// TRANSITIONS
+@import "./transitions";
+
 
 html, body {
   position: relative;
@@ -82,6 +100,11 @@ img {
   height: auto;
 }
 
+hr {
+  border: none;
+  border-top:1px solid map_get($lightColor, 400);
+}
+
 #page-header {
   position: relative;
   z-index: 100;
@@ -117,8 +140,10 @@ header {
 
 .subcontainer {
   width: 100%;
-  max-width: 620px;
   margin: auto;
+  &:not([class*="max-w-fix"]) {
+    max-width: 620px;
+  }
 }
 
 @media (min-width: $responsive-medium) {
@@ -152,10 +177,10 @@ header {
   top: $step;
   width: 256px;
   transform: translateX(50%);
-  animation: slideIn 4s 0.5s ease-in;
+  animation: popIn 4s 0.5s ease-in;
   opacity: 0;
 
-  @keyframes slideIn {
+  @keyframes popIn {
     10%, 90% {
       opacity: 1;
       transform: translateX(0);
@@ -197,4 +222,67 @@ header {
 
 [class^="icon-"].small, [class*=" icon-"].small {
   display: block;
+}
+
+.moveForward {
+  z-index: 110;
+}
+
+
+// Map iFrame styles
+.gm-style {
+  .gm-style-cc { display: none}
+  .gm-bundled-control {
+    > div {
+      border-radius: 8px;
+      overflow: hidden;
+      transform: scale(0.8) translate(8px, 16px);
+      button {
+        img {
+          display: none !important;
+        }
+        &:after {
+          @include icomoon();
+          content: $icon-plus;
+          color: map_get($primaryColor, 400);
+        }
+        &:last-child {
+          border-top: 1px solid map_get($primaryColor, 100) !important;
+          &:after {
+            content: $icon-minus;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.image-ratio {
+  position: relative;
+  &:after {
+    content: '';
+    display: block;
+    padding-bottom: 56.2%;
+  }
+  &.squared {
+    &:after {
+      padding-bottom: 0;
+      padding-top: 100%;
+    }
+  }
+}
+
+.image-ratio img {
+  position: absolute;
+  object-fit: contain;
+  &.cover {
+    object-fit: cover;
+  }
+  width: 100%;
+  height: 100%;
+}
+
+.brixel-tabs ul.tabsList li.left {
+  padding-bottom: 0;
 }

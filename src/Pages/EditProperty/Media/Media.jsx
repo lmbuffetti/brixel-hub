@@ -50,7 +50,7 @@ Media.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  loggedUser: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
@@ -59,7 +59,7 @@ Media.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
-  loggedUser: get(state, 'user.loggedUser', null),
+  loggedInUser: get(state, 'user.loggedInUser', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({

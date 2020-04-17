@@ -221,7 +221,7 @@ export const QuestionsList = (lang) => [
       translateTo(lang, "We get back to you and let you know when we start our business in your region."),
       `${translateTo(lang, "Feel free to contact me any time")}`,
       "💬 "+translateTo(lang, "Whatsapp")+": <a href='https://wa.me/41799332918' target='_blank'>+41 79 933 29 18</a><br />" +
-      "📞 "+translateTo(lang, "Phone")+": <a href='tel:+410433335700' target='_blank'>+41 43 333 57 00</a><br />" +
+      "📞 "+translateTo(lang, "Phone")+": <a href='tel:+41433335700' target='_blank'>+41 43 333 57 00</a><br />" +
       "✉️ "+translateTo(lang, "E-mail")+": <a href='mailto:martin@brixel.io' target='_blank'>martin@brixel.io</a>",
       translateTo(lang,"All the best. Martin"),
       translateTo(lang,"P.S. Do you want to hear a joke?")

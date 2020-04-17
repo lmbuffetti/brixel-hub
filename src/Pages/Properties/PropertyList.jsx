@@ -18,9 +18,11 @@ const PropertyList = (props) => {
   const {
     activeSection,
     favoritesProperties,
+    formValue,
     history,
     userProperties,
     user,
+    className,
   } = props;
 
   // STATE
@@ -42,15 +44,34 @@ const PropertyList = (props) => {
     setActiveProperties(propertiesList);
   }, [activeSection, favoritesProperties, userProperties]);
 
+  const statusPage = () => {
+    let label;
+    let colorIcon;
+    if (formValue.publishReview) {
+      label = 'Review';
+      colorIcon = 'yellow';
+    } else if (formValue.published) {
+      label = 'Published';
+      colorIcon = 'green';
+    } else {
+      label = 'Offline';
+      colorIcon = 'red';
+    }
+    return {
+      label,
+      colorIcon,
+    }
+  };
+
   return (
-    <div className="properties">
+    <div className={`properties ov-a h-perc-100 ${className}`}>
       {
         (activeProperties && activeProperties.length > 0) && (
-          <div className="px-2 pb-5">
+          <div className="px-0 px-md-2 pb-5 py-1">
             {
               activeProperties.map((property, i) => (
                 <a key={i.toString()} className="link" href={`/${property.id}/home`}>
-                  <li className="single-property dis-fl-row a-c jc-b cur-poi brdSmall brdLight200 brdRadius mt-3">
+                  <li className="single-property dis-fl-row a-c jc-b cur-poi brdSmall brdLight200 brdRadius mt-2">
                     <div className="dis-f jc-b w-perc-100 a-c">
                       <div className="dis-f a-c">
                         <div className="avatar w-fix-96 h-fix-96 a-c jc-c pos-r brdRadius ov-h">
@@ -78,7 +99,13 @@ const PropertyList = (props) => {
                         </div>
                         <div className="title ml-1">
                           <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                            {(has(property.properties, 'typology') && has(property.properties.typology, 'bedrooms')) ? property.properties.typology.bedrooms : ''} {has(property.properties, 'propertyType') ? property.properties.propertyType : 'Property'}
+                            <span>
+                              {(has(property.properties, 'typology') && has(property.properties.typology, 'bedrooms')) ? property.properties.typology.bedrooms : ''}
+                            </span>
+                            &nbsp;
+                            <span>
+                              {has(property.properties, 'propertyType') ? property.properties.propertyType : 'Property'}
+                            </span>
                           </span>
                           <span className="address caption txtLight400">{has(property.location, 'zip') ? property.location.zip : ''} {has(property.location, 'state') ? property.location.state : ''}</span>
                         </div>
@@ -93,8 +120,8 @@ const PropertyList = (props) => {
                                 )
                               }
                               <span className="dis-f a-c">
-                                <BrixelStatus color={property.published ? "green" : "red"} />
-                                <span className="ml-1 txtDark200">Published</span>
+                                <BrixelStatus color={statusPage().colorIcon} />
+                                <span className="ml-1 txtDark200">{statusPage().label}</span>
                               </span>
                             </>
                           ) : (
@@ -113,18 +140,18 @@ const PropertyList = (props) => {
                 </a>
               ))
             }
-            {
-              activeSection !== 'buyer' && (
-                <div className="dis-f jc-c mt-3">
-                  <BrixelButtonPrimary
-                    label="Create new"
-                    rightIcon="plus"
-                    rounded
-                    onClick={() => history.push('/packageFlow/getStarted')}
-                  />
-                </div>
-              )
-            }
+          </div>
+        )
+      }
+      {
+        activeSection !== 'buyer' && (
+          <div className={`dis-f jc-c mb-3 ${activeProperties.length === 0 ? 'mt-3' : ''}`}>
+            <BrixelButtonPrimary
+              label="Create new"
+              rightIcon="plus"
+              rounded
+              onClick={() => history.push('/packageFlow/getStarted')}
+            />
           </div>
         )
       }
@@ -137,9 +164,11 @@ PropertyList.propTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   activeProperty: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
   favoritesProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 PropertyList.defaultProps = {
@@ -147,10 +176,12 @@ PropertyList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  user: get(state, 'user.loggedUser', {}),
-  userProperties: get(state, 'user.userProperties', []),
+  activeProperty: get(state, 'property.activeSingleProperty', {}),
   favoritesProperties: get(state, 'user.favorites', []),
-  activeProperty: get(state, 'property.property', {}),
+  formValue: get(state, 'form.Property.values', {}),
+  user: get(state, 'user.loggedInUser', {}),
+  userProperties: get(state, 'user.userProperties', []),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = () => ({
