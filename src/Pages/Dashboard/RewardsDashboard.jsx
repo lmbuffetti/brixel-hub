@@ -165,24 +165,6 @@ const RewardsDashboard = (props) => {
                                 <span className="fsize-400 dis-b txtDark700 fweight-500">
                                   {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
                                 </span>
-                                <div className="dis-f a-c pos-a-fix-md x-r-0 x-t-0">
-                                  {
-                                    awards >= 0 && (
-                                      <div className="cur-poi">
-                                        <BrixelIcon icon="cup-awards" color="green" />
-                                        <span className="ff-mono txtDark700">{awards}</span>
-                                      </div>
-                                    )
-                                  }
-                                  {
-                                    brixelPoints >= 0 && (
-                                      <div className="cur-poi ml-2">
-                                        <img src={brixels} alt="icon awards" className="mr-1" />
-                                        <span className="ff-mono txtDark700">{brixelPoints}</span>
-                                      </div>
-                                    )
-                                  }
-                                </div>
                               </div>
                             ) : (
                               <span className="mb-3 fsize-400 dis-b txtDark700 fweight-500">
@@ -221,7 +203,7 @@ const RewardsDashboard = (props) => {
         }
         {
           activeGameGroup && rewardType !== 'rewards' && (
-            <div className="secondLevel w-perc-100 dis-fl-col ml-md-1 pt-md-6">
+            <div className="secondLevel w-perc-100 dis-fl-col ml-md">
               <>
                 <div className="rewardsSplash h-perc-100 dis-fl-col p-2 p-md-3">
                   {

@@ -52,7 +52,7 @@ const Page = (props) => {
                 color="primary"
                 saturationTxt={400}
                 noBorder
-                onClick={() => history.push(`${propID}/listings`)}
+                onClick={() => history.push(`/${propID}/listings`)}
               />
               <h5>Brixel Page</h5>
               {

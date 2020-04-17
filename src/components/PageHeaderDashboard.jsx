@@ -5,17 +5,16 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
-import { BrixelTabs, BrixelButtonPrimary, BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelButtonSecondary, BrixelButtonIcon } from '@brixel/brixel-components';
 import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
-import noCover from '../images/no_cover.jpg';
 import has from 'lodash/has';
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
-import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
-import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
+import { firstRoutes, secondRoutes } from '../resources/navigationRoutes';
+import brixels from '../images/BrxielComingTown/brixels.svg';
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -25,14 +24,14 @@ const AvatarImage = Loadable({
 function PageHeaderDashboard(props) {
   // PROPS
   const {
-    formValue,
+    awards,
+    brixelPoints,
     lang,
     loggedInUser,
     gameHistory,
     handleGetGame,
     handleSetLanguage,
     history,
-    property,
     windowDimensions,
   } = props;
   // STATE
@@ -46,15 +45,9 @@ function PageHeaderDashboard(props) {
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
 
-  const checkActiveTab = () => {
-    let curTab = '';
-    if (history) {
-      if (history.location.pathname.includes('rewards')) curTab = 'rewards';
-      else if (history.location.pathname.includes('property')) curTab = 'property';
-      else if (history.location.pathname.includes('listings')) curTab = 'listings';
-    }
-    return curTab;
-  };
+  useEffect(() => {
+    setShowMobileMenu(false);
+  }, [history]);
 
   useEffect(() => {
     if (loggedInUser && loggedInUser.user) {
@@ -99,56 +92,47 @@ function PageHeaderDashboard(props) {
     history.push(`/${propID}/upgrade`);
   };
 
-  const onTabClick = (val) => {
-    if (val === 'support') {
-      setRightMenu(val)
-    } else {
-      setRightMenu(null);
-      history.push(`/${propID}/${val}`)
-    }
+  const getCurrentRoute = () => {
+    const path = history.location.pathname.split('/')[2];
+    const currentPath = firstRoutes.concat(secondRoutes).find(item => item.name === path);
+    return currentPath || {};
   };
 
   return (
     <>
       <header className={`hubDasHeader ${rightMenu ? 'rightMenuOpen' : ''}`}>
-        <div className={`dis-f a-t p-1 pt-md-2 pr-md-2 pl-md-3 jc-b pos-r zIndex4-md bgWhite`}>
+        <div className={`dis-f a-c p-1 pt-md-2 pr-md-2 pl-md-3 jc-b pos-r zIndex4-md bgWhite`}>
 
-          <div className="header-section dis-fl-row a-t jc-b">
-            <div className="dis-fl-row a-c">
-              <div className="avatar w-fix-48 brdCircle h-fix-48 a-c jc-c">
-                {
-                  property.coverPhoto && property.coverPhoto.path ? (
-                    <img className="avatar w-fix-48 h-fix-48 brdRadius pos-r" src={`${baseByData().shortPath}${formValue.coverPhoto.thumbnailPath}?&${formValue.coverPhoto.updatedAt}`} alt="Brixel Logo" id="avatar" />
-                  ) : (
-                    <i
-                      className="avatar w-fix-48 h-fix-48 brdRadius pos-r"
-                      style={{
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        display: 'block',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundImage: `url(${noCover})`,
-                      }}
-                    />
-                  )
-                }
-              </div>
-              <div className="title ml-1">
-                <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                  {(has(property.properties, 'typology') && has(property.properties.typology, 'bedrooms')) ? property.properties.typology.bedrooms : ''} {has(property.properties, 'propertyType') ? property.properties.propertyType : 'Property'}
-                </span>
-                <span className="address caption txtLight400">{has(property.location, 'zip') ? property.location.zip : ''} {has(property.location, 'state') ? property.location.state : ''}</span>
-              </div>
-            </div>
+          <div className="header-section dis-fl-row a-c jc-b">
+            <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} />
+            <h5 className="ml-2">{getCurrentRoute().title}</h5>
           </div>
 
-          <div className="dis-f a-t">
+          <div className="dis-f a-c">
+            <div className="dis-f a-c mr-2">
+              {
+                awards >= 0 && (
+                  <div className="cur-poi">
+                    <BrixelIcon icon="cup-awards" color="green" />
+                    <span className="ff-mono txtDark700">{awards}</span>
+                  </div>
+                )
+              }
+              {
+                brixelPoints >= 0 && (
+                  <div className="cur-poi ml-2">
+                    <img src={brixels} alt="icon awards" className="mr-1" />
+                    <span className="ff-mono txtDark700">{brixelPoints}</span>
+                  </div>
+                )
+              }
+            </div>
             {
               propID && (
-                <BrixelButtonPrimary
+                <BrixelButtonSecondary
                   className="hide dis-b-md"
                   label="UPGRADE"
-                  background="red"
+                  color="red"
                   rounded
                   onClick={() => onUpgrade()}
                 />
@@ -234,6 +218,8 @@ function PageHeaderDashboard(props) {
 }
 
 PageHeaderDashboard.propTypes = {
+  awards: PropTypes.number.isRequired,
+  brixelPoints: PropTypes.number.isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
@@ -258,6 +244,8 @@ PageHeaderDashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  awards: get(state, 'user.awards', 0),
+  brixelPoints: get(state, 'user.brixelPoints', 0),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   formValue: get(state, 'form.Property.values', {}),
   languages: get(state, 'common.languages', []),
