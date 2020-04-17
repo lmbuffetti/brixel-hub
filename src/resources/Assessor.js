@@ -145,8 +145,8 @@ export const AssessorAvgLifespan = {
 };
 
 export const AssessorLabel = {
-  construction: 'Construction Material',
-  roof: 'Roof Type',
+  construction: 'Construction',
+  roof: 'Roof',
   facade: 'Facade',
   heating: 'Heating',
   kitchen: 'Kitchen',

@@ -20,15 +20,15 @@
       }
     }
   .hubDasContent {
-    @media (min-width: $responsive-medium) {
-      overflow-y: auto;
-    }
     &.saveActionOn {
       .inputSheet {
         @media (max-width: $responsive-medium) {
           padding-bottom: $step * 8;
         }
       }
+    }
+    @media (min-width: $responsive-medium) {
+      padding-left: 210px;
     }
   }
   .rewards-container {

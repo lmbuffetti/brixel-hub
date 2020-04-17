@@ -168,7 +168,7 @@ const App = (props) => {
     )
   }
 
-  let classMain = 'container pos-r p-0 ov-x-h';
+  let classMain = 'w-perc-100 pos-r hubContainer';
   let zIndex = 1;
   let isFlow = false;
   if (
