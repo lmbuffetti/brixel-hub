@@ -23,7 +23,7 @@ function ResumeAssessor(props) {
   const [selBaseRenovation, setSelRenovation] = useState('construction');
 
   useEffect(() => {
-    if (condition['renovation']) {
+    if (has(condition, 'renovation')) {
       setSelRenovation('renovation');
     }
   }, [condition]);
