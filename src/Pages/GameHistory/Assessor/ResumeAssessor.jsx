@@ -127,11 +127,11 @@ function ResumeAssessor(props) {
               <div className="max-w-fix-md-176 fsize-100 w-perc-100">Elements</div>
               <div className="dis-f jc-b w-perc-100">
                 <div className="dis-f jc-b w-perc-100 ml-3">
-                  <div className="fsize-100">
+                  <div className="fsize-100 w-perc-33 ta-l">
                     {selBaseRenovation === 'construction' ? 'Construction' : 'Renovation'} year
                   </div>
-                  <div className="fsize-100">Condition</div>
-                  <div className="fsize-100">Expiration year</div>
+                  <div className="fsize-100 w-perc-34 ta-c">Condition</div>
+                  <div className="fsize-100 w-perc-33 ta-r">Expiration year</div>
                 </div>
               </div>
             </div>
@@ -151,9 +151,9 @@ function ResumeAssessor(props) {
                               <div className={`w-perc-${startEndYear(key).lineValue} ${getEvaluationScale(key).color} h-perc-100 pos-a-fix x-l-0 x-t-0`} />
                             </div>
                             <div className="dis-f jc-b a-c fsize-100 mt-1 pr-small-4 pl-small-4">
-                              <p className="body2 txtDark200">{startEndYear(key).start}</p>
-                              <p className="fweight-500 txtDark700 body2">{getEvaluationScale(key).label}</p>
-                              <p className="body2 txtDark200">{startEndYear(key).end}</p>
+                              <p className="body2 txtDark200 w-perc-33 ta-l">{startEndYear(key).start}</p>
+                              <p className="fweight-500 txtDark700 body2 w-perc-34 ta-c">{getEvaluationScale(key).label}</p>
+                              <p className="body2 txtDark200 w-perc-33 ta-r">{startEndYear(key).end}</p>
                             </div>
                           </div>
                         </div>
