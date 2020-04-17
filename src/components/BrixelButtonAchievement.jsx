@@ -80,7 +80,6 @@ const BrixelButtonAchievement = (props) => {
                 bgTransparent
                 color="dark"
                 saturationTxt={700}
-                iconSize="fsize-400"
                 className="p-small-9"
                 icon="arrow-simple-right"
               />

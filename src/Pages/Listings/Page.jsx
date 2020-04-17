@@ -156,7 +156,6 @@ const Page = (props) => {
                             <BrixelIcon
                               icon="facebook"
                               color="primary"
-                              iconSize="large"
                               saturationTxt={700}
                             />
                             <span className="dis-b ta-c txtDark700 fsize-300">Facebook</span>
@@ -164,14 +163,12 @@ const Page = (props) => {
                           <a
                             href={`https://twitter.com/share?url=${baseByData.pageUrl}${formValue.stub}`}
                             target="_blank"
-                            iconSize="large"
                             rel="noopener noreferrer"
                             className="dis-b mr-4"
                           >
                             <BrixelIcon
                               icon="twitter"
                               color="primary"
-                              iconSize="large"
                               saturationTxt={700}
                             />
                             <span className="dis-b ta-c txtDark700 fsize-300">Twitter</span>
@@ -185,7 +182,6 @@ const Page = (props) => {
                             <BrixelIcon
                               icon="linkedin"
                               color="primary"
-                              iconSize="large"
                               saturationTxt={700}
                             />
                             <span className="dis-b ta-c txtDark700 fsize-300">Linkedin</span>
