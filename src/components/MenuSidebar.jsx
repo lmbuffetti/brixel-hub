@@ -59,7 +59,7 @@ const MenuSidebar = (props) => {
         <div className={`w-perc-100 h-perc-100 pos-r`}>
           { /* SECTION SIDEBAR MENU DESKTOP */ }
           <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite pt-3 shadow-2dp ${levelUrl.length > 3 && windowDimensions.width <= 768 ? 'zIndex1' : 'zIndex4'}`}>
-          <div className="hide dis-b-md ml-2">
+          <div className="hide dis-b-md ml-3">
               <img className="pos-r w-fix-56" src={logo} alt="Brixel Logo" id="logo" />
 
               <div className="mt-3 mb-1">
