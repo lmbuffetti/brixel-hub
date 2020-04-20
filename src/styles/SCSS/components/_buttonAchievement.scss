@@ -8,6 +8,12 @@
   &:hover {
     box-shadow: $shadow-3dp;
   }
+  &:disabled {
+    filter: grayscale(100%);
+    box-shadow: none;
+    cursor: default;
+    opacity: 0.8;
+  }
 }
 
 .lineAfter {

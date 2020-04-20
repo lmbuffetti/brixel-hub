@@ -315,7 +315,7 @@ function Bestimate(props) {
                           label="Finish"
                           background={"primary"}
                           className="max-w-fix-280 w-perc-100 ml-1"
-                          onClick={() => history.push(finishedFlow ? `/${propID}/rewards/bestimate` : `/${propID}/rewards/bestimate-done`)}
+                          onClick={() => history.push(finishedFlow ? `/${propID}/rewards/bestimate` : `/${propID}/rewards/assessor`)}
                           rightIcon="arrow-right-small"
                           disabled={disableNextBtn}
                         />
