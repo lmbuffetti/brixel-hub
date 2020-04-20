@@ -24,6 +24,7 @@ const RewardsDashboard = (props) => {
   // PROPS
   const {
     userTypes,
+    formValue,
     gameGroup,
     gameHistory,
     handleGetAchievement,
@@ -66,6 +67,10 @@ const RewardsDashboard = (props) => {
         filtUsrGroup.map((group, f) => {
           const idGroup = group.achievements.findIndex(val => val.stub === game.achievement.stub && property.id === game.page);
           if (idGroup >= 0) filtUsrGroup[f].achievements[idGroup].done = true;
+          else if (activeGameGroup === 'homebase') {
+            history.push({pathname: `/${propID}/rewards/${game.achievement.stub}` });
+            setActiveGameGroup(game.achievement.stub);
+          }
           return null;
         });
         return null;
@@ -115,11 +120,16 @@ const RewardsDashboard = (props) => {
     setActiveAchievement(achievement);
   };
 
-  /*const closeAchievement = () => {
-    history.push(`/${propID}/rewards`);
-    setActiveAchievement(null);
-    setActiveGameGroup(null);
-  };*/
+  const isDisabledFlow = (game) => {
+    let disabled = false;
+    if (game === 'market-checker' && (get(formValue, 'location.countryCode', null) !== 'CH' && get(formValue, 'location.countryCode', null) !== 'PT')) {
+      disabled = true;
+    }
+    if (game === 'bestimate' && get(formValue, 'location.countryCode', null) !== 'CH') {
+      disabled = true;
+    }
+    return disabled;
+  };
 
   if (!property.id && !userTypes) {
     return <Loading />
@@ -185,6 +195,7 @@ const RewardsDashboard = (props) => {
                                     onClick={() => onClickAchievement(item.stub, item)}
                                     lineAfter={group.achievements.length - 1 > f}
                                     award={item.achievementType === 'award'}
+                                    disabled={isDisabledFlow(item.stub)}
                                   />
                                 </div>
                               ))
@@ -248,6 +259,7 @@ RewardsDashboard.propTypes = {
   userTypes: PropTypes.string,
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
+  formValue: PropTypes.object.isRequired,
   handleGetAchievement: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
   handleGetGameHistory: PropTypes.func.isRequired,
@@ -268,6 +280,7 @@ const mapStateToProps = (state) => ({
   userTypes: get(state, 'user.userTypes', null),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
+  formValue: get(state, 'form.Property.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   awards: get(state, 'user.awards', []),
   property: get(state, 'property.activeSingleProperty', {}),
