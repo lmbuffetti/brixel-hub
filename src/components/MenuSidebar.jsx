@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { BrixelButtonTertiary, BrixelTabs, useOutsideAlerter } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import logo from '@brixel/brixel-configuration-partner/src/images/logo.svg';
+import logo from '@brixel/brixel-configuration-partner/src/images/logo_full.svg';
 import { CSSTransition } from 'react-transition-group';
 import { firstRoutes, secondRoutes } from '../resources/navigationRoutes';
 
@@ -58,9 +58,9 @@ const MenuSidebar = (props) => {
       <header className={`sideHeader dis-fl-col a-c jc-fs h-perc-100`} id="menu-sidebar">
         <div className={`w-perc-100 h-perc-100 pos-r`}>
           { /* SECTION SIDEBAR MENU DESKTOP */ }
-          <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite pt-3 shadow-3dp ${levelUrl.length > 3 && windowDimensions.width <= 768 ? 'zIndex1' : 'zIndex4'}`}>
+          <div className={`pos-r sidebar w-perc-100 h-perc-144 bgWhite pt-3 shadow-3dp ${levelUrl.length > 3 && windowDimensions.width <= 768 ? 'zIndex1' : 'zIndex4'}`}>
             <div className="hide dis-b-md">
-              <img className="pos-r w-fix-32 ml-2" src={logo} alt="Brixel Logo" id="logo" />
+              <img className="pos-r w-fix-56 ml-2" src={logo} alt="Brixel Logo" id="logo" />
 
               <div className="mt-3 mb-1 pl-2 pr-5">
                 <div className="image-ratio squared w-perc-100 max-w-fix-48 brdRadius ov-h">
