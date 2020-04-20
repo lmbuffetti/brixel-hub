@@ -87,7 +87,7 @@ function GetStarted(props) {
   };
 
   const changePageTitle = () => {
-    if (formValue && formValue.location && !formValue.pageTitle) {
+    if (formValue && formValue.location && formValue.propertyType) {
       var titleAdjectives = [
         'Beautiful',
         'Charming',
@@ -119,6 +119,7 @@ function GetStarted(props) {
       } else {
         pageTitle += ' in ' + formValue.location.address;
       }
+      console.log(formValue.location, pageTitle);
       changeFieldValue('pageTitle', pageTitle);
     }
   };
@@ -155,13 +156,16 @@ function GetStarted(props) {
   }, [company]);
 
   useEffect(() => {
+    if (formValue && formValue.location) {
+      changePageTitle();
+    }
+  }, [formValue.location, formValue.propertyType]);
+
+  useEffect(() => {
     const Quest1 = QuestionsList(lang, gameGroup);
     // const Quest2 = PackageFlow(lang, gameGroup);
     const QuestFull = Quest1;
     setQuestions(QuestFull);
-    if (formValue && formValue.location) {
-      changePageTitle();
-    }
   }, [lang, gameGroup]);
 
   useEffect(() => {
@@ -195,12 +199,6 @@ function GetStarted(props) {
     }
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex]);
-
-  useEffect(() => {
-    if (formValue && formValue.location) {
-      changePageTitle();
-    }
-  }, [formValue]);
 
   const saveData = async (act) => {
     setShowError(false);
@@ -332,9 +330,6 @@ function GetStarted(props) {
       });
     }
     if (typeof Questions[newPosition] === 'undefined') {
-
-    }
-    if (typeof Questions[newPosition] === 'undefined') {
       saveData('lastStep');
     } else {
       setPosition(newPosition);
@@ -369,9 +364,13 @@ function GetStarted(props) {
         else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
           getCurStep.querySelector('input[type="text"]').focus();
         }
-        document.getElementById('getStarted').scrollTo(0, 0);
+        if (document.getElementById('getStarted')) {
+          document.getElementById('getStarted').scrollTo(0, 0);
+        }
       }, 100);
-      document.getElementById('getStarted').scrollTo(0, 0);
+      if (document.getElementById('getStarted')) {
+        document.getElementById('getStarted').scrollTo(0, 0);
+      }
       history.push(`/packageFlow/getStarted/${Questions[newPosition].history}`);
     }
   };
@@ -767,6 +766,7 @@ const mapStateToProps = (state) => ({
   initialValues: {
     bedrooms: 0,
     owner: null,
+    location: {},
   }
 });
 
