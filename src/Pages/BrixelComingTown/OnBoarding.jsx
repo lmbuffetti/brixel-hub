@@ -460,10 +460,11 @@ function OnBoarding(props) {
       }
       <form
         id="multiStepForm"
+        className="h-perc-100"
         onSubmit={(e) => {e.preventDefault(); changeStep()}}
         autoComplete="off"
       >
-        <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}vw, 0)` }}>
+        <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}%, 0)` }}>
           {
             Questions.map((quest, i) => (
               <div

@@ -215,7 +215,7 @@ const App = (props) => {
             <div
               id="bodyScroll"
               className={`${!isFlow ? 'hubDasContent bgLight100 h-perc-100' : ''} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
-              style={{ height: windowDimensions.height - calcHeaderHeight() }}
+              style={{  height: !isFlow ? windowDimensions.height - calcHeaderHeight() : '100%' }}
             >
               <Switch>
                 { /* SECTION: ONBOARDING */ }

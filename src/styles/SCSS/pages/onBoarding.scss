@@ -1,7 +1,11 @@
 #onBoarding {
-  height: calc(100vh - 144px);
-  width: 100vw;
+  height: 100%;
+  width: 100%;
+  position: fixed;
   overflow: hidden;
+  max-width: 786px;
+  left: 50%;
+  transform: translateX(-50%);
 
   .brixel-radio-button-icon {
     margin-bottom: 16px;
@@ -27,7 +31,7 @@
   }
   @media (min-width: $responsive-medium) {
     .singleStep {
-      height: calc(100vh - 144px);
+      // height: calc(100vh - 144px);
     }
     &.withoutFooter {
       height: calc(100vh - 72px);
@@ -43,7 +47,11 @@
     font-size: 2rem;
   }
 }
+.multiStepForm {
+  height: 100%;
+}
 .slideMultiStepForm {
+  height: 100%;
   display: flex;
   transition: transform $default-loader-time;
 }
@@ -53,8 +61,8 @@
   overflow-x: hidden;
 }
 .singleStep {
-  height: 100%;
-  flex: 0 0 100vw;
+  height: calc(100% - 133px);
+  flex: 0 0 100%;
   padding: 16px 16px 40px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -84,7 +92,7 @@
 }
 .footerAction {
   background: $brx-white;
-  position: fixed;
+  position: relative;
   width: 100%;
   left: 0;
   bottom: 0;
