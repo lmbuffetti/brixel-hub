@@ -17,12 +17,12 @@ const Support = (props) => {
   const [openDetail, setOpenDetail] = useState(expanded);
 
   return (
-    <div className={`max-w-perc-100 ${isFixed ? 'w-fix-md-344 p-2' : ''} mb-4 bgWhite ${isFixed ? 'fixed' : 'noFixed'}`} id="supportBox">
+    <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} mb-4 bgWhite ${isFixed ? 'fixed' : 'noFixed'}`} id="supportBox">
       <div className={`${isFixed ? 'shadow-1dp' : ''} p-3`}>
         <div className="dis-f jc-b a-t">
           <div>
-            <h5 className="mb-1">Do you need  support?</h5>
-            <p className="txtDark200 mb-2">Get in touch with us.</p>
+            <p className="txtDark200 mb-2">Need support?</p>
+            <h5 className="txtDark700">Get in touch with us.</h5>
           </div>
           {
             !isFixed && !hideClose && (
@@ -39,7 +39,7 @@ const Support = (props) => {
           }
         </div>
         <div
-          className="dis-f jc-b a-c cur-poi"
+          className="dis-f jc-b a-c cur-poi mt-3"
           onClick={() => setOpenDetail(!openDetail)}
         >
           <img src={SupportImg} alt="Support Team" className="w-fix-160" />
@@ -52,18 +52,18 @@ const Support = (props) => {
           }
         </div>
         <div className={`moreInfoSupport ${openDetail ? 'open' : 'close'}`}>
-          <hr className="my-3" />
+          <hr className="my-3 lighter"/>
           <a href="tel:+410433335700" className="dis-f a-c mb-3">
-            <img src={CallUsImg} alt="Call Us" />
+            <img className="w-fix-40" src={CallUsImg} alt="Call Us" />
             <p className="ml-2">
-              <span className="dis-b txtDark200">Call Us</span>
-              <span className="txtDark700">+41 43 333 57 00</span>
+              <span className="dis-b txtDark200 body2">Call Us</span>
+              <span className="txtDark700 ff-mono">+41 43 333 57 00</span>
             </p>
           </a>
           <a href="mailto: support@brixel.ch" className="dis-f a-c mb-3">
-            <img src={WriteUsImg} alt="Call Us" />
+            <img className="w-fix-40" src={WriteUsImg} alt="Call Us" />
             <p className="ml-2">
-              <span className="dis-b txtDark200">Write us</span>
+              <span className="dis-b txtDark200 body2">Write us</span>
               <span className="txtDark700">support@brixel.ch</span>
             </p>
           </a>
@@ -73,9 +73,9 @@ const Support = (props) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src={WhatAppImg} alt="Call Us" />
+            <img className="w-fix-40" src={WhatAppImg} alt="Call Us" />
             <p className="ml-2">
-              <span className="dis-b txtDark200">Text Us</span>
+              <span className="dis-b txtDark200 body2">Text Us</span>
               <span className="txtDark700">+41 79 933 29 18</span>
             </p>
           </a>

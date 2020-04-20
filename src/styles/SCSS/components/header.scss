@@ -3,54 +3,41 @@
   left: 0;
   bottom: 0;
   width: 100%;
+
+  @media (min-width: $responsive-medium) {
+    position: static;
+    z-index: 2;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
   .brixel-tabs {
     border-radius: $step $step 0 0;
     background: $brx-white;
     box-shadow: $shadow-1dp;
     width: 100%;
-    ul.tabsList {
-      li {
-        color: map_get($darkColor, 200);
-        transition: color $default-time $default-easing;
-        &:hover {
-          color: map_get($primaryColor, 400);
-        }
-        &.active {
-          color: map_get($primaryColor, 400);
-        }
-      }
+
+    @media (min-width: $responsive-medium) {
+      box-shadow: none;
+      border-radius: 0;
     }
   }
 }
 
 .hubDasHeader {
   box-shadow: $shadow-1dp;
-  &.rightMenuOpen {
-    > .zIndex4-md {
-      z-index: 105;
-    }
-  }
-}
 
-
-@media (min-width: $responsive-medium) {
-  .brixelNavMenu {
-    position: static;
-    z-index: 2;
-    border-radius: 0;
-    box-shadow: none;
-    .brixel-tabs {
-      box-shadow: none;
-      border-radius: 0;
-    }
-  }
-
-  .hubDasHeader {
+  @media (min-width: $responsive-medium) {
     box-shadow: none;
     padding-left: 210px;
   }
-}
 
+  /* &.rightMenuOpen {
+    > .zIndex4-md {
+      z-index: 105;
+    }
+  } */
+}
 
 .accountMenu {
   position: absolute;
