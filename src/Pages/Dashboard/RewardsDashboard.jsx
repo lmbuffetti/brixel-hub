@@ -53,8 +53,8 @@ const RewardsDashboard = (props) => {
 
   useEffect(() => {
     if (windowDimensions && windowDimensions.width > 768 && rewardType === 'rewards') {
-      history.push({pathname: `/${propID}/rewards/homebase` });
-      setActiveGameGroup('homebase');
+      history.push({pathname: `/${propID}/rewards/market-checker` });
+      setActiveGameGroup('market-checker');
     }
   }, [windowDimensions, rewardType]);
 
@@ -67,10 +67,6 @@ const RewardsDashboard = (props) => {
         filtUsrGroup.map((group, f) => {
           const idGroup = group.achievements.findIndex(val => val.stub === game.achievement.stub && property.id === game.page);
           if (idGroup >= 0) filtUsrGroup[f].achievements[idGroup].done = true;
-          else if (activeGameGroup === 'homebase') {
-            history.push({pathname: `/${propID}/rewards/${game.achievement.stub}` });
-            setActiveGameGroup(game.achievement.stub);
-          }
           return null;
         });
         return null;
