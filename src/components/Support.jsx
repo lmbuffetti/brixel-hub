@@ -16,6 +16,16 @@ const Support = (props) => {
 
   const [openDetail, setOpenDetail] = useState(expanded);
 
+  const onclickOpne = () => {
+    setOpenDetail(!expanded);
+    if (!expanded) {
+      setTimeout(() => {
+        const scrollPage = document.getElementsByClassName('singleStep')[0];
+        scrollPage.scrollTo({ top: scrollPage.offsetHeight, behavior: 'smooth' })
+      }, 100);
+    }
+  };
+
   return (
     <div className={`max-w-perc-100 ${isFixed ? 'w-fix-md-344 p-2' : ''} mb-4 bgWhite ${isFixed ? 'fixed' : 'noFixed'}`} id="supportBox">
       <div className={`${isFixed ? 'shadow-1dp' : ''} p-3`}>
@@ -40,7 +50,7 @@ const Support = (props) => {
         </div>
         <div
           className="dis-f jc-b a-c cur-poi"
-          onClick={() => setOpenDetail(!openDetail)}
+          onClick={() => onclickOpne()}
         >
           <img src={SupportImg} alt="Support Team" className="w-fix-160" />
           {

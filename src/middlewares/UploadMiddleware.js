@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 import { change } from 'redux-form';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import {
   ROTATE_IMG,
   GET_IMAGE_TYPE,
@@ -80,7 +81,11 @@ const checkCommon = (store) => (next) => (action) => {
             const plan = store.getState().form.Property.values.floorPlans || [];
 
             if (uploadAction === 'photos') {
-              coverPhoto = get(store.getState(), 'form.Property.values.coverPhoto', null) || res.data;
+              if (has(store.getState(), 'form.Property.values.coverPhoto.path')) {
+                coverPhoto = get(store.getState(), 'form.Property.values.coverPhoto', null)
+              } else {
+                coverPhoto = res.data;
+              }
               // coverPhoto = Object.keys(store.getState().form.Property.values.coverPhoto).length > 0 ? store.getState().form.Property.values.coverPhoto : res.data;
               img.push(res.data);
             }

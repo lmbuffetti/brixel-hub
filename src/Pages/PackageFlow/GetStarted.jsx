@@ -119,7 +119,6 @@ function GetStarted(props) {
       } else {
         pageTitle += ' in ' + formValue.location.address;
       }
-      console.log(formValue.location, pageTitle);
       changeFieldValue('pageTitle', pageTitle);
     }
   };

@@ -44,13 +44,13 @@ const PropertyList = (props) => {
     setActiveProperties(propertiesList);
   }, [activeSection, favoritesProperties, userProperties]);
 
-  const statusPage = () => {
+  const statusPage = (property) => {
     let label;
     let colorIcon;
-    if (formValue.publishReview) {
+    if (property.publishReview) {
       label = 'Review';
       colorIcon = 'yellow';
-    } else if (formValue.published) {
+    } else if (property.published) {
       label = 'Published';
       colorIcon = 'green';
     } else {
@@ -120,8 +120,8 @@ const PropertyList = (props) => {
                                 )
                               }
                               <span className="dis-f a-c">
-                                <BrixelStatus color={statusPage().colorIcon} />
-                                <span className="ml-1 txtDark200">{statusPage().label}</span>
+                                <BrixelStatus color={statusPage(property).colorIcon} />
+                                <span className="ml-1 txtDark200">{statusPage(property).label}</span>
                               </span>
                             </>
                           ) : (
