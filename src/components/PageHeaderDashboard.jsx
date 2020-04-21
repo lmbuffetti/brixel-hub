@@ -119,7 +119,7 @@ function PageHeaderDashboard(props) {
   return (
     <>
       <header className={`hubDasHeader ${rightMenu ? 'rightMenuOpen' : ''}`}>
-        <div className={`dis-f a-c p-1 p-md-3 pr-md-2 jc-b pos-r bgWhite`}>
+        <div className={`dis-f a-c px-3 h-fix-64 jc-b pos-r bgWhite`}>
 
           <div className="header-section dis-fl-row a-c jc-b">
             <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} />
@@ -127,20 +127,20 @@ function PageHeaderDashboard(props) {
           </div>
 
           <div className="dis-f a-c">
-            <div className="dis-f a-c mr-2">
+            <div className="dis-f a-c">
               {
                 awards >= 0 && (
-                  <div className="cur-poi">
-                    <BrixelIcon icon="cup-awards" color="green" />
-                    <span className="ff-mono txtDark700">{awards}</span>
+                  <div className="cur-poi dis-f a-c">
+                    <BrixelIcon iconSize="fsize-600" icon="cup-awards" color="green" />
+                    <span className="ff-mono fsize-300 pl-1 txtDark700">{awards}</span>
                   </div>
                 )
               }
               {
                 brixelPoints >= 0 && (
-                  <div className="cur-poi ml-2">
-                    <img src={brixels} alt="icon awards" className="mr-1" />
-                    <span className="ff-mono txtDark700">{brixelPoints}</span>
+                  <div className="cur-poi dis-f a-c ml-2">
+                    <img className="max-w-fix-24" src={brixels} alt="icon awards" />
+                    <span className="ff-mono fsize-300 pl-1 txtDark700">{brixelPoints}</span>
                   </div>
                 )
               }
@@ -148,24 +148,25 @@ function PageHeaderDashboard(props) {
             {
               propID && (
                 <BrixelButtonSecondary
-                  className="hide dis-b-md"
-                  label="UPGRADE"
+                  className="hide dis-f-md min-h-fix-32 max-h-fix-32 p-0 px-1 min-w-fix-96 brdMedium mx-3"
+                  label="Upgrade"
                   color="red"
                   rounded
                   onClick={() => onUpgrade()}
                 />
               )
             }
-            <div className="ml-2 hide dis-f-md a-c cur-poi pos-r" onClick={() => setShowProfileMenu(!showProfileMenu)} ref={profileMenu}>
+            <div className="hide dis-f-md a-c cur-poi pos-r" onClick={() => setShowProfileMenu(!showProfileMenu)} ref={profileMenu}>
               <AvatarImage
                 avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData().shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
                 name={has(loggedInUser, 'user.name') ? loggedInUser.user.name : ''}
-                size={40}
+                size={32}
                 onClick={() => avatarAction()}
               />
-              <p className="ml-1">{get(loggedInUser, 'user.name', '')}</p>
+              <p className="ml-1 fsize-300">{get(loggedInUser, 'user.name', '')}</p>
               <BrixelIcon
                 className="ml-1"
+                iconSize="fsize-300"
                 icon={showProfileMenu ? "arrow-simple-up" : "arrow-simple-down"}
               />
               <div className={`${showProfileMenu ? 'open' : 'close'} accountMenu`}>
@@ -183,7 +184,7 @@ function PageHeaderDashboard(props) {
               </div>
             </div>
             { /* SECTION SIDEBAR MENU MOBILE */ }
-            <div className="hide-md">
+            <div className="hide-md ml-2">
               <BrixelButtonIcon
                 bgTransparent
                 color="primary"

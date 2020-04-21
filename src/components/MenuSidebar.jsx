@@ -58,12 +58,13 @@ const MenuSidebar = (props) => {
       <header className={`sideHeader dis-fl-col a-c jc-fs h-perc-100`} id="menu-sidebar">
         <div className={`w-perc-100 h-perc-100 pos-r`}>
           { /* SECTION SIDEBAR MENU DESKTOP */ }
-          <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite pt-3 shadow-2dp ${levelUrl.length > 3 && windowDimensions.width <= 768 ? 'zIndex1' : 'zIndex7'}`}>
-            <div className="hide dis-b-md ml-3 mr-2">
-              <img className="pos-r w-fix-56" src={logo} alt="Brixel Logo" id="logo" />
-
-              <div className="mt-3 mb-1">
-                <div className="image-ratio squared w-perc-100 shadow-3dp max-w-fix-48 brdRadius ov-h">
+          <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite shadow-2dp ${levelUrl.length > 3 && windowDimensions.width <= 768 ? 'zIndex1' : 'zIndex7'}`}>
+            <div className="hide dis-b-md pl-3 pr-2">
+              <div className="h-fix-64 dis-f a-c">
+                <img className="pos-r w-fix-56" src={logo} alt="Brixel Logo" id="logo" />
+              </div>
+              <div className="propertyPanel mb-1">
+                <div className="image-ratio squared w-perc-100 shadow-3dp w-fix-48 h-fix-48 brdRadius ov-h">
                   <CoverPropertyImage
                     className="cover"
                     coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
