@@ -29,7 +29,7 @@ const Properties = (props) => {
   // PROPS
   const {
     closeProperty,
-    handleGetFavorites,
+    //handleGetFavorites,
     handleGetUserProperties,
     favoritesProperties,
     user,
