@@ -51,7 +51,6 @@ const Support = (props) => {
         <div
           className="dis-f jc-b a-c cur-poi mt-3"
           onClick={() => setOpenDetail(!openDetail)}
-          className="dis-f jc-b a-c cur-poi"
           onClick={() => onclickOpne()}
         >
           <img src={SupportImg} alt="Support Team" className="w-fix-160" />
