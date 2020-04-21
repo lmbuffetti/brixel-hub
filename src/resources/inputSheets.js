@@ -111,7 +111,6 @@ export const InputSheets = () => {
         },
         {
           component: BrixelInputStepNumber,
-          options: factsOptions.constructedVolumeCode,
           className: '',
           label: `How many rooms does the ${get(formValue, 'properties.propertyType', '').toLowerCase()} have?`,
           name: 'properties.typology.bedrooms',
@@ -122,7 +121,6 @@ export const InputSheets = () => {
         },
         {
           component: BrixelInputStepNumber,
-          options: factsOptions.constructedVolumeCode,
           className: '',
           label: 'How many bathrooms does the property have?',
           name: 'properties.typology.bathrooms',
@@ -133,7 +131,6 @@ export const InputSheets = () => {
         },
         {
           component: BrixelInputStepNumber,
-          options: factsOptions.constructedVolumeCode,
           className: '',
           label: 'How many separate toilets does the property have?',
           name: 'properties.typology.separateToilets',
@@ -180,10 +177,8 @@ export const InputSheets = () => {
           options: factsOptions.constructedVolumeCode,
           className: '',
           label: 'What\'s the volume standard?',
-          unit: 'm2',
           labelLeft: 'Volume',
           name: 'properties.typology.constructedVolumeCode',
-          type: "number",
           validation: [Validation.markRequired]
         },
         {

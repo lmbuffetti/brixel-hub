@@ -174,7 +174,7 @@ const App = (props) => {
       setIsFlow(false);
       setZIndex(1);
     }
-  }, [history]);
+  }, [history.location.pathname]);
 
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
