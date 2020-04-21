@@ -119,7 +119,7 @@ function PageHeaderDashboard(props) {
   return (
     <>
       <header className={`hubDasHeader ${rightMenu ? 'rightMenuOpen' : ''}`}>
-        <div className={`dis-f a-c px-3 h-fix-64 jc-b pos-r bgWhite`}>
+        <div className={`dis-f a-c px-2 px-md-3 h-fix-64 jc-b pos-r bgWhite`}>
 
           <div className="header-section dis-fl-row a-c jc-b">
             <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} />
@@ -174,12 +174,12 @@ function PageHeaderDashboard(props) {
                   <li>
                     <a
                       href={`${baseByData().loginBasePath}/account/profile?url=${window.location.href}`}
-                      className="txtDark200"
+                      className="txtDark200 fweight-500"
                     >
                       Personal Information</a></li>
-                  <li><a className="txtDark200" href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}>Password</a></li>
-                  <li><a className="txtDark200" href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}>Preferences</a></li>
-                  <li><a className="txtRed400" href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}>Logout</a></li>
+                  <li><a className="txtDark200 fweight-500" href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}>Password</a></li>
+                  <li><a className="txtDark200 fweight-500" href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}>Preferences</a></li>
+                  <li><a className="txtRed400 fweight-500" href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}>Logout</a></li>
                 </ul>
               </div>
             </div>
