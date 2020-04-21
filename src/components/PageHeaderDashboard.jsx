@@ -112,7 +112,7 @@ function PageHeaderDashboard(props) {
   return (
     <>
       <header className={`hubDasHeader ${rightMenu ? 'rightMenuOpen' : ''}`}>
-        <div className={`dis-f a-c p-1 pt-md-2 pr-md-2 pl-md-3 jc-b pos-r bgWhite`}>
+        <div className={`dis-f a-c p-1 p-md-3 pr-md-2 jc-b pos-r bgWhite`}>
 
           <div className="header-section dis-fl-row a-c jc-b">
             <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} />
