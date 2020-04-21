@@ -202,7 +202,7 @@ const App = (props) => {
               <MenuSidebar />
             )
           }
-          <div className={`zIndex${zIndex} w-perc-100 dis-fl-col`} style={{ height: windowDimensions.height }}>
+          <div className={`zIndex${zIndex} w-perc-100 dis-fl-col`}>
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
                 <PageHeader />
@@ -220,7 +220,6 @@ const App = (props) => {
             <div
               id="bodyScroll"
               className={`${!isFlow ? 'hubDasContent bgLight100 h-perc-100' : ''} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
-              style={{ height: windowDimensions.height - calcHeaderHeight() }}
             >
               <Switch>
                 { /* SECTION: ONBOARDING */ }

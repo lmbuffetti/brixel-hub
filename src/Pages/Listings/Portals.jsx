@@ -170,7 +170,7 @@ const Portals = (props) => {
               title="Save 15% compared to listings price."
               description="Only CHF 750 for 3 months. Don't worry. You will not be charged for now. Get the result first. Pay later."
               titleConfirm="Please confirm your order."
-              descriptionConfirm="<b>Publish on portals.</b><span>Only CHF 750 for 3 months. You will not be charged for now.</span>"
+              descriptionConfirm="<b>Publish on portals.</b><span>Only CHF 350 unlimited. You will not be charged for now.</span>"
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction
