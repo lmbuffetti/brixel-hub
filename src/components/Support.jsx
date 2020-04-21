@@ -16,9 +16,9 @@ const Support = (props) => {
 
   const [openDetail, setOpenDetail] = useState(expanded);
 
-  const onclickOpne = () => {
-    setOpenDetail(!expanded);
-    if (!expanded) {
+  const onclickOne = () => {
+    setOpenDetail(!openDetail);
+    if (!openDetail) {
       setTimeout(() => {
         const scrollPage = document.getElementsByClassName('singleStep')[0];
         scrollPage.scrollTo({ top: scrollPage.offsetHeight, behavior: 'smooth' })
@@ -49,10 +49,8 @@ const Support = (props) => {
           }
         </div>
         <div
-          className="dis-f jc-b a-c cur-poi mt-3"
-          onClick={() => setOpenDetail(!openDetail)}
-          className="dis-f jc-b a-c cur-poi"
-          onClick={() => onclickOpne()}
+          className={`dis-f jc-b a-c mt-3 ${expanded ? '' : 'cur-poi'}`}
+          onClick={() => expanded ? ''  : onclickOne() }
         >
           <img src={SupportImg} alt="Support Team" className="w-fix-160" />
           {
