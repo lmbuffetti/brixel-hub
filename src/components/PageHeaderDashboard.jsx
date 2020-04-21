@@ -149,7 +149,7 @@ function PageHeaderDashboard(props) {
                 />
               )
             }
-            <div className="ml-2 hide dis-f a-c cur-poi pos-r" onClick={() => setShowProfileMenu(!showProfileMenu)} ref={profileMenu}>
+            <div className="ml-2 hide dis-f-md a-c cur-poi pos-r" onClick={() => setShowProfileMenu(!showProfileMenu)} ref={profileMenu}>
               <AvatarImage
                 avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData().shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
                 name={has(loggedInUser, 'user.name') ? loggedInUser.user.name : ''}

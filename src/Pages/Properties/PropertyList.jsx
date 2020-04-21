@@ -99,15 +99,8 @@ const PropertyList = (props) => {
                         </div>
                         <div className="title ml-1">
                           <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                            <span>
-                              {(has(property.properties, 'typology') && has(property.properties.typology, 'bedrooms')) ? property.properties.typology.bedrooms : ''}
-                            </span>
-                            &nbsp;
-                            <span>
-                              {has(property.properties, 'propertyType') ? property.properties.propertyType : 'Property'}
-                            </span>
+                            {get(formValue, 'title', '')}
                           </span>
-                          <span className="address caption txtLight400">{has(property.location, 'zip') ? property.location.zip : ''} {has(property.location, 'state') ? property.location.state : ''}</span>
                         </div>
                       </div>
                       <div className="ta-r pr-1 txtDark700">
