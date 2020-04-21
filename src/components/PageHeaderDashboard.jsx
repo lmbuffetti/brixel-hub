@@ -27,6 +27,7 @@ function PageHeaderDashboard(props) {
   const {
     awards,
     brixelPoints,
+    changeZIndex,
     lang,
     loggedInUser,
     gameHistory,
@@ -87,7 +88,13 @@ function PageHeaderDashboard(props) {
   const onClickMobileMenu = (link) => {
     setShowMobileMenu(false);
     setActiveMenu(link);
+    changeZIndex(1)
     document.body.classList.remove('ov-h');
+  };
+
+  const toggleMobileMenu = () => {
+    setShowMobileMenu(!showMobileMenu);
+    changeZIndex(!showProfileMenu ? 8 : 1);
   };
 
   const onUpgrade = () => {
@@ -184,7 +191,7 @@ function PageHeaderDashboard(props) {
                 noBorder
                 className={`shadow-2dp btnMainMenu`}
                 icon={showMobileMenu ? "close-small" : "menu"}
-                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                onClick={() => toggleMobileMenu()}
               />
               {
                 showMobileMenu && (
@@ -197,7 +204,7 @@ function PageHeaderDashboard(props) {
                       color="green"
                       saturationTxt={700}
                       onClick={() => {
-                        setShowMobileMenu(false);
+                        toggleMobileMenu();
                         document.body.classList.remove('ov-h');
                       }}
                     />
@@ -248,6 +255,7 @@ function PageHeaderDashboard(props) {
 
 PageHeaderDashboard.propTypes = {
   awards: PropTypes.number.isRequired,
+  changeZIndex: PropTypes.func,
   brixelPoints: PropTypes.number.isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
@@ -266,6 +274,7 @@ PageHeaderDashboard.propTypes = {
 PageHeaderDashboard.defaultProps = {
   languages: [],
   loggedInUser: {},
+  changeZIndex: () => 1,
   noMenu: false,
   userAwards: [],
   userBrixelPoint: [],
