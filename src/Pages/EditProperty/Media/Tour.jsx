@@ -11,6 +11,7 @@ import { uploadImg } from '../../../actions/UploadActions';
 import { BrixelButtonPrimary, BrixelButtonIcon } from '@brixel/brixel-components';
 import defaultCover from '../../../images/3d-tour-placeholder.jpg';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const Tour = (props) => {
   // PROPS
@@ -135,6 +136,13 @@ const Tour = (props) => {
           }
         </div>
       </div>
+
+      <BrixelUpgradeMessage
+        className="mt-3"
+        title="Get your own 3D-Tour"
+        description="3D-Tour and much more is part of Brixel Premium."
+      />
+
     </div>
   );
 };

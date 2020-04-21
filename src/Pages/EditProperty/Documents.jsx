@@ -171,7 +171,7 @@ const Documents = (props) => {
 
   return (
     <div className="secondLevel h-perc-md-100">
-      <div className="docubox dis-fl-col">
+      <div className="docubox dis-fl-col cardSecondLevel">
         <div className="dis-f jc-b a-c mb-3">
           <BrixelButtonIcon
             className="shadow-3dp hide-md"

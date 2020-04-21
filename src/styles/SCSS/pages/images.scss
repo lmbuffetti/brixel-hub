@@ -28,9 +28,9 @@
 
 @media (max-width: $responsive-medium) {
   .photosWrapper .secondLevel,
-  .photosWrapper .secondLevel > div,
+  .photosWrapper .secondLevel > div:not(.brixel-upgrade-message),
   .plansWrapper .secondLevel,
-  .plansWrapper .secondLevel > div {
+  .plansWrapper .secondLevel > div:not(.brixel-upgrade-message) {
       height: 100%;
   }
 }

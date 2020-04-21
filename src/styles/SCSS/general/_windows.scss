@@ -34,7 +34,8 @@
     background: $brx-white;
     z-index: 100;
     > div {
-      &:not(.rewardsSplash) {
+      &:not(.rewardsSplash),
+      &:not(.brixel-upgrade-message) {
         padding: $step * 2;
       }
     }
@@ -89,10 +90,11 @@
       }
 
       > div {
-        box-shadow: $shadow-1dp;
-        background: $brx-white;
-        border-radius: $brd-radius-small;
-
+        &:not(.brixel-upgrade-message) {
+          box-shadow: $shadow-1dp;
+          background: $brx-white;
+          border-radius: $brd-radius-small;
+        }
         &:not(.rewardsSplash) {
           padding: $step * 3;
         }
@@ -106,5 +108,11 @@
         }
       }
     }
+  }
+}
+
+.brixel-upgrade-message {
+  b {
+    display: block;
   }
 }

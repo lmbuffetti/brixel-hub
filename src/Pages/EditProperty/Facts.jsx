@@ -152,7 +152,7 @@ const Facts = (props) => {
   return (
     <div className="factsWrapper dis-f h-perc-md-100">
       <div className="secondLevel dis-fl-col w-perc-100 h-perc-md-100">
-        <div className="dis-fl-col max-h-perc-100">
+        <div className="dis-fl-col max-h-perc-100 cardSecondLevel">
           <div className="dis-f a-c jc-b">
             <BrixelButtonIcon
               className="shadow-2dp hide-md"

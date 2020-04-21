@@ -16,6 +16,7 @@ import {
 import { updatePortalsReview } from '../../actions/PropertyActions';
 import page_review from '../../images/Listings/page_review.svg';
 import portalsImg from '../../images/Listings/portals.svg';
+import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
 
 const Portals = (props) => {
   // PROPS
@@ -51,7 +52,7 @@ const Portals = (props) => {
   return (
     <div className="dis-f">
       <div className="secondLevel dis-fl-col ml-md-1">
-        <div className="portalsWrapper max-h-perc-100 dis-fl-col">
+        <div className="portalsWrapper max-h-perc-100 dis-fl-col cardInfoBox">
           <div className="pos-r">
             <div className="dis-f jc-b a-c mb-3">
               <BrixelButtonIcon
@@ -152,22 +153,6 @@ const Portals = (props) => {
                             </p>
                           </div>
 
-                          <hr className="my-3" />
-
-                          <p className="txtDark700">
-                            Only CHF 750 for 3 months.
-                            <br />
-                            Save 20% compared to listing prices.
-                          </p>
-
-                          <BrixelButtonPrimary
-                            className="m-a mt-3 w-fix-176"
-                            label="Unlock now"
-                            background="red"
-                            rounded
-                            onClick={() => changeReviewStatus('online')}
-                            isLoading={isSmallLoading}
-                          />
                         </div>
                       )
                     }
@@ -177,6 +162,22 @@ const Portals = (props) => {
             }
           </div>
         </div>
+
+        {
+          !checkPortalsOnline() && !formValue.portalsReview && (
+            <BrixelUpgradeMessage
+              className="mt-3"
+              title="Save 15% compared to listings price."
+              description="Only CHF 750 for 3 months. Don't worry. You will not be charged for now. Get the result first. Pay later."
+              titleConfirm="Please confirm your order."
+              descriptionConfirm="<b>Publish on portals.</b><span>Only CHF 750 for 3 months. You will not be charged for now.</span>"
+              onClick={() => changeReviewStatus('online')}
+              isSmallLoading={isSmallLoading}
+              unlockFunction
+            />
+          )
+        }
+
       </div>
     </div>
   );
