@@ -1,13 +1,13 @@
 .hubDashboard {
     .property-container,
     .listings-container {
-      .photosWrapper .secondLevel > div,
+      .photosWrapper .secondLevel > div:not(.brixel-upgrade-message),
       .tourWrapper,
       .secondLevel .docubox,
-      .plansWrapper .secondLevel > div,
-      .brixelPageWrapper,
+      .plansWrapper .secondLevel > div:not(.brixel-upgrade-message),
+      .brixelPageWrapper:not(.cardInfoBox),
       .showingsWrapper,
-      .portalsWrapper {
+      .portalsWrapper:not(.cardInfoBox) {
         // min height for  secondlevel container
         @media (min-width: $responsive-medium) {
           min-height: 65vh;

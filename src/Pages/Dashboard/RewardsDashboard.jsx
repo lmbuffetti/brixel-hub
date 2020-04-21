@@ -210,7 +210,7 @@ const RewardsDashboard = (props) => {
           activeGameGroup && rewardType !== 'rewards' && (
             <div className="secondLevel w-perc-100 dis-fl-col ml-md">
               <>
-                <div className="rewardsSplash h-perc-100 dis-fl-col p-2 p-md-3">
+                <div className="rewardsSplash h-perc-100 dis-fl-col p-2 p-md-3 cardSecondLevel">
                   {
                     activeAchievement && (
                       <div className="dis-f a-c jc-b mb-4">
