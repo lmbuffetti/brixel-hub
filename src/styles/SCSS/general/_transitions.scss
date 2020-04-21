@@ -71,10 +71,11 @@
   }
 }
 .slideIn-enter-done {
-  z-index: 6;
+  z-index: 7;
 }
 .slideIn-exit {
   z-index: 2;
+
   .sidebarSubmenuContent {
     opacity: 1;
   }
