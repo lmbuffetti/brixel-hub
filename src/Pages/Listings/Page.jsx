@@ -216,7 +216,7 @@ const Page = (props) => {
               title="Make your Brixel Page public."
               description="Only CHF 350. Unlimited time. Don't worry. You will not be charged for now.Get the result first. Pay later."
               titleConfirm="Please confirm your order."
-              descriptionConfirm="<b>Make Brixel page public.</b><span>Only CHF 750 for 3 months. You will not be charged for now.</span>"
+              descriptionConfirm="<b>Make Brixel page public.</b><span>Only CHF 350 unlimited. You will not be charged for now.</span>"
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction

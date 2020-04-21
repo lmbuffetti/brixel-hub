@@ -20,6 +20,11 @@ const BrixelUpgradeMessage = (props) => {
   // STATE
   const [showUnlockMessage, setShowUnlockMessage] = useState(false);
 
+  const onUpgrade = () => {
+    localStorage.setItem('backUrl', history.location.pathname);
+    history.push(`/${propID}/upgrade`);
+  };
+
   return (
     <>
       {
@@ -59,7 +64,7 @@ const BrixelUpgradeMessage = (props) => {
               label={unlockFunction ? "Unlock now" : "Upgrade now"}
               background="red"
               saturation={400}
-              onClick={() => unlockFunction ? setShowUnlockMessage(true) : history.push(`/${propID}/upgrade`) }
+              onClick={() => unlockFunction ? setShowUnlockMessage(true) : onUpgrade() }
             />
           </div>
         )
