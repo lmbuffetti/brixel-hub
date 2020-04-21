@@ -20,7 +20,7 @@ function SuccessHomebase(props) {
   const propID = get(match, 'params.propId', null);
 
   return (
-    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col jc-b a-c">
+    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col jc-c a-c">
       <div className="dis-fl-col jc-c a-c">
         <div className="bgWhite brdRadius shadow-4dp ov-h w-perc-100">
           <div className="image-ratio">
@@ -59,18 +59,19 @@ function SuccessHomebase(props) {
         </div>
         <p className="mt-3 txtDark200 m-a ta-c">Great. Your property was created. Now you have the base to use Brixel.</p>
       </div>
-      <div className="dis-f jc-c mt-3">
+      <div className="dis-fl-col">
         <BrixelButtonPrimary
           rounded
+          className="mt-3 mb-2 pl-3"
           label="Edit property facts"
           rightIcon="arrow-right"
           onClick={() => history.push(`/${propID}/property/facts`)}
         />
+        <BrixelButtonTertiary
+          label="Add new propety"
+          onClick={() => history.push(`/packageFlow/getStarted`)}
+        />
       </div>
-      <BrixelButtonTertiary
-        label="Add new propety"
-        onClick={() => history.push(`/packageFlow/getStarted`)}
-      />
     </main>
   );
 }

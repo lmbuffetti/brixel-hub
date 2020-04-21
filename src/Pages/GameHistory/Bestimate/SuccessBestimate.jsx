@@ -51,9 +51,9 @@ function SuccessBestimate(props) {
   const bestimateValue = get(bestimate, 'higherValue', 0);
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-b a-c`}>
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c`}>
       {
-        groupdAchievement.done || getDoneFirstTime() === 'done' ? (
+        !groupdAchievement.done || getDoneFirstTime() === 'done' ? (
           <>
             {
               achievement && (
@@ -85,14 +85,14 @@ function SuccessBestimate(props) {
                             Based on similar transaction.
                           </p>
                         </div>
-                        <div className="w-perc-100 mt-2">
+                        <div className="w-perc-100">
                           <BrixelButtonPrimary
                             rounded
                             label="See full Bestimate®"
                             background={"primary"}
-                            className="max-w-fix-280 w-perc-100 m-a"
+                            className="pl-3 m-a mt-3"
                             onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                            rightIcon="arrow-right-small"
+                            rightIcon="arrow-right"
                           />
                         </div>
                       </>
@@ -115,14 +115,14 @@ function SuccessBestimate(props) {
                 Compare your property to real transaction data to better define the pricing.
               </p>
             </div>
-            <div className="w-perc-100 p-1 p-md-2 mt-2">
+            <div className="w-perc-100">
               <BrixelButtonPrimary
                 rounded
                 label="Get free Bestimate®"
                 background={"primary"}
-                className="max-w-fix-280 w-perc-100 m-a"
+                className="pl-3 m-a mt-3"
                 onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                rightIcon="arrow-right-small"
+                rightIcon="arrow-right"
               />
             </div>
           </>
