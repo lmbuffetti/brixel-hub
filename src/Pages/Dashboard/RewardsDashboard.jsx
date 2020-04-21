@@ -165,13 +165,13 @@ const RewardsDashboard = (props) => {
                         <>
                           {
                             i === 0 ? (
-                              <div className="dis-f jc-b a-c mb-3">
-                                <span className="fsize-400 dis-b txtDark700 fweight-500">
+                              <div className="dis-f jc-b a-c mb-3 mt-2">
+                                <span className="dis-b txtDark700 fweight-500">
                                   {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
                                 </span>
                               </div>
                             ) : (
-                              <span className="mb-3 fsize-400 dis-b txtDark700 fweight-500">
+                              <span className="mb-3 dis-b txtDark700 fweight-500">
                                 {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
                               </span>
                             )
@@ -224,14 +224,14 @@ const RewardsDashboard = (props) => {
                             noBorder
                             onClick={() => history.push(`/${propID}/rewards`)}
                           />
-                          <h5 className="mr-1">{activeAchievement.title || activeAchievement.name}</h5>
+                          <p className="mr-1 body fweight-500">{activeAchievement.title || activeAchievement.name}</p>
+                        </div>
+                        <div className="cur-poi ml-2">
                           <BrixelIcon
                             icon="cup-awards"
                             color="green"
+                            className="mr-1"
                           />
-                        </div>
-                        <div className="cur-poi ml-2">
-                          <img src={brixels} alt="icon awards" className="mr-1" />
                           <span className="ff-mono txtDark700">{activeAchievement.points}</span>
                         </div>
                       </div>
