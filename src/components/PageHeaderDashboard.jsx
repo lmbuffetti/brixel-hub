@@ -209,9 +209,9 @@ function PageHeaderDashboard(props) {
                         document.body.classList.remove('ov-h');
                       }}
                     />
-                    <div className="links dis-fl-col as-b pl-4">
+                    <div className="links dis-fl-col as-b px-3 w-perc-100">
                       <button
-                        className="txtLight100 fweight-700 fSizePx28 mb-4"
+                        className="txtLight100 fweight-700 fSizePx28 mb-4 ta-l"
                         onClick={() => onClickMobileMenu('propertyList')}
                       >
                         Properties
@@ -228,14 +228,41 @@ function PageHeaderDashboard(props) {
                       >
                         Calendar
                       </button>
-                      <a
-                        className="txtLight100 fweight-700 fSizePx28 mb-4"
-                        href={baseByData(null,'io').profileURL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Profile
-                      </a>
+                      <div className="mini-menu dis-fl-col txtLight100">
+                        <hr className="mb-4"/>
+                        <a
+                          className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
+                          href={baseByData(null,'io').profileURL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Profile
+                        </a>
+                        <a
+                          className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
+                          href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Password
+                        </a>
+                        <a
+                          className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
+                          href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Preferences
+                        </a>
+                        <a
+                          className="link txtRed400 fweight-500 fsize-500 mb-3 ta-l"
+                          href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Logout
+                        </a>
+                      </div>
                     </div>
                   </div>
                 )
