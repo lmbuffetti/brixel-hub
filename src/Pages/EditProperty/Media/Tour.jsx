@@ -127,6 +127,7 @@ const Tour = (props) => {
 };
 
 Tour.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
@@ -138,6 +139,7 @@ Tour.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'form.Property.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', null),
 });
