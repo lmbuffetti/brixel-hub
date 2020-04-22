@@ -634,7 +634,7 @@ ComponentMap.propTypes = {
   showSearchLocation: PropTypes.bool,
   showSelectCountry: PropTypes.bool,
   zoom: PropTypes.number,
-  minHeight: PropTypes.string,
+  minHeight: PropTypes.number,
 };
 
 ComponentMap.defaultProps = {
@@ -657,7 +657,7 @@ ComponentMap.defaultProps = {
   similarProperties: [],
   showMap: false,
   zoom: 14,
-  minHeight: '0',
+  minHeight: 0,
 };
 
 const mapStateToProps = (state) => {
