@@ -126,7 +126,7 @@ const Showings = (props) => {
                 noBorder
                 onClick={() => history.push(`/${propID}/listings`)}
               />
-              <h5 className="m-a m-md-0">Showings</h5>
+              <h5 className="m-a m-md-0 sectionTitle">Showings</h5>
               <BrixelButtonIcon
                 className="shadow-3dp"
                 icon={manageAvailability ? "close-small" : "calendar-edit"}

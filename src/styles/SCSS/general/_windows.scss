@@ -34,8 +34,7 @@
     background: $brx-white;
     z-index: 100;
     > div {
-      &:not(.rewardsSplash),
-      &:not(.brixel-upgrade-message) {
+      &:not([class*=" p-"]) {
         padding: $step * 2;
       }
     }
@@ -112,6 +111,9 @@
 }
 
 .brixel-upgrade-message {
+  @media (max-width: $responsive-medium) {
+    margin-top: auto;
+  }
   b {
     display: block;
   }

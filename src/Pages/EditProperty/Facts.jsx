@@ -163,7 +163,7 @@ const Facts = (props) => {
               noBorder
               onClick={() => history.push(`/${propID}/property`)}
             />
-            <h5 className="m-a m-md-0">Facts</h5>
+            <h5 className="m-a m-md-0 sectionTitle">Facts</h5>
           </div>
           <div className="mt-3 mb-3">
             <BrixelProgressBar

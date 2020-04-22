@@ -71,7 +71,9 @@
   }
 }
 .slideIn-enter-done {
-  z-index: 7;
+  @media screen and (min-width: $responsive-medium) {
+    z-index: 7;
+  }
 }
 .slideIn-exit {
   z-index: 2;

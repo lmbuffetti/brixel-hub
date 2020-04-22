@@ -155,7 +155,7 @@ const Photos = (props) => {
               noBorder
               onClick={() => history.push(`/${propID}/property`)}
             />
-            <h5 className="m-a m-md-0">
+            <h5 className="m-a m-md-0 sectionTitle">
               Photos
             </h5>
           </div>

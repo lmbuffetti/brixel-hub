@@ -26,23 +26,23 @@ const Tour = (props) => {
   const propID = get(match, 'params.propId', null);
 
   return (
-    <div className="secondLevel h-perc-md-100">
-      <div className="tourWrapper dis-fl-col">
-        <div className="dis-f jc-b a-c mb-3">
-          <BrixelButtonIcon
-            className="shadow-3dp hide-md"
-            icon="arrow-simple-left"
-            background="White"
-            color="primary"
-            saturationTxt={400}
-            noBorder
-            onClick={() => history.push(`/${propID}/property`)}
-          />
-          <h5 className="m-a m-md-0">
-            3d Tour
-          </h5>
-        </div>
+    <div className="tourWrapper h-perc-md-100">
+      <div className="secondLevel dis-fl-col">
         <div>
+          <div className="dis-f jc-b a-c mb-3">
+            <BrixelButtonIcon
+              className="shadow-3dp hide-md"
+              icon="arrow-simple-left"
+              background="White"
+              color="primary"
+              saturationTxt={400}
+              noBorder
+              onClick={() => history.push(`/${propID}/property`)}
+            />
+            <h5 className="m-a m-md-0 sectionTitle">
+              3d Tour
+            </h5>
+          </div>
           {
             !showTour ? (
               <div className="pos-r brdRadius ov-h">
@@ -111,16 +111,16 @@ const Tour = (props) => {
             )
           }
         </div>
+        {
+          !get(formValue, 'virtual.matterport', null) && (
+            <BrixelUpgradeMessage
+              className="mt-3"
+              title="Get your own 3D-Tour"
+              description="3D-Tour and much more is part of Brixel Premium."
+            />
+          )
+        }
       </div>
-      {
-        !get(formValue, 'virtual.matterport', null) && (
-          <BrixelUpgradeMessage
-            className="mt-3"
-            title="Get your own 3D-Tour"
-            description="3D-Tour and much more is part of Brixel Premium."
-          />
-        )
-      }
 
     </div>
   );

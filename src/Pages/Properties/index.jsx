@@ -68,7 +68,7 @@ const Properties = (props) => {
 
   return (
     <>
-      <div className="properties-header dis-fl-row a-c jc-b mb-2 mb-md-5 py-2 px-3 pos-r zIndex1">
+      <div className="properties-header dis-fl-row a-c jc-b mb-2 mb-md-4 py-2 px-3 pos-r zIndex1">
         <div className="dis-fl-row a-c">
           <span className="docubox-title fweight-500 txtDark700">
             <span>Properties</span>
