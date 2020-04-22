@@ -67,54 +67,52 @@ const PropertyList = (props) => {
     <div className={`properties ov-a h-perc-100 ${className}`}>
       {
         (activeProperties && activeProperties.length > 0) && (
-          <div className="px-0 px-md-2 pb-5 py-1">
+          <div className="px-0 pb-5">
             {
               activeProperties.map((property, i) => (
-                <a key={i.toString()} className="link" href={`/${property.id}/home`}>
-                  <li className="single-property dis-fl-row a-c jc-b cur-poi brdSmall brdLight200 brdRadius mt-2">
-                    <div className="dis-f jc-b w-perc-100 a-c">
-                      <div className="dis-f a-c">
-                        <div className="avatar w-fix-96 h-fix-96 a-c jc-c pos-r brdRadius ov-h">
-                          {
-                            property.coverPhoto && property.coverPhoto.path ? (
-                              <img
-                                src={`${getConfigEnv.shortPath}${property.coverPhoto.thumbnailPath}`}
-                                alt="Brixel Logo"
-                                id={`avatar${i}`}
-                                className="dis-b"
-                              />
-                            ) : (
-                              <i
-                                className="w-perc-100 h-perc-100"
-                                style={{
-                                  backgroundSize: 'cover',
-                                  backgroundPosition: 'center',
-                                  display: 'block',
-                                  backgroundRepeat: 'no-repeat',
-                                  backgroundImage: `url(${noCover})`,
-                                }}
-                              />
-                            )
-                          }
-                        </div>
-                        <div className="title ml-1">
-                          <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                            {get(formValue, 'title', '')}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="ta-r pr-1 txtDark700">
+                <a key={i.toString()} className="link dis-b" href={`/${property.id}/home`}>
+                  <li className="single-property dis-fl-row cur-poi shadow-1dp brdRadius p-1 my-2">
+
+                    <div className="avatar p1 w-fix-48 h-fix-48 flex-48 a-c jc-c pos-r brdRadius ov-h">
+                      {
+                        property.coverPhoto && property.coverPhoto.path ? (
+                          <img
+                            src={`${getConfigEnv.shortPath}${property.coverPhoto.thumbnailPath}`}
+                            alt="Brixel Logo"
+                            id={`avatar${i}`}
+                            className="dis-b"
+                          />
+                        ) : (
+                          <i
+                            className="w-perc-100 h-perc-100"
+                            style={{
+                              backgroundSize: 'cover',
+                              backgroundPosition: 'center',
+                              display: 'block',
+                              backgroundRepeat: 'no-repeat',
+                              backgroundImage: `url(${noCover})`,
+                            }}
+                          />
+                        )
+                      }
+                    </div>
+                    <div className="title px-1 w-perc-100">
+                      <span className="name body2 dis-fl-row fweight-500 txtDark700">
+                        {get(formValue, 'title', '')}
+                      </span>
+                    </div>
+                    <div className="flex-72 max-w-fix-72 ta-r pr-1 txtDark700">
                         {
                           property.owner.id === user.user.id ? (
                             <>
                               {
                                 activeSection !== 'seller' && (
-                                  <span className="fweight-500">Owner</span>
+                                  <span className="fweight-500 body2">Owner</span>
                                 )
                               }
                               <span className="dis-f a-c">
                                 <BrixelStatus color={statusPage(property).colorIcon} />
-                                <span className="ml-1 txtDark200">{statusPage(property).label}</span>
+                                <span className="ml-1 body2 txtDark200">{statusPage(property).label}</span>
                               </span>
                             </>
                           ) : (
@@ -128,7 +126,7 @@ const PropertyList = (props) => {
                           )
                         }
                       </div>
-                    </div>
+
                   </li>
                 </a>
               ))
