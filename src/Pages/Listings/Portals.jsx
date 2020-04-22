@@ -64,7 +64,7 @@ const Portals = (props) => {
                 noBorder
                 onClick={() => history.push(`/${propID}/listings`)}
               />
-              <h5>Portals</h5>
+              <h5 className="sectionTitle">Portals</h5>
               <span />
             </div>
           </div>

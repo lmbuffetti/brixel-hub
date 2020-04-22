@@ -182,7 +182,7 @@ const Documents = (props) => {
             noBorder
             onClick={() => history.push(`/${propID}/property`)}
           />
-          <h5 className="m-a m-md-0">
+          <h5 className="m-a m-md-0 sectionTitle">
             Docubox
           </h5>
         </div>

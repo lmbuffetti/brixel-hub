@@ -25,16 +25,6 @@
   }
 }
 
-
-@media (max-width: $responsive-medium) {
-  .photosWrapper .secondLevel,
-  .photosWrapper .secondLevel > div:not(.brixel-upgrade-message),
-  .plansWrapper .secondLevel,
-  .plansWrapper .secondLevel > div:not(.brixel-upgrade-message) {
-      height: 100%;
-  }
-}
-
 @media (min-width: 1025px) {
   .image-list {
     li {
