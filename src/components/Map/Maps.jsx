@@ -682,7 +682,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
-  return prevProps.formValue.location.latitude === nextProps.formValue.location.latitude || prevProps.formValue.location.longitude === nextProps.formValue.location.longitude || prevProps.formValue.location.address === nextProps.formValue.location.address
+  return prevProps.formValue.location.latitude === nextProps.formValue.location.latitude || prevProps.formValue.location.longitude === nextProps.formValue.location.longitude || prevProps.formValue.location.address === nextProps.formValue.location.address || prevProps.formValue.location.country === nextProps.formValue.location.country
 });
 
 export default compose(
