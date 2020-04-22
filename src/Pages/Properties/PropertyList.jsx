@@ -71,7 +71,7 @@ const PropertyList = (props) => {
             {
               activeProperties.map((property, i) => (
                 <a key={i.toString()} className="link dis-b" href={`/${property.id}/home`}>
-                  <li className="single-property dis-fl-row cur-poi shadow-1dp brdRadius p-1 my-2">
+                  <li className="single-property a-c dis-fl-row cur-poi shadow-1dp brdRadius p-1 my-2">
 
                     <div className="avatar p1 w-fix-48 h-fix-48 flex-48 a-c jc-c pos-r brdRadius ov-h">
                       {
