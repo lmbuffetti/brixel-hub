@@ -10,6 +10,7 @@ import { useDropzone } from 'react-dropzone';
 import { diff } from 'deep-object-diff';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
+import isArray from 'lodash/isArray';
 import {
   BrixelButtonIcon,
   BrixelIcon,
@@ -267,12 +268,12 @@ const Photos = (props) => {
             }
             <>
               <div
-                className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c`}
+                className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c`}
                 {...getRootProps()}
               >
                 <input {...getInputProps()} />
                 {
-                  (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
+                  (!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (
                     <div className="w-perc-100">
                       <img className="w-perc-100" src={upload_photos_empty} alt="Empty State" />
                       <h5 className="mt-2 mb-1">Upload your fist photo</h5>
@@ -292,7 +293,7 @@ const Photos = (props) => {
           </div>
         </div>
         {
-          activeSingleProperty.servicePackages.length === 0 && (
+          get(activeSingleProperty, 'servicePackages', []).length === 0 && (
             <BrixelUpgradeMessage
               className="mt-3"
               title="Do you want professional photos?"

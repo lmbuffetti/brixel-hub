@@ -12,6 +12,7 @@ import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import noCover from '../../images/no_cover.jpg';
 import { sortObject } from '../../utils/helpers';
 import { BrixelButtonPrimary, BrixelStatus } from '@brixel/brixel-components';
+import CoverPropertyImage from '../../components/CoverPropertyImage';
 
 const PropertyList = (props) => {
   // PROPS
@@ -73,33 +74,17 @@ const PropertyList = (props) => {
                 <a key={i.toString()} className="link" href={`/${property.id}/home`}>
                   <li className="single-property dis-fl-row a-c jc-b cur-poi brdSmall brdLight200 brdRadius mt-2">
                     <div className="dis-f jc-b w-perc-100 a-c">
-                      <div className="dis-f a-c">
-                        <div className="avatar w-fix-96 h-fix-96 a-c jc-c pos-r brdRadius ov-h">
-                          {
-                            property.coverPhoto && property.coverPhoto.path ? (
-                              <img
-                                src={`${getConfigEnv.shortPath}${property.coverPhoto.thumbnailPath}`}
-                                alt="Brixel Logo"
-                                id={`avatar${i}`}
-                                className="dis-b"
-                              />
-                            ) : (
-                              <i
-                                className="w-perc-100 h-perc-100"
-                                style={{
-                                  backgroundSize: 'cover',
-                                  backgroundPosition: 'center',
-                                  display: 'block',
-                                  backgroundRepeat: 'no-repeat',
-                                  backgroundImage: `url(${noCover})`,
-                                }}
-                              />
-                            )
-                          }
+                      <div className="dis-f a-c w-perc-100">
+                        <div className="image-ratio h-fix-56 min-w-fix-56 w-fix-56 brdRadius ov-h">
+                          <CoverPropertyImage
+                            className="cover"
+                            coverPhoto={get(property, 'coverPhoto.path', undefined)}
+                            propertyType={get(property, 'properties.propertyType', undefined)}
+                          />
                         </div>
                         <div className="title ml-1">
                           <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                            {get(formValue, 'title', '')}
+                            {get(property, 'title', '')}
                           </span>
                         </div>
                       </div>

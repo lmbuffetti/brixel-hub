@@ -276,7 +276,7 @@ const Photos = (props) => {
         </div>
 
         {
-          activeSingleProperty.servicePackages.length === 0 && (
+          get(activeSingleProperty, 'servicePackages', []).length === 0 && (
             <BrixelUpgradeMessage
               className="mt-3"
               title="You don’t have a plan?"
