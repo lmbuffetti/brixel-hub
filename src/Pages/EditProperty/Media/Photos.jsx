@@ -23,6 +23,7 @@ import DetailMedia from './DetailMedia';
 import { Truncate } from '../../../utils/helpers';
 import upload_photos_empty from '../../../images/Upload/upload_photos_empty.svg';
 import OutsideElement from '../../../components/OutsideElement';
+import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const Photos = (props) => {
   // PROPS
@@ -289,6 +290,13 @@ const Photos = (props) => {
             </>
           </div>
         </div>
+
+        <BrixelUpgradeMessage
+          className="mt-3"
+          title="Do you want professional photos?"
+          description="Hight quality photos and much more is part of Brixel Premium."
+        />
+
       </div>
       <Route path="/:propId?/property/photos/:imgId/edit/:editType" exact component={DetailMedia} />
     </div>

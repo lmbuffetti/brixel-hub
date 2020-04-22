@@ -29,7 +29,7 @@ const Properties = (props) => {
   // PROPS
   const {
     closeProperty,
-    handleGetFavorites,
+    //handleGetFavorites,
     handleGetUserProperties,
     favoritesProperties,
     user,
@@ -41,7 +41,7 @@ const Properties = (props) => {
   useEffect(() => {
     if (get(user, 'user.id')) {
       handleGetUserProperties(user.user.id);
-      handleGetFavorites()
+      // handleGetFavorites()
     }
   }, [user]);
 
@@ -87,6 +87,7 @@ const Properties = (props) => {
           onClick={() => closeProperty()}
         />
       </div>
+      {/*
       <BrixelTabs
         className={`tabs mb-1-neg px-2 px-md-3 py-2 bgWhite zIndex1`}
         clicksList={[
@@ -103,7 +104,7 @@ const Properties = (props) => {
         onClick={(tab) => setActiveTab(tab)}
         fullWidth
       />
-
+      */}
       <PropertyList className="px-2 px-md-3" activeSection={activeTab} />
     </>
   );

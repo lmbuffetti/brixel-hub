@@ -44,7 +44,7 @@ function SuccessAssessor(props) {
   }, [gameGroup, getParams]);
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-b a-c`}>
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c`}>
       {
         groupdAchievement.done ? (
           <>
@@ -75,18 +75,18 @@ function SuccessAssessor(props) {
                             The values are calculated with the average lifespan of each element.
                           </p>
                         </div>
-                        <div className="w-perc-100 p-1 p-md-2 mt-2">
+                        <div className="w-perc-100">
                           <BrixelButtonPrimary
                             rounded
                             label="See full report"
                             background={"primary"}
-                            className="max-w-fix-280 w-perc-100 m-a"
+                            className="m-a mb-2 pl-3 mt-3"
                             onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                            rightIcon="arrow-right-small"
+                            rightIcon="arrow-right"
                           />
                           <BrixelButtonTertiary
                             label="Redo condition check"
-                            className="max-w-fix-280 w-perc-100 m-a mt-3"
+                            className="m-a"
                             onClick={() => history.push({
                               pathname: `/${propID}/rewards/achievement/${getParams}`,
                               state: { redo: true }
@@ -113,14 +113,14 @@ function SuccessAssessor(props) {
                 As an assessor, you know about the condition of the most important parts of your property.
               </p>
             </div>
-            <div className="w-perc-100 p-1 p-md-2 mt-2">
+            <div className="w-perc-100">
               <BrixelButtonPrimary
                 rounded
                 label="Assess condition"
                 background={"primary"}
-                className="max-w-fix-280 w-perc-100 m-a"
+                className="pl-3 m-a mt-3"
                 onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                rightIcon="arrow-right-small"
+                rightIcon="arrow-right"
               />
             </div>
           </>

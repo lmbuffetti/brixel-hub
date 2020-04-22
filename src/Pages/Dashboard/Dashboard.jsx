@@ -91,16 +91,20 @@ const Dashboard = (props) => {
   const propID = get(match, 'params.propId', null);
   // const checkActiveTab = () => last(history.location.pathname.split('/'));
 
+  const loadDefaultProperty = () => {
+    const data = {
+      limit: 1,
+      offset: `0/?owner=${loggedInUser.user.id}`,
+      setAsSingle: true,
+    };
+    handleGetPropertyListings(data);
+  };
+
   useEffect(() => {
     if (propID && !get(activeSingleProperty, 'id', null)) {
-      handleGetActiveSingleProperty({fullVersion: false, id: propID});
+      handleGetActiveSingleProperty({fullVersion: true, id: propID});
     } else if (!propID) {
-      const data = {
-        limit: 1,
-        offset: `0/?owner=${loggedInUser.user.id}`,
-        setAsSingle: true,
-      };
-      handleGetPropertyListings(data);
+      loadDefaultProperty();
     }
   }, []);
 
@@ -110,8 +114,10 @@ const Dashboard = (props) => {
         history.push(`/${activeSingleProperty.id}/rewards`);
       }
       if (activeSingleProperty.owner === loggedInUser.user.id) {
-        handleGetActiveSingleProperty({ fullVersion: true, id: propID });
+        // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
         handleGetActiveSinglePropertyBookings({ id: propID });
+      } else if (activeSingleProperty.statusCode) {
+        loadDefaultProperty();
       }
       handleGetImageType();
     } else {

@@ -44,13 +44,13 @@ const PropertyList = (props) => {
     setActiveProperties(propertiesList);
   }, [activeSection, favoritesProperties, userProperties]);
 
-  const statusPage = () => {
+  const statusPage = (property) => {
     let label;
     let colorIcon;
-    if (formValue.publishReview) {
+    if (property.publishReview) {
       label = 'Review';
       colorIcon = 'yellow';
-    } else if (formValue.published) {
+    } else if (property.published) {
       label = 'Published';
       colorIcon = 'green';
     } else {
@@ -99,15 +99,8 @@ const PropertyList = (props) => {
                         </div>
                         <div className="title ml-1">
                           <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                            <span>
-                              {(has(property.properties, 'typology') && has(property.properties.typology, 'bedrooms')) ? property.properties.typology.bedrooms : ''}
-                            </span>
-                            &nbsp;
-                            <span>
-                              {has(property.properties, 'propertyType') ? property.properties.propertyType : 'Property'}
-                            </span>
+                            {get(formValue, 'title', '')}
                           </span>
-                          <span className="address caption txtLight400">{has(property.location, 'zip') ? property.location.zip : ''} {has(property.location, 'state') ? property.location.state : ''}</span>
                         </div>
                       </div>
                       <div className="ta-r pr-1 txtDark700">
@@ -120,8 +113,8 @@ const PropertyList = (props) => {
                                 )
                               }
                               <span className="dis-f a-c">
-                                <BrixelStatus color={statusPage().colorIcon} />
-                                <span className="ml-1 txtDark200">{statusPage().label}</span>
+                                <BrixelStatus color={statusPage(property).colorIcon} />
+                                <span className="ml-1 txtDark200">{statusPage(property).label}</span>
                               </span>
                             </>
                           ) : (

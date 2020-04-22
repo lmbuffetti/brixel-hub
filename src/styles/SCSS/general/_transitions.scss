@@ -66,10 +66,16 @@
   .sidebarSubmenuContent {
     opacity: 1;
     transform: translateX(0);
-    transition: opacity $default-time-long, transform $default-time-long;
+    transition: opacity $default-time, transform $default-time-long;
+
   }
 }
+.slideIn-enter-done {
+  z-index: 7;
+}
 .slideIn-exit {
+  z-index: 2;
+
   .sidebarSubmenuContent {
     opacity: 1;
   }
@@ -77,8 +83,7 @@
 .slideIn-exit-active {
   .sidebarSubmenuContent {
     opacity: 0;
-    transform: translateX(-100%);
-    transition: opacity $default-time-long, transform $default-time-long;
+    transition: opacity $default-time;
   }
 }
 

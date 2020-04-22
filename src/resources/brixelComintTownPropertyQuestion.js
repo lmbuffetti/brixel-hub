@@ -40,6 +40,20 @@ export const QuestionsList = (lang, gameGroup) => {
   }
   return [
     {
+      title: translateTo(lang, "What is the location?"),
+      component: "Map",
+      history: "locationInput",
+      cardType: "locationInput",
+      inputs: [
+        {
+          name: 'location.address',
+          type: 'Map',
+          validation: [Validation.required],
+        },
+      ],
+      successMessage: translateTo(lang, "That is an interesting location.")
+    },
+    {
       className: 'radioBtnImg',
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
       title: translateTo(lang, "What type of property do you have?"),
@@ -79,9 +93,8 @@ export const QuestionsList = (lang, gameGroup) => {
           classNameBox: 'max-w-fix-md-232',
           label: '',
           name: 'bedrooms',
-          type: 'number',
           validation: [maxLengthNumRooms, Validation.positiveNumber, Validation.required],
-          step: [1],
+          step: 0.5,
           min: 1,
         },
       ],
@@ -125,20 +138,6 @@ export const QuestionsList = (lang, gameGroup) => {
         },
       ],
       successMessage: translateTo(lang, 'A good year for real estate.')
-    },
-    {
-      title: translateTo(lang, "What is the location?"),
-      component: "Map",
-      history: "locationInput",
-      cardType: "locationInput",
-      inputs: [
-        {
-          name: 'location.address',
-          type: 'Map',
-          validation: [Validation.required],
-        },
-      ],
-      successMessage: translateTo(lang, "That is an interesting location.")
     },
     {
       title: translateTo(lang, "Great, Your property was created!") + " 🎉",

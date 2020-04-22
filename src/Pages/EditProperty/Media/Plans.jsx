@@ -20,6 +20,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import OutsideElement from '../../../components/OutsideElement';
 import { Truncate } from '../../../utils/helpers';
 import { diff } from 'deep-object-diff';
+import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const Photos = (props) => {
   // PROPS
@@ -272,6 +273,13 @@ const Photos = (props) => {
             </>
           </div>
         </div>
+
+        <BrixelUpgradeMessage
+          className="mt-3"
+          title="You don’t have a plan?"
+          description="Accurate floor plans and much more is part of Brixel Premium."
+        />
+
       </div>
       <Route path="/:propId?/property/floorPlans/:imgId/edit/:editType" exact component={DetailMedia} />
     </div>

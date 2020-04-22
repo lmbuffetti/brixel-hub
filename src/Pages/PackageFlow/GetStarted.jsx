@@ -82,7 +82,8 @@ function GetStarted(props) {
   const [showCountrySel, setShowCountrySel] = useState(false);
 
   const countryObj = (curVal) => {
-    const getCurrent = country.find((val) => val.full === curVal || val.value === curVal);
+    const getCurrent = country.find((val) => val.full === curVal.toLowerCase() || val.value === curVal.toLowerCase());
+    changeFieldValue('location.countryCode', curVal);
     setCurCountry(getCurrent);
   };
 
@@ -119,7 +120,6 @@ function GetStarted(props) {
       } else {
         pageTitle += ' in ' + formValue.location.address;
       }
-      console.log(formValue.location, pageTitle);
       changeFieldValue('pageTitle', pageTitle);
     }
   };
@@ -140,7 +140,7 @@ function GetStarted(props) {
         zip: 8004,
         city: "Zürich",
       };
-      changeFieldValue('location', location);
+      //changeFieldValue('location', location);
     }
     handleGetGamegroup();
   }, []);
@@ -474,7 +474,7 @@ function GetStarted(props) {
                                             showMap={false}
                                             isShowZip={false}
                                             className="w-perc-100"
-                                            selCountry={curCountry ? curCountry.value : ''}
+                                            selCountry={get(formValue, 'location.countryCode', '')}
                                             changeCountry={(val) => {
                                               countryObj(val);
                                               setShowCountrySel(false);

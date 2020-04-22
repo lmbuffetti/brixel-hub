@@ -106,6 +106,9 @@ const App = (props) => {
   } = props;
   // STATE
   const [isLoaded, setIsLoaded] = useState(false);
+  const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
+  const [zIndex, setZIndex] = useState(1);
+  const [isFlow, setIsFlow] = useState(false);
 
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) handleCheckToken();
@@ -157,6 +160,22 @@ const App = (props) => {
     }
   }, [redirectTo]);
 
+  useEffect(() => {
+    if (
+      history.location.pathname.includes('packageFlow') ||
+      history.location.pathname.includes('onBoarding') ||
+      history.location.pathname.includes('upgrade')
+    ) {
+      setClassMain('');
+      setIsFlow(true);
+      setZIndex(6);
+    } else {
+      setClassMain('w-perc-100 pos-r hubContainer');
+      setIsFlow(false);
+      setZIndex(1);
+    }
+  }, [history.location.pathname]);
+
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
     return head[0] ? head[0].offsetHeight : 0;
@@ -167,20 +186,6 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
     )
   }
-
-  let classMain = 'w-perc-100 pos-r hubContainer';
-  let zIndex = 1;
-  let isFlow = false;
-  if (
-    history.location.pathname.includes('packageFlow') ||
-    history.location.pathname.includes('onBoarding') ||
-    history.location.pathname.includes('upgrade')
-  ) {
-    classMain = '';
-    isFlow = true;
-    zIndex = 6;
-  }
-
 
   return (
     <main className={`${!isFlow ? 'hubDashboard' : ''} dis-fl-row jc-b`}>
@@ -197,7 +202,9 @@ const App = (props) => {
               <MenuSidebar />
             )
           }
-          <div className={`zIndex${zIndex} w-perc-100 dis-fl-col`} style={{ height: windowDimensions.height }}>
+          <div className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
+            style={!isFlow ? null : { height: windowDimensions.height }}
+          >
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
                 <PageHeader />
@@ -209,13 +216,13 @@ const App = (props) => {
                 !history.location.pathname.includes('onBoarding')) &&
                 !history.location.pathname.includes('upgrade') &&
               (
-                <PageHeaderDashboard />
+                <PageHeaderDashboard changeZIndex={(index) => setZIndex(index)} />
               )
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? 'hubDasContent bgLight100 h-perc-100' : ''} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
-              style={{ height: windowDimensions.height - calcHeaderHeight() }}
+              className={`${!isFlow ? 'hubDasContent bgLight100' : ''} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
+              style={ !isFlow ? {minHeight: 'calc(100vh - ' + calcHeaderHeight() +'px)'} : { height: windowDimensions.height - calcHeaderHeight() }}
             >
               <Switch>
                 { /* SECTION: ONBOARDING */ }
