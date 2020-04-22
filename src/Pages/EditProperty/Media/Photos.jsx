@@ -28,6 +28,7 @@ import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 const Photos = (props) => {
   // PROPS
   const {
+    activeSingleProperty,
     changeFieldValue,
     formValue,
     handleUploadImg,
@@ -290,12 +291,15 @@ const Photos = (props) => {
             </>
           </div>
         </div>
-
-        <BrixelUpgradeMessage
-          className="mt-3"
-          title="Do you want professional photos?"
-          description="Hight quality photos and much more is part of Brixel Premium."
-        />
+        {
+          activeSingleProperty.servicePackages.length === 0 && (
+            <BrixelUpgradeMessage
+              className="mt-3"
+              title="Do you want professional photos?"
+              description="Hight quality photos and much more is part of Brixel Premium."
+            />
+          )
+        }
 
       </div>
       <Route path="/:propId?/property/photos/:imgId/edit/:editType" exact component={DetailMedia} />
@@ -304,6 +308,7 @@ const Photos = (props) => {
 };
 
 Photos.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
@@ -319,6 +324,7 @@ Photos.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
   percentage: get(state, 'common.percentage', 0),
   loggedInUser: get(state, 'user.loggedInUser', null),
