@@ -17,6 +17,12 @@
     border-top-left-radius: $brd-radius-small;
     border-top-right-radius: $brd-radius-small;
 
+    .subcontainer {
+      width: 100%;
+      max-width: 480px;
+      margin: auto;
+    }
+
     .multiStepForm {
       height: 100%;
     }
