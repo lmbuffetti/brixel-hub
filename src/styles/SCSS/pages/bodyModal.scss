@@ -16,7 +16,7 @@
     border-top-right-radius: $brd-radius-small;
     position: fixed;
     width: 100%;
-    max-width: 786px;
+    max-width: 760px;
     top: $step;
     left: 0;
     background: $brx-white;
@@ -41,11 +41,21 @@
           padding: $step * 3;
           transition: opacity $default-time-long $default-easing;
 
+          @media (min-width: $responsive-small) {
+            display: flex;
+            align-items: center;
+          }
+
           &[class*="bg"],
           &.vertCentered {
             align-items: center;
             justify-content: center;
             display: flex;
+          }
+          .subcontainer {
+            width: 100%;
+            max-width: 480px;
+            margin: auto;
           }
         }
       }

@@ -9,7 +9,7 @@
     width: 100%;
     position: fixed;
     overflow: hidden;
-    max-width: 786px;
+    max-width: 760px;
     left: 50%;
     transform: translateX(-50%);
 
@@ -35,19 +35,17 @@
       flex: 0 0 100%;
       overflow-y: auto;
       overflow-x: hidden;
-
       padding: $step * 3;
-
-        &[class*="bg"],
-        &.vertCentered {
-          align-items: center;
-          justify-content: center;
-          display: flex;
-        }
 
       @media (min-width: $responsive-small) {
         display: flex;
         align-items: center;
+      }
+      &[class*="bg"],
+      &.vertCentered {
+        align-items: center;
+        justify-content: center;
+        display: flex;
       }
       .container {
         padding: 0;

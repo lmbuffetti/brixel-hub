@@ -141,15 +141,6 @@ header {
   }
 }
 
-.subcontainer {
-  width: 100%;
-  margin: auto;
-
-  &:not([class*="max-w-fix"]) {
-    max-width: 620px;
-  }
-}
-
 .brxNotification {
   z-index: 10;
   display: flex;
