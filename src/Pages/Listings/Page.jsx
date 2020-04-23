@@ -15,7 +15,6 @@ import {
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { updatePublishedReview } from '../../actions/PropertyActions';
-import page_review from '../../images/Listings/page_review.svg';
 import CoverPropertyImage from '../../components/CoverPropertyImage';
 import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
 
@@ -27,7 +26,6 @@ const Page = (props) => {
     history,
     isSmallLoading,
     match,
-    unlockFunction,
   } = props;
   // URL PARAMS
   const propID = get(match, 'params.propId', null);

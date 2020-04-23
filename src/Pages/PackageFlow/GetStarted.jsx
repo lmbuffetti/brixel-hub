@@ -141,7 +141,7 @@ function GetStarted(props) {
         zip: 8004,
         city: "Zürich",
       };
-      //changeFieldValue('location', location);
+      changeFieldValue('location', location);
     }
     handleGetGamegroup();
   }, []);
