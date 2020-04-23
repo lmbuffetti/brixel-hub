@@ -72,47 +72,45 @@ const PropertyList = (props) => {
             {
               activeProperties.map((property, i) => (
                 <a key={i.toString()} className="link" href={`/${property.id}/home`}>
-                  <li className="single-property dis-fl-row a-c jc-b cur-poi brdSmall brdLight200 brdRadius mt-2">
-                    <div className="dis-f jc-b w-perc-100 a-c">
-                      <div className="dis-f a-c w-perc-100">
-                        <div className="image-ratio h-fix-56 min-w-fix-56 w-fix-56 brdRadius ov-h">
-                          <CoverPropertyImage
-                            className="cover"
-                            coverPhoto={get(property, 'coverPhoto.path', undefined)}
-                            propertyType={get(property, 'properties.propertyType', undefined)}
-                          />
-                        </div>
-                        <div className="title ml-1">
-                          <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                            {get(property, 'title', '')}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="ta-r pr-1 txtDark700">
-                        {
-                          property.owner.id === user.user.id ? (
-                            <>
-                              {
-                                activeSection !== 'seller' && (
-                                  <span className="fweight-500">Owner</span>
-                                )
-                              }
-                              <span className="dis-f a-c">
-                                <BrixelStatus color={statusPage(property).colorIcon} />
-                                <span className="ml-1 txtDark200">{statusPage(property).label}</span>
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              {
-                                activeSection !== 'buyer' && (
-                                  <span className="fweight-500">Buyer</span>
-                                )
-                              }
-                            </>
-                          )
-                        }
-                      </div>
+                  <li className="single-property a-c dis-fl-row cur-poi shadow-1dp brdRadius p-1 my-2">
+                    <div className="image-ratio w-fix-48 h-fix-48 flex-48 a-c jc-c pos-r brdRadius ov-h">
+                      <CoverPropertyImage
+                        size={48}
+                        className="cover"
+                        coverPhoto={get(property, 'coverPhoto.path', undefined)}
+                        propertyType={get(property, 'properties.propertyType', undefined)}
+                      />
+                    </div>
+                    <div className="title px-2 w-perc-100">
+                      <span className="name body2 dis-fl-row fweight-500 txtDark700">
+                        {get(property, 'title', '')}
+                      </span>
+                    </div>
+
+                    <div className="flex-72 max-w-fix-72 ta-r txtDark700">
+                      {
+                        property.owner.id === user.user.id ? (
+                          <>
+                            {
+                              activeSection !== 'seller' && (
+                                <span className="fweight-500 body2 ta-r">Owner</span>
+                              )
+                            }
+                            <span className="dis-f a-c jc-fe">
+                              <BrixelStatus color={statusPage(property).colorIcon} />
+                              <span className="ml-1 body2 txtDark200">{statusPage(property).label}</span>
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            {
+                              activeSection !== 'buyer' && (
+                                <span className="fweight-500 body2">Buyer</span>
+                              )
+                            }
+                          </>
+                        )
+                      }
                     </div>
                   </li>
                 </a>
