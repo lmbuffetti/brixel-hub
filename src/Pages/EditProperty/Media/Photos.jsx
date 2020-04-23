@@ -10,6 +10,7 @@ import { useDropzone } from 'react-dropzone';
 import { diff } from 'deep-object-diff';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
+import isArray from 'lodash/isArray';
 import {
   BrixelButtonIcon,
   BrixelIcon,
@@ -23,10 +24,12 @@ import DetailMedia from './DetailMedia';
 import { Truncate } from '../../../utils/helpers';
 import upload_photos_empty from '../../../images/Upload/upload_photos_empty.svg';
 import OutsideElement from '../../../components/OutsideElement';
+import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const Photos = (props) => {
   // PROPS
   const {
+    activeSingleProperty,
     changeFieldValue,
     formValue,
     handleUploadImg,
@@ -152,7 +155,7 @@ const Photos = (props) => {
               noBorder
               onClick={() => history.push(`/${propID}/property`)}
             />
-            <h5 className="m-a m-md-0">
+            <h5 className="m-a m-md-0 sectionTitle">
               Photos
             </h5>
           </div>
@@ -265,12 +268,12 @@ const Photos = (props) => {
             }
             <>
               <div
-                className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c`}
+                className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c`}
                 {...getRootProps()}
               >
                 <input {...getInputProps()} />
                 {
-                  (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
+                  (!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (
                     <div className="w-perc-100">
                       <img className="w-perc-100" src={upload_photos_empty} alt="Empty State" />
                       <h5 className="mt-2 mb-1">Upload your fist photo</h5>
@@ -289,6 +292,16 @@ const Photos = (props) => {
             </>
           </div>
         </div>
+        {
+          get(activeSingleProperty, 'servicePackages', []).length === 0 && (
+            <BrixelUpgradeMessage
+              className="mt-3"
+              title="Do you want professional photos?"
+              description="Hight quality photos and much more is part of Brixel Premium."
+            />
+          )
+        }
+
       </div>
       <Route path="/:propId?/property/photos/:imgId/edit/:editType" exact component={DetailMedia} />
     </div>
@@ -296,6 +309,7 @@ const Photos = (props) => {
 };
 
 Photos.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
@@ -311,6 +325,7 @@ Photos.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
   percentage: get(state, 'common.percentage', 0),
   loggedInUser: get(state, 'user.loggedInUser', null),

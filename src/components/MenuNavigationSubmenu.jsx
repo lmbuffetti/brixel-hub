@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { useOutsideAlerter } from '@brixel/brixel-components';
+import useOutsideAlerter from './OutsideElement';
 
 import Properties from '../Pages/Properties';
 import Support from './Support';
@@ -21,7 +21,7 @@ const MenuNavigationSubmenu = (props) => {
   useOutsideAlerter(wrapperRef, {
     action: 'function',
     func: () => {
-      onClose(null);
+      onClose();
     },
   });
 
@@ -30,7 +30,7 @@ const MenuNavigationSubmenu = (props) => {
       {
         activeMenu && (
           <div className="sidebarSubmenu zIndex2" style={{ height: windowDimensions.height }}>
-            <div className="sidebarSubmenuContent dis-fl-col h-perc-100" ref={wrapperRef}>
+            <div className="sidebarSubmenuContent shadow-1dp dis-fl-col h-perc-100" ref={wrapperRef}>
               {
                 activeMenu === 'propertyList' && (
                   <Properties {...props} closeProperty={() => onClose(null)}/>

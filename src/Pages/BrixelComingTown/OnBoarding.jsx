@@ -102,7 +102,8 @@ function OnBoarding(props) {
 
   // SET the country from the value
   const countryObj = (curVal) => {
-    const getCurrent = country.find((val) => val.full === curVal || val.value === curVal);
+    const getCurrent = country.find((val) => val.full === curVal.toLowerCase() || val.value === curVal.toLowerCase());
+    changeFieldValue('location.countryCode', curVal);
     setCurCountry(getCurrent);
   };
 

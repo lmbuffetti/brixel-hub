@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import isArray from 'lodash/isArray';
 
 function useOutsideAlerter(ref, action) {
   /**
@@ -7,8 +8,7 @@ function useOutsideAlerter(ref, action) {
   function handleClickOutside(event) {
     const getClass = document.getElementsByClassName('brixel-notification');
     const getClassMore = document.getElementsByClassName('block-click');
-    console.log(ref);
-    if (getClass.length + getClassMore.length === 0 && event.target) {
+    if (getClass.length + getClassMore.length === 1 && event.target && ref.current && isArray(ref.current)) {
       const curRef = action.id ? ref.current[action.id] : ref.current[0];
       if (curRef && curRef.current) {
         if (!curRef.current.contains(event.target)) {
@@ -21,7 +21,7 @@ function useOutsideAlerter(ref, action) {
         }
       }
     } else if (ref && ref.current) {
-      if (!ref.current.contains(event.target)) {
+      if (typeof ref.current.length === 'undefined' && !ref.current.contains(event.target)) {
         if (action.action === 'push') {
           action.history.push(action.loc);
         }

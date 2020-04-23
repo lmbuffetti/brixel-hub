@@ -44,7 +44,7 @@ function SuccessMarketCheck(props) {
   }, [gameGroup, getParams]);
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-b a-c`}>
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c`}>
       {
         groupdAchievement.done || getDoneFirstTime() === 'done' ? (
           <>
@@ -73,14 +73,14 @@ function SuccessMarketCheck(props) {
                             <span>:&nbsp;{moment(marketData.market_check_date).format('MMMM DD YYYY / HH:mm')}</span>
                           </p>
                         </div>
-                        <div className="w-perc-100 p-1 p-md-2 mt-2">
+                        <div className="w-perc-100">
                           <BrixelButtonPrimary
                             rounded
                             label="Yes, update"
                             background={"primary"}
-                            className="max-w-fix-280 w-perc-100 m-a"
+                            className="pl-3 m-a mt-2"
                             onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                            rightIcon="arrow-right-small"
+                            rightIcon="arrow-right"
                           />
                         </div>
                       </>
@@ -103,14 +103,14 @@ function SuccessMarketCheck(props) {
                 Stop browsing all the portals. I show you all similar properties on sale. Instantly.
               </p>
             </div>
-            <div className="w-perc-100 p-1 p-md-2 mt-2">
+            <div className="w-perc-100">
               <BrixelButtonPrimary
                 rounded
                 label="Check market now"
                 background={"primary"}
-                className="max-w-fix-280 w-perc-100 m-a"
+                className="pl-3 m-a mt-3"
                 onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                rightIcon="arrow-right-small"
+                rightIcon="arrow-right"
               />
             </div>
           </>

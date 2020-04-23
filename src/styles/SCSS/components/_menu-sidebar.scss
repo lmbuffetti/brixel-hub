@@ -9,18 +9,11 @@
       cursor: pointer;
 
       img {
-
         &.avatar {
           border-radius: $brd-radius-small;
           z-index: 10;
         }
       }
-    }
-
-
-
-    i {
-      font-size: 24px;
     }
 
     .routes {
@@ -73,6 +66,7 @@
   width: 100%;
   top: 0;
   max-width: 100%;
+
   &::before {
     content: '';
     position: absolute;
@@ -90,8 +84,7 @@
     padding-left: 0;
     position: relative;
     background-color: $brx-white;
-    max-width: 768px;
-    box-shadow: $shadow-3dp;
+    max-width: 100%;
   }
 }
 
@@ -107,6 +100,7 @@
   .sidebarSubmenu {
     left: 210px;
     .sidebarSubmenuContent {
+      max-width: 448px;
     }
   }
 }

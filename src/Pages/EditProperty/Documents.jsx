@@ -171,7 +171,7 @@ const Documents = (props) => {
 
   return (
     <div className="secondLevel h-perc-md-100">
-      <div className="docubox dis-fl-col">
+      <div className="docubox dis-fl-col cardSecondLevel">
         <div className="dis-f jc-b a-c mb-3">
           <BrixelButtonIcon
             className="shadow-3dp hide-md"
@@ -182,7 +182,7 @@ const Documents = (props) => {
             noBorder
             onClick={() => history.push(`/${propID}/property`)}
           />
-          <h5 className="m-a m-md-0">
+          <h5 className="m-a m-md-0 sectionTitle">
             Docubox
           </h5>
         </div>

@@ -305,7 +305,7 @@ function MarketCheck(props) {
                           background={"primary"}
                           rightIcon="arrow-right-small"
                           className="max-w-fix-280 w-perc-100 mr-1"
-                          onClick={() => history.push(finishedFlow ? `/${propID}/rewards/market-checker` : `/${propID}/rewards/market-checker-done`)}
+                          onClick={() => history.push(finishedFlow ? `/${propID}/rewards/market-checker` : `/${propID}/rewards/bestimate`)}
                         />
                       </>
                     )

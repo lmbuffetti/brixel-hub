@@ -20,10 +20,12 @@ import cloneDeep from 'lodash/cloneDeep';
 import OutsideElement from '../../../components/OutsideElement';
 import { Truncate } from '../../../utils/helpers';
 import { diff } from 'deep-object-diff';
+import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const Photos = (props) => {
   // PROPS
   const {
+    activeSingleProperty,
     changeFieldValue,
     formValue,
     handleUploadImg,
@@ -145,7 +147,7 @@ const Photos = (props) => {
               noBorder
               onClick={() => history.push(`/${propID}/property`)}
             />
-            <h5 className="m-a m-md-0">
+            <h5 className="m-a m-md-0 sectionTitle">
               Floor Plans
             </h5>
           </div>
@@ -272,6 +274,16 @@ const Photos = (props) => {
             </>
           </div>
         </div>
+
+        {
+          get(activeSingleProperty, 'servicePackages', []).length === 0 && (
+            <BrixelUpgradeMessage
+              className="mt-3"
+              title="You don’t have a plan?"
+              description="Accurate floor plans and much more is part of Brixel Premium."
+            />
+          )
+        }
       </div>
       <Route path="/:propId?/property/floorPlans/:imgId/edit/:editType" exact component={DetailMedia} />
     </div>
@@ -279,6 +291,7 @@ const Photos = (props) => {
 };
 
 Photos.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
@@ -292,6 +305,7 @@ Photos.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'form.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
   loggedInUser: get(state, 'user.loggedInUser', null),

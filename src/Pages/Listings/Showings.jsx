@@ -12,6 +12,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import {
+  BrixelButtonPrimary,
   BrixelButtonIcon,
   BrixelTabs,
   BrixelTimeSlots,
@@ -24,6 +25,7 @@ import {
 } from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
 import LoadingSimple from '../../components/LoadingSimple';
+import ShowingPlaceholder from '../../images/showing_placeholder.svg';
 
 const AddShowings = Loadable({
   loader: () => import('./AddShowings' /* webpackChunkName: "AddShowings" */),
@@ -124,7 +126,7 @@ const Showings = (props) => {
                 noBorder
                 onClick={() => history.push(`/${propID}/listings`)}
               />
-              <h5 className="m-a m-md-0">Showings</h5>
+              <h5 className="m-a m-md-0 sectionTitle">Showings</h5>
               <BrixelButtonIcon
                 className="shadow-3dp"
                 icon={manageAvailability ? "close-small" : "calendar-edit"}
@@ -136,7 +138,7 @@ const Showings = (props) => {
               />
             </div>
             {
-              !manageAvailability && (
+              !manageAvailability && Object.keys(gorupByMonth()).length > 0 && (
                 <div>
                   <BrixelTabs
                     fullWidth
@@ -153,6 +155,21 @@ const Showings = (props) => {
                     ]}
                     activeTab={activeTab}
                     onClick={(tab) => setActiveTab(tab)}
+                  />
+                </div>
+              )
+            }
+            {
+              !manageAvailability && Object.keys(gorupByMonth()).length === 0 && (
+                <div className="ta-c">
+                  <img src={ShowingPlaceholder} alt="Showings Placeholder" />
+                  <h5 className="ta-c my-3">Setup your first showing</h5>
+                  <BrixelButtonPrimary
+                    className="m-a"
+                    rounded
+                    label="Add dates"
+                    rightIcon="calendar-add"
+                    onClick={() => setManageAvailability(true)}
                   />
                 </div>
               )

@@ -12,6 +12,7 @@ import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import noCover from '../../images/no_cover.jpg';
 import { sortObject } from '../../utils/helpers';
 import { BrixelButtonPrimary, BrixelStatus } from '@brixel/brixel-components';
+import CoverPropertyImage from '../../components/CoverPropertyImage';
 
 const PropertyList = (props) => {
   // PROPS
@@ -44,13 +45,13 @@ const PropertyList = (props) => {
     setActiveProperties(propertiesList);
   }, [activeSection, favoritesProperties, userProperties]);
 
-  const statusPage = () => {
+  const statusPage = (property) => {
     let label;
     let colorIcon;
-    if (formValue.publishReview) {
+    if (property.publishReview) {
       label = 'Review';
       colorIcon = 'yellow';
-    } else if (formValue.published) {
+    } else if (property.published) {
       label = 'Published';
       colorIcon = 'green';
     } else {
@@ -67,47 +68,24 @@ const PropertyList = (props) => {
     <div className={`properties ov-a h-perc-100 ${className}`}>
       {
         (activeProperties && activeProperties.length > 0) && (
-          <div className="px-0 px-md-2 pb-5 py-1">
+          <div className="px-0 pb-5">
             {
               activeProperties.map((property, i) => (
                 <a key={i.toString()} className="link" href={`/${property.id}/home`}>
                   <li className="single-property dis-fl-row a-c jc-b cur-poi brdSmall brdLight200 brdRadius mt-2">
                     <div className="dis-f jc-b w-perc-100 a-c">
-                      <div className="dis-f a-c">
-                        <div className="avatar w-fix-96 h-fix-96 a-c jc-c pos-r brdRadius ov-h">
-                          {
-                            property.coverPhoto && property.coverPhoto.path ? (
-                              <img
-                                src={`${getConfigEnv.shortPath}${property.coverPhoto.thumbnailPath}`}
-                                alt="Brixel Logo"
-                                id={`avatar${i}`}
-                                className="dis-b"
-                              />
-                            ) : (
-                              <i
-                                className="w-perc-100 h-perc-100"
-                                style={{
-                                  backgroundSize: 'cover',
-                                  backgroundPosition: 'center',
-                                  display: 'block',
-                                  backgroundRepeat: 'no-repeat',
-                                  backgroundImage: `url(${noCover})`,
-                                }}
-                              />
-                            )
-                          }
+                      <div className="dis-f a-c w-perc-100">
+                        <div className="image-ratio h-fix-56 min-w-fix-56 w-fix-56 brdRadius ov-h">
+                          <CoverPropertyImage
+                            className="cover"
+                            coverPhoto={get(property, 'coverPhoto.path', undefined)}
+                            propertyType={get(property, 'properties.propertyType', undefined)}
+                          />
                         </div>
                         <div className="title ml-1">
                           <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                            <span>
-                              {(has(property.properties, 'typology') && has(property.properties.typology, 'bedrooms')) ? property.properties.typology.bedrooms : ''}
-                            </span>
-                            &nbsp;
-                            <span>
-                              {has(property.properties, 'propertyType') ? property.properties.propertyType : 'Property'}
-                            </span>
+                            {get(property, 'title', '')}
                           </span>
-                          <span className="address caption txtLight400">{has(property.location, 'zip') ? property.location.zip : ''} {has(property.location, 'state') ? property.location.state : ''}</span>
                         </div>
                       </div>
                       <div className="ta-r pr-1 txtDark700">
@@ -120,8 +98,8 @@ const PropertyList = (props) => {
                                 )
                               }
                               <span className="dis-f a-c">
-                                <BrixelStatus color={statusPage().colorIcon} />
-                                <span className="ml-1 txtDark200">{statusPage().label}</span>
+                                <BrixelStatus color={statusPage(property).colorIcon} />
+                                <span className="ml-1 txtDark200">{statusPage(property).label}</span>
                               </span>
                             </>
                           ) : (

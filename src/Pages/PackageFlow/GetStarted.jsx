@@ -82,12 +82,13 @@ function GetStarted(props) {
   const [showCountrySel, setShowCountrySel] = useState(false);
 
   const countryObj = (curVal) => {
-    const getCurrent = country.find((val) => val.full === curVal || val.value === curVal);
+    const getCurrent = country.find((val) => val.full === curVal.toLowerCase() || val.value === curVal.toLowerCase());
+    changeFieldValue('location.countryCode', curVal);
     setCurCountry(getCurrent);
   };
 
   const changePageTitle = () => {
-    if (formValue && formValue.location && !formValue.pageTitle) {
+    if (formValue && formValue.location && formValue.propertyType) {
       var titleAdjectives = [
         'Beautiful',
         'Charming',
@@ -139,7 +140,7 @@ function GetStarted(props) {
         zip: 8004,
         city: "Zürich",
       };
-      changeFieldValue('location', location);
+      //changeFieldValue('location', location);
     }
     handleGetGamegroup();
   }, []);
@@ -155,13 +156,16 @@ function GetStarted(props) {
   }, [company]);
 
   useEffect(() => {
+    if (formValue && formValue.location) {
+      changePageTitle();
+    }
+  }, [formValue.location, formValue.propertyType]);
+
+  useEffect(() => {
     const Quest1 = QuestionsList(lang, gameGroup);
     // const Quest2 = PackageFlow(lang, gameGroup);
     const QuestFull = Quest1;
     setQuestions(QuestFull);
-    if (formValue && formValue.location) {
-      changePageTitle();
-    }
   }, [lang, gameGroup]);
 
   useEffect(() => {
@@ -195,12 +199,6 @@ function GetStarted(props) {
     }
     setDisableNextBtn(invalidField);
   }, [errorValue, currentIndex]);
-
-  useEffect(() => {
-    if (formValue && formValue.location) {
-      changePageTitle();
-    }
-  }, [formValue]);
 
   const saveData = async (act) => {
     setShowError(false);
@@ -332,9 +330,6 @@ function GetStarted(props) {
       });
     }
     if (typeof Questions[newPosition] === 'undefined') {
-
-    }
-    if (typeof Questions[newPosition] === 'undefined') {
       saveData('lastStep');
     } else {
       setPosition(newPosition);
@@ -369,9 +364,13 @@ function GetStarted(props) {
         else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
           getCurStep.querySelector('input[type="text"]').focus();
         }
-        document.getElementById('getStarted').scrollTo(0, 0);
+        if (document.getElementById('getStarted')) {
+          document.getElementById('getStarted').scrollTo(0, 0);
+        }
       }, 100);
-      document.getElementById('getStarted').scrollTo(0, 0);
+      if (document.getElementById('getStarted')) {
+        document.getElementById('getStarted').scrollTo(0, 0);
+      }
       history.push(`/packageFlow/getStarted/${Questions[newPosition].history}`);
     }
   };
@@ -475,7 +474,7 @@ function GetStarted(props) {
                                             showMap={false}
                                             isShowZip={false}
                                             className="w-perc-100"
-                                            selCountry={curCountry ? curCountry.value : ''}
+                                            selCountry={get(formValue, 'location.countryCode', '')}
                                             changeCountry={(val) => {
                                               countryObj(val);
                                               setShowCountrySel(false);
@@ -767,6 +766,7 @@ const mapStateToProps = (state) => ({
   initialValues: {
     bedrooms: 0,
     owner: null,
+    location: {},
   }
 });
 

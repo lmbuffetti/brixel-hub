@@ -6,6 +6,7 @@ const BrixelButtonAchievement = (props) => {
   const {
     active,
     award,
+    disabled,
     isFree,
     done,
     icon,
@@ -23,6 +24,7 @@ const BrixelButtonAchievement = (props) => {
       <button
         onClick={(e) => onClick ? onClick(e) : ''}
         className={`${defaultClass} ${activeClass}`}
+        disabled={disabled}
       >
         {
           done ? (
@@ -81,7 +83,7 @@ const BrixelButtonAchievement = (props) => {
                 color="dark"
                 saturationTxt={700}
                 className="p-small-9"
-                icon="arrow-simple-right"
+                icon={disabled ? '' : "arrow-simple-right"}
               />
             </>
           )
@@ -99,6 +101,7 @@ const BrixelButtonAchievement = (props) => {
 BrixelButtonAchievement.propTypes = {
   active: PropTypes.bool,
   award: PropTypes.bool,
+  disabled: PropTypes.bool,
   isFree: PropTypes.bool,
   done: PropTypes.bool,
   icon: PropTypes.string,
@@ -109,6 +112,7 @@ BrixelButtonAchievement.propTypes = {
 
 BrixelButtonAchievement.defaultProps = {
   award: false,
+  disabled: false,
 };
 
 export default BrixelButtonAchievement;

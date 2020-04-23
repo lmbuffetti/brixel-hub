@@ -634,7 +634,7 @@ ComponentMap.propTypes = {
   showSearchLocation: PropTypes.bool,
   showSelectCountry: PropTypes.bool,
   zoom: PropTypes.number,
-  minHeight: PropTypes.string,
+  minHeight: PropTypes.number,
 };
 
 ComponentMap.defaultProps = {
@@ -657,7 +657,7 @@ ComponentMap.defaultProps = {
   similarProperties: [],
   showMap: false,
   zoom: 14,
-  minHeight: '0',
+  minHeight: 0,
 };
 
 const mapStateToProps = (state) => {
@@ -682,7 +682,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
-  return prevProps.formValue.location.latitude === nextProps.formValue.location.latitude &&  prevProps.formValue.location.longitude === nextProps.formValue.location.longitude
+  return prevProps.formValue.location.latitude === nextProps.formValue.location.latitude || prevProps.formValue.location.longitude === nextProps.formValue.location.longitude || prevProps.formValue.location.address === nextProps.formValue.location.address || prevProps.formValue.location.country === nextProps.formValue.location.country
 });
 
 export default compose(

@@ -1,13 +1,14 @@
 .hubDashboard {
+  .hubDasContent {
+    @media (min-width: $responsive-medium) {
+      padding-left: 210px;
+    }
     .property-container,
     .listings-container {
-      .photosWrapper .secondLevel > div,
-      .tourWrapper,
       .secondLevel .docubox,
-      .plansWrapper .secondLevel > div,
-      .brixelPageWrapper,
+      .brixelPageWrapper:not(.cardInfoBox),
       .showingsWrapper,
-      .portalsWrapper {
+      .portalsWrapper:not(.cardInfoBox) {
         // min height for  secondlevel container
         @media (min-width: $responsive-medium) {
           min-height: 65vh;
@@ -19,7 +20,6 @@
         }
       }
     }
-  .hubDasContent {
     &.saveActionOn {
       .inputSheet {
         @media (max-width: $responsive-medium) {
@@ -27,8 +27,13 @@
         }
       }
     }
-    @media (min-width: $responsive-medium) {
-      padding-left: 210px;
+
+    .sectionTitle {
+      @media (max-width: $responsive-medium) {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
   }
   .rewards-container {
@@ -46,8 +51,8 @@
           max-width: 340px;
 
           @media (max-width: $responsive-medium) {
-            margin-top: auto;
-            margin-bottom: auto;
+            /* margin-top: auto;
+            margin-bottom: auto; */
           }
         }
       }

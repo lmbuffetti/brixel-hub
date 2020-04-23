@@ -24,6 +24,7 @@ const RewardsDashboard = (props) => {
   // PROPS
   const {
     userTypes,
+    formValue,
     gameGroup,
     gameHistory,
     handleGetAchievement,
@@ -52,8 +53,8 @@ const RewardsDashboard = (props) => {
 
   useEffect(() => {
     if (windowDimensions && windowDimensions.width > 768 && rewardType === 'rewards') {
-      history.push({pathname: `/${propID}/rewards/homebase` });
-      setActiveGameGroup('homebase');
+      history.push({pathname: `/${propID}/rewards/market-checker` });
+      setActiveGameGroup('market-checker');
     }
   }, [windowDimensions, rewardType]);
 
@@ -115,11 +116,16 @@ const RewardsDashboard = (props) => {
     setActiveAchievement(achievement);
   };
 
-  /*const closeAchievement = () => {
-    history.push(`/${propID}/rewards`);
-    setActiveAchievement(null);
-    setActiveGameGroup(null);
-  };*/
+  const isDisabledFlow = (game) => {
+    let disabled = false;
+    if (game === 'market-checker' && (get(formValue, 'location.countryCode', null) !== 'CH' && get(formValue, 'location.countryCode', null) !== 'PT')) {
+      disabled = true;
+    }
+    if (game === 'bestimate' && get(formValue, 'location.countryCode', null) !== 'CH') {
+      disabled = true;
+    }
+    return disabled;
+  };
 
   if (!property.id && !userTypes) {
     return <Loading />
@@ -159,13 +165,13 @@ const RewardsDashboard = (props) => {
                         <>
                           {
                             i === 0 ? (
-                              <div className="dis-f jc-b a-c mb-3">
-                                <span className="fsize-400 dis-b txtDark700 fweight-500">
+                              <div className="dis-f jc-b a-c mb-3 mt-2">
+                                <span className="dis-b txtDark700 fweight-500">
                                   {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
                                 </span>
                               </div>
                             ) : (
-                              <span className="mb-3 fsize-400 dis-b txtDark700 fweight-500">
+                              <span className="mb-3 dis-b txtDark700 fweight-500">
                                 {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
                               </span>
                             )
@@ -185,6 +191,7 @@ const RewardsDashboard = (props) => {
                                     onClick={() => onClickAchievement(item.stub, item)}
                                     lineAfter={group.achievements.length - 1 > f}
                                     award={item.achievementType === 'award'}
+                                    disabled={isDisabledFlow(item.stub)}
                                   />
                                 </div>
                               ))
@@ -203,7 +210,7 @@ const RewardsDashboard = (props) => {
           activeGameGroup && rewardType !== 'rewards' && (
             <div className="secondLevel w-perc-100 dis-fl-col ml-md">
               <>
-                <div className="rewardsSplash h-perc-100 dis-fl-col p-2 p-md-3">
+                <div className="rewardsSplash h-perc-100 dis-fl-col p-2 pb-md-3 cardSecondLevel">
                   {
                     activeAchievement && (
                       <div className="dis-f a-c jc-b mb-4">
@@ -217,14 +224,14 @@ const RewardsDashboard = (props) => {
                             noBorder
                             onClick={() => history.push(`/${propID}/rewards`)}
                           />
-                          <h5 className="mr-1">{activeAchievement.title || activeAchievement.name}</h5>
+                          <p className="mr-1 body fweight-500">{activeAchievement.title || activeAchievement.name}</p>
+                        </div>
+                        <div className="cur-poi ml-2">
                           <BrixelIcon
                             icon="cup-awards"
                             color="green"
+                            className="mr-1"
                           />
-                        </div>
-                        <div className="cur-poi ml-2">
-                          <img src={brixels} alt="icon awards" className="mr-1" />
                           <span className="ff-mono txtDark700">{activeAchievement.points}</span>
                         </div>
                       </div>
@@ -248,6 +255,7 @@ RewardsDashboard.propTypes = {
   userTypes: PropTypes.string,
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
+  formValue: PropTypes.object.isRequired,
   handleGetAchievement: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
   handleGetGameHistory: PropTypes.func.isRequired,
@@ -268,6 +276,7 @@ const mapStateToProps = (state) => ({
   userTypes: get(state, 'user.userTypes', null),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
+  formValue: get(state, 'form.Property.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   awards: get(state, 'user.awards', []),
   property: get(state, 'property.activeSingleProperty', {}),

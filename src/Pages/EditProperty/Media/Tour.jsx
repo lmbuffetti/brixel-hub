@@ -11,6 +11,7 @@ import { uploadImg } from '../../../actions/UploadActions';
 import { BrixelButtonPrimary, BrixelButtonIcon } from '@brixel/brixel-components';
 import defaultCover from '../../../images/3d-tour-placeholder.jpg';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const Tour = (props) => {
   // PROPS
@@ -24,29 +25,24 @@ const Tour = (props) => {
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
 
-  const onUpgrade = () => {
-    localStorage.setItem('backUrl', history.location.pathname);
-    history.push(`/${propID}/upgrade`);
-  };
-
   return (
-    <div className="secondLevel h-perc-md-100">
-      <div className="tourWrapper dis-fl-col">
-        <div className="dis-f jc-b a-c mb-3">
-          <BrixelButtonIcon
-            className="shadow-3dp hide-md"
-            icon="arrow-simple-left"
-            background="White"
-            color="primary"
-            saturationTxt={400}
-            noBorder
-            onClick={() => history.push(`/${propID}/property`)}
-          />
-          <h5 className="m-a m-md-0">
-            3d Tour
-          </h5>
-        </div>
+    <div className="tourWrapper h-perc-md-100">
+      <div className="secondLevel dis-fl-col">
         <div>
+          <div className="dis-f jc-b a-c mb-3">
+            <BrixelButtonIcon
+              className="shadow-3dp hide-md"
+              icon="arrow-simple-left"
+              background="White"
+              color="primary"
+              saturationTxt={400}
+              noBorder
+              onClick={() => history.push(`/${propID}/property`)}
+            />
+            <h5 className="m-a m-md-0 sectionTitle">
+              3d Tour
+            </h5>
+          </div>
           {
             !showTour ? (
               <div className="pos-r brdRadius ov-h">
@@ -114,32 +110,24 @@ const Tour = (props) => {
               </>
             )
           }
-          {
-            !get(formValue, 'virtual.matterport', null) && (
-              <>
-                <div className="max-width-220 m-a">
-                  <h5 className="mt-3 mb-1 ta-c">Get your own 3D Tour</h5>
-                  <p className="body2 txtDark200 ta-c">3D Tour and much more is part of Brixel Premium.</p>
-                  <div className="dis-f jc-c mt-3">
-                    <BrixelButtonPrimary
-                      onClick={() => onUpgrade()}
-                      label="Upgrade now"
-                      background="red"
-                      saturation={400}
-                      rounded
-                    />
-                  </div>
-                </div>
-              </>
-            )
-          }
         </div>
+        {
+          !get(formValue, 'virtual.matterport', null) && (
+            <BrixelUpgradeMessage
+              className="mt-3"
+              title="Get your own 3D-Tour"
+              description="3D-Tour and much more is part of Brixel Premium."
+            />
+          )
+        }
       </div>
+
     </div>
   );
 };
 
 Tour.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
@@ -151,6 +139,7 @@ Tour.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'form.Property.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', null),
 });
