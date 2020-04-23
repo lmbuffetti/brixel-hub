@@ -113,7 +113,7 @@ const PropertyList = (props) => {
                           )
                         }
                       </div>
-
+                    </div>
                   </li>
                 </a>
               ))
