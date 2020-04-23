@@ -1,149 +1,153 @@
-#onBoarding {
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  overflow: hidden;
-  max-width: 786px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  .brixel-radio-button-icon {
-    margin-bottom: 16px;
-
-    label .textLabel {
-      margin-left: 16px;
-
-      @media (min-width: $responsive-medium) {
-        font-size: 1.2rem;
-      }
-    }
-  }
+.onBoardingWrapper {
   #progressBar {
     position: fixed;
     top: 0;
     left: 0;
   }
-  &.withoutFooter {
-    height: calc(100vh - 56px);
-    .singleStep {
-      height: calc(100vh - 54px);
-    }
-  }
-  @media (min-width: $responsive-medium) {
-    .singleStep {
-      // height: calc(100vh - 144px);
-    }
-    &.withoutFooter {
-      height: calc(100vh - 72px);
+  #onBoarding {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    overflow: hidden;
+    max-width: 786px;
+    left: 50%;
+    transform: translateX(-50%);
 
-      .singleStep {
-        height: calc(100vh - 72px);
+    box-shadow: $shadow-1dp;
+    border-top-left-radius: $brd-radius-small;
+    border-top-right-radius: $brd-radius-small;
+
+    .multiStepForm {
+      height: 100%;
+    }
+    .slideMultiStepForm {
+      height: 100%;
+      display: flex;
+      transition: transform $default-loader-time ease-in-out;
+    }
+    .bodyModalFlow {
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .singleStep {
+      height: 100%;
+      flex: 0 0 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      padding: $step * 3;
+
+        &[class*="bg"],
+        &.vertCentered {
+          align-items: center;
+          justify-content: center;
+          display: flex;
+        }
+
+      @media (min-width: $responsive-small) {
+        display: flex;
+        align-items: center;
+      }
+      .container {
+        padding: 0;
+      }
+      .curAdr {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        padding: $step $step * 2;
+        z-index: 5;
+        background: rgba($brx-white, 0.8);
       }
     }
-  }
-}
-@media (min-width: $responsive-medium) {
-  .brixel-input-step .wrap-brixel-input-step.fullWidth input {
-    font-size: 2rem;
-  }
-}
-.multiStepForm {
-  height: 100%;
-}
-.slideMultiStepForm {
-  height: 100%;
-  display: flex;
-  transition: transform $default-loader-time;
-}
-.bodyModalFlow {
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-.singleStep {
-  height: calc(100% - 133px);
-  flex: 0 0 100%;
-  padding: 16px 16px 40px;
-  overflow-y: auto;
-  overflow-x: hidden;
-
-    &[class*="bg"],
-    &.vertCentered {
-      align-items: center;
-      justify-content: center;
-      display: flex;
-    }
-
-  @media (min-width: $responsive-small) {
-    display: flex;
-    align-items: center;
-  }
-  .container {
-    padding: 0;
-  }
-  .curAdr {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    padding: $step $step * 2;
-    z-index: 5;
-    background: rgba($brx-white, 0.8);
-  }
-}
-.footerAction {
-  background: $brx-white;
-  position: relative;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-
-  &.successNext {
-    background: map_get($greenColor, 200);
-
-    .backBtn {
-      opacity: .5;
-    }
-  }
-}
-.messageChat {
-  box-shadow: $shadow-1dp;
-  background: map_get($lightColor, 100);
-  border-radius: $brd-radius-small;
-  @include fontStyle(400);
-  color: map_get($darkColor, 500);
-  padding: $step;
-  margin-bottom: $step * 2;
-  float: left;
-  clear: both;
-}
-
-.chatBox {
-  .chatContainer {
-    .messageChat {
-      bottom: -10px;
-      opacity: 0;
+    .footerAction {
+      background: $brx-white;
       position: relative;
+      width: 100%;
+      left: 0;
+      bottom: 0;
 
-      @for $i from 1 through 6 {
-        &:nth-child( #{$i} ) {
-         animation: moveUp .3s #{$i * 0.20}s ease 1 forwards;
+      &.successNext {
+        background: map_get($greenColor, 200);
+
+        .textSuccess {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          transform: translateY(-100%);
+        }
+
+        .backBtn {
+          opacity: .5;
         }
       }
     }
-  }
-  .chatBtn {
-    opacity: 0;
-    bottom: -100;
-    animation: moveUp .3s 1.8s ease 1 forwards;
-  }
 
-  @keyframes moveUp {
-    0% {
-      opacity: 0;
+    .brixel-radio-button-icon {
+      margin-bottom: 16px;
+
+      label .textLabel {
+        margin-left: 16px;
+
+        @media (min-width: $responsive-medium) {
+          font-size: 1.2rem;
+        }
+      }
     }
-    100% {
-      opacity: 1;
-      bottom: 0;
+
+    @media (min-width: $responsive-medium) {
+      .brixel-input-step .wrap-brixel-input-step.fullWidth input {
+        font-size: 2rem;
+      }
     }
+
+    .messageChat {
+      box-shadow: $shadow-1dp;
+      background: map_get($lightColor, 100);
+      border-radius: $brd-radius-small;
+      @include fontStyle(400);
+      color: map_get($darkColor, 500);
+      padding: $step;
+      margin-bottom: $step * 2;
+      float: left;
+      clear: both;
+    }
+    .message:empty {
+      display: none;
+    }
+
+    .chatBox {
+      .chatContainer {
+        .messageChat {
+          bottom: -10px;
+          opacity: 0;
+          position: relative;
+
+          @for $i from 1 through 6 {
+            &:nth-child( #{$i} ) {
+            animation: moveUp .3s #{$i * 0.20}s ease 1 forwards;
+            }
+          }
+        }
+      }
+      .chatBtn {
+        opacity: 0;
+        bottom: -100;
+        animation: moveUp .3s 1.8s ease 1 forwards;
+      }
+
+      @keyframes moveUp {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+          bottom: 0;
+        }
+      }
+    }
+
   }
 }

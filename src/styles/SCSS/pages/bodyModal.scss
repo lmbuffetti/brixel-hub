@@ -1,4 +1,4 @@
-#achievementSection {
+#bodyModalWrapper {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -16,7 +16,7 @@
     border-top-right-radius: $brd-radius-small;
     position: fixed;
     width: 100%;
-    max-width: 760px;
+    max-width: 786px;
     top: $step;
     left: 0;
     background: $brx-white;
@@ -31,19 +31,27 @@
 
       .slideMultiStepForm {
         height: 100%;
+        display: flex;
         transition: none;
 
         .singleStep {
-          // height: 100%;
+          height: 100%;
+          overflow-y: auto;
           flex: 0 0 100%;
-          padding: $step * 3 $step * 2;
+          padding: $step * 3;
           transition: opacity $default-time-long $default-easing;
 
-          .subcontainer {
-            max-width: 480px;
+          &[class*="bg"],
+          &.vertCentered {
+            align-items: center;
+            justify-content: center;
+            display: flex;
           }
         }
       }
+    }
+    .message:empty {
+      display: none;
     }
     &:not(.upgradeModal) {
       height: calc(100% - #{$step});
@@ -68,21 +76,24 @@
       left: 0;
       width: 100%;
     }
-
     .footerAction {
+      background: $brx-white;
       position: absolute;
+      width: 100%;
+      left: 0;
       bottom: 0;
 
+      &.successNext {
+        background: map_get($greenColor, 200);
+
+        .backBtn {
+          opacity: .5;
+        }
+      }
       span {
         white-space: nowrap;
       }
     }
-
-    &.withoutFooter {
-      .singleStep {
-      }
-    }
-
     .boxMarketCheck {
       border-radius: $brd-radius-small;
       border: 1px solid map_get($lightColor, 200);
@@ -114,7 +125,7 @@
 }
 
 @media (min-width: $responsive-medium) {
-  #achievementSection {
+  #bodyModalWrapper {
     width: 100%;
     height: 100%;
     position: fixed;

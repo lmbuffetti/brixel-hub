@@ -47,6 +47,7 @@ export const QuestionsList = (lang, gameGroup) => {
       history: "propertyType",
       cardType: "propertyType",
       icons: true,
+      vCentered: true,
       inputs: [{
         className: 'radioBtnImg max-w-fix-md-464',
         label: '',

@@ -1,40 +1,103 @@
-#getStarted {
-  height: calc(100vh - 88px);
-  width: 100vw;
-  overflow: hidden;
+.getStartedWrapper {
   #progressBar {
     position: fixed;
     top: 0;
+    left: 0;
+  }
+  #getStarted {
+    height: 100%;
     width: 100%;
-  }
-  .brixel-radio-button-icon {
-    margin-bottom: 16px;
-    label .textLabel {
-      margin-left: 16px;
-      @media (min-width: $responsive-medium) {
-        font-size: 1.2rem;
+    position: fixed;
+    overflow: hidden;
+    max-width: 786px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    box-shadow: $shadow-1dp;
+    border-top-left-radius: $brd-radius-small;
+    border-top-right-radius: $brd-radius-small;
+
+    .multiStepForm {
+      height: 100%;
+    }
+    .slideMultiStepForm {
+      height: 100%;
+      display: flex;
+      transition: transform $default-loader-time ease-in-out;
+    }
+    .bodyModalFlow {
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .singleStep {
+      height: 100%;
+      flex: 0 0 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      padding: $step * 3;
+
+        &[class*="bg"],
+        &.vertCentered {
+          align-items: center;
+          justify-content: center;
+          display: flex;
+        }
+
+      @media (min-width: $responsive-small) {
+        display: flex;
+        align-items: center;
+      }
+      .container {
+        padding: 0;
+      }
+      .curAdr {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        padding: $step $step * 2;
+        z-index: 5;
+        background: rgba($brx-white, 0.8);
       }
     }
-  }
-  &.withoutFooter {
-    height: calc(100vh - 56px);
-    .singleStep {
-      height: calc(100vh - 54px);
-    }
-  }
-  @media (min-width: $responsive-medium) {
-    .singleStep {
-      height: calc(100vh - 133px);
-    }
-    &.withoutFooter {
-      height: calc(100vh - 72px);
-      .singleStep {
-        height: calc(100vh - 72px);
+    .footerAction {
+      background: $brx-white;
+      position: relative;
+      width: 100%;
+      left: 0;
+      bottom: 0;
+
+      &.successNext {
+        background: map_get($greenColor, 200);
+
+        .textSuccess {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          transform: translateY(-100%);
+        }
+
+        .backBtn {
+          opacity: .5;
+        }
       }
+    }
+    .brixel-radio-button-icon {
+      margin-bottom: 16px;
+      label .textLabel {
+        margin-left: 16px;
+        @media (min-width: $responsive-medium) {
+          font-size: 1.2rem;
+        }
+      }
+    }
+    .message:empty {
+      display: none;
     }
   }
 }
-
 .pac-container {
   background-color: #fff;
   position: absolute!important;

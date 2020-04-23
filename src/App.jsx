@@ -166,7 +166,7 @@ const App = (props) => {
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade')
     ) {
-      setClassMain('');
+      setClassMain('flowContainer w-perc-100');
       setIsFlow(true);
       setZIndex(6);
     } else {
@@ -184,6 +184,10 @@ const App = (props) => {
     const mobNav = document.getElementsByClassName('brixelNavMenu');
     return mobNav[0] ? mobNav[0].offsetHeight : 0;
   };
+  const calcFlowHeaderHeight = () => {
+    const flowHead = document.getElementsByClassName('flowHeader');
+    return flowHead[0] ? flowHead[0].offsetHeight : 0;
+  };
 
   if (!loggedInUser || (!userTypes && property.id) || !isLoaded) {
     return (
@@ -192,7 +196,7 @@ const App = (props) => {
   }
 
   return (
-    <main className={`${!isFlow ? 'hubDashboard' : ''} dis-fl-row jc-b`}>
+    <main className={`${!isFlow ? 'hubDashboard' : 'flowWrapper'} dis-fl-row jc-b`}>
 
       <Loading isLoading={isLoading} />
 
@@ -207,7 +211,7 @@ const App = (props) => {
             )
           }
           <div className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
-            style={!isFlow ? null : { height: windowDimensions.height }}
+            //style={!isFlow ? null : { height: windowDimensions.height }}
             //style={{ height: windowDimensions.height }}
           >
             {
@@ -226,11 +230,9 @@ const App = (props) => {
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? 'hubDasContent bgLight100' : ''} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
-              //style={ !isFlow ? {minHeight: 'calc(100vh - ' + calcHeaderHeight() +'px)'} : { height: windowDimensions.height - calcHeaderHeight() }}
+              className={`${!isFlow ? 'hubDasContent bgLight100' : 'flowContent'} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
               style={
-                !isFlow ? windowDimensions.width <= 768 ? { height: windowDimensions.height - (calcHeaderHeight() + calcMobNavHeight())} : {minHeight: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
-                null
+                !isFlow ? windowDimensions.width <= 768 ? { height: windowDimensions.height - (calcHeaderHeight() + calcMobNavHeight())} : {minHeight: 'calc(100vh - ' + calcHeaderHeight() +'px)'} : {height: windowDimensions.height - calcFlowHeaderHeight()}
               }
             >
               <Switch>

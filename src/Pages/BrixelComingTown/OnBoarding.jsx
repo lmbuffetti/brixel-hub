@@ -29,7 +29,7 @@ import {
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { doLogin, setAwards, setBrixelPoints, validateUser } from '../../actions/UserActions';
 import { createActiveSingleProperty } from '../../actions/PropertyActions';
-import { errorMessage, setPageData, setLanguage, setScreenNotification } from '../../actions/CommonActions';
+import { errorMessage, setPageData, setLanguage, setScreenNotification, setWindowDimensions } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.js';
 import { setCookie } from '../../utils/helpers';
@@ -65,6 +65,7 @@ function OnBoarding(props) {
     lang,
     loggedInUser,
     pageState,
+    windowDimensions,
   } = props;
   // STATE
   const [position, setPosition] = useState(0);
@@ -432,6 +433,12 @@ function OnBoarding(props) {
     setLoginPage(act);
   };
 
+  const calcFlowContentHeight = () => {
+    const flowHead = document.getElementsByClassName('flowHeader');
+    const flowFooter = document.getElementsByClassName('footerAction');
+    return flowHead[0]  && flowFooter[0] ? flowHead[0].offsetHeight + flowFooter[0].offsetHeight : 0;
+  };
+
   const buttonLabel = () => {
     let label;
     if (!Questions[currentIndex + 2]) {
@@ -448,427 +455,429 @@ function OnBoarding(props) {
   };
 
   return (
-    <main id="onBoarding" className="notranslate">
-      {
-        Questions[currentIndex] && Questions[currentIndex].inputs && (
-          <BrixelProgressBar
-            saturation={400}
-            barBackground="Light"
-            backgroundSaturation={200}
-            progressValue={progressBar}
-          />
-        )
-      }
-      <form
-        id="multiStepForm"
-        className="h-perc-100"
-        onSubmit={(e) => {e.preventDefault(); changeStep()}}
-        autoComplete="off"
-      >
-        <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}%, 0)` }}>
-          {
-            Questions.map((quest, i) => (
-              <div
-                id={`step-${i}`}
-                className={`singleStep ${quest.background || ''}`}
-                key={i.toString()}
-                style={{
-                  visibility: i !== currentIndex ? 'hidden' : 'visible',
-                }}
-              >
-                <div className={`subcontainer ${quest.className || ''}`}>
-                  {
-                    quest.inputs && (
-                      <>
-                        {
-                          quest.titleGreen && (
-                            <h5 className="txtGreen400 fsize-md-800">{quest.titleGreen}</h5>
-                          )
-                        }
-                        <h5 className="mb-4 mb-md-10 fsize-md-800">{quest.title}</h5>
-                        {
-                          quest.inputs.map((input, f) => (
-                            <div key={f.toString()}>
-                              {
-                                input.type === 'Map' ? (
-                                  <>
-                                    <div className="mb-2 pos-r zIndex1">
-                                      <Field
-                                        name={input.name}
-                                        label={input.label}
-                                        component={() => (
-                                          <Maps
-                                            zoom={14}
-                                            scrollZoom
-                                            moveMarker
-                                            draggable
-                                            showSearchLocation
-                                            showSelectCountry={true}
-                                            showMap={true}
-                                            isShowZip={false}
-                                            className="w-perc-100"
-                                            selCountry={curCountry ? curCountry.value : ''}
-                                            changeCountry={(val) => {
-                                              countryObj(val);
-                                            }}
-                                          />
-                                        )}
-                                        options={input.options}
-                                        validate={input.validation}
-                                        type={input.type}
-                                        onChange={(e) => validateSlide(e, input.name, quest)}
-                                      />
-                                    </div>
-                                  </>
-                                ) : (
-                                  <div className="dis-f a-c jc-b">
-                                    <div
-                                      className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}
-                                      tabIndex="-1"
-                                    >
-                                      <Field
-                                        className="w-perc-100"
-                                        inputClassName={input.className || ''}
-                                        name={input.name}
-                                        label={input.label}
-                                        icons={quest.icons}
-                                        component={quest.component}
-                                        fluid={true}
-                                        options={quest.options}
-                                        validate={input.validation}
-                                        type={input.type}
-                                        step={+input.step}
-                                        min={input.min}
-                                        onChange={(e) => validateSlide(e, input.name, quest)}
-                                        deactivable={false}
-                                        placeholder={input.placeholder || ''}
-                                        meta={{
-                                          dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                          invalid: true,
-                                        }}
-                                        modal={null}
-                                        message={{
-                                          help: null,
-                                          error: errorValue[input.name],
-                                        }}
-                                        minLenghtNum={input.minLenghtNum || null}
-                                        maxLengthNum={input.maxLenghtNum || null}
-                                      />
-                                      {
-                                        input.unit && (
-                                          <span className="pl-2">{input.unit}</span>
-                                        )
-                                      }
-                                    </div>
-                                    {
-                                      quest.inputs.length === 1 &&
-                                      (input.type === 'number' || input.type === 'text') && (
-                                        <BrixelButtonPrimary
-                                          rounded
-                                          label="Ok"
-                                          className={`ml-2 ${hideOnDesk}`}
-                                          background="green"
-                                          onClick={() => changeStep()}
-                                          disabled={disableNextBtn}
-                                          type="submit"
-                                        />
-                                      )
-                                    }
-                                  </div>
-                                )
-                              }
-                              <p className="body2">{input.help}</p>
-                            </div>
-                          ))
-                        }
-                      </>
-                    )
-                  }
-                  {
-                    quest.cardType && (
-                      <>
-                        {
-                          quest.cardType === 'Resume' && (
-                            <div>
-                              <div className="bgWhite max-w-fix-344 m-a brdRadius shadow-4dp ov-h">
-                                <img
-                                  src={quest[`img${formValue.propertyType || 'Apartment'}`]}
-                                  className="dis-b"
-                                  alt={formValue.propertyType || 'Apartment'}
-                                />
-                                <div className="pt-1 pb-2 px-2">
+    <div className="onBoardingWrapper h-perc-100 w-perc-100">
+        {
+          Questions[currentIndex] && Questions[currentIndex].inputs && (
+            <BrixelProgressBar
+              saturation={400}
+              barBackground="Light"
+              backgroundSaturation={200}
+              progressValue={progressBar}
+            />
+          )
+        }
+        <main id="onBoarding" className="notranslate">
+          <form
+            id="multiStepForm"
+            className=""
+            onSubmit={(e) => {e.preventDefault(); changeStep()}}
+            autoComplete="off"
+          >
+            <div
+              className="slideMultiStepForm "
+              style={
+                {transform: `translate(-${position * 100}%, 0)`, height: windowDimensions.height - calcFlowContentHeight()}
+              }
+            >
+              {
+                Questions.map((quest, i) => (
+                  <div
+                    id={`step-${i}`}
+                    className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
+                    key={i.toString()}
+                    style={{
+                      visibility: i !== currentIndex ? 'hidden' : 'visible',
+                    }}
+                  >
+                    <div className={`subcontainer ${quest.className || ''}`}>
+                      {
+                        quest.inputs && (
+                          <>
+                            {
+                              quest.titleGreen && (
+                                <h5 className="txtGreen400 fsize-md-800">{quest.titleGreen}</h5>
+                              )
+                            }
+                            <h5 className="mb-4 mb-md-10 fsize-md-800">{quest.title}</h5>
+                            {
+                              quest.inputs.map((input, f) => (
+                                <div key={f.toString()}>
                                   {
-                                    formValue.location && (
-                                      <p className="body2 cutRow txtPrimary400">
-                                        {formValue.location.address}
-                                      </p>
+                                    input.type === 'Map' ? (
+                                      <>
+                                        <div className="mb-4 pos-r zIndex1">
+                                          <Field
+                                            name={input.name}
+                                            label={input.label}
+                                            component={() => (
+                                              <Maps
+                                                zoom={14}
+                                                scrollZoom
+                                                moveMarker
+                                                draggable
+                                                showSearchLocation
+                                                showSelectCountry={true}
+                                                showMap={true}
+                                                isShowZip={false}
+                                                className="w-perc-100"
+                                                selCountry={curCountry ? curCountry.value : ''}
+                                                changeCountry={(val) => {
+                                                  countryObj(val);
+                                                }}
+                                              />
+                                            )}
+                                            options={input.options}
+                                            validate={input.validation}
+                                            type={input.type}
+                                            onChange={(e) => validateSlide(e, input.name, quest)}
+                                          />
+                                        </div>
+                                      </>
+                                    ) : (
+                                      <div className="dis-f a-c jc-b">
+                                        <div
+                                          className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}
+                                          tabIndex="-1"
+                                        >
+                                          <Field
+                                            className="w-perc-100"
+                                            inputClassName={input.className || ''}
+                                            name={input.name}
+                                            label={input.label}
+                                            icons={quest.icons}
+                                            component={quest.component}
+                                            fluid={true}
+                                            options={quest.options}
+                                            validate={input.validation}
+                                            type={input.type}
+                                            step={+input.step}
+                                            min={input.min}
+                                            onChange={(e) => validateSlide(e, input.name, quest)}
+                                            deactivable={false}
+                                            placeholder={input.placeholder || ''}
+                                            meta={{
+                                              dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                              invalid: true,
+                                            }}
+                                            modal={null}
+                                            message={{
+                                              help: null,
+                                              error: errorValue[input.name],
+                                            }}
+                                            minLenghtNum={input.minLenghtNum || null}
+                                            maxLengthNum={input.maxLenghtNum || null}
+                                          />
+                                          {
+                                            input.unit && (
+                                              <span className="pl-2">{input.unit}</span>
+                                            )
+                                          }
+                                        </div>
+                                        {
+                                          quest.inputs.length === 1 &&
+                                          (input.type === 'number' || input.type === 'text') && (
+                                            <BrixelButtonPrimary
+                                              rounded
+                                              label="Ok"
+                                              className={`ml-2 ${hideOnDesk}`}
+                                              background="green"
+                                              onClick={() => changeStep()}
+                                              disabled={disableNextBtn}
+                                              type="submit"
+                                            />
+                                          )
+                                        }
+                                      </div>
                                     )
                                   }
-                                  <h6 className="mt-1 mb-5">{formValue.pageTitle || 'Title'}</h6>
-                                  <div className="dis-f jc-b a-c">
-                                    <p className="dis-f a-c">
-                                      <BrixelIcon icon="bed" className="mr-1" />
-                                      <span className="ff-mono body2">{formValue.bedrooms || '0'}</span>
-                                    </p>
-                                    <p className="dis-f a-c">
-                                      <BrixelIcon icon="plans" className="mr-1" />
-                                      <span className="ff-mono body2">{formValue.livingSpace || '0'} m</span>
-                                    </p>
-                                    <p className="dis-f a-c">
-                                      <BrixelIcon icon="house-built" className="mr-1" />
-                                      <span className="ff-mono body2">
-                                        {formValue.constructionYear || '0000'}
-                                      </span>
-                                    </p>
-                                  </div>
+                                  <p className="body2">{input.help}</p>
                                 </div>
-                              </div>
-                              <h5
-                                className="mt-5 ta-c"
-                                dangerouslySetInnerHTML={{ __html: quest.title}}
-                              />
-                            </div>
-                          )
-                        }
-                        {
-                          (quest.cardType === 'RewardsStep' || quest.cardType === 'LastStep') && (
-                            <div className="ta-c">
-                              <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
-                              <h5
-                                className="mt-2 ta-c"
-                                dangerouslySetInnerHTML={{ __html: quest.title}}
-                              />
-                              {
-                                quest.subtitle && (
-                                  <h6
-                                    className="mt-2 ta-c"
-                                    dangerouslySetInnerHTML={{ __html: quest.subtitle}}
+                              ))
+                            }
+                          </>
+                        )
+                      }
+                      {
+                        quest.cardType && (
+                          <>
+                            {
+                              quest.cardType === 'Resume' && (
+                                <div>
+                                  <div className="bgWhite max-w-fix-344 m-a brdRadius shadow-4dp ov-h">
+                                    <img
+                                      src={quest[`img${formValue.propertyType || 'Apartment'}`]}
+                                      className="dis-b"
+                                      alt={formValue.propertyType || 'Apartment'}
+                                    />
+                                    <div className="pt-1 pb-2 px-2">
+                                      {
+                                        formValue.location && (
+                                          <p className="body2 cutRow txtPrimary400">
+                                            {formValue.location.address}
+                                          </p>
+                                        )
+                                      }
+                                      <h6 className="mt-1 mb-5">{formValue.pageTitle || 'Title'}</h6>
+                                      <div className="dis-f jc-b a-c">
+                                        <p className="dis-f a-c">
+                                          <BrixelIcon icon="bed" className="mr-1" />
+                                          <span className="ff-mono body2">{formValue.bedrooms || '0'}</span>
+                                        </p>
+                                        <p className="dis-f a-c">
+                                          <BrixelIcon icon="plans" className="mr-1" />
+                                          <span className="ff-mono body2">{formValue.livingSpace || '0'} m</span>
+                                        </p>
+                                        <p className="dis-f a-c">
+                                          <BrixelIcon icon="house-built" className="mr-1" />
+                                          <span className="ff-mono body2">
+                                            {formValue.constructionYear || '0000'}
+                                          </span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <h5
+                                    className="mt-5 ta-c"
+                                    dangerouslySetInnerHTML={{ __html: quest.title}}
                                   />
-                                )
-                              }
-                            </div>
-                          )
-                        }
-                        {
-                          quest.cardType === 'createProfile' && (
-                            <div>
-                              {
-                                pageState && pageState.login ? (
-                                  <h5>{translateTo(lang, pageState.login.message)}</h5>
-                                ) : (
-                                  <h5>{loginPage ? quest.loginTitle : quest.signupTitle}</h5>
-                                )
+                                </div>
+                              )
+                            }
+                            {
+                              (quest.cardType === 'RewardsStep' || quest.cardType === 'LastStep') && (
+                                <div className="ta-c">
+                                  <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
+                                  <h5
+                                    className="mt-2 ta-c"
+                                    dangerouslySetInnerHTML={{ __html: quest.title}}
+                                  />
+                                  {
+                                    quest.subtitle && (
+                                      <h6
+                                        className="mt-2 ta-c"
+                                        dangerouslySetInnerHTML={{ __html: quest.subtitle}}
+                                      />
+                                    )
+                                  }
+                                </div>
+                              )
+                            }
+                            {
+                              quest.cardType === 'createProfile' && (
+                                <div>
+                                  {
+                                    pageState && pageState.login ? (
+                                      <h5>{translateTo(lang, pageState.login.message)}</h5>
+                                    ) : (
+                                      <h5>{loginPage ? quest.loginTitle : quest.signupTitle}</h5>
+                                    )
 
-                              }
-                              {
-                                loginPage ? (
-                                  <>
-                                    <p className="mb-md-9">
-                                      <span
-                                        className="txtPrimary400 cur-poi"
-                                        onClick={() => switchLoginSignUpPage(false)}
-                                      >
-                                        {translateTo(lang, "You don't have a profile?")}
-                                      </span>
-                                    </p>
-                                    <Field
-                                      className="mt-2"
-                                      component={BrixelInputText}
-                                      label={translateTo(lang, "Email address")}
-                                      name="email"
-                                      placeholder=""
-                                      type="email"
-                                      validate={[Validation.required]}
-                                      meta={{
-                                        dirty: (showErrors || formValue.email),
-                                        invalid: (showErrors || formValue.email) && errorValue.email !== true,
-                                      }}
-                                      message={{
-                                        error: translateTo(lang, "Please insert a valid email")
-                                      }}
-                                    />
-                                    <Field
-                                      className="mt-2"
-                                      component={BrixelInputText}
-                                      label={translateTo(lang, "Password")}
-                                      name="password"
-                                      placeholder=""
-                                      type="password"
-                                      validate={[Validation.required]}
-                                      meta={{
-                                        dirty: (showErrors || formValue.password),
-                                        invalid: (showErrors || formValue.password) && errorValue.password !== true,
-                                      }}
-                                      message={{
-                                        error: translateTo(lang, "Please insert a valid password")
-                                      }}
-                                    />
-                                    <p className="mt-1">
-                                      <a
-                                        className="txtPrimary400 cur-poi"
-                                        href={`${baseByData.loginBasePath}/recover`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        {translateTo(lang, "Forgot password?")}
-                                      </a>
-                                    </p>
-                                  </>
-                                ) : (
-                                  <>
-                                    <p className="mb-md-9">
-                                      <span
-                                        className="txtPrimary400 cur-poi"
-                                        onClick={() => switchLoginSignUpPage(true)}
-                                      >
-                                        {translateTo(lang, "You already have a profile?")}
-                                      </span>
-                                    </p>
-                                    <div className="dis-f">
-                                      <Field
-                                        className="mt-2 w-perc-100 mr-2"
-                                        component={BrixelInputText}
-                                        label={translateTo(lang, "First name")}
-                                        name="firstName"
-                                        placeholder=""
-                                        type="text"
-                                        validate={[Validation.required]}
-                                        meta={{
-                                          dirty: (showErrors || formValue.firstName),
-                                          invalid: (showErrors || formValue.firstName) && errorValue.firstName !== true,
-                                        }}
-                                        message={{
-                                          error: translateTo(lang, "Please insert a valid first name")
-                                        }}
-                                      />
-                                      <Field
-                                        className="mt-2 w-perc-100 ml-2"
-                                        component={BrixelInputText}
-                                        label={translateTo(lang, "Last name")}
-                                        name="lastName"
-                                        placeholder=""
-                                        type="text"
-                                        validate={[Validation.required]}
-                                        meta={{
-                                          dirty: (showErrors || formValue.lastName),
-                                          invalid: (showErrors || formValue.lastName) && errorValue.lastName !== true,
-                                        }}
-                                        message={{
-                                          error: translateTo(lang, "Please insert a valid last name")
-                                        }}
-                                      />
-                                    </div>
-                                    <Field
-                                      className="mt-2"
-                                      component={BrixelInputText}
-                                      label={translateTo(lang, "Email address")}
-                                      name="email"
-                                      placeholder=""
-                                      type="email"
-                                      validate={formValue.email ? [Validation.isEmail] : [Validation.required]}
-                                      meta={{
-                                        dirty: (showErrors || formValue.email),
-                                        invalid: (showErrors || formValue.email) && errorValue.email !== true,
-                                      }}
-                                      message={{
-                                        error: translateTo(lang, "Please insert a valid email")
-                                      }}
-                                    />
-                                    <Field
-                                      className="mt-2"
-                                      component={BrixelInputText}
-                                      label={translateTo(lang, "Phone number")}
-                                      name="phone"
-                                      placeholder=""
-                                      type="text"
-                                    />
-                                    <div className="mt-2">
-                                      <Field
-                                        component={BrixelCheckbox}
-                                        options={[
-                                          {
-                                            // eslint-disable-next-line max-len
-                                            label: translateTo(lang, `I hereby confirm that I have read, understand and accept the <a href="https://gobrixel.nl/voorwaarden/" target="_blank">terms</a> and <a href="https://gobrixel.nl/privacybeleid/" target="_blank">privacy policy</a> of Brixel.`),
-                                            value: 'privacy'
-                                          }
-                                        ]}
-                                        name="privacy"
-                                        className="body2 w-perc-100 max-w-perc-100"
-                                        validate={[Validation.required]}
-                                        meta={{
-                                          dirty: (showErrors || formValue.privacy) && errorValue.privacy !== true,
-                                          invalid: (showErrors || formValue.privacy) && errorValue.privacy !== true,
-                                        }}
-                                        message={{
-                                          error: translateTo(lang, "Please accept terms and privacy policy")
-                                        }}
-                                      />
-                                    </div>
-                                  </>
-                                )
-                              }
-                            </div>
-                          )
-                        }
-                      </>
+                                  }
+                                  {
+                                    loginPage ? (
+                                      <>
+                                        <p className="mb-md-9">
+                                          <span
+                                            className="txtPrimary400 cur-poi"
+                                            onClick={() => switchLoginSignUpPage(false)}
+                                          >
+                                            {translateTo(lang, "You don't have a profile?")}
+                                          </span>
+                                        </p>
+                                        <Field
+                                          className="mt-2"
+                                          component={BrixelInputText}
+                                          label={translateTo(lang, "Email address")}
+                                          name="email"
+                                          placeholder=""
+                                          type="email"
+                                          validate={[Validation.required]}
+                                          meta={{
+                                            dirty: (showErrors || formValue.email),
+                                            invalid: (showErrors || formValue.email) && errorValue.email !== true,
+                                          }}
+                                          message={{
+                                            error: translateTo(lang, "Please insert a valid email")
+                                          }}
+                                        />
+                                        <Field
+                                          className="mt-2"
+                                          component={BrixelInputText}
+                                          label={translateTo(lang, "Password")}
+                                          name="password"
+                                          placeholder=""
+                                          type="password"
+                                          validate={[Validation.required]}
+                                          meta={{
+                                            dirty: (showErrors || formValue.password),
+                                            invalid: (showErrors || formValue.password) && errorValue.password !== true,
+                                          }}
+                                          message={{
+                                            error: translateTo(lang, "Please insert a valid password")
+                                          }}
+                                        />
+                                        <p className="mt-1">
+                                          <a
+                                            className="txtPrimary400 cur-poi"
+                                            href={`${baseByData.loginBasePath}/recover`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                          >
+                                            {translateTo(lang, "Forgot password?")}
+                                          </a>
+                                        </p>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <p className="mb-md-9">
+                                          <span
+                                            className="txtPrimary400 cur-poi"
+                                            onClick={() => switchLoginSignUpPage(true)}
+                                          >
+                                            {translateTo(lang, "You already have a profile?")}
+                                          </span>
+                                        </p>
+                                        <div className="dis-f">
+                                          <Field
+                                            className="mt-2 w-perc-100 mr-2"
+                                            component={BrixelInputText}
+                                            label={translateTo(lang, "First name")}
+                                            name="firstName"
+                                            placeholder=""
+                                            type="text"
+                                            validate={[Validation.required]}
+                                            meta={{
+                                              dirty: (showErrors || formValue.firstName),
+                                              invalid: (showErrors || formValue.firstName) && errorValue.firstName !== true,
+                                            }}
+                                            message={{
+                                              error: translateTo(lang, "Please insert a valid first name")
+                                            }}
+                                          />
+                                          <Field
+                                            className="mt-2 w-perc-100 ml-2"
+                                            component={BrixelInputText}
+                                            label={translateTo(lang, "Last name")}
+                                            name="lastName"
+                                            placeholder=""
+                                            type="text"
+                                            validate={[Validation.required]}
+                                            meta={{
+                                              dirty: (showErrors || formValue.lastName),
+                                              invalid: (showErrors || formValue.lastName) && errorValue.lastName !== true,
+                                            }}
+                                            message={{
+                                              error: translateTo(lang, "Please insert a valid last name")
+                                            }}
+                                          />
+                                        </div>
+                                        <Field
+                                          className="mt-2"
+                                          component={BrixelInputText}
+                                          label={translateTo(lang, "Email address")}
+                                          name="email"
+                                          placeholder=""
+                                          type="email"
+                                          validate={formValue.email ? [Validation.isEmail] : [Validation.required]}
+                                          meta={{
+                                            dirty: (showErrors || formValue.email),
+                                            invalid: (showErrors || formValue.email) && errorValue.email !== true,
+                                          }}
+                                          message={{
+                                            error: translateTo(lang, "Please insert a valid email")
+                                          }}
+                                        />
+                                        <Field
+                                          className="mt-2"
+                                          component={BrixelInputText}
+                                          label={translateTo(lang, "Phone number")}
+                                          name="phone"
+                                          placeholder=""
+                                          type="text"
+                                        />
+                                        <div className="mt-2">
+                                          <Field
+                                            component={BrixelCheckbox}
+                                            options={[
+                                              {
+                                                // eslint-disable-next-line max-len
+                                                label: translateTo(lang, `I hereby confirm that I have read, understand and accept the <a href="https://gobrixel.nl/voorwaarden/" target="_blank">terms</a> and <a href="https://gobrixel.nl/privacybeleid/" target="_blank">privacy policy</a> of Brixel.`),
+                                                value: 'privacy'
+                                              }
+                                            ]}
+                                            name="privacy"
+                                            className="body2 w-perc-100 max-w-perc-100"
+                                            validate={[Validation.required]}
+                                            meta={{
+                                              dirty: (showErrors || formValue.privacy) && errorValue.privacy !== true,
+                                              invalid: (showErrors || formValue.privacy) && errorValue.privacy !== true,
+                                            }}
+                                            message={{
+                                              error: translateTo(lang, "Please accept terms and privacy policy")
+                                            }}
+                                          />
+                                        </div>
+                                      </>
+                                    )
+                                  }
+                                </div>
+                              )
+                            }
+                          </>
+                        )
+                      }
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+            <div className={`footerAction shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}>
+              <div className="subcontainer pos-r">
+                {
+                  !disableNextBtn &&
+                  Questions[currentIndex] &&
+                  Questions[currentIndex].inputs &&
+                  Questions[currentIndex].successMessage && (
+                    <div className="txtGreen700 ta-r pb-1 px-2 px-md-0 textSuccess">
+                      {Questions[currentIndex].successMessage}
+                      <BrixelIcon icon="check" className="ml-1" />
+                    </div>
+                  )
+                }
+                <div className={`dis-f a-c jc-b py-1 py-md-2 px-2 px-md-0 ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
+                  {
+                    Questions[currentIndex].inputs && (
+                      <BrixelButtonIcon
+                        className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
+                        icon="arrow-simple-left"
+                        onClick={() => changeStep('back')}
+                        background="white"
+                        saturation={0}
+                        color="primary"
+                        saturationTxt={400}
+                        noBorder
+                      />
                     )
                   }
-                </div>
+                  {
+                    Questions[currentIndex] && (
+                      <BrixelButtonPrimary
+                        rounded
+                        label={buttonLabel()}
+                        background={Questions[currentIndex].inputs ? "green" : "primary"}
+                        className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
+                        onClick={() => Questions[currentIndex].cardType === 'createProfile' ? saveData() : changeStep()}
+                        rightIcon="arrow-right-small"
+                        disabled={disableNextBtn}
+                      />
+                    )
+                  }
               </div>
-            ))
-          }
-        </div>
-        <div
-          className={`footerAction p-1 p-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
-        >
-          <div className="container pos-r">
-            <div className="subcontainer">
-              {
-                !disableNextBtn &&
-                Questions[currentIndex] &&
-                Questions[currentIndex].inputs &&
-                Questions[currentIndex].successMessage && (
-                  <p className="txtGreen700 ta-r mb-2 textSuccess">
-                    {Questions[currentIndex].successMessage}
-                    <BrixelIcon icon="check" className="ml-1" />
-                  </p>
-                )
-              }
-              <div
-                className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
-                {
-                  Questions[currentIndex].inputs && (
-                    <BrixelButtonIcon
-                      className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
-                      icon="arrow-simple-left"
-                      onClick={() => changeStep('back')}
-                      background="white"
-                      saturation={0}
-                      color="primary"
-                      saturationTxt={400}
-                      noBorder
-                    />
-                  )
-                }
-                {
-                  Questions[currentIndex] && (
-                    <BrixelButtonPrimary
-                      rounded
-                      label={buttonLabel()}
-                      background={Questions[currentIndex].inputs ? "green" : "primary"}
-                      className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                      onClick={() => Questions[currentIndex].cardType === 'createProfile' ? saveData() : changeStep()}
-                      rightIcon="arrow-right-small"
-                      disabled={disableNextBtn}
-                    />
-                  )
-                }
               </div>
             </div>
-          </div>
-        </div>
-      </form>
-    </main>
+          </form>
+        </main>
+    </div>
   );
 }
 
@@ -897,6 +906,7 @@ OnBoarding.propTypes = {
   loggedInUser: PropTypes.object.isRequired,
   pageState: PropTypes.object,
   redirectTo: PropTypes.object,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 OnBoarding.defaultProps = {
@@ -916,6 +926,7 @@ const mapStateToProps = (state, props) => ({
   redirectTo: get(state, 'common.redirectTo', {}),
   lang: get(state, 'common.language', {}),
   pageState: get(state, 'common.setPageData', null),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
   initialValues: {
     bedrooms: 0,
     owner: null,
@@ -940,6 +951,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetPageData: bindActionCreators(setPageData, dispatch),
   handleSetAwards: bindActionCreators(setAwards, dispatch),
   handleSetBrixelPoints: bindActionCreators(setBrixelPoints, dispatch),
+  handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 
 const OnBoardingForm = reduxForm({

@@ -183,7 +183,7 @@ function MarketCheck(props) {
   }
 
   return (
-    <main id="achievementSection">
+    <main id="bodyModalWrapper">
       {
         Questions[currentIndex].inputs && (
           <BrixelProgressBar

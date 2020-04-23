@@ -25,13 +25,18 @@
 
   .secondLevel,
   .thirdLevel {
-    min-height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
     background: $brx-white;
-    z-index: 100;
+    width: 100%;
+
+    @media (max-width: $responsive-medium) {
+      height: 100%;
+      position: fixed;
+      overflow-y: auto;
+      left: 0;
+      top: 0;
+      z-index: 100;
+    }
+
     > div {
       &:not([class*=" p-"]) {
         padding: $step * 2;
