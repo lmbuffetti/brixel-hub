@@ -224,15 +224,33 @@ const RewardsDashboard = (props) => {
                             noBorder
                             onClick={() => history.push(`/${propID}/rewards`)}
                           />
-                          <p className="mr-1 body fweight-500">{activeAchievement.title || activeAchievement.name}</p>
+                          <p className="mr-1 body fweight-500">
+                            {console.log(activeAchievement)}
+                            {activeAchievement.title || activeAchievement.name}
+                            {
+                              activeAchievement.achievementType === 'award' && (
+                                <BrixelIcon
+                                  icon="cup-awards"
+                                  color="green"
+                                  className="ml-1"
+                                />
+                              )
+                            }
+                          </p>
                         </div>
                         <div className="cur-poi ml-2">
-                          <BrixelIcon
-                            icon="cup-awards"
-                            color="green"
-                            className="mr-1"
-                          />
-                          <span className="ff-mono txtDark700">{activeAchievement.points}</span>
+                          {
+                            activeAchievement.points && (
+                              <>
+                                <img
+                                  src={brixels}
+                                  alt="Brixels Point"
+                                  className="mr-1"
+                                />
+                                <span className="ff-mono txtDark700">{activeAchievement.points}</span>
+                              </>
+                            )
+                          }
                         </div>
                       </div>
                     )

@@ -6,10 +6,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import has from 'lodash/has';
 import { compose } from 'redux';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
-import noCover from '../../images/no_cover.jpg';
 import { sortObject } from '../../utils/helpers';
 import { BrixelButtonPrimary, BrixelStatus } from '@brixel/brixel-components';
 import CoverPropertyImage from '../../components/CoverPropertyImage';
@@ -19,7 +16,6 @@ const PropertyList = (props) => {
   const {
     activeSection,
     favoritesProperties,
-    formValue,
     history,
     userProperties,
     user,
