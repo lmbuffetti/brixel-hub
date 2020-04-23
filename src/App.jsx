@@ -180,6 +180,10 @@ const App = (props) => {
     const head = document.getElementsByClassName('hubDasHeader');
     return head[0] ? head[0].offsetHeight : 0;
   };
+  const calcMobNavHeight = () => {
+    const mobNav = document.getElementsByClassName('brixelNavMenu');
+    return mobNav[0] ? mobNav[0].offsetHeight : 0;
+  };
 
   if (!loggedInUser || (!userTypes && property.id) || !isLoaded) {
     return (
@@ -204,6 +208,7 @@ const App = (props) => {
           }
           <div className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
             style={!isFlow ? null : { height: windowDimensions.height }}
+            //style={{ height: windowDimensions.height }}
           >
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
@@ -222,7 +227,11 @@ const App = (props) => {
             <div
               id="bodyScroll"
               className={`${!isFlow ? 'hubDasContent bgLight100' : ''} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
-              style={ !isFlow ? {minHeight: 'calc(100vh - ' + calcHeaderHeight() +'px)'} : { height: windowDimensions.height - calcHeaderHeight() }}
+              //style={ !isFlow ? {minHeight: 'calc(100vh - ' + calcHeaderHeight() +'px)'} : { height: windowDimensions.height - calcHeaderHeight() }}
+              style={
+                !isFlow ? windowDimensions.width <= 768 ? { height: windowDimensions.height - (calcHeaderHeight() + calcMobNavHeight())} : {minHeight: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
+                null
+              }
             >
               <Switch>
                 { /* SECTION: ONBOARDING */ }

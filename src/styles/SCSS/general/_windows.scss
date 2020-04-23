@@ -4,7 +4,6 @@
   }
   .container {
     padding: $step * 2;
-    padding-bottom: $step * 8;
 
     @media (min-width: $responsive-medium) {
       padding: $step * 3;
