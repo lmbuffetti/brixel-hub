@@ -225,7 +225,6 @@ const RewardsDashboard = (props) => {
                             onClick={() => history.push(`/${propID}/rewards`)}
                           />
                           <p className="mr-1 body fweight-500">
-                            {console.log(activeAchievement)}
                             {activeAchievement.title || activeAchievement.name}
                             {
                               activeAchievement.achievementType === 'award' && (

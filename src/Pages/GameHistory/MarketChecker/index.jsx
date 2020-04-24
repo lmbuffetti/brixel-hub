@@ -290,7 +290,7 @@ function MarketCheck(props) {
                         label={buttonLabel()}
                         background={Questions[currentIndex].inputs ? "green" : "primary"}
                         className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                        onClick={() => Questions[currentIndex + 1] && Questions[currentIndex].toSave ? saveData() : changeStep()}
+                        onClick={() => Questions[currentIndex + 1] && Questions[currentIndex + 1].toSave ? saveData() : changeStep()}
                         rightIcon="arrow-right-small"
                         disabled={disableNextBtn}
                       />
