@@ -106,7 +106,7 @@
               transform: translateY(-100%);
               background-color: $brx-white;
               padding: $step $step * 2 0;
-              background: map_get($greenColor, 200);
+              background: map_get($greenColor, 100);
             }
           }
           .backBtn {
