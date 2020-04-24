@@ -261,22 +261,24 @@ function UserFlow(props) {
           autoComplete="off"
         >
           <div
-            className="slideMultiStepForm "
+            className="slideMultiStepForm"
             style={
-              {transform: `translate(-${position * 100}%, 0)`, height: windowDimensions.height - calcFlowContentHeight()}
+              {transform: `translate(-${position * 100}%, 0)`,
+              height: windowDimensions.height  - calcFlowContentHeight()}
             }
           >
             {
               Questions.map((quest, i) => (
                 <div
                   id={`step-${i}`}
-                  className={`singleStep ${quest.background || ''} ${Questions[currentIndex].cardType === 'chat' ? 'chatBox': ''}`}
+                  className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''} ${Questions[currentIndex].cardType === 'chat' ? 'chatBox': ''}`}
                   key={i.toString()}
                   style={{
                     visibility: i !== currentIndex ? 'hidden' : 'visible',
+                    opacity: i !== currentIndex ? '0' : '1',
                   }}
                 >
-                  <div className="subcontainer ">
+                  <div className="subcontainer">
                     {
                       quest.inputs && (
                         <>
@@ -453,22 +455,15 @@ function UserFlow(props) {
           </div>
           {
             Questions[currentIndex].cardType !== 'chat' && (
-              <div className={`footerAction p-1 p-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`}>
-                <div className="container pos-r">
-                  <div className="subcontainer">
-                    {
-                      !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && !emptyValue && (
-                        <p className="txtGreen700 ta-r mb-2 textSuccess">
-                          {Questions[currentIndex].successMessage}
-                          <BrixelIcon icon="check" className="ml-1" />
-                        </p>
-                      )
-                    }
+              <div
+                className={
+                  `footerAction px-2 py-1 py-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' :
+                  `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`}
+              >
                     <div
                       className={
-                        `dis-f a-c ${Questions[currentIndex].inputs ?
-                          (hidePrevBtn ? 'jc-fe' : 'jc-b') :
-                          (Questions[currentIndex].cardType === 'LastStep' ? 'jc-b' : 'jc-c')}`
+                        `dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') :
+                        (Questions[currentIndex].cardType === 'LastStep' ? 'jc-b' : 'jc-c')}`
                       }
                     >
                       {
@@ -484,6 +479,14 @@ function UserFlow(props) {
                             saturationTxt={400}
                             noBorder
                           />
+                        )
+                      }
+                      {
+                        !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && !emptyValue && (
+                          <div className="txtGreen700 ta-r ml-a pr-1 textSuccess">
+                            {Questions[currentIndex].successMessage}
+                            <BrixelIcon icon="check" className="ml-1" />
+                          </div>
                         )
                       }
                       {
@@ -539,8 +542,7 @@ function UserFlow(props) {
                           )
                       }
                     </div>
-                  </div>
-                </div>
+
               </div>
             )
           }

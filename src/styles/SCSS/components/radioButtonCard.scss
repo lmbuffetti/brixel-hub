@@ -1,5 +1,5 @@
 .brixel-wrap-card-btn {
-  width: 100vw;
+  width: 480px;
   overflow-x: auto;
   padding-bottom: 40px;
   margin-left: -16px;
@@ -8,12 +8,16 @@
   padding-right: 16px;
 }
 .brixel-radio-card {
-  width: 217px;
+  width: 200px;
   display: flex;
   transition: box-shadow $default-time $default-easing;
 
   &:hover {
     box-shadow: $shadow-3dp;
+  }
+
+  label.brixel-label {
+    padding-bottom: $step;
   }
 
   label {
@@ -38,7 +42,7 @@
     position: absolute;
   }
   .otp-label {
-    @include fontStyle(400);
+    @include fontStyle(300);
     display: block;
     text-align: left;
     padding: $step * 3 $step;

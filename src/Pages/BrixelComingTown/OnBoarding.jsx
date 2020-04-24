@@ -487,6 +487,7 @@ function OnBoarding(props) {
                     key={i.toString()}
                     style={{
                       visibility: i !== currentIndex ? 'hidden' : 'visible',
+                      opacity: i !== currentIndex ? '0' : '1',
                     }}
                   >
                     <div className={`subcontainer ${quest.className || ''}`}>
@@ -832,7 +833,7 @@ function OnBoarding(props) {
               }
             </div>
             <div className={`footerAction shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}>
-              <div className="subcontainer pos-r">
+              <div className="pos-r">
                 {
                   !disableNextBtn &&
                   Questions[currentIndex] &&
@@ -844,7 +845,7 @@ function OnBoarding(props) {
                     </div>
                   )
                 }
-                <div className={`dis-f a-c jc-b py-1 py-md-2 px-2 px-md-0 ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
+                <div className={`dis-f a-c jc-b ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
                   {
                     Questions[currentIndex].inputs && (
                       <BrixelButtonIcon

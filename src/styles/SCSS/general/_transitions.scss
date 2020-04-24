@@ -149,3 +149,15 @@
     opacity: 1;
   }
 }
+.scaleUp {
+  animation: scaleUp $default-time-long $default-easing;
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(0.5);
+  } 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

@@ -143,6 +143,7 @@ export const QuestionsList = (lang, gameGroup) => {
     {
       title: translateTo(lang, "Great, Your property was created!") + " 🎉",
       history: "resume",
+      className: 'willAnimate',
       cardType: 'Resume',
       imgApartment: resumeApartment,
       background: 'bgRed100',
@@ -156,6 +157,7 @@ export const QuestionsList = (lang, gameGroup) => {
       title: translateTo(lang, "And the first award goes to…You!"),
       subtitle: translateTo(lang, `You earned the <span class="txtGreen400">"${getHomeBase.name}"</span> Award and +${getHomeBase.points} Brixels.`),
       history: "rewardsStep",
+      className: 'willAnimate',
       cardType: 'RewardsStep',
       background: 'bgPrimary100',
       img: Cat,

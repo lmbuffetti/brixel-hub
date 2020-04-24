@@ -22,6 +22,7 @@ export const QuestionsList = (lang) => [
     component: BrixelRadioButton,
     history: "situation",
     icons: true,
+    vCentered: true,
     inputs: [{
       label: '',
       labelEmail: 'What is your situation?',

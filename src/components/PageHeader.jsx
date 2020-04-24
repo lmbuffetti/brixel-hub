@@ -107,7 +107,7 @@ function PageHeader(props) {
           <div className="dis-f a-c">
             {
               userAwards >= 0 && (
-                <div className="cur-poi" onClick={() => setModal('awards')}>
+                <div className={`cur-poi ${userAwards >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('awards')}>
                   <img src={awards} alt="icon awards" className="mr-1" />
                   <span className="ff-mono txtGreen600">{userAwards}</span>
                 </div>
@@ -115,7 +115,7 @@ function PageHeader(props) {
             }
             {
               brixelPoints >= 0 && (
-                <div className="cur-poi ml-2" onClick={() => setModal('brixelPoints')}>
+                <div className={`cur-poi ml-2 ${brixelPoints >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('brixelPoints')}>
                   <img src={brixels} alt="icon awards" className="mr-1" />
                   <span className="ff-mono txtRed600">{brixelPoints}</span>
                 </div>
@@ -141,9 +141,10 @@ function PageHeader(props) {
               !loggedInUser.token ? (
                 <div className="">
                   <BrixelDropdown
+                    compact
                     bgTransparent
                     noBorder
-                    className="langMenu"
+                    className="langMenu compact"
                     color="dark"
                     saturationTxt={700}
                     lang={lang}
