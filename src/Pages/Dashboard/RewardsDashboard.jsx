@@ -10,10 +10,9 @@ import { BrixelIcon, BrixelButtonIcon } from '@brixel/brixel-components';
 import { getAchievement, getGamegroup, getGameHistory, addGameHistory } from '../../actions/GamificationActions';
 import Loading from '../../components/Loading';
 import { GameGroupConfig } from '../../constants/global';
-import brixels from '../../images/BrxielComingTown/brixels.svg';
 import helloImg from '../../images/hello.svg';
 import BrixelButtonAchievement from '../../components/BrixelButtonAchievement';
-import { setCookie, getCookie } from '../../utils/helpers';
+import { setCookie, getCookie, sortObject } from '../../utils/helpers';
 
 import SuccessMarketCheck from '../GameHistory/MarketChecker/SuccessMarketCheck';
 import SuccessBestimate from '../GameHistory/Bestimate/SuccessBestimate';
@@ -61,6 +60,7 @@ const RewardsDashboard = (props) => {
   useEffect(() => {
     let filtUsrGroup = [];
     filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userTypes) !== -1);
+    filtUsrGroup = filtUsrGroup.sort(sortObject('stub', 'asc'));
     if (gameHistory.data) {
       // CHECK IF DONE HOMEBASE
       gameHistory.data.map((game) => {
@@ -154,12 +154,13 @@ const RewardsDashboard = (props) => {
         )
       }
       <div className={`dis-f h-perc-md-100 ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'} pos-r-md`}>
+        {console.log(GameGroupConfig)}
         {
           usrGroups && (
-            <>
+            <div className="firstLevel mr-md-2">
               {
                 usrGroups.map((group, i) => (
-                  <div className="firstLevel mr-md-2" key={i.toString()}>
+                  <div key={i.toString()}>
                     {
                       GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`] && (
                         <>
@@ -187,7 +188,7 @@ const RewardsDashboard = (props) => {
                                     icon={item.icon}
                                     title={item.description}
                                     subtitle={item.name}
-                                    isFree={true}
+                                    isFree={item.isFree}
                                     onClick={() => onClickAchievement(item.stub, item)}
                                     lineAfter={group.achievements.length - 1 > f}
                                     award={item.achievementType === 'award'}
@@ -203,7 +204,7 @@ const RewardsDashboard = (props) => {
                   </div>
                 ))
               }
-            </>
+            </div>
           )
         }
         {
@@ -226,26 +227,21 @@ const RewardsDashboard = (props) => {
                           />
                           <p className="mr-1 body fweight-500">
                             {activeAchievement.title || activeAchievement.name}
-                            {
-                              activeAchievement.achievementType === 'award' && (
-                                <BrixelIcon
-                                  icon="cup-awards"
-                                  color="green"
-                                  className="ml-1"
-                                />
-                              )
-                            }
                           </p>
                         </div>
                         <div className="cur-poi ml-2">
                           {
                             activeAchievement.points && (
                               <>
-                                <img
-                                  src={brixels}
-                                  alt="Brixels Point"
-                                  className="mr-1"
-                                />
+                                {
+                                  activeAchievement.achievementType === 'award' && (
+                                    <BrixelIcon
+                                      icon="cup-awards"
+                                      color="green"
+                                      className="mr-1"
+                                    />
+                                  )
+                                }
                                 <span className="ff-mono txtDark700">{activeAchievement.points}</span>
                               </>
                             )
