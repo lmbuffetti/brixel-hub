@@ -153,7 +153,7 @@ const RewardsDashboard = (props) => {
           </div>
         )
       }
-      <div className={`dis-f h-perc-md-100 ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'} pos-r-md`}>
+      <div className={`dis-f a-t ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'} pos-r-md`}>
         {console.log(GameGroupConfig)}
         {
           usrGroups && (
