@@ -48,7 +48,7 @@
         overflow-y: auto;
         overflow-x: hidden;
         padding: $step * 3;
-        transition: opacity $default-time $default-easing;
+        transition: opacity $default-time-long $default-easing;
 
         &[class*="bg"] {
           transition: opacity $default-time-long $default-easing;
@@ -114,15 +114,14 @@
           }
         }
       }
-  /*
-      .brixel-radio-button-icon {
-        margin-bottom: 16px;
 
+      .brixel-radio-button-icon.radioBtnImg {
+        //todo styleguide
         label .textLabel {
-          margin-left: 16px;
+          margin-left: $step * 2;
 
           @media (min-width: $responsive-medium) {
-            font-size: 1.2rem;
+            @include fontStyle(500);
           }
         }
       }
@@ -131,7 +130,7 @@
         .brixel-input-step .wrap-brixel-input-step.fullWidth input {
           font-size: 2rem;
         }
-      } */
+      }
     }
   }
 }

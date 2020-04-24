@@ -342,10 +342,11 @@ function UserFlow(props) {
                                     <div className="dis-f a-t jc-b">
                                       <div className={`${input.type === 'number' || input.type === 'text' ? 'dis-f a-c' : ''} jc-b w-perc-100`}>
                                         <Field
-                                          className="mb-2 w-perc-100"
+                                          className={`mb-2 w-perc-100 ${input.className}`}
                                           name={input.name}
                                           label={input.label}
                                           icons={quest.icons}
+                                          pdClass={input.pdClass}
                                           component={quest.component}
                                           fluid={true}
                                           options={quest.options}
@@ -458,7 +459,8 @@ function UserFlow(props) {
               <div
                 className={
                   `footerAction px-2 py-1 py-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' :
-                  `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`}
+                  `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`
+                }
               >
                     <div
                       className={

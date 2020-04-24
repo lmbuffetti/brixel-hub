@@ -58,7 +58,7 @@
       @include fontStyle(400);
     }
     .brixel-radio-button {
-      &[class*="mb-1"]{
+      &[class*="mb-"]{
         margin-bottom: $step * 2;
       }
     }

@@ -490,7 +490,7 @@ function OnBoarding(props) {
                       opacity: i !== currentIndex ? '0' : '1',
                     }}
                   >
-                    <div className={`subcontainer ${quest.className || ''}`}>
+                    <div className={`subcontainer ${i !== currentIndex ? '' : quest.className || ''}`}>
                       {
                         quest.inputs && (
                           <>
@@ -604,7 +604,7 @@ function OnBoarding(props) {
                             {
                               quest.cardType === 'Resume' && (
                                 <div>
-                                  <div className="bgWhite max-w-fix-344 m-a brdRadius shadow-4dp ov-h">
+                                  <div className="scaleAnim bgWhite max-w-fix-344 m-a brdRadius shadow-4dp ov-h">
                                     <img
                                       src={quest[`img${formValue.propertyType || 'Apartment'}`]}
                                       className="dis-b"
@@ -638,7 +638,7 @@ function OnBoarding(props) {
                                     </div>
                                   </div>
                                   <h5
-                                    className="mt-5 ta-c"
+                                    className="fadeAnim mt-5 ta-c"
                                     dangerouslySetInnerHTML={{ __html: quest.title}}
                                   />
                                 </div>
@@ -646,16 +646,16 @@ function OnBoarding(props) {
                             }
                             {
                               (quest.cardType === 'RewardsStep' || quest.cardType === 'LastStep') && (
-                                <div className="ta-c">
+                                <div className="scaleAnim ta-c">
                                   <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
                                   <h5
-                                    className="mt-2 ta-c"
+                                    className="fadeAnim mt-2 ta-c"
                                     dangerouslySetInnerHTML={{ __html: quest.title}}
                                   />
                                   {
                                     quest.subtitle && (
                                       <h6
-                                        className="mt-2 ta-c"
+                                        className="fadeAnim mt-2 ta-c"
                                         dangerouslySetInnerHTML={{ __html: quest.subtitle}}
                                       />
                                     )
@@ -832,20 +832,19 @@ function OnBoarding(props) {
                 ))
               }
             </div>
-            <div className={`footerAction shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}>
-              <div className="pos-r">
-                {
-                  !disableNextBtn &&
-                  Questions[currentIndex] &&
-                  Questions[currentIndex].inputs &&
-                  Questions[currentIndex].successMessage && (
-                    <div className="txtGreen700 ta-r pb-1 px-2 px-md-0 textSuccess">
-                      {Questions[currentIndex].successMessage}
-                      <BrixelIcon icon="check" className="ml-1" />
-                    </div>
-                  )
-                }
-                <div className={`dis-f a-c jc-b ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
+            <div
+              className={
+                `footerAction px-2 py-1 py-md-2 shadow-1dp-top
+                ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`
+              }
+            >
+
+                <div
+                  className={
+                    `dis-f a-c
+                    ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`
+                  }
+                >
                   {
                     Questions[currentIndex].inputs && (
                       <BrixelButtonIcon
@@ -858,6 +857,17 @@ function OnBoarding(props) {
                         saturationTxt={400}
                         noBorder
                       />
+                    )
+                  }
+                  {
+                    !disableNextBtn &&
+                    Questions[currentIndex] &&
+                    Questions[currentIndex].inputs &&
+                    Questions[currentIndex].successMessage && (
+                      <div className="txtGreen700 ta-r ml-a pr-1 textSuccess">
+                        {Questions[currentIndex].successMessage}
+                        <BrixelIcon icon="check" className="ml-1" />
+                      </div>
                     )
                   }
                   {
@@ -874,7 +884,7 @@ function OnBoarding(props) {
                     )
                   }
               </div>
-              </div>
+
             </div>
           </form>
         </main>

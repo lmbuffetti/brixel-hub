@@ -161,6 +161,7 @@ const App = (props) => {
   }, [redirectTo]);
 
   useEffect(() => {
+    const body = document.body;
     if (
       history.location.pathname.includes('packageFlow') ||
       history.location.pathname.includes('onBoarding') ||
@@ -174,6 +175,18 @@ const App = (props) => {
       setIsFlow(false);
       setZIndex(1);
     }
+
+    if (
+      history.location.pathname.includes('property/') ||
+      history.location.pathname.includes('listings/')
+    ) {
+      body.classList.add('hideNav');
+    } else {
+      if (body.classList.contains('hideNav')) {
+        body.classList.remove('hideNav')
+      }
+    }
+
   }, [history.location.pathname]);
 
   const calcHeaderHeight = () => {
@@ -231,9 +244,7 @@ const App = (props) => {
             <div
               id="bodyScroll"
               className={`${!isFlow ? 'hubDasContent bgLight100' : 'flowContent'} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
-              style={
-                !isFlow ? windowDimensions.width <= 768 ? { height: windowDimensions.height - (calcHeaderHeight() + calcMobNavHeight())} : {minHeight: 'calc(100vh - ' + calcHeaderHeight() +'px)'} : {height: windowDimensions.height - calcFlowHeaderHeight()}
-              }
+              style={!isFlow ? windowDimensions.width <= 768 ? { height: windowDimensions.height - (calcHeaderHeight() + calcMobNavHeight())} : {minHeight: 'calc(100vh - ' + calcHeaderHeight() +'px)'} : {height: windowDimensions.height - calcFlowHeaderHeight()}}
             >
               <Switch>
                 { /* SECTION: ONBOARDING */ }

@@ -3,6 +3,9 @@
     @media (min-width: $responsive-medium) {
       padding-left: 210px;
     }
+    @media (max-width: $responsive-medium) {
+      overflow-y: auto;
+    }
     .property-container,
     .listings-container {
       .secondLevel .docubox,
