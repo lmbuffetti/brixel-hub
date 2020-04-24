@@ -20,6 +20,7 @@ import Loadable from 'react-loadable';
 import { reduxForm, reset } from 'redux-form';
 import { diff } from 'deep-object-diff';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
+import { addGameHistory, getAchievement, getGamegroup, getGameHistory } from '../../actions/GamificationActions';
 import { setModal, setScreenNotification } from '../../actions/CommonActions';
 import has from 'lodash/has';
 
@@ -67,9 +68,13 @@ const Dashboard = (props) => {
     formValue,
     handleGetPropertyListings,
     handleGetActiveSingleProperty,
+    handleAddGameHistory,
     handleGetActiveSinglePropertyBookings,
     handleGetImageType,
     handleSaveActiveSingleProperty,
+    handleGetAchievement,
+    handleGetGamegroup,
+    handleGetGameHistory,
     handleSavePropertyVisitSchedule,
     handleCreatePropertyVisitSchedule,
     handleSetScreenNotification,
@@ -103,6 +108,9 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (propID && !get(activeSingleProperty, 'id', null)) {
       handleGetActiveSingleProperty({fullVersion: true, id: propID});
+      handleGetAchievement();
+      handleGetGamegroup();
+      handleGetGameHistory();
     } else if (!propID) {
       loadDefaultProperty();
     }
@@ -163,6 +171,13 @@ const Dashboard = (props) => {
           ...objToSave,
         };
         handleSaveActiveSingleProperty(data);
+        handleAddGameHistory({stub: 'market-checker'});
+        if (get(formValue, 'photos', []).length > 0) {
+          handleAddGameHistory({stub: 'photos'});
+        }
+        if (get(formValue, 'inputSheet', {}).totalComplete > 70) {
+          handleAddGameHistory({stub: 'facts'});
+        }
       }
     }
   };
@@ -271,10 +286,14 @@ Dashboard.propTypes = {
   isLoading: PropTypes.bool,
   isSmallLoading: PropTypes.bool,
   userTypes: PropTypes.string,
+  handleAddGameHistory: PropTypes.func.isRequired,
   handleGetPropertyListings: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetAchievement: PropTypes.func.isRequired,
+  handleGetGamegroup: PropTypes.func.isRequired,
+  handleGetGameHistory: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
@@ -345,6 +364,10 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)))
   },
+  handleGetAchievement: bindActionCreators(getAchievement, dispatch),
+  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
+  handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
+  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),

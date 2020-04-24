@@ -63,7 +63,7 @@ const checkCommon = (store) => (next) => (action) => {
       // action.payload.user = store.getState().user.loggedInUser.user.id;
       action.payload.imageType = imgType.id;
       const {
-        pageID, userID, uploadAction, smallLoader,
+        pageID, userID, uploadAction, smallLoader, lastImage,
       } = action.payload;
       delete action.payload.pageID;
       delete action.payload.uploadAction;
@@ -92,19 +92,21 @@ const checkCommon = (store) => (next) => (action) => {
             if (uploadAction === 'floorPlans') {
               plan.push(res.data);
             }
-            const data = {
-              id: pageID,
-              coverPhoto,
-              photos: img,
-              floorPlans: plan,
-              smallLoader: smallLoader,
-            };
-            store.dispatch({ type: SET_PSEUDO_SAVED_SCREEN });
-            store.dispatch({
-              type: SAVE_ACTIVE_SINGLE_PROPERTY,
-              payload: data,
-              setSuccessNotification: true,
-            });
+            if (lastImage) {
+              const data = {
+                id: pageID,
+                coverPhoto,
+                photos: img,
+                floorPlans: plan,
+                smallLoader: smallLoader,
+              };
+              store.dispatch({ type: SET_PSEUDO_SAVED_SCREEN });
+              store.dispatch({
+                type: SAVE_ACTIVE_SINGLE_PROPERTY,
+                payload: data,
+                setSuccessNotification: true,
+              });
+            }
           } else if (uploadAction === 'singleUserAvatar') {
             let userAvatar = store.getState().form.User.values.avatar[0];
 

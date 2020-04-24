@@ -90,6 +90,10 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.getEstimation;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
       else store.dispatch({ type: SPINNER_ON });
+      const data = action.payload;
+      if (get(data, 'photos', []).length > 0) {
+        data.coverPhoto = data.photos[0];
+      }
       api.property.updateProperty(id, action.payload)
         .then((res) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });

@@ -7,7 +7,7 @@ import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelIcon, BrixelButtonIcon } from '@brixel/brixel-components';
-import { getAchievement, getGamegroup, getGameHistory, addGameHistory } from '../../actions/GamificationActions';
+import { addGameHistory } from '../../actions/GamificationActions';
 import Loading from '../../components/Loading';
 import { GameGroupConfig } from '../../constants/global';
 import helloImg from '../../images/hello.svg';
@@ -26,8 +26,6 @@ const RewardsDashboard = (props) => {
     formValue,
     gameGroup,
     gameHistory,
-    handleGetAchievement,
-    handleGetGamegroup,
     handleAddGameHistory,
     history,
     loggedInUser,
@@ -43,12 +41,6 @@ const RewardsDashboard = (props) => {
   const rewardType = last(get(history, 'location.pathname', '').split('/')).replace('-done', '');
   const propID = get(match, 'params.propId', '');
   const gameHistoryData = get(gameHistory, 'data', null);
-
-  useEffect(() => {
-    handleGetAchievement();
-    handleGetGamegroup();
-    // handleGetGameHistory();
-  }, []);
 
   useEffect(() => {
     if (windowDimensions && windowDimensions.width > 768 && rewardType === 'rewards') {
@@ -154,7 +146,6 @@ const RewardsDashboard = (props) => {
         )
       }
       <div className={`dis-f a-t ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'} pos-r-md`}>
-        {console.log(GameGroupConfig)}
         {
           usrGroups && (
             <div className="firstLevel mr-md-2">
@@ -269,9 +260,6 @@ RewardsDashboard.propTypes = {
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
   formValue: PropTypes.object.isRequired,
-  handleGetAchievement: PropTypes.func.isRequired,
-  handleGetGamegroup: PropTypes.func.isRequired,
-  handleGetGameHistory: PropTypes.func.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -298,9 +286,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetAchievement: bindActionCreators(getAchievement, dispatch),
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
-  handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });
 
