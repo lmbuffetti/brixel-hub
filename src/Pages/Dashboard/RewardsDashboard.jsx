@@ -18,6 +18,7 @@ import SuccessMarketCheck from '../GameHistory/MarketChecker/SuccessMarketCheck'
 import SuccessBestimate from '../GameHistory/Bestimate/SuccessBestimate';
 import SuccessAssessor from '../GameHistory/Assessor/SuccessAssessor';
 import SuccessHomebase from '../GameHistory/Homebase/SuccessHomebase';
+import FactsRewards from '../GameHistory/SecondLevel/FactsRewards';
 
 const RewardsDashboard = (props) => {
   // PROPS
@@ -118,6 +119,18 @@ const RewardsDashboard = (props) => {
     }
     return disabled;
   };
+
+  const getSuccessActiveGroup = () => {
+    return (
+      <>
+        {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'facts' && (<FactsRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+      </>
+    )
+  }
 
   if (!property.id && !userTypes) {
     return <Loading />
@@ -241,10 +254,7 @@ const RewardsDashboard = (props) => {
                       </div>
                     )
                   }
-                  {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                  {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                  {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                  {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                  {getSuccessActiveGroup()}
                 </div>
               </>
             </div>
