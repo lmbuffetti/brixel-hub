@@ -171,7 +171,7 @@ const App = (props) => {
       setIsFlow(true);
       setZIndex(6);
     } else {
-      setClassMain('w-perc-100 pos-r hubContainer');
+      setClassMain('w-perc-100 pos-r hubContainer ov-h');
       setIsFlow(false);
       setZIndex(1);
     }
@@ -223,9 +223,9 @@ const App = (props) => {
               <MenuSidebar />
             )
           }
-          <div className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
-            //style={!isFlow ? null : { height: windowDimensions.height }}
-            //style={{ height: windowDimensions.height }}
+          <div
+            className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
+            style={!isFlow ? { height: windowDimensions.height } : null}
           >
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
@@ -243,8 +243,8 @@ const App = (props) => {
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? 'hubDasContent bgLight100' : 'flowContent'} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
-              style={!isFlow ? windowDimensions.width <= 768 ? { height: windowDimensions.height - (calcHeaderHeight() + calcMobNavHeight())} : {minHeight: 'calc(100vh - ' + calcHeaderHeight() +'px)'} : {height: windowDimensions.height - calcFlowHeaderHeight()}}
+              className={`${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
+              style={!isFlow ? windowDimensions.width <= 768 ? { height: windowDimensions.height - (calcHeaderHeight() + calcMobNavHeight())} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} : {height: windowDimensions.height - calcFlowHeaderHeight()}}
             >
               <Switch>
                 { /* SECTION: ONBOARDING */ }
@@ -309,7 +309,7 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification && (
+        notification && !isFlow && (
           <BrixelNotification
             label={notification.label}
             type={notification.type}

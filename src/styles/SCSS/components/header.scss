@@ -26,18 +26,14 @@
 }
 
 .hubDasHeader {
-  box-shadow: $shadow-1dp;
-
+  z-index: 5;
   @media (min-width: $responsive-medium) {
-    box-shadow: none;
     padding-left: 210px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
   }
-
-  /* &.rightMenuOpen {
-    > .zIndex4-md {
-      z-index: 105;
-    }
-  } */
 }
 
 .accountMenu {

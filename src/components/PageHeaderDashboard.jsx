@@ -116,6 +116,21 @@ function PageHeaderDashboard(props) {
     },
   });
 
+  // add shadow header on body scroll
+  useEffect(() => {
+    const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
+    const dashHeader = document.getElementsByClassName('hubDasHeader')[0];
+    if (dashContentEl && dashHeader) {
+      dashContentEl.addEventListener('scroll', () => {
+        if (dashContentEl.scrollTop > 10) {
+          dashHeader.classList.add('shadow-1dp')
+        } else {
+          dashHeader.classList.remove('shadow-1dp')
+        }
+      });
+    }
+  });
+
   return (
     <>
       <header className={`hubDasHeader ${rightMenu ? 'rightMenuOpen' : ''}`}>

@@ -27,13 +27,14 @@
   .thirdLevel {
     background: $brx-white;
     width: 100%;
-    position: fixed;
-    z-index: 100;
     height: 100%;
-    overflow-y: auto;
-    left: 0;
-    top: 0;
+
     @media (max-width: $responsive-medium) {
+      position: fixed;
+      z-index: 100;
+      overflow-y: auto;
+      left: 0;
+      top: 0;
     }
 
     > div {
@@ -81,9 +82,6 @@
   @media (min-width: $responsive-medium) {
     .secondLevel,
     .thirdLevel {
-      min-height: 0;
-      position: static;
-      background: transparent;
       max-width: 768px;
       margin-bottom: $step * 3;
 

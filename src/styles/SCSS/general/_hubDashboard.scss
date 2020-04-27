@@ -2,6 +2,8 @@
   .hubDasContent {
     @media (min-width: $responsive-medium) {
       padding-left: 210px;
+      top: 64px;
+      position: relative;
     }
     @media (max-width: $responsive-medium) {
       overflow-y: auto;
