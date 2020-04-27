@@ -1,7 +1,4 @@
 .hubDasContent {
-  @media (max-width: $iphone5) {
-    overflow-y: auto;
-  }
   .container {
     padding: $step * 2;
 
@@ -25,11 +22,11 @@
 
   .secondLevel,
   .thirdLevel {
-    background: $brx-white;
     width: 100%;
     height: 100%;
 
     @media (max-width: $responsive-medium) {
+      background: $brx-white;
       position: fixed;
       z-index: 100;
       overflow-y: auto;

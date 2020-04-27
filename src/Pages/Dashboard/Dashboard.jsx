@@ -108,12 +108,12 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (propID && !get(activeSingleProperty, 'id', null)) {
       handleGetActiveSingleProperty({fullVersion: true, id: propID});
-      handleGetAchievement();
-      handleGetGamegroup();
-      handleGetGameHistory();
     } else if (!propID) {
       loadDefaultProperty();
     }
+    handleGetAchievement();
+    handleGetGamegroup();
+    handleGetGameHistory();
   }, []);
 
   useEffect(() => {

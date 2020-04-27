@@ -46,7 +46,7 @@ function SuccessMarketCheck(props) {
   return (
     <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c`}>
       {
-        groupdAchievement.done || getDoneFirstTime() === 'done' ? (
+        get(groupdAchievement, 'done', false) || getDoneFirstTime() === 'done' ? (
           <>
             {
               achievement && (
