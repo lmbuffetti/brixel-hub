@@ -85,6 +85,11 @@ const Bestimate = Loadable({
   loading: Loading,
 });
 
+const MediaExplanation = Loadable({
+  loader: () => import('./Pages/GameHistory/SecondLevel/MediaExplanation' /* webpackChunkName: "MediaFlow" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -280,6 +285,7 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/rewards/achievement/assessor" exact component={Assessor} allowAccess={'seller'} />
           <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
           <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/media" exact component={MediaExplanation} allowAccess={'seller'} />
         </Switch>
       }
 

@@ -19,6 +19,8 @@ import SuccessBestimate from '../GameHistory/Bestimate/SuccessBestimate';
 import SuccessAssessor from '../GameHistory/Assessor/SuccessAssessor';
 import SuccessHomebase from '../GameHistory/Homebase/SuccessHomebase';
 import FactsRewards from '../GameHistory/SecondLevel/FactsRewards';
+import MediaRewards from '../GameHistory/SecondLevel/MediaRewards';
+import MediaExplanation from '../GameHistory/SecondLevel/MediaRewards';
 
 const RewardsDashboard = (props) => {
   // PROPS
@@ -128,6 +130,7 @@ const RewardsDashboard = (props) => {
         {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
         {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
         {activeGameGroup === 'facts' && (<FactsRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'media' && (<MediaExplanation gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
       </>
     )
   }
