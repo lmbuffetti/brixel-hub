@@ -151,7 +151,7 @@ const RewardsDashboard = (props) => {
             <div className="firstLevel mr-md-2">
               {
                 usrGroups.map((group, i) => (
-                  <div key={i.toString()}>
+                  <div className={`level-${group.stub.replace(/^\D+/g, '')}`} key={i.toString()}>
                     {
                       GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`] && (
                         <>
@@ -174,6 +174,7 @@ const RewardsDashboard = (props) => {
                               group.achievements && group.achievements.map((item, f) => (
                                 <div key={f.toString()} className="pos-r">
                                   <BrixelButtonAchievement
+                                    level={group.stub.replace(/^\D+/g, '')}
                                     done={item.done}
                                     active={item.stub === activeGameGroup}
                                     icon={item.icon}
