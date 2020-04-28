@@ -1,0 +1,93 @@
+import React, { useState, useEffect } from 'react';
+import Proptypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators, compose } from 'redux';
+import get from 'lodash/get';
+import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import pagePreviewCheckImg from '../../../images/secondLevel/pagePreviewCheck.png';
+import pagePreviewDoneImg from '../../../images/secondLevel/pagePreviewDone.png';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { addGameHistory } from '../../../actions/GamificationActions';
+
+const PageReviewRewards = (props) => {
+  const {
+    gameHistory,
+    handleAddGameHistory,
+    history,
+    match,
+  } = props;
+  // STATE
+  const [isDone, setIsDone] = useState(false);
+  // PARAMS URL
+  const propID = get(match, 'params.propId', '');
+  const gameStub = history.location.pathname.split('/')[3];
+
+  useEffect(() => {
+    const isCheckDone = gameHistory.find(item => item.page === propID && item.achievement.stub === gameStub);
+    setIsDone(typeof isCheckDone !== 'undefined');
+  }, [gameHistory]);
+
+  const openPreview = (done = false) => {
+    if (!done) handleAddGameHistory({stub: gameStub});
+    window.open(`${baseByData.pageUrl}preview/${propID}`, '_blank');
+  };
+
+  return (
+    <div>
+      {
+        isDone ? (
+          <>
+            <img src={pagePreviewDoneImg} alt="Page Preview" />
+            <h5 className="ta-c mt-3 mb-2">Want a second look?</h5>
+            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">You can edit and preview as often as you want. We are ready when you are.</p>
+            <BrixelButtonPrimary
+              label="Open preview"
+              rounded
+              rightIcon="arrow-right"
+              className="min-w-fix-216 m-a"
+              onClick={() => openPreview(false)}
+            />
+          </>
+        ) : (
+          <>
+            <img src={pagePreviewCheckImg} alt="Page Preview" />
+            <h5 className="ta-c mt-3 mb-2">Have a look!</h5>
+            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">This is your personal property page. Don’t worry this is not public. This is for you eyes only.</p>
+            <BrixelButtonPrimary
+              label="Open preview"
+              rounded
+              rightIcon="arrow-right"
+              className="min-w-fix-216 m-a"
+              onClick={() => openPreview(true)}
+            />
+          </>
+        )
+      }
+    </div>
+  )
+};
+
+PageReviewRewards.propTypes = {
+  handleAddGameHistory: Proptypes.func.isRequired,
+  history: Proptypes.object.isRequired,
+  match: Proptypes.object.isRequired,
+  gameHistory: Proptypes.arrayOf(Proptypes.object),
+}
+
+PageReviewRewards.defaultProps = {
+  totalComplete: 9,
+}
+
+const mapStateToProps = (state) => ({
+  gameHistory: get(state, 'gamification.gameHistory.data', []),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
+});
+
+export default compose (
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps)
+)(PageReviewRewards);
