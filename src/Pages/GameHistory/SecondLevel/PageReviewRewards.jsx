@@ -35,7 +35,7 @@ const PageReviewRewards = (props) => {
   };
 
   return (
-    <div>
+    <div className="ta-c">
       {
         isDone ? (
           <>
