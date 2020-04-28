@@ -6,6 +6,7 @@ const BrixelButtonAchievement = (props) => {
   const {
     active,
     award,
+    config,
     disabled,
     isFree,
     done,
@@ -14,7 +15,6 @@ const BrixelButtonAchievement = (props) => {
     subtitle,
     title,
     onClick,
-    level
   } = props;
 
   const activeClass = active ? 'active' : '';
@@ -57,9 +57,9 @@ const BrixelButtonAchievement = (props) => {
             <>
               <BrixelIcon
                 rounded
-                background={level === '1' ? 'green' : level === '2' ? 'red' : ''}
+                background={config.bgIconColor}
                 saturation={100}
-                color={level === '1' ? 'green' : level === '2' ? 'red' : ''}
+                color={config.iconColor}
                 saturationTxt={400}
                 icon={icon}
                 className="shadow-3dp"
@@ -92,7 +92,7 @@ const BrixelButtonAchievement = (props) => {
       </button>
       {
         lineAfter && (
-          <div className={`lineAfter ${level === '1' ? 'bgGreen200' : level === '2' ? 'bgRed200' : null}`} />
+          <div className={`lineAfter ${config.lineAfter}`} />
         )
       }
     </div>
@@ -102,6 +102,7 @@ const BrixelButtonAchievement = (props) => {
 BrixelButtonAchievement.propTypes = {
   active: PropTypes.bool,
   award: PropTypes.bool,
+  config: PropTypes.object,
   disabled: PropTypes.bool,
   isFree: PropTypes.bool,
   done: PropTypes.bool,
@@ -109,13 +110,12 @@ BrixelButtonAchievement.propTypes = {
   lineAfter: PropTypes.bool,
   subtitle: PropTypes.string,
   title: PropTypes.string,
-  level: PropTypes.string,
 };
 
 BrixelButtonAchievement.defaultProps = {
   award: false,
+  config: {},
   disabled: false,
-  level: '',
 };
 
 export default BrixelButtonAchievement;

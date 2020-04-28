@@ -201,6 +201,7 @@ const RewardsDashboard = (props) => {
                                     lineAfter={group.achievements.length - 1 > f}
                                     award={item.achievementType === 'award'}
                                     disabled={isDisabledFlow(item.stub)}
+                                    config={GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`]}
                                   />
                                 </div>
                               ))
