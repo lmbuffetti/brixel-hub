@@ -13,7 +13,7 @@
   .listings-container .secondLevel {
     @media (min-width: $responsive-medium) {
       opacity: 0;
-      animation: fadeInSec $default-time-long 100ms ease-in-out forwards;
+      animation: fadeInSec 500ms ease-in-out forwards;
     }
   }
 
