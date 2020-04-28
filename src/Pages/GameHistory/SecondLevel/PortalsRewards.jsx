@@ -22,7 +22,7 @@ const PortalsRewards = (props) => {
     portalsReview,
   } = props;
   // STATE
-  const [status, setStatus] = useState('toDo');
+  const [status, setStatus] = useState('offline');
   // PARAMS URL
   const propID = get(match, 'params.propId', '');
   const gameStub = history.location.pathname.split('/')[3];
@@ -32,7 +32,7 @@ const PortalsRewards = (props) => {
     const checkifExist = Object.keys(portalsPublished).filter(key => portalsPublished[key] === true);
     if (typeof isCheckDone !== 'undefined' && checkifExist.length > 0) setStatus('online');
     else if (typeof isCheckDone !== 'undefined' && portalsReview) setStatus('review');
-    else setStatus('toDo');
+    else setStatus('offline');
   }, [gameHistory, portalsReview, portalsPublished]);
 
   const openPreview = (done = false) => {
@@ -41,7 +41,7 @@ const PortalsRewards = (props) => {
   };
 
   return (
-    <div>
+    <div className="ta-c">
       {
         status === 'online' && (
           <>

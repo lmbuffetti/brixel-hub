@@ -22,7 +22,7 @@ const PagePublishedRewards = (props) => {
     pageReview,
   } = props;
   // STATE
-  const [status, setStatus] = useState('toDo');
+  const [status, setStatus] = useState('offline');
   // PARAMS URL
   const propID = get(match, 'params.propId', '');
   const gameStub = history.location.pathname.split('/')[3];
@@ -31,7 +31,7 @@ const PagePublishedRewards = (props) => {
     const isCheckDone = gameHistory.find(item => item.page === propID && item.achievement.stub === gameStub);
     if (typeof isCheckDone !== 'undefined' && pagePublished) setStatus('online');
     else if (typeof isCheckDone !== 'undefined' && pageReview) setStatus('review');
-    else setStatus('toDo');
+    else setStatus('offline');
   }, [gameHistory, pagePublished, pageReview]);
 
   const openPreview = (done = false) => {
@@ -40,7 +40,7 @@ const PagePublishedRewards = (props) => {
   };
 
   return (
-    <div>
+    <div className="ta-c">
       {
         status === 'online' && (
           <>
