@@ -34,6 +34,27 @@
     top: 0;
     left: 0;
   }
+  .dasHeaderContainer {
+    box-shadow: $shadow-1dp;
+    transition: margin-top $default-time-long $default-easing;
+  }
+  .mobileTitle {
+    background: map-get($lightColor, 100 );
+  }
+}
+
+.scrollingHeader {
+  .hubDasHeader {
+    .dasHeaderContainer {
+      @media (max-width: $responsive-medium) {
+        margin-top: -64px;
+        position: relative;
+      }
+    }
+    .mobileTitle {
+      background: $brx-white;
+    }
+  }
 }
 
 .accountMenu {

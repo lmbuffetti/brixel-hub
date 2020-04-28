@@ -114,6 +114,7 @@ const App = (props) => {
   const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
   const [zIndex, setZIndex] = useState(1);
   const [isFlow, setIsFlow] = useState(false);
+  const [extraHeight, setExtraHeight] = useState(0);
 
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) handleCheckToken();
@@ -198,10 +199,29 @@ const App = (props) => {
     const head = document.getElementsByClassName('hubDasHeader');
     return head[0] ? head[0].offsetHeight : 0;
   };
+
   const calcMobNavHeight = () => {
     const mobNav = document.getElementsByClassName('brixelNavMenu');
     return mobNav[0] ? mobNav[0].offsetHeight : 0;
   };
+
+  useEffect(() => {
+    const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
+    if (dashContentEl) {
+      dashContentEl.addEventListener('scroll', () => {
+        if (dashContentEl.scrollTop > 10) {
+          setExtraHeight(64)
+        } else {
+          setExtraHeight(0)
+        }
+      })
+    }
+  })
+
+  console.log(extraHeight);
+
+
+
   const calcFlowHeaderHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');
     return flowHead[0] ? flowHead[0].offsetHeight : 0;
@@ -249,7 +269,7 @@ const App = (props) => {
             <div
               id="bodyScroll"
               className={`${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
-              style={!isFlow ? windowDimensions.width <= 768 ? { height: windowDimensions.height - (calcHeaderHeight() + calcMobNavHeight())} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} : {height: windowDimensions.height - calcFlowHeaderHeight()}}
+              style={!isFlow ? windowDimensions.width <= 768 ? { height: (windowDimensions.height + extraHeight) - (calcHeaderHeight() + calcMobNavHeight())} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} : {height: windowDimensions.height - calcFlowHeaderHeight()}}
             >
               <Switch>
                 { /* SECTION: ONBOARDING */ }
