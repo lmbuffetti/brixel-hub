@@ -14,16 +14,19 @@ import upgradeComplete from '../images/Upgrade/upgrade_complete.svg';
 export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
   const optionsPackages = [];
   if (packagesProperty) {
+    console.log(packagesProperty);
     packagesProperty.map((item) => {
-      optionsPackages.push({
-        color: item.stub.includes('premium') ? 'Red400' : 'Green400',
-        label: item.name,
-        description: item.description,
-        img: item.stub.includes('premium') ? brixelPremium : brixelPlus,
-        priceInfo: `Flat  ${item.price.currency} ${item.price.total}`,
-        value: item.id,
-        moreDetails: item.details
-      });
+      if (item.stub.includes('zurich')) {
+        optionsPackages.push({
+          color: item.stub.includes('premium') ? 'Red400' : 'Green400',
+          label: item.name,
+          description: item.description,
+          img: item.stub.includes('premium') ? brixelPremium : brixelPlus,
+          priceInfo: `<span>Flat</span>&nbsp;<span>${item.price.currency}</span>&nbsp;<span>${item.price.total}</span>`,
+          value: item.id,
+          moreDetails: item.details
+        });
+      }
       return null;
     });
   }
