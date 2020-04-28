@@ -216,11 +216,7 @@ const App = (props) => {
         }
       })
     }
-  })
-
-  console.log(extraHeight);
-
-
+  });
 
   const calcFlowHeaderHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');
@@ -263,7 +259,10 @@ const App = (props) => {
                 !history.location.pathname.includes('onBoarding')) &&
                 !history.location.pathname.includes('upgrade') &&
               (
-                <PageHeaderDashboard changeZIndex={(index) => setZIndex(index)} />
+                <PageHeaderDashboard changeZIndex={(index) => {
+                  setZIndex(index)
+                  console.log(index)
+                }} />
               )
             }
             <div

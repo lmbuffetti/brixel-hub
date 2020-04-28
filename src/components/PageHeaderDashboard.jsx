@@ -96,7 +96,7 @@ function PageHeaderDashboard(props) {
 
   const toggleMobileMenu = () => {
     setShowMobileMenu(!showMobileMenu);
-    changeZIndex(!showProfileMenu ? 8 : 1);
+    changeZIndex(!showMobileMenu ? 8 : 1);
   };
 
   const onUpgrade = () => {
