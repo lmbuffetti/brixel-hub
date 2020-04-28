@@ -138,9 +138,10 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case GET_ACTIVE_SINGLE_PROPERTY: {
       next(action);
-      const { smallLoader, setSuccessNotification } = action.payload;
+      const { smallLoader, setSuccessNotification, multiLoader } = action.payload;
       delete action.payload.smallLoader;
       delete action.payload.setSuccessNotification;
+      delete action.payload.multiLoader;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
       else store.dispatch({ type: SPINNER_ON });
       const fullVersion = get(action, 'payload.fullVersion', true);
@@ -153,6 +154,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (setSuccessNotification) {
             store.dispatch({ type: SET_SAVED_SCREEN });
           }
+          if (multiLoader) store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
@@ -160,6 +162,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (window.location.href.includes('localhost')) {
             store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: page });
           }
+          if (multiLoader) store.dispatch({ type: SPINNER_OFF });
           // window.location.href = `/`;
         });
       break;
@@ -167,8 +170,9 @@ const checkCommon = (store) => (next) => (action) => {
     case GET_PROPERTY_LISTINGS:
       next(action);
       store.dispatch({ type: SPINNER_ON });
-      const { setAsSingle } = action.payload;
+      const { setAsSingle, multiLoader } = action.payload;
       delete action.payload.setAsSingle;
+      delete action.payload.multiLoader;
       api.property.getProperties(action.payload.limit, action.payload.offset)
         .then((res) => {
           if (setAsSingle) {
@@ -177,6 +181,7 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: res.data });
           }
           store.dispatch({ type: SPINNER_OFF });
+          if (multiLoader) store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           if (window.location.href.includes('localhost')) {
@@ -187,6 +192,7 @@ const checkCommon = (store) => (next) => (action) => {
             }
           }
           store.dispatch({ type: SPINNER_OFF });
+          if (multiLoader) store.dispatch({ type: SPINNER_OFF });
         });
       break;
     case GET_ESTIMATION:
