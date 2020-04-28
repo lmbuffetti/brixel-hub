@@ -35,7 +35,6 @@
     left: 0;
   }
   .dasHeaderContainer {
-    box-shadow: $shadow-1dp;
     transition: margin-top $default-time-long $default-easing;
   }
   .mobileTitle {
@@ -46,6 +45,9 @@
 .scrollingHeader {
   .hubDasHeader {
     .dasHeaderContainer {
+      @media (min-width: $responsive-medium) {
+        box-shadow: $shadow-1dp;
+      }
       @media (max-width: $responsive-medium) {
         margin-top: -64px;
         position: relative;
