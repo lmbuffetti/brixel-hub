@@ -16,6 +16,7 @@ import has from 'lodash/has';
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 import { firstRoutes, secondRoutes } from '../resources/navigationRoutes';
 import brixels from '../images/BrxielComingTown/brixels.svg';
+import CoverPropertyImage from './CoverPropertyImage';
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -35,6 +36,7 @@ function PageHeaderDashboard(props) {
     handleSetLanguage,
     history,
     windowDimensions,
+    formValue,
   } = props;
   // STATE
   //const [currentLang, setCurrentLang] = useState(lang);
@@ -119,13 +121,13 @@ function PageHeaderDashboard(props) {
   // add shadow header on body scroll
   useEffect(() => {
     const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
-    const dashHeader = document.getElementsByClassName('hubDasHeader')[0];
-    if (dashContentEl && dashHeader) {
+    const dashHeader = document.body;
+    if (dashContentEl) {
       dashContentEl.addEventListener('scroll', () => {
         if (dashContentEl.scrollTop > 10) {
-          dashHeader.classList.add('shadow-1dp')
+          dashHeader.classList.add('scrollingHeader')
         } else {
-          dashHeader.classList.remove('shadow-1dp')
+          dashHeader.classList.remove('scrollingHeader')
         }
       });
     }
@@ -134,163 +136,216 @@ function PageHeaderDashboard(props) {
   return (
     <>
       <header className={`hubDasHeader ${rightMenu ? 'rightMenuOpen' : ''}`}>
-        <div className={`dis-f a-c px-2 px-md-3 h-fix-64 jc-b pos-r bgWhite`}>
-
-          <div className="header-section dis-fl-row a-c jc-b">
-            <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} />
-            <h5 className="ml-2">{getCurrentRoute().title}</h5>
-          </div>
-
-          <div className="dis-f a-c">
-            <div className="dis-f a-c">
-              {
-                awards >= 0 && (
-                  <div className="cur-poi dis-f a-c">
-                    <BrixelIcon iconSize="fsize-600" icon="cup-awards" color="green" />
-                    <span className="ff-mono fsize-300 pl-1 txtDark700">{awards}</span>
-                  </div>
-                )
-              }
-              {
-                brixelPoints >= 0 && (
-                  <div className="cur-poi dis-f a-c ml-2">
-                    <img className="max-w-fix-24" src={brixels} alt="icon awards" />
-                    <span className="ff-mono fsize-300 pl-1 txtDark700">{brixelPoints}</span>
-                  </div>
-                )
-              }
-            </div>
+        <div className="dasHeaderContainer">
+          <div className={`dis-f a-c px-2 px-md-3 h-fix-64 jc-b pos-r bgWhite`}>
             {
-              propID && (
-                <BrixelButtonSecondary
-                  className="hide dis-f-md min-h-fix-32 max-h-fix-32 p-0 px-1 min-w-fix-96 brdMedium mx-3"
-                  label="Upgrade"
-                  color="red"
-                  rounded
-                  onClick={() => onUpgrade()}
-                />
+              windowDimensions.width > 768 && (
+                <div className="header-section dis-fl-row a-c jc-b">
+                  <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} />
+                  <h5 className="ml-2">{getCurrentRoute().title}</h5>
+                </div>
               )
             }
-            <div className="hide dis-f-md a-c cur-poi pos-r" onClick={() => setShowProfileMenu(!showProfileMenu)} ref={profileMenu}>
-              <AvatarImage
-                avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData().shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
-                name={has(loggedInUser, 'user.name') ? loggedInUser.user.name : ''}
-                size={32}
-                onClick={() => avatarAction()}
-              />
-              <p className="ml-1 fsize-300">{get(loggedInUser, 'user.name', '')}</p>
-              <BrixelIcon
-                className="ml-1"
-                iconSize="fsize-300"
-                icon={showProfileMenu ? "arrow-simple-up" : "arrow-simple-down"}
-              />
-              <div className={`${showProfileMenu ? 'open' : 'close'} accountMenu`}>
-                <ul>
-                  <li>
-                    <a
-                      href={`${baseByData().loginBasePath}/account/profile?url=${window.location.href}`}
-                      className="txtDark200 fweight-500"
-                    >
-                      Personal Information</a></li>
-                  <li><a className="txtDark200 fweight-500" href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}>Password</a></li>
-                  <li><a className="txtDark200 fweight-500" href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}>Preferences</a></li>
-                  <li><a className="txtRed400 fweight-500" href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}>Logout</a></li>
-                </ul>
-              </div>
-            </div>
-            { /* SECTION SIDEBAR MENU MOBILE */ }
-            <div className="hide-md ml-2">
-              <BrixelButtonIcon
-                bgTransparent
-                color="primary"
-                saturationTxt={400}
-                noBorder
-                className={`shadow-2dp btnMainMenu`}
-                icon={showMobileMenu ? "close-small" : "menu"}
-                onClick={() => toggleMobileMenu()}
-              />
-              {
-                showMobileMenu && (
-                  <div className="mobile-menu bgGreen700 w-perc-100 h-100 pos-a dis-fl-col a-c p-1 zIndex5" style={{ height: windowDimensions.height }}>
-                    <BrixelButtonIcon
-                      className="as-fe mb-5"
-                      icon="close-small"
-                      background="light"
-                      saturation={100}
-                      color="green"
-                      saturationTxt={700}
-                      onClick={() => {
-                        toggleMobileMenu();
-                        document.body.classList.remove('ov-h');
-                      }}
+            {
+              windowDimensions.width <= 768 && (
+                <div className="propertyPanel dis-f a-c">
+                  <div className="image-ratio flex-48 squared shadow-2dp w-fix-48 h-fix-48 brdRadius ov-h">
+                    <CoverPropertyImage
+                      className="cover"
+                      coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
+                      propertyType={get(formValue, 'properties.propertyType', undefined)}
                     />
-                    <div className="links dis-fl-col as-b px-3 w-perc-100">
-                      <button
-                        className="txtLight100 fweight-700 fSizePx28 mb-4 ta-l"
-                        onClick={() => onClickMobileMenu('propertyList')}
-                      >
-                        Properties
-                      </button>
-                      <button
-                        className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
-                        onClick={() => ''}
-                      >
-                        Messages
-                      </button>
-                      <button
-                        className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
-                        onClick={() => ''}
-                      >
-                        Calendar
-                      </button>
-                      <div className="mini-menu dis-fl-col txtLight100">
-                        <hr className="mb-4"/>
-                        <a
-                          className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
-                          href={baseByData(null,'io').profileURL}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Profile
-                        </a>
-                        <a
-                          className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
-                          href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Password
-                        </a>
-                        <a
-                          className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
-                          href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Preferences
-                        </a>
-                        <a
-                          className="link txtRed400 fweight-500 fsize-500 mb-3 ta-l"
-                          href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Logout
-                        </a>
-                      </div>
+                  </div>
+                  <h4 className="ml-2 fsize-400 fweight-600">{get(formValue, 'title', '')}</h4>
+                </div>
+              )
+            }
+
+            <div className="dis-f a-c">
+              {
+                windowDimensions.width > 768 && (
+                  <div className="dis-f a-c">
+                    {
+                      awards >= 0 && (
+                        <div className="cur-poi dis-f a-c">
+                          <BrixelIcon iconSize="fsize-600" icon="cup-awards" color="green" />
+                          <span className="ff-mono fsize-300 pl-1 txtDark700">{awards}</span>
+                        </div>
+                      )
+                    }
+                    {
+                      brixelPoints >= 0 && (
+                        <div className="cur-poi dis-f a-c ml-2">
+                          <img className="max-w-fix-24" src={brixels} alt="icon awards" />
+                          <span className="ff-mono fsize-300 pl-1 txtDark700">{brixelPoints}</span>
+                        </div>
+                      )
+                    }
+                  </div>
+                )
+              }
+              {
+                propID && windowDimensions.width > 768 && (
+                  <BrixelButtonSecondary
+                    className="hide dis-f-md min-h-fix-32 max-h-fix-32 p-0 px-1 min-w-fix-96 brdMedium mx-3"
+                    label="Upgrade"
+                    color="red"
+                    rounded
+                    onClick={() => onUpgrade()}
+                  />
+                )
+              }
+
+              {
+                windowDimensions.width > 768 && (
+                  <div className="dis-f-md a-c cur-poi pos-r" onClick={() => setShowProfileMenu(!showProfileMenu)} ref={profileMenu}>
+
+                    <AvatarImage
+                      avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData().shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
+                      name={has(loggedInUser, 'user.name') ? loggedInUser.user.name : ''}
+                      size={32}
+                      onClick={() => avatarAction()}
+                    />
+                    <p className="ml-1 fsize-300">{get(loggedInUser, 'user.name', '')}</p>
+                    <BrixelIcon
+                      className="ml-1"
+                      iconSize="fsize-300"
+                      icon={showProfileMenu ? "arrow-simple-up" : "arrow-simple-down"}
+                    />
+                    <div className={`${showProfileMenu ? 'open' : 'close'} accountMenu`}>
+                      <ul>
+                        <li>
+                          <a
+                            href={`${baseByData().loginBasePath}/account/profile?url=${window.location.href}`}
+                            className="txtDark200 fweight-500"
+                          >
+                            Personal Information</a></li>
+                        <li><a className="txtDark200 fweight-500" href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}>Password</a></li>
+                        <li><a className="txtDark200 fweight-500" href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}>Preferences</a></li>
+                        <li><a className="txtRed400 fweight-500" href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}>Logout</a></li>
+                      </ul>
                     </div>
                   </div>
                 )
               }
+              { /* SECTION SIDEBAR MENU MOBILE */ }
+              <div className="hide-md ml-2">
+                <BrixelButtonIcon
+                  bgTransparent
+                  color="primary"
+                  saturationTxt={400}
+                  noBorder
+                  className={`shadow-2dp btnMainMenu`}
+                  icon={showMobileMenu ? "close-small" : "menu"}
+                  onClick={() => toggleMobileMenu()}
+                />
+                {
+                  showMobileMenu && (
+                    <div className="mobile-menu bgGreen700 w-perc-100 h-100 pos-a dis-fl-col a-c p-1 zIndex5" style={{ height: windowDimensions.height }}>
+                      <BrixelButtonIcon
+                        className="as-fe mb-5"
+                        icon="close-small"
+                        background="light"
+                        saturation={100}
+                        color="green"
+                        saturationTxt={700}
+                        onClick={() => {
+                          toggleMobileMenu();
+                          document.body.classList.remove('ov-h');
+                        }}
+                      />
+                      <div className="links dis-fl-col as-b px-3 w-perc-100">
+                        <button
+                          className="txtLight100 fweight-700 fSizePx28 mb-4 ta-l"
+                          onClick={() => onClickMobileMenu('propertyList')}
+                        >
+                          Properties
+                        </button>
+                        <button
+                          className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
+                          onClick={() => ''}
+                        >
+                          Messages
+                        </button>
+                        <button
+                          className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
+                          onClick={() => ''}
+                        >
+                          Calendar
+                        </button>
+                        <div className="mini-menu dis-fl-col txtLight100">
+                          <hr className="mb-4"/>
+                          <a
+                            className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
+                            href={baseByData(null,'io').profileURL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Profile
+                          </a>
+                          <a
+                            className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
+                            href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Password
+                          </a>
+                          <a
+                            className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
+                            href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Preferences
+                          </a>
+                          <a
+                            className="link txtRed400 fweight-500 fsize-500 mb-3 ta-l"
+                            href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Logout
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                }
+              </div>
+              <MenuNavigationSubmenu windowDimensions={windowDimensions} activeMenu={activeMenu} onClose={() => setActiveMenu(null)} />
             </div>
-            <MenuNavigationSubmenu windowDimensions={windowDimensions} activeMenu={activeMenu} onClose={() => setActiveMenu(null)} />
           </div>
         </div>
-        <MenuNavigationSubmenu
-          windowDimensions={windowDimensions}
-          rightMenu={rightMenu}
-          onClose={() => setRightMenu(null)}
-        />
+        {
+          windowDimensions.width <= 768 && (
+            <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
+              <div className="header-section dis-fl-row a-c jc-b">
+                {/* <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} /> */}
+                <h5 className="">{getCurrentRoute().title}</h5>
+              </div>
+              <div className="dis-f a-c">
+                {
+                  awards >= 0 && (
+                    <div className="cur-poi dis-f a-c">
+                      <BrixelIcon iconSize="fsize-600" icon="cup-awards" color="green" />
+                      <span className="ff-mono fsize-300 pl-1 txtDark700">{awards}</span>
+                    </div>
+                  )
+                }
+                {
+                  brixelPoints >= 0 && (
+                    <div className="cur-poi dis-f a-c ml-2">
+                      <img className="max-w-fix-24" src={brixels} alt="icon awards" />
+                      <span className="ff-mono fsize-300 pl-1 txtDark700">{brixelPoints}</span>
+                    </div>
+                  )
+                }
+              </div>
+
+            </div>
+          )
+        }
       </header>
     </>
   );
@@ -312,6 +367,7 @@ PageHeaderDashboard.propTypes = {
   userAwards: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
   userBrixelPoint: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
   windowDimensions: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {
