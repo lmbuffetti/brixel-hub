@@ -117,7 +117,11 @@ const App = (props) => {
   const [extraHeight, setExtraHeight] = useState(0);
 
   useEffect(() => {
-    if (cookies && cookies.get('brixelToken')) handleCheckToken();
+    if (cookies && cookies.get('brixelToken')) {
+      let data = {};
+      if (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding')) data = {hideLoad: true};
+      handleCheckToken(data);
+    }
     window.addEventListener('resize', () => {
       handleSetWindowsDimension({
         height: window.innerHeight,
@@ -216,11 +220,7 @@ const App = (props) => {
         }
       })
     }
-  })
-
-  console.log(extraHeight);
-
-
+  });
 
   const calcFlowHeaderHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');

@@ -101,14 +101,14 @@ const Dashboard = (props) => {
       limit: 1,
       offset: `0/?owner=${loggedInUser.user.id}`,
       setAsSingle: true,
-      smallLoader: true,
+      multiLoader: true,
     };
     handleGetPropertyListings(data);
   };
 
   useEffect(() => {
     if (propID && !get(activeSingleProperty, 'id', null)) {
-      handleGetActiveSingleProperty({fullVersion: true, id: propID, smallLoader: true});
+      handleGetActiveSingleProperty({fullVersion: true, id: propID, multiLoader: true });
     } else if (!propID) {
       loadDefaultProperty();
     }
