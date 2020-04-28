@@ -459,9 +459,10 @@ function OnBoarding(props) {
         {
           Questions[currentIndex] && Questions[currentIndex].inputs && (
             <BrixelProgressBar
+              large
               saturation={400}
               barBackground="Light"
-              backgroundSaturation={200}
+              backgroundSaturation={300}
               progressValue={progressBar}
             />
           )
