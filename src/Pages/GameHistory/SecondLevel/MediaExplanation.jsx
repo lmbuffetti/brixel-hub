@@ -14,12 +14,8 @@ import {
 import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
-  BrixelIcon,
-  BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { MediaQuestions } from '../../../resources/MediaExplanation';
-import MultiStepForm from '../../../components/MultiStepReduxForm';
-import { translateTo } from '../../../utils/translation';
 import last from 'lodash/last';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 

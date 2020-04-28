@@ -21,6 +21,8 @@ import SuccessHomebase from '../GameHistory/Homebase/SuccessHomebase';
 import FactsRewards from '../GameHistory/SecondLevel/FactsRewards';
 import MediaExplanation from '../GameHistory/SecondLevel/MediaRewards';
 import PageReviewRewards from '../GameHistory/SecondLevel/PageReviewRewards';
+import PagePublishedRewards from '../GameHistory/SecondLevel/PagePublishedRewards';
+import PortalsRewards from '../GameHistory/SecondLevel/PortalsRewards';
 
 const RewardsDashboard = (props) => {
   // PROPS
@@ -132,6 +134,8 @@ const RewardsDashboard = (props) => {
         {activeGameGroup === 'facts' && (<FactsRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
         {activeGameGroup === 'media' && (<MediaExplanation gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
         {activeGameGroup === 'page-preview' && (<PageReviewRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'page-published' && (<PagePublishedRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'portals' && (<PortalsRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
       </>
     )
   }

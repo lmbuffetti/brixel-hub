@@ -1,16 +1,5 @@
 /* eslint-disable max-len */
-import {
-  BrixelCheckbox,
-  BrixelInputText,
-  BrixelRadioButton,
-  FactsOptions,
-  Validation,
-} from '@brixel/brixel-components';
-import ResumeAssessor from '../Pages/GameHistory/Assessor/ResumeAssessor';
-import { translateTo } from '../utils/translation';
 import mediaImg1 from '../images/Media/media_1.png';
-
-const { factsOptions } = FactsOptions;
 
 export const MediaQuestions = (lang = 'en') => [
   {
