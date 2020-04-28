@@ -17,12 +17,14 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { updatePublishedReview } from '../../actions/PropertyActions';
 import CoverPropertyImage from '../../components/CoverPropertyImage';
 import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
+import { addGameHistory } from '../../actions/GamificationActions';
 
 const Page = (props) => {
   // PROPS
   const {
     formValue,
     handleUpdatePublishedReview,
+    handleAddGameHistory,
     history,
     isSmallLoading,
     match,
@@ -37,6 +39,7 @@ const Page = (props) => {
       status: status,
     };
     handleUpdatePublishedReview(data);
+    if (status === 'online') handleAddGameHistory({stub: 'page-published'});
   };
 
   return (
@@ -230,6 +233,7 @@ const Page = (props) => {
 Page.propTypes = {
   history: PropTypes.object.isRequired,
   handleUpdatePublishedReview: PropTypes.func.isRequired,
+  handleAddGameHistory: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.bool.isRequired,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -251,6 +255,7 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset(form)))
   },
   handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
+  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });
 
 export default compose(

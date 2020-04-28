@@ -4,9 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import get from 'lodash/get';
-import { BrixelProgressBar, BrixelButtonPrimary, BrixelButtonBox } from '@brixel/brixel-components';
-import infoImg from '../../../images/Upgrade/info.svg';
-import MediaExplanation from './MediaExplanation';
+import { BrixelButtonPrimary, BrixelButtonBox } from '@brixel/brixel-components';
 
 const MediaRewards = (props) => {
   const {
@@ -15,7 +13,6 @@ const MediaRewards = (props) => {
     history,
     match,
     photos,
-    totalComplete,
   } = props;
   // PARAMS URL
   const propID = get(match, 'params.propId', '');

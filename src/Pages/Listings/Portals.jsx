@@ -17,12 +17,14 @@ import { updatePortalsReview } from '../../actions/PropertyActions';
 import page_review from '../../images/Listings/page_review.svg';
 import portalsImg from '../../images/Listings/portals.svg';
 import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
+import { addGameHistory } from '../../actions/GamificationActions';
 
 const Portals = (props) => {
   // PROPS
   const {
     formValue,
     handleUpdatePortalsReview,
+    handleAddGameHistory,
     history,
     isSmallLoading,
     match,
@@ -47,6 +49,7 @@ const Portals = (props) => {
       status: status,
     };
     handleUpdatePortalsReview(data);
+    if (status === 'online') handleAddGameHistory({stub: 'portals'});
   };
 
   return (
@@ -186,6 +189,7 @@ const Portals = (props) => {
 Portals.propTypes = {
   history: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
+  handleAddGameHistory: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.bool.isRequired,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -212,6 +216,7 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset(form)))
   },
   handleUpdatePortalsReview: bindActionCreators(updatePortalsReview, dispatch),
+  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });
 
 export default compose(

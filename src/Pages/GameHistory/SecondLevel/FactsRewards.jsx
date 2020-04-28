@@ -32,7 +32,7 @@ const FactsRewards = (props) => {
           small={window.innerWidth < 768}
         />
       </div>
-      <p className="ff-mono txtPrimary700 mt-1">{totalComplete}% completed</p>
+      <p className="ff-mono txtPrimary700 mt-1"><span>{totalComplete}%</span>&nbsp;<span>completed</span></p>
 
       {
         totalComplete >= 70 && (
