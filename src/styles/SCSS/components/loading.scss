@@ -15,12 +15,17 @@ $color3: #96BEF0;
   height: 100%;
   z-index: 100000;
   user-select: none;
-
-  &.fixed {
+  display: none;
+  &.large {
     position: fixed;
+    width: 100vw;
+    height: 100vh;
+    display: block;
   }
-
-
+  &.small {
+    position: absolute;
+    display: block;
+  }
 
   &.hide-add {
     opacity: 1;
@@ -45,22 +50,9 @@ $color3: #96BEF0;
       width: 100%;
       height: 100%;
       background-color: white;
-      opacity: 0.8;
+      opacity: 1;
       z-index: -1;
     }
-  }
-
-  &.fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-  }
-  &.innerSection {
-    width: 100%;
-    height: 100%;
-    position: absolute;
   }
 }
 

@@ -8,6 +8,7 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
 import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
+import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_color.svg';
 import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
@@ -102,8 +103,13 @@ function PageHeader(props) {
   return (
     <>
       <header className="flowHeader">
-        <div className={`container dis-f a-c p-1 p-md-2 jc-b pos-r zIndex4 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
-          <img className={`logo dis-b w-fix-40 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`} src={logoNorm} alt="Brixel Logo" id="header-logo" />
+        <div className={`container dis-f a-c p-1 pt-2 p-md-2 jc-b pos-r zIndex4 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
+          <img
+            className={`logo dis-b ${history.location.pathname.includes('onBoarding') ? 'w-fix-86' : 'w-fix-40' }  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
+            src={ history.location.pathname.includes('onBoarding') ? logoColor : logoNorm }
+            alt="Brixel Logo"
+            id="header-logo"
+          />
           <div className="dis-f a-c">
             {
               userAwards >= 0 && (

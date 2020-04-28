@@ -263,7 +263,7 @@ const App = (props) => {
                 !history.location.pathname.includes('onBoarding')) &&
                 !history.location.pathname.includes('upgrade') &&
               (
-                <PageHeaderDashboard changeZIndex={(index) => setZIndex(index)} />
+                <PageHeaderDashboard changeZIndex={(index) => {setZIndex(index)}} />
               )
             }
             <div
