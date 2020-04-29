@@ -1,6 +1,6 @@
 /* global ga, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef} from 'react';
 import {
   Switch, Route, withRouter, Redirect,
 } from 'react-router-dom';
@@ -116,6 +116,9 @@ const App = (props) => {
   const [isFlow, setIsFlow] = useState(false);
   const [extraHeight, setExtraHeight] = useState(0);
 
+  const dashContentRef = useRef(null);
+  const dashContentEl = dashContentRef.current;
+
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) {
       let data = {};
@@ -171,7 +174,30 @@ const App = (props) => {
   }, [redirectTo]);
 
   useEffect(() => {
-    const body = document.body;
+    if (dashContentEl) {
+      dashContentEl.addEventListener('scroll', () => {
+        if (dashContentEl.scrollTop > 10) {
+          setExtraHeight(64)
+        } else {
+          setExtraHeight(0)
+        }
+      })
+    }
+  });
+
+  useEffect(() => {
+
+    // increase container height when header slides up
+    if (dashContentEl) {
+      dashContentEl.addEventListener('scroll', () => {
+        if (dashContentEl.scrollTop > 10) {
+          setExtraHeight(64)
+        } else {
+          setExtraHeight(0)
+        }
+      })
+    }
+
     if (
       history.location.pathname.includes('packageFlow') ||
       history.location.pathname.includes('onBoarding') ||
@@ -186,18 +212,22 @@ const App = (props) => {
       setZIndex(1);
     }
 
-    if (
-      history.location.pathname.includes('property/') ||
-      history.location.pathname.includes('listings/')
+     // add class to container when secondlevel visible on mobile
+     if (
+      (history.location.pathname.includes('property/') ||
+      history.location.pathname.includes('listings/')) &&
+      windowDimensions.width <= 768
     ) {
-      body.classList.add('hideNav');
+      if (dashContentEl) {
+        dashContentEl.classList.add('secondLevelActive');
+      }
     } else {
-      if (body.classList.contains('hideNav')) {
-        body.classList.remove('hideNav')
+      if (dashContentEl) {
+        dashContentEl.classList.remove('secondLevelActive')
       }
     }
 
-  }, [history.location.pathname]);
+  }, [history.location.pathname, setExtraHeight]);
 
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
@@ -209,19 +239,6 @@ const App = (props) => {
     return mobNav[0] ? mobNav[0].offsetHeight : 0;
   };
 
-  useEffect(() => {
-    const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
-    if (dashContentEl) {
-      dashContentEl.addEventListener('scroll', () => {
-        if (dashContentEl.scrollTop > 10) {
-          setExtraHeight(64)
-        } else {
-          setExtraHeight(0)
-        }
-      })
-    }
-  });
-
   const calcFlowHeaderHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');
     return flowHead[0] ? flowHead[0].offsetHeight : 0;
@@ -230,6 +247,15 @@ const App = (props) => {
   if (!loggedInUser || (!userTypes && property.id) || !isLoaded) {
     return (
       <Loading isLoading={isLoading} />
+    )
+  }
+
+  const headerCalc = () => {
+    return (
+      !isFlow ? windowDimensions.width <= 768 ?
+      {height: (windowDimensions.height + extraHeight) - (calcHeaderHeight() + calcMobNavHeight())} :
+      {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
+      {height: windowDimensions.height - calcFlowHeaderHeight()}
     )
   }
 
@@ -269,7 +295,8 @@ const App = (props) => {
             <div
               id="bodyScroll"
               className={`${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
-              style={!isFlow ? windowDimensions.width <= 768 ? { height: (windowDimensions.height + extraHeight) - (calcHeaderHeight() + calcMobNavHeight())} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} : {height: windowDimensions.height - calcFlowHeaderHeight()}}
+              style={headerCalc()}
+              ref={dashContentRef}
             >
               <Switch>
                 { /* SECTION: ONBOARDING */ }
