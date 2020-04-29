@@ -136,8 +136,8 @@ const Page = (props) => {
                       <hr className="my-3" />
 
                       <p className="txtDark200">Any questions?</p>
-                      <p className="txtDark200"><span>Call us</span>:&nbsp;<a className="txtDark200" href="tel:+41 43 333 57 00">+41 43 333 57 00</a></p>
-                      <p className="txtDark200"><span>Write us</span>:&nbsp;<a className="txtDark200" href="mailto:support@brixel.ch">support@brixel.ch</a></p>
+                      <p className="txtDark200"><span>Call us</span><span>:&nbsp;</span><a className="txtDark200" href="tel:+41 43 333 57 00">+41 43 333 57 00</a></p>
+                      <p className="txtDark200"><span>Write us</span><span>:&nbsp;</span><a className="txtDark200" href="mailto:support@brixel.ch">support@brixel.ch</a></p>
 
                     </div>
                   </>
@@ -234,7 +234,7 @@ Page.propTypes = {
   history: PropTypes.object.isRequired,
   handleUpdatePublishedReview: PropTypes.func.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.bool.isRequired,
+  isSmallLoading: PropTypes.string,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -244,7 +244,7 @@ Page.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({

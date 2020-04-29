@@ -160,7 +160,7 @@ const FactsQuestion = (props) => {
                                   showMap={false}
                                   isShowZip={false}
                                   className="w-perc-100"
-                                  changeCountry={(val) => changeFieldValue('location.country', val)}
+                                  changeCountry={(val) => changeFieldValue('location.countryCode', val)}
                                   selCountry={get(formValue, 'location.countryCode', '')}
                                 />
                               )}

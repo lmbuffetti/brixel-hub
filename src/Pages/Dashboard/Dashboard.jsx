@@ -9,6 +9,7 @@ import isObject from 'lodash/isObject';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import cloneDeep from 'lodash/cloneDeep';
+import set from 'lodash/set';
 
 import {
   getPropertyListings,
@@ -229,7 +230,7 @@ const Dashboard = (props) => {
       const getID = notification.actions.findIndex(item => item.label === 'Save');
       if (getID > -1) {
         const newNotification = cloneDeep(notification);
-        newNotification.actions[getID].isLoading = isSmallLoading;
+        newNotification.actions[getID].isLoading = isSmallLoading !== null;
         handleSetScreenNotification({
           ...newNotification,
         })
@@ -285,7 +286,7 @@ Dashboard.propTypes = {
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
-  isSmallLoading: PropTypes.bool,
+  isSmallLoading: PropTypes.string,
   userTypes: PropTypes.string,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleGetPropertyListings: PropTypes.func.isRequired,
@@ -320,47 +321,58 @@ const DashboardForm = reduxForm({
   destroyOnUnmount: false,
 })(Dashboard);
 
-const mapStateToProps = (state) => ({
-  userTypes: get(state, 'user.userTypes', null),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', undefined),
-  formValue: get(state, 'form.Property.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
-  isLoading: get(state, 'common.isLoading', 0) > 0,
-  errorValue: get(state, 'form.Property.syncErrors', null),
-  regFields: get(state, 'form.Property.registeredFields', null),
-  notification: get(state, 'common.notification', {}),
-  initialValues: {
-    assessor: get(state, 'property.activeSingleProperty.assessor', {}),
-    booking: get(state, 'property.activeSinglePropertyBooking', []),
-    documents: get(state, 'property.activeSingleProperty.documents', []),
-    coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
-    description: get(state, 'property.activeSingleProperty.description', {}),
-    id: get(state, 'property.activeSingleProperty.id', null),
-    floorPlans: get(state, 'property.activeSingleProperty.floorPlans', []),
-    inputSheet: get(state, 'property.activeSingleProperty.inputSheet', {}),
-    price: get(state, 'property.activeSingleProperty.price', {}),
-    status: get(state, 'property.activeSingleProperty.status', null),
-    // language: get(state, 'property.activeSingleProperty.language', null),
-    // listed: get(state, 'property.activeSingleProperty.listed', null),
-    location: get(state, 'property.activeSingleProperty.location', {}),
-    photos: get(state, 'property.activeSingleProperty.photos', []),
-    portals: get(state, 'property.activeSingleProperty.portals', {}),
-    portalsReview: get(state, 'property.activeSingleProperty.portalsReview', null),
-    properties: get(state, 'property.activeSingleProperty.properties', {}),
-    schedule: get(state, 'property.activeSingleProperty.schedule', {}),
-    published: get(state, 'property.activeSingleProperty.published', null),
-    publishReview: get(state, 'property.activeSingleProperty.publishReview', null),
-    stub: get(state, 'property.activeSingleProperty.stub', null),
-    title: get(state, 'property.activeSingleProperty.title', null),
-    packageUpgrade: {
-      contactEmail: get(state, 'user.loggedInUser.user.email', ''),
-      contactPhone: get(state, 'user.loggedInUser.user.phone', ''),
+const mapStateToProps = (state) => {
+  const properties = get(state, 'property.activeSingleProperty.properties', {});
+  set(properties, 'typology.livingArea.unit', 'm2');
+  set(properties, 'typology.lotArea.unit', 'm2');
+  set(properties, 'typology.constructedVolume.unit', 'm3');
+  set(properties, 'typology.balconyArea.unit', 'm2');
+  set(properties, 'typology.gardenArea.unit', 'm2');
+  set(properties, 'building.expandableAtticArea.unit', 'm2');
+  set(properties, 'typology.basementArea.unit', 'm2');
+  set(properties, 'building.properties.typology.storeroomArea.unit', 'm2');
+  set(properties, 'typology.collectiveSpacesArea.unit', 'm2');
+  return ({
+    userTypes: get(state, 'user.userTypes', null),
+    loggedInUser: get(state, 'user.loggedInUser', {}),
+    activeSingleProperty: get(state, 'property.activeSingleProperty', undefined),
+    formValue: get(state, 'form.Property.values', {}),
+    isSmallLoading: get(state, 'common.isSmallLoading', null),
+    isLoading: get(state, 'common.isLoading', 0) > 0,
+    errorValue: get(state, 'form.Property.syncErrors', null),
+    regFields: get(state, 'form.Property.registeredFields', null),
+    notification: get(state, 'common.notification', {}),
+    initialValues: {
+      assessor: get(state, 'property.activeSingleProperty.assessor', {}),
+      booking: get(state, 'property.activeSinglePropertyBooking', []),
+      documents: get(state, 'property.activeSingleProperty.documents', []),
+      coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
+      description: get(state, 'property.activeSingleProperty.description', {}),
+      id: get(state, 'property.activeSingleProperty.id', null),
+      floorPlans: get(state, 'property.activeSingleProperty.floorPlans', []),
+      inputSheet: get(state, 'property.activeSingleProperty.inputSheet', {}),
+      price: get(state, 'property.activeSingleProperty.price', {}),
+      status: get(state, 'property.activeSingleProperty.status', null),
+      // language: get(state, 'property.activeSingleProperty.language', null),
+      // listed: get(state, 'property.activeSingleProperty.listed', null),
+      location: get(state, 'property.activeSingleProperty.location', {}),
+      photos: get(state, 'property.activeSingleProperty.photos', []),
+      portals: get(state, 'property.activeSingleProperty.portals', {}),
+      portalsReview: get(state, 'property.activeSingleProperty.portalsReview', null),
+      properties: get(state, 'property.activeSingleProperty.properties', {}),
+      schedule: get(state, 'property.activeSingleProperty.schedule', {}),
+      published: get(state, 'property.activeSingleProperty.published', null),
+      publishReview: get(state, 'property.activeSingleProperty.publishReview', null),
+      stub: get(state, 'property.activeSingleProperty.stub', null),
+      title: get(state, 'property.activeSingleProperty.title', null),
+      packageUpgrade: {
+        contactEmail: get(state, 'user.loggedInUser.user.email', ''),
+        contactPhone: get(state, 'user.loggedInUser.user.phone', ''),
+      },
+      virtual: get(state, 'property.activeSingleProperty.virtual', null),
     },
-    virtual: get(state, 'property.activeSingleProperty.virtual', null),
-  },
-});
-
+  });
+}
 const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)))

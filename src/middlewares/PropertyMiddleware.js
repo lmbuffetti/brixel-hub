@@ -53,7 +53,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.redirectToRewards;
       delete action.payload.redirectToHome;
       delete action.payload.smallLoader;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.property.addProperty(action.payload, token)
         .then((res) => {
@@ -88,7 +88,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.redirectToHome;
       delete action.payload.setSuccessNotification;
       delete action.payload.getEstimation;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       const data = action.payload;
       if (get(data, 'photos', []).length > 0) {
@@ -142,7 +142,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.smallLoader;
       delete action.payload.setSuccessNotification;
       delete action.payload.multiLoader;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       const fullVersion = get(action, 'payload.fullVersion', true);
       const apiEndPoint = (data) => fullVersion ? api.property.getProperty(data) : api.property.getPropertySimplified(data);
@@ -321,7 +321,7 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case CREATE_PROPERTY_VISIT_SCHEDULE: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'visitSchedule' });
       api.property.createPropertyVisitSchedule(action.payload)
         .then((response) => {
           if (response.meta.status === 201) {
@@ -339,7 +339,7 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case SAVE_PROPERTY_VISIT_SCHEDULE: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'saveVisitSchedule' });
       api.property.updatePropertyVisitSchedule(action.payload.scheduleId, action.payload.data)
         .then((response) => {
           if (response.meta.status === 200) {
@@ -375,7 +375,7 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'booking' });
       const { id } = action.payload;
       api.property.getPageVisits(id).then((response) => {
         store.dispatch({
@@ -388,7 +388,7 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case SAVE_PROPERTY_VISIT_BOOKING: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'saveBooking' });
       const { scheduleId, data } = action.payload;
       delete action.payload.id;
       api.property.updatePropertyVisit(scheduleId, data)
@@ -416,7 +416,7 @@ const checkCommon = (store) => (next) => (action) => {
     case UPDATE_PORTALS_REVIEW: {
       next(action);
       const { smallLoader, page, status } = action.payload;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.property.changePortalsReview(page, status)
         .then((res) => {
@@ -429,7 +429,7 @@ const checkCommon = (store) => (next) => (action) => {
     case UPDATE_PUBLISHED_REVIEW: {
       next(action);
       const { smallLoader, page, status } = action.payload;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.property.changePublishReview(page, status)
         .then((res) => {
@@ -442,7 +442,7 @@ const checkCommon = (store) => (next) => (action) => {
     case GET_PACKAGES_PROPERTY: {
       next(action);
       const { smallLoader } = action.payload;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.property.getPackageList(10, 0)
         .then((res) => {
@@ -455,7 +455,7 @@ const checkCommon = (store) => (next) => (action) => {
     case SAVE_UPGRADE_PLAN: {
       next(action);
       const { smallLoader, page, data } = action.payload;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.property.saveUpgradePlan(page, data)
         .then((res) => {

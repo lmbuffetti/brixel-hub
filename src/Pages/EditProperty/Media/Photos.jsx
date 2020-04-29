@@ -96,7 +96,7 @@ const Photos = (props) => {
           imageType: 0,
           pageID: formValue.id,
           uploadAction: 'photos',
-          smallLoader: true,
+          smallLoader: 'upload',
           lastImage: acceptedFiles.length - 1 === f,
         };
         arrayDates.push({galleryThumbnailPath: read.result, createdAt: Date().now});
@@ -288,7 +288,7 @@ const Photos = (props) => {
                   rightIcon="upload"
                   rounded
                   className="mt-3"
-                  isLoading={isSmallLoading && btnActive === 'uploading'}
+                  isLoading={isSmallLoading === 'upload'}
                 />
               </div>
             </>
@@ -316,7 +316,7 @@ Photos.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.bool.isRequired,
+  isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
@@ -328,7 +328,7 @@ Photos.defaultProps = {
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   percentage: get(state, 'common.percentage', 0),
   loggedInUser: get(state, 'user.loggedInUser', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),

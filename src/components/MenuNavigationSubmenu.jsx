@@ -35,7 +35,7 @@ const MenuNavigationSubmenu = (props) => {
         activeMenu && (
           <div className="sidebarSubmenu zIndex2" style={{ height: windowDimensions.height }}>
             <div className="sidebarSubmenuContent shadow-1dp dis-fl-col h-perc-100 pos-r" ref={wrapperRef}>
-              <Loading  isSmall isLoading={isSmallLoading} />
+              <Loading  isSmall isLoading={isSmallLoading !== null} />
               {
                 activeMenu === 'propertyList' && (
                   <Properties {...props} closeProperty={() => onClose(null)}/>
@@ -62,7 +62,7 @@ MenuNavigationSubmenu.propTypes = {
   activeMenu: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   rightMenu: PropTypes.string,
-  isSmallLoading: PropTypes.bool,
+  isSmallLoading: PropTypes.string,
   windowDimensions: PropTypes.object,
 };
 
@@ -70,11 +70,11 @@ MenuNavigationSubmenu.defaultProps = {
   activeMenu: null,
   rightMenu: null,
   windowDimensions: {},
-  isSmallLoading: false,
+  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
-  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
 })
 
 

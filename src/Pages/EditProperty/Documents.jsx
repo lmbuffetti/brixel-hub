@@ -395,7 +395,7 @@ const Documents = (props) => {
 Documents.propTypes = {
   history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.bool.isRequired,
+  isSmallLoading: PropTypes.string,
   match: PropTypes.object.isRequired,
 };
 
@@ -404,7 +404,7 @@ Documents.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   user: get(state, 'user.loggedInUser', {}),
 });
 
