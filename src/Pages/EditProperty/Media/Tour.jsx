@@ -40,7 +40,7 @@ const Tour = (props) => {
               onClick={() => history.push(`/${propID}/property`)}
             />
             <h5 className="m-a m-md-0 sectionTitle">
-              3D Tour
+              3D tour
             </h5>
           </div>
           {
@@ -75,7 +75,7 @@ const Tour = (props) => {
                     saturationTxt={400}
                     onClick={() => setShowTour(true)}
                   />
-                  <p className="ta-c txtWhite mt-2">Start 3D Tour</p>
+                  <p className="ta-c txtWhite mt-2">Start 3D tour</p>
                 </div>
               </div>
             ) : (
@@ -115,8 +115,8 @@ const Tour = (props) => {
           !get(formValue, 'virtual.matterport', null) && (
             <BrixelUpgradeMessage
               className="mt-3"
-              title="Get your own 3D Tour"
-              description="3D Tour and much more is part of Brixel Premium."
+              title="Get your own 3D tour"
+              description="3D tour and much more is part of Brixel Premium."
             />
           )
         }

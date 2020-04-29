@@ -31,7 +31,7 @@ const MediaRewards = (props) => {
         showIntro() ? (
           <>
             <h5 className="ta-c mt-3 mb-2">Time to upload some media.</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Learn how to manage your phtos, floorplans and much more.</p>
+            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Learn how to manage your photos, floorplans and much more.</p>
             <BrixelButtonPrimary
               label="Show me"
               rounded
@@ -76,7 +76,7 @@ const MediaRewards = (props) => {
                 verticalView
                 bgTransparent
                 icon="tour"
-                label="3D Tour"
+                label="3D tour"
                 labelClass="fweight-400"
                 subtitle={`<span class="txtRed400">Premium Feature<span>`}
                 subtitleClass="fsize-200 txtDark200 pt-small-6"

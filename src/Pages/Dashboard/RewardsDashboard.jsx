@@ -88,24 +88,19 @@ const RewardsDashboard = (props) => {
   }, [property, gameHistory, userTypes]);
 
   useEffect(() => {
-    if (gameHistory.data && rewardType && rewardType !== 'rewards') {
+    if (gameHistory.data && rewardType && rewardType !== 'rewards' && gameGroup) {
       let selectEl;
-      selectEl = gameHistory.data.find(el => el.achievement.stub === rewardType && el.page === property.id);
-      if (typeof selectEl !== 'undefined') {
-        selectEl.done = true;
-      } else {
-        usrGroups.map((item) => {
-          if (!selectEl) selectEl = item.achievements.find(el => el.stub === rewardType);
-          return null;
-        })
-      }
+      usrGroups.map((item) => {
+        if (!selectEl) selectEl = item.achievements.find(el => el.stub === rewardType);
+        return null;
+      })
       setActiveGameGroup(rewardType);
       setActiveAchievement(selectEl);
     } else {
       setActiveGameGroup(null);
       setActiveAchievement(null);
     }
-  }, [gameHistoryData, usrGroups, history]);
+  }, [gameHistoryData, usrGroups, history, gameGroup]);
 
   const onClickAchievement = (game, achievement) => {
     setActiveGameGroup(game);
@@ -240,7 +235,7 @@ const RewardsDashboard = (props) => {
                             onClick={() => history.push(`/${propID}/rewards`)}
                           />
                           <p className="mr-1 body fweight-500">
-                            {activeAchievement.title || activeAchievement.name}
+                            {activeAchievement.title || activeAchievement.description}
                           </p>
                         </div>
                         <div className="cur-poi ml-2">

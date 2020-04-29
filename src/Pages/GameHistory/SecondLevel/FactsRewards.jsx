@@ -38,8 +38,7 @@ const FactsRewards = (props) => {
         totalComplete >= 70 && (
           <>
             <h5 className="ta-c mt-3 mb-2">Well done</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">You completed at leat 70% of all facts. Interested
-              buyer will be very pleased. </p>
+            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">You completed at lesat 70% of all facts. Interested buyers will be very pleased. </p>
             <BrixelButtonPrimary
               label="Edit facts"
               rounded
@@ -51,10 +50,11 @@ const FactsRewards = (props) => {
         )
       }
       {
-        totalComplete > 9 ? (
+        totalComplete > 9 && totalComplete < 70 && (
           <>
             <h5 className="ta-c mt-3 mb-2">Add more facts</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Try to complete <span className="txtGreen400">at least 70%</span> of all facts to achieve this reward.</p>
+            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Try to complete <span className="txtGreen400">at least 70%</span> of
+              all facts to achieve this reward.</p>
             <BrixelButtonPrimary
               label="Complete now"
               rounded
@@ -63,7 +63,10 @@ const FactsRewards = (props) => {
               onClick={() => history.push(`/${propID}/property/facts`)}
             />
           </>
-        ) : (
+        )
+      }
+      {
+        totalComplete <= 9 && (
           <>
             <h5 className="ta-c mt-3 mb-2">Provide all facts</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Buyers appreciate a complete documentation. And it helps you to minimize your effort and building trust.</p>
