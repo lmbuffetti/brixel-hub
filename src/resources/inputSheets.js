@@ -1125,10 +1125,6 @@ export const InputSheets = () => {
               name: 'properties.building.mortgage',
               value: 'fixed'
             },
-            {
-              name: 'properties.building.mortgage',
-              value: 'variable'
-            },
           ],
           component: BrixelInputText,
           className: '',

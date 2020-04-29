@@ -70,11 +70,9 @@ const BrixelButtonAchievement = (props) => {
                     isFree ? (
                       <span className="txtGreen400">Free</span>
                     ) : (
-                      <span className="txtRed400">Unlock</span>
+                      <span className="txtRed400">Unlock {subtitle}</span>
                     )
                   }
-                  &nbsp;
-                  <span className="txtDark200">{subtitle}</span>
                 </span>
                 <p className="body txtDark700">{title}</p>
               </div>

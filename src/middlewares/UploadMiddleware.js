@@ -27,6 +27,7 @@ import {
   SPINNER_SMALL_OFF,
   SET_PSEUDO_SAVED_SCREEN,
 } from '../actions/types/CommonTypes';
+import { ADD_GAME_HISTORY } from '../actions/types/GamificationTypes';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -106,6 +107,17 @@ const checkCommon = (store) => (next) => (action) => {
                 payload: data,
                 setSuccessNotification: true,
               });
+              const getFloorPlans = get(store.getState(), 'form.Property.values.floorPlans', []);
+              const getPhotos = get(store.getState(), 'form.Property.values.photos', []);
+              const getDocuments = get(store.getState(), 'form.Property.values.documents', []);
+              if (getFloorPlans.length > 0 && getPhotos.length > 0 && getDocuments.length > 0) {
+                store.dispatch({
+                  type: ADD_GAME_HISTORY,
+                  payload: {
+                    stub: 'media'
+                  },
+                });
+              }
             }
           } else if (uploadAction === 'singleUserAvatar') {
             let userAvatar = store.getState().form.User.values.avatar[0];

@@ -174,7 +174,7 @@ const HomeDashboard = (props) => {
               verticalView
               bgTransparent
               icon="tour"
-              label="3D Tour"
+              label="3D tour"
               labelClass="fweight-400 pb-small-6"
               subtitle={get(formValue, 'virtual.matterport', null) ? 'Available' : 'Not set'}
               subtitleClass={'fsize-200 txtDark200'}
