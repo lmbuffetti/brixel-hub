@@ -1,13 +1,12 @@
 .hubDasContent {
   .container {
     margin: auto;
-    @media (max-width: $responsive-medium) {
-      padding: $step * 2;
-    }
     @media (min-width: $responsive-medium) {
       padding: $step * 3;
     }
-    @media (max-width: $iphone5) {
+    @media (max-width: $responsive-medium) {
+      padding: $step * 2;
+      height: 100%;
       overflow-y: auto;
     }
   }

@@ -266,7 +266,7 @@ const Dashboard = (props) => {
   if (!userTypes && !userType) return (<div />);
 
   return (
-    <div className="container ov-x-h h-perc-100 dashboardContainer" id="dashboard">
+    <div className="container ov-x-h dashboardContainer" id="dashboard">
       { /* SECTION: APP HEADER */ }
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
