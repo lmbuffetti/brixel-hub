@@ -14,7 +14,6 @@ import upgradeComplete from '../images/Upgrade/upgrade_complete.svg';
 export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
   const optionsPackages = [];
   if (packagesProperty) {
-    console.log(packagesProperty);
     packagesProperty.map((item) => {
       if (item.stub.includes('zurich')) {
         optionsPackages.push({

@@ -82,7 +82,6 @@ const checkGamification = (store) => (next) => (action) => {
         });
       });
       const checkExist = gameHistory.data.find(item => item.achievement.id === currentGroup.id);
-      console.log(checkExist);
       if (typeof checkExist === 'undefined' || currentGroup.isCumulative || id) {
         let newID = id;
         let data = action.payload;

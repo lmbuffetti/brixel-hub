@@ -77,14 +77,14 @@ BrixelUpgradeMessage.propTypes = {
   className: PropTypes.string,
   description: PropTypes.string,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.bool,
+  isSmallLoading: PropTypes.string,
   title: PropTypes.string,
 };
 
 BrixelUpgradeMessage.defaultProps = {
   className: '',
   description: null,
-  isSmallLoading: false,
+  isSmallLoading: null,
   title: null,
 };
 

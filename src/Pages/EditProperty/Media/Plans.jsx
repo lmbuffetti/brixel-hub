@@ -79,7 +79,7 @@ const Photos = (props) => {
     reader.onerror = () => console.log('file reading has failed');
     const arrayDates = [];
     setBtnActive('uploading');
-    acceptedFiles.forEach((file) => {
+    acceptedFiles.forEach((file, f) => {
       const read = new FileReader();
       read.readAsDataURL(file);
       read.onload = () => {
@@ -91,7 +91,8 @@ const Photos = (props) => {
           imageType: 0,
           pageID: formValue.id,
           uploadAction: 'floorPlans',
-          smallLoader: true,
+          smallLoader: 'upload',
+          lastImage: acceptedFiles.length - 1 === f,
         };
         arrayDates.push({galleryThumbnailPath: read.result, createdAt: Date().now});
         setNewImages([...arrayDates]);
@@ -268,7 +269,7 @@ const Photos = (props) => {
                   label="upload"
                   rightIcon="upload"
                   className="mt-3"
-                  isLoading={isSmallLoading && btnActive === 'uploading'}
+                  isLoading={isSmallLoading === 'upload'}
                 />
               </div>
             </>
@@ -296,7 +297,7 @@ Photos.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.bool.isRequired,
+  isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -307,7 +308,7 @@ Photos.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'form.Property.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', null),
 });
 

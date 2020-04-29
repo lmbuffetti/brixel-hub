@@ -176,7 +176,7 @@ Showings.propTypes = {
   activeSinglePropertyBooking: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.object.isRequired,
   handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.bool.isRequired,
+  isSmallLoading: PropTypes.string,
   formValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
   match: PropTypes.object.isRequired,
@@ -195,7 +195,7 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyBooking: get(state, 'property.activeSinglePropertyBooking', []),
   errorValue: get(state, 'form.Showings.syncErrors', {}),
   formValue: get(state, 'form.Showings.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   schedule: get(state, 'form.Property.values.schedule', {}),
   lang: get(state, 'coomon.currentLanguage', 'en'),
 });

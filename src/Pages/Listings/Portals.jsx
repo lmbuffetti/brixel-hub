@@ -190,7 +190,7 @@ Portals.propTypes = {
   history: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.bool.isRequired,
+  isSmallLoading: PropTypes.string,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
@@ -203,7 +203,7 @@ const mapStateToProps = (state) => {
   const formValue = get(state, 'form.Property.values', {});
   return ({
     formValue: get(state, 'form.Property.values', {}),
-    isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+    isSmallLoading: get(state, 'common.isSmallLoading', null),
     portals: get(formValue, 'portals', {}),
   });
 }

@@ -266,7 +266,7 @@ const mapStateToProps = (state) => {
     errorValue: get(state, 'form.Property.syncErrors', {}),
     formValue: get(state, 'form.Property.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
-    isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+    isSmallLoading: get(state, 'common.isSmallLoading', null),
     activeSingleUser: get(state, 'user.activeSingleUser', {}),
     singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
     notification: get(state, 'common.notification', {}),

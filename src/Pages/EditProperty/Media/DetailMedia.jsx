@@ -67,6 +67,7 @@ const DetailMedia = (props) => {
       id: mediaID,
       pageID: propID,
       type: mediaType,
+      smallLoader: 'delete',
     };
     // eslint-disable-next-line no-alert
     handleDeleteImg(data);
@@ -80,6 +81,7 @@ const DetailMedia = (props) => {
       type: mediaType,
       id: mediaID,
       rotate: 90,
+      smallLoader: 'rotate',
     };
     setRotation(rotate);
     handleRotateImg(data);
@@ -158,7 +160,7 @@ const DetailMedia = (props) => {
                   icon="rotate"
                   color="primary"
                   saturationTxt={400}
-                  isLoading={isSmallLoading}
+                  isLoading={isSmallLoading === 'rotate'}
                   onClick={(e) => rotateImage(e)}
                 />
                 {
@@ -172,6 +174,7 @@ const DetailMedia = (props) => {
                         rightIcon="bin"
                         label="delete?"
                         className="shadow-2dp"
+                        isLoading={isSmallLoading === 'delete'}
                         onClick={() => deleteImage()}
                       />
                     </div>
@@ -183,7 +186,6 @@ const DetailMedia = (props) => {
                       icon="bin"
                       color="red"
                       saturationTxt={400}
-                      isLoading={isSmallLoading}
                       onClick={(e) => setConfirmDelete(true)}
                     />
                   )
@@ -213,7 +215,7 @@ DetailMedia.propTypes = {
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSetCoverPhoto: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.bool,
+  isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -230,7 +232,7 @@ const DetailMediaForm = reduxForm({
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', null),
 });
 

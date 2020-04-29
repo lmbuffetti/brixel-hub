@@ -29,7 +29,7 @@ export const defaultState = {
     height: window.innerHeight,
   },
   isLoading: 0,
-  isSmallLoading: 0,
+  isSmallLoading: null,
   requestDone: false,
   redirectTo: null,
   configUrl: getConfigEnv,
@@ -113,13 +113,13 @@ export default handleActions(
       ...state,
       isLoading: state.isLoading - 1,
     }),
-    [SPINNER_SMALL_ON]: (state) => ({
+    [SPINNER_SMALL_ON]: (state, action) => ({
       ...state,
-      isSmallLoading: state.isSmallLoading + 1,
+      isSmallLoading: action.payload,
     }),
-    [SPINNER_SMALL_OFF]: (state) => ({
+    [SPINNER_SMALL_OFF]: (state, action) => ({
       ...state,
-      isSmallLoading: state.isSmallLoading - 1,
+      isSmallLoading: null,
     }),
     [REQUEST_DONE]: (state) => ({
       ...state,

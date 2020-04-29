@@ -43,7 +43,6 @@ function PageHeaderDashboard(props) {
   //const [dropLang, setDropLang] = useState([]);
   const [widthScreen, setWidthScreen] = useState(0);
   const [activeMenu, setActiveMenu] = useState(null);
-  const [rightMenu, setRightMenu] = useState(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   // REF
@@ -135,7 +134,7 @@ function PageHeaderDashboard(props) {
 
   return (
     <>
-      <header className={`hubDasHeader ${rightMenu ? 'rightMenuOpen' : ''}`}>
+      <header className={`hubDasHeader`}>
         <div className="dasHeaderContainer">
           <div className={`dis-f a-c px-2 px-md-3 h-fix-64 jc-b pos-r bgWhite`}>
             {
@@ -367,7 +366,6 @@ PageHeaderDashboard.propTypes = {
   userAwards: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
   userBrixelPoint: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
   windowDimensions: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {
