@@ -42,41 +42,21 @@
       }
     }
   }
-
-  /* .thirdLevel {
-    z-index: 101;
-  } */
-  /* .secondLevel {
-    .headerSection {
-      position: relative;
-      width: 100%;
-
-      .iconBtn {
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
-      h5 {
-        text-align: center;
-        line-height: 40px;
-        text-transform: capitalize;
+  &.secondLevelActive {
+    .hubDasHeader,
+    .brixelNavMenu {
+      @media (max-width: $responsive-medium) {
+        display: none;
+        opacity: 0;
       }
     }
-  } */
-
-  /* .thirdLevel {
-    .headerSection {
-      .iconBtn {
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
-      h5 {
-        text-align: center;
-        line-height: 40px;
+    .hubDasContent {
+      @media (max-width: $responsive-medium) {
+        top: 64px;
+        position: relative;
       }
     }
-  } */
+  }
 
   @media (min-width: $responsive-medium) {
     .secondLevel,
@@ -108,6 +88,7 @@
       }
     }
   }
+
 }
 
 .brixel-upgrade-message {
@@ -120,18 +101,3 @@
 }
 
 
-.hideNav {
-  .hubDasHeader,
-  .brixelNavMenu {
-    @media (max-width: $responsive-medium) {
-      display: none;
-      opacity: 0;
-    }
-  }
-  .hubDasContent {
-    @media (max-width: $responsive-medium) {
-      top: 64px;
-      position: relative;
-    }
-  }
-}

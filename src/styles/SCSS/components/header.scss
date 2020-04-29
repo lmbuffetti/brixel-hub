@@ -26,13 +26,13 @@
 }
 
 .hubDasHeader {
-  z-index: 5;
   @media (min-width: $responsive-medium) {
     padding-left: 210px;
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
+    z-index: 5;
   }
   .dasHeaderContainer {
     transition: margin-top $default-time-long $default-easing;
