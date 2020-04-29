@@ -230,7 +230,7 @@ const Dashboard = (props) => {
       const getID = notification.actions.findIndex(item => item.label === 'Save');
       if (getID > -1) {
         const newNotification = cloneDeep(notification);
-        newNotification.actions[getID].isLoading = isSmallLoading;
+        newNotification.actions[getID].isLoading = isSmallLoading !== null;
         handleSetScreenNotification({
           ...newNotification,
         })

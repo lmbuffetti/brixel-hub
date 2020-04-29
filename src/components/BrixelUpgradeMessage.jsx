@@ -48,7 +48,7 @@ const BrixelUpgradeMessage = (props) => {
                 className="ml-1 w-perc-100"
                 label="Order now"
                 background="primary"
-                isLoading={isSmallLoading}
+                isLoading={isSmallLoading !== null}
                 saturation={400}
                 onClick={() => onClick() }
               />
