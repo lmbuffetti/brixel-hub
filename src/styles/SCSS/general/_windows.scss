@@ -3,7 +3,6 @@
     margin: auto;
     @media (max-width: $responsive-medium) {
       padding: $step * 2;
-      padding-top: $step;
     }
     @media (min-width: $responsive-medium) {
       padding: $step * 3;
@@ -19,6 +18,7 @@
     width: 100%;
     @media (max-width: $responsive-medium) {
       min-width: 100%;
+      margin-bottom: $step * 5;
     }
   }
 
@@ -95,6 +95,12 @@
     }
   }
 
+}
+
+.longScroll .hubDasContent .container .firstLevel{
+  @media (max-width: $responsive-medium) {
+   margin-bottom: 0;
+  }
 }
 
 .brixel-upgrade-message {

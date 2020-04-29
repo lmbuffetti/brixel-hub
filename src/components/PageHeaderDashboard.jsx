@@ -119,14 +119,19 @@ function PageHeaderDashboard(props) {
 
   // add shadow header on body scroll
   useEffect(() => {
-    const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
+    const dashContentEl = document.getElementsByClassName('dashboardContainer')[0];
     const dashWrapperEl = document.getElementsByClassName('hubDashboard')[0];
     if (dashContentEl) {
       dashContentEl.addEventListener('scroll', () => {
-        if (dashContentEl.scrollTop > 10) {
+        if (dashContentEl.scrollTop > 0) {
           dashWrapperEl.classList.add('scrollingHeader')
         } else {
           dashWrapperEl.classList.remove('scrollingHeader')
+        }
+        if (dashContentEl.scrollTop > 40) {
+          dashWrapperEl.classList.add('longScroll')
+        } else {
+          dashWrapperEl.classList.remove('longScroll')
         }
       });
     }

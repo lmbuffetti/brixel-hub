@@ -117,7 +117,7 @@ const App = (props) => {
   const [extraHeight, setExtraHeight] = useState(0);
 
   const dashContentRef = useRef(null);
-  const dashContentEl = dashContentRef.current;
+  const dashContentEl = dashContentRef.current ? dashContentRef.current.getElementsByClassName('container')[0] : null;
 
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) {
@@ -176,7 +176,7 @@ const App = (props) => {
   useEffect(() => {
     if (dashContentEl) {
       dashContentEl.addEventListener('scroll', () => {
-        if (dashContentEl.scrollTop > 10) {
+        if (dashContentEl.scrollTop > 0) {
           setExtraHeight(64)
         } else {
           setExtraHeight(0)
@@ -186,17 +186,6 @@ const App = (props) => {
   });
 
   useEffect(() => {
-
-    // increase container height when header slides up
-    if (dashContentEl) {
-      dashContentEl.addEventListener('scroll', () => {
-        if (dashContentEl.scrollTop > 10) {
-          setExtraHeight(64)
-        } else {
-          setExtraHeight(0)
-        }
-      })
-    }
 
     if (
       history.location.pathname.includes('packageFlow') ||
