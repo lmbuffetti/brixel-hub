@@ -38,7 +38,7 @@ const FactsRewards = (props) => {
         totalComplete >= 70 && (
           <>
             <h5 className="ta-c mt-3 mb-2">Well done</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">You completed at lesat 70% of all facts. Interested buyers will be very pleased. </p>
+            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">You completed at least 70% of all facts. Interested buyers will be very pleased. </p>
             <BrixelButtonPrimary
               label="Edit facts"
               rounded

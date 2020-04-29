@@ -117,7 +117,7 @@ export default handleActions(
       ...state,
       isSmallLoading: action.payload,
     }),
-    [SPINNER_SMALL_OFF]: (state, action) => ({
+    [SPINNER_SMALL_OFF]: (state) => ({
       ...state,
       isSmallLoading: null,
     }),
