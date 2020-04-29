@@ -173,10 +173,6 @@ const Dashboard = (props) => {
           ...objToSave,
         };
         handleSaveActiveSingleProperty(data);
-        handleAddGameHistory({stub: 'market-checker'});
-        if (get(formValue, 'photos', []).length > 0) {
-          handleAddGameHistory({stub: 'photos'});
-        }
         if (get(formValue, 'inputSheet', {}).totalComplete > 70) {
           handleAddGameHistory({stub: 'facts'});
         }
