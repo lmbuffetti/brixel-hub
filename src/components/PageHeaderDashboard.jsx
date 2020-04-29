@@ -120,13 +120,13 @@ function PageHeaderDashboard(props) {
   // add shadow header on body scroll
   useEffect(() => {
     const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
-    const dashHeader = document.body;
+    const dashWrapperEl = document.getElementsByClassName('hubDashboard')[0];
     if (dashContentEl) {
       dashContentEl.addEventListener('scroll', () => {
         if (dashContentEl.scrollTop > 10) {
-          dashHeader.classList.add('scrollingHeader')
+          dashWrapperEl.classList.add('scrollingHeader')
         } else {
-          dashHeader.classList.remove('scrollingHeader')
+          dashWrapperEl.classList.remove('scrollingHeader')
         }
       });
     }
