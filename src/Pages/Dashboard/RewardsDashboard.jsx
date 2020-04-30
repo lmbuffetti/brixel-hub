@@ -39,7 +39,7 @@ const RewardsDashboard = (props) => {
     windowDimensions,
   } = props;
   // STATE
-  const [usrGroups, setUsrGroups] = useState(gameGroup);
+  const [usrGroups, setUsrGroups] = useState(gameGroup.sort(sortObject('stub', 'asc')));
   const [activeGameGroup, setActiveGameGroup] = useState(null);
   const [activeAchievement, setActiveAchievement] = useState(null);
   // PARAMS URL
@@ -48,11 +48,26 @@ const RewardsDashboard = (props) => {
   const gameHistoryData = get(gameHistory, 'data', null);
 
   useEffect(() => {
-    if (windowDimensions && windowDimensions.width > 768 && rewardType === 'rewards') {
-      history.push({pathname: `/${propID}/rewards/market-checker` });
-      setActiveGameGroup('market-checker');
+    let getNameGroup = localStorage.getItem('gameGroup') || null;
+    if (windowDimensions && windowDimensions.width > 768 && rewardType === 'rewards' && usrGroups) {
+      if (!getNameGroup) {
+        usrGroups.forEach((groups) => {
+          if (groups.stub.includes(userTypes)) {
+            groups.achievements.forEach((group) => {
+              const selElTodo = gameHistory.data.find(game => game.achievement.stub === group.stub && game.page === propID);
+              if (typeof selElTodo === 'undefined' && !getNameGroup) {
+                localStorage.setItem('gameGroup', group.stub);
+                getNameGroup = group.stub;
+                setActiveGameGroup(group.stub);
+                return false;
+              }
+            });
+          }
+        });
+      }
+      history.push({ pathname: `/${propID}/rewards/${getNameGroup}` });
     }
-  }, [windowDimensions, rewardType]);
+  }, [windowDimensions, gameHistory, usrGroups]);
 
   useEffect(() => {
     let filtUsrGroup = [];
@@ -104,6 +119,7 @@ const RewardsDashboard = (props) => {
 
   const onClickAchievement = (game, achievement) => {
     setActiveGameGroup(game);
+    localStorage.setItem('gameGroup', game);
     history.push({pathname: `/${propID}/rewards/${game}` });
     setActiveAchievement(achievement);
   };

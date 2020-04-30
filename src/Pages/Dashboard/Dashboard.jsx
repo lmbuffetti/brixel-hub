@@ -133,6 +133,7 @@ const Dashboard = (props) => {
     } else {
       setUserType('emptyState');
     }
+    localStorage.removeItem('gameGroup');
   }, [activeSingleProperty]);
 
   const saveData = () => {

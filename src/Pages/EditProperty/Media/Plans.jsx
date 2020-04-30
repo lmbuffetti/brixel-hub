@@ -263,7 +263,7 @@ const Photos = (props) => {
                     </div>
                   )
                 }
-                <span className="body2 txtDark200 max-width-220">Choose .pdf .jpeg .png with max. 10 MB size</span>
+                <span className="body2 txtDark200 max-width-220">Choose .jpeg .png with max. 10 MB size</span>
                 <BrixelButtonPrimary
                   rounded
                   label="upload"
