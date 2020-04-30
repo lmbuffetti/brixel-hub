@@ -31,7 +31,7 @@ const PageReviewRewards = (props) => {
 
   const openPreview = (done = false) => {
     if (!done) handleAddGameHistory({stub: gameStub});
-    window.open(`${baseByData.pageUrl}preview/${propID}`, '_blank');
+    window.open(`${baseByData.pageUrl}preview/${propID}?hubUrl=${window.location.href}`, '');
   };
 
   return (

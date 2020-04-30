@@ -42,6 +42,18 @@ const Page = (props) => {
     if (status === 'online') handleAddGameHistory({stub: 'page-published'});
   };
 
+  const onClickPreview = () => {
+    let url;
+    if (formValue.published) {
+      url = `${baseByData.pageUrl}${formValue.stub}`;
+      window.open(url, '_blank');
+    } else {
+      url = `${baseByData.pageUrl}preview/${formValue.stub}?hubUrl=${window.lcoation.href}`;
+      window.open(url, '');
+    }
+
+  }
+
   return (
     <div className="dis-f">
       <div className="secondLevel dis-fl-col ml-md-1">
@@ -65,7 +77,7 @@ const Page = (props) => {
                     leftIcon="eye"
                     label="Live view"
                     rounded
-                    onClick={() => window.open(`${baseByData.pageUrl}${formValue.stub}`, '_blank') }
+                    onClick={() => onClickPreview()}
                   />
                 ) : (
                   <BrixelButtonPrimary
@@ -73,7 +85,7 @@ const Page = (props) => {
                     leftIcon="eye"
                     label="Preview"
                     rounded
-                    onClick={() => window.open(`${baseByData.pageUrl}preview/${formValue.stub}`, '_blank') }
+                    onClick={() => onClickPreview()}
                   />
                 )
               }
@@ -83,7 +95,7 @@ const Page = (props) => {
             <>
               <div
                 className="websitePage brdRadius ov-h shadow-3dp pos-r cur-poi"
-                onClick={() => window.open(formValue.published ? `${baseByData.pageUrl}${formValue.stub}` : `${baseByData.pageUrl}preview/${formValue.stub}` , '_blank')}
+                onClick={() => onClickPreview()}
               >
                 <div className="dis-f bgLight100 p-1">
                   <div className="square brdCircle w-fix-8 bgRed400 mr-1" />
