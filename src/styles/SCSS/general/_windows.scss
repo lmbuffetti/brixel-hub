@@ -61,6 +61,7 @@
     .levelsWrapper {
       &.closed {
         max-width: 768px;
+        width: calc(100% - 320px);
       }
     }
     .secondLevel,

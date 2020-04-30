@@ -241,7 +241,7 @@ const Documents = (props) => {
                             {
                               (editDocument.id === doc.id && editDocument.active) ? (
                                 <BrixelDropdown
-                                  className="zIndex2"
+                                  className="zIndex2 compact"
                                   borderColor="light"
                                   color="light"
                                   options={[

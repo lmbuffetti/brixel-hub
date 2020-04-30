@@ -9,19 +9,11 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
-import InfoImg from '../../../images/Upgrade/info.svg';
-import Loadable from 'react-loadable';
-import Loading from '../../../components/Loading';
 import { reduxForm, reset } from 'redux-form';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 import last from 'lodash/last';
-
-const Support = Loadable({
-  loader: () => import('../../../components/Support' /* webpackChunkName: "Support" */),
-  loading: Loading,
-});
 
 const MarketCheck = (props) => {
   // PROPS
@@ -51,9 +43,7 @@ const MarketCheck = (props) => {
 
   useEffect(() => {
     return () => {
-      //setCurrentIndex(questions.length - 1);
-      //setQuest(questions[questions.length - 1]);
-      //reset('Property');
+      reset('Property');
     };
   }, []);
 
@@ -127,7 +117,7 @@ const MarketCheck = (props) => {
         }
         return null;
       });
-      //setLastID(newQuest.length - 1);
+      setLastID(newQuest.length - 1);
       setQuestions(newQuest);
     }
   }, [formValue]);
@@ -244,7 +234,7 @@ const MarketCheck = (props) => {
             className={`footerAction p-1 p-md-2 shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
             <div className="container pos-r">
-              <div className={`w-perc-100 a-c dis-fl-row jc-b m-a ${currentIndex === questions.length - 1 ? 'jc-c' : 'jc-b'}`}>
+              <div className={`w-perc-100 a-c dis-fl-row jc-b m-a ${currentIndex === lastID ? 'jc-c' : 'jc-b'}`}>
                 {
                   questions[currentIndex] && questions[currentIndex].inputs && (
                     <BrixelButtonIcon
@@ -260,7 +250,7 @@ const MarketCheck = (props) => {
                   )
                 }
                 <BrixelButtonPrimary
-                  className="noWrap w-perc-100 max-w-fix-160 ml-a"
+                  className={`noWrap w-perc-100 max-w-fix-160 ${currentIndex === 0 ? 'ml-a' : ''}`}
                   disabled={!checkValidateField()}
                   rounded
                   background="primary"
