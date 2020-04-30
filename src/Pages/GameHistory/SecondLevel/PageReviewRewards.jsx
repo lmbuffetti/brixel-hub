@@ -31,7 +31,7 @@ const PageReviewRewards = (props) => {
 
   const openPreview = (done = false) => {
     if (!done) handleAddGameHistory({stub: gameStub});
-    window.open(`${baseByData.pageUrl}preview/${propID}`, '_blank');
+    window.open(`${baseByData.pageUrl}preview/${propID}?hubUrl=${window.location.href}`, '');
   };
 
   return (
@@ -39,7 +39,7 @@ const PageReviewRewards = (props) => {
       {
         isDone ? (
           <>
-            <img className="cur-poi" onClick={() => openPreview(false)} src={pagePreviewDoneImg} alt="Page Preview" />
+            <img src={pagePreviewDoneImg} alt="Page Preview" onClick={() => openPreview(false)} />
             <h5 className="ta-c mt-3 mb-2">Want a second look?</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">You can edit and preview as often as you want. We are ready when you are.</p>
             <BrixelButtonPrimary
@@ -52,7 +52,7 @@ const PageReviewRewards = (props) => {
           </>
         ) : (
           <>
-            <img className="cur-poi" onClick={() => openPreview(true)} src={pagePreviewCheckImg} alt="Page Preview" />
+            <img src={pagePreviewCheckImg} alt="Page Preview" onClick={() => openPreview(true)} />
             <h5 className="ta-c mt-3 mb-2">Have a look!</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">This is your personal property page. Don’t worry this is not public. This is for you eyes only.</p>
             <BrixelButtonPrimary
