@@ -7,19 +7,16 @@
     }
     .property-container,
     .listings-container {
-      .secondLevel .docubox,
       .brixelPageWrapper:not(.cardInfoBox),
       .showingsWrapper,
       .portalsWrapper:not(.cardInfoBox) {
         // min height for  secondlevel container
         @media (min-width: $responsive-medium) {
-          min-height: 65vh;
+          min-height: 50vh;
         }
-        @media only screen
-        and (min-width : $responsive-small)
-        and (max-width : $responsive-large) {
-            min-height: 50vh;
-        }
+      }
+      .secondLevel .docubox:not(.emptyMedia) {
+        min-height: 459px;
       }
     }
     &.saveActionOn {

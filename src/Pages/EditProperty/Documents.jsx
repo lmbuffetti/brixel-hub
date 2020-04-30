@@ -172,7 +172,7 @@ const Documents = (props) => {
 
   return (
     <div className="secondLevel h-perc-md-100">
-      <div className="docubox dis-fl-col cardSecondLevel">
+      <div className={`${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox dis-fl-col cardSecondLevel`}>
         <div className="dis-f jc-b a-c mb-3">
           <BrixelButtonIcon
             className="shadow-3dp hide-md"
@@ -351,15 +351,15 @@ const Documents = (props) => {
           }
           <>
             <div
-              className={`${(!documents || (documents && documents.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c w-perc-100`}
+              className={`${(!documents || (documents && documents.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-2 ta-c w-perc-100`}
               {...getRootProps()}
             >
               <input {...getInputProps()} />
               {
                 (!documents || (documents && documents.length === 0)) && (
                   <div>
-                    <img src={upload_documents_empty} alt="Empty Documents" />
-                    <h5 className="mt-2 mb-1">Upload your fist document</h5>
+                    <img className="h-fix-120" src={upload_documents_empty} alt="Empty Documents" />
+                    <h5 className="mt-3 mb-2">Upload your fist document</h5>
                   </div>
                 )
               }

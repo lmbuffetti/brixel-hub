@@ -146,7 +146,7 @@ const Photos = (props) => {
   return (
     <div className="photosWrapper dis-f">
       <div className="secondLevel dis-fl-col">
-        <div>
+        <div className={`dis-fl-col ${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
           <div className="dis-f jc-b a-c mb-3">
             <BrixelButtonIcon
               className="shadow-3dp hide-md"
@@ -161,7 +161,7 @@ const Photos = (props) => {
               Photos
             </h5>
           </div>
-          <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel' : 'empty-state dis-fl-col a-c'}`}>
+          <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel dis-fl-col' : 'empty-state dis-fl-col a-c'}`}>
             {
               (fixPhotos && fixPhotos.length > 0) && (
                 <>
@@ -270,15 +270,15 @@ const Photos = (props) => {
             }
             <>
               <div
-                className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c`}
+                className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-2 ta-c`}
                 {...getRootProps()}
               >
                 <input {...getInputProps()} />
                 {
                   (!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (
-                    <div className="w-perc-100">
-                      <img className="w-perc-100" src={upload_photos_empty} alt="Empty State" />
-                      <h5 className="mt-2 mb-1">Upload your fist photo</h5>
+                    <div className="dis-fl-col">
+                      <img className="h-fix-120" src={upload_photos_empty} alt="Empty State" />
+                      <h5 className="mt-3 mb-2">Upload your fist photo</h5>
                     </div>
                   )
                 }

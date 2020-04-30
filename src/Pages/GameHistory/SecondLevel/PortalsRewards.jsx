@@ -77,7 +77,7 @@ const PortalsRewards = (props) => {
       {
         status === 'review' && (
           <>
-            <img src={portalsPublishedReviewImg} alt="Page Preview"/>
+            <img className="cur-poi" onClick={() => openPreview(false)} src={portalsPublishedReviewImg} alt="Page Preview"/>
             <h5 className="ta-c mt-3 mb-2">Review in the making…</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">To assure great quality your page is being reviewed for free.</p>
             <BrixelButtonPrimary
