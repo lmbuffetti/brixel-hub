@@ -14,8 +14,9 @@ import {
   BrixelIcon,
 } from '@brixel/brixel-components';
 import { updatePortalsReview } from '../../actions/PropertyActions';
-import page_review from '../../images/Listings/page_review.svg';
-import portalsImg from '../../images/Listings/portals.svg';
+import portalStart from '../../images/Listings/portals_start.svg';
+import portalReview from '../../images/Listings/portals_review.svg';
+import portalPublished from '../../images/Listings/portals_published.svg';
 import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
 import { addGameHistory } from '../../actions/GamificationActions';
 
@@ -76,7 +77,7 @@ const Portals = (props) => {
               formValue.portalsReview ? (
                 <>
                   <div className="ta-c mt-2">
-                    <img className="h-fix-120" src={page_review} alt="Page Under review" />
+                    <img className="h-fix-120" src={portalReview} alt="Page Under review" />
                     <h5 className="txtPrimary600 mb-2 mt-3">Your property gets published…</h5>
 
                     <p className="mb-1">Portals can take up to 8 hours until your property is online.</p>
@@ -90,12 +91,12 @@ const Portals = (props) => {
                 </>
               ) : (
                 <>
-                  <div className="ta-c mt-2">
-                    <img className="h-fix-120" src={portalsImg} alt="Portals" />
+                  <div className="ta-c">
                     {
                       checkPortalsOnline() ? (
-                        <div className="ta-c mt-3">
-                          <h5 className="mb-1">Your property is published</h5>
+                        <div className="ta-c mt-2">
+                          <img className="h-fix-120" src={portalPublished} alt="Portals" />
+                          <h5 className="mb-2 mt-3">Your property is published</h5>
 
                           <div className="portalsList mt-3">
                             {
@@ -136,8 +137,9 @@ const Portals = (props) => {
                           />
                         </div>
                       ) : (
-                        <div className="ta-c mt-3">
-                          <h5 className="mb-2">Your property on the biggest portals.</h5>
+                        <div className="ta-c mt-2">
+                          <img className="h-fix-120" src={portalPublished} alt="Portals" />
+                          <h5 className="mb-2 mt-3">Your property on the biggest portals.</h5>
 
                           <div className="ta-l max-w-fix-344 m-a">
                             <p className="mb-1">
