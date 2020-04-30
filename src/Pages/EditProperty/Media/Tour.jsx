@@ -28,7 +28,7 @@ const Tour = (props) => {
   return (
     <div className="tourWrapper h-perc-md-100">
       <div className="secondLevel dis-fl-col">
-        <div>
+        <div className="tour">
           <div className="dis-f jc-b a-c mb-3">
             <BrixelButtonIcon
               className="shadow-3dp hide-md"

@@ -51,7 +51,7 @@ function SuccessBestimate(props) {
   const bestimateValue = get(bestimate, 'higherValue', 0);
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c`}>
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-2`}>
       {
         groupdAchievement.done || getDoneFirstTime() === 'done' ? (
           <>
@@ -62,8 +62,8 @@ function SuccessBestimate(props) {
                     getDoneFirstTime().includes('-done') ? (
                       <>
                         <h5 className="ta-c">Well done. You are now an Assessor.</h5>
-                        <div className="ta-c m-a h-perc-50 my-3">
-                          <img src={newBestimate} alt="Nes Assessor" />
+                        <div className="ta-c m-a mb-3">
+                          <img className="h-fix-148" src={newBestimate} alt="Nes Assessor" />
                         </div>
                         <p className="ta-c mb-2">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                       </>
@@ -72,7 +72,7 @@ function SuccessBestimate(props) {
                       <>
                         <div className="dis-fl-col jc-c a-c">
                           <div className="ta-c mb-3 pos-r">
-                            <img src={doneBestimate} alt="Done Assessor" />
+                            <img height="h-fix-148" src={doneBestimate} alt="Done Assessor" />
                             <div className="ta-l pl-4 pb-2 pos-a-fix x-l-0 x-b-0">
                               <p className="body2 txtDark200">Worth up to</p>
                               <h5 className="ff-mono fweight-700">
@@ -85,16 +85,14 @@ function SuccessBestimate(props) {
                             Based on similar transaction.
                           </p>
                         </div>
-                        <div className="w-perc-100">
-                          <BrixelButtonPrimary
-                            rounded
-                            label="See full Bestimate®"
-                            background={"primary"}
-                            className="pl-3 m-a mt-3"
-                            onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                            rightIcon="arrow-right"
-                          />
-                        </div>
+                        <BrixelButtonPrimary
+                          rounded
+                          label="See full Bestimate®"
+                          background={"primary"}
+                          className="pl-3 m-a mt-3"
+                          onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                          rightIcon="arrow-right"
+                        />
                       </>
                     )
                   }
@@ -106,7 +104,7 @@ function SuccessBestimate(props) {
           <>
             <div className="dis-fl-col jc-c a-c">
               <div className="ta-c m-a mb-3">
-                <img src={startBestimate} alt="Done Assessor" />
+                <img className="h-fix-148" src={startBestimate} alt="Done Assessor" />
               </div>
               <h5 className="mb-2 m-a ta-c">
                 Get a free price indication.
@@ -115,16 +113,14 @@ function SuccessBestimate(props) {
                 Compare your property to real transaction data to better define the pricing.
               </p>
             </div>
-            <div className="w-perc-100">
-              <BrixelButtonPrimary
-                rounded
-                label="Get free Bestimate®"
-                background={"primary"}
-                className="pl-3 m-a mt-3"
-                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                rightIcon="arrow-right"
-              />
-            </div>
+            <BrixelButtonPrimary
+              rounded
+              label="Get free Bestimate®"
+              background={"primary"}
+              className="pl-3 m-a mt-3"
+              onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+              rightIcon="arrow-right"
+            />
           </>
         )
       }

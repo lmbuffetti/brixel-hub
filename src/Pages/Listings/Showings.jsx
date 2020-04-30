@@ -25,7 +25,7 @@ import {
 } from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
 import LoadingSimple from '../../components/LoadingSimple';
-import ShowingPlaceholder from '../../images/showing_placeholder.svg';
+import ShowingPlaceholder from '../../images/Listings/showing_placeholder.svg';
 
 const AddShowings = Loadable({
   loader: () => import('./AddShowings' /* webpackChunkName: "AddShowings" */),
@@ -162,9 +162,9 @@ const Showings = (props) => {
             }
             {
               !manageAvailability && Object.keys(gorupByMonth()).length === 0 && (
-                <div className="ta-c">
-                  <img src={ShowingPlaceholder} alt="Showings Placeholder" />
-                  <h5 className="ta-c my-3">Setup your first showing</h5>
+                <div className="ta-c mt-2">
+                  <img className="h-fix-120" src={ShowingPlaceholder} alt="Showings Placeholder" />
+                  <h5 className="ta-c mt-2 mb-2">Setup your first showing</h5>
                   <BrixelButtonPrimary
                     className="m-a"
                     rounded

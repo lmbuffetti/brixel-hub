@@ -6,9 +6,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
-import portalsPublishedCheckImg from '../../../images/secondLevel/portalsPublishedCheck.png';
-import portalsPublishedDoneImg from '../../../images/secondLevel/portalsPublishedDone.png';
-import portalsPublishedReviewImg from '../../../images/secondLevel/portalsPublishedReview.png';
+import portalsPublishedCheckImg from '../../../images/secondLevel/portalsPublishedCheck.svg';
+import portalReview from '../../../images/Listings/portals_review.svg';
+import portalPublished from '../../../images/Listings/portals_published.svg';
+
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { addGameHistory } from '../../../actions/GamificationActions';
 
@@ -45,7 +46,7 @@ const PortalsRewards = (props) => {
       {
         status === 'online' && (
           <>
-            <img src={portalsPublishedDoneImg} alt="Page Preview"/>
+            <img src={portalPublished} alt="Page Preview"/>
             <h5 className="ta-c mt-3 mb-2">We are live!</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Your property website is visible to the public and officially part of the world wide web. Yeah!</p>
             <BrixelButtonPrimary
@@ -77,7 +78,7 @@ const PortalsRewards = (props) => {
       {
         status === 'review' && (
           <>
-            <img src={portalsPublishedReviewImg} alt="Page Preview"/>
+            <img className="cur-poi" onClick={() => openPreview(false)} src={portalReview} alt="Page Preview"/>
             <h5 className="ta-c mt-3 mb-2">Review in the making…</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">To assure great quality your page is being reviewed for free.</p>
             <BrixelButtonPrimary

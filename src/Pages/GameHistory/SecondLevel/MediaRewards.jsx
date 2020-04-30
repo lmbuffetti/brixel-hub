@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import get from 'lodash/get';
 import { BrixelButtonPrimary, BrixelButtonBox } from '@brixel/brixel-components';
+import uploadMedia from '../../../images/secondLevel/uploadMedia.svg';
 
 const MediaRewards = (props) => {
   const {
@@ -30,6 +31,9 @@ const MediaRewards = (props) => {
       {
         showIntro() ? (
           <>
+            <div className="ta-c mb-3">
+              <img className="h-fix-148" src={uploadMedia} alt="Done Market Check" />
+            </div>
             <h5 className="ta-c mt-3 mb-2">Time to upload some media.</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Learn how to manage your photos, floorplans and much more.</p>
             <BrixelButtonPrimary
@@ -42,7 +46,7 @@ const MediaRewards = (props) => {
           </>
         ) : (
           <>
-            <div className="dis-f mt-2">
+            <div className="dis-f m-a mt-2 max-w-fix-376">
               <BrixelButtonBox
                 verticalView
                 bgTransparent
@@ -71,7 +75,7 @@ const MediaRewards = (props) => {
                 onClick={() => history.push(`/${propID}/property/floorPlans`)}
               />
             </div>
-            <div className="dis-f mt-2">
+            <div className="dis-f m-a mt-2 max-w-fix-376">
               <BrixelButtonBox
                 verticalView
                 bgTransparent

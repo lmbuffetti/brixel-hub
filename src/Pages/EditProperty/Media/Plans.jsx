@@ -136,8 +136,8 @@ const Photos = (props) => {
 
   return (
     <div className="plansWrapper dis-f">
-      <div className="secondLevel dis-fl-col ">
-        <div>
+      <div className="secondLevel dis-fl-col">
+        <div className={`dis-fl-col ${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
           <div className="dis-f jc-b a-c mb-3">
             <BrixelButtonIcon
               className="shadow-3dp hide-md"
@@ -153,7 +153,7 @@ const Photos = (props) => {
             </h5>
           </div>
 
-          <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel' : 'empty-state dis-fl-col a-c'}`}>
+          <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel dis-fl-col' : 'empty-state dis-fl-col a-c'}`}>
             {
               (fixPhotos && fixPhotos.length > 0) && (
                 <>
@@ -251,15 +251,15 @@ const Photos = (props) => {
             }
             <>
               <div
-                className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c`}
+                className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-2 ta-c`}
                 {...getRootProps()}
               >
                 <input {...getInputProps()} />
                 {
                   (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
                     <div>
-                      <img src={upload_floorPlans_empty} alt="Empty State" />
-                      <h5 className="mt-2 mb-1">Upload your floor Plans</h5>
+                      <img className="w-perc-100 h-fix-120" src={upload_floorPlans_empty} alt="Empty State" />
+                      <h5 className="mt-3 mb-2">Upload your floor Plans</h5>
                     </div>
                   )
                 }
