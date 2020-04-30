@@ -32,7 +32,7 @@ const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
 const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 
-export const QuestionsList = (lang, gameGroup) => {
+export const QuestionsList = (lang, gameGroup, country = 'CH') => {
   let getHomeBase = {name: 'Homebase', points: 100};
   if (gameGroup) {
     const getSellerLv1 = gameGroup.find(item => item.stub === 'seller-lvl1');
@@ -81,7 +81,7 @@ export const QuestionsList = (lang, gameGroup) => {
           label: '',
           name: 'bedrooms',
           validation: [maxLengthNumRooms, Validation.positiveNumber, Validation.required],
-          step: 0.5,
+          step: country === 'CH' ? 0.5 : 1,
           min: 1,
         },
       ],

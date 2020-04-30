@@ -5,11 +5,11 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
-import { BrixelIcon, BrixelButtonSecondary, BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelButtonSecondary, BrixelButtonIcon, BrixelProgressBar } from '@brixel/brixel-components';
 import useOutsideAlerter from './OutsideElement';
 import Loadable from 'react-loadable';
-import { setCookie } from '../utils/helpers';
-import { setLanguage } from '../actions/CommonActions';
+import { setCookie, sortObject } from '../utils/helpers';
+import { setLanguage, setModal } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import has from 'lodash/has';
@@ -32,11 +32,14 @@ function PageHeaderDashboard(props) {
     lang,
     loggedInUser,
     gameHistory,
+    gameGroup,
     handleGetGame,
+    handleSetModal,
     handleSetLanguage,
     history,
     windowDimensions,
     formValue,
+    userTypes,
   } = props;
   // STATE
   //const [currentLang, setCurrentLang] = useState(lang);
@@ -45,6 +48,8 @@ function PageHeaderDashboard(props) {
   const [activeMenu, setActiveMenu] = useState(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [toDo, setToDo] = useState(0);
+  const [done, setDone] = useState(0);
   // REF
   const profileMenu = useRef(null);
   // URL PARAMS
@@ -76,6 +81,90 @@ function PageHeaderDashboard(props) {
       window.addEventListener('resize', () => screenResize());
     }
   }, []);
+
+  useEffect(() => {
+    if (gameGroup && gameHistory) {
+      let numDone = 0;
+      let numTodo = 0;
+      const usrGroups = gameGroup.sort(sortObject('stub', 'asc'))
+      usrGroups.forEach((groups) => {
+        if (groups.stub.includes(userTypes)) {
+          groups.achievements.forEach((group) => {
+            console.log(group)
+            const selElTodo = gameHistory.data.find(game => game.achievement.stub === group.stub && game.page === propID);
+            if (group.achievementType === 'award') {
+              if (typeof selElTodo === 'undefined') {
+                numTodo += 1;
+              } else {
+                numDone += 1;
+              }
+            }
+          });
+        }
+      });
+      console.log(numDone, numTodo)
+      setDone(numDone);
+      setToDo(numTodo);
+    }
+  }, [gameGroup, gameHistory])
+
+  const bodyModal = () => {
+    return (
+      <div>
+        <div className="bgGreen100 brdRadius p-2">
+          <div className="dis-f w-perc-100 a-c">
+            <BrixelIcon iconSize="fsize-900" icon="cup-awards" color="green" />
+            <div className="w-perc-100 ml-2">
+              <p className="heading5 mb-1 dis-f jc-b">
+                <span>Awards</span>
+                <span className="ff-mono fweight-700">{done}/{done+toDo}</span>
+              </p>
+              <BrixelProgressBar
+                classProgressBar={'pos-r'}
+                rounded
+                barBackground="Light"
+                backgroundSaturation={200}
+                progressValue={done * 100 / (done + toDo)}
+                color="Green"
+                saturation={400}
+                classBackground="ov-h brdRadius"
+                large={window.innerWidth >= 768}
+                small={window.innerWidth < 768}
+              />
+            </div>
+          </div>
+
+          <p className="mt-3">Who does not like awards? To honor your effort and endurance we award you. Keep going to collect more and enjoy the ride.</p>
+
+        </div>
+
+        <div className="bgRed100 brdRadius p-2 mt-3">
+          <div className="dis-f w-perc-100 a-c">
+            <img className="w-fix-40" src={brixels} alt="icon awards" />
+            <div className="w-perc-100 ml-2">
+              <p className="heading5 dis-f jc-b a-c">
+                <span>Brixels</span>
+                <span className="ff-mono fweight-700">{brixelPoints.toLocaleString('de-CH')}</span>
+              </p>
+            </div>
+          </div>
+
+          <p className="mt-3"><span>This is our currency. You earn Brixels by completing tasks and getting awards.</span>
+
+            <span className="txtRed700 fweight-500 dis-b mt-4">Coming soon: During your journey you can use Brixels to unlock addintional features and gifts.</span></p>
+
+        </div>
+      </div>
+    )
+  }
+
+  const brixelsAchievementDetail = () => {
+    handleSetModal({
+      state: true,
+      title: 'Your achievements',
+      body: bodyModal(),
+    })
+  };
 
   const avatarAction = () => {
     // Mobile actions for the avatar click
@@ -168,7 +257,7 @@ function PageHeaderDashboard(props) {
             <div className="dis-f a-c">
               {
                 windowDimensions.width > 768 && (
-                  <div className="dis-f a-c">
+                  <div className="dis-f a-c" onClick={() => brixelsAchievementDetail()}>
                     {
                       awards >= 0 && (
                         <div className="cur-poi dis-f a-c">
@@ -359,8 +448,10 @@ PageHeaderDashboard.propTypes = {
   awards: PropTypes.number.isRequired,
   changeZIndex: PropTypes.func,
   brixelPoints: PropTypes.number.isRequired,
+  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   languages: PropTypes.arrayOf(PropTypes.object),
   lang: PropTypes.string,
@@ -371,6 +462,7 @@ PageHeaderDashboard.propTypes = {
   userAwards: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
   userBrixelPoint: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
   windowDimensions: PropTypes.object.isRequired,
+  userTypes: PropTypes.string,
 };
 
 PageHeaderDashboard.defaultProps = {
@@ -381,6 +473,7 @@ PageHeaderDashboard.defaultProps = {
   userAwards: [],
   userBrixelPoint: [],
   withShadow: false,
+  userTypes: '',
 };
 
 const mapStateToProps = (state) => ({
@@ -394,12 +487,15 @@ const mapStateToProps = (state) => ({
   property: get(state, 'property.activeSingleProperty', {}),
   userBrixelPoint: get(state, 'user.brixelPoints', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
+  gameGroup: get(state, 'gamification.gameGroup', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
+  userTypes: get(state, 'user.userTypes', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleGetGame: bindActionCreators(getGameHistory, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageHeaderDashboard));

@@ -11,7 +11,6 @@ import {
   Validation,
 } from '@brixel/brixel-components';
 import { configureStore } from '../store';
-import { number } from 'prop-types';
 // import { isEmpty } from '@brixel/brixel-components/src/utils/helper';
 const { factsOptions } = FactsOptions;
 

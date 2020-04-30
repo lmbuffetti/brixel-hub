@@ -81,9 +81,11 @@
     }
 
     #progressBar {
-      position: fixed;
-      top: 0;
-      left: 0;
+      &:not(.pos-r) {
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
       width: 100%;
     }
     .footerAction {

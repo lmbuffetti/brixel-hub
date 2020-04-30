@@ -9,10 +9,18 @@ const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
     case GET_ACTIVE_SINGLE_COMPANY: {
       next(action);
-      api.company.getCompanyByStub(action.payload.stub)
-        .then((res) => {
-          store.dispatch({ type: SET_ACTIVE_SINGLE_COMPANY, payload: res.data });
-        });
+      if (action.payload.stub) {
+        api.company.getCompanyByStub(action.payload.stub)
+          .then((res) => {
+            store.dispatch({ type: SET_ACTIVE_SINGLE_COMPANY, payload: res.data });
+          });
+      }
+      if (action.payload.id) {
+        api.company.getCompanyById(action.payload.id)
+          .then((res) => {
+            store.dispatch({ type: SET_ACTIVE_SINGLE_COMPANY, payload: res.data });
+          });
+      }
       break;
     }
     default:

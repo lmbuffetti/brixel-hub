@@ -15,6 +15,7 @@ const PropertyList = (props) => {
   // PROPS
   const {
     activeSection,
+    activeSingleCompany,
     favoritesProperties,
     history,
     userProperties,
@@ -122,7 +123,7 @@ const PropertyList = (props) => {
               label="Create new"
               rightIcon="plus"
               rounded
-              onClick={() => history.push('/packageFlow/getStarted')}
+              onClick={() => history.push(`/packageFlow/getStarted?company=${get(activeSingleCompany, 'stub', '')}`)}
             />
           </div>
         )
@@ -136,6 +137,7 @@ PropertyList.propTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   activeProperty: PropTypes.object.isRequired,
+  activeSingleCompany: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
@@ -149,6 +151,7 @@ PropertyList.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeProperty: get(state, 'property.activeSingleProperty', {}),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   favoritesProperties: get(state, 'user.favorites', []),
   formValue: get(state, 'form.Property.values', {}),
   user: get(state, 'user.loggedInUser', {}),
