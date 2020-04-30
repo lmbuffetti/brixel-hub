@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="95px" height="120px" viewBox="0 0 95 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Rewards-07-A</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Rewards" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Hub-Desktop-Rewards-v2---expanded-Copy-12" transform="translate(-895.000000, -194.000000)">
+            <g id="right-panel" transform="translate(672.000000, 113.000000)">
+                <g id="Rewards-07-A" transform="translate(223.000000, 81.000000)">
+                    <polyline id="Path" stroke="#F03C50" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round" points="28.5906383 90.0834043 69.0297872 118.965957 69.7080851 89.5285106 49.1497872 119.148936 28.6851064 90.1676596"></polyline>
+                    <polyline id="Path" stroke="#F03C50" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round" points="28.7165957 88.3565957 28.0391489 119.148936 69.3702128 90.0834043"></polyline>
+                    <g id="Group" fill-rule="nonzero">
+                        <polygon id="Path" fill="#F03C50" points="46.8893617 0.555744681 72.3880851 27.6638298 23.5182979 27.6638298"></polygon>
+                        <polygon id="Path" fill="#50B482" points="69.9540426 38.8842553 70.3617021 39.5429787 94.68 67.96 65.9131915 66.4902128"></polygon>
+                        <polygon id="Path" fill="#50B482" points="25.3846809 38.6008511 27.252766 66.3821277 0.639148936 66.3821277"></polygon>
+                        <polygon id="Path" fill="#F19BA5" points="34.9974468 75.7574468 27.5242553 87.7821277 69.8408511 87.7821277 60.6919149 73.6102128"></polygon>
+                        <polygon id="Path" fill="#F0EFED" points="72.3880851 79.0476596 22.4195745 79.2961702 23.5182979 27.5489362 72.3880851 27.5489362"></polygon>
+                        <polygon id="Path" fill="#32373C" points="56.3370213 79.1251064 39.627234 79.2093617 39.5931915 57.4485106 56.0561702 57.4485106"></polygon>
+                    </g>
+                    <polygon id="Path" fill="#F03C50" fill-rule="nonzero" points="80.1021277 87.7821277 15.066383 87.5148936 15.3821277 92.107234 79.6765957 92.4085106"></polygon>
+                    <g id="Group" transform="translate(7.659574, 71.489362)" stroke="#32373C" stroke-width="1.5">
+                        <line x1="16.373617" y1="0.618723404" x2="0.463829787" y2="48.1931915" id="Path"></line>
+                        <line x1="26.7744681" y1="1.62893617" x2="11.0153191" y2="48.3191489" id="Path"></line>
+                        <line x1="25.492766" y1="6.09106383" x2="15.2485106" y2="4.99319149" id="Path"></line>
+                        <line x1="23.2876596" y1="12.1855319" x2="12.9123404" y2="11.0391489" id="Path"></line>
+                        <line x1="15.9293617" y1="33.6825532" x2="5.86297872" y2="32.5055319" id="Path"></line>
+                        <line x1="21.0365957" y1="18.5029787" x2="10.5429787" y2="17.9242553" id="Path"></line>
+                        <line x1="18.6017021" y1="26.1217021" x2="8.26808511" y2="24.853617" id="Path"></line>
+                        <line x1="13.4340426" y1="41.3514894" x2="3.20170213" y2="40.3923404" id="Path"></line>
+                    </g>
+                    <line x1="49.1497872" y1="89.9676596" x2="49.1497872" y2="118.688511" id="Path" stroke="#F03C50" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

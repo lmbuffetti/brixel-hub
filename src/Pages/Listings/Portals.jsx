@@ -138,7 +138,7 @@ const Portals = (props) => {
                         </div>
                       ) : (
                         <div className="ta-c mt-2">
-                          <img className="h-fix-120" src={portalPublished} alt="Portals" />
+                          <img className="h-fix-120" src={portalStart} alt="Portals" />
                           <h5 className="mb-2 mt-3">Your property on the biggest portals.</h5>
 
                           <div className="ta-l max-w-fix-344 m-a">

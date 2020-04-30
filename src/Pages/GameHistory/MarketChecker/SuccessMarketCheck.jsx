@@ -12,6 +12,7 @@ import { getGamegroup } from '../../../actions/GamificationActions';
 import newMarketCheck from '../../../images/MarketCheck/newMarketCheck.svg';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import startMarketCheck from '../../../images/MarketCheck/startMarketCheck.svg';
+import simillarMarketCheck from '../../../images/MarketCheck/simillarMarketCheck.svg';
 import moment from 'moment';
 
 function SuccessMarketCheck(props) {
@@ -44,7 +45,7 @@ function SuccessMarketCheck(props) {
   }, [gameGroup, getParams]);
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c`}>
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-2`}>
       {
         get(groupdAchievement, 'done', false) || getDoneFirstTime() === 'done' ? (
           <>
@@ -55,16 +56,18 @@ function SuccessMarketCheck(props) {
                     getDoneFirstTime() === 'done' ? (
                       <>
                         <h5 className="ta-c">Great, now you know what is out there.</h5>
-                        <div className="ta-c my-3"><img src={newMarketCheck} alt="Nes Assessor" /></div>
+                        <div className="ta-c mb-3">
+                          <img className="h-fix-148" src={newMarketCheck} alt="Nes Assessor" />
+                        </div>
                         <p className="ta-c mb-2">Congrats! <br/> You earned the <span className="txtGreen400">Market Checker</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
                       <>
                         <div className="dis-fl-col jc-c a-c">
                           <div className="ta-c mb-3">
-                            <img src={startMarketCheck} alt="Done Market Check" />
+                            <img className="h-fix-148" src={simillarMarketCheck} alt="Done Market Check" />
                           </div>
-                          <h5 className="mb-2 m-a ta-c">
+                          <h5 className="mb-2 ta-c">
                             <span>{marketData.similar_properties}</span>&nbsp;
                             <span>similar properties in your area.</span>
                           </h5>
@@ -73,16 +76,14 @@ function SuccessMarketCheck(props) {
                             <span>:&nbsp;{moment(marketData.market_check_date).format('MMMM DD YYYY / HH:mm')}</span>
                           </p>
                         </div>
-                        <div className="w-perc-100">
-                          <BrixelButtonPrimary
-                            rounded
-                            label="Yes, update"
-                            background={"primary"}
-                            className="pl-3 m-a mt-2"
-                            onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                            rightIcon="arrow-right"
-                          />
-                        </div>
+                        <BrixelButtonPrimary
+                          rounded
+                          label="Yes, update"
+                          background={"primary"}
+                          className="pl-3 m-a mt-2"
+                          onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                          rightIcon="arrow-right"
+                        />
                       </>
                     )
                   }
@@ -94,7 +95,7 @@ function SuccessMarketCheck(props) {
           <>
             <div className="dis-fl-col jc-c a-c">
               <div className="ta-c mb-3">
-                <img src={startMarketCheck} alt="Start Market Check" />
+                <img className="h-fix-148" src={startMarketCheck} alt="Start Market Check" />
               </div>
               <h5 className="mb-2 m-a">
                 Compare your local market.
@@ -103,16 +104,14 @@ function SuccessMarketCheck(props) {
                 Stop browsing all the portals. I show you all similar properties on sale. Instantly.
               </p>
             </div>
-            <div className="w-perc-100">
-              <BrixelButtonPrimary
-                rounded
-                label="Check market now"
-                background={"primary"}
-                className="pl-3 m-a mt-3"
-                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                rightIcon="arrow-right"
-              />
-            </div>
+            <BrixelButtonPrimary
+              rounded
+              label="Check market now"
+              background={"primary"}
+              className="pl-3 m-a mt-3"
+              onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+              rightIcon="arrow-right"
+            />
           </>
         )
       }

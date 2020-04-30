@@ -44,7 +44,7 @@ function SuccessAssessor(props) {
   }, [gameGroup, getParams]);
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c`}>
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-2`}>
       {
         groupdAchievement.done ? (
           <>
@@ -61,7 +61,7 @@ function SuccessAssessor(props) {
                     ) : (
                       <>
                         <div className="dis-fl-col jc-c a-c">
-                          <div className="brdRadius bgGreen100 p-2 mb-3">
+                          <div className="brdRadius p-2 mb-3">
                             <ChartDonuts
                               assessor={get(formValue, 'assessor.renovation', get(formValue, 'assessor.construction', {}))}
                               smallPie
@@ -75,7 +75,6 @@ function SuccessAssessor(props) {
                             The values are calculated with the average lifespan of each element.
                           </p>
                         </div>
-                        <div className="w-perc-100">
                           <BrixelButtonPrimary
                             rounded
                             label="See full report"
@@ -92,7 +91,6 @@ function SuccessAssessor(props) {
                               state: { redo: true }
                             }) }
                           />
-                        </div>
                       </>
                     )
                   }
