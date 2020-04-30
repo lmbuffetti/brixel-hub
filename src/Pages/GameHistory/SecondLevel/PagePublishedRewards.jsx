@@ -35,8 +35,7 @@ const PagePublishedRewards = (props) => {
   }, [gameHistory, pagePublished, pageReview]);
 
   const openPreview = (done = false) => {
-    if (!done) handleAddGameHistory({stub: gameStub});
-    window.open(`${baseByData.pageUrl}preview/${propID}`, '_blank');
+    history.push(`/${propID}/listings/page`);
   };
 
   return (
@@ -48,7 +47,7 @@ const PagePublishedRewards = (props) => {
             <h5 className="ta-c mt-3 mb-2">We are live!</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Your property website is visible to the public and officially part of the world wide web. Yeah!</p>
             <BrixelButtonPrimary
-              label="Open preview"
+              label="Manage Page"
               rounded
               rightIcon="arrow-right"
               className="min-w-fix-216 m-a"
@@ -61,10 +60,10 @@ const PagePublishedRewards = (props) => {
         status === 'offline' && (
           <>
             <img src={pagePublishedCheckImg} alt="Page Preview"/>
-            <h5 className="ta-c mt-3 mb-2">Publish this website now!</h5>
+            <h5 className="ta-c mt-3 mb-2">Put this website live!</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Unlock your Brixel Page and make it visible to the public.</p>
             <BrixelButtonPrimary
-              label="Open preview"
+              label="Manage Page"
               rounded
               rightIcon="arrow-right"
               className="min-w-fix-216 m-a"
@@ -80,7 +79,7 @@ const PagePublishedRewards = (props) => {
             <h5 className="ta-c mt-3 mb-2">Review in the making…</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">To assure great quality your page is being reviewed for free.</p>
             <BrixelButtonPrimary
-              label="Open preview"
+              label="Manage Page"
               rounded
               rightIcon="arrow-right"
               className="min-w-fix-216 m-a"

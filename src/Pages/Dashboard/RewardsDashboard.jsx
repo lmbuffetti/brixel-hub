@@ -47,6 +47,17 @@ const RewardsDashboard = (props) => {
   const propID = get(match, 'params.propId', '');
   const gameHistoryData = get(gameHistory, 'data', null);
 
+  const isDisabledFlow = (game) => {
+    let disabled = false;
+    if (game === 'market-checker' && (get(formValue, 'location.countryCode', null) !== 'CH' && get(formValue, 'location.countryCode', null) !== 'PT')) {
+      disabled = true;
+    }
+    if (game === 'bestimate' && get(formValue, 'location.countryCode', null) !== 'CH') {
+      disabled = true;
+    }
+    return disabled;
+  };
+
   useEffect(() => {
     let getNameGroup = localStorage.getItem('gameGroup') || null;
     if (windowDimensions && windowDimensions.width > 768 && rewardType === 'rewards' && usrGroups) {
@@ -55,7 +66,7 @@ const RewardsDashboard = (props) => {
           if (groups.stub.includes(userTypes)) {
             groups.achievements.forEach((group) => {
               const selElTodo = gameHistory.data.find(game => game.achievement.stub === group.stub && game.page === propID);
-              if (typeof selElTodo === 'undefined' && !getNameGroup) {
+              if (typeof selElTodo === 'undefined' && !getNameGroup && !isDisabledFlow(group.stub)) {
                 localStorage.setItem('gameGroup', group.stub);
                 getNameGroup = group.stub;
                 setActiveGameGroup(group.stub);
@@ -122,17 +133,6 @@ const RewardsDashboard = (props) => {
     localStorage.setItem('gameGroup', game);
     history.push({pathname: `/${propID}/rewards/${game}` });
     setActiveAchievement(achievement);
-  };
-
-  const isDisabledFlow = (game) => {
-    let disabled = false;
-    if (game === 'market-checker' && (get(formValue, 'location.countryCode', null) !== 'CH' && get(formValue, 'location.countryCode', null) !== 'PT')) {
-      disabled = true;
-    }
-    if (game === 'bestimate' && get(formValue, 'location.countryCode', null) !== 'CH') {
-      disabled = true;
-    }
-    return disabled;
   };
 
   const getSuccessActiveGroup = () => {
