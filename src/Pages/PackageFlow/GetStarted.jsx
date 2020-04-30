@@ -152,7 +152,7 @@ function GetStarted(props) {
       handleSetLanguage(company.languageCode.toLowerCase());
     }
     if (company.countryName) {
-      countryObj(company.countryName);
+      countryObj(company.countryCode);
     }
   }, [company]);
 
