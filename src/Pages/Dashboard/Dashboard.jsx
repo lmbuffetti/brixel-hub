@@ -237,7 +237,9 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
+      const checkIsValid = Object.keys(changeObj).find(key => typeof changeObj[key] !== 'undefined');
       if (
+        checkIsValid &&
         Object.keys(changeObj).length > 0 &&
         (Object.keys(changeObj).length > 1 || !changeObj.inputSheet ) &&
         !isSmallLoading &&
