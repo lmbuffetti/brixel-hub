@@ -161,7 +161,7 @@ const RewardsDashboard = (props) => {
           </div>
         )
       }
-      <div className={`dis-f a-t ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'} pos-r-md`}>
+      <div className={`dis-f a-t jc-c pos-r-md`}>
         {
           usrGroups && (
             <div className="firstLevel mr-md-2">

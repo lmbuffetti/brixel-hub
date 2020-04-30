@@ -196,7 +196,7 @@ const Page = (props) => {
                     <p className="fsize-300 txtDark200 w-fix-200 m-a">Your property should not be visible anymore?</p>
 
                     <BrixelButtonPrimary
-                      className="m-a mt-3 w-fix-176"
+                      className="m-a mt-3"
                       label="Take Page offline"
                       background="dark"
                       rounded

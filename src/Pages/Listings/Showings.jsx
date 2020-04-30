@@ -116,7 +116,7 @@ const Showings = (props) => {
       <div className="showings secondLevel dis-fl-col ml-md-1">
         <div className="showingsWrapper dis-fl-col">
           <div className="pos-r">
-            <div className="dis-f jc-b a-c mb-3">
+            <div className={`dis-f jc-b a-c ${!manageAvailability ? 'mb-3' : ''}`}>
               <BrixelButtonIcon
                 className={`shadow-3dp hide-md ${manageAvailability ? "opacity0" : ""}`}
                 icon="arrow-simple-left"
@@ -137,6 +137,7 @@ const Showings = (props) => {
                 onClick={() => manageAvailability ? discardChanges() : setManageAvailability(!manageAvailability)}
               />
             </div>
+
             {
               !manageAvailability && Object.keys(gorupByMonth()).length > 0 && (
                 <div>
@@ -215,6 +216,9 @@ const Showings = (props) => {
               </div>
             ) : (
               <>
+                <div className="dis-f jc-c dis-b-md mb-3">
+                  <p className="max-w-fix-264 body2 txtDark400"> Select your availability </p>
+                </div>
                 <div className="max-h-perc-100 ov-a">
                   <BrixelTimeSlots
                     countryLang={lang}

@@ -55,7 +55,7 @@ const Portals = (props) => {
   return (
     <div className="dis-f">
       <div className="secondLevel dis-fl-col ml-md-1">
-        <div className="portalsWrapper max-h-perc-100 dis-fl-col cardInfoBox">
+        <div className="portalsWrapper dis-fl-col cardInfoBox">
           <div className="pos-r">
             <div className="dis-f jc-b a-c mb-3">
               <BrixelButtonIcon

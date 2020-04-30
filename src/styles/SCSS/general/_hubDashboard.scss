@@ -5,9 +5,6 @@
       top: 64px;
       position: relative;
     }
-    @media (max-width: $responsive-medium) {
-      overflow-y: auto;
-    }
     .property-container,
     .listings-container {
       .secondLevel .docubox,

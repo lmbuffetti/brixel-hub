@@ -26,16 +26,15 @@
 }
 
 .hubDasHeader {
-  z-index: 5;
   @media (min-width: $responsive-medium) {
     padding-left: 210px;
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
+    z-index: 5;
   }
   .dasHeaderContainer {
-    box-shadow: $shadow-1dp;
     transition: margin-top $default-time-long $default-easing;
   }
   .mobileTitle {
@@ -46,6 +45,9 @@
 .scrollingHeader {
   .hubDasHeader {
     .dasHeaderContainer {
+      @media (min-width: $responsive-medium) {
+        box-shadow: $shadow-1dp;
+      }
       @media (max-width: $responsive-medium) {
         margin-top: -64px;
         position: relative;
