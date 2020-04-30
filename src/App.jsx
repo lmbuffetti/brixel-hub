@@ -15,7 +15,7 @@ import moment from 'moment';
 import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
-import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelNotification } from '@brixel/brixel-components';
 import { setModal, setWindowDimensions } from './actions/CommonActions';
 import { setUserTypes } from './actions/UserActions';
 
@@ -87,6 +87,11 @@ const Bestimate = Loadable({
 
 const MediaExplanation = Loadable({
   loader: () => import('./Pages/GameHistory/SecondLevel/MediaExplanation' /* webpackChunkName: "MediaFlow" */),
+  loading: Loading,
+});
+
+const BrixelModalFullScreen = Loadable({
+  loader: () => import('./components/BrixelModalFullScreen' /* webpackChunkName: "BrixelModalFullScreen" */),
   loading: Loading,
 });
 
@@ -328,24 +333,14 @@ const App = (props) => {
       { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
       {
         modal.state && (
-          <BrixelModal
-            classHeight={modal.height}
-            classWidth={modal.width}
+          <BrixelModalFullScreen
             title={modal.title}
-            titleIcon={modal.titleIcon}
-            color={modal.color}
-            saturationTxt={modal.saturationTxt}
-            layout={modal.layout}
             onClose={() => {
               handleSetModal({ state: false });
             }}
-            actions={modal.action}
-            multiActions={modal.multiActions}
-            clickOutsideToClose={modal.clickOutsideToClose}
           >
-            <h6 className="mb-2" dangerouslySetInnerHTML={{ __html: modal.hint}} />
-            <div className="body2" dangerouslySetInnerHTML={{ __html: modal.body}} />
-          </BrixelModal>
+            {modal.body}
+          </BrixelModalFullScreen>
         )
       }
 

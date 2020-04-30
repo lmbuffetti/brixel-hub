@@ -17,6 +17,7 @@ export default {
   },
   company: {
     getCompanyByStub: (stub) => `/company/company-by-stub/${stub}`,
+    getCompanyById: (id) => `/company/${id}`,
   },
   gamification: {
     group: () => '/gameGroup',

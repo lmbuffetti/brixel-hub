@@ -9,13 +9,11 @@ import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import pagePublishedCheckImg from '../../../images/secondLevel/pagePublishedCheck.png';
 import pagePublishedDoneImg from '../../../images/secondLevel/pagePublishedDone.png';
 import pagePublishedReviewImg from '../../../images/secondLevel/pagePublishedReview.png';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { addGameHistory } from '../../../actions/GamificationActions';
 
 const PagePublishedRewards = (props) => {
   const {
     gameHistory,
-    handleAddGameHistory,
     history,
     match,
     pagePublished,

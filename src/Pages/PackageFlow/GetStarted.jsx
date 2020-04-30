@@ -153,6 +153,8 @@ function GetStarted(props) {
     }
     if (company.countryName) {
       countryObj(company.countryCode);
+      const QuestFull = QuestionsList(lang, gameGroup, company.countryCode);
+      setQuestions(QuestFull);
     }
   }, [company]);
 
@@ -163,7 +165,7 @@ function GetStarted(props) {
   }, [formValue.location, formValue.propertyType]);
 
   useEffect(() => {
-    const Quest1 = QuestionsList(lang, gameGroup);
+    const Quest1 = QuestionsList(lang, gameGroup, get(formValue, 'location.countryCode', ''));
     // const Quest2 = PackageFlow(lang, gameGroup);
     const QuestFull = Quest1;
     setQuestions(QuestFull);

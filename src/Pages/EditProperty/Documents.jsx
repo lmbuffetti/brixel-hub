@@ -15,11 +15,9 @@ import {
   BrixelButtonTertiary, useOutsideAlerter, BrixelInputText,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { uploadDocument, deleteDocument, updateDocument } from '../../actions/UploadActions';
+import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { setScreenNotification } from '../../actions/CommonActions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
-import { diff } from 'deep-object-diff';
-
 // IMAGES
 import upload_documents_empty from '../../images/Upload/upload_documents_empty.svg';
 import { useDropzone } from 'react-dropzone';
@@ -38,7 +36,6 @@ const Documents = (props) => {
     handleUploadDocument,
     user,
     handleDeleteDocument,
-    handleUpdateDocument,
     history,
     isSmallLoading,
     match,
@@ -128,25 +125,6 @@ const Documents = (props) => {
       smallLoader: true,
     };
     handleDeleteDocument(data);
-  };
-
-  // UPDATE DOCUMENTS
-  const updateDoc = (e, doc) => {
-    e.preventDefault();
-    const selDoc = documents.find(item => item.id === editDocument.id);
-    const data = {
-      pageID: formValue.id,
-      id: doc.id,
-      smallLoader: true,
-      body: {
-        name: doc.name,
-        isPrivate: selDoc.isPrivate,
-        path: doc.path,
-        mimeType: doc.mimeType,
-      },
-    };
-    handleUpdateDocument(data);
-    setEditDocument({ id: null, active: false });
   };
 
   // COPY DOCUMENT LINK
@@ -406,7 +384,6 @@ const mapDispatchToProps = (dispatch) => ({
   setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
-  handleUpdateDocument: bindActionCreators(updateDocument, dispatch),
 });
 
 export default compose(

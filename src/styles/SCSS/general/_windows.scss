@@ -62,6 +62,7 @@
       &.closed {
         max-width: 768px;
         width: calc(100% - 320px);
+        min-width: 60%;
       }
     }
     .secondLevel,
