@@ -85,7 +85,6 @@ export const AssessorQuestions = (lang = 'en') => [
     title: "When was your last renovation?",
     history: "yearRenovation",
     cardType: "yearRenovation",
-    toSave: true,
     inputs: [
       {
         component: BrixelInputText,
@@ -103,6 +102,7 @@ export const AssessorQuestions = (lang = 'en') => [
   },
   {
     title: "Result Page",
+    toSave: true,
     subtitle: "Sales strategy & price",
     vCentered: true,
     history: "resumeFlow",

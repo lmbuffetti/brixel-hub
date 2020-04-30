@@ -687,51 +687,51 @@ function GetStarted(props) {
               ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`
             }
           >
-              <div
-                className={
-                  `dis-f a-c
+            <div
+              className={
+                `dis-f a-c
                   ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`
-                }
-              >
-                {
-                  Questions[currentIndex].inputs && Questions[currentIndex - 1] && Questions[currentIndex - 1].inputs && (
-                    <BrixelButtonIcon
-                      className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
-                      icon="arrow-simple-left"
-                      onClick={() => changeStep('back')}
-                      background="white"
-                      saturation={0}
-                      color="primary"
-                      saturationTxt={400}
-                      noBorder
-                    />
-                  )
-                }
-                {
-                  !disableNextBtn &&
-                  Questions[currentIndex] &&
-                  Questions[currentIndex].inputs &&
-                  Questions[currentIndex].successMessage && (
-                    <div className="txtGreen700 ta-r ml-a pr-1 textSuccess">
-                      {Questions[currentIndex].successMessage}
-                      <BrixelIcon icon="check" className="ml-1" />
-                    </div>
-                  )
-                }
-                {
-                  Questions[currentIndex] && (
-                    <BrixelButtonPrimary
-                      rounded
-                      label={buttonLabel()}
-                      background={Questions[currentIndex].inputs ? "green" : "primary"}
-                      className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                      onClick={() => changeStep()}
-                      rightIcon="arrow-right-small"
-                      disabled={disableNextBtn}
-                    />
-                  )
-                }
-              </div>
+              }
+            >
+              {
+                Questions[currentIndex].inputs && Questions[currentIndex - 1] && Questions[currentIndex - 1].inputs && (
+                  <BrixelButtonIcon
+                    className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
+                    icon="arrow-simple-left"
+                    onClick={() => changeStep('back')}
+                    background="white"
+                    saturation={0}
+                    color="primary"
+                    saturationTxt={400}
+                    noBorder
+                  />
+                )
+              }
+              {
+                !disableNextBtn &&
+                Questions[currentIndex] &&
+                Questions[currentIndex].inputs &&
+                Questions[currentIndex].successMessage && (
+                  <div className="txtGreen700 ta-r ml-a pr-1 textSuccess">
+                    {Questions[currentIndex].successMessage}
+                    <BrixelIcon icon="check" className="ml-1" />
+                  </div>
+                )
+              }
+              {
+                Questions[currentIndex] && (
+                  <BrixelButtonPrimary
+                    rounded
+                    label={buttonLabel()}
+                    background={Questions[currentIndex].inputs ? "green" : "primary"}
+                    className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
+                    onClick={() => changeStep()}
+                    rightIcon="arrow-right-small"
+                    disabled={disableNextBtn}
+                  />
+                )
+              }
+            </div>
 
           </div>
         </form>

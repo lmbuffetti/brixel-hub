@@ -44,7 +44,7 @@ const FactsRewards = (props) => {
               rounded
               rightIcon="arrow-right"
               className="min-w-fix-216 m-a"
-              onClick={() => history.push(`/${propID}/property/facts`)}
+              onClick={() => history.push(`/${propID}/property/facts/propertyType`)}
             />
           </>
         )
@@ -60,7 +60,7 @@ const FactsRewards = (props) => {
               rounded
               rightIcon="arrow-right"
               className="min-w-fix-216 m-a"
-              onClick={() => history.push(`/${propID}/property/facts`)}
+              onClick={() => history.push(`/${propID}/property/facts/propertyType`)}
             />
           </>
         )
@@ -75,7 +75,7 @@ const FactsRewards = (props) => {
               rounded
               rightIcon="arrow-right"
               className="min-w-fix-216 m-a"
-              onClick={() => history.push(`/${propID}/property/facts`)}
+              onClick={() => history.push(`/${propID}/property/facts/propertyType`)}
             />
           </>
         )

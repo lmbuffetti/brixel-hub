@@ -2,7 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { change, Field } from 'redux-form';
+import { change, Field, reset } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -44,6 +44,7 @@ const Documents = (props) => {
     match,
     changeFieldValue,
     setNotification,
+    reset,
   } = props;
   const { documents } = formValue;
 
@@ -240,7 +241,7 @@ const Documents = (props) => {
                             {
                               (editDocument.id === doc.id && editDocument.active) ? (
                                 <BrixelDropdown
-                                  className="zIndex2"
+                                  className="zIndex2 compact"
                                   borderColor="light"
                                   color="light"
                                   options={[
@@ -271,16 +272,6 @@ const Documents = (props) => {
                                 (editDocument.id === doc.id && editDocument.active) ? (
                                   <div className="dis-fl-row">
                                     <BrixelButtonIcon
-                                      icon="check-small"
-                                      bgTransparent
-                                      noBorder
-                                      color="green"
-                                      saturationTxt={400}
-                                      className="add-button"
-                                      label="Save"
-                                      onClick={(e) => updateDoc(e, doc)}
-                                    />
-                                    <BrixelButtonIcon
                                       icon="close-circle"
                                       bgTransparent
                                       noBorder
@@ -289,12 +280,8 @@ const Documents = (props) => {
                                       saturationTxt={400}
                                       label="Cancel"
                                       onClick={() => {
-                                        if (Object.keys(diff(formValue.documents[i], doc)).length > 0) {
-                                          changeFieldValue(`documents[${i}]`, formValue.documents[i]);
-                                          setEditDocument({ id: null, active: false });
-                                        } else {
-                                          setEditDocument({ id: null, active: false });
-                                        }
+                                        reset('Property');
+                                        setEditDocument({ id: null, active: false });
                                       }}
                                     />
                                   </div>
@@ -397,6 +384,7 @@ Documents.propTypes = {
   formValue: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.string,
   match: PropTypes.object.isRequired,
+  reset: PropTypes.func.isRequired,
 };
 
 Documents.defaultProps = {
@@ -411,6 +399,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
+  },
+  reset(form) {
+    (dispatch(reset(form)))
   },
   setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),

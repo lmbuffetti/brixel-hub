@@ -29,7 +29,7 @@ function ResumeMarketCheck(props) {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    if (property && property.id) {
+    if (property && property.id && !marketData.priceDistribution) {
       const latBoundsRadius = 0.0675;
       const longBoundsRadius = 0.1;
       const livingSpace = get(property, 'properties.typology.livingArea.value', 0);
@@ -56,6 +56,7 @@ function ResumeMarketCheck(props) {
         properties: property.properties,
         ownerType: formValue.ownerType,
         whenToSell: formValue.whenToSell,
+        setSuccessNotification: true,
       };
       data.properties.building.conditionCode = get(formValue, 'properties.building.conditionCode', null);
       data.packageFlowProcess.rewardScreenData = {

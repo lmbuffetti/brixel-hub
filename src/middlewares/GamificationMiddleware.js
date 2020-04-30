@@ -81,7 +81,8 @@ const checkGamification = (store) => (next) => (action) => {
           if (game.stub === stub) currentGroup = game;
         });
       });
-      const checkExist = gameHistory.data.find(item => item.achievement.id === currentGroup.id);
+      const pageID = get(store.getState(), 'property.activeSingleProperty.id', 0)
+      const checkExist = gameHistory.data.find(item => item.achievement.id === currentGroup.id && pageID === item.page);
       if (typeof checkExist === 'undefined' || currentGroup.isCumulative || id) {
         let newID = id;
         let data = action.payload;

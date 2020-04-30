@@ -1,61 +1,67 @@
-/* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useEffect,
-  useState,
-} from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import get from 'lodash/get';
-import {
-  withRouter,
-} from 'react-router-dom'
-import { change, isValid, reduxForm } from 'redux-form';
-import {
-  BrixelButtonPrimary,
-  BrixelButtonIcon,
-  BrixelIcon,
-  BrixelProgressBar,
-} from '@brixel/brixel-components';
-import { saveActiveSingleProperty, getActiveSingleProperty } from '../../../actions/PropertyActions';
-import { BestimateQuestions } from '../../../resources/Bestimate';
+import { BrixelButtonIcon } from '@brixel/brixel-components';
 import MultiStepForm from '../../../components/MultiStepReduxForm';
-import { translateTo } from '../../../utils/translation';
-import last from 'lodash/last';
-import { addGameHistory, getGameHistory } from '../../../actions/GamificationActions';
+import { BestimateQuestions } from '../../../resources/Bestimate';
+import { bindActionCreators, compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
+import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import { reduxForm, reset } from 'redux-form';
+import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
+import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
+import last from 'lodash/last';
 
-function Bestimate(props) {
+const Bestimate = (props) => {
   // PROPS
   const {
+    activeSingleProperty,
     errorValue,
     formValue,
     gameGroup,
     gameHistory,
-    handleGetActiveSingleProperty,
-    handleSaveActiveSingleProperty,
     handleAddGameHistory,
-    handleGetGameHistory,
     history,
-    lang,
-    loggedInUser,
     match,
-    property,
+    reset,
   } = props;
   // STATE
-  const [finishedFlow, setFinishedFlow] = useState(false);
-  const [position, setPosition] = useState(0);
-  const [disableNextBtn, setDisableNextBtn] = useState(true);
-  const [hidePrevBtn, setHidePrevBtn] = useState(true);
+  const [questions, setQuestions] = useState(BestimateQuestions('en'));
+  // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [progressBar, setProgressBar] = useState(0);
-  const [Questions] = useState(BestimateQuestions(lang));
-  const [saved, setSaved] = useState(false);
+  const [quest, setQuest] = useState(BestimateQuestions('en')[0]);
+  const [isEnter, setIsEnter] = useState(true);
   const [selGameGroup, setSelGameGroup] = useState({});
+  const [finishedFlow, setFinishedFlow] = useState(false);
+  const [lastID, setLastID] = useState(0);
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
+
+  useEffect(() => {
+    return () => {
+      reset('Property');
+    };
+  }, []);
+
+  // CHECK IF THE ACHIEVEMENT IS DONE
+  useEffect(() => {
+    if (gameHistory && gameHistory.data && activeSingleProperty.id) {
+      const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === activeSingleProperty.id);
+      if (typeof checkGameExist !== 'undefined') {
+        setFinishedFlow(true);
+        if (lastID) {
+          setCurrentIndex(lastID);
+          setQuest(questions[lastID]);
+        }
+      } else {
+        setFinishedFlow(false);
+      }
+    }
+  }, [gameHistory, activeSingleProperty, lastID]);
 
   useEffect(() => {
     if (gameGroup.length > 0) {
@@ -65,146 +71,113 @@ function Bestimate(props) {
     }
   }, [gameGroup]);
 
-  // CHECK IF THE ACHIEVEMENT IS DONE
   useEffect(() => {
-    if (gameHistory && gameHistory.data && property.id) {
-      const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === property.id);
-      if (typeof checkGameExist !== 'undefined') {
-        setFinishedFlow(true);
-        if (!saved) {
-          setCurrentIndex(Questions.length - 1);
-          setPosition(Questions.length - 1);
-        }
-      } else {
-        setFinishedFlow(false);
-      }
-    }
-  }, [gameHistory, property]);
+    setIsEnter(true);
+  }, [currentIndex]);
 
-  // GET DEFAULT PROPERTY
-  useEffect(() => {
-    handleGetActiveSingleProperty({id: propID});
-    handleGetGameHistory();
-  }, []);
-
-  // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
-  useEffect(() => {
-    let invalidField = false;
-    if (Questions[currentIndex] && Questions[currentIndex].inputs) {
-      Questions[currentIndex].inputs.map((inp) => {
-        const curVal = get(errorValue, inp.name, true);
-        if (curVal !== true) invalidField = true;
-        return null;
-      });
-    }
-    setDisableNextBtn(invalidField);
-  }, [errorValue, currentIndex]);
-
-  // Function to save the data
-  const saveData = (e) => {
-    const dataProp = {
-      getEstimation: true,
-      id: get(formValue, 'id', 0)
-    };
-    dataProp.properties = get(formValue, 'properties', {});
-    // eslint-disable-next-line no-use-before-define
-    changeStep();
-    // UPDATE PROPERTY
-    handleSaveActiveSingleProperty(dataProp);
-    setSaved(true);
-    // ADD THE ACHIEVEMENT
-    if (!finishedFlow) {
-      const data = {
-        id: loggedInUser.user.id,
-        page: property.stub,
-        achievement: getAchievement(),
-      };
-      handleAddGameHistory(data);
-    }
+  const closeWindow = () => {
+    history.push(`/${propID}/rewards/${getAchievement()}`);
   };
 
-  // Function to move next/prev question
+  const saveData = () => {
+    handleAddGameHistory({stub: getAchievement()})
+  };
+
   const changeStep = (act) => {
-    let newPosition = position;
+    setIsEnter(false);
+    let newIndex = currentIndex;
     if (act === 'back') {
-      setDisableNextBtn(false);
-      newPosition = position - 1;
+      newIndex -= 1;
+    } else {
+      newIndex += 1;
     }
-    else {
-      if (disableNextBtn) return false;
-      setDisableNextBtn(true);
-      newPosition = position + 1;
+    if (questions[currentIndex + 1].toSave) {
+      saveData();
     }
-    if (Questions[newPosition] && Questions[newPosition].conditions) {
-      let checkCond = true;
-      Questions[newPosition].conditions.map((cond) => {
-        const val = get(formValue, cond.name, null);
-        if (val !== cond.value && checkCond) {
-          if (act === 'back') newPosition = newPosition - 1;
-          else newPosition = newPosition + 1;
-          checkCond = false;
+    setCurrentIndex(newIndex);
+    // setPosition(newIndex);
+    setQuest(questions[newIndex]);
+  };
+
+  useEffect(() => {
+    if (formValue.id) {
+      let newQuest = [];
+      BestimateQuestions('en').map((quest) => {
+        if (quest.condition) {
+          let isValid = true;
+          quest.condition.map((item) => {
+            if (get(formValue, item.name, null) !== item.value) {
+              isValid = false
+            }
+            return null;
+          });
+          if (isValid) newQuest.push(quest);
+        } else {
+          newQuest.push(quest);
         }
         return null;
-      })
+      });
+      setLastID(newQuest.length - 1);
+      setQuestions(newQuest);
     }
-    if (Questions[newPosition] && Questions[newPosition].conditions) {
-      let checkCond = true;
-      Questions[newPosition].conditions.map((cond) => {
-        const val = get(formValue, cond.name, null);
-        if (val !== cond.value && checkCond) {
-          if (act === 'back') newPosition = newPosition - 1;
-          else newPosition = newPosition + 1;
-          checkCond = false;
+  }, [formValue]);
+
+  const valideConditionInput = (quest) => {
+    let isVerified = true;
+    if (quest.condition) {
+      quest.condition.map((item) => {
+        if (get(formValue, item.name, null) !== item.value) {
+          isVerified = false;
         }
         return null;
       });
     }
-    setPosition(newPosition);
-    setCurrentIndex(newPosition);
-    if (newPosition > 0) setHidePrevBtn(false);
-    else setHidePrevBtn(true);
-    const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
-    setProgressBar(newPosition * 100 / questInputs.length);
+    return isVerified;
+  };
+
+  const checkValidateField = (act) => {
+    let isValid = true;
+    let isNotEmpty = false;
+    if (get(quest, 'inputs', null)) {
+      quest.inputs.map((input) => {
+        const err = get(errorValue, input.name, null);
+        const noEmpty = get(formValue, input.name, 'ayc');
+        if(noEmpty !== 'ayc') isNotEmpty = true;
+        if (input.condition) {
+          input.condition.map((item) => {
+            if (get(formValue, item.name, null) === item.value) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+            return null;
+          });
+        } else if (input.validation) {
+          if (err !== true && err !== false && isValid) isValid = false;
+        }
+        return null;
+      });
+    }
+    if (act === 'value') return isValid && isNotEmpty;
+    return isValid;
   };
 
   const buttonLabel = () => {
     let label;
-    let oneValueField = typeof Questions[currentIndex].inputs !== 'undefined';
-    if (Questions[currentIndex] && Questions[currentIndex].inputs) {
-      Questions[currentIndex].inputs.map((inp) => {
-        const curVal = get(formValue, inp.name, true);
-        if (curVal !== true) oneValueField = false;
-        return null;
-      });
-    }
-    if (currentIndex === 0) {
-      label = translateTo(lang, "Ok, let’s go");
-    } else if (Questions[currentIndex].inputs || (Questions[currentIndex + 1] && Questions[currentIndex + 1].inputs)) {
-      label = oneValueField ? translateTo(lang, "Skip") : translateTo(lang, "Continue");
-    } else if (Questions[currentIndex + 1]) {
-      label = translateTo(lang, "Finish");
-    } else {
-      label = translateTo(lang, "Alright");
-    }
+    const inputName = get(quest, 'inputs[0].name', null);
+    if (currentIndex === questions.length - 1) label = 'Back to Hub';
+    else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
+    else if (currentIndex === 0) label = 'Next';
+    else label = 'Next';
     return label;
   };
 
-  if ((gameHistory && !gameHistory.data) || !property.id) {
-    return (<div />);
+  if(!formValue.id) {
+    return (
+      <div/>
+    )
   }
 
   return (
-    <main id="bodyModalWrapper">
-      {
-        Questions[currentIndex].inputs && (
-          <BrixelProgressBar
-            saturation={400}
-            barBackground="Light"
-            backgroundSaturation={200}
-            progressValue={progressBar}
-          />
-        )
-      }
+    <div id="bodyModalWrapper">
       <div className="bodyModal">
         <PageHeaderAchievement
           icon={selGameGroup.icon}
@@ -216,180 +189,120 @@ function Bestimate(props) {
           id="multiStepForm"
           // onSubmit={(e) => {e.preventDefault(); changeStep()}}
           autoComplete="off"
+          className="dis-fl-col jc-b"
         >
-          <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}%, 0)` }}>
-            {
-              Questions.map((quest, i) => (
-                <div
-                  id={`step-${i}`}
-                  className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
-                  key={i.toString()}
-                  style={{
-                    visibility: i !== currentIndex ? 'hidden' : 'visible',
-                    maxWidth: i !== currentIndex ? '' : '100%',
-                    opacity: i !== currentIndex ? '0' : '1',
-                  }}
-                >
-                  <div className={`subcontainer w-perc-100 m-a ${quest.className || ''}`}>
-                    {
-                      quest.inputs && (
-                        <>
-                          { quest.extraInfo && ( <p className="mb-3">{quest.extraInfo}</p> )}
-                          <h5 className="mb-4 mb-md-6 fsize-md-700">{quest.title}</h5>
-
-                          {
-                            quest.inputs.map((input, f) => (
-                              <div key={f.toString()}>
-                                <MultiStepForm
-                                  disableNextBtn={disableNextBtn}
-                                  formValue={formValue}
-                                  onClick={() => changeStep()}
-                                  input={input}
-                                />
-                              </div>
-                            ))
-                          }
-                        </>
-                      )
-                    }
-                    {
-                      quest.cardType === 'loadComponent' && quest.history === Questions[currentIndex].history && (
-                        React.createElement(quest.component, {formName: 'GamingFlow', finishedFlow, initialValue: formValue})
-                      )
-                    }
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-          <div
-            className={`footerAction p-1 p-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`}
-          >
-            <div className="container pos-r">
-              <div className="subcontainer">
+          <div className={`slideMultiStepForm`}>
+            <div
+              className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
+            >
+              <div className="subcontainer m-a">
                 {
-                  !disableNextBtn &&
-                  Questions[currentIndex] &&
-                  Questions[currentIndex].inputs &&
-                  Questions[currentIndex].successMessage && (
-                    <p className="txtGreen700 ta-r mb-2 textSuccess">
-                      {Questions[currentIndex].successMessage}
-                      <BrixelIcon icon="check" className="ml-1" />
-                    </p>
+                  quest.inputs && (
+                    <div>
+                      <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
+                      {quest.subtitle && (
+                        <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)}
+                      {
+                        quest.inputs.map((input, f) => (
+                          <React.Fragment key={f.toString()}>
+                            {
+                              valideConditionInput(input) && (
+                                <MultiStepForm
+                                  disableNextBtn={false}
+                                  formValue={formValue}
+                                  onClick={() => ''}
+                                  input={input}
+                                  className={input.className}
+                                />
+                              )
+                            }
+                          </React.Fragment>
+                        ))
+                      }
+                    </div>
                   )
                 }
-                <div
-                  className={`dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`}>
-                  {
-                    Questions[currentIndex].inputs && (
-                      <BrixelButtonIcon
-                        className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
-                        icon="arrow-simple-left"
-                        onClick={() => changeStep('back')}
-                        background="white"
-                        saturation={0}
-                        color="primary"
-                        saturationTxt={400}
-                        noBorder
-                      />
-                    )
-                  }
-                  {
-                    Questions[currentIndex] && Questions[currentIndex + 1] && (
-                      <BrixelButtonPrimary
-                        rounded
-                        label={buttonLabel()}
-                        background={Questions[currentIndex].inputs ? "green" : "primary"}
-                        className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                        onClick={() => Questions[currentIndex + 1] && Questions[currentIndex].toSave ? saveData() : changeStep()}
-                        rightIcon="arrow-right-small"
-                        disabled={disableNextBtn}
-                      />
-                    )
-                  }
-                  {
-                    Questions[currentIndex] && !Questions[currentIndex + 1] && (
-                      <>
-                        <BrixelButtonPrimary
-                          rounded
-                          label="Finish"
-                          background={"primary"}
-                          className="max-w-fix-280 w-perc-100 ml-1"
-                          onClick={() => history.push(finishedFlow ? `/${propID}/rewards/bestimate` : `/${propID}/rewards/assessor`)}
-                          rightIcon="arrow-right-small"
-                          disabled={disableNextBtn}
-                        />
-                      </>
-                    )
-                  }
-                </div>
+                {
+                  quest && quest.cardType === 'loadComponent' && quest.history === questions[currentIndex].history && (
+                    React.createElement(quest.component, {formName: 'GamingFlow', finishedFlow, initialValue: formValue})
+                  )
+                }
+              </div>
+            </div>
+          </div>
+          <div
+            className={`footerAction p-1 p-md-2 shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+          >
+            <div className="container pos-r">
+              <div className={`w-perc-100 a-c dis-fl-row jc-b m-a ${currentIndex === questions.length - 1 ? 'jc-c' : 'jc-b'}`}>
+                {
+                  questions[currentIndex] && questions[currentIndex].inputs && (
+                    <BrixelButtonIcon
+                      className={`shadow-2dp backBtn ${currentIndex === 0 ? 'hide' : ''}`}
+                      icon="arrow-simple-left"
+                      onClick={() => changeStep('back')}
+                      background="white"
+                      saturation={0}
+                      color="primary"
+                      saturationTxt={400}
+                      noBorder
+                    />
+                  )
+                }
+                <BrixelButtonPrimary
+                  className={`noWrap w-perc-100 max-w-fix-160 ${currentIndex === 0 ? 'ml-a' : ''}`}
+                  disabled={!checkValidateField()}
+                  rounded
+                  background="primary"
+                  saturation={400}
+                  label={buttonLabel()}
+                  rightIcon="arrow-right-small"
+                  onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                />
               </div>
             </div>
           </div>
         </form>
       </div>
-    </main>
-  );
-}
+    </div>
+  )
+};
 
 Bestimate.propTypes = {
-  changeFieldValue: PropTypes.func.isRequired,
-  checkValid: PropTypes.func.isRequired,
-  company: PropTypes.object.isRequired,
-  errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  errorValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
-  gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
-  handleGetGameHistory: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  lang: PropTypes.string,
-  loggedInUser: PropTypes.object.isRequired,
-  pageState: PropTypes.object,
-  property: PropTypes.object.isRequired,
-  redirectTo: PropTypes.object,
+  match: PropTypes.object.isRequired,
+  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
+  reset: PropTypes.func.isRequired,
 };
 
-Bestimate.defaultProps = {
-  pageState: null,
-  redirectTo: null,
-};
-
-const mapStateToProps = (state, props) => ({
-  company: get(state, 'companies.activeSingleCompany', {}),
-  errorValue: get(state, 'form.GamingFlow.syncErrors', {}),
-  formValue: get(state, 'form.GamingFlow.values', {}),
+const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+  errorValue: get(state, 'form.Property.syncErrors', {}),
+  formValue: get(state, 'form.Property.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
-  initialValue: get(state, 'form.GamingFlow.initial', {}),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
-  redirectTo: get(state, 'common.redirectTo', {}),
-  lang: get(state, 'common.language', {}),
-  pageState: get(state, 'common.setPageData', null),
-  property: get(state, 'property.activeSingleProperty', null),
-  initialValues: get(state, 'property.activeSingleProperty', null),
+  packagesProperty: get(state, 'property.packagesProperty', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeFieldValue(field, value) {
-    dispatch(change('GamingFlow', field, value));
-  },
-  checkValid() {
-    dispatch(isValid('GamingFlow'))
+  reset(form) {
+    (dispatch(reset(form)))
   },
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
-  handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
-  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
-const OnBoardingForm = reduxForm({
-  form: 'GamingFlow', // a unique identifier for this form
-  enableReinitialize: true,
-})(Bestimate);
+const AnyForm = reduxForm({
+  form: 'Property',
+  destroyOnUnmount: false,
+})(Bestimate)
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(OnBoardingForm);
+)(AnyForm);

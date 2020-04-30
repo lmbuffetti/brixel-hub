@@ -22,7 +22,7 @@ export const BestimateQuestions = (lang) => [
         label: '',
         name: 'properties.typology.bathrooms',
         step: 1,
-        validation: [Validation.maxLengthNumRooms]
+        validation: [Validation.maxLengthNumRooms, Validation.required]
       },
     ]
   },
