@@ -20,7 +20,7 @@ function SuccessHomebase(props) {
   const propID = get(match, 'params.propId', null);
 
   return (
-    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-2">
+    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-md-2">
       <div className="dis-fl-col jc-c a-c">
         <div className="bgWhite brdRadius shadow-4dp ov-h max-w-fix-280 w-perc-100 mt-2">
           <div className="image-ratio">

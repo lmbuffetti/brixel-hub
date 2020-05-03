@@ -44,7 +44,7 @@ function SuccessAssessor(props) {
   }, [gameGroup, getParams]);
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-2`}>
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-md-2`}>
       {
         groupdAchievement.done ? (
           <>
@@ -54,9 +54,11 @@ function SuccessAssessor(props) {
                   {
                     isNew ? (
                       <>
+                      <div className="dis-fl-col jc-c a-c">
                         <h5 className="ta-c">Well done. You are now an Assessor.</h5>
-                        <div className="ta-c my-3"><img src={newAssessor} alt="Nes Assessor" /></div>
+                        <div className="ta-c my-3"><img src={newAssessor} alt="new Assessor" /></div>
                         <p className="ta-c mt-5">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
+                      </div>
                       </>
                     ) : (
                       <>

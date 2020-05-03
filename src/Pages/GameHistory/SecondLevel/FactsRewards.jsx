@@ -17,7 +17,7 @@ const FactsRewards = (props) => {
   const propID = get(match, 'params.propId', '');
 
   return (
-    <div>
+    <div className="pt-3 pt-md-0">
       <div className="brdRadius">
         <BrixelProgressBar
           rounded
@@ -81,14 +81,16 @@ const FactsRewards = (props) => {
         )
       }
 
-      <hr className="my-3" />
 
-      <div className="dis-f a-t">
-        <img src={infoImg} alt="Info Lamp" />
-        <p className="ml-2">
-          <span className="fweight-500 dis-b">Note</span>
-          <span>It is proven that more information and higher transparency increase the selling price. Try to complete as much as possible to get the best result.</span>
-        </p>
+      <div>
+        <hr className="my-3" />
+        <div className="dis-f a-t">
+          <img src={infoImg} alt="Info Lamp" />
+          <p className="ml-2">
+            <span className="fweight-500 dis-b">Note</span>
+            <span>It is proven that more information and higher transparency increase the selling price. Try to complete as much as possible to get the best result.</span>
+          </p>
+        </div>
       </div>
     </div>
   )

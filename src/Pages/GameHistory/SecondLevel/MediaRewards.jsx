@@ -27,85 +27,94 @@ const MediaRewards = (props) => {
   }
 
   return (
-    <div>
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-md-2`}>
       {
-        showIntro() ? (
+        !showIntro() ? (
           <>
-            <div className="ta-c mb-3">
-              <img className="h-fix-148" src={uploadMedia} alt="Done Market Check" />
+            <div className="dis-fl-col a-c">
+              <div className="ta-c mb-3">
+                <img className="h-fix-148" src={uploadMedia} alt="Done Market Check" />
+              </div>
+              <h5 className="ta-c mt-3 mb-2">Time to upload some media.</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Learn how to manage your photos, floorplans and much more.</p>
             </div>
-            <h5 className="ta-c mt-3 mb-2">Time to upload some media.</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Learn how to manage your photos, floorplans and much more.</p>
-            <BrixelButtonPrimary
-              label="Show me"
-              rounded
-              rightIcon="arrow-right"
-              className="min-w-fix-216 m-a"
-              onClick={() => history.push(`/${propID}/rewards/achievement/media`)}
-            />
+            <div>
+              <BrixelButtonPrimary
+                label="Show me"
+                rounded
+                rightIcon="arrow-right"
+                className="min-w-fix-216 m-a"
+                onClick={() => history.push(`/${propID}/rewards/achievement/media`)}
+              />
+            </div>
           </>
         ) : (
           <>
-            <div className="dis-f m-a mt-2 max-w-fix-376">
-              <BrixelButtonBox
-                verticalView
-                bgTransparent
-                icon={photos.length > 0 ? "check" : "gallery"}
-                label="Photos"
-                labelClass="fweight-400"
-                subtitle={`<span>Upload 1 photo<span>`}
-                subtitleClass={`fsize-200 txtDark200 pt-small-6 ${photos.length > 0 ? 'td-lt' : ''}`}
-                className={`w-perc-100 mr-1 shadow-1dp brdMedium p-2 brdTrans`}
-                colorIcon={photos.length > 0 ? "green400" :  "primary700"}
-                backIcon={photos.length > 0 ? "green100" :  "primary100"}
-                onClick={() => history.push(`/${propID}/property/photos`)}
-                selected
-              />
-              <BrixelButtonBox
-                verticalView
-                bgTransparent
-                icon={floorPlans.length > 0 ? "check" : "plans"}
-                label="Plans"
-                labelClass="fweight-400"
-                subtitle={`<span>Upload 1 plan</span>`}
-                subtitleClass={`fsize-200 txtDark200 pt-small-6 ${floorPlans.length > 0 ? 'td-lt' : ''}`}
-                className={`w-perc-100 ml-1 shadow-1dp brdMedium p-2 brdTrans`}
-                colorIcon={floorPlans.length > 0 ? "green400" :  "primary700"}
-                backIcon={floorPlans.length > 0 ? "green100" :  "primary100"}
-                onClick={() => history.push(`/${propID}/property/floorPlans`)}
-              />
+          <div className="dis-fl-col a-c">
+            <div>
+              <div className="dis-f m-a mt-2 max-w-fix-376">
+                <BrixelButtonBox
+                  verticalView
+                  bgTransparent
+                  icon={photos.length > 0 ? "check" : "gallery"}
+                  label="Photos"
+                  labelClass="fweight-400"
+                  subtitle={`<span>Upload 1 photo<span>`}
+                  subtitleClass={`fsize-200 txtDark200 pt-small-6 ${photos.length > 0 ? 'td-lt' : ''}`}
+                  className={`w-perc-100 mr-1 shadow-1dp brdMedium p-2 brdTrans`}
+                  colorIcon={photos.length > 0 ? "green400" :  "primary700"}
+                  backIcon={photos.length > 0 ? "green100" :  "primary100"}
+                  onClick={() => history.push(`/${propID}/property/photos`)}
+                  selected
+                />
+                <BrixelButtonBox
+                  verticalView
+                  bgTransparent
+                  icon={floorPlans.length > 0 ? "check" : "plans"}
+                  label="Plans"
+                  labelClass="fweight-400"
+                  subtitle={`<span>Upload 1 plan</span>`}
+                  subtitleClass={`fsize-200 txtDark200 pt-small-6 ${floorPlans.length > 0 ? 'td-lt' : ''}`}
+                  className={`w-perc-100 ml-1 shadow-1dp brdMedium p-2 brdTrans`}
+                  colorIcon={floorPlans.length > 0 ? "green400" :  "primary700"}
+                  backIcon={floorPlans.length > 0 ? "green100" :  "primary100"}
+                  onClick={() => history.push(`/${propID}/property/floorPlans`)}
+                />
+              </div>
+              <div className="dis-f m-a mt-2 max-w-fix-376">
+                <BrixelButtonBox
+                  verticalView
+                  bgTransparent
+                  icon="tour"
+                  label="3D tour"
+                  labelClass="fweight-400"
+                  subtitle={`<span class="txtRed400">Premium Feature<span>`}
+                  subtitleClass="fsize-200 txtDark200 pt-small-6"
+                  className={`w-perc-100 mr-1 shadow-1dp brdMedium p-2 brdTrans`}
+                  colorIcon="primary700"
+                  backIcon="primary100"
+                  onClick={() => history.push(`/${propID}/property/tour`)}
+                  selected
+                />
+                <BrixelButtonBox
+                  verticalView
+                  bgTransparent
+                  icon={documents.length > 0 ? "check" : "folder"}
+                  label="Docubox"
+                  labelClass="fweight-400"
+                  subtitle={`<span>Upload 1 document</span>`}
+                  subtitleClass={`fsize-200 txtDark200 pt-small-6 ${documents.length > 0 ? 'td-lt' : ''}`}
+                  className={`w-perc-100 ml-1 shadow-1dp brdMedium p-2 brdTrans`}
+                  colorIcon={documents.length > 0 ? "green400" :  "primary700"}
+                  backIcon={documents.length > 0 ? "green100" :  "primary100"}
+                  onClick={() => history.push(`/${propID}/property/documents`)}
+                />
+              </div>
+              <h5 className="ta-c mt-3 mb-2">Let’s upload some media.</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Upload at least one photo, plan and document to achieve this reward.</p>
             </div>
-            <div className="dis-f m-a mt-2 max-w-fix-376">
-              <BrixelButtonBox
-                verticalView
-                bgTransparent
-                icon="tour"
-                label="3D tour"
-                labelClass="fweight-400"
-                subtitle={`<span class="txtRed400">Premium Feature<span>`}
-                subtitleClass="fsize-200 txtDark200 pt-small-6"
-                className={`w-perc-100 mr-1 shadow-1dp brdMedium p-2 brdTrans`}
-                colorIcon="primary700"
-                backIcon="primary100"
-                onClick={() => history.push(`/${propID}/property/tour`)}
-                selected
-              />
-              <BrixelButtonBox
-                verticalView
-                bgTransparent
-                icon={documents.length > 0 ? "check" : "folder"}
-                label="Docubox"
-                labelClass="fweight-400"
-                subtitle={`<span>Upload 1 document</span>`}
-                subtitleClass={`fsize-200 txtDark200 pt-small-6 ${documents.length > 0 ? 'td-lt' : ''}`}
-                className={`w-perc-100 ml-1 shadow-1dp brdMedium p-2 brdTrans`}
-                colorIcon={documents.length > 0 ? "green400" :  "primary700"}
-                backIcon={documents.length > 0 ? "green100" :  "primary100"}
-                onClick={() => history.push(`/${propID}/property/documents`)}
-              />
-            </div>
-            <h5 className="ta-c mt-3 mb-2">Let’s upload some media.</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Upload at least one photo, plan and document to achieve this reward.</p>
+          </div>
+          <div>
             <BrixelButtonPrimary
               label="Edit property"
               rounded
@@ -113,10 +122,11 @@ const MediaRewards = (props) => {
               className="min-w-fix-216 m-a"
               onClick={() => history.push(`/${propID}/property/photos`)}
             />
+          </div>
           </>
         )
       }
-    </div>
+    </main>
   )
 };
 
