@@ -5,10 +5,10 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
-import { BrixelIcon, BrixelButtonSecondary, BrixelButtonIcon, BrixelProgressBar } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelButtonSecondary, BrixelButtonIcon } from '@brixel/brixel-components';
 import useOutsideAlerter from './OutsideElement';
 import Loadable from 'react-loadable';
-import { setCookie, sortObject } from '../utils/helpers';
+import { setCookie } from '../utils/helpers';
 import { setLanguage, setModal } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
@@ -32,14 +32,12 @@ function PageHeaderDashboard(props) {
     lang,
     loggedInUser,
     gameHistory,
-    gameGroup,
     handleGetGame,
     handleSetModal,
     handleSetLanguage,
     history,
     windowDimensions,
     formValue,
-    userTypes,
   } = props;
   // STATE
   //const [currentLang, setCurrentLang] = useState(lang);
@@ -48,8 +46,6 @@ function PageHeaderDashboard(props) {
   const [activeMenu, setActiveMenu] = useState(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [toDo, setToDo] = useState(0);
-  const [done, setDone] = useState(0);
   // REF
   const profileMenu = useRef(null);
   // URL PARAMS
@@ -81,32 +77,6 @@ function PageHeaderDashboard(props) {
       window.addEventListener('resize', () => screenResize());
     }
   }, []);
-
-  useEffect(() => {
-    if (gameGroup && gameHistory && gameHistory.data) {
-      let numDone = 0;
-      let numTodo = 0;
-      const usrGroups = gameGroup.sort(sortObject('stub', 'asc'))
-      usrGroups.forEach((groups) => {
-        if (groups.stub.includes(userTypes)) {
-          groups.achievements.forEach((group) => {
-            console.log(group)
-            const selElTodo = gameHistory.data.find(game => game.achievement.stub === group.stub && game.page === propID);
-            if (group.achievementType === 'award') {
-              if (typeof selElTodo === 'undefined') {
-                numTodo += 1;
-              } else {
-                numDone += 1;
-              }
-            }
-          });
-        }
-      });
-      console.log(numDone, numTodo)
-      setDone(numDone);
-      setToDo(numTodo);
-    }
-  }, [gameGroup, gameHistory])
 
   const brixelsAchievementDetail = () => {
     handleSetModal({

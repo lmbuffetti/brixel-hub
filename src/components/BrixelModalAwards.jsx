@@ -1,13 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelProgressBar } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelProgressBar } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import BrixelModalFullScreen from './BrixelModalFullScreen';
 import brixels from '../images/BrxielComingTown/brixels.svg';
-import { setLanguage, setModal } from '../actions/CommonActions';
-import { getGameHistory } from '../actions/GamificationActions';
+import { setModal } from '../actions/CommonActions';
 import get from 'lodash/get';
 import { sortObject } from '../utils/helpers';
 import { connect } from 'react-redux';

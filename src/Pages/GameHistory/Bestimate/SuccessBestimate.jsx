@@ -9,7 +9,6 @@ import {
   withRouter,
 } from 'react-router-dom';
 import { getGamegroup } from '../../../actions/GamificationActions';
-import doneBestimate from '../../../images/Bestimate/doneBestimate.svg';
 import newBestimate from '../../../images/Bestimate/newBestimate.svg';
 import startBestimate from '../../../images/Bestimate/startBestimate.svg';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
