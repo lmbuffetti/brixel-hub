@@ -22,9 +22,21 @@ const FactsRewards = (props) => {
   return (
     <div className="pt-3">
       <div className="brdRadius max-w-fix-232 m-a">
-      { totalComplete <= 9 && ( <img className="mb-2 w-fix-184 dis-f m-a" src={addFacts} alt="Add Facts" />)}
-      { totalComplete > 9 && totalComplete < 70 &&( <img className="mb-2 w-fix-184 dis-f m-a" src={addMoreFacts} alt="Add More Facts" />)}
-      { totalComplete >= 70 && ( <img className="mb-2 w-fix-184 dis-f m-a" src={factsWellDone} alt="Facts Well Done" />)}
+        {
+          totalComplete <= 9 && (
+            <img className="mb-2 w-fix-184 dis-f m-a" src={addFacts} alt="Add Facts" />
+          )
+        }
+        {
+          totalComplete > 9 && totalComplete < 70 && (
+            <img className="mb-2 w-fix-184 dis-f m-a" src={addMoreFacts} alt="Add More Facts" />
+          )
+        }
+        {
+          totalComplete >= 70 && (
+            <img className="mb-2 w-fix-184 dis-f m-a" src={factsWellDone} alt="Facts Well Done" />
+          )
+        }
         <BrixelProgressBar
           rounded
           saturation={700}
@@ -32,7 +44,7 @@ const FactsRewards = (props) => {
           backgroundSaturation={100}
           progressValue={totalComplete}
           classBackground="ov-h brdRadius"
-          goalValue={totalComplete > 9 ? 70 : null}
+          goalValue={totalComplete > 9 && totalComplete <= 70 ? 70 : null}
           showGoalValue={totalComplete > 9}
           large={window.innerWidth >= 768}
           small={window.innerWidth < 768}

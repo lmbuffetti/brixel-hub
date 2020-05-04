@@ -16,7 +16,6 @@ import { addGameHistory } from '../../../actions/GamificationActions';
 const PortalsRewards = (props) => {
   const {
     gameHistory,
-    handleAddGameHistory,
     history,
     match,
     portalsPublished,
