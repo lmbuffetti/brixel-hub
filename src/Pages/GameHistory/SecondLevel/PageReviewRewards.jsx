@@ -13,6 +13,7 @@ import { addGameHistory } from '../../../actions/GamificationActions';
 
 const PageReviewRewards = (props) => {
   const {
+    activeSingleProperty,
     gameHistory,
     handleAddGameHistory,
     history,
@@ -30,8 +31,8 @@ const PageReviewRewards = (props) => {
   }, [gameHistory]);
 
   const openPreview = (done = false) => {
-    if (!done) handleAddGameHistory({stub: gameStub});
-    window.open(`${baseByData.pageUrl}preview/${propID}?hubUrl=${window.location.href}`, '');
+    handleAddGameHistory({stub: gameStub});
+    window.location.href = `${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${window.location.href}`;
   };
 
   return (
@@ -56,20 +57,20 @@ const PageReviewRewards = (props) => {
           </>
         ) : (
           <>
-          <div className="dis-fl-col jc-c a-c">
-            <img width="440" className="cur-poi" src={pagePreviewCheckImg} alt="Page Preview" onClick={() => openPreview(true)} />
-            <h5 className="ta-c mt-3 mb-2">Have a look!</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">This is your personal property page. Don’t worry this is not public. This is for you eyes only.</p>
-          </div>
-          <div>
-            <BrixelButtonPrimary
-              label="Open preview"
-              rounded
-              rightIcon="arrow-right"
-              className="min-w-fix-216 m-a"
-              onClick={() => openPreview(true)}
-            />
-          </div>
+            <div className="dis-fl-col jc-c a-c">
+              <img width="440" className="cur-poi" src={pagePreviewCheckImg} alt="Page Preview" onClick={() => openPreview(true)} />
+              <h5 className="ta-c mt-3 mb-2">Have a look!</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">This is your personal property page. Don’t worry this is not public. This is for you eyes only.</p>
+            </div>
+            <div>
+              <BrixelButtonPrimary
+                label="Open preview"
+                rounded
+                rightIcon="arrow-right"
+                className="min-w-fix-216 m-a"
+                onClick={() => openPreview(true)}
+              />
+            </div>
           </>
         )
       }
@@ -78,6 +79,7 @@ const PageReviewRewards = (props) => {
 };
 
 PageReviewRewards.propTypes = {
+  activeSingleProperty: Proptypes.object.isRequired,
   handleAddGameHistory: Proptypes.func.isRequired,
   history: Proptypes.object.isRequired,
   match: Proptypes.object.isRequired,
@@ -89,6 +91,7 @@ PageReviewRewards.defaultProps = {
 }
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   gameHistory: get(state, 'gamification.gameHistory.data', []),
 });
 

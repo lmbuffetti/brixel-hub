@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelIcon, BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelButtonIcon, BrixelButtonBox } from '@brixel/brixel-components';
 import { addGameHistory } from '../../actions/GamificationActions';
 import Loading from '../../components/Loading';
 import { GameGroupConfig } from '../../constants/global';
@@ -24,6 +24,7 @@ import PageReviewRewards from '../GameHistory/SecondLevel/PageReviewRewards';
 import PagePublishedRewards from '../GameHistory/SecondLevel/PagePublishedRewards';
 import PortalsRewards from '../GameHistory/SecondLevel/PortalsRewards';
 import { setModal } from '../../actions/CommonActions';
+import Support from '../../components/Support';
 
 const RewardsDashboard = (props) => {
   // PROPS
@@ -153,6 +154,9 @@ const RewardsDashboard = (props) => {
       })
       setActiveGameGroup(rewardType);
       setActiveAchievement(selectEl);
+      if (rewardType === 'call-expert') {
+        setActiveAchievement({ title: 'Call the expert' });
+      }
     } else {
       setActiveGameGroup(null);
       setActiveAchievement(null);
@@ -178,6 +182,7 @@ const RewardsDashboard = (props) => {
         {activeGameGroup === 'page-preview' && (<PageReviewRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
         {activeGameGroup === 'page-published' && (<PagePublishedRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
         {activeGameGroup === 'portals' && (<PortalsRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'call-expert' && (<Support layout="rewards" expanded={true} isFixed={false} hideClose={true} />)}
       </>
     )
   }
@@ -235,22 +240,43 @@ const RewardsDashboard = (props) => {
                           <div key={i.toString()} className="pos-r">
                             {
                               group.achievements && group.achievements.map((item, f) => (
-                                <div key={f.toString()} className="pos-r">
-                                  <BrixelButtonAchievement
-                                    level={group.stub.replace(/^\D+/g, '')}
-                                    done={item.done}
-                                    active={item.stub === activeGameGroup}
-                                    icon={item.icon}
-                                    title={item.description}
-                                    subtitle={item.name}
-                                    isFree={item.isFree}
-                                    onClick={() => onClickAchievement(item.stub, item)}
-                                    lineAfter={group.achievements.length - 1 > f}
-                                    award={item.achievementType === 'award'}
-                                    disabled={isDisabledFlow(item.stub)}
-                                    config={GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`]}
-                                  />
-                                </div>
+                                <>
+                                  <div key={f.toString()} className="pos-r">
+                                    <BrixelButtonAchievement
+                                      level={group.stub.replace(/^\D+/g, '')}
+                                      done={item.done}
+                                      active={item.stub === activeGameGroup}
+                                      icon={item.icon}
+                                      title={item.description}
+                                      subtitle={item.name}
+                                      isFree={item.isFree}
+                                      onClick={() => onClickAchievement(item.stub, item)}
+                                      lineAfter={group.achievements.length - 1 > f}
+                                      award={item.achievementType === 'award'}
+                                      disabled={isDisabledFlow(item.stub)}
+                                      config={GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`]}
+                                    />
+                                  </div>
+                                  {
+                                    f === group.achievements.length - 1 && group.stub.replace(/^\D+/g, '') === '1' && (
+                                      <div className="pos-r">
+                                        <hr />
+                                        <BrixelButtonBox
+                                          bgTransparent
+                                          className={`mt-2 mb-4 w-perc-100 shadow-1dp brdMedium p-2 ${rewardType === 'call-expert' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+                                          backIcon="Primary100"
+                                          done={false}
+                                          icon="call"
+                                          label="Call the expert"
+                                          labelClass="fweight-400"
+                                          subtitle="15min personal support for free"
+                                          isFree="15min personal support for free"
+                                          onClick={() => onClickAchievement('call-expert', { title: 'Call the expert' })}
+                                        />
+                                      </div>
+                                    )
+                                  }
+                                </>
                               ))
                             }
                           </div>

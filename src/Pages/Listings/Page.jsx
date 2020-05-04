@@ -47,8 +47,8 @@ const Page = (props) => {
       url = `${baseByData.pageUrl}${formValue.stub}`;
       window.open(url, '_blank');
     } else {
-      url = `${baseByData.pageUrl}preview/${formValue.stub}?hubUrl=${window.lcoation.href}`;
-      window.open(url, '');
+      url = `${baseByData.pageUrl}preview/${formValue.stub}?hubUrl=${window.location.href}`;
+      window.location.href = url;
     }
 
   }
