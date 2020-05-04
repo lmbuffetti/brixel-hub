@@ -37,12 +37,12 @@ const PageReviewRewards = (props) => {
   return (
     <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-md-2`}>
       {
-        !isDone ? (
+        isDone ? (
           <>
             <div className="dis-fl-col jc-c a-c">
-              <img className="cur-poi" src={pagePreviewDoneImg} alt="Page Preview" onClick={() => openPreview(false)} />
+              <img width="440" className="cur-poi" src={pagePreviewDoneImg} alt="Page Preview" onClick={() => openPreview(false)} />
               <h5 className="ta-c mt-3 mb-2">Want a second look?</h5>
-              <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">You can edit and preview as often as you want. We are ready when you are.</p>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">You can edit and preview as often as you want. We are ready when you are.</p>
             </div>
             <div>
               <BrixelButtonPrimary
@@ -57,9 +57,9 @@ const PageReviewRewards = (props) => {
         ) : (
           <>
           <div className="dis-fl-col jc-c a-c">
-            <img className="cur-poi" src={pagePreviewCheckImg} alt="Page Preview" onClick={() => openPreview(true)} />
+            <img width="440" className="cur-poi" src={pagePreviewCheckImg} alt="Page Preview" onClick={() => openPreview(true)} />
             <h5 className="ta-c mt-3 mb-2">Have a look!</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">This is your personal property page. Don’t worry this is not public. This is for you eyes only.</p>
+            <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">This is your personal property page. Don’t worry this is not public. This is for you eyes only.</p>
           </div>
           <div>
             <BrixelButtonPrimary

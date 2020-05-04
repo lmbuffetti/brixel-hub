@@ -57,7 +57,7 @@ function SuccessHomebase(props) {
             </div>
           </div>
         </div>
-        <p className="mt-3 txtDark200 m-a ta-c">Great. Your property was created. Now you have the base to use Brixel.</p>
+        <p className="mt-3 max-w-fix-376 txtDark200 fsize-300 m-a ta-c">Great. Your property was created. Now you have the base to use Brixel.</p>
       </div>
       <div className="dis-fl-col">
         <BrixelButtonPrimary

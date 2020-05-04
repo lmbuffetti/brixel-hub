@@ -36,7 +36,7 @@ const MediaRewards = (props) => {
                 <img className="h-fix-148" src={uploadMedia} alt="Done Market Check" />
               </div>
               <h5 className="ta-c mt-3 mb-2">Time to upload some media.</h5>
-              <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Learn how to manage your photos, floorplans and much more.</p>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">Learn how to manage your photos, floorplans and much more.</p>
             </div>
             <div>
               <BrixelButtonPrimary
@@ -111,7 +111,7 @@ const MediaRewards = (props) => {
                 />
               </div>
               <h5 className="ta-c mt-3 mb-2">Let’s upload some media.</h5>
-              <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Upload at least one photo, plan and document to achieve this reward.</p>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">Upload at least one photo, plan and document to achieve this reward.</p>
             </div>
           </div>
           <div>
