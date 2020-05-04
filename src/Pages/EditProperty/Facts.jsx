@@ -195,18 +195,18 @@ const Facts = (props) => {
                         bgTransparent
                         color="green"
                         saturationTxt={400}
-                        className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity0'} mx-1 dis-b`}
+                        className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity0'} mx-1 dis-b fsize-400`}
                       />
                       <h4 className={`body ml-1 fweight-400 ${checkSectionDone(quest) ? 'txtGreen400 td-lt' : 'txtDark200'}`}>
                         {quest.title}
                       </h4>
                     </div>
                     <BrixelIcon
+                      className="fsize-400 mr-1 onHover"
                       icon="arrow-simple-right"
-                      color={`${selectedQuest && selectedQuest.history === quest.history ? 'dark' : 'light'}`}
-                      saturationTxt={selectedQuest && selectedQuest.history === quest.history ? 70 : 200}
+                      color="light"
+                      saturationTxt={400}
                       bgTransparent
-                      className={'mr-1'}
                     />
                   </div>
 

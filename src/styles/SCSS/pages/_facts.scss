@@ -18,14 +18,13 @@
       position: relative;
       z-index: 1;
       background: map_get($blueColor, 100);
-      border-color: map_get($blueColor, 100);
     }
   }
   &:hover {
     .accordControl {
       background: map_get($blueColor, 100);
-      i {
-        color: map_get($lightColor, 300);;
+      .onHover {
+        color: map_get($darkColor, 400);;
       }
     }
   }

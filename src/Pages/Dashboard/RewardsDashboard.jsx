@@ -267,9 +267,10 @@ const RewardsDashboard = (props) => {
                                           backIcon="Primary100"
                                           done={false}
                                           icon="call"
+                                          paddingIconClass="p-small-9 mr-1"
                                           label="Call the expert"
                                           labelClass="fweight-400"
-                                          subtitleClass="pt-small-4 txtDark200"
+                                          subtitleClass="txtDark200"
                                           subtitle="15 min personal support for free"
                                           isFree="15 min personal support for free"
                                           onClick={() => onClickAchievement('call-expert', { title: 'Call the expert' })}

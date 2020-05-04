@@ -81,7 +81,7 @@ const BrixelButtonAchievement = (props) => {
                 bgTransparent
                 color="light"
                 saturationTxt={400}
-                className="fsize-400 mr-1"
+                className="fsize-400 mr-1 onHover"
                 icon={disabled ? '' : "arrow-simple-right"}
               />
             </>
