@@ -260,7 +260,7 @@ const RewardsDashboard = (props) => {
                                   {
                                     f === group.achievements.length - 1 && group.stub.replace(/^\D+/g, '') === '1' && (
                                       <div className="pos-r">
-                                        <hr />
+                                        <hr className="lighter" />
                                         <BrixelButtonBox
                                           bgTransparent
                                           className={`mt-2 mb-4 w-perc-100 shadow-1dp brdMedium p-2 ${rewardType === 'call-expert' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
@@ -269,8 +269,9 @@ const RewardsDashboard = (props) => {
                                           icon="call"
                                           label="Call the expert"
                                           labelClass="fweight-400"
-                                          subtitle="15min personal support for free"
-                                          isFree="15min personal support for free"
+                                          subtitleClass="pt-small-4 txtDark200"
+                                          subtitle="15 min personal support for free"
+                                          isFree="15 min personal support for free"
                                           onClick={() => onClickAchievement('call-expert', { title: 'Call the expert' })}
                                         />
                                       </div>
