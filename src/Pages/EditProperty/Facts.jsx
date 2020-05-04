@@ -197,7 +197,7 @@ const Facts = (props) => {
                         saturationTxt={400}
                         className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity0'} mx-1 dis-b fsize-400`}
                       />
-                      <h4 className={`body ml-1 fweight-400 ${checkSectionDone(quest) ? 'txtGreen400 td-lt' : 'txtDark200'}`}>
+                      <h4 className={`body ml-1 fweight-400 ${checkSectionDone(quest) ? 'txtDark200 td-lt' : 'txtDark200'}`}>
                         {quest.title}
                       </h4>
                     </div>
