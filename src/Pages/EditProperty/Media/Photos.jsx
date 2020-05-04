@@ -280,11 +280,11 @@ const Photos = (props) => {
                   (!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (
                     <div className="dis-fl-col">
                       <img className="h-fix-120" src={upload_photos_empty} alt="Empty State" />
-                      <h5 className="mt-3 mb-2">Upload your fist photo</h5>
+                      <h5 className="mt-3 mb-2">Upload your first photo</h5>
                     </div>
                   )
                 }
-                <span className="body2 txtDark200 max-width-220">Choose .pdf .jpeg .png with max. 10 MB size</span>
+                <span className="body2 txtDark200 max-width-220">Choose .jpeg .png with max. 10 MB size</span>
                 <BrixelButtonPrimary
                   label="upload"
                   rightIcon="upload"

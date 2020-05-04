@@ -339,7 +339,7 @@ const Documents = (props) => {
                 (!documents || (documents && documents.length === 0)) && (
                   <div>
                     <img className="h-fix-120" src={upload_documents_empty} alt="Empty Documents" />
-                    <h5 className="mt-3 mb-2">Upload your fist document</h5>
+                    <h5 className="mt-3 mb-2">Upload your first document</h5>
                   </div>
                 )
               }
