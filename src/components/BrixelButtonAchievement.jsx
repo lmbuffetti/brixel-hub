@@ -68,6 +68,7 @@ const BrixelButtonAchievement = (props) => {
                 <BrixelStatus
                   className="pos-a-fix x-r-0 y-b-0"
                   color={'red'}
+                  saturation={400}
                 />
               </div>
               <div className="ta-l w-perc-100 pl-2">

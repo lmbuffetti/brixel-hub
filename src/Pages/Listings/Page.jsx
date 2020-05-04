@@ -24,7 +24,6 @@ const Page = (props) => {
   const {
     formValue,
     handleUpdatePublishedReview,
-    handleAddGameHistory,
     history,
     isSmallLoading,
     match,
@@ -39,7 +38,7 @@ const Page = (props) => {
       status: status,
     };
     handleUpdatePublishedReview(data);
-    if (status === 'online') handleAddGameHistory({stub: 'page-published'});
+    //if (status === 'online') handleAddGameHistory({stub: 'page-published'});
   };
 
   const onClickPreview = () => {

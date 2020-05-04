@@ -40,7 +40,6 @@ const MenuSidebar = (props) => {
   useEffect(() => {
     const activeLeads = get(activeSingleProperty, 'pageLeads[0]', null)
     if (activeLeads) {
-      console.log(activeLeads);
       handleGetActiveSingleCompany({id: activeLeads.company});
     }
   }, []);
@@ -53,11 +52,13 @@ const MenuSidebar = (props) => {
       usrGroups.forEach((groups) => {
         if (groups.stub.includes(userTypes)) {
           groups.achievements.forEach((group) => {
-            const selElTodo = gameHistory.data.find(game => game.achievement.stub === group.stub && game.page === propID);
-            if (typeof selElTodo === 'undefined') {
-              numTodo += 1;
-            } else {
-              // numDone += 1;
+            if (gameHistory.data) {
+              const selElTodo = gameHistory.data.find(game => game.achievement.stub === group.stub && game.page === propID);
+              if (typeof selElTodo === 'undefined') {
+                numTodo += 1;
+              } else {
+                // numDone += 1;
+              }
             }
           });
         }

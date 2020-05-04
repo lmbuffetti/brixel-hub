@@ -92,6 +92,35 @@ const RewardsDashboard = (props) => {
         filtUsrGroup.map((group, f) => {
           const idGroup = group.achievements.findIndex(val => val.stub === game.achievement.stub && property.id === game.page);
           if (idGroup >= 0) filtUsrGroup[f].achievements[idGroup].done = true;
+          else if (filtUsrGroup[f].achievements) {
+            // CHECK PORTALS
+            const idGroupPortals = group.achievements.findIndex(val => val.stub === 'portals');
+            if (idGroupPortals > 0) {
+              if (!filtUsrGroup[f].achievements[idGroupPortals].done) {
+                let isOnline = false;
+                const portals = get(formValue, 'portals', {});
+                Object.keys(portals).map((key) => {
+                  if (portals[key]) isOnline = true;
+                  return null;
+                });
+                if (isOnline) {
+                  handleAddGameHistory({ stub: 'portals' });
+                  filtUsrGroup[f].achievements[idGroupPortals].done = true;
+                }
+              }
+            }
+            // CHECK PAGE
+            const idGroupPage = group.achievements.findIndex(val => val.stub === 'page-published');
+            if (idGroupPage > 0) {
+              if (!filtUsrGroup[f].achievements[idGroupPage].done) {
+                const pageIsOnline = get(formValue, 'published', false);
+                if (pageIsOnline) {
+                  handleAddGameHistory({ stub: 'page-published' });
+                  filtUsrGroup[f].achievements[idGroupPage].done = true;
+                }
+              }
+            }
+          }
           return null;
         });
         return null;
