@@ -154,7 +154,7 @@ const Facts = (props) => {
   return (
     <div className="factsWrapper dis-f h-perc-md-100">
       <div className="secondLevel dis-fl-col w-perc-100 h-perc-md-100">
-        <div className="dis-fl-col max-h-perc-100">
+        <div className="dis-fl-col">
           <div className="pb-3">
             <div className="dis-f jc-b a-c">
               <BrixelButtonIcon
