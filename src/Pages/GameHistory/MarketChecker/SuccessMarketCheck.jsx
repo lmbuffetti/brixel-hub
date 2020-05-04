@@ -101,7 +101,7 @@ function SuccessMarketCheck(props) {
                 Compare your local market.
               </h5>
               <p className="body2 txtDark200 m-a ta-c">
-                Stop browsing all the portals. I show you all similar properties on sale. Instantly.
+                Stop browsing all the portals. You can see all similar properties on sale. Instantly.
               </p>
             </div>
             <div className="w-perc-100">

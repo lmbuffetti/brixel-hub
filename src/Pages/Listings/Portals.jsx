@@ -25,7 +25,6 @@ const Portals = (props) => {
   const {
     formValue,
     handleUpdatePortalsReview,
-    handleAddGameHistory,
     history,
     isSmallLoading,
     match,
@@ -50,7 +49,7 @@ const Portals = (props) => {
       status: status,
     };
     handleUpdatePortalsReview(data);
-    if (status === 'online') handleAddGameHistory({stub: 'portals'});
+    //if (status === 'online') handleAddGameHistory({stub: 'portals'});
   };
 
   return (

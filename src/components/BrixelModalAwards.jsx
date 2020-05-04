@@ -41,7 +41,6 @@ const BrixelModalAwards = (props) => {
       usrGroups.forEach((groups) => {
         if (groups.stub.includes(userTypes)) {
           groups.achievements.forEach((group) => {
-            console.log(group)
             const selElTodo = gameHistory.data.find(game => game.achievement.stub === group.stub && game.page === propID);
             if (group.achievementType === 'award') {
               if (typeof selElTodo === 'undefined') {
@@ -53,7 +52,6 @@ const BrixelModalAwards = (props) => {
           });
         }
       });
-      console.log(numDone, numTodo)
       setDone(numDone);
       setToDo(numTodo);
     }

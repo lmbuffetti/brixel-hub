@@ -5,14 +5,15 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
-import pagePreviewCheckImg from '../../../images/secondLevel/pagePreviewCheck.png';
-import pagePreviewDoneImg from '../../../images/secondLevel/pagePreviewDone.png';
+import { BrixelButtonPrimary, BrixelIcon } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { addGameHistory } from '../../../actions/GamificationActions';
+import CoverPropertyImage from '../../../components/CoverPropertyImage';
 
 const PageReviewRewards = (props) => {
   const {
+    activeSingleProperty,
+    formValue,
     gameHistory,
     handleAddGameHistory,
     history,
@@ -30,8 +31,8 @@ const PageReviewRewards = (props) => {
   }, [gameHistory]);
 
   const openPreview = (done = false) => {
-    if (!done) handleAddGameHistory({stub: gameStub});
-    window.open(`${baseByData.pageUrl}preview/${propID}?hubUrl=${window.location.href}`, '');
+    handleAddGameHistory({stub: gameStub});
+    window.location.href = `${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${window.location.href}`;
   };
 
   return (
@@ -40,7 +41,47 @@ const PageReviewRewards = (props) => {
         isDone ? (
           <>
             <div className="dis-fl-col jc-c a-c">
-              <img width="440" className="cur-poi" src={pagePreviewDoneImg} alt="Page Preview" onClick={() => openPreview(false)} />
+              <div
+                className="websitePage brdRadius ov-h shadow-3dp pos-r cur-poi w-perc-100"
+                onClick={() => openPreview()}
+              >
+                <div className="dis-f bgLight100 p-1">
+                  <div className="square brdCircle w-fix-8 bgRed400 mr-1" />
+                  <div className="square brdCircle w-fix-8 bgYellow400 mr-1" />
+                  <div className="square brdCircle w-fix-8 bgGreen400" />
+                </div>
+                <div className="image-ratio">
+                  <CoverPropertyImage
+                    className="cover"
+                    coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
+                    propertyType={get(formValue, 'properties.propertyType', undefined)}
+                  />
+                </div>
+                <div className="cardPageInfo">
+                  <div className="w-fix-80 bgPrimary400 opacity5 h-fix-8 mb-1" />
+                  <h6>{formValue.title}</h6>
+                  <div className="dis-f jc-b a-c mt-2">
+                    <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
+                    <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
+                  </div>
+                  <div className="dis-f jc-b a-c mt-3">
+                    <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
+                    <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
+                    <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
+                  </div>
+                  <div className="dis-f jc-b a-c pb-3">
+                    <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.bedrooms', 0)}</h6>
+                    <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.livingArea.value', 0)}</h6>
+                    <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.building.built', 0)}</h6>
+                  </div>
+                  <div className="contactPageCard">
+                    <div className="contactUser">
+                      <BrixelIcon icon="account" />
+                    </div>
+                    <div className="button" />
+                  </div>
+                </div>
+              </div>
               <h5 className="ta-c mt-3 mb-2">Want a second look?</h5>
               <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">You can edit and preview as often as you want. We are ready when you are.</p>
             </div>
@@ -56,20 +97,60 @@ const PageReviewRewards = (props) => {
           </>
         ) : (
           <>
-          <div className="dis-fl-col jc-c a-c">
-            <img width="440" className="cur-poi" src={pagePreviewCheckImg} alt="Page Preview" onClick={() => openPreview(true)} />
-            <h5 className="ta-c mt-3 mb-2">Have a look!</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">This is your personal property page. Don’t worry this is not public. This is for you eyes only.</p>
-          </div>
-          <div>
-            <BrixelButtonPrimary
-              label="Open preview"
-              rounded
-              rightIcon="arrow-right"
-              className="min-w-fix-216 m-a"
-              onClick={() => openPreview(true)}
-            />
-          </div>
+            <div className="dis-fl-col jc-c a-c">
+              <div
+                className="websitePage brdRadius ov-h shadow-3dp pos-r cur-poi"
+                onClick={() => openPreview()}
+              >
+                <div className="dis-f bgLight100 p-1">
+                  <div className="square brdCircle w-fix-8 bgRed400 mr-1" />
+                  <div className="square brdCircle w-fix-8 bgYellow400 mr-1" />
+                  <div className="square brdCircle w-fix-8 bgGreen400" />
+                </div>
+                <div className="image-ratio">
+                  <CoverPropertyImage
+                    className="cover"
+                    coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
+                    propertyType={get(formValue, 'properties.propertyType', undefined)}
+                  />
+                </div>
+                <div className="cardPageInfo">
+                  <div className="w-fix-80 bgPrimary400 opacity5 h-fix-8 mb-1" />
+                  <h6>{formValue.title}</h6>
+                  <div className="dis-f jc-b a-c mt-2">
+                    <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
+                    <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
+                  </div>
+                  <div className="dis-f jc-b a-c mt-3">
+                    <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
+                    <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
+                    <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
+                  </div>
+                  <div className="dis-f jc-b a-c pb-3">
+                    <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.bedrooms', 0)}</h6>
+                    <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.livingArea.value', 0)}</h6>
+                    <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.building.built', 0)}</h6>
+                  </div>
+                  <div className="contactPageCard">
+                    <div className="contactUser">
+                      <BrixelIcon icon="account" />
+                    </div>
+                    <div className="button" />
+                  </div>
+                </div>
+              </div>
+              <h5 className="ta-c mt-3 mb-2">Have a look!</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">This is your personal property page. Don’t worry this is not public. This is for you eyes only.</p>
+            </div>
+            <div>
+              <BrixelButtonPrimary
+                label="Open preview"
+                rounded
+                rightIcon="arrow-right"
+                className="min-w-fix-216 m-a"
+                onClick={() => openPreview(true)}
+              />
+            </div>
           </>
         )
       }
@@ -78,6 +159,8 @@ const PageReviewRewards = (props) => {
 };
 
 PageReviewRewards.propTypes = {
+  activeSingleProperty: Proptypes.object.isRequired,
+  formValue: Proptypes.object.isRequired,
   handleAddGameHistory: Proptypes.func.isRequired,
   history: Proptypes.object.isRequired,
   match: Proptypes.object.isRequired,
@@ -89,6 +172,8 @@ PageReviewRewards.defaultProps = {
 }
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  formValue: get(state, 'form.Property.values', {}),
   gameHistory: get(state, 'gamification.gameHistory.data', []),
 });
 

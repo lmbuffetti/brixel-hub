@@ -24,7 +24,6 @@ const Page = (props) => {
   const {
     formValue,
     handleUpdatePublishedReview,
-    handleAddGameHistory,
     history,
     isSmallLoading,
     match,
@@ -39,7 +38,7 @@ const Page = (props) => {
       status: status,
     };
     handleUpdatePublishedReview(data);
-    if (status === 'online') handleAddGameHistory({stub: 'page-published'});
+    //if (status === 'online') handleAddGameHistory({stub: 'page-published'});
   };
 
   const onClickPreview = () => {
@@ -48,8 +47,8 @@ const Page = (props) => {
       url = `${baseByData.pageUrl}${formValue.stub}`;
       window.open(url, '_blank');
     } else {
-      url = `${baseByData.pageUrl}preview/${formValue.stub}?hubUrl=${window.lcoation.href}`;
-      window.open(url, '');
+      url = `${baseByData.pageUrl}preview/${formValue.stub}?hubUrl=${window.location.href}`;
+      window.location.href = url;
     }
 
   }
