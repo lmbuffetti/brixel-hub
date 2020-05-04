@@ -270,9 +270,9 @@ function PageHeaderDashboard(props) {
                           className="txtLight100 fweight-700 fSizePx28 mb-4 ta-l"
                           onClick={() => onClickMobileMenu('propertyList')}
                         >
-                          Properties
+                          All properties
                         </button>
-                        <button
+                        {/* <button
                           className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
                           onClick={() => ''}
                         >
@@ -283,7 +283,7 @@ function PageHeaderDashboard(props) {
                           onClick={() => ''}
                         >
                           Calendar
-                        </button>
+                        </button> */}
                         <div className="mini-menu dis-fl-col txtLight100">
                           <hr className="mb-4"/>
                           <a

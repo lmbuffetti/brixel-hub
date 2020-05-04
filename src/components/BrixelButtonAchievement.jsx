@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrixelIcon } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelStatus } from '@brixel/brixel-components';
 
 const BrixelButtonAchievement = (props) => {
   const {
@@ -55,15 +55,21 @@ const BrixelButtonAchievement = (props) => {
             </>
           ) : (
             <>
-              <BrixelIcon
-                rounded
-                background={config.bgIconColor}
-                saturation={100}
-                color={config.iconColor}
-                saturationTxt={400}
-                icon={icon}
-                className="shadow-3dp"
-              />
+              <div className="pos-r">
+                <BrixelIcon
+                  rounded
+                  background={config.bgIconColor}
+                  saturation={100}
+                  color={config.iconColor}
+                  saturationTxt={400}
+                  icon={icon}
+                  className="shadow-3dp"
+                />
+                <BrixelStatus
+                  className="pos-a-fix x-r-0 y-b-0"
+                  color={'red'}
+                />
+              </div>
               <div className="ta-l w-perc-100 pl-2">
                 <span className={isFree ? "txtGreen400" : "txtRed400"}>{isFree ? 'Free' : `Unlock ${subtitle}`}</span>
                 <p className="body txtDark700">{title}</p>
