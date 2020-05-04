@@ -166,6 +166,8 @@ const Photos = (props) => {
               (fixPhotos && fixPhotos.length > 0) && (
                 <>
                   <ReactSortable
+                    scroll={true}
+                    bubbleScroll={true}
                     tag="ul"
                     className="image-list row-cols-2-gut-1 row-cols-md-3-gut-1"
                     list={cloneDeep(fixPhotos).concat(newImages)}

@@ -11,6 +11,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
 import moment from 'moment';
+import 'moment/locale/de-ch';
+import 'moment/locale/pt';
+import 'moment/locale/nl';
+import 'moment/locale/se';
+import 'moment/locale/da';
+import 'moment/locale/de';
+import 'moment/locale/de-at';
+import 'moment/locale/en-gb';
 // COMPONENTS
 import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
@@ -18,6 +26,7 @@ import { setLanguages } from './actions/CommonActions';
 import { BrixelIcon, BrixelNotification } from '@brixel/brixel-components';
 import { setModal, setWindowDimensions } from './actions/CommonActions';
 import { setUserTypes } from './actions/UserActions';
+import BrixelModalAwards from './components/BrixelModalAwards';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
@@ -159,7 +168,7 @@ const App = (props) => {
     if (property && property.id && loggedInUser.user && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
       handleSetUserTypes('seller');
     } else if (property && property.id) {
-      handleSetUserTypes('buyer');
+      handleSetUserTypes('seller');
     }
   }, [property]);
 
@@ -296,6 +305,7 @@ const App = (props) => {
                 { /* SECTION: ONBOARDING */ }
                 <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
                 <Route path="/onBoarding/" component={OnBoarding} />
+                <Route path="/onBoarding/success" component={OnBoarding} />
 
                 { /* SECTION: INSERT TOKEN */ }
                 <Route path="/tokeninput" component={InsertToken} />
@@ -331,6 +341,11 @@ const App = (props) => {
       }
 
       { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
+      {
+        modal.showAwardsInfo && (
+          <BrixelModalAwards />
+        )
+      }
       {
         modal.state && (
           <BrixelModalFullScreen

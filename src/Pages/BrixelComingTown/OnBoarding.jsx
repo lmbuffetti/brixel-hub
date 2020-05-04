@@ -126,7 +126,7 @@ function OnBoarding(props) {
   }, [company]);
 
   const changePageTitle = () => {
-    if (formValue && formValue.location && !formValue.pageTitle) {
+    if (formValue && formValue.location && formValue.propertyType) {
       var titleAdjectives = [
         'Beautiful',
         'Charming',
@@ -165,10 +165,10 @@ function OnBoarding(props) {
   // LOAD QUESTIONS ON CHANGING LANGUAGE
   useEffect(() => {
     setQuestions(QuestionsList(lang));
-    if (formValue && formValue.location) {
+    if (formValue && formValue.location && formValue.propertyType) {
       changePageTitle();
     }
-  }, [lang]);
+  }, [formValue.location, formValue.propertyType]);
 
   // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
   useEffect(() => {
@@ -204,13 +204,6 @@ function OnBoarding(props) {
       setShowError(false);
     }
   }, [pageState]);
-
-  // Function to Create the pageTitle
-  useEffect(() => {
-    if (formValue && formValue.location) {
-      changePageTitle();
-    }
-  }, [formValue.location, formValue.propertyType, formValue.bedrooms]);
 
   // Function to save the data
   const saveData = (e) => {

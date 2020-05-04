@@ -144,7 +144,9 @@ const Facts = (props) => {
       if (act === 'click') {
         onSelectQuest(Questions[findCurrentId + 1]);
         const scrollElement = document.getElementById('bodyScroll');
+        const scrollElementMobile = document.getElementById('factsQuestion');
         scrollElement.scrollTo({top: 0, behavior: 'smooth'});
+        scrollElementMobile.scrollTo({top: 0, behavior: 'smooth'});
       }
     }
   };
@@ -216,7 +218,7 @@ const Facts = (props) => {
       </div>
       {
         selectedQuest && getFact() !== 'facts' && (
-          <div className="thirdLevel inputSheet dis-fl-col w-perc-100 ml-md-2">
+          <div className="thirdLevel inputSheet dis-fl-col w-perc-100 ml-md-2" id="factsQuestion">
             <div className="p-3">
               <div className="">
                 <FactsQuestion quest={selectedQuest} />

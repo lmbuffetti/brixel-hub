@@ -23,6 +23,7 @@ import MediaExplanation from '../GameHistory/SecondLevel/MediaRewards';
 import PageReviewRewards from '../GameHistory/SecondLevel/PageReviewRewards';
 import PagePublishedRewards from '../GameHistory/SecondLevel/PagePublishedRewards';
 import PortalsRewards from '../GameHistory/SecondLevel/PortalsRewards';
+import { setModal } from '../../actions/CommonActions';
 
 const RewardsDashboard = (props) => {
   // PROPS
@@ -32,6 +33,7 @@ const RewardsDashboard = (props) => {
     gameGroup,
     gameHistory,
     handleAddGameHistory,
+    handleSetModal,
     history,
     loggedInUser,
     match,
@@ -254,24 +256,24 @@ const RewardsDashboard = (props) => {
                             {activeAchievement.title || activeAchievement.description}
                           </p>
                         </div>
-                        <div className="cur-poi ml-2">
-                          {
-                            activeAchievement.points && (
-                              <>
-                                {
-                                  activeAchievement.achievementType === 'award' && (
-                                    <BrixelIcon
-                                      icon="cup-awards"
-                                      color="green"
-                                      className="mr-1"
-                                    />
-                                  )
-                                }
-                                <span className="ff-mono txtDark700">{activeAchievement.points}</span>
-                              </>
-                            )
-                          }
-                        </div>
+                        {
+                          activeAchievement.points && (
+                            <div className="cur-poi ml-2"  onClick={() => handleSetModal({
+                              showAwardsInfo: true,
+                            })}>
+                              {
+                                activeAchievement.achievementType === 'award' && (
+                                  <BrixelIcon
+                                    icon="cup-awards"
+                                    color="green"
+                                    className="mr-1"
+                                  />
+                                )
+                              }
+                              <span className="ff-mono txtDark700">{activeAchievement.points}</span>
+                            </div>
+                          )
+                        }
                       </div>
                     )
                   }
@@ -318,6 +320,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
 });
 
 export default compose(

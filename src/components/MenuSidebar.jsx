@@ -48,14 +48,14 @@ const MenuSidebar = (props) => {
   useEffect(() => {
     if (gameGroup && gameHistory) {
       let numDone = 0;
-      // let numTodo = 0;
+      let numTodo = 0;
       const usrGroups = gameGroup.sort(sortObject('stub', 'asc'))
       usrGroups.forEach((groups) => {
         if (groups.stub.includes(userTypes)) {
           groups.achievements.forEach((group) => {
             const selElTodo = gameHistory.data.find(game => game.achievement.stub === group.stub && game.page === propID);
             if (typeof selElTodo === 'undefined') {
-              // numTodo += 1;
+              numTodo += 1;
             } else {
               numDone += 1;
             }
@@ -63,7 +63,7 @@ const MenuSidebar = (props) => {
         }
       });
       const nav = cloneDeep(firstRoutes);
-      nav[0].title = `<span>Rewards</span><span class="numRecords">${numDone}</span>`;
+      nav[0].title = `<span>Rewards</span><span class="numRecords">${numTodo}</span>`;
       setRouteNav([...nav]);
     }
   }, [gameGroup, gameHistory])
@@ -120,7 +120,7 @@ const MenuSidebar = (props) => {
             <hr className="my-2 mx-1 lighter" />
             <div className={`brixelNavMenu ${windowDimensions.width <= 768 ? 'shadow-3dp' : ''}`}>
               <BrixelTabs
-                classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0"
+                classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
                 classNameUl="zIndex4"
                 labels={routeNav.concat(secondRoutes).map((item)  => item["title"])}
                 labelsIcons={firstRoutes.concat(secondRoutes).map((item)  => item["icon"])}

@@ -16,7 +16,7 @@
     "eslint-plugin-react": "^7.19.0",
     "google-maps-react": "^2.0.6",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "2.24.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.12.1",
     "react": "^16.13.1",

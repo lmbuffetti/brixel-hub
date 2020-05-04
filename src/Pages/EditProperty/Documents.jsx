@@ -171,6 +171,8 @@ const Documents = (props) => {
               <>
                 <div className="documents-container dis-fl-col w-perc-100">
                   <ReactSortable
+                    scroll={true}
+                    bubbleScroll={true}
                     list={cloneDeep(documents)}
                     setList={(order, evt) => {
                       changeOrder(order);

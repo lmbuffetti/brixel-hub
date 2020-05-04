@@ -159,7 +159,7 @@ function GetStarted(props) {
   }, [company]);
 
   useEffect(() => {
-    if (formValue && formValue.location) {
+    if (formValue && formValue.location && formValue.propertyType) {
       changePageTitle();
     }
   }, [formValue.location, formValue.propertyType]);

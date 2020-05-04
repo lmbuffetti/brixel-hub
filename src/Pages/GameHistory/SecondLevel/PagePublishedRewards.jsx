@@ -41,7 +41,7 @@ const PagePublishedRewards = (props) => {
       {
         status === 'online' && (
           <>
-            <img src={pagePublishedDoneImg} alt="Page Preview"/>
+            <img src={pagePublishedDoneImg} alt="Page Preview" onClick={() => openPreview()} />
             <h5 className="ta-c mt-3 mb-2">We are live!</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Your property website is visible to the public and officially part of the world wide web. Yeah!</p>
             <BrixelButtonPrimary
@@ -57,7 +57,7 @@ const PagePublishedRewards = (props) => {
       {
         status === 'offline' && (
           <>
-            <img src={pagePublishedCheckImg} alt="Page Preview"/>
+            <img src={pagePublishedCheckImg} alt="Page Preview" onClick={() => openPreview()} />
             <h5 className="ta-c mt-3 mb-2">Put this website live!</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Unlock your Brixel Page and make it visible to the public.</p>
             <BrixelButtonPrimary
@@ -73,7 +73,7 @@ const PagePublishedRewards = (props) => {
       {
         status === 'review' && (
           <>
-            <img src={pagePublishedReviewImg} alt="Page Preview"/>
+            <img src={pagePublishedReviewImg} alt="Page Preview" onClick={() => openPreview()} />
             <h5 className="ta-c mt-3 mb-2">Review in the making…</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">To assure great quality your page is being reviewed for free.</p>
             <BrixelButtonPrimary
