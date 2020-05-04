@@ -126,7 +126,7 @@ function PageHeaderDashboard(props) {
 
   // add shadow header on body scroll
   useEffect(() => {
-    const dashContentEl = document.getElementsByClassName('dashboardContainer')[0];
+    const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
     const dashWrapperEl = document.getElementsByClassName('hubDashboard')[0];
     if (dashContentEl) {
       dashContentEl.addEventListener('scroll', () => {

@@ -131,7 +131,7 @@ const App = (props) => {
   const [extraHeight, setExtraHeight] = useState(0);
 
   const dashContentRef = useRef(null);
-  const dashContentEl = dashContentRef.current ? dashContentRef.current.getElementsByClassName('container')[0] : null;
+  const dashContentEl = dashContentRef.current;
 
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) {

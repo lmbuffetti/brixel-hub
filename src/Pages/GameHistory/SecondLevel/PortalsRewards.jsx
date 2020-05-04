@@ -10,7 +10,7 @@ import portalsPublishedCheckImg from '../../../images/secondLevel/portalsPublish
 import portalReview from '../../../images/Listings/portals_review.svg';
 import portalPublished from '../../../images/Listings/portals_published.svg';
 
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+//import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { addGameHistory } from '../../../actions/GamificationActions';
 
 const PortalsRewards = (props) => {
@@ -37,8 +37,9 @@ const PortalsRewards = (props) => {
   }, [gameHistory, portalsReview, portalsPublished]);
 
   const openPreview = (done = false) => {
-    if (!done) handleAddGameHistory({stub: gameStub});
-    window.open(`${baseByData.pageUrl}preview/${propID}`, '_blank');
+    //if (!done) handleAddGameHistory({stub: gameStub});
+    history.push(`/${propID}/listings/portals`);
+    //window.open(`${baseByData.pageUrl}preview/${propID}`, '_blank');
   };
 
   return (
@@ -47,13 +48,13 @@ const PortalsRewards = (props) => {
         status === 'online' && (
           <>
           <div className="dis-fl-col jc-c a-c">
-            <img src={portalPublished} alt="Page Preview"/>
-            <h5 className="ta-c mt-3 mb-2">We are live!</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Your property website is visible to the public and officially part of the world wide web. Yeah!</p>
+            <img className="h-fix-120" src={portalPublished} alt="Page Preview"/>
+            <h5 className="ta-c mt-3 mb-2">First big step done.</h5>
+            <p className="max-w-fix-368 m-a ta-c txtDark200 fsize-300 mb-3">Your property is on the market and ready to be discovered by it’s future buyer.</p>
           </div>
           <div>
             <BrixelButtonPrimary
-              label="Open preview"
+              label="Manage Portals"
               rounded
               rightIcon="arrow-right"
               className="min-w-fix-216 m-a"
@@ -67,13 +68,13 @@ const PortalsRewards = (props) => {
         status === 'offline' && (
           <>
           <div className="dis-fl-col jc-c a-c">
-            <img src={portalsPublishedCheckImg} alt="Page Preview"/>
-            <h5 className="ta-c mt-3 mb-2">Publish this website now!</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Unlock your Brixel Page and make it visible to the public.</p>
+            <img className="h-fix-120" src={portalsPublishedCheckImg} alt="Page Preview"/>
+            <h5 className="ta-c mt-3 mb-2">Put your property on the market.</h5>
+            <p className="max-w-fix-368 m-a ta-c txtDark200 fsize-300 mb-3">Your are just 3 clicks away. Let your property fly.</p>
           </div>
           <div>
             <BrixelButtonPrimary
-              label="Open preview"
+              label="Manage Portals"
               rounded
               rightIcon="arrow-right"
               className="min-w-fix-216 m-a"
@@ -87,13 +88,13 @@ const PortalsRewards = (props) => {
         status === 'review' && (
           <>
           <div className="dis-fl-col jc-c a-c">
-            <img className="cur-poi" onClick={() => openPreview(false)} src={portalReview} alt="Page Preview"/>
-            <h5 className="ta-c mt-3 mb-2">Review in the making…</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">To assure great quality your page is being reviewed for free.</p>
+            <img className="h-fix-120" onClick={() => openPreview(false)} src={portalReview} alt="Page Preview"/>
+            <h5 className="ta-c mt-3 mb-2">On it’s way.</h5>
+            <p className="max-w-fix-368 m-a ta-c txtDark200 fsize-300 mb-3">You property was send to the portals and will be published soon. </p>
           </div>
           <div>
             <BrixelButtonPrimary
-              label="Open preview"
+              label="Manage Portals"
               rounded
               rightIcon="arrow-right"
               className="min-w-fix-216 m-a"

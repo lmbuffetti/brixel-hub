@@ -85,11 +85,11 @@ function SuccessBestimate(props) {
                   {
                     getDoneFirstTime().includes('-done') ? (
                       <>
-                        <h5 className="ta-c">Well done. You are now an Assessor.</h5>
+                        <h5 className="ta-c max-w-fix-368">Well done. You are now an Assessor.</h5>
                         <div className="ta-c m-a mb-3">
-                          <img className="h-fix-148" src={newBestimate} alt="Nes Assessor" />
+                          <img className="h-fix-120" src={newBestimate} alt="Nes Assessor" />
                         </div>
-                        <p className="ta-c mb-2">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
+                        <p className="max-w-fix-368 ta-c mb-2">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
                       <>
@@ -115,7 +115,7 @@ function SuccessBestimate(props) {
                               </h5>
                             </div>
                           </div>
-                          <p className="body2 txtDark200 m-a ta-c">
+                          <p className="body2 max-w-fix-368 txtDark200 m-a ta-c">
                             Based on similar transaction.
                           </p>
                         </div>
@@ -140,12 +140,12 @@ function SuccessBestimate(props) {
           <>
             <div className="dis-fl-col jc-c a-c">
               <div className="ta-c m-a mb-3">
-                <img className="h-fix-148" src={startBestimate} alt="Done Assessor" />
+                <img className="h-fix-120" src={startBestimate} alt="Done Assessor" />
               </div>
               <h5 className="mb-2 m-a ta-c">
                 Get a free price indication.
               </h5>
-              <p className="body2 txtDark200 m-a ta-c">
+              <p className="body2 max-w-fix-368 txtDark200 m-a ta-c">
                 Compare your property to real transaction data to better define the pricing.
               </p>
             </div>
