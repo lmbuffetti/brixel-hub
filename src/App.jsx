@@ -303,6 +303,7 @@ const App = (props) => {
                 { /* SECTION: ONBOARDING */ }
                 <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
                 <Route path="/onBoarding/" component={OnBoarding} />
+                <Route path="/onBoarding/propertyType" component={OnBoarding} />
                 <Route path="/onBoarding/success" component={OnBoarding} />
 
                 { /* SECTION: INSERT TOKEN */ }
