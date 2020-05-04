@@ -42,9 +42,9 @@ const PagePublishedRewards = (props) => {
         status === 'online' && (
           <>
           <div className="dis-fl-col jc-c a-c">
-            <img src={pagePublishedDoneImg} alt="Page Preview" onClick={() => openPreview()} />
+            <img className="h-fix-120" src={pagePublishedDoneImg} alt="Page Preview" onClick={() => openPreview()} />
             <h5 className="ta-c mt-3 mb-2">We are live!</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">Your property website is visible to the public and officially part of the world wide web. Yeah!</p>
+            <p className="max-w-fix-368 m-a ta-c txtDark200 fsize-300 mb-3">Your property website is visible to the public and officially part of the world wide web. Yeah!</p>
           </div>
           <div>
             <BrixelButtonPrimary
@@ -62,9 +62,9 @@ const PagePublishedRewards = (props) => {
         status === 'offline' && (
           <>
           <div className="dis-fl-col jc-c a-c">
-            <img src={pagePublishedCheckImg} alt="Page Preview" onClick={() => openPreview()} />
+            <img className="h-fix-120" src={pagePublishedCheckImg} alt="Page Preview" onClick={() => openPreview()} />
             <h5 className="ta-c mt-3 mb-2">Put this website live!</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">Unlock your Brixel Page and make it visible to the public.</p>
+            <p className="max-w-fix-368 m-a ta-c txtDark200 fsize-300 mb-3">Unlock your Brixel Page and make it visible to the public.</p>
           </div>
           <div>
             <BrixelButtonPrimary
@@ -82,9 +82,9 @@ const PagePublishedRewards = (props) => {
         status === 'review' && (
           <>
           <div className="dis-fl-col jc-c a-c">
-            <img src={pagePublishedReviewImg} alt="Page Preview" onClick={() => openPreview()} />
+            <img className="h-fix-120" src={pagePublishedReviewImg} alt="Page Preview" onClick={() => openPreview()} />
             <h5 className="ta-c mt-3 mb-2">Review in the making…</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">To assure great quality your page is being reviewed for free.</p>
+            <p className="max-w-fix-368 m-a ta-c txtDark200 fsize-300 mb-3">To assure great quality your page is being reviewed for free.</p>
           </div>
           <div>
             <BrixelButtonPrimary

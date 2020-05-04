@@ -33,7 +33,7 @@ const MediaRewards = (props) => {
           <>
             <div className="dis-fl-col a-c">
               <div className="ta-c mb-3">
-                <img className="h-fix-148" src={uploadMedia} alt="Done Market Check" />
+                <img className="h-fix-120" src={uploadMedia} alt="Done Market Check" />
               </div>
               <h5 className="ta-c mt-3 mb-2">Time to upload some media.</h5>
               <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">Learn how to manage your photos, floorplans and much more.</p>
