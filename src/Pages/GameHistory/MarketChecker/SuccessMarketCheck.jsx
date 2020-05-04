@@ -45,7 +45,7 @@ function SuccessMarketCheck(props) {
   }, [gameGroup, getParams]);
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-2`}>
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-md-2`}>
       {
         get(groupdAchievement, 'done', false) || getDoneFirstTime() === 'done' ? (
           <>
@@ -104,14 +104,16 @@ function SuccessMarketCheck(props) {
                 Stop browsing all the portals. I show you all similar properties on sale. Instantly.
               </p>
             </div>
-            <BrixelButtonPrimary
-              rounded
-              label="Check market now"
-              background={"primary"}
-              className="pl-3 m-a mt-3"
-              onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-              rightIcon="arrow-right"
-            />
+            <div className="w-perc-100">
+              <BrixelButtonPrimary
+                rounded
+                label="Check market now"
+                background={"primary"}
+                className="pl-3 m-a mt-3"
+                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                rightIcon="arrow-right"
+              />
+            </div>
           </>
         )
       }

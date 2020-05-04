@@ -37,13 +37,16 @@ const PagePublishedRewards = (props) => {
   };
 
   return (
-    <div className="ta-c">
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-md-2`}>
       {
         status === 'online' && (
           <>
+          <div className="dis-fl-col jc-c a-c">
             <img src={pagePublishedDoneImg} alt="Page Preview" onClick={() => openPreview()} />
             <h5 className="ta-c mt-3 mb-2">We are live!</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Your property website is visible to the public and officially part of the world wide web. Yeah!</p>
+          </div>
+          <div>
             <BrixelButtonPrimary
               label="Manage Page"
               rounded
@@ -51,15 +54,19 @@ const PagePublishedRewards = (props) => {
               className="min-w-fix-216 m-a"
               onClick={() => openPreview(false)}
             />
+          </div>
           </>
         )
       }
       {
         status === 'offline' && (
           <>
+          <div className="dis-fl-col jc-c a-c">
             <img src={pagePublishedCheckImg} alt="Page Preview" onClick={() => openPreview()} />
             <h5 className="ta-c mt-3 mb-2">Put this website live!</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">Unlock your Brixel Page and make it visible to the public.</p>
+          </div>
+          <div>
             <BrixelButtonPrimary
               label="Manage Page"
               rounded
@@ -67,15 +74,19 @@ const PagePublishedRewards = (props) => {
               className="min-w-fix-216 m-a"
               onClick={() => openPreview(false)}
             />
+          </div>
           </>
         )
       }
       {
         status === 'review' && (
           <>
+          <div className="dis-fl-col jc-c a-c">
             <img src={pagePublishedReviewImg} alt="Page Preview" onClick={() => openPreview()} />
             <h5 className="ta-c mt-3 mb-2">Review in the making…</h5>
             <p className="max-w-fix-376 m-a ta-c txtDark200 mb-3">To assure great quality your page is being reviewed for free.</p>
+          </div>
+          <div>
             <BrixelButtonPrimary
               label="Manage Page"
               rounded
@@ -83,10 +94,11 @@ const PagePublishedRewards = (props) => {
               className="min-w-fix-216 m-a"
               onClick={() => openPreview(false)}
             />
+          </div>
           </>
         )
       }
-    </div>
+    </main>
   )
 };
 

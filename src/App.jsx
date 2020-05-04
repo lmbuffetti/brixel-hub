@@ -191,7 +191,7 @@ const App = (props) => {
     if (dashContentEl) {
       dashContentEl.addEventListener('scroll', () => {
         if (dashContentEl.scrollTop > 0) {
-          setExtraHeight(64)
+          setExtraHeight(74)
         } else {
           setExtraHeight(0)
         }
@@ -200,7 +200,6 @@ const App = (props) => {
   });
 
   useEffect(() => {
-
     if (
       history.location.pathname.includes('packageFlow') ||
       history.location.pathname.includes('onBoarding') ||
@@ -229,7 +228,6 @@ const App = (props) => {
         dashContentEl.classList.remove('secondLevelActive')
       }
     }
-
   }, [history.location.pathname, setExtraHeight]);
 
   const calcHeaderHeight = () => {
@@ -237,10 +235,10 @@ const App = (props) => {
     return head[0] ? head[0].offsetHeight : 0;
   };
 
-  const calcMobNavHeight = () => {
+  /* const calcMobNavHeight = () => {
     const mobNav = document.getElementsByClassName('brixelNavMenu');
     return mobNav[0] ? mobNav[0].offsetHeight : 0;
-  };
+  }; */
 
   const calcFlowHeaderHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');
@@ -256,7 +254,7 @@ const App = (props) => {
   const headerCalc = () => {
     return (
       !isFlow ? windowDimensions.width <= 768 ?
-      {height: (windowDimensions.height + extraHeight) - (calcHeaderHeight() + calcMobNavHeight())} :
+      {height: (windowDimensions.height + extraHeight) - 174} :
       {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
       {height: windowDimensions.height - calcFlowHeaderHeight()}
     )

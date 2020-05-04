@@ -75,7 +75,7 @@ function SuccessBestimate(props) {
   const bestimateValue = get(bestimate, 'higherValue', 0);
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-2`}>
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-md-2`}>
       {
         groupdAchievement.done || getDoneFirstTime() === 'done' ? (
           <>
@@ -119,14 +119,16 @@ function SuccessBestimate(props) {
                             Based on similar transaction.
                           </p>
                         </div>
-                        <BrixelButtonPrimary
-                          rounded
-                          label="See full Bestimate®"
-                          background={"primary"}
-                          className="pl-3 m-a mt-3"
-                          onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                          rightIcon="arrow-right"
-                        />
+                        <div className="w-perc-100">
+                          <BrixelButtonPrimary
+                            rounded
+                            label="See full Bestimate®"
+                            background={"primary"}
+                            className="pl-3 m-a mt-3"
+                            onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                            rightIcon="arrow-right"
+                          />
+                        </div>
                       </>
                     )
                   }
@@ -147,14 +149,16 @@ function SuccessBestimate(props) {
                 Compare your property to real transaction data to better define the pricing.
               </p>
             </div>
-            <BrixelButtonPrimary
-              rounded
-              label="Get free Bestimate®"
-              background={"primary"}
-              className="pl-3 m-a mt-3"
-              onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-              rightIcon="arrow-right"
-            />
+            <div className="w-perc-100">
+              <BrixelButtonPrimary
+                rounded
+                label="Get free Bestimate®"
+                background={"primary"}
+                className="pl-3 m-a mt-3"
+                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                rightIcon="arrow-right"
+              />
+            </div>
           </>
         )
       }
