@@ -216,7 +216,7 @@ const RewardsDashboard = (props) => {
       <div className={`dis-f a-t jc-c pos-r-md`}>
         {
           usrGroups && (
-            <div className="firstLevel mr-md-2">
+            <div className="firstLevel mr-md-2 pr-md-8">
               {
                 usrGroups.map((group, i) => (
                   <div className={`level-${group.stub.replace(/^\D+/g, '')}`} key={i.toString()}>

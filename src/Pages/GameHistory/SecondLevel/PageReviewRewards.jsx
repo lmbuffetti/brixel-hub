@@ -99,7 +99,7 @@ const PageReviewRewards = (props) => {
           <>
             <div className="dis-fl-col jc-c a-c">
               <div
-                className="websitePage brdRadius ov-h shadow-3dp pos-r cur-poi"
+                className="websitePage brdRadius ov-h shadow-3dp pos-r cur-poi w-perc-100"
                 onClick={() => openPreview()}
               >
                 <div className="dis-f bgLight100 p-1">
