@@ -216,7 +216,7 @@ const RewardsDashboard = (props) => {
       <div className={`dis-f a-t jc-c pos-r-md`}>
         {
           usrGroups && (
-            <div className="firstLevel mr-md-2">
+            <div className="firstLevel mr-md-2 pr-md-8">
               {
                 usrGroups.map((group, i) => (
                   <div className={`level-${group.stub.replace(/^\D+/g, '')}`} key={i.toString()}>
@@ -226,12 +226,12 @@ const RewardsDashboard = (props) => {
                           {
                             i === 0 ? (
                               <div className="dis-f jc-b a-c mb-3 mt-0 mt-md-2">
-                                <span className="dis-b txtDark700 fweight-500">
+                                <span className="dis-b txtGreen700 fweight-500">
                                   {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
                                 </span>
                               </div>
                             ) : (
-                              <span className="mb-3 dis-b txtDark700 fweight-500">
+                              <span className="mb-3 dis-b txtRed700 fweight-500">
                                 {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
                               </span>
                             )
@@ -260,17 +260,19 @@ const RewardsDashboard = (props) => {
                                   {
                                     f === group.achievements.length - 1 && group.stub.replace(/^\D+/g, '') === '1' && (
                                       <div className="pos-r">
-                                        <hr />
+                                        <hr className="lighter" />
                                         <BrixelButtonBox
                                           bgTransparent
                                           className={`mt-2 mb-4 w-perc-100 shadow-1dp brdMedium p-2 ${rewardType === 'call-expert' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                                           backIcon="Primary100"
                                           done={false}
                                           icon="call"
+                                          paddingIconClass="p-small-9 mr-1"
                                           label="Call the expert"
                                           labelClass="fweight-400"
-                                          subtitle="15min personal support for free"
-                                          isFree="15min personal support for free"
+                                          subtitleClass="txtDark200"
+                                          subtitle="15 min personal support for free"
+                                          isFree="15 min personal support for free"
                                           onClick={() => onClickAchievement('call-expert', { title: 'Call the expert' })}
                                         />
                                       </div>

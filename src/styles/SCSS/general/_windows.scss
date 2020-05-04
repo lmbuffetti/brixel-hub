@@ -41,21 +41,6 @@
       }
     }
   }
-  &.secondLevelActive {
-    .hubDasHeader,
-    .brixelNavMenu {
-      @media (max-width: $responsive-medium) {
-        display: none;
-        opacity: 0;
-      }
-    }
-    .hubDasContent {
-      @media (max-width: $responsive-medium) {
-        top: 64px;
-        position: relative;
-      }
-    }
-  }
 
   @media (min-width: $responsive-medium) {
     .levelsWrapper {

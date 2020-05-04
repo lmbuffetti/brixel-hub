@@ -89,7 +89,7 @@ const PortalsRewards = (props) => {
             <div className="dis-fl-col jc-c a-c">
               <img className="h-fix-120" onClick={() => openPreview(false)} src={portalReview} alt="Page Preview"/>
               <h5 className="ta-c mt-3 mb-2">On it’s way.</h5>
-              <p className="max-w-fix-368 m-a ta-c txtDark200 fsize-300 mb-3">You property was send to the portals and will be published soon. </p>
+              <p className="max-w-fix-368 m-a ta-c txtDark200 fsize-300 mb-3">Your property was sent to the portals and will be published soon. </p>
             </div>
             <div>
               <BrixelButtonPrimary

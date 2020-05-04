@@ -39,9 +39,10 @@ const BrixelButtonAchievement = (props) => {
                 className="p-small-9"
               />
               <div className="ta-l w-perc-100 pl-2">
-                <p className="body txtGreen400 td-lt">{title}</p>
+                <p className="body txtDark200 td-lt">{title}</p>
               </div>
-              {
+              {/* according to the new desgin from Michael no award icon for done item */}
+              {/* {
                 award && (
                   <BrixelIcon
                     rounded
@@ -51,7 +52,7 @@ const BrixelButtonAchievement = (props) => {
                     icon="cup-awards"
                   />
                 )
-              }
+              } */}
             </>
           ) : (
             <>
@@ -59,9 +60,9 @@ const BrixelButtonAchievement = (props) => {
                 <BrixelIcon
                   rounded
                   background={config.bgIconColor}
-                  saturation={100}
+                  saturation={200}
                   color={config.iconColor}
-                  saturationTxt={400}
+                  saturationTxt={700}
                   icon={icon}
                   className="shadow-3dp"
                 />
@@ -78,9 +79,9 @@ const BrixelButtonAchievement = (props) => {
               <BrixelIcon
                 rounded
                 bgTransparent
-                color="dark"
-                saturationTxt={700}
-                className="p-small-9"
+                color="light"
+                saturationTxt={400}
+                className="fsize-400 mr-1 onHover"
                 icon={disabled ? '' : "arrow-simple-right"}
               />
             </>

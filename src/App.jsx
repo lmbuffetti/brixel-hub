@@ -126,11 +126,16 @@ const App = (props) => {
   // STATE
   const [isLoaded, setIsLoaded] = useState(false);
   const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
+
+  const [secLevelClass, setSecLevelClass] = useState(0);
+
   const [zIndex, setZIndex] = useState(1);
   const [isFlow, setIsFlow] = useState(false);
   const [extraHeight, setExtraHeight] = useState(0);
 
   const dashContentRef = useRef(null);
+  //const dashWrapperRef = useRef(null);
+  //const dashWrapperEl = dashWrapperRef.current;
   const dashContentEl = dashContentRef.current;
 
   useEffect(() => {
@@ -213,22 +218,27 @@ const App = (props) => {
       setIsFlow(false);
       setZIndex(1);
     }
-
+    //if (dashWrapperEl) console.log(dashWrapperEl.classList)
      // add class to container when secondlevel visible on mobile
      if (
       (history.location.pathname.includes('property/') ||
       history.location.pathname.includes('listings/')) &&
       windowDimensions.width <= 768
     ) {
-      if (dashContentEl) {
-        dashContentEl.classList.add('secondLevelActive');
-      }
+      setSecLevelClass(0);
     } else {
-      if (dashContentEl) {
-        dashContentEl.classList.remove('secondLevelActive')
-      }
+      setSecLevelClass(1);
     }
-  }, [history.location.pathname, setExtraHeight]);
+
+  }, [history.location.pathname, setExtraHeight, setSecLevelClass]);
+
+  const headerCalc = () => {
+    return (
+      !isFlow ?
+      windowDimensions.width <= 768 ? {height: (windowDimensions.height + extraHeight) - 174} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
+      {height: windowDimensions.height - calcFlowHeaderHeight()}
+    )
+  }
 
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
@@ -251,21 +261,15 @@ const App = (props) => {
     )
   }
 
-  const headerCalc = () => {
-    return (
-      !isFlow ? windowDimensions.width <= 768 ?
-      {height: (windowDimensions.height + extraHeight) - 174} :
-      {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
-      {height: windowDimensions.height - calcFlowHeaderHeight()}
-    )
-  }
-
   return (
-    <main className={`${!isFlow ? 'hubDashboard' : 'flowWrapper'} dis-fl-row jc-b`}>
+    <main
+      className={`${!isFlow ? 'hubDashboard' : 'flowWrapper'} dis-fl-row jc-b`}
+      //ref={dashWrapperRef}
+    >
 
       <Loading isLoading={isLoading} />
 
-      <div className={classMain}>
+      <div className={`${classMain} ${secLevelClass}`}>
         <div className="dis-f">
           {
             !history.location.pathname.includes('packageFlow') &&
@@ -277,7 +281,7 @@ const App = (props) => {
           }
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
-            style={!isFlow ? { height: windowDimensions.height } : null}
+            style={!isFlow ? secLevelClass === 0 ? {height: '100%'} : { height: windowDimensions.height } : null}
           >
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
@@ -295,8 +299,8 @@ const App = (props) => {
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
-              style={headerCalc()}
+              className={`${secLevelClass} ${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
+              style={ secLevelClass === 0 ? {height: '100%'} : headerCalc()}
               ref={dashContentRef}
             >
               <Switch>

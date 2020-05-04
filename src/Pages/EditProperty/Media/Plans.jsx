@@ -137,7 +137,7 @@ const Photos = (props) => {
   return (
     <div className="plansWrapper dis-f">
       <div className="secondLevel dis-fl-col">
-        <div className={`dis-fl-col ${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
+        <div className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
           <div className="dis-f jc-b a-c mb-3">
             <BrixelButtonIcon
               className="shadow-3dp hide-md"
