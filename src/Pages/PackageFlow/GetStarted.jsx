@@ -83,10 +83,19 @@ function GetStarted(props) {
   const [showCountrySel, setShowCountrySel] = useState(false);
 
   const countryObj = (curVal) => {
-    const getCurrent = country.find((val) => val.full === curVal.toLowerCase() || val.value === curVal.toLowerCase());
+    const getCurrent = country.find((val) => val.value === curVal.toLowerCase() || val.value === curVal.toLowerCase());
     changeFieldValue('location.countryCode', curVal);
+    changeFieldValue('location.countryName', getCurrent.label);
     setCurCountry(getCurrent);
   };
+
+  useEffect(() => {
+    const curVal = get(formValue, 'location.countryCode', '')
+    if (curVal) {
+      const getCurrent = country.find((val) => val.value === curVal.toLowerCase() || val.value === curVal.toLowerCase());
+      changeFieldValue('location.countryName', getCurrent.label);
+    }
+  }, [get(formValue, 'location.countryCode', null)])
 
   const changePageTitle = () => {
     if (formValue && formValue.location && formValue.propertyType) {
@@ -509,10 +518,7 @@ function GetStarted(props) {
                                             <BrixelButtonTertiary
                                               className="mt-1"
                                               label={
-                                                curCountry ?
-                                                  translateTo(lang, curCountry.label) :
-                                                  `🌍 ${translateTo(lang, 'Everywhere')}`
-                                              }
+                                                translateTo(lang, get(formValue, 'location.countryName', `🌍 ${translateTo(lang, 'Everywhere')}`))}
                                               onClick={() => setShowCountrySel(true)}
                                             />
                                           )
