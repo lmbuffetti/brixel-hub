@@ -41,6 +41,7 @@ const BrixelButtonAchievement = (props) => {
               <div className="ta-l w-perc-100 pl-2">
                 <p className="body txtDark200 td-lt">{title}</p>
               </div>
+              {/* according to the new desgin from Michael no award icon for done item */}
               {/* {
                 award && (
                   <BrixelIcon
