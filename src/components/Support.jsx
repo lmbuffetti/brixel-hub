@@ -68,9 +68,9 @@ const Support = (props) => {
         </div>
         {
           layout === 'rewards' && (
-            <div className="ta-c">
+            <div className="ta-c max-w-fix-376">
               <h5 className="ta-c mt-3 mb-2">Let us give you some free advice.</h5>
-              <p className="ta-c">What is the right selling price? When is the right time to start? How long does it take?</p>
+              <p className="ta-c fsize-300">What is the right selling price? When is the right time to start? How long does it take?</p>
             </div>
           )
         }

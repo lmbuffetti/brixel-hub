@@ -289,7 +289,6 @@ function PageHeaderDashboard(props) {
                           <a
                             className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
                             href={baseByData(null,'io').profileURL}
-                            target="_blank"
                             rel="noopener noreferrer"
                           >
                             Profile
@@ -297,7 +296,6 @@ function PageHeaderDashboard(props) {
                           <a
                             className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
                             href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}
-                            target="_blank"
                             rel="noopener noreferrer"
                           >
                             Password
@@ -305,7 +303,6 @@ function PageHeaderDashboard(props) {
                           <a
                             className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
                             href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}
-                            target="_blank"
                             rel="noopener noreferrer"
                           >
                             Preferences
@@ -313,7 +310,6 @@ function PageHeaderDashboard(props) {
                           <a
                             className="link txtRed400 fweight-500 fsize-500 mb-3 ta-l"
                             href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}
-                            target="_blank"
                             rel="noopener noreferrer"
                           >
                             Logout

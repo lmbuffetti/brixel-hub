@@ -77,22 +77,24 @@ function SuccessAssessor(props) {
                             The values are calculated with the average lifespan of each element.
                           </p>
                         </div>
-                          <BrixelButtonPrimary
-                            rounded
-                            label="See full report"
-                            background={"primary"}
-                            className="m-a mb-2 pl-3 mt-3"
-                            onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                            rightIcon="arrow-right"
-                          />
-                          <BrixelButtonTertiary
-                            label="Redo condition check"
-                            className="m-a"
-                            onClick={() => history.push({
-                              pathname: `/${propID}/rewards/achievement/${getParams}`,
-                              state: { redo: true }
-                            }) }
-                          />
+                          <div>
+                            <BrixelButtonPrimary
+                              rounded
+                              label="See full report"
+                              background={"primary"}
+                              className="m-a mb-2 pl-3 mt-3"
+                              onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                              rightIcon="arrow-right"
+                            />
+                            <BrixelButtonTertiary
+                              label="Redo condition check"
+                              className="m-a"
+                              onClick={() => history.push({
+                                pathname: `/${propID}/rewards/achievement/${getParams}`,
+                                state: { redo: true }
+                              }) }
+                            />
+                          </div>
                       </>
                     )
                   }

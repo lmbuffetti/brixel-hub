@@ -134,8 +134,8 @@ const App = (props) => {
   const [extraHeight, setExtraHeight] = useState(0);
 
   const dashContentRef = useRef(null);
-  //const dashWrapperRef = useRef(null);
-  //const dashWrapperEl = dashWrapperRef.current;
+  const dashWrapperRef = useRef(null);
+  const dashWrapperEl = dashWrapperRef.current;
   const dashContentEl = dashContentRef.current;
 
   useEffect(() => {
@@ -228,8 +228,14 @@ const App = (props) => {
       windowDimensions.width <= 768
     ) {
       setSecLevelClass(0);
+      if (dashWrapperEl) {
+        dashWrapperEl.classList.add('secondLevelActive');
+      }
     } else {
       setSecLevelClass(1);
+      if (dashWrapperEl) {
+        dashWrapperEl.classList.remove('secondLevelActive')
+      }
     }
 
   }, [history.location.pathname, setExtraHeight, setSecLevelClass]);
@@ -266,7 +272,7 @@ const App = (props) => {
   return (
     <main
       className={`${!isFlow ? 'hubDashboard' : 'flowWrapper'} dis-fl-row jc-b`}
-      //ref={dashWrapperRef}
+      ref={dashWrapperRef}
     >
 
       <Loading isLoading={isLoading} />

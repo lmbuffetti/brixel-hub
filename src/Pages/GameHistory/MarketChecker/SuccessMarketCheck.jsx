@@ -76,14 +76,16 @@ function SuccessMarketCheck(props) {
                             <span>:&nbsp;{moment(marketData.market_check_date).format('MMMM DD YYYY / HH:mm')}</span>
                           </p>
                         </div>
-                        <BrixelButtonPrimary
-                          rounded
-                          label="Yes, update"
-                          background={"primary"}
-                          className="pl-3 m-a mt-2"
-                          onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                          rightIcon="arrow-right"
-                        />
+                        <div>
+                          <BrixelButtonPrimary
+                            rounded
+                            label="Yes, update"
+                            background={"primary"}
+                            className="pl-3 m-a mt-2"
+                            onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                            rightIcon="arrow-right"
+                          />
+                        </div>
                       </>
                     )
                   }
