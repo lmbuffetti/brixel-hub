@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  withRouter,
+  withRouter, Redirect
 } from 'react-router-dom';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
@@ -108,6 +108,7 @@ const Dashboard = (props) => {
   };
 
   useEffect(() => {
+    console.log('CHECAZZO', propID);
     if (propID && !get(activeSingleProperty, 'id', null)) {
       handleGetActiveSingleProperty({fullVersion: true, id: propID, multiLoader: true });
     } else if (!propID) {
