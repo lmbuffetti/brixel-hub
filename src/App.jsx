@@ -307,8 +307,6 @@ const App = (props) => {
                 { /* SECTION: ONBOARDING */ }
                 <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
                 <Route path="/onBoarding/" component={OnBoarding} />
-                <Route path="/onBoarding/propertyType" component={OnBoarding} />
-                <Route path="/onBoarding/success" component={OnBoarding} />
 
                 { /* SECTION: INSERT TOKEN */ }
                 <Route path="/tokeninput" component={InsertToken} />
@@ -317,14 +315,19 @@ const App = (props) => {
                 <Route path="/packageFlow/getstarted/" component={GetStarted} />
 
                 { /* SECTION: HUB DASHBOARD */ }
-                <ProtectedRoute path="/" exact component={Dashboard} />
-                { /* SECTION: ALL USER DASHBOARD */ }
-                <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
-                <ProtectedRoute path="/:propId?/property" component={Dashboard} />
-                <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
-                <ProtectedRoute path="/:propId?/support" component={Dashboard} />
-                <ProtectedRoute path="/:propId?/upgrade" component={Dashboard} />
-                <Redirect path="/:propId?/*" to="/:propId?/rewards" component={Dashboard} />
+                {
+                  !history.location.pathname.includes('packageFlow') &&
+                  !history.location.pathname.includes('onBoarding') && (
+                    <>
+                      <ProtectedRoute path="/" exact component={Dashboard}/>
+                      <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
+                      <ProtectedRoute path="/:propId?/property" component={Dashboard} />
+                      <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
+                      <ProtectedRoute path="/:propId?/support" component={Dashboard} />
+                      <ProtectedRoute path="/:propId?/upgrade" component={Dashboard} />
+                    </>
+                  )
+                }
               </Switch>
             </div>
           </div>

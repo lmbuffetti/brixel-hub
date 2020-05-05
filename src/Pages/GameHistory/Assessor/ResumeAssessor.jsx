@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
+import cloneDeep from 'lodash/cloneDeep';
 import isObject from 'lodash/isObject';
 import { compose } from 'redux';
 import {
@@ -21,6 +22,7 @@ function ResumeAssessor(props) {
   } = props;
   // STATE
   const [selBaseRenovation, setSelRenovation] = useState('construction');
+  const [AvgLifeSpan] = useState(cloneDeep(AssessorAvgLifespan));
 
   useEffect(() => {
     if (has(condition, 'renovation')) {
@@ -42,8 +44,8 @@ function ResumeAssessor(props) {
     if (factsOptions[name]) {
       getElement = factsOptions[name].find(val => val.value === value);
     }
-    let year = AssessorAvgLifespan[type][value];
-    if (typeof year === 'undefined') year = AssessorAvgLifespan[type];
+    let year = AvgLifeSpan[type][value];
+    if (typeof year === 'undefined') year = AvgLifeSpan[type];
     let label = '';
     if (getElement.label) {
       label = `<span>${getElement.label}</span><span>,</span>`;
@@ -142,7 +144,7 @@ function ResumeAssessor(props) {
               </div>
             </div>
             {
-              Object.keys(AssessorAvgLifespan).map((key, i) => (
+              Object.keys(AvgLifeSpan).map((key, i) => (
                 <React.Fragment key={i.toString()}>
                   {
                     condition[selBaseRenovation][key] && (
@@ -194,7 +196,7 @@ ResumeAssessor.defaultProps = {
 
 const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
-  condition: get(state, 'property.activeSingleProperty.assessor', {}),
+  condition: get(state, 'property.activeSingleProperty.assessor', {}) || {},
   formValue: get(state, 'form.Property.values', {}),
 });
 

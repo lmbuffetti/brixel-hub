@@ -77,14 +77,14 @@ const Photos = (props) => {
 
   // DROPZONE SETTINGS
   // const dropzoneRef = useRef(null);
-  const onDrop = useCallback((acceptedFiles) => {
+  const onDrop = useCallback(async (acceptedFiles) => {
     const reader = new FileReader();
     // const imgType = imageType.find((val) => val.name === 'Gallery');
     reader.onabort = () => console.log('file reading was aborted');
     reader.onerror = () => console.log('file reading has failed');
     const arrayDates = [];
     setBtnActive('uploading');
-    acceptedFiles.map(async (file, f) => {
+    await acceptedFiles.map(async (file, f) => {
       const read = new FileReader();
       read.readAsDataURL(file);
       read.onload = async () => {

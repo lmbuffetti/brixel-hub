@@ -35,7 +35,9 @@ const checkUser = (store) => (next) => (action) => {
       const hideLoad = get(action, 'payload.hideLoad', false);
       delete action.payload.hideLoad;
       store.dispatch({ type: SPINNER_ON });
-      const data = hideLoad ? undefined : action.payload;
+      let data = hideLoad ? undefined : action.payload;
+      console.log(data);
+      if (data) data = Object.keys(data).length > 0 ? data : undefined;
       api.user.validateToken(data)
         .then((response) => {
           if (response.data && response.data.statusCode && response.data.statusCode === 401 && window.location.hostname.includes('localhost')) {
