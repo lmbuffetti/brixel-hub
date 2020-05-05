@@ -105,7 +105,7 @@ function OnBoarding(props) {
   const countryObj = (curVal) => {
     const getCurrent = country.find((val) => val.value === curVal.toLowerCase() || val.value === curVal.toLowerCase());
     changeFieldValue('location.countryCode', curVal);
-    changeFieldValue('location.countryName', getCurrent.label);
+    changeFieldValue('location.countryName', get(getCurrent, 'label', ''));
     setCurCountry(getCurrent);
   };
 
@@ -113,7 +113,7 @@ function OnBoarding(props) {
     const curVal = get(formValue, 'location.countryCode', '')
     if (curVal) {
       const getCurrent = country.find((val) => val.value === curVal.toLowerCase() || val.value === curVal.toLowerCase());
-      changeFieldValue('location.countryName', getCurrent.label);
+      changeFieldValue('location.countryName', get(getCurrent, 'label', ''));
     }
   }, [get(formValue, 'location.countryCode', null)])
 

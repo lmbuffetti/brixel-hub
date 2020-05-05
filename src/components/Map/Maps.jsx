@@ -428,7 +428,7 @@ export const ComponentMap =(props) => {
                           tabIndex={i}
                           key={i.toString()}
                           onClick={() => geoCode(loc.description)}
-                          dangerouslySetInnerHTML={{ __html: highlight(loc.description) }}
+                          dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
                         />
                       ))
                     }

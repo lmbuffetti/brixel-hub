@@ -232,7 +232,7 @@ function UserFlow(props) {
   const checkRedirectLink = (url) => {
     let newUrl = url;
     if (!url.match(/^http?:\/\//i) || !url.match(/^https?:\/\//i)) {
-      newUrl = 'http://' + url;
+      newUrl = 'https://' + url;
     }
     return newUrl;
   };
@@ -264,7 +264,7 @@ function UserFlow(props) {
             className="slideMultiStepForm"
             style={
               {transform: `translate(-${position * 100}%, 0)`,
-              height: windowDimensions.height  - calcFlowContentHeight()}
+                height: windowDimensions.height  - calcFlowContentHeight()}
             }
           >
             {
@@ -459,91 +459,91 @@ function UserFlow(props) {
               <div
                 className={
                   `footerAction px-2 py-1 py-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' :
-                  `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`
+                    `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`
                 }
               >
-                    <div
-                      className={
-                        `dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') :
-                        (Questions[currentIndex].cardType === 'LastStep' ? 'jc-b' : 'jc-c')}`
-                      }
-                    >
-                      {
-                        Questions && Questions[currentIndex] !== 'undefined' &&
-                        Questions[currentIndex].inputs && (
-                          <BrixelButtonIcon
-                            className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
-                            icon="arrow-simple-left"
-                            onClick={() => changeStep('back')}
-                            background="white"
-                            saturation={0}
-                            color="primary"
-                            saturationTxt={400}
-                            noBorder
+                <div
+                  className={
+                    `dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') :
+                      (Questions[currentIndex].cardType === 'LastStep' ? 'jc-b' : 'jc-c')}`
+                  }
+                >
+                  {
+                    Questions && Questions[currentIndex] !== 'undefined' &&
+                    Questions[currentIndex].inputs && (
+                      <BrixelButtonIcon
+                        className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
+                        icon="arrow-simple-left"
+                        onClick={() => changeStep('back')}
+                        background="white"
+                        saturation={0}
+                        color="primary"
+                        saturationTxt={400}
+                        noBorder
+                      />
+                    )
+                  }
+                  {
+                    !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && !emptyValue && (
+                      <div className="txtGreen700 ta-r ml-a pr-1 textSuccess">
+                        {Questions[currentIndex].successMessage}
+                        <BrixelIcon icon="check" className="ml-1" />
+                      </div>
+                    )
+                  }
+                  {
+                    (
+                      Questions[currentIndex].inputs ||
+                      (
+                        Questions[currentIndex + 1] &&
+                        Questions[currentIndex + 1].inputs
+                      )) ? (
+                        <>
+                          <BrixelButtonPrimary
+                            rounded
+                            label={
+                              oneEmptyValue &&
+                              Questions[currentIndex].inputs ?
+                                translateTo(lang,"Skip") :
+                                translateTo(lang,"Continue")
+                            }
+                            background={Questions[currentIndex].inputs ? "green" : "primary"}
+                            className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
+                            onClick={() => changeStep()}
+                            rightIcon="arrow-right-small"
+                            disabled={disableNextBtn}
                           />
-                        )
-                      }
-                      {
-                        !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && !emptyValue && (
-                          <div className="txtGreen700 ta-r ml-a pr-1 textSuccess">
-                            {Questions[currentIndex].successMessage}
-                            <BrixelIcon icon="check" className="ml-1" />
-                          </div>
-                        )
-                      }
-                      {
-                        (
-                          Questions[currentIndex].inputs ||
-                          (
-                            Questions[currentIndex + 1] &&
-                            Questions[currentIndex + 1].inputs
-                          )) ? (
-                            <>
-                              <BrixelButtonPrimary
-                                rounded
-                                label={
-                                  oneEmptyValue &&
-                                  Questions[currentIndex].inputs ?
-                                    translateTo(lang,"Skip") :
-                                    translateTo(lang,"Continue")
-                                }
-                                background={Questions[currentIndex].inputs ? "green" : "primary"}
-                                className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                                onClick={() => changeStep()}
-                                rightIcon="arrow-right-small"
-                                disabled={disableNextBtn}
-                              />
-                            </>
-                          ) : (
-                            <>
-                              {
-                                Questions[currentIndex].cardType === 'LastStep' && (
-                                  <>
-                                    <BrixelButtonIcon
-                                      className="shadow-2dp backBtn"
-                                      icon="arrow-simple-left"
-                                      onClick={() => changeStep('back')}
-                                      background="white"
-                                      saturation={0}
-                                      color="primary"
-                                      saturationTxt={400}
-                                      noBorder
-                                    />
-                                    <BrixelButtonTertiary
-                                      rounded
-                                      label={translateTo(lang,"Back to our website")}
-                                      color="primary"
-                                      onClick={() => window.location.href = company.contactWebsite ? checkRedirectLink(company.contactWebsite) : 'https://brixel.ch'}
-                                      rightIcon="arrow-right-small"
-                                      disabled={disableNextBtn}
-                                    />
-                                  </>
-                                )
-                              }
-                            </>
-                          )
-                      }
-                    </div>
+                        </>
+                      ) : (
+                        <>
+                          {
+                            Questions[currentIndex].cardType === 'LastStep' && (
+                              <>
+                                <BrixelButtonIcon
+                                  className="shadow-2dp backBtn"
+                                  icon="arrow-simple-left"
+                                  onClick={() => changeStep('back')}
+                                  background="white"
+                                  saturation={0}
+                                  color="primary"
+                                  saturationTxt={400}
+                                  noBorder
+                                />
+                                <BrixelButtonTertiary
+                                  rounded
+                                  label={translateTo(lang,"Back to our website")}
+                                  color="primary"
+                                  onClick={() => window.location.href = company.contactWebsite ? checkRedirectLink(company.contactWebsite) : 'https://brixel.ch'}
+                                  rightIcon="arrow-right-small"
+                                  disabled={disableNextBtn}
+                                />
+                              </>
+                            )
+                          }
+                        </>
+                      )
+                  }
+                </div>
 
               </div>
             )
