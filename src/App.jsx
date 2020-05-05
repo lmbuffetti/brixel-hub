@@ -219,10 +219,12 @@ const App = (props) => {
       setZIndex(1);
     }
     //if (dashWrapperEl) console.log(dashWrapperEl.classList)
-     // add class to container when secondlevel visible on mobile
-     if (
-      (history.location.pathname.includes('property/') ||
-      history.location.pathname.includes('listings/')) &&
+    // add class to container when secondlevel visible on mobile
+    if (
+      (
+        history.location.pathname.includes('property/') ||
+        history.location.pathname.includes('listings/')
+      ) &&
       windowDimensions.width <= 768
     ) {
       setSecLevelClass(0);
@@ -232,28 +234,28 @@ const App = (props) => {
 
   }, [history.location.pathname, setExtraHeight, setSecLevelClass]);
 
-  const headerCalc = () => {
-    return (
-      !isFlow ?
-      windowDimensions.width <= 768 ? {height: (windowDimensions.height + extraHeight) - 174} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
-      {height: windowDimensions.height - calcFlowHeaderHeight()}
-    )
-  }
-
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
     return head[0] ? head[0].offsetHeight : 0;
   };
 
-  /* const calcMobNavHeight = () => {
-    const mobNav = document.getElementsByClassName('brixelNavMenu');
-    return mobNav[0] ? mobNav[0].offsetHeight : 0;
-  }; */
-
   const calcFlowHeaderHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');
     return flowHead[0] ? flowHead[0].offsetHeight : 0;
   };
+
+  const headerCalc = () => {
+    return (
+      !isFlow ?
+        windowDimensions.width <= 768 ? {height: (windowDimensions.height + extraHeight) - 174} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
+        {height: windowDimensions.height - calcFlowHeaderHeight()}
+    )
+  }
+
+  /* const calcMobNavHeight = () => {
+    const mobNav = document.getElementsByClassName('brixelNavMenu');
+    return mobNav[0] ? mobNav[0].offsetHeight : 0;
+  }; */
 
   if (!loggedInUser || (!userTypes && property.id) || !isLoaded) {
     return (
