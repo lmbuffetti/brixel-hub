@@ -236,8 +236,6 @@ const App = (props) => {
       }
     }
 
-    console.log(isSecLevel)
-
   }, [history.location.pathname, setExtraHeight, setIsSecLevel]);
 
   const headerCalc = () => {
