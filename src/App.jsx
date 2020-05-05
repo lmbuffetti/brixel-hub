@@ -238,14 +238,6 @@ const App = (props) => {
 
   }, [history.location.pathname, setExtraHeight, setIsSecLevel]);
 
-  const headerCalc = () => {
-    return (
-      !isFlow ?
-      windowDimensions.width <= 768 ? {height: (windowDimensions.height + extraHeight) - 174} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
-      {height: windowDimensions.height - calcFlowHeaderHeight()}
-    )
-  }
-
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
     return head[0] ? head[0].offsetHeight : 0;
@@ -255,6 +247,19 @@ const App = (props) => {
     const flowHead = document.getElementsByClassName('flowHeader');
     return flowHead[0] ? flowHead[0].offsetHeight : 0;
   };
+
+  const headerCalc = () => {
+    return (
+      !isFlow ?
+        windowDimensions.width <= 768 ? {height: (windowDimensions.height + extraHeight) - 174} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
+        {height: windowDimensions.height - calcFlowHeaderHeight()}
+    )
+  }
+
+  /* const calcMobNavHeight = () => {
+    const mobNav = document.getElementsByClassName('brixelNavMenu');
+    return mobNav[0] ? mobNav[0].offsetHeight : 0;
+  }; */
 
   if (!loggedInUser || (!userTypes && property.id) || !isLoaded) {
     return (
@@ -322,6 +327,7 @@ const App = (props) => {
                   !history.location.pathname.includes('onBoarding') && (
                     <>
                       <ProtectedRoute path="/" exact component={Dashboard}/>
+                      <ProtectedRoute path="/:propId?" exact component={Dashboard}/>
                       <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
                       <ProtectedRoute path="/:propId?/property" component={Dashboard} />
                       <ProtectedRoute path="/:propId?/listings" component={Dashboard} />

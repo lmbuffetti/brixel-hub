@@ -259,7 +259,7 @@ const RewardsDashboard = (props) => {
                                   </div>
                                   {
                                     f === group.achievements.length - 1 && group.stub.replace(/^\D+/g, '') === '1' && (
-                                      <div className="pos-r">
+                                      <div className="pos-r" key={`${f.toString()}group`}>
                                         <hr className="lighter" />
                                         <BrixelButtonBox
                                           bgTransparent

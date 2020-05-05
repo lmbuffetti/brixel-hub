@@ -36,7 +36,6 @@ const checkUser = (store) => (next) => (action) => {
       delete action.payload.hideLoad;
       store.dispatch({ type: SPINNER_ON });
       let data = hideLoad ? undefined : action.payload;
-      console.log(data);
       if (data) data = Object.keys(data).length > 0 ? data : undefined;
       api.user.validateToken(data)
         .then((response) => {

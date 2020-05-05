@@ -177,7 +177,7 @@ function OnBoarding(props) {
     if (formValue && formValue.location && formValue.propertyType) {
       changePageTitle();
     }
-  }, [formValue.location, formValue.propertyType]);
+  }, [formValue.location, formValue.propertyType, lang]);
 
   // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
   useEffect(() => {
@@ -524,7 +524,7 @@ function OnBoarding(props) {
                                               showMap={true}
                                               isShowZip={false}
                                               className="w-perc-100"
-                                              selCountry={curCountry ? curCountry.value : ''}
+                                              selCountry={get(formValue, 'location.countryCode', '')}
                                               changeCountry={(val) => {
                                                 countryObj(val);
                                               }}
