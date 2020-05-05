@@ -22,7 +22,7 @@ export const BestimateQuestions = (lang) => [
         label: '',
         name: 'properties.typology.bathrooms',
         step: 1,
-        validation: [Validation.maxLengthNumRooms]
+        validation: [Validation.maxLengthNumRooms, Validation.required]
       },
     ]
   },
@@ -31,7 +31,6 @@ export const BestimateQuestions = (lang) => [
     vCentered: true,
     history: "extraFeatures",
     cardType: "extraFeatures",
-    toSave: true,
     inputs: [
       {
         component: BrixelExtraFeature,

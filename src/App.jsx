@@ -1,6 +1,6 @@
 /* global ga, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef} from 'react';
 import {
   Switch, Route, withRouter, Redirect,
 } from 'react-router-dom';
@@ -11,13 +11,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
 import moment from 'moment';
+import 'moment/locale/de-ch';
+import 'moment/locale/pt';
+import 'moment/locale/nl';
+import 'moment/locale/se';
+import 'moment/locale/da';
+import 'moment/locale/de';
+import 'moment/locale/de-at';
+import 'moment/locale/en-gb';
 // COMPONENTS
 import Loading from './components/Loading';
 import { checkToken } from './actions/UserActions';
 import { setLanguages } from './actions/CommonActions';
-import { BrixelIcon, BrixelNotification, BrixelModal } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelNotification } from '@brixel/brixel-components';
 import { setModal, setWindowDimensions } from './actions/CommonActions';
 import { setUserTypes } from './actions/UserActions';
+import BrixelModalAwards from './components/BrixelModalAwards';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
@@ -85,6 +94,16 @@ const Bestimate = Loadable({
   loading: Loading,
 });
 
+const MediaExplanation = Loadable({
+  loader: () => import('./Pages/GameHistory/SecondLevel/MediaExplanation' /* webpackChunkName: "MediaFlow" */),
+  loading: Loading,
+});
+
+const BrixelModalFullScreen = Loadable({
+  loader: () => import('./components/BrixelModalFullScreen' /* webpackChunkName: "BrixelModalFullScreen" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -107,11 +126,24 @@ const App = (props) => {
   // STATE
   const [isLoaded, setIsLoaded] = useState(false);
   const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
+
+  const [secLevelClass, setSecLevelClass] = useState(0);
+
   const [zIndex, setZIndex] = useState(1);
   const [isFlow, setIsFlow] = useState(false);
+  const [extraHeight, setExtraHeight] = useState(0);
+
+  const dashContentRef = useRef(null);
+  const dashWrapperRef = useRef(null);
+  const dashWrapperEl = dashWrapperRef.current;
+  const dashContentEl = dashContentRef.current;
 
   useEffect(() => {
-    if (cookies && cookies.get('brixelToken')) handleCheckToken();
+    if (cookies && cookies.get('brixelToken')) {
+      let data = {};
+      if (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding')) data = {hideLoad: true};
+      handleCheckToken(data);
+    }
     window.addEventListener('resize', () => {
       handleSetWindowsDimension({
         height: window.innerHeight,
@@ -141,7 +173,7 @@ const App = (props) => {
     if (property && property.id && loggedInUser.user && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
       handleSetUserTypes('seller');
     } else if (property && property.id) {
-      handleSetUserTypes('buyer');
+      handleSetUserTypes('seller');
     }
   }, [property]);
 
@@ -161,24 +193,72 @@ const App = (props) => {
   }, [redirectTo]);
 
   useEffect(() => {
+    if (dashContentEl) {
+      dashContentEl.addEventListener('scroll', () => {
+        if (dashContentEl.scrollTop > 0) {
+          setExtraHeight(74)
+        } else {
+          setExtraHeight(0)
+        }
+      })
+    }
+  });
+
+  useEffect(() => {
     if (
       history.location.pathname.includes('packageFlow') ||
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade')
     ) {
-      setClassMain('');
+      setClassMain('flowContainer w-perc-100');
       setIsFlow(true);
       setZIndex(6);
     } else {
-      setClassMain('w-perc-100 pos-r hubContainer');
+      setClassMain('w-perc-100 pos-r hubContainer ov-h');
       setIsFlow(false);
       setZIndex(1);
     }
-  }, [history.location.pathname]);
+    //if (dashWrapperEl) console.log(dashWrapperEl.classList)
+     // add class to container when secondlevel visible on mobile
+     if (
+      (history.location.pathname.includes('property/') ||
+      history.location.pathname.includes('listings/')) &&
+      windowDimensions.width <= 768
+    ) {
+      setSecLevelClass(0);
+      if (dashWrapperEl) {
+        dashWrapperEl.classList.add('secondLevelActive');
+      }
+    } else {
+      setSecLevelClass(1);
+      if (dashWrapperEl) {
+        dashWrapperEl.classList.remove('secondLevelActive')
+      }
+    }
+
+  }, [history.location.pathname, setExtraHeight, setSecLevelClass]);
+
+  const headerCalc = () => {
+    return (
+      !isFlow ?
+      windowDimensions.width <= 768 ? {height: (windowDimensions.height + extraHeight) - 174} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
+      {height: windowDimensions.height - calcFlowHeaderHeight()}
+    )
+  }
 
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
     return head[0] ? head[0].offsetHeight : 0;
+  };
+
+  /* const calcMobNavHeight = () => {
+    const mobNav = document.getElementsByClassName('brixelNavMenu');
+    return mobNav[0] ? mobNav[0].offsetHeight : 0;
+  }; */
+
+  const calcFlowHeaderHeight = () => {
+    const flowHead = document.getElementsByClassName('flowHeader');
+    return flowHead[0] ? flowHead[0].offsetHeight : 0;
   };
 
   if (!loggedInUser || (!userTypes && property.id) || !isLoaded) {
@@ -188,11 +268,14 @@ const App = (props) => {
   }
 
   return (
-    <main className={`${!isFlow ? 'hubDashboard' : ''} dis-fl-row jc-b`}>
+    <main
+      className={`${!isFlow ? 'hubDashboard' : 'flowWrapper'} dis-fl-row jc-b`}
+      ref={dashWrapperRef}
+    >
 
       <Loading isLoading={isLoading} />
 
-      <div className={classMain}>
+      <div className={`${classMain} ${secLevelClass}`}>
         <div className="dis-f">
           {
             !history.location.pathname.includes('packageFlow') &&
@@ -202,8 +285,9 @@ const App = (props) => {
               <MenuSidebar />
             )
           }
-          <div className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
-            style={!isFlow ? null : { height: windowDimensions.height }}
+          <div
+            className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
+            style={!isFlow ? secLevelClass === 0 ? {height: '100%'} : { height: windowDimensions.height } : null}
           >
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
@@ -216,13 +300,14 @@ const App = (props) => {
                 !history.location.pathname.includes('onBoarding')) &&
                 !history.location.pathname.includes('upgrade') &&
               (
-                <PageHeaderDashboard changeZIndex={(index) => setZIndex(index)} />
+                <PageHeaderDashboard changeZIndex={(index) => {setZIndex(index)}} />
               )
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? 'hubDasContent bgLight100' : ''} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
-              style={ !isFlow ? {minHeight: 'calc(100vh - ' + calcHeaderHeight() +'px)'} : { height: windowDimensions.height - calcHeaderHeight() }}
+              className={`${secLevelClass} ${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
+              style={ secLevelClass === 0 ? {height: '100%'} : headerCalc()}
+              ref={dashContentRef}
             >
               <Switch>
                 { /* SECTION: ONBOARDING */ }
@@ -236,14 +321,19 @@ const App = (props) => {
                 <Route path="/packageFlow/getstarted/" component={GetStarted} />
 
                 { /* SECTION: HUB DASHBOARD */ }
-                <ProtectedRoute path="/" exact component={Dashboard} />
-                { /* SECTION: ALL USER DASHBOARD */ }
-                <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
-                <ProtectedRoute path="/:propId?/property" component={Dashboard} />
-                <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
-                <ProtectedRoute path="/:propId?/support" component={Dashboard} />
-                <ProtectedRoute path="/:propId?/upgrade" component={Dashboard} />
-                <Redirect path="/:propId?/*" to="/:propId?/rewards" component={Dashboard} />
+                {
+                  !history.location.pathname.includes('packageFlow') &&
+                  !history.location.pathname.includes('onBoarding') && (
+                    <>
+                      <ProtectedRoute path="/" exact component={Dashboard}/>
+                      <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
+                      <ProtectedRoute path="/:propId?/property" component={Dashboard} />
+                      <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
+                      <ProtectedRoute path="/:propId?/support" component={Dashboard} />
+                      <ProtectedRoute path="/:propId?/upgrade" component={Dashboard} />
+                    </>
+                  )
+                }
               </Switch>
             </div>
           </div>
@@ -258,36 +348,32 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/rewards/achievement/assessor" exact component={Assessor} allowAccess={'seller'} />
           <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
           <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/media" exact component={MediaExplanation} allowAccess={'seller'} />
         </Switch>
       }
 
       { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
       {
+        modal.showAwardsInfo && (
+          <BrixelModalAwards />
+        )
+      }
+      {
         modal.state && (
-          <BrixelModal
-            classHeight={modal.height}
-            classWidth={modal.width}
+          <BrixelModalFullScreen
             title={modal.title}
-            titleIcon={modal.titleIcon}
-            color={modal.color}
-            saturationTxt={modal.saturationTxt}
-            layout={modal.layout}
             onClose={() => {
               handleSetModal({ state: false });
             }}
-            actions={modal.action}
-            multiActions={modal.multiActions}
-            clickOutsideToClose={modal.clickOutsideToClose}
           >
-            <h6 className="mb-2" dangerouslySetInnerHTML={{ __html: modal.hint}} />
-            <div className="body2" dangerouslySetInnerHTML={{ __html: modal.body}} />
-          </BrixelModal>
+            {modal.body}
+          </BrixelModalFullScreen>
         )
       }
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification && (
+        notification && !isFlow && (
           <BrixelNotification
             label={notification.label}
             type={notification.type}
@@ -340,7 +426,7 @@ App.defaultProps = {
 const mapStateToProps = (state) => ({
   config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
-  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', null),
   modal: get(state, 'common.modal', {}),
   notification: get(state, 'common.notification', null),

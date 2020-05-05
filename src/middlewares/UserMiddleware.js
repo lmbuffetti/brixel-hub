@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import user from '../resources/localData/user.json';
 import {
   CHECK_TOKEN,
@@ -31,10 +32,13 @@ const checkUser = (store) => (next) => (action) => {
   switch (action.type) {
     case CHECK_TOKEN: {
       next(action);
-      // const { skipRedirect } = action.payload;
-      // delete action.payload.skipRedirect;
+      const hideLoad = get(action, 'payload.hideLoad', false);
+      delete action.payload.hideLoad;
       store.dispatch({ type: SPINNER_ON });
-      api.user.validateToken(action.payload)
+      let data = hideLoad ? undefined : action.payload;
+      console.log(data);
+      if (data) data = Object.keys(data).length > 0 ? data : undefined;
+      api.user.validateToken(data)
         .then((response) => {
           if (response.data && response.data.statusCode && response.data.statusCode === 401 && window.location.hostname.includes('localhost')) {
             removeCookie('brixelToken');
@@ -44,9 +48,10 @@ const checkUser = (store) => (next) => (action) => {
           } else {
             store.dispatch({ type: SET_LOGGED_IN_USER, payload: response.data });
           }
-          store.dispatch({ type: SPINNER_OFF });
+          if (!hideLoad) store.dispatch({ type: SPINNER_OFF });
         })
-        .catch(() => {
+        .catch((error) => {
+          console.log(error);
           if (window.location.href.includes('localhost')) {
             store.dispatch({ type: SET_LOGGED_IN_USER, payload: user });
           }
@@ -176,7 +181,7 @@ const checkUser = (store) => (next) => (action) => {
     }
     case GET_FAVORITES: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: 'favorite' });
       api.user.getFavoritesPages()
         .then((res) => {
           store.dispatch({ type: SET_FAVORITES, payload: res.data });
@@ -189,7 +194,7 @@ const checkUser = (store) => (next) => (action) => {
     }
     case GET_USER_PROPERTIES: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: 'usrProperties' });
       api.user.getPropertiesOfUser(action.payload)
         .then((res) => {
           if (res.meta.status === 200) {

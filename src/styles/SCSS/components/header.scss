@@ -26,18 +26,37 @@
 }
 
 .hubDasHeader {
-  box-shadow: $shadow-1dp;
-
   @media (min-width: $responsive-medium) {
-    box-shadow: none;
     padding-left: 210px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 5;
   }
+  .dasHeaderContainer {
+    transition: margin-top $default-time-long $default-easing;
+  }
+  .mobileTitle {
+    background: map-get($lightColor, 100 );
+  }
+}
 
-  /* &.rightMenuOpen {
-    > .zIndex4-md {
-      z-index: 105;
+.scrollingHeader {
+  .hubDasHeader {
+    .dasHeaderContainer {
+      @media (min-width: $responsive-medium) {
+        box-shadow: $shadow-1dp;
+      }
+      @media (max-width: $responsive-medium) {
+        margin-top: -64px;
+        position: relative;
+      }
     }
-  } */
+    .mobileTitle {
+      background: $brx-white;
+    }
+  }
 }
 
 .accountMenu {

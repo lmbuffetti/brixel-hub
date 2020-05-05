@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -9,7 +9,6 @@ import get from 'lodash/get';
 import Loadable from 'react-loadable';
 import {
   BrixelButtonIcon,
-  BrixelTabs,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 // COMPONENTS
@@ -36,7 +35,8 @@ const Properties = (props) => {
     userProperties,
   } = props;
   // STATE
-  const [activeTab, setActiveTab] = useState('');
+  //const [activeTab, setActiveTab] = useState('');
+  const activeTab = '';
 
   useEffect(() => {
     if (get(user, 'user.id')) {
@@ -68,7 +68,7 @@ const Properties = (props) => {
 
   return (
     <>
-      <div className="properties-header dis-fl-row a-c jc-b mb-2 mb-md-5 py-2 px-3 pos-r zIndex1">
+      <div className="properties-header dis-fl-row a-c jc-b mb-2 mb-md-4 py-2 px-3 pos-r zIndex1">
         <div className="dis-fl-row a-c">
           <span className="docubox-title fweight-500 txtDark700">
             <span>Properties</span>

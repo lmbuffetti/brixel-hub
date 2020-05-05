@@ -58,6 +58,25 @@
     top: $step;
     z-index: 2;
   }
+
+  .numRecords {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    background: map_get($redColor, 500);
+    color: $brx-white;
+    border-radius: 50%;
+    @include fontStyle(100, 'medium');
+    margin-left: $step;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    @media (min-width: $responsive-medium) {
+      position: static;
+    }
+  }
 }
 
 .sidebarSubmenu {
@@ -66,6 +85,7 @@
   width: 100%;
   top: 0;
   max-width: 100%;
+  z-index: 4;
 
   &::before {
     content: '';
@@ -93,14 +113,14 @@
     width: 210px;
     flex: 0 0 210px;
     height: 100vh;
-    z-index: 2;
+    z-index: 5;
     position: fixed;
     left: 0;
   }
   .sidebarSubmenu {
     left: 210px;
     .sidebarSubmenuContent {
-      max-width: 400px;
+      max-width: 448px;
     }
   }
 }

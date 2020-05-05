@@ -144,7 +144,9 @@ const Facts = (props) => {
       if (act === 'click') {
         onSelectQuest(Questions[findCurrentId + 1]);
         const scrollElement = document.getElementById('bodyScroll');
+        const scrollElementMobile = document.getElementById('factsQuestion');
         scrollElement.scrollTo({top: 0, behavior: 'smooth'});
+        scrollElementMobile.scrollTo({top: 0, behavior: 'smooth'});
       }
     }
   };
@@ -152,18 +154,20 @@ const Facts = (props) => {
   return (
     <div className="factsWrapper dis-f h-perc-md-100">
       <div className="secondLevel dis-fl-col w-perc-100 h-perc-md-100">
-        <div className="dis-fl-col max-h-perc-100 cardSecondLevel">
-          <div className="dis-f a-c jc-b">
-            <BrixelButtonIcon
-              className="shadow-2dp hide-md"
-              icon="arrow-simple-left"
-              color="primary"
-              saturationTxt={400}
-              bgTransparent
-              noBorder
-              onClick={() => history.push(`/${propID}/property`)}
-            />
-            <h5 className="m-a m-md-0">Facts</h5>
+        <div className="dis-fl-col">
+          <div className="pb-3">
+            <div className="dis-f jc-b a-c">
+              <BrixelButtonIcon
+                className="dis-b shadow-3dp hide-md"
+                icon="arrow-simple-left"
+                background="White"
+                color="primary"
+                saturationTxt={400}
+                noBorder
+                onClick={() => history.push(`/${propID}/property`)}
+              />
+              <h5 className="m-a m-md-0 sectionTitle">Facts</h5>
+            </div>
           </div>
           <div className="mt-3 mb-3">
             <BrixelProgressBar
@@ -191,18 +195,18 @@ const Facts = (props) => {
                         bgTransparent
                         color="green"
                         saturationTxt={400}
-                        className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity0'} mx-1 dis-b`}
+                        className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity0'} mx-1 dis-b fsize-400`}
                       />
-                      <h4 className={`body ml-1 fweight-400 ${checkSectionDone(quest) ? 'txtGreen400 td-lt' : 'txtDark200'}`}>
+                      <h4 className={`body ml-1 fweight-400 ${checkSectionDone(quest) ? 'txtDark200 td-lt' : 'txtDark200'}`}>
                         {quest.title}
                       </h4>
                     </div>
                     <BrixelIcon
+                      className="fsize-400 mr-1 onHover"
                       icon="arrow-simple-right"
-                      color={`${selectedQuest && selectedQuest.history === quest.history ? 'dark' : 'light'}`}
-                      saturationTxt={selectedQuest && selectedQuest.history === quest.history ? 70 : 200}
+                      color="light"
+                      saturationTxt={400}
                       bgTransparent
-                      className={'mr-1'}
                     />
                   </div>
 
@@ -214,7 +218,7 @@ const Facts = (props) => {
       </div>
       {
         selectedQuest && getFact() !== 'facts' && (
-          <div className="thirdLevel inputSheet dis-fl-col w-perc-100 ml-md-2">
+          <div className="thirdLevel inputSheet dis-fl-col w-perc-100 ml-md-2" id="factsQuestion">
             <div className="p-3">
               <div className="">
                 <FactsQuestion quest={selectedQuest} />
@@ -264,7 +268,7 @@ const mapStateToProps = (state) => {
     errorValue: get(state, 'form.Property.syncErrors', {}),
     formValue: get(state, 'form.Property.values', {}),
     isLoading: get(state, 'common.isLoading', 0) > 0,
-    isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+    isSmallLoading: get(state, 'common.isSmallLoading', null),
     activeSingleUser: get(state, 'user.activeSingleUser', {}),
     singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
     notification: get(state, 'common.notification', {}),

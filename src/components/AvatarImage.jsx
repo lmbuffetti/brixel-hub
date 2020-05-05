@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { imageExists } from '../utils/helpers';
+import { BrixelIcon } from '@brixel/brixel-components';
 
 const AvatarImage = (props) => {
   const {
     avatarImg,
+    isIcon,
     name,
     size,
     onClick,
@@ -30,8 +32,14 @@ const AvatarImage = (props) => {
             onClick={() => onClick()}
           />
         ) : (
-          <div className={`defaultAvt w-fix-${size} h-fix-${size}`} onClick={() => onClick()}>
-            {extractName()}
+          <div className={`defaultAvt w-fix-${size} h-fix-${size} ${isIcon ? 'withIcon': ''}`} onClick={() => onClick()}>
+            {
+              isIcon ? (
+                <BrixelIcon iconSize={`fSizePx${size/2 + 2}`} saturationTxt={700} icon="user-solid" color="primary" />
+              ) : (
+                extractName()
+              )
+            }
           </div>
         )
       }
@@ -44,12 +52,14 @@ AvatarImage.propTypes = {
   name: PropTypes.string,
   size: PropTypes.number,
   onClick: PropTypes.func,
+  isIcon: PropTypes.bool,
 };
 
 AvatarImage.defaultProps = {
   avatarImg: null,
   name: null,
   size: 56,
+  isIcon: true,
   onClick: () => '',
 };
 

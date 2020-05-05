@@ -8,6 +8,7 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
 import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
+import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_color.svg';
 import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
@@ -101,13 +102,18 @@ function PageHeader(props) {
 
   return (
     <>
-      <header className={`${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'dashboardHeader'} shadow-1dp`}>
-        <div className={`container dis-f a-c p-1 p-md-2 jc-b pos-r zIndex4 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
-          <img className={`logo dis-b w-fix-40 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`} src={logoNorm} alt="Brixel Logo" id="header-logo" />
+      <header className="flowHeader">
+        <div className={`container dis-f a-c p-1 pt-2 p-md-2 jc-b pos-r zIndex4 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
+          <img
+            className={`logo dis-b ${history.location.pathname.includes('onBoarding') ? 'w-fix-86' : 'w-fix-40' }  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
+            src={ history.location.pathname.includes('onBoarding') ? logoColor : logoNorm }
+            alt="Brixel Logo"
+            id="header-logo"
+          />
           <div className="dis-f a-c">
             {
               userAwards >= 0 && (
-                <div className="cur-poi" onClick={() => setModal('awards')}>
+                <div className={`cur-poi ${userAwards >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('awards')}>
                   <img src={awards} alt="icon awards" className="mr-1" />
                   <span className="ff-mono txtGreen600">{userAwards}</span>
                 </div>
@@ -115,7 +121,7 @@ function PageHeader(props) {
             }
             {
               brixelPoints >= 0 && (
-                <div className="cur-poi ml-2" onClick={() => setModal('brixelPoints')}>
+                <div className={`cur-poi ml-2 ${brixelPoints >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('brixelPoints')}>
                   <img src={brixels} alt="icon awards" className="mr-1" />
                   <span className="ff-mono txtRed600">{brixelPoints}</span>
                 </div>
@@ -141,9 +147,10 @@ function PageHeader(props) {
               !loggedInUser.token ? (
                 <div className="">
                   <BrixelDropdown
+                    compact
                     bgTransparent
                     noBorder
-                    className="langMenu"
+                    className="langMenu compact"
                     color="dark"
                     saturationTxt={700}
                     lang={lang}

@@ -25,16 +25,6 @@
   }
 }
 
-
-@media (max-width: $responsive-medium) {
-  .photosWrapper .secondLevel,
-  .photosWrapper .secondLevel > div:not(.brixel-upgrade-message),
-  .plansWrapper .secondLevel,
-  .plansWrapper .secondLevel > div:not(.brixel-upgrade-message) {
-      height: 100%;
-  }
-}
-
 @media (min-width: 1025px) {
   .image-list {
     li {
@@ -61,7 +51,7 @@
 
 .upload-container {
   &.emptyState {
-    max-width: 270px;
+    //max-width: 270px;
   }
   &.hasImages {
     border: 1px dashed map_get($lightColor, 200);

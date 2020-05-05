@@ -14,9 +14,11 @@ import {
   BrixelIcon,
 } from '@brixel/brixel-components';
 import { updatePortalsReview } from '../../actions/PropertyActions';
-import page_review from '../../images/Listings/page_review.svg';
-import portalsImg from '../../images/Listings/portals.svg';
+import portalStart from '../../images/Listings/portals_start.svg';
+import portalReview from '../../images/Listings/portals_review.svg';
+import portalPublished from '../../images/Listings/portals_published.svg';
 import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
+import { addGameHistory } from '../../actions/GamificationActions';
 
 const Portals = (props) => {
   // PROPS
@@ -47,119 +49,123 @@ const Portals = (props) => {
       status: status,
     };
     handleUpdatePortalsReview(data);
+    //if (status === 'online') handleAddGameHistory({stub: 'portals'});
   };
 
   return (
     <div className="dis-f">
       <div className="secondLevel dis-fl-col ml-md-1">
-        <div className="portalsWrapper max-h-perc-100 dis-fl-col cardInfoBox">
-          <div className="pos-r">
-            <div className="dis-f jc-b a-c mb-3">
-              <BrixelButtonIcon
-                className="shadow-3dp hide-md"
-                icon="arrow-simple-left"
-                background="White"
-                color="primary"
-                saturationTxt={400}
-                noBorder
-                onClick={() => history.push(`/${propID}/listings`)}
-              />
-              <h5>Portals</h5>
-              <span />
+        <div>
+          <div className="portalsWrapper dis-fl-col cardInfoBox">
+            <div className="pos-r">
+              <div className="dis-f jc-b a-c mb-3">
+                <BrixelButtonIcon
+                  className="shadow-3dp hide-md"
+                  icon="arrow-simple-left"
+                  background="White"
+                  color="primary"
+                  saturationTxt={400}
+                  noBorder
+                  onClick={ () => history.push(`/${propID}/listings`) }
+                />
+                <h5 className="sectionTitle">Portals</h5>
+                <span />
+              </div>
             </div>
-          </div>
-          <div className="max-h-perc-100 pb-4 ov-a">
-            {
-              formValue.portalsReview ? (
-                <>
-                  <div className="ta-c mt-3">
-                    <img src={page_review} alt="Page Under review" />
-                    <h5 className="txtPrimary600 mb-1 mt-3">Your property gets published…</h5>
+            <div className="max-h-perc-100 pb-4 ov-a">
+              {
+                formValue.portalsReview ? (
+                  <>
+                    <div className="ta-c mt-2">
+                      <img className="h-fix-120" src={portalReview} alt="Page Under review" />
+                      <h5 className="txtPrimary600 mb-2 mt-3">Your property gets published…</h5>
 
-                    <p className="mb-1">Portals can take up to 8 hours until your property is online.</p>
-                    <hr className="my-3" />
+                      <p className="mb-1">Portals can take up to 8 hours until your property is online.</p>
+                      <hr className="my-3" />
 
-                    <p className="txtDark200">Any questions?</p>
-                    <p className="txtDark200"><span>Call us</span>:&nbsp;<a className="txtDark200" href="tel:+41 43 333 57 00">+41 43 333 57 00</a></p>
-                    <p className="txtDark200"><span>Write us</span>:&nbsp;<a className="txtDark200" href="mailto:support@brixel.ch">support@brixel.ch</a></p>
+                      <p className="txtDark200">Any questions?</p>
+                      <p className="txtDark200"><span>Call us</span><span>:&nbsp;</span><a className="txtDark200" href="tel:+41 43 333 57 00">+41 43 333 57 00</a></p>
+                      <p className="txtDark200"><span>Write us</span><span>:&nbsp;</span><a className="txtDark200" href="mailto:support@brixel.ch">support@brixel.ch</a></p>
 
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="ta-c mt-3">
-                    <img src={portalsImg} alt="Portals" />
-                    {
-                      checkPortalsOnline() ? (
-                        <div className="ta-c mt-3">
-                          <h5 className="mb-1">Your property is published</h5>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="ta-c">
+                      {
+                        checkPortalsOnline() ? (
+                          <div className="ta-c mt-2">
+                            <img className="h-fix-120" src={portalPublished} alt="Portals" />
+                            <h5 className="mb-2 mt-3">Your property is published</h5>
 
-                          <div className="portalsList mt-3">
-                            {
-                              Object.keys(portals).map((key, i) => (
-                                <React.Fragment key={i.toString()}>
-                                  {
-                                    portals[key] && !key.toLocaleLowerCase().includes('url') && (
-                                      <a
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        href={portals[`${key}Url`]}
-                                      >
-                                        <BrixelIcon
-                                          className="mr-1"
-                                          icon="copy-link"
-                                          color="primary"
-                                        />
-                                        <span>{key}</span>
-                                      </a>
-                                    )
-                                  }
-                                </React.Fragment>
-                              ))
-                            }
+                            <div className="portalsList mt-3">
+                              {
+                                Object.keys(portals).map((key, i) => (
+                                  <React.Fragment key={i.toString()}>
+                                    {
+                                      portals[key] && !key.toLocaleLowerCase().includes('url') && (
+                                        <a
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          href={portals[`${key}Url`]}
+                                        >
+                                          <BrixelIcon
+                                            className="mr-1"
+                                            icon="copy-link"
+                                            color="primary"
+                                          />
+                                          <span>{key}</span>
+                                        </a>
+                                      )
+                                    }
+                                  </React.Fragment>
+                                ))
+                              }
+                            </div>
+
+                            <hr className="my-3" />
+
+                            <p className="txtDark200">You want to remove your property form all portals?</p>
+
+                            <BrixelButtonPrimary
+                              className="m-a mt-3 w-fix-176"
+                              label="Unpublish now"
+                              background="dark"
+                              rounded
+                              onClick={() => changeReviewStatus('offline')}
+                              isLoading={isSmallLoading}
+                            />
                           </div>
+                        ) : (
+                          <div className="ta-c mt-2">
+                            <img className="h-fix-120" src={portalStart} alt="Portals" />
+                            <h5 className="mb-2 mt-3">Your property on the biggest portals.</h5>
 
-                          <hr className="my-3" />
+                            <div className="ta-l max-w-fix-344 m-a">
+                              <p className="mb-1">
+                                <BrixelIcon icon="check" color="green" />
+                                <span className="ml-1">Publish all your listings with one click</span>
+                              </p>
 
-                          <p className="txtDark200">You want to remove your property form all portals?</p>
+                              <p className="mb-1">
+                                <BrixelIcon icon="check" color="green" />
+                                <span className="ml-1">Weekly republishing for best visibility</span>
+                              </p>
 
-                          <BrixelButtonPrimary
-                            className="m-a mt-3 w-fix-176"
-                            label="Unpublish now"
-                            background="dark"
-                            rounded
-                            onClick={() => changeReviewStatus('offline')}
-                            isLoading={isSmallLoading}
-                          />
-                        </div>
-                      ) : (
-                        <div className="ta-c mt-3">
-                          <h5 className="mb-3">Your property on the biggest portals.</h5>
+                              <p className="dis-f a-t">
+                                <BrixelIcon icon="check" color="green" />
+                                <span className="ml-1">Homegate, Immoscout24, Comparis and many more...</span>
+                              </p>
+                            </div>
 
-                          <div className="ta-l max-w-fix-344 m-a">
-                            <p className="mb-1">
-                              <BrixelIcon icon="check" color="green" />
-                              <span className="ml-1">Publish all your listings with one click</span>
-                            </p>
-
-                            <p className="mb-1">
-                              <BrixelIcon icon="check" color="green" />
-                              <span className="ml-1">Weekly republishing for best visibility</span>
-                            </p>
-
-                            <p className="dis-f a-t">
-                              <BrixelIcon icon="check" color="green" />
-                              <span className="ml-1">Homegate, Immoscout24, Comparis and many more...</span>
-                            </p>
                           </div>
-
-                        </div>
-                      )
-                    }
-                  </div>
-                </>
-              )
-            }
+                        )
+                      }
+                    </div>
+                  </>
+                )
+              }
+            </div>
           </div>
         </div>
 
@@ -168,9 +174,9 @@ const Portals = (props) => {
             <BrixelUpgradeMessage
               className="mt-3"
               title="Save 15% compared to listings price."
-              description="Only CHF 750 for 3 months. Don't worry. You will not be charged for now. Get the result first. Pay later."
+              description={`Only ${formValue.location.countryCode === 'CH' ? 'CHF 750' : 'EUR 50'} for 3 months. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
               titleConfirm="Please confirm your order."
-              descriptionConfirm="<b>Publish on portals.</b><span>Only CHF 350 unlimited. You will not be charged for now.</span>"
+              descriptionConfirm={`<b>Publish on portals.</b><span>Only ${formValue.location.countryCode === 'CH' ? 'CHF 750' : 'EUR 50'} unlimited. You will not be charged for now.</span>`}
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction
@@ -186,7 +192,8 @@ const Portals = (props) => {
 Portals.propTypes = {
   history: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.bool.isRequired,
+  handleAddGameHistory: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.string,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
@@ -199,7 +206,7 @@ const mapStateToProps = (state) => {
   const formValue = get(state, 'form.Property.values', {});
   return ({
     formValue: get(state, 'form.Property.values', {}),
-    isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+    isSmallLoading: get(state, 'common.isSmallLoading', null),
     portals: get(formValue, 'portals', {}),
   });
 }
@@ -212,6 +219,7 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset(form)))
   },
   handleUpdatePortalsReview: bindActionCreators(updatePortalsReview, dispatch),
+  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });
 
 export default compose(

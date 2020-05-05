@@ -29,14 +29,14 @@ export const defaultState = {
     height: window.innerHeight,
   },
   isLoading: 0,
-  isSmallLoading: 0,
+  isSmallLoading: null,
   requestDone: false,
   redirectTo: null,
   configUrl: getConfigEnv,
   errorMsg: {},
   languages: [
-    {value: 'dk', label: 'dk'},
     {value: 'de', label: 'de'},
+    {value: 'dk', label: 'dk'},
     {value: 'en', label: 'en'},
     {value: 'nl', label: 'nl'},
     {value: 'pt', label: 'pt'},
@@ -50,22 +50,16 @@ export const defaultState = {
       value: 'at',
     },
     {
-      label: '🇨🇭 Switzerland',
-      full: 'Switzerland',
-      short: 'SWI',
-      value: 'ch',
+      label: '🇩🇰 Denmark',
+      full: 'Denmark',
+      short: 'DNK',
+      value: 'dk',
     },
     {
       label: '🇩🇪 Germany',
       full: 'Germany',
       short: 'DEU',
       value: 'de',
-    },
-    {
-      label: '🇩🇰 Denmark',
-      full: 'Denmark',
-      short: 'DNK',
-      value: 'dk',
     },
     {
       label: '🇳🇱 Netherlands',
@@ -84,6 +78,12 @@ export const defaultState = {
       full: 'Sweden',
       short: 'SWE',
       value: 'se',
+    },
+    {
+      label: '🇨🇭 Switzerland',
+      full: 'Switzerland',
+      short: 'SWI',
+      value: 'ch',
     },
   ],
   language: cookie.get('brixelLang') || 'en',
@@ -113,13 +113,13 @@ export default handleActions(
       ...state,
       isLoading: state.isLoading - 1,
     }),
-    [SPINNER_SMALL_ON]: (state) => ({
+    [SPINNER_SMALL_ON]: (state, action) => ({
       ...state,
-      isSmallLoading: state.isSmallLoading + 1,
+      isSmallLoading: action.payload,
     }),
     [SPINNER_SMALL_OFF]: (state) => ({
       ...state,
-      isSmallLoading: state.isSmallLoading - 1,
+      isSmallLoading: null,
     }),
     [REQUEST_DONE]: (state) => ({
       ...state,

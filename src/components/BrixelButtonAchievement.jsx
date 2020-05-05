@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrixelIcon } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelStatus } from '@brixel/brixel-components';
 
 const BrixelButtonAchievement = (props) => {
   const {
     active,
     award,
+    config,
     disabled,
     isFree,
     done,
@@ -38,9 +39,10 @@ const BrixelButtonAchievement = (props) => {
                 className="p-small-9"
               />
               <div className="ta-l w-perc-100 pl-2">
-                <p className="body txtGreen400 td-lt">{title}</p>
+                <p className="body txtDark200 td-lt">{title}</p>
               </div>
-              {
+              {/* according to the new desgin from Michael no award icon for done item */}
+              {/* {
                 award && (
                   <BrixelIcon
                     rounded
@@ -50,39 +52,36 @@ const BrixelButtonAchievement = (props) => {
                     icon="cup-awards"
                   />
                 )
-              }
+              } */}
             </>
           ) : (
             <>
-              <BrixelIcon
-                rounded
-                background="green"
-                saturation={100}
-                color="green"
-                saturationTxt={400}
-                icon={icon}
-                className="shadow-3dp"
-              />
+              <div className="pos-r">
+                <BrixelIcon
+                  rounded
+                  background={config.bgIconColor}
+                  saturation={200}
+                  color={config.iconColor}
+                  saturationTxt={700}
+                  icon={icon}
+                  className="shadow-3dp"
+                />
+                <BrixelStatus
+                  className="pos-a-fix x-r-0 y-b-0"
+                  color={'red'}
+                  saturation={400}
+                />
+              </div>
               <div className="ta-l w-perc-100 pl-2">
-                <span>
-                  {
-                    isFree ? (
-                      <span className="txtGreen400">Free</span>
-                    ) : (
-                      <span className="txtRed400">Unlock</span>
-                    )
-                  }
-                  &nbsp;
-                  <span className="txtDark200">{subtitle}</span>
-                </span>
+                <span className={isFree ? "txtGreen400" : "txtRed400"}>{isFree ? 'Free' : `Unlock ${subtitle}`}</span>
                 <p className="body txtDark700">{title}</p>
               </div>
               <BrixelIcon
                 rounded
                 bgTransparent
-                color="dark"
-                saturationTxt={700}
-                className="p-small-9"
+                color="light"
+                saturationTxt={400}
+                className="fsize-400 mr-1 onHover"
                 icon={disabled ? '' : "arrow-simple-right"}
               />
             </>
@@ -91,7 +90,7 @@ const BrixelButtonAchievement = (props) => {
       </button>
       {
         lineAfter && (
-          <div className="lineAfter" />
+          <div className={`lineAfter ${config.lineAfter}`} />
         )
       }
     </div>
@@ -101,6 +100,7 @@ const BrixelButtonAchievement = (props) => {
 BrixelButtonAchievement.propTypes = {
   active: PropTypes.bool,
   award: PropTypes.bool,
+  config: PropTypes.object,
   disabled: PropTypes.bool,
   isFree: PropTypes.bool,
   done: PropTypes.bool,
@@ -112,6 +112,7 @@ BrixelButtonAchievement.propTypes = {
 
 BrixelButtonAchievement.defaultProps = {
   award: false,
+  config: {},
   disabled: false,
 };
 

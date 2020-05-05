@@ -20,7 +20,7 @@ import {
   BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { saveActiveSingleUser, setAwards, setBrixelPoints } from '../../actions/UserActions';
-import { setScreenNotification } from '../../actions/CommonActions';
+import { setScreenNotification, setWindowDimensions } from '../../actions/CommonActions';
 import { QuestionsList } from '../../resources/brixelComintTownUserQuestion.js';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
@@ -42,6 +42,7 @@ function UserFlow(props) {
     history,
     lang,
     loggedInUser,
+    windowDimensions,
   } = props;
   // STATE
   const [position, setPosition] = useState(0);
@@ -66,6 +67,12 @@ function UserFlow(props) {
   useEffect(() => {
     setQuestions(QuestionsList(lang));
   }, [lang]);
+
+  const calcFlowContentHeight = () => {
+    const flowHead = document.getElementsByClassName('flowHeader');
+    const flowFooter = document.getElementsByClassName('footerAction');
+    return flowHead[0]  && flowFooter[0] ? flowHead[0].offsetHeight + flowFooter[0].offsetHeight : 0;
+  };
 
   useEffect(() => {
     // Check if the user token exist or redirect to Onboarding
@@ -225,16 +232,13 @@ function UserFlow(props) {
   const checkRedirectLink = (url) => {
     let newUrl = url;
     if (!url.match(/^http?:\/\//i) || !url.match(/^https?:\/\//i)) {
-      newUrl = 'http://' + url;
+      newUrl = 'https://' + url;
     }
     return newUrl;
   };
 
   return (
-    <main
-      id="onBoarding"
-      className={`${Questions[currentIndex].cardType !== 'chat' ? 'withFooter' : 'withoutFooter'} notranslate`}
-    >
+    <div className="onBoardingWrapper">
       {
         Questions[currentIndex].inputs && (
           <BrixelProgressBar
@@ -247,295 +251,306 @@ function UserFlow(props) {
           />
         )
       }
-      <form
-        id="multiStepForm"
-        onSubmit={(e) => e.preventDefault()}
-        autoComplete="off"
+      <main
+        id="onBoarding"
+        className={`${Questions[currentIndex].cardType !== 'chat' ? 'withFooter' : 'withoutFooter'} notranslate`}
       >
-        <div
-          className="slideMultiStepForm"
-          style={{ transform: `translate(-${position * 100}vw, 0)` }}
+        <form
+          id="multiStepForm"
+          onSubmit={(e) => e.preventDefault()}
+          autoComplete="off"
         >
-          {
-            Questions.map((quest, i) => (
-              <div
-                id={`step-${i}`}
-                className={`singleStep ${quest.background || ''} ${Questions[currentIndex].cardType === 'chat' ? 'chatBox': ''}`}
-                key={i.toString()}
-                style={{
-                  visibility: i !== currentIndex ? 'hidden' : 'visible',
-                }}
-              >
-                <div className="subcontainer">
-                  {
-                    quest.inputs && (
-                      <>
-                        {
-                          quest.titleGreen && (
-                            <h5 className="txtGreen400">{quest.titleGreen}</h5>
-                          )
-                        }
-                        <h5 className="mb-4 mb-md-10">{quest.title}</h5>
-                        {
-                          quest.inputs.map((input, f) => (
-                            <div key={f.toString()}>
-                              {
-                                input.type === 'Map' ? (
-                                  <>
-                                    <div className="mb-2 pos-r zIndex3">
-                                      <Field
-                                        name={input.name}
-                                        label={input.label}
-                                        component={() => (
-                                          <Maps
-                                            zoom={14}
-                                            scrollZoom
-                                            moveMarker
-                                            draggable
-                                            showSearchLocation
-                                            showSelectCountry
-                                            showMap={false}
-                                            isShowZip={false}
-                                          />
-                                        )}
-                                        options={input.options}
-                                        validate={input.validation}
-                                        type={input.type}
-                                        onChange={(e) => validateSlide(e, input.name, quest)}
-                                      />
-                                    </div>
-                                    {
-                                      formValue.location && formValue.location.address && (
-                                        <>
-                                          <div className="dis-f jc-b pos-r zIndex2 my-2 w-perc-100">
-                                            <p>Is this the place?</p>
-                                            <button onClick={() => changeFieldValue('location', {})}>Change</button>
-                                          </div>
-                                          <div className="pos-r zIndex1">
-                                            <div className="curAdr">{formValue.location.address}</div>
+          <div
+            className="slideMultiStepForm"
+            style={
+              {transform: `translate(-${position * 100}%, 0)`,
+                height: windowDimensions.height  - calcFlowContentHeight()}
+            }
+          >
+            {
+              Questions.map((quest, i) => (
+                <div
+                  id={`step-${i}`}
+                  className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''} ${Questions[currentIndex].cardType === 'chat' ? 'chatBox': ''}`}
+                  key={i.toString()}
+                  style={{
+                    visibility: i !== currentIndex ? 'hidden' : 'visible',
+                    opacity: i !== currentIndex ? '0' : '1',
+                  }}
+                >
+                  <div className="subcontainer">
+                    {
+                      quest.inputs && (
+                        <>
+                          {
+                            quest.titleGreen && (
+                              <h5 className="txtGreen400">{quest.titleGreen}</h5>
+                            )
+                          }
+                          <h5 className="mb-4 mb-md-10">{quest.title}</h5>
+                          {
+                            quest.inputs.map((input, f) => (
+                              <div key={f.toString()}>
+                                {
+                                  input.type === 'Map' ? (
+                                    <>
+                                      <div className="mb-2 pos-r zIndex3">
+                                        <Field
+                                          name={input.name}
+                                          label={input.label}
+                                          component={() => (
                                             <Maps
                                               zoom={14}
                                               scrollZoom
                                               moveMarker
                                               draggable
-                                              showMap
+                                              showSearchLocation
+                                              showSelectCountry
+                                              showMap={false}
                                               isShowZip={false}
                                             />
-                                          </div>
-                                        </>
-                                      )
-                                    }
-                                  </>
-                                ) : (
-                                  <div className="dis-f a-t jc-b">
-                                    <div className={`${input.type === 'number' || input.type === 'text' ? 'dis-f a-c' : ''} jc-b w-perc-100`}>
-                                      <Field
-                                        className="mb-2 w-perc-100"
-                                        name={input.name}
-                                        label={input.label}
-                                        icons={quest.icons}
-                                        component={quest.component}
-                                        fluid={true}
-                                        options={quest.options}
-                                        validate={input.validation}
-                                        type={input.type}
-                                        step={+input.step}
-                                        min={input.min}
-                                        max={input.max}
-                                        onChange={(e) => validateSlide(e, input.name, quest)}
-                                        deactivable={input.deactivable || false}
-                                        meta={{
-                                          dirty: formValue[input.name] && errorValue[input.name] !== true,
-                                          invalid: formValue[input.name] && errorValue[input.name] !== true,
-                                        }}
-                                      />
+                                          )}
+                                          options={input.options}
+                                          validate={input.validation}
+                                          type={input.type}
+                                          onChange={(e) => validateSlide(e, input.name, quest)}
+                                        />
+                                      </div>
                                       {
-                                        input.unit && (
-                                          <span className="pl-2">{input.unit}</span>
+                                        formValue.location && formValue.location.address && (
+                                          <>
+                                            <div className="dis-f jc-b pos-r zIndex2 my-2 w-perc-100">
+                                              <p>Is this the place?</p>
+                                              <button onClick={() => changeFieldValue('location', {})}>Change</button>
+                                            </div>
+                                            <div className="pos-r zIndex1">
+                                              <div className="curAdr">{formValue.location.address}</div>
+                                              <Maps
+                                                zoom={14}
+                                                scrollZoom
+                                                moveMarker
+                                                draggable
+                                                showMap
+                                                isShowZip={false}
+                                              />
+                                            </div>
+                                          </>
+                                        )
+                                      }
+                                    </>
+                                  ) : (
+                                    <div className="dis-f a-t jc-b">
+                                      <div className={`${input.type === 'number' || input.type === 'text' ? 'dis-f a-c' : ''} jc-b w-perc-100`}>
+                                        <Field
+                                          className={`mb-2 w-perc-100 ${input.className}`}
+                                          name={input.name}
+                                          label={input.label}
+                                          icons={quest.icons}
+                                          pdClass={input.pdClass}
+                                          component={quest.component}
+                                          fluid={true}
+                                          options={quest.options}
+                                          validate={input.validation}
+                                          type={input.type}
+                                          step={+input.step}
+                                          min={input.min}
+                                          max={input.max}
+                                          onChange={(e) => validateSlide(e, input.name, quest)}
+                                          deactivable={input.deactivable || false}
+                                          meta={{
+                                            dirty: formValue[input.name] && errorValue[input.name] !== true,
+                                            invalid: formValue[input.name] && errorValue[input.name] !== true,
+                                          }}
+                                        />
+                                        {
+                                          input.unit && (
+                                            <span className="pl-2">{input.unit}</span>
+                                          )
+                                        }
+                                      </div>
+                                      {
+                                        quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && !input.step && (
+                                          <BrixelButtonPrimary
+                                            rounded
+                                            label={translateTo(lang,"Ok")}
+                                            className="ml-2"
+                                            background="primary"
+                                            onClick={() => changeStep()}
+                                            disabled={disableNextBtn}
+                                            type="submit"
+                                          />
                                         )
                                       }
                                     </div>
-                                    {
-                                      quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && !input.step && (
-                                        <BrixelButtonPrimary
-                                          rounded
-                                          label={translateTo(lang,"Ok")}
-                                          className="ml-2"
-                                          background="primary"
-                                          onClick={() => changeStep()}
-                                          disabled={disableNextBtn}
-                                          type="submit"
-                                        />
-                                      )
-                                    }
-                                  </div>
-                                )
-                              }
-                              <p className="body2">{input.help}</p>
-                            </div>
-                          ))
-                        }
-                      </>
-                    )
-                  }
-                  {
-                    quest.cardType && (
-                      <>
-                        {
-                          quest.cardType === 'RewardsStep' && (
-                            <div className="ta-c">
-                              <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
-                              <h5 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.title}} />
-                              {quest.subtitle && (<h6 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
-                            </div>
-                          )
-                        }
-                        {
-                          quest.cardType === 'LastStep' && (
-                            <div>
-                              <h5 className="mb-2 mb-md-9 ta-l" dangerouslySetInnerHTML={{ __html: quest.title}} />
-                              <img src={quest.img} alt={quest.title} className="w-perc-100" />
-                              {quest.subtitle && (<h5 className="mt-2 ta-l" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
-                            </div>
-                          )
-                        }
-                        {
-                          (quest.cardType === 'chat') && (
-                            <div>
-                              <div className="dis-f a-c mb-4">
-                                <img src={quest.img} alt=""/>
-                                <h5 className="ml-3" dangerouslySetInnerHTML={{ __html: quest.title}} />
-                              </div>
-                              <div className="chatContainer">
-                                {
-                                  quest.message && quest.message.map((msg, i) => (
-                                    <div className="messageChat" dangerouslySetInnerHTML={{ __html: msg }} key={i.toString()}/>
-                                  ))
+                                  )
                                 }
+                                <p className="body2">{input.help}</p>
                               </div>
-                              <div className="dis-f w-perc-100 jc-fe chatBtn">
-                                <BrixelButtonSecondary
-                                  rounded
-                                  label={translateTo(lang,"No thanks")}
-                                  color="primary"
-                                  onClick={() => window.location.href = company.contactWebsite ? checkRedirectLink(company.contactWebsite) : 'https://brixel.ch'}
-                                  disabled={disableNextBtn}
-                                />
-                                <BrixelButtonPrimary
-                                  className="ml-1"
-                                  rounded
-                                  label={translateTo(lang,"Yes, of course")}
-                                  background="green"
-                                  onClick={() => changeStep()}
-                                  disabled={disableNextBtn}
-                                />
-                              </div>
-                            </div>
-                          )
-                        }
-                      </>
-                    )
-                  }
-                </div>
-              </div>
-            ))
-          }
-        </div>
-        {
-          Questions[currentIndex].cardType !== 'chat' && (
-            <div className={`footerAction p-1 p-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`}>
-              <div className="container pos-r">
-                <div className="subcontainer">
-                  {
-                    !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && !emptyValue && (
-                      <p className="txtGreen700 ta-r mb-2 textSuccess">
-                        {Questions[currentIndex].successMessage}
-                        <BrixelIcon icon="check" className="ml-1" />
-                      </p>
-                    )
-                  }
-                  <div
-                    className={
-                      `dis-f a-c ${Questions[currentIndex].inputs ?
-                        (hidePrevBtn ? 'jc-fe' : 'jc-b') :
-                        (Questions[currentIndex].cardType === 'LastStep' ? 'jc-b' : 'jc-c')}`
-                    }
-                  >
-                    {
-                      Questions && Questions[currentIndex] !== 'undefined' &&
-                      Questions[currentIndex].inputs && (
-                        <BrixelButtonIcon
-                          className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
-                          icon="arrow-simple-left"
-                          onClick={() => changeStep('back')}
-                          background="white"
-                          saturation={0}
-                          color="primary"
-                          saturationTxt={400}
-                          noBorder
-                        />
+                            ))
+                          }
+                        </>
                       )
                     }
                     {
-                      (
-                        Questions[currentIndex].inputs ||
-                        (
-                          Questions[currentIndex + 1] &&
-                          Questions[currentIndex + 1].inputs
-                        )) ? (
-                          <>
-                            <BrixelButtonPrimary
-                              rounded
-                              label={
-                                oneEmptyValue &&
-                                Questions[currentIndex].inputs ?
-                                  translateTo(lang,"Skip") :
-                                  translateTo(lang,"Continue")
-                              }
-                              background={Questions[currentIndex].inputs ? "green" : "primary"}
-                              className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                              onClick={() => changeStep()}
-                              rightIcon="arrow-right-small"
-                              disabled={disableNextBtn}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            {
-                              Questions[currentIndex].cardType === 'LastStep' && (
-                                <>
-                                  <BrixelButtonIcon
-                                    className="shadow-2dp backBtn"
-                                    icon="arrow-simple-left"
-                                    onClick={() => changeStep('back')}
-                                    background="white"
-                                    saturation={0}
-                                    color="primary"
-                                    saturationTxt={400}
-                                    noBorder
-                                  />
-                                  <BrixelButtonTertiary
+                      quest.cardType && (
+                        <>
+                          {
+                            quest.cardType === 'RewardsStep' && (
+                              <div className="ta-c">
+                                <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
+                                <h5 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.title}} />
+                                {quest.subtitle && (<h6 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
+                              </div>
+                            )
+                          }
+                          {
+                            quest.cardType === 'LastStep' && (
+                              <div>
+                                <h5 className="mb-2 mb-md-9 ta-l" dangerouslySetInnerHTML={{ __html: quest.title}} />
+                                <img src={quest.img} alt={quest.title} className="w-perc-100" />
+                                {quest.subtitle && (<h5 className="mt-2 ta-l" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
+                              </div>
+                            )
+                          }
+                          {
+                            (quest.cardType === 'chat') && (
+                              <div>
+                                <div className="dis-f a-c mb-4">
+                                  <img src={quest.img} alt=""/>
+                                  <h5 className="ml-3" dangerouslySetInnerHTML={{ __html: quest.title}} />
+                                </div>
+                                <div className="chatContainer">
+                                  {
+                                    quest.message && quest.message.map((msg, i) => (
+                                      <div className="messageChat" dangerouslySetInnerHTML={{ __html: msg }} key={i.toString()}/>
+                                    ))
+                                  }
+                                </div>
+                                <div className="dis-f w-perc-100 jc-fe chatBtn">
+                                  <BrixelButtonSecondary
                                     rounded
-                                    label={translateTo(lang,"Back to our website")}
+                                    label={translateTo(lang,"No thanks")}
                                     color="primary"
                                     onClick={() => window.location.href = company.contactWebsite ? checkRedirectLink(company.contactWebsite) : 'https://brixel.ch'}
-                                    rightIcon="arrow-right-small"
                                     disabled={disableNextBtn}
                                   />
-                                </>
-                              )
-                            }
-                          </>
-                        )
+                                  <BrixelButtonPrimary
+                                    className="ml-1"
+                                    rounded
+                                    label={translateTo(lang,"Yes, of course")}
+                                    background="green"
+                                    onClick={() => changeStep()}
+                                    disabled={disableNextBtn}
+                                  />
+                                </div>
+                              </div>
+                            )
+                          }
+                        </>
+                      )
                     }
                   </div>
                 </div>
+              ))
+            }
+          </div>
+          {
+            Questions[currentIndex].cardType !== 'chat' && (
+              <div
+                className={
+                  `footerAction px-2 py-1 py-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' :
+                    `${Questions[currentIndex].inputs && !emptyValue ? 'successNext' : 'normStep'}`}`
+                }
+              >
+                <div
+                  className={
+                    `dis-f a-c ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') :
+                      (Questions[currentIndex].cardType === 'LastStep' ? 'jc-b' : 'jc-c')}`
+                  }
+                >
+                  {
+                    Questions && Questions[currentIndex] !== 'undefined' &&
+                    Questions[currentIndex].inputs && (
+                      <BrixelButtonIcon
+                        className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
+                        icon="arrow-simple-left"
+                        onClick={() => changeStep('back')}
+                        background="white"
+                        saturation={0}
+                        color="primary"
+                        saturationTxt={400}
+                        noBorder
+                      />
+                    )
+                  }
+                  {
+                    !disableNextBtn && Questions[currentIndex] && Questions[currentIndex].inputs && Questions[currentIndex].successMessage && !emptyValue && (
+                      <div className="txtGreen700 ta-r ml-a pr-1 textSuccess">
+                        {Questions[currentIndex].successMessage}
+                        <BrixelIcon icon="check" className="ml-1" />
+                      </div>
+                    )
+                  }
+                  {
+                    (
+                      Questions[currentIndex].inputs ||
+                      (
+                        Questions[currentIndex + 1] &&
+                        Questions[currentIndex + 1].inputs
+                      )) ? (
+                        <>
+                          <BrixelButtonPrimary
+                            rounded
+                            label={
+                              oneEmptyValue &&
+                              Questions[currentIndex].inputs ?
+                                translateTo(lang,"Skip") :
+                                translateTo(lang,"Continue")
+                            }
+                            background={Questions[currentIndex].inputs ? "green" : "primary"}
+                            className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
+                            onClick={() => changeStep()}
+                            rightIcon="arrow-right-small"
+                            disabled={disableNextBtn}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          {
+                            Questions[currentIndex].cardType === 'LastStep' && (
+                              <>
+                                <BrixelButtonIcon
+                                  className="shadow-2dp backBtn"
+                                  icon="arrow-simple-left"
+                                  onClick={() => changeStep('back')}
+                                  background="white"
+                                  saturation={0}
+                                  color="primary"
+                                  saturationTxt={400}
+                                  noBorder
+                                />
+                                <BrixelButtonTertiary
+                                  rounded
+                                  label={translateTo(lang,"Back to our website")}
+                                  color="primary"
+                                  onClick={() => window.location.href = company.contactWebsite ? checkRedirectLink(company.contactWebsite) : 'https://brixel.ch'}
+                                  rightIcon="arrow-right-small"
+                                  disabled={disableNextBtn}
+                                />
+                              </>
+                            )
+                          }
+                        </>
+                      )
+                  }
+                </div>
+
               </div>
-            </div>
-          )
-        }
-      </form>
-    </main>
+            )
+          }
+        </form>
+      </main>
+    </div>
   );
 }
 
@@ -553,6 +568,7 @@ UserFlow.propTypes = {
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   handleSetNotification: PropTypes.func.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 UserFlow.defaultProps = {
@@ -565,6 +581,7 @@ const mapStateToProps = (state, props) => ({
   formValue: get(state, 'form.UserFlow.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   lang: get(state, 'common.language', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -579,6 +596,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetAwards: bindActionCreators(setAwards, dispatch),
   handleSetBrixelPoints: bindActionCreators(setBrixelPoints, dispatch),
   handleSetNotification: bindActionCreators(setScreenNotification, dispatch),
+  handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 
 const UserFlowForm = reduxForm({

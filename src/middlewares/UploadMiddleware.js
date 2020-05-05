@@ -27,12 +27,13 @@ import {
   SPINNER_SMALL_OFF,
   SET_PSEUDO_SAVED_SCREEN,
 } from '../actions/types/CommonTypes';
+import { ADD_GAME_HISTORY } from '../actions/types/GamificationTypes';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
     case ROTATE_IMG: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader });
       api.image.rotateImg(action.payload.id, action.payload.rotate)
         .then((res) => {
           const arrayImg = store.getState().form.Property.values[action.payload.type];
@@ -48,7 +49,7 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case GET_IMAGE_TYPE: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: 'imgType' });
       api.image.getImageType()
         .then((res) => {
           store.dispatch({ type: SET_IMAGE_TYPE, payload: res.data });
@@ -63,12 +64,12 @@ const checkCommon = (store) => (next) => (action) => {
       // action.payload.user = store.getState().user.loggedInUser.user.id;
       action.payload.imageType = imgType.id;
       const {
-        pageID, userID, uploadAction, smallLoader,
+        pageID, userID, uploadAction, smallLoader, lastImage,
       } = action.payload;
       delete action.payload.pageID;
       delete action.payload.uploadAction;
       delete action.payload.smallLoader;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.image.addImage(action.payload, {uploading: store})
         .then((res) => {
@@ -92,19 +93,32 @@ const checkCommon = (store) => (next) => (action) => {
             if (uploadAction === 'floorPlans') {
               plan.push(res.data);
             }
-            const data = {
-              id: pageID,
-              coverPhoto,
-              photos: img,
-              floorPlans: plan,
-              smallLoader: smallLoader,
-            };
-            store.dispatch({ type: SET_PSEUDO_SAVED_SCREEN });
-            store.dispatch({
-              type: SAVE_ACTIVE_SINGLE_PROPERTY,
-              payload: data,
-              setSuccessNotification: true,
-            });
+            if (lastImage) {
+              const data = {
+                id: pageID,
+                coverPhoto,
+                photos: img,
+                floorPlans: plan,
+                smallLoader: smallLoader,
+              };
+              store.dispatch({ type: SET_PSEUDO_SAVED_SCREEN });
+              store.dispatch({
+                type: SAVE_ACTIVE_SINGLE_PROPERTY,
+                payload: data,
+                setSuccessNotification: true,
+              });
+              const getFloorPlans = get(store.getState(), 'form.Property.values.floorPlans', []);
+              const getPhotos = get(store.getState(), 'form.Property.values.photos', []);
+              const getDocuments = get(store.getState(), 'form.Property.values.documents', []);
+              if (getFloorPlans.length > 0 && getPhotos.length > 0 && getDocuments.length > 0) {
+                store.dispatch({
+                  type: ADD_GAME_HISTORY,
+                  payload: {
+                    stub: 'media'
+                  },
+                });
+              }
+            }
           } else if (uploadAction === 'singleUserAvatar') {
             let userAvatar = store.getState().form.User.values.avatar[0];
 
@@ -134,7 +148,7 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const arrayImg = store.getState().form.Property.values[action.payload.type];
       const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader });
       api.image.deleteImg(action.payload.id)
         .then(() => {
           arrayImg.splice(idImg, 1);
@@ -159,7 +173,7 @@ const checkCommon = (store) => (next) => (action) => {
       const { pageID, smallLoader } = action.payload;
       delete action.payload.pageID;
       delete action.payload.smallLaoder;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.image.uploadDocument(action.payload)
         .then((res) => {
@@ -182,7 +196,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.smallLaoder;
       const arrayImg = store.getState().form.Property.values.documents;
       const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.image.deleteDocument(action.payload.id)
         .then(() => {
@@ -204,7 +218,7 @@ const checkCommon = (store) => (next) => (action) => {
       const { pageID, smallLoader } = action.payload;
       delete action.payload.pageID;
       delete action.payload.smallLaoder;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.image.updateDocument(action.payload.id, action.payload.body)
         .then((res) => {

@@ -92,7 +92,7 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-container dis-f h-perc-md-100" id="propertyDashboard">
+      <div className="property-container dis-f jc-c h-perc-md-100" id="propertyDashboard">
         <div className={`firstLevel bgLight100 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
 
           <div
@@ -174,7 +174,7 @@ const HomeDashboard = (props) => {
               verticalView
               bgTransparent
               icon="tour"
-              label="3D Tour"
+              label="3D tour"
               labelClass="fweight-400 pb-small-6"
               subtitle={get(formValue, 'virtual.matterport', null) ? 'Available' : 'Not set'}
               subtitleClass={'fsize-200 txtDark200'}
@@ -207,7 +207,7 @@ const HomeDashboard = (props) => {
             saturation={0}
             color="primary"
             saturationTxt={400}
-            icon="arrow-simple-right"
+            icon="arrow-simple-left"
             noBorder
             className="shadow-2dp"
             onClick={() => history.push('../facts')}

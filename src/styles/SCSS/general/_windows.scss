@@ -1,16 +1,12 @@
 .hubDasContent {
-  @media (max-width: $iphone5) {
-    overflow-y: auto;
-  }
   .container {
-    padding: $step * 2;
-    padding-bottom: $step * 8;
-
+    margin: auto;
+    min-height: 100%;
     @media (min-width: $responsive-medium) {
       padding: $step * 3;
-      padding-right: $step * 8;
     }
-    @media (max-width: $iphone5) {
+    @media (max-width: $responsive-medium) {
+      padding: $step * 2;
       overflow-y: auto;
     }
   }
@@ -21,72 +17,47 @@
     width: 100%;
     @media (max-width: $responsive-medium) {
       min-width: 100%;
+      margin-bottom: 56px;
     }
   }
 
   .secondLevel,
   .thirdLevel {
-    min-height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
     width: 100%;
-    background: $brx-white;
-    z-index: 100;
+    height: 100%;
+
+    @media (max-width: $responsive-medium) {
+      background: $brx-white;
+      position: fixed;
+      z-index: 100;
+      overflow-y: auto;
+      left: 0;
+      top: 0;
+    }
+
     > div {
-      &:not(.rewardsSplash),
-      &:not(.brixel-upgrade-message) {
+      &:not([class*=" p-"]) {
         padding: $step * 2;
       }
     }
   }
 
-  .thirdLevel {
-    z-index: 101;
-  }
-  .secondLevel {
-    .headerSection {
-      position: relative;
-      width: 100%;
-
-      .iconBtn {
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
-      h5 {
-        text-align: center;
-        line-height: 40px;
-        text-transform: capitalize;
-      }
-    }
-  }
-
-  .thirdLevel {
-    .headerSection {
-      .iconBtn {
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
-      h5 {
-        text-align: center;
-        line-height: 40px;
-      }
-    }
-  }
-
   @media (min-width: $responsive-medium) {
+    .levelsWrapper {
+      &.closed {
+        max-width: 768px;
+        width: calc(100% - 320px);
+        min-width: 60%;
+      }
+    }
     .secondLevel,
     .thirdLevel {
-      min-height: 0;
-      position: static;
-      background: transparent;
       max-width: 768px;
       margin-bottom: $step * 3;
 
       &.inputSheet {
         max-width: 448px;
+        width: 100%;
       }
 
       > div {
@@ -109,10 +80,22 @@
       }
     }
   }
+
+}
+
+.longScroll .hubDasContent .container .firstLevel{
+  @media (max-width: $responsive-medium) {
+   margin-bottom: 0;
+  }
 }
 
 .brixel-upgrade-message {
+  @media (max-width: $responsive-medium) {
+    margin-top: auto;
+  }
   b {
     display: block;
   }
 }
+
+

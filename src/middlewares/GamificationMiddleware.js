@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import {
   GET_ACHIEVEMENT,
   SET_ACHIEVEMENT,
@@ -70,16 +71,45 @@ const checkGamification = (store) => (next) => (action) => {
     }
     case ADD_GAME_HISTORY: {
       next(action);
-      const { id } = action.payload;
+      const { id, stub } = action.payload;
       delete action.payload.id;
-      api.gamification.addGameHistory(id, action.payload)
+      const gameGroup = get(store.getState(), 'gamification.gameGroup', []);
+      const gameHistory = get(store.getState(), 'gamification.gameHistory', []);
+      let currentGroup = {};
+      gameGroup.forEach((group) => {
+        group.achievements.forEach((game) => {
+          if (game.stub === stub) currentGroup = game;
+        });
+      });
+      const pageID = get(store.getState(), 'property.activeSingleProperty.id', 0)
+      const checkExist = gameHistory.data.find(item => item.achievement.id === currentGroup.id && pageID === item.page);
+      if (typeof checkExist === 'undefined' || currentGroup.isCumulative || id) {
+        let newID = id;
+        let data = action.payload;
+        if (currentGroup.id) {
+          newID = get(store.getState(), 'user.loggedInUser.user.id', 0);
+          data = {
+            page: get(store.getState(), 'property.activeSingleProperty.stub', 0),
+            achievement: stub,
+          };
+        }
+        api.gamification.addGameHistory(newID, data)
+          .then((res) => {
+            if (typeof res.data.status === 'undefined') {
+              store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });
+              store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
+              store.dispatch({ type: SET_BRIXEL_POINTS, payload: res.data.actualPoints });
+            }
+          });
+      }
+      /*api.gamification.addGameHistory(id, action.payload)
         .then((res) => {
           if (typeof res.data.status === 'undefined') {
             store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });
             store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
             store.dispatch({ type: SET_BRIXEL_POINTS, payload: res.data.actualPoints });
           }
-        });
+        }); */
       break;
     }
     default:

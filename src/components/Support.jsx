@@ -11,6 +11,7 @@ const Support = (props) => {
     expanded,
     hideClose,
     isFixed,
+    layout,
     onClose,
   } = props;
 
@@ -28,31 +29,35 @@ const Support = (props) => {
 
   return (
     <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} mb-4 bgWhite ${isFixed ? 'fixed' : 'noFixed'}`} id="supportBox">
-      <div className={`${isFixed ? 'shadow-1dp' : ''} p-3`}>
-        <div className="dis-f jc-b a-t">
-          <div>
-            <p className="txtDark200 mb-2">Need support?</p>
-            <h5 className="txtDark700">Get in touch with us.</h5>
-          </div>
-          {
-            !isFixed && !hideClose && (
-              <BrixelButtonIcon
-                className="shadow-3dp hide dis-b-md"
-                icon="close-small"
-                background="White"
-                color="primary"
-                saturationTxt={400}
-                noBorder
-                onClick={() => onClose()}
-              />
-            )
-          }
-        </div>
+      <div className={`${isFixed ? 'shadow-1dp' : ''} ${layout === 'rewards' ? 'p-1' : 'p-3'}`}>
+        {
+          layout !== 'rewards' && (
+            <div className="dis-f jc-b a-t">
+              <div>
+                <p className="txtDark200 mb-2">Need support?</p>
+                <h5 className="txtDark700">Get in touch with us.</h5>
+              </div>
+              {
+                !isFixed && !hideClose && (
+                  <BrixelButtonIcon
+                    className="shadow-3dp hide dis-b-md"
+                    icon="close-small"
+                    background="White"
+                    color="primary"
+                    saturationTxt={400}
+                    noBorder
+                    onClick={() => onClose()}
+                  />
+                )
+              }
+            </div>
+          )
+        }
         <div
-          className={`dis-f jc-b a-c mt-3 ${expanded ? '' : 'cur-poi'}`}
+          className={`dis-f a-c ${layout === 'rewards' ? 'jc-c' : 'mt-3 jc-b '} ${expanded ? '' : 'cur-poi'}`}
           onClick={() => expanded ? ''  : onclickOne() }
         >
-          <img src={SupportImg} alt="Support Team" className="w-fix-160" />
+          <img src={SupportImg} alt="Support Team" className={layout === 'rewards' ? "w-fix-280" : "w-fix-160"} />
           {
             !expanded && (
               <BrixelIcon
@@ -61,8 +66,16 @@ const Support = (props) => {
             )
           }
         </div>
-        <div className={`moreInfoSupport ${openDetail ? 'open' : 'close'}`}>
-          <hr className="my-3 lighter"/>
+        {
+          layout === 'rewards' && (
+            <div className="ta-c max-w-fix-376">
+              <h5 className="ta-c mt-3 mb-2">Let us give you some free advice.</h5>
+              <p className="ta-c fsize-300">What is the right selling price? When is the right time to start? How long does it take?</p>
+            </div>
+          )
+        }
+        <hr className="my-3 lighter"/>
+        <div className={`moreInfoSupport ${openDetail ? 'open' : 'close'} ${layout === 'rewards' ? 'w-fit m-a' : ''}`}>
           <a href="tel:+410433335700" className="dis-f a-c mb-3">
             <img className="w-fix-40" src={CallUsImg} alt="Call Us" />
             <p className="ml-2">
@@ -86,7 +99,7 @@ const Support = (props) => {
             <img className="w-fix-40" src={WhatAppImg} alt="Call Us" />
             <p className="ml-2">
               <span className="dis-b txtDark200 body2">Text Us</span>
-              <span className="txtDark700">+41 79 933 29 18</span>
+              <span className="txtDark700 ff-mono">+41 79 933 29 18</span>
             </p>
           </a>
         </div>

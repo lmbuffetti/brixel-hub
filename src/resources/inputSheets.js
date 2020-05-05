@@ -39,7 +39,7 @@ const normalizeData = (value, prevValue) => {
   const year = valueOnlyNumbers.slice(2, 6);
   if (valueOnlyNumbers.length < 2 && !isNaN(+month) && +month <= 12) return `${month}`;
   if (valueOnlyNumbers.length === 2 && !isNaN(+month) && +month <= 12) return `${month}/`;
-  if (valueOnlyNumbers.length > 2 && !isNaN(+year) && +year <= 2020) return `${month}/${year}`;
+  if (valueOnlyNumbers.length > 2 && !isNaN(+year) && +year <= 2090) return `${month}/${year}`;
   return prevValue;
 };
 
@@ -370,6 +370,7 @@ export const InputSheets = () => {
           placeholder: '34’565 (2018)',
           name: 'location.community.basisTaxation',
           labelLeft: 'Population',
+          type: 'number',
           validation: [Validation.markRequired],
         },
         {
@@ -599,6 +600,7 @@ export const InputSheets = () => {
           labelLeft: 'Attic',
           unit: 'm2',
           placeholder: '25',
+          type: 'number',
           name: 'properties.building.expandableAtticArea.value',
           validation: [Validation.markRequired]
         },
@@ -923,6 +925,7 @@ export const InputSheets = () => {
           className: '',
           label: 'What\'s the cadaster nr. of the property?',
           placeholder: '914',
+          type: 'number',
           name: 'properties.building.landRegister.cadaster',
           validation: [Validation.markRequired],
         },
@@ -1124,10 +1127,6 @@ export const InputSheets = () => {
             {
               name: 'properties.building.mortgage',
               value: 'fixed'
-            },
-            {
-              name: 'properties.building.mortgage',
-              value: 'variable'
             },
           ],
           component: BrixelInputText,

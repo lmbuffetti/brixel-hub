@@ -5,16 +5,15 @@
   .property-container {
     animation: slideInSec $default-time-long ease-in-out;
   }
-  // rewards splash
+
   .rewards-container .secondLevel,
   .rewards-container  #rewards,
   .property-container .factsWrapper,
   .property-container .secondLevel,
   .listings-container .secondLevel {
-    opacity: 0;
-    animation: fadeInSec $default-time-long 100ms ease-in-out forwards;
-    @media (max-width: $responsive-medium) {
-      animation: fadeInSec $default-time ease-in-out forwards;
+    @media (min-width: $responsive-medium) {
+      opacity: 0;
+      animation: fadeInSec 500ms ease-in-out forwards;
     }
   }
 
@@ -30,25 +29,22 @@
   .listings-container .expandableColumn,
   .property-container .expandableColumn {
     transition: all 0.2s ease-in-out;
+
     &.collapsed {
-      transform: translateX(-100%);
-      margin-right: -480px;
-      opacity: 0;
+      @media (min-width: $responsive-medium) {
+        transform: translateX(-100%);
+        margin-right: -480px;
+        opacity: 0;
+      }
     }
   }
 
   .property-container .levelsWrapper {
     &.opened {
-      .secondLevel {
-        animation: slideInLong 0s ease-in-out forwards;
-      }
       .thirdLevel {
         opacity: 0;
         transform: translateX(100%);
-        animation: slideInLong $default-time-long ease-in-out forwards;
-        @media (max-width: $responsive-medium) {
-          animation: slideInLong $default-time ease-in-out forwards;
-        }
+        animation: slideInLong $default-time-long $default-easing forwards;
       }
     }
   }
@@ -71,7 +67,9 @@
   }
 }
 .slideIn-enter-done {
-  z-index: 7;
+  @media screen and (min-width: $responsive-medium) {
+    z-index: 7;
+  }
 }
 .slideIn-exit {
   z-index: 2;
@@ -144,6 +142,18 @@
   0% {
     opacity: 0;
   } 100% {
+    opacity: 1;
+  }
+}
+.scaleUp {
+  animation: scaleUp $default-time-long $default-easing;
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(0.5);
+  } 100% {
+    transform: scale(1);
     opacity: 1;
   }
 }

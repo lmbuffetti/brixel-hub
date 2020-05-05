@@ -10,6 +10,7 @@ import { useDropzone } from 'react-dropzone';
 import { diff } from 'deep-object-diff';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
+import isArray from 'lodash/isArray';
 import {
   BrixelButtonIcon,
   BrixelIcon,
@@ -76,17 +77,17 @@ const Photos = (props) => {
 
   // DROPZONE SETTINGS
   // const dropzoneRef = useRef(null);
-  const onDrop = useCallback((acceptedFiles) => {
+  const onDrop = useCallback(async (acceptedFiles) => {
     const reader = new FileReader();
     // const imgType = imageType.find((val) => val.name === 'Gallery');
     reader.onabort = () => console.log('file reading was aborted');
     reader.onerror = () => console.log('file reading has failed');
     const arrayDates = [];
     setBtnActive('uploading');
-    acceptedFiles.forEach((file) => {
+    await acceptedFiles.map(async (file, f) => {
       const read = new FileReader();
       read.readAsDataURL(file);
-      read.onload = () => {
+      read.onload = async () => {
         // Do whatever you want with the file contents
         const binaryStr = {
           name: Date.now() / 1000,
@@ -95,12 +96,14 @@ const Photos = (props) => {
           imageType: 0,
           pageID: formValue.id,
           uploadAction: 'photos',
-          smallLoader: true,
+          smallLoader: 'upload',
+          lastImage: acceptedFiles.length - 1 === f,
         };
         arrayDates.push({galleryThumbnailPath: read.result, createdAt: Date().now});
-        handleUploadImg(binaryStr);
+        await handleUploadImg(binaryStr);
         setNewImages([...arrayDates]);
       };
+      return null;
     });
   }, []);
 
@@ -143,7 +146,7 @@ const Photos = (props) => {
   return (
     <div className="photosWrapper dis-f">
       <div className="secondLevel dis-fl-col">
-        <div>
+        <div className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
           <div className="dis-f jc-b a-c mb-3">
             <BrixelButtonIcon
               className="shadow-3dp hide-md"
@@ -154,15 +157,17 @@ const Photos = (props) => {
               noBorder
               onClick={() => history.push(`/${propID}/property`)}
             />
-            <h5 className="m-a m-md-0">
+            <h5 className="m-a m-md-0 sectionTitle">
               Photos
             </h5>
           </div>
-          <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel' : 'empty-state dis-fl-col a-c'}`}>
+          <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel dis-fl-col' : 'empty-state dis-fl-col a-c'}`}>
             {
               (fixPhotos && fixPhotos.length > 0) && (
                 <>
                   <ReactSortable
+                    scroll={true}
+                    bubbleScroll={true}
                     tag="ul"
                     className="image-list row-cols-2-gut-1 row-cols-md-3-gut-1"
                     list={cloneDeep(fixPhotos).concat(newImages)}
@@ -267,32 +272,32 @@ const Photos = (props) => {
             }
             <>
               <div
-                className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c`}
+                className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-2 ta-c`}
                 {...getRootProps()}
               >
                 <input {...getInputProps()} />
                 {
-                  (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
-                    <div className="w-perc-100">
-                      <img className="w-perc-100" src={upload_photos_empty} alt="Empty State" />
-                      <h5 className="mt-2 mb-1">Upload your fist photo</h5>
+                  (!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (
+                    <div className="dis-fl-col">
+                      <img className="h-fix-120" src={upload_photos_empty} alt="Empty State" />
+                      <h5 className="mt-3 mb-2">Upload your first photo</h5>
                     </div>
                   )
                 }
-                <span className="body2 txtDark200 max-width-220">Choose .pdf .jpeg .png with max. 10 MB size</span>
+                <span className="body2 txtDark200 max-width-220">Choose .jpeg .png with max. 10 MB size</span>
                 <BrixelButtonPrimary
                   label="upload"
                   rightIcon="upload"
                   rounded
                   className="mt-3"
-                  isLoading={isSmallLoading && btnActive === 'uploading'}
+                  isLoading={isSmallLoading === 'upload'}
                 />
               </div>
             </>
           </div>
         </div>
         {
-          activeSingleProperty.servicePackages.length === 0 && (
+          get(activeSingleProperty, 'servicePackages', []).length === 0 && (
             <BrixelUpgradeMessage
               className="mt-3"
               title="Do you want professional photos?"
@@ -313,7 +318,7 @@ Photos.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.bool.isRequired,
+  isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
@@ -325,7 +330,7 @@ Photos.defaultProps = {
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   percentage: get(state, 'common.percentage', 0),
   loggedInUser: get(state, 'user.loggedInUser', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),

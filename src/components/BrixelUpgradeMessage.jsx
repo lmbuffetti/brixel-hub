@@ -48,7 +48,7 @@ const BrixelUpgradeMessage = (props) => {
                 className="ml-1 w-perc-100"
                 label="Order now"
                 background="primary"
-                isLoading={isSmallLoading}
+                isLoading={isSmallLoading !== null}
                 saturation={400}
                 onClick={() => onClick() }
               />
@@ -77,14 +77,14 @@ BrixelUpgradeMessage.propTypes = {
   className: PropTypes.string,
   description: PropTypes.string,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.bool,
+  isSmallLoading: PropTypes.string,
   title: PropTypes.string,
 };
 
 BrixelUpgradeMessage.defaultProps = {
   className: '',
   description: null,
-  isSmallLoading: false,
+  isSmallLoading: null,
   title: null,
 };
 

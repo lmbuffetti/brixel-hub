@@ -384,7 +384,7 @@ export const ComponentMap =(props) => {
       e.preventDefault();
       setSelLocAuto(newId);
     }
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && get(locList, `[${newId}].description`, null)) {
       e.preventDefault();
       geoCode(locList[newId].description);
     }
@@ -428,7 +428,7 @@ export const ComponentMap =(props) => {
                           tabIndex={i}
                           key={i.toString()}
                           onClick={() => geoCode(loc.description)}
-                          dangerouslySetInnerHTML={{ __html: highlight(loc.description) }}
+                          dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
                         />
                       ))
                     }
@@ -634,7 +634,7 @@ ComponentMap.propTypes = {
   showSearchLocation: PropTypes.bool,
   showSelectCountry: PropTypes.bool,
   zoom: PropTypes.number,
-  minHeight: PropTypes.string,
+  minHeight: PropTypes.number,
 };
 
 ComponentMap.defaultProps = {
@@ -657,7 +657,7 @@ ComponentMap.defaultProps = {
   similarProperties: [],
   showMap: false,
   zoom: 14,
-  minHeight: '0',
+  minHeight: 0,
 };
 
 const mapStateToProps = (state) => {
@@ -682,7 +682,14 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
-  return prevProps.formValue.location.latitude === nextProps.formValue.location.latitude || prevProps.formValue.location.longitude === nextProps.formValue.location.longitude || prevProps.formValue.location.address === nextProps.formValue.location.address || prevProps.formValue.location.country === nextProps.formValue.location.country
+  return (
+    prevProps.formValue.location.latitude === nextProps.formValue.location.latitude ||
+    prevProps.formValue.location.longitude === nextProps.formValue.location.longitude ||
+    prevProps.formValue.location.address === nextProps.formValue.location.address ||
+    prevProps.formValue.location.country === nextProps.formValue.location.country ||
+    prevProps.formValue.location.countryCode === nextProps.formValue.location.countryCode ||
+    prevProps.selCountry === nextProps.selCountry
+  )
 });
 
 export default compose(

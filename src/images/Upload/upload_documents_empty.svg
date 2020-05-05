@@ -1,13 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="199px" height="132px" viewBox="0 0 199 132" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="279px" height="110px" viewBox="0 0 279 110" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
-    <title>Icon-Planung</title>
+    <title>Empty-State-01</title>
     <desc>Created with Sketch.</desc>
-    <g id="Hub" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Hub-Desktop-Property-Docubox" transform="translate(-633.000000, -243.000000)">
-            <g id="document-box" transform="translate(582.000000, 243.000000)">
-                <g id="table">
-                    <image id="Icon-Planung" x="51.297546" y="0" width="198.404908" height="132" xlink:href="data:image/png;base64,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"></image>
+    <g id="Property" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="hub-illustration-empty-state-copy-3" transform="translate(-1.000000, -24.000000)">
+            <g id="Empty-State-01" transform="translate(1.000000, 24.000000)">
+                <g id="Ebene_1">
+                    <g id="Group">
+                        <g id="XMLID_43_" transform="translate(0.000000, 1.037563)" fill-rule="nonzero">
+                            <g id="Group">
+                                <polygon id="Path" fill="#1E1491" points="278.332467 83.7603656 168.924167 102.294349 95.0067333 27.8855364 181.494667 3.31293786"></polygon>
+                                <polygon id="Path" fill="#5A6EFF" points="168.924167 102.294349 135.517533 108.296649 66.0155333 29.8952955 95.0067333 27.8855364"></polygon>
+                                <polygon id="Path" fill="#82D2FA" points="135.517533 108.296649 61.9607333 95.0573488 0.667533333 0.358996711 66.0155333 29.8952955"></polygon>
+                            </g>
+                        </g>
+                        <g id="XMLID_15_" transform="translate(102.300000, 6.225376)" fill="#F0EFED" fill-rule="nonzero">
+                            <polygon id="Path" points="167.971433 65.9080609 67.0674667 83.8122437 0.823566667 18.1843247 85.9547333 0.936919162 86.0033 0.952482603"></polygon>
+                        </g>
+                        <g id="XMLID_14_" transform="translate(102.300000, 6.225376)" fill="#F0EFED" fill-rule="nonzero">
+                            <polygon id="Path" points="167.971433 71.4206318 67.0654 89.3258522 0.819433333 23.6968956 85.9526667 6.45052761 82.8526667 0.205437424"></polygon>
+                        </g>
+                        <g id="XMLID_6_" transform="translate(102.300000, 0.000000)" fill="#F0EFED" fill-rule="nonzero">
+                            <polygon id="Path" points="167.971433 65.7835534 67.0674667 83.6887738 0.8215 18.0577421 85.9547333 0.812411632 86.0043333 0.826937511"></polygon>
+                        </g>
+                        <path d="M130.276467,77.4934866 C131.178567,65.1101752 130.047067,54.6899325 139.665333,52.4436091 C145.887033,50.9910213 149.5223,54.9067831 151.061967,61.2608174" id="Path" stroke="#82D2FA" stroke-width="1.2168" stroke-linecap="round"></path>
+                        <path d="M114.828133,61.071981 C115.730233,48.6897071 114.5977,38.2684269 124.215967,36.0200284 C130.437667,34.5684781 134.0719,38.4842399 135.613633,44.8393118" id="Path" stroke="#82D2FA" stroke-width="1.2168" stroke-linecap="round"></path>
+                        <line x1="153.522333" y1="53.433444" x2="223.208267" y2="40.7367886" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                        <line x1="118.8571" y1="21.2544729" x2="146.8408" y2="16.1558896" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                        <line x1="122.501667" y1="25.356996" x2="150.485367" y2="20.2584127" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                        <line x1="127.249833" y1="28.9459256" x2="155.230433" y2="23.8452671" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                        <line x1="172.265967" y1="25.2086245" x2="200.2507" y2="20.1110788" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                        <line x1="174.875133" y1="29.061095" x2="202.855733" y2="23.9614741" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                        <line x1="179.122133" y1="32.9571432" x2="207.1048" y2="27.8585598" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                        <line x1="178.8576" y1="77.4374582" x2="206.8382" y2="72.3388748" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                        <line x1="159.924867" y1="58.1927443" x2="229.609767" y2="45.4971265" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                        <line x1="166.4111" y1="63.4563002" x2="236.096" y2="50.7586072" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                        <line x1="170.479333" y1="67.3616863" x2="240.165267" y2="54.665031" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                    </g>
                 </g>
             </g>
         </g>

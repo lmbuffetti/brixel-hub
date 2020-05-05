@@ -32,7 +32,7 @@ const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
 const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 
-export const QuestionsList = (lang, gameGroup) => {
+export const QuestionsList = (lang, gameGroup, country = 'CH') => {
   let getHomeBase = {name: 'Homebase', points: 100};
   if (gameGroup) {
     const getSellerLv1 = gameGroup.find(item => item.stub === 'seller-lvl1');
@@ -47,6 +47,7 @@ export const QuestionsList = (lang, gameGroup) => {
       history: "propertyType",
       cardType: "propertyType",
       icons: true,
+      vCentered: true,
       inputs: [{
         className: 'radioBtnImg max-w-fix-md-464',
         label: '',
@@ -80,7 +81,7 @@ export const QuestionsList = (lang, gameGroup) => {
           label: '',
           name: 'bedrooms',
           validation: [maxLengthNumRooms, Validation.positiveNumber, Validation.required],
-          step: 0.5,
+          step: country === 'CH' ? 0.5 : 1,
           min: 1,
         },
       ],
@@ -100,7 +101,7 @@ export const QuestionsList = (lang, gameGroup) => {
           validation: [Validation.isNumber, maxLengthNumLivSpace, Validation.required],
           help: translateTo(lang, 'Use net living space'),
           unit: 'm2',
-          classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-md-288',
+          classNameBox: 'brdRadius max-w-fix-md-288',
           placeholder: translateTo(lang, 'e.g. 120'),
         },
       ],
@@ -116,7 +117,7 @@ export const QuestionsList = (lang, gameGroup) => {
           label: '',
           name: 'constructionYear',
           type: 'number',
-          classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-md-232',
+          classNameBox: 'brdRadius max-w-fix-md-232',
           placeholder: translateTo(lang, 'e.g. 1990'),
           validation: [minLengthNumYear, maxLengthNumYear, Validation.required],
           minLenghtNum: 999,
@@ -142,6 +143,7 @@ export const QuestionsList = (lang, gameGroup) => {
     {
       title: translateTo(lang, "Great, Your property was created!") + " 🎉",
       history: "resume",
+      className: 'willAnimate',
       cardType: 'Resume',
       imgApartment: resumeApartment,
       background: 'bgRed100',
@@ -155,6 +157,7 @@ export const QuestionsList = (lang, gameGroup) => {
       title: translateTo(lang, "And the first award goes to…You!"),
       subtitle: translateTo(lang, `You earned the <span class="txtGreen400">"${getHomeBase.name}"</span> Award and +${getHomeBase.points} Brixels.`),
       history: "rewardsStep",
+      className: 'willAnimate',
       cardType: 'RewardsStep',
       background: 'bgPrimary100',
       img: Cat,

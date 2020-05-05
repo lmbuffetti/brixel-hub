@@ -2,7 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { change, Field } from 'redux-form';
+import { change, Field, reset } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -15,11 +15,9 @@ import {
   BrixelButtonTertiary, useOutsideAlerter, BrixelInputText,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { uploadDocument, deleteDocument, updateDocument } from '../../actions/UploadActions';
+import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { setScreenNotification } from '../../actions/CommonActions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
-import { diff } from 'deep-object-diff';
-
 // IMAGES
 import upload_documents_empty from '../../images/Upload/upload_documents_empty.svg';
 import { useDropzone } from 'react-dropzone';
@@ -38,12 +36,12 @@ const Documents = (props) => {
     handleUploadDocument,
     user,
     handleDeleteDocument,
-    handleUpdateDocument,
     history,
     isSmallLoading,
     match,
     changeFieldValue,
     setNotification,
+    reset,
   } = props;
   const { documents } = formValue;
 
@@ -129,25 +127,6 @@ const Documents = (props) => {
     handleDeleteDocument(data);
   };
 
-  // UPDATE DOCUMENTS
-  const updateDoc = (e, doc) => {
-    e.preventDefault();
-    const selDoc = documents.find(item => item.id === editDocument.id);
-    const data = {
-      pageID: formValue.id,
-      id: doc.id,
-      smallLoader: true,
-      body: {
-        name: doc.name,
-        isPrivate: selDoc.isPrivate,
-        path: doc.path,
-        mimeType: doc.mimeType,
-      },
-    };
-    handleUpdateDocument(data);
-    setEditDocument({ id: null, active: false });
-  };
-
   // COPY DOCUMENT LINK
   const copyLinkToClipboard = (e) => {
     e.preventDefault();
@@ -171,7 +150,7 @@ const Documents = (props) => {
 
   return (
     <div className="secondLevel h-perc-md-100">
-      <div className="docubox dis-fl-col cardSecondLevel">
+      <div className={`${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel`}>
         <div className="dis-f jc-b a-c mb-3">
           <BrixelButtonIcon
             className="shadow-3dp hide-md"
@@ -182,7 +161,7 @@ const Documents = (props) => {
             noBorder
             onClick={() => history.push(`/${propID}/property`)}
           />
-          <h5 className="m-a m-md-0">
+          <h5 className="m-a m-md-0 sectionTitle">
             Docubox
           </h5>
         </div>
@@ -192,6 +171,8 @@ const Documents = (props) => {
               <>
                 <div className="documents-container dis-fl-col w-perc-100">
                   <ReactSortable
+                    scroll={true}
+                    bubbleScroll={true}
                     list={cloneDeep(documents)}
                     setList={(order, evt) => {
                       changeOrder(order);
@@ -240,7 +221,7 @@ const Documents = (props) => {
                             {
                               (editDocument.id === doc.id && editDocument.active) ? (
                                 <BrixelDropdown
-                                  className="zIndex2"
+                                  className="zIndex2 compact"
                                   borderColor="light"
                                   color="light"
                                   options={[
@@ -271,16 +252,6 @@ const Documents = (props) => {
                                 (editDocument.id === doc.id && editDocument.active) ? (
                                   <div className="dis-fl-row">
                                     <BrixelButtonIcon
-                                      icon="check-small"
-                                      bgTransparent
-                                      noBorder
-                                      color="green"
-                                      saturationTxt={400}
-                                      className="add-button"
-                                      label="Save"
-                                      onClick={(e) => updateDoc(e, doc)}
-                                    />
-                                    <BrixelButtonIcon
                                       icon="close-circle"
                                       bgTransparent
                                       noBorder
@@ -289,12 +260,8 @@ const Documents = (props) => {
                                       saturationTxt={400}
                                       label="Cancel"
                                       onClick={() => {
-                                        if (Object.keys(diff(formValue.documents[i], doc)).length > 0) {
-                                          changeFieldValue(`documents[${i}]`, formValue.documents[i]);
-                                          setEditDocument({ id: null, active: false });
-                                        } else {
-                                          setEditDocument({ id: null, active: false });
-                                        }
+                                        reset('Property');
+                                        setEditDocument({ id: null, active: false });
                                       }}
                                     />
                                   </div>
@@ -364,15 +331,15 @@ const Documents = (props) => {
           }
           <>
             <div
-              className={`${(!documents || (documents && documents.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-3 ta-c w-perc-100`}
+              className={`${(!documents || (documents && documents.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-2 ta-c w-perc-100`}
               {...getRootProps()}
             >
               <input {...getInputProps()} />
               {
                 (!documents || (documents && documents.length === 0)) && (
                   <div>
-                    <img src={upload_documents_empty} alt="Empty Documents" />
-                    <h5 className="mt-2 mb-1">Upload your fist document</h5>
+                    <img className="h-fix-120" src={upload_documents_empty} alt="Empty Documents" />
+                    <h5 className="mt-3 mb-2">Upload your first document</h5>
                   </div>
                 )
               }
@@ -395,8 +362,9 @@ const Documents = (props) => {
 Documents.propTypes = {
   history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.bool.isRequired,
+  isSmallLoading: PropTypes.string,
   match: PropTypes.object.isRequired,
+  reset: PropTypes.func.isRequired,
 };
 
 Documents.defaultProps = {
@@ -404,7 +372,7 @@ Documents.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   user: get(state, 'user.loggedInUser', {}),
 });
 
@@ -412,10 +380,12 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
+  reset(form) {
+    (dispatch(reset(form)))
+  },
   setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
-  handleUpdateDocument: bindActionCreators(updateDocument, dispatch),
 });
 
 export default compose(

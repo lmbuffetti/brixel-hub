@@ -6,19 +6,17 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import has from 'lodash/has';
 import { compose } from 'redux';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
-import noCover from '../../images/no_cover.jpg';
 import { sortObject } from '../../utils/helpers';
 import { BrixelButtonPrimary, BrixelStatus } from '@brixel/brixel-components';
+import CoverPropertyImage from '../../components/CoverPropertyImage';
 
 const PropertyList = (props) => {
   // PROPS
   const {
     activeSection,
+    activeSingleCompany,
     favoritesProperties,
-    formValue,
     history,
     userProperties,
     user,
@@ -67,67 +65,49 @@ const PropertyList = (props) => {
     <div className={`properties ov-a h-perc-100 ${className}`}>
       {
         (activeProperties && activeProperties.length > 0) && (
-          <div className="px-0 px-md-2 pb-5 py-1">
+          <div className="px-0 pb-5">
             {
               activeProperties.map((property, i) => (
                 <a key={i.toString()} className="link" href={`/${property.id}/home`}>
-                  <li className="single-property dis-fl-row a-c jc-b cur-poi brdSmall brdLight200 brdRadius mt-2">
-                    <div className="dis-f jc-b w-perc-100 a-c">
-                      <div className="dis-f a-c">
-                        <div className="avatar w-fix-96 h-fix-96 a-c jc-c pos-r brdRadius ov-h">
-                          {
-                            property.coverPhoto && property.coverPhoto.path ? (
-                              <img
-                                src={`${getConfigEnv.shortPath}${property.coverPhoto.thumbnailPath}`}
-                                alt="Brixel Logo"
-                                id={`avatar${i}`}
-                                className="dis-b"
-                              />
-                            ) : (
-                              <i
-                                className="w-perc-100 h-perc-100"
-                                style={{
-                                  backgroundSize: 'cover',
-                                  backgroundPosition: 'center',
-                                  display: 'block',
-                                  backgroundRepeat: 'no-repeat',
-                                  backgroundImage: `url(${noCover})`,
-                                }}
-                              />
-                            )
-                          }
-                        </div>
-                        <div className="title ml-1">
-                          <span className="name dis-fl-row body fweight-500 txtDark700 pt-1">
-                            {get(formValue, 'title', '')}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="ta-r pr-1 txtDark700">
-                        {
-                          property.owner.id === user.user.id ? (
-                            <>
-                              {
-                                activeSection !== 'seller' && (
-                                  <span className="fweight-500">Owner</span>
-                                )
-                              }
-                              <span className="dis-f a-c">
-                                <BrixelStatus color={statusPage(property).colorIcon} />
-                                <span className="ml-1 txtDark200">{statusPage(property).label}</span>
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              {
-                                activeSection !== 'buyer' && (
-                                  <span className="fweight-500">Buyer</span>
-                                )
-                              }
-                            </>
-                          )
-                        }
-                      </div>
+                  <li className="single-property a-c dis-fl-row cur-poi shadow-1dp brdRadius p-1 my-2">
+                    <div className="image-ratio w-fix-48 h-fix-48 flex-48 a-c jc-c pos-r brdRadius ov-h">
+                      <CoverPropertyImage
+                        size={48}
+                        className="cover"
+                        coverPhoto={get(property, 'coverPhoto.path', undefined)}
+                        propertyType={get(property, 'properties.propertyType', undefined)}
+                      />
+                    </div>
+                    <div className="title px-2 w-perc-100">
+                      <span className="name body2 dis-fl-row fweight-500 txtDark700">
+                        {get(property, 'title', '')}
+                      </span>
+                    </div>
+
+                    <div className="flex-72 max-w-fix-72 ta-r txtDark700">
+                      {
+                        property.owner.id === user.user.id ? (
+                          <>
+                            {
+                              activeSection !== 'seller' && (
+                                <span className="fweight-500 body2 ta-r">Owner</span>
+                              )
+                            }
+                            <span className="dis-f a-c jc-fe">
+                              <BrixelStatus color={statusPage(property).colorIcon} />
+                              <span className="ml-1 body2 txtDark200">{statusPage(property).label}</span>
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            {
+                              activeSection !== 'buyer' && (
+                                <span className="fweight-500 body2">Buyer</span>
+                              )
+                            }
+                          </>
+                        )
+                      }
                     </div>
                   </li>
                 </a>
@@ -143,7 +123,7 @@ const PropertyList = (props) => {
               label="Create new"
               rightIcon="plus"
               rounded
-              onClick={() => history.push('/packageFlow/getStarted')}
+              onClick={() => history.push(`/packageFlow/getStarted?company=${get(activeSingleCompany, 'stub', '')}`)}
             />
           </div>
         )
@@ -157,6 +137,7 @@ PropertyList.propTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   activeProperty: PropTypes.object.isRequired,
+  activeSingleCompany: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
@@ -170,6 +151,7 @@ PropertyList.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeProperty: get(state, 'property.activeSingleProperty', {}),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   favoritesProperties: get(state, 'user.favorites', []),
   formValue: get(state, 'form.Property.values', {}),
   user: get(state, 'user.loggedInUser', {}),

@@ -53,7 +53,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.redirectToRewards;
       delete action.payload.redirectToHome;
       delete action.payload.smallLoader;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.property.addProperty(action.payload, token)
         .then((res) => {
@@ -63,7 +63,7 @@ const checkCommon = (store) => (next) => (action) => {
           } else if (redirectToRewards) {
             window.location.href = `/packageFlow/${action.payload}/rewards`;
           } else if (redirectToHome) {
-            window.location.href = `/${res.data.id}/home`;
+            window.location.href = `/${res.data.id}/rewards`;
           }
           if (redirectToUserFlow) {
             window.location.href = '/onBoarding/brixelComingInTown';
@@ -88,8 +88,12 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.redirectToHome;
       delete action.payload.setSuccessNotification;
       delete action.payload.getEstimation;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
+      const data = action.payload;
+      if (get(data, 'photos', []).length > 0) {
+        data.coverPhoto = data.photos[0];
+      }
       api.property.updateProperty(id, action.payload)
         .then((res) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
@@ -134,10 +138,11 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case GET_ACTIVE_SINGLE_PROPERTY: {
       next(action);
-      const { smallLoader, setSuccessNotification } = action.payload;
+      const { smallLoader, setSuccessNotification, multiLoader } = action.payload;
       delete action.payload.smallLoader;
       delete action.payload.setSuccessNotification;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      delete action.payload.multiLoader;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       const fullVersion = get(action, 'payload.fullVersion', true);
       const apiEndPoint = (data) => fullVersion ? api.property.getProperty(data) : api.property.getPropertySimplified(data);
@@ -149,6 +154,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (setSuccessNotification) {
             store.dispatch({ type: SET_SAVED_SCREEN });
           }
+          if (multiLoader) store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
@@ -156,6 +162,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (window.location.href.includes('localhost')) {
             store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: page });
           }
+          if (multiLoader) store.dispatch({ type: SPINNER_OFF });
           // window.location.href = `/`;
         });
       break;
@@ -163,8 +170,9 @@ const checkCommon = (store) => (next) => (action) => {
     case GET_PROPERTY_LISTINGS:
       next(action);
       store.dispatch({ type: SPINNER_ON });
-      const { setAsSingle } = action.payload;
+      const { setAsSingle, multiLoader } = action.payload;
       delete action.payload.setAsSingle;
+      delete action.payload.multiLoader;
       api.property.getProperties(action.payload.limit, action.payload.offset)
         .then((res) => {
           if (setAsSingle) {
@@ -173,6 +181,7 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: res.data });
           }
           store.dispatch({ type: SPINNER_OFF });
+          if (multiLoader) store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           if (window.location.href.includes('localhost')) {
@@ -183,6 +192,7 @@ const checkCommon = (store) => (next) => (action) => {
             }
           }
           store.dispatch({ type: SPINNER_OFF });
+          if (multiLoader) store.dispatch({ type: SPINNER_OFF });
         });
       break;
     case GET_ESTIMATION:
@@ -311,7 +321,7 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case CREATE_PROPERTY_VISIT_SCHEDULE: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'visitSchedule' });
       api.property.createPropertyVisitSchedule(action.payload)
         .then((response) => {
           if (response.meta.status === 201) {
@@ -329,7 +339,7 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case SAVE_PROPERTY_VISIT_SCHEDULE: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'saveVisitSchedule' });
       api.property.updatePropertyVisitSchedule(action.payload.scheduleId, action.payload.data)
         .then((response) => {
           if (response.meta.status === 200) {
@@ -365,7 +375,7 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'booking' });
       const { id } = action.payload;
       api.property.getPageVisits(id).then((response) => {
         store.dispatch({
@@ -378,7 +388,7 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case SAVE_PROPERTY_VISIT_BOOKING: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON });
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'saveBooking' });
       const { scheduleId, data } = action.payload;
       delete action.payload.id;
       api.property.updatePropertyVisit(scheduleId, data)
@@ -406,7 +416,7 @@ const checkCommon = (store) => (next) => (action) => {
     case UPDATE_PORTALS_REVIEW: {
       next(action);
       const { smallLoader, page, status } = action.payload;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.property.changePortalsReview(page, status)
         .then((res) => {
@@ -419,7 +429,7 @@ const checkCommon = (store) => (next) => (action) => {
     case UPDATE_PUBLISHED_REVIEW: {
       next(action);
       const { smallLoader, page, status } = action.payload;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.property.changePublishReview(page, status)
         .then((res) => {
@@ -432,7 +442,7 @@ const checkCommon = (store) => (next) => (action) => {
     case GET_PACKAGES_PROPERTY: {
       next(action);
       const { smallLoader } = action.payload;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.property.getPackageList(10, 0)
         .then((res) => {
@@ -445,7 +455,7 @@ const checkCommon = (store) => (next) => (action) => {
     case SAVE_UPGRADE_PLAN: {
       next(action);
       const { smallLoader, page, data } = action.payload;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.property.saveUpgradePlan(page, data)
         .then((res) => {

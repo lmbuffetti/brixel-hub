@@ -1,121 +1,191 @@
-#getStarted {
-  height: calc(100vh - 88px);
-  width: 100vw;
-  overflow: hidden;
+/* .getStartedWrapper {
   #progressBar {
     position: fixed;
     top: 0;
+    left: 0;
+  }
+  #getStarted {
+    height: 100%;
     width: 100%;
-  }
-  .brixel-radio-button-icon {
-    margin-bottom: 16px;
-    label .textLabel {
-      margin-left: 16px;
-      @media (min-width: $responsive-medium) {
-        font-size: 1.2rem;
+    position: fixed;
+    overflow: hidden;
+    max-width: 760px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    box-shadow: $shadow-1dp;
+    border-top-left-radius: $brd-radius-small;
+    border-top-right-radius: $brd-radius-small;
+
+    .subcontainer {
+      width: 100%;
+      max-width: 480px;
+      margin: auto;
+    }
+
+    .multiStepForm {
+      height: 100%;
+    }
+    .slideMultiStepForm {
+      height: 100%;
+      display: flex;
+      transition: transform $default-loader-time ease-in-out;
+    }
+    .bodyModalFlow {
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .singleStep {
+      height: 100%;
+      flex: 0 0 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: $step * 3;
+
+      @media (min-width: $responsive-small) {
+        display: flex;
+        align-items: center;
+      }
+      &[class*="bg"],
+      &.vertCentered {
+        align-items: center;
+        justify-content: center;
+        display: flex;
       }
     }
-  }
-  &.withoutFooter {
-    height: calc(100vh - 56px);
-    .singleStep {
-      height: calc(100vh - 54px);
-    }
-  }
-  @media (min-width: $responsive-medium) {
-    .singleStep {
-      height: calc(100vh - 133px);
-    }
-    &.withoutFooter {
-      height: calc(100vh - 72px);
-      .singleStep {
-        height: calc(100vh - 72px);
+    .footerAction {
+      background: $brx-white;
+      position: relative;
+      width: 100%;
+      left: 0;
+      bottom: 0;
+
+      &.successNext {
+        background: map_get($greenColor, 200);
+
+        .textSuccess {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          transform: translateY(-100%);
+        }
+
+        .backBtn {
+          opacity: .5;
+        }
       }
     }
-  }
-}
 
-.pac-container {
-  background-color: #fff;
-  position: absolute!important;
-  z-index: 1000;
-  border-radius: 2px;
-  border-top: 1px solid #d9d9d9;
-  font-family: Arial, sans-serif;
-  box-shadow: $shadow-3dp;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  overflow: hidden;
-  padding: $step;
-  &:before {
-    content: ''
+    .brixel-radio-button-icon {
+      margin-bottom: 16px;
+      label .textLabel {
+        margin-left: 16px;
+        @media (min-width: $responsive-medium) {
+          font-size: 1.2rem;
+        }
+      }
+    }
+    .message:empty {
+      display: none;
+    }
   }
-}
+} */
 
-.pac-logo:after {
-  content: "";
-  padding: 1px 1px 1px 0;
-  height: 16px;
-  text-align: right;
-  display: block;
-  background-image: url(https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3.png);
-  background-position: right;
-  background-repeat: no-repeat;
-  background-size: 120px 14px
-}
-.hdpi.pac-logo:after {
-  background-image: url(https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3_hdpi.png)
-}
-.pac-item {
-  cursor: default;
-  padding: $step;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  line-height: 30px;
-  text-align: left;
-  border-top: none;
-  font-size: 1rem;
-  color: #999;
-  display: flex;
-  align-items: center;
-}
-.pac-item:hover {
-  background-color: #fafafa
-}
-.pac-item-selected,
-.pac-item-selected:hover {
-  background-color: #ebf2fe
-}
-.pac-matched {
-  font-weight: 700
-}
-.pac-item-query {
-  font-size: 1rem;
-  padding-right: 3px;
-  color: map_get($primaryColor, 700);
-  display: flex;
-  align-items: center;
-}
-.pac-icon {
-  display: none;
-}
-.hdpi .pac-icon {
-  background-image: url(https://maps.gstatic.com/mapfiles/api-3/images/autocomplete-icons_hdpi.png)
-}
-.pac-icon-search {
-  background-position: -1px -1px
-}
-.pac-item-selected .pac-icon-search {
-  background-position: -18px -1px
-}
-.pac-icon-marker {
-  background-position: -1px -161px
-}
-.pac-item-selected .pac-icon-marker {
-  background-position: -18px -161px
-}
-.pac-placeholder {
-  color: gray
+.getStartedWrapper {
+  // only for package flow
+  .curAdr {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    padding: $step $step * 2;
+    z-index: 5;
+    background: rgba($brx-white, 0.8);
+  }
+
+  .pac-container {
+    background-color: #fff;
+    position: absolute!important;
+    z-index: 1000;
+    border-radius: 2px;
+    border-top: 1px solid #d9d9d9;
+    font-family: Arial, sans-serif;
+    box-shadow: $shadow-3dp;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: $step;
+    &:before {
+      content: ''
+    }
+  }
+
+  .pac-logo:after {
+    content: "";
+    padding: 1px 1px 1px 0;
+    height: 16px;
+    text-align: right;
+    display: block;
+    background-image: url(https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3.png);
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: 120px 14px
+  }
+  .hdpi.pac-logo:after {
+    background-image: url(https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3_hdpi.png)
+  }
+  .pac-item {
+    cursor: default;
+    padding: $step;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 30px;
+    text-align: left;
+    border-top: none;
+    font-size: 1rem;
+    color: #999;
+    display: flex;
+    align-items: center;
+  }
+  .pac-item:hover {
+    background-color: #fafafa
+  }
+  .pac-item-selected,
+  .pac-item-selected:hover {
+    background-color: #ebf2fe
+  }
+  .pac-matched {
+    font-weight: 700
+  }
+  .pac-item-query {
+    font-size: 1rem;
+    padding-right: 3px;
+    color: map_get($primaryColor, 700);
+    display: flex;
+    align-items: center;
+  }
+  .pac-icon {
+    display: none;
+  }
+  .hdpi .pac-icon {
+    background-image: url(https://maps.gstatic.com/mapfiles/api-3/images/autocomplete-icons_hdpi.png)
+  }
+  .pac-icon-search {
+    background-position: -1px -1px
+  }
+  .pac-item-selected .pac-icon-search {
+    background-position: -18px -1px
+  }
+  .pac-icon-marker {
+    background-position: -1px -161px
+  }
+  .pac-item-selected .pac-icon-marker {
+    background-position: -18px -161px
+  }
+  .pac-placeholder {
+    color: gray
+  }
 }

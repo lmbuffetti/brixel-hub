@@ -159,7 +159,7 @@ const Upgrade = (props) => {
   };
 
   return (
-    <div id="achievementSection">
+    <div id="bodyModalWrapper">
       <div className={`bodyModal dis-fl-col upgradeModal stepNo${currentIndex}`}>
         <div className="dis-f jc-fe p-1 p-md-2 h-fix-72">
           <BrixelButtonIcon

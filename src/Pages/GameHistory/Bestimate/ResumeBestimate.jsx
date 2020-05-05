@@ -29,7 +29,7 @@ function ResumeBestimate(props) {
 
 
   useEffect(() => {
-    if (property && property.id) {
+    if (property && property.id && !marketData.priceDistribution) {
       const latBoundsRadius = 0.0675;
       const longBoundsRadius = 0.1;
       const livingSpace = get(property, 'properties.typology.livingArea.value', 0);
@@ -85,7 +85,7 @@ function ResumeBestimate(props) {
       }
       {
         marketData && marketData.priceDistribution && marketData.priceDistribution.chartRangePrice && property.estimation && property.estimation.bestimate && (
-          <div className="dis-f jc-c mt-6-neg">
+          <div className="dis-f jc-c">
             <RangePriceChart
               properties={marketData.priceDistribution.chartRangePrice}
               type="bestimate"

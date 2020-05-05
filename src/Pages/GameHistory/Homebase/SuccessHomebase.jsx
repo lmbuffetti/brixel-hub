@@ -20,9 +20,9 @@ function SuccessHomebase(props) {
   const propID = get(match, 'params.propId', null);
 
   return (
-    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col jc-c a-c">
+    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-md-2">
       <div className="dis-fl-col jc-c a-c">
-        <div className="bgWhite brdRadius shadow-4dp ov-h max-w-fix-280 w-perc-100">
+        <div className="bgWhite brdRadius shadow-4dp ov-h max-w-fix-280 w-perc-100 mt-2">
           <div className="image-ratio">
             <CoverPropertyImage
               className="cover"
@@ -57,7 +57,7 @@ function SuccessHomebase(props) {
             </div>
           </div>
         </div>
-        <p className="mt-3 txtDark200 m-a ta-c">Great. Your property was created. Now you have the base to use Brixel.</p>
+        <p className="mt-3 max-w-fix-376 txtDark200 fsize-300 m-a ta-c">Great. Your property was created. Now you have the base to use Brixel.</p>
       </div>
       <div className="dis-fl-col">
         <BrixelButtonPrimary

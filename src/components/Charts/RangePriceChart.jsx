@@ -17,7 +17,7 @@ function RangePriceChart(props) {
     labelPosition: 'preffix',
   };
   const margin = {
-    top: type === 'bestimate' ? 80 : 100,
+    top: type === 'bestimate' ? 0 : 100,
     bottom: 30,
     left: 0,
     right: 0,
@@ -285,7 +285,7 @@ function RangePriceChart(props) {
 
   const drawChart = () => {
     const width = 350;
-    const height = 280;
+    const height = type !== 'bestimate' ? 280 : 200;
 
     const el = new Element('div');
     el.setAttribute('id', randomID);

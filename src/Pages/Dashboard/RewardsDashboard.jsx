@@ -6,19 +6,25 @@ import get from 'lodash/get';
 import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelIcon, BrixelButtonIcon } from '@brixel/brixel-components';
-import { getAchievement, getGamegroup, getGameHistory, addGameHistory } from '../../actions/GamificationActions';
+import { BrixelIcon, BrixelButtonIcon, BrixelButtonBox } from '@brixel/brixel-components';
+import { addGameHistory } from '../../actions/GamificationActions';
 import Loading from '../../components/Loading';
 import { GameGroupConfig } from '../../constants/global';
-import brixels from '../../images/BrxielComingTown/brixels.svg';
 import helloImg from '../../images/hello.svg';
 import BrixelButtonAchievement from '../../components/BrixelButtonAchievement';
-import { setCookie, getCookie } from '../../utils/helpers';
+import { setCookie, getCookie, sortObject } from '../../utils/helpers';
 
 import SuccessMarketCheck from '../GameHistory/MarketChecker/SuccessMarketCheck';
 import SuccessBestimate from '../GameHistory/Bestimate/SuccessBestimate';
 import SuccessAssessor from '../GameHistory/Assessor/SuccessAssessor';
 import SuccessHomebase from '../GameHistory/Homebase/SuccessHomebase';
+import FactsRewards from '../GameHistory/SecondLevel/FactsRewards';
+import MediaExplanation from '../GameHistory/SecondLevel/MediaRewards';
+import PageReviewRewards from '../GameHistory/SecondLevel/PageReviewRewards';
+import PagePublishedRewards from '../GameHistory/SecondLevel/PagePublishedRewards';
+import PortalsRewards from '../GameHistory/SecondLevel/PortalsRewards';
+import { setModal } from '../../actions/CommonActions';
+import Support from '../../components/Support';
 
 const RewardsDashboard = (props) => {
   // PROPS
@@ -27,9 +33,8 @@ const RewardsDashboard = (props) => {
     formValue,
     gameGroup,
     gameHistory,
-    handleGetAchievement,
-    handleGetGamegroup,
     handleAddGameHistory,
+    handleSetModal,
     history,
     loggedInUser,
     match,
@@ -37,7 +42,7 @@ const RewardsDashboard = (props) => {
     windowDimensions,
   } = props;
   // STATE
-  const [usrGroups, setUsrGroups] = useState(gameGroup);
+  const [usrGroups, setUsrGroups] = useState(gameGroup.sort(sortObject('stub', 'asc')));
   const [activeGameGroup, setActiveGameGroup] = useState(null);
   const [activeAchievement, setActiveAchievement] = useState(null);
   // PARAMS URL
@@ -45,28 +50,78 @@ const RewardsDashboard = (props) => {
   const propID = get(match, 'params.propId', '');
   const gameHistoryData = get(gameHistory, 'data', null);
 
-  useEffect(() => {
-    handleGetAchievement();
-    handleGetGamegroup();
-    // handleGetGameHistory();
-  }, []);
+  const isDisabledFlow = (game) => {
+    let disabled = false;
+    if (game === 'market-checker' && (get(formValue, 'location.countryCode', null) !== 'CH' && get(formValue, 'location.countryCode', null) !== 'PT')) {
+      disabled = true;
+    }
+    if (game === 'bestimate' && get(formValue, 'location.countryCode', null) !== 'CH') {
+      disabled = true;
+    }
+    return disabled;
+  };
 
   useEffect(() => {
-    if (windowDimensions && windowDimensions.width > 768 && rewardType === 'rewards') {
-      history.push({pathname: `/${propID}/rewards/market-checker` });
-      setActiveGameGroup('market-checker');
+    let getNameGroup = localStorage.getItem('gameGroup') || null;
+    if (windowDimensions && windowDimensions.width > 768 && rewardType === 'rewards' && usrGroups) {
+      if (!getNameGroup) {
+        usrGroups.forEach((groups) => {
+          if (groups.stub.includes(userTypes)) {
+            groups.achievements.forEach((group) => {
+              const selElTodo = gameHistory.data.find(game => game.achievement.stub === group.stub && game.page === propID);
+              if (typeof selElTodo === 'undefined' && !getNameGroup && !isDisabledFlow(group.stub)) {
+                localStorage.setItem('gameGroup', group.stub);
+                getNameGroup = group.stub;
+                setActiveGameGroup(group.stub);
+                return false;
+              }
+            });
+          }
+        });
+      }
+      history.push({ pathname: `/${propID}/rewards/${getNameGroup}` });
     }
-  }, [windowDimensions, rewardType]);
+  }, [windowDimensions, gameHistory, usrGroups]);
 
   useEffect(() => {
     let filtUsrGroup = [];
     filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userTypes) !== -1);
+    filtUsrGroup = filtUsrGroup.sort(sortObject('stub', 'asc'));
     if (gameHistory.data) {
       // CHECK IF DONE HOMEBASE
       gameHistory.data.map((game) => {
         filtUsrGroup.map((group, f) => {
           const idGroup = group.achievements.findIndex(val => val.stub === game.achievement.stub && property.id === game.page);
           if (idGroup >= 0) filtUsrGroup[f].achievements[idGroup].done = true;
+          else if (filtUsrGroup[f].achievements) {
+            // CHECK PORTALS
+            const idGroupPortals = group.achievements.findIndex(val => val.stub === 'portals');
+            if (idGroupPortals > 0) {
+              if (!filtUsrGroup[f].achievements[idGroupPortals].done) {
+                let isOnline = false;
+                const portals = get(formValue, 'portals', {});
+                Object.keys(portals).map((key) => {
+                  if (portals[key]) isOnline = true;
+                  return null;
+                });
+                if (isOnline) {
+                  handleAddGameHistory({ stub: 'portals' });
+                  filtUsrGroup[f].achievements[idGroupPortals].done = true;
+                }
+              }
+            }
+            // CHECK PAGE
+            const idGroupPage = group.achievements.findIndex(val => val.stub === 'page-published');
+            if (idGroupPage > 0) {
+              if (!filtUsrGroup[f].achievements[idGroupPage].done) {
+                const pageIsOnline = get(formValue, 'published', false);
+                if (pageIsOnline) {
+                  handleAddGameHistory({ stub: 'page-published' });
+                  filtUsrGroup[f].achievements[idGroupPage].done = true;
+                }
+              }
+            }
+          }
           return null;
         });
         return null;
@@ -91,41 +146,46 @@ const RewardsDashboard = (props) => {
   }, [property, gameHistory, userTypes]);
 
   useEffect(() => {
-    if (gameHistory.data && rewardType && rewardType !== 'rewards') {
+    if (gameHistory.data && rewardType && rewardType !== 'rewards' && gameGroup) {
       let selectEl;
-      selectEl = gameHistory.data.find(el => el.achievement.stub === rewardType && el.page === property.id);
-      if (typeof selectEl !== 'undefined') {
-        selectEl.done = true;
-      } else {
-        usrGroups.map((item) => {
-          if (!selectEl) selectEl = item.achievements.find(el => el.stub === rewardType);
-          return null;
-        })
-      }
+      usrGroups.map((item) => {
+        if (!selectEl) selectEl = item.achievements.find(el => el.stub === rewardType);
+        return null;
+      })
       setActiveGameGroup(rewardType);
       setActiveAchievement(selectEl);
+      if (rewardType === 'call-expert') {
+        setActiveAchievement({ title: 'Call the expert' });
+      }
     } else {
       setActiveGameGroup(null);
       setActiveAchievement(null);
     }
-  }, [gameHistoryData, usrGroups, history]);
+  }, [gameHistoryData, usrGroups, history, gameGroup]);
 
   const onClickAchievement = (game, achievement) => {
     setActiveGameGroup(game);
+    localStorage.setItem('gameGroup', game);
     history.push({pathname: `/${propID}/rewards/${game}` });
     setActiveAchievement(achievement);
   };
 
-  const isDisabledFlow = (game) => {
-    let disabled = false;
-    if (game === 'market-checker' && (get(formValue, 'location.countryCode', null) !== 'CH' && get(formValue, 'location.countryCode', null) !== 'PT')) {
-      disabled = true;
-    }
-    if (game === 'bestimate' && get(formValue, 'location.countryCode', null) !== 'CH') {
-      disabled = true;
-    }
-    return disabled;
-  };
+  const getSuccessActiveGroup = () => {
+    return (
+      <>
+        {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'facts' && (<FactsRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'media' && (<MediaExplanation gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'page-preview' && (<PageReviewRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'page-published' && (<PagePublishedRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'portals' && (<PortalsRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+        {activeGameGroup === 'call-expert' && (<Support layout="rewards" expanded={true} isFixed={false} hideClose={true} />)}
+      </>
+    )
+  }
 
   if (!property.id && !userTypes) {
     return <Loading />
@@ -153,25 +213,25 @@ const RewardsDashboard = (props) => {
           </div>
         )
       }
-      <div className={`dis-f h-perc-md-100 ${rewardType === 'rewards' ? 'jc-c' : 'jc-b'} pos-r-md`}>
+      <div className={`dis-f a-t jc-c pos-r-md`}>
         {
           usrGroups && (
-            <>
+            <div className="firstLevel mr-md-2 pr-md-8">
               {
                 usrGroups.map((group, i) => (
-                  <div className="firstLevel mr-md-2" key={i.toString()}>
+                  <div className={`level-${group.stub.replace(/^\D+/g, '')}`} key={i.toString()}>
                     {
                       GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`] && (
                         <>
                           {
                             i === 0 ? (
-                              <div className="dis-f jc-b a-c mb-3 mt-2">
-                                <span className="dis-b txtDark700 fweight-500">
+                              <div className="dis-f jc-b a-c mb-3 mt-0 mt-md-2">
+                                <span className="dis-b txtGreen700 fweight-500">
                                   {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
                                 </span>
                               </div>
                             ) : (
-                              <span className="mb-3 dis-b txtDark700 fweight-500">
+                              <span className="mb-3 dis-b txtRed700 fweight-500">
                                 {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
                               </span>
                             )
@@ -180,20 +240,45 @@ const RewardsDashboard = (props) => {
                           <div key={i.toString()} className="pos-r">
                             {
                               group.achievements && group.achievements.map((item, f) => (
-                                <div key={f.toString()} className="pos-r">
-                                  <BrixelButtonAchievement
-                                    done={item.done}
-                                    active={item.stub === activeGameGroup}
-                                    icon={item.icon}
-                                    title={item.description}
-                                    subtitle={item.name}
-                                    isFree={true}
-                                    onClick={() => onClickAchievement(item.stub, item)}
-                                    lineAfter={group.achievements.length - 1 > f}
-                                    award={item.achievementType === 'award'}
-                                    disabled={isDisabledFlow(item.stub)}
-                                  />
-                                </div>
+                                <>
+                                  <div key={f.toString()} className="pos-r">
+                                    <BrixelButtonAchievement
+                                      level={group.stub.replace(/^\D+/g, '')}
+                                      done={item.done}
+                                      active={item.stub === activeGameGroup}
+                                      icon={item.icon}
+                                      title={item.description}
+                                      subtitle={item.name}
+                                      isFree={item.isFree}
+                                      onClick={() => onClickAchievement(item.stub, item)}
+                                      lineAfter={group.achievements.length - 1 > f}
+                                      award={item.achievementType === 'award'}
+                                      disabled={isDisabledFlow(item.stub)}
+                                      config={GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`]}
+                                    />
+                                  </div>
+                                  {
+                                    f === group.achievements.length - 1 && group.stub.replace(/^\D+/g, '') === '1' && (
+                                      <div className="pos-r">
+                                        <hr className="lighter" />
+                                        <BrixelButtonBox
+                                          bgTransparent
+                                          className={`mt-2 mb-4 w-perc-100 shadow-1dp brdMedium p-2 ${rewardType === 'call-expert' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+                                          backIcon="Primary100"
+                                          done={false}
+                                          icon="call"
+                                          paddingIconClass="p-small-9 mr-1"
+                                          label="Call the expert"
+                                          labelClass="fweight-400"
+                                          subtitleClass="txtDark200"
+                                          subtitle="15 min personal support for free"
+                                          isFree="15 min personal support for free"
+                                          onClick={() => onClickAchievement('call-expert', { title: 'Call the expert' })}
+                                        />
+                                      </div>
+                                    )
+                                  }
+                                </>
                               ))
                             }
                           </div>
@@ -203,17 +288,17 @@ const RewardsDashboard = (props) => {
                   </div>
                 ))
               }
-            </>
+            </div>
           )
         }
         {
           activeGameGroup && rewardType !== 'rewards' && (
             <div className="secondLevel w-perc-100 dis-fl-col ml-md">
               <>
-                <div className="rewardsSplash h-perc-100 dis-fl-col p-2 p-md-3 cardSecondLevel">
+                <div className="rewardsSplash h-perc-100 dis-fl-col p-2 pb-md-8 cardSecondLevel">
                   {
                     activeAchievement && (
-                      <div className="dis-f a-c jc-b mb-4">
+                      <div className="dis-f a-c jc-b mb-md-3">
                         <div className="dis-f a-c">
                           <BrixelButtonIcon
                             className="shadow-2dp mr-2 hide-md"
@@ -224,23 +309,32 @@ const RewardsDashboard = (props) => {
                             noBorder
                             onClick={() => history.push(`/${propID}/rewards`)}
                           />
-                          <p className="mr-1 body fweight-500">{activeAchievement.title || activeAchievement.name}</p>
+                          <p className="mr-1 body fweight-500">
+                            {activeAchievement.title || activeAchievement.description}
+                          </p>
                         </div>
-                        <div className="cur-poi ml-2">
-                          <BrixelIcon
-                            icon="cup-awards"
-                            color="green"
-                            className="mr-1"
-                          />
-                          <span className="ff-mono txtDark700">{activeAchievement.points}</span>
-                        </div>
+                        {
+                          activeAchievement.points && (
+                            <div className="cur-poi ml-2"  onClick={() => handleSetModal({
+                              showAwardsInfo: true,
+                            })}>
+                              {
+                                activeAchievement.achievementType === 'award' && (
+                                  <BrixelIcon
+                                    icon="cup-awards"
+                                    color="green"
+                                    className="mr-1"
+                                  />
+                                )
+                              }
+                              <span className="ff-mono txtDark700">{activeAchievement.points}</span>
+                            </div>
+                          )
+                        }
                       </div>
                     )
                   }
-                  {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                  {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                  {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-                  {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+                  {getSuccessActiveGroup()}
                 </div>
               </>
             </div>
@@ -256,9 +350,6 @@ RewardsDashboard.propTypes = {
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
   formValue: PropTypes.object.isRequired,
-  handleGetAchievement: PropTypes.func.isRequired,
-  handleGetGamegroup: PropTypes.func.isRequired,
-  handleGetGameHistory: PropTypes.func.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -285,10 +376,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetAchievement: bindActionCreators(getAchievement, dispatch),
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
-  handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
 });
 
 export default compose(

@@ -5,8 +5,14 @@
   &.active {
     border-color: map_get($primaryColor, 400)
   }
+  .onHover {
+    transition: color $default-time;
+  }
   &:hover {
     box-shadow: $shadow-3dp;
+    .onHover {
+      color: map-get($darkColor, 400 )
+    }
   }
   &:disabled {
     filter: grayscale(100%);
@@ -22,5 +28,4 @@
   height: 24px;
   top: 100%;
   left: 28px;
-  background: map_get($greenColor, 200);
 }

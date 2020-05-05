@@ -1,25 +1,25 @@
 .hubDashboard {
+
+  .hubDasContent {
+    @media (min-width: $responsive-medium) {
+      padding-left: 210px;
+      top: 64px;
+      position: relative;
+    }
     .property-container,
     .listings-container {
-      .photosWrapper .secondLevel > div:not(.brixel-upgrade-message),
-      .tourWrapper,
-      .secondLevel .docubox,
-      .plansWrapper .secondLevel > div:not(.brixel-upgrade-message),
       .brixelPageWrapper:not(.cardInfoBox),
       .showingsWrapper,
       .portalsWrapper:not(.cardInfoBox) {
         // min height for  secondlevel container
         @media (min-width: $responsive-medium) {
-          min-height: 65vh;
-        }
-        @media only screen
-        and (min-width : $responsive-small)
-        and (max-width : $responsive-large) {
-            min-height: 50vh;
+          min-height: 50vh;
         }
       }
+      .secondLevel .docubox:not(.emptyMedia) {
+        min-height: 459px;
+      }
     }
-  .hubDasContent {
     &.saveActionOn {
       .inputSheet {
         @media (max-width: $responsive-medium) {
@@ -27,23 +27,29 @@
         }
       }
     }
-    @media (min-width: $responsive-medium) {
-      padding-left: 210px;
+
+    .sectionTitle {
+      @media (max-width: $responsive-medium) {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
   }
   .rewards-container {
     .rewardsSplash {
       @media (min-width: $responsive-medium) {
-        min-height: 50vh;
+        // min-height: 50vh;
       }
       @media only screen
       and (min-width : $responsive-small)
       and (max-width : $responsive-large) {
-          min-height: 35vh;
+         // min-height: 35vh;
       }
       #rewards {
+        flex: 1;
         > div:first-child {
-          max-width: 340px;
+          //max-width: 340px;
 
           @media (max-width: $responsive-medium) {
             /* margin-top: auto;
@@ -106,4 +112,20 @@
   @media screen and(max-width: map-get($grid-breakpoints, xl)) {
   }
 
+}
+
+.secondLevelActive {
+  .hubDasHeader,
+  .brixelNavMenu {
+    @media (max-width: $responsive-medium) {
+      display: none;
+      opacity: 0;
+    }
+  }
+  .hubDasContent {
+    @media (max-width: $responsive-medium) {
+      top: 64px;
+      position: relative;
+    }
+  }
 }

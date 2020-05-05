@@ -6,17 +6,22 @@
 
   .name div:nth-child(2) {
     min-height: 50px;
+    width: calc(100% - 50px);
   }
 
   .single-document {
     border-bottom: 1px solid map_get($lightColor, 200);
     cursor: grab;
 
+    .name {
+      width: calc(100% - 44px);
+    }
+
     .document-title {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 250px;
+      max-width: 100%;
     }
   }
 

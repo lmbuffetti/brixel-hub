@@ -25,7 +25,7 @@ import {
 } from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
 import LoadingSimple from '../../components/LoadingSimple';
-import ShowingPlaceholder from '../../images/showing_placeholder.svg';
+import ShowingPlaceholder from '../../images/Listings/showing_placeholder.svg';
 
 const AddShowings = Loadable({
   loader: () => import('./AddShowings' /* webpackChunkName: "AddShowings" */),
@@ -116,7 +116,7 @@ const Showings = (props) => {
       <div className="showings secondLevel dis-fl-col ml-md-1">
         <div className="showingsWrapper dis-fl-col">
           <div className="pos-r">
-            <div className="dis-f jc-b a-c mb-3">
+            <div className={`dis-f jc-b a-c ${!manageAvailability ? 'mb-3' : ''}`}>
               <BrixelButtonIcon
                 className={`shadow-3dp hide-md ${manageAvailability ? "opacity0" : ""}`}
                 icon="arrow-simple-left"
@@ -126,7 +126,7 @@ const Showings = (props) => {
                 noBorder
                 onClick={() => history.push(`/${propID}/listings`)}
               />
-              <h5 className="m-a m-md-0">Showings</h5>
+              <h5 className="m-a m-md-0 sectionTitle">Showings</h5>
               <BrixelButtonIcon
                 className="shadow-3dp"
                 icon={manageAvailability ? "close-small" : "calendar-edit"}
@@ -137,6 +137,7 @@ const Showings = (props) => {
                 onClick={() => manageAvailability ? discardChanges() : setManageAvailability(!manageAvailability)}
               />
             </div>
+
             {
               !manageAvailability && Object.keys(gorupByMonth()).length > 0 && (
                 <div>
@@ -161,9 +162,9 @@ const Showings = (props) => {
             }
             {
               !manageAvailability && Object.keys(gorupByMonth()).length === 0 && (
-                <div className="ta-c">
-                  <img src={ShowingPlaceholder} alt="Showings Placeholder" />
-                  <h5 className="ta-c my-3">Setup your first showing</h5>
+                <div className="ta-c mt-2">
+                  <img className="h-fix-120" src={ShowingPlaceholder} alt="Showings Placeholder" />
+                  <h5 className="ta-c mt-2 mb-2">Setup your first showing</h5>
                   <BrixelButtonPrimary
                     className="m-a"
                     rounded
@@ -215,6 +216,9 @@ const Showings = (props) => {
               </div>
             ) : (
               <>
+                <div className="dis-f jc-c dis-b-md mb-3">
+                  <p className="max-w-fix-264 body2 txtDark400"> Select your availability </p>
+                </div>
                 <div className="max-h-perc-100 ov-a">
                   <BrixelTimeSlots
                     countryLang={lang}
@@ -248,7 +252,7 @@ Showings.propTypes = {
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
   handleSavePropertyVisitBooking: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.bool.isRequired,
+  isSmallLoading: PropTypes.string,
   formValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
   match: PropTypes.object.isRequired,
@@ -260,7 +264,7 @@ Showings.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSinglePropertyBooking: get(state, 'property.activeSinglePropertyBooking', []),
   formValue: get(state, 'form.Property.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   notification: get(state, 'common.notification', {}),
   lang: get(state, 'user.loggedInUser.user.language', {}),
 });

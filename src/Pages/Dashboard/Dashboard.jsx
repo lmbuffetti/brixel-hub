@@ -9,6 +9,7 @@ import isObject from 'lodash/isObject';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import cloneDeep from 'lodash/cloneDeep';
+import set from 'lodash/set';
 
 import {
   getPropertyListings,
@@ -20,6 +21,7 @@ import Loadable from 'react-loadable';
 import { reduxForm, reset } from 'redux-form';
 import { diff } from 'deep-object-diff';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
+import { addGameHistory, getAchievement, getGamegroup, getGameHistory } from '../../actions/GamificationActions';
 import { setModal, setScreenNotification } from '../../actions/CommonActions';
 import has from 'lodash/has';
 
@@ -67,9 +69,13 @@ const Dashboard = (props) => {
     formValue,
     handleGetPropertyListings,
     handleGetActiveSingleProperty,
+    handleAddGameHistory,
     handleGetActiveSinglePropertyBookings,
     handleGetImageType,
     handleSaveActiveSingleProperty,
+    handleGetAchievement,
+    handleGetGamegroup,
+    handleGetGameHistory,
     handleSavePropertyVisitSchedule,
     handleCreatePropertyVisitSchedule,
     handleSetScreenNotification,
@@ -96,16 +102,20 @@ const Dashboard = (props) => {
       limit: 1,
       offset: `0/?owner=${loggedInUser.user.id}`,
       setAsSingle: true,
+      multiLoader: true,
     };
     handleGetPropertyListings(data);
   };
 
   useEffect(() => {
     if (propID && !get(activeSingleProperty, 'id', null)) {
-      handleGetActiveSingleProperty({fullVersion: true, id: propID});
+      handleGetActiveSingleProperty({fullVersion: true, id: propID, multiLoader: true });
     } else if (!propID) {
       loadDefaultProperty();
     }
+    handleGetAchievement();
+    handleGetGamegroup();
+    handleGetGameHistory();
   }, []);
 
   useEffect(() => {
@@ -123,6 +133,7 @@ const Dashboard = (props) => {
     } else {
       setUserType('emptyState');
     }
+    localStorage.removeItem('gameGroup');
   }, [activeSingleProperty]);
 
   const saveData = () => {
@@ -163,6 +174,9 @@ const Dashboard = (props) => {
           ...objToSave,
         };
         handleSaveActiveSingleProperty(data);
+        if (get(formValue, 'inputSheet', {}).totalComplete > 70) {
+          handleAddGameHistory({stub: 'facts'});
+        }
       }
     }
   };
@@ -213,7 +227,7 @@ const Dashboard = (props) => {
       const getID = notification.actions.findIndex(item => item.label === 'Save');
       if (getID > -1) {
         const newNotification = cloneDeep(notification);
-        newNotification.actions[getID].isLoading = isSmallLoading;
+        newNotification.actions[getID].isLoading = isSmallLoading !== null;
         handleSetScreenNotification({
           ...newNotification,
         })
@@ -224,7 +238,9 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
+      const checkIsValid = Object.keys(changeObj).find(key => typeof changeObj[key] !== 'undefined');
       if (
+        checkIsValid &&
         Object.keys(changeObj).length > 0 &&
         (Object.keys(changeObj).length > 1 || !changeObj.inputSheet ) &&
         !isSmallLoading &&
@@ -253,7 +269,7 @@ const Dashboard = (props) => {
   if (!userTypes && !userType) return (<div />);
 
   return (
-    <div className="container ov-x-h" id="dashboard">
+    <div className="container ov-x-h dashboardContainer" id="dashboard">
       { /* SECTION: APP HEADER */ }
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
@@ -269,12 +285,16 @@ Dashboard.propTypes = {
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
-  isSmallLoading: PropTypes.bool,
+  isSmallLoading: PropTypes.string,
   userTypes: PropTypes.string,
+  handleAddGameHistory: PropTypes.func.isRequired,
   handleGetPropertyListings: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetAchievement: PropTypes.func.isRequired,
+  handleGetGamegroup: PropTypes.func.isRequired,
+  handleGetGameHistory: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
@@ -300,51 +320,66 @@ const DashboardForm = reduxForm({
   destroyOnUnmount: false,
 })(Dashboard);
 
-const mapStateToProps = (state) => ({
-  userTypes: get(state, 'user.userTypes', null),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', undefined),
-  formValue: get(state, 'form.Property.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', 0) > 0,
-  isLoading: get(state, 'common.isLoading', 0) > 0,
-  errorValue: get(state, 'form.Property.syncErrors', null),
-  regFields: get(state, 'form.Property.registeredFields', null),
-  notification: get(state, 'common.notification', {}),
-  initialValues: {
-    assessor: get(state, 'property.activeSingleProperty.assessor', {}),
-    booking: get(state, 'property.activeSinglePropertyBooking', []),
-    documents: get(state, 'property.activeSingleProperty.documents', []),
-    coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
-    description: get(state, 'property.activeSingleProperty.description', {}),
-    id: get(state, 'property.activeSingleProperty.id', null),
-    floorPlans: get(state, 'property.activeSingleProperty.floorPlans', []),
-    inputSheet: get(state, 'property.activeSingleProperty.inputSheet', {}),
-    price: get(state, 'property.activeSingleProperty.price', {}),
-    status: get(state, 'property.activeSingleProperty.status', null),
-    // language: get(state, 'property.activeSingleProperty.language', null),
-    // listed: get(state, 'property.activeSingleProperty.listed', null),
-    location: get(state, 'property.activeSingleProperty.location', {}),
-    photos: get(state, 'property.activeSingleProperty.photos', []),
-    portals: get(state, 'property.activeSingleProperty.portals', {}),
-    portalsReview: get(state, 'property.activeSingleProperty.portalsReview', null),
-    properties: get(state, 'property.activeSingleProperty.properties', {}),
-    schedule: get(state, 'property.activeSingleProperty.schedule', {}),
-    published: get(state, 'property.activeSingleProperty.published', null),
-    publishReview: get(state, 'property.activeSingleProperty.publishReview', null),
-    stub: get(state, 'property.activeSingleProperty.stub', null),
-    title: get(state, 'property.activeSingleProperty.title', null),
-    packageUpgrade: {
-      contactEmail: get(state, 'user.loggedInUser.user.email', ''),
-      contactPhone: get(state, 'user.loggedInUser.user.phone', ''),
+const mapStateToProps = (state) => {
+  const properties = get(state, 'property.activeSingleProperty.properties', {});
+  set(properties, 'typology.livingArea.unit', 'm2');
+  set(properties, 'typology.lotArea.unit', 'm2');
+  set(properties, 'typology.constructedVolume.unit', 'm3');
+  set(properties, 'typology.balconyArea.unit', 'm2');
+  set(properties, 'typology.gardenArea.unit', 'm2');
+  set(properties, 'building.expandableAtticArea.unit', 'm2');
+  set(properties, 'typology.basementArea.unit', 'm2');
+  set(properties, 'building.properties.typology.storeroomArea.unit', 'm2');
+  set(properties, 'typology.collectiveSpacesArea.unit', 'm2');
+  return ({
+    userTypes: get(state, 'user.userTypes', null),
+    loggedInUser: get(state, 'user.loggedInUser', {}),
+    activeSingleProperty: get(state, 'property.activeSingleProperty', undefined),
+    formValue: get(state, 'form.Property.values', {}),
+    isSmallLoading: get(state, 'common.isSmallLoading', null),
+    isLoading: get(state, 'common.isLoading', 0) > 0,
+    errorValue: get(state, 'form.Property.syncErrors', null),
+    regFields: get(state, 'form.Property.registeredFields', null),
+    notification: get(state, 'common.notification', {}),
+    initialValues: {
+      assessor: get(state, 'property.activeSingleProperty.assessor', {}),
+      booking: get(state, 'property.activeSinglePropertyBooking', []),
+      documents: get(state, 'property.activeSingleProperty.documents', []),
+      coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
+      description: get(state, 'property.activeSingleProperty.description', {}),
+      id: get(state, 'property.activeSingleProperty.id', null),
+      floorPlans: get(state, 'property.activeSingleProperty.floorPlans', []),
+      inputSheet: get(state, 'property.activeSingleProperty.inputSheet', {}),
+      price: get(state, 'property.activeSingleProperty.price', {}),
+      status: get(state, 'property.activeSingleProperty.status', null),
+      // language: get(state, 'property.activeSingleProperty.language', null),
+      // listed: get(state, 'property.activeSingleProperty.listed', null),
+      location: get(state, 'property.activeSingleProperty.location', {}),
+      photos: get(state, 'property.activeSingleProperty.photos', []),
+      portals: get(state, 'property.activeSingleProperty.portals', {}),
+      portalsReview: get(state, 'property.activeSingleProperty.portalsReview', null),
+      properties: get(state, 'property.activeSingleProperty.properties', {}),
+      schedule: get(state, 'property.activeSingleProperty.schedule', {}),
+      published: get(state, 'property.activeSingleProperty.published', null),
+      publishReview: get(state, 'property.activeSingleProperty.publishReview', null),
+      stub: get(state, 'property.activeSingleProperty.stub', null),
+      title: get(state, 'property.activeSingleProperty.title', null),
+      packageUpgrade: {
+        contactEmail: get(state, 'user.loggedInUser.user.email', ''),
+        contactPhone: get(state, 'user.loggedInUser.user.phone', ''),
+      },
+      virtual: get(state, 'property.activeSingleProperty.virtual', null),
     },
-    virtual: get(state, 'property.activeSingleProperty.virtual', null),
-  },
-});
-
+  });
+}
 const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)))
   },
+  handleGetAchievement: bindActionCreators(getAchievement, dispatch),
+  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
+  handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
+  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
