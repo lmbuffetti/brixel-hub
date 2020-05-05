@@ -68,3 +68,9 @@
   right: $step;
   bottom: $step;
 }
+.thirdLevel.mediaDetails.move {
+  > div,
+  .image-ratio img {
+    animation: fadeInSec 500ms $default-easing;
+  }
+}
