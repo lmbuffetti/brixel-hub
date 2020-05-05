@@ -31,7 +31,6 @@ export const BestimateQuestions = (lang) => [
     vCentered: true,
     history: "extraFeatures",
     cardType: "extraFeatures",
-    toSave: true,
     inputs: [
       {
         component: BrixelExtraFeature,
