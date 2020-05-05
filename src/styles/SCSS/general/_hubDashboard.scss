@@ -95,6 +95,7 @@
   }
 
   &.secondLevelActive {
+    //height: 100%;
     .hubDasHeader,
     .brixelNavMenu {
       @media (max-width: $responsive-medium) {

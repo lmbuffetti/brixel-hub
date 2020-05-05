@@ -253,11 +253,6 @@ const App = (props) => {
     return head[0] ? head[0].offsetHeight : 0;
   };
 
-  /* const calcMobNavHeight = () => {
-    const mobNav = document.getElementsByClassName('brixelNavMenu');
-    return mobNav[0] ? mobNav[0].offsetHeight : 0;
-  }; */
-
   const calcFlowHeaderHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');
     return flowHead[0] ? flowHead[0].offsetHeight : 0;
@@ -271,7 +266,7 @@ const App = (props) => {
 
   return (
     <main
-      className={`${!isFlow ? 'hubDashboard' : 'flowWrapper'} dis-fl-row jc-b`}
+      className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b`}
       ref={dashWrapperRef}
     >
 
