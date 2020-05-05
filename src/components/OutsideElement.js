@@ -9,17 +9,19 @@ function useOutsideAlerter(ref, action) {
     const getClass = document.getElementsByClassName('brixel-notification');
     const getClassMore = document.getElementsByClassName('block-click');
     if (getClass.length + getClassMore.length === 1 && event.target && ref.current && isArray(ref.current)) {
-      const curRef = action.id ? ref.current[action.id] : ref.current[0];
-      if (curRef && curRef.current) {
-        if (!curRef.current.contains(event.target)) {
-          if (action.action === 'push') {
-            action.history.push(action.loc);
-          }
-          if (action.action === 'function') {
-            action.func();
+      setTimeout(() => {
+        const curRef = action.id ? ref.current[action.id] : ref.current[0];
+        if (curRef && curRef.current) {
+          if (!curRef.current.contains(event.target)) {
+            if (action.action === 'push') {
+              action.history.push(action.loc);
+            }
+            if (action.action === 'function') {
+              action.func();
+            }
           }
         }
-      }
+      }, 1);
     } else if (ref && ref.current) {
       if (typeof ref.current.length === 'undefined' && !ref.current.contains(event.target)) {
         if (action.action === 'push') {

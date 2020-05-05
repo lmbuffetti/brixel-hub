@@ -384,7 +384,7 @@ export const ComponentMap =(props) => {
       e.preventDefault();
       setSelLocAuto(newId);
     }
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && get(locList, `[${newId}].description`, null)) {
       e.preventDefault();
       geoCode(locList[newId].description);
     }
