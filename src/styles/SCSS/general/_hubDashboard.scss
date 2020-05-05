@@ -85,22 +85,6 @@
     }
   }
 
-  .secondLevelActive {
-    .hubDasHeader,
-    .brixelNavMenu {
-      @media (max-width: $responsive-medium) {
-        display: none;
-        opacity: 0;
-      }
-    }
-    .hubDasContent {
-      @media (max-width: $responsive-medium) {
-        top: 64px;
-        position: relative;
-      }
-    }
-  }
-
   .brixel-button-box {
     &.labelAend {
       > div {
@@ -128,4 +112,20 @@
   @media screen and(max-width: map-get($grid-breakpoints, xl)) {
   }
 
+}
+
+.secondLevelActive {
+  .hubDasHeader,
+  .brixelNavMenu {
+    @media (max-width: $responsive-medium) {
+      display: none;
+      opacity: 0;
+    }
+  }
+  .hubDasContent {
+    @media (max-width: $responsive-medium) {
+      top: 64px;
+      position: relative;
+    }
+  }
 }
