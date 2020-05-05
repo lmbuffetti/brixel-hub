@@ -325,7 +325,6 @@ const App = (props) => {
                       <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
                       <ProtectedRoute path="/:propId?/support" component={Dashboard} />
                       <ProtectedRoute path="/:propId?/upgrade" component={Dashboard} />
-                      <Redirect path="/:propId?/*" to="/:propId?/rewards" component={Dashboard}/>
                     </>
                   )
                 }
