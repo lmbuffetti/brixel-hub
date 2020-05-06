@@ -55,11 +55,11 @@ function SuccessMarketCheck(props) {
                   {
                     getDoneFirstTime() === 'done' ? (
                       <>
-                        <h5 className="ta-c">Great, now you know what is out there.</h5>
+                        <h5 className="ta-c max-w-fix-368 m-a">Great, now you know what is out there.</h5>
                         <div className="ta-c mb-3">
                           <img className="h-fix-120" src={newMarketCheck} alt="Nes Assessor" />
                         </div>
-                        <p className="ta-c mb-2">Congrats! <br/> You earned the <span className="txtGreen400">Market Checker</span> Award and +{achievement.points} Brixels.</p>
+                        <p className="ta-c mb-2 max-w-fix-368">Congrats! <br/> You earned the <span className="txtGreen400">Market Checker</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
                       <>
@@ -67,11 +67,11 @@ function SuccessMarketCheck(props) {
                           <div className="ta-c mb-3">
                             <img className="h-fix-120" src={simillarMarketCheck} alt="Done Market Check" />
                           </div>
-                          <h5 className="mb-2 ta-c">
+                          <h5 className="mb-2 ta-c max-w-fix-368 m-a">
                             <span>{marketData.similar_properties}</span>&nbsp;
                             <span>similar properties in your area.</span>
                           </h5>
-                          <p className="body2 txtDark200 m-a ta-c">
+                          <p className="body2 txtDark200 m-a ta-c max-w-fix-368">
                             <span>Last updated</span>
                             <span>:&nbsp;{moment(marketData.market_check_date).format('MMMM DD YYYY / HH:mm')}</span>
                           </p>
@@ -99,10 +99,10 @@ function SuccessMarketCheck(props) {
               <div className="ta-c mb-3">
                 <img className="h-fix-120" src={startMarketCheck} alt="Start Market Check" />
               </div>
-              <h5 className="mb-2 m-a">
+              <h5 className="mb-2 m-a max-w-fix-368">
                 Compare your local market.
               </h5>
-              <p className="body2 txtDark200 m-a ta-c">
+              <p className="body2 txtDark200 m-a ta-c max-w-fix-368">
                 Stop browsing all the portals. You can see all similar properties on sale. Instantly.
               </p>
             </div>

@@ -86,10 +86,10 @@ function SuccessBestimate(props) {
                     getDoneFirstTime().includes('-done') ? (
                       <>
                         <h5 className="ta-c max-w-fix-368">Well done. You are now an Assessor.</h5>
-                        <div className="ta-c m-a mb-3">
+                        <div className="ta-c m-a my-3">
                           <img className="h-fix-120" src={newBestimate} alt="Nes Assessor" />
                         </div>
-                        <p className="max-w-fix-368 ta-c mb-2">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
+                        <p className="max-w-fix-368 m-a ta-c mb-2">Congrats! <br/><br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
                       <>
@@ -142,7 +142,7 @@ function SuccessBestimate(props) {
               <div className="ta-c m-a mb-3">
                 <img className="h-fix-120" src={startBestimate} alt="Done Assessor" />
               </div>
-              <h5 className="mb-2 m-a ta-c">
+              <h5 className="mb-2 m-a ta-c max-w-fix-368">
                 Get a free price indication.
               </h5>
               <p className="body2 max-w-fix-368 txtDark200 m-a ta-c">
