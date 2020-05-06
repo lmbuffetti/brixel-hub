@@ -42,14 +42,12 @@
 }
 
 .portalsList {
-  a {
+ > a {
     text-transform: capitalize;
-    margin-right: $step * 4;
+    display: block;
+    padding-bottom: $step;
     span {
       color: map_get($darkColor, 400);
-    }
-    &:last-child {
-      margin-right: 0;
     }
   }
 }
