@@ -20,9 +20,10 @@ function SuccessHomebase(props) {
   const propID = get(match, 'params.propId', null);
 
   return (
-    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-md-2">
+    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col a-c">
       <div className="dis-fl-col jc-c a-c">
-        <div className="bgWhite brdRadius shadow-4dp ov-h max-w-fix-280 w-perc-100 mt-2">
+      <h5 className="max-w-fix-376 m-a ta-c">Great! Your property was created.</h5>
+        <div className="bgWhite brdRadius shadow-4dp ov-h max-w-fix-280 w-perc-100 my-5">
           <div className="image-ratio">
             <CoverPropertyImage
               className="cover"
@@ -57,12 +58,11 @@ function SuccessHomebase(props) {
             </div>
           </div>
         </div>
-        <p className="mt-3 max-w-fix-376 txtDark200 fsize-300 m-a ta-c">Great. Your property was created. Now you have the base to use Brixel.</p>
       </div>
       <div className="dis-fl-col">
         <BrixelButtonPrimary
           rounded
-          className="mt-3 mb-2 pl-3"
+          className="mb-2 min-w-fix-208"
           label="Edit property facts"
           rightIcon="arrow-right"
           onClick={() => history.push(`/${propID}/property/facts`)}

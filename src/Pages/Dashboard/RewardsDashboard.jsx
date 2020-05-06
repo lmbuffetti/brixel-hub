@@ -310,10 +310,10 @@ const RewardsDashboard = (props) => {
           activeGameGroup && rewardType !== 'rewards' && (
             <div className="secondLevel w-perc-100 dis-fl-col ml-md">
               <>
-                <div className="rewardsSplash h-perc-100 dis-fl-col p-2 pb-md-8 cardSecondLevel">
+                <div className="rewardsSplash h-perc-100 dis-fl-col p-3 pb-md-8 cardSecondLevel">
                   {
                     activeAchievement && (
-                      <div className="dis-f a-c jc-b mb-md-3">
+                      <div className="dis-f a-c jc-b mb-5 mb-md-2">
                         <div className="dis-f a-c">
                           <BrixelButtonIcon
                             className="shadow-2dp mr-2 hide-md"
@@ -324,9 +324,13 @@ const RewardsDashboard = (props) => {
                             noBorder
                             onClick={() => history.push(`/${propID}/rewards`)}
                           />
-                          <p className="mr-1 body fweight-500">
-                            {activeAchievement.title || activeAchievement.description}
-                          </p>
+                          {
+                            windowDimensions.width <= 768 && (
+                              <p className="mr-1 body fweight-500">
+                                Rewards
+                              </p>
+                            )
+                          }
                         </div>
                         {
                           activeAchievement.points && (

@@ -27,16 +27,16 @@ const MediaRewards = (props) => {
   }
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-md-2`}>
+    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col a-c">
       {
-        !showIntro() ? (
+        showIntro() ? (
           <>
             <div className="dis-fl-col a-c">
-              <div className="ta-c mb-3">
+              <h5 className="ta-c mb-2">Time to upload some media.</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">Learn how to manage your photos, floorplans and much more.</p>
+              <div className="ta-c my-5">
                 <img className="h-fix-120" src={uploadMedia} alt="Done Market Check" />
               </div>
-              <h5 className="ta-c mt-3 mb-2">Time to upload some media.</h5>
-              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">Learn how to manage your photos, floorplans and much more.</p>
             </div>
             <div>
               <BrixelButtonPrimary
@@ -52,7 +52,9 @@ const MediaRewards = (props) => {
           <>
             <div className="dis-fl-col a-c">
               <div>
-                <div className="dis-f m-a mt-2 max-w-fix-376">
+                <h5 className="ta-c mb-2">Let’s upload some media.</h5>
+                <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">Upload at least one photo, plan and document to achieve this reward.</p>
+                <div className="dis-f m-a mt-5 max-w-fix-376">
                   <BrixelButtonBox
                     verticalView
                     bgTransparent
@@ -110,18 +112,8 @@ const MediaRewards = (props) => {
                     onClick={() => history.push(`/${propID}/property/documents`)}
                   />
                 </div>
-                <h5 className="ta-c mt-3 mb-2">Let’s upload some media.</h5>
-                <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">Upload at least one photo, plan and document to achieve this reward.</p>
+
               </div>
-            </div>
-            <div>
-              <BrixelButtonPrimary
-                label="Edit property"
-                rounded
-                rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
-                onClick={() => history.push(`/${propID}/property/photos`)}
-              />
             </div>
           </>
         )

@@ -36,13 +36,15 @@ const PageReviewRewards = (props) => {
   };
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-md-2`}>
+    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col a-c">
       {
         isDone ? (
           <>
             <div className="dis-fl-col jc-c a-c">
+              <h5 className="ta-c mb-2">Want a second look?</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">You can edit and preview as often as you want. We are ready when you are.</p>
               <div
-                className="websitePage brdRadius ov-h shadow-3dp pos-r cur-poi w-perc-100"
+                className="websitePage brdRadius ov-h shadow-3dp pos-r cur-poi w-perc-100 my-5"
                 onClick={() => openPreview()}
               >
                 <div className="dis-f bgLight100 p-1">
@@ -82,8 +84,6 @@ const PageReviewRewards = (props) => {
                   </div>
                 </div>
               </div>
-              <h5 className="ta-c mt-3 mb-2">Want a second look?</h5>
-              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">You can edit and preview as often as you want. We are ready when you are.</p>
             </div>
             <div>
               <BrixelButtonPrimary
@@ -98,8 +98,10 @@ const PageReviewRewards = (props) => {
         ) : (
           <>
             <div className="dis-fl-col jc-c a-c">
+              <h5 className="ta-c mb-2">Have a look!</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">This is your personal property page. Don’t worry this is not public. This is for you eyes only.</p>
               <div
-                className="websitePage brdRadius ov-h shadow-3dp pos-r cur-poi w-perc-100"
+                className="websitePage brdRadius ov-h shadow-3dp pos-r cur-poi w-perc-100 my-5"
                 onClick={() => openPreview()}
               >
                 <div className="dis-f bgLight100 p-1">
@@ -139,8 +141,7 @@ const PageReviewRewards = (props) => {
                   </div>
                 </div>
               </div>
-              <h5 className="ta-c mt-3 mb-2">Have a look!</h5>
-              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-3">This is your personal property page. Don’t worry this is not public. This is for you eyes only.</p>
+
             </div>
             <div>
               <BrixelButtonPrimary
