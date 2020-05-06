@@ -150,6 +150,9 @@ const App = (props) => {
         height: window.innerHeight,
         width: window.innerWidth,
       });
+      headerCalc();
+      calcHeaderHeight();
+      calcFlowHeaderHeight();
     })
   }, []);
 
@@ -255,11 +258,6 @@ const App = (props) => {
         {height: windowDimensions.height - calcFlowHeaderHeight()}
     )
   }
-
-  /* const calcMobNavHeight = () => {
-    const mobNav = document.getElementsByClassName('brixelNavMenu');
-    return mobNav[0] ? mobNav[0].offsetHeight : 0;
-  }; */
 
   if (!loggedInUser || (!userTypes && property.id) || !isLoaded) {
     return (
