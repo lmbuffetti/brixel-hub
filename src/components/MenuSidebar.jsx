@@ -108,14 +108,26 @@ const MenuSidebar = (props) => {
                 <img className="pos-r w-fix-56" src={logo} alt="Brixel Logo" id="logo" />
               </div>
               <div className="propertyPanel mb-1">
-                <div className="image-ratio squared w-perc-100 shadow-3dp w-fix-48 h-fix-48 brdRadius ov-h cur-poi" onClick={() => history.push(`/${propID}/property`)}>
+                <div
+                  className="image-ratio squared w-perc-100 shadow-3dp w-fix-48 h-fix-48 brdRadius ov-h cur-poi"
+                  onClick={() => {
+                    if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
+                  }}
+                >
                   <CoverPropertyImage
                     className="cover"
                     coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
                     propertyType={get(formValue, 'properties.propertyType', undefined)}
                   />
                 </div>
-                <h6 className="mt-2 fsize-300 fweight-600">{get(formValue, 'title', '')}</h6>
+                <h6
+                  className="mt-2 fsize-300 fweight-600 cur-poi"
+                  onClick={() => {
+                    if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
+                  }}
+                >
+                  {get(formValue, 'title', '')}
+                </h6>
               </div>
             </div>
             <hr className="my-2 mx-1 lighter" />
