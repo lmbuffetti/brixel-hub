@@ -123,7 +123,7 @@ function PageHeader(props) {
                       </div>
                     )
                   }
-              
+
                   {
                     brixelPoints >= 0 && (
                       <div className={`cur-poi ml-2 ${brixelPoints >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('brixelPoints')}>
@@ -229,7 +229,7 @@ function PageHeader(props) {
                     </div>
                   </div>
                   <p>{translateTo(lang, "This is our currency you can earn by fullfilling tasks along the way.")}</p>
-                  <p>{translateTo(lang, "During your journey you can use Brixels to unlock addintional features and gifts.")}</p>
+                  <p>{translateTo(lang, "During your journey you can use Brixels to unlock additional features and gifts.")}</p>
                   <p>{translateTo(lang, "So keep collecting your Brixels.")}</p>
                 </BrixelModal>
               )
