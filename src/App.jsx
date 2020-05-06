@@ -219,8 +219,8 @@ const App = (props) => {
       setIsFlow(false);
       setZIndex(1);
     }
-     // add class to container when secondlevel visible on mobile
-     if (
+    // add class to container when secondlevel visible on mobile
+    if (
       (history.location.pathname.includes('property/') ||
       history.location.pathname.includes('listings/')) &&
       windowDimensions.width <= 768
@@ -283,8 +283,8 @@ const App = (props) => {
             !history.location.pathname.includes('upgrade') &&
             loggedInUser &&
              (
-              <MenuSidebar />
-            )
+               <MenuSidebar />
+             )
           }
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
