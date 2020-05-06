@@ -105,7 +105,7 @@ const BrixelModalAwards = (props) => {
 
           <p className="mt-3"><span>This is our currency. You earn Brixels by completing tasks and getting awards.</span>
 
-            <span className="txtRed700 fweight-500 dis-b mt-4">Coming soon: During your journey you can use Brixels to unlock adddintional features and gifts.</span></p>
+            <span className="txtRed700 fweight-500 dis-b mt-4">Coming soon: During your journey you can use Brixels to unlock additional features and gifts.</span></p>
 
         </div>
       </div>
