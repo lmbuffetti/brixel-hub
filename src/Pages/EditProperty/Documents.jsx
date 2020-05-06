@@ -146,7 +146,6 @@ const Documents = (props) => {
     set(formValue, '', doc.companyRole);
     setDocumentOptionsOpen({ id: null, active: false });
     setDisableDrag(true);
-    console.log('disable');
   }
 
   // Function to close the small menus when we click outside
@@ -194,7 +193,6 @@ const Documents = (props) => {
                           data-id={JSON.stringify(doc)}
                           className={`single-document dis-fl-row a-c jc-b pb-1 pt-1 ${editDocument.active ? 'hand' : 'handle'}`}
                         >
-                          {console.log(disableDrag)}
                           <div className="name dis-fl-row a-c w-perc-100 pr-1">
 
                             <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">

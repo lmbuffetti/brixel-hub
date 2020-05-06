@@ -108,7 +108,6 @@ const Dashboard = (props) => {
   };
 
   useEffect(() => {
-    console.log('CHECAZZO', propID);
     if (propID && !get(activeSingleProperty, 'id', null)) {
       handleGetActiveSingleProperty({fullVersion: true, id: propID, multiLoader: true });
     } else if (!propID) {
@@ -243,7 +242,6 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
-      console.log(changeObj);
       const checkIsValid = Object.keys(changeObj).find(key => typeof changeObj[key] !== 'undefined');
       if (
         checkIsValid &&

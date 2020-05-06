@@ -190,7 +190,6 @@ const RewardsDashboard = (props) => {
   }
 
   const checkMessageHello = () => {
-    console.log(getCookie('brixelSayHello'));
     if (typeof getCookie('brixelSayHello') !== 'undefined') {
       if (JSON.parse(getCookie('brixelSayHello')) !== true) {
         return true
@@ -256,8 +255,8 @@ const RewardsDashboard = (props) => {
                           <div key={i.toString()} className="pos-r">
                             {
                               group.achievements && group.achievements.map((item, f) => (
-                                <>
-                                  <div key={f.toString()} className="pos-r">
+                                <React.Fragment key={f.toString()}>
+                                  <div className="pos-r">
                                     <BrixelButtonAchievement
                                       level={group.stub.replace(/^\D+/g, '')}
                                       done={item.done}
@@ -294,7 +293,7 @@ const RewardsDashboard = (props) => {
                                       </div>
                                     )
                                   }
-                                </>
+                                </React.Fragment>
                               ))
                             }
                           </div>
