@@ -55,7 +55,7 @@ const DetailMedia = (props) => {
   useEffect(() => {
 
     if (formValue[mediaType][idImg]) {
-      if (formValue[mediaType][idImg] != '') {
+      if (formValue[mediaType][idImg] !== '') {
         if (thirdlevelEl) {
           thirdlevelEl.classList.add('move');
           setTimeout(function(){
