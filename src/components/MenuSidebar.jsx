@@ -108,7 +108,7 @@ const MenuSidebar = (props) => {
                 <img className="pos-r w-fix-56" src={logo} alt="Brixel Logo" id="logo" />
               </div>
               <div className="propertyPanel mb-1">
-                <div className="image-ratio squared w-perc-100 shadow-3dp w-fix-48 h-fix-48 brdRadius ov-h cur-poi" onClick={() => history.push(`/${propID}/listings/page`)}>
+                <div className="image-ratio squared w-perc-100 shadow-3dp w-fix-48 h-fix-48 brdRadius ov-h cur-poi" onClick={() => history.push(`/${propID}/property`)}>
                   <CoverPropertyImage
                     className="cover"
                     coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
