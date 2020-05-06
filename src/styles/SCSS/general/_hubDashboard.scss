@@ -1,5 +1,17 @@
 .hubDashboard {
 
+  .rewardsTop {
+    @media (min-width: $responsive-medium) {
+      .secondLevel {
+        position: sticky;
+        top: $step * 3;
+      }
+      .hubDasContent {
+        padding-top: 0;
+      }
+    }
+  }
+
   .hubDasContent {
     @media (min-width: $responsive-medium) {
       padding-left: 210px;
@@ -38,27 +50,12 @@
   }
   .rewards-container {
     .rewardsSplash {
-      @media (min-width: $responsive-medium) {
-        // min-height: 50vh;
-      }
-      @media only screen
-      and (min-width : $responsive-small)
-      and (max-width : $responsive-large) {
-         // min-height: 35vh;
-      }
       #rewards {
         flex: 1;
-        > div:first-child {
-          //max-width: 340px;
-
-          @media (max-width: $responsive-medium) {
-            /* margin-top: auto;
-            margin-bottom: auto; */
-          }
-        }
       }
     }
     .secondLevel {
+
       @media (max-width: $responsive-medium) {
         height: 100%;
         min-height: inherit;
@@ -95,7 +92,6 @@
   }
 
   &.secondLevelActive {
-    //height: 100%;
     .hubDasHeader,
     .brixelNavMenu {
       @media (max-width: $responsive-medium) {

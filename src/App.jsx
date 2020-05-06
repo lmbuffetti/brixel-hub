@@ -218,10 +218,15 @@ const App = (props) => {
       setIsFlow(true);
       setZIndex(6);
     } else {
-      setClassMain('w-perc-100 pos-r hubContainer ov-h');
+      if (history.location.pathname.includes('rewards')) {
+        setClassMain('w-perc-100 pos-r hubContainer rewardsTop');
+      } else {
+        setClassMain('w-perc-100 pos-r hubContainer ov-h');
+      }
       setIsFlow(false);
       setZIndex(1);
     }
+
     // add class to container when secondlevel visible on mobile
     if (
       (history.location.pathname.includes('property/') ||
