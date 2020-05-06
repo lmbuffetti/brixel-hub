@@ -36,7 +36,7 @@ const BrixelModalAwards = (props) => {
 
   useEffect(() => {
     if (gameGroup && gameHistory) {
-      let numDone = 0;
+      // let numDone = 0;
       let numTodo = 0;
       const usrGroups = gameGroup.sort(sortObject('stub', 'asc'))
       usrGroups.forEach((groups) => {
@@ -47,7 +47,7 @@ const BrixelModalAwards = (props) => {
               if (typeof selElTodo === 'undefined') {
                 numTodo += 1;
               } else {
-                numDone += 1;
+                // numDone += 1;
               }
             }
           });

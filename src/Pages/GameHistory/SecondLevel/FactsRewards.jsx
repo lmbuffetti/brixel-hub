@@ -38,7 +38,7 @@ const FactsRewards = (props) => {
             large={window.innerWidth >= 768}
             small={window.innerWidth < 768}
           />
-          <p className="ff-mono body2 txtPrimary700 mt-1"><span>{totalComplete}%</span>&nbsp;<span>completed</span></p>
+          <p className="ff-mono body2 txtPrimary700 mt-1"><span className="notranslate">{totalComplete}%</span>&nbsp;<span>completed</span></p>
         </div>
 
         {

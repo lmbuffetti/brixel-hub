@@ -76,7 +76,11 @@ const MarketCheck = (props) => {
   }, [currentIndex]);
 
   const closeWindow = () => {
-    history.push(`/${propID}/rewards/${getAchievement()}`);
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      history.push(`/${propID}/rewards`);
+    } else {
+      history.push(`/${propID}/rewards/${getAchievement()}`);
+    }
   };
 
   const saveData = () => {
