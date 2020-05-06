@@ -56,7 +56,7 @@ const DetailMedia = (props) => {
 
     if (formValue[mediaType][idImg]) {
 
-      if (formValue[mediaType][idImg] != '') {
+      if (formValue[mediaType][idImg] !== '') {
 
         if (thirdlevelEl) {
 

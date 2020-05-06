@@ -79,6 +79,7 @@ const RewardsDashboard = (props) => {
           }
         });
       }
+      getNameGroup = getNameGroup || 'homebase';
       history.push({ pathname: `/${propID}/rewards/${getNameGroup}` });
     }
   }, [windowDimensions, gameHistory, usrGroups]);
@@ -187,6 +188,16 @@ const RewardsDashboard = (props) => {
     )
   }
 
+  const checkMessageHello = () => {
+    if (typeof getCookie('brixelSayHello') !== 'undefined') {
+      if (JSON.parse(getCookie('brixelSayHello')) !== true) {
+        return true
+      }
+      return false;
+    }
+    return true;
+  }
+
   if (!property.id && !userTypes) {
     return <Loading />
   }
@@ -194,7 +205,7 @@ const RewardsDashboard = (props) => {
   return (
     <div className={`rewards-container`} id="rewardsDashboard">
       {
-        getCookie('brixelSayHello') && JSON.parse(getCookie('brixelSayHello')) !== true && (
+        checkMessageHello() && (
           <div className="brdRadius bgWhite p-1 dis-f jc-b a-c p-1 p-md-2 mb-5">
             <img src={helloImg} alt="Hell User" />
             <div className="txtDark700 w-perc-100 pl-3">

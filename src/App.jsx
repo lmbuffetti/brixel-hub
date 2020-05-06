@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef} from 'react';
 import {
-  Switch, Route, withRouter, Redirect,
+  Switch, Route, withRouter,
 } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import get from 'lodash/get';

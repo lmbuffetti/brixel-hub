@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  withRouter, Redirect
+  withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
@@ -179,7 +179,7 @@ const Dashboard = (props) => {
         if (inputSheet.totalComplete > 70) {
           handleAddGameHistory({stub: 'facts'});
         }
-        if (get(formValue, 'photos', []).length > 0 || get(formValue, 'floorPlans', []).length > 0 && get(formValue, 'documents', []).length > 0) {
+        if (get(formValue, 'photos', []).length > 0 && get(formValue, 'floorPlans', []).length > 0 && get(formValue, 'documents', []).length > 0) {
           handleAddGameHistory({stub: 'media'});
         }
       }

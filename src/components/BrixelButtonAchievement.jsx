@@ -5,7 +5,6 @@ import { BrixelIcon, BrixelStatus } from '@brixel/brixel-components';
 const BrixelButtonAchievement = (props) => {
   const {
     active,
-    award,
     config,
     disabled,
     isFree,
