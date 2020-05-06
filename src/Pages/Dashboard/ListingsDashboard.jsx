@@ -138,7 +138,7 @@ const ListingsDashboard = (props) => {
             selected
           />
         </div>
-        <div className="mt-2">
+        {/* <div className="mt-2">
           <BrixelButtonBox
             bgTransparent
             icon="gallery"
@@ -152,7 +152,7 @@ const ListingsDashboard = (props) => {
             onClick={() => history.push(`/${propID}/listings/showings`)}
             selected
           />
-        </div>
+        </div> */}
         <div className="brdRadius shadow-1dp brdPrimary400 mt-1 hide">
           <div className="transparency-container">
             <div className="dis-fl-col ta-l">

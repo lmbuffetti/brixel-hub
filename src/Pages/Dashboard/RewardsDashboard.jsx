@@ -45,6 +45,7 @@ const RewardsDashboard = (props) => {
   const [usrGroups, setUsrGroups] = useState(gameGroup.sort(sortObject('stub', 'asc')));
   const [activeGameGroup, setActiveGameGroup] = useState(null);
   const [activeAchievement, setActiveAchievement] = useState(null);
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
   // PARAMS URL
   const rewardType = last(get(history, 'location.pathname', '').split('/')).replace('-done', '');
   const propID = get(match, 'params.propId', '');
@@ -79,6 +80,7 @@ const RewardsDashboard = (props) => {
           }
         });
       }
+      getNameGroup = getNameGroup || 'homebase';
       history.push({ pathname: `/${propID}/rewards/${getNameGroup}` });
     }
   }, [windowDimensions, gameHistory, usrGroups]);
@@ -187,6 +189,16 @@ const RewardsDashboard = (props) => {
     )
   }
 
+  const checkMessageHello = () => {
+    if (typeof getCookie('brixelSayHello') !== 'undefined') {
+      if (JSON.parse(getCookie('brixelSayHello')) !== true) {
+        return true
+      }
+      return false;
+    }
+    return true;
+  }
+
   if (!property.id && !userTypes) {
     return <Loading />
   }
@@ -194,7 +206,7 @@ const RewardsDashboard = (props) => {
   return (
     <div className={`rewards-container`} id="rewardsDashboard">
       {
-        getCookie('brixelSayHello') && JSON.parse(getCookie('brixelSayHello')) !== true && (
+        checkMessageHello() && showWelcomeMessage && (
           <div className="brdRadius bgWhite p-1 dis-f jc-b a-c p-1 p-md-2 mb-5">
             <img src={helloImg} alt="Hell User" />
             <div className="txtDark700 w-perc-100 pl-3">
@@ -208,7 +220,10 @@ const RewardsDashboard = (props) => {
               saturationTxt={400}
               bgTransparent
               noBorder
-              onClick={() => setCookie('brixelSayHello', true)}
+              onClick={() => {
+                setCookie('brixelSayHello', true)
+                setShowWelcomeMessage(false)
+              }}
             />
           </div>
         )
@@ -240,8 +255,8 @@ const RewardsDashboard = (props) => {
                           <div key={i.toString()} className="pos-r">
                             {
                               group.achievements && group.achievements.map((item, f) => (
-                                <>
-                                  <div key={f.toString()} className="pos-r">
+                                <React.Fragment key={f.toString()}>
+                                  <div className="pos-r">
                                     <BrixelButtonAchievement
                                       level={group.stub.replace(/^\D+/g, '')}
                                       done={item.done}
@@ -278,7 +293,7 @@ const RewardsDashboard = (props) => {
                                       </div>
                                     )
                                   }
-                                </>
+                                </React.Fragment>
                               ))
                             }
                           </div>

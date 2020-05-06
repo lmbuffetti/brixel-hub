@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  withRouter, Redirect
+  withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
@@ -108,7 +108,6 @@ const Dashboard = (props) => {
   };
 
   useEffect(() => {
-    console.log('CHECAZZO', propID);
     if (propID && !get(activeSingleProperty, 'id', null)) {
       handleGetActiveSingleProperty({fullVersion: true, id: propID, multiLoader: true });
     } else if (!propID) {
@@ -179,7 +178,7 @@ const Dashboard = (props) => {
         if (inputSheet.totalComplete > 70) {
           handleAddGameHistory({stub: 'facts'});
         }
-        if (get(formValue, 'photos', []).length > 0 || get(formValue, 'floorPlans', []).length > 0 && get(formValue, 'documents', []).length > 0) {
+        if (get(formValue, 'photos', []).length > 0 && get(formValue, 'floorPlans', []).length > 0 && get(formValue, 'documents', []).length > 0) {
           handleAddGameHistory({stub: 'media'});
         }
       }
@@ -243,7 +242,6 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
-      console.log(changeObj);
       const checkIsValid = Object.keys(changeObj).find(key => typeof changeObj[key] !== 'undefined');
       if (
         checkIsValid &&

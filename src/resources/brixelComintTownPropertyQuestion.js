@@ -2,7 +2,7 @@ import { BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, Validation }
 import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
 import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 import Cat from '../images/BrxielComingTown/firstAwards.svg';
-import SaleProperty from '../images/BrxielComingTown/createProfile.svg';
+// import SaleProperty from '../images/BrxielComingTown/createProfile.svg';
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
 import { translateTo } from '../utils/translation';

@@ -79,14 +79,14 @@ function GetStarted(props) {
   const [progressBar, setProgressBar] = useState(0);
   //const [showAddress, setShowAddress] = useState(true);
   const [Questions, setQuestions] = useState(QuestionsList(lang, gameGroup));
-  const [curCountry, setCurCountry] = useState(null);
+  //const [curCountry, setCurCountry] = useState(null);
   const [showCountrySel, setShowCountrySel] = useState(false);
 
   const countryObj = (curVal) => {
     const getCurrent = country.find((val) => val.value === curVal.toLowerCase() || val.value === curVal.toLowerCase());
     changeFieldValue('location.countryCode', curVal);
     changeFieldValue('location.countryName', get(getCurrent, 'label', ''));
-    setCurCountry(getCurrent);
+    // setCurCountry(getCurrent);
   };
 
   useEffect(() => {

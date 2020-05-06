@@ -76,7 +76,7 @@ function OnBoarding(props) {
   const [loginPage, setLoginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
-  const [curCountry, setCurCountry] = useState(null);
+  //const [curCountry, setCurCountry] = useState(null);
 
   useEffect(() => {
     if (baseByData.env === 'dev') {
@@ -106,7 +106,7 @@ function OnBoarding(props) {
     const getCurrent = country.find((val) => val.value === curVal.toLowerCase() || val.value === curVal.toLowerCase());
     changeFieldValue('location.countryCode', curVal);
     changeFieldValue('location.countryName', get(getCurrent, 'label', ''));
-    setCurCountry(getCurrent);
+    //setCurCountry(getCurrent);
   };
 
   useEffect(() => {

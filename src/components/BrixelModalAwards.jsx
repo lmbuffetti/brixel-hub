@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 const BrixelModalAwards = (props) => {
   // PROPS
   const {
+    awards,
     brixelPoints,
     gameGroup,
     gameHistory,
@@ -52,7 +53,7 @@ const BrixelModalAwards = (props) => {
           });
         }
       });
-      setDone(numDone);
+      setDone(awards);
       setToDo(numTodo);
     }
   }, [gameGroup, gameHistory])
@@ -113,6 +114,7 @@ const BrixelModalAwards = (props) => {
 };
 
 BrixelModalAwards.propTypes = {
+  awards: PropTypes.number.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -123,6 +125,7 @@ const mapStateToProps = (state) => ({
   property: get(state, 'property.activeSingleProperty', {}),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
+  awards: get(state, 'user.awards', 0),
   userTypes: get(state, 'user.userTypes', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
