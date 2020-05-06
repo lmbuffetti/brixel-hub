@@ -216,7 +216,7 @@ const Documents = (props) => {
                                 </div>
                               ) : (
                                 <div className="dis-fl-col cur-poi" onClick={() => window.open(`${getConfigEnv.shortPath}/document/${doc.id}`, "_blank")}>
-                                  <span className="document-title txtDark700">{doc.name}</span>
+                                  <span className="document-title max-w-fix-168 max-w-perc-md-100 txtDark700">{doc.name}</span>
                                   <span className="date body2 txtDark200">{moment(doc.createdAt).format('ddd MMM DD YYYY')}</span>
                                 </div>
                               )
