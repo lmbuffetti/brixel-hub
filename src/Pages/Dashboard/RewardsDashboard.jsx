@@ -190,7 +190,6 @@ const RewardsDashboard = (props) => {
   }
 
   const checkMessageHello = () => {
-    console.log(getCookie('brixelSayHello'));
     if (typeof getCookie('brixelSayHello') !== 'undefined') {
       if (JSON.parse(getCookie('brixelSayHello')) !== true) {
         return true
