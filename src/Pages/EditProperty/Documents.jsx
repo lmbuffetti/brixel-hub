@@ -29,8 +29,6 @@ import moment from 'moment';
 const Documents = (props) => {
   const [documentOptionsOpen, setDocumentOptionsOpen] = useState({ id: null, active: false });
   const [editDocument, setEditDocument] = useState({ id: null, active: false });
-  const [disableDrag, setDisableDrag] = useState(false);
-
   // PROPS
   const {
     formValue,
@@ -145,7 +143,6 @@ const Documents = (props) => {
     setEditDocument({ id: doc.id, active: !editDocument.active });
     set(formValue, '', doc.companyRole);
     setDocumentOptionsOpen({ id: null, active: false });
-    setDisableDrag(true);
   }
 
   // Function to close the small menus when we click outside
