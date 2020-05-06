@@ -175,8 +175,12 @@ const Dashboard = (props) => {
           ...objToSave,
         };
         handleSaveActiveSingleProperty(data);
-        if (get(formValue, 'inputSheet', {}).totalComplete > 70) {
+        const inputSheet = get(formValue, 'inputSheet', {}) || {};
+        if (inputSheet.totalComplete > 70) {
           handleAddGameHistory({stub: 'facts'});
+        }
+        if (get(formValue, 'photos', []).length > 0 || get(formValue, 'floorPlans', []).length > 0 && get(formValue, 'documents', []).length > 0) {
+          handleAddGameHistory({stub: 'media'});
         }
       }
     }
@@ -239,6 +243,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
+      console.log(changeObj);
       const checkIsValid = Object.keys(changeObj).find(key => typeof changeObj[key] !== 'undefined');
       if (
         checkIsValid &&

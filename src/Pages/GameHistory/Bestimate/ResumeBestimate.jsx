@@ -45,9 +45,9 @@ function ResumeBestimate(props) {
         stateCode: 'CH',
       };
       handleGetMarketCheck(data);
-      handleGetEstimation(propID);
     }
-  }, [property]);
+    handleGetEstimation(propID);
+  }, [property, marketData]);
 
   useEffect(() => {
     if (estimation.value) {
@@ -66,7 +66,7 @@ function ResumeBestimate(props) {
         setSaved(true);
       }
     }
-  }, [estimation]);
+  }, [estimation, property]);
 
   return (
     <main id="rewards" className="pb-4 h-perc-100 txtDark700">

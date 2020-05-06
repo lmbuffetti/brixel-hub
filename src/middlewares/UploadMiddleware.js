@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { change } from 'redux-form';
+import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
@@ -41,7 +41,8 @@ const checkCommon = (store) => (next) => (action) => {
           const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
           if (idImg > -1) {
             arrayImg[idImg] = res.data;
-            store.dispatch(change('Property', 'photos', arrayImg));
+            store.dispatch(change('Property', action.payload.type, arrayImg));
+            store.dispatch(reset('Property'));
           }
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });

@@ -24,6 +24,7 @@ const Bestimate = (props) => {
     gameGroup,
     gameHistory,
     handleAddGameHistory,
+    handleSaveActiveSingleProperty,
     history,
     match,
     reset,
@@ -80,6 +81,11 @@ const Bestimate = (props) => {
   };
 
   const saveData = () => {
+    const data = {
+      id: propID,
+      properties: get(formValue, 'properties', {}),
+    };
+    handleSaveActiveSingleProperty(data);
     handleAddGameHistory({stub: getAchievement()})
   };
 

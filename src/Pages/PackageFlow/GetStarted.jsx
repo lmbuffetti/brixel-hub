@@ -491,6 +491,7 @@ function GetStarted(props) {
                                           label={input.label}
                                           component={() => (
                                             <Maps
+                                              formName="GetStarted"
                                               zoom={14}
                                               scrollZoom
                                               moveMarker
@@ -532,6 +533,7 @@ function GetStarted(props) {
                                               className="pos-r zIndex1"
                                             >
                                               <Maps
+                                                formName="GetStarted"
                                                 zoom={14}
                                                 scrollZoom
                                                 moveMarker

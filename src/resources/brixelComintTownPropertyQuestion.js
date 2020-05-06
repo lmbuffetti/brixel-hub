@@ -167,17 +167,6 @@ export const QuestionsList = (lang, gameGroup, country = 'CH') => {
         name: 'owner',
         value: null,
       }],
-      title: translateTo(lang, "Every home needs an owner."),
-      history: "lastStep",
-      cardType: 'LastStep',
-      background: 'bgGreen100',
-      img: SaleProperty,
-    },
-    {
-      conditions: [{
-        name: 'owner',
-        value: null,
-      }],
       signupTitle: translateTo(lang, "Create your profile to save your progress."),
       loginTitle: translateTo(lang, "Login to your profile to save your progress."),
       history: "createProfile",

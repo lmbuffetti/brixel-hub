@@ -44,6 +44,7 @@ export const BestimateQuestions = (lang) => [
   },
   {
     title: "Result Page",
+    toSave: true,
     vCentered: true,
     subtitle: "Sales strategy & price",
     history: "resumeFlow",

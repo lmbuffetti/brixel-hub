@@ -660,8 +660,8 @@ ComponentMap.defaultProps = {
   minHeight: 0,
 };
 
-const mapStateToProps = (state) => {
-  const formName = Object.keys(get(state, 'form'))[0];
+const mapStateToProps = (state, props) => {
+  const formName = get(props, 'formName', Object.keys(get(state, 'form'))[0]);
   const lat = get(state, `property.activeSingleProperty.location.latitude`, 0);
   const lng = get(state, `property.activeSingleProperty.location.longitude`, 0);
   return ({
