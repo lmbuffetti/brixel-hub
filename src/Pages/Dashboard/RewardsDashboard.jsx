@@ -45,6 +45,7 @@ const RewardsDashboard = (props) => {
   const [usrGroups, setUsrGroups] = useState(gameGroup.sort(sortObject('stub', 'asc')));
   const [activeGameGroup, setActiveGameGroup] = useState(null);
   const [activeAchievement, setActiveAchievement] = useState(null);
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
   // PARAMS URL
   const rewardType = last(get(history, 'location.pathname', '').split('/')).replace('-done', '');
   const propID = get(match, 'params.propId', '');
@@ -189,6 +190,7 @@ const RewardsDashboard = (props) => {
   }
 
   const checkMessageHello = () => {
+    console.log(getCookie('brixelSayHello'));
     if (typeof getCookie('brixelSayHello') !== 'undefined') {
       if (JSON.parse(getCookie('brixelSayHello')) !== true) {
         return true
@@ -205,7 +207,7 @@ const RewardsDashboard = (props) => {
   return (
     <div className={`rewards-container`} id="rewardsDashboard">
       {
-        checkMessageHello() && (
+        checkMessageHello() && showWelcomeMessage && (
           <div className="brdRadius bgWhite p-1 dis-f jc-b a-c p-1 p-md-2 mb-5">
             <img src={helloImg} alt="Hell User" />
             <div className="txtDark700 w-perc-100 pl-3">
@@ -219,7 +221,10 @@ const RewardsDashboard = (props) => {
               saturationTxt={400}
               bgTransparent
               noBorder
-              onClick={() => setCookie('brixelSayHello', true)}
+              onClick={() => {
+                setCookie('brixelSayHello', true)
+                setShowWelcomeMessage(false)
+              }}
             />
           </div>
         )
