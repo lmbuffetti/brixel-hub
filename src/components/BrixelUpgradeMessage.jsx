@@ -96,7 +96,7 @@ const BrixelUpgradeMessage = (props) => {
                           allow="vr"
                           frameBorder="0"
                           allowFullScreen
-                          title="Virtaul Tour"
+                          title="Virtual Tour"
                         />
                       </div>
                     ) : (
