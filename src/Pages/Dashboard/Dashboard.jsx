@@ -97,6 +97,11 @@ const Dashboard = (props) => {
   const propID = get(match, 'params.propId', null);
   // const checkActiveTab = () => last(history.location.pathname.split('/'));
 
+  useEffect(() => {
+    if (!get(history, 'location.pathname', '').includes('facts'))
+      reset('Property');
+  }, [history.location.pathname])
+
   const loadDefaultProperty = () => {
     const data = {
       limit: 1,
@@ -243,6 +248,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
+      console.log(changeObj, Object.keys(changeObj).length > 0);
       const checkIsValid = Object.keys(changeObj).find(key => typeof changeObj[key] !== 'undefined');
       if (
         checkIsValid &&
