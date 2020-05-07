@@ -87,6 +87,15 @@ const RewardsDashboard = (props) => {
   }, [windowDimensions, gameHistory, usrGroups, history.location.pathname]);
 
   useEffect(() => {
+    const getFloorPlans = get(formValue, 'floorPlans', []);
+    const getPhotos = get(formValue, 'photos', []);
+    const getDocuments = get(formValue, 'documents', []);
+    if (getDocuments.length > 0 && getPhotos.length > 0 && getFloorPlans.length > 0) {
+      handleAddGameHistory({stub: 'media'});
+    }
+  }, [formValue])
+
+  useEffect(() => {
     let filtUsrGroup = [];
     filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userTypes) !== -1);
     filtUsrGroup = filtUsrGroup.sort(sortObject('stub', 'asc'));
