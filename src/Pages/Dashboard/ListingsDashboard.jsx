@@ -11,6 +11,7 @@ import { BrixelButtonBox, BrixelButtonIcon, BrixelProgressBar } from '@brixel/br
 import get from 'lodash/get';
 import last from 'lodash/last';
 import Loadable from 'react-loadable';
+import Sticker from 'react-stickyfill';
 import Loading from '../../components/Loading';
 
 const Showings = Loadable({
@@ -75,6 +76,8 @@ const ListingsDashboard = (props) => {
     return isOnline;
   };
 
+
+
   const statusPortals = () => {
     let label;
     let colorIcon;
@@ -103,9 +106,13 @@ const ListingsDashboard = (props) => {
     return 'opened';
   };
 
+  const statusPortalsColor = statusPortals().colorIcon.charAt(0).toUpperCase() + statusPortals().colorIcon.slice(1);
+  const statusPageColor = statusPage().colorIcon.charAt(0).toUpperCase() + statusPage().colorIcon.slice(1);
+
   return (
-    <div className="listings-container dis-f jc-c h-perc-md-100" id="listingsDashaboard">
-      <div className={`firstLevel mr-md-2 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
+    <div className="listings-container dis-f jc-c h-perc-md-100 a-t" id="listingsDashaboard">
+      <Sticker>
+        <div className={`firstLevel mr-md-2 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
 
         <div className="dis-f">
           <BrixelButtonBox
@@ -115,8 +122,8 @@ const ListingsDashboard = (props) => {
             label="Brixel Page"
             labelClass="fweight-400 pb-small-6"
             subtitle={statusPage().label}
-            subtitleClass={'fsize-200 txtDark200'}
-            className={`w-perc-100 mr-1 shadow-1dp brdMedium p-2 ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+            subtitleClass={`fsize-200 txt${statusPageColor}400`}
+            className={`w-perc-100 max-w-perc-50 mr-1 shadow-1dp brdMedium p-2 ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
             colorIcon="primary700"
             backIcon="primary100"
             onClick={() => history.push(`/${propID}/listings/page`)}
@@ -129,8 +136,8 @@ const ListingsDashboard = (props) => {
             label="Portals"
             labelClass="fweight-400 pb-small-6"
             subtitle={statusPortals().label}
-            subtitleClass={'fsize-200 txtDark200'}
-            className={`w-perc-100 ml-1 shadow-1dp brdMedium p-2 ${getFact() === 'portals' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+            subtitleClass={`fsize-200 txt${statusPortalsColor}400`}
+            className={`w-perc-100 max-w-perc-50 ml-1 shadow-1dp brdMedium p-2 ${getFact() === 'portals' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
             colorIcon="primary700"
             backIcon="primary100"
             onClick={() => history.push(`/${propID}/listings/portals`)}
@@ -206,6 +213,7 @@ const ListingsDashboard = (props) => {
         </div>
 
       </div>
+      </Sticker>
       <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
         <BrixelButtonIcon
           background="white"

@@ -96,7 +96,7 @@ const Tour = (props) => {
             </div>
           ) : (
             <BrixelUpgradeMessage
-              className="mt-3"
+              className="tourTeaser h-perc-100"
               showClose={true}
               onClose={() => history.push(`/${propID}/property`)}
               title="Get your own 3D tour"

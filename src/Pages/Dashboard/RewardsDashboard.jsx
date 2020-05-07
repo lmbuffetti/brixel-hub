@@ -236,10 +236,10 @@ const RewardsDashboard = (props) => {
       <div className={`dis-f a-t jc-c pos-r-md`}>
         {
           usrGroups && (
-            <div className="firstLevel mr-md-2 pr-md-8">
+            <div className="firstLevel mr-md-2">
               {
                 usrGroups.map((group, i) => (
-                  <div className={`level-${group.stub.replace(/^\D+/g, '')}`} key={i.toString()}>
+                  <div className={`level-${group.stub.replace(/^\D+/g, '')} pr-md-8`} key={i.toString()}>
                     {
                       GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`] && (
                         <>

@@ -220,6 +220,10 @@ const App = (props) => {
     } else {
       if (history.location.pathname.includes('rewards')) {
         setClassMain('w-perc-100 pos-r hubContainer rewardsTop');
+      } else if (history.location.pathname.includes('property')) {
+        setClassMain('w-perc-100 pos-r hubContainer propertyTop');
+      } else if (history.location.pathname.includes('listings')) {
+        setClassMain('w-perc-100 pos-r hubContainer listingsTop');
       } else {
         setClassMain('w-perc-100 pos-r hubContainer ov-h');
       }
@@ -291,7 +295,7 @@ const App = (props) => {
           }
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
-            style={!isFlow ? isSecLevel ? {height: '100%'} : { height: windowDimensions.height } : null}
+            style={!isFlow ? isSecLevel ? {height: '100%'} : windowDimensions.width <= 768 ? { height: windowDimensions.height } : null : null}
           >
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (

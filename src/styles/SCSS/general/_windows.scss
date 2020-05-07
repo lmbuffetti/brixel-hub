@@ -8,12 +8,13 @@
     @media (max-width: $responsive-medium) {
       padding: $step * 2;
       overflow-y: auto;
+      overflow-x: hidden;
     }
   }
 
   .firstLevel {
     max-width: 480px;
-    min-width: 320px;
+//  min-width: 320px;
     width: 100%;
     @media (max-width: $responsive-medium) {
       min-width: 100%;
@@ -89,7 +90,7 @@
   }
 }
 
-.brixel-upgrade-message {
+.brixel-upgrade-message:not(.tourTeaser) {
   @media (max-width: $responsive-medium) {
     margin-top: auto;
   }
