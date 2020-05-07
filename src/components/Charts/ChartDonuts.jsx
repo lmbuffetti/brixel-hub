@@ -88,7 +88,7 @@ function ChartDonuts(props) {
     <div className="donut-graph mt-medium">
       <div className="donut-content donutsPieChart">
         <div
-          className="svg-range-container"
+          className="svg-range-container notranslate"
           style={{width: width, height: height, flex: `0 0 ${width}px`}}
         >
           <svg height={height} width={width}>

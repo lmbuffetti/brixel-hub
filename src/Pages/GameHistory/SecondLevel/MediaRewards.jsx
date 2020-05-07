@@ -21,9 +21,9 @@ const MediaRewards = (props) => {
   const showIntro = () => {
     const idStorageProp = localStorage.getItem('donMediaExplanation') || 0;
     if (documents.length === 0 && floorPlans.length === 0 && photos.length === 0 && idStorageProp !== propID) {
-      return true
+      return false;
     }
-    return true;
+    return false;
   }
 
   return (
