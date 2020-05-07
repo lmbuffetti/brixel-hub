@@ -13,6 +13,7 @@ import { GameGroupConfig } from '../../constants/global';
 import helloImg from '../../images/hello.svg';
 import BrixelButtonAchievement from '../../components/BrixelButtonAchievement';
 import { setCookie, getCookie, sortObject } from '../../utils/helpers';
+import Sticker from 'react-stickyfill';
 
 import SuccessMarketCheck from '../GameHistory/MarketChecker/SuccessMarketCheck';
 import SuccessBestimate from '../GameHistory/Bestimate/SuccessBestimate';
@@ -308,53 +309,55 @@ const RewardsDashboard = (props) => {
         }
         {
           activeGameGroup && rewardType !== 'rewards' && (
-            <div className="secondLevel w-perc-100 dis-fl-col ml-md">
-              <div className="rewardsSplash h-perc-100 dis-fl-col p-2 p-md-3 pb-md-8 cardSecondLevel">
-                {
-                  activeAchievement && (
-                    <div className="dis-f a-c jc-b mb-5 mb-md-2">
-                      <div className="dis-f a-c">
-                        <BrixelButtonIcon
-                          className="shadow-2dp mr-2 hide-md"
-                          icon="arrow-simple-left"
-                          color="primary"
-                          saturationTxt={400}
-                          bgTransparent
-                          noBorder
-                          onClick={() => history.push(`/${propID}/rewards`)}
-                        />
+            <Sticker>
+              <div className="secondLevel w-perc-100 dis-fl-col ml-md">
+                <div className="rewardsSplash h-perc-100 dis-fl-col p-2 p-md-3 pb-md-8 cardSecondLevel">
+                  {
+                    activeAchievement && (
+                      <div className="dis-f a-c jc-b mb-5 mb-md-2">
+                        <div className="dis-f a-c">
+                          <BrixelButtonIcon
+                            className="shadow-2dp mr-2 hide-md"
+                            icon="arrow-simple-left"
+                            color="primary"
+                            saturationTxt={400}
+                            bgTransparent
+                            noBorder
+                            onClick={() => history.push(`/${propID}/rewards`)}
+                          />
+                          {
+                            windowDimensions.width <= 768 && (
+                              <p className="mr-1 body fweight-500">
+                                Rewards
+                              </p>
+                            )
+                          }
+                        </div>
                         {
-                          windowDimensions.width <= 768 && (
-                            <p className="mr-1 body fweight-500">
-                              Rewards
-                            </p>
+                          activeAchievement.points && (
+                            <div className="cur-poi ml-2"  onClick={() => handleSetModal({
+                              showAwardsInfo: true,
+                            })}>
+                              {
+                                activeAchievement.achievementType === 'award' && (
+                                  <BrixelIcon
+                                    icon="cup-awards"
+                                    color="green"
+                                    className="mr-1"
+                                  />
+                                )
+                              }
+                              <span className="ff-mono txtDark700">{activeAchievement.points}</span>
+                            </div>
                           )
                         }
                       </div>
-                      {
-                        activeAchievement.points && (
-                          <div className="cur-poi ml-2"  onClick={() => handleSetModal({
-                            showAwardsInfo: true,
-                          })}>
-                            {
-                              activeAchievement.achievementType === 'award' && (
-                                <BrixelIcon
-                                  icon="cup-awards"
-                                  color="green"
-                                  className="mr-1"
-                                />
-                              )
-                            }
-                            <span className="ff-mono txtDark700">{activeAchievement.points}</span>
-                          </div>
-                        )
-                      }
-                    </div>
-                  )
-                }
-                  {getSuccessActiveGroup()}
+                    )
+                  }
+                    {getSuccessActiveGroup()}
+                </div>
               </div>
-            </div>
+            </Sticker>
           )
         }
       </div>

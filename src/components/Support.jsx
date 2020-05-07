@@ -29,7 +29,7 @@ const Support = (props) => {
 
   return (
     <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} mb-4 bgWhite ${isFixed ? 'fixed' : 'noFixed'}`} id="supportBox">
-      <div className={`${isFixed ? 'shadow-1dp' : ''} ${layout === 'rewards' ? 'p-1' : 'p-3'}`}>
+      <div className={`${isFixed ? 'shadow-1dp' : ''} ${layout === 'rewards' ? 'p-1' : 'p-4'}`}>
         {
           layout !== 'rewards' && (
             <div className="dis-f jc-b a-t">
@@ -57,7 +57,7 @@ const Support = (props) => {
           layout === 'rewards' && (
             <div className="ta-c max-w-fix-376 m-a">
               <h5 className="ta-c mt-3 mb-2">Let us give you some free advice.</h5>
-              <p className="ta-c fsize-300">What is the right selling price? When is the right time to start? How long does it take?</p>
+              <p className="ta-c fsize-300 txtDark200">What is the right selling price? When is the right time to start? How long does it take?</p>
             </div>
           )
         }
@@ -75,7 +75,7 @@ const Support = (props) => {
           }
         </div>
         {
-          !layout === 'rewards' && (
+          layout !== 'rewards' && (
             <hr className="my-3 lighter"/>
           )
         }
