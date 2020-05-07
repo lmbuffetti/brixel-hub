@@ -39,7 +39,7 @@ const BrixelUpgradeMessage = (props) => {
       {
         showClose && (
           <BrixelButtonIcon
-            className="shadow-3dp"
+            className="shadow-3dp hide-md"
             icon="arrow-simple-left"
             background="White"
             color="primary"
