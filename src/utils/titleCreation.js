@@ -12,7 +12,6 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
     const livingSpace = get(formValue, 'livingSpace', null);
     const location = get(formValue, 'location', null);
     if (bedrooms && livingSpace && location) {
-      console.log(livingSpace);
       pageTitle = `${translatedPropertyType} T${bedrooms} com ${livingSpace}m2 em ${location.name}, ${location.city}`;
     }
   } else if (getCountry && propertyType) {

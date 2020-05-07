@@ -64,6 +64,7 @@ const Upgrade = (props) => {
   }, [packagesProperty]);
 
   const closeWindow = () => {
+    reset('Property');
     const url = localStorage.getItem('backUrl');
     localStorage.removeItem('backUrl');
     history.push(url || `/${propID}`);
@@ -76,6 +77,7 @@ const Upgrade = (props) => {
       data: formValue.packageUpgrade
     };
     handleSaveUpgradePlan(data);
+    reset('Property');
   };
 
   const changeStep = (act) => {

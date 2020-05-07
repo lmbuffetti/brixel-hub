@@ -82,6 +82,7 @@ const Bestimate = (props) => {
     } else {
       history.push(`/${propID}/rewards/${getAchievement()}`);
     }
+    reset('Property');
   };
 
   const saveData = () => {
@@ -91,6 +92,7 @@ const Bestimate = (props) => {
     };
     handleSaveActiveSingleProperty(data);
     handleAddGameHistory({stub: getAchievement()})
+    reset('Property');
   };
 
   const changeStep = (act) => {
