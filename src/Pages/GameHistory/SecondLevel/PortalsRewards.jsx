@@ -30,9 +30,12 @@ const PortalsRewards = (props) => {
   useEffect(() => {
     const isCheckDone = gameHistory.find(item => item.page === propID && item.achievement.stub === gameStub);
     const checkifExist = Object.keys(portalsPublished).filter(key => portalsPublished[key] === true);
-    if (typeof isCheckDone !== 'undefined' && checkifExist.length > 0) setStatus('online');
-    else if (typeof isCheckDone !== 'undefined' && portalsReview) setStatus('review');
-    else setStatus('offline');
+    if (typeof isCheckDone !== 'undefined' && checkifExist.length > 0)
+      setStatus('online');
+    else if (portalsReview)
+      setStatus('review');
+    else
+      setStatus('offline');
   }, [gameHistory, portalsReview, portalsPublished]);
 
   const openPreview = (done = false) => {

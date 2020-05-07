@@ -136,7 +136,7 @@ function OnBoarding(props) {
 
   const changePageTitle = () => {
     if (formValue && formValue.location && formValue.propertyType) {
-      var titleAdjectives = [
+      const titleAdjectives = [
         'Beautiful',
         'Charming',
         'Elegant',

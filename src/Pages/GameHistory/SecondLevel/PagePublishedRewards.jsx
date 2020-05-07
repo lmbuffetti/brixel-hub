@@ -27,9 +27,12 @@ const PagePublishedRewards = (props) => {
 
   useEffect(() => {
     const isCheckDone = gameHistory.find(item => item.page === propID && item.achievement.stub === gameStub);
-    if (typeof isCheckDone !== 'undefined' && pagePublished) setStatus('online');
-    else if (typeof isCheckDone !== 'undefined' && pageReview) setStatus('review');
-    else setStatus('offline');
+    if (typeof isCheckDone !== 'undefined' && pagePublished)
+      setStatus('online');
+    else if (pageReview)
+      setStatus('review');
+    else
+      setStatus('offline');
   }, [gameHistory, pagePublished, pageReview]);
 
   const openPreview = (done = false) => {
@@ -41,66 +44,66 @@ const PagePublishedRewards = (props) => {
       {
         status === 'online' && (
           <>
-          <div className="dis-fl-col jc-c a-c">
-            <h5 className="ta-c mb-2">We are live!</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">Your property website is visible to the public and officially part of the world wide web. Yeah!</p>
-            <div className="ta-c my-5">
-              <img className="h-fix-120" src={pagePublishedDoneImg} alt="Page Preview" onClick={() => openPreview()} />
+            <div className="dis-fl-col jc-c a-c">
+              <h5 className="ta-c mb-2">We are live!</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">Your property website is visible to the public and officially part of the world wide web. Yeah!</p>
+              <div className="ta-c my-5">
+                <img className="h-fix-120" src={pagePublishedDoneImg} alt="Page Preview" onClick={() => openPreview()} />
+              </div>
             </div>
-          </div>
-          <div>
-            <BrixelButtonPrimary
-              label="Manage Page"
-              rounded
-              rightIcon="arrow-right"
-              className="min-w-fix-216 m-a"
-              onClick={() => openPreview(false)}
-            />
-          </div>
+            <div>
+              <BrixelButtonPrimary
+                label="Manage Page"
+                rounded
+                rightIcon="arrow-right"
+                className="min-w-fix-216 m-a"
+                onClick={() => openPreview(false)}
+              />
+            </div>
           </>
         )
       }
       {
-        !status === 'offline' && (
+        status === 'offline' && (
           <>
-          <div className="dis-fl-col jc-c a-c">
-            <h5 className="ta-c mb-2">Put this website live!</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">Unlock your Brixel Page and make it visible to the public.</p>
-            <div className="ta-c my-5">
-              <img className="h-fix-120" src={pagePublishedCheckImg} alt="Page Preview" onClick={() => openPreview()} />
+            <div className="dis-fl-col jc-c a-c">
+              <h5 className="ta-c mb-2">Put this website live!</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">Unlock your Brixel Page and make it visible to the public.</p>
+              <div className="ta-c my-5">
+                <img className="h-fix-120" src={pagePublishedCheckImg} alt="Page Preview" onClick={() => openPreview()} />
+              </div>
             </div>
-          </div>
-          <div>
-            <BrixelButtonPrimary
-              label="Manage Page"
-              rounded
-              rightIcon="arrow-right"
-              className="min-w-fix-216 m-a"
-              onClick={() => openPreview(false)}
-            />
-          </div>
+            <div>
+              <BrixelButtonPrimary
+                label="Manage Page"
+                rounded
+                rightIcon="arrow-right"
+                className="min-w-fix-216 m-a"
+                onClick={() => openPreview(false)}
+              />
+            </div>
           </>
         )
       }
       {
-        status === 'review' || (
+        status === 'review' && (
           <>
-          <div className="dis-fl-col jc-c a-c">
-            <h5 className="ta-c mb-2">Review in the making…</h5>
-            <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">To assure great quality your page is being reviewed for free.</p>
-            <div className="ta-c my-5">
-              <img className="h-fix-120" src={pagePublishedReviewImg} alt="Page Preview" onClick={() => openPreview()} />
+            <div className="dis-fl-col jc-c a-c">
+              <h5 className="ta-c mb-2">Review in the making…</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">To assure great quality your page is being reviewed for free.</p>
+              <div className="ta-c my-5">
+                <img className="h-fix-120" src={pagePublishedReviewImg} alt="Page Preview" onClick={() => openPreview()} />
+              </div>
             </div>
-          </div>
-          <div>
-            <BrixelButtonPrimary
-              label="Manage Page"
-              rounded
-              rightIcon="arrow-right"
-              className="min-w-fix-216 m-a"
-              onClick={() => openPreview(false)}
-            />
-          </div>
+            <div>
+              <BrixelButtonPrimary
+                label="Manage Page"
+                rounded
+                rightIcon="arrow-right"
+                className="min-w-fix-216 m-a"
+                onClick={() => openPreview(false)}
+              />
+            </div>
           </>
         )
       }
