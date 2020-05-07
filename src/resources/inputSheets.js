@@ -997,7 +997,6 @@ export const InputSheets = () => {
           format: formatPrice,
           normalize: normalizePrice,
           validation: [Validation.markRequired],
-          type: 'number',
           unit: get(formValue, 'price.currency', 'CHF'),
         },
         {
@@ -1010,7 +1009,6 @@ export const InputSheets = () => {
           format: formatPrice,
           normalize: normalizePrice,
           validation: [Validation.markRequired],
-          type: 'number',
           unit: get(formValue, 'price.currency', 'CHF'),
         },
         {
@@ -1034,7 +1032,6 @@ export const InputSheets = () => {
           labelLeft: 'Renewal Funds',
           format: formatPrice,
           normalize: normalizePrice,
-          type: 'number',
           validation: [Validation.markRequired],
           unit: get(formValue, 'price.currency', 'CHF'),
         },
@@ -1051,7 +1048,6 @@ export const InputSheets = () => {
           labelLeft: 'Renewal Funds',
           format: formatPrice,
           normalize: normalizePrice,
-          type: 'number',
           validation: [Validation.markRequired],
           unit: get(formValue, 'price.currency', 'CHF'),
         },
