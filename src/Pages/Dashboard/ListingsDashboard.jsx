@@ -118,7 +118,7 @@ const ListingsDashboard = (props) => {
             labelClass="fweight-400 pb-small-6"
             subtitle={statusPage().label}
             subtitleClass={'fsize-200 txtDark200'}
-            className={`w-perc-100 mr-1 shadow-1dp brdMedium p-2 ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+            className={`w-perc-100 max-w-perc-50 mr-1 shadow-1dp brdMedium p-2 ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
             colorIcon="primary700"
             backIcon="primary100"
             onClick={() => history.push(`/${propID}/listings/page`)}
@@ -132,7 +132,7 @@ const ListingsDashboard = (props) => {
             labelClass="fweight-400 pb-small-6"
             subtitle={statusPortals().label}
             subtitleClass={'fsize-200 txtDark200'}
-            className={`w-perc-100 ml-1 shadow-1dp brdMedium p-2 ${getFact() === 'portals' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+            className={`w-perc-100 max-w-perc-50 ml-1 shadow-1dp brdMedium p-2 ${getFact() === 'portals' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
             colorIcon="primary700"
             backIcon="primary100"
             onClick={() => history.push(`/${propID}/listings/portals`)}
