@@ -84,7 +84,7 @@ const RewardsDashboard = (props) => {
       getNameGroup = getNameGroup || 'homebase';
       history.push({ pathname: `/${propID}/rewards/${getNameGroup}` });
     }
-  }, [windowDimensions, gameHistory, usrGroups]);
+  }, [windowDimensions, gameHistory, usrGroups, history.location.pathname]);
 
   useEffect(() => {
     let filtUsrGroup = [];

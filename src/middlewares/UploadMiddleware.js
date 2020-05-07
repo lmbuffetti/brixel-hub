@@ -72,8 +72,8 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.smallLoader;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
-      api.image.addImage(action.payload, {uploading: store})
-        .then((res) => {
+      api.image.addImage(action.payload)
+        .then(async (res) => {
           if (uploadAction === 'photos' ||
             uploadAction === 'floorPlans' ||
             uploadAction === 'contactAvatar') {
