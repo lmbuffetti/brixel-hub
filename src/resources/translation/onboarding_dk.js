@@ -18,7 +18,7 @@ module.exports = {
   "Change":"Ændr",
   "Great, Your property was created!":"Herligt! Din ejendom var oprettet.",
   "And the first award goes to…You!":"Og den første pris går til…dig!",
-  "You earned the <span class=\"txtGreen400\">\"Homebase\"</span> Award and +50 Brixels.":"Du optjente <span class=\"txtGreen400\">\"Hjemmebase\"</span> prisen og +50 Brixler",
+  "You earned the <span class=\"txtGreen400\">\"NewComer\"</span> Award and +50 Brixels.":"Du optjente <span class=\"txtGreen400\">\"Hjemmebase\"</span> prisen og +50 Brixler",
   "Every home needs an owner.":"Alle hjem har brug for en ejer.",
   "Create profile":"Opret profil",
   "Create your profile to save your progress.":"Opret din profil for at gemme dine fremskridt.",

@@ -9,6 +9,7 @@ import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
+import last from 'lodash/last';
 import {
   withRouter,
 } from 'react-router-dom'
@@ -36,7 +37,7 @@ import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
 import { getGamegroup } from '../../actions/GamificationActions';
-import last from 'lodash/last';
+import { titleProperty } from '../../utils/titleCreation';
 
 const cookie = new Cookies();
 
@@ -75,7 +76,7 @@ function OnBoarding(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loginPage, setLoginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
-  const [Questions, setQuestions] = useState(QuestionsList(lang));
+  const [Questions, setQuestions] = useState(QuestionsList(lang,  get(formValue, 'location.countryCode', 'CH')));
   //const [curCountry, setCurCountry] = useState(null);
 
   useEffect(() => {
@@ -135,49 +136,18 @@ function OnBoarding(props) {
   }, [company]);
 
   const changePageTitle = () => {
-    if (formValue && formValue.location && formValue.propertyType) {
-      const titleAdjectives = [
-        'Beautiful',
-        'Charming',
-        'Elegant',
-        'Prestigious',
-        'One-of-a-kind',
-        'Exquisite',
-        'Spacious',
-        'Gorgeous',
-        'Wonderful',
-        'Lovely',
-        'Superb',
-        'Amazing',
-        'Stunning',
-        'Sophisticated',
-        'Modern',
-        'Incredible'
-      ];
-      // Create the title of the page
-      let pageTitle = `${titleAdjectives[Math.floor(Math.random() * titleAdjectives.length)]} ${formValue.propertyType}`;
-
-      // Try to add location to the title
-      if (formValue.location.city) {
-        pageTitle += ' in ' + formValue.location.city;
-      } else if (formValue.location.state) {
-        pageTitle += ' in ' + formValue.location.state;
-      } else if (formValue.location.country) {
-        pageTitle += ' in ' + formValue.location.country;
-      } else {
-        pageTitle += ' in ' + formValue.location.address;
-      }
-      changeFieldValue('pageTitle', pageTitle);
+    if (formValue) {
+      const pageTitle = titleProperty(formValue.location, formValue.propertyType, lang, formValue);
+      if (pageTitle)
+        changeFieldValue('pageTitle', pageTitle);
     }
   };
 
   // LOAD QUESTIONS ON CHANGING LANGUAGE
   useEffect(() => {
-    setQuestions(QuestionsList(lang));
-    if (formValue && formValue.location && formValue.propertyType) {
-      changePageTitle();
-    }
-  }, [formValue.location, formValue.propertyType, lang]);
+    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+    changePageTitle();
+  }, [formValue, lang]);
 
   // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
   useEffect(() => {
