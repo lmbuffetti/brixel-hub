@@ -76,6 +76,8 @@ const ListingsDashboard = (props) => {
     return isOnline;
   };
 
+
+
   const statusPortals = () => {
     let label;
     let colorIcon;
@@ -104,6 +106,9 @@ const ListingsDashboard = (props) => {
     return 'opened';
   };
 
+  const statusPortalsColor = statusPortals().colorIcon.charAt(0).toUpperCase() + statusPortals().colorIcon.slice(1);
+  const statusPageColor = statusPage().colorIcon.charAt(0).toUpperCase() + statusPage().colorIcon.slice(1);
+
   return (
     <div className="listings-container dis-f jc-c h-perc-md-100 a-t" id="listingsDashaboard">
       <Sticker>
@@ -117,7 +122,7 @@ const ListingsDashboard = (props) => {
             label="Brixel Page"
             labelClass="fweight-400 pb-small-6"
             subtitle={statusPage().label}
-            subtitleClass={'fsize-200 txtDark200'}
+            subtitleClass={`fsize-200 txt${statusPageColor}400`}
             className={`w-perc-100 max-w-perc-50 mr-1 shadow-1dp brdMedium p-2 ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
             colorIcon="primary700"
             backIcon="primary100"
@@ -131,7 +136,7 @@ const ListingsDashboard = (props) => {
             label="Portals"
             labelClass="fweight-400 pb-small-6"
             subtitle={statusPortals().label}
-            subtitleClass={'fsize-200 txtDark200'}
+            subtitleClass={`fsize-200 txt${statusPortalsColor}400`}
             className={`w-perc-100 max-w-perc-50 ml-1 shadow-1dp brdMedium p-2 ${getFact() === 'portals' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
             colorIcon="primary700"
             backIcon="primary100"

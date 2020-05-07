@@ -179,7 +179,7 @@ const HomeDashboard = (props) => {
                 label="3D tour"
                 labelClass="fweight-400 pb-small-6"
                 subtitle={get(formValue, 'virtual.matterport', null) ? 'Available' : 'Not set'}
-                subtitleClass={'fsize-200 txtDark200'}
+                subtitleClass={`fsize-200 txt${get(formValue, 'virtual.matterport', null) ? 'Green' : 'Red'}400`}
                 className={`w-perc-100 shadow-1dp mr-1 brdMedium ${getFact() === 'tour' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                 colorIcon={'primary700'}
                 backIcon="primary100"
