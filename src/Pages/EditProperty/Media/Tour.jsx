@@ -28,94 +28,79 @@ const Tour = (props) => {
   return (
     <div className="tourWrapper h-perc-md-100">
       <div className="secondLevel dis-fl-col">
-        <div className="tour">
-          <div className="dis-f jc-b a-c mb-3">
-            <BrixelButtonIcon
-              className="shadow-3dp hide-md"
-              icon="arrow-simple-left"
-              background="White"
-              color="primary"
-              saturationTxt={400}
-              noBorder
-              onClick={() => history.push(`/${propID}/property`)}
-            />
-            <h5 className="m-a m-md-0 sectionTitle">
-              3D tour
-            </h5>
-          </div>
-          {
-            !showTour ? (
-              <div className="pos-r brdRadius ov-h">
-                {
-                  get(formValue, 'virtual.matterport', null) ? (
-                    <img
-                      className="dis-b"
-                      src={`${baseByData.shortPath}${get(formValue, 'coverPhoto.path', '')}`}
-                      alt="Cover"
-                    />
-                  ) : (
-                    <img
-                      className="dis-b"
-                      src={defaultCover}
-                      alt="Cover"
-                    />
-                  )
-                }
-                <div className="pos-a w-perc-100 h-perc-100 bgBlack opacity5" />
-                <div className="pos-a xy-c">
-                  <BrixelButtonIcon
-                    noBorder
-                    padding={16}
-                    icon="play-fill"
-                    background="white"
-                    saturation={0}
-                    color="primary"
-                    fontSize={16}
-                    className="m-a opacity8"
-                    saturationTxt={400}
-                    onClick={() => setShowTour(true)}
-                  />
-                  <p className="ta-c txtWhite mt-2">Start 3D tour</p>
-                </div>
-              </div>
-            ) : (
-              <>
-                {
-                  get(formValue,'virtual.matterport', null) ? (
-                    <iframe
-                      className="min-h-fix-320"
-                      width="100%"
-                      height="100%"
-                      src={`https://my.matterport.com/show/?m=${get(formValue,'virtual.matterport', null)}&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0`}
-                      allow="vr"
-                      frameBorder="0"
-                      allowFullScreen
-                      title={get(formValue,'virtual.matterport', null)}
-                    />
-                  ) : (
-                    <div className="ta-c">
-                      <iframe
-                        className="min-h-fix-320"
-                        width="100%"
-                        height="100%"
-                        src={`https://my.matterport.com/show/?m=ctWod3ggrZi&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0`}
-                        allow="vr"
-                        frameBorder="0"
-                        allowFullScreen
-                        title={get(formValue,'virtual.matterport', null)}
-                      />
-                    </div>
-                  )
-                }
-              </>
-            )
-          }
-        </div>
         {
-          !get(formValue, 'virtual.matterport', null) && (
+          get(formValue, 'virtual.matterport', null) ? (
+            <div className="tour">
+              <div className="dis-f jc-b a-c mb-3">
+                <BrixelButtonIcon
+                  className="shadow-3dp hide-md"
+                  icon="arrow-simple-left"
+                  background="White"
+                  color="primary"
+                  saturationTxt={400}
+                  noBorder
+                  onClick={() => history.push(`/${propID}/property`)}
+                />
+                <h5 className="m-a m-md-0 sectionTitle">
+                  3D tour
+                </h5>
+              </div>
+              {
+                !showTour ? (
+                  <div className="pos-r brdRadius ov-h">
+                    {
+                      get(formValue, 'virtual.matterport', null) && (
+                        <img
+                          className="dis-b"
+                          src={`${baseByData.shortPath}${get(formValue, 'coverPhoto.path', '')}`}
+                          alt="Cover"
+                        />
+                      )
+                    }
+                    <div className="pos-a w-perc-100 h-perc-100 bgBlack opacity5" />
+                    <div className="pos-a xy-c">
+                      <BrixelButtonIcon
+                        noBorder
+                        padding={16}
+                        icon="play-fill"
+                        background="white"
+                        saturation={0}
+                        color="primary"
+                        fontSize={16}
+                        className="m-a opacity8"
+                        saturationTxt={400}
+                        onClick={() => setShowTour(true)}
+                      />
+                      <p className="ta-c txtWhite mt-2">Start 3D tour</p>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {
+                      get(formValue,'virtual.matterport', null) && (
+                        <iframe
+                          className="min-h-fix-320"
+                          width="100%"
+                          height="100%"
+                          src={`https://my.matterport.com/show/?m=${get(formValue,'virtual.matterport', null)}&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0`}
+                          allow="vr"
+                          frameBorder="0"
+                          allowFullScreen
+                          title={get(formValue,'virtual.matterport', null)}
+                        />
+                      )
+                    }
+                  </>
+                )
+              }
+            </div>
+          ) : (
             <BrixelUpgradeMessage
               className="mt-3"
+              showClose={true}
+              onClose={() => history.push(`/${propID}/property`)}
               title="Get your own 3D tour"
+              virtualTour="https://my.matterport.com/show/?m=ctWod3ggrZi&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0"
               description="3D tour and much more is part of Brixel Premium."
             />
           )
