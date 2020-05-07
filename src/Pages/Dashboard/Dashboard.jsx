@@ -98,8 +98,9 @@ const Dashboard = (props) => {
   // const checkActiveTab = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    if (!get(history, 'location.pathname', '').includes('facts'))
+    if (!get(history, 'location.pathname', '').includes('facts')) {
       reset('Property');
+    }
   }, [history.location.pathname])
 
   const loadDefaultProperty = () => {

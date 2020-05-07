@@ -89,6 +89,7 @@ const Photos = (props) => {
       const read = new FileReader();
       read.readAsDataURL(file);
       read.onload = async () => {
+        console.log(num);
         // Do whatever you want with the file contents
         const binaryStr = {
           name: Date.now() / 1000,
