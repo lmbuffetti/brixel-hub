@@ -97,7 +97,7 @@ const MarketCheck = (props) => {
     } else {
       newIndex += 1;
     }
-    if (questions[currentIndex + 1].toSave) {
+    if (questions[newIndex].toSave) {
       saveData();
     }
     setCurrentIndex(newIndex);

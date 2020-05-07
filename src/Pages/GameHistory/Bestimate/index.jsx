@@ -103,11 +103,12 @@ const Bestimate = (props) => {
     } else {
       newIndex += 1;
     }
-    if (questions[currentIndex + 1].toSave) {
+    if (questions[newIndex].toSave) {
       saveData();
     }
     setCurrentIndex(newIndex);
     // setPosition(newIndex);
+    console.log(newIndex);
     setQuest(questions[newIndex]);
   };
 
