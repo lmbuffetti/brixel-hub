@@ -211,7 +211,11 @@ const RewardsDashboard = (props) => {
           <div className="brdRadius bgWhite p-1 dis-f jc-b a-c p-1 p-md-2 mb-5">
             <img src={helloImg} alt="Hell User" />
             <div className="txtDark700 w-perc-100 pl-3">
-              <span>Hello {loggedInUser.user.firstName}!</span><br />
+              <span>
+                <span>Hello</span>
+                <span>&nbsp;</span>
+                <span>{loggedInUser.user.firstName}!</span>
+              </span><br />
               <span>Welcome to your Brixel Hub. I prepared a list of rewards to simplify your sale. Enjoy.</span>
             </div>
             <BrixelButtonIcon
