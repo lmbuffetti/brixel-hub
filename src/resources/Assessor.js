@@ -74,7 +74,7 @@ export const AssessorQuestions = (lang = 'en') => [
         pdClass: 'py-3 pl-1 pr-2',
         className: '',
         label: '',
-        name: 'properties.building.energy.heating',
+        name: 'properties.energy.heating',
         options: factsOptions.heating,
         icons: true,
         limit: 10,
