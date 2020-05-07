@@ -262,3 +262,7 @@ header {
 .lh-in{
   line-height: initial;
 }
+//todo styleguide
+#multiStepForm .brixel-input-step .wrap-brixel-input-step.fullWidth input {
+  @include fontStyle(600);
+}
