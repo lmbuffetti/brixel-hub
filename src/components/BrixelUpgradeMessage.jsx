@@ -121,7 +121,7 @@ const BrixelUpgradeMessage = (props) => {
                             saturationTxt={400}
                             onClick={() => setShowTour(true)}
                           />
-                          <p className="ta-c txtWhite mt-2">Start 3D tour</p>
+                          <p className="ta-c txtWhite mt-2">Example 3D-Tour</p>
                         </div>
                       </div>
                     )
