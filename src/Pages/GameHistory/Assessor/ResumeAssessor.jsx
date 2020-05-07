@@ -5,14 +5,14 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import isObject from 'lodash/isObject';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
 import { AssessorAvgLifespan, AssessorLabel } from '../../../resources/Assessor';
 import { BrixelSelect, FactsOptions } from '@brixel/brixel-components';
 import ChartDonuts from '../../../components/Charts/ChartDonuts';
-import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
+
 const { factsOptions } = FactsOptions;
 
 function ResumeAssessor(props) {
@@ -20,12 +20,10 @@ function ResumeAssessor(props) {
   const {
     condition,
     formValue,
-    match,
   } = props;
   // STATE
   const [selBaseRenovation, setSelRenovation] = useState('construction');
   const [AvgLifeSpan] = useState(cloneDeep(AssessorAvgLifespan));
-  const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
     if (has(condition, 'renovation')) {
