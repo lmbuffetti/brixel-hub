@@ -148,7 +148,7 @@ const HomeDashboard = (props) => {
               label="Photos"
               labelClass="fweight-400"
               subtitle={`<span>${calcLenght(get(formValue, 'photos', []))}</span>&nbsp;<span>${calcLenght(get(formValue, 'photos', [])) !== 1 ? 'Files' : 'File'}</span>`}
-              subtitleClass={'fsize-200 txtDark200 pt-small-6'}
+              subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'photos', [])) >= 1 ? 'txtPrimary700' : 'txtDark200'}`}
               className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'photos' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
               colorIcon={'primary700'}
               backIcon="primary100"
@@ -162,7 +162,7 @@ const HomeDashboard = (props) => {
               label="Plans"
               labelClass="fweight-400"
               subtitle={`<span>${calcLenght(get(formValue, 'floorPlans', []))}</span>&nbsp;<span>${calcLenght(get(formValue, 'floorPlans', [])) !== 1 ? 'Files' : 'File'}</span>`}
-              subtitleClass={'fsize-200 txtDark200 pt-small-6'}
+              subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'floorPlans', [])) >= 1 ? 'txtPrimary700' : 'txtDark200'}`}
               className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'floorPlans' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
               colorIcon={'primary700'}
               backIcon="primary100 "
@@ -192,9 +192,9 @@ const HomeDashboard = (props) => {
               label="Docubox"
               labelClass="fweight-400"
               subtitle={`<span>${calcLenght(get(formValue, 'documents', []))}</span>&nbsp;<span>${calcLenght(get(formValue, 'documents', [])) !== 1 ? 'Files' : 'File'}</span>`}
-              subtitleClass={'fsize-200 txtDark200 pt-small-6'}
+              subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'documents', [])) >= 1 ? 'txtPrimary700' : 'txtDark200'}`}
               className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
-              colorIcon={'primary400'}
+              colorIcon={'primary700'}
               backIcon="primary100"
               onClick={() => history.push(`/${propID}/property/documents`)}
             />
