@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { change } from 'redux-form';
+import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
@@ -41,7 +41,8 @@ const checkCommon = (store) => (next) => (action) => {
           const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
           if (idImg > -1) {
             arrayImg[idImg] = res.data;
-            store.dispatch(change('Property', 'photos', arrayImg));
+            store.dispatch(change('Property', action.payload.type, arrayImg));
+            store.dispatch(reset('Property'));
           }
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
@@ -62,7 +63,7 @@ const checkCommon = (store) => (next) => (action) => {
       const { imageType } = store.getState().image;
       const imgType = imageType.find((val) => val.name === 'Gallery');
       // action.payload.user = store.getState().user.loggedInUser.user.id;
-      action.payload.imageType = imgType.id;
+      // action.payload.imageType = imgType.id;
       const {
         pageID, userID, uploadAction, smallLoader, lastImage,
       } = action.payload;
@@ -71,8 +72,8 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.smallLoader;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
-      api.image.addImage(action.payload, {uploading: store})
-        .then((res) => {
+      api.image.addImage(action.payload)
+        .then(async (res) => {
           if (uploadAction === 'photos' ||
             uploadAction === 'floorPlans' ||
             uploadAction === 'contactAvatar') {

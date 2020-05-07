@@ -41,6 +41,7 @@ const DetailMedia = (props) => {
   const mediaType = get(match, 'params.editType', null);
   // REF
   const wrapImg = useRef(null);
+  const thirdlevelEl = document.getElementsByClassName('thirdLevel')[0];
 
   useEffect(() => {
     if (mediaID && formValue && mediaType) {
@@ -50,6 +51,20 @@ const DetailMedia = (props) => {
       }
     }
   }, [formValue, mediaType, match]);
+
+  useEffect(() => {
+
+    if (formValue[mediaType][idImg]) {
+      if (formValue[mediaType][idImg] !== '') {
+        if (thirdlevelEl) {
+          thirdlevelEl.classList.add('move');
+          setTimeout(function(){
+            thirdlevelEl.classList.remove('move');
+          }, 500);
+        }
+      }
+    }
+  }, [idImg])
 
   useEffect(() => {
     if (changeSection && !isSmallLoading) {
@@ -108,7 +123,7 @@ const DetailMedia = (props) => {
   }
 
   return (
-    <div className="thirdLevel">
+    <div className="thirdLevel mediaDetails">
       <div className="dis-fl-col max-h-perc-100">
         <div className="max-h-perc-100">
           <div className="image-detail">
@@ -134,7 +149,7 @@ const DetailMedia = (props) => {
                   <img
                     className="max-w-perc-100 shadow-2dp brdRadius w-perc-100"
                     //style={{ transform: `rotate(${rotation}deg)` }}
-                    src={`${baseByData.shortPath}${formValue[mediaType][idImg].path}?${formValue[mediaType][idImg].updatedAt}`}
+                    src={`${baseByData.shortPath}${formValue[mediaType][idImg].path}?${new Date()}`}
                     alt="Edit Media"
                   />
                 )

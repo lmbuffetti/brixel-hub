@@ -142,20 +142,20 @@ const Portals = (props) => {
                             <h5 className="mb-2 mt-3">Your property on the biggest portals.</h5>
 
                             <div className="ta-l max-w-fix-344 m-a">
-                              <p className="mb-1">
-                                <BrixelIcon icon="check" color="green" />
-                                <span className="ml-1">Publish all your listings with one click</span>
-                              </p>
+                              <div className="mb-1 pos-r">
+                                <BrixelIcon className="pos-a" icon="check" color="green" />
+                                <p className="ml-4 dis-b">Publish all your listings with one click</p>
+                              </div>
 
-                              <p className="mb-1">
-                                <BrixelIcon icon="check" color="green" />
-                                <span className="ml-1">Weekly republishing for best visibility</span>
-                              </p>
+                              <div className="mb-1 pos-r">
+                                <BrixelIcon className="pos-a" icon="check" color="green" />
+                                <p className="ml-4">Weekly republishing for best visibility</p>
+                              </div>
 
-                              <p className="dis-f a-t">
-                                <BrixelIcon icon="check" color="green" />
-                                <span className="ml-1">Homegate, Immoscout24, Comparis and many more...</span>
-                              </p>
+                              <div className="mb-1 pos-r">
+                                <BrixelIcon className="pos-a" icon="check" color="green" />
+                                <p className="ml-4">Homegate, Immoscout24, Comparis and many more...</p>
+                              </div>
                             </div>
 
                           </div>
@@ -176,7 +176,7 @@ const Portals = (props) => {
               title="Save 15% compared to listings price."
               description={`Only ${formValue.location.countryCode === 'CH' ? 'CHF 750' : 'EUR 50'} for 3 months. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
               titleConfirm="Please confirm your order."
-              descriptionConfirm={`<b>Publish on portals.</b><span>Only ${formValue.location.countryCode === 'CH' ? 'CHF 750' : 'EUR 50'} unlimited. You will not be charged for now.</span>`}
+              descriptionConfirm={`<b>Publish on portals.</b><span>Only ${formValue.location.countryCode === 'CH' ? 'CHF 750' : 'EUR 50'} for 3 months. You will not be charged for now.</span>`}
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction

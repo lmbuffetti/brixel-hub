@@ -84,10 +84,12 @@ const Photos = (props) => {
     reader.onerror = () => console.log('file reading has failed');
     const arrayDates = [];
     setBtnActive('uploading');
+    let num = 1;
     await acceptedFiles.map(async (file, f) => {
       const read = new FileReader();
       read.readAsDataURL(file);
       read.onload = async () => {
+        console.log(num);
         // Do whatever you want with the file contents
         const binaryStr = {
           name: Date.now() / 1000,
@@ -97,8 +99,9 @@ const Photos = (props) => {
           pageID: formValue.id,
           uploadAction: 'photos',
           smallLoader: 'upload',
-          lastImage: acceptedFiles.length - 1 === f,
+          lastImage: acceptedFiles.length - 1 === num,
         };
+        num += 1;
         arrayDates.push({galleryThumbnailPath: read.result, createdAt: Date().now});
         await handleUploadImg(binaryStr);
         setNewImages([...arrayDates]);

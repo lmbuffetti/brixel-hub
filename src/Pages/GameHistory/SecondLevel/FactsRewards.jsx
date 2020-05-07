@@ -20,12 +20,39 @@ const FactsRewards = (props) => {
   const propID = get(match, 'params.propId', '');
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col`}>
+    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col a-c`}>
       <div className="dis-fl-col a-c">
-        <div className="brdRadius max-w-fix-232 w-perc-100 m-a mt-2">
-          { totalComplete <= 9 && ( <img className="mb-2 w-fix-148 dis-f m-a" src={addFacts} alt="Add Facts" />)}
-          { totalComplete > 9 && totalComplete < 70 &&( <img className="mb-2 w-fix-148 dis-f m-a" src={addMoreFacts} alt="Add More Facts" />)}
-          { totalComplete >= 70 && ( <img className="mb-2 w-fix-148 dis-f m-a" src={factsWellDone} alt="Facts Well Done" />)}
+        {
+          totalComplete <= 9 && (
+            <>
+              <h5 className="ta-c mb-2">Provide all facts</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">Buyers appreciate a complete documentation. And it helps you to minimize your effort and building trust.</p>
+            </>
+          )
+        }
+        {
+          totalComplete > 9 && totalComplete < 70 && (
+            <>
+              <h5 className="ta-c mb-2">Add more facts</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">Try to complete <span className="txtGreen400 fsize-300 lh-in"> at least 70%</span> of
+                all facts to achieve this reward.</p>
+            </>
+          )
+        }
+
+        {
+          totalComplete >= 70 && (
+            <>
+              <h5 className="ta-c mb-2">Well done</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">You completed at least 70% of all facts. Interested buyers will be very pleased. </p>
+            </>
+          )
+        }
+
+        <div className="brdRadius max-w-fix-232 w-perc-100 m-a my-5">
+          { totalComplete <= 9 && ( <img className="w-fix-148 dis-f m-a mb-2" src={addFacts} alt="Add Facts" />)}
+          { totalComplete > 9 && totalComplete < 70 &&( <img className="w-fix-148 dis-f m-a mb-2" src={addMoreFacts} alt="Add More Facts" />)}
+          { totalComplete >= 70 && ( <img className="w-fix-148 dis-f m-a mb-2" src={factsWellDone} alt="Facts Well Done" />)}
           <BrixelProgressBar
             rounded
             saturation={700}
@@ -38,19 +65,16 @@ const FactsRewards = (props) => {
             large={window.innerWidth >= 768}
             small={window.innerWidth < 768}
           />
-          <p className="ff-mono body2 txtPrimary700 mt-1"><span>{totalComplete}%</span>&nbsp;<span>completed</span></p>
+          <p className="ff-mono body2 txtPrimary700 mt-1"><span className="notranslate">{totalComplete}%</span>&nbsp;<span>completed</span></p>
         </div>
-
         {
-          totalComplete >= 70 && (
+          totalComplete <= 9 && (
             <>
-              <h5 className="ta-c mt-3 mb-2">Well done</h5>
-              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300 mb-3">You completed at least 70% of all facts. Interested buyers will be very pleased. </p>
               <BrixelButtonPrimary
-                label="Edit facts"
+                label="Let's do this"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="min-w-fix-208 m-a"
                 onClick={() => history.push(`/${propID}/property/facts/propertyType`)}
               />
             </>
@@ -59,29 +83,24 @@ const FactsRewards = (props) => {
         {
           totalComplete > 9 && totalComplete < 70 && (
             <>
-              <h5 className="ta-c mt-3 mb-2">Add more facts</h5>
-              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300 mb-3">Try to complete <span className="txtGreen400">at least 70%</span> of
-                all facts to achieve this reward.</p>
               <BrixelButtonPrimary
                 label="Complete now"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="min-w-fix-208 m-a"
                 onClick={() => history.push(`/${propID}/property/facts/propertyType`)}
               />
             </>
           )
         }
         {
-          totalComplete <= 9 && (
+          totalComplete >= 70 && (
             <>
-              <h5 className="ta-c mt-3 mb-2">Provide all facts</h5>
-              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300 mb-3">Buyers appreciate a complete documentation. And it helps you to minimize your effort and building trust.</p>
               <BrixelButtonPrimary
-                label="Let's do this"
+                label="Edit facts"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="min-w-fix-208 m-a"
                 onClick={() => history.push(`/${propID}/property/facts/propertyType`)}
               />
             </>
@@ -89,8 +108,8 @@ const FactsRewards = (props) => {
         }
       </div>
 
-      <div className="dis-fl-col px-2 px-md-4 pt-4 pt-md-9">
-        <hr className="my-3 lighter" />
+      <div className="dis-fl-col px-2 px-md-4 pt-8">
+        <hr className="mb-3 lighter" />
         <div className="dis-f a-t">
           <img src={infoImg} alt="Info Lamp" />
           <p className="ml-2">

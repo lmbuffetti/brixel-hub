@@ -64,6 +64,7 @@ const Upgrade = (props) => {
   }, [packagesProperty]);
 
   const closeWindow = () => {
+    reset('Property');
     const url = localStorage.getItem('backUrl');
     localStorage.removeItem('backUrl');
     history.push(url || `/${propID}`);
@@ -76,6 +77,7 @@ const Upgrade = (props) => {
       data: formValue.packageUpgrade
     };
     handleSaveUpgradePlan(data);
+    reset('Property');
   };
 
   const changeStep = (act) => {
@@ -224,8 +226,8 @@ const Upgrade = (props) => {
                 }
                 {
                   currentIndex === 0 && (
-                    <div className="max-w-fix-272 shadow-1dp mt-3 m-a">
-                      <Support hideClose />
+                    <div className="max-w-fix-288 shadow-1dp mt-3 m-a">
+                      <Support hideClose expanded />
                     </div>
                   )
                 }

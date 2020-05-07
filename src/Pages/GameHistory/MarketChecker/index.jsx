@@ -76,11 +76,17 @@ const MarketCheck = (props) => {
   }, [currentIndex]);
 
   const closeWindow = () => {
-    history.push(`/${propID}/rewards/${getAchievement()}`);
+    reset('Property');
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      history.push(`/${propID}/rewards`);
+    } else {
+      history.push(`/${propID}/rewards/${getAchievement()}`);
+    }
   };
 
   const saveData = () => {
-    handleAddGameHistory({stub: getAchievement()})
+    handleAddGameHistory({stub: getAchievement()});
+    reset('Property');
   };
 
   const changeStep = (act) => {
@@ -91,7 +97,7 @@ const MarketCheck = (props) => {
     } else {
       newIndex += 1;
     }
-    if (questions[currentIndex + 1].toSave) {
+    if (questions[newIndex].toSave) {
       saveData();
     }
     setCurrentIndex(newIndex);
@@ -223,7 +229,7 @@ const MarketCheck = (props) => {
                   )
                 }
                 {
-                  quest && quest.cardType === 'loadComponent' && quest.history === questions[currentIndex].history && (
+                  get(quest, 'cardType', null) === 'loadComponent' && get(quest, 'history', 'a') === get(questions, `[${currentIndex}].history`, 'b') && (
                     React.createElement(quest.component, {formName: 'GamingFlow', finishedFlow, initialValue: formValue})
                   )
                 }

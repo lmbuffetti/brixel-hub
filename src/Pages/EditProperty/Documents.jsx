@@ -29,7 +29,6 @@ import moment from 'moment';
 const Documents = (props) => {
   const [documentOptionsOpen, setDocumentOptionsOpen] = useState({ id: null, active: false });
   const [editDocument, setEditDocument] = useState({ id: null, active: false });
-
   // PROPS
   const {
     formValue,
@@ -140,6 +139,12 @@ const Documents = (props) => {
     setTimeout(() => setNotification({ state: false }), 2000);
   };
 
+  const onEditMode = (doc) => {
+    setEditDocument({ id: doc.id, active: !editDocument.active });
+    set(formValue, '', doc.companyRole);
+    setDocumentOptionsOpen({ id: null, active: false });
+  }
+
   // Function to close the small menus when we click outside
   useOutsideAlerter(documentRef, {
     action: 'function',
@@ -174,19 +179,17 @@ const Documents = (props) => {
                     scroll={true}
                     bubbleScroll={true}
                     list={cloneDeep(documents)}
-                    setList={(order, evt) => {
-                      changeOrder(order);
-                    }}
+                    setList={(order, evt) => changeOrder(order)}
                     className="document-list"
+                    handle=".handle"
                   >
                     {
                       documents.map((doc, i) => (
                         <li
                           key={i.toString()}
                           data-id={JSON.stringify(doc)}
-                          className="single-document dis-fl-row a-c jc-b pb-1 pt-1"
+                          className={`single-document dis-fl-row a-c jc-b pb-1 pt-1 ${editDocument.active ? 'hand' : 'handle'}`}
                         >
-
                           <div className="name dis-fl-row a-c w-perc-100 pr-1">
 
                             <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
@@ -210,7 +213,7 @@ const Documents = (props) => {
                                 </div>
                               ) : (
                                 <div className="dis-fl-col cur-poi" onClick={() => window.open(`${getConfigEnv.shortPath}/document/${doc.id}`, "_blank")}>
-                                  <span className="document-title txtDark700">{doc.name}</span>
+                                  <span className="document-title max-w-fix-168 max-w-perc-md-100 txtDark700">{doc.name}</span>
                                   <span className="date body2 txtDark200">{moment(doc.createdAt).format('ddd MMM DD YYYY')}</span>
                                 </div>
                               )
@@ -241,7 +244,6 @@ const Documents = (props) => {
                                 />
                               ) : (
                                 <BrixelIcon
-                                  className="mr-1"
                                   color={`${doc.isPrivate ? 'red' : 'green'}`}
                                   icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
                                 />
@@ -267,7 +269,7 @@ const Documents = (props) => {
                                   </div>
                                 ) : (
                                   <BrixelButtonIcon
-                                    className="p-md-0 mr-1-neg"
+                                    className="p-md-0 mr-1-neg zIndex2"
                                     bgTransparent
                                     noBorder
                                     color="dark"
@@ -303,11 +305,7 @@ const Documents = (props) => {
                                       color="dark"
                                       label="Edit"
                                       saturation={100}
-                                      onClick={() => {
-                                        setEditDocument({ id: doc.id, active: !editDocument.active });
-                                        set(formValue, '', doc.companyRole);
-                                        setDocumentOptionsOpen({ id: null, active: false });
-                                      }}
+                                      onClick={() => onEditMode(doc)}
                                     />
                                     <BrixelButtonTertiary
                                       className="remove p-0"

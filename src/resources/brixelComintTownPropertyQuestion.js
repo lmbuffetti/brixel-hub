@@ -2,7 +2,7 @@ import { BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, Validation }
 import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
 import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 import Cat from '../images/BrxielComingTown/firstAwards.svg';
-import SaleProperty from '../images/BrxielComingTown/createProfile.svg';
+// import SaleProperty from '../images/BrxielComingTown/createProfile.svg';
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
 import { translateTo } from '../utils/translation';
@@ -32,12 +32,8 @@ const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
 const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 
-export const QuestionsList = (lang, gameGroup, country = 'CH') => {
+export const QuestionsList = (lang, country = 'CH') => {
   let getHomeBase = {name: 'Homebase', points: 100};
-  if (gameGroup) {
-    const getSellerLv1 = gameGroup.find(item => item.stub === 'seller-lvl1');
-    if (getSellerLv1 && getSellerLv1.achievements) getHomeBase = getSellerLv1.achievements.find(item => item.stub === 'homebase');
-  }
   return [
     {
       className: 'radioBtnImg',
@@ -161,17 +157,6 @@ export const QuestionsList = (lang, gameGroup, country = 'CH') => {
       cardType: 'RewardsStep',
       background: 'bgPrimary100',
       img: Cat,
-    },
-    {
-      conditions: [{
-        name: 'owner',
-        value: null,
-      }],
-      title: translateTo(lang, "Every home needs an owner."),
-      history: "lastStep",
-      cardType: 'LastStep',
-      background: 'bgGreen100',
-      img: SaleProperty,
     },
     {
       conditions: [{

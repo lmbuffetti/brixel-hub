@@ -64,8 +64,7 @@ const checkCommon = (store) => (next) => (action) => {
             window.location.href = `/packageFlow/${action.payload}/rewards`;
           } else if (redirectToHome) {
             window.location.href = `/${res.data.id}/rewards`;
-          }
-          if (redirectToUserFlow) {
+          } else if (redirectToUserFlow) {
             window.location.href = '/onBoarding/brixelComingInTown';
           } else {
             if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });

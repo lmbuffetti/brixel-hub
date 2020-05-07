@@ -97,6 +97,12 @@ const Dashboard = (props) => {
   const propID = get(match, 'params.propId', null);
   // const checkActiveTab = () => last(history.location.pathname.split('/'));
 
+  useEffect(() => {
+    if (!get(history, 'location.pathname', '').includes('facts')) {
+      reset('Property');
+    }
+  }, [history.location.pathname])
+
   const loadDefaultProperty = () => {
     const data = {
       limit: 1,
@@ -132,6 +138,7 @@ const Dashboard = (props) => {
       handleGetImageType();
     } else {
       setUserType('emptyState');
+      history.push('/no-property');
     }
     localStorage.removeItem('gameGroup');
   }, [activeSingleProperty]);
@@ -174,8 +181,12 @@ const Dashboard = (props) => {
           ...objToSave,
         };
         handleSaveActiveSingleProperty(data);
-        if (get(formValue, 'inputSheet', {}).totalComplete > 70) {
+        const inputSheet = get(formValue, 'inputSheet', {}) || {};
+        if (inputSheet.totalComplete > 70) {
           handleAddGameHistory({stub: 'facts'});
+        }
+        if (get(formValue, 'photos', []).length > 0 && get(formValue, 'floorPlans', []).length > 0 && get(formValue, 'documents', []).length > 0) {
+          handleAddGameHistory({stub: 'media'});
         }
       }
     }
@@ -238,6 +249,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
+      console.log(changeObj, Object.keys(changeObj).length > 0);
       const checkIsValid = Object.keys(changeObj).find(key => typeof changeObj[key] !== 'undefined');
       if (
         checkIsValid &&
@@ -269,14 +281,14 @@ const Dashboard = (props) => {
   if (!userTypes && !userType) return (<div />);
 
   return (
-    <div className="container ov-x-h dashboardContainer" id="dashboard">
+    <div className="container dashboardContainer" id="dashboard">
       { /* SECTION: APP HEADER */ }
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
       <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
       <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
-      <ProtectedRoute path="/" exact component={EmptyProperty} />
+      <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
     </div>
   )
 };

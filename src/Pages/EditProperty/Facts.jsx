@@ -178,7 +178,7 @@ const Facts = (props) => {
               backgroundSaturation={100}
               progressValue={get(formValue, 'inputSheet.totalComplete', 0)}
             />
-            <h6 className="mt-1 ff-mono txtPrimary700"><span>{get(formValue, 'inputSheet.totalComplete', 0)}%</span>&nbsp;<span>complete</span></h6>
+            <h6 className="mt-1 ff-mono txtPrimary700"><span className="notranslate">{get(formValue, 'inputSheet.totalComplete', 0)}%</span><span>&nbsp;</span><span>complete</span></h6>
           </div>
           <div className="inputSheet">
             {

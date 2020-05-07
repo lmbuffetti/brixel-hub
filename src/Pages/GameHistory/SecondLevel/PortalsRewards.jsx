@@ -30,9 +30,12 @@ const PortalsRewards = (props) => {
   useEffect(() => {
     const isCheckDone = gameHistory.find(item => item.page === propID && item.achievement.stub === gameStub);
     const checkifExist = Object.keys(portalsPublished).filter(key => portalsPublished[key] === true);
-    if (typeof isCheckDone !== 'undefined' && checkifExist.length > 0) setStatus('online');
-    else if (typeof isCheckDone !== 'undefined' && portalsReview) setStatus('review');
-    else setStatus('offline');
+    if (typeof isCheckDone !== 'undefined' && checkifExist.length > 0)
+      setStatus('online');
+    else if (portalsReview)
+      setStatus('review');
+    else
+      setStatus('offline');
   }, [gameHistory, portalsReview, portalsPublished]);
 
   const openPreview = (done = false) => {
@@ -42,14 +45,16 @@ const PortalsRewards = (props) => {
   };
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-md-2`}>
+    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col a-c">
       {
         status === 'online' && (
           <>
             <div className="dis-fl-col jc-c a-c">
-              <img className="h-fix-120" src={portalPublished} alt="Page Preview"/>
-              <h5 className="ta-c mt-3 mb-2">First big step done.</h5>
-              <p className="max-w-fix-368 m-a ta-c txtDark200 fsize-300 mb-3">Your property is on the market and ready to be discovered by it’s future buyer.</p>
+              <h5 className="ta-c mb-2">First big step done.</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">Your property is on the market and ready to be discovered by it’s future buyer.</p>
+              <div className="ta-c my-5">
+                <img className="h-fix-120" src={portalPublished} alt="Page Preview"/>
+              </div>
             </div>
             <div>
               <BrixelButtonPrimary
@@ -67,9 +72,11 @@ const PortalsRewards = (props) => {
         status === 'offline' && (
           <>
             <div className="dis-fl-col jc-c a-c">
-              <img className="h-fix-120" src={portalsPublishedCheckImg} alt="Page Preview"/>
-              <h5 className="ta-c mt-3 mb-2">Put your property on the market.</h5>
-              <p className="max-w-fix-368 m-a ta-c txtDark200 fsize-300 mb-3">Your are just 3 clicks away. Let your property fly.</p>
+              <h5 className="ta-c mb-2">Put your property on the market.</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">Your are just 3 clicks away. Let your property fly.</p>
+              <div className="ta-c my-5">
+                <img className="h-fix-120" src={portalsPublishedCheckImg} alt="Page Preview"/>
+              </div>
             </div>
             <div>
               <BrixelButtonPrimary
@@ -87,9 +94,11 @@ const PortalsRewards = (props) => {
         status === 'review' && (
           <>
             <div className="dis-fl-col jc-c a-c">
-              <img className="h-fix-120" onClick={() => openPreview(false)} src={portalReview} alt="Page Preview"/>
-              <h5 className="ta-c mt-3 mb-2">On it’s way.</h5>
-              <p className="max-w-fix-368 m-a ta-c txtDark200 fsize-300 mb-3">Your property was sent to the portals and will be published soon. </p>
+              <h5 className="ta-c mb-2">On it’s way.</h5>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">Your property was sent to the portals and will be published soon. </p>
+              <div className="ta-c my-5">
+                <img className="h-fix-120" onClick={() => openPreview(false)} src={portalReview} alt="Page Preview"/>
+              </div>
             </div>
             <div>
               <BrixelButtonPrimary

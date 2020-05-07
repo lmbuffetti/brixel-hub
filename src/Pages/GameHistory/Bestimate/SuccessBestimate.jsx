@@ -75,7 +75,7 @@ function SuccessBestimate(props) {
   const bestimateValue = get(bestimate, 'higherValue', 0);
 
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col jc-c a-c pt-md-2`}>
+    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col a-c">
       {
         groupdAchievement.done || getDoneFirstTime() === 'done' ? (
           <>
@@ -85,16 +85,20 @@ function SuccessBestimate(props) {
                   {
                     getDoneFirstTime().includes('-done') ? (
                       <>
-                        <h5 className="ta-c max-w-fix-368">Well done. You are now an Assessor.</h5>
-                        <div className="ta-c m-a mb-3">
+                        <h5 className="ta-c max-w-fix-376 mb-2">Well done. You are now an Assessor.</h5>
+                        <p className="max-w-fix-376 m-a ta-c">Congrats! <br/><br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
+                        <div className="ta-c m-a my-5">
                           <img className="h-fix-120" src={newBestimate} alt="Nes Assessor" />
                         </div>
-                        <p className="max-w-fix-368 ta-c mb-2">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
                       <>
                         <div className="dis-fl-col jc-c a-c">
-                          <div className="ta-c mb-3 pos-r">
+                          <h5 className="ta-c max-w-fix-376 mb-2">Your estimated value</h5>
+                          <p className="body2 max-w-fix-376 txtDark200 m-a ta-c">
+                            Bestimate® is calculated based on similar transaction.
+                          </p>
+                          <div className="ta-c mb-5 mt-2 pos-r">
                             {
                               get(marketData, 'priceDistribution.chartRangePrice', null) && get(activeSingleProperty, 'estimation.bestimate', null) && (
                                 <div className="dis-f jc-c">
@@ -107,24 +111,22 @@ function SuccessBestimate(props) {
                                 </div>
                               )
                             }
-                            <div className="ta-l pb-2 m-a w-fit">
-                              <p className="body2 txtDark200">Worth up to</p>
-                              <h5 className="ff-mono fweight-700">
+                            <div className="ta-l m-a w-fit">
+                              <p className="fsize-100 txtDark200">Worth up to</p>
+                              <h5 className="ff-mono txtBlue700 fweight-700">
                                 <span>{bestimate.currency}</span>&nbsp;
                                 <span>{bestimateValue.toLocaleString('de-CH')}</span>
                               </h5>
                             </div>
                           </div>
-                          <p className="body2 max-w-fix-368 txtDark200 m-a ta-c">
-                            Based on similar transaction.
-                          </p>
+
                         </div>
                         <div className="w-perc-100">
                           <BrixelButtonPrimary
                             rounded
                             label="See full Bestimate®"
                             background={"primary"}
-                            className="pl-3 m-a mt-3"
+                            className="min-w-fix-208 m-a "
                             onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
                             rightIcon="arrow-right"
                           />
@@ -142,10 +144,10 @@ function SuccessBestimate(props) {
               <div className="ta-c m-a mb-3">
                 <img className="h-fix-120" src={startBestimate} alt="Done Assessor" />
               </div>
-              <h5 className="mb-2 m-a ta-c">
+              <h5 className="mb-2 m-a ta-c max-w-fix-376">
                 Get a free price indication.
               </h5>
-              <p className="body2 max-w-fix-368 txtDark200 m-a ta-c">
+              <p className="body2 max-w-fix-376 txtDark200 m-a ta-c">
                 Compare your property to real transaction data to better define the pricing.
               </p>
             </div>
@@ -154,7 +156,7 @@ function SuccessBestimate(props) {
                 rounded
                 label="Get free Bestimate®"
                 background={"primary"}
-                className="pl-3 m-a mt-3"
+                className="min-w-fix-208 m-a mt-3"
                 onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
                 rightIcon="arrow-right"
               />

@@ -9,9 +9,10 @@ import { compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { BrixelSelect, FactsOptions } from '@brixel/brixel-components';
 import { AssessorAvgLifespan, AssessorLabel } from '../../../resources/Assessor';
+import { BrixelSelect, FactsOptions } from '@brixel/brixel-components';
 import ChartDonuts from '../../../components/Charts/ChartDonuts';
+
 const { factsOptions } = FactsOptions;
 
 function ResumeAssessor(props) {
@@ -31,8 +32,11 @@ function ResumeAssessor(props) {
   }, [condition]);
 
   const getValue = (type, act) => {
-    if (act === 'key') return Object.keys(condition[selBaseRenovation][type])[0];
-    return condition[selBaseRenovation][type][Object.keys(condition[selBaseRenovation][type])[0]];
+    if (get(condition, `[${selBaseRenovation}][${type}]`, null) !== null) {
+      if (act === 'key') return Object.keys(condition[selBaseRenovation][type])[0];
+      return condition[selBaseRenovation][type][Object.keys(condition[selBaseRenovation][type])[0]];
+    }
+    return null;
   };
 
   const getLabel = (type) => {
@@ -47,11 +51,11 @@ function ResumeAssessor(props) {
     let year = AvgLifeSpan[type][value];
     if (typeof year === 'undefined') year = AvgLifeSpan[type];
     let label = '';
-    if (getElement.label) {
+    if (label && getElement.label) {
       label = `<span>${getElement.label}</span><span>,</span>`;
     }
     return {
-      label: getElement.label,
+      label: getElement? getElement.label : null,
       year: year,
       string: `${label}<span> ø ${year}&nbsp;</span><span>years</span>`
     }
@@ -72,7 +76,7 @@ function ResumeAssessor(props) {
   };
 
   const getEvaluationScale = (type) => {
-    let value = condition[selBaseRenovation][type];
+    let value = get(condition, `[${selBaseRenovation}][${type}]`, '');
     if (isObject(value)) value = value[Object.keys(value)[0]];
     const color = [
       'bgRed500',
@@ -81,7 +85,7 @@ function ResumeAssessor(props) {
       'bgGreen600',
     ];
     return {
-      label: factsOptions.qualityAssessor[value - 1].label,
+      label: factsOptions.qualityAssessor[value - 1] ? factsOptions.qualityAssessor[value - 1].label : null,
       color: color[value - 1],
     }
   };
@@ -92,7 +96,20 @@ function ResumeAssessor(props) {
       <h5 className='ta-c mb-5'>Here is your condition check.</h5>
 
       <div className="my-4 pos-r zIndex2 ta-c dis-fl-col a-c jc-c">
-        <p className={`ta-c ${condition['renovation'] ? 'mr-2' : 'mr-1'} txtDark700 mb-1`}>based on {!has(condition, 'renovation.construction') && (<span className="txtDark700">construction year</span>)}</p>
+        <p
+          className={`ta-c ${has(condition, 'renovation.construction') ? 'mr-2' : 'mr-1'} txtDark700 mb-1`}>
+          {
+            !has(condition, 'renovation.construction') ? (
+              <>
+                <span>based on</span>
+                <span>&nbsp;</span>
+                <span className="txtDark700">construction year</span>
+              </>
+            ) : (
+              <span>based on</span>
+            )
+          }
+        </p>
         {
           has(condition, 'renovation.construction') && (
             <BrixelSelect
@@ -119,7 +136,7 @@ function ResumeAssessor(props) {
 
       <div className="p-2 mb-3 ta-c max-w-fix-360 m-a">
         <ChartDonuts
-          assessor={condition[selBaseRenovation]}
+          assessor={get(condition, `[${selBaseRenovation}]`, '')}
           smallPie
           noText
           showPercOnHover
@@ -147,21 +164,34 @@ function ResumeAssessor(props) {
               Object.keys(AvgLifeSpan).map((key, i) => (
                 <React.Fragment key={i.toString()}>
                   {
-                    condition[selBaseRenovation][key] && (
+                    has(condition, `[${selBaseRenovation}][${key}]`) && getEvaluationScale(key).label && (
                       <div className='dis-f-md jc-b mb-3 mb-md-4'>
                         <div className="max-w-fix-md-176 w-perc-100 mb-1 mb-md-0">
                           <p className="fweight-500 txtDark700">{AssessorLabel[key]}</p>
-                          <p className="body2" dangerouslySetInnerHTML={{ __html: getLabel(key).string}} />
+                          <p
+                            className="body2"
+                            dangerouslySetInnerHTML={{ __html: getLabel(key).string}}
+                          />
                         </div>
                         <div className="dis-f jc-b w-perc-100">
                           <div className="w-perc-100 ml-md-3">
                             <div className="barAssessor pos-r bgLight200 mt-1">
-                              <div className={`w-perc-${startEndYear(key).lineValue} ${getEvaluationScale(key).color} h-perc-100 pos-a-fix x-l-0 x-t-0`} />
+                              <div
+                                className={`w-perc-${startEndYear(key).lineValue} ${getEvaluationScale(key).color} h-perc-100 pos-a-fix x-l-0 x-t-0`} />
                             </div>
                             <div className="dis-f jc-b a-c fsize-100 mt-1 pr-small-4 pl-small-4">
-                              <p className="body2 txtDark200 w-perc-33 ta-l">{startEndYear(key).start}</p>
-                              <p className="fweight-500 txtDark700 body2 w-perc-34 ta-c">{getEvaluationScale(key).label}</p>
-                              <p className="body2 txtDark200 w-perc-33 ta-r">{startEndYear(key).end}</p>
+                              <p
+                                className="body2 txtDark200 w-perc-33 ta-l"
+                              >
+                                {startEndYear(key).start}
+                              </p>
+                              <p
+                                className="fweight-500 txtDark700 body2 w-perc-34 ta-c">
+                                {getEvaluationScale(key).label}
+                              </p>
+                              <p className="body2 txtDark200 w-perc-33 ta-r">
+                                {startEndYear(key).end}
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -200,7 +230,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(

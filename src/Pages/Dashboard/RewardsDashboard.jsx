@@ -13,6 +13,7 @@ import { GameGroupConfig } from '../../constants/global';
 import helloImg from '../../images/hello.svg';
 import BrixelButtonAchievement from '../../components/BrixelButtonAchievement';
 import { setCookie, getCookie, sortObject } from '../../utils/helpers';
+import Sticker from 'react-stickyfill';
 
 import SuccessMarketCheck from '../GameHistory/MarketChecker/SuccessMarketCheck';
 import SuccessBestimate from '../GameHistory/Bestimate/SuccessBestimate';
@@ -45,6 +46,7 @@ const RewardsDashboard = (props) => {
   const [usrGroups, setUsrGroups] = useState(gameGroup.sort(sortObject('stub', 'asc')));
   const [activeGameGroup, setActiveGameGroup] = useState(null);
   const [activeAchievement, setActiveAchievement] = useState(null);
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
   // PARAMS URL
   const rewardType = last(get(history, 'location.pathname', '').split('/')).replace('-done', '');
   const propID = get(match, 'params.propId', '');
@@ -79,9 +81,19 @@ const RewardsDashboard = (props) => {
           }
         });
       }
+      getNameGroup = getNameGroup || 'homebase';
       history.push({ pathname: `/${propID}/rewards/${getNameGroup}` });
     }
-  }, [windowDimensions, gameHistory, usrGroups]);
+  }, [windowDimensions, gameHistory, usrGroups, history.location.pathname]);
+
+  useEffect(() => {
+    const getFloorPlans = get(formValue, 'floorPlans', []);
+    const getPhotos = get(formValue, 'photos', []);
+    const getDocuments = get(formValue, 'documents', []);
+    if (getDocuments.length > 0 && getPhotos.length > 0 && getFloorPlans.length > 0) {
+      handleAddGameHistory({stub: 'media'});
+    }
+  }, [formValue])
 
   useEffect(() => {
     let filtUsrGroup = [];
@@ -187,6 +199,16 @@ const RewardsDashboard = (props) => {
     )
   }
 
+  const checkMessageHello = () => {
+    if (typeof getCookie('brixelSayHello') !== 'undefined') {
+      if (JSON.parse(getCookie('brixelSayHello')) !== true) {
+        return true
+      }
+      return false;
+    }
+    return true;
+  }
+
   if (!property.id && !userTypes) {
     return <Loading />
   }
@@ -194,11 +216,15 @@ const RewardsDashboard = (props) => {
   return (
     <div className={`rewards-container`} id="rewardsDashboard">
       {
-        getCookie('brixelSayHello') && JSON.parse(getCookie('brixelSayHello')) !== true && (
+        checkMessageHello() && showWelcomeMessage && (
           <div className="brdRadius bgWhite p-1 dis-f jc-b a-c p-1 p-md-2 mb-5">
             <img src={helloImg} alt="Hell User" />
             <div className="txtDark700 w-perc-100 pl-3">
-              <span>Hello {loggedInUser.user.firstName}!</span><br />
+              <span>
+                <span>Hello</span>
+                <span>&nbsp;</span>
+                <span>{loggedInUser.user.firstName}!</span>
+              </span><br />
               <span>Welcome to your Brixel Hub. I prepared a list of rewards to simplify your sale. Enjoy.</span>
             </div>
             <BrixelButtonIcon
@@ -208,7 +234,10 @@ const RewardsDashboard = (props) => {
               saturationTxt={400}
               bgTransparent
               noBorder
-              onClick={() => setCookie('brixelSayHello', true)}
+              onClick={() => {
+                setCookie('brixelSayHello', true)
+                setShowWelcomeMessage(false)
+              }}
             />
           </div>
         )
@@ -216,10 +245,10 @@ const RewardsDashboard = (props) => {
       <div className={`dis-f a-t jc-c pos-r-md`}>
         {
           usrGroups && (
-            <div className="firstLevel mr-md-2 pr-md-8">
+            <div className="firstLevel mr-md-2">
               {
                 usrGroups.map((group, i) => (
-                  <div className={`level-${group.stub.replace(/^\D+/g, '')}`} key={i.toString()}>
+                  <div className={`level-${group.stub.replace(/^\D+/g, '')} pr-md-8`} key={i.toString()}>
                     {
                       GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`] && (
                         <>
@@ -240,8 +269,8 @@ const RewardsDashboard = (props) => {
                           <div key={i.toString()} className="pos-r">
                             {
                               group.achievements && group.achievements.map((item, f) => (
-                                <>
-                                  <div key={f.toString()} className="pos-r">
+                                <React.Fragment key={f.toString()}>
+                                  <div className="pos-r">
                                     <BrixelButtonAchievement
                                       level={group.stub.replace(/^\D+/g, '')}
                                       done={item.done}
@@ -259,7 +288,7 @@ const RewardsDashboard = (props) => {
                                   </div>
                                   {
                                     f === group.achievements.length - 1 && group.stub.replace(/^\D+/g, '') === '1' && (
-                                      <div className="pos-r">
+                                      <div className="pos-r" key={`${f.toString()}group`}>
                                         <hr className="lighter" />
                                         <BrixelButtonBox
                                           bgTransparent
@@ -278,7 +307,7 @@ const RewardsDashboard = (props) => {
                                       </div>
                                     )
                                   }
-                                </>
+                                </React.Fragment>
                               ))
                             }
                           </div>
@@ -293,12 +322,12 @@ const RewardsDashboard = (props) => {
         }
         {
           activeGameGroup && rewardType !== 'rewards' && (
-            <div className="secondLevel w-perc-100 dis-fl-col ml-md">
-              <>
-                <div className="rewardsSplash h-perc-100 dis-fl-col p-2 pb-md-8 cardSecondLevel">
+            <Sticker>
+              <div className="secondLevel w-perc-100 dis-fl-col ml-md">
+                <div className="rewardsSplash h-perc-100 dis-fl-col p-2 p-md-3 pb-md-8 cardSecondLevel">
                   {
                     activeAchievement && (
-                      <div className="dis-f a-c jc-b mb-md-3">
+                      <div className="dis-f a-c jc-b mb-5 mb-md-2">
                         <div className="dis-f a-c">
                           <BrixelButtonIcon
                             className="shadow-2dp mr-2 hide-md"
@@ -309,9 +338,13 @@ const RewardsDashboard = (props) => {
                             noBorder
                             onClick={() => history.push(`/${propID}/rewards`)}
                           />
-                          <p className="mr-1 body fweight-500">
-                            {activeAchievement.title || activeAchievement.description}
-                          </p>
+                          {
+                            windowDimensions.width <= 768 && (
+                              <p className="mr-1 body fweight-500">
+                                Rewards
+                              </p>
+                            )
+                          }
                         </div>
                         {
                           activeAchievement.points && (
@@ -336,8 +369,8 @@ const RewardsDashboard = (props) => {
                   }
                   {getSuccessActiveGroup()}
                 </div>
-              </>
-            </div>
+              </div>
+            </Sticker>
           )
         }
       </div>

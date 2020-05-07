@@ -473,3 +473,23 @@ export const Truncate = (text, limit, showAllDescription = false) => {
   }
   return txt;
 };
+
+export const toBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+};
+
+export const tobase64Handler = async (files) => {
+  const filePathsPromises = [];
+  files.forEach(file => {
+    filePathsPromises.push(toBase64(file));
+  });
+  const filePaths = await Promise.all(filePathsPromises);
+  const mappedFiles = filePaths.map((base64File) => ({ selectedFile: base64File }));
+  console.log(mappedFiles);
+  return mappedFiles;
+}

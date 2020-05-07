@@ -112,35 +112,45 @@ function PageHeader(props) {
           />
           <div className="dis-f a-c">
             {
-              userAwards >= 0 && (
-                <div className={`cur-poi ${userAwards >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('awards')}>
-                  <img src={awards} alt="icon awards" className="mr-1" />
-                  <span className="ff-mono txtGreen600">{userAwards}</span>
-                </div>
-              )
-            }
-            {
-              brixelPoints >= 0 && (
-                <div className={`cur-poi ml-2 ${brixelPoints >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('brixelPoints')}>
-                  <img src={brixels} alt="icon awards" className="mr-1" />
-                  <span className="ff-mono txtRed600">{brixelPoints}</span>
-                </div>
-              )
-            }
-            {
-              Object.keys(userAwards).length > 0 && (
-                <div className="cur-poi" onClick={() => setModal('awards')}>
-                  <img src={awards} alt="icon awards" className="mr-1" />
-                  <span className="ff-mono txtGreen600">{Object.keys(userAwards).length}</span>
-                </div>
-              )
-            }
-            {
-              Object.keys(brixelPoints).length > 0 && (
-                <div className="cur-poi ml-2" onClick={() => setModal('brixelPoints')}>
-                  <img src={brixels} alt="icon awards" className="mr-1" />
-                  <span className="ff-mono txtRed600">{brixelPoints.reduce((prev,next) => prev + next.point,0)}</span>
-                </div>
+              !history.location.pathname.includes('packageFlow') &&
+              !history.location.pathname.includes('onBoarding') && (
+                <>
+                  {
+                    userAwards >= 0 && (
+                      <div className={`cur-poi ${userAwards >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('awards')}>
+                        <img src={awards} alt="icon awards" className="mr-1" />
+                        <span className="ff-mono txtGreen600">{userAwards}</span>
+                      </div>
+                    )
+                  }
+
+                  {
+                    brixelPoints >= 0 && (
+                      <div className={`cur-poi ml-2 ${brixelPoints >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('brixelPoints')}>
+                        <img src={brixels} alt="icon awards" className="mr-1" />
+                        <span className="ff-mono txtRed600">{brixelPoints}</span>
+                      </div>
+                    )
+                  }
+
+                  {
+                    Object.keys(userAwards).length > 0 && (
+                      <div className="cur-poi" onClick={() => setModal('awards')}>
+                        <img src={awards} alt="icon awards" className="mr-1" />
+                        <span className="ff-mono txtGreen600">{Object.keys(userAwards).length}</span>
+                      </div>
+                    )
+                  }
+
+                  {
+                    Object.keys(brixelPoints).length > 0 && (
+                      <div className="cur-poi ml-2" onClick={() => setModal('brixelPoints')}>
+                        <img src={brixels} alt="icon awards" className="mr-1" />
+                        <span className="ff-mono txtRed600">{brixelPoints.reduce((prev,next) => prev + next.point,0)}</span>
+                      </div>
+                    )
+                  }
+                </>
               )
             }
             {
@@ -219,7 +229,7 @@ function PageHeader(props) {
                     </div>
                   </div>
                   <p>{translateTo(lang, "This is our currency you can earn by fullfilling tasks along the way.")}</p>
-                  <p>{translateTo(lang, "During your journey you can use Brixels to unlock addintional features and gifts.")}</p>
+                  <p>{translateTo(lang, "During your journey you can use Brixels to unlock additional features and gifts.")}</p>
                   <p>{translateTo(lang, "So keep collecting your Brixels.")}</p>
                 </BrixelModal>
               )

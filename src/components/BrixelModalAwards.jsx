@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 const BrixelModalAwards = (props) => {
   // PROPS
   const {
+    awards,
     brixelPoints,
     gameGroup,
     gameHistory,
@@ -35,7 +36,7 @@ const BrixelModalAwards = (props) => {
 
   useEffect(() => {
     if (gameGroup && gameHistory) {
-      let numDone = 0;
+      // let numDone = 0;
       let numTodo = 0;
       const usrGroups = gameGroup.sort(sortObject('stub', 'asc'))
       usrGroups.forEach((groups) => {
@@ -46,13 +47,13 @@ const BrixelModalAwards = (props) => {
               if (typeof selElTodo === 'undefined') {
                 numTodo += 1;
               } else {
-                numDone += 1;
+                // numDone += 1;
               }
             }
           });
         }
       });
-      setDone(numDone);
+      setDone(awards);
       setToDo(numTodo);
     }
   }, [gameGroup, gameHistory])
@@ -104,7 +105,7 @@ const BrixelModalAwards = (props) => {
 
           <p className="mt-3"><span>This is our currency. You earn Brixels by completing tasks and getting awards.</span>
 
-            <span className="txtRed700 fweight-500 dis-b mt-4">Coming soon: During your journey you can use Brixels to unlock adddintional features and gifts.</span></p>
+            <span className="txtRed700 fweight-500 dis-b mt-4">Coming soon: During your journey you can use Brixels to unlock additional features and gifts.</span></p>
 
         </div>
       </div>
@@ -113,6 +114,7 @@ const BrixelModalAwards = (props) => {
 };
 
 BrixelModalAwards.propTypes = {
+  awards: PropTypes.number.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -123,6 +125,7 @@ const mapStateToProps = (state) => ({
   property: get(state, 'property.activeSingleProperty', {}),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
+  awards: get(state, 'user.awards', 0),
   userTypes: get(state, 'user.userTypes', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

@@ -78,7 +78,12 @@ const Assessor = (props) => {
   }, [currentIndex]);
 
   const closeWindow = () => {
-    history.push(`/${propID}/rewards/${getAchievement()}`);
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      history.push(`/${propID}/rewards`);
+    } else {
+      history.push(`/${propID}/rewards/${getAchievement()}`);
+    }
+    reset('Property');
   };
 
   const saveData = (e) => {
@@ -107,6 +112,7 @@ const Assessor = (props) => {
     // ADD THE ACHIEVEMENT
     handleAddGameHistory({stub: getAchievement()});
     handleSaveActiveSingleProperty(dataProp);
+    reset('Property');
   };
 
   const changeStep = (act) => {
@@ -117,7 +123,7 @@ const Assessor = (props) => {
     } else {
       newIndex += 1;
     }
-    if (questions[currentIndex + 1].toSave) {
+    if (questions[newIndex].toSave) {
       saveData();
     }
     setCurrentIndex(newIndex);

@@ -24,6 +24,7 @@ const Bestimate = (props) => {
     gameGroup,
     gameHistory,
     handleAddGameHistory,
+    handleSaveActiveSingleProperty,
     history,
     match,
     reset,
@@ -76,11 +77,22 @@ const Bestimate = (props) => {
   }, [currentIndex]);
 
   const closeWindow = () => {
-    history.push(`/${propID}/rewards/${getAchievement()}`);
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      history.push(`/${propID}/rewards`);
+    } else {
+      history.push(`/${propID}/rewards/${getAchievement()}`);
+    }
+    reset('Property');
   };
 
   const saveData = () => {
+    const data = {
+      id: propID,
+      properties: get(formValue, 'properties', {}),
+    };
+    handleSaveActiveSingleProperty(data);
     handleAddGameHistory({stub: getAchievement()})
+    reset('Property');
   };
 
   const changeStep = (act) => {
@@ -91,7 +103,7 @@ const Bestimate = (props) => {
     } else {
       newIndex += 1;
     }
-    if (questions[currentIndex + 1].toSave) {
+    if (questions[newIndex].toSave) {
       saveData();
     }
     setCurrentIndex(newIndex);

@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef} from 'react';
 import {
-  Switch, Route, withRouter, Redirect,
+  Switch, Route, withRouter,
 } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import get from 'lodash/get';
@@ -127,7 +127,7 @@ const App = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
 
-  const [secLevelClass, setSecLevelClass] = useState(0);
+  const [isSecLevel, setIsSecLevel] = useState(false);
 
   const [zIndex, setZIndex] = useState(1);
   const [isFlow, setIsFlow] = useState(false);
@@ -137,6 +137,7 @@ const App = (props) => {
   const dashWrapperRef = useRef(null);
   const dashWrapperEl = dashWrapperRef.current;
   const dashContentEl = dashContentRef.current;
+
 
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) {
@@ -149,6 +150,9 @@ const App = (props) => {
         height: window.innerHeight,
         width: window.innerWidth,
       });
+      headerCalc();
+      calcHeaderHeight();
+      calcFlowHeaderHeight();
     })
   }, []);
 
@@ -214,52 +218,55 @@ const App = (props) => {
       setIsFlow(true);
       setZIndex(6);
     } else {
-      setClassMain('w-perc-100 pos-r hubContainer ov-h');
+      if (history.location.pathname.includes('rewards')) {
+        setClassMain('w-perc-100 pos-r hubContainer rewardsTop');
+      } else if (history.location.pathname.includes('property')) {
+        setClassMain('w-perc-100 pos-r hubContainer propertyTop');
+      } else if (history.location.pathname.includes('listings')) {
+        setClassMain('w-perc-100 pos-r hubContainer listingsTop');
+      } else {
+        setClassMain('w-perc-100 pos-r hubContainer ov-h');
+      }
       setIsFlow(false);
       setZIndex(1);
     }
-    //if (dashWrapperEl) console.log(dashWrapperEl.classList)
-     // add class to container when secondlevel visible on mobile
-     if (
+
+    // add class to container when secondlevel visible on mobile
+    if (
       (history.location.pathname.includes('property/') ||
       history.location.pathname.includes('listings/')) &&
       windowDimensions.width <= 768
     ) {
-      setSecLevelClass(0);
+      setIsSecLevel(true);
       if (dashWrapperEl) {
         dashWrapperEl.classList.add('secondLevelActive');
       }
     } else {
-      setSecLevelClass(1);
+      setIsSecLevel(false);
       if (dashWrapperEl) {
         dashWrapperEl.classList.remove('secondLevelActive')
       }
     }
 
-  }, [history.location.pathname, setExtraHeight, setSecLevelClass]);
-
-  const headerCalc = () => {
-    return (
-      !isFlow ?
-      windowDimensions.width <= 768 ? {height: (windowDimensions.height + extraHeight) - 174} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
-      {height: windowDimensions.height - calcFlowHeaderHeight()}
-    )
-  }
+  }, [history.location.pathname, setExtraHeight, setIsSecLevel]);
 
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
     return head[0] ? head[0].offsetHeight : 0;
   };
 
-  /* const calcMobNavHeight = () => {
-    const mobNav = document.getElementsByClassName('brixelNavMenu');
-    return mobNav[0] ? mobNav[0].offsetHeight : 0;
-  }; */
-
   const calcFlowHeaderHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');
     return flowHead[0] ? flowHead[0].offsetHeight : 0;
   };
+
+  const headerCalc = () => {
+    return (
+      !isFlow ?
+        windowDimensions.width <= 768 ? {height: (windowDimensions.height + extraHeight) - 174} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
+        {height: windowDimensions.height - calcFlowHeaderHeight()}
+    )
+  }
 
   if (!loggedInUser || (!userTypes && property.id) || !isLoaded) {
     return (
@@ -269,25 +276,26 @@ const App = (props) => {
 
   return (
     <main
-      className={`${!isFlow ? 'hubDashboard' : 'flowWrapper'} dis-fl-row jc-b`}
+      className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b`}
       ref={dashWrapperRef}
     >
 
       <Loading isLoading={isLoading} />
 
-      <div className={`${classMain} ${secLevelClass}`}>
+      <div className={`${classMain} ${isSecLevel ? 'fixedLayout' : ''}`}>
         <div className="dis-f">
           {
             !history.location.pathname.includes('packageFlow') &&
             !history.location.pathname.includes('onBoarding') &&
             !history.location.pathname.includes('upgrade') &&
-            loggedInUser && (
-              <MenuSidebar />
-            )
+            loggedInUser &&
+             (
+               <MenuSidebar />
+             )
           }
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
-            style={!isFlow ? secLevelClass === 0 ? {height: '100%'} : { height: windowDimensions.height } : null}
+            style={!isFlow ? isSecLevel ? {height: '100%'} : windowDimensions.width <= 768 ? { height: windowDimensions.height } : null : null}
           >
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
@@ -305,8 +313,8 @@ const App = (props) => {
             }
             <div
               id="bodyScroll"
-              className={`${secLevelClass} ${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
-              style={ secLevelClass === 0 ? {height: '100%'} : headerCalc()}
+              className={`${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
+              style={ isSecLevel ? {height: '100%'} : headerCalc()}
               ref={dashContentRef}
             >
               <Switch>
@@ -326,6 +334,7 @@ const App = (props) => {
                   !history.location.pathname.includes('onBoarding') && (
                     <>
                       <ProtectedRoute path="/" exact component={Dashboard}/>
+                      <ProtectedRoute path="/:propId?" exact component={Dashboard}/>
                       <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
                       <ProtectedRoute path="/:propId?/property" component={Dashboard} />
                       <ProtectedRoute path="/:propId?/listings" component={Dashboard} />

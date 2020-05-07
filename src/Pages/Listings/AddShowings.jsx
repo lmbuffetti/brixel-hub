@@ -35,9 +35,12 @@ const Showings = (props) => {
   const propID = get(match, 'params.propId', null);
   const idShowing = get(match, 'params.idShowing', null);
 
+
+
   const saveData = () => {
     const data = {
       page: propID,
+      smallLoader: 'addBooking',
       slots: [
         {
           start: moment(schedule.slots[idShowing]).format('HH:mm'),
@@ -163,7 +166,7 @@ const Showings = (props) => {
             saturation={400}
             rounded
             onClick={() => saveData()}
-            isLoading={isSmallLoading}
+            isLoading={isSmallLoading === 'addBooking'}
             disabled={!checkValidField()}
           />
         </div>

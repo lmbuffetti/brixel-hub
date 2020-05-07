@@ -289,28 +289,24 @@ function PageHeaderDashboard(props) {
                           <a
                             className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
                             href={baseByData(null,'io').profileURL}
-                            rel="noopener noreferrer"
                           >
                             Profile
                           </a>
                           <a
                             className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
                             href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}
-                            rel="noopener noreferrer"
                           >
                             Password
                           </a>
                           <a
                             className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
                             href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}
-                            rel="noopener noreferrer"
                           >
                             Preferences
                           </a>
                           <a
                             className="link txtRed400 fweight-500 fsize-500 mb-3 ta-l"
                             href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}
-                            rel="noopener noreferrer"
                           >
                             Logout
                           </a>
