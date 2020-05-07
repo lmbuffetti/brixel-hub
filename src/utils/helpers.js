@@ -483,13 +483,22 @@ export const toBase64 = (file) => {
   });
 };
 
-export const tobase64Handler = async (files) => {
+export const tobase64Handler = async (files, user, action, pageID, imgType) => {
   const filePathsPromises = [];
   files.forEach(file => {
     filePathsPromises.push(toBase64(file));
   });
   const filePaths = await Promise.all(filePathsPromises);
-  const mappedFiles = filePaths.map((base64File) => ({ selectedFile: base64File }));
-  console.log(mappedFiles);
+  const mappedFiles = filePaths.map((base64File) => (
+    {
+      name: Date.now() / 1000,
+      file: base64File,
+      user: user,
+      imageType: imgType,
+      pageID: pageID,
+      uploadAction: action,
+      smallLoader: 'upload',
+    }
+  ));
   return mappedFiles;
 }

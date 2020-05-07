@@ -1,5 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { change, reset } from 'redux-form';
+import set from 'lodash/set';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
@@ -12,6 +13,7 @@ import {
   UPLOAD_DOCUMENT,
   DELETE_DOCUMENT,
   UPDATE_DOCUMENT,
+  MULTI_UPLOAD_IMG,
 } from '../actions/types/UploadTypes';
 
 import {
@@ -58,12 +60,45 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    case MULTI_UPLOAD_IMG: {
+      next(action);
+      const { allImgs, actions, pageID, smallLoader } = action.payload;
+      delete action.payload.allImgs;
+      delete action.payload.actions;
+      delete action.payload.pageID;
+      delete action.payload.smallLoader;
+      const calls = [];
+      allImgs.forEach((img) => {
+        calls.push(api.image.addImage(img));
+      })
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
+      else store.dispatch({ type: SPINNER_ON });
+      Promise.all(calls).then((res) => {
+        console.log(res);
+        let data = {};
+        const filesArray = get(store.getState(), `form.Property.values[${actions}]`, []);
+        res.forEach((resImg) => {
+          filesArray.push(resImg.data);
+        });
+        set(data, actions, filesArray);
+        data.id = pageID;
+        data.smallLoader = smallLoader;
+        store.dispatch({
+          type: SAVE_ACTIVE_SINGLE_PROPERTY,
+          payload: data,
+          setSuccessNotification: true,
+        });
+        if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+        else store.dispatch({ type: SPINNER_OFF });
+      });
+      break;
+    }
     case UPLOAD_IMG: {
       next(action);
       const { imageType } = store.getState().image;
       const imgType = imageType.find((val) => val.name === 'Gallery');
       // action.payload.user = store.getState().user.loggedInUser.user.id;
-      // action.payload.imageType = imgType.id;
+      action.payload.imageType = imgType.id;
       const {
         pageID, userID, uploadAction, smallLoader, lastImage,
       } = action.payload;
