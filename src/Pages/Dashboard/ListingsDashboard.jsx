@@ -11,6 +11,7 @@ import { BrixelButtonBox, BrixelButtonIcon, BrixelProgressBar } from '@brixel/br
 import get from 'lodash/get';
 import last from 'lodash/last';
 import Loadable from 'react-loadable';
+import Sticker from 'react-stickyfill';
 import Loading from '../../components/Loading';
 
 const Showings = Loadable({
@@ -104,8 +105,9 @@ const ListingsDashboard = (props) => {
   };
 
   return (
-    <div className="listings-container dis-f jc-c h-perc-md-100" id="listingsDashaboard">
-      <div className={`firstLevel mr-md-2 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
+    <div className="listings-container dis-f jc-c h-perc-md-100 a-t" id="listingsDashaboard">
+      <Sticker>
+        <div className={`firstLevel mr-md-2 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
 
         <div className="dis-f">
           <BrixelButtonBox
@@ -206,6 +208,7 @@ const ListingsDashboard = (props) => {
         </div>
 
       </div>
+      </Sticker>
       <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
         <BrixelButtonIcon
           background="white"

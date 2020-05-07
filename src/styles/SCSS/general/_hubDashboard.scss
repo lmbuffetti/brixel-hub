@@ -1,14 +1,14 @@
 .hubDashboard {
 
-  .rewardsTop {
-    @media (min-width: $responsive-medium) {
-      .secondLevel {
-        position: sticky;
-        top: $step * 3;
-      }
-      .hubDasContent {
-        padding-top: 0;
-      }
+  @media (min-width: $responsive-medium) {
+    .rewardsTop .secondLevel {
+      position: sticky;
+      top: $step * 3;
+    }
+    .propertyTop .firstLevel,
+    .listingsTop .firstLevel {
+      position: sticky;
+      top: $step * 3;
     }
   }
 
