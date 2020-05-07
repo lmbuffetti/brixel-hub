@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import EmptyHubImg from '../../images/emptyHub.svg';
@@ -8,6 +8,10 @@ const EmptyProperty = (props) => {
   const {
     history
   } = props;
+
+  useEffect(() => {
+    history.push('/no-property')
+  }, [])
 
   return (
     <div className="bgWhite brdRadius ta-c p-3 p-md-5 shadow-1dp">
