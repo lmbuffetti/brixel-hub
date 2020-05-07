@@ -367,7 +367,7 @@ const RewardsDashboard = (props) => {
                       </div>
                     )
                   }
-                    {getSuccessActiveGroup()}
+                  {getSuccessActiveGroup()}
                 </div>
               </div>
             </Sticker>

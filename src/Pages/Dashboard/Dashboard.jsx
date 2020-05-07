@@ -132,6 +132,7 @@ const Dashboard = (props) => {
       handleGetImageType();
     } else {
       setUserType('emptyState');
+      history.push('/no-property');
     }
     localStorage.removeItem('gameGroup');
   }, [activeSingleProperty]);
@@ -280,7 +281,7 @@ const Dashboard = (props) => {
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
       <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
       <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
-      <ProtectedRoute path="/" exact component={EmptyProperty} />
+      <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
     </div>
   )
 };

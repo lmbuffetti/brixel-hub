@@ -108,7 +108,6 @@ const Bestimate = (props) => {
     }
     setCurrentIndex(newIndex);
     // setPosition(newIndex);
-    console.log(newIndex);
     setQuest(questions[newIndex]);
   };
 
