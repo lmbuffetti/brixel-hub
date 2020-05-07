@@ -38,22 +38,26 @@ const BrixelUpgradeMessage = (props) => {
     <div className={`brixel-upgrade-message ta-c brdRadius ${className} ${bgColor}`}>
       {
         showClose && (
-          <BrixelButtonIcon
-            className="shadow-3dp hide-md"
-            icon="arrow-simple-left"
-            background="White"
-            color="primary"
-            saturationTxt={400}
-            noBorder
-            onClick={() => onClose()}
-          />
+          <div className="dis-f hide-md a-c mb-3">
+            <BrixelButtonIcon
+              className="shadow-3dp bgWhite"
+              icon="arrow-simple-left"
+              color="primary"
+              saturationTxt={400}
+              noBorder
+              onClick={() => onClose()}
+            />
+            {/* <h5 className="ml-2 body fweight-500 sectionTitle">
+              Porperty
+            </h5> */}
+          </div>
         )
       }
       {
         showUnlockMessage ? (
           <div className="bgPrimary100">
-            <h5 className="txtPrimary700">{titleConfirm}</h5>
-            <p className="mt-3 mb-3 max-w-fix-280 m-a txtDark700" dangerouslySetInnerHTML={{ __html: descriptionConfirm}} />
+            <h5 className="txtPrimary700 mb-3">{titleConfirm}</h5>
+            <p className="max-w-fix-280 m-a txtDark700" dangerouslySetInnerHTML={{ __html: descriptionConfirm}} />
             <div className="dis-f jc-b">
               <BrixelButtonPrimary
                 rounded
@@ -77,12 +81,12 @@ const BrixelUpgradeMessage = (props) => {
             </div>
           </div>
         ) : (
-          <div className="bgGreen100">
+          <div className="bgGreen100 pb-3">
             <h5 className="txtGreen700">{title}</h5>
             <p className="mt-3 mb-3 max-w-fix-280 m-a txtDark700">{description}</p>
             {
               virtualTour && (
-                <div className="mb-3">
+                <div className="my-5">
                   {
                     showTour ? (
                       <div className="ta-c">
