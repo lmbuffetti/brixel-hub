@@ -244,7 +244,6 @@ const Documents = (props) => {
                                 />
                               ) : (
                                 <BrixelIcon
-                                  className="mr-1"
                                   color={`${doc.isPrivate ? 'red' : 'green'}`}
                                   icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
                                 />
@@ -270,7 +269,7 @@ const Documents = (props) => {
                                   </div>
                                 ) : (
                                   <BrixelButtonIcon
-                                    className="p-md-0 mr-1-neg"
+                                    className="p-md-0 mr-1-neg zIndex2"
                                     bgTransparent
                                     noBorder
                                     color="dark"
