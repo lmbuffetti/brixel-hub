@@ -81,10 +81,12 @@ const MarketCheck = (props) => {
     } else {
       history.push(`/${propID}/rewards/${getAchievement()}`);
     }
+    reset('Property');
   };
 
   const saveData = () => {
-    handleAddGameHistory({stub: getAchievement()})
+    handleAddGameHistory({stub: getAchievement()});
+    reset('Property');
   };
 
   const changeStep = (act) => {

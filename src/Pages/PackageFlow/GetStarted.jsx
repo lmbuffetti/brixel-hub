@@ -34,6 +34,7 @@ import { translateTo } from '../../utils/translation';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { titleProperty } from '../../utils/titleCreation';
 
 const LoginSignup = Loadable({
   loader: () => import('../../components/LoginSignup' /* webpackChunkName: "LoginSignup" */),
@@ -78,7 +79,7 @@ function GetStarted(props) {
   const [loginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
   //const [showAddress, setShowAddress] = useState(true);
-  const [Questions, setQuestions] = useState(QuestionsList(lang, gameGroup));
+  const [Questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', '')));
   //const [curCountry, setCurCountry] = useState(null);
   const [showCountrySel, setShowCountrySel] = useState(false);
 
@@ -98,39 +99,10 @@ function GetStarted(props) {
   }, [get(formValue, 'location.countryCode', null)])
 
   const changePageTitle = () => {
-    if (formValue && formValue.location && formValue.propertyType) {
-      var titleAdjectives = [
-        'Beautiful',
-        'Charming',
-        'Elegant',
-        'Prestigious',
-        'One-of-a-kind',
-        'Exquisite',
-        'Spacious',
-        'Gorgeous',
-        'Wonderful',
-        'Lovely',
-        'Superb',
-        'Amazing',
-        'Stunning',
-        'Sophisticated',
-        'Modern',
-        'Incredible'
-      ];
-      // Create the title of the page
-      let pageTitle = `${titleAdjectives[Math.floor(Math.random() * titleAdjectives.length)]} ${formValue.propertyType}`;
-
-      // Try to add location to the title
-      if (formValue.location.city) {
-        pageTitle += ' in ' + formValue.location.city;
-      } else if (formValue.location.state) {
-        pageTitle += ' in ' + formValue.location.state;
-      } else if (formValue.location.country) {
-        pageTitle += ' in ' + formValue.location.country;
-      } else {
-        pageTitle += ' in ' + formValue.location.address;
-      }
-      changeFieldValue('pageTitle', pageTitle);
+    if (formValue) {
+      const pageTitle = titleProperty(formValue.location, formValue.propertyType, lang, formValue);
+      if (pageTitle)
+        changeFieldValue('pageTitle', pageTitle);
     }
   };
 
@@ -162,19 +134,19 @@ function GetStarted(props) {
     }
     if (company.countryName) {
       countryObj(company.countryCode);
-      const QuestFull = QuestionsList(lang, gameGroup, company.countryCode);
+      const QuestFull = QuestionsList(lang, company.countryCode);
       setQuestions(QuestFull);
     }
   }, [company]);
 
   useEffect(() => {
-    if (formValue && formValue.location && formValue.propertyType) {
+    if (formValue) {
       changePageTitle();
     }
-  }, [formValue.location, formValue.propertyType]);
+  }, [formValue, lang]);
 
   useEffect(() => {
-    const Quest1 = QuestionsList(lang, gameGroup, get(formValue, 'location.countryCode', ''));
+    const Quest1 = QuestionsList(lang, get(formValue, 'location.countryCode', ''));
     // const Quest2 = PackageFlow(lang, gameGroup);
     const QuestFull = Quest1;
     setQuestions(QuestFull);

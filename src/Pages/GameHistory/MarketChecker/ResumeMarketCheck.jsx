@@ -79,7 +79,7 @@ function ResumeMarketCheck(props) {
       <div className="bgWhite brdRadius">
         <h5 className="ta-c">Voila!</h5>
         <h5 className="ta-c mb-3">
-          <span className="txtGreen400 mr-1">
+          <span className="txtBlue700 mr-1">
             {get(marketData, 'priceDistribution.numberOfProperties', 0)}
           </span>
           &nbsp;
