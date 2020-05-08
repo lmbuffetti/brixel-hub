@@ -76,7 +76,7 @@ function GetStarted(props) {
   const [disableNextBtn, setDisableNextBtn] = useState(true);
   const [hidePrevBtn, setHidePrevBtn] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loginPage] = useState(false);
+  const [loginPage, setLoginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
   //const [showAddress, setShowAddress] = useState(true);
   const [Questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', '')));
@@ -652,6 +652,7 @@ function GetStarted(props) {
                                 <h5>{loginPage ? quest.loginTitle : quest.signupTitle}</h5>
                                 <LoginSignup
                                   formName="GetStarted"
+                                  onChangeLogin={(val) => setLoginPage(val)}
                                   showErrors={showErrors}
                                 />
                               </div>

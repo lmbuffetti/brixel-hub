@@ -16,6 +16,7 @@ const LoginSignup = (props) => {
     changeFieldValue,
     formName,
     formValue,
+    onChangeLogin,
     errorValue,
     lang,
     loggedInUser,
@@ -28,6 +29,7 @@ const LoginSignup = (props) => {
     if (typeof loggedInUser.token === 'undefined') {
       changeFieldValue(formName, 'signup', !loginPage);
     }
+    onChangeLogin(loginPage)
   }, [loginPage]);
 
   return (
@@ -180,6 +182,7 @@ LoginSignup.propTypes = {
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   showErrors: PropTypes.bool,
+  onChangeLogin: PropTypes.func.isRequired,
 };
 
 LoginSignup.defaultProps = {
