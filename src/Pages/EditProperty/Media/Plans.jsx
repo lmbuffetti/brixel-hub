@@ -13,12 +13,12 @@ import {
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
-import { deleteImg, uploadImg } from '../../../actions/UploadActions';
+import { deleteImg, multiUploadImg, uploadImg } from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
 import upload_floorPlans_empty from '../../../images/Upload/upload_floorPlans_empty.svg';
 import cloneDeep from 'lodash/cloneDeep';
 import OutsideElement from '../../../components/OutsideElement';
-import { Truncate } from '../../../utils/helpers';
+import { tobase64Handler, Truncate } from '../../../utils/helpers';
 import { diff } from 'deep-object-diff';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
@@ -28,9 +28,10 @@ const Photos = (props) => {
     activeSingleProperty,
     changeFieldValue,
     formValue,
-    handleUploadImg,
+    handleMultiUploadImg,
     handleDeleteImg,
     history,
+    imageType,
     isSmallLoading,
     loggedInUser,
     match,
@@ -77,27 +78,14 @@ const Photos = (props) => {
     // const imgType = imageType.find((val) => val.name === 'Gallery');
     reader.onabort = () => console.log('file reading was aborted');
     reader.onerror = () => console.log('file reading has failed');
-    const arrayDates = [];
     setBtnActive('uploading');
-    await acceptedFiles.forEach((file, f) => {
-      const read = new FileReader();
-      read.readAsDataURL(file);
-      read.onload = () => {
-        // Do whatever you want with the file contents
-        const binaryStr = {
-          name: Date.now() / 1000,
-          file: read.result,
-          user: loggedInUser.user.id,
-          imageType: 0,
-          pageID: formValue.id,
-          uploadAction: 'floorPlans',
-          smallLoader: 'upload',
-          lastImage: acceptedFiles.length - 1 === f,
-        };
-        arrayDates.push({galleryThumbnailPath: read.result, createdAt: Date().now});
-        setNewImages([...arrayDates]);
-        handleUploadImg(binaryStr);
-      };
+    const imgType = imageType.find((val) => val.name === 'Gallery');
+    const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'floorPlans', formValue.id, imgType.id);
+    imgList.then((res, i) => {
+      handleMultiUploadImg({ allImgs: res, actions: 'floorPlans', pageID: formValue.id, smallLoader: 'upload' });
+      // arrayDates.push({galleryThumbnailPath: res, createdAt: Date().now});
+      // setNewImages([...arrayDates]);
+      // handleUploadImg(binaryStr);
     });
   }, []);
 
@@ -298,7 +286,9 @@ Photos.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
+  handleMultiUploadImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -310,6 +300,7 @@ Photos.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'form.Property.values', {}),
+  imageType:  get(state, 'image.imageType', []),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', null),
 });
@@ -320,6 +311,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleDeleteImg: bindActionCreators(deleteImg, dispatch),
   handleUploadImg: bindActionCreators(uploadImg, dispatch),
+  handleMultiUploadImg: bindActionCreators(multiUploadImg, dispatch),
 });
 
 export default compose(

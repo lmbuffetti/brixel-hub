@@ -249,7 +249,6 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
-      console.log(changeObj, Object.keys(changeObj).length > 0);
       const checkIsValid = Object.keys(changeObj).find(key => typeof changeObj[key] !== 'undefined');
       if (
         checkIsValid &&

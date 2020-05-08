@@ -10,6 +10,7 @@ import {
   UPLOAD_IMG,
   DELETE_IMG,
   SET_COVER_PHOTO,
+  MULTI_UPLOAD_DOCUMENT,
   UPLOAD_DOCUMENT,
   DELETE_DOCUMENT,
   UPDATE_DOCUMENT,
@@ -74,7 +75,6 @@ const checkCommon = (store) => (next) => (action) => {
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       Promise.all(calls).then((res) => {
-        console.log(res);
         let data = {};
         const filesArray = get(store.getState(), `form.Property.values[${actions}]`, []);
         res.forEach((resImg) => {
@@ -202,6 +202,38 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
+      break;
+    }
+    case MULTI_UPLOAD_DOCUMENT: {
+      next(action);
+      const { allImgs, actions, pageID, smallLoader } = action.payload;
+      delete action.payload.allImgs;
+      delete action.payload.actions;
+      delete action.payload.pageID;
+      delete action.payload.smallLoader;
+      const calls = [];
+      allImgs.forEach((img) => {
+        calls.push(api.image.uploadDocument(img));
+      })
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
+      else store.dispatch({ type: SPINNER_ON });
+      Promise.all(calls).then((res) => {
+        let data = {};
+        const filesArray = get(store.getState(), `form.Property.values.documents`, []);
+        res.forEach((resImg) => {
+          filesArray.push(resImg.data);
+        });
+        set(data, actions, filesArray);
+        data.id = pageID;
+        data.smallLoader = smallLoader;
+        store.dispatch({
+          type: SAVE_ACTIVE_SINGLE_PROPERTY,
+          payload: data,
+          setSuccessNotification: true,
+        });
+        if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+        else store.dispatch({ type: SPINNER_OFF });
+      });
       break;
     }
     case UPLOAD_DOCUMENT: {

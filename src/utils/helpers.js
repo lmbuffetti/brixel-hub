@@ -478,7 +478,10 @@ export const toBase64 = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
+    reader.onload = () => resolve({
+      file: reader.result,
+      name: file.name,
+    });
     reader.onerror = error => reject(error);
   });
 };
@@ -489,16 +492,27 @@ export const tobase64Handler = async (files, user, action, pageID, imgType) => {
     filePathsPromises.push(toBase64(file));
   });
   const filePaths = await Promise.all(filePathsPromises);
-  const mappedFiles = filePaths.map((base64File) => (
-    {
+  const mappedFiles = filePaths.map((base64File, i) => {
+    if (action === 'documents') {
+      const name = get(base64File, 'name', Date.now() / 1000);
+      return {
+        name: name,
+        user: user,
+        isBrochure: false,
+        file: base64File.file,
+        pageID: pageID,
+        smallLoader: 'upload',
+      }
+    }
+    return {
       name: Date.now() / 1000,
-      file: base64File,
+      file: base64File.file,
       user: user,
       imageType: imgType,
       pageID: pageID,
       uploadAction: action,
       smallLoader: 'upload',
     }
-  ));
+  });
   return mappedFiles;
 }

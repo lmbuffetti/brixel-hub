@@ -104,7 +104,7 @@ function OnBoarding(props) {
 
   // SET the country from the value
   const countryObj = (curVal) => {
-    const getCurrent = country.find((val) => val.value === curVal.toLowerCase() || val.value === curVal.toLowerCase());
+    const getCurrent = country.find((val) => val.value.toLowerCase() === curVal.toLowerCase() || val.label === curVal.toLowerCase());
     changeFieldValue('location.countryCode', curVal);
     changeFieldValue('location.countryName', get(getCurrent, 'label', ''));
     //setCurCountry(getCurrent);
@@ -129,9 +129,13 @@ function OnBoarding(props) {
     const cookieLang = cookie.get('brixelLang');
     if (company.languageCode && !cookieLang) {
       handleSetLanguage(company.languageCode.toLowerCase());
+      const compLang = company.languageCode.toLowerCase();
+      setQuestions(QuestionsList(compLang, get(formValue, 'location.countryCode', 'CH')));
     }
-    if (company.countryName) {
-      countryObj(company.countryName);
+    if (company.countryCode) {
+      countryObj(company.countryCode);
+      const QuestFull = QuestionsList(company.languageCode.toLowerCase(), company.countryCode);
+      setQuestions(QuestFull);
     }
   }, [company]);
 
@@ -145,7 +149,7 @@ function OnBoarding(props) {
 
   // LOAD QUESTIONS ON CHANGING LANGUAGE
   useEffect(() => {
-    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+    setQuestions([...QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))]);
     changePageTitle();
   }, [formValue, lang]);
 
