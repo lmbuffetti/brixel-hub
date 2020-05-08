@@ -163,14 +163,14 @@ function GetStarted(props) {
 
   useEffect(() => {
     let invalidField = false;
-    if (Questions[currentIndex] && Questions[currentIndex].inputs) {
+    if (get(Questions, `[${currentIndex}].inputs`, null)) {
       Questions[currentIndex].inputs.map((inp) => {
         const curVal = get(errorValue, inp.name, true);
         if (curVal !== true) invalidField = true;
         return null;
       });
     }
-    if (Questions[currentIndex].cardType && Questions[currentIndex].cardType === 'createProfile') {
+    if (get(Questions, `[${currentIndex}].cardType`, null) === 'createProfile') {
       let fieldVal = [];
       if (loginPage) {
         fieldVal = ['email', 'password'];
@@ -279,7 +279,7 @@ function GetStarted(props) {
       setDisableNextBtn(true);
       newPosition = position + 1;
     }
-    if (Questions[newPosition] && Questions[newPosition].conditions) {
+    if (get(Questions, `[${newPosition}].conditions`, null)) {
       let checkCond = true;
       Questions[newPosition].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
@@ -291,7 +291,7 @@ function GetStarted(props) {
         return null;
       })
     }
-    if (Questions[newPosition] && Questions[newPosition].conditions) {
+    if (get(Questions, `[${newPosition}].conditions`, null)) {
       let checkCond = true;
       Questions[newPosition].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
@@ -303,7 +303,7 @@ function GetStarted(props) {
         return null;
       });
     }
-    if (Questions[newPosition] && Questions[newPosition].conditions) {
+    if (get(Questions, `[${newPosition}].conditions`, null)) {
       let checkCond = true;
       Questions[newPosition].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
@@ -414,7 +414,7 @@ function GetStarted(props) {
   return (
     <div className="getStartedWrapper h-perc-100 w-perc-100">
       {
-        Questions[currentIndex].inputs && (
+        get(Questions, `[${currentIndex}].inputs`, null) && (
           <BrixelProgressBar
             large
             saturation={400}
@@ -445,7 +445,7 @@ function GetStarted(props) {
                 >
                   <div className={`subcontainer ${i !== currentIndex ? '' : quest.className || ''}`}>
                     {
-                      quest.inputs && (
+                      get(quest, 'inputs', null) && (
                         <>
                           {
                             quest.titleGreen && (
@@ -585,7 +585,7 @@ function GetStarted(props) {
                       quest.cardType && (
                         <>
                           {
-                            quest.cardType === 'Resume' && (
+                            get(quest, 'cardType', null) === 'Resume' && (
                               <div>
                                 <div className="scaleAnim bgWhite max-w-fix-344 m-a brdRadius shadow-4dp ov-h">
                                   <img
@@ -628,7 +628,7 @@ function GetStarted(props) {
                             )
                           }
                           {
-                            (quest.cardType === 'RewardsStep' || quest.cardType === 'LastStep') && (
+                            (get(quest, 'cardType', null) === 'RewardsStep' || get(quest, 'cardType', null) === 'LastStep') && (
                               <div className="scaleAnim ta-c">
                                 <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
                                 <h5
@@ -647,7 +647,7 @@ function GetStarted(props) {
                             )
                           }
                           {
-                            quest.cardType === 'createProfile' && (
+                            get(quest, 'cardType', null) === 'createProfile' && (
                               <div>
                                 <h5>{loginPage ? quest.loginTitle : quest.signupTitle}</h5>
                                 <LoginSignup
@@ -675,11 +675,11 @@ function GetStarted(props) {
             <div
               className={
                 `dis-f a-c
-                  ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`
+                  ${get(Questions, `[${currentIndex}].inputs`, null) ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`
               }
             >
               {
-                Questions[currentIndex].inputs && Questions[currentIndex - 1] && Questions[currentIndex - 1].inputs && (
+                get(Questions, `[${currentIndex}].inputs`, null) && get(Questions, `[${currentIndex - 1}].inputs`, null) && (
                   <BrixelButtonIcon
                     className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
                     icon="arrow-simple-left"
@@ -694,9 +694,8 @@ function GetStarted(props) {
               }
               {
                 !disableNextBtn &&
-                Questions[currentIndex] &&
-                Questions[currentIndex].inputs &&
-                Questions[currentIndex].successMessage && (
+                get(Questions, `[${currentIndex}].inputs`, null) &&
+                get(Questions, `[${currentIndex}].successMessage`, null) && (
                   <div className="txtGreen700 ta-r ml-a pr-1 textSuccess">
                     {Questions[currentIndex].successMessage}
                     <BrixelIcon icon="check" className="ml-1" />
@@ -704,7 +703,7 @@ function GetStarted(props) {
                 )
               }
               {
-                Questions[currentIndex] && (
+                get(Questions, `[${currentIndex}]`, null) && (
                   <BrixelButtonPrimary
                     rounded
                     label={buttonLabel()}

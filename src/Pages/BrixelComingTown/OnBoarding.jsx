@@ -156,14 +156,14 @@ function OnBoarding(props) {
   // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
   useEffect(() => {
     let invalidField = false;
-    if (Questions[currentIndex] && Questions[currentIndex].inputs) {
+    if (get(Questions, `[${currentIndex}]`, null)) {
       Questions[currentIndex].inputs.map((inp) => {
         const curVal = get(errorValue, inp.name, true);
         if (curVal !== true) invalidField = true;
         return null;
       });
     }
-    if (Questions[currentIndex].cardType && Questions[currentIndex].cardType === 'createProfile') {
+    if (get(Questions, `[${currentIndex}].cardType`, null) === 'createProfile') {
       let fieldVal = [];
       if (loginPage) {
         fieldVal = ['email', 'password'];
@@ -417,11 +417,11 @@ function OnBoarding(props) {
 
   const buttonLabel = () => {
     let label;
-    if (!Questions[currentIndex + 2]) {
+    if (!get(Questions, `[${currentIndex + 2}]`, null)) {
       if(loginPage) label = translateTo(lang, "Login");
       else label = translateTo(lang, "Create profile")
     } else {
-      if (Questions[currentIndex].cardType === 'createProfile') {
+      if (get(Questions, `[${currentIndex}].cardType`, null) === 'createProfile') {
         label = translateTo(lang, "Save");
       } else {
         label = translateTo(lang, "Continue");
@@ -433,7 +433,7 @@ function OnBoarding(props) {
   return (
     <div className="onBoardingWrapper h-perc-100 w-perc-100">
       {
-        Questions[currentIndex] && Questions[currentIndex].inputs && (
+        get(Questions, `[${currentIndex}].inputs`, null) && (
           <BrixelProgressBar
             large
             saturation={400}
@@ -469,7 +469,7 @@ function OnBoarding(props) {
                 >
                   <div className={`subcontainer ${i !== currentIndex ? '' : quest.className || ''}`}>
                     {
-                      quest.inputs && (
+                      get(quest, 'inputs', null) && (
                         <>
                           {
                             quest.titleGreen && (
@@ -576,7 +576,7 @@ function OnBoarding(props) {
                       )
                     }
                     {
-                      quest.cardType && (
+                      get(quest, 'cardType', null) && (
                         <>
                           {
                             quest.cardType === 'Resume' && (
@@ -589,7 +589,7 @@ function OnBoarding(props) {
                                   />
                                   <div className="pt-1 pb-2 px-2">
                                     {
-                                      formValue.location && (
+                                      get(formValue, 'location', null) && (
                                         <p className="body2 cutRow txtPrimary400">
                                           {formValue.location.address}
                                         </p>
@@ -812,18 +812,18 @@ function OnBoarding(props) {
           <div
             className={
               `footerAction px-2 py-1 py-md-2 shadow-1dp-top
-                ${disableNextBtn ? 'disabledNext' : `${Questions[currentIndex].inputs ? 'successNext' : 'normStep'}`}`
+                ${disableNextBtn ? 'disabledNext' : `${get(Questions, `[${currentIndex}].inputs`, null) ? 'successNext' : 'normStep'}`}`
             }
           >
 
             <div
               className={
                 `dis-f a-c
-                    ${Questions[currentIndex].inputs ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`
+                    ${get(Questions, `[${currentIndex}].inputs`, null) ? (hidePrevBtn ? 'jc-fe' : 'jc-b') : 'jc-c'}`
               }
             >
               {
-                Questions[currentIndex].inputs && (
+                get(Questions, `[${currentIndex}].inputs`, null) && (
                   <BrixelButtonIcon
                     className={`${hidePrevBtn ? 'hide' : ''} shadow-2dp backBtn`}
                     icon="arrow-simple-left"
@@ -838,9 +838,8 @@ function OnBoarding(props) {
               }
               {
                 !disableNextBtn &&
-                Questions[currentIndex] &&
-                Questions[currentIndex].inputs &&
-                Questions[currentIndex].successMessage && (
+                get(Questions, `[${currentIndex}].inputs`, null) &&
+                get(Questions, `[${currentIndex}].successMessage`, null) && (
                   <div className="txtGreen700 ta-r ml-a pr-1 textSuccess">
                     {Questions[currentIndex].successMessage}
                     <BrixelIcon icon="check" className="ml-1" />
@@ -848,7 +847,7 @@ function OnBoarding(props) {
                 )
               }
               {
-                Questions[currentIndex] && (
+                get(Questions, `[${currentIndex}]`, null) && (
                   <BrixelButtonPrimary
                     rounded
                     label={buttonLabel()}
