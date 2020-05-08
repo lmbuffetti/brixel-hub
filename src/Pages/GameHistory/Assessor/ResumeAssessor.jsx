@@ -51,7 +51,7 @@ function ResumeAssessor(props) {
     let year = AvgLifeSpan[type][value];
     if (typeof year === 'undefined') year = AvgLifeSpan[type];
     let label = '';
-    if (label && getElement.label) {
+    if (has(getElement, 'label')) {
       label = `<span>${getElement.label}</span><span>,</span>`;
     }
     return {
