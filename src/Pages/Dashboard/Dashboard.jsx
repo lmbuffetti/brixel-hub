@@ -188,7 +188,7 @@ const Dashboard = (props) => {
         };
         handleSaveActiveSingleProperty(data);
         const inputSheet = get(formValue, 'inputSheet', {}) || {};
-        if (inputSheet.totalComplete > 70) {
+        if (inputSheet.totalComplete >= 70) {
           handleAddGameHistory({stub: 'facts'});
         }
         if (get(formValue, 'photos', []).length > 0 && get(formValue, 'floorPlans', []).length > 0 && get(formValue, 'documents', []).length > 0) {
