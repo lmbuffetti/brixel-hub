@@ -102,4 +102,8 @@ module.exports = {
   "You don't have an account?": "Hast du noch kein Konto?",
   "Login to your profile to save your progress.": "Melde dich mit deinem Passwort an, um deinen Fortschritt zu speichern.",
   "Everywhere": "Überall",
+  "You don't have a profile?" : "Hast du noch kein Konto?",
+  "Forgot password?" : "Passwort vergessen?",
+  "Login" : "Login",
+  "Enter property address" : "Objektadresse eingeben",
 };
