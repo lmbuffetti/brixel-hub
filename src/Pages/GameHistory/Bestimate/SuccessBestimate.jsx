@@ -141,22 +141,22 @@ function SuccessBestimate(props) {
         ) : (
           <>
             <div className="dis-fl-col jc-c a-c">
-              <div className="ta-c m-a mb-3">
-                <img className="h-fix-120" src={startBestimate} alt="Done Assessor" />
-              </div>
               <h5 className="mb-2 m-a ta-c max-w-fix-376">
                 Get a free price indication.
               </h5>
               <p className="body2 max-w-fix-376 txtDark200 m-a ta-c">
                 Compare your property to real transaction data to better define the pricing.
               </p>
+              <div className="ta-c m-a my-5">
+                <img className="h-fix-120" src={startBestimate} alt="Done Assessor" />
+              </div>
             </div>
             <div className="w-perc-100">
               <BrixelButtonPrimary
                 rounded
                 label="Get free Bestimate®"
                 background={"primary"}
-                className="min-w-fix-208 m-a mt-3"
+                className="min-w-fix-208 m-a"
                 onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
                 rightIcon="arrow-right"
               />

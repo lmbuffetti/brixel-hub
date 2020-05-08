@@ -134,7 +134,7 @@ function ResumeAssessor(props) {
       </div>
 
 
-      <div className="p-2 mb-3 ta-c max-w-fix-360 m-a">
+      <div className="p-md-2 py-2 mb-3 ta-c max-w-fix-360 m-a">
         <ChartDonuts
           assessor={get(condition, `[${selBaseRenovation}]`, '')}
           smallPie
