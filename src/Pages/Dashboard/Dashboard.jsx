@@ -67,10 +67,13 @@ const Dashboard = (props) => {
     userTypes,
     errorValue,
     formValue,
-    handleGetPropertyListings,
-    handleGetActiveSingleProperty,
+    gameAchievement,
+    gameGroup,
+    gameHistory,
     handleAddGameHistory,
+    handleGetActiveSingleProperty,
     handleGetActiveSinglePropertyBookings,
+    handleGetPropertyListings,
     handleGetImageType,
     handleSaveActiveSingleProperty,
     handleGetAchievement,
@@ -80,6 +83,7 @@ const Dashboard = (props) => {
     handleCreatePropertyVisitSchedule,
     handleSetScreenNotification,
     history,
+    imageType,
     initialValues,
     isLoading,
     isSmallLoading,
@@ -104,13 +108,15 @@ const Dashboard = (props) => {
   }, [history.location.pathname])
 
   const loadDefaultProperty = () => {
-    const data = {
-      limit: 1,
-      offset: `0/?owner=${loggedInUser.user.id}`,
-      setAsSingle: true,
-      multiLoader: true,
-    };
-    handleGetPropertyListings(data);
+    if (!get(formValue, 'id', null)) {
+      const data = {
+        limit: 1,
+        offset: `0/?owner=${loggedInUser.user.id}`,
+        setAsSingle: true,
+        multiLoader: true,
+      };
+      handleGetPropertyListings(data);
+    }
   };
 
   useEffect(() => {
@@ -119,9 +125,9 @@ const Dashboard = (props) => {
     } else if (!propID) {
       loadDefaultProperty();
     }
-    handleGetAchievement();
-    handleGetGamegroup();
-    handleGetGameHistory();
+    if (gameAchievement.length === 0) handleGetAchievement();
+    if (gameGroup.length === 0) handleGetGamegroup();
+    if (gameHistory.length === 0) handleGetGameHistory();
   }, []);
 
   useEffect(() => {
@@ -135,7 +141,7 @@ const Dashboard = (props) => {
       } else if (activeSingleProperty.statusCode) {
         loadDefaultProperty();
       }
-      handleGetImageType();
+      if (imageType.length === 0) handleGetImageType();
     } else {
       setUserType('emptyState');
       history.push('/no-property');
@@ -298,6 +304,9 @@ Dashboard.propTypes = {
   isLoading: PropTypes.bool,
   isSmallLoading: PropTypes.string,
   userTypes: PropTypes.string,
+  gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
+  gameHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
+  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleGetPropertyListings: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
@@ -310,6 +319,7 @@ Dashboard.propTypes = {
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
   handleSavePropertyVisitBooking: PropTypes.func.isRequired,
+  imageType: PropTypes.arrayOf(PropTypes.string),
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   notification: PropTypes.object,
@@ -343,15 +353,19 @@ const mapStateToProps = (state) => {
   set(properties, 'building.properties.typology.storeroomArea.unit', 'm2');
   set(properties, 'typology.collectiveSpacesArea.unit', 'm2');
   return ({
-    userTypes: get(state, 'user.userTypes', null),
-    loggedInUser: get(state, 'user.loggedInUser', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', undefined),
-    formValue: get(state, 'form.Property.values', {}),
-    isSmallLoading: get(state, 'common.isSmallLoading', null),
-    isLoading: get(state, 'common.isLoading', 0) > 0,
     errorValue: get(state, 'form.Property.syncErrors', null),
-    regFields: get(state, 'form.Property.registeredFields', null),
+    formValue: get(state, 'form.Property.values', {}),
+    gameAchievement: get(state, 'gamification.achievement', []),
+    gameGroup: get(state, 'gamification.gameGroup', []),
+    gameHistory: get(state, 'gamification.gameHistory', {}),
+    imageType:  get(state, 'image.imageType', []),
+    isLoading: get(state, 'common.isLoading', 0) > 0,
+    isSmallLoading: get(state, 'common.isSmallLoading', null),
+    loggedInUser: get(state, 'user.loggedInUser', {}),
     notification: get(state, 'common.notification', {}),
+    regFields: get(state, 'form.Property.registeredFields', null),
+    userTypes: get(state, 'user.userTypes', null),
     initialValues: {
       assessor: get(state, 'property.activeSingleProperty.assessor', {}),
       booking: get(state, 'property.activeSinglePropertyBooking', []),
@@ -387,22 +401,22 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)))
   },
-  handleGetAchievement: bindActionCreators(getAchievement, dispatch),
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
-  handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
+  handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
-  handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
+  handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
+  handleGetAchievement: bindActionCreators(getAchievement, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
+  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
+  handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
+  handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
-  handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
+  handleSavePropertyVisitBooking: bindActionCreators(savePropertyVisitBooking, dispatch),
+  handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetScreenNotification: bindActionCreators(setScreenNotification, dispatch),
+  handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
-  handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),
-  handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
-  handleSavePropertyVisitBooking: bindActionCreators(savePropertyVisitBooking, dispatch),
 });
 
 export default compose(
