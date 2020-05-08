@@ -659,7 +659,7 @@ function OnBoarding(props) {
                                           className="txtPrimary400 cur-poi"
                                           onClick={() => switchLoginSignUpPage(false)}
                                         >
-                                          {translateTo(lang, "You don't have a profile?")}
+                                          {translateTo(lang, "You don’t have a profile?")}
                                         </span>
                                       </p>
                                       <Field

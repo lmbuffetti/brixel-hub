@@ -17,6 +17,7 @@ const PageReviewRewards = (props) => {
     gameHistory,
     handleAddGameHistory,
     history,
+    isSmallLoading,
     match,
   } = props;
   // STATE
@@ -31,8 +32,8 @@ const PageReviewRewards = (props) => {
   }, [gameHistory]);
 
   const openPreview = (done = false) => {
-    handleAddGameHistory({stub: gameStub});
-    window.location.href = `${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${window.location.href}`;
+    const redirectUrl = `${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${window.location.href}`;
+    handleAddGameHistory({stub: gameStub, redirectTo: redirectUrl, smallLoader: 'preview'});
   };
 
   return (
@@ -150,6 +151,7 @@ const PageReviewRewards = (props) => {
                 rightIcon="arrow-right"
                 className="min-w-fix-216 m-a"
                 onClick={() => openPreview(true)}
+                isLoading={isSmallLoading === 'preview'}
               />
             </div>
           </>
@@ -163,6 +165,7 @@ PageReviewRewards.propTypes = {
   activeSingleProperty: Proptypes.object.isRequired,
   formValue: Proptypes.object.isRequired,
   handleAddGameHistory: Proptypes.func.isRequired,
+  isSmallLoading: Proptypes.string,
   history: Proptypes.object.isRequired,
   match: Proptypes.object.isRequired,
   gameHistory: Proptypes.arrayOf(Proptypes.object),
@@ -175,6 +178,7 @@ PageReviewRewards.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'form.Property.values', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', ''),
   gameHistory: get(state, 'gamification.gameHistory.data', []),
 });
 

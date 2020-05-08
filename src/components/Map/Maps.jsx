@@ -409,7 +409,7 @@ export const ComponentMap =(props) => {
                 type="text"
                 ref={inputSearch}
                 label={inputLabel}
-                placeholder="Enter property address"
+                placeholder={translateTo(lang, "Enter property address")}
                 input={{
                   onChange: (e) => changeLocation(e),
                   onBlur: () => '',

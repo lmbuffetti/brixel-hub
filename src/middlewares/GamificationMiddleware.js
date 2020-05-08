@@ -18,7 +18,7 @@ import api from '../controllers/api/config';
 import gameAchievement from '../resources/localData/gameAchievement.json';
 import gameGroup from '../resources/localData/gameGroup.json';
 import gameHistory from '../resources/localData/gameHistory.json';
-import { SPINNER_OFF } from '../actions/types/CommonTypes';
+import { SPINNER_OFF, SPINNER_SMALL_ON, SPINNER_SMALL_OFF } from '../actions/types/CommonTypes';
 
 const checkGamification = (store) => (next) => (action) => {
   switch (action.type) {
@@ -71,8 +71,10 @@ const checkGamification = (store) => (next) => (action) => {
     }
     case ADD_GAME_HISTORY: {
       next(action);
-      const { id, stub } = action.payload;
+      const { id, stub, smallLoader, redirectTo } = action.payload;
       delete action.payload.id;
+      delete action.payload.smallLoader;
+      delete action.payload.redirectTo;
       const gameGroup = get(store.getState(), 'gamification.gameGroup', []);
       const gameHistory = get(store.getState(), 'gamification.gameHistory', []);
       let currentGroup = {};
@@ -93,13 +95,16 @@ const checkGamification = (store) => (next) => (action) => {
             achievement: stub,
           };
         }
+        if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
         api.gamification.addGameHistory(newID, data)
           .then((res) => {
             if (typeof res.data.status === 'undefined') {
               store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });
               store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
               store.dispatch({ type: SET_BRIXEL_POINTS, payload: res.data.actualPoints });
+              if (redirectTo) window.location.href = redirectTo;
             }
+            if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           });
       }
       /*api.gamification.addGameHistory(id, action.payload)
