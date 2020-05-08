@@ -293,13 +293,13 @@ function PageHeaderDashboard(props) {
                           <hr className="mb-4"/>
                           <a
                             className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
-                            href={baseByData(null,'io').profileURL}
+                            href={`${baseByData().loginBasePath}/account/profile?url=${window.location.href}`}
                           >
                             Profile
                           </a>
                           <a
                             className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
-                            href={`${baseByData().loginBasePath}/account/profile?url=${window.location.href}`}
+                            href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}
                           >
                             Password
                           </a>
