@@ -35,6 +35,7 @@ const Photos = (props) => {
     isSmallLoading,
     loggedInUser,
     match,
+    windowDimensions,
   } = props;
   const { floorPlans } = formValue;
   // STATE
@@ -164,12 +165,13 @@ const Photos = (props) => {
                         >
                           <div
                             className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
+                            onClick={() => windowDimensions.width < 1025 ? history.push(`/${propID}/property/floorPlans/${item.id}/edit/floorPlans`) : ''}
                           >
                             <div
                               className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}
                             >
                               <div
-                                className={`photo-action dis-f a-c ${confirmDelete === i ? 'show' : 'hoverShow'}`}
+                                className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
                                 ref={wrappImg.current[i]}
                               >
                                 <BrixelButtonSecondary
@@ -292,6 +294,7 @@ Photos.propTypes = {
   isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 Photos.defaultProps = {
@@ -303,6 +306,7 @@ const mapStateToProps = (state) => ({
   imageType:  get(state, 'image.imageType', []),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', null),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
