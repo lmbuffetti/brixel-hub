@@ -159,7 +159,12 @@ function PageHeaderDashboard(props) {
             }
             {
               windowDimensions.width <= 768 && (
-                <div className="propertyPanel dis-f a-c">
+                <div
+                  className="propertyPanel dis-f a-c"
+                  onClick={() => {
+                    if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
+                  }}
+                >
                   <div className="image-ratio flex-48 squared shadow-2dp w-fix-48 h-fix-48 brdRadius ov-h">
                     <CoverPropertyImage
                       className="cover"
@@ -288,13 +293,13 @@ function PageHeaderDashboard(props) {
                           <hr className="mb-4"/>
                           <a
                             className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
-                            href={baseByData(null,'io').profileURL}
+                            href={`${baseByData().loginBasePath}/account/profile?url=${window.location.href}`}
                           >
                             Profile
                           </a>
                           <a
                             className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
-                            href={`${baseByData().loginBasePath}/account/profile?url=${window.location.href}`}
+                            href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}
                           >
                             Password
                           </a>
@@ -305,12 +310,23 @@ function PageHeaderDashboard(props) {
                             Preferences
                           </a>
                           <a
-                            className="link txtRed400 fweight-500 fsize-500 mb-3 ta-l"
+                            className="link txtRed400 fweight-500 fsize-500 ta-l"
                             href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}
                           >
                             Logout
                           </a>
                         </div>
+                        <hr className="my-4"/>
+                         <div>
+                          <BrixelButtonSecondary
+                            className="min-h-fix-32 max-h-fix-32 p-0 px-1 min-w-fix-96 brdMedium"
+                            label="Upgrade"
+                            color="red"
+                            rounded
+                            bgTransparent
+                            onClick={() => onUpgrade()}
+                          />
+                         </div>
                       </div>
                     </div>
                   )
