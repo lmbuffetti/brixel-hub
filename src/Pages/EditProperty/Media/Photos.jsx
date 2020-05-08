@@ -85,9 +85,20 @@ const Photos = (props) => {
     reader.onerror = () => console.log('file reading has failed');
     setBtnActive('uploading');
     const imgType = imageType.find((val) => val.name === 'Gallery');
-    const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'photos', formValue.id, imgType.id);
+    const imgList = tobase64Handler(
+      acceptedFiles,
+      loggedInUser.user.id,
+      'photos',
+      formValue.id,
+      imgType.id
+    );
     imgList.then((res, i) => {
-      handleMultiUploadImg({ allImgs: res, actions: 'photos', pageID: formValue.id, smallLoader: 'upload' });
+      handleMultiUploadImg({
+        allImgs: res,
+        actions: 'photos',
+        pageID: formValue.id,
+        smallLoader: 'upload'
+      });
       // arrayDates.push({galleryThumbnailPath: res, createdAt: Date().now});
       // setNewImages([...arrayDates]);
       // handleUploadImg(binaryStr);

@@ -683,12 +683,12 @@ const mapDispatchToProps = (dispatch) => ({
 
 export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
   return (
-    prevProps.formValue.location.latitude === nextProps.formValue.location.latitude ||
-    prevProps.formValue.location.longitude === nextProps.formValue.location.longitude ||
-    prevProps.formValue.location.address === nextProps.formValue.location.address ||
-    prevProps.formValue.location.country === nextProps.formValue.location.country ||
-    prevProps.formValue.location.countryCode === nextProps.formValue.location.countryCode ||
-    prevProps.selCountry === nextProps.selCountry
+    get(prevProps, 'formValue.location.latitude', null) === get(nextProps, 'formValue.location.latitude', null) ||
+    get(prevProps, 'formValue.location.longitude', null) === get(nextProps, 'formValue.location.longitude', null) ||
+    get(prevProps, 'formValue.location.address', null) === get(nextProps, 'formValue.location.address', null) ||
+    get(prevProps, 'formValue.location.country', null) === get(nextProps, 'formValue.location.country', null) ||
+    get(prevProps, 'formValue.location.countryCode', null) === get(nextProps, 'formValue.location.countryCode', null) ||
+    get(prevProps, 'selCountry', null) === get(nextProps, 'selCountry', null)
   )
 });
 

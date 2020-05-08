@@ -116,7 +116,7 @@
       }
 
       .brixel-radio-button-icon.radioBtnImg {
-        //todo styleguide
+        /*todo styleguide*/
         label .textLabel {
           margin-left: $step * 2;
 
@@ -130,7 +130,7 @@
 }
 
 .onBoardingWrapper {
-  // only for onboarding flow
+  /* only for onboarding flow */
   .messageChat {
     box-shadow: $shadow-1dp;
     background: map_get($lightColor, 100);

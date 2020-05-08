@@ -56,7 +56,7 @@ const BrixelUpgradeMessage = (props) => {
           <div className="bgPrimary100">
             <h5 className="txtPrimary700 mb-3">{titleConfirm}</h5>
             <p className="max-w-fix-280 m-a txtDark700" dangerouslySetInnerHTML={{ __html: descriptionConfirm}} />
-            <div className="dis-f jc-b">
+            <div className="dis-f jc-b mt-3">
               <BrixelButtonPrimary
                 rounded
                 className="mr-1 w-perc-100 shadow-3dp"
