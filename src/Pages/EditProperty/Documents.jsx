@@ -15,13 +15,14 @@ import {
   BrixelButtonTertiary, useOutsideAlerter, BrixelInputText,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
+import { uploadDocument, deleteDocument, multiUploadDocument } from '../../actions/UploadActions';
 import { setScreenNotification } from '../../actions/CommonActions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 // IMAGES
 import upload_documents_empty from '../../images/Upload/upload_documents_empty.svg';
 import { useDropzone } from 'react-dropzone';
 import moment from 'moment';
+import { tobase64Handler } from '../../utils/helpers';
 
 
 // COMPONENTS
@@ -32,8 +33,8 @@ const Documents = (props) => {
   // PROPS
   const {
     formValue,
-    handleUploadDocument,
-    user,
+    handleMultiUploadDocument,
+    loggedInUser,
     handleDeleteDocument,
     history,
     isSmallLoading,
@@ -66,14 +67,6 @@ const Documents = (props) => {
   const documentRef = useRef(null);
   const textAreaRef = useRef(null);
 
-  // PAGE ID
-  const pageId = get(match, 'params.propId', formValue.id);
-
-  // UPLOAD DOCUMENTS
-  const saveDocuments = (doc) => {
-    handleUploadDocument(doc);
-  };
-
   useEffect(() => {
     if (!isSmallLoading) {
       setDocumentOptionsOpen({ id: null, active: false });
@@ -84,26 +77,17 @@ const Documents = (props) => {
 
   // DROPZONE SETTINGS
   // const dropzoneRef = useRef(null);
-  const onDrop = useCallback((acceptedFiles) => {
+  const onDrop = useCallback(async (acceptedFiles) => {
     const reader = new FileReader();
     // const imgType = imageType.find((val) => val.name === 'Gallery');
     reader.onabort = () => console.log('file reading was aborted');
     reader.onerror = () => console.log('file reading has failed');
-    acceptedFiles.forEach((file) => {
-      const read = new FileReader();
-      read.readAsDataURL(file);
-      const name = file.name || Date.now() / 1000;
-      read.onload = () => {
-        const data = {
-          name: name,
-          user: user.user.id,
-          isBrochure: false,
-          file: read.result,
-          pageID: pageId,
-          smallLoader: true,
-        };
-        saveDocuments(data);
-      };
+    const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'documents', formValue.id);
+    imgList.then((res, i) => {
+      handleMultiUploadDocument({ allImgs: res, actions: 'documents', pageID: formValue.id, smallLoader: 'upload' });
+      // arrayDates.push({galleryThumbnailPath: res, createdAt: Date().now});
+      // setNewImages([...arrayDates]);
+      // handleUploadImg(binaryStr);
     });
   }, []);
 
@@ -360,6 +344,7 @@ const Documents = (props) => {
 Documents.propTypes = {
   history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleMultiUploadDocument: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.string,
   match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
@@ -371,7 +356,7 @@ Documents.defaultProps = {
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
-  user: get(state, 'user.loggedInUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -383,6 +368,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
+  handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
 });
 

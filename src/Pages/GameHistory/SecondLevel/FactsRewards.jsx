@@ -60,7 +60,7 @@ const FactsRewards = (props) => {
             backgroundSaturation={100}
             progressValue={totalComplete}
             classBackground="ov-h brdRadius"
-            goalValue={totalComplete > 9 ? 70 : null}
+            goalValue={totalComplete > 9 && totalComplete < 70 ? 70 : null}
             showGoalValue={totalComplete > 9}
             large={window.innerWidth >= 768}
             small={window.innerWidth < 768}

@@ -231,7 +231,7 @@ function UserFlow(props) {
 
   const checkRedirectLink = (url) => {
     let newUrl = url;
-    if (!url.match(/^http?:\/\//i) || !url.match(/^https?:\/\//i)) {
+    if (!url.includes('http') && !url.includes('https')) {
       newUrl = 'https://' + url;
     }
     return newUrl;

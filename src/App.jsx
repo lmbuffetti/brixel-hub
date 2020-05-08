@@ -384,11 +384,12 @@ const App = (props) => {
       {
         notification && !isFlow && (
           <BrixelNotification
+            saveBar
             label={notification.label}
             type={notification.type}
             icon={notification.icon}
             actions={notification.actions}
-            className={`zIndex5 slideInTrans jc-fe pr-2 pr-md-4 ${notification.className} ${notification.state ? 'open' : 'close'}`}
+            className={`zIndex5 jc-fe pr-2 pr-md-4 ${notification.className} ${notification.state ? 'open' : 'close'}`}
           />
         )
       }

@@ -3,8 +3,6 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
 import defaultCover from '../images/3d-tour-placeholder.jpg';
-import get from 'lodash/get';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 
 const BrixelUpgradeMessage = (props) => {
   const {
@@ -98,6 +96,7 @@ const BrixelUpgradeMessage = (props) => {
                           allow="vr"
                           frameBorder="0"
                           allowFullScreen
+                          title="Virtual Tour"
                         />
                       </div>
                     ) : (

@@ -9,7 +9,6 @@ import { change } from 'redux-form';
 import { connect } from 'react-redux';
 import { uploadImg } from '../../../actions/UploadActions';
 import { BrixelButtonIcon } from '@brixel/brixel-components';
-import defaultCover from '../../../images/3d-tour-placeholder.jpg';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 

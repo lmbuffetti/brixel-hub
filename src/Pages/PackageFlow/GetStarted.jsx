@@ -131,8 +131,10 @@ function GetStarted(props) {
     const cookieLang = cookie.get('brixelLang');
     if (company.languageCode && !cookieLang) {
       handleSetLanguage(company.languageCode.toLowerCase());
+      const compLang = company.languageCode.toLowerCase();
+      setQuestions(QuestionsList(compLang, get(formValue, 'location.countryCode', 'CH')));
     }
-    if (company.countryName) {
+    if (company.countryCode) {
       countryObj(company.countryCode);
       const QuestFull = QuestionsList(lang, company.countryCode);
       setQuestions(QuestFull);
