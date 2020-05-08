@@ -156,7 +156,7 @@ function OnBoarding(props) {
   // ON CHANGE VALUE AND STEP CHECK IF THE FIELDS ARE VALID
   useEffect(() => {
     let invalidField = false;
-    if (get(Questions, `[${currentIndex}]`, null)) {
+    if (get(Questions, `[${currentIndex}].inputs`, null)) {
       Questions[currentIndex].inputs.map((inp) => {
         const curVal = get(errorValue, inp.name, true);
         if (curVal !== true) invalidField = true;
