@@ -1,0 +1,101 @@
+.hubDasContent {
+  .container {
+    margin: auto;
+    min-height: 100%;
+    @media (min-width: $responsive-medium) {
+      padding: $step * 3;
+    }
+    @media (max-width: $responsive-medium) {
+      padding: $step * 2;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
+
+  .firstLevel {
+    max-width: 480px;
+    width: 100%;
+    @media (max-width: $responsive-medium) {
+      min-width: 100%;
+      margin-bottom: 56px;
+    }
+  }
+
+  .secondLevel,
+  .thirdLevel {
+    width: 100%;
+    height: 100%;
+
+    @media (max-width: $responsive-medium) {
+      background: $brx-white;
+      position: fixed;
+      z-index: 100;
+      overflow-y: auto;
+      left: 0;
+      top: 0;
+    }
+
+    > div {
+      &:not([class*=" p-"]) {
+        padding: $step * 2;
+      }
+    }
+  }
+
+  @media (min-width: $responsive-medium) {
+    .levelsWrapper {
+      &.closed {
+        max-width: 768px;
+        width: calc(100% - 320px);
+        min-width: 60%;
+      }
+    }
+    .secondLevel,
+    .thirdLevel {
+      max-width: 768px;
+      margin-bottom: $step * 3;
+
+      &.inputSheet {
+        max-width: 448px;
+        width: 100%;
+      }
+
+      > div {
+        &:not(.brixel-upgrade-message) {
+          box-shadow: $shadow-1dp;
+          background: $brx-white;
+          border-radius: $brd-radius-small;
+        }
+        &:not(.rewardsSplash) {
+          padding: $step * 3;
+        }
+      }
+      .headerSection {
+        .iconBtn {
+          display: none;
+        }
+        h5 {
+          text-align: left;
+        }
+      }
+    }
+  }
+
+}
+
+.longScroll .hubDasContent .container .firstLevel{
+  @media (max-width: $responsive-medium) {
+   margin-bottom: 0;
+  }
+}
+
+.brixel-upgrade-message:not(.tourTeaser) {
+  @media (max-width: $responsive-medium) {
+    margin-top: auto;
+  }
+  b {
+    display: block;
+  }
+}
+
+

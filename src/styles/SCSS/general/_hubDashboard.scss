@@ -1,0 +1,128 @@
+.hubDashboard {
+
+  @media (min-width: $responsive-medium) {
+    .rewardsTop .secondLevel {
+      position: sticky;
+      top: $step * 3;
+    }
+    .propertyTop .firstLevel,
+    .listingsTop .firstLevel {
+      position: sticky;
+      top: $step * 3;
+    }
+  }
+
+  .hubDasContent {
+    @media (min-width: $responsive-medium) {
+      padding-left: 210px;
+      top: 64px;
+      position: relative;
+    }
+    .property-container,
+    .listings-container {
+      .brixelPageWrapper:not(.cardInfoBox),
+      .showingsWrapper,
+      .portalsWrapper:not(.cardInfoBox) {
+        // min height for  secondlevel container
+        @media (min-width: $responsive-medium) {
+          min-height: 50vh;
+        }
+      }
+      .secondLevel .docubox:not(.emptyMedia) {
+        min-height: 459px;
+      }
+    }
+    &.saveActionOn {
+      .inputSheet {
+        @media (max-width: $responsive-medium) {
+          padding-bottom: $step * 8;
+        }
+      }
+    }
+
+    .sectionTitle {
+      @media (max-width: $responsive-medium) {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+  .rewards-container {
+    .rewardsSplash {
+      #rewards {
+        flex: 1;
+      }
+    }
+    .secondLevel {
+
+      @media (max-width: $responsive-medium) {
+        height: 100%;
+        min-height: inherit;
+        position: fixed;
+
+        .rewardsSplash {
+          height: 100%;
+          width: 100%;
+          max-width: 100%;
+          overflow-y: auto;
+          overflow-x: hidden;
+          margin: auto;
+        }
+      }
+    }
+  }
+  .showHover {
+    transition: $default-time-long $default-easing;
+
+    &:hover {
+      box-shadow: $shadow-3dp;
+      background: #fff;
+      cursor: pointer;
+    }
+  }
+
+  .brixel-button-box {
+    &.labelAend {
+      > div {
+        align-content: flex-end;
+        align-items: flex-end;
+      }
+    }
+  }
+
+  &.secondLevelActive {
+    .hubDasHeader,
+    .brixelNavMenu {
+      @media (max-width: $responsive-medium) {
+        display: none;
+        opacity: 0;
+      }
+    }
+    .hubDasContent {
+      @media (max-width: $responsive-medium) {
+        top: 108px;
+        position: relative;
+      }
+    }
+  }
+
+  // IPAD AND DESKTOP VERSION
+  @media (max-width: $responsive-medium) {
+  }
+
+  // IPAD PRO AND DESKTOP VERSION
+  @media (min-width: $responsive-medium) {
+  }
+
+  // FLUID LAYOUT BETWEEN IPAD AND IPAD PRO
+  @media only screen
+  and (min-width : $responsive-small)
+  and (max-width : $responsive-large) {
+  }
+
+  // DESKTOP SCREEN
+  @media screen and(max-width: map-get($grid-breakpoints, xl)) {
+  }
+
+}

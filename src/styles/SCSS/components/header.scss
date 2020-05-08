@@ -1,0 +1,86 @@
+.brixelNavMenu {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
+
+  @media (min-width: $responsive-medium) {
+    position: static;
+    z-index: 2;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .brixel-tabs {
+    border-radius: $step $step 0 0;
+    background: $brx-white;
+    box-shadow: $shadow-1dp;
+    width: 100%;
+
+    @media (min-width: $responsive-medium) {
+      box-shadow: none;
+      border-radius: 0;
+    }
+  }
+}
+
+.hubDasHeader {
+  @media (min-width: $responsive-medium) {
+    padding-left: 210px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 5;
+  }
+  .dasHeaderContainer {
+    transition: margin-top $default-time-long $default-easing;
+  }
+  .mobileTitle {
+    background: map-get($lightColor, 100 );
+  }
+}
+
+.scrollingHeader {
+  .hubDasHeader {
+    .dasHeaderContainer {
+      @media (min-width: $responsive-medium) {
+        box-shadow: $shadow-1dp;
+      }
+      @media (max-width: $responsive-medium) {
+        margin-top: -64px;
+        position: relative;
+      }
+    }
+    .mobileTitle {
+      background: $brx-white;
+    }
+  }
+}
+
+.accountMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: $brx-white;
+  z-index: 101;
+  box-shadow: $shadow-2dp;
+  border-radius: $brd-radius-small;
+  margin-top: $step;
+  overflow: hidden;
+  max-height: 0;
+  transition: all $default-loader-time;
+  &.open {
+    max-height: 500px;
+  }
+  ul {
+    padding: $step * 2;
+    li {
+      list-style: none;
+      margin-bottom: $step;
+      white-space: nowrap;
+      &:last-child { margin-bottom: 0}
+    }
+  }
+}

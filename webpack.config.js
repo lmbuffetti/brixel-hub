@@ -17,6 +17,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
 
+
 const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
 
@@ -71,6 +72,12 @@ const clientConfig = {
             },
           },
         ],
+      },
+      {
+        test: /\.css/,
+        use: [
+          { loader: 'postcss-loader', options: { sourceMap: true } },
+        ]
       },
       {
         test: /\.jsx?/,
@@ -147,12 +154,12 @@ const clientConfig = {
       filename: devMode ? 'css/[name].css' : 'css/[name].[hash].css',
       chunkFilename: devMode ? 'css/[id].css' : 'css/[id].[hash].css',
     }),
-    /*new CleanWebpackPlugin({
+    new CleanWebpackPlugin({
       dry: false,
       verbose: true,
       cleanOnceBeforeBuildPatterns: ['*', '!manifest.json'],
       dangerouslyAllowCleanPatternsOutsideProject: true,
-    }),*/
+    }),
     new CopyPlugin([
       { from: './public/favicon.png', to: './' },
     ]),
@@ -174,7 +181,7 @@ const clientConfig = {
         removeStyleLinkTypeAttributes: true,
         useShortDoctype: true
       },
-      treansifexKey: baseByData(getEnvBuild).transifexIdHub,
+      transifexKey: baseByData(getEnvBuild).transifexIdHub,
       googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
       facebookPixelId: baseByData(getEnvBuild).facebookPixel
     }),
@@ -186,7 +193,7 @@ const clientConfig = {
       'process.env.client': true,
       'process.env.BROWSER': JSON.stringify(true)
     }),
-    new WebpackAssetsManifest(),
+    new WebpackAssetsManifest()
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -205,7 +212,7 @@ const clientConfig = {
       name: 'runtime',
     },
     splitChunks: {
-      chunks: 'async',
+      chunks: 'all',
       minSize: 500,
       maxSize: 0,
       minChunks: 1,
@@ -226,7 +233,7 @@ const clientConfig = {
         },
         styles: {
           name: 'styles',
-          test: /\.css$/,
+          test: /\.scss$/,
           chunks: 'all',
           enforce: true,
         },

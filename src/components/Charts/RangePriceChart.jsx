@@ -8,7 +8,7 @@ import { formatNum } from '../../utils/helpers';
 
 function RangePriceChart(props) {
   const {
-    properties, type, bestimate, title, subtitle,
+    properties, type, bestimate, title, showTopLabel, subtitle,
   } = props;
   const cfg = {
     barTransitionDuration: 800,
@@ -17,7 +17,7 @@ function RangePriceChart(props) {
     labelPosition: 'preffix',
   };
   const margin = {
-    top: type === 'bestimate' ? 80 : 100,
+    top: type === 'bestimate' ? 0 : 100,
     bottom: 30,
     left: 0,
     right: 0,
@@ -86,7 +86,9 @@ function RangePriceChart(props) {
         if (cfg.label === 'm2') {
           return `${formatNum(firstRange, "'", ',')} ${cfg.label}`;
         }
-        return `${cfg.label} ${formatNum(+firstRange.toFixed(0), "'", ',')} +`;
+        if (type !== 'bestimate') {
+          return `${cfg.label} ${formatNum(+firstRange.toFixed(0), "'", ',')} +`;
+        }
       });
 
     chart
@@ -99,7 +101,9 @@ function RangePriceChart(props) {
         if (cfg.label === 'm2') {
           return `${formatNum(lastRange, "'", ',')} ${cfg.label} +`;
         }
-        return `${cfg.label} ${formatNum(+lastRange.toFixed(0), "'", ',')} +`;
+        if (type !== 'bestimate') {
+          return `${cfg.label} ${formatNum(+lastRange.toFixed(0), "'", ',')} +`;
+        }
       });
 
     chart.selectAll('.filter-bar')
@@ -112,7 +116,7 @@ function RangePriceChart(props) {
       .attr('y', () => 0)
       .attr('height', () => height)
       .attr('width', () => 5)
-      .style('fill', () => '#A4A9AD')
+      .style('fill', () => '#FFFFFF')
       .style('fillOpacity', '0.2');
 
     chart.selectAll('.bar')
@@ -147,17 +151,17 @@ function RangePriceChart(props) {
       .text(d => d.value)
       .on('mouseover', (e) => {
         let transform = 'transform: translate(-50%,0);';
-        let left = '50%';
+        //let left = '50%';
         if (e && xScale(e.priceRangeStart) < 70) {
           transform = 'transform: translate(-1%, 0)';
-          left = 0;
+          // left = 0;
         }
         const circle = d3.select(`#${randomID}`);
         circle.append('div')
           .attr('id', `tooltip${randomID}`)
           .attr('class', 'range-tip')
           .attr('style', `left: ${e ? xScale(e.priceRangeStart) : 0}px; ${transform}`)
-          .html(`<div>Properties: ${e ? e.numberOfProperties : 0}</div><p class="data-range">${cfg.label} ${e.rangePrice}</p><div class="tooltip-pointer" style="${transform}; left: ${left}"></div>`);
+          .html(`<p class="txtDark700"><span class="txtDark700">Properties</span><span class="txtDark700">: ${e ? e.numberOfProperties : 0}</span></p><span class="data-range info">${cfg.label} ${e.rangePrice}</span>`);
       })
       .on('mouseout', () => {
         const circle = d3.select(`#tooltip${randomID}`);
@@ -184,6 +188,20 @@ function RangePriceChart(props) {
     chart.append('g')
       .attr('class', 'slider')
       .attr('transform', `translate(0,${height})`);
+
+    if (type === 'bestimate') {
+      chart.select('.slider')
+        .append('line')
+        .attr('class', 'trackback')
+        .attr('fill', '#00FF00')
+        .attr('x1', () => {
+          return 13;
+        })
+        .attr('x2', () => {
+          let calcMax = xScale(discreteDomainMapper(cfg.maxValue)) + xScale.bandwidth();
+          return calcMax;
+        });
+    }
 
     chart.select('.slider')
       .append('line')
@@ -217,6 +235,8 @@ function RangePriceChart(props) {
         .style('stroke-dasharray', 6);
 
       setTimeout(() => {
+        d3.select(`#${randomID}`).selectAll('.tooltip-marker').remove();
+        d3.select(`#${randomID}`).selectAll('#tooltip-new').remove();
         d3.select(`#${randomID}`)
           .append('div')
           .style('left', `${properties[getPosition] ? xScale(properties[getPosition].priceRangeStart) + 8 : 8}px`)
@@ -247,15 +267,13 @@ function RangePriceChart(props) {
                 break;
             }
             return `
-                              <div class="extended-label">
-                                <p>${titleTooltip}</p>
-                                <span class="curr">${cfg.label} </span>
-                                <span class="num">${formatNum(properties[0].median, "'", ',')}</span>
-                              </div>
-                              ${properties[getPosition] ? '<div class="tooltip-pointer"></div>' : ''}`;
+                <p>${titleTooltip}</p>
+                <span class="curr">${cfg.label} </span>
+                <span class="num">${formatNum(properties[0].median, "'", ',')}</span>
+              `;
           });
       }, 0);
-    } else {
+    } else if (showTopLabel) {
       setTimeout(() => {
         d3.select(`#${randomID}`)
           .append('p')
@@ -267,7 +285,7 @@ function RangePriceChart(props) {
 
   const drawChart = () => {
     const width = 350;
-    const height = 280;
+    const height = type !== 'bestimate' ? 280 : 200;
 
     const el = new Element('div');
     el.setAttribute('id', randomID);
@@ -304,7 +322,7 @@ function RangePriceChart(props) {
           />
         )
       }
-      <div className="rangeGraph" style={{ marginTop: type === 'bestimate' ? '-32px' : '0', position: 'relative', left: '-13px' }}>
+      <div className="rangeGraph" style={{ marginTop: '0', position: 'relative' }}>
         {drawChart()}
       </div>
     </div>
@@ -312,17 +330,19 @@ function RangePriceChart(props) {
 }
 
 RangePriceChart.propTypes = {
-  properties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  type: PropTypes.string.isRequired,
   bestimate: PropTypes.object,
-  title: PropTypes.string,
+  properties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  showTopLabel: PropTypes.bool,
   subtitle: PropTypes.bool,
+  title: PropTypes.string,
+  type: PropTypes.string.isRequired,
 };
 
 RangePriceChart.defaultProps = {
   bestimate: null,
-  title: null,
+  showTopLabel: true,
   subtitle: false,
+  title: null,
 };
 
 export default RangePriceChart;

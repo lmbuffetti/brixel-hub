@@ -24,14 +24,16 @@
 
     ga('create', '<%= htmlWebpackPlugin.options.googleAnalyticsId %>', 'auto', {'allowLinker': true});
     ga('require', 'linker');
-    ga('linker:autoLink', ['brixel.pt','brixel.ch','gobrixel.dk','gobrixel.se','gobrixel.de','gobrixel.at','gobrixel.nl']);
+    ga('linker:autoLink', ['brixel.pt','brixel.io','gobrixel.dk','gobrixel.se','brixel.ch','gobrixel.de','gobrixel.at','gobrixel.nl']);
     ga('require', 'GTM-PL9SRFG');
     ga('set', 'anonymizeIp', true);
     </script>
+    <script type="text/javascript" src="//cdn.transifex.com/live.js"></script>
+    <!-- TRANSIFEX - e86c750b39de4c7e8c36a3b1ab7f98af -->
+    <script type="text/javascript">window.liveSettings = {api_key: 'e86c750b39de4c7e8c36a3b1ab7f98af', picker: "#transifex-selector" };</script>
   </head>
   <body class="txlive">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>
 </html>
-

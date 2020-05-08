@@ -1,0 +1,65 @@
+.accordWrap {
+  &:first-child {
+    .accordControl {
+      border-top: 1px solid map_get($lightColor, 200);
+    }
+  }
+  .accordControl {
+    border-bottom: 1px solid map_get($lightColor, 200);
+    transition: $default-time ease-in-out;
+  }
+  &:last-child {
+    .accordControl {
+      margin-bottom: 0;
+    }
+  }
+  &.active {
+    .accordControl {
+      position: relative;
+      z-index: 1;
+      background: map_get($blueColor, 100);
+    }
+  }
+  &:hover {
+    .accordControl {
+      background: map_get($blueColor, 100);
+      .onHover {
+        color: map_get($darkColor, 400);;
+      }
+    }
+  }
+}
+
+.levelsWrapper {
+  &.opened {
+    > div {
+      @media (min-width: $responsive-medium) {
+        .secondLevel {
+          margin-right: $step * 1.5;
+          margin-left: $step * 3;
+        }
+        .thirdLevel {
+          margin-left: $step * 1.5;
+        }
+      }
+    }
+  }
+}
+
+
+// FActs Question
+.questContent {
+  .singleInput {
+    label.brixel-label {
+      display: inline-block;
+      margin-bottom: $step * 2;
+      color: map-get($darkColor, 200);
+      @include fontStyle(400);
+    }
+    .brixel-radio-button {
+      &[class*="mb-"]{
+        margin-bottom: $step * 2;
+      }
+    }
+  }
+}

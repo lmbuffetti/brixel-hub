@@ -24,8 +24,13 @@ class Property extends Base {
   }
 
   updateUser(id, data) {
-    const url = ep.user.updateUser(id);
+    const url = ep.user.userById(id);
     return this.apiClient.put(url, {}, data);
+  }
+
+  getFavoritesPages() {
+    const url = ep.user.favoritePages();
+    return this.apiClient.get(url, {});
   }
 
   getPublicUser(id) {
@@ -36,6 +41,11 @@ class Property extends Base {
   getDocuments(id, data) {
     const url = ep.user.getDocuments(id);
     return this.apiClient.put(url, {}, data);
+  }
+
+  getPropertiesOfUser(id) {
+    const url = ep.user.getPropertiesOfUser(id);
+    return this.apiClient.get(url, {});
   }
 
   validateUser(email) {

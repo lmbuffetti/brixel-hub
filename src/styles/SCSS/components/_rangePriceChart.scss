@@ -4,11 +4,21 @@
     z-index: 2;
   }
 }
+
+.slideMultiStepForm {
+  .rangeGraph {
+    background: transparent;
+  }
+}
+
 .rangeGraph {
   z-index: 1;
+  background-color: white;
   position: relative;
   width: 100%;
   max-width: 370px;
+  margin-left: auto;
+  margin-right: auto;
   // height: 190px;
   display: block;
 
@@ -28,7 +38,13 @@
     ry: 4;
 
     &.active {
-      fill: map_get($primaryColor, 700) !important;
+      // fill: $brx-purple-dark !important;
+    }
+  }
+
+  .gray-bar {
+    &.hover {
+      fill-opacity: 0.2 !important;
     }
   }
 
@@ -69,6 +85,12 @@
       stroke-width: 3px;
     }
 
+    .trackback {
+      stroke-linecap: round;
+      stroke: #abb1b3;
+      stroke-width: 3px;
+    }
+
     .track-overlay {
       stroke-linecap: round;
       pointer-events: stroke;
@@ -82,7 +104,7 @@
     font-family: $font-family-secondary;
     font-weight: 600;
     letter-spacing: 1px;
-    fill: map_get($darkColor, 700);
+    // fill: $darker-grey;
   }
 
   .range-label {
@@ -90,13 +112,12 @@
     position: relative;
 
     .range-paragraph {
-      font-family: $font-family-primary;
-      color: map_get($darkColor, 400);
+      // color: $grey;
       position: relative;
       margin: 0;
 
       .custom-value {
-        color: map_get($darkColor, 400);
+        // color: $darker-grey;
       }
     }
 
@@ -126,15 +147,12 @@
         overflow: hidden;
       }
       .currency {
-        font-size: 14px;
         letter-spacing: 0px;
         fill: black;
       }
       .value {
-        fill: map_get($yellowColor, 400);
+        fill: map_get($primaryColor, 700);
         letter-spacing: 0px;
-        font-size: 14px;
-        font-family: $font-family-primary !important;
         font-weight: 700;
         text-anchor: start;
       }
@@ -144,29 +162,25 @@
   .tooltip-marker {
     display: block;
     width: 20px;
-    height: 20px;
+    height: 25px;
     background: url(../../../images/getstarted/range-graph-marker.svg);
     position: absolute;
     top: 70px;
   }
 
-  .range-tip {
-    text-align: right;
-    color: map_get($darkColor, 700);
+  .range-tip-top > div {
+    text-align: center;
+    overflow: visible;
     font-family: $font-family-secondary;
     font-weight: 600;
     font-size: 12px;
     z-index: 100;
-    position: absolute;
-    padding: 0.5em 0.7em;
-    background-color: white;
+    padding: $step * 1 $step;
+    background-color: #FFFFFF;
     pointer-events: none;
-    box-shadow:  $shadow-3dp;
-    -webkit-print-color-adjust: exact;
-    -webkit-filter: drop-shadow(0 2px 4px map_get($lightColor, 400));
-    border-radius: 1px;
     white-space: nowrap;
-    top: 80px;
+    border: 1px solid map_get($lightColor, 400);
+    border-radius: $brd-radius-small;
 
     .num {
       font-family: $font-family-secondary;
@@ -180,7 +194,91 @@
     }
 
     .avg-increase {
-      color: map_get($greenColor, 400);
+      color: map_get($primaryColor, 700);
+
+      i {
+        width: 9px !important;
+        height: 7px !important;
+        background-color: transparent !important;
+        // background: url('../images/market-data-up-icon.svg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: inline-block;
+      }
+    }
+    .tooltip-pointer {
+      width: 20px;
+      height: 15px;
+      position: absolute;
+      overflow: hidden;
+      left: 50%;
+      top: calc(100% - 1px); // Prevent visual separation of the triangle base
+      transform: translateX(-50%);
+
+      &:after {
+        content: "";
+        border-radius: 1px;
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: white;
+        transform: translateY(-50%) rotate(45deg);
+        -webkit-box-shadow: 2px 2px 4px #A4A9AD;
+        -moz-box-shadow: 2px 2px 4px #A4A9AD;
+        box-shadow: 2px 2px 4px #A4A9AD;
+        left: 5px;
+      }
+    }
+  }
+
+  .range-tip {
+    // color: $darker-grey;
+    font-weight: 600;
+    text-align: center;
+    z-index: 100;
+    position: absolute;
+    padding: 8px 16px 4px;
+    background-color: #FFFFFF;
+    pointer-events: none;
+    white-space: nowrap;
+    top: 80px;
+    box-shadow: $shadow-2dp;
+    //border: 1px solid map_get($lightColor, 400);
+    border-radius: $brd-radius-small;
+    // border-radius: $brd-radius-small;
+    p {
+      font-size: 14px;
+      font-weight: 600;
+      color: map-get($darkColor, 700 );
+    }
+    span.info {
+      font-size: 14px;
+      font-weight: 600;
+      font-family: $font-family-secondary;
+      color: map-get($greenColor, 400 );
+    }
+    &.top {
+      background-color: $brx-white;
+      color: map_get($primaryColor, 700);
+      font-size: 0.875rem;
+      span {
+        font-size: 0.75rem;
+      }
+    }
+    .num {
+      font-family: $font-family-secondary;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+
+    .data-range {
+      margin: 0;
+      text-align: center;
+    }
+
+    .avg-increase {
+      color: map_get($primaryColor, 700);
 
       i {
         width: 9px !important;
@@ -195,7 +293,7 @@
     }
 
     .avg-decrease {
-      color: map_get($redColor, 400);
+      // color: $red;
 
       i {
         width: 9px !important;
@@ -232,6 +330,18 @@
         left: 5px;
       }
     }
+    &.top {
+      .tooltip-pointer {
+        &:after {
+          background-color: $brx-white;
+        }
+      }
+    }
+    &.hoverTip {
+      p {
+        @include fontStyle(200, normal);
+      }
+    }
   }
 
   .extended-label {
@@ -240,7 +350,6 @@
     p {
       font-size: 12px;
       line-height: 18px;
-      font-family: $font-family-primary;
       font-weight: 600;
       text-align: center;
       padding: 0;
@@ -248,13 +357,8 @@
     }
 
     span {
-      color: map_get($greenColor, 400);
-      font-size: 14px;
+      color: map_get($darkColor, 700);
       font-weight: 600;
-
-      &.curr {
-        font-family: $font-family-primary;
-      }
     }
   }
   .value {

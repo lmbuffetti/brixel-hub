@@ -1,5 +1,5 @@
 export default {
-  brixeletor: {
+  brixelator: {
     getPriceDistribution: data => `/marketData/pricesDistribution${data}`,
     getLivingSpaceDistribution: data => `/marketData/livingSpacesDistribution${data}`,
     getMerged: data => `/merged/list${data}`,
@@ -17,12 +17,36 @@ export default {
   },
   company: {
     getCompanyByStub: (stub) => `/company/company-by-stub/${stub}`,
+    getCompanyById: (id) => `/company/${id}`,
+  },
+  gamification: {
+    group: () => '/gameGroup',
+    groupdById: (id) => `/gameGroup/${id}`,
+    groupList: (limit, offset) => `/gameGroup/${limit}/${offset}?order=name&direction=desc`,
+    gameAchievement: () => '/gameAchievement',
+    gameAchievementById: (id) => `/gameAchievement/${id}`,
+    gameAchievementList: (limit, offset) => `/gameAchievement/${limit}/${offset}?order=name&direction=desc`,
+    gameHistoryList: (limit, offset) => `/gameHistory/${limit}/${offset}`,
+    gameHistoryByUserId: (userId) => `/gameHistory/user/${userId}`,
+    gameHistoryByUser: (id) => `/gameHistory/user/${id}/add`,
   },
   property: {
     addPage: () => `/page/`,
     pageById: (id) => `/page/${id}`,
+    mapPageById: (id) => `/map/property/${id}`,
     estimation: (id) => `/page/${id}/estimation`,
     page: (limit, offset) => `/page/${limit}/${offset}`,
+    getPropertyScheduleListings: (id) => `/schedule/10/0?pageId=${id}&order=name&direction=desc`,
+    createPropertyVisitSchedule: () => '/schedule',
+    propertyVisitScheduleById: (id) => `/schedule/${id}`,
+    getPropertyVisitListings: () => '/scheduleVisit/10/0?order=name&direction=desc',
+    createPropertyVisit: () => '/scheduleVisit',
+    propertyVisitById: (id) => `/scheduleVisit/${id}`,
+    getPageVisits: (id) => `/page/${id}/visit`,
+    publishReview: (id, status) => `/page/${id}/publishReview?status=${status}`,
+    portalsReview: (id, status) => `/page/${id}/portalsReview?status=${status}`,
+    packagesList: (limit, offset) => `/servicePackage/${limit}/${offset}`,
+    upgradePlan: (id) => `/page/${id}/upgradePlan`
   },
   upload: {
     rotate: (id, rotation) => `/image/${id}/rotate/${rotation}`,
@@ -35,11 +59,11 @@ export default {
   user: {
     getToken: () => '/authentication/getToken',
     tokenValidationWithUser: () => '/authentication/getTokenWithUser',
-    getTokenValidation: () => '/authentication/validateToken',
+    favoritePages: () => '/user/favoritePages',
     createUser: () => '/user/register',
     recoverPassword: (email) => `/user/recoverPassword/${email}`,
-    updateUser: (userId) => `/user/${userId}`,
-    getUser: (userId) => '/user/fromToken',
+    userById: (userId) => `/user/${userId}`,
+    getPropertiesOfUser: (owner) => `/page/0/0?owner=${owner}`,
     validateUser: (email) => `/user/validate/${email}`,
   },
 };

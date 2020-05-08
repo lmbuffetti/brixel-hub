@@ -1,0 +1,11 @@
+.properties {
+    @media screen and ( max-width: $responsive-medium) {
+        max-height: calc(100% - 165px);
+    }
+    .single-property {
+        transition: box-shadow $default-time $default-easing;
+        &:hover {
+            box-shadow: $shadow-2dp;
+        }
+    }
+}

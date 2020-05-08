@@ -1,0 +1,188 @@
+#bodyModalWrapper {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: map_get($lightColor, 100);
+  z-index: 10;
+
+  .bodyModal {
+    height: calc(100% - #{$step});
+    overflow: hidden;
+    margin: auto;
+    box-shadow: $shadow-2dp;
+    border-top-left-radius: $brd-radius-small;
+    border-top-right-radius: $brd-radius-small;
+    position: fixed;
+    width: 100%;
+    max-width: 760px;
+    top: $step;
+    left: 0;
+    background: $brx-white;
+    z-index: 10;
+    opacity: 0;
+    animation: fadeInSec $default-time-long $default-easing forwards;
+
+    #multiStepForm {
+      height: calc(100% - 114px);
+      display: flex;
+      flex-direction: column;
+
+      .slideMultiStepForm {
+        height: 100%;
+        display: flex;
+        transition: none;
+
+        .singleStep {
+          height: 100%;
+          overflow-y: auto;
+          flex: 0 0 100%;
+          padding: $step * 3;
+          transition: opacity $default-time-long $default-easing;
+
+          @media (min-width: $responsive-small) {
+            display: flex;
+            align-items: center;
+          }
+
+          &[class*="bg"],
+          &.vertCentered {
+            align-items: center;
+            justify-content: center;
+            display: flex;
+          }
+          .subcontainer {
+            width: 100%;
+            max-width: 480px;
+            margin: auto;
+          }
+        }
+      }
+    }
+    .message:empty {
+      display: none;
+    }
+    &:not(.upgradeModal) {
+      height: calc(100% - #{$step});
+      top: $step;
+    }
+    &.upgradeModal {
+      #multiStepForm {
+        height: calc(100% - 130px);
+      }
+      @media (max-width: $responsive-medium) {
+        &.stepNo0 {
+          #multiStepForm {
+            height: calc(100% - 228px);
+          }
+        }
+      }
+    }
+
+    #progressBar {
+      &:not(.pos-r) {
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
+      width: 100%;
+    }
+    .footerAction {
+      background: $brx-white;
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: 0;
+
+      &.successNext {
+        background: map_get($greenColor, 200);
+
+        .backBtn {
+          opacity: .5;
+        }
+      }
+      span {
+        white-space: nowrap;
+      }
+    }
+    .boxMarketCheck {
+      border-radius: $brd-radius-small;
+      border: 1px solid map_get($lightColor, 200);
+      display: flex;
+      justify-content: space-between;
+      align-items: stretch;
+      padding: $step * 2 0;
+      max-width: 100%;
+
+      > div {
+        flex: 0 0 33.33%;
+        padding-left: $step * 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &:not(:last-child) {
+          border-right: 1px solid map_get($lightColor, 200);
+        }
+
+        p {
+          span {
+            vertical-align: baseline;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: $responsive-medium) {
+  #bodyModalWrapper {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: map_get($lightColor, 100);
+    z-index: 10;
+
+    .bodyModal {
+      height: calc(100% - #{$step});
+      overflow: hidden;
+      box-shadow: $shadow-2dp;
+      border-top-left-radius: $brd-radius-small;
+      border-top-right-radius: $brd-radius-small;
+      top: $step;
+      left: 50%;
+      transform: translate(-50%, 0);
+
+      #multiStepForm {
+        height: calc(100% - 146px);
+      }
+
+      &:not(.upgradeModal) {
+        height: calc(100% - #{$step * 2});
+        top: $step * 2;
+      }
+      &.upgradeModal {
+        #multiStepForm {
+          height: calc(100% - 146px);
+        }
+        &.stepNo0 {
+          #multiStepForm {
+            height: calc(100% - 152px);
+          }
+        }
+      }
+    }
+  }
+}
+
+.barAssessor {
+  height: 8px;
+  width: 100%;
+}
+
+.word-b {
+  @include line-break;
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="282px" height="163px" viewBox="0 0 282 163" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Hub" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Hub-Desktop-Rewards-Copy-7" transform="translate(-585.000000, -404.000000)">
+            <g id="Group-2" transform="translate(585.000000, 404.000000)">
+                <rect id="Rectangle" fill="#EEF8F3" x="0" y="0" width="282" height="163" rx="8"></rect>
+                <g id="donot" transform="translate(10.000000, 14.000000)" stroke-width="16">
+                    <circle id="Oval" stroke="#C83251" cx="67" cy="67" r="50"></circle>
+                    <path d="M67,117 C94.6142375,117 117,94.6142375 117,67 C117,39.3857625 94.6142375,17 67,17 C39.3857625,17 17,39.3857625 17,67 C17,94.6142375 39.3857625,117 67,117 Z" id="Oval" stroke="#F57785" stroke-dasharray="44,270" transform="translate(67.000000, 67.000000) rotate(165.000000) translate(-67.000000, -67.000000) "></path>
+                    <path d="M67,117 C94.6142375,117 117,94.6142375 117,67 C117,39.3857625 94.6142375,17 67,17 C39.3857625,17 17,39.3857625 17,67 C17,94.6142375 39.3857625,117 67,117 Z" id="Oval" stroke="#85CBA8" stroke-dasharray="91,223" transform="translate(67.000000, 67.000000) rotate(115.000000) translate(-67.000000, -67.000000) "></path>
+                    <path d="M67,117 C94.6142375,117 117,94.6142375 117,67 C117,39.3857625 94.6142375,17 67,17 C39.3857625,17 17,39.3857625 17,67 C17,94.6142375 39.3857625,117 67,117 Z" id="Oval" stroke="#36A282" stroke-dasharray="135,169"></path>
+                </g>
+                <g id="legend" transform="translate(165.000000, 26.000000)">
+                    <circle id="Oval" fill="#F57785" cx="6" cy="74" r="6"></circle>
+                    <circle id="Oval" fill="#85CBA8" cx="6" cy="45" r="6"></circle>
+                    <circle id="Oval" fill="#C83251" cx="6" cy="103" r="6"></circle>
+                    <circle id="Oval" fill="#218B80" cx="6" cy="17" r="6"></circle>
+                    <text id="Exceptional-Good-Fai" font-family="Poppins-Regular, Poppins" font-size="14" font-weight="normal" line-spacing="29" fill="#878A8D">
+                        <tspan x="20" y="15">Exceptional</tspan>
+                        <tspan x="20" y="44">Good</tspan>
+                        <tspan x="20" y="73">Fair</tspan>
+                        <tspan x="20" y="102">Poor</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

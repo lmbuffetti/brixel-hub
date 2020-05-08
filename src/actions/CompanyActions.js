@@ -1,12 +1,12 @@
 import { createActions } from 'redux-actions';
 import {
-  GET_COMPANY,
-  SET_COMPANY,
+  GET_ACTIVE_SINGLE_COMPANY,
+  SET_ACTIVE_SINGLE_COMPANY,
 } from './types/CompanyTypes';
 
 export const {
-  getCompany
+  getActiveSingleCompany,
 } = createActions({
-  [GET_COMPANY]: (payload) => payload,
-  [SET_COMPANY]: (payload) => payload,
+  [GET_ACTIVE_SINGLE_COMPANY]: (payload) => payload,
+  [SET_ACTIVE_SINGLE_COMPANY]: (payload) => payload,
 });

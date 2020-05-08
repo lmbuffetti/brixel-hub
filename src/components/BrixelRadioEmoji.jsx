@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import isNaN from 'lodash/isNaN';
 import isBoolean from 'lodash/isBoolean';
-import {
-  BrixelIcon,
-} from '@brixel/brixel-components';
 import Emoji from './Emoji';
 import { translateTo } from '../utils/translation';
 import { compose } from 'redux';
@@ -17,13 +14,9 @@ const BrixelRadioEmoji = (props) => {
     disabled,
     className,
     deactivable,
-    icons,
     input,
-    inputClassName,
     label,
     lang,
-    modal,
-    // options,
   } = props;
 
   const clickOption = (e, val) => {
@@ -131,7 +124,7 @@ BrixelRadioEmoji.defaultProps = {
   modal: null,
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   lang: get(state, 'common.language', {}),
 });
 

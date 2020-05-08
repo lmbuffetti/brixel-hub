@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="38px" viewBox="0 0 40 38" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Icon-Mail</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Hub" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-Screen-1-Copy-4" transform="translate(-1086.000000, -748.000000)" fill-rule="nonzero">
+            <g id="Group-8" transform="translate(1062.000000, 483.000000)">
+                <g id="Group-7">
+                    <g id="Group-5" transform="translate(24.000000, 265.000000)">
+                        <g id="Icon-Mail" transform="translate(0.000000, -0.000000)">
+                            <polygon id="Path" fill="#F19BA5" points="6.28272862 12.5528109 34.9088885 13.320708 34.9088885 17.5808589 39.047619 14.2868738 19.5238095 0 0 14.2868738 5.86135658 18.0952381"></polygon>
+                            <g id="Group" transform="translate(0.000000, 14.285714)" fill="#F03C50">
+                                <polygon id="Path" points="39.3232143 22.6190476 25.1303571 10.9218195 16.3882143 10.4431414 2.12535714 23.6254442"></polygon>
+                                <polygon id="Path" points="39.8521429 22.1318408 39.2285714 0.0380241649 26.0128571 10.7263682"></polygon>
+                                <polygon id="Path" points="15.5867857 10.2139303 0.175714286 0.0380241649 1.53892857 23.1979389"></polygon>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

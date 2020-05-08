@@ -1,16 +1,20 @@
 import { handleActions } from 'redux-actions';
 import {
   SET_ESTIMATION,
-  SET_PROPERTIES,
-  SET_PROPERTY,
+  SET_PROPERTY_LISTINGS,
+  SET_ACTIVE_SINGLE_PROPERTY,
   SET_MARKET_CHECK,
+  SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
+  SET_PACKAGES_PROPERTY,
 } from '../actions/types/PropertyTypes';
 
 export const defaultState = {
   estimation: {},
   marketCheck: {},
-  properties: [],
-  property: {},
+  propertyListings: [],
+  activeSingleProperty: {},
+  activeSinglePropertyBooking: [],
+  packagesProperty: [],
 };
 
 export default handleActions(
@@ -19,17 +23,25 @@ export default handleActions(
       ...state,
       estimation: action.payload,
     }),
-    [SET_PROPERTIES]: (state, action) => ({
+    [SET_PROPERTY_LISTINGS]: (state, action) => ({
       ...state,
-      properties: action.payload,
+      propertyListings: action.payload,
     }),
-    [SET_PROPERTY]: (state, action) => ({
+    [SET_ACTIVE_SINGLE_PROPERTY]: (state, action) => ({
       ...state,
-      property: action.payload,
+      activeSingleProperty: action.payload,
+    }),
+    [SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS]: (state, action) => ({
+      ...state,
+      activeSinglePropertyBooking: action.payload,
     }),
     [SET_MARKET_CHECK]: (state, action) => ({
       ...state,
       marketCheck: action.payload,
+    }),
+    [SET_PACKAGES_PROPERTY]: (state, action) => ({
+      ...state,
+      packagesProperty: action.payload,
     }),
   },
   defaultState,

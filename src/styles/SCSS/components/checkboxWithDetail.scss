@@ -1,0 +1,109 @@
+.brixel-checkbox-with-detail {
+  .single-chackbox {
+    border-width: 2px;
+    border-style: solid;
+    box-shadow: $shadow-1dp;
+    border-radius: $brd-radius-small;
+    margin-bottom: $step * 4;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .tertiaryBtn:hover span {
+    text-decoration: none;
+  }
+
+  .checkmark {
+    height: 24px;
+    width: 24px;
+    flex: 0 0 24px;
+    background-color: $brx-white;
+    border: 2px solid map-get($darkColor, 200);
+    border-radius: $brd-radius-small / 2;
+    position: absolute;
+    right: 0;
+  }
+
+  input {
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    &:focus + label {
+      .checkmark {
+        border-color: map_get($primaryColor, 500);
+      }
+    }
+  }
+
+  label {
+    position: relative;
+    cursor: pointer;
+    &:hover {
+      .checkmark {
+        border-color: map_get($primaryColor, 500);
+      }
+    }
+
+    &.checked {
+      color: map-get($darkColor, 700);
+
+      &:hover {
+        .checkmark {
+          background: map_get($primaryColor, 500);
+          border-color: map_get($primaryColor, 500);
+        }
+      }
+
+      .checkmark {
+        background: map_get($primaryColor, 400);
+        border-color: map_get($primaryColor, 400);
+        &:after {
+          @include icomoon();
+          content: $icon-check;
+          color: $brx-white;
+        }
+      }
+    }
+
+    &.disabled:not(.checked) {
+      cursor: not-allowed;
+      color: map-get($lightColor, 400);
+      .checkmark {
+        border-color: map-get($lightColor, 400);
+        background: $brx-white;
+      }
+      &.checked {
+        .checkmark {
+          background: map-get($darkColor, 200);
+        }
+      }
+
+    }
+  }
+
+  .detailCheckbox {
+    transition: all $default-loader-time;
+    max-height: 0;
+    overflow: hidden;
+    &.open {
+      max-height: 500px;
+    }
+    ul {
+      margin-top: $step * 4;
+      padding: 0;
+      li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        margin-top: $step;
+        span {
+          margin-left: $step;
+        }
+      }
+    }
+  }
+
+}

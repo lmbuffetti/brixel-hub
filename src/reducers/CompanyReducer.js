@@ -1,18 +1,18 @@
 import { handleActions } from 'redux-actions';
 
 import {
-  SET_COMPANY,
+  SET_ACTIVE_SINGLE_COMPANY,
 } from '../actions/types/CompanyTypes';
 
 export const defaultState = {
-  company: {},
+  activeSingleCompany: {},
 };
 
 export default handleActions(
   {
-    [SET_COMPANY]: (state, action) => ({
+    [SET_ACTIVE_SINGLE_COMPANY]: (state, action) => ({
       ...state,
-      company: action.payload,
+      activeSingleCompany: action.payload,
     }),
   },
   defaultState,

@@ -1,0 +1,159 @@
+.hubDasContent {
+  // tab sections
+  .listings-container,
+  .rewards-container .firstLevel,
+  .property-container {
+    animation: slideInSec $default-time-long ease-in-out;
+  }
+
+  .rewards-container .secondLevel,
+  .rewards-container  #rewards,
+  .property-container .factsWrapper,
+  .property-container .secondLevel,
+  .listings-container .secondLevel {
+    @media (min-width: $responsive-medium) {
+      opacity: 0;
+      animation: fadeInSec 500ms ease-in-out forwards;
+    }
+  }
+
+  .property-container .levelsWrapper.closed .secondLevel {
+    @media (max-width: $responsive-medium) {
+      animation: none;
+      opacity: 1;
+    }
+  }
+
+
+  // proparty thirdlevel expand
+  .listings-container .expandableColumn,
+  .property-container .expandableColumn {
+    transition: all 0.2s ease-in-out;
+
+    &.collapsed {
+      @media (min-width: $responsive-medium) {
+        transform: translateX(-100%);
+        margin-right: -480px;
+        opacity: 0;
+      }
+    }
+  }
+
+  .property-container .levelsWrapper {
+    &.opened {
+      .thirdLevel {
+        opacity: 0;
+        transform: translateX(100%);
+        animation: slideInLong $default-time-long $default-easing forwards;
+      }
+    }
+  }
+}
+
+
+/* sidebar menu drawer */
+.slideIn-enter {
+    .sidebarSubmenuContent {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+  }
+.slideIn-enter-active {
+  .sidebarSubmenuContent {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity $default-time, transform $default-time-long;
+
+  }
+}
+.slideIn-enter-done {
+  @media screen and (min-width: $responsive-medium) {
+    z-index: 7;
+  }
+}
+.slideIn-exit {
+  z-index: 2;
+
+  .sidebarSubmenuContent {
+    opacity: 1;
+  }
+}
+.slideIn-exit-active {
+  .sidebarSubmenuContent {
+    opacity: 0;
+    transition: opacity $default-time;
+  }
+}
+
+/* react transition group fade effect */
+.fade-appear,
+.fade-enter {
+    opacity: 0;
+    z-index: 1;
+}
+.fade-appear-active,
+.fade-enter-active {
+    opacity: 1;
+    transition: opacity $default-time $default-easing 150ms;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+    opacity: 0;
+    transition: opacity 150ms linear;
+}
+
+
+@keyframes slideInSec {
+  0% {
+    opacity: 0;
+    transform: translateX(5%);
+  } 100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLong {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  } 100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+@keyframes slideOutSec {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  } 100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes fadeInSec {
+  0% {
+    opacity: 0;
+  } 100% {
+    opacity: 1;
+  }
+}
+.scaleUp {
+  animation: scaleUp $default-time-long $default-easing;
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(0.5);
+  } 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,35 @@
+.timelineBar {
+  position: absolute;
+  left: 16px;
+  height: calc(100% - 80px);
+  top: 38px;
+  width: 1px;
+  background: map_get($lightColor, 200);
+}
+
+.dotTimelineDone {
+  position: absolute;
+  left: $step * -3;
+  top: 50%;
+  transform: translate(-3.5px, -50%);
+  width: 9px;
+  height: 9px;
+  display: block;
+  border-radius: 50%;
+  background: map_get($lightColor, 300);
+  box-shadow: $shadow-3dp;
+}
+
+.dotTimeline {
+  position: absolute;
+  left: $step * -3;
+  top: 50%;
+  transform: translate(-3.5px, -50%);
+  width: 9px;
+  height: 9px;
+  display: block;
+  border-radius: 50%;
+  background: map_get($lightColor, 100);
+  border: 3px solid map_get($lightColor, 300);
+  box-shadow: $shadow-3dp;
+}

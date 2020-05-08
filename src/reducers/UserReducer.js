@@ -1,29 +1,47 @@
 import { handleActions } from 'redux-actions';
 import {
+  SET_USER_TYPES,
   SET_AWARDS,
-  SET_BRIXEL_POINT,
-  SET_USER,
+  SET_BRIXEL_POINTS,
+  SET_FAVORITES,
+  SET_LOGGED_IN_USER,
+  SET_USER_PROPERTIES,
 } from '../actions/types/UserTypes';
 
 export const defaultState = {
-  awards: [],
-  brixelPoint: [],
-  loggedUser: {},
+  userTypes: null,
+  awards: 0,
+  brixelPoints: 0,
+  favorites: [],
+  loggedInUser: {},
+  userProperties: [],
 };
 
 export default handleActions(
   {
+    [SET_USER_TYPES]: (state, action) => ({
+      ...state,
+      userTypes: action.payload,
+    }),
     [SET_AWARDS]: (state, action) => ({
       ...state,
       awards: action.payload,
     }),
-    [SET_BRIXEL_POINT]: (state, action) => ({
+    [SET_BRIXEL_POINTS]: (state, action) => ({
       ...state,
-      brixelPoint: action.payload,
+      brixelPoints: action.payload,
     }),
-    [SET_USER]: (state, action) => ({
+    [SET_FAVORITES]: (state, action) => ({
       ...state,
-      loggedUser: action.payload,
+      favorites: action.payload,
+    }),
+    [SET_LOGGED_IN_USER]: (state, action) => ({
+      ...state,
+      loggedInUser: action.payload,
+    }),
+    [SET_USER_PROPERTIES]: (state, action) => ({
+      ...state,
+      userProperties: action.payload,
     }),
   },
   defaultState,

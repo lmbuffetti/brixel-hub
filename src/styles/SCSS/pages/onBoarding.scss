@@ -1,142 +1,175 @@
-#onBoarding {
-  height: calc(100vh - 88px);
-  width: 100vw;
-  overflow: hidden;
-  .brixel-radio-button-icon {
-    margin-bottom: 16px;
-    label .textLabel {
-      margin-left: 16px;
-      @media (min-width: $responsive-medium) {
-        font-size: 1.2rem;
+.flowContainer {
+  background-color: map-get($lightColor, 100);
+
+  .onBoardingWrapper,
+  .getStartedWrapper {
+    #progressBar {
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+    #onBoarding,
+    #getStarted {
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      overflow: hidden;
+      max-width: 760px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      box-shadow: $shadow-1dp;
+      background-color: $brx-white;
+      border-top-left-radius: $brd-radius-small;
+      border-top-right-radius: $brd-radius-small;
+
+      .subcontainer {
+        width: 100%;
+        max-width: 480px;
+        margin: auto;
       }
-    }
-  }
-  &.withoutFooter {
-    height: calc(100vh - 56px);
-    .singleStep {
-      height: calc(100vh - 54px);
-    }
-  }
-  @media (min-width: $responsive-medium) {
-    .singleStep {
-      height: calc(100vh - 144px);
-    }
-    &.withoutFooter {
-      height: calc(100vh - 72px);
+
+      .multiStepForm {
+        height: 100%;
+      }
+      .slideMultiStepForm {
+        height: 100%;
+        display: flex;
+        //transition: transform $default-loader-time ease-in-out;
+      }
+      .bodyModalFlow {
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
       .singleStep {
-        height: calc(100vh - 72px);
+        height: 100%;
+        flex: 0 0 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: $step * 3;
+        transition: opacity $default-time-long $default-easing;
+
+        &[class*="bg"] {
+          transition: opacity $default-time-long $default-easing;
+        }
+
+        .willAnimate {
+          .scaleAnim {
+            opacity: 0;
+            animation: scaleUp 0.6s ease-in forwards;
+          }
+          .fadeAnim {
+            opacity: 0;
+            animation: fadeInSec $default-time-long 0.6s $default-easing forwards;
+          }
+        }
+
+        @media (max-width: $responsive-small) {
+          padding-bottom: $step * 5;
+        }
+        @media (min-width: $responsive-small) {
+          display: flex;
+          align-items: center;
+        }
+        &[class*="bg"],
+        &.vertCentered {
+          align-items: center;
+          justify-content: center;
+          display: flex;
+        }
       }
-    }
-  }
-}
-@media (min-width: $responsive-medium) {
-  .brixel-input-step .wrap-brixel-input-step.fullWidth input {
-    font-size: 2rem;
-  }
-}
-.slideMultiStepForm {
-  display: flex;
-  transition: transform $default-loader-time;
-}
-.singleStep {
-  height: calc(100vh - 112px);
-  flex: 0 0 100vw;
-  padding: 16px 16px 40px;
-  overflow-y: auto;
-  overflow-x: hidden;
+      // todo: move to styleguide
+      .message:empty {
+        display: none;
+      }
+      .footerAction {
+        background: $brx-white;
+        position: relative;
+        width: 100%;
+        left: 0;
+        bottom: 0;
 
-    &[class*="bg"] {
-      align-items: center;
-      justify-content: center;
-      display: flex;
-    }
+        @media (max-width: $responsive-medium) {
+          position: fixed;
+          bottom: auto;
+        }
+        &.successNext {
+          background: map_get($greenColor, 100);
 
-  @media (min-width: $responsive-small) {
-    display: flex;
-    align-items: center;
-  }
-  .container {
-    padding: 0;
-  }
-  .curAdr {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    padding: $step $step * 2;
-    z-index: 5;
-    background: rgba($brx-white, 0.8);
-  }
-}
-.footerAction {
-  background: $brx-white;
-  position: fixed;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  &.successNext {
-    background: map_get($greenColor, 200);
-    .backBtn {
-      opacity: .5;
-    }
-  }
-}
-#progressBar {
-  width: 100%;
-  height: 2px;
-  background: map_get($lightColor, 200);
-  .activeProgBar {
-    display: block;
-    height: 2px;
-    background: map_get($primaryColor, 400);
-    transition: width $default-loader-time;
-  }
-  @media (min-width: $responsive-medium) {
-    height: 4px;
-    .activeProgBar {
-      height: 4px;
-    }
-  }
-}
+          .textSuccess {
+            @media (max-width: $responsive-medium) {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              transform: translateY(-100%);
+              background-color: $brx-white;
+              padding: $step $step * 2 0;
+              background: map_get($greenColor, 100);
+            }
+          }
+          .backBtn {
+            opacity: .5;
+          }
+        }
+      }
 
-.messageChat {
-  box-shadow: $shadow-1dp;
-  background: map_get($lightColor, 100);
-  border-radius: $brd-radius-small;
-  @include fontStyle(400);
-  color: map_get($darkColor, 500);
-  padding: $step;
-  margin-bottom: $step * 2;
-  float: left;
-  clear: both;
-}
+      .brixel-radio-button-icon.radioBtnImg {
+        /*todo styleguide*/
+        label .textLabel {
+          margin-left: $step * 2;
 
-.chatBox {
-  .chatContainer {
-    .messageChat {
-      bottom: -10px;
-      opacity: 0;
-      position: relative;
-
-      @for $i from 1 through 6 {
-        &:nth-child( #{$i} ) {
-         animation: moveUp .3s #{$i * 0.20}s ease 1 forwards;
+          @media (min-width: $responsive-medium) {
+            @include fontStyle(500);
+          }
         }
       }
     }
   }
-  .chatBtn {
-    opacity: 0;
-    bottom: -100;
-    animation: moveUp .3s 1.8s ease 1 forwards;
-  }
+}
 
-  @keyframes moveUp {
-    0% {
-      opacity: 0;
+.onBoardingWrapper {
+  /* only for onboarding flow */
+  .messageChat {
+    box-shadow: $shadow-1dp;
+    background: map_get($lightColor, 100);
+    border-radius: $brd-radius-small;
+    @include fontStyle(400);
+    color: map_get($darkColor, 500);
+    padding: $step;
+    margin-bottom: $step * 2;
+    float: left;
+    clear: both;
+  }
+  .chatBox {
+    .chatContainer {
+      .messageChat {
+        bottom: -10px;
+        opacity: 0;
+        position: relative;
+
+        @for $i from 1 through 6 {
+          &:nth-child( #{$i} ) {
+          animation: moveUp .3s #{$i * 0.20}s ease 1 forwards;
+          }
+        }
+      }
     }
-    100% {
-      opacity: 1;
-      bottom: 0;
+    .chatBtn {
+      opacity: 0;
+      bottom: -100;
+      animation: moveUp .3s 1.8s ease 1 forwards;
+    }
+
+    @keyframes moveUp {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+        bottom: 0;
+      }
     }
   }
 }

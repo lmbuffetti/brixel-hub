@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { change } from 'redux-form';
-import { BrixelButtonTertiary, BrixelIcon, BrixelInputText, BrixelSelect, useOutsideAlerter } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelInputText, BrixelSelect, useOutsideAlerter } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import markerImg from '../../images/location/icon_location.svg';
@@ -22,7 +22,7 @@ const swissZipCode = require('../../resources/swissZipCodes.json');
 
 const images = require.context('../../images', true);
 
-const Maps = (props) => {
+export const ComponentMap =(props) => {
   // PROPS
   const {
     className,
@@ -35,18 +35,14 @@ const Maps = (props) => {
     formName,
     formValue,
     google,
-    history,
     inputLabel,
     isShowZip,
     lang,
     latitude,
     longitude,
-    match,
     mapType,
     moveMarker,
     nearBy,
-    place,
-    property,
     scrollZoom,
     selCountry,
     showMap,
@@ -54,18 +50,18 @@ const Maps = (props) => {
     showSelectCountry,
     similarProperties,
     zoom,
+    minHeight,
   } = props;
   // STATE
   const [selectedPlace, setSelectedPlace] = useState([]);
   const [showInfoWindow, setShowInfoWindow] = useState(false);
-  const [modalInfo, setModalInfo] = useState({});
+  const [modalInfo] = useState({});
   const [mapTypeId, setMapTypeId] = useState('roadmap');
   const [inputSearchZip, setInputSearchZip] = useState('');
   const [errorInputSearchZip, setErrorInputSearchZip] = useState(null);
   const [streetViewAvailable, setStretViewAvailable] = useState(false);
   const [showZipCode, setShowZipCode] = useState(false);
   const [optMap, setOptMap] = useState({});
-  const [showSelCountry, setShowSelCountry] = useState(false);
   const inputSearch = createRef(null);
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
   const [defCountry, setDefCountry] = useState('');
@@ -209,7 +205,7 @@ const Maps = (props) => {
     setInputSearchZip(val);
   };
 
-  const showInfoMarker = (data) => {
+  /*const showInfoMarker = (data) => {
     const infoModal = {
       lat: data.marker.geometry.location.lat(),
       lng: data.marker.geometry.location.lng(),
@@ -220,7 +216,7 @@ const Maps = (props) => {
     };
     setModalInfo(infoModal);
     setShowInfoWindow(true);
-  };
+  };*/
 
   const btnActions = (action) => {
     const center = {
@@ -291,7 +287,7 @@ const Maps = (props) => {
     geocoder.geocode({
       'address': adr
     }, function(result, status) {
-      if (status == 'OK') {
+      if (status === 'OK') {
         const formattedPlace = {};
         formattedPlace.country = null;
         formattedPlace.countryCode = null;
@@ -358,8 +354,6 @@ const Maps = (props) => {
 
   const highlight = (container) => {
     const content = container.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    let text = '';
-    const oriWord = container.split('');
     let start = -1;
     let end = 0;
     content.split('').forEach(function(val, i){
@@ -390,7 +384,7 @@ const Maps = (props) => {
       e.preventDefault();
       setSelLocAuto(newId);
     }
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && get(locList, `[${newId}].description`, null)) {
       e.preventDefault();
       geoCode(locList[newId].description);
     }
@@ -400,7 +394,7 @@ const Maps = (props) => {
     // Important! Always set the container height explicitly
     <div
       style={showMap ? {
-        minHeight: '300px', position: 'relative',
+        minHeight: minHeight > 0 ? `${minHeight}px` : '300px', position: 'relative',
       } : {
         minHeight: '100%', position: 'relative',
       }}
@@ -415,7 +409,7 @@ const Maps = (props) => {
                 type="text"
                 ref={inputSearch}
                 label={inputLabel}
-                placeholder="Enter property address"
+                placeholder={translateTo(lang, "Enter property address")}
                 input={{
                   onChange: (e) => changeLocation(e),
                   onBlur: () => '',
@@ -434,7 +428,7 @@ const Maps = (props) => {
                           tabIndex={i}
                           key={i.toString()}
                           onClick={() => geoCode(loc.description)}
-                          dangerouslySetInnerHTML={{ __html: highlight(loc.description) }}
+                          dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
                         />
                       ))
                     }
@@ -444,28 +438,17 @@ const Maps = (props) => {
               {
                 showSelectCountry && (
                   <div className="mt-2 mb-2">
-                    {
-                      showSelCountry ? (
-                        <BrixelSelect
-                          className="w-perc-100 max-w-fix-216 mt-1 pos-r zIndex2"
-                          input={{
-                            onChange: (val) => changeCountry(val),
-                            name: 'country',
-                            value: defCountry,
-                          }}
-                          options={selectOpt}
-                        />
-                      ) : (
-                        <BrixelButtonTertiary
-                          label={
-                            defCountry ?
-                              translateTo(lang, selectOpt.find(val => val.value === defCountry).label) :
-                              `🌍 ${translateTo(lang, 'Everywhere')}`
-                          }
-                          onClick={() => setShowSelCountry(true)}
-                        />
-                      )
-                    }
+                    <BrixelSelect
+                      compact
+                      className="w-perc-100 mt-1 pos-r zIndex2"
+                      input={{
+                        onChange: (val) => changeCountry(val.toUpperCase()),
+                        name: 'country',
+                        value: defCountry.toLowerCase(),
+                      }}
+                      bigDropDown
+                      options={selectOpt}
+                    />
                   </div>
                 )
               }
@@ -623,7 +606,7 @@ const Maps = (props) => {
   );
 };
 
-Maps.propTypes = {
+ComponentMap.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   changeCountry: PropTypes.func,
   className: PropTypes.string,
@@ -651,9 +634,10 @@ Maps.propTypes = {
   showSearchLocation: PropTypes.bool,
   showSelectCountry: PropTypes.bool,
   zoom: PropTypes.number,
+  minHeight: PropTypes.number,
 };
 
-Maps.defaultProps = {
+ComponentMap.defaultProps = {
   className: '',
   changeCountry: () => '',
   disableZoom: false,
@@ -673,12 +657,13 @@ Maps.defaultProps = {
   similarProperties: [],
   showMap: false,
   zoom: 14,
+  minHeight: 0,
 };
 
-const mapStateToProps = (state) => {
-  const formName = Object.keys(get(state, 'form'))[0];
-  const lat = get(state, `property.property.location.latitude`, 0);
-  const lng = get(state, `property.property.location.longitude`, 0);
+const mapStateToProps = (state, props) => {
+  const formName = get(props, 'formName', Object.keys(get(state, 'form'))[0]);
+  const lat = get(state, `property.activeSingleProperty.location.latitude`, 0);
+  const lng = get(state, `property.activeSingleProperty.location.longitude`, 0);
   return ({
     country: get(state, `common.country`, {}),
     formValue: get(state, `form[${formName}].values`, {}),
@@ -694,6 +679,17 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(form, field, value) {
     dispatch(change(form, field, value));
   },
+});
+
+export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
+  return (
+    get(prevProps, 'formValue.location.latitude', null) === get(nextProps, 'formValue.location.latitude', null) ||
+    get(prevProps, 'formValue.location.longitude', null) === get(nextProps, 'formValue.location.longitude', null) ||
+    get(prevProps, 'formValue.location.address', null) === get(nextProps, 'formValue.location.address', null) ||
+    get(prevProps, 'formValue.location.country', null) === get(nextProps, 'formValue.location.country', null) ||
+    get(prevProps, 'formValue.location.countryCode', null) === get(nextProps, 'formValue.location.countryCode', null) ||
+    get(prevProps, 'selCountry', null) === get(nextProps, 'selCountry', null)
+  )
 });
 
 export default compose(

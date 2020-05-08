@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="24px" height="23px" viewBox="0 0 24 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 62 (91390) - https://sketch.com -->
-    <title>Icon-Pokal-Brixel-03</title>
+<svg width="25px" height="21px" viewBox="0 0 25 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>icon-brixels</title>
     <desc>Created with Sketch.</desc>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Icon-Pokal-Brixel-03" fill-rule="nonzero">
-            <path d="M3.109,0.73 C-4.435,4.442 3.531,14.202 8.513,10.029 C14.82,4.749 7.723,-1.54 3.109,0.73 Z" id="Path" fill="#F03C50"></path>
-            <path d="M21.786,1.237 C14.834,-3.494 10.276,8.25 16.363,10.525 C24.069,13.406 26.036,4.129 21.786,1.237 Z" id="Path" fill="#5A6EFF"></path>
-            <path d="M11.829,11.476 C3.424,11.684 6.564,23.883 12.836,22.184 C20.777,20.034 16.97,11.349 11.829,11.476 Z" id="Path" fill="#50B482"></path>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="nav-header" transform="translate(-723.000000, -25.000000)">
+            <g id="Group-7">
+                <g id="Group-11" transform="translate(669.000000, 16.000000)">
+                    <g id="awards" transform="translate(0.000000, 8.000000)">
+                        <g id="icon-brixels" transform="translate(54.807692, 1.000000)">
+                            <g id="Icon-Pokal-Brixel-03" transform="translate(12.000000, 10.491228) scale(1, -1) translate(-12.000000, -10.491228) ">
+                                <path d="M3.109,0.665964912 C-4.435,4.05235088 3.531,12.9562105 8.513,9.14926316 C14.82,4.33242105 7.723,-1.40491228 3.109,0.665964912 Z" id="Path" fill="#F03C50" fill-rule="nonzero"></path>
+                                <path d="M21.786,1.12849123 C14.834,-3.18750877 10.276,7.52631579 16.363,9.60175439 C24.069,12.2300351 26.036,3.76680702 21.786,1.12849123 Z" id="Path" fill="#5A6EFF" fill-rule="nonzero"></path>
+                                <path d="M11.829,10.4693333 C3.424,10.6590877 6.564,21.788 12.836,20.2380351 C20.777,18.2766316 16.97,10.3534737 11.829,10.4693333 Z" id="Path" fill="#50B482" fill-rule="nonzero"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
         </g>
     </g>
 </svg>

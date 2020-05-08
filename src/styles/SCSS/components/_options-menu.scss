@@ -1,0 +1,33 @@
+.options-menu {
+  background-color: white;
+  border-radius: $brd-radius-small;
+  right: 0;
+  left: unset;
+  top: 40px;
+  align-self: flex-start;
+  cursor: pointer;
+
+  &.portals {
+    top: 27px;
+  }
+
+  .remove {
+    color: map-get($redColor, 400);
+  }
+
+  .rename,
+  .edit,
+  .copy {
+    color: map-get($darkColor, 200);
+  }
+
+  .remove,
+  .edit,
+  .copy {
+    @include fontStyle(400,'medium',left);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

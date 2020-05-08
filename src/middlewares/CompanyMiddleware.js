@@ -1,25 +1,30 @@
 import {
-  SPINNER_ON,
-  SPINNER_OFF,
-} from '../actions/types/CommonTypes';
-
-import {
-  GET_COMPANY,
-  SET_COMPANY,
+  GET_ACTIVE_SINGLE_COMPANY,
+  SET_ACTIVE_SINGLE_COMPANY,
 } from '../actions/types/CompanyTypes'
-
-import { configLang } from '../constants/global';
 
 import api from '../controllers/api/config';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
-    case GET_COMPANY: {
+    case GET_ACTIVE_SINGLE_COMPANY: {
       next(action);
-      api.company.getCompanyByStub(action.payload.stub)
-        .then((res) => {
-          store.dispatch({ type: SET_COMPANY, payload: res.data });
-        });
+      if (action.payload.stub) {
+        api.company.getCompanyByStub(action.payload.stub)
+          .then((res) => {
+            if (typeof res.data.status === 'undefined') {
+              store.dispatch({ type: SET_ACTIVE_SINGLE_COMPANY, payload: res.data });
+            }
+          });
+      }
+      if (action.payload.id) {
+        api.company.getCompanyById(action.payload.id)
+          .then((res) => {
+            if (typeof res.data.status === 'undefined') {
+              store.dispatch({ type: SET_ACTIVE_SINGLE_COMPANY, payload: res.data });
+            }
+          });
+      }
       break;
     }
     default:

@@ -9,23 +9,34 @@ import {
   RESET_REQUEST,
   SPINNER_OFF,
   SPINNER_ON,
+  SPINNER_SMALL_OFF,
+  SPINNER_SMALL_ON,
   SET_LANGUAGES,
   SET_LANGUAGE,
-  SET_NOTIFICATION,
-  SET_PAGE_DATA,
+  SET_SCREEN_NOTIFICATION,
+  SET_PAGE_DATA, SET_MODAL,
+  PREVENT_EXIT_FROM_SCREEN,
+  SET_UNSAVED_CHANGES_MODAL,
+  SET_WINDOW_DIMENSIONS,
+  SET_UPLOADING_PERCENTAGE,
 } from '../actions/types/CommonTypes';
 
-const cookie = new Cookies;
+const cookie = new Cookies();
 
 export const defaultState = {
+  windowDimensions: {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  },
   isLoading: 0,
+  isSmallLoading: null,
   requestDone: false,
   redirectTo: null,
   configUrl: getConfigEnv,
   errorMsg: {},
   languages: [
-    {value: 'dk', label: 'dk'},
     {value: 'de', label: 'de'},
+    {value: 'dk', label: 'dk'},
     {value: 'en', label: 'en'},
     {value: 'nl', label: 'nl'},
     {value: 'pt', label: 'pt'},
@@ -39,22 +50,16 @@ export const defaultState = {
       value: 'at',
     },
     {
-      label: '🇨🇭 Switzerland',
-      full: 'Switzerland',
-      short: 'SWI',
-      value: 'ch',
-    },
-    {
-      label: '🇩🇪 DEU',
-      full: 'Germany',
-      short: 'DEU',
-      value: 'de',
-    },
-    {
       label: '🇩🇰 Denmark',
       full: 'Denmark',
       short: 'DNK',
       value: 'dk',
+    },
+    {
+      label: '🇩🇪 Germany',
+      full: 'Germany',
+      short: 'DEU',
+      value: 'de',
     },
     {
       label: '🇳🇱 Netherlands',
@@ -74,14 +79,32 @@ export const defaultState = {
       short: 'SWE',
       value: 'se',
     },
+    {
+      label: '🇨🇭 Switzerland',
+      full: 'Switzerland',
+      short: 'SWI',
+      value: 'ch',
+    },
   ],
   language: cookie.get('brixelLang') || 'en',
-  notification: null,
+  notification: {},
   setPageData: null,
+  modal: {
+    state: false, title: '', body: '', action: {}, multiActions: [],
+  },
+  preventExitFromScreen: false,
+  unsavedChangesModal: {
+    state: false, link: '',
+  },
+  percentage: 0,
 };
 
 export default handleActions(
   {
+    [SET_WINDOW_DIMENSIONS]: (state, action) => ({
+      ...state,
+      windowDimensions: action.payload,
+    }),
     [SPINNER_ON]: (state) => ({
       ...state,
       isLoading: state.isLoading + 1,
@@ -89,6 +112,14 @@ export default handleActions(
     [SPINNER_OFF]: (state) => ({
       ...state,
       isLoading: state.isLoading - 1,
+    }),
+    [SPINNER_SMALL_ON]: (state, action) => ({
+      ...state,
+      isSmallLoading: action.payload,
+    }),
+    [SPINNER_SMALL_OFF]: (state) => ({
+      ...state,
+      isSmallLoading: null,
     }),
     [REQUEST_DONE]: (state) => ({
       ...state,
@@ -114,13 +145,29 @@ export default handleActions(
       ...state,
       language: action.payload,
     }),
-    [SET_NOTIFICATION]: (state, action) => ({
+    [SET_SCREEN_NOTIFICATION]: (state, action) => ({
       ...state,
       notification: action.payload,
+    }),
+    [SET_MODAL]: (state, action) => ({
+      ...state,
+      modal: action.payload,
     }),
     [SET_PAGE_DATA]: (state, action) => ({
       ...state,
       setPageData: action.payload,
+    }),
+    [PREVENT_EXIT_FROM_SCREEN]: (state, action) => ({
+      ...state,
+      preventExitFromScreen: action.payload,
+    }),
+    [SET_UNSAVED_CHANGES_MODAL]: (state, action) => ({
+      ...state,
+      unsavedChangesModal: action.payload,
+    }),
+    [SET_UPLOADING_PERCENTAGE]: (state, action) => ({
+      ...state,
+      percentage: action.payload,
     }),
   },
   defaultState,

@@ -1,0 +1,126 @@
+#menu-sidebar {
+    left: 0;
+    top: 0;
+    background-color: white;
+    width: 0;
+
+    .admin-info {
+      // border-bottom: 1px solid map_get($lightColor, 400);
+      cursor: pointer;
+
+      img {
+        &.avatar {
+          border-radius: $brd-radius-small;
+          z-index: 10;
+        }
+      }
+    }
+
+    .routes {
+      button {
+        transition: color $default-time $default-easing;
+        &:hover:not(.active) {
+          color: map_get($primaryColor, 400);
+        }
+        &.noRadius {
+          border-radius: 0;
+        }
+        &.active {
+          i {
+            color: map_get($primaryColor, 400);
+          }
+        }
+      }
+
+      .clicked {
+        button {
+          // background-color: map-get($primaryColor, 100);
+          &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 48px;
+            background-color: map-get($primaryColor, 400);
+          }
+        }
+      }
+    }
+
+    .logout {
+      align-self: center;
+    }
+
+  .btnMainMenu {
+    position: absolute;
+    right: $step;
+    top: $step;
+    z-index: 2;
+  }
+
+  .numRecords {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    background: map_get($redColor, 500);
+    color: $brx-white;
+    border-radius: 50%;
+    @include fontStyle(100, 'medium');
+    margin-left: $step;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    @media (min-width: $responsive-medium) {
+      position: static;
+    }
+  }
+}
+
+.sidebarSubmenu {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  top: 0;
+  max-width: 100%;
+  z-index: 4;
+
+  &::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba($brx-white, 0.8);
+    z-index: -1;
+  }
+
+  .sidebarSubmenuContent {
+    height: 100%;
+    width: 100%;
+    padding-left: 0;
+    position: relative;
+    background-color: $brx-white;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: $responsive-medium) {
+  #menu-sidebar {
+    width: 210px;
+    flex: 0 0 210px;
+    height: 100vh;
+    z-index: 5;
+    position: fixed;
+    left: 0;
+  }
+  .sidebarSubmenu {
+    left: 210px;
+    .sidebarSubmenuContent {
+      max-width: 448px;
+    }
+  }
+}
