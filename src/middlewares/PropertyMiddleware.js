@@ -1,5 +1,6 @@
 /* eslint-disable no-case-declarations */
 import get from 'lodash/get';
+import { reset } from 'redux-form';
 import {
   GET_ESTIMATION,
   SET_ESTIMATION,
@@ -70,7 +71,7 @@ const checkCommon = (store) => (next) => (action) => {
             if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
             else store.dispatch({ type: SPINNER_OFF });
           }
-
+          store.dispatch(reset('Property'));
         })
         .catch(() => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });

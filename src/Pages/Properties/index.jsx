@@ -73,7 +73,7 @@ const Properties = (props) => {
           <span className="docubox-title fweight-500 txtDark700">
             <span>Properties</span>
             &nbsp;
-            <span>({countNumProperties()})</span>
+            <span className="notranslate">({countNumProperties()})</span>
           </span>
         </div>
 

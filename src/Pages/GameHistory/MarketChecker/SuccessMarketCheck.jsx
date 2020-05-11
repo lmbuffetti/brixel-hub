@@ -14,6 +14,7 @@ import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import startMarketCheck from '../../../images/MarketCheck/startMarketCheck.svg';
 import simillarMarketCheck from '../../../images/MarketCheck/simillarMarketCheck.svg';
 import moment from 'moment';
+import emptyHouseImg from '../../../images/emptyHub.svg';
 
 function SuccessMarketCheck(props) {
   // PROPS
@@ -63,30 +64,42 @@ function SuccessMarketCheck(props) {
                       </>
                     ) : (
                       <>
-                        <div className="dis-fl-col jc-c a-c">
-                          <h5 className="mb-2 ta-c max-w-fix-376 m-a">
-                            <span>{marketData.similar_properties}</span>&nbsp;
-                            <span>similar properties in your area.</span>
-                          </h5>
-                          <p className="body2 txtDark200 m-a ta-c max-w-fix-376">
-                            <span>Last updated</span>
-                            <span>:&nbsp;{moment(marketData.market_check_date).format('MMMM DD YYYY / HH:mm')}</span>
-                          </p>
-                          <div className="ta-c my-5">
-                            <img className="w-fix-352" src={simillarMarketCheck} alt="Done Market Check" />
-                          </div>
+                        {
+                          get(marketData, 'similar_properties', 0) > 0 ? (
+                            <>
+                              <div className="dis-fl-col jc-c a-c">
+                                <h5 className="mb-2 ta-c max-w-fix-376 m-a">
+                                  <span>{marketData.similar_properties}</span>&nbsp;
+                                  <span>similar properties in your area.</span>
+                                </h5>
+                                <p className="body2 txtDark200 m-a ta-c max-w-fix-376">
+                                  <span>Last updated</span>
+                                  <span>:&nbsp;{moment(marketData.market_check_date).format('MMMM DD YYYY / HH:mm')}</span>
+                                </p>
+                                <div className="ta-c my-5">
+                                  <img className="w-fix-352" src={simillarMarketCheck} alt="Done Market Check" />
+                                </div>
 
-                        </div>
-                        <div>
-                          <BrixelButtonPrimary
-                            rounded
-                            label="Update now"
-                            background={"primary"}
-                            className="min-w-fix-208 m-a"
-                            onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                            rightIcon="arrow-right"
-                          />
-                        </div>
+                              </div>
+                              <div>
+                                <BrixelButtonPrimary
+                                  rounded
+                                  label="Update now"
+                                  background={"primary"}
+                                  className="min-w-fix-208 m-a"
+                                  onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                                  rightIcon="arrow-right"
+                                />
+                              </div>
+                            </>
+                          ) : (
+                            <div className="dis-fl-col a-c jc-c">
+                              <img src={emptyHouseImg} alt="Empty Market Data" />
+                              <h5 className="mt-3 mb-2">Dude. Where's my data?</h5>
+                              <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to calculate your result</p>
+                            </div>
+                          )
+                        }
                       </>
                     )
                   }
