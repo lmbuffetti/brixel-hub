@@ -35,6 +35,7 @@ import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { titleProperty } from '../../utils/titleCreation';
+import queryString from 'query-string';
 
 const LoginSignup = Loadable({
   loader: () => import('../../components/LoginSignup' /* webpackChunkName: "LoginSignup" */),
@@ -371,16 +372,15 @@ function GetStarted(props) {
     document.addEventListener('keyup', function () {
       document.getElementById('getStarted').scrollTo(0, 0);
     }, false);
-    const cookieCompany = cookie.get('brixelStubCompany') || null;
-    let company = get(history, 'location.search', cookieCompany);
-    if (company || cookieCompany) {
-      company = company.replace('?company=', '');
-      const defComp = company || cookieCompany;
+    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
+    const companyCookie = cookie.get('brixelStubCompany') || null;
+    if (get(companyByUrl, 'company', companyCookie)) {
+      const defComp = get(companyByUrl, 'company', companyCookie);
       handleGetActiveSingleCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
-    if (getCurrentUrl !== Questions[0].history) history.push(`/packageFlow/getStarted/${Questions[0].history}`);
+    if (getCurrentUrl !== Questions[0].history || get(companyByUrl, 'company', null)) history.push(`/onBoarding/${Questions[0].history}`);
   }, []);
 
   const validateSlide = (val, name, quest) => {
