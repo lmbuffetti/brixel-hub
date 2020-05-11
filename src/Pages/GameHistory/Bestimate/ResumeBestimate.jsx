@@ -104,11 +104,18 @@ function ResumeBestimate(props) {
             <p className="body2 mt-5 txtDark700">The Bestimate&reg; is your free price indication. <br/> It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.</p>
           </>
         ) : (
-          <div className="dis-fl-col a-c jc-c">
-            <img src={emptyHouseImg} alt="Empty Market Data" />
-            <h5 className="mt-3 mb-2">Dude. Where's my data?</h5>
-            <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to calculate your result</p>
-          </div>
+          <>
+            {
+              get(marketData, 'priceDistribution', null) && (
+                <div className="dis-fl-col a-c jc-c">
+                  <img src={emptyHouseImg} alt="Empty Market Data"/>
+                  <h5 className="mt-3 mb-2">Dude. Where's my data?</h5>
+                  <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to
+                    calculate your result</p>
+                </div>
+              )
+            }
+          </>
         )
 
       }

@@ -15,6 +15,7 @@ import startMarketCheck from '../../../images/MarketCheck/startMarketCheck.svg';
 import simillarMarketCheck from '../../../images/MarketCheck/simillarMarketCheck.svg';
 import moment from 'moment';
 import emptyHouseImg from '../../../images/emptyHub.svg';
+import has from 'lodash/has';
 
 function SuccessMarketCheck(props) {
   // PROPS
@@ -93,11 +94,18 @@ function SuccessMarketCheck(props) {
                               </div>
                             </>
                           ) : (
-                            <div className="dis-fl-col a-c jc-c">
-                              <img src={emptyHouseImg} alt="Empty Market Data" />
-                              <h5 className="mt-3 mb-2">Dude. Where's my data?</h5>
-                              <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to calculate your result</p>
-                            </div>
+                            <>
+                              {
+                                get(marketData, 'similar_properties', -1) > -1 && (
+                                  <div className="dis-fl-col a-c jc-c">
+                                    <img src={emptyHouseImg} alt="Empty Market Data"/>
+                                    <h5 className="mt-3 mb-2">Dude. Where's my data?</h5>
+                                    <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough
+                                      data available to calculate your result</p>
+                                  </div>
+                                )
+                              }
+                            </>
                           )
                         }
                       </>
