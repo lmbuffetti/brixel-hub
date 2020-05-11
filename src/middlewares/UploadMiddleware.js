@@ -28,7 +28,6 @@ import {
   SPINNER_OFF,
   SPINNER_SMALL_ON,
   SPINNER_SMALL_OFF,
-  SET_PSEUDO_SAVED_SCREEN,
 } from '../actions/types/CommonTypes';
 import { ADD_GAME_HISTORY } from '../actions/types/GamificationTypes';
 
@@ -137,7 +136,6 @@ const checkCommon = (store) => (next) => (action) => {
                 floorPlans: plan,
                 smallLoader: smallLoader,
               };
-              store.dispatch({ type: SET_PSEUDO_SAVED_SCREEN });
               store.dispatch({
                 type: SAVE_ACTIVE_SINGLE_PROPERTY,
                 payload: data,
@@ -198,7 +196,6 @@ const checkCommon = (store) => (next) => (action) => {
             data.coverPhoto = arrayImg[0] || {};
           }
           if (action.payload.type === 'photos' && arrayImg.length === 0) data.coverPhoto = null;
-          store.dispatch({ type: SET_PSEUDO_SAVED_SCREEN });
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
