@@ -54,6 +54,7 @@ function ResumeAssessor(props) {
     if (has(getElement, 'label')) {
       label = `<span>${getElement.label}</span><span>,</span>`;
     }
+    console.log(type, value, getElement)
     return {
       label: getElement? getElement.label : null,
       year: year,
@@ -163,6 +164,7 @@ function ResumeAssessor(props) {
             {
               Object.keys(AvgLifeSpan).map((key, i) => (
                 <React.Fragment key={i.toString()}>
+                  {console.log(key, condition[selBaseRenovation])}
                   {
                     has(condition, `[${selBaseRenovation}][${key}]`) && getEvaluationScale(key).label && (
                       <div className='dis-f-md jc-b mb-3 mb-md-4'>

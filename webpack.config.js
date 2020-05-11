@@ -27,7 +27,7 @@ const clientConfig = {
   entry: [
     '@babel/polyfill',
     './src/index.jsx',
-    './src/styles/SCSS/general/main.scss',
+    //'./src/styles/SCSS/general/main.scss',
   ],
   output: {
     path: BUILD_DIR,
@@ -59,11 +59,13 @@ const clientConfig = {
             },
           },
           {
-            loader: 'resolve-url-loader',
+            loader: 'postcss-loader',
             options: {
-              debug: true,
-              root: __dirname,
-            },
+              sourceMap: true,
+              config: {
+                path: 'postcss.config.js'
+              }
+            }
           },
           {
             loader: 'sass-loader',
