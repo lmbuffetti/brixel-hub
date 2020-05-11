@@ -380,7 +380,7 @@ function GetStarted(props) {
       setCookie('brixelStubCompany', defComp);
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
-    if (getCurrentUrl !== Questions[0].history || get(companyByUrl, 'company', null)) history.push(`/onBoarding/${Questions[0].history}`);
+    if (getCurrentUrl !== Questions[0].history || get(companyByUrl, 'company', null)) history.push(`/packageFlow/getStarted/${Questions[0].history}`);
   }, []);
 
   const validateSlide = (val, name, quest) => {
