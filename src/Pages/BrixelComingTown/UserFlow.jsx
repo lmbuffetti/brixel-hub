@@ -343,6 +343,7 @@ function UserFlow(props) {
                                       <div className={`${input.type === 'number' || input.type === 'text' ? 'dis-f a-c' : ''} jc-b w-perc-100`}>
                                         <Field
                                           className={`mb-2 w-perc-100 ${input.className}`}
+                                          limit={input.max}
                                           name={input.name}
                                           label={input.label}
                                           icons={quest.icons}
