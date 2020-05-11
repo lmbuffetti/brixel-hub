@@ -97,7 +97,7 @@ const Assessor = (props) => {
     const valueConstruction = get(formValue, 'properties.building.constructionMaterials', null);
     const valueRoof = get(formValue, 'properties.building.roofType', null);
     const valueFacade = get(formValue, 'properties.building.facade', null);
-    const valueHeating = get(formValue, 'properties.building.energy.heating', null);
+    const valueHeating = get(formValue, 'properties.energy.heating', null);
     dataProp.assessor = {
       date: new Date(),
       construction: extractAssessorCondition(age, valueConstruction, valueRoof, valueFacade, valueHeating),
