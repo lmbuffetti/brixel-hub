@@ -3,12 +3,14 @@ import React, { useEffect, useState }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
 import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import {
   withRouter,
 } from 'react-router-dom';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
+import emptyHouseImg from '../../../images/emptyHub.svg';
 
 function ResumeBestimate(props) {
   // PROPS
@@ -70,34 +72,46 @@ function ResumeBestimate(props) {
 
   return (
     <main id="rewards" className="pb-4 h-perc-100 txtDark700">
-      <h5 className='ta-c mb-5'>We proudly present you your Bestimate&reg;.</h5>
       {
-        condition.higherValue && (
+        has(marketData, 'priceDistribution.chartRangePrice') ? (
           <>
-            <p className="ta-c mb-1 txtDark700">Your property is worth up to</p>
-            <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">CHF {condition.higherValue.toLocaleString('de-CH')}</p>
-            <p className="body2 ta-c mb-5 txtDark700">Based on similar transactions.</p>
-            <p className="fweight-400 ta-c mb-1 txtDark700">Similar properties are currently worth between</p>
-            <p className="ff-mono txtPrimary700 fweight-600 ta-c mb-5">CHF {condition.lowerValue.toLocaleString('de-CH')} - CHF {condition.higherValue.toLocaleString('de-CH')}</p>
-            <p className="fweight-400 ta-c txtDark700">Your Bestimate&reg; compared to local market data</p>
+            <h5 className='ta-c mb-5'>We proudly present you your Bestimate&reg;.</h5>
+            {
+              condition.higherValue && (
+                <>
+                  <p className="ta-c mb-1 txtDark700">Your property is worth up to</p>
+                  <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">CHF {condition.higherValue.toLocaleString('de-CH')}</p>
+                  <p className="body2 ta-c mb-5 txtDark700">Based on similar transactions.</p>
+                  <p className="fweight-400 ta-c mb-1 txtDark700">Similar properties are currently worth between</p>
+                  <p className="ff-mono txtPrimary700 fweight-600 ta-c mb-5">CHF {condition.lowerValue.toLocaleString('de-CH')} - CHF {condition.higherValue.toLocaleString('de-CH')}</p>
+                  <p className="fweight-400 ta-c txtDark700">Your Bestimate&reg; compared to local market data</p>
+                </>
+              )
+            }
+            {
+              has(property, 'estimation.bestimate') && (
+                <div className="dis-f jc-c">
+                  <RangePriceChart
+                    properties={marketData.priceDistribution.chartRangePrice}
+                    type="bestimate"
+                    bestimate={property.estimation.bestimate}
+                    showTopLabel={false}
+                  />
+                </div>
+              )
+            }
+
+            <p className="body2 mt-5 txtDark700">The Bestimate&reg; is your free price indication. <br/> It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.</p>
           </>
-        )
-      }
-      {
-        marketData && marketData.priceDistribution && marketData.priceDistribution.chartRangePrice && property.estimation && property.estimation.bestimate && (
-          <div className="dis-f jc-c">
-            <RangePriceChart
-              properties={marketData.priceDistribution.chartRangePrice}
-              type="bestimate"
-              bestimate={property.estimation.bestimate}
-              showTopLabel={false}
-            />
+        ) : (
+          <div className="dis-fl-col a-c jc-c">
+            <img src={emptyHouseImg} alt="Empty Market Data" />
+            <h5 className="mt-3 mb-2">Dude. Where's my data?</h5>
+            <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to calculate your result</p>
           </div>
         )
+
       }
-
-      <p className="body2 mt-5 txtDark700">The Bestimate&reg; is your free price indication. <br/> It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.</p>
-
     </main>
   );
 }
