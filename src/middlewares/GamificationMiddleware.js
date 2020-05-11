@@ -106,6 +106,8 @@ const checkGamification = (store) => (next) => (action) => {
             }
             if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           });
+      } else {
+        if (redirectTo) window.location.href = redirectTo;
       }
       /*api.gamification.addGameHistory(id, action.payload)
         .then((res) => {
