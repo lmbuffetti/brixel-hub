@@ -216,9 +216,9 @@ const MarketCheck = (props) => {
                                 <MultiStepForm
                                   disableNextBtn={false}
                                   formValue={formValue}
-                                  onClick={() => ''}
                                   input={input}
                                   className={input.className}
+                                  onClick={() => changeStep()}
                                 />
                               )
                             }
