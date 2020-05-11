@@ -15,7 +15,6 @@ import startMarketCheck from '../../../images/MarketCheck/startMarketCheck.svg';
 import simillarMarketCheck from '../../../images/MarketCheck/simillarMarketCheck.svg';
 import moment from 'moment';
 import emptyHouseImg from '../../../images/emptyHub.svg';
-import has from 'lodash/has';
 
 function SuccessMarketCheck(props) {
   // PROPS

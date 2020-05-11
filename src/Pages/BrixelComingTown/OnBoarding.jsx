@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
 import last from 'lodash/last';
+import queryString from 'query-string';
 import {
   withRouter,
 } from 'react-router-dom'
@@ -381,17 +382,16 @@ function OnBoarding(props) {
       document.getElementById('onBoarding').scrollTo(0, 0);
     }, false);
     // Get the company from url or cookie and set on cookie
-    let company = get(history, 'location.search', cookie.get('brixelStubCompany') || null);
+    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
-    if (company || companyCookie) {
-      company = company.replace('?company=', '');
-      const defComp = company || companyCookie;
+    if (get(companyByUrl, 'company', companyCookie)) {
+      const defComp = get(companyByUrl, 'company', companyCookie);
       handleGetActiveSingleCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);
     }
     // on load page redirect all to first step
     const getCurrentUrl = last(history.location.pathname.split('/'));
-    if (getCurrentUrl !== Questions[0].history) history.push(`/onBoarding/${Questions[0].history}`);
+    if (getCurrentUrl !== Questions[0].history || get(companyByUrl, 'company', null)) history.push(`/onBoarding/${Questions[0].history}`);
   }, []);
 
   // Function to update the current index in base of History
