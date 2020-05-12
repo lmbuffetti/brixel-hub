@@ -462,7 +462,6 @@ function GetStarted(props) {
                                       <div className="mb-2 pos-r zIndex4">
                                         <Field
                                           name={input.name}
-                                          label={input.label}
                                           component={() => (
                                             <Maps
                                               formName="GetStarted"
@@ -473,6 +472,7 @@ function GetStarted(props) {
                                               showSearchLocation
                                               showSelectCountry={showCountrySel}
                                               showMap={false}
+                                              inputLabel={input.label}
                                               isShowZip={false}
                                               className="w-perc-100"
                                               selCountry={get(formValue, 'location.countryCode', '')}

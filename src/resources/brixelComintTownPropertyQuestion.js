@@ -131,6 +131,7 @@ export const QuestionsList = (lang, country = 'CH') => {
         {
           name: 'location.address',
           type: 'Map',
+          label: 'Property address',
           validation: [Validation.required],
         },
       ],
