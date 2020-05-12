@@ -83,6 +83,7 @@ function GetStarted(props) {
   const [Questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', '')));
   //const [curCountry, setCurCountry] = useState(null);
   const [showCountrySel, setShowCountrySel] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const countryObj = (curVal) => {
     const getCurrent = country.find((val) => val.value === curVal.toLowerCase() || val.value === curVal.toLowerCase());
@@ -408,8 +409,22 @@ function GetStarted(props) {
   const calcFlowContentHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');
     const flowFooter = document.getElementsByClassName('footerAction');
-    return flowHead[0]  && flowFooter[0] ? flowHead[0].offsetHeight + flowFooter[0].offsetHeight : 0;
+    if (windowDimensions.width <= 768)  {
+      return flowHead[0]  && flowFooter[0] ? flowHead[0].offsetHeight + flowFooter[0].offsetHeight : 0;
+    } else {
+      return flowHead[0] ? flowHead[0].offsetHeight : 0;
+    }
   };
+
+  useEffect(() => {
+    if (!disableNextBtn &&
+      get(Questions, `[${currentIndex}].inputs`, null) &&
+      get(Questions, `[${currentIndex}].successMessage`, null)) {
+        setIsSuccess(true)
+    } else {
+      setIsSuccess(false)
+    }
+  })
 
   return (
     <div className="getStartedWrapper h-perc-100 w-perc-100">
@@ -436,11 +451,12 @@ function GetStarted(props) {
               Questions.map((quest, i) => (
                 <div
                   id={`step-${i}`}
-                  className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
+                  className={`singleStep ${Questions[currentIndex].cardType} ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
                   key={i.toString()}
                   style={{
                     visibility: i !== currentIndex ? 'hidden' : 'visible',
                     opacity: i !== currentIndex ? '0' : '1',
+                    paddingBottom: !quest.vCentered && !quest.background && windowDimensions.width <= 768 && isSuccess  ? '30px' : '',
                   }}
                 >
                   <div className={`subcontainer ${i !== currentIndex ? '' : quest.className || ''}`}>

@@ -77,6 +77,7 @@ function OnBoarding(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loginPage, setLoginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [Questions, setQuestions] = useState(QuestionsList(lang,  get(formValue, 'location.countryCode', 'CH')));
   //const [curCountry, setCurCountry] = useState(null);
 
@@ -412,8 +413,22 @@ function OnBoarding(props) {
   const calcFlowContentHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');
     const flowFooter = document.getElementsByClassName('footerAction');
-    return flowHead[0]  && flowFooter[0] ? flowHead[0].offsetHeight + flowFooter[0].offsetHeight : 0;
+    if (windowDimensions.width <= 768)  {
+      return flowHead[0]  && flowFooter[0] ? flowHead[0].offsetHeight + flowFooter[0].offsetHeight : 0;
+    } else {
+      return flowHead[0] ? flowHead[0].offsetHeight : 0;
+    }
   };
+
+  useEffect(() => {
+    if (!disableNextBtn &&
+      get(Questions, `[${currentIndex}].inputs`, null) &&
+      get(Questions, `[${currentIndex}].successMessage`, null)) {
+        setIsSuccess(true)
+    } else {
+      setIsSuccess(false)
+    }
+  })
 
   const buttonLabel = () => {
     let label;
@@ -453,18 +468,20 @@ function OnBoarding(props) {
           <div
             className="slideMultiStepForm "
             style={
-              {transform: `translate(-${position * 100}%, 0)`, height: windowDimensions.height - calcFlowContentHeight()}
+              {transform: `translate(-${position * 100}%, 0)`,
+              height: windowDimensions.height - calcFlowContentHeight()}
             }
           >
             {
               Questions.map((quest, i) => (
                 <div
                   id={`step-${i}`}
-                  className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
+                  className={`singleStep ${Questions[currentIndex].cardType} ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
                   key={i.toString()}
                   style={{
                     visibility: i !== currentIndex ? 'hidden' : 'visible',
                     opacity: i !== currentIndex ? '0' : '1',
+                    paddingBottom: !quest.vCentered && !quest.background && windowDimensions.width <= 768 && isSuccess  ? '30px' : '',
                   }}
                 >
                   <div className={`subcontainer ${i !== currentIndex ? '' : quest.className || ''}`}>
@@ -811,8 +828,7 @@ function OnBoarding(props) {
           </div>
           <div
             className={
-              `footerAction px-2 py-1 py-md-2 shadow-1dp-top
-                ${disableNextBtn ? 'disabledNext' : `${get(Questions, `[${currentIndex}].inputs`, null) ? 'successNext' : 'normStep'}`}`
+              `footerAction px-2 py-1 py-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${get(Questions, `[${currentIndex}].inputs`, null) ? 'successNext' : 'normStep'}`}`
             }
           >
 
