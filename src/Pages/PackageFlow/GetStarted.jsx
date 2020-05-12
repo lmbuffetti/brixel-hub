@@ -384,6 +384,34 @@ function GetStarted(props) {
     if (getCurrentUrl !== Questions[0].history || get(companyByUrl, 'company', null)) history.push(`/packageFlow/getStarted/${Questions[0].history}`);
   }, []);
 
+  useEffect(() => {
+    if (typeof formValue.propertyType !== 'undefined' && get(Questions, `[${currentIndex}].successMessage`, null)) {
+      let newPosition = position;
+      setDisableNextBtn(true);
+      newPosition = position + 1;
+      setPosition(newPosition);
+      setCurrentIndex(newPosition);
+      const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
+      setProgressBar(newPosition * 100 / questInputs.length);
+      setTimeout(() => {
+        const getCurStep = document.getElementById(`step-${newPosition}`);
+        if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+          getCurStep.querySelector('input[type="number"]').focus();
+        }
+        else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+          getCurStep.querySelector('input[type="text"]').focus();
+        }
+        if (document.getElementById('getStarted')) {
+          document.getElementById('getStarted').scrollTo(0, 0);
+        }
+      }, 100);
+      if (document.getElementById('getStarted')) {
+        document.getElementById('getStarted').scrollTo(0, 0);
+      }
+      history.push(`/packageFlow/getStarted/${Questions[newPosition].history}`);
+    };
+  }, [formValue.propertyType]);
+
   const validateSlide = (val, name, quest) => {
     changeFieldValue(name, val);
     checkValid();
@@ -478,7 +506,6 @@ function GetStarted(props) {
                                       <div className="mb-2 pos-r zIndex4">
                                         <Field
                                           name={input.name}
-                                          label={input.label}
                                           component={() => (
                                             <Maps
                                               formName="GetStarted"
@@ -489,6 +516,7 @@ function GetStarted(props) {
                                               showSearchLocation
                                               showSelectCountry={showCountrySel}
                                               showMap={false}
+                                              inputLabel={input.label}
                                               isShowZip={false}
                                               className="w-perc-100"
                                               selCountry={get(formValue, 'location.countryCode', '')}

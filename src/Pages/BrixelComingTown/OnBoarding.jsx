@@ -503,7 +503,6 @@ function OnBoarding(props) {
                                       <div className="mb-4 pos-r zIndex1">
                                         <Field
                                           name={input.name}
-                                          label={input.label}
                                           component={() => (
                                             <Maps
                                               zoom={14}
@@ -513,6 +512,7 @@ function OnBoarding(props) {
                                               showSearchLocation
                                               showSelectCountry={true}
                                               showMap={true}
+                                              inputLabel={input.label}
                                               isShowZip={false}
                                               className="w-perc-100"
                                               selCountry={get(formValue, 'location.countryCode', '')}
