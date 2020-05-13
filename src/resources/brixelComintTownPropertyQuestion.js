@@ -91,7 +91,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       inputs: [
         {
           className: 'max-w-fix-md-232',
-          label: '',
+          label: 'Net living space',
           name: 'livingSpace',
           type: 'number',
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],

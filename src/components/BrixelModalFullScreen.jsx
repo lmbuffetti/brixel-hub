@@ -50,7 +50,7 @@ const BrixelModalFullScreen = (props) => {
             </div>
           </div>
           <div
-            className={`footerAction p-1 p-md-2 shadow-1dp-top normStep`}
+            className="footerAction max-w-fix-760 m-a p-1 p-md-2 shadow-1dp-top normStep"
           >
             <div className="container pos-r">
               <div className={`w-perc-100 a-c dis-fl-row jc-b m-a jc-c`}>
