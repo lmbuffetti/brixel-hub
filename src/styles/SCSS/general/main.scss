@@ -263,10 +263,5 @@ header {
   line-height: initial;
 }
 //todo styleguide
-#multiStepForm .brixel-input-step .wrap-brixel-input-step.fullWidth input {
-  @include fontStyle(600);
-}
-
-::-ms-clear {
-  display: none;
+#multiStepForm {
 }

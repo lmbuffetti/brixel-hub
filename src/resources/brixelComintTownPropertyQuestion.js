@@ -110,7 +110,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: "constructionYear",
       inputs: [
         {
-          label: '',
+          label: "Construction year",
           name: 'constructionYear',
           type: 'number',
           classNameBox: 'brdRadius max-w-fix-md-232',

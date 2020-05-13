@@ -170,10 +170,16 @@
         /*todo styleguide*/
         label .textLabel {
           margin-left: $step * 2;
-
-          @media (min-width: $responsive-medium) {
-            @include fontStyle(500);
-          }
+          @include fontStyle(500);
+        }
+      }
+      .brixel-input-step .wrap-brixel-input-step.fullWidth input {
+        @include fontStyle(600);
+      }
+      .brixel-text-input-container {
+        .brixel-text-input {
+          @include fontStyle(500);
+          height: 48px;
         }
       }
     }

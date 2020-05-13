@@ -529,9 +529,9 @@ function OnBoarding(props) {
                                       </div>
                                     </>
                                   ) : (
-                                    <div className="dis-f a-c jc-b">
+                                    <div className="dis-f a-b jc-b">
                                       <div
-                                        className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}
+                                        className={`${input.classNameBox || ''} dis-f a-b jc-b w-perc-100`}
                                         tabIndex="-1"
                                       >
                                         <Field
@@ -564,22 +564,24 @@ function OnBoarding(props) {
                                         />
                                         {
                                           input.unit && (
-                                            <span className="pl-2">{input.unit}</span>
+                                            <span className="pl-2 h-fix-48 dis-f a-c">{input.unit}</span>
                                           )
                                         }
                                       </div>
                                       {
                                         quest.inputs.length === 1 &&
                                         (input.type === 'number' || input.type === 'text') && (
-                                          <BrixelButtonPrimary
-                                            rounded
-                                            label="Ok"
-                                            className={`ml-2 ${hideOnDesk}`}
-                                            background="green"
-                                            onClick={() => changeStep()}
-                                            disabled={disableNextBtn}
-                                            type="submit"
-                                          />
+                                          <div className="h-fix-48 dis-f a-c">
+                                            <BrixelButtonPrimary
+                                              rounded
+                                              label="Ok"
+                                              className={`ml-2 ${hideOnDesk}`}
+                                              background="green"
+                                              onClick={() => changeStep()}
+                                              disabled={disableNextBtn}
+                                              type="submit"
+                                            />
+                                          </div>
                                         )
                                       }
                                     </div>
