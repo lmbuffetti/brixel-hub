@@ -20,6 +20,7 @@ import queryString from 'query-string';
 import { setCookie } from '../../utils/helpers';
 import Cookies from 'universal-cookie';
 import { getGamegroup } from '../../actions/GamificationActions';
+import { setLanguage } from '../../actions/CommonActions';
 
 const cookie = new Cookies();
 
@@ -27,11 +28,13 @@ const GetStarted = (props) => {
   // PROPS
   const {
     changeFieldValue,
+    company,
     errorValue,
     formValue,
     lang,
     handleCreateActiveSingleProperty,
     handleGetActiveSingleCompany,
+    handleSetLanguage,
     handleGetGamegroup,
     initialValue,
     startForm,
@@ -151,6 +154,15 @@ const GetStarted = (props) => {
         changeFieldValue('pageTitle', pageTitle);
     }
   }, [formValue]);
+
+  useEffect(() => {
+    const cookieLang = cookie.get('brixelLang');
+    if (company.languageCode && !cookieLang) {
+      handleSetLanguage(company.languageCode.toLowerCase());
+      const compLang = company.languageCode.toLowerCase();
+      setQuestions(QuestionsList(compLang, get(company, 'countryCode', 'CH')));
+    }
+  }, [company]);
 
   const valideConditionInput = (quest) => {
     let isVerified = true;
@@ -367,12 +379,13 @@ GetStarted.propTypes = {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+  company: get(state, 'companies.activeSingleCompany', {}),
   errorValue: get(state, 'form.GetStarted.syncErrors', {}),
   formValue: get(state, 'form.GetStarted.values', {}),
   startForm: get(state, 'form.GetStarted', null),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
-  lang: get(state, 'common.language', {}),
+  lang: get(state, 'common.language', 'en'),
   packagesProperty: get(state, 'property.packagesProperty', []),
 });
 
@@ -385,6 +398,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
   handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
+  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
 });
 
