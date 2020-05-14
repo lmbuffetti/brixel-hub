@@ -130,7 +130,7 @@ const GetStarted = (props) => {
   };
 
   useEffect(() => {
-    if (formValue.id) {
+    if (formValue) {
       let newQuest = [];
       QuestionsList('en').map((quest) => {
         if (quest.condition) {
@@ -211,7 +211,6 @@ const GetStarted = (props) => {
       //console.log(quest);
     }
     if (act === 'value') return isValid && isNotEmpty;
-    console.log(isValid);
     return isValid;
   };
 
@@ -227,13 +226,13 @@ const GetStarted = (props) => {
   return (
     <div id="bodyModalWrapper">
       {
-        get(QuestionsList, `[${currentIndex}].inputs`, null) && (
+        get(quest, `inputs`, null) && (
           <BrixelProgressBar
             large
             saturation={400}
             barBackground="Light"
             backgroundSaturation={300}
-            progressValue={30}
+            progressValue={currentIndex * 5 / 100}
           />
         )
       }
@@ -337,7 +336,7 @@ const GetStarted = (props) => {
                   )
                 }
                 {
-                  checkValidateField() && (
+                  checkValidateField() && quest.successMessage && (
                     <div className="txtGreen700 ta-r ml-a pr-1 textSuccess">
                       {quest.successMessage}
                       <BrixelIcon icon="check" className="ml-1" />

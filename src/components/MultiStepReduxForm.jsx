@@ -29,7 +29,6 @@ const MultiStepForm = (props) => {
   };
 
   const hideOnDesk = getBrowserPlatform().indexOf('desk') !== -1 ? 'hide-desktop' : 'dis-b-mobile';
-  console.log(formValue, formName, get(formValue, 'location.countryCode', ''))
   return (
     <div>
       {input.title && ( <h6 className="mt-5 mb-3">{input.title}</h6> ) }

@@ -3,6 +3,7 @@ import { translateTo } from './translation';
 
 export const titleProperty = (location, propertyType, lang, formValue) => {
   const getCountry = get(location, 'countryCode', null);
+  console.log(location, propertyType, lang, formValue);
   let adjective = aptAdjective;
   let pageTitle;
   let translatedPropertyType = translateTo(lang, propertyType);
