@@ -3,7 +3,7 @@
 import React  from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reset, Field } from 'redux-form';
+import { change, reset, Field, Form } from 'redux-form';
 import get from 'lodash/get';
 // import set from 'lodash/set';
 import { bindActionCreators, compose } from 'redux';
@@ -12,7 +12,7 @@ import Loadable from 'react-loadable';
 // import { BrixelButtonIcon, BrixelIcon } from '@brixel/brixel-components';
 import LoadingSimple from '../../components/LoadingSimple';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelButtonIcon, ReduxField, BrixelInputText } from '@brixel/brixel-components';
 
 const Maps = Loadable({
   loader: () => import('../../components/Map/Maps' /* webpackChunkName: "Maps" */),
@@ -188,42 +188,46 @@ const FactsQuestion = (props) => {
                             className={`${input.classNameBox || ''} dis-fl-col w-perc-100`}
                             tabIndex="-1"
                           >
-                            {input.deactivable ? input.deactivable.toString() : ''}
-
-
-                            <Field
-                              className={input.className || ''}
-                              inputClassName={input.inputClassName || ''}
-                              isHorizontal={input.isHorizontal}
-                              name={input.name}
-                              label={input.label}
-                              labelLeft={input.labelLeft}
-                              icons={input.icons}
+                            <ReduxField
                               component={input.component}
-                              fluid={false}
-                              options={input.options}
-                              validate={input.validation}
-                              type={input.type}
-                              step={+input.step}
-                              min={input.min}
-                              formatText={input.formatText}
-                              deactivable={typeof input.deactivable !== 'undefined' ? input.deactivable : true}
-                              placeholder={input.placeholder || ''}
+                              design={{
+                                className: input.className || '',
+                                compact: input.compact,
+                                fluid: false,
+                                formatText: input.formatText,
+                                inputClassName: input.inputClassName || '',
+                                isHorizontal: input.isHorizontal,
+                              }}
+                              form="Property"
+                              input={{
+                                deactivable: typeof input.deactivable !== 'undefined' ? input.deactivable : true,
+                                name: input.name,
+                                placeholder: input.placeholder || '',
+                                options: input.options,
+                                type: input.type || '',
+                                validate: input.validation,
+                                unit: input.unit,
+                              }}
+                              inputFormat={{
+                                formatType: input.formatType,
+                                maxLengthNum: input.maxLenghtNum || null,
+                                min: input.min,
+                                minLenghtNum:input.minLenghtNum || null,
+                                step: +input.step,
+                              }}
+                              labels={{
+                                icons: input.icons,
+                                label: input.label,
+                                labelLeft: input.labelLeft,
+                              }}
                               meta={{
                                 dirty: get(formValue, input.name, null) !== null,
                                 invalid: get(errorValue, input.name, true) !== true && get(errorValue, input.name, true) !== 'Mark Required',
+                                message: {
+                                  help: null,
+                                  error: get(errorValue, input.name, 'Invalid Input'),
+                                }
                               }}
-                              //modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
-                              message={{
-                                help: null,
-                                error: get(errorValue, input.name, 'Invalid Input'),
-                              }}
-                              minLenghtNum={input.minLenghtNum || null}
-                              maxLengthNum={input.maxLenghtNum || null}
-                              format={input.format}
-                              normalize={input.normalize}
-                              unit={input.unit}
-                              compact={input.compact}
                             />
                           </div>
                         </div>

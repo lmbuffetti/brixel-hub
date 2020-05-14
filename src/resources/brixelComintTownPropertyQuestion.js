@@ -1,11 +1,18 @@
-import { BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, Validation } from '@brixel/brixel-components';
-import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
-import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
+import {
+  BrixelRadioButton,
+  BrixelInputStepNumber,
+  BrixelInputText,
+  Validation,
+  ReduxField,
+} from '@brixel/brixel-components';
 import Cat from '../images/BrxielComingTown/firstAwards.svg';
-// import SaleProperty from '../images/BrxielComingTown/createProfile.svg';
+import Maps from '../components/Map/Maps';
+import LoginSignup from '../components/LoginSignup';
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
+import ResumeCard from '../components/ResumeCard';
 import { translateTo } from '../utils/translation';
+import React from 'react';
 
 export const maxLengthNum = (val, name) => (value) => {
 
@@ -36,43 +43,41 @@ export const QuestionsList = (lang, country = 'CH') => {
   let getHomeBase = {name: 'Homebase', points: 100};
   return [
     {
-      className: 'radioBtnImg',
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
       title: translateTo(lang, "What type of property do you have?"),
-      component: BrixelRadioButton,
       history: "propertyType",
-      cardType: "propertyType",
-      icons: true,
       vCentered: true,
       inputs: [{
+        component: BrixelRadioButton,
         className: 'radioBtnImg max-w-fix-md-464',
+        pdClass: 'py-2 py-md-3 px-1',
         label: '',
         name: 'propertyType',
         validation: [Validation.required],
-      }],
-      options: [
-        {
-          label: translateTo(lang, "Apartment"),
-          value: "Apartment",
-          img: apartment,
-        },
-        {
-          label: translateTo(lang, "House"),
-          value: "House",
-          img: house,
+        icons: true,
+        options: [
+          {
+            label: translateTo(lang, "Apartment"),
+            value: "Apartment",
+            img: apartment,
+          },
+          {
+            label: translateTo(lang, "House"),
+            value: "House",
+            img: house,
 
-        }
-      ],
+          }
+        ],
+      }],
       successMessage: translateTo(lang, 'Ok. Got it.')
     },
     {
       title: translateTo(lang, "How many rooms?"),
-      component: BrixelInputStepNumber,
       history: "allRooms",
       cardType: "allRooms",
-      className: '',
       inputs: [
         {
+          component: BrixelInputStepNumber,
           classNameBox: 'max-w-fix-md-232',
           label: '',
           name: 'bedrooms',
@@ -85,11 +90,11 @@ export const QuestionsList = (lang, country = 'CH') => {
     },
     {
       title: translateTo(lang, "What is the living space size?"),
-      component: BrixelInputText,
       history: "livingSpace",
       cardType: "livingSpace",
       inputs: [
         {
+          component: BrixelInputText,
           className: 'max-w-fix-md-232',
           label: '',
           name: 'livingSpace',
@@ -105,11 +110,11 @@ export const QuestionsList = (lang, country = 'CH') => {
     },
     {
       title: translateTo(lang, "What is the construction year?"),
-      component: BrixelInputText,
       history: "constructionYear",
       cardType: "constructionYear",
       inputs: [
         {
+          component: BrixelInputText,
           label: '',
           name: 'constructionYear',
           type: 'number',
@@ -124,13 +129,19 @@ export const QuestionsList = (lang, country = 'CH') => {
     },
     {
       title: translateTo(lang, "What is the location?"),
-      component: "Map",
       history: "locationInput",
       cardType: "locationInput",
       inputs: [
         {
-          name: 'location.address',
+          component: Maps,
+          showMap: true,
+          name: 'location',
           type: 'Map',
+          mapOptions: {
+            showMap: true,
+            showSearchLocation: true,
+            showSelectCountry: true,
+          },
           validation: [Validation.required],
         },
       ],
@@ -140,10 +151,9 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, "Great, Your property was created!") + " 🎉",
       history: "resume",
       className: 'willAnimate',
-      cardType: 'Resume',
-      imgApartment: resumeApartment,
+      cardType: 'loadComponent',
+      component: ResumeCard,
       background: 'bgRed100',
-      imgHouse: resumeHouse,
     },
     {
       conditions: [{
@@ -154,19 +164,21 @@ export const QuestionsList = (lang, country = 'CH') => {
       subtitle: translateTo(lang, `You earned the <span class="txtGreen400">"${getHomeBase.name}"</span> Award and +${getHomeBase.points} Brixels.`),
       history: "rewardsStep",
       className: 'willAnimate',
-      cardType: 'RewardsStep',
+      cardType: 'card',
       background: 'bgPrimary100',
       img: Cat,
     },
     {
-      conditions: [{
-        name: 'owner',
-        value: null,
-      }],
+      component: LoginSignup,
       signupTitle: translateTo(lang, "Create your profile to save your progress."),
       loginTitle: translateTo(lang, "Login to your profile to save your progress."),
       history: "createProfile",
       cardType: 'createProfile',
+      inputs: [{
+        component: LoginSignup,
+        name: 'owner',
+        validation: [Validation.required],
+      }],
     },
   ];
 }

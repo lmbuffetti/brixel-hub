@@ -70,6 +70,9 @@ const clientConfig = {
           {
             loader: 'sass-loader',
             options: {
+              sassOptions: {
+                outputStyle: 'compressed',
+              },
               sourceMap: devMode,
             },
           },
