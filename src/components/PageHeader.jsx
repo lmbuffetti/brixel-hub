@@ -30,6 +30,7 @@ function PageHeader(props) {
     lang, languages, loggedInUser, userAwards, brixelPoints,
     handleSetLanguage, history, handleGetGame, property, gameHistory,
   } = props;
+
   // STATE
   const [currentLang, setCurrentLang] = useState(lang);
   const [dropLang, setDropLang] = useState([]);
@@ -173,12 +174,30 @@ function PageHeader(props) {
                 </div>
               ) : (
                 <div className="ml-2">
-                  <AvatarImage
-                    avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
-                    name={loggedInUser.user.name}
-                    size={40}
-                    onClick={() => avatarAction()}
-                  />
+                  {
+                    !history.location.pathname.includes('packageFlow') && (
+                      <AvatarImage
+                        avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
+                        name={loggedInUser.user.name}
+                        size={40}
+                        onClick={() => avatarAction()}
+                      />
+                    )
+                  }
+                  {
+                    history.location.pathname.includes('packageFlow') && (
+                      <BrixelButtonIcon
+                        className="shadow-2dp"
+                        noBorder
+                        background="white"
+                        saturation={0}
+                        color="dark"
+                        saturationTxt={700}
+                        icon="close-small"
+                        onClick={() => history.push(`/`)}
+                      />
+                    )
+                  }
                 </div>
               )
             }
