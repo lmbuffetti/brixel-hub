@@ -124,6 +124,21 @@ const GetStarted = (props) => {
     setCurrentIndex(newIndex);
     // setPosition(newIndex);
     setQuest(questions[newIndex]);
+    setTimeout(() => {
+      const getCurStep = document.getElementById(`step-${newIndex}`);
+      if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+        getCurStep.querySelector('input[type="number"]').focus();
+      }
+      else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+        getCurStep.querySelector('input[type="text"]').focus();
+      }
+      if (document.getElementById('getStarted')) {
+        document.getElementById('getStarted').scrollTo(0, 0);
+      }
+    }, 100);
+    if (document.getElementById('getStarted')) {
+      document.getElementById('getStarted').scrollTo(0, 0);
+    }
     if (questions[newIndex].history) {
       history.push(`/packageFlow/getStarted/${questions[newIndex].history}`);
     }
@@ -250,7 +265,7 @@ const GetStarted = (props) => {
               <div className="subcontainer m-a">
                 {
                   quest.inputs && (
-                    <div>
+                    <div id={`step-${currentIndex}`}>
                       {
                         quest.titleGreen && (
                           <h3 className="txtGreen400">{quest.titleGreen}</h3>
