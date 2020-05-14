@@ -1,14 +1,19 @@
 import React from 'react';
 import { Element } from 'react-faux-dom';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import * as d3 from 'd3';
 import PropTypes from 'prop-types';
 import first from 'lodash/first';
 import last from 'lodash/last';
+import get from 'lodash/get';
 import { formatNum } from '../../utils/helpers';
+import { generalTranslate } from '../../utils/translation';
 
 function RangePriceChart(props) {
   const {
-    properties, type, bestimate, title, showTopLabel, subtitle,
+    properties, type, bestimate, title, showTopLabel, subtitle, lang,
   } = props;
   const cfg = {
     barTransitionDuration: 800,
@@ -257,10 +262,10 @@ function RangePriceChart(props) {
             let titleTooltip = '';
             switch (type) {
               case 'priceRange':
-                titleTooltip = 'Mittlerer Preis';
+                titleTooltip = generalTranslate(lang, 'Median price');
                 break;
               case 'priceM2':
-                titleTooltip = 'Mittlerer Preis/m2';
+                titleTooltip = generalTranslate(lang, 'Median price/m2');
                 break;
               default:
                 titleTooltip = '';
@@ -336,6 +341,7 @@ RangePriceChart.propTypes = {
   subtitle: PropTypes.bool,
   title: PropTypes.string,
   type: PropTypes.string.isRequired,
+  lang: PropTypes.string,
 };
 
 RangePriceChart.defaultProps = {
@@ -345,4 +351,11 @@ RangePriceChart.defaultProps = {
   title: null,
 };
 
-export default RangePriceChart;
+const mapStateToProps = (state) => ({
+  lang: get(state, 'common.language', {}),
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, null),
+)(RangePriceChart);
