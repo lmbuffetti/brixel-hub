@@ -61,7 +61,7 @@ const HomeDashboard = (props) => {
   const getFact = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    if (windowDimensions && windowDimensions.width > 768 && getFact() === 'property') {
+    if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'property') {
       history.push({pathname: `/${propID}/property/facts` });
     }
   }, [windowDimensions, getFact()]);

@@ -62,8 +62,8 @@ const FactsRewards = (props) => {
             classBackground="ov-h brdRadius"
             goalValue={totalComplete > 9 && totalComplete < 70 ? 70 : null}
             showGoalValue={totalComplete > 9}
-            large={window.innerWidth >= 768}
-            small={window.innerWidth < 768}
+            large={window.innerWidth >= 1024}
+            small={window.innerWidth < 1024}
           />
           <p className="ff-mono body2 txtPrimary700 mt-1"><span className="notranslate">{totalComplete}%</span>&nbsp;<span>completed</span></p>
         </div>

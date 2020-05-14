@@ -5,6 +5,18 @@ $iphone5: 320px;
 // GENERAL
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 @import '~@brixel/brixel-configuration-partner/src/Variables';
+
+$grid-breakpoints: (
+  xxs: 0,
+  xs: 420,
+  sm: 590px,
+  md: 1025px,
+  lg: 1025px,
+  xl: 1440px,
+  xxl: 1920px,
+);
+$responsive-medium: map_get($grid-breakpoints, md);
+
 @import '~@brixel/brixel-components/src/styles/SCSS/general/main.scss';
 
 // DASHBOARD STUFF
@@ -263,10 +275,21 @@ header {
   line-height: initial;
 }
 //todo styleguide
-#multiStepForm .brixel-input-step .wrap-brixel-input-step.fullWidth input {
-  @include fontStyle(600);
-}
-
-::-ms-clear {
-  display: none;
+#multiStepForm {
+  .brixel-radio-button-icon.radioBtnImg {
+    /*todo styleguide*/
+    label .textLabel {
+      margin-left: $step * 2;
+      @include fontStyle(500);
+    }
+  }
+  .brixel-input-step .wrap-brixel-input-step.fullWidth input {
+    @include fontStyle(600);
+  }
+  .brixel-text-input-container {
+    .brixel-text-input {
+      @include fontStyle(500);
+      height: 48px;
+    }
+  }
 }

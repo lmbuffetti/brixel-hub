@@ -77,6 +77,7 @@ function OnBoarding(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loginPage, setLoginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [Questions, setQuestions] = useState(QuestionsList(lang,  get(formValue, 'location.countryCode', 'CH')));
   //const [curCountry, setCurCountry] = useState(null);
 
@@ -412,8 +413,22 @@ function OnBoarding(props) {
   const calcFlowContentHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');
     const flowFooter = document.getElementsByClassName('footerAction');
-    return flowHead[0]  && flowFooter[0] ? flowHead[0].offsetHeight + flowFooter[0].offsetHeight : 0;
+    if (windowDimensions.width <= 1024)  {
+      return flowHead[0]  && flowFooter[0] ? flowHead[0].offsetHeight + flowFooter[0].offsetHeight : 0;
+    } else {
+      return flowHead[0] ? flowHead[0].offsetHeight : 0;
+    }
   };
+
+  useEffect(() => {
+    if (!disableNextBtn &&
+      get(Questions, `[${currentIndex}].inputs`, null) &&
+      get(Questions, `[${currentIndex}].successMessage`, null)) {
+        setIsSuccess(true)
+    } else {
+      setIsSuccess(false)
+    }
+  })
 
   const buttonLabel = () => {
     let label;
@@ -453,18 +468,20 @@ function OnBoarding(props) {
           <div
             className="slideMultiStepForm "
             style={
-              {transform: `translate(-${position * 100}%, 0)`, height: windowDimensions.height - calcFlowContentHeight()}
+              {transform: `translate(-${position * 100}%, 0)`,
+              height: windowDimensions.height - calcFlowContentHeight()}
             }
           >
             {
               Questions.map((quest, i) => (
                 <div
                   id={`step-${i}`}
-                  className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
+                  className={`singleStep ${Questions[currentIndex].cardType} ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''}`}
                   key={i.toString()}
                   style={{
                     visibility: i !== currentIndex ? 'hidden' : 'visible',
                     opacity: i !== currentIndex ? '0' : '1',
+                    paddingBottom: !quest.vCentered && !quest.background && windowDimensions.width <= 1024 && isSuccess  ? '30px' : '',
                   }}
                 >
                   <div className={`subcontainer ${i !== currentIndex ? '' : quest.className || ''}`}>
@@ -486,7 +503,6 @@ function OnBoarding(props) {
                                       <div className="mb-4 pos-r zIndex1">
                                         <Field
                                           name={input.name}
-                                          label={input.label}
                                           component={() => (
                                             <Maps
                                               zoom={14}
@@ -496,6 +512,7 @@ function OnBoarding(props) {
                                               showSearchLocation
                                               showSelectCountry={true}
                                               showMap={true}
+                                              inputLabel={input.label}
                                               isShowZip={false}
                                               className="w-perc-100"
                                               selCountry={get(formValue, 'location.countryCode', '')}
@@ -512,9 +529,9 @@ function OnBoarding(props) {
                                       </div>
                                     </>
                                   ) : (
-                                    <div className="dis-f a-c jc-b">
+                                    <div className="dis-f a-b jc-b">
                                       <div
-                                        className={`${input.classNameBox || ''} dis-f a-c jc-b w-perc-100`}
+                                        className={`${input.classNameBox || ''} dis-f a-b jc-b w-perc-100`}
                                         tabIndex="-1"
                                       >
                                         <Field
@@ -547,22 +564,24 @@ function OnBoarding(props) {
                                         />
                                         {
                                           input.unit && (
-                                            <span className="pl-2">{input.unit}</span>
+                                            <span className="pl-2 h-fix-48 dis-f a-c">{input.unit}</span>
                                           )
                                         }
                                       </div>
                                       {
                                         quest.inputs.length === 1 &&
                                         (input.type === 'number' || input.type === 'text') && (
-                                          <BrixelButtonPrimary
-                                            rounded
-                                            label="Ok"
-                                            className={`ml-2 ${hideOnDesk}`}
-                                            background="green"
-                                            onClick={() => changeStep()}
-                                            disabled={disableNextBtn}
-                                            type="submit"
-                                          />
+                                          <div className="h-fix-48 dis-f a-c">
+                                            <BrixelButtonPrimary
+                                              rounded
+                                              label="Ok"
+                                              className={`ml-2 ${hideOnDesk}`}
+                                              background="green"
+                                              onClick={() => changeStep()}
+                                              disabled={disableNextBtn}
+                                              type="submit"
+                                            />
+                                          </div>
                                         )
                                       }
                                     </div>
@@ -811,8 +830,7 @@ function OnBoarding(props) {
           </div>
           <div
             className={
-              `footerAction px-2 py-1 py-md-2 shadow-1dp-top
-                ${disableNextBtn ? 'disabledNext' : `${get(Questions, `[${currentIndex}].inputs`, null) ? 'successNext' : 'normStep'}`}`
+              `footerAction px-2 py-1 py-md-2 shadow-1dp-top ${disableNextBtn ? 'disabledNext' : `${get(Questions, `[${currentIndex}].inputs`, null) ? 'successNext' : 'normStep'}`}`
             }
           >
 

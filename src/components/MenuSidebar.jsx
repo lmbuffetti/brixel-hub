@@ -103,7 +103,7 @@ const MenuSidebar = (props) => {
       <header className={`sideHeader dis-fl-col a-c jc-fs h-perc-100`} id="menu-sidebar">
         <div className={`w-perc-100 h-perc-100 pos-r`}>
           { /* SECTION SIDEBAR MENU DESKTOP */ }
-          <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite shadow-2dp ${levelUrl.length > 3 && windowDimensions.width <= 768 ? 'zIndex1' : 'zIndex7'}`}>
+          <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite shadow-2dp ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
             <div className="hide dis-b-md pl-3 pr-2">
               <div className="h-fix-64 dis-f a-c">
                 <img className="pos-r w-fix-56" src={logo} alt="Brixel Logo" id="logo" />
@@ -132,7 +132,7 @@ const MenuSidebar = (props) => {
               </div>
             </div>
             <hr className="my-2 mx-1 lighter" />
-            <div className={`brixelNavMenu ${windowDimensions.width <= 768 ? 'shadow-3dp' : ''}`}>
+            <div className={`brixelNavMenu ${windowDimensions.width <= 1024 ? 'shadow-3dp' : ''}`}>
               <BrixelTabs
                 classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
                 classNameUl="zIndex4"
@@ -141,10 +141,10 @@ const MenuSidebar = (props) => {
                 clicksList={firstRoutes.concat(secondRoutes).map((item)  => item["name"])}
                 classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
                 activeTab={activeMenu || checkActiveTab()}
-                fullWidth={windowDimensions.width <= 768}
+                fullWidth={windowDimensions.width <= 1024}
                 onClick={(val) => onTabClick(val)}
                 showFull={false}
-                vertical={windowDimensions.width > 768}
+                vertical={windowDimensions.width > 1024}
                 classNameIcon="fsize-600 fsize-md-400 txtLight300"
                 classNameLabel="fsize-300 txtDark500 dis-f a-c"
               />

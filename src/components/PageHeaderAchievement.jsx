@@ -21,8 +21,8 @@ function PageHeaderAchievement(props) {
   const rewardType = last(get(history, 'location.pathname', '').split('/'));
 
   return (
-    <header className="shadow-1dp">
-      <div className="container p-1 p-md-2 dis-f jc-b a-c">
+    <header className="max-w-fix-760 m-a">
+      <div className="container p-1 p-md-2 dis-f jc-b a-c pageHeaderAchievement">
         <div className="dis-f a-c">
           <BrixelIcon
             rounded

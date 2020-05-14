@@ -1,10 +1,6 @@
-import {
-  BrixelRadioButton,
-  BrixelInputStepNumber,
-  BrixelInputText,
-  Validation,
-  ReduxField,
-} from '@brixel/brixel-components';
+import { BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, Validation } from '@brixel/brixel-components';
+import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
+import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 import Cat from '../images/BrxielComingTown/firstAwards.svg';
 import Maps from '../components/Map/Maps';
 import LoginSignup from '../components/LoginSignup';
@@ -96,7 +92,7 @@ export const QuestionsList = (lang, country = 'CH') => {
         {
           component: BrixelInputText,
           className: 'max-w-fix-md-232',
-          label: '',
+          label: 'Net living space',
           name: 'livingSpace',
           type: 'number',
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
@@ -115,7 +111,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       inputs: [
         {
           component: BrixelInputText,
-          label: '',
+          label: 'Construction year',
           name: 'constructionYear',
           type: 'number',
           classNameBox: 'brdRadius max-w-fix-md-232',
@@ -154,6 +150,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: 'loadComponent',
       component: ResumeCard,
       background: 'bgRed100',
+      imgHouse: resumeHouse,
     },
     {
       conditions: [{
