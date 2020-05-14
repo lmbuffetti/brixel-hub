@@ -95,7 +95,6 @@ export const QuestionsList = (lang, country = 'CH') => {
           name: 'livingSpace',
           type: 'number',
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
-          help: translateTo(lang, 'Use net living space'),
           unit: 'm2',
           classNameBox: 'brdRadius max-w-fix-md-288',
           placeholder: translateTo(lang, 'e.g. 120'),
