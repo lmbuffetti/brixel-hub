@@ -20,8 +20,8 @@ export const AchievementsModalDetails = () => {
                 color="Green"
                 saturation={400}
                 classBackground="ov-h brdRadius"
-                large={window.innerWidth >= 768}
-                small={window.innerWidth < 768}
+                large={window.innerWidth >= 1024}
+                small={window.innerWidth < 1024}
               />
             </div>
           </div>

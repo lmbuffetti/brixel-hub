@@ -72,7 +72,7 @@ function UserFlow(props) {
   const calcFlowContentHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');
     const flowFooter = document.getElementsByClassName('footerAction');
-    if (windowDimensions.width <= 768)  {
+    if (windowDimensions.width <= 1024)  {
       if (Questions[currentIndex].cardType === 'chat') {
         return flowHead[0] ? flowHead[0].offsetHeight : 0;
       } else {
@@ -300,7 +300,7 @@ function UserFlow(props) {
                   style={{
                     visibility: i !== currentIndex ? 'hidden' : 'visible',
                     opacity: i !== currentIndex ? '0' : '1',
-                    paddingBottom: !quest.vCentered && !quest.background && windowDimensions.width <= 768 && isSuccess  ? '30px' : '',
+                    paddingBottom: !quest.vCentered && !quest.background && windowDimensions.width <= 1024 && isSuccess  ? '30px' : '',
                   }}
                 >
                   <div className="subcontainer">

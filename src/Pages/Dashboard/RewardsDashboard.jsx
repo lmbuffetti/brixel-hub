@@ -65,7 +65,7 @@ const RewardsDashboard = (props) => {
 
   useEffect(() => {
     let getNameGroup = localStorage.getItem('gameGroup') || null;
-    if (windowDimensions && windowDimensions.width > 768 && rewardType === 'rewards' && usrGroups) {
+    if (windowDimensions && windowDimensions.width > 1024 && rewardType === 'rewards' && usrGroups) {
       if (!getNameGroup) {
         usrGroups.forEach((groups) => {
           if (groups.stub.includes(userTypes)) {
@@ -339,7 +339,7 @@ const RewardsDashboard = (props) => {
                             onClick={() => history.push(`/${propID}/rewards`)}
                           />
                           {
-                            windowDimensions.width <= 768 && (
+                            windowDimensions.width <= 1024 && (
                               <p className="mr-1 body fweight-500">
                                 Rewards
                               </p>

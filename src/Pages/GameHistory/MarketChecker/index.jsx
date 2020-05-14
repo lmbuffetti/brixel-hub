@@ -77,7 +77,7 @@ const MarketCheck = (props) => {
 
   const closeWindow = () => {
     reset('Property');
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
       history.push(`/${propID}/rewards`);
     } else {
       history.push(`/${propID}/rewards/${getAchievement()}`);

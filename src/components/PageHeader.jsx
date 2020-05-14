@@ -65,7 +65,7 @@ function PageHeader(props) {
 
   const screenResize = () => {
     setWidthScreen(window.innerWidth);
-    if (window.innerWidth > 768) {
+    if (window.innerWidth > 1024) {
       setShowMobileMenu(false);
       document.body.classList.remove('ov-h');
     }

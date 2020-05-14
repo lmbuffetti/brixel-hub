@@ -235,7 +235,7 @@ const App = (props) => {
     if (
       (history.location.pathname.includes('property/') ||
       history.location.pathname.includes('listings/')) &&
-      windowDimensions.width <= 768
+      windowDimensions.width <= 1024
     ) {
       setIsSecLevel(true);
       if (dashWrapperEl) {
@@ -263,7 +263,7 @@ const App = (props) => {
   const headerCalc = () => {
     return (
       !isFlow ?
-        windowDimensions.width <= 768 ? {height: (windowDimensions.height + extraHeight) - 174} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
+        windowDimensions.width <= 1024 ? {height: (windowDimensions.height + extraHeight) - 174} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
         {height: windowDimensions.height - calcFlowHeaderHeight()}
     )
   }
@@ -295,7 +295,7 @@ const App = (props) => {
           }
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
-            style={!isFlow ? isSecLevel ? {height: '100%'} : windowDimensions.width <= 768 ? { height: windowDimensions.height } : null : null}
+            style={!isFlow ? isSecLevel ? {height: '100%'} : windowDimensions.width <= 1024 ? { height: windowDimensions.height } : null : null}
           >
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
