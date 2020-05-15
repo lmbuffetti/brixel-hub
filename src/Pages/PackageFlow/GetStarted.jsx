@@ -43,7 +43,7 @@ const GetStarted = (props) => {
   } = props;
   // STATE
   const [questions, setQuestions] = useState(QuestionsList('en'));
-  // const [position, setPosition] = useState(0);
+  const [progressBar, setProgressBar] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quest, setQuest] = useState(QuestionsList('en')[0]);
   const [isEnter, setIsEnter] = useState(true);
@@ -215,6 +215,8 @@ const GetStarted = (props) => {
     if (questions[newIndex].history) {
       history.push(`/packageFlow/getStarted/${questions[defId].history}`);
     }
+    const getOnlyQuest = questions.filter(item => item.inputs);
+    setProgressBar(defId * 100 / getOnlyQuest.length);
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
@@ -310,7 +312,7 @@ const GetStarted = (props) => {
             saturation={400}
             barBackground="Light"
             backgroundSaturation={300}
-            progressValue={currentIndex * 5 / 100}
+            progressValue={progressBar}
           />
         )
       }
