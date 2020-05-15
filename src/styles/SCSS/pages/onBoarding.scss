@@ -1,8 +1,7 @@
 .flowContainer {
   background-color: map-get($lightColor, 100);
 
-  .onBoardingWrapper,
-  .getStartedWrapper {
+  .onBoardingWrapper  {
     #progressBar {
       position: fixed;
       top: 0;
