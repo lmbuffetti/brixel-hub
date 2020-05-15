@@ -1,18 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonIcon, BrixelIcon, BrixelProgressBar } from '@brixel/brixel-components';
-import MultiStepForm from '../../components/MultiStepReduxForm';
+import { BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm } from '@brixel/brixel-components';
 import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty } from '../../actions/PropertyActions';
-import { reduxForm, reset, Field, change } from 'redux-form';
-import PageHeader from '../../components/PageHeader';
+import { reduxForm, reset, change } from 'redux-form';
 import last from 'lodash/last';
 import { titleProperty } from '../../utils/titleCreation';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -21,6 +18,7 @@ import { setCookie } from '../../utils/helpers';
 import Cookies from 'universal-cookie';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage } from '../../actions/CommonActions';
+import { doLogin, validateUser } from '../../actions/UserActions';
 
 const cookie = new Cookies();
 
@@ -36,8 +34,9 @@ const GetStarted = (props) => {
     handleGetActiveSingleCompany,
     handleSetLanguage,
     handleGetGamegroup,
-    initialValue,
-    startForm,
+    loggedInUser,
+    handleDoLogin,
+    handleValidateUser,
     history,
     match,
     reset,
@@ -48,8 +47,6 @@ const GetStarted = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quest, setQuest] = useState(QuestionsList('en')[0]);
   const [isEnter, setIsEnter] = useState(true);
-  const [selGameGroup, setSelGameGroup] = useState({});
-  const [finishedFlow, setFinishedFlow] = useState(false);
   const [lastID, setLastID] = useState(0);
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
@@ -92,10 +89,19 @@ const GetStarted = (props) => {
     };
   }, []);
 
+  // SET THE OWNER PROPERTY IF USER IS LOGGED IN
+  useEffect(() => {
+    if (loggedInUser.user) {
+      changeFieldValue('owner', loggedInUser.user.id);
+      changeFieldValue('signup', false);
+    }
+  }, [loggedInUser]);
+
   useEffect(() => {
     setIsEnter(true);
   }, [currentIndex]);
 
+  // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
@@ -105,11 +111,73 @@ const GetStarted = (props) => {
     }
   };
 
-  const saveData = () => {
+  // FUNCTION TO SAVE DATA
+  const saveData = async () => {
+    const data = {
+      ...formValue,
+      packageFlowProcess: {
+        answers: formValue,
+        rewardScreenData: {},
+      },
+      language: lang || 'en',
+      title: formValue.pageTitle,
+      status: "on-request",
+      listed: false,
+      active: true,
+      published: false,
+      addProperty: true,
+      redirectToUserFlow: false,
+      redirectToHome: true,
+      company: cookie.get('brixelStubCompany') || null,
+    }
+    const page = get(formValue, 'signupScreen', null);
+    if (formValue.owner) {
+      data.owner = loggedInUser.user.id;
+      await handleCreateActiveSingleProperty(data);
+    } else if (page === 'login') {
+      data.user = {
+        username: formValue.email,
+        password: formValue.password,
+      };
+      await handleDoLogin(data);
+    } else {
+      data.user = {
+        ...formValue.profile,
+        userType: 'seller',
+        signupAccept: true,
+        signupChannel: "default",
+        signupProduct: null,
+        language: lang || 'en',
+        createUser: true,
+        company: cookie.get('brixelStubCompany') || null,
+        ignoreEmail: false,
+        redirectTo: '/packageFlow/getStarted/success'
+      };
+      await handleValidateUser(data);
+    }
+
     handleCreateActiveSingleProperty({stub: getAchievement()});
     reset('Property');
   };
 
+  const checkCondition = (id, act) => {
+    let newIndex = id;
+    if (get(questions, `[${newIndex}].conditions`, null)) {
+      let checkCond = true;
+      questions[newIndex].conditions.map((cond) => {
+        const val = get(formValue, cond.name, null);
+        if (val !== cond.value && checkCond) {
+          if (act === 'back') newIndex = newIndex - 1;
+          else newIndex = newIndex + 1;
+          checkCond = false;
+        }
+        return null;
+      })
+    }
+    return newIndex
+  }
+
+  // FUNCTION TO GO TO NEXT SPEP
   const changeStep = (act) => {
     setIsEnter(false);
     let newIndex = currentIndex;
@@ -121,11 +189,16 @@ const GetStarted = (props) => {
     if (questions[newIndex].toSave) {
       saveData();
     }
-    setCurrentIndex(newIndex);
+
+    let defId = checkCondition(newIndex, act);
+    if (defId !== newIndex) defId = checkCondition(defId, act);
+
+    setCurrentIndex(defId);
     // setPosition(newIndex);
-    setQuest(questions[newIndex]);
+    setQuest(questions[defId]);
+    if (questions[defId].toSave) saveData();
     setTimeout(() => {
-      const getCurStep = document.getElementById(`step-${newIndex}`);
+      const getCurStep = document.getElementById(`step-${defId}`);
       if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
         getCurStep.querySelector('input[type="number"]').focus();
       }
@@ -140,10 +213,11 @@ const GetStarted = (props) => {
       document.getElementById('getStarted').scrollTo(0, 0);
     }
     if (questions[newIndex].history) {
-      history.push(`/packageFlow/getStarted/${questions[newIndex].history}`);
+      history.push(`/packageFlow/getStarted/${questions[defId].history}`);
     }
   };
 
+  // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     if (formValue) {
       let newQuest = [];
@@ -170,6 +244,7 @@ const GetStarted = (props) => {
     }
   }, [formValue]);
 
+  // SET DATA BY COMPANY
   useEffect(() => {
     const cookieLang = cookie.get('brixelLang');
     if (company.languageCode && !cookieLang) {
@@ -179,19 +254,7 @@ const GetStarted = (props) => {
     }
   }, [company]);
 
-  const valideConditionInput = (quest) => {
-    let isVerified = true;
-    if (quest.condition) {
-      quest.condition.map((item) => {
-        if (get(formValue, item.name, null) !== item.value) {
-          isVerified = false;
-        }
-        return null;
-      });
-    }
-    return isVerified;
-  };
-
+  // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
     let isNotEmpty = false;
@@ -208,11 +271,11 @@ const GetStarted = (props) => {
           });
         } else if (input.validation) {
           //const getRegField = get(registeredFields
-          if (input.name === 'owner') {
+          if (input.name === 'profile') {
             const page = get(formValue, 'signupScreen', null);
-            let field = ['email', 'firstName', 'lastName', 'privacy'];
+            let field = ['profile.email', 'profile.firstName', 'profile.lastName', 'privacy'];
             if (page === 'login') {
-              field = ['email', 'password'];
+              field = ['profile.email', 'profile.password'];
             }
             field.forEach((item) => {
               const err = get(errorValue, item, null);
@@ -229,9 +292,9 @@ const GetStarted = (props) => {
     return isValid;
   };
 
+  // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
     let label;
-    const inputName = get(quest, 'inputs[0].name', null);
     if (currentIndex === questions.length - 1) label = 'Back to Hub';
     else if (currentIndex === 0) label = 'Next';
     else label = 'Next';
@@ -274,25 +337,13 @@ const GetStarted = (props) => {
                       <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
                       {quest.subtitle && (
                         <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)}
-                      <Field component="input" type="hidden" name="initialize" />
-                      {
-                        quest.inputs.map((input, f) => (
-                          <React.Fragment key={f.toString()}>
-                            {
-                              valideConditionInput(input) && (
-                                <MultiStepForm
-                                  formName="GetStarted"
-                                  disableNextBtn={false}
-                                  formValue={formValue}
-                                  input={input}
-                                  className={input.className}
-                                  onClick={() => changeStep()}
-                                />
-                              )
-                            }
-                          </React.Fragment>
-                        ))
-                      }
+                      <MultiFileldsReduxForm
+                        form="GetStarted"
+                        disableNextBtn={false}
+                        formValue={formValue}
+                        inputs={quest.inputs}
+                        onClick={() => ''}
+                      />
                     </div>
                   )
                 }
@@ -302,7 +353,6 @@ const GetStarted = (props) => {
                       quest.component,
                       {
                         formName: 'GetStarted',
-                        finishedFlow,
                         initialValue: formValue,
                         ...quest
                       }
@@ -379,15 +429,17 @@ const GetStarted = (props) => {
 
 GetStarted.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
-  formValue: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
-  registeredFields: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleCreateActiveSingleProperty: PropTypes.func.isRequired,
+  handleDoLogin: PropTypes.func.isRequired,
+  handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   match: PropTypes.object.isRequired,
   packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
+  registeredFields: PropTypes.object,
   reset: PropTypes.func.isRequired,
 };
 
@@ -396,11 +448,21 @@ const mapStateToProps = (state) => ({
   company: get(state, 'companies.activeSingleCompany', {}),
   errorValue: get(state, 'form.GetStarted.syncErrors', {}),
   formValue: get(state, 'form.GetStarted.values', {}),
-  startForm: get(state, 'form.GetStarted', null),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   lang: get(state, 'common.language', 'en'),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),
+  startForm: get(state, 'form.GetStarted', null),
+  initialValues: {
+    properties: {
+      typology: {
+        livingArea: {
+          unit: 'sqm'
+        }
+      }
+    }
+  }
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -411,9 +473,11 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset(form)))
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
+  handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 
 const AnyForm = reduxForm({

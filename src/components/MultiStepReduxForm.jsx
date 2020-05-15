@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, Field, isValid } from 'redux-form';
+import { change } from 'redux-form';
 import get from 'lodash/get';
 import { BrixelButtonPrimary, ReduxField } from '@brixel/brixel-components';
 import { getBrowserPlatform } from '@brixel/brixel-components/dist/utils/helper';
@@ -23,8 +23,8 @@ const MultiStepForm = (props) => {
 
   const countryObj = (curVal) => {
     const getCurrent = country.find((val) => val.value === curVal.toLowerCase() || val.value === curVal.toLowerCase());
-    changeFieldValue('location.countryCode', curVal);
-    changeFieldValue('location.countryName', get(getCurrent, 'label', ''));
+    changeFieldValue(formName, 'location.countryCode', curVal);
+    changeFieldValue(formName, 'location.countryName', get(getCurrent, 'label', ''));
     // setCurCountry(getCurrent);
   };
 
@@ -125,8 +125,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeFieldValue(field, value) {
-    dispatch(change('GetStarted', field, value));
+  changeFieldValue(formName, field, value) {
+    dispatch(change(formName, field, value));
   },
 });
 

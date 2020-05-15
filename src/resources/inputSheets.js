@@ -10,6 +10,7 @@ import {
   FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
+import Maps from '../components/Map/Maps';
 import { configureStore } from '../store';
 // import { isEmpty } from '@brixel/brixel-components/src/utils/helper';
 const { factsOptions } = FactsOptions;
@@ -336,9 +337,15 @@ export const InputSheets = () => {
       cardType: "location",
       inputs: [
         {
+          component: Maps,
           label: 'Property address',
-          name: 'location.address',
-          type: 'Map',
+          name: 'location',
+          type: 'Mappe',
+          mapOptions: {
+            showMap: true,
+            showSearchLocation: true,
+            showSelectCountry: true,
+          },
           validation: [Validation.required]
         },
         /*{

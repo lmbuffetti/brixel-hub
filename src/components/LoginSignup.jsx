@@ -41,7 +41,6 @@ const LoginSignup = (props) => {
 
   return (
     <>
-      {console.log(props)}
       {
         loginPage ? (
           <>
@@ -52,7 +51,7 @@ const LoginSignup = (props) => {
             </p>
             <ReduxField
               input={{
-                name: "email",
+                name: "profile.email",
                 placeholder: "",
                 type: "email",
                 validate: [Validation.required],
@@ -77,7 +76,7 @@ const LoginSignup = (props) => {
             />
             <ReduxField
               input={{
-                name: "password",
+                name: "profile.password",
                 placeholder: "",
                 type: "password",
                 validate: [Validation.required],
@@ -120,7 +119,7 @@ const LoginSignup = (props) => {
             <div className="dis-f">
               <ReduxField
                 input={{
-                  name: "firstName",
+                  name: "profile.firstName",
                   placeholder: "",
                   type: "text",
                   validate: [Validation.required],
@@ -148,7 +147,7 @@ const LoginSignup = (props) => {
 
                 }}
                 input={{
-                  name: "lastName",
+                  name: "profile.lastName",
                   placeholder: "",
                   type: "text",
                   validate: [Validation.required],
@@ -173,7 +172,7 @@ const LoginSignup = (props) => {
 
               }}
               input={{
-                name: "email",
+                name: "profile.email",
                 type: "email",
                 placeholder: "",
                 validate: [Validation.isEmail, Validation.required],
@@ -197,7 +196,7 @@ const LoginSignup = (props) => {
                 className: "mt-2",
               }}
               input={{
-                name: "phone",
+                name: "profile.phone",
                 placeholder: "",
                 type: "text",
               }}

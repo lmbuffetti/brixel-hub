@@ -200,6 +200,7 @@ const Upgrade = (props) => {
                                 <MultiStepForm
                                   disableNextBtn={false}
                                   formValue={formValue}
+                                  formName="Property"
                                   onClick={() => ''}
                                   input={input}
                                   className={input.className}

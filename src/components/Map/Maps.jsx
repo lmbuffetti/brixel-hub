@@ -37,7 +37,6 @@ export const ComponentMap =(props) => {
     formValue,
     google,
     inputLabel,
-    isShowZip,
     lang,
     latitude,
     longitude,
@@ -61,7 +60,7 @@ export const ComponentMap =(props) => {
   const [inputSearchZip, setInputSearchZip] = useState('');
   const [errorInputSearchZip, setErrorInputSearchZip] = useState(null);
   const [streetViewAvailable, setStretViewAvailable] = useState(false);
-  const [showZipCode, setShowZipCode] = useState(false);
+  const [showZipCode] = useState(false);
   const [optMap, setOptMap] = useState({});
   const inputSearch = createRef(null);
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
@@ -391,7 +390,7 @@ export const ComponentMap =(props) => {
       geoCode(locList[newId].description);
     }
   };
-  console.log(props);
+
   return (
     // Important! Always set the container height explicitly
     <div
@@ -684,7 +683,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
-  console.log(prevProps, nextProps);
   return (
     get(prevProps, 'formValue.location.latitude', null) === get(nextProps, 'formValue.location.latitude', null) &&
     get(prevProps, 'formValue.location.longitude', null) === get(nextProps, 'formValue.location.longitude', null) &&
