@@ -42,7 +42,7 @@ const MenuSidebar = (props) => {
     if (activeLeads) {
       handleGetActiveSingleCompany({id: activeLeads.company});
     }
-  }, []);
+  }, [activeSingleProperty]);
 
   useEffect(() => {
     if (gameGroup && gameHistory) {
