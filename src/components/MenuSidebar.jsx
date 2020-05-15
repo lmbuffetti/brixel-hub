@@ -34,6 +34,9 @@ const MenuSidebar = (props) => {
   const [slideIn, setSlideIn] = useState(false);
   // REF
   const wrapperRef = useRef(null);
+  const proTitleRef = useRef(null);
+
+  const proTitleEl = proTitleRef.current;
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
   const levelUrl = history.location.pathname.split('/');
@@ -69,6 +72,15 @@ const MenuSidebar = (props) => {
       setRouteNav([...nav]);
     }
   }, [gameGroup, gameHistory])
+
+  useEffect(() => {
+   if (proTitleEl) {
+     const titleHeight = proTitleEl.offsetHeight
+     if (titleHeight > 48) {
+      proTitleEl.classList.add('longTitle')
+     }
+   }
+  })
 
   // CHECK TAB BY URL
   const checkActiveTab = () => {
@@ -122,12 +134,13 @@ const MenuSidebar = (props) => {
                   />
                 </div>
                 <h6
-                  className="mt-2 fsize-300 fweight-600 cur-poi"
+                  ref={proTitleRef}
+                  className=" mt-2 fsize-300 fweight-600 cur-poi"
                   onClick={() => {
                     if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
                   }}
                 >
-                  {get(formValue, 'title', '')}
+                  {get(formValue, 'title', '')} ads lfj lds ajf lj asd fl asdfads f
                 </h6>
               </div>
             </div>

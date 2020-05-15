@@ -48,6 +48,9 @@ function PageHeaderDashboard(props) {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   // REF
   const profileMenu = useRef(null);
+  const proTitleRef = useRef(null);
+
+  const proTitleEl = proTitleRef.current;
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
 
@@ -144,6 +147,15 @@ function PageHeaderDashboard(props) {
     }
   });
 
+  useEffect(() => {
+    if (proTitleEl) {
+      const titleHeight = proTitleEl.offsetHeight
+      if (titleHeight > 42) {
+       proTitleEl.classList.add('longTitle')
+      }
+    }
+   })
+
   return (
     <>
       <header className={`hubDasHeader`}>
@@ -172,7 +184,7 @@ function PageHeaderDashboard(props) {
                       propertyType={get(formValue, 'properties.propertyType', undefined)}
                     />
                   </div>
-                  <h4 className="ml-2 fsize-400 fweight-600">{get(formValue, 'title', '')}</h4>
+                  <h4 ref={proTitleRef} className="ml-2 fsize-400 fweight-600"> {get(formValue, 'title', '')}</h4>
                 </div>
               )
             }
