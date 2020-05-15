@@ -304,7 +304,7 @@ const GetStarted = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper">
+    <div id="bodyModalWrapper" className="withHeader">
       {
         get(quest, `inputs`, null) && (
           <BrixelProgressBar
