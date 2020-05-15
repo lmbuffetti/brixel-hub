@@ -140,7 +140,7 @@ const MenuSidebar = (props) => {
                     if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
                   }}
                 >
-                  {get(formValue, 'title', '')} ads lfj lds ajf lj asd fl asdfads f
+                  {get(formValue, 'title', '')}
                 </h6>
               </div>
             </div>
