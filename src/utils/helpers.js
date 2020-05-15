@@ -23,11 +23,11 @@ export const cutValue = (val) => {
   return formatVal;
 };
 
-export function formatNum(num, separator, fraction) {
+export function formatNum(num, separator, fraction, localeString = 'de-CH') {
   const convNum = +num;
-  let str = convNum.toLocaleString('de-CH');
-  str = str.replace(/\./g, separator);
-  str = str.replace(/,/g, fraction);
+  let str = convNum.toLocaleString(localeString);
+  //str = str.replace(/\./g, separator);
+  //str = str.replace(/,/g, fraction);
   return str;
 }
 
