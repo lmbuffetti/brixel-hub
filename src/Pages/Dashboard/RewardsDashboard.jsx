@@ -341,7 +341,7 @@ const RewardsDashboard = (props) => {
                           {
                             windowDimensions.width <= 1024 && (
                               <p className="mr-1 body fweight-500">
-                                Rewards
+                                Home
                               </p>
                             )
                           }

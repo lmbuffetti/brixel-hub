@@ -64,7 +64,7 @@ const MenuSidebar = (props) => {
         }
       });
       const nav = cloneDeep(firstRoutes);
-      nav[0].title = `<span>Rewards</span><span class="numRecords">${numTodo}</span>`;
+      nav[0].title = `<span>Home</span><span class="numRecords">${numTodo}</span>`;
       setRouteNav([...nav]);
     }
   }, [gameGroup, gameHistory])
