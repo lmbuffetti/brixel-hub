@@ -1,6 +1,6 @@
 export const firstRoutes = [
   {
-    title: 'Rewards',
+    title: 'Home',
     name: 'rewards',
     icon: 'first-time-occupancy',
     path: '/rewards',
