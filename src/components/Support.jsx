@@ -5,9 +5,12 @@ import SupportImg from '../images/Support/supportImg.png';
 import CallUsImg from '../images/Support/call_us.svg';
 import WriteUsImg from '../images/Support/wite_us.svg';
 import WhatAppImg from '../images/Support/whatsapp.svg';
+import get from 'lodash/get';
+import { connect } from 'react-redux';
 
 const Support = (props) => {
   const {
+    activeSingleCompany,
     expanded,
     hideClose,
     isFixed,
@@ -80,22 +83,22 @@ const Support = (props) => {
           )
         }
         <div className={`moreInfoSupport ${openDetail ? 'open' : 'close'} ${layout === 'rewards' ? 'w-fit m-a' : ''}`}>
-          <a href="tel:+410433335700" className="dis-f a-c mb-3">
+          <a href={`tel:${activeSingleCompany.contact.phone}`} className="dis-f a-c mb-3">
             <img className="w-fix-40" src={CallUsImg} alt="Call Us" />
             <p className="ml-2">
               <span className="dis-b txtDark200 body2">Call Us</span>
-              <span className="txtDark700 ff-mono">{Helpers.telephoneFormat('+41433335700')}</span>
+              <span className="txtDark700 ff-mono">{Helpers.telephoneFormat(activeSingleCompany.contact.phone.toString())}</span>
             </p>
           </a>
-          <a href="mailto: support@brixel.ch" className="dis-f a-c mb-3">
+          <a href={`mailto: ${activeSingleCompany.contact.email}`} className="dis-f a-c mb-3">
             <img className="w-fix-40" src={WriteUsImg} alt="Call Us" />
             <p className="ml-2">
               <span className="dis-b txtDark200 body2">Write us</span>
-              <span className="txtDark700">support@brixel.ch</span>
+              <span className="txtDark700">{activeSingleCompany.contact.email}</span>
             </p>
           </a>
           <a
-            href="https://wa.me/41799332918"
+            href={`https://wa.me/${(activeSingleCompany.contact.whatsapp).replace('+', '')}`}
             className="dis-f a-c"
             target="_blank"
             rel="noopener noreferrer"
@@ -103,7 +106,7 @@ const Support = (props) => {
             <img className="w-fix-40" src={WhatAppImg} alt="Call Us" />
             <p className="ml-2">
               <span className="dis-b txtDark200 body2">Text Us</span>
-              <span className="txtDark700 ff-mono">+41 79 933 29 18</span>
+              <span className="txtDark700 ff-mono">{Helpers.telephoneFormat(activeSingleCompany.contact.whatsapp)}</span>
             </p>
           </a>
         </div>
@@ -113,6 +116,7 @@ const Support = (props) => {
 };
 
 Support.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   hideClose: PropTypes.bool,
   isFixed: PropTypes.bool,
   expanded: PropTypes.bool,
@@ -126,4 +130,8 @@ Support.defaultTypes = {
   onClose: () => '',
 };
 
-export default Support;
+const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+});
+
+export default connect(mapStateToProps, null)(Support);

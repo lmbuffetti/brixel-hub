@@ -13,13 +13,21 @@ import { generalTranslate } from '../../utils/translation';
 
 function RangePriceChart(props) {
   const {
-    properties, type, bestimate, title, showTopLabel, subtitle, lang,
+    currency,
+    properties,
+    type,
+    bestimate,
+    title,
+    showTopLabel,
+    subtitle,
+    lang,
   } = props;
   const cfg = {
     barTransitionDuration: 800,
     step: properties[0] + 1,
-    label: 'CHF',
+    label: currency,
     labelPosition: 'preffix',
+    localString: currency === 'EUR' ? 'it-IT' : 'de-CH',
   };
   const margin = {
     top: type === 'bestimate' ? 0 : 100,
@@ -89,10 +97,10 @@ function RangePriceChart(props) {
       .attr('transform', `translate(${xScale(firstRange)}, ${Math.round(cfg.height + 25)})`)
       .text(() => {
         if (cfg.label === 'm2') {
-          return `${formatNum(firstRange, "'", ',')} ${cfg.label}`;
+          return `${formatNum(firstRange, "'", ',', cfg.localString)} ${cfg.label}`;
         }
         if (type !== 'bestimate') {
-          return `${cfg.label} ${formatNum(+firstRange.toFixed(0), "'", ',')} +`;
+          return `${cfg.label} ${formatNum(+firstRange.toFixed(0), "'", ',', cfg.localString)} +`;
         }
       });
 
@@ -104,10 +112,10 @@ function RangePriceChart(props) {
       .attr('transform', `translate(${xScale(lastRange) + xScale.bandwidth()} , ${Math.round(cfg.height + 25)})`)
       .text(() => {
         if (cfg.label === 'm2') {
-          return `${formatNum(lastRange, "'", ',')} ${cfg.label} +`;
+          return `${formatNum(lastRange, "'", ',', cfg.localString)} ${cfg.label} +`;
         }
         if (type !== 'bestimate') {
-          return `${cfg.label} ${formatNum(+lastRange.toFixed(0), "'", ',')} +`;
+          return `${cfg.label} ${formatNum(+lastRange.toFixed(0), "'", ',', cfg.localString)} +`;
         }
       });
 
@@ -274,7 +282,7 @@ function RangePriceChart(props) {
             return `
                 <p>${titleTooltip}</p>
                 <span class="curr">${cfg.label} </span>
-                <span class="num">${formatNum(properties[0].median, "'", ',')}</span>
+                <span class="num">${formatNum(properties[0].median, "'", ',', cfg.localString)}</span>
               `;
           });
       }, 0);
@@ -283,7 +291,7 @@ function RangePriceChart(props) {
         d3.select(`#${randomID}`)
           .append('p')
           .attr('class', 'value')
-          .html(`<span class="ng-binding">${cfg.label} ${formatNum(bestimate.lowerValue, "'", ',')}</span> <span class="value__separator"> - </span> <span class="ng-binding">${cfg.label} ${formatNum(bestimate.higherValue, "'", ',')}</span>`);
+          .html(`<span class="ng-binding">${cfg.label} ${formatNum(bestimate.lowerValue, "'", ',', cfg.localString)}</span> <span class="value__separator"> - </span> <span class="ng-binding">${cfg.label} ${formatNum(bestimate.higherValue, "'", ',', cfg.localString)}</span>`);
       }, 0);
     }
   };
@@ -322,7 +330,7 @@ function RangePriceChart(props) {
       {
         subtitle && (
           <h3
-            dangerouslySetInnerHTML={{ __html: `<span>${cfg.label}</span> ${formatNum(+properties[0].median, "'", ',')}` }}
+            dangerouslySetInnerHTML={{ __html: `<span>${cfg.label}</span> ${formatNum(+properties[0].median, "'", ',', cfg.localString)}` }}
             className="price"
           />
         )
@@ -336,6 +344,7 @@ function RangePriceChart(props) {
 
 RangePriceChart.propTypes = {
   bestimate: PropTypes.object,
+  currency: PropTypes.string,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   showTopLabel: PropTypes.bool,
   subtitle: PropTypes.bool,
@@ -352,6 +361,7 @@ RangePriceChart.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  currency: get(state, 'companies.activeSingleCompany.country.currency', 'CHF'),
   lang: get(state, 'common.language', {}),
 });
 
