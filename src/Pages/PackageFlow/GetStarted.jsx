@@ -42,10 +42,10 @@ const GetStarted = (props) => {
     reset,
   } = props;
   // STATE
-  const [questions, setQuestions] = useState(QuestionsList('en'));
+  const [questions, setQuestions] = useState(QuestionsList('en', get(formValue, 'location.countryCode', 'CH')));
   const [progressBar, setProgressBar] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(QuestionsList('en')[0]);
+  const [quest, setQuest] = useState(QuestionsList('en', get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [lastID, setLastID] = useState(0);
   // GET URL PARAMS
@@ -223,7 +223,7 @@ const GetStarted = (props) => {
   useEffect(() => {
     if (formValue) {
       let newQuest = [];
-      QuestionsList('en').map((quest) => {
+      QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
@@ -240,7 +240,8 @@ const GetStarted = (props) => {
       });
       setLastID(newQuest.length - 1);
       setQuestions(newQuest);
-      const pageTitle = titleProperty(formValue.location, formValue.propertyType, lang, formValue);
+      const propertyType = get(formValue, 'properties.propertyType', null);
+      const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle)
         changeFieldValue('pageTitle', pageTitle);
     }
@@ -248,12 +249,15 @@ const GetStarted = (props) => {
 
   // SET DATA BY COMPANY
   useEffect(() => {
-    const cookieLang = cookie.get('brixelLang');
-    if (company.languageCode && !cookieLang) {
-      handleSetLanguage(company.languageCode.toLowerCase());
-      const compLang = company.languageCode.toLowerCase();
-      setQuestions(QuestionsList(compLang, get(company, 'countryCode', 'CH')));
+    let getLang = cookie.get('brixelLang');
+    if (company.languageCode && !getLang) {
+      const companyLang = get(company, 'language.code', 'en');
+      handleSetLanguage(companyLang.toLowerCase());
+      getLang = companyLang.toLowerCase();
     }
+    const companyCountry = get(company, 'country.code', 'CH')
+    setQuestions(QuestionsList(getLang, companyCountry));
+    changeFieldValue('location.countryCode', companyCountry);
   }, [company]);
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelIcon, BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelButtonIcon, Helpers } from '@brixel/brixel-components';
 import SupportImg from '../images/Support/supportImg.png';
 import CallUsImg from '../images/Support/call_us.svg';
 import WriteUsImg from '../images/Support/wite_us.svg';
@@ -84,7 +84,7 @@ const Support = (props) => {
             <img className="w-fix-40" src={CallUsImg} alt="Call Us" />
             <p className="ml-2">
               <span className="dis-b txtDark200 body2">Call Us</span>
-              <span className="txtDark700 ff-mono">+41 43 333 57 00</span>
+              <span className="txtDark700 ff-mono">{Helpers.telephoneFormat('+41433335700')}</span>
             </p>
           </a>
           <a href="mailto: support@brixel.ch" className="dis-f a-c mb-3">
