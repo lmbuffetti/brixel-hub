@@ -18,17 +18,21 @@ const BrixelModalFullScreen = (props) => {
   return (
     <div id="bodyModalWrapper">
       <div className="bodyModal">
-        <div className="dis-f jc-fe p-1 p-md-2 h-fix-72">
-          <BrixelButtonIcon
-            icon="close-small"
-            color="primary"
-            saturationTxt={400}
-            bgTransparent
-            noBorder
-            className="shadow-1dp as-c"
-            onClick={() => onClose()}
-          />
+      <header className="max-w-fix-760 m-a">
+      <div className="container p-1 p-md-2 dis-f jc-fe a-c">
+          <div className="dis-f a-c">
+            <BrixelButtonIcon
+              icon="close-small"
+              color="primary"
+              saturationTxt={400}
+              bgTransparent
+              noBorder
+              className="shadow-1dp as-c"
+              onClick={() => onClose()}
+            />
+          </div>
         </div>
+        </header>
         <form
           id="multiStepForm"
           // onSubmit={(e) => {e.preventDefault(); changeStep()}}
