@@ -278,7 +278,7 @@ const RewardsDashboard = (props) => {
                                       icon={item.icon}
                                       title={item.description}
                                       subtitle={item.name}
-                                      isFree={item.isFree}
+                                      isFree={ isDisabledFlow(item.stub) ? null : item.isFree }
                                       onClick={() => onClickAchievement(item.stub, item)}
                                       lineAfter={group.achievements.length - 1 > f}
                                       award={item.achievementType === 'award'}
