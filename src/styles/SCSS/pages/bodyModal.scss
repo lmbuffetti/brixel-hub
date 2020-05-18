@@ -160,6 +160,11 @@
       transform: translateX(-50%);
       bottom: 0;
 
+      &.staticFooter {
+        left: 0;
+        transform: none;
+      }
+
       &.successNext {
         background: map_get($greenColor, 200);
 

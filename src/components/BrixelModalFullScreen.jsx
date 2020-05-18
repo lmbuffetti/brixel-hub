@@ -18,7 +18,7 @@ const BrixelModalFullScreen = (props) => {
   return (
     <div id="bodyModalWrapper">
       <div className="bodyModal">
-      <header className="max-w-fix-760 m-a">
+      <header className="max-w-fix-760 w-perc-100 m-a">
       <div className="container p-1 p-md-2 dis-f jc-fe a-c">
           <div className="dis-f a-c">
             <BrixelButtonIcon
@@ -41,7 +41,7 @@ const BrixelModalFullScreen = (props) => {
         >
           <div className={`multiStepSlides`}>
             <div
-              className={`singleStep jc-c 'fade-enter`}
+              className={`singleStep jc-c fade-enter-active`}
             >
               <div className="subcontainer m-a">
                 <div>
@@ -54,9 +54,9 @@ const BrixelModalFullScreen = (props) => {
             </div>
           </div>
           <div
-            className="footerAction max-w-fix-760 m-a p-1 p-md-2 shadow-1dp-top normStep"
+            className="footerAction max-w-fix-760 m-a p-1 p-md-2 shadow-1dp-top normStep staticFooter"
           >
-            <div className="container pos-r">
+            <div className="pos-r">
               <div className={`w-perc-100 a-c dis-fl-row jc-b m-a jc-c`}>
                 <BrixelButtonPrimary
                   className={`noWrap w-perc-100 max-w-fix-160`}

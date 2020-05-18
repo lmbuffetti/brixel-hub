@@ -73,7 +73,7 @@ const BrixelModalAwards = (props) => {
                 <span>Awards</span>
                 <span className="ff-mono fweight-700">{done}/{done+toDo}</span>
               </p>
-              <BrixelProgressBar
+              {/* <BrixelProgressBar
                 classProgressBar={'pos-r'}
                 rounded
                 barBackground="Light"
@@ -84,7 +84,7 @@ const BrixelModalAwards = (props) => {
                 classBackground="ov-h brdRadius"
                 large={window.innerWidth >= 1024}
                 small={window.innerWidth < 1024}
-              />
+              /> */}
             </div>
           </div>
 
