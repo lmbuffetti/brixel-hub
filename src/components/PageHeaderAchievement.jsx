@@ -18,7 +18,7 @@ function PageHeaderAchievement(props) {
   } = props;
 
   const pageId = get(match, 'params.propId', '');
-  const rewardType = last(get(history, 'location.pathname', '').split('/'));
+  const rewardType = get(history, 'location.pathname', '').split('/')[4];
 
   return (
     <header className="max-w-fix-760 m-a">

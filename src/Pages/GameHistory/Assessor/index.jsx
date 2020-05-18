@@ -39,14 +39,9 @@ const Assessor = (props) => {
   const [finishedFlow, setFinishedFlow] = useState(false);
   const [lastID, setLastID] = useState(0);
   // GET URL PARAMS
-  const getAchievement = () => last(history.location.pathname.split('/'));
+  const getAchievement = () => history.location.pathname.split('/')[4];
+  console.log(history.location.pathname.split('/')[4]);
   const propID = get(match, 'params.propId', null);
-
-  useEffect(() => {
-    return () => {
-      reset('Property');
-    };
-  }, []);
 
   // CHECK IF THE ACHIEVEMENT IS DONE
   useEffect(() => {
@@ -54,6 +49,7 @@ const Assessor = (props) => {
       const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === activeSingleProperty.id);
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
+        console.log(get(history, 'location.state.redo', false));
         if (lastID && get(history, 'location.state.redo', false) !== true) {
           setCurrentIndex(lastID);
           setQuest(questions[lastID]);
@@ -67,16 +63,27 @@ const Assessor = (props) => {
   useEffect(() => {
     if (gameGroup.length > 0) {
       const group = gameGroup.find(game => game.achievements.some(item => item.stub === getAchievement()));
-      const defGroup = group.achievements.find(item => item.stub === getAchievement());
+      const achievements = get(group, 'achievements', []);
+      const defGroup = achievements.find(item => item.stub === getAchievement());
       setSelGameGroup(defGroup);
     }
   }, [gameGroup]);
 
   useEffect(() => {
     setIsEnter(true);
+    if (questions[currentIndex].history) {
+      const redo = get(history, 'location.state.redo', false);
+      history.push({
+        pathname: `/${propID}/rewards/achievement/${getAchievement()}/${questions[currentIndex].history}`,
+        state: {
+          redo: redo,
+        }
+      });
+    }
   }, [currentIndex]);
 
   const closeWindow = () => {
+    console.log(getAchievement());
     if (typeof window !== 'undefined' && window.innerWidth < 1024) {
       history.push(`/${propID}/rewards`);
     } else {

@@ -354,10 +354,10 @@ const App = (props) => {
       {
         <Switch>
           <ProtectedRoute path="/:propId?/rewards/achievement/market-checker" exact component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/assessor" exact component={Assessor} allowAccess={'seller'} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/media" exact component={MediaExplanation} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/assessor" component={Assessor} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess={'seller'} />
         </Switch>
       }
 
