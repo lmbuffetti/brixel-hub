@@ -308,7 +308,7 @@ Dashboard.propTypes = {
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.oneOfType([PropTypes.string, PropTypes.string]),
   userTypes: PropTypes.string,
   gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,

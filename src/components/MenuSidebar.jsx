@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import { BrixelButtonTertiary, BrixelTabs } from '@brixel/brixel-components';
 import useOutsideAlerter from '../components/OutsideElement';
 import get from 'lodash/get';
@@ -14,7 +14,6 @@ import { firstRoutes, secondRoutes } from '../resources/navigationRoutes';
 
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 import CoverPropertyImage from './CoverPropertyImage';
-import { getActiveSingleCompany } from '../actions/CompanyActions';
 import { sortObject } from '../utils/helpers';
 
 const MenuSidebar = (props) => {
@@ -65,13 +64,13 @@ const MenuSidebar = (props) => {
   }, [gameGroup, gameHistory])
 
   useEffect(() => {
-   if (proTitleEl) {
-     const titleHeight = proTitleEl.offsetHeight
-     if (titleHeight > 48) {
-      proTitleEl.classList.add('longTitle')
-     }
-   }
-  })
+    if (proTitleEl) {
+      const titleHeight = proTitleEl.offsetHeight
+      if (titleHeight > 48) {
+        proTitleEl.classList.add('longTitle')
+      }
+    }
+  });
 
   // CHECK TAB BY URL
   const checkActiveTab = () => {

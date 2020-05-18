@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
-import MultiStepForm from '../../../components/MultiStepReduxForm';
+import { BrixelButtonIcon, MultiFileldsReduxForm } from '@brixel/brixel-components';
 import { MarketCheckQuestions } from '../../../resources/MarketCheck';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -128,19 +127,6 @@ const MarketCheck = (props) => {
     }
   }, [formValue]);
 
-  const valideConditionInput = (quest) => {
-    let isVerified = true;
-    if (quest.condition) {
-      quest.condition.map((item) => {
-        if (get(formValue, item.name, null) !== item.value) {
-          isVerified = false;
-        }
-        return null;
-      });
-    }
-    return isVerified;
-  };
-
   const checkValidateField = (act) => {
     let isValid = true;
     let isNotEmpty = false;
@@ -208,23 +194,13 @@ const MarketCheck = (props) => {
                       <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
                       {quest.subtitle && (
                         <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)}
-                      {
-                        quest.inputs.map((input, f) => (
-                          <React.Fragment key={f.toString()}>
-                            {
-                              valideConditionInput(input) && (
-                                <MultiStepForm
-                                  disableNextBtn={false}
-                                  formValue={formValue}
-                                  input={input}
-                                  className={input.className}
-                                  onClick={() => changeStep()}
-                                />
-                              )
-                            }
-                          </React.Fragment>
-                        ))
-                      }
+                      <MultiFileldsReduxForm
+                        disableNextBtn={false}
+                        formValue={formValue}
+                        form="Property"
+                        inputs={quest.inputs}
+                        onClick={() => ''}
+                      />
                     </div>
                   )
                 }

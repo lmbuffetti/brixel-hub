@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { BrixelButtonIcon } from '@brixel/brixel-components';
-import MultiStepForm from '../../components/MultiStepReduxForm';
 import { UpgradeQuestions } from '../../resources/Upgrade';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -117,19 +116,6 @@ const Upgrade = (props) => {
       setQuestions(newQuest);
     }
   }, [formValue]);
-
-  const valideConditionInput = (quest) => {
-    let isVerified = true;
-    if (quest.condition) {
-      quest.condition.map((item) => {
-        if (get(formValue, item.name, null) !== item.value) {
-          isVerified = false;
-        }
-        return null;
-      });
-    }
-    return isVerified;
-  };
 
   const checkValidateField = () => {
     let isValid = true;
