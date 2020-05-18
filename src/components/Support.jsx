@@ -7,6 +7,7 @@ import WriteUsImg from '../images/Support/wite_us.svg';
 import WhatAppImg from '../images/Support/whatsapp.svg';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 
 const Support = (props) => {
   const {
@@ -21,6 +22,7 @@ const Support = (props) => {
   const phone = get (activeSingleCompany, 'contact.phone', null);
   const email = get (activeSingleCompany, 'contact.email', null);
   const whatsapp = get (activeSingleCompany, 'contact.whatsapp', null);
+  const teamAvatars = get (activeSingleCompany, 'teamAvatars', []);
 
   const [openDetail, setOpenDetail] = useState(expanded);
 
@@ -72,7 +74,17 @@ const Support = (props) => {
           className={`dis-f a-c ${layout === 'rewards' ? 'jc-c my-5' : 'mt-3 jc-b '} ${expanded ? '' : 'cur-poi'}`}
           onClick={() => expanded ? ''  : onclickOne() }
         >
-          <img src={SupportImg} alt="Support Team" className={layout === 'rewards' ? "w-fix-280" : "w-fix-160"} />
+          <div className="dis-f jc-fs">
+            {
+              teamAvatars.map(imgTeam => (
+                <img
+                  src={`${baseByData.shortPath}${imgTeam.path}`}
+                  alt="Support Team"
+                  className={`${layout === 'rewards' ? "w-fix-104" : "w-fix-72"}  square brdLarge brdWhite mr-2-neg brdCircle`}
+                />
+              ))
+            }
+          </div>
           {
             !expanded && (
               <BrixelIcon
