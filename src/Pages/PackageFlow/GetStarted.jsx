@@ -392,11 +392,21 @@ const GetStarted = (props) => {
             className={`footerAction p-1 p-md-2 shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
             <div className="container pos-r">
-              <div className={`w-perc-100 a-c dis-fl-row jc-b m-a ${currentIndex === lastID ? 'jc-c' : 'jc-b'}`}>
+              <div className={`w-perc-100 a-c dis-fl-row jc-b m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-b'}`}>
+                {
+                  checkValidateField() && quest.successMessage && (
+                    <div
+                      className="txtGreen700 ta-r ml-a pr-1 textSuccess order-md-2 w-perc-flex-100 w-auto-md mb-1 mb-md-0"
+                    >
+                      {quest.successMessage}
+                      <BrixelIcon icon="check" className="ml-1" />
+                    </div>
+                  )
+                }
                 {
                   questions[currentIndex] && questions[currentIndex].inputs && (
                     <BrixelButtonIcon
-                      className={`shadow-2dp backBtn ${currentIndex === 0 ? 'hide' : ''}`}
+                      className={`shadow-2dp backBtn ${currentIndex === 0 ? 'hide' : ''} order-md-1`}
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
                       background="white"
@@ -407,16 +417,8 @@ const GetStarted = (props) => {
                     />
                   )
                 }
-                {
-                  checkValidateField() && quest.successMessage && (
-                    <div className="txtGreen700 ta-r ml-a pr-1 textSuccess">
-                      {quest.successMessage}
-                      <BrixelIcon icon="check" className="ml-1" />
-                    </div>
-                  )
-                }
                 <BrixelButtonPrimary
-                  className={`noWrap w-perc-100 max-w-fix-160 ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''}`}
+                  className={`order-md-3 noWrap w-perc-100 max-w-fix-160 ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'} ml-a` : ''}`}
                   disabled={!checkValidateField()}
                   rounded
                   background="primary"
