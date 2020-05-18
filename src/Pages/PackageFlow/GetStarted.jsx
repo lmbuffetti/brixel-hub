@@ -349,6 +349,7 @@ const GetStarted = (props) => {
                         formValue={formValue}
                         inputs={quest.inputs}
                         onClick={() => ''}
+                        showSendButton={true}
                       />
                     </div>
                   )
@@ -461,6 +462,9 @@ const mapStateToProps = (state) => ({
   packagesProperty: get(state, 'property.packagesProperty', []),
   startForm: get(state, 'form.GetStarted', null),
   initialValues: {
+    price: {
+      currency: get(state, 'companies.activeSingleCompany.country.currency', null)
+    },
     properties: {
       typology: {
         livingArea: {
