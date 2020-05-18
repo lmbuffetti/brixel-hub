@@ -12,6 +12,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const CopyPlugin = require('copy-webpack-plugin');
+const CSSNano = require('cssnano');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -254,12 +255,12 @@ const clientConfig = {
         sourceMap: devMode,
       }),
       new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: {
-          map: {
-            inline: !devMode,
-            annotation: true,
-          },
+        assetNameRegExp: /\.optimize\.css$/g,
+        cssProcessor: CSSNano,
+        cssProcessorPluginOptions: {
+          preset: ['default', { discardComments: { removeAll: true } }],
         },
+        canPrint: true
       }),
     ],
   },
