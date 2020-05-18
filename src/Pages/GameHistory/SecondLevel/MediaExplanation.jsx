@@ -81,7 +81,7 @@ function MediaExplanation(props) {
           // onSubmit={(e) => {e.preventDefault(); changeStep()}}
           autoComplete="off"
         >
-          <div className="slideMultiStepForm" style={{ transform: `translate(-${position * 100}%, 0)` }}>
+          <div className="multiStepSlides" style={{ transform: `translate(-${position * 100}%, 0)` }}>
             {
               Questions.map((quest, i) => (
                 <div

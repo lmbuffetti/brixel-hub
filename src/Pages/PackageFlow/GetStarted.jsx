@@ -327,9 +327,9 @@ const GetStarted = (props) => {
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
-          <div className={`slideMultiStepForm`}>
+          <div className={`multiStepSlides`}>
             <div
-              className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
+              className={`singleStep jc-c ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
               <div className="subcontainer m-a">
                 {
@@ -342,7 +342,7 @@ const GetStarted = (props) => {
                       }
                       <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
                       {quest.subtitle && (
-                        <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)}
+                      <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)}
                       <MultiFileldsReduxForm
                         form="GetStarted"
                         disableNextBtn={false}
@@ -392,7 +392,7 @@ const GetStarted = (props) => {
             className={`footerAction p-1 p-md-2 shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
             <div className="container pos-r">
-              <div className={`w-perc-100 a-c dis-fl-row jc-b m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-b'}`}>
+              <div className={`w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-b'}`}>
                 {
                   checkValidateField() && quest.successMessage && (
                     <div

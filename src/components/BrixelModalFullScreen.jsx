@@ -39,7 +39,7 @@ const BrixelModalFullScreen = (props) => {
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
-          <div className={`slideMultiStepForm`}>
+          <div className={`multiStepSlides`}>
             <div
               className={`singleStep jc-c 'fade-enter`}
             >

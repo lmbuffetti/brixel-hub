@@ -466,7 +466,7 @@ function OnBoarding(props) {
           autoComplete="off"
         >
           <div
-            className="slideMultiStepForm "
+            className="multiStepSlides "
             style={
               {transform: `translate(-${position * 100}%, 0)`,
               height: windowDimensions.height - calcFlowContentHeight()}

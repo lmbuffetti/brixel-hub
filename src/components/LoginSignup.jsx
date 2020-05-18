@@ -44,6 +44,7 @@ const LoginSignup = (props) => {
       {
         loginPage ? (
           <>
+            <h5>{translateTo(lang, "Login to your profile to save your progress.")}</h5>
             <p className="mb-md-9">
               <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(false)}>
                 {translateTo(lang, "You don't have a profile?")}
@@ -111,6 +112,7 @@ const LoginSignup = (props) => {
           </>
         ) : (
           <>
+            <h5>{translateTo(lang, "Create your profile to save your progress.")}</h5>
             <p className="mb-md-9">
               <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(true)}>
                 {translateTo(lang, "You already have a profile?")}

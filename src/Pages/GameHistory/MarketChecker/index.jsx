@@ -183,7 +183,7 @@ const MarketCheck = (props) => {
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
-          <div className={`slideMultiStepForm`}>
+          <div className={`multiStepSlides`}>
             <div
               className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
@@ -194,13 +194,13 @@ const MarketCheck = (props) => {
                       <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
                       {quest.subtitle && (
                         <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)}
-                      <MultiFileldsReduxForm
-                        disableNextBtn={false}
-                        formValue={formValue}
-                        form="Property"
-                        inputs={quest.inputs}
-                        onClick={() => ''}
-                      />
+                        <MultiFileldsReduxForm
+                          disableNextBtn={false}
+                          formValue={formValue}
+                          form="Property"
+                          inputs={quest.inputs}
+                          onClick={() => ''}
+                        />
                     </div>
                   )
                 }

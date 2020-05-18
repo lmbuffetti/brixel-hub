@@ -17,7 +17,9 @@
   }
 
   .bodyModal {
-    height: calc(100% - #{$step});
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     overflow: hidden;
     margin: auto;
 
@@ -25,8 +27,6 @@
     width: 100%;
     width: 100%;
     z-index: 10;
-    opacity: 0;
-    animation: fadeInSec $default-time-long $default-easing forwards;
 
     &:before {
       top: 2px;
@@ -45,41 +45,76 @@
       border-top-right-radius: $brd-radius-small;
     }
 
-    header {
-      .pageHeaderAchievement {
+    .pageHeaderAchievement {
+      > div {
         border-top-left-radius: $brd-radius-small;
         border-top-right-radius: $brd-radius-small;
         box-shadow: $shadow-1dp;
       }
     }
     #multiStepForm {
-      height: calc(100% - 114px);
+      overflow: hidden;
+      height: 100%;
       display: flex;
       flex-direction: column;
 
-      .slideMultiStepForm {
+      .multiStepSlides {
         height: 100%;
         display: flex;
-        transition: none;
+        overflow: hidden;
 
         .singleStep {
           height: 100%;
           overflow-y: auto;
           flex: 0 0 100%;
           padding: $step * 3;
-          transition: opacity $default-time-long $default-easing;
+          background: none;
 
-          @media (min-width: $responsive-small) {
+          @media (min-width: $responsive-medium) {
             display: flex;
             align-items: center;
           }
 
-          &[class*="bg"],
-          &.vertCentered {
-            align-items: center;
-            justify-content: center;
-            display: flex;
+          @media (max-width: $responsive-medium) {
+            &[class*="bg"],
+            &.vertCentered {
+              align-items: center;
+              justify-content: center;
+              display: flex;
+            }
           }
+
+          @media (max-width: $responsive-medium) {
+            padding: $step * 2;
+          }
+
+          &:before {
+            top: 2px;
+            position: absolute;
+            height: calc(100% - 2px);
+            width: 100%;
+            content: '';
+            z-index: -1;
+            left: 50%;
+            max-width: 760px;
+            transform: translateX(-50%);
+            border-top-left-radius: $brd-radius-small;
+            border-top-right-radius: $brd-radius-small;
+          }
+
+          &.bgRed100 {
+            &:before {
+              background-color: map-get($redColor, 100 );
+            }
+          }
+          &.bgPrimary100 {
+            &:before {
+              background-color: map-get($primaryColor, 100 );
+            }
+          }
+
+
+
           .subcontainer {
             width: 100%;
             max-width: 480px;
@@ -92,8 +127,8 @@
       display: none;
     }
     &:not(.upgradeModal) {
-      height: calc(100% - #{$step});
-      top: $step;
+     /*  height: calc(100% - #{$step});
+      top: $step; */
     }
     &.upgradeModal {
       #multiStepForm {
@@ -119,7 +154,7 @@
     .footerAction {
       max-width: 760px;
       background: $brx-white;
-      position: absolute;
+      position: relative;
       width: 100%;
       left: 50%;
       transform: translateX(-50%);
@@ -134,6 +169,10 @@
       }
       span {
         white-space: nowrap;
+      }
+      .container > div > :only-child {
+        margin-left: auto;
+        margin-right: auto;
       }
     }
     .boxMarketCheck {
@@ -165,13 +204,12 @@
     }
   }
 }
-
+/*
 @media (min-width: $responsive-medium) {
   #bodyModalWrapper {
     .bodyModal {
-      height: calc(100% - #{$step});
+      height: 100%;
       overflow: hidden;
-      top: $step;
       left: 50%;
       transform: translate(-50%, 0);
 
@@ -181,7 +219,6 @@
 
       &:not(.upgradeModal) {
         height: calc(100% - #{$step * 2});
-        top: $step * 2;
       }
       &.upgradeModal {
         #multiStepForm {
@@ -195,7 +232,7 @@
       }
     }
   }
-}
+} */
 
 .barAssessor {
   height: 8px;

@@ -168,7 +168,7 @@ const Upgrade = (props) => {
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
-          <div className={`slideMultiStepForm`}>
+          <div className={`multiStepSlides`}>
             <div
               className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
