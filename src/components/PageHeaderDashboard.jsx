@@ -269,7 +269,7 @@ function PageHeaderDashboard(props) {
                 />
                 {
                   showMobileMenu && (
-                    <div className="mobile-menu bgGreen700 w-perc-100 h-100 pos-a dis-fl-col a-c p-1 zIndex5" style={{ height: windowDimensions.height }}>
+                    <div className="mobile-menu bgGreen700 w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-2 pb-2 zIndex5" style={{ height: windowDimensions.height }}>
                       <BrixelButtonIcon
                         className="as-fe mb-5"
                         icon="close-small"
@@ -282,7 +282,7 @@ function PageHeaderDashboard(props) {
                           document.body.classList.remove('ov-h');
                         }}
                       />
-                      <div className="links dis-fl-col as-b px-3 w-perc-100">
+                      <div className="links dis-fl-col as-b w-perc-100">
                         <button
                           className="txtLight100 fweight-700 fSizePx28 mb-4 ta-l"
                           onClick={() => onClickMobileMenu('propertyList')}
