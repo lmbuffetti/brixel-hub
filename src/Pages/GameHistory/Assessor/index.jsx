@@ -13,7 +13,6 @@ import { reduxForm, reset } from 'redux-form';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
-import last from 'lodash/last';
 
 const Assessor = (props) => {
   // PROPS
@@ -40,7 +39,6 @@ const Assessor = (props) => {
   const [lastID, setLastID] = useState(0);
   // GET URL PARAMS
   const getAchievement = () => history.location.pathname.split('/')[4];
-  console.log(history.location.pathname.split('/')[4]);
   const propID = get(match, 'params.propId', null);
 
   // CHECK IF THE ACHIEVEMENT IS DONE
@@ -49,7 +47,6 @@ const Assessor = (props) => {
       const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === activeSingleProperty.id);
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
-        console.log(get(history, 'location.state.redo', false));
         if (lastID && get(history, 'location.state.redo', false) !== true) {
           setCurrentIndex(lastID);
           setQuest(questions[lastID]);
@@ -83,7 +80,6 @@ const Assessor = (props) => {
   }, [currentIndex]);
 
   const closeWindow = () => {
-    console.log(getAchievement());
     if (typeof window !== 'undefined' && window.innerWidth < 1024) {
       history.push(`/${propID}/rewards`);
     } else {

@@ -99,7 +99,6 @@ const GetStarted = (props) => {
   }, [loggedInUser]);
 
   useEffect(() => {
-    console.log(initialValues);
     if (get(initialValues, 'properties.propertyType', null)) {
       changeStep();
     }
@@ -465,7 +464,6 @@ const mapStateToProps = (state, props) => {
   const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
   const channel = get(urlSearch, 'channel', 'default');
   const propertyType = get(urlSearch, 'propertyType', null)
-  console.log(channel, propertyType);
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
