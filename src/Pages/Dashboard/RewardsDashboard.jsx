@@ -173,7 +173,7 @@ const RewardsDashboard = (props) => {
       setActiveGameGroup(null);
       setActiveAchievement(null);
     }
-  }, [gameHistoryData, usrGroups, history, gameGroup]);
+  }, [gameHistoryData, usrGroups, history, gameGroup, rewardType]);
 
   const onClickAchievement = (game, achievement) => {
     setActiveGameGroup(game);

@@ -12,7 +12,6 @@ import { reduxForm, reset } from 'redux-form';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
-import last from 'lodash/last';
 
 const MarketCheck = (props) => {
   // PROPS
@@ -29,7 +28,7 @@ const MarketCheck = (props) => {
   } = props;
   // STATE
   const [questions, setQuestions] = useState(MarketCheckQuestions('en'));
-  // const [position, setPosition] = useState(0);
+  const [loaded, setLoaded] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quest, setQuest] = useState(MarketCheckQuestions('en')[0]);
   const [isEnter, setIsEnter] = useState(true);
@@ -37,7 +36,7 @@ const MarketCheck = (props) => {
   const [finishedFlow, setFinishedFlow] = useState(false);
   const [lastID, setLastID] = useState(0);
   // GET URL PARAMS
-  const getAchievement = () => last(history.location.pathname.split('/'));
+  const getAchievement = () => history.location.pathname.split('/')[4];
   const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
@@ -59,6 +58,7 @@ const MarketCheck = (props) => {
       } else {
         setFinishedFlow(false);
       }
+      setLoaded(true);
     }
   }, [gameHistory, activeSingleProperty, lastID]);
 
@@ -72,6 +72,15 @@ const MarketCheck = (props) => {
 
   useEffect(() => {
     setIsEnter(true);
+    if (questions[currentIndex].history && loaded) {
+      const redo = get(history, 'location.state.redo', false);
+      history.push({
+        pathname: `/${propID}/rewards/achievement/${getAchievement()}/${questions[currentIndex].history}`,
+        state: {
+          redo: redo,
+        }
+      });
+    }
   }, [currentIndex]);
 
   const closeWindow = () => {
@@ -162,7 +171,7 @@ const MarketCheck = (props) => {
     return label;
   };
 
-  if(!formValue.id) {
+  if(!formValue.id && !loaded) {
     return (
       <div/>
     )

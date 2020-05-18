@@ -30,7 +30,7 @@ const Assessor = (props) => {
   } = props;
   // STATE
   const [questions, setQuestions] = useState(AssessorQuestions('en'));
-  // const [position, setPosition] = useState(0);
+  const [loaded, setLoaded] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quest, setQuest] = useState(AssessorQuestions('en')[0]);
   const [isEnter, setIsEnter] = useState(true);
@@ -54,6 +54,7 @@ const Assessor = (props) => {
       } else {
         setFinishedFlow(false);
       }
+      setLoaded(true);
     }
   }, [gameHistory, activeSingleProperty, lastID]);
 
@@ -68,7 +69,7 @@ const Assessor = (props) => {
 
   useEffect(() => {
     setIsEnter(true);
-    if (questions[currentIndex].history) {
+    if (questions[currentIndex].history && loaded) {
       const redo = get(history, 'location.state.redo', false);
       history.push({
         pathname: `/${propID}/rewards/achievement/${getAchievement()}/${questions[currentIndex].history}`,
@@ -195,7 +196,7 @@ const Assessor = (props) => {
     return label;
   };
 
-  if(!formValue.id) {
+  if(!formValue.id && !loaded) {
     return (
       <div/>
     )
