@@ -47,7 +47,8 @@ const RewardsDashboard = (props) => {
   const [activeAchievement, setActiveAchievement] = useState(null);
   const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
   // PARAMS URL
-  const rewardType = get(history, 'location.pathname', '').split('/')[3].replace('-done', '');
+  const splitRewards = get(history, 'location.pathname', '').split('/');
+  const rewardType = splitRewards[3] ? splitRewards[3].replace('-done', '') : splitRewards[2];
   const propID = get(match, 'params.propId', '');
   const gameHistoryData = get(gameHistory, 'data', null);
 
