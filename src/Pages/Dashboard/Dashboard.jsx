@@ -24,6 +24,7 @@ import { deleteDocument, uploadDocument, getImageType } from '../../actions/Uplo
 import { addGameHistory, getAchievement, getGamegroup, getGameHistory } from '../../actions/GamificationActions';
 import { setModal, setScreenNotification } from '../../actions/CommonActions';
 import has from 'lodash/has';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -73,6 +74,7 @@ const Dashboard = (props) => {
     handleAddGameHistory,
     handleGetActiveSingleProperty,
     handleGetActiveSinglePropertyBookings,
+    handleGetActiveSingleCompany,
     handleGetPropertyListings,
     handleGetImageType,
     handleSaveActiveSingleProperty,
@@ -147,6 +149,10 @@ const Dashboard = (props) => {
       history.push('/no-property');
     }
     localStorage.removeItem('gameGroup');
+    const activeLeads = get(activeSingleProperty, 'pageLeads[0]', null)
+    if (activeLeads) {
+      handleGetActiveSingleCompany({id: activeLeads.company});
+    }
   }, [activeSingleProperty]);
 
   const saveData = () => {
@@ -311,6 +317,7 @@ Dashboard.propTypes = {
   handleGetPropertyListings: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleGetAchievement: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
@@ -404,6 +411,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetAchievement: bindActionCreators(getAchievement, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),

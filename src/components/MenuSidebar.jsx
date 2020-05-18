@@ -19,11 +19,9 @@ import { sortObject } from '../utils/helpers';
 
 const MenuSidebar = (props) => {
   const {
-    activeSingleProperty,
     windowDimensions,
     formValue,
     history,
-    handleGetActiveSingleCompany,
     gameGroup,
     gameHistory,
     userTypes,
@@ -40,13 +38,6 @@ const MenuSidebar = (props) => {
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
   const levelUrl = history.location.pathname.split('/');
-
-  useEffect(() => {
-    const activeLeads = get(activeSingleProperty, 'pageLeads[0]', null)
-    if (activeLeads) {
-      handleGetActiveSingleCompany({id: activeLeads.company});
-    }
-  }, [activeSingleProperty]);
 
   useEffect(() => {
     if (gameGroup && gameHistory) {
@@ -198,7 +189,6 @@ MenuSidebar.propTypes = {
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
   userTypes: PropTypes.string,
-  handleGetActiveSingleCompany: PropTypes.func.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -214,11 +204,7 @@ const mapStateToProps = (state) => ({
   userTypes: get(state, 'user.userTypes', null),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-});
-
 export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, null),
 )(MenuSidebar);

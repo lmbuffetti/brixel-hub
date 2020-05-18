@@ -8,7 +8,7 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, MultiFileldsReduxForm } from '@brixel/brixel-components';
 import InfoImg from '../../images/Upgrade/info.svg';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
@@ -174,7 +174,7 @@ const Upgrade = (props) => {
               className="shadow-1dp as-c"
               onClick={() => closeWindow()}
             />
-            </div>
+          </div>
         </header>
         <form
           id="multiStepForm"
@@ -190,26 +190,17 @@ const Upgrade = (props) => {
                 {
                   quest.inputs ? (
                     <div>
+
                       <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
                       {quest.subtitle && ( <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle}} /> )}
-                      {
-                        quest.inputs.map((input, f) => (
-                          <React.Fragment key={f.toString()}>
-                            {
-                              valideConditionInput(input) && (
-                                <MultiStepForm
-                                  disableNextBtn={false}
-                                  formValue={formValue}
-                                  formName="Property"
-                                  onClick={() => ''}
-                                  input={input}
-                                  className={input.className}
-                                />
-                              )
-                            }
-                          </React.Fragment>
-                        ))
-                      }
+
+                      <MultiFileldsReduxForm
+                        disableNextBtn={false}
+                        formValue={formValue}
+                        form="Property"
+                        inputs={quest.inputs}
+                        onClick={() => ''}
+                      />
                     </div>
                   ) : (
                     <div className="ta-c">
@@ -230,7 +221,7 @@ const Upgrade = (props) => {
                 {
                   currentIndex === 0 && (
                     <div className="max-w-fix-288 shadow-1dp mt-3 m-a">
-                      <Support hideClose expanded />
+                      <Support hideClose expanded={false} />
                     </div>
                   )
                 }

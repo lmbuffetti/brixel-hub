@@ -17,6 +17,10 @@ const Support = (props) => {
     layout,
     onClose,
   } = props;
+  // STATIC CONTCT DATA
+  const phone = get (activeSingleCompany, 'contact.phone', null);
+  const email = get (activeSingleCompany, 'contact.email', null);
+  const whatsapp = get (activeSingleCompany, 'contact.whatsapp', null);
 
   const [openDetail, setOpenDetail] = useState(expanded);
 
@@ -83,32 +87,44 @@ const Support = (props) => {
           )
         }
         <div className={`moreInfoSupport ${openDetail ? 'open' : 'close'} ${layout === 'rewards' ? 'w-fit m-a' : ''}`}>
-          <a href={`tel:${activeSingleCompany.contact.phone}`} className="dis-f a-c mb-3">
-            <img className="w-fix-40" src={CallUsImg} alt="Call Us" />
-            <p className="ml-2">
-              <span className="dis-b txtDark200 body2">Call Us</span>
-              <span className="txtDark700 ff-mono">{Helpers.telephoneFormat(activeSingleCompany.contact.phone.toString())}</span>
-            </p>
-          </a>
-          <a href={`mailto: ${activeSingleCompany.contact.email}`} className="dis-f a-c mb-3">
-            <img className="w-fix-40" src={WriteUsImg} alt="Call Us" />
-            <p className="ml-2">
-              <span className="dis-b txtDark200 body2">Write us</span>
-              <span className="txtDark700">{activeSingleCompany.contact.email}</span>
-            </p>
-          </a>
-          <a
-            href={`https://wa.me/${(activeSingleCompany.contact.whatsapp).replace('+', '')}`}
-            className="dis-f a-c"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img className="w-fix-40" src={WhatAppImg} alt="Call Us" />
-            <p className="ml-2">
-              <span className="dis-b txtDark200 body2">Text Us</span>
-              <span className="txtDark700 ff-mono">{Helpers.telephoneFormat(activeSingleCompany.contact.whatsapp)}</span>
-            </p>
-          </a>
+          {
+            phone && (
+              <a href={`tel:${phone}`} className="dis-f a-c mb-3">
+                <img className="w-fix-40" src={CallUsImg} alt="Call Us" />
+                <p className="ml-2">
+                  <span className="dis-b txtDark200 body2">Call Us</span>
+                  <span className="txtDark700 ff-mono">{Helpers.telephoneFormat(phone.toString())}</span>
+                </p>
+              </a>
+            )
+          }
+          {
+            email && (
+              <a href={`mailto: ${email}`} className="dis-f a-c mb-3">
+                <img className="w-fix-40" src={WriteUsImg} alt="Call Us" />
+                <p className="ml-2">
+                  <span className="dis-b txtDark200 body2">Write us</span>
+                  <span className="txtDark700">{email}</span>
+                </p>
+              </a>
+            )
+          }
+          {
+            whatsapp && (
+              <a
+                href={`https://wa.me/${(whatsapp).replace('+', '')}`}
+                className="dis-f a-c"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img className="w-fix-40" src={WhatAppImg} alt="Call Us" />
+                <p className="ml-2">
+                  <span className="dis-b txtDark200 body2">Text Us</span>
+                  <span className="txtDark700 ff-mono">{Helpers.telephoneFormat(whatsapp)}</span>
+                </p>
+              </a>
+            )
+          }
         </div>
       </div>
     </div>
