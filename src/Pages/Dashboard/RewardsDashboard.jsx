@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
-import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelIcon, BrixelButtonIcon, BrixelButtonBox } from '@brixel/brixel-components';
@@ -48,7 +47,8 @@ const RewardsDashboard = (props) => {
   const [activeAchievement, setActiveAchievement] = useState(null);
   const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
   // PARAMS URL
-  const rewardType = last(get(history, 'location.pathname', '').split('/')).replace('-done', '');
+  const splitRewards = get(history, 'location.pathname', '').split('/');
+  const rewardType = splitRewards[3] ? splitRewards[3].replace('-done', '') : splitRewards[2];
   const propID = get(match, 'params.propId', '');
   const gameHistoryData = get(gameHistory, 'data', null);
 
@@ -173,7 +173,7 @@ const RewardsDashboard = (props) => {
       setActiveGameGroup(null);
       setActiveAchievement(null);
     }
-  }, [gameHistoryData, usrGroups, history, gameGroup]);
+  }, [gameHistoryData, usrGroups, history, gameGroup, rewardType]);
 
   const onClickAchievement = (game, achievement) => {
     setActiveGameGroup(game);

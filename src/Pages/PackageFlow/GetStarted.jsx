@@ -34,6 +34,7 @@ const GetStarted = (props) => {
     handleGetActiveSingleCompany,
     handleSetLanguage,
     handleGetGamegroup,
+    initialValues,
     loggedInUser,
     handleDoLogin,
     handleValidateUser,
@@ -98,6 +99,12 @@ const GetStarted = (props) => {
   }, [loggedInUser]);
 
   useEffect(() => {
+    if (get(initialValues, 'properties.propertyType', null)) {
+      changeStep();
+    }
+  }, [initialValues])
+
+  useEffect(() => {
     setIsEnter(true);
   }, [currentIndex]);
 
@@ -145,7 +152,7 @@ const GetStarted = (props) => {
         ...formValue.profile,
         userType: 'seller',
         signupAccept: true,
-        signupChannel: "default",
+        signupChannel: get(formValue, 'channel', 'default'),
         signupProduct: null,
         language: lang || 'en',
         createUser: true,
@@ -445,6 +452,7 @@ GetStarted.propTypes = {
   handleDoLogin: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
   match: PropTypes.object.isRequired,
   packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -452,30 +460,37 @@ GetStarted.propTypes = {
   reset: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  activeSingleProperty: get(state, 'property.activeSingleProperty', null),
-  company: get(state, 'companies.activeSingleCompany', {}),
-  errorValue: get(state, 'form.GetStarted.syncErrors', {}),
-  formValue: get(state, 'form.GetStarted.values', {}),
-  gameGroup: get(state, 'gamification.gameGroup', []),
-  gameHistory: get(state, 'gamification.gameHistory', {}),
-  lang: get(state, 'common.language', 'en'),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
-  packagesProperty: get(state, 'property.packagesProperty', []),
-  startForm: get(state, 'form.GetStarted', null),
-  initialValues: {
-    price: {
-      currency: get(state, 'companies.activeSingleCompany.country.currency', null)
-    },
-    properties: {
-      typology: {
-        livingArea: {
-          unit: 'sqm'
+const mapStateToProps = (state, props) => {
+  const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
+  const channel = get(urlSearch, 'channel', 'default');
+  const propertyType = get(urlSearch, 'propertyType', null)
+  return ({
+    activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+    company: get(state, 'companies.activeSingleCompany', {}),
+    errorValue: get(state, 'form.GetStarted.syncErrors', {}),
+    formValue: get(state, 'form.GetStarted.values', {}),
+    gameGroup: get(state, 'gamification.gameGroup', []),
+    gameHistory: get(state, 'gamification.gameHistory', {}),
+    lang: get(state, 'common.language', 'en'),
+    loggedInUser: get(state, 'user.loggedInUser', {}),
+    packagesProperty: get(state, 'property.packagesProperty', []),
+    startForm: get(state, 'form.GetStarted', null),
+    initialValues: {
+      channel: channel,
+      price: {
+        currency: get(state, 'companies.activeSingleCompany.country.currency', null)
+      },
+      properties: {
+        propertyType: propertyType,
+        typology: {
+          livingArea: {
+            unit: 'sqm'
+          }
         }
       }
     }
-  }
-});
+  });
+}
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
@@ -494,7 +509,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const AnyForm = reduxForm({
   form: 'GetStarted',
-  enableReinitialize: true,
+  enableReinitialize: false,
 })(GetStarted)
 
 export default compose(
