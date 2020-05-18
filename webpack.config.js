@@ -12,6 +12,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const CopyPlugin = require('copy-webpack-plugin');
+const CSSNano = require('cssnano');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -165,9 +166,11 @@ const clientConfig = {
       cleanOnceBeforeBuildPatterns: ['*', '!manifest.json'],
       dangerouslyAllowCleanPatternsOutsideProject: true,
     }),
-    new CopyPlugin([
-      { from: './public/favicon.png', to: './' },
-    ]),
+    new CopyPlugin({
+      patterns: [
+        { from: './public/favicon.png', to: './' }
+      ]},
+    ),
     // new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       chunksSortMode: 'none',
@@ -254,12 +257,12 @@ const clientConfig = {
         sourceMap: devMode,
       }),
       new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: {
-          map: {
-            inline: !devMode,
-            annotation: true,
-          },
+        assetNameRegExp: /\.optimize\.css$/g,
+        cssProcessor: CSSNano,
+        cssProcessorPluginOptions: {
+          preset: ['default', { discardComments: { removeAll: true } }],
         },
+        canPrint: true
       }),
     ],
   },

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { BrixelIcon, BrixelButtonIcon, Helpers } from '@brixel/brixel-components';
-import SupportImg from '../images/Support/supportImg.png';
 import CallUsImg from '../images/Support/call_us.svg';
 import WriteUsImg from '../images/Support/wite_us.svg';
 import WhatAppImg from '../images/Support/whatsapp.svg';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 
 const Support = (props) => {
   const {
@@ -17,6 +17,11 @@ const Support = (props) => {
     layout,
     onClose,
   } = props;
+  // STATIC CONTCT DATA
+  const phone = get (activeSingleCompany, 'contact.phone', null);
+  const email = get (activeSingleCompany, 'contact.email', null);
+  const whatsapp = get (activeSingleCompany, 'contact.whatsapp', null);
+  const teamAvatars = get (activeSingleCompany, 'teamAvatars', []);
 
   const [openDetail, setOpenDetail] = useState(expanded);
 
@@ -68,7 +73,17 @@ const Support = (props) => {
           className={`dis-f a-c ${layout === 'rewards' ? 'jc-c my-5' : 'mt-3 jc-b '} ${expanded ? '' : 'cur-poi'}`}
           onClick={() => expanded ? ''  : onclickOne() }
         >
-          <img src={SupportImg} alt="Support Team" className={layout === 'rewards' ? "w-fix-280" : "w-fix-160"} />
+          <div className="dis-f jc-fs">
+            {
+              teamAvatars.map(imgTeam => (
+                <img
+                  src={`${baseByData.shortPath}${imgTeam.path}`}
+                  alt="Support Team"
+                  className={`${layout === 'rewards' ? "w-fix-104" : "w-fix-72"}  square brdLarge brdWhite mr-2-neg brdCircle`}
+                />
+              ))
+            }
+          </div>
           {
             !expanded && (
               <BrixelIcon
@@ -83,32 +98,44 @@ const Support = (props) => {
           )
         }
         <div className={`moreInfoSupport ${openDetail ? 'open' : 'close'} ${layout === 'rewards' ? 'w-fit m-a' : ''}`}>
-          <a href={`tel:${activeSingleCompany.contact.phone}`} className="dis-f a-c mb-3">
-            <img className="w-fix-40" src={CallUsImg} alt="Call Us" />
-            <p className="ml-2">
-              <span className="dis-b txtDark200 body2">Call Us</span>
-              <span className="txtDark700 ff-mono">{Helpers.telephoneFormat(activeSingleCompany.contact.phone.toString())}</span>
-            </p>
-          </a>
-          <a href={`mailto: ${activeSingleCompany.contact.email}`} className="dis-f a-c mb-3">
-            <img className="w-fix-40" src={WriteUsImg} alt="Call Us" />
-            <p className="ml-2">
-              <span className="dis-b txtDark200 body2">Write us</span>
-              <span className="txtDark700">{activeSingleCompany.contact.email}</span>
-            </p>
-          </a>
-          <a
-            href={`https://wa.me/${(activeSingleCompany.contact.whatsapp).replace('+', '')}`}
-            className="dis-f a-c"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img className="w-fix-40" src={WhatAppImg} alt="Call Us" />
-            <p className="ml-2">
-              <span className="dis-b txtDark200 body2">Text Us</span>
-              <span className="txtDark700 ff-mono">{Helpers.telephoneFormat(activeSingleCompany.contact.whatsapp)}</span>
-            </p>
-          </a>
+          {
+            phone && (
+              <a href={`tel:${phone}`} className="dis-f a-c mb-3">
+                <img className="w-fix-40" src={CallUsImg} alt="Call Us" />
+                <p className="ml-2">
+                  <span className="dis-b txtDark200 body2">Call Us</span>
+                  <span className="txtDark700 ff-mono">{Helpers.telephoneFormat(phone.toString())}</span>
+                </p>
+              </a>
+            )
+          }
+          {
+            email && (
+              <a href={`mailto: ${email}`} className="dis-f a-c mb-3">
+                <img className="w-fix-40" src={WriteUsImg} alt="Call Us" />
+                <p className="ml-2">
+                  <span className="dis-b txtDark200 body2">Write us</span>
+                  <span className="txtDark700">{email}</span>
+                </p>
+              </a>
+            )
+          }
+          {
+            whatsapp && (
+              <a
+                href={`https://wa.me/${(whatsapp).replace('+', '')}`}
+                className="dis-f a-c"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img className="w-fix-40" src={WhatAppImg} alt="Call Us" />
+                <p className="ml-2">
+                  <span className="dis-b txtDark200 body2">Text Us</span>
+                  <span className="txtDark700 ff-mono">{Helpers.telephoneFormat(whatsapp)}</span>
+                </p>
+              </a>
+            )
+          }
         </div>
       </div>
     </div>
