@@ -443,7 +443,9 @@ export const ComponentMap =(props) => {
                       compact
                       className="w-perc-100 mt-1 pos-r zIndex2"
                       input={{
-                        onChange: (val) => changeCountry(val.toUpperCase()),
+                        onChange: (val) => {
+                          changeCountry(val.toUpperCase())
+                        },
                         name: 'country',
                         value: defCountry ? defCountry.toLowerCase() : '',
                       }}
@@ -640,7 +642,6 @@ ComponentMap.propTypes = {
 
 ComponentMap.defaultProps = {
   className: '',
-  changeCountry: () => '',
   disableZoom: false,
   draggable: false,
   externalControls: false,

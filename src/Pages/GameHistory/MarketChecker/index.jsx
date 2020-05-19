@@ -201,15 +201,17 @@ const MarketCheck = (props) => {
                   quest.inputs && (
                     <div>
                       <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
-                      {quest.subtitle && (
-                        <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)}
-                        <MultiFileldsReduxForm
-                          disableNextBtn={false}
-                          formValue={formValue}
-                          form="Property"
-                          inputs={quest.inputs}
-                          onClick={() => ''}
-                        />
+                      {
+                        quest.subtitle && (
+                          <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)
+                      }
+                      <MultiFileldsReduxForm
+                        disableNextBtn={false}
+                        formValue={formValue}
+                        form="Property"
+                        inputs={quest.inputs}
+                        onClick={() => ''}
+                      />
                     </div>
                   )
                 }

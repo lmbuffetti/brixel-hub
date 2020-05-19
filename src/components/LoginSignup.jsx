@@ -14,6 +14,7 @@ const LoginSignup = (props) => {
   // PROPS
   const {
     changeFieldValue,
+    company,
     formName,
     formValue,
     onChangeLogin,
@@ -219,7 +220,7 @@ const LoginSignup = (props) => {
                   name: "privacy",
                   options: [
                     {
-                      label: translateTo(lang, `I hereby confirm that I have read, understand and accept the <a href="https://gobrixel.nl/voorwaarden/" target="_blank">terms</a> and <a href="https://gobrixel.nl/privacybeleid/" target="_blank">privacy policy</a> of Brixel.`),
+                      label: translateTo(lang, `I hereby confirm that I have read, understand and accept the <a href="${get(company, 'links.terms', '')}" target="_blank">terms</a> and <a href="${get(company, 'links.privacy', '')}" target="_blank">privacy policy</a> of Brixel.`),
                       value: 'privacy'
                     }
                   ],
@@ -242,6 +243,7 @@ const LoginSignup = (props) => {
 };
 
 LoginSignup.propTypes = {
+  company: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
@@ -259,6 +261,7 @@ LoginSignup.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => ({
+  company: get(state, 'companies.activeSingleCompany', {}),
   errorValue: get(state, `form.${props.formName}.syncErrors`, {}),
   formValue: get(state, `form.${props.formName}.values`, {}),
   lang: get(state, 'common.language', {}),
