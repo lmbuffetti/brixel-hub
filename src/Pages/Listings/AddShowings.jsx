@@ -84,7 +84,7 @@ const Showings = (props) => {
             }
           </div>
           <BrixelButtonIcon
-            className="shadow-2dp"
+            className="shadow-1dp"
             icon="close-small"
             color="primary"
             saturationTxt={400}

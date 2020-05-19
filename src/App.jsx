@@ -214,7 +214,11 @@ const App = (props) => {
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade')
     ) {
-      setClassMain('flowContainer w-perc-100');
+      if (history.location.pathname.includes('packageFlow')) {
+        setClassMain('flowContainer packageFlow w-perc-100');
+      } else {
+        setClassMain('flowContainer w-perc-100');
+      }
       setIsFlow(true);
       setZIndex(6);
     } else {
@@ -313,7 +317,7 @@ const App = (props) => {
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
+              className={`${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
               style={ isSecLevel ? {height: '100%'} : headerCalc()}
               ref={dashContentRef}
             >
@@ -382,7 +386,7 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification && (!isFlow || notification.type === 'alert') && (
+        notification && ( (!history.location.pathname.includes('rewards') && !history.location.pathname.includes('packageFlow')) || notification.type === 'alert') && (
           <BrixelNotification
             saveBar
             label={notification.label}

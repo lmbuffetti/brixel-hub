@@ -37,7 +37,7 @@ const Support = (props) => {
 
   return (
     <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} mb-4 bgWhite ${isFixed ? 'fixed' : 'noFixed'}`} id="supportBox">
-      <div className={`${isFixed ? 'shadow-1dp' : ''} ${layout === 'rewards' ? 'p-1' : 'p-4'}`}>
+      <div className={`${isFixed ? 'shadow-1dp' : ''} ${layout === 'rewards' ? 'p-1' : 'pt-2 px-3 pb-3'}`}>
         {
           layout !== 'rewards' && (
             <div className="dis-f jc-b a-t">
@@ -48,7 +48,7 @@ const Support = (props) => {
               {
                 !isFixed && !hideClose && (
                   <BrixelButtonIcon
-                    className="shadow-3dp hide dis-b-md"
+                    className="shadow-2dp hide dis-b-md"
                     icon="close-small"
                     background="White"
                     color="primary"

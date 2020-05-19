@@ -19,14 +19,19 @@
   .bodyModal {
     display: flex;
     flex-direction: column;
-    height: 100%;
     overflow: hidden;
     margin: auto;
 
     position: relative;
     width: 100%;
-    width: 100%;
     z-index: 10;
+
+    height: calc(100% - #{$step});
+    top: $step;
+    bottom: 0;
+
+    animation: fadeInSec $default-time $default-easing;
+
 
     &:before {
       top: 2px;
@@ -76,16 +81,14 @@
           }
 
           @media (max-width: $responsive-medium) {
+            padding: $step * 3 $step * 2;
+
             &[class*="bg"],
             &.vertCentered {
               align-items: center;
               justify-content: center;
               display: flex;
             }
-          }
-
-          @media (max-width: $responsive-medium) {
-            padding: $step * 2;
           }
 
           &:before {
@@ -113,8 +116,6 @@
             }
           }
 
-
-
           .subcontainer {
             width: 100%;
             max-width: 480px;
@@ -125,22 +126,6 @@
     }
     .message:empty {
       display: none;
-    }
-    &:not(.upgradeModal) {
-     /*  height: calc(100% - #{$step});
-      top: $step; */
-    }
-    &.upgradeModal {
-      #multiStepForm {
-        height: calc(100% - 130px);
-      }
-      @media (max-width: $responsive-medium) {
-        &.stepNo0 {
-          #multiStepForm {
-            height: calc(100% - 228px);
-          }
-        }
-      }
     }
 
     #progressBar {
@@ -167,7 +152,18 @@
 
       &.successNext {
         background: map_get($greenColor, 200);
-
+        .textSuccess {
+          @media (max-width: $responsive-medium) {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transform: translateY(-100%);
+            background-color: $brx-white;
+            padding: $step $step * 2 0;
+            background: map_get($greenColor, 200);
+          }
+        }
         .backBtn {
           opacity: .5;
         }
@@ -175,7 +171,7 @@
       span {
         white-space: nowrap;
       }
-      .container > div > :only-child {
+      .buttonsHolder > :only-child {
         margin-left: auto;
         margin-right: auto;
       }

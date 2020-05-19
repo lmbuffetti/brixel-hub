@@ -16,18 +16,18 @@ const BrixelModalFullScreen = (props) => {
   // STATE
 
   return (
-    <div id="bodyModalWrapper">
+    <div id="bodyModalWrapper" className="modalFlow">
       <div className="bodyModal">
       <header className="max-w-fix-760 w-perc-100 m-a">
       <div className="container p-1 p-md-2 dis-f jc-fe a-c">
           <div className="dis-f a-c">
             <BrixelButtonIcon
               icon="close-small"
-              color="primary"
+              color="dark"
               saturationTxt={400}
               bgTransparent
               noBorder
-              className="shadow-1dp as-c"
+              className="shadow-2dp as-c"
               onClick={() => onClose()}
             />
           </div>

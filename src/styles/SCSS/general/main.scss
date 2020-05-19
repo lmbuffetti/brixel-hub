@@ -276,7 +276,7 @@ header {
 }
 
 //todo styleguide
-#multiStepForm {
+.packageFlow #multiStepForm {
   .brixel-radio-button-icon.radioBtnImg {
     /*todo styleguide*/
     label .textLabel {
@@ -321,5 +321,13 @@ h4.longTitle {
   max-height: 42px;
   &:before {
     height: 21px;
+  }
+}
+
+// hide notification bar
+#bodyModalWrapper,
+.rewardsTop {
+  ~ .brixel-notification {
+    display: none;
   }
 }

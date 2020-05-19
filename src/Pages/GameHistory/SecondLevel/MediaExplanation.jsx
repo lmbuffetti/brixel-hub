@@ -68,7 +68,7 @@ function MediaExplanation(props) {
   }
 
   return (
-    <main id="bodyModalWrapper">
+    <main id="bodyModalWrapper" className="achievementFlow">
       <div className="bodyModal">
         <PageHeaderAchievement
           icon={selGameGroup.icon}

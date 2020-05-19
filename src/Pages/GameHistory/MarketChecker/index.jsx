@@ -178,7 +178,7 @@ const MarketCheck = (props) => {
   }
 
   return (
-    <div id="bodyModalWrapper">
+    <div id="bodyModalWrapper" className="achievementFlow">
       <div className="bodyModal">
         <PageHeaderAchievement
           icon={selGameGroup.icon}

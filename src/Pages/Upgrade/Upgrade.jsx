@@ -147,17 +147,17 @@ const Upgrade = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper">
+    <div id="bodyModalWrapper" className="modalFlow">
       <div className={`bodyModal dis-fl-col upgradeModal stepNo${currentIndex}`}>
         <header className="max-w-fix-760 ml-a mr-a dis-f w-perc-100 jc-fe">
           <div className="dis-f a-c p-1 p-md-2">
             <BrixelButtonIcon
               icon="close-small"
-              color="primary"
+              color="primay"
               saturationTxt={400}
               bgTransparent
               noBorder
-              className="shadow-1dp as-c"
+              className="shadow-2dp as-c"
               onClick={() => closeWindow()}
             />
           </div>
@@ -206,8 +206,8 @@ const Upgrade = (props) => {
                 }
                 {
                   currentIndex === 0 && (
-                    <div className="max-w-fix-288 shadow-1dp mt-3 m-a">
-                      <Support hideClose expanded={false} />
+                    <div className="max-w-fix-304 shadow-1dp mt-3 m-a">
+                      <Support hideClose expanded />
                     </div>
                   )
                 }
