@@ -19,6 +19,7 @@ import {
 } from '../../actions/CommonActions';
 import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { InputSheets } from '../../resources/inputSheets';
+import { calcPercentageFacts } from '../../utils/helpers';
 
 // COMPONENTS
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
@@ -109,7 +110,11 @@ const Facts = (props) => {
   };
 
   useEffect(() => {
-    calcPercentage();
+    if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
+      const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+      inputSheet.totalComplete = calcPercentageFacts().calcPerc;
+      changeFieldValue('inputSheet', inputSheet);
+    }
     if (selectedQuest) {
       const findCurrentId = Questions.findIndex(quest => quest.history === selectedQuest.history);
       const quest = InputSheets(formValue)[findCurrentId];

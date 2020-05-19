@@ -18,13 +18,14 @@ import {
   getActiveSinglePropertyBookings, savePropertyVisitSchedule, createPropertyVisitSchedule, savePropertyVisitBooking,
 } from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
-import { reduxForm, reset } from 'redux-form';
+import { change, reduxForm, reset } from 'redux-form';
 import { diff } from 'deep-object-diff';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
 import { addGameHistory, getAchievement, getGamegroup, getGameHistory } from '../../actions/GamificationActions';
 import { setModal, setScreenNotification } from '../../actions/CommonActions';
 import has from 'lodash/has';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
+import { calcPercentageFacts } from '../../utils/helpers';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -65,6 +66,7 @@ const ProtectedRoute = Loadable({
 const Dashboard = (props) => {
   // PROPS
   const {
+    changeFieldValue,
     userTypes,
     errorValue,
     formValue,
@@ -287,6 +289,11 @@ const Dashboard = (props) => {
         });
       }
     }
+    if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
+      const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+      inputSheet.totalComplete = calcPercentageFacts().calcPerc;
+      changeFieldValue('inputSheet', inputSheet);
+    }
   }, [formValue, errorValue]);
 
   if (!userTypes && !userType) return (<div />);
@@ -305,6 +312,7 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
@@ -405,6 +413,9 @@ const mapStateToProps = (state) => {
   });
 }
 const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('Property', field, value));
+  },
   reset(form) {
     (dispatch(reset(form)))
   },

@@ -7,7 +7,7 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { getActiveSingleCompany } from '../../actions/CompanyActions';
+import { getActiveSingleCompany, getCompanyByCountry } from '../../actions/CompanyActions';
 import { createActiveSingleProperty } from '../../actions/PropertyActions';
 import { reduxForm, reset, change } from 'redux-form';
 import last from 'lodash/last';
@@ -32,6 +32,7 @@ const GetStarted = (props) => {
     lang,
     handleCreateActiveSingleProperty,
     handleGetActiveSingleCompany,
+    handleGetCompanyByCountry,
     handleSetLanguage,
     handleGetGamegroup,
     initialValues,
@@ -164,7 +165,6 @@ const GetStarted = (props) => {
         ignoreEmail: false,
         redirectTo: '/packageFlow/getStarted/success'
       };
-      console.log(data, formValue.profile)
       await handleValidateUser(data);
     }
     //handleCreateActiveSingleProperty({stub: getAchievement()});
@@ -222,6 +222,13 @@ const GetStarted = (props) => {
     }
   };
 
+  useEffect(() => {
+    if (get(formValue, 'location.countryCode', null)) {
+      const country = get(formValue, 'location.countryCode', null);
+      handleGetCompanyByCountry({ country: country.toUpperCase() });
+    }
+  }, [get(formValue, 'location.countryCode', null)])
+
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     if (formValue) {
@@ -253,12 +260,12 @@ const GetStarted = (props) => {
   // SET DATA BY COMPANY
   useEffect(() => {
     let getLang = cookie.get('brixelLang');
-    if (company.languageCode && !getLang) {
+    if (get(company, 'language.code', null) && !getLang) {
       const companyLang = get(company, 'language.code', 'en');
       handleSetLanguage(companyLang.toLowerCase());
       getLang = companyLang.toLowerCase();
     }
-    const companyCountry = get(company, 'country.code', 'CH')
+    const companyCountry = get(company, 'country.code', 'CH');
     setQuestions(QuestionsList(getLang, companyCountry));
     changeFieldValue('location.countryCode', companyCountry);
   }, [company]);
@@ -447,6 +454,7 @@ GetStarted.propTypes = {
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleCreateActiveSingleProperty: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
+  handleGetCompanyByCountry: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
@@ -501,6 +509,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleGetCompanyByCountry: bindActionCreators(getCompanyByCountry, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 

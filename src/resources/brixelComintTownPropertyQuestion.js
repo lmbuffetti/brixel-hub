@@ -77,7 +77,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           validation: [maxLengthNumRooms, Validation.required],
           step: 0.5,
           placeholder: country === 'PT' ?  'T' : '',
-          formatType: country === 'PT' ?  'rooms-pt' : '',
+          formatType: country === 'PT' ?  'rooms-pt' : 'roo',
           min: 0,
           startFrom: 3,
         },

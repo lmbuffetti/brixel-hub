@@ -4,8 +4,53 @@ import { translateTo } from './translation';
 import get from 'lodash/get';
 import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
 import { AssessorAvgLifespan } from '../resources/Assessor';
+import { configureStore } from '../store';
+import cloneDeep from 'lodash/cloneDeep';
+import { InputSheets } from '../resources/inputSheets';
 
 const cookies = new Cookies();
+
+export const calcPercentageFacts = () => {
+  let countTotal = 0;
+  let countDone = 0;
+  const formValue = configureStore.getState().form.Property.values;
+  const Questions = InputSheets(formValue);
+  Questions.map((val) => {
+    val.inputs.map((item) => {
+      const name = get(item, 'condition.name', '');
+      const valA = get(formValue, name, 'a');
+      if (item.conditions) {
+        item.conditions.map((cond) => {
+          const valB = get(formValue, cond.name, 'a');
+          if (valB === cond.value && (get(formValue, item.name, 'ayc') !== 'ayc' || get(formValue, item.name, 'ayc') !== null)) {
+            countTotal += 1;
+            countDone += 1;
+          }
+          return null;
+        });
+      } else if (item.validation && (!item.condition || (item.condition && valA === item.condition.value))) {
+        if (get(formValue, `inputSheet.skipSection[${item.name}]`, false)) {
+          countTotal += 1;
+          countDone += 1;
+        } else if (get(formValue, item.name, 'ayc') !== 'ayc' && get(formValue, item.name, 'ayc') !== null) {
+          countTotal += 1;
+          countDone += 1;
+        } else {
+          countTotal += 1;
+        }
+      }
+      return null;
+    });
+    return null;
+  });
+  //const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+  const calPerc = Math.floor(countDone * 100 / countTotal);
+  const savedPerc = Math.floor(get(formValue, `inputSheet.totalComplete`, 0) || 0);
+  return {
+    calcPerc: calPerc,
+    savedPerc: savedPerc,
+  };
+}
 
 export const cutValue = (val) => {
   let formatVal = val;
