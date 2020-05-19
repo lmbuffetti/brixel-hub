@@ -78,7 +78,7 @@ const Assessor = (props) => {
         }
       });
     }
-  }, [currentIndex]);
+  }, [currentIndex, loaded]);
 
   const closeWindow = () => {
     if (typeof window !== 'undefined' && window.innerWidth < 1024) {

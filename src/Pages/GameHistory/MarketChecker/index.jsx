@@ -81,7 +81,7 @@ const MarketCheck = (props) => {
         }
       });
     }
-  }, [currentIndex]);
+  }, [currentIndex, loaded]);
 
   const closeWindow = () => {
     reset('Property');
