@@ -1,3 +1,4 @@
+/* global Transifex */
 import get from 'lodash/get';
 
 //import { configureStore } from '../store';
@@ -22,11 +23,19 @@ Object.keys(configLang).map((key) => {
 });
 
 export const translateTo = (lang, word) => {
-  const translated = word;
-  const translateFile = dynImport[lang];
-  let translation = get(translateFile, word, word);
-  if (typeof translation !== 'undefined') {
-    return translation || translated;
+  let exist = false;
+  if (Transifex && Transifex.live.getAllLanguages()) {
+    const transLang = Transifex.live.getAllLanguages();
+    const compareLang = transLang.find(item => item.code === lang);
+    exist = typeof compareLang !== 'undefined';
+    if (!exist) {
+      const translated = word;
+      const translateFile = dynImport[lang];
+      let translation = get(translateFile, word, word);
+      if (typeof translation !== 'undefined') {
+        return translation || translated;
+      }
+    }
   }
   return word;
 };

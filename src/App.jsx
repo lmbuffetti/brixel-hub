@@ -382,7 +382,7 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification && !isFlow && (
+        notification && (!isFlow || notification.type === 'alert') && (
           <BrixelNotification
             saveBar
             label={notification.label}

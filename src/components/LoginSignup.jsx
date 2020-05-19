@@ -55,9 +55,7 @@ const LoginSignup = (props) => {
                 name: "profile.email",
                 placeholder: "",
                 type: "email",
-                validate: [Validation.required],
-                asyncValidate: [Validation.required],
-                asyncBlurFields: ['username'],
+                validate: [Validation.isEmail, Validation.required],
               }}
               labels={{
                 label: translateTo(lang, "Email address"),

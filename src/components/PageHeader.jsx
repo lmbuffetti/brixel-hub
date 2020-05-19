@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* global Transifex */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -83,6 +84,7 @@ function PageHeader(props) {
     e.stopPropagation();
     setCurrentLang(langCode.value);
     handleSetLanguage(langCode.value);
+    Transifex.live.translateTo(langCode.value);
     setCookie('brixelLang', langCode.value);
   };
 

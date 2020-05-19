@@ -162,9 +162,8 @@ const GetStarted = (props) => {
       };
       await handleValidateUser(data);
     }
-
-    handleCreateActiveSingleProperty({stub: getAchievement()});
-    reset('Property');
+    //handleCreateActiveSingleProperty({stub: getAchievement()});
+    //reset('Property');
   };
 
   const checkCondition = (id, act) => {
@@ -186,44 +185,36 @@ const GetStarted = (props) => {
 
   // FUNCTION TO GO TO NEXT SPEP
   const changeStep = (act) => {
-    setIsEnter(false);
     let newIndex = currentIndex;
     if (act === 'back') {
       newIndex -= 1;
     } else {
       newIndex += 1;
     }
-    if (questions[newIndex].toSave) {
-      saveData();
-    }
 
     let defId = checkCondition(newIndex, act);
     if (defId !== newIndex) defId = checkCondition(defId, act);
 
-    setCurrentIndex(defId);
     // setPosition(newIndex);
-    setQuest(questions[defId]);
     if (questions[defId].toSave) saveData();
-    setTimeout(() => {
-      const getCurStep = document.getElementById(`step-${defId}`);
-      if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-        getCurStep.querySelector('input[type="number"]').focus();
+    else {
+      setIsEnter(false);
+      setQuest(questions[defId]);
+      setCurrentIndex(defId);
+      setTimeout(() => {
+        const getCurStep = document.getElementById(`step-${defId}`);
+        if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+          getCurStep.querySelector('input[type="number"]').focus();
+        } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+          getCurStep.querySelector('input[type="text"]').focus();
+        }
+      }, 100);
+      if (questions[defId].history) {
+        history.push(`/packageFlow/getStarted/${questions[defId].history}`);
       }
-      else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-        getCurStep.querySelector('input[type="text"]').focus();
-      }
-      if (document.getElementById('getStarted')) {
-        document.getElementById('getStarted').scrollTo(0, 0);
-      }
-    }, 100);
-    if (document.getElementById('getStarted')) {
-      document.getElementById('getStarted').scrollTo(0, 0);
+      const getOnlyQuest = questions.filter(item => item.inputs);
+      setProgressBar(defId * 100 / getOnlyQuest.length);
     }
-    if (questions[newIndex].history) {
-      history.push(`/packageFlow/getStarted/${questions[defId].history}`);
-    }
-    const getOnlyQuest = questions.filter(item => item.inputs);
-    setProgressBar(defId * 100 / getOnlyQuest.length);
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
@@ -330,7 +321,6 @@ const GetStarted = (props) => {
       <div className="bodyModal">
         <form
           id="multiStepForm"
-          // onSubmit={(e) => {e.preventDefault(); changeStep()}}
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
@@ -348,8 +338,10 @@ const GetStarted = (props) => {
                         )
                       }
                       <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
-                      {quest.subtitle && (
-                      <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)}
+                      {
+                        quest.subtitle && (
+                          <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)
+                      }
                       <MultiFileldsReduxForm
                         form="GetStarted"
                         disableNextBtn={false}

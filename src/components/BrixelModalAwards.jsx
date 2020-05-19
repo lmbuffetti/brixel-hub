@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelIcon, BrixelProgressBar } from '@brixel/brixel-components';
+import { BrixelIcon } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import BrixelModalFullScreen from './BrixelModalFullScreen';
