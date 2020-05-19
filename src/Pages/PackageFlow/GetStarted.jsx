@@ -120,8 +120,11 @@ const GetStarted = (props) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
+    const dataForm = formValue;
+    const { profile } = dataForm;
+    delete dataForm.profile;
     const data = {
-      ...formValue,
+      ...dataForm,
       packageFlowProcess: {
         answers: formValue,
         rewardScreenData: {},
@@ -149,7 +152,8 @@ const GetStarted = (props) => {
       await handleDoLogin(data);
     } else {
       data.user = {
-        ...formValue.profile,
+        ...profile,
+        name: `${profile.firstName} ${profile.lastName}`,
         userType: 'seller',
         signupAccept: true,
         signupChannel: get(formValue, 'channel', 'default'),
@@ -160,6 +164,7 @@ const GetStarted = (props) => {
         ignoreEmail: false,
         redirectTo: '/packageFlow/getStarted/success'
       };
+      console.log(data, formValue.profile)
       await handleValidateUser(data);
     }
     //handleCreateActiveSingleProperty({stub: getAchievement()});

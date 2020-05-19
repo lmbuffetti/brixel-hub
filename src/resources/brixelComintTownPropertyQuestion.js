@@ -183,6 +183,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: "savingData",
       cardType: 'createProfile',
       toSave: true,
-    }
+    },
   ];
 }
