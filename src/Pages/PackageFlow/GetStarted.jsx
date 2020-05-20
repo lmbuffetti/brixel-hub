@@ -50,7 +50,7 @@ const GetStarted = (props) => {
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [lastID, setLastID] = useState(0);
-  const [roomValue, setRoomValue] = useState(0);
+  const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
@@ -115,10 +115,26 @@ const GetStarted = (props) => {
   }, [currentIndex]);
 
   useEffect(() => {
-    const inputContainer = document.getElementsByClassName('w-fix-64')[0]
+    const inputContainer = document.getElementsByClassName('inputStepDisplay')[0]
+
     if (inputContainer) {
-      let inputNum = inputContainer.innerText * 100
-      setRoomValue(inputNum)
+      let inputNum = inputContainer.innerText;
+      let bgSize;
+
+      if (get(formValue, 'location.countryCode') === "PT") {
+
+        let firstHalf = parseFloat(inputNum.split('+')[0].substr(1));
+        let lastHalf = parseFloat(inputNum.split('+')[1]);
+
+        if (lastHalf) {
+          bgSize = 70 - ((firstHalf * 2) + (lastHalf /2));
+        } else {
+          bgSize = 70 - (firstHalf * 2);
+        }
+      } else {
+        bgSize = 70 - (inputNum * 2);
+      }
+      setRoomValue(bgSize + '%')
     }
   });
 
@@ -343,19 +359,19 @@ const GetStarted = (props) => {
           />
         )
       }
-      <div className="bodyModal">
+      <div
+        className="bodyModal"
+        style={{
+          backgroundImage: `url(${quest.bgImg})`,
+          backgroundSize: roomValue
+        }}
+      >
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`dis-fl-col jc-b ${quest.background || ''}`}
-          style={{
-            backgroundImage: `url(${quest.bgImg})`,
-            backgroundSize: roomValue
-          }}
+          className={`dis-fl-col jc-b interactive ${quest.background || ''}`}
         >
-          <div
-            className="multiStepSlides"
-          >
+          <div className="multiStepSlides">
             <div
               className={`singleStep jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
