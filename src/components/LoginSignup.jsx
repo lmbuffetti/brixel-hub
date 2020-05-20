@@ -129,7 +129,7 @@ const LoginSignup = (props) => {
                   label: translateTo(lang, "First name"),
                 }}
                 design={{
-                  className: "mt-2",
+                  className: "mt-2 w-perc-100 mr-1"
                 }}
                 form={formName}
                 component={BrixelInputText}
@@ -144,8 +144,7 @@ const LoginSignup = (props) => {
               <ReduxField
                 form={formName}
                 design={{
-                  className: "mt-2 w-perc-100 ml-2"
-
+                  className: "mt-2 w-perc-100 ml-1"
                 }}
                 input={{
                   name: "profile.lastName",
