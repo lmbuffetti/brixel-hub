@@ -115,12 +115,24 @@ const GetStarted = (props) => {
   }, [currentIndex]);
 
   useEffect(() => {
-    const inputContainer = document.getElementsByClassName('w-fix-64')[0]
+    const inputContainer = document.getElementsByClassName('inputStepDisplay')[0]
+
     if (inputContainer) {
-      let inputNum = inputContainer.innerText
+      let inputNum = inputContainer.innerText;
       let bgSize;
-      if (inputNum >= 0 && inputNum <= 30) {
-        bgSize = 70 - (inputNum * 1.5)
+
+      if (get(formValue, 'location.countryCode') === "PT") {
+
+        let firstHalf = parseFloat(inputNum.split('+')[0].substr(1));
+        let lastHalf = parseFloat(inputNum.split('+')[1]);
+
+        if (lastHalf) {
+          bgSize = 70 - ((firstHalf * 2) + (lastHalf /2));
+        } else {
+          bgSize = 70 - (firstHalf * 2);
+        }
+      } else {
+        bgSize = 70 - (inputNum * 2);
       }
       setRoomValue(bgSize + '%')
     }
