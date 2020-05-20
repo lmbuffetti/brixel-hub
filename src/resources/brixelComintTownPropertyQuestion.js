@@ -36,6 +36,25 @@ export const QuestionsList = (lang, country = 'CH') => {
   let getHomeBase = {name: 'Homebase', points: 100};
   return [
     {
+      title: translateTo(lang, "What is the living space size?"),
+      history: "livingSpace",
+      cardType: "livingSpace",
+      inputs: [
+        {
+          component: BrixelInputText,
+          className: 'max-w-fix-md-232',
+          label: 'Net living space',
+          name: 'properties.typology.livingArea.value',
+          type: 'number',
+          validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
+          unit: 'm2',
+          classNameBox: 'brdRadius max-w-fix-md-288',
+          placeholder: translateTo(lang, 'e.g. 120'),
+        },
+      ],
+      successMessage: translateTo(lang, 'Great living space.')
+    },
+    {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
       title: translateTo(lang, "What type of property do you have?"),
       history: "propertyType",
@@ -84,25 +103,6 @@ export const QuestionsList = (lang, country = 'CH') => {
         },
       ],
       successMessage: translateTo(lang, 'This is a nice number.')
-    },
-    {
-      title: translateTo(lang, "What is the living space size?"),
-      history: "livingSpace",
-      cardType: "livingSpace",
-      inputs: [
-        {
-          component: BrixelInputText,
-          className: 'max-w-fix-md-232',
-          label: 'Net living space',
-          name: 'properties.typology.livingArea.value',
-          type: 'number',
-          validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
-          unit: 'm2',
-          classNameBox: 'brdRadius max-w-fix-md-288',
-          placeholder: translateTo(lang, 'e.g. 120'),
-        },
-      ],
-      successMessage: translateTo(lang, 'Great living space.')
     },
     {
       title: translateTo(lang, "What is the construction year?"),
