@@ -363,7 +363,6 @@ RangePriceChart.defaultProps = {
 
 const mapStateToProps = (state) => {
   const countryCode = get(state, 'form.Property.values.location.countryCode', 'CH');
-  console.log(DataByCountry(countryCode))
   return ({
     currency: DataByCountry(countryCode),
     lang: get(state, 'common.language', {}),
