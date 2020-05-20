@@ -10,6 +10,7 @@ import last from 'lodash/last';
 import get from 'lodash/get';
 import { formatNum } from '../../utils/helpers';
 import { generalTranslate } from '../../utils/translation';
+import { DataByCountry } from '@brixel/brixel-components'
 
 function RangePriceChart(props) {
   const {
@@ -360,10 +361,14 @@ RangePriceChart.defaultProps = {
   title: null,
 };
 
-const mapStateToProps = (state) => ({
-  currency: get(state, 'companies.activeSingleCompany.country.currency', 'CHF'),
-  lang: get(state, 'common.language', {}),
-});
+const mapStateToProps = (state) => {
+  const countryCode = get(state, 'form.Property.values.location.countryCode', 'CH');
+  console.log(DataByCountry(countryCode))
+  return ({
+    currency: DataByCountry(countryCode),
+    lang: get(state, 'common.language', {}),
+  });
+}
 
 export default compose(
   withRouter,
