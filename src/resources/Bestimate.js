@@ -22,6 +22,8 @@ export const BestimateQuestions = (lang) => [
         label: '',
         name: 'properties.typology.bathrooms',
         step: 1,
+        placeholder: '0',
+        fluid: true,
         validation: [Validation.maxLengthNumRooms, Validation.required]
       },
     ]
