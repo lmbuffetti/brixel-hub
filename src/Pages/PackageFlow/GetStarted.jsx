@@ -115,28 +115,21 @@ const GetStarted = (props) => {
   }, [currentIndex]);
 
   useEffect(() => {
-    const inputContainer = document.getElementsByClassName('inputStepDisplay')[0]
+    let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
+    let bgSize = 500
+    let bgSize2 = 320
 
-    if (inputContainer) {
-      let inputNum = inputContainer.innerText;
-      let bgSize;
-
-      if (get(formValue, 'location.countryCode') === "PT") {
-
-        let firstHalf = parseFloat(inputNum.split('+')[0].substr(1));
-        let lastHalf = parseFloat(inputNum.split('+')[1]);
-
-        if (lastHalf) {
-          bgSize = 70 - ((firstHalf * 2) + (lastHalf /2));
-        } else {
-          bgSize = 70 - (firstHalf * 2);
-        }
-      } else {
-        bgSize = 70 - (inputNum * 2);
-      }
-      setRoomValue(bgSize + '%')
+    if (roomValue > 5) {
+      bgSize = bgSize2 - (roomValue * 10);
+    } else {
+      bgSize = bgSize - (roomValue * 45);
     }
-  });
+
+    setRoomValue(bgSize+ 'vw')
+
+
+  }, [get(formValue, 'properties.typology.bedrooms', 2)]);
+
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
@@ -394,7 +387,7 @@ const GetStarted = (props) => {
                         disableNextBtn={false}
                         formValue={formValue}
                         inputs={quest.inputs}
-                        onClick={() => ''}
+                        onClick={() => ""}
                         showSendButton={true}
                       />
                     </div>
