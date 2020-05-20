@@ -4,6 +4,7 @@ import Maps from '../components/Map/Maps';
 import LoginSignup from '../components/LoginSignup';
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
+import roomsBg from '../images/getstarted/rooms.png';
 import ResumeCard from '../components/ResumeCard';
 import { translateTo } from '../utils/translation';
 
@@ -87,6 +88,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, "How many rooms?"),
       history: "allRooms",
       cardType: "allRooms",
+      bgImg: roomsBg,
       inputs: [
         {
           component: BrixelInputStepNumber,
@@ -95,7 +97,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           name: 'properties.typology.bedrooms',
           validation: [maxLengthNumRooms, Validation.required],
           step: 0.5,
-          placeholder: country === 'PT' ?  'T' : '1',
+          placeholder: country === 'PT' ?  'T' : '2',
           formatType: country === 'PT' ?  'rooms-pt' : '',
           min: 0,
           fluid: true,

@@ -50,6 +50,7 @@ const GetStarted = (props) => {
   const [quest, setQuest] = useState(QuestionsList('en', get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [lastID, setLastID] = useState(0);
+  const [roomValue, setRoomValue] = useState(0);
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
@@ -108,6 +109,15 @@ const GetStarted = (props) => {
   useEffect(() => {
     setIsEnter(true);
   }, [currentIndex]);
+
+  useEffect(() => {
+    const inputContainer = document.getElementsByClassName('w-fix-64')[0]
+    if (inputContainer) {
+      let inputNum = inputContainer.innerText * 100
+      setRoomValue(inputNum)
+    }
+  });
+  console.log(roomValue)
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
@@ -334,11 +344,17 @@ const GetStarted = (props) => {
         <form
           id="multiStepForm"
           autoComplete="off"
-          className="dis-fl-col jc-b"
+          className={`dis-fl-col jc-b ${quest.background || ''}`}
+          style={{
+            backgroundImage: `url(${quest.bgImg})`,
+            backgroundSize: roomValue
+          }}
         >
-          <div className={`multiStepSlides`}>
+          <div
+            className="multiStepSlides"
+          >
             <div
-              className={`singleStep jc-c ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
+              className={`singleStep jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
               <div className="subcontainer m-a">
                 {
@@ -407,7 +423,7 @@ const GetStarted = (props) => {
                 {
                   checkValidateField() && quest.successMessage && (
                     <div
-                      className="txtGreen700 ta-r ml-a pr-1 textSuccess order-md-2 w-perc-flex-100 w-auto-md mb-1 mb-md-0"
+                      className="txtWhite ta-r ml-a pr-1 textSuccess order-md-2 w-perc-flex-100 w-auto-md mb-1 mb-md-0"
                     >
                       {quest.successMessage}
                       <BrixelIcon icon="check" className="ml-1" />
@@ -422,7 +438,7 @@ const GetStarted = (props) => {
                       onClick={() => changeStep('back')}
                       background="white"
                       saturation={0}
-                      color="primary"
+                      color="green"
                       saturationTxt={400}
                       noBorder
                     />
@@ -432,7 +448,7 @@ const GetStarted = (props) => {
                   className={`order-md-3 noWrap w-perc-100 max-w-fix-160 ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'} ml-a` : ''}`}
                   disabled={!checkValidateField()}
                   rounded
-                  background="primary"
+                  background="green"
                   saturation={400}
                   label={buttonLabel()}
                   rightIcon="arrow-right-small"

@@ -32,24 +32,6 @@
 
     animation: fadeInSec $default-time $default-easing;
 
-
-    &:before {
-      top: 2px;
-      position: absolute;
-      height: calc(100% - 2px);
-      width: 100%;
-      content: '';
-      z-index: -1;
-      left: 50%;
-      width: 100%;
-      max-width: 760px;
-      transform: translateX(-50%);
-      box-shadow: $shadow-2dp;
-      background-color: $brx-white;
-      border-top-left-radius: $brd-radius-small;
-      border-top-right-radius: $brd-radius-small;
-    }
-
     .pageHeaderAchievement {
       > div {
         border-top-left-radius: $brd-radius-small;
@@ -57,11 +39,42 @@
         box-shadow: $shadow-1dp;
       }
     }
+    > header {
+      z-index: 1;
+    }
     #multiStepForm {
       overflow: hidden;
       height: 100%;
       display: flex;
       flex-direction: column;
+
+      &:before {
+        top: 2px;
+        position: absolute;
+        height: calc(100% - 2px);
+        width: 100%;
+        content: '';
+        left: 50%;
+        max-width: 760px;
+        transform: translateX(-50%);
+        background-color: $brx-white;
+        box-shadow: $shadow-2dp;
+        border-top-left-radius: $brd-radius-small;
+        border-top-right-radius: $brd-radius-small;
+      }
+
+      &.bgRed100 {
+        background: none;
+        &:before {
+          background-color: map-get($redColor, 100 );
+        }
+      }
+      &.bgPrimary100 {
+        background: none;
+        &:before {
+          background-color: map-get($primaryColor, 100 );
+        }
+      }
 
       .multiStepSlides {
         height: 100%;
@@ -73,7 +86,7 @@
           overflow-y: auto;
           flex: 0 0 100%;
           padding: $step * 3;
-          background: none;
+          position: relative;
 
           @media (min-width: $responsive-medium) {
             display: flex;
@@ -88,31 +101,6 @@
               align-items: center;
               justify-content: center;
               display: flex;
-            }
-          }
-
-          &:before {
-            top: 2px;
-            position: absolute;
-            height: calc(100% - 2px);
-            width: 100%;
-            content: '';
-            z-index: -1;
-            left: 50%;
-            max-width: 760px;
-            transform: translateX(-50%);
-            border-top-left-radius: $brd-radius-small;
-            border-top-right-radius: $brd-radius-small;
-          }
-
-          &.bgRed100 {
-            &:before {
-              background-color: map-get($redColor, 100 );
-            }
-          }
-          &.bgPrimary100 {
-            &:before {
-              background-color: map-get($primaryColor, 100 );
             }
           }
 
@@ -144,6 +132,7 @@
       left: 50%;
       transform: translateX(-50%);
       bottom: 0;
+      transition: background $default-time $default-easing;
 
       &.staticFooter {
         left: 0;
@@ -151,7 +140,7 @@
       }
 
       &.successNext {
-        background: map_get($greenColor, 200);
+        background: map_get($primaryColor, 700);
         .textSuccess {
           @media (max-width: $responsive-medium) {
             position: absolute;
@@ -159,9 +148,8 @@
             left: 0;
             width: 100%;
             transform: translateY(-100%);
-            background-color: $brx-white;
             padding: $step $step * 2 0;
-            background: map_get($greenColor, 200);
+            background: map_get($primaryColor, 700);
           }
         }
         .backBtn {
