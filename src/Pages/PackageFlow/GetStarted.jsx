@@ -245,7 +245,8 @@ const GetStarted = (props) => {
   };
 
   useEffect(() => {
-    if (get(formValue, 'location.countryCode', null)) {
+    const propertyType = get(formValue, 'properties.propertyType', null);
+    if (get(formValue, 'location.countryCode', null) && !company.id && propertyType) {
       const country = get(formValue, 'location.countryCode', null);
       handleGetCompanyByCountry({ country: country.toUpperCase() });
     }

@@ -1,3 +1,4 @@
+/* global Transifex */
 import get from 'lodash/get';
 import { translateTo } from './translation';
 import { FormatValue } from '@brixel/brixel-components';
@@ -7,6 +8,7 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
   let adjective = aptAdjective;
   let pageTitle;
   let translatedPropertyType = translateTo(lang, propertyType);
+  translatedPropertyType = Transifex.live.translateText(translatedPropertyType);
   if (propertyType === 'House') adjective = houseAdjective;
   if (getCountry === 'PT') {
     const bedrooms = get(formValue, 'properties.typology.bedrooms', null);
