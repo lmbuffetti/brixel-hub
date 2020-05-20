@@ -5,7 +5,6 @@ import get from 'lodash/get';
 import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
 import { AssessorAvgLifespan } from '../resources/Assessor';
 import { configureStore } from '../store';
-import cloneDeep from 'lodash/cloneDeep';
 import { InputSheets } from '../resources/inputSheets';
 
 const cookies = new Cookies();

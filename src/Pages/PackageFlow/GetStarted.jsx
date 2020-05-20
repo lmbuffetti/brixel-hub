@@ -44,10 +44,10 @@ const GetStarted = (props) => {
     reset,
   } = props;
   // STATE
-  const [questions, setQuestions] = useState(QuestionsList('en', get(formValue, 'location.countryCode', 'CH')));
+  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
   const [progressBar, setProgressBar] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(QuestionsList('en', get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [lastID, setLastID] = useState(0);
   const [roomValue, setRoomValue] = useState(0);
@@ -92,6 +92,10 @@ const GetStarted = (props) => {
     };
   }, []);
 
+  useEffect(() => {
+    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')))
+    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex])
+  }, [lang]);
   // SET THE OWNER PROPERTY IF USER IS LOGGED IN
   useEffect(() => {
     if (loggedInUser.user) {
@@ -117,7 +121,6 @@ const GetStarted = (props) => {
       setRoomValue(inputNum)
     }
   });
-  console.log(roomValue)
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {

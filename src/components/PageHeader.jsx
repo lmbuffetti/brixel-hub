@@ -63,6 +63,7 @@ function PageHeader(props) {
 
   useEffect(() => {
     setCurrentLang(lang);
+    Transifex.live.translateTo(lang);
   }, [lang]);
 
   const screenResize = () => {

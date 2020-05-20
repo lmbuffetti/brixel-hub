@@ -36,6 +36,7 @@ const normalizeData = (value, prevValue) => {
 
 export const InputSheets = () => {
   const formValue = get(configureStore.getState(), 'form.Property.values', {});
+  const propertyHose = (get(formValue, 'properties.propertyType', '') || '').toLowerCase()
   return [
     // SECTION: PROPERTY TYPE
     {
@@ -103,7 +104,7 @@ export const InputSheets = () => {
         {
           component: BrixelInputStepNumber,
           className: '',
-          label: `How many rooms does the ${get(formValue, 'properties.propertyType', '').toLowerCase()} have?`,
+          label: `How many rooms does the ${propertyHose} have?`,
           name: 'properties.typology.bedrooms',
           labelLeft: 'Rooms',
           step: 0.5,

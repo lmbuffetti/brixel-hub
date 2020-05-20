@@ -28,13 +28,14 @@ export const translateTo = (lang, word) => {
     const transLang = Transifex.live.getAllLanguages();
     const compareLang = transLang.find(item => item.code === lang);
     exist = typeof compareLang !== 'undefined';
+    let translateFile = dynImport['en'];
     if (!exist) {
-      const translated = word;
-      const translateFile = dynImport[lang];
-      let translation = get(translateFile, word, word);
-      if (typeof translation !== 'undefined') {
-        return translation || translated;
-      }
+      translateFile = dynImport[lang];
+    }
+    const translated = word;
+    let translation = get(translateFile, word, word);
+    if (typeof translation !== 'undefined') {
+      return translation || translated;
     }
   }
   return word;

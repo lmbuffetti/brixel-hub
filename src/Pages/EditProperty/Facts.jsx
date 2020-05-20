@@ -68,47 +68,6 @@ const Facts = (props) => {
     if (act === 'section') return sectionDone;
   };
 
-  const calcPercentage = () => {
-    let countTotal = 0;
-    let countDone = 0;
-    Questions.map((val) => {
-      val.inputs.map((item) => {
-        const name = get(item, 'condition.name', '');
-        const valA = get(formValue, name, 'a');
-        if (item.conditions) {
-          item.conditions.map((cond) => {
-            const valB = get(formValue, cond.name, 'a');
-            if (valB === cond.value && (get(formValue, item.name, 'ayc') !== 'ayc' || get(formValue, item.name, 'ayc') !== null)) {
-              countTotal += 1;
-              countDone += 1;
-            }
-            return null;
-          });
-        } else if (item.validation && (!item.condition || (item.condition && valA === item.condition.value))) {
-          if (get(formValue, `inputSheet.skipSection[${item.name}]`, false)) {
-            countTotal += 1;
-            countDone += 1;
-          } else if (get(formValue, item.name, 'ayc') !== 'ayc' && get(formValue, item.name, 'ayc') !== null) {
-            countTotal += 1;
-            countDone += 1;
-          } else {
-            countTotal += 1;
-          }
-        }
-        return null;
-      });
-      return null;
-    });
-    const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
-    const calPerc = Math.floor(countDone * 100 / countTotal);
-    const savedPerc = Math.floor(get(formValue, `inputSheet.totalComplete`, 0) || 0);
-    if (calPerc !== savedPerc) {
-      inputSheet.totalComplete = calPerc;
-      changeFieldValue('inputSheet', inputSheet);
-    }
-    return calPerc;
-  };
-
   useEffect(() => {
     if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
       const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
