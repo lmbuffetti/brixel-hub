@@ -50,7 +50,7 @@ const GetStarted = (props) => {
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [lastID, setLastID] = useState(0);
-  const [roomValue, setRoomValue] = useState(0);
+  const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
@@ -117,8 +117,12 @@ const GetStarted = (props) => {
   useEffect(() => {
     const inputContainer = document.getElementsByClassName('w-fix-64')[0]
     if (inputContainer) {
-      let inputNum = inputContainer.innerText * 100
-      setRoomValue(inputNum)
+      let inputNum = inputContainer.innerText
+      let bgSize;
+      if (inputNum >= 0 && inputNum <= 30) {
+        bgSize = 70 - (inputNum * 1.5)
+      }
+      setRoomValue(bgSize + '%')
     }
   });
 
@@ -343,19 +347,19 @@ const GetStarted = (props) => {
           />
         )
       }
-      <div className="bodyModal">
+      <div
+        className="bodyModal"
+        style={{
+          backgroundImage: `url(${quest.bgImg})`,
+          backgroundSize: roomValue
+        }}
+      >
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`dis-fl-col jc-b ${quest.background || ''}`}
-          style={{
-            backgroundImage: `url(${quest.bgImg})`,
-            backgroundSize: roomValue
-          }}
+          className={`dis-fl-col jc-b interactive ${quest.background || ''}`}
         >
-          <div
-            className="multiStepSlides"
-          >
+          <div className="multiStepSlides">
             <div
               className={`singleStep jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >

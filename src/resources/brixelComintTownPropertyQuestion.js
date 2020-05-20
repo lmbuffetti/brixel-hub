@@ -81,6 +81,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           placeholder: country === 'PT' ?  'T' : '2',
           formatType: country === 'PT' ?  'rooms-pt' : '',
           min: 0,
+          max: 30,
           fluid: true,
           startFrom: 3,
         },
