@@ -23,6 +23,7 @@ import { addGameHistory } from '../../actions/GamificationActions';
 const Portals = (props) => {
   // PROPS
   const {
+    company,
     formValue,
     handleUpdatePortalsReview,
     history,
@@ -32,6 +33,8 @@ const Portals = (props) => {
   } = props;
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
+  const currency = get(company, 'country.currency', '');
+  const meta = get(company, 'meta', {});
 
   const checkPortalsOnline = () => {
     let isOnline = false;
@@ -174,9 +177,9 @@ const Portals = (props) => {
             <BrixelUpgradeMessage
               className="mt-3"
               title="Save 15% compared to listings price."
-              description={`Only ${formValue.location.countryCode === 'CH' ? 'CHF 750' : 'EUR 50'} for 3 months. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
+              description={`Only ${currency} ${get(meta, 'portals.price', '')} for ${get(meta, 'portals.duration', '')}. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
               titleConfirm="Please confirm your order."
-              descriptionConfirm={`<b>Publish on portals.</b><span>Only ${formValue.location.countryCode === 'CH' ? 'CHF 750' : 'EUR 50'} for 3 months. You will not be charged for now.</span>`}
+              descriptionConfirm={`<b>Publish on portals.</b><span>Only ${currency} ${get(meta, 'portals.price', '')} for ${get(meta, 'portals.duration', '')}. You will not be charged for now.</span>`}
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction
@@ -190,6 +193,7 @@ const Portals = (props) => {
 };
 
 Portals.propTypes = {
+  company: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
@@ -205,6 +209,7 @@ Portals.defaultProps = {
 const mapStateToProps = (state) => {
   const formValue = get(state, 'form.Property.values', {});
   return ({
+    company: get(state, 'companies.activeSingleCompany', {}),
     formValue: get(state, 'form.Property.values', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', null),
     portals: get(formValue, 'portals', {}),

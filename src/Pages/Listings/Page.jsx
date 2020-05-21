@@ -22,6 +22,7 @@ import { addGameHistory } from '../../actions/GamificationActions';
 const Page = (props) => {
   // PROPS
   const {
+    company,
     formValue,
     handleUpdatePublishedReview,
     history,
@@ -30,6 +31,8 @@ const Page = (props) => {
   } = props;
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
+  const currency = get(company, 'country.currency', '');
+  const meta = get(company, 'meta', {});
 
   const changeReviewStatus = (status) => {
     const data = {
@@ -228,9 +231,9 @@ const Page = (props) => {
             <BrixelUpgradeMessage
               className="mt-3"
               title="Make your Brixel Page public."
-              description={`Only ${formValue.location.countryCode === 'CH' ? 'CHF 350' : 'EUR 150'}. Unlimited time. Don't worry. You will not be charged for now.Get the result first. Pay later.`}
+              description={`Only ${currency} ${get(meta, 'publish.price', '')}. ${get(meta, 'publish.duration', 'Unlimited time')}. Don't worry. You will not be charged for now.Get the result first. Pay later.`}
               titleConfirm="Please confirm your order."
-              descriptionConfirm={`<b>Make Brixel page public.</b><span>Only ${formValue.location.countryCode === 'CH' ? 'CHF 350' : 'EUR 150'} unlimited. You will not be charged for now.</span>`}
+              descriptionConfirm={`<b>Make Brixel page public.</b><span>Only ${currency} ${get(meta, 'publish.price', '')} ${get(meta, 'publish.duration', 'unlimited')}. You will not be charged for now.</span>`}
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction
@@ -244,6 +247,7 @@ const Page = (props) => {
 };
 
 Page.propTypes = {
+  company: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleUpdatePublishedReview: PropTypes.func.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
@@ -256,6 +260,7 @@ Page.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  company: get(state, 'companies.activeSingleCompany', {}),
   formValue: get(state, 'form.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
 });
