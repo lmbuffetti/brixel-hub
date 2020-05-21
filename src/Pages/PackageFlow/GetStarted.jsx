@@ -112,6 +112,16 @@ const GetStarted = (props) => {
 
   useEffect(() => {
     setIsEnter(true);
+    if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
+      const countryCodeLocation = get(formValue, 'location.countryCode', null);
+      const countryCodeCompany = get(company, 'country.code', null);
+      if (countryCodeCompany !== countryCodeLocation) {
+        let newCountryStub = '';
+        if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
+        if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
+        handleGetActiveSingleCompany({stub: newCountryStub})
+      }
+    }
   }, [currentIndex]);
 
   // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
