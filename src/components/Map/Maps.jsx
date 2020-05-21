@@ -371,7 +371,7 @@ export const ComponentMap =(props) => {
     label: `🌍 ${translateTo(lang, 'Everywhere')}`,
     value: '',
   });
-  const classNameDef = !className && showMap ? 'h-fix-400 w-perc-100' : className;
+  const classNameDef = !className && showMap ? 'h-fix-400 w-perc-100 dis-fl-col' : className;
 
   const keyUpInput = (e) => {
     let newId = selLocAuto;
@@ -536,7 +536,7 @@ export const ComponentMap =(props) => {
           </div>
         )
       }
-      <div style={{ display: showMap ? '' : 'none' }}>
+      <div className={showMap ? 'h-perc-100 pos-r' : 'hide'}>
         {
           (
             <Map
