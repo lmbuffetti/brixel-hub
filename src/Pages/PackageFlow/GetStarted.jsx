@@ -118,7 +118,8 @@ const GetStarted = (props) => {
     let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
     let bgSize = 500
     bgSize = bgSize / roomValue;
-    setRoomValue(bgSize+ 'vw')
+
+    setRoomValue(bgSize+ 'vw');
 
   }, [get(formValue, 'properties.typology.bedrooms', 2)]);
   // FUNCTION TO CLOSE
