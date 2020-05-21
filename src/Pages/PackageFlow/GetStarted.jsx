@@ -114,6 +114,7 @@ const GetStarted = (props) => {
     setIsEnter(true);
   }, [currentIndex]);
 
+  // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
   useEffect(() => {
     let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
     let bgSize = 500
