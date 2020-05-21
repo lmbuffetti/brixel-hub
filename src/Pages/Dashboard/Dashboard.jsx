@@ -106,7 +106,10 @@ const Dashboard = (props) => {
   // const checkActiveTab = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    if (!get(history, 'location.pathname', '').includes('facts')) {
+    if (
+      !get(history, 'location.pathname', '').includes('facts') &&
+      !get(history, 'location.pathname', '').includes('achievement')
+    ) {
       reset('Property');
     }
   }, [history.location.pathname])

@@ -117,20 +117,10 @@ const GetStarted = (props) => {
   useEffect(() => {
     let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
     let bgSize = 500
-    let bgSize2 = 320
-
-    if (roomValue > 5) {
-      bgSize = bgSize2 - (roomValue * 10);
-    } else {
-      bgSize = bgSize - (roomValue * 45);
-    }
-
+    bgSize = bgSize / roomValue;
     setRoomValue(bgSize+ 'vw')
 
-
   }, [get(formValue, 'properties.typology.bedrooms', 2)]);
-
-
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
