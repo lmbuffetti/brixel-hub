@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
-import { BrixelButtonTertiary, BrixelTabs, useOutsideAlerter } from '@brixel/brixel-components';
+import { compose } from 'redux';
+import { BrixelButtonTertiary, BrixelTabs } from '@brixel/brixel-components';
+import useOutsideAlerter from '../components/OutsideElement';
 import get from 'lodash/get';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_full.svg';
 import { CSSTransition } from 'react-transition-group';
@@ -13,16 +14,13 @@ import { firstRoutes, secondRoutes } from '../resources/navigationRoutes';
 
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 import CoverPropertyImage from './CoverPropertyImage';
-import { getActiveSingleCompany } from '../actions/CompanyActions';
 import { sortObject } from '../utils/helpers';
 
 const MenuSidebar = (props) => {
   const {
-    activeSingleProperty,
     windowDimensions,
     formValue,
     history,
-    handleGetActiveSingleCompany,
     gameGroup,
     gameHistory,
     userTypes,
@@ -33,16 +31,12 @@ const MenuSidebar = (props) => {
   const [slideIn, setSlideIn] = useState(false);
   // REF
   const wrapperRef = useRef(null);
+  const proTitleRef = useRef(null);
+
+  const proTitleEl = proTitleRef.current;
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
   const levelUrl = history.location.pathname.split('/');
-
-  useEffect(() => {
-    const activeLeads = get(activeSingleProperty, 'pageLeads[0]', null)
-    if (activeLeads) {
-      handleGetActiveSingleCompany({id: activeLeads.company});
-    }
-  }, []);
 
   useEffect(() => {
     if (gameGroup && gameHistory) {
@@ -64,10 +58,19 @@ const MenuSidebar = (props) => {
         }
       });
       const nav = cloneDeep(firstRoutes);
-      nav[0].title = `<span>Rewards</span><span class="numRecords">${numTodo}</span>`;
+      nav[0].title = `<span>Home</span><span class="numRecords">${numTodo}</span>`;
       setRouteNav([...nav]);
     }
   }, [gameGroup, gameHistory])
+
+  useEffect(() => {
+    if (proTitleEl) {
+      const titleHeight = proTitleEl.offsetHeight
+      if (titleHeight > 48) {
+        proTitleEl.classList.add('longTitle')
+      }
+    }
+  });
 
   // CHECK TAB BY URL
   const checkActiveTab = () => {
@@ -102,7 +105,7 @@ const MenuSidebar = (props) => {
       <header className={`sideHeader dis-fl-col a-c jc-fs h-perc-100`} id="menu-sidebar">
         <div className={`w-perc-100 h-perc-100 pos-r`}>
           { /* SECTION SIDEBAR MENU DESKTOP */ }
-          <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite shadow-2dp ${levelUrl.length > 3 && windowDimensions.width <= 768 ? 'zIndex1' : 'zIndex7'}`}>
+          <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite shadow-2dp ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
             <div className="hide dis-b-md pl-3 pr-2">
               <div className="h-fix-64 dis-f a-c">
                 <img className="pos-r w-fix-56" src={logo} alt="Brixel Logo" id="logo" />
@@ -121,7 +124,8 @@ const MenuSidebar = (props) => {
                   />
                 </div>
                 <h6
-                  className="mt-2 fsize-300 fweight-600 cur-poi"
+                  ref={proTitleRef}
+                  className=" mt-2 fsize-300 fweight-600 cur-poi"
                   onClick={() => {
                     if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
                   }}
@@ -131,7 +135,7 @@ const MenuSidebar = (props) => {
               </div>
             </div>
             <hr className="my-2 mx-1 lighter" />
-            <div className={`brixelNavMenu ${windowDimensions.width <= 768 ? 'shadow-3dp' : ''}`}>
+            <div className={`brixelNavMenu ${windowDimensions.width <= 1024 ? 'shadow-3dp' : ''}`}>
               <BrixelTabs
                 classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
                 classNameUl="zIndex4"
@@ -140,10 +144,10 @@ const MenuSidebar = (props) => {
                 clicksList={firstRoutes.concat(secondRoutes).map((item)  => item["name"])}
                 classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
                 activeTab={activeMenu || checkActiveTab()}
-                fullWidth={windowDimensions.width <= 768}
+                fullWidth={windowDimensions.width <= 1024}
                 onClick={(val) => onTabClick(val)}
                 showFull={false}
-                vertical={windowDimensions.width > 768}
+                vertical={windowDimensions.width > 1024}
                 classNameIcon="fsize-600 fsize-md-400 txtLight300"
                 classNameLabel="fsize-300 txtDark500 dis-f a-c"
               />
@@ -184,7 +188,6 @@ MenuSidebar.propTypes = {
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
   userTypes: PropTypes.string,
-  handleGetActiveSingleCompany: PropTypes.func.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -200,11 +203,7 @@ const mapStateToProps = (state) => ({
   userTypes: get(state, 'user.userTypes', null),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-});
-
 export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, null),
 )(MenuSidebar);

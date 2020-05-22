@@ -6,12 +6,14 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reset } from 'redux-form';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelIcon,
+  Helpers,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { updatePublishedReview } from '../../actions/PropertyActions';
@@ -22,6 +24,7 @@ import { addGameHistory } from '../../actions/GamificationActions';
 const Page = (props) => {
   // PROPS
   const {
+    company,
     formValue,
     handleUpdatePublishedReview,
     history,
@@ -30,6 +33,8 @@ const Page = (props) => {
   } = props;
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
+  const currency = get(company, 'country.currency', '');
+  const meta = get(company, 'meta', {});
 
   const changeReviewStatus = (status) => {
     const data = {
@@ -51,6 +56,13 @@ const Page = (props) => {
       window.location.href = url;
     }
 
+  }
+
+  const publishDuration = () => {
+    const duration = get(meta, 'publish.duration', null);
+    if (!duration || +duration === 0) return 'unlimited';
+    if (+duration === 1) return `for <span class="notranslate">${duration}</span> month`;
+    if (+duration > 1) return `for <span class="notranslate">${duration}</span> months`;
   }
 
   return (
@@ -148,9 +160,34 @@ const Page = (props) => {
                         <hr className="my-3" />
 
                         <p className="txtDark200">Any questions?</p>
-                        <p className="txtDark200"><span>Call us</span><span>:&nbsp;</span><a className="txtDark200" href="tel:+41 43 333 57 00">+41 43 333 57 00</a></p>
-                        <p className="txtDark200"><span>Write us</span><span>:&nbsp;</span><a className="txtDark200" href="mailto:support@brixel.ch">support@brixel.ch</a></p>
-
+                        {
+                          has(company, 'contact.phone') && (
+                            <p className="txtDark200">
+                              <span>Call us</span>
+                              <span>:&nbsp;</span>
+                              <a
+                                className="txtDark200"
+                                href={`tel:${company.contact.phone}`}
+                              >
+                                {Helpers.telephoneFormat(company.contact.phone)}
+                              </a>
+                            </p>
+                          )
+                        }
+                        {
+                          has(company, 'contact.phone') && (
+                            <p className="txtDark200">
+                              <span>Write us</span>
+                              <span>:&nbsp;</span>
+                              <a
+                                className="txtDark200"
+                                href={`mailto:${company.contact.email}`}
+                              >
+                                {company.contact.email}
+                              </a>
+                            </p>
+                          )
+                        }
                       </div>
                     </>
                   )
@@ -228,9 +265,9 @@ const Page = (props) => {
             <BrixelUpgradeMessage
               className="mt-3"
               title="Make your Brixel Page public."
-              description={`Only ${formValue.location.countryCode === 'CH' ? 'CHF 350' : 'EUR 150'}. Unlimited time. Don't worry. You will not be charged for now.Get the result first. Pay later.`}
+              description={`Only <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()}. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
               titleConfirm="Please confirm your order."
-              descriptionConfirm={`<b>Make Brixel page public.</b><span>Only ${formValue.location.countryCode === 'CH' ? 'CHF 350' : 'EUR 150'} unlimited. You will not be charged for now.</span>`}
+              descriptionConfirm={`<b>Make Brixel page public.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()}. You will not be charged for now.</span>`}
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction
@@ -244,6 +281,7 @@ const Page = (props) => {
 };
 
 Page.propTypes = {
+  company: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleUpdatePublishedReview: PropTypes.func.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
@@ -256,6 +294,7 @@ Page.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  company: get(state, 'companies.activeSingleCompany', {}),
   formValue: get(state, 'form.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
 });

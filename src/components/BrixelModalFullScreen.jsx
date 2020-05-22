@@ -16,28 +16,32 @@ const BrixelModalFullScreen = (props) => {
   // STATE
 
   return (
-    <div id="bodyModalWrapper">
+    <div id="bodyModalWrapper" className="modalFlow">
       <div className="bodyModal">
-        <div className="dis-f jc-fe p-1 p-md-2 h-fix-72">
-          <BrixelButtonIcon
-            icon="close-small"
-            color="primary"
-            saturationTxt={400}
-            bgTransparent
-            noBorder
-            className="shadow-1dp as-c"
-            onClick={() => onClose()}
-          />
+      <header className="max-w-fix-760 w-perc-100 m-a">
+      <div className="container p-1 p-md-2 dis-f jc-fe a-c">
+          <div className="dis-f a-c">
+            <BrixelButtonIcon
+              icon="close-small"
+              color="dark"
+              saturationTxt={400}
+              bgTransparent
+              noBorder
+              className="shadow-2dp as-c"
+              onClick={() => onClose()}
+            />
+          </div>
         </div>
+        </header>
         <form
           id="multiStepForm"
           // onSubmit={(e) => {e.preventDefault(); changeStep()}}
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
-          <div className={`slideMultiStepForm`}>
+          <div className={`multiStepSlides`}>
             <div
-              className={`singleStep jc-c 'fade-enter`}
+              className={`singleStep jc-c fade-enter-active`}
             >
               <div className="subcontainer m-a">
                 <div>
@@ -50,9 +54,9 @@ const BrixelModalFullScreen = (props) => {
             </div>
           </div>
           <div
-            className={`footerAction p-1 p-md-2 shadow-1dp-top normStep`}
+            className="footerAction max-w-fix-760 m-a p-1 p-md-2 shadow-1dp-top normStep staticFooter"
           >
-            <div className="container pos-r">
+            <div className="pos-r">
               <div className={`w-perc-100 a-c dis-fl-row jc-b m-a jc-c`}>
                 <BrixelButtonPrimary
                   className={`noWrap w-perc-100 max-w-fix-160`}

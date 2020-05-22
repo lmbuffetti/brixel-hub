@@ -2,13 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { BrixelButtonIcon } from '@brixel/brixel-components';
-import MultiStepForm from '../../components/MultiStepReduxForm';
 import { UpgradeQuestions } from '../../resources/Upgrade';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, MultiFileldsReduxForm } from '@brixel/brixel-components';
 import InfoImg from '../../images/Upgrade/info.svg';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
@@ -118,19 +117,6 @@ const Upgrade = (props) => {
     }
   }, [formValue]);
 
-  const valideConditionInput = (quest) => {
-    let isVerified = true;
-    if (quest.condition) {
-      quest.condition.map((item) => {
-        if (get(formValue, item.name, null) !== item.value) {
-          isVerified = false;
-        }
-        return null;
-      });
-    }
-    return isVerified;
-  };
-
   const checkValidateField = () => {
     let isValid = true;
     if (questions[currentIndex].inputs) {
@@ -161,26 +147,28 @@ const Upgrade = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper">
+    <div id="bodyModalWrapper" className="modalFlow">
       <div className={`bodyModal dis-fl-col upgradeModal stepNo${currentIndex}`}>
-        <div className="dis-f jc-fe p-1 p-md-2 h-fix-72">
-          <BrixelButtonIcon
-            icon="close-small"
-            color="primary"
-            saturationTxt={400}
-            bgTransparent
-            noBorder
-            className="shadow-1dp as-c"
-            onClick={() => closeWindow()}
-          />
-        </div>
+        <header className="max-w-fix-760 ml-a mr-a dis-f w-perc-100 jc-fe">
+          <div className="dis-f a-c p-1 p-md-2">
+            <BrixelButtonIcon
+              icon="close-small"
+              color="primay"
+              saturationTxt={400}
+              bgTransparent
+              noBorder
+              className="shadow-2dp as-c"
+              onClick={() => closeWindow()}
+            />
+          </div>
+        </header>
         <form
           id="multiStepForm"
           // onSubmit={(e) => {e.preventDefault(); changeStep()}}
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
-          <div className={`slideMultiStepForm`}>
+          <div className={`multiStepSlides`}>
             <div
               className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
@@ -188,25 +176,17 @@ const Upgrade = (props) => {
                 {
                   quest.inputs ? (
                     <div>
+
                       <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
                       {quest.subtitle && ( <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle}} /> )}
-                      {
-                        quest.inputs.map((input, f) => (
-                          <React.Fragment key={f.toString()}>
-                            {
-                              valideConditionInput(input) && (
-                                <MultiStepForm
-                                  disableNextBtn={false}
-                                  formValue={formValue}
-                                  onClick={() => ''}
-                                  input={input}
-                                  className={input.className}
-                                />
-                              )
-                            }
-                          </React.Fragment>
-                        ))
-                      }
+
+                      <MultiFileldsReduxForm
+                        disableNextBtn={false}
+                        formValue={formValue}
+                        form="Property"
+                        inputs={quest.inputs}
+                        onClick={() => ''}
+                      />
                     </div>
                   ) : (
                     <div className="ta-c">
@@ -226,7 +206,7 @@ const Upgrade = (props) => {
                 }
                 {
                   currentIndex === 0 && (
-                    <div className="max-w-fix-288 shadow-1dp mt-3 m-a">
+                    <div className="max-w-fix-304 shadow-1dp mt-3 m-a">
                       <Support hideClose expanded />
                     </div>
                   )

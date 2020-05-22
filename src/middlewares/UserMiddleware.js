@@ -18,7 +18,7 @@ import {
   SPINNER_SMALL_ON,
   SPINNER_SMALL_OFF,
   SET_SCREEN_NOTIFICATION,
-  SET_PAGE_DATA, REDIRECT_TO,
+  REDIRECT_TO,
 } from '../actions/types/CommonTypes';
 
 import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
@@ -60,7 +60,7 @@ const checkUser = (store) => (next) => (action) => {
     }
     case DO_LOGIN: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
+      // store.dispatch({ type: SPINNER_ON });
       const data = action.payload.user;
       const addProperty = action.payload.addProperty || false;
       delete action.payload.user;
@@ -80,6 +80,7 @@ const checkUser = (store) => (next) => (action) => {
               icon: 'close-circle',
               label: 'Email and password combination are invalid.',
               type: 'alert',
+              state: true,
               actions: [{
                 type: 'close',
                 func: () => store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null }),
@@ -159,15 +160,17 @@ const checkUser = (store) => (next) => (action) => {
       api.user.validateUser(action.payload.user.email)
         .then((res) => {
           if (newUser && typeof res.data.statusCode === 'undefined') {
-            store.dispatch({
-              type: SET_PAGE_DATA,
-              payload: {
-                login: {
-                  view: true,
-                  message: 'You already have a profile, please do a login'
-                }
-              }
-            });
+            const alertProps = {
+              icon: 'close-circle',
+              label: 'You already have a profile, please do a login',
+              type: 'alert',
+              state: true,
+              actions: [{
+                type: 'close',
+                func: () => store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null }),
+              }],
+            };
+            store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: alertProps });
           } else if (newUser) {
             store.dispatch({ type: CREATE_USER, payload: action.payload });
           }

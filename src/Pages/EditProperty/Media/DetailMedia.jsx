@@ -130,11 +130,11 @@ const DetailMedia = (props) => {
             <div className="dis-f jc-b a-c mb-3">
               <h5 className="">{mediaType === 'photos' ? 'Edit photo' : 'Edit floor plan'}</h5>
               <BrixelButtonIcon
-                className="shadow-3dp"
+                className="shadow-2dp"
                 icon="close-small"
                 background="White"
-                color="dark"
-                saturationTxt={700}
+                color="primary"
+                saturationTxt={400}
                 noBorder
                 onClick={() => history.push(`/${propID}/property/${mediaType}`) }
               />

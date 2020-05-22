@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
-import MultiStepForm from '../../../components/MultiStepReduxForm';
+import { BrixelButtonIcon, MultiFileldsReduxForm } from '@brixel/brixel-components';
 import { BestimateQuestions } from '../../../resources/Bestimate';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -13,7 +12,6 @@ import { reduxForm, reset } from 'redux-form';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
-import last from 'lodash/last';
 
 const Bestimate = (props) => {
   // PROPS
@@ -31,7 +29,7 @@ const Bestimate = (props) => {
   } = props;
   // STATE
   const [questions, setQuestions] = useState(BestimateQuestions('en'));
-  // const [position, setPosition] = useState(0);
+  const [loaded, setLoaded] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quest, setQuest] = useState(BestimateQuestions('en')[0]);
   const [isEnter, setIsEnter] = useState(true);
@@ -39,7 +37,7 @@ const Bestimate = (props) => {
   const [finishedFlow, setFinishedFlow] = useState(false);
   const [lastID, setLastID] = useState(0);
   // GET URL PARAMS
-  const getAchievement = () => last(history.location.pathname.split('/'));
+  const getAchievement = () => history.location.pathname.split('/')[4];
   const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
@@ -61,6 +59,7 @@ const Bestimate = (props) => {
       } else {
         setFinishedFlow(false);
       }
+      setLoaded(true);
     }
   }, [gameHistory, activeSingleProperty, lastID]);
 
@@ -74,10 +73,19 @@ const Bestimate = (props) => {
 
   useEffect(() => {
     setIsEnter(true);
-  }, [currentIndex]);
+    if (questions[currentIndex].history && loaded) {
+      const redo = get(history, 'location.state.redo', false);
+      history.push({
+        pathname: `/${propID}/rewards/achievement/${getAchievement()}/${questions[currentIndex].history}`,
+        state: {
+          redo: redo,
+        }
+      });
+    }
+  }, [currentIndex, loaded]);
 
   const closeWindow = () => {
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
       history.push(`/${propID}/rewards`);
     } else {
       history.push(`/${propID}/rewards/${getAchievement()}`);
@@ -134,19 +142,6 @@ const Bestimate = (props) => {
     }
   }, [formValue]);
 
-  const valideConditionInput = (quest) => {
-    let isVerified = true;
-    if (quest.condition) {
-      quest.condition.map((item) => {
-        if (get(formValue, item.name, null) !== item.value) {
-          isVerified = false;
-        }
-        return null;
-      });
-    }
-    return isVerified;
-  };
-
   const checkValidateField = (act) => {
     let isValid = true;
     let isNotEmpty = false;
@@ -182,14 +177,14 @@ const Bestimate = (props) => {
     return label;
   };
 
-  if(!formValue.id) {
+  if(!formValue.id && !loaded) {
     return (
       <div/>
     )
   }
 
   return (
-    <div id="bodyModalWrapper">
+    <div id="bodyModalWrapper" className="achievementFlow">
       <div className="bodyModal">
         <PageHeaderAchievement
           icon={selGameGroup.icon}
@@ -203,7 +198,7 @@ const Bestimate = (props) => {
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
-          <div className={`slideMultiStepForm`}>
+          <div className={`multiStepSlides`}>
             <div
               className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
@@ -214,23 +209,13 @@ const Bestimate = (props) => {
                       <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
                       {quest.subtitle && (
                         <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)}
-                      {
-                        quest.inputs.map((input, f) => (
-                          <React.Fragment key={f.toString()}>
-                            {
-                              valideConditionInput(input) && (
-                                <MultiStepForm
-                                  disableNextBtn={false}
-                                  formValue={formValue}
-                                  input={input}
-                                  className={input.className}
-                                  onClick={() => changeStep()}
-                                />
-                              )
-                            }
-                          </React.Fragment>
-                        ))
-                      }
+                      <MultiFileldsReduxForm
+                        disableNextBtn={false}
+                        formValue={formValue}
+                        form="Property"
+                        inputs={quest.inputs}
+                        onClick={() => ''}
+                      />
                     </div>
                   )
                 }

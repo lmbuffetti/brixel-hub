@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelIcon,
+  BrixelIcon, Helpers,
 } from '@brixel/brixel-components';
 import { updatePortalsReview } from '../../actions/PropertyActions';
 import portalStart from '../../images/Listings/portals_start.svg';
@@ -19,10 +19,12 @@ import portalReview from '../../images/Listings/portals_review.svg';
 import portalPublished from '../../images/Listings/portals_published.svg';
 import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
 import { addGameHistory } from '../../actions/GamificationActions';
+import has from 'lodash/has';
 
 const Portals = (props) => {
   // PROPS
   const {
+    company,
     formValue,
     handleUpdatePortalsReview,
     history,
@@ -32,6 +34,8 @@ const Portals = (props) => {
   } = props;
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
+  const currency = get(company, 'country.currency', '');
+  const meta = get(company, 'meta', {});
 
   const checkPortalsOnline = () => {
     let isOnline = false;
@@ -51,6 +55,14 @@ const Portals = (props) => {
     handleUpdatePortalsReview(data);
     //if (status === 'online') handleAddGameHistory({stub: 'portals'});
   };
+
+  const publishDuration = () => {
+    const duration = get(meta, 'portals.duration', null);
+    if (!duration || +duration === 0) return 'unlimited';
+    if (+duration === 1) return `for <span class="notranslate">${duration}</span> month`;
+    if (+duration > 1) return `for <span class="notranslate">${duration}</span> months`;
+    return '';
+  }
 
   return (
     <div className="dis-f">
@@ -84,8 +96,34 @@ const Portals = (props) => {
                       <hr className="my-3" />
 
                       <p className="txtDark200">Any questions?</p>
-                      <p className="txtDark200"><span>Call us</span><span>:&nbsp;</span><a className="txtDark200" href="tel:+41 43 333 57 00">+41 43 333 57 00</a></p>
-                      <p className="txtDark200"><span>Write us</span><span>:&nbsp;</span><a className="txtDark200" href="mailto:support@brixel.ch">support@brixel.ch</a></p>
+                      {
+                        has(company, 'contact.phone') && (
+                          <p className="txtDark200">
+                            <span>Call us</span>
+                            <span>:&nbsp;</span>
+                            <a
+                              className="txtDark200"
+                              href={`tel:${company.contact.phone}`}
+                            >
+                              {Helpers.telephoneFormat(company.contact.phone)}
+                            </a>
+                          </p>
+                        )
+                      }
+                      {
+                        has(company, 'contact.phone') && (
+                          <p className="txtDark200">
+                            <span>Write us</span>
+                            <span>:&nbsp;</span>
+                            <a
+                              className="txtDark200"
+                              href={`mailto:${company.contact.email}`}
+                            >
+                              {company.contact.email}
+                            </a>
+                          </p>
+                        )
+                      }
 
                     </div>
                   </>
@@ -128,7 +166,7 @@ const Portals = (props) => {
                             <p className="txtDark200">You want to remove your property form all portals?</p>
 
                             <BrixelButtonPrimary
-                              className="m-a mt-3 w-fix-176"
+                              className="m-a mt-3 min-w-fix-176"
                               label="Unpublish now"
                               background="dark"
                               rounded
@@ -174,9 +212,9 @@ const Portals = (props) => {
             <BrixelUpgradeMessage
               className="mt-3"
               title="Save 15% compared to listings price."
-              description={`Only ${formValue.location.countryCode === 'CH' ? 'CHF 750' : 'EUR 50'} for 3 months. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
+              description={`Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
               titleConfirm="Please confirm your order."
-              descriptionConfirm={`<b>Publish on portals.</b><span>Only ${formValue.location.countryCode === 'CH' ? 'CHF 750' : 'EUR 50'} for 3 months. You will not be charged for now.</span>`}
+              descriptionConfirm={`<b>Publish on portals.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}. You will not be charged for now.</span>`}
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction
@@ -190,6 +228,7 @@ const Portals = (props) => {
 };
 
 Portals.propTypes = {
+  company: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
@@ -205,6 +244,7 @@ Portals.defaultProps = {
 const mapStateToProps = (state) => {
   const formValue = get(state, 'form.Property.values', {});
   return ({
+    company: get(state, 'companies.activeSingleCompany', {}),
     formValue: get(state, 'form.Property.values', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', null),
     portals: get(formValue, 'portals', {}),

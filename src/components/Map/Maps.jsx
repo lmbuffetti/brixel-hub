@@ -9,7 +9,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { change } from 'redux-form';
-import { BrixelIcon, BrixelInputText, BrixelSelect, useOutsideAlerter } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelInputText, BrixelSelect } from '@brixel/brixel-components';
+import useOutsideAlerter from '../OutsideElement';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import markerImg from '../../images/location/icon_location.svg';
@@ -36,7 +37,6 @@ export const ComponentMap =(props) => {
     formValue,
     google,
     inputLabel,
-    isShowZip,
     lang,
     latitude,
     longitude,
@@ -51,6 +51,7 @@ export const ComponentMap =(props) => {
     similarProperties,
     zoom,
     minHeight,
+    subMinHeight,
   } = props;
   // STATE
   const [selectedPlace, setSelectedPlace] = useState([]);
@@ -60,7 +61,7 @@ export const ComponentMap =(props) => {
   const [inputSearchZip, setInputSearchZip] = useState('');
   const [errorInputSearchZip, setErrorInputSearchZip] = useState(null);
   const [streetViewAvailable, setStretViewAvailable] = useState(false);
-  const [showZipCode, setShowZipCode] = useState(false);
+  const [showZipCode] = useState(false);
   const [optMap, setOptMap] = useState({});
   const inputSearch = createRef(null);
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
@@ -346,8 +347,9 @@ export const ComponentMap =(props) => {
             }
           });
         }
-        if (!formattedPlace.zip && isShowZip) setShowZipCode(true);
+        // if (!formattedPlace.zip && isShowZip) setShowZipCode(true);
         changeFieldValue(formName, 'location', formattedPlace);
+        setLoclist([])
       }
     })
   };
@@ -370,7 +372,7 @@ export const ComponentMap =(props) => {
     label: `🌍 ${translateTo(lang, 'Everywhere')}`,
     value: '',
   });
-  const classNameDef = !className && showMap ? 'h-fix-400 w-perc-100' : className;
+  const classNameDef = !className && showMap ? 'h-fix-400 w-perc-100 dis-fl-col' : className;
 
   const keyUpInput = (e) => {
     let newId = selLocAuto;
@@ -442,9 +444,11 @@ export const ComponentMap =(props) => {
                       compact
                       className="w-perc-100 mt-1 pos-r zIndex2"
                       input={{
-                        onChange: (val) => changeCountry(val.toUpperCase()),
+                        onChange: (val) => {
+                          changeCountry(val.toUpperCase())
+                        },
                         name: 'country',
-                        value: defCountry.toLowerCase(),
+                        value: defCountry ? defCountry.toLowerCase() : '',
                       }}
                       bigDropDown
                       options={selectOpt}
@@ -533,7 +537,7 @@ export const ComponentMap =(props) => {
           </div>
         )
       }
-      <div style={{ display: showMap ? '' : 'none' }}>
+      <div className={showMap ? `h-perc-100 pos-r ${subMinHeight}` : 'hide'}>
         {
           (
             <Map
@@ -635,11 +639,11 @@ ComponentMap.propTypes = {
   showSelectCountry: PropTypes.bool,
   zoom: PropTypes.number,
   minHeight: PropTypes.number,
+  subMinHeight: PropTypes.string,
 };
 
 ComponentMap.defaultProps = {
   className: '',
-  changeCountry: () => '',
   disableZoom: false,
   draggable: false,
   externalControls: false,
@@ -658,6 +662,7 @@ ComponentMap.defaultProps = {
   showMap: false,
   zoom: 14,
   minHeight: 0,
+  subMinHeight: '',
 };
 
 const mapStateToProps = (state, props) => {
@@ -683,12 +688,13 @@ const mapDispatchToProps = (dispatch) => ({
 
 export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
   return (
-    get(prevProps, 'formValue.location.latitude', null) === get(nextProps, 'formValue.location.latitude', null) ||
-    get(prevProps, 'formValue.location.longitude', null) === get(nextProps, 'formValue.location.longitude', null) ||
-    get(prevProps, 'formValue.location.address', null) === get(nextProps, 'formValue.location.address', null) ||
-    get(prevProps, 'formValue.location.country', null) === get(nextProps, 'formValue.location.country', null) ||
-    get(prevProps, 'formValue.location.countryCode', null) === get(nextProps, 'formValue.location.countryCode', null) ||
-    get(prevProps, 'selCountry', null) === get(nextProps, 'selCountry', null)
+    get(prevProps, 'formValue.location.latitude', null) === get(nextProps, 'formValue.location.latitude', null) &&
+    get(prevProps, 'formValue.location.longitude', null) === get(nextProps, 'formValue.location.longitude', null) &&
+    get(prevProps, 'formValue.location.address', null) === get(nextProps, 'formValue.location.address', null) &&
+    get(prevProps, 'formValue.location.country', null) === get(nextProps, 'formValue.location.country', null) &&
+    get(prevProps, 'formValue.location.countryCode', null) === get(nextProps, 'formValue.location.countryCode', null) &&
+    get(prevProps, 'selCountry', null) === get(nextProps, 'selCountry', null) &&
+    get(prevProps, 'showMap', null) === get(nextProps, 'showMap', null)
   )
 });
 

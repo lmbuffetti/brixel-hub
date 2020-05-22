@@ -5,6 +5,18 @@ $iphone5: 320px;
 // GENERAL
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 @import '~@brixel/brixel-configuration-partner/src/Variables';
+
+$grid-breakpoints: (
+  xxs: 0,
+  xs: 420,
+  sm: 590px,
+  md: 1025px,
+  lg: 1025px,
+  xl: 1440px,
+  xxl: 1920px,
+);
+$responsive-medium: map_get($grid-breakpoints, md);
+
 @import '~@brixel/brixel-components/src/styles/SCSS/general/main.scss';
 
 // DASHBOARD STUFF
@@ -262,11 +274,60 @@ header {
 .lh-in{
   line-height: initial;
 }
+
 //todo styleguide
-#multiStepForm .brixel-input-step .wrap-brixel-input-step.fullWidth input {
-  @include fontStyle(600);
+.packageFlow #multiStepForm {
+  .brixel-radio-button-icon.radioBtnImg {
+    /*todo styleguide*/
+    label .textLabel {
+      margin-left: $step * 2;
+      @include fontStyle(500);
+    }
+  }
+  .brixel-input-step input {
+    @include fontStyle(600);
+  }
+  .brixel-text-input-container {
+    .brixel-text-input {
+      @include fontStyle(500);
+      height: 48px;
+    }
+  }
 }
 
-::-ms-clear {
-  display: none;
+
+// long title truncate fade out
+
+.longTitle {
+  overflow: hidden;
+  position: relative;
+  &:before {
+    content: "";
+    text-align: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 70%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 95%);
+  }
+}
+h6.longTitle {
+  max-height: 48px;
+  &:before {
+    height: 24px;
+  }
+}
+h4.longTitle {
+  max-height: 42px;
+  &:before {
+    height: 21px;
+  }
+}
+
+// hide notification bar
+#bodyModalWrapper,
+.rewardsTop {
+  ~ .brixel-notification {
+    display: none;
+  }
 }

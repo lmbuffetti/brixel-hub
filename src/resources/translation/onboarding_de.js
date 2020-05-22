@@ -9,7 +9,7 @@ module.exports = {
   "Rooms": "Zimmer",
   "This is a nice number.":"Das ist eine gute Zahl.",
   "What is the living space size?":"Wie gross ist die Nettowohnfläche?",
-  "Use net living space":"Bitte gib die Nettowohnfläche an",
+  "Net living space":"Nettowohnfläche",
   "What is the construction year?":"Was ist das Baujahr?",
   "e.g. 1990":"z.B. 1990",
   "What is the location?":"An welcher Adresse?",

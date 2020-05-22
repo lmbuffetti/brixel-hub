@@ -9,7 +9,7 @@ module.exports = {
   "Rooms": "Rum",
   "This is a nice number.":"Det er et godt antal",
   "What is the living space size?":"Hvad er boligarealet?",
-  "Use net living space":"Brugt netto boligareal",
+  "Net living space":"Netto boligareal",
   "What is the construction year?":"Hvad er opførelsesåret?",
   "e.g. 1990":"F.eks. 1990",
   "What is the location?":"Hvad er beliggenheden?",
