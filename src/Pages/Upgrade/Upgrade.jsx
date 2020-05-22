@@ -33,9 +33,9 @@ const Upgrade = (props) => {
   // STATE
   const [questions, setQuestions] = useState(UpgradeQuestions('en', packagesProperty, get(formValue, 'location', {})));
   // const [position, setPosition] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const locationQuest = get(formValue, 'location', {});
-  const [quest, setQuest] = useState(UpgradeQuestions('en', packagesProperty, locationQuest)[1]);
+  const [quest, setQuest] = useState(UpgradeQuestions('en', packagesProperty, locationQuest)[0]);
   const [isEnter, setIsEnter] = useState(true);
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
