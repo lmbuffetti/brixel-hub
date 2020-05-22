@@ -83,7 +83,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           min: 0,
           max: 30,
           fluid: true,
-          startFrom: 2.5,
+          startFrom: 3,
         },
       ],
       successMessage: translateTo(lang, 'This is a nice number.')
