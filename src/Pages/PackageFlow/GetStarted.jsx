@@ -50,7 +50,7 @@ const GetStarted = (props) => {
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [lastID, setLastID] = useState(0);
-  const [roomValue, setRoomValue] = useState('');
+  //const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
@@ -125,14 +125,15 @@ const GetStarted = (props) => {
   }, [currentIndex]);
 
   // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
-  useEffect(() => {
+  /* useEffect(() => {
     let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
     let bgSize = 500
     bgSize = bgSize / roomValue;
 
     setRoomValue(bgSize+ 'vw');
 
-  }, [get(formValue, 'properties.typology.bedrooms', 2)]);
+  }, [get(formValue, 'properties.typology.bedrooms', 2)]); */
+
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
@@ -357,15 +358,16 @@ const GetStarted = (props) => {
       }
       <div
         className="bodyModal"
-        style={{
+        // disabled for this release
+        /* style={{
           backgroundImage: `url(${quest.bgImg})`,
           backgroundSize: roomValue
-        }}
+        }} */
       >
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`dis-fl-col jc-b interactive ${quest.background || ''}`}
+          className={`interactive dis-fl-col jc-b ${quest.background || ''}`}
         >
           <div className="multiStepSlides">
             <div

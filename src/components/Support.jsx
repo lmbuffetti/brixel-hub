@@ -75,8 +75,9 @@ const Support = (props) => {
         >
           <div className="dis-f jc-fs">
             {
-              teamAvatars.map(imgTeam => (
+              teamAvatars.map((imgTeam, i) => (
                 <img
+                  key={i.toString()}
                   src={`${baseByData.shortPath}${imgTeam.path}`}
                   alt="Support Team"
                   className={`${layout === 'rewards' ? "w-fix-104" : "w-fix-72"}  square brdLarge brdWhite mr-2-neg brdCircle`}
