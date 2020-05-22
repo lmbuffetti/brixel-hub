@@ -24,7 +24,6 @@ const Upgrade = (props) => {
   const {
     errorValue,
     formValue,
-    handleGetPackagesProperty,
     handleSaveUpgradePlan,
     history,
     match,
@@ -34,17 +33,14 @@ const Upgrade = (props) => {
   // STATE
   const [questions, setQuestions] = useState(UpgradeQuestions('en', packagesProperty, get(formValue, 'location', {})));
   // const [position, setPosition] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(UpgradeQuestions('en', packagesProperty, get(formValue, 'location', {})[0]));
+  const [currentIndex, setCurrentIndex] = useState(1);
+  const locationQuest = get(formValue, 'location', {});
+  const [quest, setQuest] = useState(UpgradeQuestions('en', packagesProperty, locationQuest)[1]);
   const [isEnter, setIsEnter] = useState(true);
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
-    const data = {
-      smallLoader: true,
-    };
-    handleGetPackagesProperty(data);
     return () => {
       setCurrentIndex(0);
       reset('Property');
@@ -276,7 +272,7 @@ Upgrade.propTypes = {
 const mapStateToProps = (state) => ({
   errorValue: get(state, 'form.Property.syncErrors', {}),
   formValue: get(state, 'form.Property.values', {}),
-  packagesProperty: get(state, 'property.packagesProperty', []),
+  packagesProperty: get(state, 'companies.activeSingleProperty.servicePackages', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
