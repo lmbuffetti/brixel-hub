@@ -51,6 +51,7 @@ export const ComponentMap =(props) => {
     similarProperties,
     zoom,
     minHeight,
+    subMinHeight,
   } = props;
   // STATE
   const [selectedPlace, setSelectedPlace] = useState([]);
@@ -536,7 +537,7 @@ export const ComponentMap =(props) => {
           </div>
         )
       }
-      <div className={showMap ? 'h-perc-100 pos-r' : 'hide'}>
+      <div className={showMap ? `h-perc-100 pos-r ${subMinHeight}` : 'hide'}>
         {
           (
             <Map
@@ -638,6 +639,7 @@ ComponentMap.propTypes = {
   showSelectCountry: PropTypes.bool,
   zoom: PropTypes.number,
   minHeight: PropTypes.number,
+  subMinHeight: PropTypes.string,
 };
 
 ComponentMap.defaultProps = {
@@ -660,6 +662,7 @@ ComponentMap.defaultProps = {
   showMap: false,
   zoom: 14,
   minHeight: 0,
+  subMinHeight: '',
 };
 
 const mapStateToProps = (state, props) => {

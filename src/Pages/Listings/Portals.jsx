@@ -56,6 +56,13 @@ const Portals = (props) => {
     //if (status === 'online') handleAddGameHistory({stub: 'portals'});
   };
 
+  const publishDuration = () => {
+    const duration = get(meta, 'publish.duration', null);
+    if (!duration || duration === 0) return 'unlimited';
+    if (duration === 1) return `for <span class="notranslate">${duration}</span> month`;
+    if (duration > 1) return `for <span class="notranslate">${duration}</span> months`;
+  }
+
   return (
     <div className="dis-f">
       <div className="secondLevel dis-fl-col ml-md-1">
@@ -204,9 +211,9 @@ const Portals = (props) => {
             <BrixelUpgradeMessage
               className="mt-3"
               title="Save 15% compared to listings price."
-              description={`Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> for <span class="notranslate">${get(meta, 'portals.duration', '')}</span>. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
+              description={`Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
               titleConfirm="Please confirm your order."
-              descriptionConfirm={`<b>Publish on portals.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> for ${get(meta, 'portals.duration', '')}. You will not be charged for now.</span>`}
+              descriptionConfirm={`<b>Publish on portals.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}. You will not be charged for now.</span>`}
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction

@@ -99,6 +99,7 @@ function ResumeMarketCheck(props) {
                           <Maps
                             zoom={property.location.countryCode === 'PT' ? 15 : 12}
                             scrollZoom={false}
+                            subMinHeight={"min-h-fix-320"}
                             moveMarker
                             draggable
                             showMap
