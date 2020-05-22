@@ -7,6 +7,7 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import { getActiveSingleCompany, getCompanyByCountry } from '../../actions/CompanyActions';
 import { createActiveSingleProperty } from '../../actions/PropertyActions';
 import { reduxForm, reset, change } from 'redux-form';
@@ -247,14 +248,6 @@ const GetStarted = (props) => {
     }
   };
 
-  useEffect(() => {
-    const propertyType = get(formValue, 'properties.propertyType', null);
-    if (get(formValue, 'location.countryCode', null) && !company.id && propertyType) {
-      const country = get(formValue, 'location.countryCode', null);
-      handleGetCompanyByCountry({ country: country.toUpperCase() });
-    }
-  }, [get(formValue, 'location.countryCode', null)])
-
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     if (formValue) {
@@ -285,15 +278,18 @@ const GetStarted = (props) => {
 
   // SET DATA BY COMPANY
   useEffect(() => {
-    let getLang = cookie.get('brixelLang');
-    if (get(company, 'language.code', null) && !getLang) {
-      const companyLang = get(company, 'language.code', 'en');
-      handleSetLanguage(companyLang.toLowerCase());
-      getLang = companyLang.toLowerCase();
+    if (has(company, 'stub')) {
+      let getLang = cookie.get('brixelLang');
+      if (get(company, 'language.code', null) && !getLang && currentIndex < 2) {
+        const companyLang = get(company, 'language.code', 'en');
+        handleSetLanguage(companyLang.toLowerCase());
+        getLang = companyLang.toLowerCase();
+      }
+      const companyCountry = get(company, 'country.code', 'CH');
+      setQuestions(QuestionsList(getLang, companyCountry));
+      changeFieldValue('location.countryCode', companyCountry);
+      setCookie('brixelStubCompany', company.stub);
     }
-    const companyCountry = get(company, 'country.code', 'CH');
-    setQuestions(QuestionsList(getLang, companyCountry));
-    changeFieldValue('location.countryCode', companyCountry);
   }, [company]);
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
