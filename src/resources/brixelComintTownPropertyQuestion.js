@@ -78,7 +78,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           name: 'properties.typology.bedrooms',
           validation: [maxLengthNumRooms, Validation.required],
           step: 0.5,
-          placeholder: country === 'PT' ?  'T2' : '2',
+          placeholder: country === 'PT' ?  'T3' : '3',
           formatType: country === 'PT' ?  'rooms-pt' : '',
           min: 0,
           max: 30,
