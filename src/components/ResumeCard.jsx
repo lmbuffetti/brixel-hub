@@ -15,7 +15,7 @@ const ResumeCard = (props) => {
     title,
   } = props;
 
-  const defImg = formValue.propertyType === 'Apartment' ? resumeApartment : resumeHouse;
+  const defImg = get(formValue, 'properties.propertyType', null) === 'Apartment' ? resumeApartment : resumeHouse;
 
   return (
     <div>

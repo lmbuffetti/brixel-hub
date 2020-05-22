@@ -6,12 +6,14 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reset } from 'redux-form';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelIcon,
+  Helpers,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { updatePublishedReview } from '../../actions/PropertyActions';
@@ -151,9 +153,34 @@ const Page = (props) => {
                         <hr className="my-3" />
 
                         <p className="txtDark200">Any questions?</p>
-                        <p className="txtDark200"><span>Call us</span><span>:&nbsp;</span><a className="txtDark200" href="tel:+41 43 333 57 00">+41 43 333 57 00</a></p>
-                        <p className="txtDark200"><span>Write us</span><span>:&nbsp;</span><a className="txtDark200" href="mailto:support@brixel.ch">support@brixel.ch</a></p>
-
+                        {
+                          has(company, 'contact.phone') && (
+                            <p className="txtDark200">
+                              <span>Call us</span>
+                              <span>:&nbsp;</span>
+                              <a
+                                className="txtDark200"
+                                href={`tel:${company.contact.phone}`}
+                              >
+                                {Helpers.telephoneFormat(company.contact.phone)}
+                              </a>
+                            </p>
+                          )
+                        }
+                        {
+                          has(company, 'contact.phone') && (
+                            <p className="txtDark200">
+                              <span>Write us</span>
+                              <span>:&nbsp;</span>
+                              <a
+                                className="txtDark200"
+                                href={`mailto:${company.contact.email}`}
+                              >
+                                {company.contact.email}
+                              </a>
+                            </p>
+                          )
+                        }
                       </div>
                     </>
                   )
