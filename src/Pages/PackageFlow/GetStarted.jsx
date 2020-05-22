@@ -392,7 +392,7 @@ const GetStarted = (props) => {
                         disableNextBtn={false}
                         formValue={formValue}
                         inputs={quest.inputs}
-                        onClick={() => ""}
+                        onClick={() => changeStep()}
                         showSendButton={true}
                       />
                     </div>
