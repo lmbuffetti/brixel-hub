@@ -23,7 +23,9 @@ function ResumeAssessor(props) {
   } = props;
   // STATE
   const [selBaseRenovation, setSelRenovation] = useState('construction');
-  const [AvgLifeSpan] = useState(cloneDeep(AssessorAvgLifespan));
+  const getCountryCode = get(formValue, 'location.countryCode', 'CH');
+  const getAssessorAvgLifespan = AssessorAvgLifespan[getCountryCode.toLowerCase()] ? AssessorAvgLifespan[getCountryCode.toLowerCase()] : AssessorAvgLifespan['ch'];
+  const [AvgLifeSpan] = useState(cloneDeep(getAssessorAvgLifespan));
 
   useEffect(() => {
     if (has(condition, 'renovation')) {
