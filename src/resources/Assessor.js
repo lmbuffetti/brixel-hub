@@ -113,35 +113,68 @@ export const AssessorQuestions = (lang = 'en') => [
 ];
 
 export const AssessorAvgLifespan = {
-  construction: {
-    wood: 80,
-    cement: 115,
-    brick: 115,
+  ch: {
+    construction: {
+      wood: 80,
+      cement: 115,
+      brick: 115,
+    },
+    roof: {
+      flat: 30,
+      pitched: 50,
+    },
+    facade: {
+      plastered: 35,
+      painted: 25,
+      eternitCement: 45,
+      naturalWood: 25,
+    },
+    heating: {
+      oil: 15,
+      gas: 15,
+      wood: 20,
+      solar: 20,
+      electric: 20,
+      heatPump: 20,
+      districtHeater: 25,
+      combinedHeatPowerPlant: 25,
+      other: 20,
+    },
+    kitchen: 15,
+    wetCells: 30,
+    electricalSystems: 35,
   },
-  roof: {
-    flat: 30,
-    pitched: 50,
-  },
-  facade: {
-    plastered: 35,
-    painted: 25,
-    eternitCement: 45,
-    naturalWood: 25,
-  },
-  heating: {
-    oil: 15,
-    gas: 15,
-    wood: 20,
-    solar: 20,
-    electric: 20,
-    heatPump: 20,
-    districtHeater: 25,
-    combinedHeatPowerPlant: 25,
-    other: 20,
-  },
-  kitchen: 15,
-  wetCells: 30,
-  electricalSystems: 35,
+  pt: {
+    construction: {
+      wood: 30,
+      cement: 36,
+      brick: 56,
+    },
+    roof: {
+      flat: 26,
+      pitched: 43,
+    },
+    facade: {
+      plastered: 41,
+      painted: 15,
+      eternitCement: 45,
+      naturalWood: 20,
+    },
+    heating: {
+      oil: 20,
+      gas: 30,
+      wood: 20,
+      solar: 30,
+      electric: 20,
+      heatPump: 15,
+      districtHeater: 25,
+      combinedHeatPowerPlant: 25,
+      other: 20,
+    },
+    kitchen: 20,
+    wetCells: 20,
+    electricalSystems: 30,
+  }
 };
 
 export const AssessorLabel = {

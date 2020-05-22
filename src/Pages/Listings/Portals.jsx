@@ -204,9 +204,9 @@ const Portals = (props) => {
             <BrixelUpgradeMessage
               className="mt-3"
               title="Save 15% compared to listings price."
-              description={`Only ${currency} ${get(meta, 'portals.price', '')} for ${get(meta, 'portals.duration', '')}. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
+              description={`Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> for <span class="notranslate">${get(meta, 'portals.duration', '')}</span>. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
               titleConfirm="Please confirm your order."
-              descriptionConfirm={`<b>Publish on portals.</b><span>Only ${currency} ${get(meta, 'portals.price', '')} for ${get(meta, 'portals.duration', '')}. You will not be charged for now.</span>`}
+              descriptionConfirm={`<b>Publish on portals.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> for ${get(meta, 'portals.duration', '')}. You will not be charged for now.</span>`}
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction

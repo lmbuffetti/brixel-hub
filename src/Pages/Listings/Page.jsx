@@ -258,9 +258,9 @@ const Page = (props) => {
             <BrixelUpgradeMessage
               className="mt-3"
               title="Make your Brixel Page public."
-              description={`Only ${currency} ${get(meta, 'publish.price', '')}. ${get(meta, 'publish.duration', 'Unlimited time')}. Don't worry. You will not be charged for now.Get the result first. Pay later.`}
+              description={`Only <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}<span>. <span class="notranslate">${get(meta, 'publish.duration', 'Unlimited time')}</span>. Don't worry. You will not be charged for now.Get the result first. Pay later.`}
               titleConfirm="Please confirm your order."
-              descriptionConfirm={`<b>Make Brixel page public.</b><span>Only ${currency} ${get(meta, 'publish.price', '')} ${get(meta, 'publish.duration', 'unlimited')}. You will not be charged for now.</span>`}
+              descriptionConfirm={`<b>Make Brixel page public.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> <span class="notranslate">${get(meta, 'publish.duration', 'unlimited')}</span>. You will not be charged for now.</span>`}
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction

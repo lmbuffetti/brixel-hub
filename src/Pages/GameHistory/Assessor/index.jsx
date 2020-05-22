@@ -101,13 +101,14 @@ const Assessor = (props) => {
     const valueRoof = get(formValue, 'properties.building.roofType', null);
     const valueFacade = get(formValue, 'properties.building.facade', null);
     const valueHeating = get(formValue, 'properties.energy.heating', null);
+    const countryCode = get(formValue, 'location.countryCode', 'CH');
     dataProp.assessor = {
       date: new Date(),
-      construction: extractAssessorCondition(age, valueConstruction, valueRoof, valueFacade, valueHeating),
+      construction: extractAssessorCondition(age, valueConstruction, valueRoof, valueFacade, valueHeating, countryCode),
     };
     if (yearRenovate) {
       const ageRenovation = calculateAgeByYear(yearRenovate);
-      dataProp.assessor.renovation = extractAssessorCondition(ageRenovation, valueConstruction, valueRoof, valueFacade, valueHeating);
+      dataProp.assessor.renovation = extractAssessorCondition(ageRenovation, valueConstruction, valueRoof, valueFacade, valueHeating, countryCode);
       dataProp.properties.building.isPropertyRenovated = 1;
     }
     // UPDATE PROPERTY
