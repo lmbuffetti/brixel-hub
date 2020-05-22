@@ -436,7 +436,6 @@ export const calculateAgeByYear = (year) => { // birthday is a date
 export const calcConditionAssessor = (age, group, name = null, countryCode = 'CH') => {
   let condition;
   const getAssessorAvgLifespan = AssessorAvgLifespan[countryCode.toLowerCase()] ? AssessorAvgLifespan[countryCode.toLowerCase()] : AssessorAvgLifespan['ch'];
-  console.log(getAssessorAvgLifespan);
   if (name) {
     if (age <= Math.round(getAssessorAvgLifespan[group][name] * 0.25)) condition = 4;
     else if (age <= Math.round(getAssessorAvgLifespan[group][name] * 0.5)) condition = 3;

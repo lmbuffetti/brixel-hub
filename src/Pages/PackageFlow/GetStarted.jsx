@@ -33,7 +33,6 @@ const GetStarted = (props) => {
     lang,
     handleCreateActiveSingleProperty,
     handleGetActiveSingleCompany,
-    handleGetCompanyByCountry,
     handleSetLanguage,
     handleGetGamegroup,
     initialValues,
@@ -148,8 +147,9 @@ const GetStarted = (props) => {
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     const dataForm = formValue;
-    const { profile } = dataForm;
+    const { profile, company } = dataForm;
     delete dataForm.profile;
+    delete dataForm.company;
     const data = {
       ...dataForm,
       packageFlowProcess: {
@@ -165,7 +165,7 @@ const GetStarted = (props) => {
       addProperty: true,
       redirectToUserFlow: false,
       redirectToHome: true,
-      company: cookie.get('brixelStubCompany') || null,
+      company: company,
     }
     const page = get(formValue, 'signupScreen', null);
     if (formValue.owner) {
@@ -173,8 +173,8 @@ const GetStarted = (props) => {
       await handleCreateActiveSingleProperty(data);
     } else if (page === 'login') {
       data.user = {
-        username: formValue.email,
-        password: formValue.password,
+        username: profile.email,
+        password: profile.password,
       };
       await handleDoLogin(data);
     } else {
@@ -289,6 +289,7 @@ const GetStarted = (props) => {
       setQuestions(QuestionsList(getLang, companyCountry));
       changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
+      changeFieldValue('company', company.stub)
     }
   }, [company]);
 
@@ -510,6 +511,7 @@ const mapStateToProps = (state, props) => {
     packagesProperty: get(state, 'property.packagesProperty', []),
     startForm: get(state, 'form.GetStarted', null),
     initialValues: {
+      company: null,
       channel: channel,
       price: {
         currency: get(state, 'companies.activeSingleCompany.country.currency', null)

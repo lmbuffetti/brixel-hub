@@ -14,19 +14,16 @@ import upgradeComplete from '../images/Upgrade/upgrade_complete.svg';
 export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
   const optionsPackages = [];
   if (packagesProperty) {
-    packagesProperty.map((item) => {
-      if (item.stub.includes('zurich')) {
-        optionsPackages.push({
-          color: item.stub.includes('premium') ? 'Red400' : 'Green400',
-          label: item.name,
-          description: item.description,
-          img: item.stub.includes('premium') ? brixelPremium : brixelPlus,
-          priceInfo: `<span>Flat</span>&nbsp;<span>${item.price.currency}</span>&nbsp;<span>${item.price.total}</span>`,
-          value: item.id,
-          moreDetails: item.details
-        });
-      }
-      return null;
+    packagesProperty.forEach((item) => {
+      optionsPackages.push({
+        color: item.stub.includes('premium') ? 'Red400' : 'Green400',
+        label: item.name,
+        description: item.description,
+        img: item.stub.includes('premium') ? brixelPremium : brixelPlus,
+        priceInfo: `<span>Flat</span>&nbsp;<span>${item.price.currency}</span>&nbsp;<span>${item.price.total}</span>`,
+        value: item.id,
+        moreDetails: item.details
+      });
     });
   }
   let price = 'CHF 26\'000';
@@ -44,7 +41,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
           pdClass: 'py-2 py-md-3 px-1',
           label: '',
           name: "packageUpgrade.servicePackage",
-          validation: [Validation.required],
+          validation: optionsPackages.length > 0 ? [Validation.required] : null,
           options: optionsPackages,
         },
       ],
@@ -165,6 +162,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
           classNameBox: 'bgLight100 p-1',
           label: 'Phone number',
           name: "packageUpgrade.contactPhone",
+          formatType: 'tel',
           placeholder: '+41 78 852 58 76',
           validation: [Validation.required],
         },
