@@ -57,10 +57,11 @@ const Portals = (props) => {
   };
 
   const publishDuration = () => {
-    const duration = get(meta, 'publish.duration', null);
-    if (!duration || duration === 0) return 'unlimited';
-    if (duration === 1) return `for <span class="notranslate">${duration}</span> month`;
-    if (duration > 1) return `for <span class="notranslate">${duration}</span> months`;
+    const duration = get(meta, 'portals.duration', null);
+    if (!duration || +duration === 0) return 'unlimited';
+    if (+duration === 1) return `for <span class="notranslate">${duration}</span> month`;
+    if (+duration > 1) return `for <span class="notranslate">${duration}</span> months`;
+    return '';
   }
 
   return (
