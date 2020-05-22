@@ -41,7 +41,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
           pdClass: 'py-2 py-md-3 px-1',
           label: '',
           name: "packageUpgrade.servicePackage",
-          validation: optionsPackages.length > 0 ? [Validation.required] : null,
+          validation: [Validation.required],
           options: optionsPackages,
         },
       ],
