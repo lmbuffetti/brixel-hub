@@ -81,7 +81,7 @@ const BrixelUpgradeMessage = (props) => {
         ) : (
           <div className="bgGreen100 pb-3">
             <h5 className="txtGreen700">{title}</h5>
-            <p className="mt-3 mb-3 max-w-fix-280 m-a txtDark700">{description}</p>
+            <p className="mt-3 mb-3 max-w-fix-280 m-a txtDark700" dangerouslySetInnerHTML={{ __html: description}} />
             {
               virtualTour && (
                 <div className="my-5">

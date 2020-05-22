@@ -18,12 +18,14 @@ import {
   getActiveSinglePropertyBookings, savePropertyVisitSchedule, createPropertyVisitSchedule, savePropertyVisitBooking,
 } from '../../actions/PropertyActions';
 import Loadable from 'react-loadable';
-import { reduxForm, reset } from 'redux-form';
+import { change, reduxForm, reset } from 'redux-form';
 import { diff } from 'deep-object-diff';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
 import { addGameHistory, getAchievement, getGamegroup, getGameHistory } from '../../actions/GamificationActions';
 import { setModal, setScreenNotification } from '../../actions/CommonActions';
 import has from 'lodash/has';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
+import { calcPercentageFacts } from '../../utils/helpers';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -64,6 +66,7 @@ const ProtectedRoute = Loadable({
 const Dashboard = (props) => {
   // PROPS
   const {
+    changeFieldValue,
     userTypes,
     errorValue,
     formValue,
@@ -73,6 +76,7 @@ const Dashboard = (props) => {
     handleAddGameHistory,
     handleGetActiveSingleProperty,
     handleGetActiveSinglePropertyBookings,
+    handleGetActiveSingleCompany,
     handleGetPropertyListings,
     handleGetImageType,
     handleSaveActiveSingleProperty,
@@ -102,7 +106,10 @@ const Dashboard = (props) => {
   // const checkActiveTab = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    if (!get(history, 'location.pathname', '').includes('facts')) {
+    if (
+      !get(history, 'location.pathname', '').includes('facts') &&
+      !get(history, 'location.pathname', '').includes('achievement')
+    ) {
       reset('Property');
     }
   }, [history.location.pathname])
@@ -147,6 +154,10 @@ const Dashboard = (props) => {
       history.push('/no-property');
     }
     localStorage.removeItem('gameGroup');
+    const activeLeads = get(activeSingleProperty, 'pageLeads[0]', null)
+    if (activeLeads) {
+      handleGetActiveSingleCompany({id: activeLeads.company});
+    }
   }, [activeSingleProperty]);
 
   const saveData = () => {
@@ -281,6 +292,11 @@ const Dashboard = (props) => {
         });
       }
     }
+    if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
+      const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+      inputSheet.totalComplete = calcPercentageFacts().calcPerc;
+      changeFieldValue('inputSheet', inputSheet);
+    }
   }, [formValue, errorValue]);
 
   if (!userTypes && !userType) return (<div />);
@@ -299,10 +315,11 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.oneOfType([PropTypes.string, PropTypes.string]),
   userTypes: PropTypes.string,
   gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
@@ -311,6 +328,7 @@ Dashboard.propTypes = {
   handleGetPropertyListings: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleGetAchievement: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
@@ -398,12 +416,16 @@ const mapStateToProps = (state) => {
   });
 }
 const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('Property', field, value));
+  },
   reset(form) {
     (dispatch(reset(form)))
   },
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetAchievement: bindActionCreators(getAchievement, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),

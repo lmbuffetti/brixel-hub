@@ -4,8 +4,52 @@ import { translateTo } from './translation';
 import get from 'lodash/get';
 import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
 import { AssessorAvgLifespan } from '../resources/Assessor';
+import { configureStore } from '../store';
+import { InputSheets } from '../resources/inputSheets';
 
 const cookies = new Cookies();
+
+export const calcPercentageFacts = () => {
+  let countTotal = 0;
+  let countDone = 0;
+  const formValue = configureStore.getState().form.Property.values;
+  const Questions = InputSheets(formValue);
+  Questions.map((val) => {
+    val.inputs.map((item) => {
+      const name = get(item, 'condition.name', '');
+      const valA = get(formValue, name, 'a');
+      if (item.conditions) {
+        item.conditions.map((cond) => {
+          const valB = get(formValue, cond.name, 'a');
+          if (valB === cond.value && (get(formValue, item.name, 'ayc') !== 'ayc' || get(formValue, item.name, 'ayc') !== null)) {
+            countTotal += 1;
+            countDone += 1;
+          }
+          return null;
+        });
+      } else if (item.validation && (!item.condition || (item.condition && valA === item.condition.value))) {
+        if (get(formValue, `inputSheet.skipSection[${item.name}]`, false)) {
+          countTotal += 1;
+          countDone += 1;
+        } else if (get(formValue, item.name, 'ayc') !== 'ayc' && get(formValue, item.name, 'ayc') !== null) {
+          countTotal += 1;
+          countDone += 1;
+        } else {
+          countTotal += 1;
+        }
+      }
+      return null;
+    });
+    return null;
+  });
+  //const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+  const calPerc = Math.floor(countDone * 100 / countTotal);
+  const savedPerc = Math.floor(get(formValue, `inputSheet.totalComplete`, 0) || 0);
+  return {
+    calcPerc: calPerc,
+    savedPerc: savedPerc,
+  };
+}
 
 export const cutValue = (val) => {
   let formatVal = val;
@@ -23,11 +67,11 @@ export const cutValue = (val) => {
   return formatVal;
 };
 
-export function formatNum(num, separator, fraction) {
+export function formatNum(num, separator, fraction, localeString = 'de-CH') {
   const convNum = +num;
-  let str = convNum.toLocaleString('de-CH');
-  str = str.replace(/\./g, separator);
-  str = str.replace(/,/g, fraction);
+  let str = convNum.toLocaleString(localeString);
+  //str = str.replace(/\./g, separator);
+  //str = str.replace(/,/g, fraction);
   return str;
 }
 
@@ -144,7 +188,7 @@ export const isTablet = () => {
 
 export const isMobile = () => {
   if (typeof window !== 'undefined') {
-    if (window.innerWidth > 768) {
+    if (window.innerWidth > 1024) {
       return false;
     }
     return true;
@@ -389,51 +433,52 @@ export const calculateAgeByYear = (year) => { // birthday is a date
   return today.getFullYear() - year;
 };
 
-export const calcConditionAssessor = (age, group, name = null) => {
+export const calcConditionAssessor = (age, group, name = null, countryCode = 'CH') => {
   let condition;
+  const getAssessorAvgLifespan = AssessorAvgLifespan[countryCode.toLowerCase()] ? AssessorAvgLifespan[countryCode.toLowerCase()] : AssessorAvgLifespan['ch'];
   if (name) {
-    if (age <= Math.round(AssessorAvgLifespan[group][name] * 0.25)) condition = 4;
-    else if (age <= Math.round(AssessorAvgLifespan[group][name] * 0.5)) condition = 3;
-    else if (age <= Math.round(AssessorAvgLifespan[group][name] * 0.75)) condition = 2;
+    if (age <= Math.round(getAssessorAvgLifespan[group][name] * 0.25)) condition = 4;
+    else if (age <= Math.round(getAssessorAvgLifespan[group][name] * 0.5)) condition = 3;
+    else if (age <= Math.round(getAssessorAvgLifespan[group][name] * 0.75)) condition = 2;
     else condition = 1;
-  } else if (!isObject(AssessorAvgLifespan[group])) {
-    if (age <= Math.round(AssessorAvgLifespan[group] * 0.25)) condition = 4;
-    else if (age <= Math.round(AssessorAvgLifespan[group] * 0.5)) condition = 3;
-    else if (age <= Math.round(AssessorAvgLifespan[group] * 0.75)) condition = 2;
+  } else if (!isObject(getAssessorAvgLifespan[group])) {
+    if (age <= Math.round(getAssessorAvgLifespan[group] * 0.25)) condition = 4;
+    else if (age <= Math.round(getAssessorAvgLifespan[group] * 0.5)) condition = 3;
+    else if (age <= Math.round(getAssessorAvgLifespan[group] * 0.75)) condition = 2;
     else condition = 1;
   }
   return condition;
 };
 
-export const extractAssessorCondition = (age, construction, roof, facade, heating) => {
+export const extractAssessorCondition = (age, construction, roof, facade, heating, countryCode) => {
   const assessor = {
     constructor: null,
     roof: null,
     facade: null,
     heating: null,
-    kitchen: calcConditionAssessor(age, 'kitchen') || null,
-    wetCells: calcConditionAssessor(age, 'wetCells') || null,
-    electricalSystems: calcConditionAssessor(age, 'electricalSystems') || null,
+    kitchen: calcConditionAssessor(age, 'kitchen', null, countryCode) || null,
+    wetCells: calcConditionAssessor(age, 'wetCells', null, countryCode) || null,
+    electricalSystems: calcConditionAssessor(age, 'electricalSystems', null, countryCode) || null,
   };
   if (construction) {
     assessor.construction = {
-      [construction]: calcConditionAssessor(age, 'construction', construction) || null,
+      [construction]: calcConditionAssessor(age, 'construction', construction, countryCode) || null,
     };
   }
   if (roof) {
     assessor.roof = {
-      [roof]: calcConditionAssessor(age, 'roof', roof) || null,
+      [roof]: calcConditionAssessor(age, 'roof', roof, countryCode) || null,
     };
   }
   if (facade) {
     assessor.facade = {
-      [facade]: calcConditionAssessor(age, 'facade', facade) || null,
+      [facade]: calcConditionAssessor(age, 'facade', facade, countryCode) || null,
     };
   }
   if (heating && heating.length > 0) {
     assessor.heating = {};
     heating.map((val) => {
-      assessor.heating[val] = calcConditionAssessor(age, 'heating', val) || null;
+      assessor.heating[val] = calcConditionAssessor(age, 'heating', val, countryCode) || null;
       return null;
     });
   }

@@ -214,7 +214,11 @@ const App = (props) => {
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade')
     ) {
-      setClassMain('flowContainer w-perc-100');
+      if (history.location.pathname.includes('packageFlow')) {
+        setClassMain('flowContainer packageFlow w-perc-100');
+      } else {
+        setClassMain('flowContainer w-perc-100');
+      }
       setIsFlow(true);
       setZIndex(6);
     } else {
@@ -235,7 +239,7 @@ const App = (props) => {
     if (
       (history.location.pathname.includes('property/') ||
       history.location.pathname.includes('listings/')) &&
-      windowDimensions.width <= 768
+      windowDimensions.width <= 1024
     ) {
       setIsSecLevel(true);
       if (dashWrapperEl) {
@@ -263,7 +267,7 @@ const App = (props) => {
   const headerCalc = () => {
     return (
       !isFlow ?
-        windowDimensions.width <= 768 ? {height: (windowDimensions.height + extraHeight) - 174} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
+        windowDimensions.width <= 1024 ? {height: (windowDimensions.height + extraHeight) - 174} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
         {height: windowDimensions.height - calcFlowHeaderHeight()}
     )
   }
@@ -295,7 +299,7 @@ const App = (props) => {
           }
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
-            style={!isFlow ? isSecLevel ? {height: '100%'} : windowDimensions.width <= 768 ? { height: windowDimensions.height } : null : null}
+            style={!isFlow ? isSecLevel ? {height: '100%'} : windowDimensions.width <= 1024 ? { height: windowDimensions.height } : null : null}
           >
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
@@ -313,7 +317,7 @@ const App = (props) => {
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && (notification.small || notification.state) ? 'saveActionOn pb-8' : ''}`}
+              className={`${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
               style={ isSecLevel ? {height: '100%'} : headerCalc()}
               ref={dashContentRef}
             >
@@ -353,11 +357,11 @@ const App = (props) => {
       { /* SECTION: ACHIVEMENT FLOW */ }
       {
         <Switch>
-          <ProtectedRoute path="/:propId?/rewards/achievement/market-checker" exact component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/assessor" exact component={Assessor} allowAccess={'seller'} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" exact component={Bestimate} allowAccess={'seller'} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/media" exact component={MediaExplanation} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/market-checker" component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/assessor" component={Assessor} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess={'seller'} />
         </Switch>
       }
 
@@ -382,7 +386,7 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification && !isFlow && (
+        notification && ( (!history.location.pathname.includes('rewards') && !history.location.pathname.includes('packageFlow')) || notification.type === 'alert') && (
           <BrixelNotification
             saveBar
             label={notification.label}

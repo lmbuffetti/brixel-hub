@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+ /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
@@ -99,6 +99,7 @@ function ResumeMarketCheck(props) {
                           <Maps
                             zoom={property.location.countryCode === 'PT' ? 15 : 12}
                             scrollZoom={false}
+                            subMinHeight={"min-h-fix-320"}
                             moveMarker
                             draggable
                             showMap
@@ -142,17 +143,17 @@ function ResumeMarketCheck(props) {
                         </div>
 
 
-                        <div className="boxMarketCheck">
+                        <div className="boxMarketCheck w-fit">
                           {
-                            marketData && marketData.livingSpacesDistribution && (
-                              <div>
+                            get(marketData, 'livingSpacesDistribution.median', null) && (
+                              <div className="min-w-fix-144">
                                 <p className="mb-1 body2 fweight-600 txtDark700">Living Sapce</p>
                                 <p><span className="ff-mono txtGreen400 fsize-700">{Math.ceil(marketData.livingSpacesDistribution.median)}</span> <span className="fsize-100 txtDark200">m2</span></p>
                               </div>
                             )
                           }
                           {
-                            marketData && marketData.constructionYearDistribution && (
+                            get(marketData, 'constructionYearDistribution.medianAge', null) && (
                               <div>
                                 <p className="mb-1 body2 fweight-600 txtDark700">Age</p>
                                 <p><span className="ff-mono txtGreen400 fsize-700">{Math.ceil(marketData.constructionYearDistribution.medianAge)}</span> <span className="fsize-100 txtDark200">years</span></p>
@@ -160,10 +161,17 @@ function ResumeMarketCheck(props) {
                             )
                           }
                           {
-                            marketData && marketData.daysOnMarketDistribution && (
+                            get(marketData, 'daysOnMarketDistribution.median', 0) > 0 && (
                               <div>
                                 <p className="mb-1 body2 fweight-600 txtDark700">Time on Market</p>
-                                <p><span className="ff-mono txtGreen400 fsize-700">{marketData.daysOnMarketDistribution.median}</span> <span className="fsize-100 txtDark200">days </span></p>
+                                <p>
+                                  <span className="ff-mono txtGreen400 fsize-700">
+                                    {marketData.daysOnMarketDistribution.median}
+                                  </span>
+                                  <span className="fsize-100 txtDark200">
+                                    days
+                                  </span>
+                                </p>
                               </div>
                             )
                           }

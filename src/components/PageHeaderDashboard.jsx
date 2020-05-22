@@ -48,6 +48,9 @@ function PageHeaderDashboard(props) {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   // REF
   const profileMenu = useRef(null);
+  const proTitleRef = useRef(null);
+
+  const proTitleEl = proTitleRef.current;
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
 
@@ -66,7 +69,7 @@ function PageHeaderDashboard(props) {
 
   const screenResize = () => {
     setWidthScreen(window.innerWidth);
-    if (window.innerWidth >= 768) {
+    if (window.innerWidth >= 1024) {
       document.body.classList.remove('ov-h');
     }
   };
@@ -86,7 +89,7 @@ function PageHeaderDashboard(props) {
 
   const avatarAction = () => {
     // Mobile actions for the avatar click
-    if (widthScreen <= 768) {
+    if (widthScreen <= 1024) {
       document.body.classList.add('ov-h');
     } else {
       window.location.href = `${baseByData(undefined,'io').profileURL}?url=${window.location.href}`;
@@ -144,13 +147,22 @@ function PageHeaderDashboard(props) {
     }
   });
 
+  useEffect(() => {
+    if (proTitleEl) {
+      const titleHeight = proTitleEl.offsetHeight
+      if (titleHeight > 42) {
+       proTitleEl.classList.add('longTitle')
+      }
+    }
+   })
+
   return (
     <>
       <header className={`hubDasHeader`}>
         <div className="dasHeaderContainer">
           <div className={`dis-f a-c px-2 px-md-3 h-fix-64 jc-b pos-r bgWhite`}>
             {
-              windowDimensions.width > 768 && (
+              windowDimensions.width > 1024 && (
                 <div className="header-section dis-fl-row a-c jc-b">
                   <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} />
                   <h5 className="ml-2">{getCurrentRoute().title}</h5>
@@ -158,7 +170,7 @@ function PageHeaderDashboard(props) {
               )
             }
             {
-              windowDimensions.width <= 768 && (
+              windowDimensions.width <= 1024 && (
                 <div
                   className="propertyPanel dis-f a-c"
                   onClick={() => {
@@ -172,14 +184,14 @@ function PageHeaderDashboard(props) {
                       propertyType={get(formValue, 'properties.propertyType', undefined)}
                     />
                   </div>
-                  <h4 className="ml-2 fsize-400 fweight-600">{get(formValue, 'title', '')}</h4>
+                  <h4 ref={proTitleRef} className="ml-2 fsize-400 fweight-600"> {get(formValue, 'title', '')}</h4>
                 </div>
               )
             }
 
             <div className="dis-f a-c">
               {
-                windowDimensions.width > 768 && (
+                windowDimensions.width > 1024 && (
                   <div className="dis-f a-c" onClick={() => brixelsAchievementDetail()}>
                     {
                       awards >= 0 && (
@@ -201,7 +213,7 @@ function PageHeaderDashboard(props) {
                 )
               }
               {
-                propID && windowDimensions.width > 768 && (
+                propID && windowDimensions.width > 1024 && (
                   <BrixelButtonSecondary
                     className="hide dis-f-md min-h-fix-32 max-h-fix-32 p-0 px-1 min-w-fix-96 brdMedium mx-3"
                     label="Upgrade"
@@ -213,7 +225,7 @@ function PageHeaderDashboard(props) {
               }
 
               {
-                windowDimensions.width > 768 && (
+                windowDimensions.width > 1024 && (
                   <div className="dis-f-md a-c cur-poi pos-r" onClick={() => setShowProfileMenu(!showProfileMenu)} ref={profileMenu}>
 
                     <AvatarImage
@@ -257,7 +269,7 @@ function PageHeaderDashboard(props) {
                 />
                 {
                   showMobileMenu && (
-                    <div className="mobile-menu bgGreen700 w-perc-100 h-100 pos-a dis-fl-col a-c p-1 zIndex5" style={{ height: windowDimensions.height }}>
+                    <div className="mobile-menu bgGreen700 w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-2 pb-2 zIndex5" style={{ height: windowDimensions.height }}>
                       <BrixelButtonIcon
                         className="as-fe mb-5"
                         icon="close-small"
@@ -270,7 +282,7 @@ function PageHeaderDashboard(props) {
                           document.body.classList.remove('ov-h');
                         }}
                       />
-                      <div className="links dis-fl-col as-b px-3 w-perc-100">
+                      <div className="links dis-fl-col as-b w-perc-100">
                         <button
                           className="txtLight100 fweight-700 fSizePx28 mb-4 ta-l"
                           onClick={() => onClickMobileMenu('propertyList')}
@@ -337,7 +349,7 @@ function PageHeaderDashboard(props) {
           </div>
         </div>
         {
-          windowDimensions.width <= 768 && (
+          windowDimensions.width <= 1024 && (
             <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
               <div className="header-section dis-fl-row a-c jc-b">
                 {/* <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} /> */}

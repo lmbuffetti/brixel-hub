@@ -10,19 +10,10 @@ import {
   FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
+import Maps from '../components/Map/Maps';
 import { configureStore } from '../store';
 // import { isEmpty } from '@brixel/brixel-components/src/utils/helper';
 const { factsOptions } = FactsOptions;
-
-const formatPrice = (value) => {
-  if (!value) return '';
-  return Number(value).toLocaleString('de-CH');
-};
-
-const normalizePrice = (value) => {
-  if (value.length === 0) return '';
-  return Number(value.replace(/\D/g, ''));
-};
 
 const normalizeData = (value, prevValue) => {
   if (!value) return value;
@@ -45,6 +36,7 @@ const normalizeData = (value, prevValue) => {
 
 export const InputSheets = () => {
   const formValue = get(configureStore.getState(), 'form.Property.values', {});
+  const propertyHose = (get(formValue, 'properties.propertyType', '') || '').toLowerCase()
   return [
     // SECTION: PROPERTY TYPE
     {
@@ -112,7 +104,7 @@ export const InputSheets = () => {
         {
           component: BrixelInputStepNumber,
           className: '',
-          label: `How many rooms does the ${get(formValue, 'properties.propertyType', '').toLowerCase()} have?`,
+          label: `How many rooms does the ${propertyHose} have?`,
           name: 'properties.typology.bedrooms',
           labelLeft: 'Rooms',
           step: 0.5,
@@ -346,9 +338,15 @@ export const InputSheets = () => {
       cardType: "location",
       inputs: [
         {
+          component: Maps,
           label: 'Property address',
-          name: 'location.address',
-          type: 'Map',
+          name: 'location',
+          type: 'Mappe',
+          mapOptions: {
+            showMap: true,
+            showSearchLocation: true,
+            showSelectCountry: true,
+          },
           validation: [Validation.required]
         },
         /*{
@@ -497,6 +495,7 @@ export const InputSheets = () => {
           labelLeft: 'Year',
           placeholder: 'YYYY (ex.: 2020)',
           validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear, Validation.markRequired],
+          formatType: 'date-yyyy',
           minLenght: 999,
           maxLength: 2030,
         },
@@ -549,7 +548,7 @@ export const InputSheets = () => {
           name: 'properties.building.electricalInspection',
           validation: [Validation.markRequired],
           placeholder: "mm/yyyy (ex.: 01/2020)",
-          normalize: normalizeData,
+          formatType: 'date-mm:yyyy',
         },
       ],
     },
@@ -701,8 +700,7 @@ export const InputSheets = () => {
           label: 'Price per garage parking lot',
           labelLeft: 'Price per lot',
           name: 'properties.parking.garagePrice',
-          format: formatPrice,
-          normalize: normalizePrice,
+          formatType: 'price',
           validation: [Validation.markRequired],
           unit: get(formValue, 'price.currency', 'CHF'),
         },
@@ -726,8 +724,7 @@ export const InputSheets = () => {
           label: 'Price per external parking lot',
           labelLeft: 'Price per lot',
           name: 'properties.parking.outsidePrice',
-          format: formatPrice,
-          normalize: normalizePrice,
+          formatType: 'price',
           validation: [Validation.markRequired],
           unit: get(formValue, 'price.currency', 'CHF'),
         },
@@ -751,8 +748,7 @@ export const InputSheets = () => {
           label: 'Price per underground parking lot',
           labelLeft: 'Price per lot',
           name: 'properties.parking.undergroundPrice',
-          format: formatPrice,
-          normalize: normalizePrice,
+          formatType: 'price',
           validation: [Validation.markRequired],
           unit: get(formValue, 'price.currency', 'CHF'),
         },
@@ -994,8 +990,7 @@ export const InputSheets = () => {
           labelLeft: 'Price',
           placeholder: '1’500’000',
           name: 'price.total',
-          format: formatPrice,
-          normalize: normalizePrice,
+          formatType: 'price',
           validation: [Validation.markRequired],
           unit: get(formValue, 'price.currency', 'CHF'),
         },
@@ -1006,8 +1001,7 @@ export const InputSheets = () => {
           placeholder: '7400',
           name: 'properties.building.maintenanceCost',
           labelLeft: 'Additional costs',
-          format: formatPrice,
-          normalize: normalizePrice,
+          formatType: 'price',
           validation: [Validation.markRequired],
           unit: get(formValue, 'price.currency', 'CHF'),
         },
@@ -1030,8 +1024,7 @@ export const InputSheets = () => {
           placeholder: '120’000',
           name: 'properties.building.renewalTotalAmount.value',
           labelLeft: 'Renewal Funds',
-          format: formatPrice,
-          normalize: normalizePrice,
+          formatType: 'price',
           validation: [Validation.markRequired],
           unit: get(formValue, 'price.currency', 'CHF'),
         },
@@ -1046,8 +1039,7 @@ export const InputSheets = () => {
           placeholder: '15’000',
           name: 'properties.building.renewalOwnerAmount.value',
           labelLeft: 'Renewal Funds',
-          format: formatPrice,
-          normalize: normalizePrice,
+          formatType: 'price',
           validation: [Validation.markRequired],
           unit: get(formValue, 'price.currency', 'CHF'),
         },
@@ -1087,8 +1079,7 @@ export const InputSheets = () => {
           placeholder: '16’000',
           name: 'price.national',
           labelLeft: 'Notional Value',
-          format: formatPrice,
-          normalize: normalizePrice,
+          formatType: 'price',
           validation: [Validation.markRequired],
           unit: get(formValue, 'price.currency', 'CHF'),
         },
@@ -1109,8 +1100,7 @@ export const InputSheets = () => {
           placeholder: '480’000',
           name: 'properties.building.purchasePrice',
           labelLeft: 'Price',
-          format: formatPrice,
-          normalize: normalizePrice,
+          formatType: 'price',
           validation: [Validation.markRequired],
           unit: get(formValue, 'price.currency', 'CHF'),
         },

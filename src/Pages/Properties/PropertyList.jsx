@@ -84,7 +84,7 @@ const PropertyList = (props) => {
                       </span>
                     </div>
 
-                    <div className="flex-72 max-w-fix-72 ta-r txtDark700">
+                    <div className="flex-88 max-w-fix-88 ta-r txtDark700">
                       {
                         property.owner.id === user.user.id ? (
                           <>

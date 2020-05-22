@@ -1,8 +1,7 @@
 .flowContainer {
   background-color: map-get($lightColor, 100);
 
-  .onBoardingWrapper,
-  .getStartedWrapper {
+  .onBoardingWrapper  {
     #progressBar {
       position: fixed;
       top: 0;
@@ -13,28 +12,43 @@
       height: 100%;
       width: 100%;
       position: fixed;
-      overflow: hidden;
-      max-width: 760px;
-      left: 50%;
-      transform: translateX(-50%);
+      overflow-x: hidden;
 
-      box-shadow: $shadow-1dp;
-      background-color: $brx-white;
-      border-top-left-radius: $brd-radius-small;
-      border-top-right-radius: $brd-radius-small;
+      &:before {
+        top: 2px;
+        position: absolute;
+        height: calc(100% - 2px);
+        width: 100%;
+        content: '';
+        z-index: -1;
+        left: 50%;
+        width: 100%;
+        max-width: 768px;
+        transform: translateX(-50%);
+        box-shadow: $shadow-1dp;
+        background-color: $brx-white;
+        border-top-left-radius: $brd-radius-small;
+        border-top-right-radius: $brd-radius-small;
+      }
 
       .subcontainer {
         width: 100%;
         max-width: 480px;
         margin: auto;
+        padding: $step * 3;
       }
-
+      @media (max-width: $responsive-medium) {
+        .chat .subcontainer {
+          padding: $step * 3;
+        }
+      }
       .multiStepForm {
         height: 100%;
       }
-      .slideMultiStepForm {
+      .multiStepSlides {
         height: 100%;
         display: flex;
+        position: relative;
         //transition: transform $default-loader-time ease-in-out;
       }
       .bodyModalFlow {
@@ -45,13 +59,65 @@
       .singleStep {
         height: 100%;
         flex: 0 0 100%;
-        overflow-y: auto;
         overflow-x: hidden;
-        padding: $step * 3;
         transition: opacity $default-time-long $default-easing;
+        background: none;
+
+        @media (min-width: $responsive-medium) {
+          display: flex;
+          align-items: center;
+        }
+
+        @media (max-width: $responsive-medium) {
+          &.vertCentered {
+            .subcontainer {
+              padding-bottom: $step * 6;
+            }
+          }
+        }
+
+        &[class*="bg"],
+        &.vertCentered {
+          align-items: center;
+          justify-content: center;
+          display: flex;
+        }
+
+        @media (min-width: $responsive-medium) {
+          padding-bottom: 74px;
+        }
+
 
         &[class*="bg"] {
           transition: opacity $default-time-long $default-easing;
+        }
+
+        &[class*="bg"] {
+          position: relative;
+          &:before {
+            top: 2px;
+            position: absolute;
+            height: calc(100% - 2px);
+            width: 100%;
+            content: '';
+            z-index: -1;
+            left: 50%;
+            width: 100%;
+            max-width: 768px;
+            transform: translateX(-50%);
+            border-top-left-radius: $brd-radius-small;
+            border-top-right-radius: $brd-radius-small;
+          }
+        }
+        &[class*="bgRed100"] {
+          &:before {
+            background: map-get($redColor, 100 );
+          }
+        }
+        &[class*="bgPrimary100"] {
+          &:before {
+            background: map-get($primaryColor, 100 );
+          }
         }
 
         .willAnimate {
@@ -64,20 +130,6 @@
             animation: fadeInSec $default-time-long 0.6s $default-easing forwards;
           }
         }
-
-        @media (max-width: $responsive-small) {
-          padding-bottom: $step * 5;
-        }
-        @media (min-width: $responsive-small) {
-          display: flex;
-          align-items: center;
-        }
-        &[class*="bg"],
-        &.vertCentered {
-          align-items: center;
-          justify-content: center;
-          display: flex;
-        }
       }
       // todo: move to styleguide
       .message:empty {
@@ -85,15 +137,13 @@
       }
       .footerAction {
         background: $brx-white;
-        position: relative;
+        position: fixed;
         width: 100%;
-        left: 0;
+        left: 50%;
+        max-width: 768px;
+        transform: translateX(-50%);
         bottom: 0;
 
-        @media (max-width: $responsive-medium) {
-          position: fixed;
-          bottom: auto;
-        }
         &.successNext {
           background: map_get($greenColor, 100);
 
@@ -114,17 +164,6 @@
           }
         }
       }
-
-      .brixel-radio-button-icon.radioBtnImg {
-        /*todo styleguide*/
-        label .textLabel {
-          margin-left: $step * 2;
-
-          @media (min-width: $responsive-medium) {
-            @include fontStyle(500);
-          }
-        }
-      }
     }
   }
 }
@@ -142,7 +181,7 @@
     float: left;
     clear: both;
   }
-  .chatBox {
+  .chat {
     .chatContainer {
       .messageChat {
         bottom: -10px;

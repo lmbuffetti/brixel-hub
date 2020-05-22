@@ -1,20 +1,34 @@
 import React from 'react';
 import { Element } from 'react-faux-dom';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import * as d3 from 'd3';
 import PropTypes from 'prop-types';
 import first from 'lodash/first';
 import last from 'lodash/last';
+import get from 'lodash/get';
 import { formatNum } from '../../utils/helpers';
+import { generalTranslate } from '../../utils/translation';
+import { DataByCountry } from '@brixel/brixel-components'
 
 function RangePriceChart(props) {
   const {
-    properties, type, bestimate, title, showTopLabel, subtitle,
+    currency,
+    properties,
+    type,
+    bestimate,
+    title,
+    showTopLabel,
+    subtitle,
+    lang,
   } = props;
   const cfg = {
     barTransitionDuration: 800,
     step: properties[0] + 1,
-    label: 'CHF',
+    label: currency,
     labelPosition: 'preffix',
+    localString: currency === 'EUR' ? 'it-IT' : 'de-CH',
   };
   const margin = {
     top: type === 'bestimate' ? 0 : 100,
@@ -84,10 +98,10 @@ function RangePriceChart(props) {
       .attr('transform', `translate(${xScale(firstRange)}, ${Math.round(cfg.height + 25)})`)
       .text(() => {
         if (cfg.label === 'm2') {
-          return `${formatNum(firstRange, "'", ',')} ${cfg.label}`;
+          return `${formatNum(firstRange, "'", ',', cfg.localString)} ${cfg.label}`;
         }
         if (type !== 'bestimate') {
-          return `${cfg.label} ${formatNum(+firstRange.toFixed(0), "'", ',')} +`;
+          return `${cfg.label} ${formatNum(+firstRange.toFixed(0), "'", ',', cfg.localString)} +`;
         }
       });
 
@@ -99,10 +113,10 @@ function RangePriceChart(props) {
       .attr('transform', `translate(${xScale(lastRange) + xScale.bandwidth()} , ${Math.round(cfg.height + 25)})`)
       .text(() => {
         if (cfg.label === 'm2') {
-          return `${formatNum(lastRange, "'", ',')} ${cfg.label} +`;
+          return `${formatNum(lastRange, "'", ',', cfg.localString)} ${cfg.label} +`;
         }
         if (type !== 'bestimate') {
-          return `${cfg.label} ${formatNum(+lastRange.toFixed(0), "'", ',')} +`;
+          return `${cfg.label} ${formatNum(+lastRange.toFixed(0), "'", ',', cfg.localString)} +`;
         }
       });
 
@@ -257,10 +271,10 @@ function RangePriceChart(props) {
             let titleTooltip = '';
             switch (type) {
               case 'priceRange':
-                titleTooltip = 'Mittlerer Preis';
+                titleTooltip = generalTranslate(lang, 'Median price');
                 break;
               case 'priceM2':
-                titleTooltip = 'Mittlerer Preis/m2';
+                titleTooltip = generalTranslate(lang, 'Median price/m2');
                 break;
               default:
                 titleTooltip = '';
@@ -269,7 +283,7 @@ function RangePriceChart(props) {
             return `
                 <p>${titleTooltip}</p>
                 <span class="curr">${cfg.label} </span>
-                <span class="num">${formatNum(properties[0].median, "'", ',')}</span>
+                <span class="num">${formatNum(properties[0].median, "'", ',', cfg.localString)}</span>
               `;
           });
       }, 0);
@@ -278,7 +292,7 @@ function RangePriceChart(props) {
         d3.select(`#${randomID}`)
           .append('p')
           .attr('class', 'value')
-          .html(`<span class="ng-binding">${cfg.label} ${formatNum(bestimate.lowerValue, "'", ',')}</span> <span class="value__separator"> - </span> <span class="ng-binding">${cfg.label} ${formatNum(bestimate.higherValue, "'", ',')}</span>`);
+          .html(`<span class="ng-binding">${cfg.label} ${formatNum(bestimate.lowerValue, "'", ',', cfg.localString)}</span> <span class="value__separator"> - </span> <span class="ng-binding">${cfg.label} ${formatNum(bestimate.higherValue, "'", ',', cfg.localString)}</span>`);
       }, 0);
     }
   };
@@ -317,7 +331,7 @@ function RangePriceChart(props) {
       {
         subtitle && (
           <h3
-            dangerouslySetInnerHTML={{ __html: `<span>${cfg.label}</span> ${formatNum(+properties[0].median, "'", ',')}` }}
+            dangerouslySetInnerHTML={{ __html: `<span>${cfg.label}</span> ${formatNum(+properties[0].median, "'", ',', cfg.localString)}` }}
             className="price"
           />
         )
@@ -331,11 +345,13 @@ function RangePriceChart(props) {
 
 RangePriceChart.propTypes = {
   bestimate: PropTypes.object,
+  currency: PropTypes.string,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   showTopLabel: PropTypes.bool,
   subtitle: PropTypes.bool,
   title: PropTypes.string,
   type: PropTypes.string.isRequired,
+  lang: PropTypes.string,
 };
 
 RangePriceChart.defaultProps = {
@@ -345,4 +361,15 @@ RangePriceChart.defaultProps = {
   title: null,
 };
 
-export default RangePriceChart;
+const mapStateToProps = (state) => {
+  const countryCode = get(state, 'form.Property.values.location.countryCode', 'CH');
+  return ({
+    currency: DataByCountry(countryCode),
+    lang: get(state, 'common.language', {}),
+  });
+}
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, null),
+)(RangePriceChart);

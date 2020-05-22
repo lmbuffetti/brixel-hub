@@ -12,6 +12,11 @@ class Company extends Base {
     const url = ep.company.getCompanyById(stub);
     return this.apiClient.get(url, { });
   }
+
+  getCompanyByCountry(country) {
+    const url = ep.company.getCompanyByCountry(country);
+    return this.apiClient.get(url, { });
+  }
 }
 
 export default Company;

@@ -128,7 +128,7 @@ const Showings = (props) => {
               />
               <h5 className="m-a m-md-0 sectionTitle">Showings</h5>
               <BrixelButtonIcon
-                className="shadow-3dp"
+                className="shadow-2dp"
                 icon={manageAvailability ? "close-small" : "calendar-edit"}
                 background="White"
                 color="primary"

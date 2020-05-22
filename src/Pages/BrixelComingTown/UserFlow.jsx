@@ -54,6 +54,7 @@ function UserFlow(props) {
   const [oneEmptyValue, setOneEmptyValue] = useState(true);
   const [hasToSave, setHasToSave] = useState(true);
   const [Questions, setQuestions] = useState(QuestionsList(lang));
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     // On load redirect all to first route of flow
@@ -71,7 +72,15 @@ function UserFlow(props) {
   const calcFlowContentHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');
     const flowFooter = document.getElementsByClassName('footerAction');
-    return flowHead[0]  && flowFooter[0] ? flowHead[0].offsetHeight + flowFooter[0].offsetHeight : 0;
+    if (windowDimensions.width <= 1024)  {
+      if (Questions[currentIndex].cardType === 'chat') {
+        return flowHead[0] ? flowHead[0].offsetHeight : 0;
+      } else {
+        return flowHead[0]  && flowFooter[0] ? flowHead[0].offsetHeight + flowFooter[0].offsetHeight : 0;
+      }
+    } else {
+      return flowHead[0] ? flowHead[0].offsetHeight : 0;
+    }
   };
 
   useEffect(() => {
@@ -237,6 +246,19 @@ function UserFlow(props) {
     return newUrl;
   };
 
+  useEffect(() => {
+    if (
+      !disableNextBtn && Questions[currentIndex] &&
+      Questions[currentIndex].inputs &&
+      Questions[currentIndex].successMessage
+      && !emptyValue
+      ) {
+        setIsSuccess(true)
+    } else {
+      setIsSuccess(false)
+    }
+  })
+
   return (
     <div className="onBoardingWrapper">
       {
@@ -253,7 +275,7 @@ function UserFlow(props) {
       }
       <main
         id="onBoarding"
-        className={`${Questions[currentIndex].cardType !== 'chat' ? 'withFooter' : 'withoutFooter'} notranslate`}
+        className={`notranslate`}
       >
         <form
           id="multiStepForm"
@@ -261,21 +283,24 @@ function UserFlow(props) {
           autoComplete="off"
         >
           <div
-            className="slideMultiStepForm"
+            className="multiStepSlides"
             style={
-              {transform: `translate(-${position * 100}%, 0)`,
-                height: windowDimensions.height  - calcFlowContentHeight()}
+              {
+                transform: `translate(-${position * 100}%, 0)`,
+                height: windowDimensions.height  - calcFlowContentHeight()
+              }
             }
           >
             {
               Questions.map((quest, i) => (
                 <div
                   id={`step-${i}`}
-                  className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''} ${Questions[currentIndex].cardType === 'chat' ? 'chatBox': ''}`}
+                  className={`singleStep ${quest.background || ''} ${quest.vCentered ? 'vertCentered' : ''} ${Questions[currentIndex].cardType}`}
                   key={i.toString()}
                   style={{
                     visibility: i !== currentIndex ? 'hidden' : 'visible',
                     opacity: i !== currentIndex ? '0' : '1',
+                    paddingBottom: !quest.vCentered && !quest.background && windowDimensions.width <= 1024 && isSuccess  ? '30px' : '',
                   }}
                 >
                   <div className="subcontainer">

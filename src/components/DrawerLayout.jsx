@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { useOutsideAlerter } from '@brixel/brixel-components';
+import useOutsideAlerter from '../components/OutsideElement';
 import get from 'lodash/get';
 
 const DrawerLayout = (props) => {

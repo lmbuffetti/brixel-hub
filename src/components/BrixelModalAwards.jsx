@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelIcon, BrixelProgressBar } from '@brixel/brixel-components';
+import { BrixelIcon } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import BrixelModalFullScreen from './BrixelModalFullScreen';
@@ -73,7 +73,7 @@ const BrixelModalAwards = (props) => {
                 <span>Awards</span>
                 <span className="ff-mono fweight-700">{done}/{done+toDo}</span>
               </p>
-              <BrixelProgressBar
+              {/* <BrixelProgressBar
                 classProgressBar={'pos-r'}
                 rounded
                 barBackground="Light"
@@ -82,9 +82,9 @@ const BrixelModalAwards = (props) => {
                 color="Green"
                 saturation={400}
                 classBackground="ov-h brdRadius"
-                large={window.innerWidth >= 768}
-                small={window.innerWidth < 768}
-              />
+                large={window.innerWidth >= 1024}
+                small={window.innerWidth < 1024}
+              /> */}
             </div>
           </div>
 

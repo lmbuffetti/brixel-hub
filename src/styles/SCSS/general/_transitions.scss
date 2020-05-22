@@ -94,7 +94,7 @@
 .fade-appear-active,
 .fade-enter-active {
     opacity: 1;
-    transition: opacity $default-time $default-easing 150ms;
+    transition: opacity $default-time-long $default-easing;
 }
 
 .fade-exit {

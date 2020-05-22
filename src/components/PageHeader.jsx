@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* global Transifex */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -30,6 +31,7 @@ function PageHeader(props) {
     lang, languages, loggedInUser, userAwards, brixelPoints,
     handleSetLanguage, history, handleGetGame, property, gameHistory,
   } = props;
+
   // STATE
   const [currentLang, setCurrentLang] = useState(lang);
   const [dropLang, setDropLang] = useState([]);
@@ -61,11 +63,12 @@ function PageHeader(props) {
 
   useEffect(() => {
     setCurrentLang(lang);
+    Transifex.live.translateTo(lang);
   }, [lang]);
 
   const screenResize = () => {
     setWidthScreen(window.innerWidth);
-    if (window.innerWidth > 768) {
+    if (window.innerWidth > 1024) {
       setShowMobileMenu(false);
       document.body.classList.remove('ov-h');
     }
@@ -82,6 +85,7 @@ function PageHeader(props) {
     e.stopPropagation();
     setCurrentLang(langCode.value);
     handleSetLanguage(langCode.value);
+    Transifex.live.translateTo(langCode.value);
     setCookie('brixelLang', langCode.value);
   };
 
@@ -102,7 +106,7 @@ function PageHeader(props) {
 
   return (
     <>
-      <header className="flowHeader">
+      <header className="flowHeader zIndex11">
         <div className={`container dis-f a-c p-1 pt-2 p-md-2 jc-b pos-r zIndex4 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
           <img
             className={`logo dis-b ${history.location.pathname.includes('onBoarding') ? 'w-fix-86' : 'w-fix-40' }  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
@@ -173,12 +177,30 @@ function PageHeader(props) {
                 </div>
               ) : (
                 <div className="ml-2">
-                  <AvatarImage
-                    avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
-                    name={loggedInUser.user.name}
-                    size={40}
-                    onClick={() => avatarAction()}
-                  />
+                  {
+                    !history.location.pathname.includes('packageFlow') && (
+                      <AvatarImage
+                        avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
+                        name={loggedInUser.user.name}
+                        size={40}
+                        onClick={() => avatarAction()}
+                      />
+                    )
+                  }
+                  {
+                    history.location.pathname.includes('packageFlow') && (
+                      <BrixelButtonIcon
+                        className="shadow-2dp"
+                        noBorder
+                        background="white"
+                        saturation={0}
+                        color="dark"
+                        saturationTxt={700}
+                        icon="close-small"
+                        onClick={() => history.push(`/`)}
+                      />
+                    )
+                  }
                 </div>
               )
             }

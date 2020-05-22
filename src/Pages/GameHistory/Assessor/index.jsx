@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
-import MultiStepForm from '../../../components/MultiStepReduxForm';
+import { BrixelButtonIcon, MultiFileldsReduxForm } from '@brixel/brixel-components';
 import { AssessorQuestions } from '../../../resources/Assessor';
 import {extractAssessorCondition, calculateAgeByYear} from '../../../utils/helpers';
 import { bindActionCreators, compose } from 'redux';
@@ -14,7 +13,6 @@ import { reduxForm, reset } from 'redux-form';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
-import last from 'lodash/last';
 
 const Assessor = (props) => {
   // PROPS
@@ -32,7 +30,7 @@ const Assessor = (props) => {
   } = props;
   // STATE
   const [questions, setQuestions] = useState(AssessorQuestions('en'));
-  // const [position, setPosition] = useState(0);
+  const [loaded, setLoaded] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quest, setQuest] = useState(AssessorQuestions('en')[0]);
   const [isEnter, setIsEnter] = useState(true);
@@ -40,14 +38,8 @@ const Assessor = (props) => {
   const [finishedFlow, setFinishedFlow] = useState(false);
   const [lastID, setLastID] = useState(0);
   // GET URL PARAMS
-  const getAchievement = () => last(history.location.pathname.split('/'));
+  const getAchievement = () => history.location.pathname.split('/')[4];
   const propID = get(match, 'params.propId', null);
-
-  useEffect(() => {
-    return () => {
-      reset('Property');
-    };
-  }, []);
 
   // CHECK IF THE ACHIEVEMENT IS DONE
   useEffect(() => {
@@ -62,23 +54,34 @@ const Assessor = (props) => {
       } else {
         setFinishedFlow(false);
       }
+      setLoaded(true);
     }
   }, [gameHistory, activeSingleProperty, lastID]);
 
   useEffect(() => {
     if (gameGroup.length > 0) {
       const group = gameGroup.find(game => game.achievements.some(item => item.stub === getAchievement()));
-      const defGroup = group.achievements.find(item => item.stub === getAchievement());
+      const achievements = get(group, 'achievements', []);
+      const defGroup = achievements.find(item => item.stub === getAchievement());
       setSelGameGroup(defGroup);
     }
   }, [gameGroup]);
 
   useEffect(() => {
     setIsEnter(true);
-  }, [currentIndex]);
+    if (questions[currentIndex].history && loaded) {
+      const redo = get(history, 'location.state.redo', false);
+      history.push({
+        pathname: `/${propID}/rewards/achievement/${getAchievement()}/${questions[currentIndex].history}`,
+        state: {
+          redo: redo,
+        }
+      });
+    }
+  }, [currentIndex, loaded]);
 
   const closeWindow = () => {
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
       history.push(`/${propID}/rewards`);
     } else {
       history.push(`/${propID}/rewards/${getAchievement()}`);
@@ -98,13 +101,14 @@ const Assessor = (props) => {
     const valueRoof = get(formValue, 'properties.building.roofType', null);
     const valueFacade = get(formValue, 'properties.building.facade', null);
     const valueHeating = get(formValue, 'properties.energy.heating', null);
+    const countryCode = get(formValue, 'location.countryCode', 'CH');
     dataProp.assessor = {
       date: new Date(),
-      construction: extractAssessorCondition(age, valueConstruction, valueRoof, valueFacade, valueHeating),
+      construction: extractAssessorCondition(age, valueConstruction, valueRoof, valueFacade, valueHeating, countryCode),
     };
     if (yearRenovate) {
       const ageRenovation = calculateAgeByYear(yearRenovate);
-      dataProp.assessor.renovation = extractAssessorCondition(ageRenovation, valueConstruction, valueRoof, valueFacade, valueHeating);
+      dataProp.assessor.renovation = extractAssessorCondition(ageRenovation, valueConstruction, valueRoof, valueFacade, valueHeating, countryCode);
       dataProp.properties.building.isPropertyRenovated = 1;
     }
     // UPDATE PROPERTY
@@ -154,19 +158,6 @@ const Assessor = (props) => {
     }
   }, [formValue]);
 
-  const valideConditionInput = (quest) => {
-    let isVerified = true;
-    if (quest.condition) {
-      quest.condition.map((item) => {
-        if (get(formValue, item.name, null) !== item.value) {
-          isVerified = false;
-        }
-        return null;
-      });
-    }
-    return isVerified;
-  };
-
   const checkValidateField = (act) => {
     let isValid = true;
     let isNotEmpty = false;
@@ -206,14 +197,14 @@ const Assessor = (props) => {
     return label;
   };
 
-  if(!formValue.id) {
+  if(!formValue.id && !loaded) {
     return (
       <div/>
     )
   }
 
   return (
-    <div id="bodyModalWrapper">
+    <div id="bodyModalWrapper" className="achievementFlow">
       <div className="bodyModal">
         <PageHeaderAchievement
           icon={selGameGroup.icon}
@@ -227,7 +218,7 @@ const Assessor = (props) => {
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
-          <div className={`slideMultiStepForm`}>
+          <div className={`multiStepSlides`}>
             <div
               className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
@@ -238,23 +229,13 @@ const Assessor = (props) => {
                       <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
                       {quest.subtitle && (
                         <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)}
-                      {
-                        quest.inputs.map((input, f) => (
-                          <React.Fragment key={f.toString()}>
-                            {
-                              valideConditionInput(input) && (
-                                <MultiStepForm
-                                  disableNextBtn={false}
-                                  formValue={formValue}
-                                  input={input}
-                                  className={input.className}
-                                  onClick={() => changeStep()}
-                                />
-                              )
-                            }
-                          </React.Fragment>
-                        ))
-                      }
+                      <MultiFileldsReduxForm
+                        disableNextBtn={false}
+                        formValue={formValue}
+                        form="Property"
+                        inputs={quest.inputs}
+                        onClick={() => ''}
+                      />
                     </div>
                   )
                 }

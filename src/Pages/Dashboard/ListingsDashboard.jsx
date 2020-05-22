@@ -42,7 +42,7 @@ const ListingsDashboard = (props) => {
   const getFact = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
-    if (windowDimensions && windowDimensions.width > 768 && getFact() === 'listings') {
+    if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'listings') {
       history.push({pathname: `/${propID}/listings/page` });
     }
   }, [windowDimensions, getFact()]);
