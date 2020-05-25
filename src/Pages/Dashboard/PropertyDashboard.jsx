@@ -9,7 +9,7 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import {
   BrixelButtonBox,
-  BrixelButtonIcon,
+  BrixelButtonIcon, FormatValue,
 } from '@brixel/brixel-components';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -128,7 +128,7 @@ const HomeDashboard = (props) => {
                 <div className="dis-fl-row jc-b a-c">
                   <div className="fourth dis-fl-col ta-l">
                     <span className="subtitle fsize-200 txtDark200">Rooms</span>
-                    <span className="value ff-mono txtDark400">{has(property, 'properties.typology.bedrooms') ? property.properties.typology.bedrooms : 'N/A'}</span>
+                    <span className="value ff-mono txtDark400">{has(property, 'properties.typology.bedrooms') ? FormatValue.formatRooms(property.properties.typology.bedrooms, get(formValue, 'location.countryCode', 'CH')) : 'N/A'}</span>
                   </div>
                   <div className="dis-fl-col ta-l">
                     <span className="subtitle fsize-200 txtDark200">Living space</span>

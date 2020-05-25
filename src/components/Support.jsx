@@ -73,7 +73,7 @@ const Support = (props) => {
           className={`dis-f a-c ${layout === 'rewards' ? 'jc-c my-5' : 'mt-3 jc-b '} ${expanded ? '' : 'cur-poi'}`}
           onClick={() => expanded ? ''  : onclickOne() }
         >
-          <div className="dis-f jc-fs">
+          <div className="dis-f jc-fs a-t">
             {
               teamAvatars.map((imgTeam, i) => (
                 <img
