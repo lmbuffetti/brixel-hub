@@ -285,11 +285,11 @@ const Dashboard = (props) => {
               { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
             ],
         });
-      } else if (!isSmallLoading && !isLoading && notification && !notification.label.toLowerCase().includes('saved')) {
-        /*handleSetScreenNotification({
+      } else if (!isSmallLoading && !isLoading && notification && !get(notification, 'label', '').toLowerCase().includes('saved')) {
+        handleSetScreenNotification({
           ...notification,
           state: false,
-        });*/
+        });
       }
     }
     if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
