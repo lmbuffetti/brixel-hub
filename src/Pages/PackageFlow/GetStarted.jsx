@@ -197,6 +197,7 @@ const GetStarted = (props) => {
     //reset('Property');
   };
 
+  // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
     if (get(questions, `[${newIndex}].conditions`, null)) {
@@ -290,6 +291,7 @@ const GetStarted = (props) => {
       changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
       changeFieldValue('company', company.stub)
+      changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
     }
   }, [company]);
 

@@ -36,7 +36,8 @@ const normalizeData = (value, prevValue) => {
 
 export const InputSheets = () => {
   const formValue = get(configureStore.getState(), 'form.Property.values', {});
-  const propertyHose = (get(formValue, 'properties.propertyType', '') || '').toLowerCase()
+  const propertyHose = (get(formValue, 'properties.propertyType', '') || '').toLowerCase();
+  const country = get(formValue, 'slocation.countryCode', '');
   return [
     // SECTION: PROPERTY TYPE
     {
@@ -108,7 +109,11 @@ export const InputSheets = () => {
           name: 'properties.typology.bedrooms',
           labelLeft: 'Rooms',
           step: 0.5,
-          placeholder: '0',
+          placeholder: country === 'PT' ?  'T3' : '3',
+          formatType: country === 'PT' ?  'rooms-pt' : '',
+          min: 0,
+          max: 30,
+          startFrom: 3,
           validation: [Validation.maxLengthNumRooms, Validation.markRequired]
         },
         {
