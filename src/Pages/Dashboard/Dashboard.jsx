@@ -268,7 +268,10 @@ const Dashboard = (props) => {
       const changeObj = diff(initialValues, formValue);
       const checkIsValid = Object.keys(changeObj).find(key => typeof changeObj[key] !== 'undefined');
       if (Object.keys(changeObj).length == 0) {
-        handleSetScreenNotification({});
+        handleSetScreenNotification({
+          ...notification,
+          state: false,
+        });
       }
       if (
         checkIsValid &&

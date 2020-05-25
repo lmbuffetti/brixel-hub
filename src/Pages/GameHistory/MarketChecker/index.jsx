@@ -49,7 +49,7 @@ const MarketCheck = (props) => {
   useEffect(() => {
     if (gameHistory && gameHistory.data && activeSingleProperty.id) {
       const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === activeSingleProperty.id);
-      if (typeof checkGameExist !== 'undefined') {
+      if (typeof checkGameExist !== 'undefined' && activeSingleProperty.ownerType) {
         setFinishedFlow(true);
         if (lastID) {
           setCurrentIndex(lastID);
@@ -94,7 +94,7 @@ const MarketCheck = (props) => {
 
   const saveData = () => {
     handleAddGameHistory({stub: getAchievement()});
-    reset('Property');
+    //reset('Property');
   };
 
   const changeStep = (act) => {
@@ -217,7 +217,7 @@ const MarketCheck = (props) => {
                 }
                 {
                   get(quest, 'cardType', null) === 'loadComponent' && get(quest, 'history', 'a') === get(questions, `[${currentIndex}].history`, 'b') && (
-                    React.createElement(quest.component, {formName: 'GamingFlow', finishedFlow, initialValue: formValue})
+                    React.createElement(quest.component, {formName: 'Property', finishedFlow, initialValue: formValue})
                   )
                 }
               </div>
