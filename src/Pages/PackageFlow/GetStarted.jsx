@@ -392,6 +392,7 @@ const GetStarted = (props) => {
                         formValue={formValue}
                         inputs={quest.inputs}
                         onClick={() => changeStep()}
+                        onClickDisabled={!checkValidateField()}
                         showSendButton={true}
                       />
                     </div>
