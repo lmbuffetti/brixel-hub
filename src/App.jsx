@@ -386,7 +386,7 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification && !history.location.pathname.includes('rewards') && !history.location.pathname.includes('upgrade') && !history.location.pathname.includes('packageFlow') && notification.type === ('infoHub') && (
+        notification && !history.location.pathname.includes('rewards') && !history.location.pathname.includes('packageFlow') && notification.type === ('infoHub') && (
           <BrixelNotification
             saveBar
             label={notification.label}
