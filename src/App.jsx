@@ -138,24 +138,6 @@ const App = (props) => {
   const dashWrapperEl = dashWrapperRef.current;
   const dashContentEl = dashContentRef.current;
 
-
-  useEffect(() => {
-    if (cookies && cookies.get('brixelToken')) {
-      let data = {};
-      if (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding')) data = {hideLoad: true};
-      handleCheckToken(data);
-    }
-    window.addEventListener('resize', () => {
-      handleSetWindowsDimension({
-        height: window.innerHeight,
-        width: window.innerWidth,
-      });
-      headerCalc();
-      calcHeaderHeight();
-      calcFlowHeaderHeight();
-    })
-  }, []);
-
   useEffect(() => {
     if (loggedInUser.user) {
       const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
@@ -272,6 +254,23 @@ const App = (props) => {
     )
   }
 
+  useEffect(() => {
+    if (cookies && cookies.get('brixelToken')) {
+      let data = {};
+      if (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding')) data = {hideLoad: true};
+      handleCheckToken(data);
+    }
+    window.addEventListener('resize', () => {
+      handleSetWindowsDimension({
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
+      headerCalc();
+      calcHeaderHeight();
+      calcFlowHeaderHeight();
+    })
+  }, []);
+
   if (!loggedInUser || (!userTypes && property.id) || !isLoaded) {
     return (
       <Loading isLoading={isLoading} />
@@ -386,7 +385,7 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification && !history.location.pathname.includes('rewards') && !history.location.pathname.includes('packageFlow') && notification.type === ('infoHub') && (
+        notification && !history.location.pathname.includes('rewards') && !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('upgrade') && notification.type === ('infoHub') && (
           <BrixelNotification
             saveBar
             label={notification.label}

@@ -267,6 +267,12 @@ const Dashboard = (props) => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
       const checkIsValid = Object.keys(changeObj).find(key => typeof changeObj[key] !== 'undefined');
+      if (Object.keys(changeObj).length == 0) {
+        handleSetScreenNotification({
+          ...notification,
+          state: false,
+        });
+      }
       if (
         checkIsValid &&
         Object.keys(changeObj).length > 0 &&
@@ -285,7 +291,10 @@ const Dashboard = (props) => {
               { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
             ],
         });
-      } else if (!isSmallLoading && !isLoading && notification && !get(notification, 'label', '').toLowerCase().includes('saved')) {
+      } else if (
+        !!notification &&
+        !get(notification, 'label', '').toLowerCase().includes('saved')
+      ) {
         handleSetScreenNotification({
           ...notification,
           state: false,
