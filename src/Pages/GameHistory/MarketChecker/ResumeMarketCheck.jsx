@@ -30,6 +30,7 @@ function ResumeMarketCheck(props) {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
+    console.log(property.id)
     if (property && property.id && !marketData.priceDistribution) {
       const latBoundsRadius = 0.0675;
       const longBoundsRadius = 0.1;
@@ -50,29 +51,37 @@ function ResumeMarketCheck(props) {
   }, [property]);
 
   useEffect(() => {
-    if (marketData && marketData.priceDistribution && !saved) {
+    console.log(saved, marketData);
+    if (get(marketData, 'priceDistribution', null) && !saved) {
+      const oldPackageflow = (property, 'packageFlowProcess', {});
       const data = {
         id: match.params.propId,
-        packageFlowProcess: property.packageFlowProcess || {},
+        packageFlowProcess: oldPackageflow,
         properties: property.properties,
         ownerType: formValue.ownerType,
         whenToSell: formValue.whenToSell,
         setSuccessNotification: true,
       };
       data.properties.building.conditionCode = get(formValue, 'properties.building.conditionCode', null);
-      data.packageFlowProcess.rewardScreenData = {
-        market_check_date: moment().format(),
-        similar_properties: marketData.priceDistribution.numberOfProperties,
-        median_market_price: marketData.priceDistribution.medianRounded,
-        median_market_price_per_m2: marketData.pricePerSpace.medianRounded,
-        median_market_living_space: Math.ceil(marketData.livingSpacesDistribution.median).toString(),
-        median_age: Math.ceil(marketData.constructionYearDistribution.medianAge).toString(),
-        median_time_on_market: marketData.daysOnMarketDistribution.median ? marketData.daysOnMarketDistribution.median.toString() : 0,
+      data.packageFlowProcess = {
+        ownerType: get(formValue, 'ownerType', oldPackageflow.ownerType),
+        typeOfBuyer: get(formValue, 'typeOfBuyer', oldPackageflow.typeOfBuyer),
+        whenToSell: get(formValue, 'whenToSell', oldPackageflow.whenToSell),
+        rewardScreenData: {
+          market_check_date: moment().format(),
+          similar_properties: marketData.priceDistribution.numberOfProperties,
+          median_market_price: marketData.priceDistribution.medianRounded,
+          median_market_price_per_m2: marketData.pricePerSpace.medianRounded,
+          median_market_living_space: Math.ceil(marketData.livingSpacesDistribution.median).toString(),
+          median_age: Math.ceil(marketData.constructionYearDistribution.medianAge).toString(),
+          median_time_on_market: marketData.daysOnMarketDistribution.median ? marketData.daysOnMarketDistribution.median.toString() : 0,
+        },
       };
+      console.log(data);
       handleSaveActiveSingleProperty(data);
       setSaved(true);
     }
-  }, [marketData]);
+  }, [get(marketData, 'priceDistribution', null)]);
   // eslint-disable-next-line no-undef
 
   return (
