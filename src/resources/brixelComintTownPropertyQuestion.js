@@ -134,7 +134,7 @@ export const QuestionsList = (lang, country = 'CH') => {
         {
           component: Maps,
           showMap: true,
-          name: 'location',
+          name: 'location.latitude',
           type: 'Map',
           mapOptions: {
             showMap: true,
