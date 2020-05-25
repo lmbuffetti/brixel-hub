@@ -386,14 +386,25 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification && ( (!history.location.pathname.includes('rewards') && !history.location.pathname.includes('packageFlow')) || notification.type === 'alert') && (
+        notification && !history.location.pathname.includes('rewards') && !history.location.pathname.includes('upgrade') && !history.location.pathname.includes('packageFlow') && notification.type === ('infoHub') && (
           <BrixelNotification
             saveBar
             label={notification.label}
             type={notification.type}
             icon={notification.icon}
             actions={notification.actions}
-            className={`zIndex5 jc-fe pr-2 pr-md-4 ${notification.className} ${notification.state ? 'open' : 'close'}`}
+            className={`zIndex6 jc-fe pr-2 pr-md-4 ${notification.className ? notification.className : ''} ${notification.state ? 'open' : 'close'}`}
+          />
+        )
+      }
+      {
+        notification && history.location.pathname.includes('packageFlow') && notification.type === ('alert') && (
+          <BrixelNotification
+            label={notification.label}
+            type={notification.type}
+            icon={notification.icon}
+            actions={notification.actions}
+            className={`zIndex6 jc-fe pr-2 pr-md-4 ${notification.className ? notification.className : ''} ${notification.state ? 'open' : 'close'}`}
           />
         )
       }
