@@ -62,7 +62,7 @@ MenuNavigationSubmenu.propTypes = {
   activeMenu: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   rightMenu: PropTypes.string,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   windowDimensions: PropTypes.object,
 };
 
