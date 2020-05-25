@@ -285,7 +285,7 @@ const Dashboard = (props) => {
               { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
             ],
         });
-      } else if (!isSmallLoading && !isLoading && notification && notification.type !== 'saved' ) {
+      } else if (!isSmallLoading && !isLoading && notification && !get(notification, 'label', '').toLowerCase().includes('saved')) {
         handleSetScreenNotification({
           ...notification,
           state: false,
@@ -319,7 +319,7 @@ Dashboard.propTypes = {
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
-  isSmallLoading: PropTypes.oneOfType([PropTypes.string, PropTypes.string]),
+  isSmallLoading: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   userTypes: PropTypes.string,
   gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,

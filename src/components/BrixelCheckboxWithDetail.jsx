@@ -78,7 +78,7 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
                   onClick={() => onToggleAccordion(i)}
                   className={'td-n'}
                 />
-                <p className={`txt${option.color} fweight-700 ff-mono`} dangerouslySetInnerHTML={{ __html: option.priceInfo}} />
+                <p className={`txt${option.color} fweight-700 ff-mono pl-2`} dangerouslySetInnerHTML={{ __html: option.priceInfo}} />
               </div>
               <div className={`detailCheckbox ${openDetail[i] ? 'open' : 'close'}`}>
                 <ul>
