@@ -11,7 +11,7 @@ import { BrixelButtonPrimary, MultiFileldsReduxForm } from '@brixel/brixel-compo
 import InfoImg from '../../images/Upgrade/info.svg';
 import Loadable from 'react-loadable';
 import Loading from '../../components/Loading';
-import { reset } from 'redux-form';
+import { reduxForm, reset } from 'redux-form';
 import { getPackagesProperty, saveUpgradePlan } from '../../actions/PropertyActions';
 
 const Support = Loadable({
@@ -41,13 +41,6 @@ const Upgrade = (props) => {
   const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
-    return () => {
-      setCurrentIndex(0);
-      reset('Property');
-    };
-  }, []);
-
-  useEffect(() => {
     setIsEnter(true);
   }, [currentIndex]);
 
@@ -59,7 +52,7 @@ const Upgrade = (props) => {
   }, [packagesProperty]);
 
   const closeWindow = () => {
-    reset('Property');
+    reset('GamingFlow');
     const url = localStorage.getItem('backUrl');
     localStorage.removeItem('backUrl');
     history.push(url || `/${propID}`);
@@ -72,7 +65,6 @@ const Upgrade = (props) => {
       data: formValue.packageUpgrade
     };
     handleSaveUpgradePlan(data);
-    reset('Property');
   };
 
   const changeStep = (act) => {
@@ -179,7 +171,7 @@ const Upgrade = (props) => {
                       <MultiFileldsReduxForm
                         disableNextBtn={false}
                         formValue={formValue}
-                        form="Property"
+                        form="GamingFlow"
                         inputs={quest.inputs}
                         onClick={() => ''}
                       />
@@ -270,9 +262,12 @@ Upgrade.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  errorValue: get(state, 'form.Property.syncErrors', {}),
-  formValue: get(state, 'form.Property.values', {}),
+  errorValue: get(state, 'form.GamingFlow.syncErrors', {}),
+  formValue: get(state, 'form.GamingFlow.values', {}),
   packagesProperty: get(state, 'companies.activeSingleCompany.servicePackages', []),
+  initialValues: {
+    id: get(state, 'property.activeSingleProperty.id', null),
+  }
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -284,7 +279,13 @@ const mapDispatchToProps = (dispatch) => ({
 
 });
 
+const AnyForm = reduxForm({
+  form: 'GamingFlow',
+  enableReinitialize: true,
+  destroyOnUnmount: true,
+})(Upgrade)
+
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(Upgrade);
+)(AnyForm);
