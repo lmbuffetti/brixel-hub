@@ -39,12 +39,6 @@ const MarketCheck = (props) => {
   const getAchievement = () => history.location.pathname.split('/')[4];
   const propID = get(match, 'params.propId', null);
 
-  useEffect(() => {
-    return () => {
-      reset('Property');
-    };
-  }, []);
-
   // CHECK IF THE ACHIEVEMENT IS DONE
   useEffect(() => {
     if (gameHistory && gameHistory.data && activeSingleProperty.id) {
@@ -208,7 +202,7 @@ const MarketCheck = (props) => {
                       <MultiFileldsReduxForm
                         disableNextBtn={false}
                         formValue={formValue}
-                        form="Property"
+                        form="GamingFlow"
                         inputs={quest.inputs}
                         onClick={() => ''}
                       />
@@ -217,7 +211,7 @@ const MarketCheck = (props) => {
                 }
                 {
                   get(quest, 'cardType', null) === 'loadComponent' && get(quest, 'history', 'a') === get(questions, `[${currentIndex}].history`, 'b') && (
-                    React.createElement(quest.component, {formName: 'Property', finishedFlow, initialValue: formValue})
+                    React.createElement(quest.component, {formName: 'GamingFlow', finishedFlow, initialValue: formValue})
                   )
                 }
               </div>
@@ -275,11 +269,14 @@ MarketCheck.propTypes = {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
-  errorValue: get(state, 'form.Property.syncErrors', {}),
-  formValue: get(state, 'form.Property.values', {}),
+  errorValue: get(state, 'form.GamingFlow.syncErrors', {}),
+  formValue: get(state, 'form.GamingFlow.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),
+  initialValues: {
+    id: get(state, 'property.activeSingleProperty.id', null),
+  }
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -291,8 +288,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const AnyForm = reduxForm({
-  form: 'Property',
-  destroyOnUnmount: false,
+  form: 'GamingFlow',
+  enableReinitialize: true,
+  destroyOnUnmount: true,
 })(MarketCheck)
 
 export default compose(
