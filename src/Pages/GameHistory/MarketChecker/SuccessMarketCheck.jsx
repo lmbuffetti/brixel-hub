@@ -117,7 +117,7 @@ function SuccessMarketCheck(props) {
         ) : (
           <>
             <div className="dis-fl-col jc-c a-c">
-              <h5 className="mb-2 m-a max-w-fix-376">
+              <h5 className="mb-2 m-a max-w-fix-376 ta-c">
                 Know your local market.
               </h5>
               <p className="body2 txtDark200 m-a ta-c max-w-fix-376">
