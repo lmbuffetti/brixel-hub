@@ -72,7 +72,7 @@ const GetStarted = (props) => {
         zip: 8004,
         city: "Zürich",
       };
-      //changeFieldValue('location', location);
+      changeFieldValue('location', location);
     }
     // GET GAME GROUP TO POPULATE THE HOMEBASE SCREEN
     handleGetGamegroup();

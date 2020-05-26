@@ -30,7 +30,6 @@ function ResumeMarketCheck(props) {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    console.log(property.id)
     if (property && property.id && !marketData.priceDistribution) {
       const latBoundsRadius = 0.0675;
       const longBoundsRadius = 0.1;
@@ -51,22 +50,28 @@ function ResumeMarketCheck(props) {
   }, [property]);
 
   useEffect(() => {
-    console.log(saved, marketData);
     if (get(marketData, 'priceDistribution', null) && !saved) {
-      const oldPackageflow = (property, 'packageFlowProcess', {});
+      const oldPackageflow = get(property, 'packageFlowProcess', {});
+      const getOldOwnerType = get(property, 'ownerType', null);
+      const getOldWhenToSell = get(property, 'whenToSell', null);
+      const getOldTypeOfBuyer = get(property, 'typeOfBuyer', null);
+      const getOwnerType = get(oldPackageflow, 'ownerType', getOldOwnerType);
+      const getWhenToSell = get(oldPackageflow, 'whenToSell', getOldWhenToSell);
+      const getTypeOfBuyer = get(oldPackageflow, 'typeOfBuyer', getOldTypeOfBuyer);
       const data = {
         id: match.params.propId,
         packageFlowProcess: oldPackageflow,
         properties: property.properties,
         ownerType: formValue.ownerType,
+        typeOfBuyer: formValue.typeOfBuyer,
         whenToSell: formValue.whenToSell,
         setSuccessNotification: true,
       };
       data.properties.building.conditionCode = get(formValue, 'properties.building.conditionCode', null);
       data.packageFlowProcess = {
-        ownerType: get(formValue, 'ownerType', oldPackageflow.ownerType),
-        typeOfBuyer: get(formValue, 'typeOfBuyer', oldPackageflow.typeOfBuyer),
-        whenToSell: get(formValue, 'whenToSell', oldPackageflow.whenToSell),
+        ownerType: get(formValue, 'ownerType', getOwnerType),
+        typeOfBuyer: get(formValue, 'typeOfBuyer', getTypeOfBuyer),
+        whenToSell: get(formValue, 'whenToSell', getWhenToSell),
         rewardScreenData: {
           market_check_date: moment().format(),
           similar_properties: marketData.priceDistribution.numberOfProperties,
@@ -77,7 +82,6 @@ function ResumeMarketCheck(props) {
           median_time_on_market: marketData.daysOnMarketDistribution.median ? marketData.daysOnMarketDistribution.median.toString() : 0,
         },
       };
-      console.log(data);
       handleSaveActiveSingleProperty(data);
       setSaved(true);
     }

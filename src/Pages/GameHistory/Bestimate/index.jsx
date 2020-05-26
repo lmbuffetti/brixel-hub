@@ -212,7 +212,7 @@ const Bestimate = (props) => {
                       <MultiFileldsReduxForm
                         disableNextBtn={false}
                         formValue={formValue}
-                        form="Property"
+                        form="GamingFlow"
                         inputs={quest.inputs}
                         onClick={() => ''}
                       />
@@ -279,11 +279,14 @@ Bestimate.propTypes = {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
-  errorValue: get(state, 'form.Property.syncErrors', {}),
-  formValue: get(state, 'form.Property.values', {}),
+  errorValue: get(state, 'form.GamingFlow.syncErrors', {}),
+  formValue: get(state, 'form.GamingFlow.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),
+  initialValues: {
+    id: get(state, 'property.activeSingleProperty.id', null),
+  }
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -295,8 +298,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const AnyForm = reduxForm({
-  form: 'Property',
-  destroyOnUnmount: false,
+  form: 'GamingFlow',
+  enableReinitialize: true,
+  destroyOnUnmount: true,
 })(Bestimate)
 
 export default compose(
