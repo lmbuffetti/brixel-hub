@@ -286,6 +286,7 @@ const mapStateToProps = (state) => ({
   packagesProperty: get(state, 'property.packagesProperty', []),
   initialValues: {
     id: get(state, 'property.activeSingleProperty.id', null),
+    properties: get(state, 'property.activeSingleProperty.properties', null),
   }
 });
 
