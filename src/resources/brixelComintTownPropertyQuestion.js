@@ -1,4 +1,4 @@
-import { BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, Validation } from '@brixel/brixel-components';
+import { BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, BrixelSelect, Validation } from '@brixel/brixel-components';
 import Cat from '../images/BrxielComingTown/firstAwards.svg';
 import Maps from '../components/Map/Maps';
 import LoginSignup from '../components/LoginSignup';
@@ -7,6 +7,8 @@ import house from '../images/BrxielComingTown/house.svg';
 import roomsBg from '../images/getstarted/rooms.svg';
 import ResumeCard from '../components/ResumeCard';
 import { translateTo } from '../utils/translation';
+import { configureStore } from '../store';
+import get from 'lodash/get';
 
 export const maxLengthNum = (val, name) => (value) => {
 
@@ -35,6 +37,7 @@ const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 export const QuestionsList = (lang, country = 'CH') => {
   let getHomeBase = {name: 'Homebase', points: 100};
+  const countryList = get(configureStore.getState(), 'common.country', []);
   return [
     {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
@@ -132,13 +135,48 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: "locationInput",
       inputs: [
         {
+          className: 'pos-r zIndex6',
+          component: BrixelSelect,
+          label: 'Country',
+          name: 'location.countryCode',
+          type: 'text',
+          options: countryList,
+          validation: [Validation.required],
+        },
+        {
+          classNameBox: 'mt-1',
+          component: BrixelInputText,
+          label: 'City or zip code',
+          name: 'location.city',
+          type: 'text',
+          validation: [Validation.required],
+        },
+        {
+          classNameBox: 'mt-1',
+          component: BrixelInputText,
+          label: 'Address',
+          name: 'location.searchAddress',
+          type: 'text',
+          validation: [Validation.required],
+          widthBox: 70,
+        },
+        {
+          classNameBox: 'pos-r pl-2 mt-1',
+          component: BrixelInputText,
+          label: 'Street Number',
+          name: 'location.streetNumber',
+          type: 'text',
+          validation: [Validation.required],
+          widthBox: 30,
+        },
+        {
           component: Maps,
           showMap: true,
           name: 'location.latitude',
           type: 'Map',
           mapOptions: {
             showMap: true,
-            showSearchLocation: true,
+            hideSearch: false,
             showSelectCountry: true,
           },
           validation: [Validation.required],

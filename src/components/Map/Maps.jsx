@@ -19,6 +19,7 @@ import baseByData  from '@brixel/brixel-configuration-partner/src/Settings';
 import { mapCaptionData, mapStyles, getDistance } from '../../constants/map';
 import { compareArray } from '../../utils/helpers';
 import { translateTo } from '../../utils/translation';
+import { diff } from 'deep-object-diff';
 const swissZipCode = require('../../resources/swissZipCodes.json');
 
 const images = require.context('../../images', true);
@@ -36,6 +37,7 @@ export const ComponentMap =(props) => {
     formName,
     formValue,
     google,
+    hideSearch,
     inputLabel,
     lang,
     latitude,
@@ -68,6 +70,7 @@ export const ComponentMap =(props) => {
   const [defCountry, setDefCountry] = useState('');
   const [locList, setLoclist] = useState([]);
   const [selLocAuto, setSelLocAuto] = useState(-1);
+
   // REF
   const wrapperRef = useRef(null);
 
@@ -85,9 +88,20 @@ export const ComponentMap =(props) => {
     }
   }, [longitude, latitude]);
 
-  const changeLocation = (val) => {
-    if (showSearchLocation && inputSearch.current) {
-      setNewLocation(val);
+  useEffect(() => {
+    const addressSearch = get(formValue, 'location.searchAddress', null);
+    const citySearch = get(formValue, 'location.city', null);
+    if (addressSearch) {
+      let fullAddress = `${addressSearch}`;
+      if (citySearch) fullAddress = `${citySearch} ${addressSearch}`;
+      changeLocation(fullAddress, true);
+    }
+  }, [get(formValue, 'location.searchAddress', null)])
+
+  const changeLocation = (val, hideSearch) => {
+    if ((showSearchLocation && inputSearch.current) || hideSearch) {
+      //setNewLocation(val);
+      console.log('STATER', val);
       const sessionToken = new google.maps.places.AutocompleteSessionToken();
       var autocompleteService = new google.maps.places.AutocompleteService();
       if (val.length > 3) {
@@ -99,8 +113,12 @@ export const ComponentMap =(props) => {
             types: ["address"],
           },
           function (predictions, status) {
+            console.log('RESULT', predictions, status);
             if (predictions) {
               setLoclist(predictions);
+              setTimeout(() => {
+                //geoCode(predictions[0].description)
+              }, 1500)
             } else {
               setLoclist([]);
             }
@@ -346,9 +364,13 @@ export const ComponentMap =(props) => {
               formattedPlace.name = el.long_name;
             }
           });
+          formattedPlace.searchAddress = formattedPlace.name;
         }
         // if (!formattedPlace.zip && isShowZip) setShowZipCode(true);
         changeFieldValue(formName, 'location', formattedPlace);
+        //changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
+        //changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
+        //changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
         setLoclist([])
       }
     })
@@ -402,6 +424,23 @@ export const ComponentMap =(props) => {
       }}
       className={classNameDef}
     >
+      {
+        locList.length > 1 && (
+          <ul className="resultAutoComplete pos-r zIndex6" ref={wrapperRef}>
+            {
+              locList.map((loc, i) => (
+                <li
+                  className={i === selLocAuto ? 'active' : ''}
+                  tabIndex={i}
+                  key={i.toString()}
+                  onClick={() => geoCode(loc.description)}
+                  dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
+                />
+              ))
+            }
+          </ul>
+        )
+      }
       {
         showSearchLocation && (
           <>
@@ -620,6 +659,7 @@ ComponentMap.propTypes = {
   externalControls: PropTypes.bool,
   formName: PropTypes.string,
   google: PropTypes.object.isRequired,
+  hideSearch: PropTypes.bool,
   history: PropTypes.object.isRequired,
   isShowZip: PropTypes.bool,
   inputLabel: PropTypes.string,
@@ -648,6 +688,7 @@ ComponentMap.defaultProps = {
   draggable: false,
   externalControls: false,
   formName: '',
+  hideSearch: true,
   inputLabel: '',
   isShowZip: true,
   place: false,
@@ -687,14 +728,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
+  const changeLocation = diff(get(prevProps, 'formValue.location', null), get(nextProps, 'formValue.location', null));
+  console.log(changeLocation);
   return (
-    get(prevProps, 'formValue.location.latitude', null) === get(nextProps, 'formValue.location.latitude', null) &&
-    get(prevProps, 'formValue.location.longitude', null) === get(nextProps, 'formValue.location.longitude', null) &&
-    get(prevProps, 'formValue.location.address', null) === get(nextProps, 'formValue.location.address', null) &&
-    get(prevProps, 'formValue.location.country', null) === get(nextProps, 'formValue.location.country', null) &&
-    get(prevProps, 'formValue.location.countryCode', null) === get(nextProps, 'formValue.location.countryCode', null) &&
-    get(prevProps, 'selCountry', null) === get(nextProps, 'selCountry', null) &&
-    get(prevProps, 'showMap', null) === get(nextProps, 'showMap', null)
+    Object.keys(changeLocation).length === 0
   )
 });
 

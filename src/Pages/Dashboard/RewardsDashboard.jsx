@@ -18,7 +18,7 @@ import SuccessMarketCheck from '../GameHistory/MarketChecker/SuccessMarketCheck'
 import SuccessBestimate from '../GameHistory/Bestimate/SuccessBestimate';
 import SuccessAssessor from '../GameHistory/Assessor/SuccessAssessor';
 import SuccessHomebase from '../GameHistory/Homebase/SuccessHomebase';
-import FactsRewards from '../GameHistory/SecondLevel/FactsRewards';
+import FactsRewards from '../GameHistory/Facts/SuccessFacts';
 import MediaExplanation from '../GameHistory/SecondLevel/MediaRewards';
 import PageReviewRewards from '../GameHistory/SecondLevel/PageReviewRewards';
 import PagePublishedRewards from '../GameHistory/SecondLevel/PagePublishedRewards';

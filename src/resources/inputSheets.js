@@ -37,7 +37,7 @@ const normalizeData = (value, prevValue) => {
 export const InputSheets = () => {
   const formValue = get(configureStore.getState(), 'form.Property.values', {});
   const propertyHose = (get(formValue, 'properties.propertyType', '') || '').toLowerCase();
-  const country = get(formValue, 'slocation.countryCode', '');
+  const country = get(formValue, 'location.countryCode', '');
   return [
     // SECTION: PROPERTY TYPE
     {
