@@ -72,6 +72,7 @@ export const ComponentMap =(props) => {
   const [zipList, setZiplist] = useState([]);
   const [citiesList, setCitieslist] = useState([]);
   const [selLocAuto, setSelLocAuto] = useState(-1);
+  const [stateToken, setStateToken] = useState(null);
 
   // REF
   const wrapperRef = useRef(null);
@@ -120,8 +121,9 @@ export const ComponentMap =(props) => {
     if ((showSearchLocation && inputSearch.current) || hideSearch) {
       //setNewLocation(val);
       console.log('STATER', val);
-      const sessionToken = new google.maps.places.AutocompleteSessionToken();
+      const sessionToken = stateToken || new google.maps.places.AutocompleteSessionToken();
       var autocompleteService = new google.maps.places.AutocompleteService();
+      if (!stateToken) setStateToken(sessionToken)
       let typeSearch = ["address"];
       if (type === 'cities') typeSearch = ["(cities)"];
       if (type === 'zip') typeSearch = ["(regions)"];
