@@ -70,7 +70,6 @@ export const ComponentMap =(props) => {
   const [defCountry, setDefCountry] = useState('');
   const [locList, setLoclist] = useState([]);
   const [zipList, setZiplist] = useState([]);
-  const [citiesList, setCitieslist] = useState([]);
   const [selLocAuto, setSelLocAuto] = useState(-1);
   const [stateToken, setStateToken] = useState(null);
 
@@ -108,18 +107,10 @@ export const ComponentMap =(props) => {
     const search = get(formValue, 'location.cityZip', null);
     if (search) {
       let fullAddress = `${search}`;
-      changeLocation(fullAddress, true, 'cities');
+      changeLocation(fullAddress, true, 'zip');
     }
     //setSelectedZip(false);
   }, [get(formValue, 'location.cityZip', null)])
-
-  useEffect(() => {
-    const search = get(formValue, 'location.zip', null);
-    if (search) {
-      let fullAddress = `${search}`;
-      changeLocation(fullAddress, true, 'zip');
-    }
-  }, [get(formValue, 'location.zip', null)])
 
   const changeLocation = (val, hideSearch, type) => {
     if ((showSearchLocation && inputSearch.current) || hideSearch) {
@@ -147,8 +138,7 @@ export const ComponentMap =(props) => {
           function (predictions, status) {
             if (predictions) {
               let defPredition = predictions;
-              if (selectedCity) defPredition = predictions.filter(item => item.description.includes(`, ${selectedCity}`))
-              else if (type === 'zip') {
+              if (type === 'zip') {
                 setZiplist(predictions);
                 setLoclist([]);
               }
@@ -396,7 +386,6 @@ export const ComponentMap =(props) => {
         //changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
         setLoclist([]);
         setZiplist([]);
-        setCitieslist([]);
       }
     })
   };
@@ -471,10 +460,10 @@ export const ComponentMap =(props) => {
                   onKeyDown={(e) => keyUpInput(e)}
                 />
                 {
-                  citiesList.length > 0 && !selectedZip && (
+                  zipList.length > 0 && !selectedZip && (
                     <ul className="resultAutoComplete" ref={zipWrapRef}>
                       {
-                        citiesList.map((loc, i) => (
+                        zipList.map((loc, i) => (
                           <li
                             className={i === selLocAuto ? 'active' : ''}
                             tabIndex={i}
