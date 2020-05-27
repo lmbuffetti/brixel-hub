@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { BrixelButtonIcon, MultiFileldsReduxForm } from '@brixel/brixel-components';
-import { MarketCheckQuestions } from '../../../resources/MarketCheck';
+import { FactsApartment } from '../../../resources/Facts';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -12,6 +12,7 @@ import { reduxForm, reset } from 'redux-form';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
+import { BrixelProgressLineDots } from '@brixel/brixel-components';
 
 const MarketCheck = (props) => {
   // PROPS
@@ -27,10 +28,10 @@ const MarketCheck = (props) => {
     reset,
   } = props;
   // STATE
-  const [questions, setQuestions] = useState(MarketCheckQuestions('en'));
+  const [questions, setQuestions] = useState(FactsApartment('en'));
   const [loaded, setLoaded] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(MarketCheckQuestions('en')[0]);
+  const [quest, setQuest] = useState(FactsApartment('en')[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [selGameGroup, setSelGameGroup] = useState({});
   const [finishedFlow, setFinishedFlow] = useState(false);
@@ -110,7 +111,7 @@ const MarketCheck = (props) => {
   useEffect(() => {
     if (formValue.id) {
       let newQuest = [];
-      MarketCheckQuestions('en').map((quest) => {
+      FactsApartment('en').map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
@@ -138,15 +139,16 @@ const MarketCheck = (props) => {
         const err = get(errorValue, input.name, null);
         const noEmpty = get(formValue, input.name, 'ayc');
         if(noEmpty !== 'ayc') isNotEmpty = true;
-        if (input.condition) {
+        if (get(input, 'condition', null)) {
           input.condition.map((item) => {
             if (get(formValue, item.name, null) === item.value) {
-              if (err !== true && err !== false && isValid) isValid = false;
+              if (err !== true && err !== false && err !== null && isValid) isValid = false;
             }
             return null;
           });
         } else if (input.validation) {
-          if (err !== true && err !== false && isValid) isValid = false;
+          console.log(err, input.name);
+          if (err !== true && err !== false && err !== null && isValid) isValid = false;
         }
         return null;
       });
@@ -191,6 +193,14 @@ const MarketCheck = (props) => {
               className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
               <div className="subcontainer m-a">
+                <div className="mb-5">
+                  <BrixelProgressLineDots
+                    color="Primary"
+                    saturation={700}
+                    activeStep={currentIndex}
+                    steps={questions.length}
+                  />
+                </div>
                 {
                   quest.inputs && (
                     <div>
@@ -276,6 +286,9 @@ const mapStateToProps = (state) => ({
   packagesProperty: get(state, 'property.packagesProperty', []),
   initialValues: {
     id: get(state, 'property.activeSingleProperty.id', null),
+    properties: get(state, 'property.activeSingleProperty.properties', null),
+    price: get(state, 'property.activeSingleProperty.price', null),
+    title: get(state, 'property.activeSingleProperty.title', null)
   }
 });
 

@@ -60,7 +60,7 @@ const FactsRewards = (props) => {
             backgroundSaturation={100}
             progressValue={totalComplete}
             classBackground="ov-h brdRadius"
-            goalValue={totalComplete > 9 && totalComplete < 70 ? 70 : null}
+            goalValue={totalComplete > 9 && totalComplete < 30 ? 30 : null}
             showGoalValue={totalComplete > 9}
             large={window.innerWidth >= 1024}
             small={window.innerWidth < 1024}
@@ -75,7 +75,7 @@ const FactsRewards = (props) => {
                 rounded
                 rightIcon="arrow-right"
                 className="min-w-fix-208 m-a"
-                onClick={() => history.push(`/${propID}/property/facts/propertyType`)}
+                onClick={() => history.push(`/${propID}/rewards/achievement/facts`)}
               />
             </>
           )

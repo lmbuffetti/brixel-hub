@@ -44,6 +44,7 @@ export const ComponentMap =(props) => {
     longitude,
     mapType,
     moveMarker,
+    multipleFieldSearch,
     nearBy,
     scrollZoom,
     selCountry,
@@ -63,12 +64,13 @@ export const ComponentMap =(props) => {
   const [inputSearchZip, setInputSearchZip] = useState('');
   const [errorInputSearchZip, setErrorInputSearchZip] = useState(null);
   const [streetViewAvailable, setStretViewAvailable] = useState(false);
-  const [showZipCode] = useState(false);
   const [optMap, setOptMap] = useState({});
   const inputSearch = createRef(null);
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
   const [defCountry, setDefCountry] = useState('');
   const [locList, setLoclist] = useState([]);
+  const [zipList, setZiplist] = useState([]);
+  const [citiesList, setCitieslist] = useState([]);
   const [selLocAuto, setSelLocAuto] = useState(-1);
 
   // REF
@@ -93,34 +95,58 @@ export const ComponentMap =(props) => {
     const citySearch = get(formValue, 'location.city', null);
     if (addressSearch) {
       let fullAddress = `${addressSearch}`;
-      if (citySearch) fullAddress = `${citySearch} ${addressSearch}`;
-      changeLocation(fullAddress, true);
+      if (citySearch) fullAddress = `${addressSearch}`;
+      changeLocation(fullAddress, true, 'address');
     }
   }, [get(formValue, 'location.searchAddress', null)])
 
-  const changeLocation = (val, hideSearch) => {
+  useEffect(() => {
+    const search = get(formValue, 'location.city', null);
+    if (search) {
+      let fullAddress = `${search}`;
+      changeLocation(fullAddress, true, 'cities');
+    }
+  }, [get(formValue, 'location.city', null)])
+
+  useEffect(() => {
+    const search = get(formValue, 'location.zip', null);
+    if (search) {
+      let fullAddress = `${search}`;
+      changeLocation(fullAddress, true, 'zip');
+    }
+  }, [get(formValue, 'location.zip', null)])
+
+  const changeLocation = (val, hideSearch, type) => {
     if ((showSearchLocation && inputSearch.current) || hideSearch) {
       //setNewLocation(val);
       console.log('STATER', val);
       const sessionToken = new google.maps.places.AutocompleteSessionToken();
       var autocompleteService = new google.maps.places.AutocompleteService();
+      let typeSearch = ["address"];
+      if (type === 'cities') typeSearch = ["(cities)"];
+      if (type === 'zip') typeSearch = ["(regions)"];
       if (val.length > 3) {
+        const lat = get(formValue, 'location.latitude', null);
+        const lng = get(formValue, 'location.longitude', null);
         autocompleteService.getPlacePredictions(
           {
             input: val,
             sessionToken: sessionToken,
             componentRestrictions: { country: selCountry },
-            types: ["address"],
+            types: typeSearch,
+            location: new google.maps.LatLng({lat: lat, lng: lng}),
+            radius: 20
           },
           function (predictions, status) {
             console.log('RESULT', predictions, status);
             if (predictions) {
-              setLoclist(predictions);
-              setTimeout(() => {
-                //geoCode(predictions[0].description)
-              }, 1500)
+              if (type === 'cities') setCitieslist(predictions);
+              else if (type === 'zip') setZiplist(predictions);
+              else setLoclist(predictions);
             } else {
               setLoclist([]);
+              setZiplist([]);
+              setCitieslist([]);
             }
           }
         );
@@ -205,23 +231,6 @@ export const ComponentMap =(props) => {
         });
       });
     }
-  };
-
-  const searchByZipCode = (val) => {
-    if (val.length === 4) {
-      const getRegionByCode = swissZipCode.find((zip) => zip['Postleitzahl / Code Postal / Codice Postale'] === val);
-      if (getRegionByCode) {
-        changeFieldValue(formName, 'location.zip', getRegionByCode['Postleitzahl / Code Postal / Codice Postale']);
-        changeFieldValue(formName, 'location.city', getRegionByCode['Ort / Ville / Città']);
-        changeFieldValue(formName, 'location.stateCode', getRegionByCode['Abkürzung / Abréviation / Abbreviazione']);
-        setErrorInputSearchZip(null);
-      } else {
-        setErrorInputSearchZip('Please insert a valid Swiss code');
-      }
-    } else {
-      setErrorInputSearchZip('Please insert a valid Swiss code');
-    }
-    setInputSearchZip(val);
   };
 
   /*const showInfoMarker = (data) => {
@@ -322,6 +331,7 @@ export const ComponentMap =(props) => {
         formattedPlace.city = null;
 
         const location = result[0];
+        console.log(location);
         if (location.geometry) {
           formattedPlace.geometry = location.geometry;
           formattedPlace.latitude = location.geometry.location.lat();
@@ -346,7 +356,7 @@ export const ComponentMap =(props) => {
             if (!el.types) {
               return;
             }
-
+            console.log(el.types)
             if (el.types.indexOf('administrative_area_level_1') !== -1) {
               formattedPlace.state = el.long_name;
               formattedPlace.stateCode = el.short_name;
@@ -354,7 +364,7 @@ export const ComponentMap =(props) => {
               formattedPlace.city = el.short_name;
             } else if (el.types.indexOf('postal_code') !== -1) {
               // eslint-disable-next-line radix
-              formattedPlace.zip = parseInt(el.long_name);
+              formattedPlace.zip = el.long_name;
             } else if (el.types.indexOf('country') !== -1) {
               formattedPlace.country = el.long_name;
               formattedPlace.countryCode = el.short_name;
@@ -367,11 +377,14 @@ export const ComponentMap =(props) => {
           formattedPlace.searchAddress = formattedPlace.name;
         }
         // if (!formattedPlace.zip && isShowZip) setShowZipCode(true);
+        console.log(formattedPlace);
         changeFieldValue(formName, 'location', formattedPlace);
         //changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
         //changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
         //changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
-        setLoclist([])
+        setLoclist([]);
+        setZiplist([]);
+        setCitieslist([]);
       }
     })
   };
@@ -425,20 +438,128 @@ export const ComponentMap =(props) => {
       className={classNameDef}
     >
       {
-        locList.length > 1 && (
-          <ul className="resultAutoComplete pos-r zIndex6" ref={wrapperRef}>
-            {
-              locList.map((loc, i) => (
-                <li
-                  className={i === selLocAuto ? 'active' : ''}
-                  tabIndex={i}
-                  key={i.toString()}
-                  onClick={() => geoCode(loc.description)}
-                  dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
+        multipleFieldSearch && (
+          <>
+            <div className="dis-f jc-b">
+              <div className=" w-perc-50 pr-1 pos-r">
+                <BrixelInputText
+                  className="search-box"
+                  type="text"
+                  ref={inputSearch}
+                  label={'City'}
+                  placeholder={translateTo(lang, "")}
+                  input={{
+                    onChange: (e) => changeFieldValue(formName, 'location.city', e),
+                    onBlur: () => '',
+                    value: get(formValue, 'location.city', '') || '',
+                    name: 'location.city',
+                  }}
+                  onKeyDown={(e) => keyUpInput(e)}
                 />
-              ))
-            }
-          </ul>
+                {
+                  citiesList.length > 0 && (
+                    <ul className="resultAutoComplete" ref={wrapperRef}>
+                      {
+                        citiesList.map((loc, i) => (
+                          <li
+                            className={i === selLocAuto ? 'active' : ''}
+                            tabIndex={i}
+                            key={i.toString()}
+                            onClick={() => geoCode(loc.description)}
+                            dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
+                          />
+                        ))
+                      }
+                    </ul>
+                  )
+                }
+              </div>
+              <div className=" w-perc-50 pl-1 pos-r">
+                <BrixelInputText
+                  className="search-box"
+                  type="text"
+                  ref={inputSearch}
+                  label={'Zip Code'}
+                  placeholder={translateTo(lang, "")}
+                  input={{
+                    onChange: (e) => changeFieldValue(formName, 'location.zip', e),
+                    onBlur: () => '',
+                    value: get(formValue, 'location.zip', '') || '',
+                    name: 'location.zip',
+                  }}
+                  onKeyDown={(e) => keyUpInput(e)}
+                />
+                {
+                  zipList.length > 0 && (
+                    <ul className="resultAutoComplete" ref={wrapperRef}>
+                      {
+                        zipList.map((loc, i) => (
+                          <li
+                            className={i === selLocAuto ? 'active' : ''}
+                            tabIndex={i}
+                            key={i.toString()}
+                            onClick={() => geoCode(loc.description)}
+                            dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
+                          />
+                        ))
+                      }
+                    </ul>
+                  )
+                }
+              </div>
+            </div>
+            <div className="dis-f jc-b mt-2">
+              <div className=" w-perc-70 pr-1 pos-r">
+                <BrixelInputText
+                  className="search-box"
+                  type="text"
+                  ref={inputSearch}
+                  label={'Address'}
+                  placeholder={translateTo(lang, "")}
+                  input={{
+                    onChange: (e) => changeFieldValue(formName, 'location.searchAddress', e),
+                    onBlur: () => '',
+                    value: get(formValue, 'location.searchAddress', '') || '',
+                    name: 'location.searchAddress',
+                  }}
+                  onKeyDown={(e) => keyUpInput(e)}
+                />
+                {
+                  locList.length > 0 && (
+                    <ul className="resultAutoComplete" ref={wrapperRef}>
+                      {
+                        locList.map((loc, i) => (
+                          <li
+                            className={i === selLocAuto ? 'active' : ''}
+                            tabIndex={i}
+                            key={i.toString()}
+                            onClick={() => geoCode(loc.description)}
+                            dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
+                          />
+                        ))
+                      }
+                    </ul>
+                  )
+                }
+              </div>
+              <div className=" w-perc-30 pr-1">
+                <BrixelInputText
+                  className="search-box"
+                  type="text"
+                  ref={inputSearch}
+                  label={'Street Name'}
+                  placeholder={translateTo(lang, "")}
+                  input={{
+                    onChange: (e) => changeFieldValue(formName, 'location.streetName', e),
+                    onBlur: () => '',
+                    value: get(formValue, 'location.streetName', ''),
+                    name: 'location.streetName',
+                  }}
+                  onKeyDown={(e) => keyUpInput(e)}
+                />
+              </div>
+            </div>
+          </>
         )
       }
       {
@@ -496,29 +617,6 @@ export const ComponentMap =(props) => {
                 )
               }
             </div>
-            {
-              showZipCode && (
-                <>
-                  <BrixelInputText
-                    className="search-box"
-                    type="text"
-                    label="What's the ZIP code?"
-                    input={{
-                      onChange: (e) => searchByZipCode(e), value: inputSearchZip,
-                    }}
-                    meta={{
-                      dirty: inputSearchZip,
-                      invalid: errorInputSearchZip,
-                    }}
-                  />
-                  {
-                    errorInputSearchZip && (
-                      <p>{errorInputSearchZip}</p>
-                    )
-                  }
-                </>
-              )
-            }
           </>
         )
       }
@@ -659,7 +757,7 @@ ComponentMap.propTypes = {
   externalControls: PropTypes.bool,
   formName: PropTypes.string,
   google: PropTypes.object.isRequired,
-  hideSearch: PropTypes.bool,
+  multipleFieldSearch: PropTypes.bool,
   history: PropTypes.object.isRequired,
   isShowZip: PropTypes.bool,
   inputLabel: PropTypes.string,
@@ -688,7 +786,7 @@ ComponentMap.defaultProps = {
   draggable: false,
   externalControls: false,
   formName: '',
-  hideSearch: true,
+  multipleFieldSearch: true,
   inputLabel: '',
   isShowZip: true,
   place: false,

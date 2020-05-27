@@ -94,6 +94,11 @@ const Bestimate = Loadable({
   loading: Loading,
 });
 
+const Facts = Loadable({
+  loader: () => import('./Pages/GameHistory/Facts' /* webpackChunkName: "FactsFlow" */),
+  loading: Loading,
+});
+
 const MediaExplanation = Loadable({
   loader: () => import('./Pages/GameHistory/SecondLevel/MediaExplanation' /* webpackChunkName: "MediaFlow" */),
   loading: Loading,
@@ -361,6 +366,7 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess={'seller'} />
           <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess={'seller'} />
           <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess={'seller'} />
         </Switch>
       }
 
