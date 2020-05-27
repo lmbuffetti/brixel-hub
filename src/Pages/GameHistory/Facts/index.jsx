@@ -147,7 +147,6 @@ const MarketCheck = (props) => {
             return null;
           });
         } else if (input.validation) {
-          console.log(err, input.name);
           if (err !== true && err !== false && err !== null && isValid) isValid = false;
         }
         return null;
