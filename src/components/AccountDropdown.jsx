@@ -23,19 +23,20 @@ const AccountDropdown = (props) => {
   const dropdownAccount = () => (
     [
       {
+        href: `${baseByData().loginBasePath}/account/profile?url=${window.location.href}`,
+        label: 'Personal Information',
+      },
+      {
         href: `${baseByData().loginBasePath}/account/account?url=${window.location.href}`,
         label: 'Password',
-        icon: 'properties',
       },
       {
         href: `${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`,
         label: 'Preferences',
-        icon: 'account',
       },
       {
         href: `${baseByData().loginBasePath}/logout?url=${window.location.href}`,
         label: 'Logout',
-        icon: 'logout',
       },
     ]
   );
@@ -46,8 +47,8 @@ const AccountDropdown = (props) => {
         (loggedInUser && loggedInUser.id) && (
           <div className={`${className}`}>
             <BrixelDropdown
-              compact={true}
-              className="account-dropdown zIndex1 pr-2"
+              compact
+              className="account-dropdown zIndex1"
               alignmentDropList="right"
               bgTransparent
               noBorder
@@ -74,6 +75,7 @@ const AccountDropdown = (props) => {
                 window.open(keys.href);
               }}
               ulClass="w-fix-200"
+              liClass="fsize-300"
             />
           </div>
         )
