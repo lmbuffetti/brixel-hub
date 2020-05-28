@@ -48,42 +48,70 @@ export const defaultState = {
       full: 'Austria',
       short: 'AUT',
       value: 'AT',
+      location: {
+        lat: 48.20817,
+        lng: 16.37382
+      }
     },
     {
       label: '🇩🇰 Denmark',
       full: 'Denmark',
       short: 'DNK',
       value: 'DK',
+      location: {
+        lat: 55.67610,
+        lng: 12.56834
+      }
     },
     {
       label: '🇩🇪 Germany',
       full: 'Germany',
       short: 'DEU',
       value: 'DE',
+      location: {
+        lat: 52.52001,
+        lng: 13.40495
+      }
     },
     {
       label: '🇳🇱 Netherlands',
       full: 'Netherlands',
       short: 'NLD',
       value: 'NL',
+      location: {
+        lat: 52.36670,
+        lng: 4.89454
+      }
     },
     {
       label: '🇵🇹 Portugal',
       full: 'Portugal',
       short: 'PRT',
       value: 'PT',
+      location: {
+        lat: 38.72225,
+        lng: -9.13934
+      }
     },
     {
       label: '🇸🇪 Sweden',
       full: 'Sweden',
       short: 'SWE',
       value: 'SE',
+      location: {
+        lat: 59.32932,
+        lng: 18.06858
+      }
     },
     {
       label: '🇨🇭 Switzerland',
       full: 'Switzerland',
       short: 'SWI',
       value: 'CH',
+      location: {
+        lat: 47.37689,
+        lng: 8.54169
+      }
     },
   ],
   language: cookie.get('brixelLang') || 'en',

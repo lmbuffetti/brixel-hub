@@ -31,6 +31,7 @@ export const ComponentMap =(props) => {
     changeCountry,
     changeFieldValue,
     country,
+    curCountry,
     draggable,
     disableZoom,
     externalControls,
@@ -61,8 +62,8 @@ export const ComponentMap =(props) => {
   const [showInfoWindow, setShowInfoWindow] = useState(false);
   const [modalInfo] = useState({});
   const [mapTypeId, setMapTypeId] = useState('roadmap');
-  const [inputSearchZip, setInputSearchZip] = useState('');
   const [selectedZip, setSelectedZip] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState(false);
   const [streetViewAvailable, setStretViewAvailable] = useState(false);
   const [optMap, setOptMap] = useState({});
   const inputSearch = createRef(null);
@@ -72,12 +73,16 @@ export const ComponentMap =(props) => {
   const [zipList, setZiplist] = useState([]);
   const [selLocAuto, setSelLocAuto] = useState(-1);
   const [stateToken, setStateToken] = useState(null);
+  const [startSearch, setStartSearch] = useState(false);
 
   // REF
   const inputZipSearch = useRef(null);
   const zipWrapRef = useRef(null);
   const inputAddressSearch = useRef(null);
   const addressRef = useRef(null);
+  // TIMER TYPING
+  let typingTimer;                //timer identifier
+  const doneTypingInterval = 1500;
 
   useEffect(() => {
     setDefCountry(selCountry);
@@ -86,12 +91,17 @@ export const ComponentMap =(props) => {
   useEffect(() => {
     if (optMap.zoom) {
       const center = {
-        lat: latitude,
-        lng: longitude,
+        lat: latitude !== 0 ? latitude : get(curCountry, 'location.lat', 0),
+        lng: longitude !== 0 ? longitude : get(curCountry, 'location.lng', 0),
       };
-      optMap.setCenter(center);
+      if (latitude === 0 && longitude === 0 && get(curCountry, 'location.lat', 0) !== 0) {
+        optMap.setZoom(10)
+      } else {
+        optMap.setZoom(zoom)
+      }
+      optMap.panTo(center);
     }
-  }, [longitude, latitude]);
+  }, [longitude, latitude, get(curCountry, 'location.lat', 0), get(curCountry, 'location.lng', 0)]);
 
   useEffect(() => {
     const addressSearch = get(formValue, 'location.searchAddress', null);
@@ -112,6 +122,36 @@ export const ComponentMap =(props) => {
     //setSelectedZip(false);
   }, [get(formValue, 'location.cityZip', null)])
 
+  useEffect(() => {
+    if (startSearch) {
+      const search = get(formValue, 'location.address', null);
+      const streetName = get(formValue, 'location.name', null);
+      const streetNumber = get(formValue, 'location.streetNumber', null);
+      if (search && streetNumber) {
+        let fullAddress = search.split(',');
+        let newAddress = '';
+        fullAddress.forEach((item, i) => {
+          if (i === 0) {
+            newAddress = `${streetName} ${streetNumber}`;
+          } else {
+            newAddress += `, ${item}`;
+          }
+        })
+        geoCode(newAddress);
+      }
+      setStartSearch(false);
+    }
+  }, [startSearch]);
+
+  const changeStreetName = (e) => {
+    changeFieldValue(formName, 'location.streetNumber', e);
+    setLoclist([]);
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(() => {
+      setStartSearch(true);
+    }, doneTypingInterval);
+  };
+
   const changeLocation = (val, hideSearch, type) => {
     if ((showSearchLocation && inputSearch.current) || hideSearch) {
       //setNewLocation(val);
@@ -131,9 +171,6 @@ export const ComponentMap =(props) => {
             sessionToken: sessionToken,
             componentRestrictions: { country: selCountry },
             types: typeSearch,
-            location: new google.maps.LatLng({lat: lat, lng: lng}),
-            origin: new google.maps.LatLng({lat: lat, lng: lng}),
-            radius: 50
           },
           function (predictions, status) {
             if (predictions) {
@@ -160,8 +197,8 @@ export const ComponentMap =(props) => {
 
   const fetchPlaces = (mapProps, map) => {
     const center = {
-      lat: latitude,
-      lng: longitude,
+      lat: latitude !== 0 ? latitude : get(curCountry, 'location.lat', null),
+      lng: longitude !== 0 ? longitude : get(curCountry, 'location.lng', null),
     };
 
     map.setOptions({
@@ -250,8 +287,8 @@ export const ComponentMap =(props) => {
 
   const btnActions = (action) => {
     const center = {
-      lat: latitude,
-      lng: longitude,
+      lat: latitude !== 0 ? latitude : get(curCountry, 'location.lat', null),
+      lng: longitude !== 0 ? longitude : get(curCountry, 'location.lng', null),
     };
     const panorama = optMap.getStreetView();
 
@@ -374,13 +411,14 @@ export const ComponentMap =(props) => {
               formattedPlace.name = el.long_name;
             }
           });
-          formattedPlace.searchAddress = formattedPlace.name;
+          formattedPlace.searchAddress = formattedPlace.address;
           formattedPlace.cityZip = formattedPlace.city;
           if (formattedPlace.zip) formattedPlace.cityZip = `${formattedPlace.zip} ${formattedPlace.city}`;
         }
         // if (!formattedPlace.zip && isShowZip) setShowZipCode(true);
         changeFieldValue(formName, 'location', formattedPlace);
-        if (type === 'zip') setSelectedZip(true);
+        setSelectedZip(true);
+        setSelectedAddress(true);
         //changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
         //changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
         //changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
@@ -442,7 +480,7 @@ export const ComponentMap =(props) => {
       {
         multipleFieldSearch && (
           <>
-            <div className="dis-f jc-b">
+            {/*<div className="dis-f jc-b">
               <div className=" w-perc-100 pr-1 pos-r">
                 <BrixelInputText
                   className="search-box"
@@ -477,8 +515,8 @@ export const ComponentMap =(props) => {
                   )
                 }
               </div>
-            </div>
-            <div className="dis-f jc-b mt-2">
+            </div>*/}
+            <div className="dis-f jc-b mb-5">
               <div className=" w-perc-70 pr-1 pos-r">
                 <BrixelInputText
                   className="search-box"
@@ -489,13 +527,14 @@ export const ComponentMap =(props) => {
                   input={{
                     onChange: (e) => changeFieldValue(formName, 'location.searchAddress', e),
                     onBlur: () => '',
+                    onFocus: () => setSelectedAddress(false),
                     value: get(formValue, 'location.searchAddress', '') || '',
                     name: 'location.searchAddress',
                   }}
                   onKeyDown={(e) => keyUpInput(e)}
                 />
                 {
-                  locList.length > 0 && (
+                  !selectedAddress && locList.length > 0 && (
                     <ul className="resultAutoComplete" ref={addressRef}>
                       {
                         locList.map((loc, i) => (
@@ -512,7 +551,7 @@ export const ComponentMap =(props) => {
                   )
                 }
               </div>
-              <div className=" w-perc-30 pr-1">
+              <div className=" w-perc-30 pl-1">
                 <BrixelInputText
                   className="search-box"
                   type="text"
@@ -520,10 +559,10 @@ export const ComponentMap =(props) => {
                   label={'Street Name'}
                   placeholder={translateTo(lang, "")}
                   input={{
-                    onChange: (e) => changeFieldValue(formName, 'location.streetName', e),
+                    onChange: (e) => changeStreetName(e),
                     onBlur: () => '',
-                    value: get(formValue, 'location.streetName', ''),
-                    name: 'location.streetName',
+                    value: get(formValue, 'location.streetNumber', ''),
+                    name: 'location.streetNumber',
                   }}
                   onKeyDown={(e) => keyUpInput(e)}
                 />
@@ -651,10 +690,10 @@ export const ComponentMap =(props) => {
               google={google}
               onReady={(mapProps, map) => fetchPlaces(mapProps, map)}
               zoom={zoom}
-              visible={showMap && latitude !== 0}
+              visible={showMap && (latitude !== 0 || get(curCountry, 'location.lat', 0) !== 0)}
               initialCenter={{
-                lat: latitude,
-                lng: longitude,
+                lat: latitude !== 0 ? latitude : get(curCountry, 'location.lat', 0),
+                lng: longitude !== 0 ? longitude : get(curCountry, 'location.lng', 0),
               }}
               style={{
                 width: showMap ? '100%' : '0px',
@@ -664,8 +703,8 @@ export const ComponentMap =(props) => {
             >
               <Marker
                 position={{
-                  lat: latitude,
-                  lng: longitude,
+                  lat: latitude !== 0 ? latitude : get(curCountry, 'location.lat', 0),
+                  lng: longitude !== 0 ? longitude : get(curCountry, 'location.lng', 0),
                 }}
                 icon={markerImg}
                 draggable={moveMarker}
@@ -722,6 +761,7 @@ ComponentMap.propTypes = {
   changeCountry: PropTypes.func,
   className: PropTypes.string,
   country: PropTypes.arrayOf(PropTypes.object),
+  curCountry: PropTypes.object,
   disableZoom: PropTypes.bool,
   draggable: PropTypes.bool,
   externalControls: PropTypes.bool,
@@ -752,6 +792,7 @@ ComponentMap.propTypes = {
 
 ComponentMap.defaultProps = {
   className: '',
+  curCountry: {},
   disableZoom: false,
   draggable: false,
   externalControls: false,
