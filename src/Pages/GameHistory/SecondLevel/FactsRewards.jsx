@@ -34,7 +34,7 @@ const FactsRewards = (props) => {
           totalComplete > 9 && totalComplete < 70 && (
             <>
               <h5 className="ta-c mb-2">Add more facts</h5>
-              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">Try to complete <span className="txtGreen400 fsize-300 lh-in"> at least 70%</span> of
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">Try to complete <span className="txtGreen400 fsize-300 lh-in"> at least 30%</span> of
                 all facts to achieve this reward.</p>
             </>
           )
@@ -44,7 +44,7 @@ const FactsRewards = (props) => {
           totalComplete >= 70 && (
             <>
               <h5 className="ta-c mb-2">Well done</h5>
-              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">You completed at least 70% of all facts. Interested buyers will be very pleased. </p>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">You completed at least 30% of all facts. Interested buyers will be very pleased. </p>
             </>
           )
         }

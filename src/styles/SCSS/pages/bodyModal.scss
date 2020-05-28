@@ -107,6 +107,9 @@
           @media (min-width: $responsive-medium) {
             display: flex;
             align-items: center;
+            &.a-t {
+              align-items: flex-start;
+            }
           }
 
           @media (max-width: $responsive-medium) {
@@ -123,6 +126,9 @@
             width: 100%;
             max-width: 480px;
             margin: auto;
+            &.mt-0 {
+              margin-top: 0;
+            }
           }
         }
       }

@@ -22,10 +22,11 @@ const MarketCheck = (props) => {
     formValue,
     gameGroup,
     gameHistory,
-    handleAddGameHistory,
+    handleSaveActiveSingleProperty,
     history,
     match,
     reset,
+    smallLoading,
   } = props;
   // STATE
   const [questions, setQuestions] = useState(FactsApartment('en'));
@@ -36,6 +37,7 @@ const MarketCheck = (props) => {
   const [selGameGroup, setSelGameGroup] = useState({});
   const [finishedFlow, setFinishedFlow] = useState(false);
   const [lastID, setLastID] = useState(0);
+  const [numberQuestions, setNumberQuestions] = useState(0);
   // GET URL PARAMS
   const getAchievement = () => history.location.pathname.split('/')[4];
   const propID = get(match, 'params.propId', null);
@@ -67,7 +69,7 @@ const MarketCheck = (props) => {
 
   useEffect(() => {
     setIsEnter(true);
-    if (questions[currentIndex].history && loaded) {
+    if (get(questions, `[${currentIndex}].history`, null) && loaded) {
       const redo = get(history, 'location.state.redo', false);
       history.push({
         pathname: `/${propID}/rewards/achievement/${getAchievement()}/${questions[currentIndex].history}`,
@@ -88,7 +90,14 @@ const MarketCheck = (props) => {
   };
 
   const saveData = () => {
-    handleAddGameHistory({stub: getAchievement()});
+    //handleAddGameHistory({stub: getAchievement()});
+    const data = {
+      id: propID,
+      smallLoader: 'property',
+      redirectTo: `/${propID}/rewards/${getAchievement()}`,
+      ...formValue
+    };
+    handleSaveActiveSingleProperty(data);
     //reset('Property');
   };
 
@@ -105,13 +114,16 @@ const MarketCheck = (props) => {
     }
     setCurrentIndex(newIndex);
     // setPosition(newIndex);
-    setQuest(questions[newIndex]);
+    if (questions[newIndex].title) {
+      setQuest(questions[newIndex]);
+    }
   };
 
   useEffect(() => {
     if (formValue.id) {
       let newQuest = [];
-      FactsApartment('en').map((quest) => {
+      let originalQuests = FactsApartment('en');
+      originalQuests.map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
@@ -127,6 +139,7 @@ const MarketCheck = (props) => {
         return null;
       });
       setLastID(newQuest.length - 1);
+      setNumberQuestions(originalQuests.filter(item => typeof item.inputs !== 'undefined').length);
       setQuestions(newQuest);
     }
   }, [formValue]);
@@ -160,6 +173,7 @@ const MarketCheck = (props) => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
     if (currentIndex === questions.length - 1) label = 'Back to Hub';
+    else if (questions[currentIndex + 1].toSave) label = 'Finish';
     else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else if (currentIndex === 0) label = 'Next';
     else label = 'Next';
@@ -189,15 +203,15 @@ const MarketCheck = (props) => {
         >
           <div className={`multiStepSlides`}>
             <div
-              className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
+              className={`singleStep jc-c a-t ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
-              <div className="subcontainer m-a">
+              <div className="subcontainer m-a mt-0">
                 <div className="mb-5">
                   <BrixelProgressLineDots
                     color="Primary"
                     saturation={700}
                     activeStep={currentIndex}
-                    steps={questions.length}
+                    steps={numberQuestions}
                   />
                 </div>
                 {
@@ -254,6 +268,7 @@ const MarketCheck = (props) => {
                   label={buttonLabel()}
                   rightIcon="arrow-right-small"
                   onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                  isLoading={smallLoading === 'property'}
                 />
               </div>
             </div>
@@ -274,6 +289,7 @@ MarketCheck.propTypes = {
   match: PropTypes.object.isRequired,
   packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   reset: PropTypes.func.isRequired,
+  smallLoading: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
@@ -282,6 +298,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'form.GamingFlow.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
+  smallLoading: get(state, 'common.isSmallLoading', null),
   packagesProperty: get(state, 'property.packagesProperty', []),
   initialValues: {
     id: get(state, 'property.activeSingleProperty.id', null),
