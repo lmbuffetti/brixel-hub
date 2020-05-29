@@ -226,14 +226,7 @@ export const ComponentMap =(props) => {
 
   return (
     // Important! Always set the container height explicitly
-    <div
-      style={showMap ? {
-        minHeight: minHeight > 0 ? `${minHeight}px` : '300px', position: 'relative',
-      } : {
-        minHeight: '100%', position: 'relative',
-      }}
-      className={classNameDef}
-    >
+    <>
       {
         (externalControls && showMap) && (
           <div className="actionMaps">
@@ -357,12 +350,11 @@ export const ComponentMap =(props) => {
           )
         }
       </div>
-    </div>
+    </>
   );
 };
 
 ComponentMap.propTypes = {
-  changeFieldValue: PropTypes.func.isRequired,
   changeCountry: PropTypes.func,
   className: PropTypes.string,
   country: PropTypes.arrayOf(PropTypes.object),
@@ -384,7 +376,6 @@ ComponentMap.propTypes = {
   moveMarker: PropTypes.bool,
   nearBy: PropTypes.bool,
   place: PropTypes.bool,
-  property: PropTypes.object.isRequired,
   scrollZoom: PropTypes.bool,
   similarProperties: PropTypes.arrayOf(PropTypes.object),
   showMap: PropTypes.bool,

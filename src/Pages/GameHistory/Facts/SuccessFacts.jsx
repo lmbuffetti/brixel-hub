@@ -31,7 +31,7 @@ const FactsRewards = (props) => {
           )
         }
         {
-          totalComplete > 9 && totalComplete < 70 && (
+          totalComplete > 9 && totalComplete < 30 && (
             <>
               <h5 className="ta-c mb-2">Add more facts</h5>
               <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">Try to complete <span className="txtGreen400 fsize-300 lh-in"> at least 30%</span> of
@@ -41,7 +41,7 @@ const FactsRewards = (props) => {
         }
 
         {
-          totalComplete >= 70 && (
+          totalComplete >= 30 && (
             <>
               <h5 className="ta-c mb-2">Well done</h5>
               <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">You completed at least 30% of all facts. Interested buyers will be very pleased. </p>
@@ -51,8 +51,8 @@ const FactsRewards = (props) => {
 
         <div className="brdRadius max-w-fix-232 w-perc-100 m-a my-5">
           { totalComplete <= 9 && ( <img className="w-fix-148 dis-f m-a mb-2" src={addFacts} alt="Add Facts" />)}
-          { totalComplete > 9 && totalComplete < 70 &&( <img className="w-fix-148 dis-f m-a mb-2" src={addMoreFacts} alt="Add More Facts" />)}
-          { totalComplete >= 70 && ( <img className="w-fix-148 dis-f m-a mb-2" src={factsWellDone} alt="Facts Well Done" />)}
+          { totalComplete > 9 && totalComplete < 30 &&( <img className="w-fix-148 dis-f m-a mb-2" src={addMoreFacts} alt="Add More Facts" />)}
+          { totalComplete >= 30 && ( <img className="w-fix-148 dis-f m-a mb-2" src={factsWellDone} alt="Facts Well Done" />)}
           <BrixelProgressBar
             rounded
             saturation={700}
@@ -81,20 +81,20 @@ const FactsRewards = (props) => {
           )
         }
         {
-          totalComplete > 9 && totalComplete < 70 && (
+          totalComplete > 9 && totalComplete < 30 && (
             <>
               <BrixelButtonPrimary
                 label="Complete now"
                 rounded
                 rightIcon="arrow-right"
                 className="min-w-fix-208 m-a"
-                onClick={() => history.push(`/${propID}/property/facts/propertyType`)}
+                onClick={() => history.push(`/${propID}/rewards/achievement/facts`)}
               />
             </>
           )
         }
         {
-          totalComplete >= 70 && (
+          totalComplete >= 30 && (
             <>
               <BrixelButtonPrimary
                 label="Edit facts"
