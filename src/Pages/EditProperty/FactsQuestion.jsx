@@ -91,6 +91,7 @@ const FactsQuestion = (props) => {
         />
       </div>
       <MultiFileldsReduxForm
+        className="singleInput"
         form="Property"
         disableNextBtn={false}
         formValue={formValue}

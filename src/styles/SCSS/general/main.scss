@@ -331,3 +331,17 @@ h4.longTitle {
     display: none;
   }
 }
+
+
+// custom input label style for hub
+label.brixel-label {
+  display: inline-block;
+  margin-bottom: $step * 2;
+  color: map-get($darkColor, 200);
+  @include fontStyle(400);
+}
+.brixel-radio-button {
+  &[class*="mb-"]{
+    margin-bottom: $step * 2;
+  }
+}
