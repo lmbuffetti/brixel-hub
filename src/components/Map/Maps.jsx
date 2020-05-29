@@ -3,7 +3,7 @@
 import React, { useState, createRef, useEffect, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import {
-  Map, InfoWindow, Marker, GoogleApiWrapper,
+  InfoWindow, Marker, GoogleApiWrapper,
 } from 'google-maps-react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -20,6 +20,7 @@ import { mapCaptionData, mapStyles, getDistance } from '../../constants/map';
 import { compareArray } from '../../utils/helpers';
 import { translateTo } from '../../utils/translation';
 import { diff } from 'deep-object-diff';
+import Map from './Map';
 const swissZipCode = require('../../resources/swissZipCodes.json');
 
 const images = require.context('../../images', true);
@@ -87,21 +88,6 @@ export const ComponentMap =(props) => {
   useEffect(() => {
     setDefCountry(selCountry);
   }, [selCountry]);
-
-  useEffect(() => {
-    if (optMap.zoom) {
-      const center = {
-        lat: latitude !== 0 ? latitude : get(curCountry, 'location.lat', 0),
-        lng: longitude !== 0 ? longitude : get(curCountry, 'location.lng', 0),
-      };
-      if (latitude === 0 && longitude === 0 && get(curCountry, 'location.lat', 0) !== 0) {
-        optMap.setZoom(10)
-      } else {
-        optMap.setZoom(zoom)
-      }
-      optMap.panTo(center);
-    }
-  }, [longitude, latitude, get(curCountry, 'location.lat', 0), get(curCountry, 'location.lng', 0)]);
 
   useEffect(() => {
     const addressSearch = get(formValue, 'location.searchAddress', null);
@@ -440,7 +426,7 @@ export const ComponentMap =(props) => {
   };
 
   useOutsideAlerter(inputZipSearch, { action: 'function', func: () => setZiplist([]) });
-  useOutsideAlerter(zipWrapRef, { action: 'function', func: () => setZiplist([]) });
+  useOutsideAlerter(addressRef, { action: 'function', func: () => setLoclist([]) });
 
   const selectOpt = cloneDeep(country);
   selectOpt.unshift({
@@ -556,7 +542,7 @@ export const ComponentMap =(props) => {
                   className="search-box"
                   type="text"
                   ref={inputSearch}
-                  label={'Street Name'}
+                  label={'Street Number'}
                   placeholder={translateTo(lang, "")}
                   input={{
                     onChange: (e) => changeStreetName(e),
@@ -687,10 +673,15 @@ export const ComponentMap =(props) => {
         {
           (
             <Map
+              draggable={draggable}
               google={google}
               onReady={(mapProps, map) => fetchPlaces(mapProps, map)}
               zoom={zoom}
+              curCountry={curCountry}
+              showMap={showMap}
               visible={showMap && (latitude !== 0 || get(curCountry, 'location.lat', 0) !== 0)}
+              latitude={latitude !== 0 ? latitude : get(curCountry, 'location.lat', 0)}
+              longitude={longitude !== 0 ? longitude : get(curCountry, 'location.lng', 0)}
               initialCenter={{
                 lat: latitude !== 0 ? latitude : get(curCountry, 'location.lat', 0),
                 lng: longitude !== 0 ? longitude : get(curCountry, 'location.lng', 0),
@@ -700,55 +691,8 @@ export const ComponentMap =(props) => {
                 height: showMap ? '100%' : '0px',
               }}
               onClick={() => setShowInfoWindow(false)}
-            >
-              <Marker
-                position={{
-                  lat: latitude !== 0 ? latitude : get(curCountry, 'location.lat', 0),
-                  lng: longitude !== 0 ? longitude : get(curCountry, 'location.lng', 0),
-                }}
-                icon={markerImg}
-                draggable={moveMarker}
-                onDragend={(t, map, coord) => onMarkerDragEnd(coord)}
-              />
-              {
-                modalInfo.lat && (
-                  <InfoWindow
-                    visible={showInfoWindow}
-                    style={{ textAlign: 'center' }}
-                    position={{
-                      lat: modalInfo.lat,
-                      lng: modalInfo.lng,
-                    }}
-                  >
-                    <div className="modalMaps">
-                      <i style={{ backgroundImage: `url(${modalInfo.photo})` }} />
-                      <div>
-                        <h4>{modalInfo.title}</h4>
-                        <h6>{modalInfo.subtitle}</h6>
-                        <p>{`${modalInfo.distance}m`}</p>
-                      </div>
-                    </div>
-                  </InfoWindow>
-                )
-              }
-              {
-                similarProperties.map((item, i) => (
-                  <Marker
-                    position={{
-                      lat: item.Latitude,
-                      lng: item.Longitude,
-                    }}
-                    icon={{
-                      url: markerSimilarProperties,
-                      anchor: new google.maps.Point(16,16),
-                      scaledSize: new google.maps.Size(8,8)
-                    }}
-                    draggable={false}
-                    key={i.toString()}
-                  />
-                ))
-              }
-            </Map>
+              similarProperties={similarProperties}
+            />
           )
         }
       </div>
@@ -797,7 +741,7 @@ ComponentMap.defaultProps = {
   draggable: false,
   externalControls: false,
   formName: '',
-  multipleFieldSearch: true,
+  multipleFieldSearch: false,
   inputLabel: '',
   isShowZip: true,
   place: false,
