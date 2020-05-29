@@ -38,6 +38,7 @@ export const InputSheets = () => {
   const formValue = get(configureStore.getState(), 'form.Property.values', {});
   const propertyHose = (get(formValue, 'properties.propertyType', '') || '').toLowerCase();
   const country = get(formValue, 'location.countryCode', '');
+  const countryList = get(configureStore.getState(), 'common.country', []);
   return [
     // SECTION: PROPERTY TYPE
     {
@@ -360,14 +361,25 @@ export const InputSheets = () => {
       cardType: "location",
       inputs: [
         {
+          className: 'pos-r zIndex6',
+          component: BrixelSelect,
+          label: 'Country',
+          name: 'location.countryCode',
+          type: 'text',
+          options: countryList,
+          validation: [Validation.required],
+        },
+        {
           component: Maps,
           label: 'Property address',
           name: 'location',
           type: 'Mappe',
           mapOptions: {
             showMap: true,
-            showSearchLocation: true,
+            hideSearch: false,
             showSelectCountry: true,
+            multipleFieldSearch: true,
+            draggable: true
           },
           validation: [Validation.required]
         },
