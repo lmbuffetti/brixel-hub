@@ -362,7 +362,6 @@ export const ComponentMap =(props) => {
 };
 
 ComponentMap.propTypes = {
-  changeFieldValue: PropTypes.func.isRequired,
   changeCountry: PropTypes.func,
   className: PropTypes.string,
   country: PropTypes.arrayOf(PropTypes.object),
@@ -384,7 +383,6 @@ ComponentMap.propTypes = {
   moveMarker: PropTypes.bool,
   nearBy: PropTypes.bool,
   place: PropTypes.bool,
-  property: PropTypes.object.isRequired,
   scrollZoom: PropTypes.bool,
   similarProperties: PropTypes.arrayOf(PropTypes.object),
   showMap: PropTypes.bool,
