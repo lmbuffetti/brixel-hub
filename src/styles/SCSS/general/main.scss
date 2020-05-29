@@ -334,6 +334,7 @@ h4.longTitle {
 
 
 // custom input label style for hub
+
 label.brixel-label {
   display: inline-block;
   margin-bottom: $step * 2;
@@ -343,5 +344,13 @@ label.brixel-label {
 .brixel-radio-button {
   &[class*="mb-"]{
     margin-bottom: $step * 2;
+  }
+}
+
+.singleInput {
+  padding-bottom: $step * 3;
+  margin-bottom: $step * 3;
+  &:not(:last-child) {
+    border-bottom: 1px solid map-get($lightColor, 200 );
   }
 }

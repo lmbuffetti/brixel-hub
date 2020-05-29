@@ -205,11 +205,12 @@ const MarketCheck = (props) => {
             <div
               className={`singleStep jc-c a-t ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
-              <div className="subcontainer m-a mt-0">
-                <div className="mb-5">
+              <div className="subcontainer m-a mt-0 rewardsFacts">
+                <div className="mt-2 mb-5">
                   <BrixelProgressLineDots
                     color="Primary"
-                    saturation={700}
+                    backgroundSaturation={100}
+                    saturation={600}
                     activeStep={currentIndex}
                     steps={numberQuestions}
                   />
@@ -217,12 +218,13 @@ const MarketCheck = (props) => {
                 {
                   quest.inputs && (
                     <div>
-                      <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
+                      <h5 className={`${quest.subtitle ? 'mb-1' : 'mb-3'}`}>{quest.title}</h5>
                       {
                         quest.subtitle && (
-                          <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)
+                          <p className="mb-3 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)
                       }
                       <MultiFileldsReduxForm
+                        className="singleInput"
                         disableNextBtn={false}
                         formValue={formValue}
                         form="GamingFlow"
