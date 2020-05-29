@@ -7,11 +7,12 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
 import { reduxForm, reset } from 'redux-form';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
+import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 
 const Bestimate = (props) => {
   // PROPS
@@ -171,7 +172,9 @@ const Bestimate = (props) => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
     if (currentIndex === questions.length - 1) label = 'Back to Hub';
-    else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
+    else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null)
+
+    label = 'Skip';
     else if (currentIndex === 0) label = 'Next';
     else label = 'Next';
     return label;
@@ -246,16 +249,33 @@ const Bestimate = (props) => {
                     />
                   )
                 }
-                <BrixelButtonPrimary
-                  className={`noWrap w-perc-100 max-w-fix-160 ${currentIndex === 0 ? 'ml-a' : ''}`}
-                  disabled={!checkValidateField()}
-                  rounded
-                  background="primary"
-                  saturation={400}
-                  label={buttonLabel()}
-                  rightIcon="arrow-right-small"
-                  onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
-                />
+
+                {
+                  buttonLabel().toLowerCase() === "skip" ? (
+                    <BrixelButtonTertiary
+                      className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === "skip" ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                      disabled={!checkValidateField()}
+                      saturation={400}
+                      color="light"
+                      label={buttonLabel()}
+                      rightIcon="arrow-right-small"
+                      onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                    />
+                  ) :
+                  (
+                    <BrixelButtonPrimary
+                      className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === "skip" ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                      disabled={!checkValidateField()}
+                      rounded
+                      background="primary"
+                      saturation={400}
+                      label={buttonLabel()}
+                      rightIcon="arrow-right-small"
+                      onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                    />
+                  )
+                }
+
               </div>
             </div>
           </div>
