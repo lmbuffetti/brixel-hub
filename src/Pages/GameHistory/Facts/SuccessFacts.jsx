@@ -101,7 +101,8 @@ const FactsRewards = (props) => {
                 rounded
                 rightIcon="arrow-right"
                 className="min-w-fix-208 m-a"
-                onClick={() => history.push(`/${propID}/property/facts/propertyType`)}
+                onClick={() => history.push(`/${propID}/rewards/achievement/facts`)}
+                //onClick={() => history.push(`/${propID}/property/facts/propertyType`)}
               />
             </>
           )

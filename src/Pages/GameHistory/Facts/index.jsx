@@ -49,8 +49,8 @@ const MarketCheck = (props) => {
       if (typeof checkGameExist !== 'undefined' && activeSingleProperty.ownerType) {
         setFinishedFlow(true);
         if (lastID) {
-          setCurrentIndex(lastID);
-          setQuest(questions[lastID]);
+          //setCurrentIndex(lastID);
+          //setQuest(questions[lastID]);
         }
       } else {
         setFinishedFlow(false);
@@ -98,11 +98,9 @@ const MarketCheck = (props) => {
       ...formValue
     };
     handleSaveActiveSingleProperty(data);
-    //reset('Property');
   };
 
   const changeStep = (act) => {
-    setIsEnter(false);
     let newIndex = currentIndex;
     if (act === 'back') {
       newIndex -= 1;
@@ -110,12 +108,14 @@ const MarketCheck = (props) => {
       newIndex += 1;
     }
     if (questions[newIndex].toSave) {
+      history.push(`/${propID}/rewards/achievement/${getAchievement()}/${questions[newIndex].history}`);
       saveData();
     }
-    setCurrentIndex(newIndex);
     // setPosition(newIndex);
-    if (questions[newIndex].title) {
+    if (typeof questions[newIndex].title !== 'undefined') {
+      setIsEnter(false);
       setQuest(questions[newIndex]);
+      setCurrentIndex(newIndex);
     }
   };
 
@@ -271,9 +271,9 @@ const MarketCheck = (props) => {
                       label={buttonLabel()}
                       rightIcon="arrow-right-small"
                       onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                      isLoading={smallLoading === 'Property'}
                     />
-                  ) :
-                  (
+                  ) : (
                     <BrixelButtonPrimary
                       className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === "skip" ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
@@ -283,6 +283,7 @@ const MarketCheck = (props) => {
                       label={buttonLabel()}
                       rightIcon="arrow-right-small"
                       onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                      isLoading={smallLoading === 'property'}
                     />
                   )
                 }

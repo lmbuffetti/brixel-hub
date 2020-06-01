@@ -204,10 +204,10 @@ export const FactsApartment = () => {
             options: factsOptions.availability,
           },
           {
-            condition: {
+            condition: [{
               name: 'properties.typology.availability',
               value: 'other',
-            },
+            }],
             component: BrixelInputText,
             className: '',
             label: 'What\'s the preferred time of sale?',
@@ -437,10 +437,10 @@ export const FactsApartment = () => {
             options: factsOptions.availability,
           },
           {
-            condition: {
+            condition: [{
               name: 'properties.typology.availability',
               value: 'other',
-            },
+            }],
             component: BrixelInputText,
             className: '',
             label: 'What\'s the preferred time of sale?',
