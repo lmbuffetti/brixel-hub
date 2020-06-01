@@ -7,7 +7,7 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
 import { reduxForm, reset } from 'redux-form';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
@@ -205,11 +205,12 @@ const MarketCheck = (props) => {
             <div
               className={`singleStep jc-c a-t ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
-              <div className="subcontainer m-a mt-0">
-                <div className="mb-5">
+              <div className="subcontainer m-a mt-0 rewardsFacts">
+                <div className="mt-2 mb-5">
                   <BrixelProgressLineDots
                     color="Primary"
-                    saturation={700}
+                    backgroundSaturation={100}
+                    saturation={600}
                     activeStep={currentIndex}
                     steps={numberQuestions}
                   />
@@ -217,12 +218,13 @@ const MarketCheck = (props) => {
                 {
                   quest.inputs && (
                     <div>
-                      <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
+                      <h5 className={`${quest.subtitle ? 'mb-1' : 'mb-3'}`}>{quest.title}</h5>
                       {
                         quest.subtitle && (
-                          <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)
+                          <p className="mb-3 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)
                       }
                       <MultiFileldsReduxForm
+                        className="singleInput"
                         disableNextBtn={false}
                         formValue={formValue}
                         form="GamingFlow"
@@ -259,17 +261,31 @@ const MarketCheck = (props) => {
                     />
                   )
                 }
-                <BrixelButtonPrimary
-                  className={`noWrap w-perc-100 max-w-fix-160 ${currentIndex === 0 ? 'ml-a' : ''}`}
-                  disabled={!checkValidateField()}
-                  rounded
-                  background="primary"
-                  saturation={400}
-                  label={buttonLabel()}
-                  rightIcon="arrow-right-small"
-                  onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
-                  isLoading={smallLoading === 'property'}
-                />
+                {
+                  buttonLabel().toLowerCase() === "skip" ? (
+                    <BrixelButtonTertiary
+                      className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === "skip" ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                      disabled={!checkValidateField()}
+                      saturation={400}
+                      color="light"
+                      label={buttonLabel()}
+                      rightIcon="arrow-right-small"
+                      onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                    />
+                  ) :
+                  (
+                    <BrixelButtonPrimary
+                      className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === "skip" ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                      disabled={!checkValidateField()}
+                      rounded
+                      background="primary"
+                      saturation={400}
+                      label={buttonLabel()}
+                      rightIcon="arrow-right-small"
+                      onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                    />
+                  )
+                }
               </div>
             </div>
           </div>

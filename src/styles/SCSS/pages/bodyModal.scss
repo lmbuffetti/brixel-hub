@@ -126,6 +126,10 @@
             width: 100%;
             max-width: 480px;
             margin: auto;
+
+            &.rewardsFacts {
+              max-width: 345px;
+            }
             &.mt-0 {
               margin-top: 0;
             }

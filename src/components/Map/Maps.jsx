@@ -503,7 +503,7 @@ export const ComponentMap =(props) => {
               </div>
             </div>*/}
             <div className="dis-f jc-b mb-5">
-              <div className=" w-perc-70 pr-1 pos-r">
+              <div className=" w-perc-65 pr-1 pos-r">
                 <BrixelInputText
                   className="search-box"
                   type="text"
@@ -537,7 +537,7 @@ export const ComponentMap =(props) => {
                   )
                 }
               </div>
-              <div className=" w-perc-30 pl-1">
+              <div className=" w-perc-35 pl-1">
                 <BrixelInputText
                   className="search-box"
                   type="text"

@@ -32,12 +32,7 @@ function PageHeaderAchievement(props) {
             saturationTxt={400}
             padding="p-small-9"
           />
-          <div className="ml-2 dis-fl-col as-fe">
-            <p className="fsize-100 txtDark200">
-              {isFree && (<span className="txtGreen400">Free</span>)}
-              <span>&nbsp;</span>
-              <span>{subtitle}</span>
-            </p>
+          <div className="ml-2 dis-fl-col">
             <p className="fsize-400 fweight-500 txtDark700">{title}</p>
           </div>
         </div>
