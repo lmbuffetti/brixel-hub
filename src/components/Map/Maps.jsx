@@ -39,13 +39,11 @@ export const ComponentMap =(props) => {
     formName,
     formValue,
     google,
-    hideSearch,
     inputLabel,
     lang,
     latitude,
     longitude,
     mapType,
-    moveMarker,
     multipleFieldSearch,
     nearBy,
     scrollZoom,
@@ -461,11 +459,11 @@ export const ComponentMap =(props) => {
       } : {
         minHeight: '100%', position: 'relative',
       }}
-      className={classNameDef}
+      className={`${classNameDef} ${multipleFieldSearch ? 'multiField' : ''}`}
     >
       {
         multipleFieldSearch && (
-          <>
+          <div className="fieldMapSearch">
             {/*<div className="dis-f jc-b">
               <div className=" w-perc-100 pr-1 pos-r">
                 <BrixelInputText
@@ -509,7 +507,7 @@ export const ComponentMap =(props) => {
                   type="text"
                   ref={inputSearch}
                   label={'Address'}
-                  placeholder={translateTo(lang, "")}
+                  placeholder={translateTo(lang, "Write your street name")}
                   input={{
                     onChange: (e) => changeFieldValue(formName, 'location.searchAddress', e),
                     onBlur: () => '',
@@ -554,7 +552,7 @@ export const ComponentMap =(props) => {
                 />
               </div>
             </div>
-          </>
+          </div>
         )
       }
       {
@@ -669,7 +667,7 @@ export const ComponentMap =(props) => {
           </div>
         )
       }
-      <div className={showMap ? `h-perc-100 pos-r ${subMinHeight}` : 'hide'}>
+      <div className={`${showMap ? `h-perc-100 pos-r ${subMinHeight}` : 'hide'} wrapMap`}>
         {
           (
             <Map

@@ -516,6 +516,9 @@ const mapStateToProps = (state, props) => {
     initialValues: {
       company: null,
       channel: channel,
+      location: {
+        countryCode: 'AT',
+      },
       price: {
         currency: get(state, 'companies.activeSingleCompany.country.currency', null)
       },

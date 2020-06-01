@@ -140,7 +140,6 @@ export const QuestionsList = (lang, country = 'CH') => {
           component: BrixelSelect,
           label: 'Country',
           name: 'location.countryCode',
-          type: 'text',
           options: countryList,
           validation: [Validation.required],
         },
