@@ -287,11 +287,10 @@ header {
   .brixel-input-step input {
     @include fontStyle(600);
   }
-  .brixel-text-input-container {
-    .brixel-text-input {
-      @include fontStyle(500);
-      height: 48px;
-    }
+  .brixel-select .dropdown,
+  .brixel-text-input {
+    @include fontStyle(500);
+    height: 48px;
   }
 }
 
