@@ -72,7 +72,7 @@ const AccountDropdown = (props) => {
                   });
                   return;
                 }
-                window.open(keys.href);
+                window.location.href = keys.href;
               }}
               ulClass="w-fix-200"
               liClass="fsize-300"

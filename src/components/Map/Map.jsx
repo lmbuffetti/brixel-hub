@@ -1,60 +1,41 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
-import React, { useState, createRef, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import {
-  Map, InfoWindow, Marker, GoogleApiWrapper,
+  Map, InfoWindow, Marker,
 } from 'google-maps-react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { change } from 'redux-form';
-import { BrixelIcon, BrixelInputText, BrixelSelect } from '@brixel/brixel-components';
-import useOutsideAlerter from '../OutsideElement';
+import { BrixelIcon } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
 import markerImg from '../../images/location/icon_location.svg';
 import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
-import baseByData  from '@brixel/brixel-configuration-partner/src/Settings';
 import { mapCaptionData, mapStyles, getDistance } from '../../constants/map';
 import { compareArray } from '../../utils/helpers';
-import { translateTo } from '../../utils/translation';
-import { diff } from 'deep-object-diff';
-const swissZipCode = require('../../resources/swissZipCodes.json');
 
 const images = require.context('../../images', true);
 
 export const ComponentMap =(props) => {
   // PROPS
   const {
-    className,
-    changeCountry,
     changeFieldValue,
-    country,
     curCountry,
     draggable,
     disableZoom,
     externalControls,
     formName,
-    formValue,
     google,
-    hideSearch,
-    inputLabel,
-    lang,
+    isDefView,
     latitude,
     longitude,
     mapType,
     moveMarker,
-    multipleFieldSearch,
     nearBy,
     scrollZoom,
-    selCountry,
     showMap,
-    showSearchLocation,
-    showSelectCountry,
     similarProperties,
     zoom,
-    minHeight,
     subMinHeight,
   } = props;
   // STATE
@@ -143,20 +124,16 @@ export const ComponentMap =(props) => {
   };
 
   useEffect(() => {
-    if (optMap.zoom) {
+    if (Object.keys(optMap).length > 0) {
       const center = {
         lat: latitude,
         lng: longitude,
       };
+      if (isDefView) optMap.setZoom(6);
+      else optMap.setZoom(14);
       optMap.panTo(center);
     }
   }, [latitude, longitude, optMap.zoom]);
-
-  useEffect(() => {
-    if (Object.keys(optMap).length > 0) {
-      optMap.setZoom(zoom);
-    }
-  }, [zoom, optMap.zoom]);
 
   const btnActions = (action) => {
     const center = {
@@ -221,8 +198,6 @@ export const ComponentMap =(props) => {
     changeFieldValue(formName, 'location.latitude', lat);
     changeFieldValue(formName, 'location.longitude', lng);
   };
-
-  const classNameDef = !className && showMap ? 'h-fix-400 w-perc-100 dis-fl-col' : className;
 
   return (
     // Important! Always set the container height explicitly
@@ -299,15 +274,19 @@ export const ComponentMap =(props) => {
               }}
               onClick={() => setShowInfoWindow(false)}
             >
-              <Marker
-                position={{
-                  lat: latitude,
-                  lng: longitude,
-                }}
-                icon={markerImg}
-                draggable={moveMarker}
-                onDragend={(t, map, coord) => onMarkerDragEnd(coord)}
-              />
+              {
+                !isDefView && (
+                  <Marker
+                    position={{
+                      lat: latitude,
+                      lng: longitude,
+                    }}
+                    icon={markerImg}
+                    draggable={moveMarker}
+                    onDragend={(t, map, coord) => onMarkerDragEnd(coord)}
+                  />
+                )
+              }
               {
                 modalInfo.lat && (
                   <InfoWindow
@@ -366,6 +345,7 @@ ComponentMap.propTypes = {
   google: PropTypes.object.isRequired,
   multipleFieldSearch: PropTypes.bool,
   history: PropTypes.object.isRequired,
+  isDefView: PropTypes.bool,
   isShowZip: PropTypes.bool,
   inputLabel: PropTypes.string,
   lang: PropTypes.string,
@@ -395,6 +375,7 @@ ComponentMap.defaultProps = {
   formName: '',
   multipleFieldSearch: true,
   inputLabel: '',
+  isDefView: false,
   isShowZip: true,
   place: false,
   lang: 'en',

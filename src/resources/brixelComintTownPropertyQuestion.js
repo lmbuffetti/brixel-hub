@@ -39,7 +39,6 @@ export const QuestionsList = (lang, country = 'CH') => {
   let getHomeBase = {name: 'Homebase', points: 100};
   const countryList = get(configureStore.getState(), 'common.country', []);
   return [
-
     {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
       title: translateTo(lang, "What type of property do you have?"),

@@ -679,6 +679,7 @@ export const ComponentMap =(props) => {
               zoom={zoom}
               curCountry={curCountry}
               showMap={showMap}
+              isDefView={latitude === 0 && longitude === 0}
               visible={showMap && (latitude !== 0 || get(curCountry, 'location.lat', 0) !== 0)}
               latitude={latitude !== 0 ? latitude : get(curCountry, 'location.lat', 0)}
               longitude={longitude !== 0 ? longitude : get(curCountry, 'location.lng', 0)}
