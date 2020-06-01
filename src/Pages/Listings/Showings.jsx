@@ -19,6 +19,7 @@ import {
   BrixelBookingCard,
 } from '@brixel/brixel-components';
 import {
+  getActiveSinglePropertyBookings,
   savePropertyVisitSchedule,
   createPropertyVisitSchedule,
   savePropertyVisitBooking,
@@ -38,6 +39,7 @@ const Showings = (props) => {
     changeFieldValue,
     formValue,
     handleSavePropertyVisitBooking,
+    handleGetActiveSinglePropertyBookings,
     history,
     lang,
     match,
@@ -51,6 +53,14 @@ const Showings = (props) => {
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
+
+  useEffect(() => {
+    const data = {
+      id: propID,
+      smallLoader: 'property',
+    }
+    handleGetActiveSinglePropertyBookings(data);
+  }, []);
 
   useEffect(() => {
     if (formValue.booking && formValue.schedule && formValue.schedule.slots) {
@@ -92,7 +102,9 @@ const Showings = (props) => {
   const manageBooking = (book, action) => {
     const allBook = get(formValue, `booking`, []);
     const selectSlots = allBook.find(item => item.id === book.id);
-    const idSlot = selectSlots.slots.findIndex(item => moment(item.slot).format('YYYY.MM.DD HH:mm') === moment(book.slot).format('YYYY.MM.DD HH:mm'));
+    const idSlot = selectSlots.slots.findIndex(item => {
+      return moment(item.slot).format('YYYY.MM.DD HH:mm') === moment(book.slot).format('YYYY.MM.DD HH:mm') || moment(item.slot).format('YYYY.MM.DD HH:mm') === moment(book.slot.slot).format('YYYY.MM.DD HH:mm')
+    });
     selectSlots.slots[idSlot].status = action;
     const data = {
       scheduleId: book.id,
@@ -202,7 +214,6 @@ const Showings = (props) => {
                                   onCancel={() => manageBooking(day, 'canceled')}
                                   onAdd={() => history.push(`/${propID}/listings/showings/addBooking/${day.id}`)}
                                   insertBooking={day.slot.status === 'free'}
-                                  addI
                                   showActions={moment(day.slot.slot).isAfter(moment(), 'hour')}
                                 />
                               )
@@ -251,6 +262,7 @@ Showings.propTypes = {
   history: PropTypes.object.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
+  handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSavePropertyVisitBooking: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.string,
   formValue: PropTypes.object.isRequired,
@@ -276,6 +288,7 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)))
   },
+  handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
   handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleSavePropertyVisitBooking: bindActionCreators(savePropertyVisitBooking, dispatch),
