@@ -14,6 +14,7 @@ import {
   BrixelButtonPrimary,
   BrixelInputText,
   Validation,
+  ReduxField,
 } from '@brixel/brixel-components';
 import {
   createPropertyVisitBooking,
@@ -95,13 +96,21 @@ const Showings = (props) => {
         </div>
         <div className="mb-3">
           <div>
-            <Field
-              name={'name'}
-              label={'Name'}
+            <ReduxField
+              form="Property"
+              input={{
+                name: "name",
+                type: "text",
+                placeholder: '',
+                validate: [Validation.required]
+              }}
+              labels={{
+                label: "Name",
+              }}
+              design={{
+                className: 'mt-0'
+              }}
               component={BrixelInputText}
-              validate={[Validation.required]}
-              type="text"
-              placeholder={''}
               meta={{
                 dirty: formValue['name'] && errorValue['name'] !== true,
                 invalid: true,
@@ -112,13 +121,21 @@ const Showings = (props) => {
                 error: errorValue['name'],
               }}
             />
-            <Field
-              name={'email'}
-              label={'Email'}
+            <ReduxField
+              form="Property"
+              input={{
+                name: "email",
+                type: "email",
+                placeholder: '',
+                validate: [Validation.isEmail, Validation.required]
+              }}
+              design={{
+                className: 'mt-2'
+              }}
+              labels={{
+                label: "Email",
+              }}
               component={BrixelInputText}
-              validate={[Validation.isEmail, Validation.required]}
-              type="text"
-              placeholder={''}
               meta={{
                 dirty: formValue['email'] && errorValue['email'] !== true,
                 invalid: true,
@@ -129,13 +146,25 @@ const Showings = (props) => {
                 error: errorValue['email'],
               }}
             />
-            <Field
-              name={'phone'}
-              label={'Phone'}
+            <ReduxField
+              form="Property"
+              design={{
+                className: 'mt-2'
+              }}
+              input={{
+                name: "phone",
+                type: "text",
+                placeholder: '',
+                validate: [Validation.required]
+              }}
+              inputFormat={{
+                formatType: 'tel',
+              }}
+              labels={{
+                label: "Phone",
+              }}
               component={BrixelInputText}
-              validate={[Validation.required]}
               type="text"
-              placeholder={''}
               meta={{
                 dirty: formValue['phone'] && errorValue['phone'] !== true,
                 invalid: true,
