@@ -86,7 +86,6 @@ export const InputSheets = () => {
             name: 'properties.propertyType',
             value: 'Apartment'
           },
-          className: '',
           label: 'What\'s the type of the apartment?',
           name: 'properties.building.typeFlatCode',
           options: factsOptions.typeFlatCode,
@@ -361,6 +360,7 @@ export const InputSheets = () => {
       cardType: "location",
       inputs: [
         {
+          classNameBox: 'max-w-perc-65 pr-1',
           className: 'pos-r zIndex6',
           component: BrixelSelect,
           label: 'Country',
