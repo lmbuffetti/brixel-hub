@@ -507,7 +507,7 @@ export const ComponentMap =(props) => {
                   type="text"
                   ref={inputSearch}
                   label={'Address'}
-                  placeholder={translateTo(lang, "Write your street name")}
+                  placeholder={translateTo(lang, "Write street name")}
                   input={{
                     onChange: (e) => changeFieldValue(formName, 'location.searchAddress', e),
                     onBlur: () => '',

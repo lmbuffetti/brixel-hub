@@ -61,7 +61,7 @@ const FactsRewards = (props) => {
             progressValue={totalComplete}
             classBackground="ov-h brdRadius"
             goalValue={totalComplete > 9 && totalComplete < 30 ? 30 : null}
-            showGoalValue={totalComplete > 9}
+            showGoalValue={false}
             large={window.innerWidth >= 1024}
             small={window.innerWidth < 1024}
           />
