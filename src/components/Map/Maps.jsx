@@ -180,11 +180,6 @@ export const ComponentMap =(props) => {
   };
 
   const fetchPlaces = (mapProps, map) => {
-    const center = {
-      lat: latitude !== 0 ? latitude : get(curCountry, 'location.lat', null),
-      lng: longitude !== 0 ? longitude : get(curCountry, 'location.lng', null),
-    };
-
     map.setOptions({
       styles: mapStyles,
       disableDefaultUI: true,
@@ -205,132 +200,6 @@ export const ComponentMap =(props) => {
     });
 
     setOptMap(map);
-    if (nearBy) {
-      const service = new google.maps.places.PlacesService(map);
-      const streetViewService = new google.maps.StreetViewService();
-      const STREETVIEW_MAX_DISTANCE = 50;
-      const latLng = new google.maps.LatLng(center.lat, center.lng);
-      streetViewService.getPanoramaByLocation(latLng, STREETVIEW_MAX_DISTANCE, (streetViewPanoramaData, status) => {
-        if (status === google.maps.StreetViewStatus.OK) {
-          setStretViewAvailable(true);
-        } else {
-          setStretViewAvailable(false);
-        }
-      });
-
-      Object.keys(mapCaptionData).map(async (keys) => {
-        await mapCaptionData[keys].keywordsInclude.map(async (query) => {
-          const placeRequest = {
-            location: center,
-            type: [query],
-            radius: 1000,
-          };
-          await service.nearbySearch(placeRequest, async (res) => {
-            const curPlace = selectedPlace;
-            compareArray(res, mapCaptionData[keys].keywordsExclude).map((val) => {
-              let photo;
-              if (val.photos && val.photos[0]) {
-                photo = val.photos[0].getUrl();
-              }
-              const urlImg = mapCaptionData[keys].iconSettings.icon.url;
-              const iconImg = images(`./${urlImg}`);
-              val.iconSettings = mapCaptionData[keys].iconSettings;
-              val.iconSettings.icon.newUrl = iconImg;
-              // ACTIVE ICON
-              const urlImgActive = mapCaptionData[keys].iconSettings.activeIcon.url;
-              val.iconSettings.icon.newUrlActive = images(`./${urlImgActive}`);
-              val.distance = getDistance({ lat: latitude, lng: longitude }, {
-                lat: val.geometry.location.lat(),
-                lng: val.geometry.location.lng()
-              });
-              val.photo = photo;
-              curPlace.push(val);
-              return null;
-            });
-            setSelectedPlace([
-              ...selectedPlace,
-            ]);
-          });
-        });
-      });
-    }
-  };
-
-  /*const showInfoMarker = (data) => {
-    const infoModal = {
-      lat: data.marker.geometry.location.lat(),
-      lng: data.marker.geometry.location.lng(),
-      title: data.marker.name,
-      subtitle: data.marker.vicinity,
-      distance: data.marker.distance,
-      photo: data.marker.photo,
-    };
-    setModalInfo(infoModal);
-    setShowInfoWindow(true);
-  };*/
-
-  const btnActions = (action) => {
-    const center = {
-      lat: latitude !== 0 ? latitude : get(curCountry, 'location.lat', null),
-      lng: longitude !== 0 ? longitude : get(curCountry, 'location.lng', null),
-    };
-    const panorama = optMap.getStreetView();
-
-    switch (action) {
-      case 'zoomIn':
-        if (mapTypeId === 'streetview') {
-          panorama.setZoom(panorama.zoom + 1);
-        } else {
-          optMap.setZoom(optMap.zoom + 1);
-        }
-        break;
-      case 'zoomOut':
-        if (mapTypeId === 'streetview') {
-          panorama.setZoom(panorama.zoom - 1);
-        } else {
-          optMap.setZoom(optMap.zoom - 1);
-        }
-        break;
-      case 'roadmap':
-        setMapTypeId('roadmap');
-        optMap.setMapTypeId('roadmap');
-        panorama.setVisible(false);
-        break;
-      case 'satellite':
-        setMapTypeId('satellite');
-        optMap.setMapTypeId('satellite');
-        panorama.setVisible(false);
-        break;
-      case 'streetview':
-        panorama.setPosition(center);
-        panorama.setOptions({
-          linksControl: false,
-          panControl: false,
-          enableCloseButton: false,
-          addressControl: false,
-          zoomControl: false,
-          addressControlOptions: {
-            position: google.maps.ControlPosition.BOTTOM_CENTER,
-          },
-        });
-        panorama.setPov(({
-          heading: 0,
-          pitch: 0,
-        }));
-        setMapTypeId('streetview');
-        panorama.setVisible(true);
-        break;
-      default:
-      // do nothing
-    }
-  };
-
-  const onMarkerDragEnd = (coord) => {
-    const { latLng } = coord;
-    const lat = latLng.lat();
-    const lng = latLng.lng();
-    changeFieldValue(formName, 'location.latitude', lat);
-    changeFieldValue(formName, 'location.longitude', lng);
   };
 
   const geoCode = (adr, type) => {
@@ -436,7 +305,7 @@ export const ComponentMap =(props) => {
   const keyUpInput = (e) => {
     let newId = selLocAuto;
     if (e.key === 'ArrowUp') {
-      newId = selLocAuto < locList.length - 1 ? selLocAuto + 1 : 0;
+      newId = selLocAuto <= 0 ? locList.length - 1 : selLocAuto - 1;
     }
     if (e.key === 'ArrowDown') {
       newId = selLocAuto < locList.length - 1 ? selLocAuto + 1 : 0;
@@ -548,7 +417,6 @@ export const ComponentMap =(props) => {
                     value: get(formValue, 'location.streetNumber', ''),
                     name: 'location.streetNumber',
                   }}
-                  onKeyDown={(e) => keyUpInput(e)}
                 />
               </div>
             </div>
@@ -611,60 +479,6 @@ export const ComponentMap =(props) => {
               }
             </div>
           </>
-        )
-      }
-      {
-        (externalControls && showMap) && (
-          <div className="actionMaps">
-            {
-              streetViewAvailable && (
-                <div className="switchBtn shadow-4dp mr-1">
-                  <div
-                    className={`btn-action ${mapTypeId === 'streetview' ? 'active' : ''}`}
-                    onClick={() => btnActions('streetview')}
-                  >
-                    <BrixelIcon
-                      icon="streetview"
-                    />
-                  </div>
-                  <div
-                    className={`btn-action ${mapTypeId === 'roadmap' ? 'active' : ''}`}
-                    onClick={() => btnActions('roadmap')}
-                  >
-                    <BrixelIcon
-                      icon="roadmap"
-                    />
-                  </div>
-                  <div
-                    className={`btn-action ${mapTypeId === 'satellite' ? 'active' : ''}`}
-                    onClick={() => btnActions('satellite')}
-                  >
-                    <BrixelIcon
-                      icon="satellite"
-                    />
-                  </div>
-                </div>
-              )
-            }
-            <div className="switchBtn shadow-4dp">
-              <div
-                className="btn-action"
-                onClick={() => btnActions('zoomIn')}
-              >
-                <BrixelIcon
-                  icon="plus"
-                />
-              </div>
-              <div
-                className="btn-action"
-                onClick={() => btnActions('zoomOut')}
-              >
-                <BrixelIcon
-                  icon="min"
-                />
-              </div>
-            </div>
-          </div>
         )
       }
       <div className={`${showMap ? `h-perc-100 pos-r ${subMinHeight}` : 'hide'} wrapMap`}>
