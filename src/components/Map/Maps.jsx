@@ -437,7 +437,7 @@ export const ComponentMap =(props) => {
           </>
         )
       }
-      <div className={`${showMap ? `h-perc-100 pos-r ${subMinHeight}` : 'hide'} wrapMap`}>
+      <div className={`${showMap ? `h-perc-100 ${multipleFieldSearch ? 'pos-r' : ''} ${subMinHeight}` : 'hide'} wrapMap`}>
         {
           (
             <Map
