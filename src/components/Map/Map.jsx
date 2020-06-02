@@ -255,7 +255,7 @@ export const ComponentMap =(props) => {
           </div>
         )
       }
-      <div className={props.showMap ? `h-perc-100 pos-r ${subMinHeight}` : 'hide'}>
+      <div className={props.showMap ? `h-perc-100 ${subMinHeight}` : 'hide'}>
         {
           (
             <Map
