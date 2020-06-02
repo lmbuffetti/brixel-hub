@@ -93,7 +93,7 @@ const RewardsDashboard = (props) => {
     if (getDocuments.length > 0 && getPhotos.length > 0 && getFloorPlans.length > 0) {
       handleAddGameHistory({stub: 'media'});
     }
-  }, [formValue])
+  }, [get(formValue, 'floorPlans', []), get(formValue, 'photos', []), get(formValue, 'documents', [])])
 
   useEffect(() => {
     let filtUsrGroup = [];
