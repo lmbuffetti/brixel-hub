@@ -341,6 +341,7 @@ export const ComponentMap =(props) => {
                     name: 'location.searchAddress',
                   }}
                   onKeyDown={(e) => keyUpInput(e)}
+                  onClear={() => changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude})}
                 />
                 {
                   !selectedAddress && locList.length > 0 && (

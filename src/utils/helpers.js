@@ -46,8 +46,11 @@ export const calcPercentageFacts = () => {
   const calPerc = Math.floor(countDone * 100 / countTotal);
   const savedPerc = Math.floor(get(formValue, `inputSheet.totalComplete`, 0) || 0);
   return {
+    realPerc: countDone * 100 / countTotal,
     calcPerc: calPerc,
     savedPerc: savedPerc,
+    countTotal: countTotal,
+    countDone: countDone,
   };
 }
 

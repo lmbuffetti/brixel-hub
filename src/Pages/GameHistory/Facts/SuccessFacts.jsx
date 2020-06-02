@@ -18,6 +18,8 @@ const FactsRewards = (props) => {
   } = props;
   // PARAMS URL
   const propID = get(match, 'params.propId', '');
+  const perc = 25;
+
 
   return (
     <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col a-c`}>
@@ -31,28 +33,28 @@ const FactsRewards = (props) => {
           )
         }
         {
-          totalComplete > 9 && totalComplete < 30 && (
+          totalComplete > 9 && totalComplete < perc && (
             <>
               <h5 className="ta-c mb-2">Add more facts</h5>
-              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">Try to complete <span className="txtGreen400 fsize-300 lh-in"> at least 30%</span> of
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">Try to complete <span className="txtGreen400 fsize-300 lh-in"> at least {perc}%</span> of
                 all facts to achieve this reward.</p>
             </>
           )
         }
 
         {
-          totalComplete >= 30 && (
+          totalComplete >= perc && (
             <>
               <h5 className="ta-c mb-2">Well done</h5>
-              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">You completed at least 30% of all facts. Interested buyers will be very pleased. </p>
+              <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">You completed at least {perc}% of all facts. Interested buyers will be very pleased. </p>
             </>
           )
         }
 
         <div className="brdRadius max-w-fix-232 w-perc-100 m-a my-5">
           { totalComplete <= 9 && ( <img className="w-fix-148 dis-f m-a mb-2" src={addFacts} alt="Add Facts" />)}
-          { totalComplete > 9 && totalComplete < 30 &&( <img className="w-fix-148 dis-f m-a mb-2" src={addMoreFacts} alt="Add More Facts" />)}
-          { totalComplete >= 30 && ( <img className="w-fix-148 dis-f m-a mb-2" src={factsWellDone} alt="Facts Well Done" />)}
+          { totalComplete > 9 && totalComplete < perc &&( <img className="w-fix-148 dis-f m-a mb-2" src={addMoreFacts} alt="Add More Facts" />)}
+          { totalComplete >= perc && ( <img className="w-fix-148 dis-f m-a mb-2" src={factsWellDone} alt="Facts Well Done" />)}
           <BrixelProgressBar
             rounded
             saturation={700}
@@ -60,7 +62,7 @@ const FactsRewards = (props) => {
             backgroundSaturation={100}
             progressValue={totalComplete}
             classBackground="ov-h brdRadius"
-            goalValue={totalComplete > 9 && totalComplete < 30 ? 30 : null}
+            goalValue={totalComplete > 9 && totalComplete < perc ? perc : null}
             showGoalValue={false}
             large={window.innerWidth >= 1024}
             small={window.innerWidth < 1024}
@@ -81,20 +83,20 @@ const FactsRewards = (props) => {
           )
         }
         {
-          totalComplete > 9 && totalComplete < 30 && (
+          totalComplete > 9 && totalComplete < perc && (
             <>
               <BrixelButtonPrimary
                 label="Complete now"
                 rounded
                 rightIcon="arrow-right"
                 className="min-w-fix-208 m-a"
-                onClick={() => totalComplete < 20 ? history.push(`/${propID}/rewards/achievement/facts`) : history.push(`/${propID}/property/facts/propertyType`)}
+                onClick={() => totalComplete < perc ? history.push(`/${propID}/rewards/achievement/facts`) : history.push(`/${propID}/property/facts/propertyType`)}
               />
             </>
           )
         }
         {
-          totalComplete >= 30 && (
+          totalComplete >= perc && (
             <>
               <BrixelButtonPrimary
                 label="Edit facts"
