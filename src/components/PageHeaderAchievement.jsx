@@ -10,9 +10,7 @@ function PageHeaderAchievement(props) {
   const {
     history,
     icon,
-    isFree,
     match,
-    subtitle,
     title,
   } = props;
 

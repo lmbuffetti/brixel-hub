@@ -35,7 +35,6 @@ export const ComponentMap =(props) => {
     scrollZoom,
     showMap,
     similarProperties,
-    zoom,
     subMinHeight,
   } = props;
   // STATE

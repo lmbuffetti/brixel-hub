@@ -10,13 +10,11 @@ import {
   FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
-import Maps from '../components/Map/Maps';
 import { configureStore } from '../store';
 const { factsOptions } = FactsOptions;
 
 export const FactsApartment = () => {
   const formValue = get(configureStore.getState(), 'form.GamingFlow.values', {});
-  const country = get(formValue, 'location.countryCode', '');
   if (get(formValue, 'properties.propertyType', null) === 'Apartment') {
     return [
       // SECTION: PROPERTY TYPE APARTMENT

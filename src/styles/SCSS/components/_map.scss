@@ -13,7 +13,7 @@
     color: map_get($primaryColor, 700);
     cursor: pointer;
     &:hover, &.active {
-      background: map_get($lightColor, 100);
+      background: map_get($lightColor, 200);
     }
     .highlight {
       font-weight: 600;

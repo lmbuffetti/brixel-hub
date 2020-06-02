@@ -3,27 +3,20 @@
 import React, { useState, createRef, useEffect, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import {
-  InfoWindow, Marker, GoogleApiWrapper,
+  GoogleApiWrapper,
 } from 'google-maps-react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { change } from 'redux-form';
-import { BrixelIcon, BrixelInputText, BrixelSelect } from '@brixel/brixel-components';
+import { BrixelInputText, BrixelSelect } from '@brixel/brixel-components';
 import useOutsideAlerter from '../OutsideElement';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
-import markerImg from '../../images/location/icon_location.svg';
-import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
 import baseByData  from '@brixel/brixel-configuration-partner/src/Settings';
-import { mapCaptionData, mapStyles, getDistance } from '../../constants/map';
-import { compareArray } from '../../utils/helpers';
 import { translateTo } from '../../utils/translation';
 import { diff } from 'deep-object-diff';
 import Map from './Map';
-const swissZipCode = require('../../resources/swissZipCodes.json');
-
-const images = require.context('../../images', true);
 
 export const ComponentMap =(props) => {
   // PROPS
@@ -34,8 +27,6 @@ export const ComponentMap =(props) => {
     country,
     curCountry,
     draggable,
-    disableZoom,
-    externalControls,
     formName,
     formValue,
     google,
@@ -43,10 +34,7 @@ export const ComponentMap =(props) => {
     lang,
     latitude,
     longitude,
-    mapType,
     multipleFieldSearch,
-    nearBy,
-    scrollZoom,
     selCountry,
     showMap,
     showSearchLocation,
@@ -57,27 +45,19 @@ export const ComponentMap =(props) => {
     subMinHeight,
   } = props;
   // STATE
-  const [selectedPlace, setSelectedPlace] = useState([]);
-  const [showInfoWindow, setShowInfoWindow] = useState(false);
-  const [modalInfo] = useState({});
-  const [mapTypeId, setMapTypeId] = useState('roadmap');
-  const [selectedZip, setSelectedZip] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(false);
-  const [streetViewAvailable, setStretViewAvailable] = useState(false);
-  const [optMap, setOptMap] = useState({});
+  //const [optMap, setOptMap] = useState({});
   const inputSearch = createRef(null);
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
   const [defCountry, setDefCountry] = useState('');
   const [locList, setLoclist] = useState([]);
-  const [zipList, setZiplist] = useState([]);
+  //const [zipList, setZiplist] = useState([]);
   const [selLocAuto, setSelLocAuto] = useState(-1);
   const [stateToken, setStateToken] = useState(null);
   const [startSearch, setStartSearch] = useState(false);
 
   // REF
-  const inputZipSearch = useRef(null);
-  const zipWrapRef = useRef(null);
-  const inputAddressSearch = useRef(null);
+  //const inputZipSearch = useRef(null);
   const addressRef = useRef(null);
   // TIMER TYPING
   let typingTimer;                //timer identifier
@@ -146,9 +126,9 @@ export const ComponentMap =(props) => {
       if (type === 'cities') typeSearch = ["(regions)"];
       if (type === 'zip') typeSearch = ["(regions)"];
       if (val.length > 3) {
-        const lat = get(formValue, 'location.latitude', 0);
-        const lng = get(formValue, 'location.longitude', 0);
-        const selectedCity = get(formValue, 'location.city', 0);
+        //const lat = get(formValue, 'location.latitude', 0);
+        //const lng = get(formValue, 'location.longitude', 0);
+        //const selectedCity = get(formValue, 'location.city', 0);
         autocompleteService.getPlacePredictions(
           {
             input: val,
@@ -160,16 +140,16 @@ export const ComponentMap =(props) => {
             if (predictions) {
               let defPredition = predictions;
               if (type === 'zip') {
-                setZiplist(predictions);
+                //setZiplist(predictions);
                 setLoclist([]);
               }
               else {
-                setZiplist([]);
+                //setZiplist([]);
                 setLoclist(defPredition);
               }
             } else {
               setLoclist([]);
-              setZiplist([]);
+              //setZiplist([]);
             }
           }
         );
@@ -177,29 +157,6 @@ export const ComponentMap =(props) => {
         setLoclist([]);
       }
     }
-  };
-
-  const fetchPlaces = (mapProps, map) => {
-    map.setOptions({
-      styles: mapStyles,
-      disableDefaultUI: true,
-      clickableIcons: true,
-      zoomControl: externalControls ? false : !disableZoom,
-      mapTypeControl: false,
-      scaleControl: true,
-      streetViewControl: false,
-      rotateControl: true,
-      fullscreenControl: false,
-      scrollwheel: scrollZoom,
-      gestureHandling: 'cooperative',
-      mapTypeId: mapType,
-      linksControl: false,
-      panControl: false,
-      enableCloseButton: false,
-      draggable,
-    });
-
-    setOptMap(map);
   };
 
   const geoCode = (adr, type) => {
@@ -270,13 +227,12 @@ export const ComponentMap =(props) => {
         }
         // if (!formattedPlace.zip && isShowZip) setShowZipCode(true);
         changeFieldValue(formName, 'location', formattedPlace);
-        setSelectedZip(true);
         setSelectedAddress(true);
         //changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
         //changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
         //changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
         setLoclist([]);
-        setZiplist([]);
+        //setZiplist([]);
       }
     })
   };
@@ -292,7 +248,7 @@ export const ComponentMap =(props) => {
     return `<span>${container.substring(0,start)}</span><span class='highlight'>${container.substring(start,end+1)}</span><span>${container.substring(end+1,content.length)}</span>`;
   };
 
-  useOutsideAlerter(inputZipSearch, { action: 'function', func: () => setZiplist([]) });
+  //useOutsideAlerter(inputZipSearch, { action: 'function', func: () => setZiplist([]) });
   useOutsideAlerter(addressRef, { action: 'function', func: () => setLoclist([]) });
 
   const selectOpt = cloneDeep(country);
@@ -487,7 +443,6 @@ export const ComponentMap =(props) => {
             <Map
               draggable={draggable}
               google={google}
-              onReady={(mapProps, map) => fetchPlaces(mapProps, map)}
               zoom={zoom}
               curCountry={curCountry}
               showMap={showMap}
@@ -503,7 +458,6 @@ export const ComponentMap =(props) => {
                 width: showMap ? '100%' : '0px',
                 height: showMap ? '100%' : '0px',
               }}
-              onClick={() => setShowInfoWindow(false)}
               similarProperties={similarProperties}
             />
           )

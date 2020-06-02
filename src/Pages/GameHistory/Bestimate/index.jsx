@@ -12,7 +12,6 @@ import { reduxForm, reset } from 'redux-form';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
-import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 
 const Bestimate = (props) => {
   // PROPS
@@ -172,9 +171,7 @@ const Bestimate = (props) => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
     if (currentIndex === questions.length - 1) label = 'Back to Hub';
-    else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null)
-
-    label = 'Skip';
+    else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else if (currentIndex === 0) label = 'Next';
     else label = 'Next';
     return label;
@@ -261,8 +258,7 @@ const Bestimate = (props) => {
                       rightIcon="arrow-right-small"
                       onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
                     />
-                  ) :
-                  (
+                  ) : (
                     <BrixelButtonPrimary
                       className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === "skip" ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}

@@ -4,7 +4,7 @@
 import React  from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, Field, reduxForm, reset } from 'redux-form';
+import { change, reduxForm, reset } from 'redux-form';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';

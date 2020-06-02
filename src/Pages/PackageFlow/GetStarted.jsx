@@ -58,7 +58,7 @@ const GetStarted = (props) => {
   useEffect(() => {
     // SET DEFAULT LOCATION FOR DEV
     if (baseByData.env === 'dev') {
-      const location = {
+      /*const location = {
         type: "stateCode",
         country: "Schweiz",
         countryCode: "CH",
@@ -71,7 +71,7 @@ const GetStarted = (props) => {
         stateCode: "ZH",
         zip: 8004,
         city: "Zürich",
-      };
+      };*/
       //changeFieldValue('location', location);
     }
     // GET GAME GROUP TO POPULATE THE HOMEBASE SCREEN

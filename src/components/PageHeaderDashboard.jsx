@@ -7,22 +7,15 @@ import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import { BrixelIcon, BrixelButtonSecondary, BrixelButtonIcon } from '@brixel/brixel-components';
 import useOutsideAlerter from './OutsideElement';
-import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage, setModal } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
-import has from 'lodash/has';
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 import { firstRoutes, secondRoutes } from '../resources/navigationRoutes';
 import brixels from '../images/BrxielComingTown/brixels.svg';
 import CoverPropertyImage from './CoverPropertyImage';
 import AccountDropdown from './AccountDropdown';
-
-const AvatarImage = Loadable({
-  loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
-  loading: () => '',
-});
 
 function PageHeaderDashboard(props) {
   // PROPS
@@ -43,7 +36,6 @@ function PageHeaderDashboard(props) {
   // STATE
   //const [currentLang, setCurrentLang] = useState(lang);
   //const [dropLang, setDropLang] = useState([]);
-  const [widthScreen, setWidthScreen] = useState(0);
   const [activeMenu, setActiveMenu] = useState(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -69,7 +61,6 @@ function PageHeaderDashboard(props) {
   }, [loggedInUser]);
 
   const screenResize = () => {
-    setWidthScreen(window.innerWidth);
     if (window.innerWidth >= 1024) {
       document.body.classList.remove('ov-h');
     }
@@ -77,7 +68,6 @@ function PageHeaderDashboard(props) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setWidthScreen(window.innerWidth);
       window.addEventListener('resize', () => screenResize());
     }
   }, []);
@@ -86,15 +76,6 @@ function PageHeaderDashboard(props) {
     handleSetModal({
       showAwardsInfo: true,
     })
-  };
-
-  const avatarAction = () => {
-    // Mobile actions for the avatar click
-    if (widthScreen <= 1024) {
-      document.body.classList.add('ov-h');
-    } else {
-      window.location.href = `${baseByData(undefined,'io').profileURL}?url=${window.location.href}`;
-    }
   };
 
   const onClickMobileMenu = (link) => {
