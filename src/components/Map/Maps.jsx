@@ -327,6 +327,7 @@ export const ComponentMap =(props) => {
             </div>*/}
             <div className="dis-f jc-b mb-5">
               <div className="w-perc-65 pr-1 pos-r">
+                {console.log(curCountry)}
                 <BrixelInputText
                   className="search-box"
                   type="text"
@@ -341,6 +342,7 @@ export const ComponentMap =(props) => {
                     name: 'location.searchAddress',
                   }}
                   onKeyDown={(e) => keyUpInput(e)}
+                  onClear={() => changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude})}
                 />
                 {
                   !selectedAddress && locList.length > 0 && (
