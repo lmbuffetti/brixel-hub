@@ -37,7 +37,8 @@ const normalizeData = (value, prevValue) => {
 export const InputSheets = () => {
   const formValue = get(configureStore.getState(), 'form.Property.values', {});
   const propertyHose = (get(formValue, 'properties.propertyType', '') || '').toLowerCase();
-  const country = get(formValue, 'slocation.countryCode', '');
+  const country = get(formValue, 'location.countryCode', '');
+  const countryList = get(configureStore.getState(), 'common.country', []);
   return [
     // SECTION: PROPERTY TYPE
     {
@@ -85,7 +86,6 @@ export const InputSheets = () => {
             name: 'properties.propertyType',
             value: 'Apartment'
           },
-          className: '',
           label: 'What\'s the type of the apartment?',
           name: 'properties.building.typeFlatCode',
           options: factsOptions.typeFlatCode,
@@ -335,6 +335,23 @@ export const InputSheets = () => {
         },
       ]
     },
+    // SECTION: EXTRA FEATURE
+    {
+      group: "Extra features",
+      title: "Extra features",
+      history: "extraFeature",
+      cardType: "extraFeature",
+      inputs: [
+        {
+          component: BrixelExtraFeature,
+          className: '',
+          label: 'Extra features',
+          name: 'properties.extraFeatures',
+          options: factsOptions.BrixelExtraFeature,
+          validation: [Validation.markRequired],
+        },
+      ],
+    },
     // SECTION: LOCATION
     {
       group: "Location",
@@ -343,14 +360,26 @@ export const InputSheets = () => {
       cardType: "location",
       inputs: [
         {
+          classNameBox: 'max-w-perc-65 pr-1',
+          className: 'pos-r zIndex6',
+          component: BrixelSelect,
+          label: 'Country',
+          name: 'location.countryCode',
+          type: 'text',
+          options: countryList,
+          validation: [Validation.required],
+        },
+        {
           component: Maps,
           label: 'Property address',
           name: 'location',
           type: 'Mappe',
           mapOptions: {
             showMap: true,
-            showSearchLocation: true,
+            hideSearch: false,
             showSelectCountry: true,
+            multipleFieldSearch: true,
+            draggable: true
           },
           validation: [Validation.required]
         },
@@ -759,23 +788,6 @@ export const InputSheets = () => {
         },
       ],
     },
-    // SECTION: EXTRA FEATURE
-    {
-      group: "Extra features",
-      title: "Extra features",
-      history: "extraFeature",
-      cardType: "extraFeature",
-      inputs: [
-        {
-          component: BrixelExtraFeature,
-          className: '',
-          label: 'Extra features',
-          name: 'properties.extraFeatures',
-          options: factsOptions.BrixelExtraFeature,
-          validation: [Validation.markRequired],
-        },
-      ],
-    },
     // SECTION: FACILITES & MATERIALS
     {
       group: "Facilities & materials",
@@ -1134,54 +1146,6 @@ export const InputSheets = () => {
         },
       ],
     },
-    // SECTION: DESCRIPTION
-    {
-      group: "Description",
-      title: "Description",
-      history: "description",
-      cardType: "description",
-      inputs: [
-        {
-          component: BrixelInputText,
-          className: '',
-          label: 'Title',
-          name: 'title',
-          validation: [Validation.markRequired],
-        },
-        {
-          component: BrixelTextArea,
-          className: '',
-          label: 'What are the highlights of the property?',
-          placeholder: 'Add some description about the highlights of your property. Try to think about your potential buyers.',
-          name: 'description.highlight',
-          validation: [Validation.markRequired],
-        },
-        {
-          component: BrixelTextArea,
-          className: '',
-          label: 'What is special about the location of the house?',
-          placeholder: 'Here you can add a description about the location around the property.',
-          name: 'description.location',
-          validation: [Validation.markRequired],
-        },
-        {
-          component: BrixelTextArea,
-          className: '',
-          label: 'Room layout',
-          name: 'description.roomLayout',
-          formatText: true,
-          validation: [Validation.markRequired],
-        },
-        {
-          component: BrixelTextArea,
-          className: '',
-          label: 'How\'s the relationship with the neighbors?',
-          placeholder: 'There are many young families around the property.',
-          name: 'description.neighborsRelationship',
-          validation: [Validation.markRequired],
-        },
-      ],
-    },
     // SECTION: SALES STRATEGY
     {
       title: "Sales strategy",
@@ -1237,6 +1201,54 @@ export const InputSheets = () => {
           label: 'How do you want to split the fees?',
           Placeholder: 'Fees will be evenly split.',
           name: 'properties.salesStrategy.feesSplit',
+          validation: [Validation.markRequired],
+        },
+      ],
+    },
+    // SECTION: DESCRIPTION
+    {
+      group: "Description",
+      title: "Description",
+      history: "description",
+      cardType: "description",
+      inputs: [
+        {
+          component: BrixelInputText,
+          className: '',
+          label: 'Title',
+          name: 'title',
+          validation: [Validation.markRequired],
+        },
+        {
+          component: BrixelTextArea,
+          className: '',
+          label: 'What are the highlights of the property?',
+          placeholder: 'Add some description about the highlights of your property. Try to think about your potential buyers.',
+          name: 'description.highlight',
+          validation: [Validation.markRequired],
+        },
+        {
+          component: BrixelTextArea,
+          className: '',
+          label: 'What is special about the location of the house?',
+          placeholder: 'Here you can add a description about the location around the property.',
+          name: 'description.location',
+          validation: [Validation.markRequired],
+        },
+        {
+          component: BrixelTextArea,
+          className: '',
+          label: 'Room layout',
+          name: 'description.roomLayout',
+          formatText: true,
+          validation: [Validation.markRequired],
+        },
+        {
+          component: BrixelTextArea,
+          className: '',
+          label: 'How\'s the relationship with the neighbors?',
+          placeholder: 'There are many young families around the property.',
+          name: 'description.neighborsRelationship',
           validation: [Validation.markRequired],
         },
       ],

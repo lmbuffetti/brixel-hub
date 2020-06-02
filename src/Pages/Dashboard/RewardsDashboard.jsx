@@ -18,7 +18,7 @@ import SuccessMarketCheck from '../GameHistory/MarketChecker/SuccessMarketCheck'
 import SuccessBestimate from '../GameHistory/Bestimate/SuccessBestimate';
 import SuccessAssessor from '../GameHistory/Assessor/SuccessAssessor';
 import SuccessHomebase from '../GameHistory/Homebase/SuccessHomebase';
-import FactsRewards from '../GameHistory/SecondLevel/FactsRewards';
+import FactsRewards from '../GameHistory/Facts/SuccessFacts';
 import MediaExplanation from '../GameHistory/SecondLevel/MediaRewards';
 import PageReviewRewards from '../GameHistory/SecondLevel/PageReviewRewards';
 import PagePublishedRewards from '../GameHistory/SecondLevel/PagePublishedRewards';
@@ -93,7 +93,7 @@ const RewardsDashboard = (props) => {
     if (getDocuments.length > 0 && getPhotos.length > 0 && getFloorPlans.length > 0) {
       handleAddGameHistory({stub: 'media'});
     }
-  }, [formValue])
+  }, [get(formValue, 'floorPlans', []), get(formValue, 'photos', []), get(formValue, 'documents', [])])
 
   useEffect(() => {
     let filtUsrGroup = [];

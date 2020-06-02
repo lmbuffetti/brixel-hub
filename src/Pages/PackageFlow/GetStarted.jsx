@@ -58,7 +58,7 @@ const GetStarted = (props) => {
   useEffect(() => {
     // SET DEFAULT LOCATION FOR DEV
     if (baseByData.env === 'dev') {
-      const location = {
+      /*const location = {
         type: "stateCode",
         country: "Schweiz",
         countryCode: "CH",
@@ -71,8 +71,8 @@ const GetStarted = (props) => {
         stateCode: "ZH",
         zip: 8004,
         city: "Zürich",
-      };
-      changeFieldValue('location', location);
+      };*/
+      //changeFieldValue('location', location);
     }
     // GET GAME GROUP TO POPULATE THE HOMEBASE SCREEN
     handleGetGamegroup();
@@ -375,16 +375,16 @@ const GetStarted = (props) => {
               <div className="subcontainer m-a">
                 {
                   quest.inputs && (
-                    <div id={`step-${currentIndex}`}>
+                    <div id={`step-${currentIndex}`} className="dis-f flex-wrap">
                       {
                         quest.titleGreen && (
-                          <h3 className="txtGreen400">{quest.titleGreen}</h3>
+                          <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
                         )
                       }
-                      <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
+                      <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{quest.title}</h3>
                       {
                         quest.subtitle && (
-                          <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)
+                          <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)
                       }
                       <MultiFileldsReduxForm
                         form="GetStarted"
@@ -516,6 +516,9 @@ const mapStateToProps = (state, props) => {
     initialValues: {
       company: null,
       channel: channel,
+      location: {
+        countryCode: 'AT',
+      },
       price: {
         currency: get(state, 'companies.activeSingleCompany.country.currency', null)
       },

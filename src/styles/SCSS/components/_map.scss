@@ -13,10 +13,21 @@
     color: map_get($primaryColor, 700);
     cursor: pointer;
     &:hover, &.active {
-      background: map_get($lightColor, 100);
+      background: map_get($lightColor, 200);
     }
     .highlight {
       font-weight: 600;
     }
+  }
+}
+
+.multiField {
+  .fieldMapSearch {
+    flex: 0 0 106px;
+    height: 106px;
+  }
+  .wrapMap {
+    flex: 0 0 calc(100% - 106px);
+    height: auto;
   }
 }
