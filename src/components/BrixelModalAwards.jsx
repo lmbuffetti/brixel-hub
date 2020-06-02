@@ -41,7 +41,6 @@ const BrixelModalAwards = (props) => {
       const usrGroups = gameGroup.sort(sortObject('stub', 'asc'))
       usrGroups.forEach((groups) => {
         if (groups.stub.includes(userTypes)) {
-          console.log(groups.achievements);
           groups.achievements.forEach((group) => {
             if (group.achievementType === 'award') {
               numTodo += 1;

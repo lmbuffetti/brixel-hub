@@ -327,7 +327,6 @@ export const ComponentMap =(props) => {
             </div>*/}
             <div className="dis-f jc-b mb-5">
               <div className="w-perc-65 pr-1 pos-r">
-                {console.log(curCountry)}
                 <BrixelInputText
                   className="search-box"
                   type="text"
