@@ -71,7 +71,7 @@ const checkCommon = (store) => (next) => (action) => {
             if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
             else store.dispatch({ type: SPINNER_OFF });
           }
-          store.dispatch(reset('Property'));
+          //store.dispatch(reset('Property'));
         })
         .catch(() => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
