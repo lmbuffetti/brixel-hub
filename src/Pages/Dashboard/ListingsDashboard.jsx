@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import {
   Route,
+  Redirect,
   withRouter,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -10,6 +11,7 @@ import { connect } from 'react-redux';
 import { BrixelButtonBox, BrixelButtonIcon, BrixelProgressBar } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import last from 'lodash/last';
+import isNumber from 'lodash/isNumber';
 import Loadable from 'react-loadable';
 import Sticker from 'react-stickyfill';
 import Loading from '../../components/Loading';
@@ -229,9 +231,25 @@ const ListingsDashboard = (props) => {
       {
         getFact() !== 'listings' && (
           <div className={`levelsWrapper zIndex2 w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed': 'opened'}`}>
-            <Route path="/:propId?/listings/showings" component={Showings} />
-            <Route path="/:propId?/listings/page" component={Page} />
-            <Route path="/:propId?/listings/portals" component={Portals} />
+            {console.log(getFact())}
+            {
+              (
+                getFact() === 'showings' ||
+                getFact() === 'page' ||
+                getFact() === 'portals' ||
+                isNumber(+getFact())
+              )
+                ? (
+                  <>
+                    <Route path="/:propId/listings/showings" exact component={Showings} />
+                    <Route path="/:propId/listings/page" exact component={Page} />
+                    <Route path="/:propId/listings/portals" exact component={Portals} />
+                  </>
+                ) : (
+                  <Redirect from={`/:propId/listings/*`} to={`/${propID}/listings/page`} />
+                )
+            }
+
           </div>
         )
       }
