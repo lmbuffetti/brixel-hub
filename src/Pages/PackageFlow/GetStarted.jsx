@@ -84,12 +84,11 @@ const GetStarted = (props) => {
       const defComp = get(companyByUrl, 'company', companyCookie);
       handleGetActiveSingleCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);
+    } else {
+      changeFieldValue('location.countryCode', 'AT');
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) history.push(`/packageFlow/getStarted/${questions[0].history}`);
-    return () => {
-      reset('GetStarted');
-    };
   }, []);
 
   useEffect(() => {
@@ -516,12 +515,10 @@ const mapStateToProps = (state, props) => {
     initialValues: {
       company: null,
       channel: channel,
-      location: {
-        countryCode: 'AT',
-      },
       price: {
         currency: get(state, 'companies.activeSingleCompany.country.currency', null)
       },
+      changeCountry: null,
       properties: {
         propertyType: propertyType,
         typology: {
@@ -553,6 +550,7 @@ const mapDispatchToProps = (dispatch) => ({
 const AnyForm = reduxForm({
   form: 'GetStarted',
   enableReinitialize: false,
+  destroyOnUnmount: false,
 })(GetStarted)
 
 export default compose(
