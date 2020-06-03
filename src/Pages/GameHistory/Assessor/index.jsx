@@ -86,7 +86,6 @@ const Assessor = (props) => {
     } else {
       history.push(`/${propID}/rewards/${getAchievement()}`);
     }
-    reset('Property');
   };
 
   const saveData = (e) => {
@@ -116,7 +115,6 @@ const Assessor = (props) => {
     // ADD THE ACHIEVEMENT
     handleAddGameHistory({stub: getAchievement()});
     handleSaveActiveSingleProperty(dataProp);
-    reset('Property');
   };
 
   const changeStep = (act) => {
