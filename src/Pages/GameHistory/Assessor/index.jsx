@@ -275,8 +275,7 @@ const Assessor = (props) => {
                       rightIcon="arrow-right-small"
                       onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
                     />
-                  ) :
-                  (
+                  ) : (
                     <BrixelButtonPrimary
                       className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === "skip" ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
