@@ -378,7 +378,6 @@ export const FactsApartment = () => {
             placeholder: '25',
             type: 'number',
             name: 'properties.building.expandableAtticArea.value',
-            validation: [Validation.markRequired]
           },
         ],
       },
