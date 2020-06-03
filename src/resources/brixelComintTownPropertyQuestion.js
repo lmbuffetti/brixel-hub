@@ -1,4 +1,4 @@
-import { BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, Validation } from '@brixel/brixel-components';
+import { BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, BrixelSelect, Validation } from '@brixel/brixel-components';
 import Cat from '../images/BrxielComingTown/firstAwards.svg';
 import Maps from '../components/Map/Maps';
 import LoginSignup from '../components/LoginSignup';
@@ -7,6 +7,8 @@ import house from '../images/BrxielComingTown/house.svg';
 import roomsBg from '../images/getstarted/rooms.svg';
 import ResumeCard from '../components/ResumeCard';
 import { translateTo } from '../utils/translation';
+import { configureStore } from '../store';
+import get from 'lodash/get';
 
 export const maxLengthNum = (val, name) => (value) => {
 
@@ -35,6 +37,7 @@ const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 export const QuestionsList = (lang, country = 'CH') => {
   let getHomeBase = {name: 'Homebase', points: 100};
+  const countryList = get(configureStore.getState(), 'common.country', []);
   return [
     {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
@@ -132,14 +135,25 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: "locationInput",
       inputs: [
         {
+          className: 'pos-r zIndex6',
+          classNameBox: 'max-w-perc-65 pr-1',
+          component: BrixelSelect,
+          label: 'Country',
+          name: 'location.countryCode',
+          options: countryList,
+          validation: [Validation.required],
+        },
+        {
           component: Maps,
           showMap: true,
           name: 'location.latitude',
           type: 'Map',
           mapOptions: {
             showMap: true,
-            showSearchLocation: true,
+            hideSearch: false,
             showSelectCountry: true,
+            multipleFieldSearch: true,
+            draggable: true
           },
           validation: [Validation.required],
         },

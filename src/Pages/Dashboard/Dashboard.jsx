@@ -199,7 +199,7 @@ const Dashboard = (props) => {
         };
         handleSaveActiveSingleProperty(data);
         const inputSheet = get(formValue, 'inputSheet', {}) || {};
-        if (inputSheet.totalComplete >= 70) {
+        if (inputSheet.totalComplete >= 24) {
           handleAddGameHistory({stub: 'facts'});
         }
         if (get(formValue, 'photos', []).length > 0 && get(formValue, 'floorPlans', []).length > 0 && get(formValue, 'documents', []).length > 0) {
@@ -267,7 +267,7 @@ const Dashboard = (props) => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
       const checkIsValid = Object.keys(changeObj).find(key => typeof changeObj[key] !== 'undefined');
-      if (Object.keys(changeObj).length === 0) {
+      if (Object.keys(changeObj).length === 0 && !get(notification, 'label', '').toLowerCase().includes('saved')) {
         handleSetScreenNotification({
           ...notification,
           state: false,

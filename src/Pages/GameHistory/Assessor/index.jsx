@@ -8,7 +8,7 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
 import { reduxForm, reset } from 'redux-form';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
@@ -86,7 +86,6 @@ const Assessor = (props) => {
     } else {
       history.push(`/${propID}/rewards/${getAchievement()}`);
     }
-    reset('Property');
   };
 
   const saveData = (e) => {
@@ -116,7 +115,6 @@ const Assessor = (props) => {
     // ADD THE ACHIEVEMENT
     handleAddGameHistory({stub: getAchievement()});
     handleSaveActiveSingleProperty(dataProp);
-    reset('Property');
   };
 
   const changeStep = (act) => {
@@ -266,16 +264,30 @@ const Assessor = (props) => {
                     />
                   )
                 }
-                <BrixelButtonPrimary
-                  className={`noWrap w-perc-100 max-w-fix-160 ${currentIndex === 0 ? 'ml-a' : ''}`}
-                  disabled={!checkValidateField()}
-                  rounded
-                  background="primary"
-                  saturation={400}
-                  label={buttonLabel()}
-                  rightIcon="arrow-right-small"
-                  onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
-                />
+                {
+                  buttonLabel().toLowerCase() === "skip" ? (
+                    <BrixelButtonTertiary
+                      className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === "skip" ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                      disabled={!checkValidateField()}
+                      saturation={400}
+                      color="light"
+                      label={buttonLabel()}
+                      rightIcon="arrow-right-small"
+                      onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                    />
+                  ) : (
+                    <BrixelButtonPrimary
+                      className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === "skip" ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                      disabled={!checkValidateField()}
+                      rounded
+                      background="primary"
+                      saturation={400}
+                      label={buttonLabel()}
+                      rightIcon="arrow-right-small"
+                      onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                    />
+                  )
+                }
               </div>
             </div>
           </div>
@@ -306,6 +318,7 @@ const mapStateToProps = (state) => ({
   packagesProperty: get(state, 'property.packagesProperty', []),
   initialValues: {
     id: get(state, 'property.activeSingleProperty.id', null),
+    properties: get(state, 'property.activeSingleProperty.properties', null),
   }
 });
 

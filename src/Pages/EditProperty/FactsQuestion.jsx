@@ -90,14 +90,15 @@ const FactsQuestion = (props) => {
           onClick={() => history.push(`/${propID}/property/facts`)}
         />
       </div>
-        <MultiFileldsReduxForm
-          className="singleInput mb-5"
-          form="Property"
-          disableNextBtn={false}
-          formValue={formValue}
-          inputs={quest.inputs}
-          onClick={() => ''}
-        />
+      <MultiFileldsReduxForm
+        classNameBox={quest.classNameBox}
+        className="singleInput"
+        form="Property"
+        disableNextBtn={false}
+        formValue={formValue}
+        inputs={quest.inputs}
+        onClick={() => ''}
+      />
     </div>
   );
 };

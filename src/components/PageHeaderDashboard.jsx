@@ -7,21 +7,15 @@ import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import { BrixelIcon, BrixelButtonSecondary, BrixelButtonIcon } from '@brixel/brixel-components';
 import useOutsideAlerter from './OutsideElement';
-import Loadable from 'react-loadable';
 import { setCookie } from '../utils/helpers';
 import { setLanguage, setModal } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
-import has from 'lodash/has';
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 import { firstRoutes, secondRoutes } from '../resources/navigationRoutes';
 import brixels from '../images/BrxielComingTown/brixels.svg';
 import CoverPropertyImage from './CoverPropertyImage';
-
-const AvatarImage = Loadable({
-  loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
-  loading: () => '',
-});
+import AccountDropdown from './AccountDropdown';
 
 function PageHeaderDashboard(props) {
   // PROPS
@@ -42,7 +36,6 @@ function PageHeaderDashboard(props) {
   // STATE
   //const [currentLang, setCurrentLang] = useState(lang);
   //const [dropLang, setDropLang] = useState([]);
-  const [widthScreen, setWidthScreen] = useState(0);
   const [activeMenu, setActiveMenu] = useState(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -68,7 +61,6 @@ function PageHeaderDashboard(props) {
   }, [loggedInUser]);
 
   const screenResize = () => {
-    setWidthScreen(window.innerWidth);
     if (window.innerWidth >= 1024) {
       document.body.classList.remove('ov-h');
     }
@@ -76,7 +68,6 @@ function PageHeaderDashboard(props) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setWidthScreen(window.innerWidth);
       window.addEventListener('resize', () => screenResize());
     }
   }, []);
@@ -85,15 +76,6 @@ function PageHeaderDashboard(props) {
     handleSetModal({
       showAwardsInfo: true,
     })
-  };
-
-  const avatarAction = () => {
-    // Mobile actions for the avatar click
-    if (widthScreen <= 1024) {
-      document.body.classList.add('ov-h');
-    } else {
-      window.location.href = `${baseByData(undefined,'io').profileURL}?url=${window.location.href}`;
-    }
   };
 
   const onClickMobileMenu = (link) => {
@@ -227,32 +209,7 @@ function PageHeaderDashboard(props) {
               {
                 windowDimensions.width > 1024 && (
                   <div className="dis-f-md a-c cur-poi pos-r" onClick={() => setShowProfileMenu(!showProfileMenu)} ref={profileMenu}>
-
-                    <AvatarImage
-                      avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData().shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
-                      name={has(loggedInUser, 'user.name') ? loggedInUser.user.name : ''}
-                      size={32}
-                      onClick={() => avatarAction()}
-                    />
-                    <p className="ml-1 fsize-300">{get(loggedInUser, 'user.name', '')}</p>
-                    <BrixelIcon
-                      className="ml-1"
-                      iconSize="fsize-300"
-                      icon={showProfileMenu ? "arrow-simple-up" : "arrow-simple-down"}
-                    />
-                    <div className={`${showProfileMenu ? 'open' : 'close'} accountMenu`}>
-                      <ul>
-                        <li>
-                          <a
-                            href={`${baseByData().loginBasePath}/account/profile?url=${window.location.href}`}
-                            className="txtDark200 fweight-500"
-                          >
-                            Personal Information</a></li>
-                        <li><a className="txtDark200 fweight-500" href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}>Password</a></li>
-                        <li><a className="txtDark200 fweight-500" href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}>Preferences</a></li>
-                        <li><a className="txtRed400 fweight-500" href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}>Logout</a></li>
-                      </ul>
-                    </div>
+                    <AccountDropdown />
                   </div>
                 )
               }
@@ -329,7 +286,7 @@ function PageHeaderDashboard(props) {
                           </a>
                         </div>
                         <hr className="my-4"/>
-                         <div>
+                        <div>
                           <BrixelButtonSecondary
                             className="min-h-fix-32 max-h-fix-32 p-0 px-1 min-w-fix-96 brdMedium"
                             label="Upgrade"
@@ -338,7 +295,7 @@ function PageHeaderDashboard(props) {
                             bgTransparent
                             onClick={() => onUpgrade()}
                           />
-                         </div>
+                        </div>
                       </div>
                     </div>
                   )

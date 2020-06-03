@@ -42,13 +42,8 @@ const BrixelModalAwards = (props) => {
       usrGroups.forEach((groups) => {
         if (groups.stub.includes(userTypes)) {
           groups.achievements.forEach((group) => {
-            const selElTodo = gameHistory.data.find(game => game.achievement.stub === group.stub && game.page === propID);
             if (group.achievementType === 'award') {
-              if (typeof selElTodo === 'undefined') {
-                numTodo += 1;
-              } else {
-                // numDone += 1;
-              }
+              numTodo += 1;
             }
           });
         }
@@ -71,7 +66,7 @@ const BrixelModalAwards = (props) => {
             <div className="w-perc-100 ml-2">
               <p className="heading5 mb-1 dis-f jc-b">
                 <span>Awards</span>
-                <span className="ff-mono fweight-700">{done}/{done+toDo}</span>
+                <span className="ff-mono fweight-700">{done}/{toDo}</span>
               </p>
               {/* <BrixelProgressBar
                 classProgressBar={'pos-r'}
