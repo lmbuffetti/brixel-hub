@@ -174,8 +174,15 @@ const MarketCheck = (props) => {
     const inputName = get(quest, 'inputs[0].name', null);
     if (currentIndex === questions.length - 1) label = 'Back to Hub';
     else if (questions[currentIndex + 1].toSave) label = 'Finish';
-    else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
-    else if (currentIndex === 0) label = 'Next';
+    else if (get(quest, 'inputs', []).length > 0) {
+      get(quest, 'inputs', []).forEach((item) => {
+        if (get(item, 'validation', null) === null && get(formValue, item.name, null) === null && label !== 'Next') {
+          label = 'Skip';
+        } else {
+          label = 'Next';
+        }
+      })
+    }
     else label = 'Next';
     return label;
   };
