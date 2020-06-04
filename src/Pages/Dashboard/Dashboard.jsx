@@ -266,6 +266,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
+      console.log(changeObj);
       const checkIsValid = Object.keys(changeObj).find(key => typeof changeObj[key] !== 'undefined');
       if (Object.keys(changeObj).length === 0 && !get(notification, 'label', '').toLowerCase().includes('saved')) {
         handleSetScreenNotification({
@@ -394,6 +395,7 @@ const mapStateToProps = (state) => {
     regFields: get(state, 'form.Property.registeredFields', null),
     userTypes: get(state, 'user.userTypes', null),
     initialValues: {
+      changeCountry: get(state, 'property.activeSingleProperty.location.countryCode', {}),
       assessor: get(state, 'property.activeSingleProperty.assessor', {}),
       booking: get(state, 'property.activeSinglePropertyBooking', []),
       documents: get(state, 'property.activeSingleProperty.documents', []),
@@ -406,7 +408,10 @@ const mapStateToProps = (state) => {
       status: get(state, 'property.activeSingleProperty.status', null),
       // language: get(state, 'property.activeSingleProperty.language', null),
       // listed: get(state, 'property.activeSingleProperty.listed', null),
-      location: get(state, 'property.activeSingleProperty.location', {}),
+      location: {
+        ...get(state, 'property.activeSingleProperty.location', {}),
+        searchAddress: get(state, 'property.activeSingleProperty.location.address', {})
+      },
       photos: get(state, 'property.activeSingleProperty.photos', []),
       portals: get(state, 'property.activeSingleProperty.portals', {}),
       portalsReview: get(state, 'property.activeSingleProperty.portalsReview', null),
