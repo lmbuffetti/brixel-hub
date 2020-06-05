@@ -231,7 +231,6 @@ const ListingsDashboard = (props) => {
       {
         getFact() !== 'listings' && (
           <div className={`levelsWrapper zIndex2 w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed': 'opened'}`}>
-            {console.log(getFact())}
             {
               (
                 getFact() === 'showings' ||
