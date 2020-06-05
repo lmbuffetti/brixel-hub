@@ -176,7 +176,7 @@ const checkCommon = (store) => (next) => (action) => {
       api.property.getProperties(action.payload.limit, action.payload.offset)
         .then((res) => {
           if (setAsSingle) {
-            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data[0] });
+            store.dispatch({ type: GET_ACTIVE_SINGLE_PROPERTY, payload: { id: res.data[0].id } });
           } else {
             store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: res.data });
           }
