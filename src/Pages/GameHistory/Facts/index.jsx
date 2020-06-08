@@ -99,7 +99,6 @@ const MarketCheck = (props) => {
       redirectTo: `/${propID}/rewards/${getAchievement()}`,
       ...formValue
     };
-    console.log(calcPercentageFacts('GamingFlow').calcPerc);
     if (calcPercentageFacts('GamingFlow').calcPerc >= 20 ) {
       handleAddGameHistory({stub: 'facts'});
     }

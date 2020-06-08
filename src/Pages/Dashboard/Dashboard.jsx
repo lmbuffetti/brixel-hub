@@ -138,7 +138,6 @@ const Dashboard = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log(activeSingleProperty);
     if (typeof activeSingleProperty !== 'undefined' && activeSingleProperty) {
       if (!propID && get(activeSingleProperty, 'id', null)) {
         history.push(`/${activeSingleProperty.id}/rewards`);
