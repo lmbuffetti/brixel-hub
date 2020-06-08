@@ -276,7 +276,11 @@ const App = (props) => {
     })
   }, []);
 
-  if (!loggedInUser || (!userTypes && property.id) || !isLoaded) {
+  if (
+    !loggedInUser ||
+    (!userTypes && get(property, 'id', null)) ||
+    !isLoaded
+  ) {
     return (
       <Loading isLoading={isLoading} />
     )

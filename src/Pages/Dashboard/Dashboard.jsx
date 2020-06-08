@@ -139,14 +139,14 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     console.log(activeSingleProperty);
-    if (typeof activeSingleProperty !== 'undefined') {
+    if (typeof activeSingleProperty !== 'undefined' && activeSingleProperty) {
       if (!propID && get(activeSingleProperty, 'id', null)) {
         history.push(`/${activeSingleProperty.id}/rewards`);
       }
-      if (activeSingleProperty.owner === loggedInUser.user.id) {
+      if (get(activeSingleProperty, 'owner', null) === loggedInUser.user.id) {
         // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
         handleGetActiveSinglePropertyBookings({ id: propID });
-      } else if (activeSingleProperty.statusCode) {
+      } else if (get(activeSingleProperty, 'statusCode', null)) {
         loadDefaultProperty();
       }
       if (imageType.length === 0) handleGetImageType();
