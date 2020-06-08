@@ -240,7 +240,7 @@ const ListingsDashboard = (props) => {
               )
                 ? (
                   <>
-                    <Route path="/:propId/listings/showings" exact component={Showings} />
+                    <Route path="/:propId/listings/showings" component={Showings} />
                     <Route path="/:propId/listings/page" exact component={Page} />
                     <Route path="/:propId/listings/portals" exact component={Portals} />
                   </>
