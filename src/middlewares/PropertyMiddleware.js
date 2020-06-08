@@ -1,6 +1,5 @@
 /* eslint-disable no-case-declarations */
 import get from 'lodash/get';
-import { reset } from 'redux-form';
 import {
   GET_ESTIMATION,
   SET_ESTIMATION,
@@ -190,9 +189,9 @@ const checkCommon = (store) => (next) => (action) => {
         .catch(() => {
           if (window.location.href.includes('localhost')) {
             if (setAsSingle) {
-              //store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: page });
+              store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: page });
             } else {
-              //store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: properties });
+              store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: properties });
             }
           }
           if (setAsSingle) {

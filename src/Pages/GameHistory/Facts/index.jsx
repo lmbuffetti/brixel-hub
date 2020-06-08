@@ -176,7 +176,7 @@ const MarketCheck = (props) => {
 
   const buttonLabel = () => {
     let label;
-    const inputName = get(quest, 'inputs[0].name', null);
+    //const inputName = get(quest, 'inputs[0].name', null);
     if (currentIndex === questions.length - 1) label = 'Back to Hub';
     else if (questions[currentIndex + 1].toSave) label = 'Finish';
     else if (get(quest, 'inputs', []).length > 0) {

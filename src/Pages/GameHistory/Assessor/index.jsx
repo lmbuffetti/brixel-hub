@@ -26,7 +26,6 @@ const Assessor = (props) => {
     handleSaveActiveSingleProperty,
     history,
     match,
-    reset,
   } = props;
   // STATE
   const [questions, setQuestions] = useState(AssessorQuestions('en'));
