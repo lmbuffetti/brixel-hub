@@ -19,14 +19,13 @@ const BrixelModalAwards = (props) => {
     gameGroup,
     gameHistory,
     handleSetModal,
-    history,
     userTypes,
   } = props;
   // STATE
   const [toDo, setToDo] = useState(0);
   const [done, setDone] = useState(0);
   // PARAMS URL
-  const propID = history.location.pathname.split('/')[1];
+  //const propID = history.location.pathname.split('/')[1];
 
   const onClose = () => {
     handleSetModal({

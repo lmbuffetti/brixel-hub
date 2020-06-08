@@ -138,14 +138,14 @@ const Dashboard = (props) => {
   }, []);
 
   useEffect(() => {
-    if (typeof activeSingleProperty !== 'undefined') {
+    if (typeof activeSingleProperty !== 'undefined' && activeSingleProperty) {
       if (!propID && get(activeSingleProperty, 'id', null)) {
         history.push(`/${activeSingleProperty.id}/rewards`);
       }
-      if (activeSingleProperty.owner === loggedInUser.user.id) {
+      if (get(activeSingleProperty, 'owner', null) === loggedInUser.user.id) {
         // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
         handleGetActiveSinglePropertyBookings({ id: propID });
-      } else if (activeSingleProperty.statusCode) {
+      } else if (get(activeSingleProperty, 'statusCode', null)) {
         loadDefaultProperty();
       }
       if (imageType.length === 0) handleGetImageType();
@@ -266,7 +266,6 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
-      console.log(changeObj);
       const checkIsValid = Object.keys(changeObj).find(key => typeof changeObj[key] !== 'undefined');
       if (Object.keys(changeObj).length === 0 && !get(notification, 'label', '').toLowerCase().includes('saved')) {
         handleSetScreenNotification({

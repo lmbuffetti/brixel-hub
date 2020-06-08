@@ -13,6 +13,7 @@ import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 import { BrixelProgressLineDots } from '@brixel/brixel-components';
+import { calcPercentageFacts } from '../../../utils/helpers';
 
 const MarketCheck = (props) => {
   // PROPS
@@ -23,6 +24,7 @@ const MarketCheck = (props) => {
     gameGroup,
     gameHistory,
     handleSaveActiveSingleProperty,
+    handleAddGameHistory,
     history,
     match,
     reset,
@@ -97,6 +99,9 @@ const MarketCheck = (props) => {
       redirectTo: `/${propID}/rewards/${getAchievement()}`,
       ...formValue
     };
+    if (calcPercentageFacts('GamingFlow').calcPerc >= 20 ) {
+      handleAddGameHistory({stub: 'facts'});
+    }
     handleSaveActiveSingleProperty(data);
   };
 
@@ -171,12 +176,11 @@ const MarketCheck = (props) => {
 
   const buttonLabel = () => {
     let label;
-    const inputName = get(quest, 'inputs[0].name', null);
+    //const inputName = get(quest, 'inputs[0].name', null);
     if (currentIndex === questions.length - 1) label = 'Back to Hub';
     else if (questions[currentIndex + 1].toSave) label = 'Finish';
     else if (get(quest, 'inputs', []).length > 0) {
       get(quest, 'inputs', []).forEach((item) => {
-        console.log(item.name, get(formValue, item.name, null), get(item, 'validation', null), label);
         if (label !== 'Next') {
           if (
             get(formValue, item.name, null) === null
@@ -332,6 +336,7 @@ const mapStateToProps = (state) => ({
   initialValues: {
     id: get(state, 'property.activeSingleProperty.id', null),
     properties: get(state, 'property.activeSingleProperty.properties', null),
+    description: get(state, 'property.activeSingleProperty.description', null),
     price: get(state, 'property.activeSingleProperty.price', null),
     title: get(state, 'property.activeSingleProperty.title', null)
   }
