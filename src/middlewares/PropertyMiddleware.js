@@ -176,7 +176,11 @@ const checkCommon = (store) => (next) => (action) => {
       api.property.getProperties(action.payload.limit, action.payload.offset)
         .then((res) => {
           if (setAsSingle) {
-            store.dispatch({ type: GET_ACTIVE_SINGLE_PROPERTY, payload: { id: res.data[0].id } });
+            if (res.data[0].id) {
+              store.dispatch({ type: GET_ACTIVE_SINGLE_PROPERTY, payload: { id: res.data[0].id } });
+            } else {
+              window.location.href = '/no-property';
+            }
           } else {
             store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: res.data });
           }
@@ -186,10 +190,15 @@ const checkCommon = (store) => (next) => (action) => {
         .catch(() => {
           if (window.location.href.includes('localhost')) {
             if (setAsSingle) {
-              store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: page });
+              //store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: page });
             } else {
-              store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: properties });
+              //store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: properties });
             }
+          }
+          if (setAsSingle) {
+            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: null });
+          } else {
+            store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: [] });
           }
           store.dispatch({ type: SPINNER_OFF });
           if (multiLoader) store.dispatch({ type: SPINNER_OFF });

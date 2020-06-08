@@ -18,6 +18,7 @@ import { sortObject } from '../utils/helpers';
 
 const MenuSidebar = (props) => {
   const {
+    activeSingleProperty,
     windowDimensions,
     formValue,
     history,
@@ -62,7 +63,7 @@ const MenuSidebar = (props) => {
       nav[0].title = `<span>Home</span><span class="numRecords">${numTodo}</span>`;
       setRouteNav([...nav]);
     }
-  }, [gameGroup, gameHistory])
+  }, [gameGroup, gameHistory, activeSingleProperty])
 
   useEffect(() => {
     if (proTitleEl) {

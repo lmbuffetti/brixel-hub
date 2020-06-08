@@ -13,6 +13,7 @@ import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 import { BrixelProgressLineDots } from '@brixel/brixel-components';
+import { calcPercentageFacts } from '../../../utils/helpers';
 
 const MarketCheck = (props) => {
   // PROPS
@@ -23,6 +24,7 @@ const MarketCheck = (props) => {
     gameGroup,
     gameHistory,
     handleSaveActiveSingleProperty,
+    handleAddGameHistory,
     history,
     match,
     reset,
@@ -97,6 +99,10 @@ const MarketCheck = (props) => {
       redirectTo: `/${propID}/rewards/${getAchievement()}`,
       ...formValue
     };
+    console.log(calcPercentageFacts('GamingFlow').calcPerc);
+    if (calcPercentageFacts('GamingFlow').calcPerc >= 20 ) {
+      handleAddGameHistory({stub: 'facts'});
+    }
     handleSaveActiveSingleProperty(data);
   };
 
@@ -331,6 +337,7 @@ const mapStateToProps = (state) => ({
   initialValues: {
     id: get(state, 'property.activeSingleProperty.id', null),
     properties: get(state, 'property.activeSingleProperty.properties', null),
+    description: get(state, 'property.activeSingleProperty.description', null),
     price: get(state, 'property.activeSingleProperty.price', null),
     title: get(state, 'property.activeSingleProperty.title', null)
   }
