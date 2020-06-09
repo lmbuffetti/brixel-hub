@@ -1343,6 +1343,10 @@ export const InputSheets = () => {
           normalize: normalizeData,
         },
         {
+          condition: {
+            name: 'location.countryCode',
+            value: 'PT',
+          },
           component: BrixelInputText,
           className: '',
           label: 'Municipal tax value',
