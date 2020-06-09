@@ -49,8 +49,7 @@ const checkUser = (store) => (next) => (action) => {
           }
           if (!hideLoad) store.dispatch({ type: SPINNER_OFF });
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           if (window.location.href.includes('localhost')) {
             store.dispatch({ type: SET_LOGGED_IN_USER, payload: user });
           }

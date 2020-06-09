@@ -30,6 +30,7 @@ export const ComponentMap =(props) => {
     formName,
     formValue,
     google,
+    init,
     inputLabel,
     lang,
     latitude,
@@ -69,8 +70,9 @@ export const ComponentMap =(props) => {
 
   useEffect(() => {
     const addressSearch = get(formValue, 'location.searchAddress', null);
+    const addressSearchInit = get(init, 'location.searchAddress', null);
     const citySearch = get(formValue, 'location.cityZip', null);
-    if (addressSearch) {
+    if (addressSearch && addressSearch !== addressSearchInit) {
       let fullAddress = `${addressSearch}`;
       if (citySearch) fullAddress = `${citySearch} ${addressSearch}`;
       changeLocation(fullAddress, true, 'address');
@@ -535,6 +537,7 @@ const mapStateToProps = (state, props) => {
     country: get(state, `common.country`, {}),
     formValue: get(state, `form[${formName}].values`, {}),
     formName,
+    init: get(state, `form[${formName}].initial`, {}),
     lang: get(state, 'common.language', 'en'),
     property: get(state, `form[${formName}].values`, {}),
     latitude: get(state, `form.[${formName}].values.location.latitude`, lat),

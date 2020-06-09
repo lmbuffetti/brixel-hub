@@ -30,6 +30,13 @@ const clientConfig = {
     './src/index.jsx',
     //'./src/styles/SCSS/general/main.scss',
   ],
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: devMode,
+    port: 3000,
+    historyApiFallback: true,
+    open: true
+  },
   output: {
     path: BUILD_DIR,
     filename: 'js/[name].bundle.js',
