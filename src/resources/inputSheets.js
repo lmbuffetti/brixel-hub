@@ -94,6 +94,17 @@ export const InputSheets = () => {
         {
           component: BrixelInputText,
           className: '',
+          label: 'What\'s the net gross size of the property?',
+          labelLeft: 'Gross size',
+          placeholder: '120',
+          unit: 'm2',
+          name: 'properties.typology.grossArea.value',
+          type: "number",
+          validation: [Validation.markRequired]
+        },
+        {
+          component: BrixelInputText,
+          className: '',
           label: 'What\'s the net living space of the property?',
           labelLeft: 'Living Space',
           placeholder: '120',
@@ -153,10 +164,33 @@ export const InputSheets = () => {
         },
         {
           component: BrixelInputText,
-          condition: {
-            name: 'properties.propertyType',
-            value: 'House'
-          },
+          conditions: [
+            {
+              name: 'properties.propertyType',
+              value: 'House'
+            },
+          ],
+          className: '',
+          label: 'What\'s the usable lot size?',
+          name: 'properties.typology.lotAreaUsable.value',
+          type: "number",
+          unit: 'm2',
+          labelLeft: 'Usable Lot Size',
+          placeholder: 'e.g. 140',
+          validation: [Validation.markRequired]
+        },
+        {
+          component: BrixelInputText,
+          condition: [
+            {
+              name: 'properties.propertyType',
+              value: 'House'
+            },
+            {
+              name: 'location.countryCode',
+              value: 'CH'
+            }
+          ],
           className: '',
           label: 'What\'s the house\'s volume?',
           unit: 'm3',
@@ -167,10 +201,13 @@ export const InputSheets = () => {
         },
         {
           component: BrixelRadioButton,
-          condition: {
+          condition: [{
             name: 'properties.propertyType',
             value: 'House'
-          },
+          }, {
+            name: 'location.countryCode',
+            value: 'CH'
+          }],
           options: factsOptions.constructedVolumeCode,
           className: '',
           label: 'What\'s the volume standard?',
@@ -233,6 +270,10 @@ export const InputSheets = () => {
         },
         {
           component: BrixelRadioButton,
+          condition: {
+            name: 'location.countryCode',
+            value: 'CH',
+          },
           className: '',
           label: 'Is the property a holiday home?',
           name: 'properties.building.secondaryResidence',
@@ -274,6 +315,10 @@ export const InputSheets = () => {
           }
         },
         {
+          condition: {
+            name: 'location.countryCode',
+            value: 'CH',
+          },
           component: BrixelInputScale,
           className: 'helpLink',
           label: 'In which condition is the property?',
@@ -304,6 +349,14 @@ export const InputSheets = () => {
           label: 'How is the condition of the apartment?',
           name: 'properties.building.apartmentQuality',
           options: factsOptions.quality,
+          validation: [Validation.markRequired]
+        },
+        {
+          component: BrixelCheckbox,
+          className: '',
+          label: 'Is the property a holiday home?',
+          name: 'properties.building.solarOrientarion',
+          options: factsOptions.solarOrientation,
           validation: [Validation.markRequired]
         },
         {
@@ -396,6 +449,10 @@ export const InputSheets = () => {
           name: 'location.zip',
         },*/
         {
+          condition: {
+            name: 'location.countryCode',
+            value: 'CH'
+          },
           component: BrixelInputText,
           className: '',
           label: 'How many people live in your community?',
@@ -406,6 +463,10 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
+          condition: {
+            name: 'location.countryCode',
+            value: 'CH'
+          },
           component: BrixelInputText,
           className: '',
           label: 'What is the basis of taxation in your community?',
@@ -415,6 +476,10 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
+          condition: {
+            name: 'location.countryCode',
+            value: 'CH'
+          },
           component: BrixelInputText,
           className: '',
           label: 'What\'s the altitude of your community?',
@@ -424,6 +489,10 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
+          condition: {
+            name: 'location.countryCode',
+            value: 'CH'
+          },
           component: BrixelInputText,
           className: '',
           label: 'How large is the area of your community?',
@@ -498,6 +567,17 @@ export const InputSheets = () => {
       history: "condition",
       cardType: "condition ",
       inputs: [
+        {
+          condition: {
+            name: 'location.countryCode',
+            value: 'PT',
+          },
+          component: BrixelRadioButton,
+          label: 'Property condition',
+          name: 'properties.building.conditionStatus',
+          options: factsOptions.conditionStatus,
+          validation: [Validation.markRequired]
+        },
         {
           component: BrixelRadioButton,
           className: 'helpLink',
@@ -696,6 +776,17 @@ export const InputSheets = () => {
             name: 'properties.typology.collectiveSpaces',
             value: true,
           },
+          component: BrixelTextArea,
+          className: '',
+          label: 'Describe the existing collective used spaces',
+          name: 'properties.typology.collectiveSpacesDescription',
+          validation: [Validation.markRequired]
+        },
+        {
+          condition: {
+            name: 'properties.typology.collectiveSpaces',
+            value: true,
+          },
           component: BrixelInputText,
           className: '',
           label: 'What\'s the size of collective used spaces?',
@@ -812,10 +903,13 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
-          condition: {
+          condition: [{
             name: 'properties.propertyType',
             value: 'House'
-          },
+          }, {
+            name: 'location.countryCode',
+            value: 'CH'
+          }],
           component: BrixelInputText,
           className: '',
           label: 'What\'s the boiler type?',
@@ -823,10 +917,13 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
-          condition: {
+          condition: [{
             name: 'properties.propertyType',
             value: 'House'
-          },
+          },  {
+            name: 'location.countryCode',
+            value: 'CH'
+          }],
           component: BrixelInputText,
           className: '',
           label: 'What\'s the boiler capacity?',
@@ -842,6 +939,21 @@ export const InputSheets = () => {
           label: 'Is there an air conditioner?',
           name: 'properties.energy.ac',
           options: factsOptions.acOptions,
+          validation: [Validation.markRequired],
+        },
+        {
+          condition: [{
+            name: 'properties.energy.ac',
+            value: true,
+          }, {
+            name: 'location.countryCode',
+            value: 'PT'
+          }],
+          component: BrixelCheckbox,
+          className: '',
+          label: 'Air condition type',
+          name: 'properties.energy.acType',
+          options: factsOptions.acTypes,
           validation: [Validation.markRequired],
         },
         {
@@ -894,6 +1006,18 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
+          condition: {
+            name: 'location.countryCode',
+            value: 'PT',
+          },
+          component: BrixelRadioButton,
+          className: '',
+          label: 'Energy Efficiency certified',
+          name: 'properties.energy.efficiencyCertified',
+          options: factsOptions.energyEfficiencyCertified,
+          validation: [Validation.markRequired],
+        },
+        {
           component: BrixelInputQuality,
           className: '',
           label: 'What\'s the energy efficiency of the property?',
@@ -902,6 +1026,10 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
+          condition: {
+            name: 'location.countryCode',
+            value: 'CH'
+          },
           component: BrixelRadioButton,
           className: '',
           label: 'Is the property Minergie certified?',
@@ -934,6 +1062,10 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
+          condition: {
+            name: 'location.countryCode',
+            value: 'CH'
+          },
           component: BrixelInputText,
           className: '',
           label: 'What\'s the cadaster nr. of the property?',
@@ -943,6 +1075,10 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
+          condition: {
+            name: 'location.countryCode',
+            value: 'CH'
+          },
           component: BrixelInputText,
           className: '',
           label: 'What\'s the property index nr. of the property?',
@@ -981,6 +1117,48 @@ export const InputSheets = () => {
           label: 'Describe the servitudes',
           placeholder: 'Right of way for neighboring plot',
           name: 'properties.building.rightsAndServitudes',
+          validation: [Validation.markRequired],
+        },
+        {
+          condition: {
+            name: 'location.countryCode',
+            value: 'PT',
+          },
+          component: BrixelRadioButton,
+          className: '',
+          options: factsOptions.yesNoOpt,
+          label: 'The property has a rental license (Short Term Rental)?',
+          name: 'properties.building.rentalLicense',
+          validation: [Validation.markRequired],
+        },
+        {
+          condition: [{
+            name: 'location.countryCode',
+            value: 'PT',
+          }, {
+            name: 'properties.building.rentalLicense',
+            value: true,
+          }],
+          component: BrixelRadioButton,
+          className: '',
+          options: factsOptions.yesNoOpt,
+          label: 'The property has inside or outside contention area?',
+          name: 'properties.building.contentionArea',
+          validation: [Validation.markRequired],
+        },
+        {
+          condition: [{
+            name: 'location.countryCode',
+            value: 'PT',
+          }, {
+            name: 'properties.building.rentalLicense',
+            value: true,
+          }],
+          component: BrixelRadioButton,
+          className: '',
+          options: factsOptions.yesNoOpt,
+          label: 'Property has a license managed by an agency?',
+          name: 'properties.building.licenseManagedByAgency',
           validation: [Validation.markRequired],
         },
       ],
@@ -1031,10 +1209,13 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
-          condition: {
+          condition: [{
             name: 'properties.propertyType',
             value: 'Apartment'
-          },
+          }, {
+            name: 'location.countryCode',
+            value: 'CH'
+          }],
           component: BrixelInputText,
           className: '',
           label: 'What\'s the total amount of the renewal funds?',
@@ -1046,10 +1227,13 @@ export const InputSheets = () => {
           unit: get(formValue, 'price.currency', 'CHF'),
         },
         {
-          condition: {
+          condition: [{
             name: 'properties.propertyType',
             value: 'Apartment'
-          },
+          }, {
+            name: 'location.countryCode',
+            value: 'CH'
+          }],
           component: BrixelInputText,
           className: '',
           label: 'What\'s the owner\'s amount of the renewal funds?',
@@ -1061,10 +1245,13 @@ export const InputSheets = () => {
           unit: get(formValue, 'price.currency', 'CHF'),
         },
         {
-          condition: {
+          condition: [{
             name: 'properties.propertyType',
             value: 'Apartment'
-          },
+          }, {
+            name: 'location.countryCode',
+            value: 'CH'
+          }],
           component: BrixelInputText,
           className: '',
           label: 'What\'s the owner\'s share of the co-ownership?',
@@ -1076,10 +1263,13 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
-          condition: {
+          condition: [{
             name: 'properties.propertyType',
             value: 'Apartment'
-          },
+          }, {
+            name: 'location.countryCode',
+            value: 'CH'
+          }],
           component: BrixelInputText,
           className: '',
           label: 'How many condominium owners are there?',
@@ -1144,6 +1334,16 @@ export const InputSheets = () => {
           placeholder: "mm/yyyy (ex.: 01/2020)",
           normalize: normalizeData,
         },
+        {
+          component: BrixelInputText,
+          className: '',
+          label: 'Municipal tax value',
+          placeholder: '1’500',
+          name: 'properties.building.municipalTax',
+          formatType: 'price',
+          validation: [Validation.markRequired],
+          unit: get(formValue, 'price.currency', 'CHF'),
+        },
       ],
     },
     // SECTION: SALES STRATEGY
@@ -1196,6 +1396,10 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
+          condition: {
+            name: 'location.countryCode',
+            value: 'CH',
+          },
           component: BrixelTextArea,
           className: '',
           label: 'How do you want to split the fees?',

@@ -15,6 +15,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const CSSNano = require('cssnano');
 
 // const devMode = false;
+console.log(__dirname);
 const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
 
