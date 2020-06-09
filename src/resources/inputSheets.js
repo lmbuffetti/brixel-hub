@@ -94,7 +94,7 @@ export const InputSheets = () => {
         {
           component: BrixelInputText,
           className: '',
-          label: 'What\'s the net gross size of the property?',
+          label: 'What\'s the gross size of the property?',
           labelLeft: 'Gross size',
           placeholder: '120',
           unit: 'm2',
