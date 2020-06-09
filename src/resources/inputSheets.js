@@ -352,9 +352,13 @@ export const InputSheets = () => {
           validation: [Validation.markRequired]
         },
         {
+          condition: {
+            name: 'location.countryCode',
+            value: 'PT'
+          },
           component: BrixelCheckbox,
           className: '',
-          label: 'Is the property a holiday home?',
+          label: 'What is the solar orientation?',
           name: 'properties.building.solarOrientarion',
           options: factsOptions.solarOrientation,
           validation: [Validation.markRequired]
@@ -1018,6 +1022,10 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
+          condition: {
+            name: 'location.countryCode',
+            value: 'PT',
+          },
           component: BrixelInputQuality,
           className: '',
           label: 'What\'s the energy efficiency of the property?',
