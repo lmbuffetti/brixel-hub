@@ -352,10 +352,6 @@ export const InputSheets = () => {
           validation: [Validation.markRequired]
         },
         {
-          condition: {
-            name: 'location.countryCode',
-            value: 'PT'
-          },
           component: BrixelCheckbox,
           className: '',
           label: 'What is the solar orientation?',
