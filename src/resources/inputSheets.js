@@ -1322,7 +1322,7 @@ export const InputSheets = () => {
           validation: [Validation.markRequired],
         },
         {
-          conditions: [
+          condition: [
             {
               name: 'properties.building.mortgage',
               value: 'fixed'
@@ -1399,6 +1399,18 @@ export const InputSheets = () => {
           label: 'Are there some special selection criteria for the potential buyers?',
           Placeholder: 'Families will be preferred.',
           name: 'properties.salesStrategy.criteriaBuyers',
+          validation: [Validation.markRequired],
+        },
+        {
+          condition: {
+            name: 'location.countryCode',
+            value: 'PT'
+          },
+          component: BrixelRadioButton,
+          className: '',
+          label: 'Property vacant after deed signed',
+          options: factsOptions.yesNoOpt,
+          name: 'properties.salesStrategy.propertyVacantDeed',
           validation: [Validation.markRequired],
         },
         {
