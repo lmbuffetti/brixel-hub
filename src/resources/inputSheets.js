@@ -1305,7 +1305,7 @@ export const InputSheets = () => {
         {
           component: BrixelInputText,
           className: '',
-          label: 'For what price did you buy the property?',
+          label: 'For what price did you bought the property?',
           placeholder: '480’000',
           name: 'properties.building.purchasePrice',
           labelLeft: 'Price',
