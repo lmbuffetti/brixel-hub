@@ -164,12 +164,10 @@ export const InputSheets = () => {
         },
         {
           component: BrixelInputText,
-          conditions: [
-            {
-              name: 'properties.propertyType',
-              value: 'House'
-            },
-          ],
+          condition: {
+            name: 'properties.propertyType',
+            value: 'House'
+          },
           className: '',
           label: 'What\'s the usable lot size?',
           name: 'properties.typology.lotAreaUsable.value',
