@@ -64,51 +64,6 @@ export const ComponentMap =(props) => {
   let typingTimer;                //timer identifier
   const doneTypingInterval = 1500;
 
-  useEffect(() => {
-    setDefCountry(selCountry);
-  }, [selCountry]);
-
-  useEffect(() => {
-    const addressSearch = get(formValue, 'location.searchAddress', null);
-    const addressSearchInit = get(init, 'location.searchAddress', null);
-    const citySearch = get(formValue, 'location.cityZip', null);
-    if (addressSearch && addressSearch !== addressSearchInit) {
-      let fullAddress = `${addressSearch}`;
-      if (citySearch) fullAddress = `${citySearch} ${addressSearch}`;
-      changeLocation(fullAddress, true, 'address');
-    }
-  }, [get(formValue, 'location.searchAddress', null)])
-
-  useEffect(() => {
-    const search = get(formValue, 'location.cityZip', null);
-    if (search) {
-      let fullAddress = `${search}`;
-      changeLocation(fullAddress, true, 'zip');
-    }
-    //setSelectedZip(false);
-  }, [get(formValue, 'location.cityZip', null)])
-
-  useEffect(() => {
-    if (startSearch) {
-      const search = get(formValue, 'location.address', null);
-      const streetName = get(formValue, 'location.name', null);
-      const streetNumber = get(formValue, 'location.streetNumber', null);
-      if (search && streetNumber) {
-        let fullAddress = search.split(',');
-        let newAddress = '';
-        fullAddress.forEach((item, i) => {
-          if (i === 0) {
-            newAddress = `${streetName} ${streetNumber}`;
-          } else {
-            newAddress += `, ${item}`;
-          }
-        })
-        geoCode(newAddress);
-      }
-      setStartSearch(false);
-    }
-  }, [startSearch]);
-
   const changeStreetName = (e) => {
     changeFieldValue(formName, 'location.streetNumber', e);
     setLoclist([]);
@@ -238,6 +193,51 @@ export const ComponentMap =(props) => {
       }
     })
   };
+
+  useEffect(() => {
+    setDefCountry(selCountry);
+  }, [selCountry]);
+
+  useEffect(() => {
+    const addressSearch = get(formValue, 'location.searchAddress', null);
+    const addressSearchInit = get(init, 'location.searchAddress', null);
+    const citySearch = get(formValue, 'location.cityZip', null);
+    if (addressSearch && addressSearch !== addressSearchInit) {
+      let fullAddress = `${addressSearch}`;
+      if (citySearch) fullAddress = `${citySearch} ${addressSearch}`;
+      changeLocation(fullAddress, true, 'address');
+    }
+  }, [get(formValue, 'location.searchAddress', null)])
+
+  useEffect(() => {
+    const search = get(formValue, 'location.cityZip', null);
+    if (search) {
+      let fullAddress = `${search}`;
+      changeLocation(fullAddress, true, 'zip');
+    }
+    //setSelectedZip(false);
+  }, [get(formValue, 'location.cityZip', null)])
+
+  useEffect(() => {
+    if (startSearch) {
+      const search = get(formValue, 'location.address', null);
+      const streetName = get(formValue, 'location.name', null);
+      const streetNumber = get(formValue, 'location.streetNumber', null);
+      if (search && streetNumber) {
+        let fullAddress = search.split(',');
+        let newAddress = '';
+        fullAddress.forEach((item, i) => {
+          if (i === 0) {
+            newAddress = `${streetName} ${streetNumber}`;
+          } else {
+            newAddress += `, ${item}`;
+          }
+        })
+        geoCode(newAddress);
+      }
+      setStartSearch(false);
+    }
+  }, [startSearch]);
 
   const highlight = (container) => {
     const content = container.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");

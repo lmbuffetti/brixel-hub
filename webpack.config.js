@@ -15,10 +15,9 @@ const CopyPlugin = require('copy-webpack-plugin');
 const CSSNano = require('cssnano');
 
 // const devMode = false;
-console.log(__dirname);
 const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
-
+const ASSET_PATH = process.env.ASSET_PATH || '/';
 
 const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
@@ -34,21 +33,27 @@ const clientConfig = {
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: devMode,
-    port: 3000,
+    port: 5000,
     historyApiFallback: true,
     open: true
   },
   output: {
+    publicPath: ASSET_PATH,
     path: BUILD_DIR,
     filename: 'js/[name].bundle.js',
     chunkFilename: 'js/[name].[hash].js',
-    publicPath: '/',
     hotUpdateChunkFilename: 'hot/hot-update.[hash].js',
     hotUpdateMainFilename: 'hot/hot-update.[hash].json',
     globalObject: 'this'
   },
   stats: {
-    all: true,
+    assets: false,
+    chunks: false,
+    modules: false,
+    outputPath: false,
+    publicPath: false,
+    errors: true,
+    warnings: true
   },
   module: {
     rules: [
@@ -96,17 +101,28 @@ const clientConfig = {
       {
         test: /\.jsx?/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: [
-              '@babel/plugin-proposal-class-properties',
-              '@babel/plugin-syntax-dynamic-import',
-              'react-loadable/babel',
-            ],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env', '@babel/preset-react'],
+              plugins: [
+                '@babel/plugin-proposal-class-properties',
+                '@babel/plugin-syntax-dynamic-import',
+                'react-loadable/babel',
+              ],
+            },
           },
-        },
+          {
+            loader: 'eslint-loader',
+            options: {
+              failOnError: false,
+              failOnWarning: false,
+              emitWarning: true,
+              fix: true,
+            },
+          }
+        ],
       },
       {
         test: /\.svg$/,
@@ -170,7 +186,7 @@ const clientConfig = {
     }),
     new CleanWebpackPlugin({
       dry: false,
-      verbose: true,
+      verbose: false,
       cleanOnceBeforeBuildPatterns: ['*', '!manifest.json'],
       dangerouslyAllowCleanPatternsOutsideProject: true,
     }),
@@ -207,7 +223,8 @@ const clientConfig = {
         NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
       },
       'process.env.client': true,
-      'process.env.BROWSER': JSON.stringify(true)
+      'process.env.BROWSER': JSON.stringify(true),
+      'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
     }),
     new WebpackAssetsManifest()
   ],

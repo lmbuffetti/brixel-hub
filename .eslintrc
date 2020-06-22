@@ -38,7 +38,7 @@
     // Legacy
     "max-len": [
       2,
-      280,
+      550,
       4,
       {
         "ignoreComments": true

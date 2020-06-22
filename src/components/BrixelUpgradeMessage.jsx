@@ -139,7 +139,7 @@ const BrixelUpgradeMessage = (props) => {
           </div>
         )
       }
-      </div>
+    </div>
   )
 };
 

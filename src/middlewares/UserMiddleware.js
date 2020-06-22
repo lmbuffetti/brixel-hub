@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import user from '../resources/localData/user.json';
+import {user} from '../resources/localData/user';
 import {
   CHECK_TOKEN,
   CREATE_USER,

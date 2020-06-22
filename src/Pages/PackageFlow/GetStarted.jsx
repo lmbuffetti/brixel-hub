@@ -55,94 +55,6 @@ const GetStarted = (props) => {
   const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
 
-  useEffect(() => {
-    // SET DEFAULT LOCATION FOR DEV
-    if (baseByData.env === 'dev') {
-      /*const location = {
-        type: "stateCode",
-        country: "Schweiz",
-        countryCode: "CH",
-        name: "Ernastrasse",
-        vicinity: "Kreis 4",
-        address: "Ernastrasse, 8004 Zürich, Schweiz",
-        latitude: 47.3807432,
-        longitude: 8.516775800000005,
-        state: "Zürich",
-        stateCode: "ZH",
-        zip: 8004,
-        city: "Zürich",
-      };*/
-      //changeFieldValue('location', location);
-    }
-    // GET GAME GROUP TO POPULATE THE HOMEBASE SCREEN
-    handleGetGamegroup();
-
-    // GET THE COMPANY BY URL OR COOKIE
-    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
-    const companyCookie = cookie.get('brixelStubCompany') || null;
-    if (get(companyByUrl, 'company', companyCookie)) {
-      const defComp = get(companyByUrl, 'company', companyCookie);
-      handleGetActiveSingleCompany({stub: defComp});
-      setCookie('brixelStubCompany', defComp);
-    } else {
-      changeFieldValue('location.countryCode', 'AT');
-    }
-    const getCurrentUrl = last(history.location.pathname.split('/'));
-    if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) history.push(`/packageFlow/getStarted/${questions[0].history}`);
-  }, []);
-
-  useEffect(() => {
-    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')))
-    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex])
-  }, [lang]);
-  // SET THE OWNER PROPERTY IF USER IS LOGGED IN
-  useEffect(() => {
-    if (loggedInUser.user) {
-      changeFieldValue('owner', loggedInUser.user.id);
-      changeFieldValue('signup', false);
-    }
-  }, [loggedInUser]);
-
-  useEffect(() => {
-    if (get(initialValues, 'properties.propertyType', null)) {
-      changeStep();
-    }
-  }, [initialValues])
-
-  useEffect(() => {
-    setIsEnter(true);
-    if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
-      const countryCodeLocation = get(formValue, 'location.countryCode', null);
-      const countryCodeCompany = get(company, 'country.code', null);
-      if (countryCodeCompany !== countryCodeLocation) {
-        let newCountryStub = '';
-        if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
-        if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
-        handleGetActiveSingleCompany({stub: newCountryStub})
-      }
-    }
-  }, [currentIndex]);
-
-  // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
-  /* useEffect(() => {
-    let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
-    let bgSize = 500
-    bgSize = bgSize / roomValue;
-
-    setRoomValue(bgSize+ 'vw');
-
-  }, [get(formValue, 'properties.typology.bedrooms', 2)]); */
-
-  // FUNCTION TO CLOSE
-  const closeWindow = () => {
-    reset('Property');
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      history.push(`/${propID}/rewards`);
-    } else {
-      history.push(`/${propID}/rewards/${getAchievement()}`);
-    }
-  };
-
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     const dataForm = formValue;
@@ -245,6 +157,94 @@ const GetStarted = (props) => {
       }
       const getOnlyQuest = questions.filter(item => item.inputs);
       setProgressBar(defId * 100 / getOnlyQuest.length);
+    }
+  };
+
+  useEffect(() => {
+    // SET DEFAULT LOCATION FOR DEV
+    if (baseByData.env === 'dev') {
+      /*const location = {
+        type: "stateCode",
+        country: "Schweiz",
+        countryCode: "CH",
+        name: "Ernastrasse",
+        vicinity: "Kreis 4",
+        address: "Ernastrasse, 8004 Zürich, Schweiz",
+        latitude: 47.3807432,
+        longitude: 8.516775800000005,
+        state: "Zürich",
+        stateCode: "ZH",
+        zip: 8004,
+        city: "Zürich",
+      };*/
+      //changeFieldValue('location', location);
+    }
+    // GET GAME GROUP TO POPULATE THE HOMEBASE SCREEN
+    handleGetGamegroup();
+
+    // GET THE COMPANY BY URL OR COOKIE
+    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
+    const companyCookie = cookie.get('brixelStubCompany') || null;
+    if (get(companyByUrl, 'company', companyCookie)) {
+      const defComp = get(companyByUrl, 'company', companyCookie);
+      handleGetActiveSingleCompany({stub: defComp});
+      setCookie('brixelStubCompany', defComp);
+    } else {
+      changeFieldValue('location.countryCode', 'AT');
+    }
+    const getCurrentUrl = last(history.location.pathname.split('/'));
+    if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) history.push(`/packageFlow/getStarted/${questions[0].history}`);
+  }, []);
+
+  useEffect(() => {
+    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')))
+    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex])
+  }, [lang]);
+  // SET THE OWNER PROPERTY IF USER IS LOGGED IN
+  useEffect(() => {
+    if (loggedInUser.user) {
+      changeFieldValue('owner', loggedInUser.user.id);
+      changeFieldValue('signup', false);
+    }
+  }, [loggedInUser]);
+
+  useEffect(() => {
+    if (get(initialValues, 'properties.propertyType', null)) {
+      changeStep();
+    }
+  }, [initialValues])
+
+  useEffect(() => {
+    setIsEnter(true);
+    if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
+      const countryCodeLocation = get(formValue, 'location.countryCode', null);
+      const countryCodeCompany = get(company, 'country.code', null);
+      if (countryCodeCompany !== countryCodeLocation) {
+        let newCountryStub = '';
+        if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
+        if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
+        handleGetActiveSingleCompany({stub: newCountryStub})
+      }
+    }
+  }, [currentIndex]);
+
+  // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
+  /* useEffect(() => {
+    let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
+    let bgSize = 500
+    bgSize = bgSize / roomValue;
+
+    setRoomValue(bgSize+ 'vw');
+
+  }, [get(formValue, 'properties.typology.bedrooms', 2)]); */
+
+  // FUNCTION TO CLOSE
+  const closeWindow = () => {
+    reset('Property');
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      history.push(`/${propID}/rewards`);
+    } else {
+      history.push(`/${propID}/rewards/${getAchievement()}`);
     }
   };
 

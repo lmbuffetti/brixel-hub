@@ -133,10 +133,10 @@ function PageHeaderDashboard(props) {
     if (proTitleEl) {
       const titleHeight = proTitleEl.offsetHeight
       if (titleHeight > 42) {
-       proTitleEl.classList.add('longTitle')
+        proTitleEl.classList.add('longTitle')
       }
     }
-   })
+  })
 
   return (
     <>
