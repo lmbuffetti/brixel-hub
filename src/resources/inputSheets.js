@@ -455,7 +455,6 @@ export const InputSheets = () => {
             value: 'CH'
           },
           component: BrixelInputText,
-          disabled: true,
           className: '',
           label: 'How many people live in your community?',
           placeholder: '34’565 (2018)',
