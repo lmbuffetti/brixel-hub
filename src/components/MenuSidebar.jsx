@@ -73,6 +73,24 @@ const MenuSidebar = (props) => {
       }
     }
   });
+  console.log(history);
+
+  const onTabClick = (val, act = 'url') => {
+    if (act === 'state' || val === 'support') {
+      setActiveMenu(val);
+      setSlideIn(true);
+    } else {
+      setActiveMenu(null);
+      history.push(`/${propID}/${val}`)
+    }
+  };
+
+  useEffect(() => {
+    console.log('test', get(history, 'location.state.showSupport', 'no'));
+    if (get(history, 'location.state.showSupport', null) === true) {
+      onTabClick('support')
+    }
+  }, [get(history, 'location.state', null)]);
 
   // CHECK TAB BY URL
   const checkActiveTab = () => {
@@ -85,20 +103,16 @@ const MenuSidebar = (props) => {
     return curTab;
   };
 
-  const onTabClick = (val, act = 'url') => {
-    if (act === 'state' || val === 'support') {
-      setActiveMenu(val);
-      setSlideIn(true);
-    } else {
-      setActiveMenu(null);
-      history.push(`/${propID}/${val}`)
-    }
-  };
+  const onCloseSupport = () => {
+    setActiveMenu(null);
+    setSlideIn(false);
+    history.push({state: null})
+  }
 
   useOutsideAlerter(wrapperRef, {
     action: 'function',
     func: () => {
-      setActiveMenu(null);
+      onCloseSupport();
     },
   });
 
@@ -175,7 +189,7 @@ const MenuSidebar = (props) => {
             <MenuNavigationSubmenu
               windowDimensions={windowDimensions}
               activeMenu={activeMenu}
-              onClose={() => { setSlideIn(false)}}
+              onClose={() => onCloseSupport() }
             />
           </CSSTransition>
         </div>

@@ -413,6 +413,7 @@ export const InputSheets = () => {
         {
           classNameBox: 'max-w-perc-65 pr-1',
           className: 'pos-r zIndex6',
+          disabled: true,
           component: BrixelSelect,
           label: 'Country',
           name: 'location.countryCode',
@@ -422,6 +423,7 @@ export const InputSheets = () => {
         },
         {
           component: Maps,
+          disabled: true,
           label: 'Property address',
           name: 'location',
           type: 'Mappe',
@@ -430,7 +432,8 @@ export const InputSheets = () => {
             hideSearch: false,
             showSelectCountry: true,
             multipleFieldSearch: true,
-            draggable: true
+            draggable: true,
+            showMessageToChangeAddress: true,
           },
           validation: [Validation.required]
         },
@@ -452,6 +455,7 @@ export const InputSheets = () => {
             value: 'CH'
           },
           component: BrixelInputText,
+          disabled: true,
           className: '',
           label: 'How many people live in your community?',
           placeholder: '34’565 (2018)',
