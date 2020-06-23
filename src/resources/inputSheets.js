@@ -3,6 +3,12 @@ import Maps from '../components/Map/Maps';
 import { configureStore } from '../store';
 
 export const InputSheets = () => {
-  if (configureStore) return InputSheetsConfig('hub', configureStore.getState(), Maps);
-  return {};
+  let Input = [];
+  if (configureStore) Input = InputSheetsConfig('hub', configureStore.getState(), Maps);
+  let filteredInput = [];
+  Input.forEach((item, i) => {
+    filteredInput[i] = item;
+    filteredInput[i].inputs = item.inputs.filter(subitem => subitem.hide !== true)
+  });
+  return filteredInput;
 }
