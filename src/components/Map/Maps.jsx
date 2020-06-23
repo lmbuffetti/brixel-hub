@@ -282,6 +282,20 @@ export const ComponentMap =(props) => {
     }
   };
 
+
+  useEffect(()=> {
+    const messageEl = document.getElementsByClassName('message')[0];
+
+    const messageHtml = `Address can not be changed. Please contact <span class="cur-poi txtPrimary400 supportlink" onclick="supportLink()"> Brixel Support </span> to request a change. `
+    if (showMessageToChangeAddress && messageEl) messageEl.innerHTML = messageHtml;
+
+    window.supportLink = () => {
+      history.push({state: {showSupport: true}})
+    };
+
+  })
+
+
   return (
     // Important! Always set the container height explicitly
     <div
@@ -294,8 +308,8 @@ export const ComponentMap =(props) => {
     >
       {
         multipleFieldSearch && (
-          <div className="fieldMapSearch">
-            <div className="dis-f jc-b mb-5 flex-wrap">
+          <div className="fieldMapSearch mb-5">
+            <div className="dis-f jc-b flex-wrap">
               <div className="w-perc-65 pr-1 pos-r">
                 <BrixelInputText
                   className="search-box"
@@ -313,6 +327,7 @@ export const ComponentMap =(props) => {
                   }}
                   onKeyDown={(e) => keyUpInput(e)}
                   onClear={() => disabled ? '' : changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude})}
+                  message={showMessageToChangeAddress ? { help: 'placeholder' } : null}
                 />
                 {
                   !selectedAddress && locList.length > 0 && (
@@ -410,15 +425,15 @@ export const ComponentMap =(props) => {
           </>
         )
       }
-      {
-        showMessageToChangeAddress && (
-          <p className="mt-2 mb-2 body2">
-            <span>Address can not be changed. Please contact</span>
-            <span onClick={() => history.push({state: {showSupport: true}})} className="cur-poi txtPrimary400 mx-1">Brixel Support</span>
-            <span>to request a change.</span>
-          </p>
-        )
-      }
+      {/*  {
+          showMessageToChangeAddress && (
+            <p className="mt-2 mb-2 body2">
+              <span>Address can not be changed. Please contact</span>
+              <span onClick={() => history.push({state: {showSupport: true}})} className="cur-poi txtPrimary400 mx-1">Brixel Support</span>
+              <span>to request a change.</span>
+            </p>
+          )
+        } */}
       <div className={`${showMap ? `${multipleFieldSearch ? 'pos-r' : ''} ${subMinHeight}` : 'hide'} wrapMap ${mapSize}`}>
         {
           (
