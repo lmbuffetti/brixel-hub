@@ -86,7 +86,7 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
   let adjective = aptAdjective;
   let pageTitle;
   let translatedPropertyType = translateTo(lang, propertyType);
-  translatedPropertyType = Transifex.live.translateText(translatedPropertyType);
+  translatedPropertyType = (typeof Transifex !== 'undefined') ? Transifex.live.translateText(translatedPropertyType) : translatedPropertyType;
   if (propertyType === 'House') adjective = houseAdjective;
   if (getCountry === 'PT') {
     const bedrooms = get(formValue, 'properties.typology.bedrooms', null);

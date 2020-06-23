@@ -63,7 +63,7 @@ function PageHeader(props) {
 
   useEffect(() => {
     setCurrentLang(lang);
-    Transifex.live.translateTo(lang);
+    if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
   }, [lang]);
 
   const screenResize = () => {
@@ -85,7 +85,7 @@ function PageHeader(props) {
     e.stopPropagation();
     setCurrentLang(langCode.value);
     handleSetLanguage(langCode.value);
-    Transifex.live.translateTo(langCode.value);
+    if (typeof Transifex !== 'undefined') Transifex.live.translateTo(langCode.value);
     setCookie('brixelLang', langCode.value);
   };
 
