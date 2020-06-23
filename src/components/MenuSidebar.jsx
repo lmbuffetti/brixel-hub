@@ -73,7 +73,6 @@ const MenuSidebar = (props) => {
       }
     }
   });
-  console.log(history);
 
   const onTabClick = (val, act = 'url') => {
     if (act === 'state' || val === 'support') {
@@ -86,7 +85,6 @@ const MenuSidebar = (props) => {
   };
 
   useEffect(() => {
-    console.log('test', get(history, 'location.state.showSupport', 'no'));
     if (get(history, 'location.state.showSupport', null) === true) {
       onTabClick('support')
     }

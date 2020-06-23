@@ -282,8 +282,6 @@ export const ComponentMap =(props) => {
     }
   };
 
-  console.log(props)
-
   return (
     // Important! Always set the container height explicitly
     <div
