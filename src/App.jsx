@@ -146,7 +146,7 @@ const App = (props) => {
   useEffect(() => {
     if (loggedInUser.user) {
       const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
-      Transifex.live.translateTo(lang);
+      if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
       if (lang === 'ch' || lang === 'de') {
         moment.locale('de-ch');
       } else if (lang === 'en' || lang === 'en_US') {
@@ -155,9 +155,11 @@ const App = (props) => {
         moment.locale(lang);
       }
     }
-    Transifex.live.onReady(() => {
-      setIsLoaded(true);
-    });
+    if (typeof Transifex !== 'undefined') {
+      Transifex.live.onReady(() => {
+        setIsLoaded(true);
+      });
+    }
   }, [Transifex, loggedInUser]);
 
   useEffect(() => {

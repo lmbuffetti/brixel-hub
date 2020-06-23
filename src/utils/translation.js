@@ -24,7 +24,7 @@ Object.keys(configLang).map((key) => {
 
 export const translateTo = (lang, word) => {
   let exist = false;
-  if (Transifex && Transifex.live.getAllLanguages()) {
+  if (Transifex && typeof Transifex !== 'undefined' && Transifex.live.getAllLanguages()) {
     const transLang = Transifex.live.getAllLanguages();
     const compareLang = transLang.find(item => item.code === lang);
     exist = typeof compareLang !== 'undefined';
