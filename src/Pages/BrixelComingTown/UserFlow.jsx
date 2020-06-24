@@ -252,8 +252,8 @@ function UserFlow(props) {
       Questions[currentIndex].inputs &&
       Questions[currentIndex].successMessage
       && !emptyValue
-      ) {
-        setIsSuccess(true)
+    ) {
+      setIsSuccess(true)
     } else {
       setIsSuccess(false)
     }

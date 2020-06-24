@@ -18,6 +18,7 @@ import { sortObject } from '../utils/helpers';
 
 const MenuSidebar = (props) => {
   const {
+    activeSingleProperty,
     windowDimensions,
     formValue,
     history,
@@ -62,7 +63,7 @@ const MenuSidebar = (props) => {
       nav[0].title = `<span>Home</span><span class="numRecords">${numTodo}</span>`;
       setRouteNav([...nav]);
     }
-  }, [gameGroup, gameHistory])
+  }, [gameGroup, gameHistory, activeSingleProperty])
 
   useEffect(() => {
     if (proTitleEl) {
@@ -72,6 +73,22 @@ const MenuSidebar = (props) => {
       }
     }
   });
+
+  const onTabClick = (val, act = 'url') => {
+    if (act === 'state' || val === 'support') {
+      setActiveMenu(val);
+      setSlideIn(true);
+    } else {
+      setActiveMenu(null);
+      history.push(`/${propID}/${val}`)
+    }
+  };
+
+  useEffect(() => {
+    if (get(history, 'location.state.showSupport', null) === true) {
+      onTabClick('support')
+    }
+  }, [get(history, 'location.state', null)]);
 
   // CHECK TAB BY URL
   const checkActiveTab = () => {
@@ -84,20 +101,16 @@ const MenuSidebar = (props) => {
     return curTab;
   };
 
-  const onTabClick = (val, act = 'url') => {
-    if (act === 'state' || val === 'support') {
-      setActiveMenu(val);
-      setSlideIn(true);
-    } else {
-      setActiveMenu(null);
-      history.push(`/${propID}/${val}`)
-    }
-  };
+  const onCloseSupport = () => {
+    setActiveMenu(null);
+    setSlideIn(false);
+    history.push({state: null})
+  }
 
   useOutsideAlerter(wrapperRef, {
     action: 'function',
     func: () => {
-      setActiveMenu(null);
+      onCloseSupport();
     },
   });
 
@@ -149,14 +162,14 @@ const MenuSidebar = (props) => {
                 onClick={(val) => onTabClick(val)}
                 showFull={false}
                 vertical={windowDimensions.width > 1024}
-                classNameIcon="fsize-600 fsize-md-400 txtLight300"
-                classNameLabel="fsize-300 txtDark500 dis-f a-c"
+                classNameIcon="fsize-md-400 txtLight600"
+                classNameLabel="fsize-300 txtLight600 dis-f a-c"
               />
             </div>
             <hr className="my-2 mx-1 lighter" />
             <div className="hide dis-b-md pl-3 pr-2 mt-2">
               <BrixelButtonTertiary
-                className="fsize-300 txtLight700 fweight-600 py-0 min-h-fix-30"
+                className="fsize-300 txtLight600 fweight-600 py-0 min-h-fix-30"
                 label="All properties"
                 rightIcon="arrow-right-small"
                 onClick={() => onTabClick('propertyList', 'state')}
@@ -174,7 +187,7 @@ const MenuSidebar = (props) => {
             <MenuNavigationSubmenu
               windowDimensions={windowDimensions}
               activeMenu={activeMenu}
-              onClose={() => { setSlideIn(false)}}
+              onClose={() => onCloseSupport() }
             />
           </CSSTransition>
         </div>

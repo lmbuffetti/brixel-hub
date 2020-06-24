@@ -1,4 +1,4 @@
- /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
@@ -156,10 +156,10 @@ function ResumeMarketCheck(props) {
                         </div>
 
 
-                        <div className="boxMarketCheck w-fit">
+                        <div className="boxMarketCheck w-perc-100">
                           {
                             get(marketData, 'livingSpacesDistribution.median', null) && (
-                              <div className="min-w-fix-144">
+                              <div className="">
                                 <p className="mb-1 body2 fweight-600 txtDark700">Living Sapce</p>
                                 <p><span className="ff-mono txtGreen400 fsize-700">{Math.ceil(marketData.livingSpacesDistribution.median)}</span> <span className="fsize-100 txtDark200">m2</span></p>
                               </div>
@@ -181,9 +181,7 @@ function ResumeMarketCheck(props) {
                                   <span className="ff-mono txtGreen400 fsize-700">
                                     {marketData.daysOnMarketDistribution.median}
                                   </span>
-                                  <span className="fsize-100 txtDark200">
-                                    days
-                                  </span>
+                                  <span className="fsize-100 txtDark200"> days</span>
                                 </p>
                               </div>
                             )

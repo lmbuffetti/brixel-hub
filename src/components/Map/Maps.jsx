@@ -26,15 +26,19 @@ export const ComponentMap =(props) => {
     changeFieldValue,
     country,
     curCountry,
+    disabled,
     draggable,
     formName,
     formValue,
     google,
+    history,
+    init,
     inputLabel,
     lang,
     latitude,
     longitude,
     multipleFieldSearch,
+    showMessageToChangeAddress,
     selCountry,
     showMap,
     showSearchLocation,
@@ -62,50 +66,6 @@ export const ComponentMap =(props) => {
   // TIMER TYPING
   let typingTimer;                //timer identifier
   const doneTypingInterval = 1500;
-
-  useEffect(() => {
-    setDefCountry(selCountry);
-  }, [selCountry]);
-
-  useEffect(() => {
-    const addressSearch = get(formValue, 'location.searchAddress', null);
-    const citySearch = get(formValue, 'location.cityZip', null);
-    if (addressSearch) {
-      let fullAddress = `${addressSearch}`;
-      if (citySearch) fullAddress = `${citySearch} ${addressSearch}`;
-      changeLocation(fullAddress, true, 'address');
-    }
-  }, [get(formValue, 'location.searchAddress', null)])
-
-  useEffect(() => {
-    const search = get(formValue, 'location.cityZip', null);
-    if (search) {
-      let fullAddress = `${search}`;
-      changeLocation(fullAddress, true, 'zip');
-    }
-    //setSelectedZip(false);
-  }, [get(formValue, 'location.cityZip', null)])
-
-  useEffect(() => {
-    if (startSearch) {
-      const search = get(formValue, 'location.address', null);
-      const streetName = get(formValue, 'location.name', null);
-      const streetNumber = get(formValue, 'location.streetNumber', null);
-      if (search && streetNumber) {
-        let fullAddress = search.split(',');
-        let newAddress = '';
-        fullAddress.forEach((item, i) => {
-          if (i === 0) {
-            newAddress = `${streetName} ${streetNumber}`;
-          } else {
-            newAddress += `, ${item}`;
-          }
-        })
-        geoCode(newAddress);
-      }
-      setStartSearch(false);
-    }
-  }, [startSearch]);
 
   const changeStreetName = (e) => {
     changeFieldValue(formName, 'location.streetNumber', e);
@@ -237,6 +197,51 @@ export const ComponentMap =(props) => {
     })
   };
 
+  useEffect(() => {
+    setDefCountry(selCountry);
+  }, [selCountry]);
+
+  useEffect(() => {
+    const addressSearch = get(formValue, 'location.searchAddress', null);
+    const addressSearchInit = get(init, 'location.searchAddress', null);
+    const citySearch = get(formValue, 'location.cityZip', null);
+    if (addressSearch && addressSearch !== addressSearchInit) {
+      let fullAddress = `${addressSearch}`;
+      if (citySearch) fullAddress = `${citySearch} ${addressSearch}`;
+      changeLocation(fullAddress, true, 'address');
+    }
+  }, [get(formValue, 'location.searchAddress', null)])
+
+  useEffect(() => {
+    const search = get(formValue, 'location.cityZip', null);
+    if (search) {
+      let fullAddress = `${search}`;
+      changeLocation(fullAddress, true, 'zip');
+    }
+    //setSelectedZip(false);
+  }, [get(formValue, 'location.cityZip', null)])
+
+  useEffect(() => {
+    if (startSearch) {
+      const search = get(formValue, 'location.address', null);
+      const streetName = get(formValue, 'location.name', null);
+      const streetNumber = get(formValue, 'location.streetNumber', null);
+      if (search && streetNumber) {
+        let fullAddress = search.split(',');
+        let newAddress = '';
+        fullAddress.forEach((item, i) => {
+          if (i === 0) {
+            newAddress = `${streetName} ${streetNumber}`;
+          } else {
+            newAddress += `, ${item}`;
+          }
+        })
+        geoCode(newAddress);
+      }
+      setStartSearch(false);
+    }
+  }, [startSearch]);
+
   const highlight = (container) => {
     const content = container.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     let start = -1;
@@ -256,7 +261,8 @@ export const ComponentMap =(props) => {
     label: `🌍 ${translateTo(lang, 'Everywhere')}`,
     value: '',
   });
-  const classNameDef = !className && showMap ? 'h-fix-400 w-perc-100 dis-fl-col' : className;
+  const classNameDef = !className && showMap ? 'w-perc-100 dis-fl-col' : className;
+  const mapSize = !className && showMap ? 'h-fix-320' : 'h-perc-100';
 
   const keyUpInput = (e) => {
     let newId = selLocAuto;
@@ -276,6 +282,20 @@ export const ComponentMap =(props) => {
     }
   };
 
+
+  useEffect(()=> {
+    const messageEl = document.getElementsByClassName('message')[0];
+
+    const messageHtml = `Address can not be changed. Please contact <span class="cur-poi txtPrimary400 supportlink" onclick="supportLink()"> Brixel Support </span> to request a change. `
+    if (showMessageToChangeAddress && messageEl) messageEl.innerHTML = messageHtml;
+
+    window.supportLink = () => {
+      history.push({state: {showSupport: true}})
+    };
+
+  })
+
+
   return (
     // Important! Always set the container height explicitly
     <div
@@ -288,50 +308,15 @@ export const ComponentMap =(props) => {
     >
       {
         multipleFieldSearch && (
-          <div className="fieldMapSearch">
-            {/*<div className="dis-f jc-b">
-              <div className=" w-perc-100 pr-1 pos-r">
-                <BrixelInputText
-                  className="search-box"
-                  type="text"
-                  ref={inputSearch}
-                  label={'City or zip Code'}
-                  placeholder={translateTo(lang, "")}
-                  input={{
-                    onChange: (e) => changeFieldValue(formName, 'location.cityZip', e),
-                    onBlur: () => '',
-                    onFocus: () => setSelectedZip(false),
-                    value: get(formValue, 'location.cityZip', '') || '',
-                    name: 'location.cityZip',
-                  }}
-                  onKeyDown={(e) => keyUpInput(e)}
-                />
-                {
-                  zipList.length > 0 && !selectedZip && (
-                    <ul className="resultAutoComplete" ref={zipWrapRef}>
-                      {
-                        zipList.map((loc, i) => (
-                          <li
-                            className={i === selLocAuto ? 'active' : ''}
-                            tabIndex={i}
-                            key={i.toString()}
-                            onClick={() => geoCode(loc.description, 'zip')}
-                            dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
-                          />
-                        ))
-                      }
-                    </ul>
-                  )
-                }
-              </div>
-            </div>*/}
-            <div className="dis-f jc-b mb-5">
+          <div className="fieldMapSearch mb-5">
+            <div className="dis-f jc-b flex-wrap">
               <div className="w-perc-65 pr-1 pos-r">
                 <BrixelInputText
                   className="search-box"
                   type="text"
                   ref={inputSearch}
                   label={'Address'}
+                  disabled={disabled}
                   placeholder={translateTo(lang, "Write street name")}
                   input={{
                     onChange: (e) => changeFieldValue(formName, 'location.searchAddress', e),
@@ -341,7 +326,8 @@ export const ComponentMap =(props) => {
                     name: 'location.searchAddress',
                   }}
                   onKeyDown={(e) => keyUpInput(e)}
-                  onClear={() => changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude})}
+                  onClear={() => disabled ? '' : changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude})}
+                  message={showMessageToChangeAddress ? { help: 'placeholder' } : null}
                 />
                 {
                   !selectedAddress && locList.length > 0 && (
@@ -364,6 +350,7 @@ export const ComponentMap =(props) => {
               <div className="w-perc-35 pl-1">
                 <BrixelInputText
                   className="search-box"
+                  disabled={disabled}
                   type="text"
                   ref={inputSearch}
                   label={'Street Number'}
@@ -438,7 +425,16 @@ export const ComponentMap =(props) => {
           </>
         )
       }
-      <div className={`${showMap ? `h-perc-100 ${multipleFieldSearch ? 'pos-r' : ''} ${subMinHeight}` : 'hide'} wrapMap`}>
+      {/*  {
+          showMessageToChangeAddress && (
+            <p className="mt-2 mb-2 body2">
+              <span>Address can not be changed. Please contact</span>
+              <span onClick={() => history.push({state: {showSupport: true}})} className="cur-poi txtPrimary400 mx-1">Brixel Support</span>
+              <span>to request a change.</span>
+            </p>
+          )
+        } */}
+      <div className={`${showMap ? `${multipleFieldSearch ? 'pos-r' : ''} ${subMinHeight}` : 'hide'} wrapMap ${mapSize}`}>
         {
           (
             <Map
@@ -475,6 +471,7 @@ ComponentMap.propTypes = {
   country: PropTypes.arrayOf(PropTypes.object),
   curCountry: PropTypes.object,
   disableZoom: PropTypes.bool,
+  disabled: PropTypes.bool,
   draggable: PropTypes.bool,
   externalControls: PropTypes.bool,
   formName: PropTypes.string,
@@ -490,6 +487,7 @@ ComponentMap.propTypes = {
   match: PropTypes.object.isRequired,
   moveMarker: PropTypes.bool,
   nearBy: PropTypes.bool,
+  showMessageToChangeAddress: PropTypes.bool,
   place: PropTypes.bool,
   property: PropTypes.object.isRequired,
   scrollZoom: PropTypes.bool,
@@ -506,6 +504,7 @@ ComponentMap.defaultProps = {
   className: '',
   curCountry: {},
   disableZoom: false,
+  disabled: false,
   draggable: false,
   externalControls: false,
   formName: '',
@@ -517,6 +516,7 @@ ComponentMap.defaultProps = {
   mapType: 'roadmap',
   moveMarker: false,
   nearBy: false,
+  showMessageToChangeAddress: false,
   showSearchLocation: false,
   showSelectCountry: false,
   scrollZoom: false,
@@ -535,6 +535,7 @@ const mapStateToProps = (state, props) => {
     country: get(state, `common.country`, {}),
     formValue: get(state, `form[${formName}].values`, {}),
     formName,
+    init: get(state, `form[${formName}].initial`, {}),
     lang: get(state, 'common.language', 'en'),
     property: get(state, `form[${formName}].values`, {}),
     latitude: get(state, `form.[${formName}].values.location.latitude`, lat),
