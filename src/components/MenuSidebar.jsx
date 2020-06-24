@@ -162,14 +162,14 @@ const MenuSidebar = (props) => {
                 onClick={(val) => onTabClick(val)}
                 showFull={false}
                 vertical={windowDimensions.width > 1024}
-                classNameIcon="fsize-600 fsize-md-400 txtLight300"
-                classNameLabel="fsize-300 txtDark500 dis-f a-c"
+                classNameIcon="fsize-md-400 txtLight600"
+                classNameLabel="fsize-300 txtLight600 dis-f a-c"
               />
             </div>
             <hr className="my-2 mx-1 lighter" />
             <div className="hide dis-b-md pl-3 pr-2 mt-2">
               <BrixelButtonTertiary
-                className="fsize-300 txtLight700 fweight-600 py-0 min-h-fix-30"
+                className="fsize-300 txtLight600 fweight-600 py-0 min-h-fix-30"
                 label="All properties"
                 rightIcon="arrow-right-small"
                 onClick={() => onTabClick('propertyList', 'state')}
