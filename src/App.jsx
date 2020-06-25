@@ -143,24 +143,24 @@ const App = (props) => {
   const dashWrapperEl = dashWrapperRef.current;
   const dashContentEl = dashContentRef.current;
 
-  // useEffect(() => {
-  //   if (loggedInUser.user) {
-  //     const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
-  //     if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
-  //     if (lang === 'ch' || lang === 'de') {
-  //       moment.locale('de-ch');
-  //     } else if (lang === 'en' || lang === 'en_US') {
-  //       moment.locale('en-gb');
-  //     } else {
-  //       moment.locale(lang);
-  //     }
-  //   }
-  //   if (typeof Transifex !== 'undefined') {
-  //     Transifex.live.onReady(() => {
-  //       setIsLoaded(true);
-  //     });
-  //   }
-  // }, [typeof Transifex !== 'undefined', loggedInUser]);
+  useEffect(() => {
+    if (loggedInUser.user) {
+      const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
+      if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
+      if (lang === 'ch' || lang === 'de') {
+        moment.locale('de-ch');
+      } else if (lang === 'en' || lang === 'en_US') {
+        moment.locale('en-gb');
+      } else {
+        moment.locale(lang);
+      }
+    }
+    if (typeof Transifex !== 'undefined') {
+      Transifex.live.onReady(() => {
+        setIsLoaded(true);
+      });
+    }
+  }, [typeof Transifex !== 'undefined', loggedInUser]);
 
   useEffect(() => {
     if (property && property.id && loggedInUser.user && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
