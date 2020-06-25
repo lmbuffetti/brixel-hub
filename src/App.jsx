@@ -160,7 +160,7 @@ const App = (props) => {
         setIsLoaded(true);
       });
     } else {
-        setIsLoaded(true);
+      setIsLoaded(true);
     }
   }, [Transifex, loggedInUser]);
 
