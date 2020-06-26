@@ -159,6 +159,8 @@ const App = (props) => {
       Transifex.live.onReady(() => {
         setIsLoaded(true);
       });
+    } else {
+      setIsLoaded(true);
     }
   }, [Transifex, loggedInUser]);
 
