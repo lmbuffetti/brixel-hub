@@ -24,19 +24,21 @@ Object.keys(configLang).map((key) => {
 
 export const translateTo = (lang, word) => {
   let exist = false;
-  if (Transifex && typeof Transifex !== 'undefined' && Transifex.live.getAllLanguages()) {
-    const transLang = Transifex.live.getAllLanguages();
-    const compareLang = transLang.find(item => item.code === lang);
-    exist = typeof compareLang !== 'undefined';
-    let translateFile = dynImport['en'];
-    if (!exist) {
-      translateFile = dynImport[lang];
+  if (typeof Transifex !== 'undefined') {
+    if (Transifex && Transifex.live.getAllLanguages()) {
+      const transLang = Transifex.live.getAllLanguages();
+      const compareLang = transLang.find(item => item.code === lang);
+      exist = typeof compareLang !== 'undefined';
     }
-    const translated = word;
-    let translation = get(translateFile, word, word);
-    if (typeof translation !== 'undefined') {
-      return translation || translated;
-    }
+  }
+  let translateFile = dynImport['en'];
+  if (!exist) {
+    translateFile = dynImport[lang];
+  }
+  const translated = word;
+  let translation = get(translateFile, word, word);
+  if (typeof translation !== 'undefined') {
+    return translation || translated;
   }
   return word;
 };

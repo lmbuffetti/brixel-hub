@@ -129,6 +129,7 @@ const App = (props) => {
     windowDimensions,
   } = props;
   // STATE
+  const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   const [isLoaded, setIsLoaded] = useState(false);
   const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
 
@@ -144,7 +145,7 @@ const App = (props) => {
   const dashContentEl = dashContentRef.current;
 
   useEffect(() => {
-    if (loggedInUser.user) {
+    if (loggedInUser.user && localTransifex) {
       const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
       if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
       if (lang === 'ch' || lang === 'de') {
@@ -161,8 +162,10 @@ const App = (props) => {
       });
     } else {
       setIsLoaded(true);
+      const element = document.getElementsByTagName("BODY")[0];
+      element.classList.remove("txlive");
     }
-  }, [Transifex, loggedInUser]);
+  }, [localTransifex, loggedInUser]);
 
   useEffect(() => {
     if (property && property.id && loggedInUser.user && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
