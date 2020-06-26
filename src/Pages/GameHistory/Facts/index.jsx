@@ -121,6 +121,11 @@ const MarketCheck = (props) => {
       setIsEnter(false);
       setQuest(questions[newIndex]);
       setCurrentIndex(newIndex);
+      document.getElementsByClassName('singleStep')[0].scroll({
+        behavior: 'smooth',
+        left: 0,
+        top: 0
+      });
     }
   };
 
