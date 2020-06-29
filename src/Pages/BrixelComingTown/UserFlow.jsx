@@ -412,7 +412,7 @@ function UserFlow(props) {
                                 }
                                 {
                                   get(input, 'help', null) && (
-                                    <p className="body2">{input.help}</p>
+                                    <p className="body2">{get(input, 'help', null)}</p>
                                   )
                                 }
                               </div>
