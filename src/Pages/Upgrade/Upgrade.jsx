@@ -108,7 +108,7 @@ const Upgrade = (props) => {
   const checkValidateField = () => {
     let isValid = true;
     if (questions[currentIndex].inputs) {
-      questions[currentIndex].inputs.map((input) => {
+      questions[currentIndex].inputs.forEach((input, i) => {
         const err = get(errorValue, input.name, null);
         if (input.condition) {
           input.condition.map((item) => {
@@ -120,10 +120,9 @@ const Upgrade = (props) => {
         } else {
           if (err !== true && err !== false && isValid) isValid = false;
         }
-        return null;
       });
     }
-    return !isValid;
+    return isValid;
   };
 
   const buttonLabel = () => {
