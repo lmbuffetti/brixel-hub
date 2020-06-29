@@ -123,7 +123,7 @@ const Upgrade = (props) => {
         return null;
       });
     }
-    return isValid;
+    return !isValid;
   };
 
   const buttonLabel = () => {

@@ -149,7 +149,7 @@ const DetailMedia = (props) => {
                   <img
                     className="max-w-perc-100 shadow-2dp brdRadius w-perc-100"
                     //style={{ transform: `rotate(${rotation}deg)` }}
-                    src={`${baseByData.shortPath}${formValue[mediaType][idImg].path}?${new Date()}`}
+                    src={`${baseByData.shortPath}${formValue[mediaType][idImg].path}??${Math.random().toString(36).slice(2)}`}
                     alt="Edit Media"
                   />
                 )

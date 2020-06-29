@@ -1,6 +1,5 @@
 /* eslint-disable no-case-declarations */
 import get from 'lodash/get';
-import { reset } from 'redux-form';
 import {
   GET_ESTIMATION,
   SET_ESTIMATION,
@@ -37,8 +36,8 @@ import {
   SET_SAVED_SCREEN,
 } from '../actions/types/CommonTypes';
 import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
-import properties from '../resources/localData/properties.json';
-import page from '../resources/localData/page.json';
+import { properties }  from '../resources/localData/properties';
+import { page } from '../resources/localData/page';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -176,7 +175,11 @@ const checkCommon = (store) => (next) => (action) => {
       api.property.getProperties(action.payload.limit, action.payload.offset)
         .then((res) => {
           if (setAsSingle) {
-            store.dispatch({ type: GET_ACTIVE_SINGLE_PROPERTY, payload: { id: res.data[0].id } });
+            if (res.data[0].id) {
+              store.dispatch({ type: GET_ACTIVE_SINGLE_PROPERTY, payload: { id: res.data[0].id } });
+            } else {
+              window.location.href = '/no-property';
+            }
           } else {
             store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: res.data });
           }
@@ -190,6 +193,11 @@ const checkCommon = (store) => (next) => (action) => {
             } else {
               store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: properties });
             }
+          }
+          if (setAsSingle) {
+            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: null });
+          } else {
+            store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: [] });
           }
           store.dispatch({ type: SPINNER_OFF });
           if (multiLoader) store.dispatch({ type: SPINNER_OFF });
@@ -376,26 +384,29 @@ const checkCommon = (store) => (next) => (action) => {
     case GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'booking' });
-      const { id } = action.payload;
+      const { id, redirectTo } = action.payload;
       api.property.getPageVisits(id).then((response) => {
         store.dispatch({
           type: SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
           payload: response.data,
         });
         store.dispatch({ type: SPINNER_SMALL_OFF });
+        if (redirectTo) {
+          store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
+        }
       });
       break;
     }
     case SAVE_PROPERTY_VISIT_BOOKING: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'saveBooking' });
-      const { scheduleId, data } = action.payload;
+      const { scheduleId, data, smallLoader, redirectTo } = action.payload;
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader || 'saveBooking' });
       delete action.payload.id;
       api.property.updatePropertyVisit(scheduleId, data)
         .then(() => {
           store.dispatch({
             type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-            payload: { id: data.page },
+            payload: { id: data.page, smallLoader: smallLoader, redirectTo: redirectTo },
           });
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
@@ -403,13 +414,15 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case CREATE_PROPERTY_VISIT_BOOKING: {
       next(action);
-      const { page } = action.payload;
+      const { page, smallLoader, redirectTo } = action.payload;
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader || 'saveBooking' });
       api.property.createPropertyVisit(action.payload)
         .then(() => {
           store.dispatch({
             type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-            payload: { id: page },
+            payload: { id: page, smallLoader: smallLoader, redirectTo: redirectTo },
           });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }

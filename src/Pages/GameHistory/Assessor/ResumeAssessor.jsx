@@ -9,8 +9,9 @@ import { compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { AssessorAvgLifespan, AssessorLabel } from '../../../resources/Assessor';
 import { BrixelSelect, FactsOptions } from '@brixel/brixel-components';
+// eslint-disable-next-line import/no-cycle
+import { AssessorAvgLifespan, AssessorLabel } from '../../../resources/Assessor';
 import ChartDonuts from '../../../components/Charts/ChartDonuts';
 
 const { factsOptions } = FactsOptions;

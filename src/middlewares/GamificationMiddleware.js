@@ -15,9 +15,9 @@ import {
 } from '../actions/types/UserTypes';
 
 import api from '../controllers/api/config';
-import gameAchievement from '../resources/localData/gameAchievement.json';
-import gameGroup from '../resources/localData/gameGroup.json';
-import gameHistory from '../resources/localData/gameHistory.json';
+import { gameAchievement } from '../resources/localData/gameAchievement';
+import { gameGroup } from '../resources/localData/gameGroup';
+import { gameHistory } from '../resources/localData/gameHistory';
 import { SPINNER_OFF, SPINNER_SMALL_ON, SPINNER_SMALL_OFF } from '../actions/types/CommonTypes';
 
 const checkGamification = (store) => (next) => (action) => {

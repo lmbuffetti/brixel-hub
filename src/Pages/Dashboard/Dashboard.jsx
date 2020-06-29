@@ -138,14 +138,14 @@ const Dashboard = (props) => {
   }, []);
 
   useEffect(() => {
-    if (typeof activeSingleProperty !== 'undefined') {
+    if (typeof activeSingleProperty !== 'undefined' && activeSingleProperty) {
       if (!propID && get(activeSingleProperty, 'id', null)) {
         history.push(`/${activeSingleProperty.id}/rewards`);
       }
-      if (activeSingleProperty.owner === loggedInUser.user.id) {
+      if (get(activeSingleProperty, 'owner', null) === loggedInUser.user.id) {
         // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
         handleGetActiveSinglePropertyBookings({ id: propID });
-      } else if (activeSingleProperty.statusCode) {
+      } else if (get(activeSingleProperty, 'statusCode', null)) {
         loadDefaultProperty();
       }
       if (imageType.length === 0) handleGetImageType();
@@ -371,7 +371,9 @@ const DashboardForm = reduxForm({
 const mapStateToProps = (state) => {
   const properties = get(state, 'property.activeSingleProperty.properties', {});
   set(properties, 'typology.livingArea.unit', 'm2');
+  set(properties, 'typology.grossArea.unit', 'm2');
   set(properties, 'typology.lotArea.unit', 'm2');
+  set(properties, 'typology.lotAreaUsable.unit', 'm2');
   set(properties, 'typology.constructedVolume.unit', 'm3');
   set(properties, 'typology.balconyArea.unit', 'm2');
   set(properties, 'typology.gardenArea.unit', 'm2');

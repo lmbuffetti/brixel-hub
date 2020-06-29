@@ -424,7 +424,7 @@ function OnBoarding(props) {
     if (!disableNextBtn &&
       get(Questions, `[${currentIndex}].inputs`, null) &&
       get(Questions, `[${currentIndex}].successMessage`, null)) {
-        setIsSuccess(true)
+      setIsSuccess(true)
     } else {
       setIsSuccess(false)
     }
@@ -469,7 +469,7 @@ function OnBoarding(props) {
             className="multiStepSlides "
             style={
               {transform: `translate(-${position * 100}%, 0)`,
-              height: windowDimensions.height - calcFlowContentHeight()}
+                height: windowDimensions.height - calcFlowContentHeight()}
             }
           >
             {

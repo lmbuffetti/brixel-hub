@@ -57,6 +57,7 @@ const Showings = (props) => {
         language: lang,
       },
       message: formValue.userMessage,
+      redirectTo: `/${propID}/listings/showings`,
     };
     handleCreatePropertyVisitBooking(data);
   };
@@ -97,7 +98,7 @@ const Showings = (props) => {
         <div className="mb-3">
           <div>
             <ReduxField
-              form="Property"
+              form="Showings"
               input={{
                 name: "name",
                 type: "text",
@@ -122,7 +123,7 @@ const Showings = (props) => {
               }}
             />
             <ReduxField
-              form="Property"
+              form="Showings"
               input={{
                 name: "email",
                 type: "email",
@@ -147,7 +148,7 @@ const Showings = (props) => {
               }}
             />
             <ReduxField
-              form="Property"
+              form="Showings"
               design={{
                 className: 'mt-2'
               }}
@@ -195,7 +196,7 @@ const Showings = (props) => {
             saturation={400}
             rounded
             onClick={() => saveData()}
-            isLoading={isSmallLoading === 'addBooking'}
+            isLoading={isSmallLoading === 'addBooking' || isSmallLoading === 'booking'}
             disabled={!checkValidField()}
           />
         </div>
@@ -234,7 +235,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
-    dispatch(change('Property', field, value));
+    dispatch(change('Showings', field, value));
   },
   reset(form) {
     (dispatch(reset(form)))

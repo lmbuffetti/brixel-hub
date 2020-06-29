@@ -3,16 +3,24 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import EmptyHubImg from '../../images/emptyHub.svg';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 
 const EmptyProperty = (props) => {
   // PROPS
   const {
-    history
+    handleGetActiveSingleCompany,
+    history,
+
   } = props;
 
   useEffect(() => {
-    history.push('/no-property')
-  }, [])
+    history.push('/no-property');
+    handleGetActiveSingleCompany({stub: 'brixel_zurich'})
+  }, []);
+
+
 
   return (
     <div className="bgWhite brdRadius ta-c p-3 p-md-5 shadow-1dp">
@@ -31,7 +39,12 @@ const EmptyProperty = (props) => {
 };
 
 EmptyProperty.propTypes = {
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired
 };
 
-export default EmptyProperty;
+const mapDispatchToProps = (dispatch) => ({
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+})
+
+export default connect(null, mapDispatchToProps)(EmptyProperty);
