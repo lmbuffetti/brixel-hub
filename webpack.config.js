@@ -254,30 +254,13 @@ const clientConfig = {
       automaticNameDelimiter: '~',
       automaticNameMaxLength: 30,
       name: true,
-      cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true,
-        },
-        styles: {
-          name: 'styles',
-          test: /\.scss$/,
-          chunks: 'all',
-          enforce: true,
-        },
-      },
     },
     removeAvailableModules: !devMode,
     noEmitOnErrors: !devMode,
     checkWasmTypes: false,
     minimizer: [
       new TerserPlugin({
-        cache: !devMode,
+        cache: false,
         parallel: true,
         sourceMap: devMode,
       }),
