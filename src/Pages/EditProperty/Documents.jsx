@@ -172,9 +172,9 @@ const Documents = (props) => {
                         <li
                           key={i.toString()}
                           data-id={JSON.stringify(doc)}
-                          className={`single-document dis-fl-row a-c jc-b pb-1 pt-1 ${editDocument.active ? 'hand' : 'handle'}`}
+                          className={`single-document dis-fl-row a-c jc-b pb-1 pt-1`}
                         >
-                          <div className="name dis-fl-row a-c w-perc-100 pr-1">
+                          <div className={`name dis-fl-row a-c w-perc-100 pr-1 ${editDocument.active ? 'hand' : 'handle'}`}>
 
                             <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
                               <BrixelIcon
