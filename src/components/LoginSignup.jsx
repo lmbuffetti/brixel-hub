@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { translateTo } from '../utils/translation';
 import { change } from 'redux-form';
-import { BrixelCheckbox, BrixelInputText, Validation, ReduxField } from '@brixel/brixel-components';
+import { BrixelCheckbox, BrixelInputText, Validation, ReduxField, BrixelButtonPrimary } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -33,6 +33,16 @@ const LoginSignup = (props) => {
     changeFieldValue(formName, 'signupScreen', loginPage ? 'login' : 'register');
     onChangeLogin(loginPage)
   }, [loginPage]);
+
+  const generatePassword = () => {
+    const length = 8;
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let retVal = "";
+    for (let i = 0, n = charset.length; i < length; ++i) {
+      retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    changeFieldValue(formName, 'profile.password', retVal);
+  }
 
   if (!formValue) {
     return (
@@ -134,7 +144,7 @@ const LoginSignup = (props) => {
                 form={formName}
                 component={BrixelInputText}
                 meta={{
-                  dirty: (showErrors || formValue.email),
+                  dirty: (showErrors || get(formValue, 'profile.email', false)),
                   invalid: get(errorValue, 'firstName', true) !== true,
                   message: {
                     error: translateTo(lang, "Please insert a valid email")
@@ -157,8 +167,8 @@ const LoginSignup = (props) => {
                 }}
                 component={BrixelInputText}
                 meta={{
-                  dirty: (showErrors || formValue.lastName),
-                  invalid: (showErrors || formValue.lastName) && errorValue.lastName !== true,
+                  dirty: (showErrors || get(formValue, 'profile.lastName', false)),
+                  invalid: (showErrors || get(formValue, 'profile.lastName', false)) && errorValue.lastName !== true,
                   message: {
                     error: translateTo(lang, "Please insert a valid last name")
                   },
@@ -183,8 +193,8 @@ const LoginSignup = (props) => {
               }}
               component={BrixelInputText}
               meta={{
-                dirty: (showErrors || formValue.email),
-                invalid: (showErrors || formValue.email) && errorValue.email !== true,
+                dirty: (showErrors || get(formValue, 'profile.email', false)),
+                invalid: (showErrors || get(formValue, 'profile.email', false)) && errorValue.profile.email !== true,
                 message: {
                   error: translateTo(lang, "Please insert a valid email")
                 },
@@ -208,6 +218,40 @@ const LoginSignup = (props) => {
               }}
               component={BrixelInputText}
             />
+            <div className="dis-f a-t jc-b">
+              <ReduxField
+                input={{
+                  name: "profile.password",
+                  placeholder: "",
+                  type: "password",
+                  validate: [Validation.minLength(5), Validation.required],
+                }}
+                inputFormat={{
+                  min: 5,
+                }}
+                labels={{
+                  label: translateTo(lang, "Password"),
+                }}
+                design={{
+                  className: "mt-2 w-perc-100 mr-2",
+                  showStrongPassword: true,
+                }}
+                form={formName}
+                component={BrixelInputText}
+                meta={{
+                  dirty: (showErrors || get(formValue, 'profile.password', false)),
+                  invalid: get(errorValue, 'profile.password', true) !== true,
+                  message: {
+                    error: translateTo(lang, "Please insert a valid password")
+                  },
+                }}
+              />
+              <BrixelButtonPrimary
+                onClick={() => generatePassword()}
+                className="mt-7"
+                label="Generate"
+              />
+            </div>
             <div className="mt-2">
               <ReduxField
                 form={formName}
