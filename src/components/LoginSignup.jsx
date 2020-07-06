@@ -25,6 +25,7 @@ const LoginSignup = (props) => {
   } = props;
   // STATE
   const [loginPage, setLoginPage] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (typeof loggedInUser.token === 'undefined') {
@@ -35,13 +36,14 @@ const LoginSignup = (props) => {
   }, [loginPage]);
 
   const generatePassword = () => {
-    const length = 8;
-    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const length = 10;
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@£$%^&*()";
     let retVal = "";
     for (let i = 0, n = charset.length; i < length; ++i) {
       retVal += charset.charAt(Math.floor(Math.random() * n));
     }
     changeFieldValue(formName, 'profile.password', retVal);
+    setShowPassword(true);
   }
 
   if (!formValue) {
@@ -235,6 +237,7 @@ const LoginSignup = (props) => {
                 design={{
                   className: "mt-2 w-perc-100 mr-2",
                   showStrongPassword: true,
+                  showPassword: showPassword,
                 }}
                 form={formName}
                 component={BrixelInputText}
