@@ -40,6 +40,22 @@ export const QuestionsList = (lang, country = 'CH') => {
   const countryList = get(configureStore.getState(), 'common.country', []);
   return [
     {
+      conditions: [{
+        name: 'owner',
+        value: null,
+      }],
+      component: LoginSignup,
+      signupTitle: translateTo(lang, "Create your profile to save your progress."),
+      loginTitle: translateTo(lang, "Login to your profile to save your progress."),
+      history: "createProfile",
+      cardType: 'createProfile',
+      inputs: [{
+        component: LoginSignup,
+        name: 'profile',
+        validation: [Validation.required],
+      }],
+    },
+    {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
       title: translateTo(lang, "What type of property do you have?"),
       history: "propertyType",
@@ -181,22 +197,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       background: 'bgPrimary100',
       img: Cat,
     },
-    {
-      conditions: [{
-        name: 'owner',
-        value: null,
-      }],
-      component: LoginSignup,
-      signupTitle: translateTo(lang, "Create your profile to save your progress."),
-      loginTitle: translateTo(lang, "Login to your profile to save your progress."),
-      history: "createProfile",
-      cardType: 'createProfile',
-      inputs: [{
-        component: LoginSignup,
-        name: 'profile',
-        validation: [Validation.required],
-      }],
-    },
+
     {
       history: "savingData",
       cardType: 'createProfile',
