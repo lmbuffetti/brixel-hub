@@ -312,17 +312,20 @@ const GetStarted = (props) => {
           });
         } else if (input.validation) {
           //const getRegField = get(registeredFields
+          let field;
           if (input.name === 'profile') {
             const page = get(formValue, 'signupScreen', null);
-            let field = ['register.email', 'register.firstName', 'register.lastName', 'register.privacy'];
+            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
             if (page === 'login') {
               field = ['login.email', 'login.password'];
             }
             field.forEach((item) => {
-              const err = get(errorValue, item, null);
+              const err = get(errorValue, item, true);
+              console.log(err);
               if (err !== true && err !== false && isValid) isValid = false;
             })
           } else if (err !== true && err !== false && isValid) isValid = false;
+          console.log(isValid, field, input.name);
         }
       });
     }
