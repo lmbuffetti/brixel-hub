@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { translateTo } from '../utils/translation';
 import { change } from 'redux-form';
-import { BrixelCheckbox, BrixelInputText, Validation, ReduxField, BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelLogin, BrixelRegister } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -18,14 +18,11 @@ const LoginSignup = (props) => {
     formName,
     formValue,
     onChangeLogin,
-    errorValue,
     lang,
     loggedInUser,
-    showErrors,
   } = props;
   // STATE
   const [loginPage, setLoginPage] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (typeof loggedInUser.token === 'undefined') {
@@ -34,17 +31,6 @@ const LoginSignup = (props) => {
     changeFieldValue(formName, 'signupScreen', loginPage ? 'login' : 'register');
     onChangeLogin(loginPage)
   }, [loginPage]);
-
-  const generatePassword = () => {
-    const length = 12;
-    const charset = "abcdefghijklmnopqrstuvwxyz!@£$%^&*()-_+?><0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@£$%^&*()-_+?><";
-    let retVal = "";
-    for (let i = 0, n = charset.length; i < length; ++i) {
-      retVal += charset.charAt(Math.floor(Math.random() * n));
-    }
-    changeFieldValue(formName, 'profile.password', retVal);
-    setShowPassword(true);
-  }
 
   if (!formValue) {
     return (
@@ -63,52 +49,7 @@ const LoginSignup = (props) => {
                 {translateTo(lang, "You don't have a profile?")}
               </span>
             </p>
-            <ReduxField
-              input={{
-                name: "profile.email",
-                placeholder: "",
-                type: "email",
-                validate: [Validation.isEmail, Validation.required],
-              }}
-              labels={{
-                label: translateTo(lang, "Email address"),
-              }}
-              design={{
-                className: "mt-2",
-              }}
-              form={formName}
-              component={BrixelInputText}
-              meta={{
-                dirty: (showErrors || formValue.email),
-                invalid: get(errorValue, 'email', true) !== true,
-                message: {
-                  error: translateTo(lang, "Please insert a valid email")
-                },
-              }}
-            />
-            <ReduxField
-              input={{
-                name: "profile.password",
-                placeholder: "",
-                type: "password",
-                validate: [Validation.required],
-              }}
-              labels={{
-                label: translateTo(lang, "Password"),
-              }}
-              design={{
-                className: "mt-2",
-              }}
-              form={formName}
-              component={BrixelInputText}
-              meta={{
-                dirty: (showErrors || formValue.password),
-                invalid: get(errorValue, 'password', true) !== true,
-                message: {
-                  error: translateTo(lang, "Please insert a valid password")
-                },
-              }}
-            />
+            <BrixelLogin company={company} formName="GetStarted" />
             <p className="mt-1">
               <a
                 className="txtPrimary400 cur-poi"
@@ -119,7 +60,6 @@ const LoginSignup = (props) => {
                 {translateTo(lang, "Forgot password?")}
               </a>
             </p>
-
           </>
         ) : (
           <>
@@ -129,158 +69,7 @@ const LoginSignup = (props) => {
                 {translateTo(lang, "You already have a profile?")}
               </span>
             </p>
-            <div className="dis-f">
-              <ReduxField
-                input={{
-                  name: "profile.firstName",
-                  placeholder: "",
-                  type: "text",
-                  validate: [Validation.required],
-                }}
-                labels={{
-                  label: translateTo(lang, "First name"),
-                }}
-                design={{
-                  className: "mt-2 w-perc-100 mr-1"
-                }}
-                form={formName}
-                component={BrixelInputText}
-                meta={{
-                  dirty: (showErrors || get(formValue, 'profile.email', false)),
-                  invalid: get(errorValue, 'firstName', true) !== true,
-                  message: {
-                    error: translateTo(lang, "Please insert a valid email")
-                  },
-                }}
-              />
-              <ReduxField
-                form={formName}
-                design={{
-                  className: "mt-2 w-perc-100 ml-1"
-                }}
-                input={{
-                  name: "profile.lastName",
-                  placeholder: "",
-                  type: "text",
-                  validate: [Validation.required],
-                }}
-                labels={{
-                  label: translateTo(lang, "Last name"),
-                }}
-                component={BrixelInputText}
-                meta={{
-                  dirty: (showErrors || get(formValue, 'profile.lastName', false)),
-                  invalid: (showErrors || get(formValue, 'profile.lastName', false)) && errorValue.lastName !== true,
-                  message: {
-                    error: translateTo(lang, "Please insert a valid last name")
-                  },
-                }}
-              />
-            </div>
-            <ReduxField
-              form={formName}
-              design={{
-                className: "mt-2",
-
-              }}
-              input={{
-                name: "profile.email",
-                type: "email",
-                placeholder: "",
-                validate: [Validation.isEmail, Validation.required],
-              }}
-              labels={{
-                label: translateTo(lang, "Email address")
-
-              }}
-              component={BrixelInputText}
-              meta={{
-                dirty: (showErrors || get(formValue, 'profile.email', false)),
-                invalid: (showErrors || get(formValue, 'profile.email', false)) && errorValue.profile.email !== true,
-                message: {
-                  error: translateTo(lang, "Please insert a valid email")
-                },
-              }}
-            />
-            <ReduxField
-              form={formName}
-              design={{
-                className: "mt-2",
-              }}
-              input={{
-                name: "profile.phone",
-                placeholder: "",
-                type: "text",
-              }}
-              inputFormat={{
-                formatType: 'tel'
-              }}
-              labels={{
-                label: translateTo(lang, "Phone number"),
-              }}
-              component={BrixelInputText}
-            />
-            <div className="dis-f a-t jc-b">
-              <ReduxField
-                input={{
-                  name: "profile.password",
-                  placeholder: "",
-                  type: "password",
-                  validate: [Validation.minLength(5), Validation.required],
-                }}
-                inputFormat={{
-                  min: 5,
-                }}
-                labels={{
-                  label: translateTo(lang, "Password"),
-                }}
-                design={{
-                  className: "mt-2 w-perc-100 mr-2",
-                  showStrongPassword: true,
-                  showPassword: showPassword,
-                }}
-                form={formName}
-                component={BrixelInputText}
-                meta={{
-                  dirty: (showErrors || get(formValue, 'profile.password', false)),
-                  invalid: get(errorValue, 'profile.password', true) !== true,
-                  message: {
-                    error: translateTo(lang, "Please insert a valid password")
-                  },
-                }}
-              />
-              <BrixelButtonPrimary
-                onClick={() => generatePassword()}
-                className="mt-7"
-                label="Generate"
-              />
-            </div>
-            <div className="mt-2">
-              <ReduxField
-                form={formName}
-                component={BrixelCheckbox}
-                design={{
-                  className: "body2 w-perc-100 max-w-perc-100"
-                }}
-                input={{
-                  name: "privacy",
-                  options: [
-                    {
-                      label: translateTo(lang, `I hereby confirm that I have read, understand and accept the <a href="${get(company, 'links.terms', '')}" target="_blank">terms</a> and <a href="${get(company, 'links.privacy', '')}" target="_blank">privacy policy</a> of Brixel.`),
-                      value: 'privacy'
-                    }
-                  ],
-                  validate: [Validation.required],
-                }}
-                meta={{
-                  dirty: (showErrors || formValue.privacy),
-                  invalid: (showErrors || formValue.privacy) && errorValue.privacy !== true,
-                  message: {
-                    error: translateTo(lang, "Please accept terms and privacy policy")
-                  }
-                }}
-              />
-            </div>
+            <BrixelRegister company={company} formName="GetStarted" />
           </>
         )
       }

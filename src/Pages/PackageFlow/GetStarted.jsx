@@ -58,8 +58,9 @@ const GetStarted = (props) => {
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     const dataForm = formValue;
-    const { profile, company } = dataForm;
-    delete dataForm.profile;
+    const { login, register, company } = dataForm;
+    delete dataForm.login;
+    delete dataForm.register;
     delete dataForm.company;
     const data = {
       ...dataForm,
@@ -84,14 +85,14 @@ const GetStarted = (props) => {
       await handleCreateActiveSingleProperty(data);
     } else if (page === 'login') {
       data.user = {
-        username: profile.email,
-        password: profile.password,
+        username: login.email,
+        password: login.password,
       };
       await handleDoLogin(data);
     } else {
       data.user = {
-        ...profile,
-        name: `${profile.firstName} ${profile.lastName}`,
+        ...register,
+        name: `${register.firstName} ${register.lastName}`,
         userType: 'seller',
         signupAccept: true,
         signupChannel: get(formValue, 'channel', 'default'),
@@ -313,9 +314,9 @@ const GetStarted = (props) => {
           //const getRegField = get(registeredFields
           if (input.name === 'profile') {
             const page = get(formValue, 'signupScreen', null);
-            let field = ['profile.email', 'profile.firstName', 'profile.lastName', 'privacy'];
+            let field = ['register.email', 'register.firstName', 'register.lastName', 'register.privacy'];
             if (page === 'login') {
-              field = ['profile.email', 'profile.password'];
+              field = ['login.email', 'login.password'];
             }
             field.forEach((item) => {
               const err = get(errorValue, item, null);
