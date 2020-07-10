@@ -68,6 +68,23 @@ export const QuestionsList = (lang, country = 'CH') => {
       successMessage: translateTo(lang, 'Ok. Got it.')
     },
     {
+      conditions: [{
+        name: 'owner',
+        value: null,
+      }],
+      history: "createProfile",
+      component: LoginSignup,
+      signupTitle: translateTo(lang, "Create your profile to save your progress."),
+      loginTitle: translateTo(lang, "Login to your profile to save your progress."),
+      effect: 'slideUp',
+      cardType: 'createProfile',
+      inputs: [{
+        component: LoginSignup,
+        name: 'profile',
+        validation: [Validation.required],
+      }],
+    },
+    {
       title: translateTo(lang, "How many rooms?"),
       history: "allRooms",
       cardType: "allRooms",
@@ -166,22 +183,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: 'loadComponent',
       component: ResumeCard,
       background: 'bgRed100',
-    },
-    {
-      conditions: [{
-        name: 'owner',
-        value: null,
-      }],
-      component: LoginSignup,
-      signupTitle: translateTo(lang, "Create your profile to save your progress."),
-      loginTitle: translateTo(lang, "Login to your profile to save your progress."),
-      history: "createProfile",
-      cardType: 'createProfile',
-      inputs: [{
-        component: LoginSignup,
-        name: 'profile',
-        validation: [Validation.required],
-      }],
     },
     {
       history: "savingData",

@@ -371,12 +371,43 @@ const GetStarted = (props) => {
         >
           <div className="multiStepSlides">
             <div
-              className={`singleStep jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
+              className={`singleStep jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter'}`}
             >
               <div className="subcontainer m-a">
                 {
+                  quest.effect === 'slideUp' && (
+                    <>
+                      {
+                        questions[currentIndex - 1] && questions[currentIndex -1].inputs && (
+                          <div id={`step-${currentIndex}`} className="dis-f flex-wrap activeQuestBack">
+                            {
+                              questions[currentIndex -1].titleGreen && (
+                                <h3 className="txtGreen400 w-perc-100">{questions[currentIndex -1].titleGreen}</h3>
+                              )
+                            }
+                            <h3 className={`${questions[currentIndex -1].subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{questions[currentIndex -1].title}</h3>
+                            {
+                              questions[currentIndex -1].subtitle && (
+                                <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex -1].subtitle }}/>)
+                            }
+                            <MultiFileldsReduxForm
+                              form="GetStarted"
+                              disableNextBtn={false}
+                              formValue={formValue}
+                              inputs={questions[currentIndex -1].inputs}
+                              onClick={() => changeStep()}
+                              onClickDisabled={!checkValidateField()}
+                              showSendButton={true}
+                            />
+                          </div>
+                        )
+                      }
+                    </>
+                  )
+                }
+                {
                   quest.inputs && (
-                    <div id={`step-${currentIndex}`} className="dis-f flex-wrap">
+                    <div id={`step-${currentIndex}${quest.effect === 'slideUp' ? 'slideUp' : ''}`} className={`dis-f flex-wrap ${quest.effect === 'slideUp' ? 'slideUp' : ''} ${isEnter ? 'slide-enter-down' : ''}`}>
                       {
                         quest.titleGreen && (
                           <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
