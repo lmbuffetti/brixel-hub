@@ -321,11 +321,9 @@ const GetStarted = (props) => {
             }
             field.forEach((item) => {
               const err = get(errorValue, item, true);
-              console.log(err);
               if (err !== true && err !== false && isValid) isValid = false;
             })
           } else if (err !== true && err !== false && isValid) isValid = false;
-          console.log(isValid, field, input.name);
         }
       });
     }
