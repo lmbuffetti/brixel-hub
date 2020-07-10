@@ -128,7 +128,9 @@ export const ComponentMap =(props) => {
         lat: latitude,
         lng: longitude,
       };
-      if (isDefView) optMap.setZoom(6);
+      console.log(latitude, longitude);
+      if (latitude === 44.82 && longitude === 4.31) optMap.setZoom(4)
+      else if (isDefView) optMap.setZoom(6);
       else optMap.setZoom(14);
       optMap.panTo(center);
     }
@@ -272,6 +274,7 @@ export const ComponentMap =(props) => {
                 height: props.showMap ? '100%' : '0px',
               }}
               onClick={() => setShowInfoWindow(false)}
+              onDragend={(data) => console.log(optMap, data)}
             >
               {
                 !isDefView && (

@@ -191,7 +191,7 @@ const GetStarted = (props) => {
       handleGetActiveSingleCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);
     } else {
-      changeFieldValue('location.countryCode', 'AT');
+      changeFieldValue('location.countryCode', 'all');
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) history.push(`/packageFlow/getStarted/${questions[0].history}`);
@@ -218,8 +218,8 @@ const GetStarted = (props) => {
   useEffect(() => {
     setIsEnter(true);
     if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
-      const countryCodeLocation = get(formValue, 'location.countryCode', null);
-      const countryCodeCompany = get(company, 'country.code', null);
+      const countryCodeLocation = get(formValue, 'location.countryCode', '');
+      const countryCodeCompany = get(company, 'country.code', '');
       if (countryCodeCompany !== countryCodeLocation) {
         let newCountryStub = '';
         if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
