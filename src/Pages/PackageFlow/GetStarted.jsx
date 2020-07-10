@@ -46,8 +46,8 @@ const GetStarted = (props) => {
   // STATE
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
   const [progressBar, setProgressBar] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [currentIndex, setCurrentIndex] = useState(1);
+  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[1]);
   const [isEnter, setIsEnter] = useState(true);
   const [lastID, setLastID] = useState(0);
   //const [roomValue, setRoomValue] = useState('');
@@ -359,10 +359,10 @@ const GetStarted = (props) => {
       <div
         className="bodyModal"
         // disabled for this release
-        /* style={{
+        style={{
           backgroundImage: `url(${quest.bgImg})`,
-          backgroundSize: roomValue
-        }} */
+          //backgroundSize: roomValue
+        }}
       >
         <form
           id="multiStepForm"
@@ -424,6 +424,7 @@ const GetStarted = (props) => {
                         formValue={formValue}
                         inputs={quest.inputs}
                         onClick={() => changeStep()}
+                        onCloseGoBack={() => changeStep('back')}
                         onClickDisabled={!checkValidateField()}
                         showSendButton={true}
                       />
