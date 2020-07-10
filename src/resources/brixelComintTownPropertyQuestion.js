@@ -1,14 +1,20 @@
 import { BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, BrixelSelect, Validation } from '@brixel/brixel-components';
-import Cat from '../images/BrxielComingTown/firstAwards.svg';
 import Maps from '../components/Map/Maps';
 import LoginSignup from '../components/LoginSignup';
-import apartment from '../images/BrxielComingTown/apartment.svg';
-import house from '../images/BrxielComingTown/house.svg';
-import roomsBg from '../images/getstarted/rooms.svg';
 import ResumeCard from '../components/ResumeCard';
 import { translateTo } from '../utils/translation';
 import { configureStore } from '../store';
 import get from 'lodash/get';
+
+//import Cat from '../images/BrxielComingTown/firstAwards.svg';
+import apartment from '../images/BrxielComingTown/apartment.svg';
+import house from '../images/BrxielComingTown/house.svg';
+
+import homesSvg from '../images/getstarted/svgs/homes.svg';
+import spaceSvg from '../images/getstarted/svgs/space.svg';
+import locationSvg from '../images/getstarted/svgs/location.svg';
+import roomsSvg from '../images/getstarted/svgs/room.svg';
+import congratsSvg from '../images/getstarted/svgs/congrats.svg';
 
 export const maxLengthNum = (val, name) => (value) => {
 
@@ -43,6 +49,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, "What type of property do you have?"),
       history: "propertyType",
       vCentered: true,
+      bgImg: homesSvg,
       inputs: [{
         component: BrixelRadioButton,
         className: 'radioBtnImg max-w-fix-md-464',
@@ -71,7 +78,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, "How many rooms?"),
       history: "allRooms",
       cardType: "allRooms",
-      bgImg: roomsBg,
+      bgImg: roomsSvg,
       inputs: [
         {
           component: BrixelInputStepNumber,
@@ -94,6 +101,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, "What is the living space size?"),
       history: "livingSpace",
       cardType: "livingSpace",
+      bgImg: spaceSvg,
       inputs: [
         {
           component: BrixelInputText,
@@ -132,6 +140,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, "What is the location?"),
       history: "locationInput",
       cardType: "locationInput",
+      bgImg: locationSvg,
       inputs: [
         {
           className: 'pos-r zIndex6',
@@ -163,6 +172,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, "Great, Your property was created!") + " 🎉",
       history: "resume",
       className: 'willAnimate',
+      bgImg: congratsSvg,
       cardType: 'loadComponent',
       component: ResumeCard,
       background: 'bgRed100',

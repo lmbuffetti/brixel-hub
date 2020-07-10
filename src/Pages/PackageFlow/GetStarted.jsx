@@ -357,12 +357,8 @@ const GetStarted = (props) => {
         )
       }
       <div
-        className="bodyModal"
-        // disabled for this release
-        /* style={{
-          backgroundImage: `url(${quest.bgImg})`,
-          backgroundSize: roomValue
-        }} */
+        className={`bodyModal ${quest.history}`}
+        style={{ backgroundImage: `url(${quest.bgImg})` }}
       >
         <form
           id="multiStepForm"
