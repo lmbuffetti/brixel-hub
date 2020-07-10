@@ -58,8 +58,9 @@ const GetStarted = (props) => {
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     const dataForm = formValue;
-    const { profile, company } = dataForm;
-    delete dataForm.profile;
+    const { login, register, company } = dataForm;
+    delete dataForm.login;
+    delete dataForm.register;
     delete dataForm.company;
     const data = {
       ...dataForm,
@@ -84,14 +85,14 @@ const GetStarted = (props) => {
       await handleCreateActiveSingleProperty(data);
     } else if (page === 'login') {
       data.user = {
-        username: profile.email,
-        password: profile.password,
+        username: login.email,
+        password: login.password,
       };
       await handleDoLogin(data);
     } else {
       data.user = {
-        ...profile,
-        name: `${profile.firstName} ${profile.lastName}`,
+        ...register,
+        name: `${register.firstName} ${register.lastName}`,
         userType: 'seller',
         signupAccept: true,
         signupChannel: get(formValue, 'channel', 'default'),
@@ -190,7 +191,7 @@ const GetStarted = (props) => {
       handleGetActiveSingleCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);
     } else {
-      changeFieldValue('location.countryCode', 'AT');
+      changeFieldValue('location.countryCode', 'all');
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) history.push(`/packageFlow/getStarted/${questions[0].history}`);
@@ -217,8 +218,8 @@ const GetStarted = (props) => {
   useEffect(() => {
     setIsEnter(true);
     if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
-      const countryCodeLocation = get(formValue, 'location.countryCode', null);
-      const countryCodeCompany = get(company, 'country.code', null);
+      const countryCodeLocation = get(formValue, 'location.countryCode', '');
+      const countryCodeCompany = get(company, 'country.code', '');
       if (countryCodeCompany !== countryCodeLocation) {
         let newCountryStub = '';
         if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
@@ -311,14 +312,15 @@ const GetStarted = (props) => {
           });
         } else if (input.validation) {
           //const getRegField = get(registeredFields
+          let field;
           if (input.name === 'profile') {
             const page = get(formValue, 'signupScreen', null);
-            let field = ['profile.email', 'profile.firstName', 'profile.lastName', 'privacy'];
+            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
             if (page === 'login') {
-              field = ['profile.email', 'profile.password'];
+              field = ['login.email', 'login.password'];
             }
             field.forEach((item) => {
-              const err = get(errorValue, item, null);
+              const err = get(errorValue, item, true);
               if (err !== true && err !== false && isValid) isValid = false;
             })
           } else if (err !== true && err !== false && isValid) isValid = false;

@@ -22,6 +22,7 @@ const Support = (props) => {
   const email = get (activeSingleCompany, 'contact.email', null);
   const whatsapp = get (activeSingleCompany, 'contact.whatsapp', null);
   const teamAvatars = get (activeSingleCompany, 'teamAvatars', []);
+  const companyLegalName = get (activeSingleCompany, 'legalName', null);
 
   const [openDetail, setOpenDetail] = useState(expanded);
 
@@ -43,7 +44,7 @@ const Support = (props) => {
             <div className="dis-f jc-b a-t">
               <div>
                 <p className="txtDark200 mb-2">Need support?</p>
-                <h5 className="txtDark700">Get in touch with us.</h5>
+                <h5 className="txtDark700">{companyLegalName}</h5>
               </div>
               {
                 !isFixed && !hideClose && (
@@ -80,7 +81,7 @@ const Support = (props) => {
                   key={i.toString()}
                   src={`${baseByData.shortPath}${imgTeam.path}`}
                   alt="Support Team"
-                  className={`${layout === 'rewards' ? "w-fix-104" : "w-fix-72"}  square brdLarge brdWhite mr-2-neg brdCircle`}
+                  className={`${layout === 'rewards' ? "w-fix-104 mr-2-neg" : "w-fix-40 mr-1-neg"}  square brdLarge brdWhite brdCircle`}
                 />
               ))
             }
