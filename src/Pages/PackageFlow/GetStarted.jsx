@@ -190,7 +190,7 @@ const GetStarted = (props) => {
       handleGetActiveSingleCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);
     } else {
-      changeFieldValue('location.countryCode', 'AT');
+      changeFieldValue('location.countryCode', 'all');
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) history.push(`/packageFlow/getStarted/${questions[0].history}`);

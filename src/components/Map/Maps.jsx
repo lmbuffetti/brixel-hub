@@ -17,6 +17,7 @@ import baseByData  from '@brixel/brixel-configuration-partner/src/Settings';
 import { translateTo } from '../../utils/translation';
 import { diff } from 'deep-object-diff';
 import Map from './Map';
+//import { setCountryList } from '../../actions/CommonActions';
 
 export const ComponentMap =(props) => {
   // PROPS
@@ -81,7 +82,7 @@ export const ComponentMap =(props) => {
       //setNewLocation(val);
       const sessionToken = stateToken || new google.maps.places.AutocompleteSessionToken();
       var autocompleteService = new google.maps.places.AutocompleteService();
-      if (!stateToken) setStateToken(sessionToken)
+      if (!stateToken) setStateToken(sessionToken);
       let typeSearch = ["address"];
       if (type === 'cities') typeSearch = ["(regions)"];
       if (type === 'zip') typeSearch = ["(regions)"];
@@ -89,11 +90,12 @@ export const ComponentMap =(props) => {
         //const lat = get(formValue, 'location.latitude', 0);
         //const lng = get(formValue, 'location.longitude', 0);
         //const selectedCity = get(formValue, 'location.city', 0);
+        const searcCountry = selCountry === 'all' ? '' : selCountry
         autocompleteService.getPlacePredictions(
           {
             input: val,
             sessionToken: sessionToken,
-            componentRestrictions: { country: selCountry },
+            componentRestrictions: { country: searcCountry },
             types: typeSearch,
           },
           function (predictions, status) {
@@ -186,7 +188,17 @@ export const ComponentMap =(props) => {
           if (formattedPlace.zip) formattedPlace.cityZip = `${formattedPlace.zip} ${formattedPlace.city}`;
         }
         // if (!formattedPlace.zip && isShowZip) setShowZipCode(true);
+        changeFieldValue(formName, 'changeCountry', formattedPlace.countryCode);
         changeFieldValue(formName, 'location', formattedPlace);
+        const existCountry = country.find(item => item.value === formattedPlace.countryCode);
+        if (typeof existCountry === 'undefined') {
+          const newListcountry = country;
+          newListcountry.push({
+            value: formattedPlace.countryCode,
+            label: formattedPlace.country
+          });
+          //handleUpdateCountry(newListcountry);
+        }
         setSelectedAddress(true);
         //changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
         //changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
@@ -293,7 +305,11 @@ export const ComponentMap =(props) => {
       history.push({state: {showSupport: true}})
     };
 
-  })
+  });
+
+  const countryValue = () => {
+    return defCountry ? defCountry.toLowerCase() : 'all'
+  }
 
 
   return (
@@ -413,7 +429,7 @@ export const ComponentMap =(props) => {
                           changeCountry(val.toUpperCase())
                         },
                         name: 'country',
-                        value: defCountry ? defCountry.toLowerCase() : '',
+                        value: countryValue(),
                       }}
                       bigDropDown
                       options={selectOpt}
@@ -477,6 +493,7 @@ ComponentMap.propTypes = {
   formName: PropTypes.string,
   google: PropTypes.object.isRequired,
   multipleFieldSearch: PropTypes.bool,
+  handleUpdateCountry: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isShowZip: PropTypes.bool,
   inputLabel: PropTypes.string,
@@ -547,6 +564,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(form, field, value) {
     dispatch(change(form, field, value));
   },
+  //handleUpdateCountry: bindActionCreators(setCountryList, dispatch),
 });
 
 export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {

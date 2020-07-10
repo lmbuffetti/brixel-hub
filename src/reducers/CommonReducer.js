@@ -44,6 +44,16 @@ export const defaultState = {
   ],
   country: [
     {
+      label: '🌍 Everywhere',
+      full: 'Everywhere',
+      short: 'ALL',
+      value: 'all',
+      location: {
+        lat: 44.82,
+        lng: 4.31
+      }
+    },
+    {
       label: '🇦🇹 Austria',
       full: 'Austria',
       short: 'AUT',
