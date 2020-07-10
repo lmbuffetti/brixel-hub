@@ -20,6 +20,7 @@ import {
   SET_UNSAVED_CHANGES_MODAL,
   SET_WINDOW_DIMENSIONS,
   SET_UPLOADING_PERCENTAGE,
+  SET_COUNTRY_LIST,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies();
@@ -66,6 +67,10 @@ export default handleActions(
     [SPINNER_ON]: (state) => ({
       ...state,
       isLoading: state.isLoading + 1,
+    }),
+    [SET_COUNTRY_LIST]: (state, action) => ({
+      ...state,
+      country: action.payload,
     }),
     [SPINNER_OFF]: (state) => ({
       ...state,

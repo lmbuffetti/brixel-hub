@@ -36,7 +36,6 @@ const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 
 export const QuestionsList = (lang, country = 'CH') => {
-  let getHomeBase = {name: 'Homebase', points: 100};
   const countryList = get(configureStore.getState(), 'common.country', []);
   return [
     {
@@ -167,19 +166,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: 'loadComponent',
       component: ResumeCard,
       background: 'bgRed100',
-    },
-    {
-      conditions: [{
-        name: 'owner',
-        value: null,
-      }],
-      title: translateTo(lang, "And the first award goes to…You!"),
-      subtitle: translateTo(lang, `You earned the <span class="txtGreen400">"${getHomeBase.name}"</span> Award and +${getHomeBase.points} Brixels.`),
-      history: "rewardsStep",
-      className: 'willAnimate',
-      cardType: 'card',
-      background: 'bgPrimary100',
-      img: Cat,
     },
     {
       conditions: [{
