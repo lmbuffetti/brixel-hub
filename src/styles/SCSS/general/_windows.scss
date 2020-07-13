@@ -122,6 +122,12 @@
   background: map_get($primaryColor, 700);
   width: 100%;
   z-index: 100;
+  max-height: calc(100vh - 70px);
+  .h-perc-100 {
+    > div {
+      height: 100%;
+    }
+  }
   &.slide-enter-down {
     bottom: 0;
   }
@@ -136,4 +142,17 @@
     background: $brx-white;
     border-radius: $brd-radius-small;
   }
+}
+
+.footerActionLogin {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: map_get($primaryColor, 700);
+}
+.bodyScrollUp {
+  padding: $step * 5;
+  overflow: auto;
+  max-height: calc(100vh - 65px);
 }
