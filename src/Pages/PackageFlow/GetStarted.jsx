@@ -13,7 +13,6 @@ import { createActiveSingleProperty } from '../../actions/PropertyActions';
 import { reduxForm, reset, change } from 'redux-form';
 import last from 'lodash/last';
 import { titleProperty } from '../../utils/titleCreation';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import queryString from 'query-string';
 import { setCookie } from '../../utils/helpers';
 import Cookies from 'universal-cookie';
@@ -143,8 +142,23 @@ const GetStarted = (props) => {
     if (questions[defId].toSave) saveData();
     else {
       setIsEnter(false);
-      setQuest(questions[defId]);
-      setCurrentIndex(defId);
+      let newQuest = {
+        ...questions[defId]
+      }
+      if(questions[defId].effect === 'slideUp') {
+        newQuest = {
+          ...questions[defId - 1]
+        }
+      }
+      if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
+        setTimeout(() => {
+          setQuest(newQuest);
+          setCurrentIndex(defId);
+        }, 400);
+      } else {
+        setQuest(newQuest);
+        setCurrentIndex(defId);
+      }
       setTimeout(() => {
         const getCurStep = document.getElementById(`step-${defId}`);
         if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
@@ -162,25 +176,6 @@ const GetStarted = (props) => {
   };
 
   useEffect(() => {
-    // SET DEFAULT LOCATION FOR DEV
-    if (baseByData.env === 'dev') {
-      /*const location = {
-        type: "stateCode",
-        country: "Schweiz",
-        countryCode: "CH",
-        name: "Ernastrasse",
-        vicinity: "Kreis 4",
-        address: "Ernastrasse, 8004 Zürich, Schweiz",
-        latitude: 47.3807432,
-        longitude: 8.516775800000005,
-        state: "Zürich",
-        stateCode: "ZH",
-        zip: 8004,
-        city: "Zürich",
-      };*/
-      //changeFieldValue('location', location);
-    }
-    // GET GAME GROUP TO POPULATE THE HOMEBASE SCREEN
     handleGetGamegroup();
 
     // GET THE COMPANY BY URL OR COOKIE
@@ -191,6 +186,7 @@ const GetStarted = (props) => {
       handleGetActiveSingleCompany({stub: defComp});
       setCookie('brixelStubCompany', defComp);
     } else {
+      handleGetActiveSingleCompany({stub: 'brixel_zurich'});
       changeFieldValue('location.countryCode', 'all');
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
@@ -270,16 +266,19 @@ const GetStarted = (props) => {
       });
       setLastID(newQuest.length - 1);
       setQuestions(newQuest);
-      const propertyType = get(formValue, 'properties.propertyType', null);
-      const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
-      if (pageTitle)
-        changeFieldValue('pageTitle', pageTitle);
     }
   }, [formValue]);
 
+  useEffect(() => {
+    const propertyType = get(formValue, 'properties.propertyType', null);
+    const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
+    if (pageTitle) changeFieldValue('pageTitle', pageTitle);
+  }, [formValue.location])
+
   // SET DATA BY COMPANY
   useEffect(() => {
-    if (has(company, 'stub')) {
+    const companyCookie = cookie.get('brixelStubCompany') || null;
+    if (has(company, 'stub') && companyCookie) {
       let getLang = cookie.get('brixelLang');
       if (get(company, 'language.code', null) && !getLang && currentIndex < 2) {
         const companyLang = get(company, 'language.code', 'en');
@@ -357,13 +356,18 @@ const GetStarted = (props) => {
         )
       }
       <div
-        className={`bodyModal ${quest.history}`}
-        style={{ backgroundImage: `url(${quest.bgImg})` }}
+        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v' : 'ov-h'} ${quest.history}`}
+
+        // disabled for this release
+        /* style={{
+          backgroundImage: `url(${quest.bgImg})`,
+          backgroundSize: roomValue
+        }} */
       >
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${quest.background || ''}`}
+          className={`interactive dis-fl-col jc-b ${quest.background || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v' : 'ov-h'}`}
         >
           <div className="multiStepSlides">
             <div
@@ -371,45 +375,18 @@ const GetStarted = (props) => {
             >
               <div className="subcontainer m-a">
                 {
-                  quest.effect === 'slideUp' && (
-                    <>
-                      {
-                        questions[currentIndex - 1] && questions[currentIndex -1].inputs && (
-                          <div id={`step-${currentIndex}`} className="dis-f flex-wrap activeQuestBack">
-                            {
-                              questions[currentIndex -1].titleGreen && (
-                                <h3 className="txtGreen400 w-perc-100">{questions[currentIndex -1].titleGreen}</h3>
-                              )
-                            }
-                            <h3 className={`${questions[currentIndex -1].subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{questions[currentIndex -1].title}</h3>
-                            {
-                              questions[currentIndex -1].subtitle && (
-                                <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex -1].subtitle }}/>)
-                            }
-                            <MultiFileldsReduxForm
-                              form="GetStarted"
-                              disableNextBtn={false}
-                              formValue={formValue}
-                              inputs={questions[currentIndex -1].inputs}
-                              onClick={() => changeStep()}
-                              onClickDisabled={!checkValidateField()}
-                              showSendButton={true}
-                            />
-                          </div>
-                        )
-                      }
-                    </>
-                  )
-                }
-                {
                   quest.inputs && (
-                    <div id={`step-${currentIndex}${quest.effect === 'slideUp' ? 'slideUp' : ''}`} className={`dis-f flex-wrap ${quest.effect === 'slideUp' ? 'slideUp' : ''} ${isEnter ? 'slide-enter-down' : ''}`}>
+                    <div id={`step-${currentIndex}`} className={`dis-f flex-wrap ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
                       {
                         quest.titleGreen && (
                           <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
                         )
                       }
-                      <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{quest.title}</h3>
+                      {
+                        quest.title && (
+                          <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{quest.title}</h3>
+                        )
+                      }
                       {
                         quest.subtitle && (
                           <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)
@@ -420,10 +397,49 @@ const GetStarted = (props) => {
                         formValue={formValue}
                         inputs={quest.inputs}
                         onClick={() => changeStep()}
+                        onCloseGoBack={() => changeStep('back')}
                         onClickDisabled={!checkValidateField()}
                         showSendButton={true}
                       />
                     </div>
+                  )
+                }
+                {
+                  questions[currentIndex].effect === 'slideUp' && (
+                    <>
+                      {
+                        questions[currentIndex] && questions[currentIndex].inputs && (
+                          <div id={`step-${currentIndex}slideUp`} className={`dis-f flex-wrap brdRadiusTop slideUp ${isEnter ? 'slide-enter-down' : ''}`}>
+                            {
+                              questions[currentIndex].titleGreen && (
+                                <h3 className="txtGreen400 w-perc-100">{questions[currentIndex].titleGreen}</h3>
+                              )
+                            }
+                            {
+                              questions[currentIndex].title && (
+                                <h3 className={`${questions[currentIndex].subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{questions[currentIndex].title}</h3>
+                              )
+                            }
+                            {
+                              questions[currentIndex].subtitle && (
+                                <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }}/>)
+                            }
+                            <MultiFileldsReduxForm
+                              className="h-perc-100"
+                              form="GetStarted"
+                              disableNextBtn={false}
+                              formValue={formValue}
+                              inputs={questions[currentIndex].inputs}
+                              onSubmit={() => changeStep()}
+                              onCloseGoBack={() => changeStep('back')}
+                              onClickDisabled={!checkValidateField()}
+                              showSendButton={true}
+                              showErrors={true}
+                            />
+                          </div>
+                        )
+                      }
+                    </>
                   )
                 }
                 {

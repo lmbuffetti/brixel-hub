@@ -3,34 +3,101 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { translateTo } from '../utils/translation';
 import { change } from 'redux-form';
-import { BrixelLogin, BrixelRegister } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelLogin, BrixelRegister, BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import Support from './Support';
 
 const LoginSignup = (props) => {
   // PROPS
   const {
     changeFieldValue,
     company,
+    errorValue,
     formName,
     formValue,
     onChangeLogin,
+    onCloseGoBack,
     lang,
     loggedInUser,
+    onSubmit,
   } = props;
   // STATE
-  const [loginPage, setLoginPage] = useState(false);
+  const [loginPage, setLoginPage] = useState('register');
+  const [showErrors, setShowErrors] = useState(false);
 
   useEffect(() => {
     if (typeof loggedInUser.token === 'undefined') {
       changeFieldValue(formName, 'signup', !loginPage);
     }
-    changeFieldValue(formName, 'signupScreen', loginPage ? 'login' : 'register');
+    changeFieldValue(formName, 'signupScreen', loginPage);
     onChangeLogin(loginPage)
   }, [loginPage]);
+
+  const onSubmitForm = () => {
+    let isValid = true;
+    Object.keys(errorValue).forEach((key) => {
+      if (key.includes(loginPage)) {
+        const curErr = get(errorValue, key, true);
+        if (curErr !== true) {
+          setShowErrors(true);
+          isValid = false;
+        }
+      }
+    });
+    if (isValid) {
+      setShowErrors(false);
+      onSubmit();
+    }
+  }
+
+  const TertiaryButton = () => {
+    switch (loginPage) {
+      case 'not_sure':
+        return {
+          action: () => setLoginPage('support'),
+          label: 'Still, not convinced',
+        }
+      case 'support':
+        return {
+          action: () => setLoginPage('register'),
+          label: 'Cancel',
+        };
+      default:
+        return {
+          action: () => setLoginPage('not_sure'),
+          label: 'I am not sure',
+        };
+    }
+  }
+
+  const PrimaryButton = () => {
+    switch (loginPage) {
+      case 'not_sure':
+        return {
+          action: () => setLoginPage('register'),
+          label: 'Ok, save now',
+        }
+      case 'support':
+        return {
+          action: () => setLoginPage('register'),
+          label: 'Ok, save now',
+        };
+      case 'login':
+        return {
+          action: () => onSubmitForm(),
+          label: 'Login',
+        };
+      default:
+        return {
+          action: () => onSubmitForm(),
+          label: 'Save',
+        };
+    }
+  }
 
   if (!formValue) {
     return (
@@ -40,39 +107,112 @@ const LoginSignup = (props) => {
 
   return (
     <>
-      {
-        loginPage ? (
-          <>
-            <h5>{translateTo(lang, "Login to your profile to save your progress.")}</h5>
-            <p className="mb-md-9">
-              <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(false)}>
-                {translateTo(lang, "You don't have a profile?")}
-              </span>
-            </p>
-            <BrixelLogin company={company} formName="GetStarted" />
-            <p className="mt-1">
-              <a
-                className="txtPrimary400 cur-poi"
-                href={`${baseByData.loginBasePath}/recover`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {translateTo(lang, "Forgot password?")}
-              </a>
-            </p>
-          </>
-        ) : (
-          <>
-            <h5>{translateTo(lang, "Create your profile to save your progress.")}</h5>
-            <p className="mb-md-9">
-              <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(true)}>
-                {translateTo(lang, "You already have a profile?")}
-              </span>
-            </p>
-            <BrixelRegister company={company} formName="GetStarted" />
-          </>
-        )
-      }
+      <div className="bodyScrollUp">
+        <div className="dis-f a-t jc-b">
+          <BrixelButtonIcon
+            className="shadow-3dp pos-a-fix x-r-3 x-t-5"
+            icon="close-small"
+            color="dark"
+            saturationTxt={700}
+            background={"white"}
+            saturation={0}
+            noBorder
+            onClick={() => onCloseGoBack()}
+          />
+        </div>
+        <div className="max-w-fix-400 m-a onBoardingSignUp">
+          {
+            loginPage === 'login' && (
+              <>
+                <div className="w-perc-100 ta-c pr-5">
+                  <h5 className="txtWhite">{translateTo(lang, "Login to your profile to save your progress.")}</h5>
+                  <p className="txtWhite cur-poi mt-1 td-u" onClick={() => setLoginPage('register')}>
+                    {translateTo(lang, "or create profile here")}
+                  </p>
+                </div>
+                <BrixelLogin company={company} formName="GetStarted" showErrors={showErrors} />
+                <p className="mt-1">
+                  <a
+                    className="txtWhite td-u cur-poi"
+                    href={`${baseByData.loginBasePath}/recover`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {translateTo(lang, "Forgot password?")}
+                  </a>
+                </p>
+              </>
+            )
+          }
+          {
+            loginPage === 'register' && (
+              <>
+                <div className="w-perc-100 ta-c pr-5">
+                  <h5 className="txtWhite">{translateTo(lang, "Create free profile to save")}</h5>
+                  <p className="txtWhite cur-poi mt-1 td-u" onClick={() => setLoginPage('login')}>
+                    {translateTo(lang, "or login here")}
+                  </p>
+                </div>
+                <BrixelRegister company={company} formName="GetStarted" showErrors={showErrors} />
+              </>
+            )
+          }
+          {
+            loginPage === 'not_sure' && (
+              <div className="txtWhite">
+                <h4 className="ta-c txtWhite">I understand you. But here are 3 reasons to sign up.</h4>
+                <ol className="mt-3">
+                  <li className="pl-1">You receive a free price indication and a local market check.</li>
+                  <li className="pl-1 mt-1">You get free access to the full Brixel Hub. Your all-in-one tool to sell your home.</li>
+                  <li className="pl-1 mt-1">All services are free of charge. You decide if you want to upgrade or not.</li>
+                </ol>
+
+                <h4 className="ta-c txtWhite mt-5">Don’t worry about spam. Here are 4 things I promise you:</h4>
+                <ol className="mt-3">
+                  <li className="pl-1">All your personal data is save with us. We are not using them for commercial purpose.</li>
+                  <li className="pl-1 mt-1">We will contact you only for support and consultation</li>
+                  <li className="pl-1 mt-1">Your property data will not be published unless you request it explicitly.</li>
+                  <li className="pl-1 mt-1">You can delete your profile at any time with a click. </li>
+                </ol>
+              </div>
+            )
+          }
+          {
+            loginPage === 'support' && (
+              <div>
+                <h4 className="ta-c txtWhite">You want to talk to us before? No propblem. We are here for you.</h4>
+                <Support
+                  isFixed={false}
+                  expanded
+                  hideClose
+                  layout="onboarding"
+                />
+              </div>
+            )
+          }
+        </div>
+      </div>
+      <div
+        className="footerActionLogin py-3 px-2 shadow-1dp-top"
+      >
+        <div className="dis-f a-c jc-b">
+          <BrixelButtonTertiary
+            color="white"
+            saturation={0}
+            className="td-u"
+            label={TertiaryButton().label}
+            onClick={TertiaryButton().action}
+          />
+          <BrixelButtonPrimary
+            rounded
+            rightIcon="arrow-right-small"
+            background="green"
+            label={PrimaryButton().label}
+            onClick={PrimaryButton().action}
+          />
+          <span />
+        </div>
+      </div>
     </>
   )
 };
@@ -87,12 +227,15 @@ LoginSignup.propTypes = {
   loggedInUser: PropTypes.object.isRequired,
   showErrors: PropTypes.bool,
   onChangeLogin: PropTypes.func.isRequired,
+  onCloseGoBack: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
 };
 
 LoginSignup.defaultProps = {
   redirectTo: null,
   showErrors: false,
   onChangeLogin: () => '',
+  onSubmit: () => '',
 };
 
 const mapStateToProps = (state, props) => ({

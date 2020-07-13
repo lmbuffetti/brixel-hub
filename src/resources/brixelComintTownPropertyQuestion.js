@@ -1,4 +1,5 @@
 import { BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, BrixelSelect, Validation } from '@brixel/brixel-components';
+import Resume from '../images/getstarted/resume.svg';
 import Maps from '../components/Map/Maps';
 import LoginSignup from '../components/LoginSignup';
 import ResumeCard from '../components/ResumeCard';
@@ -43,7 +44,9 @@ const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 
 export const QuestionsList = (lang, country = 'CH') => {
-  const countryList = get(configureStore.getState(), 'common.country', []);
+  let countryList = [];
+  if (configureStore)
+    countryList = get(configureStore.getState(), 'common.country', []);
   return [
     {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
@@ -74,23 +77,6 @@ export const QuestionsList = (lang, country = 'CH') => {
         ],
       }],
       successMessage: translateTo(lang, 'Ok. Got it.')
-    },
-    {
-      conditions: [{
-        name: 'owner',
-        value: null,
-      }],
-      history: "createProfile",
-      component: LoginSignup,
-      signupTitle: translateTo(lang, "Create your profile to save your progress."),
-      loginTitle: translateTo(lang, "Login to your profile to save your progress."),
-      effect: 'slideUp',
-      cardType: 'createProfile',
-      inputs: [{
-        component: LoginSignup,
-        name: 'profile',
-        validation: [Validation.required],
-      }],
     },
     {
       title: translateTo(lang, "How many rooms?"),
@@ -195,6 +181,24 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: 'loadComponent',
       component: ResumeCard,
       background: 'bgRed100',
+    },
+    {
+      conditions: [{
+        name: 'owner',
+        value: null,
+      }],
+      history: "createProfile",
+      component: LoginSignup,
+      bgImg: congratsSvg,
+      signupTitle: translateTo(lang, "Create your profile to save your progress."),
+      loginTitle: translateTo(lang, "Login to your profile to save your progress."),
+      effect: 'slideUp',
+      cardType: 'createProfile',
+      inputs: [{
+        component: LoginSignup,
+        name: 'profile',
+        validation: [Validation.required],
+      }],
     },
     {
       history: "savingData",

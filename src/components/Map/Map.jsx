@@ -273,7 +273,6 @@ export const ComponentMap =(props) => {
                 height: props.showMap ? '100%' : '0px',
               }}
               onClick={() => setShowInfoWindow(false)}
-              onDragend={(data) => console.log(optMap, data)}
             >
               {
                 !isDefView && (
