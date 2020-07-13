@@ -38,6 +38,7 @@ function PageHeader(props) {
   const [modal, setModal] = useState(false);
   const [widthScreen, setWidthScreen] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [zIndexHeader, setZIndexHeader] = useState(11);
 
   useEffect(() => {
     if (loggedInUser && loggedInUser.user) {
@@ -81,6 +82,15 @@ function PageHeader(props) {
     }
   }, []);
 
+  useEffect(() => {
+    const getElementByClass = document.getElementsByClassName('slideUp');
+    if (getElementByClass.length > 0) {
+      setZIndexHeader(0)
+    } else {
+      setZIndexHeader(11);
+    }
+  }, [get(history, 'location.pathname', null)])
+
   const newLang = (e, langCode) => {
     e.stopPropagation();
     setCurrentLang(langCode.value);
@@ -106,7 +116,7 @@ function PageHeader(props) {
 
   return (
     <>
-      <header className="flowHeader zIndex11">
+      <header className={`flowHeader zIndex${zIndexHeader}`}>
         <div className={`container dis-f a-c p-1 pt-2 p-md-2 jc-b pos-r zIndex4 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
           <img
             className={`logo dis-b ${history.location.pathname.includes('onBoarding') ? 'w-fix-86' : 'w-fix-40' }  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}

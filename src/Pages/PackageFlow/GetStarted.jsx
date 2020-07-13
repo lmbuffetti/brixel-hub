@@ -13,7 +13,6 @@ import { createActiveSingleProperty } from '../../actions/PropertyActions';
 import { reduxForm, reset, change } from 'redux-form';
 import last from 'lodash/last';
 import { titleProperty } from '../../utils/titleCreation';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import queryString from 'query-string';
 import { setCookie } from '../../utils/helpers';
 import Cookies from 'universal-cookie';
@@ -46,8 +45,8 @@ const GetStarted = (props) => {
   // STATE
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
   const [progressBar, setProgressBar] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(1);
-  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[1]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [lastID, setLastID] = useState(0);
   //const [roomValue, setRoomValue] = useState('');
@@ -130,7 +129,6 @@ const GetStarted = (props) => {
   // FUNCTION TO GO TO NEXT SPEP
   const changeStep = (act) => {
     let newIndex = currentIndex;
-    console.log('STEP', act);
     if (act === 'back') {
       newIndex -= 1;
     } else {
@@ -268,12 +266,14 @@ const GetStarted = (props) => {
       });
       setLastID(newQuest.length - 1);
       setQuestions(newQuest);
-      const propertyType = get(formValue, 'properties.propertyType', null);
-      const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
-      if (pageTitle)
-        changeFieldValue('pageTitle', pageTitle);
     }
   }, [formValue]);
+
+  useEffect(() => {
+    const propertyType = get(formValue, 'properties.propertyType', null);
+    const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
+    if (pageTitle) changeFieldValue('pageTitle', pageTitle);
+  }, [formValue.location])
 
   // SET DATA BY COMPANY
   useEffect(() => {
@@ -356,7 +356,7 @@ const GetStarted = (props) => {
         )
       }
       <div
-        className="bodyModal"
+        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v' : 'ov-h'}`}
         // disabled for this release
         style={{
           backgroundImage: `url(${quest.bgImg})`,
@@ -366,7 +366,7 @@ const GetStarted = (props) => {
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${quest.background || ''}`}
+          className={`interactive dis-fl-col jc-b ${quest.background || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v' : 'ov-h'}`}
         >
           <div className="multiStepSlides">
             <div
@@ -399,7 +399,6 @@ const GetStarted = (props) => {
                         onCloseGoBack={() => changeStep('back')}
                         onClickDisabled={!checkValidateField()}
                         showSendButton={true}
-                        showErrors={true}
                       />
                     </div>
                   )
@@ -430,7 +429,7 @@ const GetStarted = (props) => {
                               disableNextBtn={false}
                               formValue={formValue}
                               inputs={questions[currentIndex].inputs}
-                              onClick={() => changeStep()}
+                              onSubmit={() => changeStep()}
                               onCloseGoBack={() => changeStep('back')}
                               onClickDisabled={!checkValidateField()}
                               showSendButton={true}

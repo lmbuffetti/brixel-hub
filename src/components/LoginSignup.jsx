@@ -21,9 +21,9 @@ const LoginSignup = (props) => {
     formValue,
     onChangeLogin,
     onCloseGoBack,
-    onClick,
     lang,
     loggedInUser,
+    onSubmit,
   } = props;
   // STATE
   const [loginPage, setLoginPage] = useState('register');
@@ -38,7 +38,6 @@ const LoginSignup = (props) => {
   }, [loginPage]);
 
   const onSubmitForm = () => {
-    console.log(errorValue, loginPage, get(errorValue, `${loginPage}.email`, {}));
     let isValid = true;
     Object.keys(errorValue).forEach((key) => {
       if (key.includes(loginPage)) {
@@ -51,8 +50,7 @@ const LoginSignup = (props) => {
     });
     if (isValid) {
       setShowErrors(false);
-      console.log('submit');
-      onClick();
+      onSubmit();
     }
   }
 
@@ -126,7 +124,7 @@ const LoginSignup = (props) => {
           {
             loginPage === 'login' && (
               <>
-                <div className="w-perc-100 ta-c">
+                <div className="w-perc-100 ta-c pr-5">
                   <h5 className="txtWhite">{translateTo(lang, "Login to your profile to save your progress.")}</h5>
                   <p className="txtWhite cur-poi mt-1 td-u" onClick={() => setLoginPage('register')}>
                     {translateTo(lang, "or create profile here")}
@@ -149,7 +147,7 @@ const LoginSignup = (props) => {
           {
             loginPage === 'register' && (
               <>
-                <div className="w-perc-100 ta-c">
+                <div className="w-perc-100 ta-c pr-5">
                   <h5 className="txtWhite">{translateTo(lang, "Create free profile to save")}</h5>
                   <p className="txtWhite cur-poi mt-1 td-u" onClick={() => setLoginPage('login')}>
                     {translateTo(lang, "or login here")}
@@ -230,14 +228,14 @@ LoginSignup.propTypes = {
   showErrors: PropTypes.bool,
   onChangeLogin: PropTypes.func.isRequired,
   onCloseGoBack: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
 };
 
 LoginSignup.defaultProps = {
   redirectTo: null,
   showErrors: false,
   onChangeLogin: () => '',
-  onClick: () => '',
+  onSubmit: () => '',
 };
 
 const mapStateToProps = (state, props) => ({
