@@ -15,6 +15,7 @@ import spaceSvg from '../images/getstarted/svgs/space.svg';
 import locationSvg from '../images/getstarted/svgs/location.svg';
 import roomsSvg from '../images/getstarted/svgs/room.svg';
 import congratsSvg from '../images/getstarted/svgs/congrats.svg';
+import yearSvg from '../images/getstarted/svgs/year.svg';
 
 export const maxLengthNum = (val, name) => (value) => {
 
@@ -121,6 +122,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, "What is the construction year?"),
       history: "constructionYear",
       cardType: "constructionYear",
+      bgImg: yearSvg,
       inputs: [
         {
           component: BrixelInputText,
