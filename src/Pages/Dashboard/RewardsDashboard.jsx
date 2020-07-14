@@ -87,6 +87,7 @@ const RewardsDashboard = (props) => {
     }
   }, [windowDimensions, gameHistory, usrGroups, history.location.pathname]);
 
+  // FUNCTION TO ADD MEDIA TO GAME HISTORY
   useEffect(() => {
     const getFloorPlans = get(formValue, 'floorPlans', []);
     const getPhotos = get(formValue, 'photos', []);
@@ -96,6 +97,7 @@ const RewardsDashboard = (props) => {
     }
   }, [get(formValue, 'floorPlans', []), get(formValue, 'photos', []), get(formValue, 'documents', [])]);
 
+  // FUNCTION TO ADD PAGE OR PORTALS TO GAME HISTORY
   useEffect(() => {
     let filtUsrGroup = [];
     filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userTypes) !== -1);
@@ -143,6 +145,7 @@ const RewardsDashboard = (props) => {
     setUsrGroups([...filtUsrGroup]);
   }, [userTypes, activeSingleProperty, gameGroup, gameHistory]);
 
+  // FUNCTION TO ADD HOMEBASE TO GAME HISTORY
   useEffect(() => {
     if (gameHistory.data && activeSingleProperty.id) {
       // CHECK IF DONE HOMEBASE
@@ -158,6 +161,7 @@ const RewardsDashboard = (props) => {
     }
   }, [activeSingleProperty, gameHistory, userTypes]);
 
+  // FUNCTION TO SET THE ACTIVE REWARDS GROUP ON FIRST LOAD IF NOT COMPLETED
   useEffect(() => {
     if (gameHistory.data && rewardType && rewardType !== 'rewards' && gameGroup) {
       let selectEl;
@@ -176,6 +180,7 @@ const RewardsDashboard = (props) => {
     }
   }, [gameHistoryData, usrGroups, history, gameGroup, rewardType]);
 
+  // FUNCTION CLICK ON GAME GROUP
   const onClickAchievement = (game, achievement) => {
     setActiveGameGroup(game);
     localStorage.setItem('gameGroup', game);
@@ -183,6 +188,7 @@ const RewardsDashboard = (props) => {
     setActiveAchievement(achievement);
   };
 
+  // LOAD COMPONENTET IN BASE OF ACTIVE GROUP ACTIVE
   const getSuccessActiveGroup = () => (
     <>
       {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
@@ -198,6 +204,7 @@ const RewardsDashboard = (props) => {
     </>
   );
 
+  // IF NOT ON COOKIE SHOW HELLO MESSAGE
   const checkMessageHello = () => {
     if (typeof getCookie('brixelSayHello') !== 'undefined') {
       if (JSON.parse(getCookie('brixelSayHello')) !== true) {
@@ -208,6 +215,7 @@ const RewardsDashboard = (props) => {
     return true;
   };
 
+  // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
   if (!activeSingleProperty.id && !userTypes) {
     return <Loading />;
   }

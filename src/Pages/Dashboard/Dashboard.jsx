@@ -44,11 +44,6 @@ const ListingsDashboard = Loadable({
   loading: () => null,
 });
 
-const SupportDashboard = Loadable({
-  loader: () => import('./SupportDashboard' /* webpackChunkName: "SupportDashboard" */),
-  loading: () => null,
-});
-
 const EmptyProperty = Loadable({
   loader: () => import('./EmptyProperty' /* webpackChunkName: "EmptyProperty" */),
   loading: () => null,
@@ -329,7 +324,6 @@ const Dashboard = (props) => {
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
-      <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
       <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
       <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
     </div>
