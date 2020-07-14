@@ -362,7 +362,7 @@ const GetStarted = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className="withHeader">
+    <div id="bodyModalWrapper" className="withHeader getStarted">
       {
         get(quest, 'inputs', null) && (
           <BrixelProgressBar
@@ -375,7 +375,7 @@ const GetStarted = (props) => {
         )
       }
       <div
-        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v' : 'ov-h'} ${quest.history}`}
+        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : 'ov-h'} ${quest.history}`}
         style={{ backgroundImage: `url(${quest.bgImg})` }}
       >
         <form
@@ -385,7 +385,7 @@ const GetStarted = (props) => {
         >
           <div className="multiStepSlides">
             <div
-              className={`singleStep jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter'}`}
+              className={`singleStep pt-5 jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter'}`}
             >
               <div className="subcontainer m-a">
                 {

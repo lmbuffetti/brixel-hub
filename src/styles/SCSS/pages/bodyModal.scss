@@ -233,6 +233,17 @@
       }
     }
   }
+  &.getStarted {
+    .bodyModal {
+       #multiStepForm {
+         .multiStepSlides {
+           .singleStep {
+             padding-top: $step * 5;
+           }
+         }
+       }
+    }
+  }
 }
 /*
 @media (min-width: $responsive-medium) {
@@ -272,3 +283,4 @@
 .word-b {
   @include line-break;
 }
+
