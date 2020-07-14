@@ -473,7 +473,7 @@ App.propTypes = {
   notification: PropTypes.object,
   modal: PropTypes.object.isRequired,
   redirectTo: PropTypes.object,
-  userTypes: PropTypes.string.isRequired,
+  userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -481,6 +481,7 @@ App.defaultProps = {
   isLoading: false,
   notification: null,
   redirectTo: null,
+  userTypes: null,
 };
 
 const mapStateToProps = (state) => ({

@@ -79,7 +79,7 @@ const BrixelButtonAchievement = (props) => {
                 />
               </div>
               <div className="ta-l w-perc-100 pl-2">
-                <span className={isFree ? 'txtGreen400' : 'txtRed400'}>{subTitleHover}</span>
+                <span className={isFree ? 'txtGreen400' : 'txtRed400'}>{subTitleHover()}</span>
                 <p className="body txtDark700">{title}</p>
               </div>
               <BrixelIcon

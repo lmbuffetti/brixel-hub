@@ -332,7 +332,7 @@ Dashboard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  isSmallLoading: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
+  isSmallLoading: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   userTypes: PropTypes.string,
   gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
@@ -361,6 +361,7 @@ Dashboard.propTypes = {
 
 Dashboard.defaultProps = {
   errorValue: null,
+  isSmallLoading: null,
   userTypes: null,
   notification: null,
 };

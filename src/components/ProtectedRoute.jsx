@@ -51,7 +51,7 @@ const ProtectedRoute = (props) => {
 
 ProtectedRoute.propTypes = {
   userTypes: PropTypes.string,
-  allowAccess: PropTypes.bool.isRequired,
+  allowAccess: PropTypes.bool,
   loggedInUser: PropTypes.object.isRequired,
   component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   exact: PropTypes.bool,
@@ -60,6 +60,7 @@ ProtectedRoute.propTypes = {
 };
 
 ProtectedRoute.defaultProps = {
+  allowAccess: false,
   component: null,
   userTypes: null,
   exact: false,
