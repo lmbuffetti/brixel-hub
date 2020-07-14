@@ -105,8 +105,8 @@ const Dashboard = (props) => {
 
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
-  // const checkActiveTab = () => last(history.location.pathname.split('/'));
 
+  // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {
     if (
       !get(history, 'location.pathname', '').includes('facts') &&
@@ -116,6 +116,7 @@ const Dashboard = (props) => {
     }
   }, [history.location.pathname]);
 
+  // FUNCTION TO LOAD DEFAULT USER PROPERTY IF NO ID
   const loadDefaultProperty = () => {
     if (!get(formValue, 'id', null)) {
       const data = {
@@ -128,6 +129,7 @@ const Dashboard = (props) => {
     }
   };
 
+  // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
     if (propID && !get(activeSingleProperty, 'id', null)) {
       handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: true });
@@ -139,6 +141,7 @@ const Dashboard = (props) => {
     if (gameHistory.length === 0) handleGetGameHistory();
   }, []);
 
+  // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
     if (typeof activeSingleProperty !== 'undefined' && activeSingleProperty) {
       if (!propID && get(activeSingleProperty, 'id', null)) {
@@ -162,6 +165,7 @@ const Dashboard = (props) => {
     }
   }, [activeSingleProperty]);
 
+  // FUNCTION TO GLOBAL SAVE - BUTTON SAVE ON NOTIFICATION BAR
   const saveData = () => {
     const changeObj = diff(initialValues, formValue);
     if (Object.keys(changeObj).length > 0) {
@@ -211,6 +215,7 @@ const Dashboard = (props) => {
     }
   };
 
+  // FORM VALIDATION
   const validForm = () => {
     const changeObj = diff(initialValues, formValue);
     const allVal = [];
@@ -235,6 +240,7 @@ const Dashboard = (props) => {
     return isValid;
   };
 
+  // FUNCTION TO DISCARD SAVE
   useEffect(() => {
     if (isDiscardChanges) {
       const newNotification = cloneDeep(notification);
@@ -247,10 +253,12 @@ const Dashboard = (props) => {
     }
   }, [isDiscardChanges]);
 
+  // FUNCTION TO SET TRUE THE DISCARD SAVE
   const discardChanges = () => {
     setIsDiscardChanges(true);
   };
 
+  // FUNCTION TO ADD THE SMALL LOADING ON BUTTON SAVE ON NOTIFICATION BAR
   useEffect(() => {
     if (notification && notification.actions && notification.type === 'infoHub' && isSmallLoading) {
       const getID = notification.actions.findIndex((item) => item.label === 'Save');
@@ -264,6 +272,7 @@ const Dashboard = (props) => {
     }
   }, [isSmallLoading]);
 
+  // FUNCTION TO SHOW/HIDE THE NOTIFICATION BAR TO SAVE
   useEffect(() => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
@@ -304,6 +313,7 @@ const Dashboard = (props) => {
         });
       }
     }
+    // FUNCTION TO CHANGE THE FACTS PERCENTAGE
     if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
       const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
       inputSheet.totalComplete = calcPercentageFacts().calcPerc;
@@ -315,7 +325,7 @@ const Dashboard = (props) => {
 
   return (
     <div className="container dashboardContainer" id="dashboard">
-      { /* SECTION: APP HEADER */ }
+      { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
