@@ -41,10 +41,12 @@ const Upgrade = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
 
+  // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
   }, [currentIndex]);
 
+  // LOAD THE QUESTIONS
   useEffect(() => {
     if (packagesProperty.length > 0) {
       setQuestions(UpgradeQuestions('en', packagesProperty, get(formValue, 'location', {})));
@@ -52,6 +54,7 @@ const Upgrade = (props) => {
     }
   }, [packagesProperty]);
 
+  // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
     reset('GamingFlow');
     const url = localStorage.getItem('backUrl');
@@ -59,6 +62,7 @@ const Upgrade = (props) => {
     history.push(url || `/${propID}`);
   };
 
+  // FUNCTION TO SAVE DATA
   const saveData = () => {
     const data = {
       page: propID,
@@ -68,6 +72,7 @@ const Upgrade = (props) => {
     handleSaveUpgradePlan(data);
   };
 
+  // FUNCTION TO CHANGE STEP - BACK-FORWARD
   const changeStep = (act) => {
     setIsEnter(false);
     let newIndex = currentIndex;
@@ -84,6 +89,7 @@ const Upgrade = (props) => {
     setQuest(questions[newIndex]);
   };
 
+  // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
     if (formValue.id) {
       const newQuest = [];
@@ -106,6 +112,7 @@ const Upgrade = (props) => {
     }
   }, [formValue]);
 
+  // CHECK IF FIELD IS VALID
   const checkValidateField = () => {
     let isValid = true;
     if (questions[currentIndex].inputs) {
@@ -124,6 +131,7 @@ const Upgrade = (props) => {
     return isValid;
   };
 
+  // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
     if (currentIndex === 0) label = 'Order now';
