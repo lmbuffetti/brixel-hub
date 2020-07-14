@@ -54,6 +54,7 @@ const Showings = (props) => {
   const propID = get(match, 'params.propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
+  // GET BOOKING
   useEffect(() => {
     const data = {
       id: propID,
@@ -62,6 +63,7 @@ const Showings = (props) => {
     handleGetActiveSinglePropertyBookings(data);
   }, []);
 
+  // SET BOOKING
   useEffect(() => {
     if (formValue.booking && formValue.schedule && formValue.schedule.slots) {
       const allSlots = [];
@@ -94,11 +96,13 @@ const Showings = (props) => {
     }
   }, [formValue.booking, formValue.schedule]);
 
+  // DISCARD BOOKING
   const discardChanges = () => {
     setManageAvailability(false);
     resetForm('Property');
   };
 
+  // MANAGE BOOKING VISIT
   const manageBooking = (book, action) => {
     const allBook = get(formValue, 'booking', []);
     const selectSlots = allBook.find((item) => item.id === book.id);
@@ -116,6 +120,7 @@ const Showings = (props) => {
     handleSavePropertyVisitBooking(data);
   };
 
+  // FUNCTION TO GROUP DATE BY MONTH
   const gorupByMonth = () => {
     const grouped = groupBy(bookingSlot, (d) => moment(d.slot.slot).format('MM.YYYY'));
     return grouped || {};
