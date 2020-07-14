@@ -1,6 +1,4 @@
-/* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-alert */
 import React, {
   useCallback, useEffect, useState, useRef,
 } from 'react';
@@ -57,6 +55,7 @@ const Photos = (props) => {
   const arrayImg = [...Array(photos ? photos.length : 0)].map((_, index) => React.createRef());
   const wrappImg = useRef(arrayImg);
 
+  // COMPARE IMAGES AND fixPhotos TO ADD THE PREVIEW IMAGES ON UPLOADING
   useEffect(() => {
     // setNewImages([]);
     if (Object.keys(diff(photos, fixPhotos)).length > 0 && !isSmallLoading) {
@@ -67,6 +66,7 @@ const Photos = (props) => {
     }
   });
 
+  // FUNCTION TO DELETE IMAGE
   const deleteImage = (id) => {
     const mediaID = id;
     const data = {
@@ -78,7 +78,7 @@ const Photos = (props) => {
     history.push(`/${propID}/property/photos`);
   };
 
-  // DROPZONE SETTINGS
+  // MULTIUPLOADING FUNCTION
   const onDrop = useCallback(async (acceptedFiles) => {
     const reader = new FileReader();
     // const imgType = imageType.find((val) => val.name === 'Gallery');
@@ -103,6 +103,7 @@ const Photos = (props) => {
     });
   }, []);
 
+  // DROPZONE SETTINGS - SUPPORTED EXTENSIONS AND MAX SIZE AND OTHER SETTINGS
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     multiple: true,
@@ -129,11 +130,13 @@ const Photos = (props) => {
     }
   };
 
+  // FUCNTION FOR REAL DELETE
   const onConfirmDelete = (id) => {
     setBtnActive('delete');
     setConfirmDelete(id);
   };
 
+  // CLICK OUTSIDE OF IMAGES
   OutsideElement(wrappImg, {
     id: confirmDelete || 0,
     action: 'function',

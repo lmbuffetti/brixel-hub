@@ -20,6 +20,7 @@ const FactsQuestion = (props) => {
   // PARAMS URL
   const propID = get(match, 'params.propId', null);
 
+  // FUNCTIONS TO SKIP SECTION
   /*
   const handleSkipSection = async (val) => {
     const inputSheet = get(formValue, 'inputSheet', {});

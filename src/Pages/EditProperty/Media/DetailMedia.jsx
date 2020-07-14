@@ -43,6 +43,7 @@ const DetailMedia = (props) => {
   const wrapImg = useRef(null);
   const thirdlevelEl = document.getElementsByClassName('thirdLevel')[0];
 
+  // SET ID OF CURRENT IMAGE
   useEffect(() => {
     if (mediaID && formValue && mediaType) {
       if (formValue[mediaType]) {
@@ -52,6 +53,7 @@ const DetailMedia = (props) => {
     }
   }, [formValue, mediaType, match]);
 
+  // RELAOD THE EFFECT OF EDIT MEDIA ON CHANGE IMAGE ID
   useEffect(() => {
     if (formValue[mediaType][idImg]) {
       if (formValue[mediaType][idImg] !== '') {
@@ -65,6 +67,7 @@ const DetailMedia = (props) => {
     }
   }, [idImg]);
 
+  // WHEN THE SMALL LOADING END AND changeSection IS SET TO TRUE MOVED TO NEXT IMAGES
   useEffect(() => {
     if (changeSection && !isSmallLoading) {
       const arrayImages = get(formValue, mediaType, []);
@@ -75,6 +78,7 @@ const DetailMedia = (props) => {
     }
   }, [isSmallLoading]);
 
+  // FUNCTION TO DELETE THE IMAGES - FLOOR PLANS
   const deleteImage = () => {
     const data = {
       id: mediaID,
@@ -87,6 +91,7 @@ const DetailMedia = (props) => {
     history.push(`/${propID}/property/${mediaType}`);
   };
 
+  // FUNCTION TO ROTATE THE IMAGES - FLOOR PLANS
   const rotateImage = () => {
     const rotate = rotation + 90;
     // if (rotate > 360) rotate = 90;
@@ -100,6 +105,7 @@ const DetailMedia = (props) => {
     handleRotateImg(data);
   };
 
+  // FUNCTION TO SET COVER IMAGE
   const handleCoverPhoto = (e, photo) => {
     e.preventDefault();
     const allPhotos = cloneDeep(formValue.photos);
@@ -109,11 +115,13 @@ const DetailMedia = (props) => {
     changeFieldValue('coverPhoto', photo);
   };
 
+  // FUNCTION CLICK OUTSIDE OF IMAGE
   useOutsideAlerter(wrapImg, {
     action: 'function',
     func: () => { setConfirmDelete(false); },
   });
 
+  // IF NOT FORM VALUE SHOW THE LOADING
   if (!formValue || !formValue[mediaType]) {
     return (
       <Loading isLoading />
