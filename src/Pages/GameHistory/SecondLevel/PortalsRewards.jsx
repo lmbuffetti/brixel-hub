@@ -27,6 +27,7 @@ const PortalsRewards = (props) => {
   const propID = get(match, 'params.propId', '');
   const gameStub = history.location.pathname.split('/')[3];
 
+  // CHECK IF THE SECTION IS DONE
   useEffect(() => {
     const isCheckDone = gameHistory.find((item) => item.page === propID && item.achievement.stub === gameStub);
     const checkifExist = Object.keys(portalsPublished).filter((key) => portalsPublished[key] === true);
@@ -35,6 +36,7 @@ const PortalsRewards = (props) => {
     else setStatus('offline');
   }, [gameHistory, portalsReview, portalsPublished]);
 
+  // FUNCTION TO GO TO /LISTINGS/PORTALS
   const openPreview = () => {
     // if (!done) handleAddGameHistory({stub: gameStub});
     history.push(`/${propID}/listings/portals`);

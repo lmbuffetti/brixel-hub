@@ -42,10 +42,6 @@ const Bestimate = (props) => {
   const getAchievement = () => history.location.pathname.split('/')[4];
   const propID = get(match, 'params.propId', null);
 
-  useEffect(() => () => {
-    resetForm('Property');
-  }, []);
-
   // CHECK IF THE ACHIEVEMENT IS DONE
   useEffect(() => {
     if (gameHistory && gameHistory.data && activeSingleProperty.id) {
@@ -63,6 +59,7 @@ const Bestimate = (props) => {
     }
   }, [gameHistory, activeSingleProperty, lastID]);
 
+  // LOAD THE CURRENT GAME GROUP
   useEffect(() => {
     if (gameGroup.length > 0) {
       const group = gameGroup.find((game) => game.achievements.some((item) => item.stub === getAchievement()));
@@ -71,6 +68,7 @@ const Bestimate = (props) => {
     }
   }, [gameGroup]);
 
+  // ON CHANGE STEP LOAD THE ENTER EFFECT AND IF HAS TO REDO
   useEffect(() => {
     setIsEnter(true);
     if (questions[currentIndex].history && loaded) {
@@ -84,6 +82,7 @@ const Bestimate = (props) => {
     }
   }, [currentIndex, loaded]);
 
+  // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
     if (typeof window !== 'undefined' && window.innerWidth < 1024) {
       history.push(`/${propID}/rewards`);
@@ -93,6 +92,7 @@ const Bestimate = (props) => {
     resetForm('Property');
   };
 
+  // FUNCTION TO SAVE DATA
   const saveData = () => {
     const data = {
       id: propID,
@@ -103,6 +103,7 @@ const Bestimate = (props) => {
     resetForm('Property');
   };
 
+  // FUNCTION TO CHANGE STEP - BACK-FORWARD
   const changeStep = (act) => {
     setIsEnter(false);
     let newIndex = currentIndex;
@@ -119,6 +120,7 @@ const Bestimate = (props) => {
     setQuest(questions[newIndex]);
   };
 
+  // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
     if (formValue.id) {
       const newQuest = [];
@@ -142,6 +144,7 @@ const Bestimate = (props) => {
     }
   }, [formValue]);
 
+  // CHECK IF FIELD IS VALID
   const checkValidateField = (act) => {
     let isValid = true;
     let isNotEmpty = false;
@@ -167,6 +170,7 @@ const Bestimate = (props) => {
     return isValid;
   };
 
+  // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);

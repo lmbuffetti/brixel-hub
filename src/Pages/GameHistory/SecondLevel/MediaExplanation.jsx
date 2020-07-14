@@ -37,6 +37,7 @@ function MediaExplanation(props) {
   const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
 
+  // GET CURRENT GAME GROUP
   useEffect(() => {
     if (gameGroup.length > 0) {
       const group = gameGroup.find((game) => game.achievements.some((item) => item.stub === getAchievement()));
@@ -57,6 +58,7 @@ function MediaExplanation(props) {
     setCurrentIndex(newPosition);
   };
 
+  // FUNCTION TO CHANGE STEP
   const onClickNextBtn = () => {
     if (currentIndex === Questions.length - 1) {
       localStorage.setItem('donMediaExplanation', propID);

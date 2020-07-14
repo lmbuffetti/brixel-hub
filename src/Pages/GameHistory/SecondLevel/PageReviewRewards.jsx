@@ -26,11 +26,13 @@ const PageReviewRewards = (props) => {
   const propID = get(match, 'params.propId', '');
   const gameStub = history.location.pathname.split('/')[3];
 
+  // CHECK IF THE SECTION IS DONE
   useEffect(() => {
     const isCheckDone = gameHistory.find((item) => item.page === propID && item.achievement.stub === gameStub);
     setIsDone(typeof isCheckDone !== 'undefined');
   }, [gameHistory]);
 
+  // FUNCTION TO OPEN THE PAGE PREVIEW AND ADD TO GAME HISTORY
   const openPreview = () => {
     const redirectUrl = `${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${window.location.href}`;
     handleAddGameHistory({ stub: gameStub, redirectTo: redirectUrl, smallLoader: 'preview' });

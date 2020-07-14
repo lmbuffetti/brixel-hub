@@ -18,6 +18,7 @@ const MediaRewards = (props) => {
   // PARAMS URL
   const propID = get(match, 'params.propId', '');
 
+  // FUNCTION TO SHOW/HIDE THE INTRO
   const showIntro = () => {
     const idStorageProp = localStorage.getItem('donMediaExplanation') || 0;
     if (documents.length === 0 && floorPlans.length === 0 && photos.length === 0 && idStorageProp !== propID) {

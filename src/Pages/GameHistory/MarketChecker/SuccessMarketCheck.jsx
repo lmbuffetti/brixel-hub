@@ -33,6 +33,7 @@ function SuccessMarketCheck(props) {
   const propID = get(match, 'params.propId', null);
   const getDoneFirstTime = () => last(history.location.pathname.split('/'))[last(history.location.pathname.split('/')).length - 1];
 
+  // GET CURRENT GAME GROUP
   useEffect(() => {
     if (gameGroup) {
       let selectedGame;
