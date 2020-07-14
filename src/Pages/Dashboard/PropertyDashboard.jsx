@@ -60,12 +60,14 @@ const HomeDashboard = (props) => {
   const propID = get(match, 'params.propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
+  // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
   useEffect(() => {
     if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'property') {
       history.push({ pathname: `/${propID}/property/facts` });
     }
   }, [windowDimensions, getFact()]);
 
+  // CHECK IF THE USER IS A BUYER OR SELLER
   useEffect(() => {
     if (property.id && loggedInUser.user) {
       let userTypeCur = 'buyer';
@@ -76,6 +78,7 @@ const HomeDashboard = (props) => {
     }
   }, [property, loggedInUser]);
 
+  // CLASS FOR OPEN/CLOSE COLUMNS
   const openCloseColumn = () => {
     if (
       (history.location.pathname.includes('facts') && getFact() !== 'facts') ||
@@ -86,6 +89,7 @@ const HomeDashboard = (props) => {
     return 'opened';
   };
 
+  // FUNCTION TO CALC NUMBER OF PHOTOS - FLOORPLANS - DOCUMENTS
   const calcLenght = (val) => {
     if (val) return val.length;
     return 0;

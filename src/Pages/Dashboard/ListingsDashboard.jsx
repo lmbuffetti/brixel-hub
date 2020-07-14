@@ -43,12 +43,14 @@ const ListingsDashboard = (props) => {
   const propID = get(match, 'params.propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
+  // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
   useEffect(() => {
     if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'listings') {
       history.push({ pathname: `/${propID}/listings/page` });
     }
   }, [windowDimensions, getFact()]);
 
+  // CHECK THE STATUS OF PROPERTY
   const statusPage = () => {
     let label;
     let colorIcon;
@@ -68,6 +70,7 @@ const ListingsDashboard = (props) => {
     };
   };
 
+  // CHECK IF PORTALS IS ONLINE
   const checkPortalsOnline = () => {
     let isOnline = false;
     const portals = get(formValue, 'portals', {});
@@ -77,7 +80,7 @@ const ListingsDashboard = (props) => {
     });
     return isOnline;
   };
-
+  // CHECK STATUS PORTALS
   const statusPortals = () => {
     let label;
     let colorIcon;
@@ -97,6 +100,7 @@ const ListingsDashboard = (props) => {
     };
   };
 
+  // CLASS FOR OPEN/CLOSE COLUMNS
   const openCloseColumn = () => {
     if (
       (history.location.pathname.includes('showings') && getFact() !== 'showings')
@@ -106,6 +110,7 @@ const ListingsDashboard = (props) => {
     return 'opened';
   };
 
+  // COLORS OF STATUS PAGE AND PORTALS
   const statusPortalsColor = statusPortals().colorIcon.charAt(0).toUpperCase() + statusPortals().colorIcon.slice(1);
   const statusPageColor = statusPage().colorIcon.charAt(0).toUpperCase() + statusPage().colorIcon.slice(1);
 
