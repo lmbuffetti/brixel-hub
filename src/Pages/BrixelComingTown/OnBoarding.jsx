@@ -41,7 +41,7 @@ import {
   errorMessage, setPageData, setLanguage, setScreenNotification, setWindowDimensions,
 } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion';
+import { QuestionsList } from '../../resources/onBoarding';
 import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';

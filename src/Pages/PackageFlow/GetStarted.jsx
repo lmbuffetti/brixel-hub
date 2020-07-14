@@ -18,7 +18,7 @@ import { getActiveSingleCompany, getCompanyByCountry } from '../../actions/Compa
 import { createActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
 import { setCookie } from '../../utils/helpers';
-import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion';
+import { QuestionsList } from '../../resources/onBoarding';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
@@ -46,9 +46,11 @@ const GetStarted = (props) => {
     reset,
   } = props;
   // STATE
+  // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
   const [progressBar, setProgressBar] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
+  // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [lastID, setLastID] = useState(0);
@@ -64,6 +66,7 @@ const GetStarted = (props) => {
     delete dataForm.login;
     delete dataForm.register;
     delete dataForm.company;
+    // PROPERTY DATA
     const data = {
       ...dataForm,
       packageFlowProcess: {
@@ -82,16 +85,23 @@ const GetStarted = (props) => {
       company,
     };
     const page = get(formValue, 'signupScreen', null);
+    // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
     if (formValue.owner) {
       data.owner = loggedInUser.user.id;
+      // DISPATCH TO SAVE THE PROPERTY
       await handleCreateActiveSingleProperty(data);
     } else if (page === 'login') {
+      // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
+      // USER DATA
       data.user = {
         username: login.email,
         password: login.password,
       };
+      // DISPATCH TO DO LOGIN
       await handleDoLogin(data);
     } else {
+      // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
+      // USER DATA
       data.user = {
         ...register,
         name: `${register.firstName} ${register.lastName}`,
@@ -105,6 +115,7 @@ const GetStarted = (props) => {
         ignoreEmail: false,
         redirectTo: '/packageFlow/getStarted/success',
       };
+      // DISPATCH TO DO REGISTRATION USER
       await handleValidateUser(data);
     }
     // handleCreateActiveSingleProperty({stub: getAchievement()});
@@ -129,7 +140,7 @@ const GetStarted = (props) => {
     return newIndex;
   };
 
-  // FUNCTION TO GO TO NEXT SPEP
+  // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act) => {
     let newIndex = currentIndex;
     if (act === 'back') {
@@ -178,9 +189,9 @@ const GetStarted = (props) => {
     }
   };
 
+  // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
     handleGetGamegroup();
-
     // GET THE COMPANY BY URL OR COOKIE
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
@@ -196,10 +207,12 @@ const GetStarted = (props) => {
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) history.push(`/packageFlow/getStarted/${questions[0].history}`);
   }, []);
 
+  // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
     setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
     setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
   }, [lang]);
+
   // SET THE OWNER PROPERTY IF USER IS LOGGED IN
   useEffect(() => {
     if (loggedInUser.user) {
@@ -208,12 +221,14 @@ const GetStarted = (props) => {
     }
   }, [loggedInUser]);
 
+  // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
   useEffect(() => {
     if (get(initialValues, 'properties.propertyType', null)) {
       changeStep();
     }
   }, [initialValues]);
 
+  // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
     setIsEnter(true);
     if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
@@ -272,6 +287,7 @@ const GetStarted = (props) => {
     }
   }, [formValue]);
 
+  // FUCNTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
     const propertyType = get(formValue, 'properties.propertyType', null);
     const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);

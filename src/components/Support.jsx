@@ -51,6 +51,7 @@ const Support = (props) => {
                 <h5 className="txtDark700">{companyLegalName}</h5>
               </div>
               {
+                // HIDE CLOSE BUTTON IF PROPS isFixed OR hideClose
                 !isFixed && !hideClose && (
                   <BrixelButtonIcon
                     className="shadow-2dp hide dis-b-md"

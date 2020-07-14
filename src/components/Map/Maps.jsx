@@ -11,9 +11,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { change } from 'redux-form';
-import { BrixelInputText, BrixelSelect } from '@brixel/brixel-components';
+import { BrixelInputText } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { diff } from 'deep-object-diff';
 import useOutsideAlerter from '../OutsideElement';
@@ -24,7 +23,6 @@ export const ComponentMap = (props) => {
   // PROPS
   const {
     className,
-    changeCountry,
     changeFieldValue,
     country,
     curCountry,
@@ -36,7 +34,6 @@ export const ComponentMap = (props) => {
     handleUpdateCountry,
     history,
     init,
-    inputLabel,
     latitude,
     longitude,
     multipleFieldSearch,
@@ -44,7 +41,6 @@ export const ComponentMap = (props) => {
     selCountry,
     showMap,
     showSearchLocation,
-    showSelectCountry,
     similarProperties,
     zoom,
     minHeight,
@@ -55,7 +51,6 @@ export const ComponentMap = (props) => {
   // const [optMap, setOptMap] = useState({});
   const inputSearch = createRef(null);
   const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
-  const [defCountry, setDefCountry] = useState('');
   const [locList, setLoclist] = useState([]);
   // const [zipList, setZiplist] = useState([]);
   const [selLocAuto, setSelLocAuto] = useState(-1);
@@ -69,7 +64,8 @@ export const ComponentMap = (props) => {
   let typingTimer; // timer identifier
   const doneTypingInterval = 1500;
 
-  const changeStreetName = (e) => {
+  // FUNCTION FOR THE AUTOCOMPLETE OF STREET NUMBER
+  const changeStreetNumber = (e) => {
     changeFieldValue(formName, 'location.streetNumber', e);
     setLoclist([]);
     clearTimeout(typingTimer);
@@ -78,6 +74,7 @@ export const ComponentMap = (props) => {
     }, doneTypingInterval);
   };
 
+  // FUNCTION FOR THE AUTOCOMPLETE - start only if value more then 3 characters - val.length
   const changeLocation = (val, hideSearch, type) => {
     if ((showSearchLocation && inputSearch.current) || hideSearch) {
       // setNewLocation(val);
@@ -88,9 +85,6 @@ export const ComponentMap = (props) => {
       if (type === 'cities') typeSearch = ['(regions)'];
       if (type === 'zip') typeSearch = ['(regions)'];
       if (val.length > 3) {
-        // const lat = get(formValue, 'location.latitude', 0);
-        // const lng = get(formValue, 'location.longitude', 0);
-        // const selectedCity = get(formValue, 'location.city', 0);
         const searcCountry = selCountry === 'all' ? '' : selCountry;
         autocompleteService.getPlacePredictions(
           {
@@ -121,6 +115,7 @@ export const ComponentMap = (props) => {
     }
   };
 
+  // FUNCTION TO EXTRACT DATA FROM SELECTED ADDRESS
   const geoCode = (adr) => {
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({
@@ -209,10 +204,7 @@ export const ComponentMap = (props) => {
     });
   };
 
-  useEffect(() => {
-    setDefCountry(selCountry);
-  }, [selCountry]);
-
+  // FUNCTION TO LOAD AUTOCOMPLETE FUNCTION ON CHANGE searchAddress
   useEffect(() => {
     const addressSearch = get(formValue, 'location.searchAddress', null);
     const addressSearchInit = get(init, 'location.searchAddress', null);
@@ -224,6 +216,7 @@ export const ComponentMap = (props) => {
     }
   }, [get(formValue, 'location.searchAddress', null)]);
 
+  // FUNCTION TO LOAD AUTOCOMPLETE FUNCTION ON CHANGE cityZip
   useEffect(() => {
     const search = get(formValue, 'location.cityZip', null);
     if (search) {
@@ -233,6 +226,7 @@ export const ComponentMap = (props) => {
     // setSelectedZip(false);
   }, [get(formValue, 'location.cityZip', null)]);
 
+  // FUNCTION TO LOAD AUTOCOMPLETE FUNCTION ON CHANGE startSearch
   useEffect(() => {
     if (startSearch) {
       const search = get(formValue, 'location.address', null);
@@ -254,6 +248,7 @@ export const ComponentMap = (props) => {
     }
   }, [startSearch]);
 
+  // FUNCTION TO HIGLIGHT THE SEARCH VALUE ON RESULTS ADDRESS
   const highlight = (container) => {
     const content = container.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     let start = -1;
@@ -265,17 +260,14 @@ export const ComponentMap = (props) => {
     return `<span>${container.substring(0, start)}</span><span class='highlight'>${container.substring(start, end + 1)}</span><span>${container.substring(end + 1, content.length)}</span>`;
   };
 
+  // FUNCTION TO MANAGE THE CLICK OUTSIDE OF DROPDOWN ADDRESS LISTS
   // useOutsideAlerter(inputZipSearch, { action: 'function', func: () => setZiplist([]) });
   useOutsideAlerter(addressRef, { action: 'function', func: () => setLoclist([]) });
 
-  const selectOpt = cloneDeep(country);
-  selectOpt.unshift({
-    label: '🌍 Everywhere',
-    value: '',
-  });
   const classNameDef = !className && showMap ? 'w-perc-100 dis-fl-col' : className;
   const mapSize = !className && showMap ? 'h-fix-320' : 'h-perc-100';
 
+  // FUNCTION TO MANAGE KEY-CHANGE
   const keyUpInput = (e) => {
     let newId = selLocAuto;
     if (e.key === 'ArrowUp') {
@@ -294,6 +286,7 @@ export const ComponentMap = (props) => {
     }
   };
 
+  // ADD MESSAGE THAT THE ADDRESS IS NOT EDITABLE
   useEffect(() => {
     const messageEl = document.getElementsByClassName('message')[0];
 
@@ -304,8 +297,6 @@ export const ComponentMap = (props) => {
       history.push({ state: { showSupport: true } });
     };
   });
-
-  const countryValue = () => (defCountry ? defCountry.toLowerCase() : 'all');
 
   return (
     // Important! Always set the container height explicitly
@@ -318,6 +309,7 @@ export const ComponentMap = (props) => {
       className={`${classNameDef} ${multipleFieldSearch ? 'multiField' : ''}`}
     >
       {
+        // IF multipleFieldSearch SHOW THE FIELDS STREET NAME AND STREET NUMBER
         multipleFieldSearch && (
           <div className="fieldMapSearch mb-5">
             <div className="dis-f jc-b flex-wrap">
@@ -367,7 +359,7 @@ export const ComponentMap = (props) => {
                   label="Street Number"
                   placeholder=""
                   input={{
-                    onChange: (e) => changeStreetName(e),
+                    onChange: (e) => changeStreetNumber(e),
                     onBlur: () => '',
                     value: get(formValue, 'location.streetNumber', ''),
                     name: 'location.streetNumber',
@@ -378,73 +370,6 @@ export const ComponentMap = (props) => {
           </div>
         )
       }
-      {
-        showSearchLocation && (
-          <>
-            <div className="pos-r">
-              <BrixelInputText
-                className="search-box w-perc-100"
-                type="text"
-                ref={inputSearch}
-                label={inputLabel}
-                placeholder="Enter property address"
-                input={{
-                  onChange: (e) => changeLocation(e),
-                  onBlur: () => '',
-                  value: newLocation,
-                  name: 'location',
-                }}
-                onKeyDown={(e) => keyUpInput(e)}
-              />
-              {
-                locList.length > 1 && (
-                  <ul className="resultAutoComplete" ref={addressRef}>
-                    {
-                      locList.map((loc, i) => (
-                        <li
-                          className={i === selLocAuto ? 'active' : ''}
-                          tabIndex={i}
-                          key={i.toString()}
-                          onClick={() => geoCode(loc.description)}
-                          dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
-                        />
-                      ))
-                    }
-                  </ul>
-                )
-              }
-              {
-                showSelectCountry && (
-                  <div className="mt-2 mb-2">
-                    <BrixelSelect
-                      compact
-                      className="w-perc-100 mt-1 pos-r zIndex2"
-                      input={{
-                        onChange: (val) => {
-                          changeCountry(val.toUpperCase());
-                        },
-                        name: 'country',
-                        value: countryValue(),
-                      }}
-                      bigDropDown
-                      options={selectOpt}
-                    />
-                  </div>
-                )
-              }
-            </div>
-          </>
-        )
-      }
-      {/*  {
-          showMessageToChangeAddress && (
-            <p className="mt-2 mb-2 body2">
-              <span>Address can not be changed. Please contact</span>
-              <span onClick={() => history.push({state: {showSupport: true}})} className="cur-poi txtPrimary400 mx-1">Brixel Support</span>
-              <span>to request a change.</span>
-            </p>
-          )
-        } */}
       <div className={`${showMap ? `${multipleFieldSearch ? 'pos-r' : ''} ${subMinHeight}` : 'hide'} wrapMap ${mapSize}`}>
         <Map
           draggable={draggable}
@@ -472,7 +397,6 @@ export const ComponentMap = (props) => {
 };
 
 ComponentMap.propTypes = {
-  changeCountry: PropTypes.func.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   className: PropTypes.string,
   country: PropTypes.arrayOf(PropTypes.object),
@@ -486,7 +410,6 @@ ComponentMap.propTypes = {
   multipleFieldSearch: PropTypes.bool,
   handleUpdateCountry: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  inputLabel: PropTypes.string,
   longitude: PropTypes.number.isRequired,
   latitude: PropTypes.number.isRequired,
   showMessageToChangeAddress: PropTypes.bool,
@@ -494,7 +417,6 @@ ComponentMap.propTypes = {
   similarProperties: PropTypes.arrayOf(PropTypes.object),
   showMap: PropTypes.bool,
   showSearchLocation: PropTypes.bool,
-  showSelectCountry: PropTypes.bool,
   zoom: PropTypes.number,
   minHeight: PropTypes.number,
   subMinHeight: PropTypes.string,
@@ -508,10 +430,8 @@ ComponentMap.defaultProps = {
   draggable: false,
   formName: '',
   multipleFieldSearch: false,
-  inputLabel: '',
   showMessageToChangeAddress: false,
   showSearchLocation: false,
-  showSelectCountry: false,
   similarProperties: [],
   showMap: false,
   zoom: 14,

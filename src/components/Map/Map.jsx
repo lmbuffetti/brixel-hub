@@ -47,12 +47,13 @@ export const ComponentMap = (props) => {
   const [streetViewAvailable, setStretViewAvailable] = useState(false);
   const [optMap, setOptMap] = useState({});
 
+  // FUNCTION TO INITIALIZE THE MAP
   const fetchPlaces = (mapProps, map) => {
     const center = {
       lat: latitude !== 0 ? latitude : get(curCountry, 'location.lat', null),
       lng: longitude !== 0 ? longitude : get(curCountry, 'location.lng', null),
     };
-
+    // MAP DEFAULT OPTIONS
     map.setOptions({
       styles: mapStyles,
       disableDefaultUI: true,
@@ -73,6 +74,7 @@ export const ComponentMap = (props) => {
     });
 
     setOptMap(map);
+    // FUNCTION TO LOAD NEAR PLACES
     if (nearBy) {
       const service = new google.maps.places.PlacesService(map);
       const streetViewService = new google.maps.StreetViewService();
@@ -124,6 +126,7 @@ export const ComponentMap = (props) => {
     }
   };
 
+  // FUNCTION TO RE-CENTER THE MAP ON CHANGE THE LATITUDE OR LONGITUDE OR ZOOM
   useEffect(() => {
     if (Object.keys(optMap).length > 0) {
       const center = {
@@ -137,6 +140,7 @@ export const ComponentMap = (props) => {
     }
   }, [latitude, longitude, optMap.zoom]);
 
+  // FUNCTION IF ENABLED EXTERNAL CONTROLS
   const btnActions = (action) => {
     const center = {
       lat: latitude,
@@ -193,6 +197,7 @@ export const ComponentMap = (props) => {
     }
   };
 
+  // FUNCTION WHEN THE MARKER IS MOVED
   const onMarkerDragEnd = (coord) => {
     const { latLng } = coord;
     const lat = latLng.lat();

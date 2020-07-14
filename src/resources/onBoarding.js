@@ -18,9 +18,10 @@ import roomsSvg from '../images/getstarted/svgs/room.svg';
 import congratsSvg from '../images/getstarted/svgs/congrats.svg';
 import yearSvg from '../images/getstarted/svgs/year.svg';
 
+// VALIDATION OF FIELDS
 export const maxLengthNum = (val, name) => (value) => {
   let error = null;
-  if (value && value < val) {
+  if (value && value >= val) {
     error = name === 'year' ? `Year can't be after ${val}` : `The ${name} have to be less then ${val}`;
   }
   return error;
@@ -28,7 +29,7 @@ export const maxLengthNum = (val, name) => (value) => {
 
 export const minLengthNum = (val, name) => (value) => {
   let error = null;
-  if (value && value >= val) {
+  if (value && value <= val) {
     error = name === 'year' ? `Too old! year can't be before ${val}` : `The ${name} have to be more then ${val}`;
   }
   return error;
@@ -39,6 +40,7 @@ const maxLengthNumRooms = maxLengthNum(31, 'rooms');
 const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
 const maxLengthNumYear = maxLengthNum(2031, 'year');
 
+// QUESTION LISTS
 export const QuestionsList = (lang, country = 'CH') => {
   let countryList = [];
   if (configureStore) countryList = get(configureStore.getState(), 'common.country', []);
