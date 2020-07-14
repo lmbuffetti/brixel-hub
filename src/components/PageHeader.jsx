@@ -40,6 +40,7 @@ function PageHeader(props) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [zIndexHeader, setZIndexHeader] = useState(11);
 
+  // FUNCTION TO CHECK IF USER IS LOGGED IN
   useEffect(() => {
     if (loggedInUser && loggedInUser.user) {
       const langUsr = loggedInUser.user.language;
@@ -50,6 +51,7 @@ function PageHeader(props) {
     }
   }, [loggedInUser, lang]);
 
+  // FUNCTION TO POPULATE THE DROPDOWN LANGUAGE MENU
   useEffect(() => {
     const drpLng = [];
     languages.map((lng, i) => {
@@ -62,11 +64,13 @@ function PageHeader(props) {
     setDropLang(drpLng);
   }, [languages]);
 
+  // FUNCTION TO TRANSLATE THE CONTENT USING TRANSIFEX
   useEffect(() => {
     setCurrentLang(lang);
     if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
   }, [lang]);
 
+  // FUNCTION LOADED WHEN SCREEN IS RESIZED
   const screenResize = () => {
     setWidthScreen(window.innerWidth);
     if (window.innerWidth > 1024) {
@@ -75,6 +79,7 @@ function PageHeader(props) {
     }
   };
 
+  // FUNCTION TO INITIALIZE THE EVENT LISTENER FOR SCREEN RESIZE
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setWidthScreen(window.innerWidth);
@@ -82,6 +87,7 @@ function PageHeader(props) {
     }
   }, []);
 
+  // FUNCTION TO MANAGE THE ZINDEX IF slideUp CLASS EXISTS
   useEffect(() => {
     const getElementByClass = document.getElementsByClassName('slideUp');
     if (getElementByClass.length > 0) {
@@ -91,6 +97,7 @@ function PageHeader(props) {
     }
   }, [get(history, 'location.pathname', null)]);
 
+  // FUNCTION TO SET THE LANGUAGE WHEN SELECTED
   const newLang = (e, langCode) => {
     e.stopPropagation();
     setCurrentLang(langCode.value);
@@ -99,6 +106,7 @@ function PageHeader(props) {
     setCookie('brixelLang', langCode.value);
   };
 
+  // FUNCTION WHEN CLICKED ON AVATAR - DIFFERENT IF DESKTOP OR MOBILE
   const avatarAction = () => {
     // Mobile actions for the avatar click
     if (widthScreen < 769) {
@@ -109,6 +117,7 @@ function PageHeader(props) {
     }
   };
 
+  // FUNCTION WHEN MENU ELEMENT IS CLICKED
   const onClickMenu = (link) => {
     history.push(link);
     setShowMobileMenu(false);

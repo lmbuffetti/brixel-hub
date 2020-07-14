@@ -19,6 +19,7 @@ const BrixelButtonAchievement = (props) => {
   const activeClass = active ? 'active' : '';
   const defaultClass = 'brixel-button-achievement dis-f a-c jc-b w-perc-100 p-1 brdRadius';
 
+  // FUNCTIONS TO MANAGE THE SUBTITLE OVER THE TITLE
   const subTitleHover = () => {
     if (isFree) return 'Free';
     if (isFree === null) return 'Coming soon';
@@ -34,6 +35,7 @@ const BrixelButtonAchievement = (props) => {
         disabled={disabled}
       >
         {
+          // CONDITION IF THE SECTION IS DONE OR NOT
           done ? (
             <>
               <BrixelIcon
@@ -47,18 +49,6 @@ const BrixelButtonAchievement = (props) => {
               <div className="ta-l w-perc-100 pl-2">
                 <p className="body txtDark200 td-lt">{title}</p>
               </div>
-              {/* according to the new desgin from Michael no award icon for done item */}
-              {/* {
-                award && (
-                  <BrixelIcon
-                    rounded
-                    bgTransparent
-                    color="green"
-                    saturationTxt={400}
-                    icon="cup-awards"
-                  />
-                )
-              } */}
             </>
           ) : (
             <>
@@ -95,6 +85,7 @@ const BrixelButtonAchievement = (props) => {
         }
       </button>
       {
+        // VERTICAL LINE AFTER BUTTON
         lineAfter && (
           <div className={`lineAfter ${config.lineAfter}`} />
         )

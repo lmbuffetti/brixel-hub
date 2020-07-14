@@ -5,6 +5,12 @@ import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 
+// SIMPLE COMPONENT TO MANAGE THE FULLSCREEN MODAL
+// PROPS
+// children: HTML
+// title: STRING
+// onClose: FUNCTION
+
 const BrixelModalFullScreen = (props) => {
   // PROPS
   const {

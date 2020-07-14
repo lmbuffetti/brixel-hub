@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// COMPONENT TO LOAD THE DIFFRENT EMOJI
 const Emoji = (props) => {
   const {
     label,

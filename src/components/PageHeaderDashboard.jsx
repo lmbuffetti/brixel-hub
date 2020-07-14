@@ -47,10 +47,12 @@ function PageHeaderDashboard(props) {
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
 
+  // ON CHANGE HISTORY THE MOBILE MENU IS CLOSED
   useEffect(() => {
     setShowMobileMenu(false);
   }, [history]);
 
+  // CHECK IF USER IS LOGGED IN AND LOAD GAME HISTORY IF NO DATA
   useEffect(() => {
     if (loggedInUser && loggedInUser.user) {
       const langUsr = loggedInUser.user.language;
@@ -60,24 +62,28 @@ function PageHeaderDashboard(props) {
     }
   }, [loggedInUser]);
 
+  // FUNCTION LOADED WHEN SCREEN RESIZED
   const screenResize = () => {
     if (window.innerWidth >= 1024) {
       document.body.classList.remove('ov-h');
     }
   };
 
+  // FUNCTION TO INITIALIZE THE EVENT LISTENER FOR SCREEN RESIZE
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', () => screenResize());
     }
   }, []);
 
+  // SHOW DETAILS WHEN CLICK ON BRIXELS POINTS
   const brixelsAchievementDetail = () => {
     handleSetModal({
       showAwardsInfo: true,
     });
   };
 
+  // FUNCTION TO MANAGE CLICK ON MOBILE MENU
   const onClickMobileMenu = (link) => {
     setShowMobileMenu(false);
     setActiveMenu(link);
@@ -85,16 +91,19 @@ function PageHeaderDashboard(props) {
     document.body.classList.remove('ov-h');
   };
 
+  // SHOW/HIDE MOBILE MENU
   const toggleMobileMenu = () => {
     setShowMobileMenu(!showMobileMenu);
     changeZIndex(!showMobileMenu ? 8 : 1);
   };
 
+  // WHEN CLICK ON UPGRADE BUTTON
   const onUpgrade = () => {
     localStorage.setItem('backUrl', history.location.pathname);
     history.push(`/${propID}/upgrade`);
   };
 
+  // FUNCTION TO GET CURRENT URL LOCATION
   const getCurrentRoute = () => {
     const path = history.location.pathname.split('/')[2];
     const currentPath = firstRoutes.concat(secondRoutes).find((item) => item.name === path);
@@ -129,6 +138,7 @@ function PageHeaderDashboard(props) {
     }
   });
 
+  // FUNCTION TO CALC IF TITLE IS LONG OR NOT AND ASSIGN THE DIFFERENT CLASS
   useEffect(() => {
     if (proTitleEl) {
       const titleHeight = proTitleEl.offsetHeight;

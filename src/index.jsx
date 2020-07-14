@@ -10,9 +10,11 @@ import { configureStore } from './store';
 import * as serviceWorker from './serviceWorker';
 import './styles/SCSS/general/main.scss';
 
+// SET THE STORE FROM REDUX REDUCER
 const store = configureStore;
 const root = document.getElementById('root');
 
+// INITILAIZE THE REACT DOM APP
 const AppDOM = () => (
   <Provider store={store}>
     <BrowserRouter history={RouterHistory}>

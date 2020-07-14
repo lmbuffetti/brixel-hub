@@ -17,7 +17,7 @@ const Support = (props) => {
     layout,
     onClose,
   } = props;
-  // STATIC CONTCT DATA
+  // STATIC CONTCT DATA FROM COMPANY
   const phone = get(activeSingleCompany, 'contact.phone', null);
   const email = get(activeSingleCompany, 'contact.email', null);
   const whatsapp = get(activeSingleCompany, 'contact.whatsapp', null);
@@ -29,6 +29,7 @@ const Support = (props) => {
 
   const [openDetail, setOpenDetail] = useState(expanded);
 
+  // FUCNTION TO OPEN/CLOSE THE SUPPORT DETAIL AND SCROLL DOWN
   const onclickOne = () => {
     setOpenDetail(!openDetail);
     if (!openDetail) {

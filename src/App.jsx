@@ -128,6 +128,7 @@ const App = (props) => {
     windowDimensions,
   } = props;
   // STATE
+  // CONSTANT TO PREVENT TRANSIFEX ERROR
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   const [isLoaded, setIsLoaded] = useState(false);
   const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
@@ -138,11 +139,13 @@ const App = (props) => {
   const [isFlow, setIsFlow] = useState(false);
   const [extraHeight, setExtraHeight] = useState(0);
 
+  // USEREF TO MANAGE DOM ELEMENT
   const dashContentRef = useRef(null);
   const dashWrapperRef = useRef(null);
   const dashWrapperEl = dashWrapperRef.current;
   const dashContentEl = dashContentRef.current;
 
+  // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
     if (loggedInUser.user && localTransifex) {
       const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
@@ -166,6 +169,7 @@ const App = (props) => {
     }
   }, [localTransifex, loggedInUser]);
 
+  // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
     if (activeSingleProperty && activeSingleProperty.id && loggedInUser.user && (activeSingleProperty.owner === loggedInUser.user.id || activeSingleProperty.owner.id === loggedInUser.user.id)) {
       handleSetUserTypes('seller');
@@ -174,17 +178,19 @@ const App = (props) => {
     }
   }, [activeSingleProperty]);
 
+  // FUNCTION USED TO SEND THE DATA TO HANALITYCS
   useEffect(() => {
-    if (history && history.location) {
+    if (get(history, 'location', null)) {
       ga('send', 'pageview', history.location.pathname);
     }
   }, [history.location]);
 
+  // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER
   useEffect(() => {
-    if (redirectTo && redirectTo.history) {
+    if (get(redirectTo, 'history', null)) {
       history.push(redirectTo.history);
     }
-    if (redirectTo && redirectTo.url) {
+    if (get(redirectTo, 'url', null)) {
       window.location.href = redirectTo.url;
     }
   }, [redirectTo]);
@@ -201,6 +207,7 @@ const App = (props) => {
     }
   });
 
+  // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
     if (
       history.location.pathname.includes('packageFlow') ||
@@ -244,7 +251,7 @@ const App = (props) => {
         dashWrapperEl.classList.remove('secondLevelActive');
       }
     }
-  }, [history.location.pathname, setExtraHeight, setIsSecLevel]);
+  }, [history.location.pathname]);
 
   const calcHeaderHeight = () => {
     const head = document.getElementsByClassName('hubDasHeader');
@@ -272,6 +279,7 @@ const App = (props) => {
     };
   };
 
+  // DID MOUNT TO CHECK THE USER TOKEN AND INITIALIZE THE WINDOW SIZE LISTENER
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) {
       let data = {};
@@ -301,6 +309,7 @@ const App = (props) => {
     return null;
   };
 
+  // CONDITION TO VIEW THE ELEMENTS AFTER LOADING
   if (
     !loggedInUser ||
     (!userTypes && get(activeSingleProperty, 'id', null)) ||

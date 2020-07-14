@@ -39,6 +39,7 @@ const MenuSidebar = (props) => {
   const propID = history.location.pathname.split('/')[1];
   const levelUrl = history.location.pathname.split('/');
 
+  // FUNCTION TO LOAD THE GAME GROUP AND THE GAME HISTORY AND CALC THE NUMBER OF SECTION TO DO (number iside red circle)
   useEffect(() => {
     if (gameGroup && gameHistory) {
       // let numDone = 0;
@@ -65,6 +66,7 @@ const MenuSidebar = (props) => {
     }
   }, [gameGroup, gameHistory, activeSingleProperty]);
 
+  // FUNCTION TO CALC IF TITLE IS LONG OR NOT AND ASSIGN THE DIFFERENT CLASS
   useEffect(() => {
     if (proTitleEl) {
       const titleHeight = proTitleEl.offsetHeight;
@@ -74,6 +76,7 @@ const MenuSidebar = (props) => {
     }
   });
 
+  // FUNCTION TO MAANGE THE TAB CLICK
   const onTabClick = (val, act = 'url') => {
     if (act === 'state' || val === 'support') {
       setActiveMenu(val);
@@ -84,6 +87,7 @@ const MenuSidebar = (props) => {
     }
   };
 
+  // FUNCTION TO SHOW/HIDE THE SUPPORT MENU (history.push({state: {showSupport: true}}))
   useEffect(() => {
     if (get(history, 'location.state.showSupport', null) === true) {
       onTabClick('support');
@@ -101,12 +105,14 @@ const MenuSidebar = (props) => {
     return curTab;
   };
 
+  // FUNCTION WHEN SUPPORT MENU IS CLOSED
   const onCloseSupport = () => {
     setActiveMenu(null);
     setSlideIn(false);
     history.push({ state: null });
   };
 
+  // FUNCTION TO MANAGE CLICK OUTSIDE OF SUPPORT MENU
   useOutsideAlerter(wrapperRef, {
     action: 'function',
     func: () => {

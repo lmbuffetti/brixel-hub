@@ -22,6 +22,7 @@ const MenuNavigationSubmenu = (props) => {
   // REF
   const wrapperRef = useRef(null);
 
+  // FUNCTION TO MANAGE THE CLICK OUTSIDE OF ELEMENT
   useOutsideAlerter(wrapperRef, {
     action: 'function',
     func: () => {
@@ -32,6 +33,7 @@ const MenuNavigationSubmenu = (props) => {
   return (
     <>
       {
+        // WHEN THE MENU IS ACTIVE
         activeMenu && (
           <div className="sidebarSubmenu zIndex2" style={{ height: windowDimensions.height }}>
             <div className="sidebarSubmenuContent shadow-1dp dis-fl-col h-perc-100 pos-r" ref={wrapperRef}>

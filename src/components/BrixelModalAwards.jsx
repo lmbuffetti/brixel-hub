@@ -25,14 +25,15 @@ const BrixelModalAwards = (props) => {
   const [toDo, setToDo] = useState(0);
   const [done, setDone] = useState(0);
   // PARAMS URL
-  // const propID = history.location.pathname.split('/')[1];
 
+  // FUNCTIONS CLICK ON BUTTON TO CLOSE
   const onClose = () => {
     handleSetModal({
       showAwardsInfo: false,
     });
   };
 
+  // FUNCTIONS TO LOAD INFO FROM GROUP AND GAME HISTORY
   useEffect(() => {
     if (gameGroup && gameHistory) {
       // let numDone = 0;
@@ -59,6 +60,7 @@ const BrixelModalAwards = (props) => {
       onClose={() => onClose()}
     >
       <div>
+        {/* SECTION: AWARDS */}
         <div className="bgGreen100 brdRadius p-2">
           <div className="dis-f w-perc-100 a-c">
             <BrixelIcon iconSize="fsize-900" icon="cup-awards" color="green" />
@@ -67,18 +69,6 @@ const BrixelModalAwards = (props) => {
                 <span>Awards</span>
                 <span className="ff-mono fweight-700">{done}/{toDo}</span>
               </p>
-              {/* <BrixelProgressBar
-                classProgressBar={'pos-r'}
-                rounded
-                barBackground="Light"
-                backgroundSaturation={200}
-                progressValue={done * 100 / (done + toDo)}
-                color="Green"
-                saturation={400}
-                classBackground="ov-h brdRadius"
-                large={window.innerWidth >= 1024}
-                small={window.innerWidth < 1024}
-              /> */}
             </div>
           </div>
 
@@ -86,6 +76,7 @@ const BrixelModalAwards = (props) => {
 
         </div>
 
+        {/* SECTION: BRIXEL POINTS */}
         <div className="bgRed100 brdRadius p-2 mt-3">
           <div className="dis-f w-perc-100 a-c">
             <img className="w-fix-40" src={brixels} alt="icon awards" />

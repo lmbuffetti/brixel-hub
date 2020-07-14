@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
 
+// COMPONENT USED ON ONBOARDING TO SHOW THE PREVIEW OF CREATED PROPERTY
 const ResumeCard = (props) => {
   // PROPS
   const {

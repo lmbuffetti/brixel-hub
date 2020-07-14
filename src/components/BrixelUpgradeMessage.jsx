@@ -25,6 +25,7 @@ const BrixelUpgradeMessage = (props) => {
   const [showUnlockMessage, setShowUnlockMessage] = useState(false);
   const [showTour, setShowTour] = useState(false);
 
+  // WHEN CLICK TO CONFIRM THE UPGRADE
   const onUpgrade = () => {
     localStorage.setItem('backUrl', history.location.pathname);
     history.push(`/${propID}/upgrade`);
@@ -35,6 +36,7 @@ const BrixelUpgradeMessage = (props) => {
   return (
     <div className={`brixel-upgrade-message ta-c brdRadius ${className} ${bgColor}`}>
       {
+        // CONDITION TO SHOW/HIDE THE CLOSE ICON
         showClose && (
           <div className="dis-f hide-md a-c mb-3">
             <BrixelButtonIcon
@@ -52,6 +54,7 @@ const BrixelUpgradeMessage = (props) => {
         )
       }
       {
+        // CONDITION TO SHOW THE MESSAGE TO UNLOCK OR THE CONFIRMATION MESSAGE
         showUnlockMessage ? (
           <div className="bgPrimary100">
             <h5 className="txtPrimary700 mb-3">{titleConfirm}</h5>
@@ -83,6 +86,7 @@ const BrixelUpgradeMessage = (props) => {
             <h5 className="txtGreen700">{title}</h5>
             <p className="mt-3 mb-3 max-w-fix-280 m-a txtDark700" dangerouslySetInnerHTML={{ __html: description }} />
             {
+              // CONDITION TO SHOW MESSAGE OR DEFAULT DEFAULT TOUR IF TOUR 3D
               virtualTour && (
                 <div className="my-5">
                   {

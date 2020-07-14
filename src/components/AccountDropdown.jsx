@@ -12,6 +12,7 @@ import { setUnsavedChangesModal } from '../actions/CommonActions';
 import AvatarImage from './AvatarImage';
 
 const AccountDropdown = (props) => {
+  // PROPS
   const {
     className,
     lang,
@@ -20,6 +21,7 @@ const AccountDropdown = (props) => {
     setUnsavedModal,
   } = props;
 
+  // FUNCTIONS TO CREATE THE PROFILE DROPDOWN MENU
   const dropdownAccount = () => (
     [
       {

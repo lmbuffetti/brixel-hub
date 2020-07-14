@@ -12,6 +12,7 @@ const AvatarImage = (props) => {
     onClick,
   } = props;
 
+  // FUNCTIONS TO CREATE THE AVATAR IMAGE FROM LOGGED USER NAME
   const extractName = () => {
     const splitName = name ? name.split(' ') : null;
     if (splitName) {

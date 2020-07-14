@@ -13,6 +13,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { translateTo } from '../utils/translation';
 import Support from './Support';
 
+// COMPONENT FOR THE LOGIN/SIGN UP ON ONBOARDING
 const LoginSignup = (props) => {
   // PROPS
   const {
@@ -31,6 +32,7 @@ const LoginSignup = (props) => {
   const [loginPage, setLoginPage] = useState('register');
   const [showErrors, setShowErrors] = useState(false);
 
+  // FUNCTION TO SAVE ON REDUX FORM THE CURRENT PAGE (LOGIN OR REGISTER)
   useEffect(() => {
     if (typeof loggedInUser.token === 'undefined') {
       changeFieldValue(formName, 'signup', !loginPage);
@@ -39,6 +41,7 @@ const LoginSignup = (props) => {
     onChangeLogin(loginPage);
   }, [loginPage]);
 
+  // FUNCTION TO SAVE THE DATA, IF NOT VALID SHOW THE ERROR
   const onSubmitForm = () => {
     let isValid = true;
     Object.keys(errorValue).forEach((key) => {
@@ -56,6 +59,7 @@ const LoginSignup = (props) => {
     }
   };
 
+  // FUNCTION TO MANAGE THE ONLCIK FUNCTION AND LABEL OF TERTIARY BUTTON (bottom left)
   const TertiaryButton = () => {
     switch (loginPage) {
       case 'not_sure':
@@ -76,6 +80,7 @@ const LoginSignup = (props) => {
     }
   };
 
+  // FUNCTION TO MANAGE THE ONLCIK FUNCTION AND LABEL OF PRIMARY BUTTON (center)
   const PrimaryButton = () => {
     switch (loginPage) {
       case 'not_sure':

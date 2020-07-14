@@ -19,6 +19,7 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
     setArrVal(input.value || []);
   }, []);
 
+  // FUNCTIONS WHEN THE CHECKBOX IS CHECKED OR NOT
   const onChange = (e, val) => {
     const value = cloneDeep(arrVal) || [];
     const idValue = value.findIndex((item) => item === val);
@@ -29,6 +30,7 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
     input.onChange(value);
   };
 
+  // FUNCTIONS TO OPEN/CLOSE THE ACCORDION
   const onToggleAccordion = (id) => {
     const getOpenDetail = openDetail;
     getOpenDetail[id] = !getOpenDetail[id];
@@ -44,6 +46,7 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
       }
       <div>
         {
+          // PRINT ALL OPTIONS (options=[{name: '', value: '', img: '', label: '', description: '', color: '', priceInfo: '', moreDetails: [{description: ''}]}])
           options.map((option, i) => (
             <div
               className={`p-3 single-chackbox ${className} ${arrVal.includes(option.value) ? `brd${option.color} checked` : 'brdWhite'}`}

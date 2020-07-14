@@ -12,6 +12,7 @@ import Cookies from 'universal-cookie';
 
 const cookie = new Cookies();
 
+// COMPONENT TO ENABLE ROUTES TO ONLY LOGGED IN USER
 const ProtectedRoute = (props) => {
   const {
     allowAccess,

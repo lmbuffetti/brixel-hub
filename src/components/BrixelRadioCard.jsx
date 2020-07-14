@@ -24,6 +24,7 @@ const BrixelRadioCard = (props) => {
     lang,
   } = props;
 
+  // FUNCTION TO UNCHECK THE RADIO BUTTON - not possible as default
   const clickOption = (e, val) => {
     if (deactivable) {
       if (e.target.value === val) input.onChange(null);
@@ -32,6 +33,7 @@ const BrixelRadioCard = (props) => {
     }
   };
 
+  // FUNCTION TO PASS THE VALUE TO REDUX FORM CHANGE THE CHECKED ELEMENT
   const onChange = (e, val) => {
     let value;
     switch (val) {
@@ -47,6 +49,7 @@ const BrixelRadioCard = (props) => {
     input.onChange(value);
   };
 
+  // FIXED OPTIONS
   const options = [
     {
       label: translateTo(lang, 'With the right tools to sell on your own.'),
