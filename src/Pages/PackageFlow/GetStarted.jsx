@@ -376,12 +376,7 @@ const GetStarted = (props) => {
       }
       <div
         className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v' : 'ov-h'} ${quest.history}`}
-
-        // disabled for this release
-        /* style={{
-          backgroundImage: `url(${quest.bgImg})`,
-          backgroundSize: roomValue
-        }} */
+        style={{ backgroundImage: `url(${quest.bgImg})` }}
       >
         <form
           id="multiStepForm"
