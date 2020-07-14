@@ -30,6 +30,7 @@ import { setCookie, removeCookie } from '../utils/helpers';
 
 const checkUser = (store) => (next) => (action) => {
   switch (action.type) {
+    // DISPATCH TO VERIFY THE USER TOKEN
     case CHECK_TOKEN: {
       next(action);
       const hideLoad = get(action, 'payload.hideLoad', false);
@@ -57,6 +58,7 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO DO THE USER LOGIN - username - password
     case DO_LOGIN: {
       next(action);
       // store.dispatch({ type: SPINNER_ON });
@@ -94,6 +96,7 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO CREATE USER - USER OBJECT
     case CREATE_USER: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -129,6 +132,7 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO UPDATE USER - USER OBJECT
     case SAVE_ACTIVE_SINGLE_USER: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -151,6 +155,7 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO VALIDATE IF USER EXISTS
     case VALIDATE_USER: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -180,6 +185,7 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO GET FAVORITES LIST
     case GET_FAVORITES: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: 'favorite' });
@@ -193,6 +199,7 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO GET FAVORITES LIST
     case GET_USER_PROPERTIES: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: 'usrProperties' });

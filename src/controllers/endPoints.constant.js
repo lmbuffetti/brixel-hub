@@ -18,7 +18,6 @@ export default {
   company: {
     getCompanyByStub: (stub) => `/company/company-by-stub/${stub}`,
     getCompanyById: (id) => `/company/${id}`,
-    getCompanyByCountry: (country) => `/company/company-by-country/${country}`,
   },
   gamification: {
     group: () => '/gameGroup',

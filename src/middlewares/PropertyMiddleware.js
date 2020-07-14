@@ -41,6 +41,7 @@ import { pageContent } from '../resources/localData/page';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
+    // DISPATCH TO CREATE SINGLE PROPERTY - used on onBoarding
     case CREATE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
       const {
@@ -76,6 +77,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO UPDATE SINGLE PROPERTY - by PROPERTY ID
     case SAVE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
       const {
@@ -113,6 +115,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO DELETE SINGLE PROPERTY - by PROPERTY ID
     case DELETE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -135,6 +138,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO GET SINGLE PROPERTY - by PROPERTY ID
     case GET_ACTIVE_SINGLE_PROPERTY: {
       next(action);
       const { smallLoader, setSuccessNotification, multiLoader } = action.payload;
@@ -166,6 +170,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO GET USER PROPERTIES LIST - by USER ID
     case GET_PROPERTY_LISTINGS:
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -203,6 +208,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (multiLoader) store.dispatch({ type: SPINNER_OFF });
         });
       break;
+    // DISPATCH TO GET USER PROPERTIES LIST - by PROPERTY ID
     case GET_ESTIMATION:
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -218,6 +224,7 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
+    // DISPATCH TO GET MARKET CHECK PROPERTY - by PROPERTY ID
     case GET_MARKET_CHECK: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -327,6 +334,7 @@ const checkCommon = (store) => (next) => (action) => {
       getMarketData();
       break;
     }
+    // DISPATCH TO CREATE PROPERTY VISIT SCHEDULE - by PROPERTY ID
     case CREATE_PROPERTY_VISIT_SCHEDULE: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'visitSchedule' });
@@ -345,6 +353,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO UPDATE PROPERTY VISIT SCHEDULE - by SCHEDULE ID
     case SAVE_PROPERTY_VISIT_SCHEDULE: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'saveVisitSchedule' });
@@ -363,6 +372,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO DELETE PROPERTY VISIT SCHEDULE - by SCHEDULE ID
     case DELETE_PROPERTY_VISIT_SCHEDULE: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -381,6 +391,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO GET PROPERTY BOOKING - by PROPERTY ID
     case GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'booking' });
@@ -397,6 +408,7 @@ const checkCommon = (store) => (next) => (action) => {
       });
       break;
     }
+    // DISPATCH TO UPDATE PROPERTY BOOKING - by PROPERTY ID
     case SAVE_PROPERTY_VISIT_BOOKING: {
       next(action);
       const {
@@ -414,6 +426,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO CREATE PROPERTY BOOKING - by PROPERTY ID
     case CREATE_PROPERTY_VISIT_BOOKING: {
       next(action);
       const { page, smallLoader, redirectTo } = action.payload;
@@ -428,6 +441,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO UPDATE PORTALS REVIEW - by PROPERTY ID
     case UPDATE_PORTALS_REVIEW: {
       next(action);
       const { smallLoader, page, status } = action.payload;
@@ -441,6 +455,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO UPDATE PUBLISHED PAGE REVIEW - by PROPERTY ID
     case UPDATE_PUBLISHED_REVIEW: {
       next(action);
       const { smallLoader, page, status } = action.payload;
@@ -454,6 +469,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO GET PACKAGE FO PROPERTY - by PROPERTY ID
     case GET_PACKAGES_PROPERTY: {
       next(action);
       const { smallLoader } = action.payload;
@@ -467,6 +483,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO UPDATE UPGRADE PACKAGE - by PROPERTY ID
     case SAVE_UPGRADE_PLAN: {
       next(action);
       const { smallLoader, page, data } = action.payload;

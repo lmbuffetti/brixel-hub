@@ -14,7 +14,7 @@ import { reduxForm, reset, change } from 'redux-form';
 import last from 'lodash/last';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
-import { getActiveSingleCompany, getCompanyByCountry } from '../../actions/CompanyActions';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
 import { setCookie } from '../../utils/helpers';
@@ -612,7 +612,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleGetCompanyByCountry: bindActionCreators(getCompanyByCountry, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 

@@ -22,6 +22,7 @@ import { SPINNER_OFF, SPINNER_SMALL_ON, SPINNER_SMALL_OFF } from '../actions/typ
 
 const checkGamification = (store) => (next) => (action) => {
   switch (action.type) {
+    // DISPATCH TO GET THE ACHIEVEMENTS LIST
     case GET_ACHIEVEMENT: {
       next(action);
       api.gamification.getGameAchievementList(20, 0)
@@ -36,6 +37,7 @@ const checkGamification = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO GET THE GAME GROUP
     case GET_GAMEGROUP: {
       next(action);
       api.gamification.getGroupList(20, 0)
@@ -50,6 +52,7 @@ const checkGamification = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO GET THE GAME HISTORY BY USER ID
     case GET_GAME_HISTORY: {
       next(action);
       const userLoggedIn = store.getState().user.loggedInUser.user.id;
@@ -69,6 +72,7 @@ const checkGamification = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO ADD A GAME HISTORY BY USER ID AND, IF NECESSARY, PAGE ID
     case ADD_GAME_HISTORY: {
       next(action);
       const {
@@ -110,14 +114,6 @@ const checkGamification = (store) => (next) => (action) => {
             if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           });
       } else if (redirectTo) window.location.href = redirectTo;
-      /* api.gamification.addGameHistory(id, action.payload)
-        .then((res) => {
-          if (typeof res.data.status === 'undefined') {
-            store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });
-            store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
-            store.dispatch({ type: SET_BRIXEL_POINTS, payload: res.data.actualPoints });
-          }
-        }); */
       break;
     }
     default:

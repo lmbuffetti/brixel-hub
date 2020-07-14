@@ -1,3 +1,4 @@
+// CONSTANTS USED TO EDIT THE REWARDS IN BASE OF LEVEL AND USERTYPE
 export const GameGroupConfig = {
   buyerLevel1: {
     name: 'Level 1',

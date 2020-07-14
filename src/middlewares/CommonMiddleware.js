@@ -3,7 +3,6 @@ import {
   SPINNER_OFF,
   SEND_GENERIC_MAIL,
   SET_SAVED_SCREEN,
-  SET_PSEUDO_SAVED_SCREEN,
   SET_SCREEN_NOTIFICATION,
 } from '../actions/types/CommonTypes';
 
@@ -11,6 +10,7 @@ import api from '../controllers/api/config';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
+    // DISPATCH TO SEND GENERAL EMAIL
     case SEND_GENERIC_MAIL: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -23,6 +23,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO SHOW NOTIFICATION SAVED
     case SET_SAVED_SCREEN: {
       next(action);
       const { notification } = store.getState().common;
@@ -49,18 +50,6 @@ const checkCommon = (store) => (next) => (action) => {
           },
         });
       }, 1500);
-      break;
-    }
-    case SET_PSEUDO_SAVED_SCREEN: {
-      next(action);
-      const notification = ({
-        state: false,
-        type: 'saved',
-      });
-      store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: notification });
-      setTimeout(() => {
-        store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null });
-      }, 1000);
       break;
     }
     default:
