@@ -37,6 +37,7 @@ const Page = (props) => {
   const currency = get(company, 'country.currency', '');
   const meta = get(company, 'meta', {});
 
+  // GET PAGE STATUS
   const changeReviewStatus = (status) => {
     const data = {
       page: propID,
@@ -47,6 +48,7 @@ const Page = (props) => {
     // if (status === 'online') handleAddGameHistory({stub: 'page-published'});
   };
 
+  // FUNCTION TO GO TO PREVIEW OR LIVE PAGE
   const onClickPreview = () => {
     let url;
     if (formValue.published) {
@@ -58,6 +60,7 @@ const Page = (props) => {
     }
   };
 
+  // SET DURATION PUBLISHING BY COMPANY DATA
   const publishDuration = () => {
     const duration = get(meta, 'publish.duration', null);
     if (!duration || +duration === 0) return 'unlimited';

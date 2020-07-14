@@ -34,6 +34,7 @@ function ResumeAssessor(props) {
     }
   }, [condition]);
 
+  // GET THE VALUES OBJECT IF SELECTED CONTRUCTION/RENOVATION YEAR
   const getValue = (type, act) => {
     if (get(condition, `[${selBaseRenovation}][${type}]`, null) !== null) {
       if (act === 'key') return Object.keys(condition[selBaseRenovation][type])[0];
@@ -42,6 +43,7 @@ function ResumeAssessor(props) {
     return null;
   };
 
+  // GET THE LABEL FOR EACH VALUE
   const getLabel = (type) => {
     let getElement = {};
     const value = getValue(type, 'key');
@@ -64,6 +66,7 @@ function ResumeAssessor(props) {
     };
   };
 
+  // CALC VALUE BY YEAR AND STATIC VALUE
   const startEndYear = (type) => {
     const avgYear = getLabel(type).year;
     let startYear = get(formValue, 'properties.building.built', 1500);
@@ -78,6 +81,7 @@ function ResumeAssessor(props) {
     });
   };
 
+  // CALC SCALE VALUE BY 4 STEPS
   const getEvaluationScale = (type) => {
     let value = get(condition, `[${selBaseRenovation}][${type}]`, '');
     if (isObject(value)) value = value[Object.keys(value)[0]];

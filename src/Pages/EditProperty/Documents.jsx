@@ -75,8 +75,7 @@ const Documents = (props) => {
     }
   }, [isSmallLoading]);
 
-  // DROPZONE SETTINGS
-  // const dropzoneRef = useRef(null);
+  // MULTIUPLOADING FUNCTION
   const onDrop = useCallback(async (acceptedFiles) => {
     const reader = new FileReader();
     // const imgType = imageType.find((val) => val.name === 'Gallery');
@@ -87,12 +86,10 @@ const Documents = (props) => {
       handleMultiUploadDocument({
         allImgs: res, actions: 'documents', pageID: formValue.id, smallLoader: 'upload',
       });
-      // arrayDates.push({galleryThumbnailPath: res, createdAt: Date().now});
-      // setNewImages([...arrayDates]);
-      // handleUploadImg(binaryStr);
     });
   }, []);
 
+  // DROPZONE SETTINGS - SUPPORTED EXTENSIONS AND MAX SIZE AND OTHER SETTINGS
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: 'image/png,image/jpg,image/jpeg,.pdf',
@@ -125,6 +122,7 @@ const Documents = (props) => {
     setTimeout(() => setNotification({ state: false }), 2000);
   };
 
+  // FUNCTION TO EDIT DOCUMENT
   const onEditMode = (doc) => {
     setEditDocument({ id: doc.id, active: !editDocument.active });
     set(formValue, '', doc.companyRole);

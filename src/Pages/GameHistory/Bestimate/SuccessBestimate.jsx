@@ -41,8 +41,9 @@ function SuccessBestimate(props) {
     handleGetGamegroup();
   }, []);
 
+  // LOAD MARKET DATA
   useEffect(() => {
-    if (activeSingleProperty && activeSingleProperty.id && !marketData.priceDistribution) {
+    if (get(activeSingleProperty, 'id', '') && !marketData.priceDistribution) {
       const latBoundsRadius = 0.0675;
       const longBoundsRadius = 0.1;
       const livingSpace = get(activeSingleProperty, 'properties.typology.livingArea.value', 0);
@@ -78,7 +79,7 @@ function SuccessBestimate(props) {
   return (
     <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col a-c">
       {
-        groupdAchievement.done || getDoneFirstTime() === 'done' ? (
+        get(groupdAchievement, 'done', null) || getDoneFirstTime() === 'done' ? (
           <>
             {
               achievement && (

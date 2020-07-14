@@ -52,6 +52,7 @@ const Photos = (props) => {
   const arrayImg = [...Array(floorPlans ? floorPlans.length : 0)].map((_, index) => React.createRef());
   const wrappImg = useRef(arrayImg);
 
+  // COMPARE FLOOR PLANS AND fixPhotos TO ADD THE PREVIEW FLOOR PLANS ON UPLOADING
   useEffect(() => {
     if (Object.keys(diff(floorPlans, fixPhotos)).length > 0 && !isSmallLoading) {
       setNewImages([]);
@@ -61,6 +62,7 @@ const Photos = (props) => {
     }
   });
 
+  // FUNCTION TO DELETE FLOOR PLAN
   const deleteImage = (id) => {
     const mediaID = id;
     const data = {
@@ -74,8 +76,7 @@ const Photos = (props) => {
     history.push(`/${propID}/property/floorPlans`);
   };
 
-  // DROPZONE SETTINGS
-  // const dropzoneRef = useRef(null);
+  // MULTIUPLOADING FUNCTION
   const onDrop = useCallback(async (acceptedFiles) => {
     const reader = new FileReader();
     // const imgType = imageType.find((val) => val.name === 'Gallery');
@@ -91,6 +92,7 @@ const Photos = (props) => {
     });
   }, []);
 
+  // DROPZONE SETTINGS - SUPPORTED EXTENSIONS AND MAX SIZE AND OTHER SETTINGS
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: 'image/png,image/jpg,image/jpeg',
@@ -98,7 +100,7 @@ const Photos = (props) => {
     maxSize: 1e+7,
   });
 
-  // ORDER IMAGE SETTINGS
+  // ORDER FLOOR PLANS SETTINGS
   const changeOrder = (order) => {
     const imgArray = [];
     order.map((item) => {
@@ -112,11 +114,13 @@ const Photos = (props) => {
     changeFieldValue('floorPlans', imgArray);
   };
 
+  // FUCNTION FOR REAL DELETE
   const onConfirmDelete = (id) => {
     setBtnActive('delete');
     setConfirmDelete(id);
   };
 
+  // CLICK OUTSIDE OF IMAGES
   OutsideElement(wrappImg, {
     id: confirmDelete || 0,
     action: 'function',

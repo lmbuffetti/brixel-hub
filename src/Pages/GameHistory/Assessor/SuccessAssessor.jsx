@@ -30,6 +30,7 @@ function SuccessAssessor(props) {
   const propID = get(match, 'params.propId', null);
   const isNew = get(history, 'location.state.isNew', false);
 
+  // GET CURRENT GROUP
   useEffect(() => {
     if (gameGroup) {
       let selectedGame;

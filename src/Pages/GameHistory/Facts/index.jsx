@@ -63,6 +63,7 @@ const MarketCheck = (props) => {
     }
   }, [gameHistory, activeSingleProperty, lastID]);
 
+  // LOAD THE CURRENT GAME GROUP
   useEffect(() => {
     if (gameGroup.length > 0) {
       const group = gameGroup.find((game) => game.achievements.some((item) => item.stub === getAchievement()));
@@ -71,6 +72,7 @@ const MarketCheck = (props) => {
     }
   }, [gameGroup]);
 
+  // ON CHANGE STEP LOAD THE ENTER EFFECT AND IF HAS TO REDO
   useEffect(() => {
     setIsEnter(true);
     if (get(questions, `[${currentIndex}].history`, null) && loaded) {
@@ -84,6 +86,7 @@ const MarketCheck = (props) => {
     }
   }, [currentIndex, loaded]);
 
+  // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
     resetForm('Property');
     if (typeof window !== 'undefined' && window.innerWidth < 1024) {
@@ -93,6 +96,7 @@ const MarketCheck = (props) => {
     }
   };
 
+  // FUNCTION TO SAVE DATA
   const saveData = () => {
     // handleAddGameHistory({stub: getAchievement()});
     const data = {
@@ -107,6 +111,7 @@ const MarketCheck = (props) => {
     handleSaveActiveSingleProperty(data);
   };
 
+  // FUNCTION TO CHANGE STEP - BACK-FORWARD
   const changeStep = (act) => {
     let newIndex = currentIndex;
     if (act === 'back') {
@@ -131,6 +136,7 @@ const MarketCheck = (props) => {
     }
   };
 
+  // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
     if (formValue.id) {
       const newQuest = [];
@@ -156,6 +162,7 @@ const MarketCheck = (props) => {
     }
   }, [formValue]);
 
+  // CHECK IF FIELD IS VALID
   const checkValidateField = (act) => {
     let isValid = true;
     let isNotEmpty = false;
@@ -181,6 +188,7 @@ const MarketCheck = (props) => {
     return isValid;
   };
 
+  // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
     // const inputName = get(quest, 'inputs[0].name', null);

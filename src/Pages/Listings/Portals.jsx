@@ -37,6 +37,7 @@ const Portals = (props) => {
   const currency = get(company, 'country.currency', '');
   const meta = get(company, 'meta', {});
 
+  // GET PORTALS STATUS
   const checkPortalsOnline = () => {
     let isOnline = false;
     Object.keys(portals).map((key) => {
@@ -46,6 +47,7 @@ const Portals = (props) => {
     return isOnline;
   };
 
+  // CHANGE PORTALS REVIEW
   const changeReviewStatus = (status) => {
     const data = {
       page: propID,
@@ -56,6 +58,7 @@ const Portals = (props) => {
     // if (status === 'online') handleAddGameHistory({stub: 'portals'});
   };
 
+  // SET DURATION PUBLISHING BY COMPANY DATA
   const publishDuration = () => {
     const duration = get(meta, 'portals.duration', null);
     if (!duration || +duration === 0) return 'unlimited';

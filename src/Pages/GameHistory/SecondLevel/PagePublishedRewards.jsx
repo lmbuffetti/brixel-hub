@@ -25,6 +25,7 @@ const PagePublishedRewards = (props) => {
   const propID = get(match, 'params.propId', '');
   const gameStub = history.location.pathname.split('/')[3];
 
+  // GET THE PAGE STATUS
   useEffect(() => {
     const isCheckDone = gameHistory.find((item) => item.page === propID && item.achievement.stub === gameStub);
     if (typeof isCheckDone !== 'undefined' && pagePublished) setStatus('online');
@@ -32,6 +33,7 @@ const PagePublishedRewards = (props) => {
     else setStatus('offline');
   }, [gameHistory, pagePublished, pageReview]);
 
+  // FUNCTION TO GO TO /LISTINGS/PAGE
   const openPreview = () => {
     history.push(`/${propID}/listings/page`);
   };

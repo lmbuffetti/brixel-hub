@@ -41,6 +41,7 @@ const Facts = (props) => {
   const propID = get(match, 'params.propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
+  // FUNCTION TO CHECK IF MAIN SECTION IS FINISH OR NOT
   const checkSectionDone = (val, act = 'section') => {
     let sectionDone = true;
     val.inputs.map((item) => {
@@ -69,6 +70,7 @@ const Facts = (props) => {
     return null;
   };
 
+  // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
     if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
       const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
@@ -83,6 +85,7 @@ const Facts = (props) => {
     }
   }, [formValue]);
 
+  // ON CHANGE HISTORY SELECT THE CORRECT QUESTIONS
   useEffect(() => {
     if (history && !selectedQuest && getFact() !== 'facts') {
       const quest = Questions.find((item) => item.history === getFact());
@@ -92,6 +95,7 @@ const Facts = (props) => {
     }
   }, [history, getFact()]);
 
+  // ON CLICK SELECT THE RIGHT QUESTIONS AND CHANGE THE URL
   const onSelectQuest = (quest) => {
     // TODO
     setTimeout(() => {
@@ -100,6 +104,7 @@ const Facts = (props) => {
     }, 0);
   };
 
+  // FUNCTION TO GO TO NEXT QUESTIONS LIST
   const onNextSection = (act) => {
     const findCurrentId = Questions.findIndex((quest) => quest.history === selectedQuest.history);
     if (findCurrentId > -1 && Questions[findCurrentId + 1]) {

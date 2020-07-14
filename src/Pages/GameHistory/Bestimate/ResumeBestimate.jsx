@@ -22,25 +22,26 @@ function ResumeBestimate(props) {
     handleSaveActiveSingleProperty,
     marketData,
     match,
-    property,
+    activeSingleProperty,
   } = props;
   // STATE
   const [saved, setSaved] = useState(false);
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
 
+  // LOAD THE MARKET DATA
   useEffect(() => {
-    if (property && property.id && !marketData.priceDistribution) {
+    if (get(activeSingleProperty, 'id', null) && !marketData.priceDistribution) {
       const latBoundsRadius = 0.0675;
       const longBoundsRadius = 0.1;
-      const livingSpace = get(property, 'properties.typology.livingArea.value', 0);
+      const livingSpace = get(activeSingleProperty, 'properties.typology.livingArea.value', 0);
       const percLivingSpace = +livingSpace * 0.5;
       const data = {
-        north: property.location.latitude + latBoundsRadius,
-        south: property.location.latitude - latBoundsRadius,
-        west: property.location.longitude - longBoundsRadius,
-        east: property.location.longitude + longBoundsRadius,
-        propertyType: property.properties.propertyType,
+        north: activeSingleProperty.location.latitude + latBoundsRadius,
+        south: activeSingleProperty.location.latitude - latBoundsRadius,
+        west: activeSingleProperty.location.longitude - longBoundsRadius,
+        east: activeSingleProperty.location.longitude + longBoundsRadius,
+        propertyType: activeSingleProperty.properties.propertyType,
         minLivingSpace: +livingSpace - percLivingSpace,
         maxLivingSpace: +livingSpace + percLivingSpace,
         stateCode: 'CH',
@@ -48,8 +49,9 @@ function ResumeBestimate(props) {
       handleGetMarketCheck(data);
     }
     handleGetEstimation(propID);
-  }, [property, marketData]);
+  }, [activeSingleProperty, marketData]);
 
+  // LOAD THE ESTIMATION
   useEffect(() => {
     if (estimation.value) {
       const data = {
@@ -60,14 +62,14 @@ function ResumeBestimate(props) {
           },
         },
       };
-      if (property && property.estimation && property.estimation.bestimate) data.estimation.bestimate.updatedAt = new Date();
+      if (get(activeSingleProperty, 'property.estimation.bestimate', null)) data.estimation.bestimate.updatedAt = new Date();
       else data.estimation.bestimate.createdAt = new Date();
       if (estimation && !saved) {
         handleSaveActiveSingleProperty(data);
         setSaved(true);
       }
     }
-  }, [estimation, property]);
+  }, [estimation, activeSingleProperty]);
 
   return (
     <main id="rewards" className="pb-4 h-perc-100 txtDark700">
@@ -88,12 +90,12 @@ function ResumeBestimate(props) {
               )
             }
             {
-              has(property, 'estimation.bestimate') && (
+              has(activeSingleProperty, 'estimation.bestimate') && (
                 <div className="dis-f jc-c">
                   <RangePriceChart
                     properties={marketData.priceDistribution.chartRangePrice}
                     type="bestimate"
-                    bestimate={property.estimation.bestimate}
+                    bestimate={activeSingleProperty.estimation.bestimate}
                     showTopLabel={false}
                   />
                 </div>
@@ -131,7 +133,7 @@ ResumeBestimate.propTypes = {
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   marketData: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  property: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
 };
 
 ResumeBestimate.defaultProps = {
@@ -141,7 +143,7 @@ const mapStateToProps = (state) => ({
   condition: get(state, 'property.activeSingleProperty.estimation.bestimate', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   marketData: get(state, 'property.marketCheck', {}),
-  property: get(state, 'property.activeSingleProperty', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   estimation: get(state, 'property.estimation', {}),
 });
 

@@ -26,6 +26,7 @@ const PropertyList = (props) => {
   // STATE
   const [activeProperties, setActiveProperties] = useState([]);
 
+  // GET LIST OF ALL PROPERTIES AS BUYER OR SELLER
   useEffect(() => {
     let propertiesList;
     switch (activeSection) {

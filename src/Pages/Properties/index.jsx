@@ -38,6 +38,7 @@ const Properties = (props) => {
   // const [activeTab, setActiveTab] = useState('');
   const activeTab = '';
 
+  // GET USER PROPERTIES LIST
   useEffect(() => {
     if (get(user, 'user.id')) {
       handleGetUserProperties(user.user.id);
@@ -45,6 +46,8 @@ const Properties = (props) => {
     }
   }, [user]);
 
+  // FUNCTION TO COUNT USER PROPERTIES
+  // TODO SEPARATE BUYER/SELLER
   const countNumProperties = (section) => {
     let count = 0;
     switch (section) {
