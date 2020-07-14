@@ -15,10 +15,10 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       store.dispatch({ type: SPINNER_ON });
       api.common.sendGenericMessage(action.payload)
-        .then((res) => {
+        .then(() => {
           store.dispatch({ type: SPINNER_OFF });
         })
-        .catch((res) => {
+        .catch(() => {
           // console.log(res.data);
         });
       break;
@@ -33,7 +33,7 @@ const checkCommon = (store) => (next) => (action) => {
           func: () => '',
           leftIcon: 'check',
           isLoading: null,
-        }
+        },
       ];
       notification.label = 'Saved!';
       notification.className = 'saved';
@@ -46,9 +46,9 @@ const checkCommon = (store) => (next) => (action) => {
           payload: {
             ...notification,
             state: false,
-          }
-        })
-      }, 1500)
+          },
+        });
+      }, 1500);
       break;
     }
     case SET_PSEUDO_SAVED_SCREEN: {
@@ -59,8 +59,8 @@ const checkCommon = (store) => (next) => (action) => {
       });
       store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: notification });
       setTimeout(() => {
-        store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null })
-      }, 1000)
+        store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null });
+      }, 1000);
       break;
     }
     default:

@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import {
   withRouter,
 } from 'react-router-dom';
@@ -38,7 +38,6 @@ const HomeDashboard = () => {
         <p className="body2 txtDark500">Learn about Brixel Premium</p>
       </div>
 
-
       {
         userType === 'seller' && (
           <div className="buyer">
@@ -61,7 +60,7 @@ const HomeDashboard = () => {
         )
       }
     </div>
-  )
+  );
 };
 
 HomeDashboard.propTypes = {

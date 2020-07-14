@@ -1,6 +1,6 @@
 /* global ga, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Switch, Route, withRouter,
 } from 'react-router-dom';
@@ -20,12 +20,11 @@ import 'moment/locale/de';
 import 'moment/locale/de-at';
 import 'moment/locale/en-gb';
 // COMPONENTS
-import Loading from './components/Loading';
-import { checkToken } from './actions/UserActions';
-import { setLanguages } from './actions/CommonActions';
 import { BrixelIcon, BrixelNotification } from '@brixel/brixel-components';
-import { setModal, setWindowDimensions } from './actions/CommonActions';
-import { setUserTypes } from './actions/UserActions';
+import Loading from './components/Loading';
+import { checkToken, setUserTypes } from './actions/UserActions';
+import { setLanguages, setModal, setWindowDimensions } from './actions/CommonActions';
+
 import BrixelModalAwards from './components/BrixelModalAwards';
 
 // GET STARTED ADD ADD PROPERTY
@@ -124,7 +123,7 @@ const App = (props) => {
     loggedInUser,
     modal,
     notification,
-    property,
+    activeSingleProperty,
     redirectTo,
     windowDimensions,
   } = props;
@@ -162,18 +161,18 @@ const App = (props) => {
       });
     } else {
       setIsLoaded(true);
-      const element = document.getElementsByTagName("BODY")[0];
-      element.classList.remove("txlive");
+      const element = document.getElementsByTagName('BODY')[0];
+      element.classList.remove('txlive');
     }
   }, [localTransifex, loggedInUser]);
 
   useEffect(() => {
-    if (property && property.id && loggedInUser.user && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
+    if (activeSingleProperty && activeSingleProperty.id && loggedInUser.user && (activeSingleProperty.owner === loggedInUser.user.id || activeSingleProperty.owner.id === loggedInUser.user.id)) {
       handleSetUserTypes('seller');
-    } else if (property && property.id) {
+    } else if (activeSingleProperty && activeSingleProperty.id) {
       handleSetUserTypes('seller');
     }
-  }, [property]);
+  }, [activeSingleProperty]);
 
   useEffect(() => {
     if (history && history.location) {
@@ -194,11 +193,11 @@ const App = (props) => {
     if (dashContentEl) {
       dashContentEl.addEventListener('scroll', () => {
         if (dashContentEl.scrollTop > 0) {
-          setExtraHeight(74)
+          setExtraHeight(74);
         } else {
-          setExtraHeight(0)
+          setExtraHeight(0);
         }
-      })
+      });
     }
   });
 
@@ -242,10 +241,9 @@ const App = (props) => {
     } else {
       setIsSecLevel(false);
       if (dashWrapperEl) {
-        dashWrapperEl.classList.remove('secondLevelActive')
+        dashWrapperEl.classList.remove('secondLevelActive');
       }
     }
-
   }, [history.location.pathname, setExtraHeight, setIsSecLevel]);
 
   const calcHeaderHeight = () => {
@@ -259,17 +257,25 @@ const App = (props) => {
   };
 
   const headerCalc = () => {
-    return (
-      !isFlow ?
-        windowDimensions.width <= 1024 ? {height: (windowDimensions.height + extraHeight) - 174} : {height: 'calc(100vh - ' + calcHeaderHeight() +'px)'} :
-        {height: windowDimensions.height - calcFlowHeaderHeight()}
-    )
-  }
+    if (!isFlow) {
+      if (windowDimensions.width <= 1024) {
+        return {
+          height: (windowDimensions.height + extraHeight) - 174,
+        };
+      }
+      return {
+        height: `calc(100vh - ${calcHeaderHeight()}px)`,
+      };
+    }
+    return {
+      height: windowDimensions.height - calcFlowHeaderHeight(),
+    };
+  };
 
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) {
       let data = {};
-      if (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding')) data = {hideLoad: true};
+      if (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding')) data = { hideLoad: true };
       handleCheckToken(data);
     }
     window.addEventListener('resize', () => {
@@ -280,17 +286,29 @@ const App = (props) => {
       headerCalc();
       calcHeaderHeight();
       calcFlowHeaderHeight();
-    })
+    });
   }, []);
+
+  const contentLayout = () => {
+    if (!isFlow) {
+      if (isSecLevel) {
+        return { height: '100%' };
+      }
+      if (windowDimensions.width <= 1024) {
+        return { height: windowDimensions.height };
+      }
+    }
+    return null;
+  };
 
   if (
     !loggedInUser ||
-    (!userTypes && get(property, 'id', null)) ||
+    (!userTypes && get(activeSingleProperty, 'id', null)) ||
     !isLoaded
   ) {
     return (
       <Loading isLoading={isLoading} />
-    )
+    );
   }
 
   return (
@@ -314,7 +332,7 @@ const App = (props) => {
           }
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
-            style={!isFlow ? isSecLevel ? {height: '100%'} : windowDimensions.width <= 1024 ? { height: windowDimensions.height } : null : null}
+            style={contentLayout()}
           >
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
@@ -327,13 +345,13 @@ const App = (props) => {
                 !history.location.pathname.includes('onBoarding')) &&
                 !history.location.pathname.includes('upgrade') &&
               (
-                <PageHeaderDashboard changeZIndex={(index) => {setZIndex(index)}} />
+                <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
               )
             }
             <div
               id="bodyScroll"
               className={`${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
-              style={ isSecLevel ? {height: '100%'} : headerCalc()}
+              style={isSecLevel ? { height: '100%' } : headerCalc()}
               ref={dashContentRef}
             >
               <Switch>
@@ -344,7 +362,7 @@ const App = (props) => {
                 { /* SECTION: INSERT TOKEN */ }
                 <Route path="/tokeninput" component={InsertToken} />
 
-                { /* SECTION: GET STARTED*/ }
+                { /* SECTION: GET STARTED */ }
                 <Route path="/packageFlow/getstarted/" component={GetStarted} />
 
                 { /* SECTION: HUB DASHBOARD */ }
@@ -352,8 +370,8 @@ const App = (props) => {
                   !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') && (
                     <>
-                      <ProtectedRoute path="/" exact component={Dashboard}/>
-                      <ProtectedRoute path="/:propId?" exact component={Dashboard}/>
+                      <ProtectedRoute path="/" exact component={Dashboard} />
+                      <ProtectedRoute path="/:propId?" exact component={Dashboard} />
                       <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
                       <ProtectedRoute path="/:propId?/property" component={Dashboard} />
                       <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
@@ -373,11 +391,11 @@ const App = (props) => {
       {
         <Switch>
           <ProtectedRoute path="/:propId?/rewards/achievement/market-checker" component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/assessor" component={Assessor} allowAccess={'seller'} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess={'seller'} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess={'seller'} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess={'seller'} />
-          <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess={'seller'} />
+          <ProtectedRoute path="/:propId?/rewards/achievement/assessor" component={Assessor} allowAccess="seller" />
+          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess="seller" />
+          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess="seller" />
+          <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess="seller" />
+          <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess="seller" />
         </Switch>
       }
 
@@ -444,6 +462,7 @@ const App = (props) => {
 };
 
 App.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
@@ -452,9 +471,9 @@ App.propTypes = {
   isLoading: PropTypes.bool,
   loggedInUser: PropTypes.object.isRequired,
   notification: PropTypes.object,
-  match: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
   redirectTo: PropTypes.object,
+  userTypes: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -471,7 +490,7 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser', null),
   modal: get(state, 'common.modal', {}),
   notification: get(state, 'common.notification', null),
-  property: get(state, 'property.activeSingleProperty', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   redirectTo: get(state, 'common.redirectTo', null),
   userTypes: get(state, 'user.userTypes', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),

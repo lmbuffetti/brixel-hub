@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React  from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reset } from 'redux-form';
@@ -13,13 +13,13 @@ import {
   BrixelButtonPrimary,
   BrixelIcon, Helpers,
 } from '@brixel/brixel-components';
+import has from 'lodash/has';
 import { updatePortalsReview } from '../../actions/PropertyActions';
 import portalStart from '../../images/Listings/portals_start.svg';
 import portalReview from '../../images/Listings/portals_review.svg';
 import portalPublished from '../../images/Listings/portals_published.svg';
 import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
 import { addGameHistory } from '../../actions/GamificationActions';
-import has from 'lodash/has';
 
 const Portals = (props) => {
   // PROPS
@@ -50,10 +50,10 @@ const Portals = (props) => {
     const data = {
       page: propID,
       smallLoader: true,
-      status: status,
+      status,
     };
     handleUpdatePortalsReview(data);
-    //if (status === 'online') handleAddGameHistory({stub: 'portals'});
+    // if (status === 'online') handleAddGameHistory({stub: 'portals'});
   };
 
   const publishDuration = () => {
@@ -62,7 +62,7 @@ const Portals = (props) => {
     if (+duration === 1) return `for <span class="notranslate">${duration}</span> month`;
     if (+duration > 1) return `for <span class="notranslate">${duration}</span> months`;
     return '';
-  }
+  };
 
   return (
     <div className="dis-f">
@@ -78,7 +78,7 @@ const Portals = (props) => {
                   color="primary"
                   saturationTxt={400}
                   noBorder
-                  onClick={ () => history.push(`/${propID}/listings`) }
+                  onClick={() => history.push(`/${propID}/listings`)}
                 />
                 <h5 className="sectionTitle">Portals</h5>
                 <span />
@@ -231,8 +231,7 @@ Portals.propTypes = {
   company: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
-  handleAddGameHistory: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.string.isRequired,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
@@ -249,14 +248,14 @@ const mapStateToProps = (state) => {
     isSmallLoading: get(state, 'common.isSmallLoading', null),
     portals: get(formValue, 'portals', {}),
   });
-}
+};
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
   reset(form) {
-    (dispatch(reset(form)))
+    (dispatch(reset(form)));
   },
   handleUpdatePortalsReview: bindActionCreators(updatePortalsReview, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),

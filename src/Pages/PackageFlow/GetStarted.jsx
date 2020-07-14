@@ -1,21 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-shadow */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm } from '@brixel/brixel-components';
-import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion';
+import {
+  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm,
+} from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import { getActiveSingleCompany, getCompanyByCountry } from '../../actions/CompanyActions';
-import { createActiveSingleProperty } from '../../actions/PropertyActions';
 import { reduxForm, reset, change } from 'redux-form';
 import last from 'lodash/last';
-import { titleProperty } from '../../utils/titleCreation';
 import queryString from 'query-string';
-import { setCookie } from '../../utils/helpers';
 import Cookies from 'universal-cookie';
+import { getActiveSingleCompany, getCompanyByCountry } from '../../actions/CompanyActions';
+import { createActiveSingleProperty } from '../../actions/PropertyActions';
+import { titleProperty } from '../../utils/titleCreation';
+import { setCookie } from '../../utils/helpers';
+import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
@@ -49,7 +52,7 @@ const GetStarted = (props) => {
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [lastID, setLastID] = useState(0);
-  //const [roomValue, setRoomValue] = useState('');
+  // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
@@ -69,15 +72,15 @@ const GetStarted = (props) => {
       },
       language: lang || 'en',
       title: formValue.pageTitle,
-      status: "on-request",
+      status: 'on-request',
       listed: false,
       active: true,
       published: false,
       addProperty: true,
       redirectToUserFlow: false,
       redirectToHome: true,
-      company: company,
-    }
+      company,
+    };
     const page = get(formValue, 'signupScreen', null);
     if (formValue.owner) {
       data.owner = loggedInUser.user.id;
@@ -100,12 +103,12 @@ const GetStarted = (props) => {
         createUser: true,
         company: cookie.get('brixelStubCompany') || null,
         ignoreEmail: false,
-        redirectTo: '/packageFlow/getStarted/success'
+        redirectTo: '/packageFlow/getStarted/success',
       };
       await handleValidateUser(data);
     }
-    //handleCreateActiveSingleProperty({stub: getAchievement()});
-    //reset('Property');
+    // handleCreateActiveSingleProperty({stub: getAchievement()});
+    // reset('Property');
   };
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
@@ -116,15 +119,15 @@ const GetStarted = (props) => {
       questions[newIndex].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
         if (val !== cond.value && checkCond) {
-          if (act === 'back') newIndex = newIndex - 1;
-          else newIndex = newIndex + 1;
+          if (act === 'back') newIndex -= 1;
+          else newIndex += 1;
           checkCond = false;
         }
         return null;
-      })
+      });
     }
-    return newIndex
-  }
+    return newIndex;
+  };
 
   // FUNCTION TO GO TO NEXT SPEP
   const changeStep = (act) => {
@@ -143,12 +146,12 @@ const GetStarted = (props) => {
     else {
       setIsEnter(false);
       let newQuest = {
-        ...questions[defId]
-      }
-      if(questions[defId].effect === 'slideUp') {
+        ...questions[defId],
+      };
+      if (questions[defId].effect === 'slideUp') {
         newQuest = {
-          ...questions[defId - 1]
-        }
+          ...questions[defId - 1],
+        };
       }
       if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
         setTimeout(() => {
@@ -170,8 +173,8 @@ const GetStarted = (props) => {
       if (questions[defId].history) {
         history.push(`/packageFlow/getStarted/${questions[defId].history}`);
       }
-      const getOnlyQuest = questions.filter(item => item.inputs);
-      setProgressBar(defId * 100 / getOnlyQuest.length);
+      const getOnlyQuest = questions.filter((item) => item.inputs);
+      setProgressBar((defId * 100) / getOnlyQuest.length);
     }
   };
 
@@ -183,10 +186,10 @@ const GetStarted = (props) => {
     const companyCookie = cookie.get('brixelStubCompany') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
       const defComp = get(companyByUrl, 'company', companyCookie);
-      handleGetActiveSingleCompany({stub: defComp});
+      handleGetActiveSingleCompany({ stub: defComp });
       setCookie('brixelStubCompany', defComp);
     } else {
-      handleGetActiveSingleCompany({stub: 'brixel_zurich'});
+      handleGetActiveSingleCompany({ stub: 'brixel_zurich' });
       changeFieldValue('location.countryCode', 'all');
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
@@ -194,8 +197,8 @@ const GetStarted = (props) => {
   }, []);
 
   useEffect(() => {
-    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')))
-    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex])
+    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
   }, [lang]);
   // SET THE OWNER PROPERTY IF USER IS LOGGED IN
   useEffect(() => {
@@ -209,7 +212,7 @@ const GetStarted = (props) => {
     if (get(initialValues, 'properties.propertyType', null)) {
       changeStep();
     }
-  }, [initialValues])
+  }, [initialValues]);
 
   useEffect(() => {
     setIsEnter(true);
@@ -220,7 +223,7 @@ const GetStarted = (props) => {
         let newCountryStub = '';
         if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
         if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
-        handleGetActiveSingleCompany({stub: newCountryStub})
+        handleGetActiveSingleCompany({ stub: newCountryStub });
       }
     }
   }, [currentIndex]);
@@ -248,13 +251,13 @@ const GetStarted = (props) => {
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     if (formValue) {
-      let newQuest = [];
+      const newQuest = [];
       QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
             if (get(formValue, item.name, null) !== item.value) {
-              isValid = false
+              isValid = false;
             }
             return null;
           });
@@ -273,7 +276,7 @@ const GetStarted = (props) => {
     const propertyType = get(formValue, 'properties.propertyType', null);
     const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
     if (pageTitle) changeFieldValue('pageTitle', pageTitle);
-  }, [formValue.location])
+  }, [formValue.location]);
 
   // SET DATA BY COMPANY
   useEffect(() => {
@@ -289,7 +292,7 @@ const GetStarted = (props) => {
       setQuestions(QuestionsList(getLang, companyCountry));
       changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
-      changeFieldValue('company', company.stub)
+      changeFieldValue('company', company.stub);
       changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
     }
   }, [company]);
@@ -302,7 +305,7 @@ const GetStarted = (props) => {
       quest.inputs.forEach((input) => {
         const err = get(errorValue, input.name, null);
         const noEmpty = get(formValue, input.name, 'ayc');
-        if(noEmpty !== 'ayc') isNotEmpty = true;
+        if (noEmpty !== 'ayc') isNotEmpty = true;
         if (input.condition) {
           input.condition.forEach((item) => {
             if (get(formValue, item.name, null) === item.value) {
@@ -310,7 +313,7 @@ const GetStarted = (props) => {
             }
           });
         } else if (input.validation) {
-          //const getRegField = get(registeredFields
+          // const getRegField = get(registeredFields
           let field;
           if (input.name === 'profile') {
             const page = get(formValue, 'signupScreen', null);
@@ -321,13 +324,13 @@ const GetStarted = (props) => {
             field.forEach((item) => {
               const err = get(errorValue, item, true);
               if (err !== true && err !== false && isValid) isValid = false;
-            })
+            });
           } else if (err !== true && err !== false && isValid) isValid = false;
         }
       });
     }
     if (quest.history === 'createProfile') {
-      //console.log(quest);
+      // console.log(quest);
     }
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
@@ -345,7 +348,7 @@ const GetStarted = (props) => {
   return (
     <div id="bodyModalWrapper" className="withHeader">
       {
-        get(quest, `inputs`, null) && (
+        get(quest, 'inputs', null) && (
           <BrixelProgressBar
             large
             saturation={400}
@@ -389,7 +392,7 @@ const GetStarted = (props) => {
                       }
                       {
                         quest.subtitle && (
-                          <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)
+                          <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
                       <MultiFileldsReduxForm
                         form="GetStarted"
@@ -399,7 +402,7 @@ const GetStarted = (props) => {
                         onClick={() => changeStep()}
                         onCloseGoBack={() => changeStep('back')}
                         onClickDisabled={!checkValidateField()}
-                        showSendButton={true}
+                        showSendButton
                       />
                     </div>
                   )
@@ -422,7 +425,7 @@ const GetStarted = (props) => {
                             }
                             {
                               questions[currentIndex].subtitle && (
-                                <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }}/>)
+                                <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }} />)
                             }
                             <MultiFileldsReduxForm
                               className="h-perc-100"
@@ -433,8 +436,8 @@ const GetStarted = (props) => {
                               onSubmit={() => changeStep()}
                               onCloseGoBack={() => changeStep('back')}
                               onClickDisabled={!checkValidateField()}
-                              showSendButton={true}
-                              showErrors={true}
+                              showSendButton
+                              showErrors
                             />
                           </div>
                         )
@@ -449,8 +452,8 @@ const GetStarted = (props) => {
                       {
                         formName: 'GetStarted',
                         initialValue: formValue,
-                        ...quest
-                      }
+                        ...quest,
+                      },
                     )
                   )
                 }
@@ -460,13 +463,13 @@ const GetStarted = (props) => {
                       <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
                       <h5
                         className="fadeAnim mt-2 ta-c"
-                        dangerouslySetInnerHTML={{ __html: quest.title}}
+                        dangerouslySetInnerHTML={{ __html: quest.title }}
                       />
                       {
                         quest.subtitle && (
                           <h6
                             className="fadeAnim mt-2 ta-c"
-                            dangerouslySetInnerHTML={{ __html: quest.subtitle}}
+                            dangerouslySetInnerHTML={{ __html: quest.subtitle }}
                           />
                         )
                       }
@@ -513,7 +516,7 @@ const GetStarted = (props) => {
                   saturation={400}
                   label={buttonLabel()}
                   rightIcon="arrow-right-small"
-                  onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                  onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                 />
               </div>
             </div>
@@ -521,31 +524,36 @@ const GetStarted = (props) => {
         </form>
       </div>
     </div>
-  )
+  );
 };
 
 GetStarted.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
+  company: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleCreateActiveSingleProperty: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
-  handleGetCompanyByCountry: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleGetGamegroup: PropTypes.func.isRequired,
+  handleSetLanguage: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
+  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
-  registeredFields: PropTypes.object,
   reset: PropTypes.func.isRequired,
+};
+
+GetStarted.defaultProps = {
+  lang: 'en',
 };
 
 const mapStateToProps = (state, props) => {
   const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
   const channel = get(urlSearch, 'channel', 'default');
-  const propertyType = get(urlSearch, 'propertyType', null)
+  const propertyType = get(urlSearch, 'propertyType', null);
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
@@ -559,29 +567,29 @@ const mapStateToProps = (state, props) => {
     startForm: get(state, 'form.GetStarted', null),
     initialValues: {
       company: null,
-      channel: channel,
+      channel,
       price: {
-        currency: get(state, 'companies.activeSingleCompany.country.currency', null)
+        currency: get(state, 'companies.activeSingleCompany.country.currency', null),
       },
       changeCountry: null,
       properties: {
-        propertyType: propertyType,
+        propertyType,
         typology: {
           livingArea: {
-            unit: 'sqm'
-          }
-        }
-      }
-    }
+            unit: 'sqm',
+          },
+        },
+      },
+    },
   });
-}
+};
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('GetStarted', field, value));
   },
   reset(form) {
-    (dispatch(reset(form)))
+    (dispatch(reset(form)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
@@ -596,7 +604,7 @@ const AnyForm = reduxForm({
   form: 'GetStarted',
   enableReinitialize: false,
   destroyOnUnmount: false,
-})(GetStarted)
+})(GetStarted);
 
 export default compose(
   withRouter,

@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BrixelIcon } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
-import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
+import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
 
 const ResumeCard = (props) => {
   // PROPS
@@ -54,10 +54,10 @@ const ResumeCard = (props) => {
       </div>
       <h5
         className="fadeAnim mt-5 ta-c"
-        dangerouslySetInnerHTML={{ __html: title}}
+        dangerouslySetInnerHTML={{ __html: title }}
       />
     </div>
-  )
+  );
 };
 
 ResumeCard.propTypes = {

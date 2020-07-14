@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
-import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import {
   withRouter,
 } from 'react-router-dom';
+import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../../images/emptyHub.svg';
 
@@ -28,7 +28,6 @@ function ResumeBestimate(props) {
   const [saved, setSaved] = useState(false);
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
-
 
   useEffect(() => {
     if (property && property.id && !marketData.priceDistribution) {
@@ -58,8 +57,8 @@ function ResumeBestimate(props) {
         estimation: {
           bestimate: {
             ...estimation,
-          }
-        }
+          },
+        },
       };
       if (property && property.estimation && property.estimation.bestimate) data.estimation.bestimate.updatedAt = new Date();
       else data.estimation.bestimate.createdAt = new Date();
@@ -75,7 +74,7 @@ function ResumeBestimate(props) {
       {
         has(marketData, 'priceDistribution.chartRangePrice') ? (
           <>
-            <h5 className='ta-c mb-5'>We proudly present you your Bestimate&reg;.</h5>
+            <h5 className="ta-c mb-5">We proudly present you your Bestimate&reg;.</h5>
             {
               condition.higherValue && (
                 <>
@@ -101,17 +100,18 @@ function ResumeBestimate(props) {
               )
             }
 
-            <p className="body2 mt-5 txtDark700">The Bestimate&reg; is your free price indication. <br/> It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.</p>
+            <p className="body2 mt-5 txtDark700">The Bestimate&reg; is your free price indication. <br /> It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.</p>
           </>
         ) : (
           <>
             {
               get(marketData, 'priceDistribution', null) && (
                 <div className="dis-fl-col a-c jc-c">
-                  <img src={emptyHouseImg} alt="Empty Market Data"/>
-                  <h5 className="mt-3 mb-2">Dude. Where's my data?</h5>
+                  <img src={emptyHouseImg} alt="Empty Market Data" />
+                  <h5 className="mt-3 mb-2">Dude. Where&apos;s my data?</h5>
                   <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to
-                    calculate your result</p>
+                    calculate your result
+                  </p>
                 </div>
               )
             }
@@ -124,21 +124,17 @@ function ResumeBestimate(props) {
 }
 
 ResumeBestimate.propTypes = {
-  condition: PropTypes.object,
+  condition: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
-  finishStep: PropTypes.bool,
-  gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetMarketCheck: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  property: PropTypes.object,
+  property: PropTypes.object.isRequired,
 };
 
 ResumeBestimate.defaultProps = {
-  finishStep: false,
 };
 
 const mapStateToProps = (state) => ({

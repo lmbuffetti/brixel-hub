@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 import * as d3 from 'd3';
 import isObject from 'lodash/isObject';
 import PropTypes from 'prop-types';
+import { FactsOptions } from '@brixel/brixel-components';
 import SliceDonuts from './SliceDonuts';
 import { colorCharts, colorChartsQuality } from '../../utils/constants';
-import { FactsOptions } from '@brixel/brixel-components';
+
 const { factsOptions } = FactsOptions;
 // const data = [1, 2, 3, 20];
 
@@ -13,19 +14,22 @@ function ChartDonuts(props) {
   // PROPS
   const {
     assessor,
+    noText,
     properties,
+    showPercOnHover,
+    smallPie,
   } = props;
   // STATE
   const [data, setData] = useState([]);
   const [isHover, setIsHover] = useState(null);
   // CONFIGURATION
-  const height = props.smallPie ? 134 : 220;
-  const width = props.smallPie ? 134 : 220;
+  const height = smallPie ? 134 : 220;
+  const width = smallPie ? 134 : 220;
 
   useEffect(() => {
     const newData = [];
     if (properties) {
-      properties.map(item => (
+      properties.map((item) => (
         newData.push(item.numberOfProperties)
       ));
     }
@@ -39,9 +43,9 @@ function ChartDonuts(props) {
         if (isObject(assessor[key])) {
           Object.keys(assessor[key]).map((subkey) => {
             const newID = assessor[key][subkey] - 1;
-            newData[newID] = newData[newID] + 1;
+            newData[assessor[key][subkey] - 1] = newData[newID] + 1;
             return null;
-          })
+          });
         } else {
           const newID = assessor[key] - 1;
           newData[newID] = +newData[newID] + 1;
@@ -76,7 +80,7 @@ function ChartDonuts(props) {
 
   const percOnHover = () => {
     const total = data.reduce((a, b) => a + b, 0);
-    const perc = Math.round(data[isHover] * 100 / total);
+    const perc = Math.round((data[isHover] * 100) / total);
     return (
       <div className="donut-tip">
         <span className="body ff-mono">{perc}%</span>
@@ -89,21 +93,21 @@ function ChartDonuts(props) {
       <div className="donut-content donutsPieChart">
         <div
           className="svg-range-container notranslate"
-          style={{width: width, height: height, flex: `0 0 ${width}px`}}
+          style={{ width, height, flex: `0 0 ${width}px` }}
         >
           <svg height={height} width={width}>
-            <g style={{ transform: `translate(${width / 2}px,${height / 2}px)`}}>
+            <g style={{ transform: `translate(${width / 2}px,${height / 2}px)` }}>
               <SliceDonuts
                 pie={pie}
-                hovered={val => setIsHover(val)}
+                hovered={(val) => setIsHover(val)}
                 isHover={isHover}
                 radius={(width / 2) - 10}
                 colors={assessor ? colorChartsQuality : colorCharts}
               />
             </g>
           </svg>
-          {!props.noText ? textOnPieChart() : ''}
-          {props.showPercOnHover && isHover !== null ? percOnHover() : ''}
+          {!noText ? textOnPieChart() : ''}
+          {showPercOnHover && isHover !== null ? percOnHover() : ''}
           {isHover}
         </div>
         {
@@ -151,12 +155,18 @@ function ChartDonuts(props) {
 
 ChartDonuts.propTypes = {
   assessor: PropTypes.object,
+  noText: PropTypes.bool,
   properties: PropTypes.arrayOf(PropTypes.object),
+  showPercOnHover: PropTypes.bool,
+  smallPie: PropTypes.bool,
 };
 
 ChartDonuts.defaultProps = {
   assessor: null,
+  noText: false,
   properties: [],
+  showPercOnHover: false,
+  smallPie: false,
 };
 
 export default ChartDonuts;

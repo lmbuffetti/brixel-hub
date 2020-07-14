@@ -28,14 +28,14 @@ const Properties = (props) => {
   // PROPS
   const {
     closeProperty,
-    //handleGetFavorites,
+    // handleGetFavorites,
     handleGetUserProperties,
     favoritesProperties,
     user,
     userProperties,
   } = props;
   // STATE
-  //const [activeTab, setActiveTab] = useState('');
+  // const [activeTab, setActiveTab] = useState('');
   const activeTab = '';
 
   useEffect(() => {
@@ -112,15 +112,10 @@ const Properties = (props) => {
 
 Properties.propTypes = {
   closeProperty: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  activeProperty: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  userProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
-  favoritesProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
+  userProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetUserProperties: PropTypes.func.isRequired,
-  handleGetFavorites: PropTypes.func.isRequired,
-  windowDimensions: PropTypes.object.isRequired,
 };
 
 Properties.defaultProps = {

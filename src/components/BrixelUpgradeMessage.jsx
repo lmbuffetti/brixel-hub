@@ -17,7 +17,7 @@ const BrixelUpgradeMessage = (props) => {
     onClose,
     showClose,
     unlockFunction,
-    virtualTour
+    virtualTour,
   } = props;
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
@@ -30,7 +30,7 @@ const BrixelUpgradeMessage = (props) => {
     history.push(`/${propID}/upgrade`);
   };
 
-  const bgColor = showUnlockMessage ? "bgPrimary100" : "bgGreen100"
+  const bgColor = showUnlockMessage ? 'bgPrimary100' : 'bgGreen100';
 
   return (
     <div className={`brixel-upgrade-message ta-c brdRadius ${className} ${bgColor}`}>
@@ -55,7 +55,7 @@ const BrixelUpgradeMessage = (props) => {
         showUnlockMessage ? (
           <div className="bgPrimary100">
             <h5 className="txtPrimary700 mb-3">{titleConfirm}</h5>
-            <p className="max-w-fix-280 m-a txtDark700" dangerouslySetInnerHTML={{ __html: descriptionConfirm}} />
+            <p className="max-w-fix-280 m-a txtDark700" dangerouslySetInnerHTML={{ __html: descriptionConfirm }} />
             <div className="dis-f jc-b mt-3">
               <BrixelButtonPrimary
                 rounded
@@ -65,7 +65,7 @@ const BrixelUpgradeMessage = (props) => {
                 saturation={0}
                 color="dark"
                 saturationTxt={700}
-                onClick={() => setShowUnlockMessage(false) }
+                onClick={() => setShowUnlockMessage(false)}
               />
               <BrixelButtonPrimary
                 rounded
@@ -74,14 +74,14 @@ const BrixelUpgradeMessage = (props) => {
                 background="primary"
                 isLoading={isSmallLoading !== null}
                 saturation={400}
-                onClick={() => onClick() }
+                onClick={() => onClick()}
               />
             </div>
           </div>
         ) : (
           <div className="bgGreen100 pb-3">
             <h5 className="txtGreen700">{title}</h5>
-            <p className="mt-3 mb-3 max-w-fix-280 m-a txtDark700" dangerouslySetInnerHTML={{ __html: description}} />
+            <p className="mt-3 mb-3 max-w-fix-280 m-a txtDark700" dangerouslySetInnerHTML={{ __html: description }} />
             {
               virtualTour && (
                 <div className="my-5">
@@ -131,36 +131,44 @@ const BrixelUpgradeMessage = (props) => {
             <BrixelButtonPrimary
               rounded
               className="m-a min-w-fix-176"
-              label={unlockFunction ? "Unlock now" : "Upgrade now"}
+              label={unlockFunction ? 'Unlock now' : 'Upgrade now'}
               background="red"
               saturation={400}
-              onClick={() => unlockFunction ? setShowUnlockMessage(true) : onUpgrade() }
+              onClick={() => (unlockFunction ? setShowUnlockMessage(true) : onUpgrade())}
             />
           </div>
         )
       }
     </div>
-  )
+  );
 };
 
 BrixelUpgradeMessage.propTypes = {
   className: PropTypes.string,
   description: PropTypes.string,
+  descriptionConfirm: PropTypes.string,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.string,
   onClose: PropTypes.func,
+  onClick: PropTypes.func,
   showClose: PropTypes.bool,
   title: PropTypes.string,
+  titleConfirm: PropTypes.string,
+  unlockFunction: PropTypes.func,
   virtualTour: PropTypes.string,
 };
 
 BrixelUpgradeMessage.defaultProps = {
   className: '',
   description: null,
+  descriptionConfirm: null,
   isSmallLoading: null,
   onClose: () => '',
+  onClick: () => '',
   showClose: false,
   title: null,
+  titleConfirm: null,
+  unlockFunction: () => '',
   virtualTour: null,
 };
 

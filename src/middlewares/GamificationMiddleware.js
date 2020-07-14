@@ -16,8 +16,8 @@ import {
 
 import api from '../controllers/api/config';
 import { gameAchievement } from '../resources/localData/gameAchievement';
-import { gameGroup } from '../resources/localData/gameGroup';
-import { gameHistory } from '../resources/localData/gameHistory';
+import { gameGroupDataLocal } from '../resources/localData/gameGroup';
+import { gameHistoryDataLocal } from '../resources/localData/gameHistory';
 import { SPINNER_OFF, SPINNER_SMALL_ON, SPINNER_SMALL_OFF } from '../actions/types/CommonTypes';
 
 const checkGamification = (store) => (next) => (action) => {
@@ -44,7 +44,7 @@ const checkGamification = (store) => (next) => (action) => {
         })
         .catch(() => {
           if (window.location.href.includes('localhost')) {
-            store.dispatch({ type: SET_GAMEGROUP, payload: gameGroup });
+            store.dispatch({ type: SET_GAMEGROUP, payload: gameGroupDataLocal });
           }
           store.dispatch({ type: SPINNER_OFF });
         });
@@ -61,7 +61,7 @@ const checkGamification = (store) => (next) => (action) => {
         })
         .catch(() => {
           if (window.location.href.includes('localhost')) {
-            store.dispatch({ type: SET_GAME_HISTORY, payload: gameHistory });
+            store.dispatch({ type: SET_GAME_HISTORY, payload: gameHistoryDataLocal });
             store.dispatch({ type: SET_AWARDS, payload: 2 });
             store.dispatch({ type: SET_BRIXEL_POINTS, payload: 1000 });
           }
@@ -71,7 +71,9 @@ const checkGamification = (store) => (next) => (action) => {
     }
     case ADD_GAME_HISTORY: {
       next(action);
-      const { id, stub, smallLoader, redirectTo } = action.payload;
+      const {
+        id, stub, smallLoader, redirectTo,
+      } = action.payload;
       delete action.payload.id;
       delete action.payload.smallLoader;
       delete action.payload.redirectTo;
@@ -83,9 +85,9 @@ const checkGamification = (store) => (next) => (action) => {
           if (game.stub === stub) currentGroup = game;
         });
       });
-      const pageID = get(store.getState(), 'property.activeSingleProperty.id', 0)
+      const pageID = get(store.getState(), 'property.activeSingleProperty.id', 0);
       const gameHistoryData = get(gameHistory, 'data', []);
-      const checkExist = gameHistoryData.find(item => item.achievement.id === currentGroup.id && pageID === item.page);
+      const checkExist = gameHistoryData.find((item) => item.achievement.id === currentGroup.id && pageID === item.page);
       if (typeof checkExist === 'undefined' || currentGroup.isCumulative || id) {
         let newID = id;
         let data = action.payload;
@@ -107,10 +109,8 @@ const checkGamification = (store) => (next) => (action) => {
             }
             if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           });
-      } else {
-        if (redirectTo) window.location.href = redirectTo;
-      }
-      /*api.gamification.addGameHistory(id, action.payload)
+      } else if (redirectTo) window.location.href = redirectTo;
+      /* api.gamification.addGameHistory(id, action.payload)
         .then((res) => {
           if (typeof res.data.status === 'undefined') {
             store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });

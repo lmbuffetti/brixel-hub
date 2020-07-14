@@ -1,14 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { translateTo } from '../utils/translation';
 import { change } from 'redux-form';
-import { BrixelButtonIcon, BrixelLogin, BrixelRegister, BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
+import {
+  BrixelButtonIcon, BrixelLogin, BrixelRegister, BrixelButtonPrimary, BrixelButtonTertiary,
+} from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { translateTo } from '../utils/translation';
 import Support from './Support';
 
 const LoginSignup = (props) => {
@@ -34,7 +36,7 @@ const LoginSignup = (props) => {
       changeFieldValue(formName, 'signup', !loginPage);
     }
     changeFieldValue(formName, 'signupScreen', loginPage);
-    onChangeLogin(loginPage)
+    onChangeLogin(loginPage);
   }, [loginPage]);
 
   const onSubmitForm = () => {
@@ -52,7 +54,7 @@ const LoginSignup = (props) => {
       setShowErrors(false);
       onSubmit();
     }
-  }
+  };
 
   const TertiaryButton = () => {
     switch (loginPage) {
@@ -60,7 +62,7 @@ const LoginSignup = (props) => {
         return {
           action: () => setLoginPage('support'),
           label: 'Still, not convinced',
-        }
+        };
       case 'support':
         return {
           action: () => setLoginPage('register'),
@@ -72,7 +74,7 @@ const LoginSignup = (props) => {
           label: 'I am not sure',
         };
     }
-  }
+  };
 
   const PrimaryButton = () => {
     switch (loginPage) {
@@ -80,7 +82,7 @@ const LoginSignup = (props) => {
         return {
           action: () => setLoginPage('register'),
           label: 'Ok, save now',
-        }
+        };
       case 'support':
         return {
           action: () => setLoginPage('register'),
@@ -97,12 +99,12 @@ const LoginSignup = (props) => {
           label: 'Save',
         };
     }
-  }
+  };
 
   if (!formValue) {
     return (
       <div />
-    )
+    );
   }
 
   return (
@@ -114,7 +116,7 @@ const LoginSignup = (props) => {
             icon="close-small"
             color="dark"
             saturationTxt={700}
-            background={"white"}
+            background="white"
             saturation={0}
             noBorder
             onClick={() => onCloseGoBack()}
@@ -125,9 +127,9 @@ const LoginSignup = (props) => {
             loginPage === 'login' && (
               <>
                 <div className="w-perc-100 ta-c pr-5">
-                  <h5 className="txtWhite">{translateTo(lang, "Login to your profile to save your progress.")}</h5>
+                  <h5 className="txtWhite">{translateTo(lang, 'Login to your profile to save your progress.')}</h5>
                   <p className="txtWhite cur-poi mt-1 td-u" onClick={() => setLoginPage('register')}>
-                    {translateTo(lang, "or create profile here")}
+                    {translateTo(lang, 'or create profile here')}
                   </p>
                 </div>
                 <BrixelLogin company={company} formName="GetStarted" showErrors={showErrors} />
@@ -138,7 +140,7 @@ const LoginSignup = (props) => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {translateTo(lang, "Forgot password?")}
+                    {translateTo(lang, 'Forgot password?')}
                   </a>
                 </p>
               </>
@@ -148,9 +150,9 @@ const LoginSignup = (props) => {
             loginPage === 'register' && (
               <>
                 <div className="w-perc-100 ta-c pr-5">
-                  <h5 className="txtWhite">{translateTo(lang, "Create free profile to save")}</h5>
+                  <h5 className="txtWhite">{translateTo(lang, 'Create free profile to save')}</h5>
                   <p className="txtWhite cur-poi mt-1 td-u" onClick={() => setLoginPage('login')}>
-                    {translateTo(lang, "or login here")}
+                    {translateTo(lang, 'or login here')}
                   </p>
                 </div>
                 <BrixelRegister company={company} formName="GetStarted" showErrors={showErrors} />
@@ -214,7 +216,7 @@ const LoginSignup = (props) => {
         </div>
       </div>
     </>
-  )
+  );
 };
 
 LoginSignup.propTypes = {
@@ -225,15 +227,13 @@ LoginSignup.propTypes = {
   formName: PropTypes.string.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  showErrors: PropTypes.bool,
-  onChangeLogin: PropTypes.func.isRequired,
+  onChangeLogin: PropTypes.func,
   onCloseGoBack: PropTypes.func.isRequired,
   onSubmit: PropTypes.func,
 };
 
 LoginSignup.defaultProps = {
-  redirectTo: null,
-  showErrors: false,
+  lang: 'en',
   onChangeLogin: () => '',
   onSubmit: () => '',
 };
@@ -256,4 +256,3 @@ export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(LoginSignup);
-

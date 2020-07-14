@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { BrixelIcon, BrixelButtonIcon, Helpers } from '@brixel/brixel-components';
-import CallUsImg from '../images/Support/call_us.svg';
-import WriteUsImg from '../images/Support/wite_us.svg';
-import WhatAppImg from '../images/Support/whatsapp.svg';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import CallUsImg from '../images/Support/call_us.svg';
+import WriteUsImg from '../images/Support/wite_us.svg';
+import WhatAppImg from '../images/Support/whatsapp.svg';
 
 const Support = (props) => {
   const {
@@ -18,11 +18,11 @@ const Support = (props) => {
     onClose,
   } = props;
   // STATIC CONTCT DATA
-  const phone = get (activeSingleCompany, 'contact.phone', null);
-  const email = get (activeSingleCompany, 'contact.email', null);
-  const whatsapp = get (activeSingleCompany, 'contact.whatsapp', null);
-  const teamAvatars = get (activeSingleCompany, 'teamAvatars', []);
-  const companyLegalName = get (activeSingleCompany, 'legalName', get (activeSingleCompany, 'name', null));
+  const phone = get(activeSingleCompany, 'contact.phone', null);
+  const email = get(activeSingleCompany, 'contact.email', null);
+  const whatsapp = get(activeSingleCompany, 'contact.whatsapp', null);
+  const teamAvatars = get(activeSingleCompany, 'teamAvatars', []);
+  const companyLegalName = get(activeSingleCompany, 'legalName', get(activeSingleCompany, 'name', null));
   // COLOR
   const colorLinkTextTitle = layout === 'onboarding' ? 'txtPrimary200' : 'txtDark200';
   const colorLinkTextInfo = layout === 'onboarding' ? 'txtWhite' : 'txtDark700';
@@ -34,7 +34,7 @@ const Support = (props) => {
     if (!openDetail) {
       setTimeout(() => {
         const scrollPage = document.getElementsByClassName('singleStep')[0];
-        scrollPage.scrollTo({ top: scrollPage.offsetHeight, behavior: 'smooth' })
+        scrollPage.scrollTo({ top: scrollPage.offsetHeight, behavior: 'smooth' });
       }, 100);
     }
   };
@@ -75,7 +75,7 @@ const Support = (props) => {
         }
         <div
           className={`dis-f a-c ${layout === 'rewards' ? 'jc-c my-5' : 'mt-3 jc-b '} ${expanded ? '' : 'cur-poi'}`}
-          onClick={() => expanded ? ''  : onclickOne() }
+          onClick={() => (expanded ? '' : onclickOne())}
         >
           {
             layout !== 'onboarding' && (
@@ -86,7 +86,7 @@ const Support = (props) => {
                       key={i.toString()}
                       src={`${baseByData.shortPath}${imgTeam.path}`}
                       alt="Support Team"
-                      className={`${layout === 'rewards' ? "w-fix-104 mr-2-neg" : "w-fix-40 mr-1-neg"}  square brdLarge brdWhite brdCircle`}
+                      className={`${layout === 'rewards' ? 'w-fix-104 mr-2-neg' : 'w-fix-40 mr-1-neg'}  square brdLarge brdWhite brdCircle`}
                     />
                   ))
                 }
@@ -96,14 +96,14 @@ const Support = (props) => {
           {
             !expanded && (
               <BrixelIcon
-                icon={openDetail ? "arrow-simple-up" : "arrow-simple-down"}
+                icon={openDetail ? 'arrow-simple-up' : 'arrow-simple-down'}
               />
             )
           }
         </div>
         {
           layout !== 'rewards' && layout !== 'onboarding' && (
-            <hr className="my-3 lighter"/>
+            <hr className="my-3 lighter" />
           )
         }
         <div className={`moreInfoSupport ${openDetail ? 'open' : 'close'} ${layout === 'rewards' ? 'w-fit m-a' : ''}`}>
@@ -148,19 +148,21 @@ const Support = (props) => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 Support.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
+  layout: PropTypes.string,
   hideClose: PropTypes.bool,
   isFixed: PropTypes.bool,
   expanded: PropTypes.bool,
   onClose: PropTypes.func,
 };
 
-Support.defaultTypes = {
+Support.defaultProps = {
   hideClose: true,
+  layout: 'support',
   isFixed: true,
   expanded: false,
   onClose: () => '',

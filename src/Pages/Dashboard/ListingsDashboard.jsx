@@ -45,7 +45,7 @@ const ListingsDashboard = (props) => {
 
   useEffect(() => {
     if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'listings') {
-      history.push({pathname: `/${propID}/listings/page` });
+      history.push({ pathname: `/${propID}/listings/page` });
     }
   }, [windowDimensions, getFact()]);
 
@@ -65,7 +65,7 @@ const ListingsDashboard = (props) => {
     return {
       label,
       colorIcon,
-    }
+    };
   };
 
   const checkPortalsOnline = () => {
@@ -77,8 +77,6 @@ const ListingsDashboard = (props) => {
     });
     return isOnline;
   };
-
-
 
   const statusPortals = () => {
     let label;
@@ -96,7 +94,7 @@ const ListingsDashboard = (props) => {
     return {
       label,
       colorIcon,
-    }
+    };
   };
 
   const openCloseColumn = () => {
@@ -170,13 +168,12 @@ const ListingsDashboard = (props) => {
                   icon="users"
                   label="Buyers"
                   className="w-perc-100"
-                  colorIcon={'primary700'}
+                  colorIcon="primary700"
                   backIcon="primary100 mr-1"
                   hoverEffect={false}
                 />
               </div>
             </div>
-
 
             <div className="details dis-fl-col p-1">
               <div className="dis-fl-row jc-b a-c mb-2">
@@ -230,7 +227,7 @@ const ListingsDashboard = (props) => {
       </div>
       {
         getFact() !== 'listings' && (
-          <div className={`levelsWrapper zIndex2 w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed': 'opened'}`}>
+          <div className={`levelsWrapper zIndex2 w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed' : 'opened'}`}>
             {
               (
                 getFact() === 'showings' ||
@@ -245,7 +242,7 @@ const ListingsDashboard = (props) => {
                     <Route path="/:propId/listings/portals" exact component={Portals} />
                   </>
                 ) : (
-                  <Redirect from={`/:propId/listings/*`} to={`/${propID}/listings/page`} />
+                  <Redirect from="/:propId/listings/*" to={`/${propID}/listings/page`} />
                 )
             }
 
@@ -253,7 +250,7 @@ const ListingsDashboard = (props) => {
         )
       }
     </div>
-  )
+  );
 };
 
 ListingsDashboard.propTypes = {

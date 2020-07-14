@@ -51,17 +51,18 @@ const ProtectedRoute = (props) => {
 
 ProtectedRoute.propTypes = {
   userTypes: PropTypes.string,
+  allowAccess: PropTypes.bool.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   exact: PropTypes.bool,
   history: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
-  protect: PropTypes.bool,
 };
 
 ProtectedRoute.defaultProps = {
+  component: null,
   userTypes: null,
   exact: false,
-  protect: false,
 };
 
 const mapStateToProps = (state) => ({

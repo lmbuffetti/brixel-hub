@@ -24,7 +24,7 @@ const MediaRewards = (props) => {
       return false;
     }
     return false;
-  }
+  };
 
   return (
     <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col a-c">
@@ -58,28 +58,28 @@ const MediaRewards = (props) => {
                   <BrixelButtonBox
                     verticalView
                     bgTransparent
-                    icon={photos.length > 0 ? "check" : "gallery"}
+                    icon={photos.length > 0 ? 'check' : 'gallery'}
                     label="Photos"
                     labelClass="fweight-400"
-                    subtitle={`<span>Upload 1 photo<span>`}
+                    subtitle={'<span>Upload 1 photo<span>'}
                     subtitleClass={`fsize-200 txtDark200 pt-small-6 ${photos.length > 0 ? 'td-lt' : ''}`}
-                    className={`w-perc-100 mr-1 shadow-1dp brdMedium p-2 brdTrans`}
-                    colorIcon={photos.length > 0 ? "green400" :  "primary700"}
-                    backIcon={photos.length > 0 ? "green100" :  "primary100"}
+                    className="w-perc-100 mr-1 shadow-1dp brdMedium p-2 brdTrans"
+                    colorIcon={photos.length > 0 ? 'green400' : 'primary700'}
+                    backIcon={photos.length > 0 ? 'green100' : 'primary100'}
                     onClick={() => history.push(`/${propID}/property/photos`)}
                     selected
                   />
                   <BrixelButtonBox
                     verticalView
                     bgTransparent
-                    icon={floorPlans.length > 0 ? "check" : "plans"}
+                    icon={floorPlans.length > 0 ? 'check' : 'plans'}
                     label="Plans"
                     labelClass="fweight-400"
-                    subtitle={`<span>Upload 1 plan</span>`}
+                    subtitle={'<span>Upload 1 plan</span>'}
                     subtitleClass={`fsize-200 txtDark200 pt-small-6 ${floorPlans.length > 0 ? 'td-lt' : ''}`}
-                    className={`w-perc-100 ml-1 shadow-1dp brdMedium p-2 brdTrans`}
-                    colorIcon={floorPlans.length > 0 ? "green400" :  "primary700"}
-                    backIcon={floorPlans.length > 0 ? "green100" :  "primary100"}
+                    className="w-perc-100 ml-1 shadow-1dp brdMedium p-2 brdTrans"
+                    colorIcon={floorPlans.length > 0 ? 'green400' : 'primary700'}
+                    backIcon={floorPlans.length > 0 ? 'green100' : 'primary100'}
                     onClick={() => history.push(`/${propID}/property/floorPlans`)}
                   />
                 </div>
@@ -90,9 +90,9 @@ const MediaRewards = (props) => {
                     icon="tour"
                     label="3D tour"
                     labelClass="fweight-400"
-                    subtitle={`<span class="txtRed400">Premium Feature<span>`}
+                    subtitle={'<span class="txtRed400">Premium Feature<span>'}
                     subtitleClass="fsize-200 txtDark200 pt-small-6"
-                    className={`w-perc-100 mr-1 shadow-1dp brdMedium p-2 brdTrans`}
+                    className="w-perc-100 mr-1 shadow-1dp brdMedium p-2 brdTrans"
                     colorIcon="primary700"
                     backIcon="primary100"
                     onClick={() => history.push(`/${propID}/property/tour`)}
@@ -101,14 +101,14 @@ const MediaRewards = (props) => {
                   <BrixelButtonBox
                     verticalView
                     bgTransparent
-                    icon={documents.length > 0 ? "check" : "folder"}
+                    icon={documents.length > 0 ? 'check' : 'folder'}
                     label="Docubox"
                     labelClass="fweight-400"
-                    subtitle={`<span>Upload 1 document</span>`}
+                    subtitle={'<span>Upload 1 document</span>'}
                     subtitleClass={`fsize-200 txtDark200 pt-small-6 ${documents.length > 0 ? 'td-lt' : ''}`}
-                    className={`w-perc-100 ml-1 shadow-1dp brdMedium p-2 brdTrans`}
-                    colorIcon={documents.length > 0 ? "green400" :  "primary700"}
-                    backIcon={documents.length > 0 ? "green100" :  "primary100"}
+                    className="w-perc-100 ml-1 shadow-1dp brdMedium p-2 brdTrans"
+                    colorIcon={documents.length > 0 ? 'green400' : 'primary700'}
+                    backIcon={documents.length > 0 ? 'green100' : 'primary100'}
                     onClick={() => history.push(`/${propID}/property/documents`)}
                   />
                 </div>
@@ -119,28 +119,27 @@ const MediaRewards = (props) => {
         )
       }
     </main>
-  )
+  );
 };
 
 MediaRewards.propTypes = {
-  documents: Proptypes.arrayOf(Proptypes.object),
-  floorPlans: Proptypes.arrayOf(Proptypes.object),
+  documents: Proptypes.arrayOf(Proptypes.object).isRequired,
+  floorPlans: Proptypes.arrayOf(Proptypes.object).isRequired,
   history: Proptypes.object.isRequired,
   match: Proptypes.object.isRequired,
-  photos: Proptypes.arrayOf(Proptypes.object),
-}
+  photos: Proptypes.arrayOf(Proptypes.object).isRequired,
+};
 
 MediaRewards.defaultProps = {
-  totalComplete: 9,
-}
+};
 
 const mapStateToProps = (state) => ({
   documents: get(state, 'form.Property.values.documents', []),
   floorPlans: get(state, 'form.Property.values.floorPlans', []),
   photos: get(state, 'form.Property.values.photos', []),
-})
+});
 
-export default compose (
+export default compose(
   withRouter,
-  connect(mapStateToProps, null)
+  connect(mapStateToProps, null),
 )(MediaRewards);

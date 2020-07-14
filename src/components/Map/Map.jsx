@@ -16,7 +16,7 @@ import { compareArray } from '../../utils/helpers';
 
 const images = require.context('../../images', true);
 
-export const ComponentMap =(props) => {
+export const ComponentMap = (props) => {
   // PROPS
   const {
     changeFieldValue,
@@ -36,6 +36,8 @@ export const ComponentMap =(props) => {
     showMap,
     similarProperties,
     subMinHeight,
+    visible,
+    zoom,
   } = props;
   // STATE
   const [selectedPlace, setSelectedPlace] = useState([]);
@@ -107,7 +109,7 @@ export const ComponentMap =(props) => {
               val.iconSettings.icon.newUrlActive = images(`./${urlImgActive}`);
               val.distance = getDistance({ lat: latitude, lng: longitude }, {
                 lat: val.geometry.location.lat(),
-                lng: val.geometry.location.lng()
+                lng: val.geometry.location.lng(),
               });
               val.photo = photo;
               curPlace.push(val);
@@ -128,7 +130,7 @@ export const ComponentMap =(props) => {
         lat: latitude,
         lng: longitude,
       };
-      if (latitude === 44.82 && longitude === 4.31) optMap.setZoom(4)
+      if (latitude === 44.82 && longitude === 4.31) optMap.setZoom(4);
       else if (isDefView) optMap.setZoom(6);
       else optMap.setZoom(14);
       optMap.panTo(center);
@@ -256,140 +258,117 @@ export const ComponentMap =(props) => {
           </div>
         )
       }
-      <div className={props.showMap ? `h-perc-100 ${subMinHeight}` : 'hide'}>
-        {
-          (
-            <Map
-              google={google}
-              onReady={(mapProps, map) => fetchPlaces(mapProps, map)}
-              zoom={props.zoom}
-              visible={props.visible}
-              initialCenter={{
-                lat: latitude !== 0,
-                lng: longitude !== 0,
-              }}
-              style={{
-                width: props.showMap ? '100%' : '0px',
-                height: props.showMap ? '100%' : '0px',
-              }}
-              onClick={() => setShowInfoWindow(false)}
-            >
-              {
-                !isDefView && (
-                  <Marker
-                    position={{
-                      lat: latitude,
-                      lng: longitude,
-                    }}
-                    icon={markerImg}
-                    draggable={moveMarker}
-                    onDragend={(t, map, coord) => onMarkerDragEnd(coord)}
-                  />
-                )
-              }
-              {
-                modalInfo.lat && (
-                  <InfoWindow
-                    visible={showInfoWindow}
-                    style={{ textAlign: 'center' }}
-                    position={{
-                      lat: modalInfo.lat,
-                      lng: modalInfo.lng,
-                    }}
-                  >
-                    <div className="modalMaps">
-                      <i style={{ backgroundImage: `url(${modalInfo.photo})` }} />
-                      <div>
-                        <h4>{modalInfo.title}</h4>
-                        <h6>{modalInfo.subtitle}</h6>
-                        <p>{`${modalInfo.distance}m`}</p>
-                      </div>
-                    </div>
-                  </InfoWindow>
-                )
-              }
-              {
-                similarProperties.map((item, i) => (
-                  <Marker
-                    position={{
-                      lat: item.Latitude,
-                      lng: item.Longitude,
-                    }}
-                    icon={{
-                      url: markerSimilarProperties,
-                      anchor: new google.maps.Point(16,16),
-                      scaledSize: new google.maps.Size(8,8)
-                    }}
-                    draggable={false}
-                    key={i.toString()}
-                  />
-                ))
-              }
-            </Map>
-          )
-        }
+      <div className={showMap ? `h-perc-100 ${subMinHeight}` : 'hide'}>
+        <Map
+          google={google}
+          onReady={(mapProps, map) => fetchPlaces(mapProps, map)}
+          zoom={zoom}
+          visible={visible}
+          initialCenter={{
+            lat: latitude !== 0,
+            lng: longitude !== 0,
+          }}
+          style={{
+            width: showMap ? '100%' : '0px',
+            height: showMap ? '100%' : '0px',
+          }}
+          onClick={() => setShowInfoWindow(false)}
+        >
+          {
+            !isDefView && (
+              <Marker
+                position={{
+                  lat: latitude,
+                  lng: longitude,
+                }}
+                icon={markerImg}
+                draggable={moveMarker}
+                onDragend={(t, map, coord) => onMarkerDragEnd(coord)}
+              />
+            )
+          }
+          {
+            modalInfo.lat && (
+              <InfoWindow
+                visible={showInfoWindow}
+                style={{ textAlign: 'center' }}
+                position={{
+                  lat: modalInfo.lat,
+                  lng: modalInfo.lng,
+                }}
+              >
+                <div className="modalMaps">
+                  <i style={{ backgroundImage: `url(${modalInfo.photo})` }} />
+                  <div>
+                    <h4>{modalInfo.title}</h4>
+                    <h6>{modalInfo.subtitle}</h6>
+                    <p>{`${modalInfo.distance}m`}</p>
+                  </div>
+                </div>
+              </InfoWindow>
+            )
+          }
+          {
+            similarProperties.map((item, i) => (
+              <Marker
+                position={{
+                  lat: item.Latitude,
+                  lng: item.Longitude,
+                }}
+                icon={{
+                  url: markerSimilarProperties,
+                  anchor: new google.maps.Point(16, 16),
+                  scaledSize: new google.maps.Size(8, 8),
+                }}
+                draggable={false}
+                key={i.toString()}
+              />
+            ))
+          }
+        </Map>
       </div>
     </>
   );
 };
 
 ComponentMap.propTypes = {
-  changeCountry: PropTypes.func,
-  className: PropTypes.string,
-  country: PropTypes.arrayOf(PropTypes.object),
+  changeFieldValue: PropTypes.func.isRequired,
   curCountry: PropTypes.object,
   disableZoom: PropTypes.bool,
   draggable: PropTypes.bool,
   externalControls: PropTypes.bool,
   formName: PropTypes.string,
   google: PropTypes.object.isRequired,
-  multipleFieldSearch: PropTypes.bool,
-  history: PropTypes.object.isRequired,
   isDefView: PropTypes.bool,
-  isShowZip: PropTypes.bool,
-  inputLabel: PropTypes.string,
-  lang: PropTypes.string,
   longitude: PropTypes.number.isRequired,
   latitude: PropTypes.number.isRequired,
   mapType: PropTypes.string,
-  match: PropTypes.object.isRequired,
   moveMarker: PropTypes.bool,
   nearBy: PropTypes.bool,
-  place: PropTypes.bool,
   scrollZoom: PropTypes.bool,
   similarProperties: PropTypes.arrayOf(PropTypes.object),
   showMap: PropTypes.bool,
-  showSearchLocation: PropTypes.bool,
-  showSelectCountry: PropTypes.bool,
   zoom: PropTypes.number,
-  minHeight: PropTypes.number,
   subMinHeight: PropTypes.string,
+  visible: PropTypes.bool,
 };
 
 ComponentMap.defaultProps = {
-  className: '',
   curCountry: {},
   disableZoom: false,
   draggable: false,
   externalControls: false,
   formName: '',
-  multipleFieldSearch: true,
-  inputLabel: '',
   isDefView: false,
-  isShowZip: true,
-  place: false,
-  lang: 'en',
   mapType: 'roadmap',
   moveMarker: false,
   nearBy: false,
-  showSearchLocation: false,
-  showSelectCountry: false,
   scrollZoom: false,
   similarProperties: [],
   showMap: false,
   zoom: 10,
-  minHeight: 0,
   subMinHeight: '',
+  visible: true,
 };
 
 export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
@@ -400,7 +379,7 @@ export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
   return (
     prevLat === nextLat &&
     prevZoom === nextZoom
-  )
+  );
 });
 
 export default compose(

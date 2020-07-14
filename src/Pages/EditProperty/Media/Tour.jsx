@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { change } from 'redux-form';
 import { connect } from 'react-redux';
-import { uploadImg } from '../../../actions/UploadActions';
 import { BrixelButtonIcon } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { uploadImg } from '../../../actions/UploadActions';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const Tour = (props) => {
@@ -76,16 +76,16 @@ const Tour = (props) => {
                 ) : (
                   <>
                     {
-                      get(formValue,'virtual.matterport', null) && (
+                      get(formValue, 'virtual.matterport', null) && (
                         <iframe
                           className="min-h-fix-320"
                           width="100%"
                           height="100%"
-                          src={`https://my.matterport.com/show/?m=${get(formValue,'virtual.matterport', null)}&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0`}
+                          src={`https://my.matterport.com/show/?m=${get(formValue, 'virtual.matterport', null)}&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0`}
                           allow="vr"
                           frameBorder="0"
                           allowFullScreen
-                          title={get(formValue,'virtual.matterport', null)}
+                          title={get(formValue, 'virtual.matterport', null)}
                         />
                       )
                     }
@@ -96,7 +96,7 @@ const Tour = (props) => {
           ) : (
             <BrixelUpgradeMessage
               className="tourTeaser h-perc-100"
-              showClose={true}
+              showClose
               onClose={() => history.push(`/${propID}/property`)}
               title="Get your own 3D tour"
               virtualTour="https://my.matterport.com/show/?m=ctWod3ggrZi&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0"
@@ -111,11 +111,8 @@ const Tour = (props) => {
 };
 
 Tour.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 

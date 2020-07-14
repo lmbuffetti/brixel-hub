@@ -1,14 +1,14 @@
 export default {
   brixelator: {
-    getPriceDistribution: data => `/marketData/pricesDistribution${data}`,
-    getLivingSpaceDistribution: data => `/marketData/livingSpacesDistribution${data}`,
-    getMerged: data => `/merged/list${data}`,
-    getMarketData: data => `/marketData/pricesPerM2Distribution${data}`,
-    getPricePerSpace: data => `/marketData/pricesPerM2Distribution${data}`,
-    getMarketDays: data => `/marketData/daysOnMarketDistribution${data}`,
-    getContructionYears: data => `/marketData/constructionYearDistribution${data}`,
-    getMergedBySubtype: data => `/merged/countBySubType${data}`,
-    getMaketAggregate: data => `/marketData/aggregate${data}`,
+    getPriceDistribution: (data) => `/marketData/pricesDistribution${data}`,
+    getLivingSpaceDistribution: (data) => `/marketData/livingSpacesDistribution${data}`,
+    getMerged: (data) => `/merged/list${data}`,
+    getMarketData: (data) => `/marketData/pricesPerM2Distribution${data}`,
+    getPricePerSpace: (data) => `/marketData/pricesPerM2Distribution${data}`,
+    getMarketDays: (data) => `/marketData/daysOnMarketDistribution${data}`,
+    getContructionYears: (data) => `/marketData/constructionYearDistribution${data}`,
+    getMergedBySubtype: (data) => `/merged/countBySubType${data}`,
+    getMaketAggregate: (data) => `/marketData/aggregate${data}`,
   },
   common: {
     sendMessage: () => '/message',
@@ -32,7 +32,7 @@ export default {
     gameHistoryByUser: (id) => `/gameHistory/user/${id}/add`,
   },
   property: {
-    addPage: () => `/page/`,
+    addPage: () => '/page/',
     pageById: (id) => `/page/${id}`,
     mapPageById: (id) => `/map/property/${id}`,
     estimation: (id) => `/page/${id}/estimation`,
@@ -47,7 +47,7 @@ export default {
     publishReview: (id, status) => `/page/${id}/publishReview?status=${status}`,
     portalsReview: (id, status) => `/page/${id}/portalsReview?status=${status}`,
     packagesList: (limit, offset) => `/servicePackage/${limit}/${offset}`,
-    upgradePlan: (id) => `/page/${id}/upgradePlan`
+    upgradePlan: (id) => `/page/${id}/upgradePlan`,
   },
   upload: {
     rotate: (id, rotation) => `/image/${id}/rotate/${rotation}`,

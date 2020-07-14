@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import { BrixelIcon, BrixelButtonSecondary, BrixelButtonIcon } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import useOutsideAlerter from './OutsideElement';
 import { setCookie } from '../utils/helpers';
 import { setLanguage, setModal } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
-import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 import { firstRoutes, secondRoutes } from '../resources/navigationRoutes';
 import brixels from '../images/BrxielComingTown/brixels.svg';
@@ -34,8 +34,8 @@ function PageHeaderDashboard(props) {
     formValue,
   } = props;
   // STATE
-  //const [currentLang, setCurrentLang] = useState(lang);
-  //const [dropLang, setDropLang] = useState([]);
+  // const [currentLang, setCurrentLang] = useState(lang);
+  // const [dropLang, setDropLang] = useState([]);
   const [activeMenu, setActiveMenu] = useState(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -75,13 +75,13 @@ function PageHeaderDashboard(props) {
   const brixelsAchievementDetail = () => {
     handleSetModal({
       showAwardsInfo: true,
-    })
+    });
   };
 
   const onClickMobileMenu = (link) => {
     setShowMobileMenu(false);
     setActiveMenu(link);
-    changeZIndex(1)
+    changeZIndex(1);
     document.body.classList.remove('ov-h');
   };
 
@@ -97,7 +97,7 @@ function PageHeaderDashboard(props) {
 
   const getCurrentRoute = () => {
     const path = history.location.pathname.split('/')[2];
-    const currentPath = firstRoutes.concat(secondRoutes).find(item => item.name === path);
+    const currentPath = firstRoutes.concat(secondRoutes).find((item) => item.name === path);
     return currentPath || {};
   };
 
@@ -105,7 +105,7 @@ function PageHeaderDashboard(props) {
   useOutsideAlerter(profileMenu, {
     action: 'function',
     func: () => {
-      setShowProfileMenu(false)
+      setShowProfileMenu(false);
     },
   });
 
@@ -116,14 +116,14 @@ function PageHeaderDashboard(props) {
     if (dashContentEl) {
       dashContentEl.addEventListener('scroll', () => {
         if (dashContentEl.scrollTop > 0) {
-          dashWrapperEl.classList.add('scrollingHeader')
+          dashWrapperEl.classList.add('scrollingHeader');
         } else {
-          dashWrapperEl.classList.remove('scrollingHeader')
+          dashWrapperEl.classList.remove('scrollingHeader');
         }
         if (dashContentEl.scrollTop > 40) {
-          dashWrapperEl.classList.add('longScroll')
+          dashWrapperEl.classList.add('longScroll');
         } else {
-          dashWrapperEl.classList.remove('longScroll')
+          dashWrapperEl.classList.remove('longScroll');
         }
       });
     }
@@ -131,18 +131,18 @@ function PageHeaderDashboard(props) {
 
   useEffect(() => {
     if (proTitleEl) {
-      const titleHeight = proTitleEl.offsetHeight
+      const titleHeight = proTitleEl.offsetHeight;
       if (titleHeight > 42) {
-        proTitleEl.classList.add('longTitle')
+        proTitleEl.classList.add('longTitle');
       }
     }
-  })
+  });
 
   return (
     <>
-      <header className={`hubDasHeader`}>
+      <header className="hubDasHeader">
         <div className="dasHeaderContainer">
-          <div className={`dis-f a-c px-2 px-md-3 h-fix-64 jc-b pos-r bgWhite`}>
+          <div className="dis-f a-c px-2 px-md-3 h-fix-64 jc-b pos-r bgWhite">
             {
               windowDimensions.width > 1024 && (
                 <div className="header-section dis-fl-row a-c jc-b">
@@ -220,8 +220,8 @@ function PageHeaderDashboard(props) {
                   color="primary"
                   saturationTxt={400}
                   noBorder
-                  className={`shadow-2dp btnMainMenu`}
-                  icon={showMobileMenu ? "close-small" : "menu"}
+                  className="shadow-2dp btnMainMenu"
+                  icon={showMobileMenu ? 'close-small' : 'menu'}
                   onClick={() => toggleMobileMenu()}
                 />
                 {
@@ -241,6 +241,7 @@ function PageHeaderDashboard(props) {
                       />
                       <div className="links dis-fl-col as-b w-perc-100">
                         <button
+                          type="button"
                           className="txtLight100 fweight-700 fSizePx28 mb-4 ta-l"
                           onClick={() => onClickMobileMenu('propertyList')}
                         >
@@ -259,7 +260,7 @@ function PageHeaderDashboard(props) {
                           Calendar
                         </button> */}
                         <div className="mini-menu dis-fl-col txtLight100">
-                          <hr className="mb-4"/>
+                          <hr className="mb-4" />
                           <a
                             className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
                             href={`${baseByData().loginBasePath}/account/profile?url=${window.location.href}`}
@@ -285,7 +286,7 @@ function PageHeaderDashboard(props) {
                             Logout
                           </a>
                         </div>
-                        <hr className="my-4"/>
+                        <hr className="my-4" />
                         <div>
                           <BrixelButtonSecondary
                             className="min-h-fix-32 max-h-fix-32 p-0 px-1 min-w-fix-96 brdMedium"
@@ -343,32 +344,21 @@ PageHeaderDashboard.propTypes = {
   awards: PropTypes.number.isRequired,
   changeZIndex: PropTypes.func,
   brixelPoints: PropTypes.number.isRequired,
-  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
-  languages: PropTypes.arrayOf(PropTypes.object),
   lang: PropTypes.string,
   loggedInUser: PropTypes.object,
   history: PropTypes.object.isRequired,
   handleGetGame: PropTypes.func.isRequired,
-  property: PropTypes.object.isRequired,
-  userAwards: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
-  userBrixelPoint: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
   windowDimensions: PropTypes.object.isRequired,
-  userTypes: PropTypes.string,
 };
 
 PageHeaderDashboard.defaultProps = {
-  languages: [],
+  lang: 'en',
   loggedInUser: {},
   changeZIndex: () => 1,
-  noMenu: false,
-  userAwards: [],
-  userBrixelPoint: [],
-  withShadow: false,
-  userTypes: '',
 };
 
 const mapStateToProps = (state) => ({
@@ -378,7 +368,6 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
   languages: get(state, 'common.languages', []),
   lang: get(state, 'common.language', []),
-  userAwards: get(state, 'user.awards', []),
   property: get(state, 'property.activeSingleProperty', {}),
   userBrixelPoint: get(state, 'user.brixelPoints', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),

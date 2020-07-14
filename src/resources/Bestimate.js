@@ -9,12 +9,12 @@ import ResumeBestimate from '../Pages/GameHistory/Bestimate/ResumeBestimate';
 
 const { factsOptions } = FactsOptions;
 
-export const BestimateQuestions = (lang) => [
+export const BestimateQuestions = () => [
   {
-    title: "How many bathrooms do you have?",
-    extraInfo: "We need some extra information about your property.",
-    history: "bathrooms",
-    cardType: "bathrooms",
+    title: 'How many bathrooms do you have?',
+    extraInfo: 'We need some extra information about your property.',
+    history: 'bathrooms',
+    cardType: 'bathrooms',
     inputs: [
       {
         component: BrixelInputStepNumber,
@@ -25,15 +25,15 @@ export const BestimateQuestions = (lang) => [
         placeholder: '0',
         max: 30,
         fluid: true,
-        validation: [Validation.maxLengthNumRooms, Validation.required]
+        validation: [Validation.maxLengthNumRooms, Validation.required],
       },
-    ]
+    ],
   },
   {
-    title: "Which extra features do you have?",
+    title: 'Which extra features do you have?',
     vCentered: true,
-    history: "extraFeatures",
-    cardType: "extraFeatures",
+    history: 'extraFeatures',
+    cardType: 'extraFeatures',
     inputs: [
       {
         component: BrixelExtraFeature,
@@ -43,15 +43,15 @@ export const BestimateQuestions = (lang) => [
         iconClass: 'p-small-17 fSizePx22 bgPrimary400 txtWhite brdRadius mr-1',
         options: factsOptions.BrixelExtraFeature,
       },
-    ]
+    ],
   },
   {
-    title: "Result Page",
+    title: 'Result Page',
     toSave: true,
     vCentered: true,
-    subtitle: "Sales strategy & price",
-    history: "resumeFlow",
-    cardType: "loadComponent",
+    subtitle: 'Sales strategy & price',
+    history: 'resumeFlow',
+    cardType: 'loadComponent',
     component: ResumeBestimate,
   },
 ];

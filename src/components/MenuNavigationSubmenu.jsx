@@ -2,13 +2,13 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import useOutsideAlerter from './OutsideElement';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
+import useOutsideAlerter from './OutsideElement';
 
 import Properties from '../Pages/Properties';
 import Support from './Support';
-import Loading from '../components/Loading';
+import Loading from './Loading';
 
 const MenuNavigationSubmenu = (props) => {
   // PROPS
@@ -35,10 +35,10 @@ const MenuNavigationSubmenu = (props) => {
         activeMenu && (
           <div className="sidebarSubmenu zIndex2" style={{ height: windowDimensions.height }}>
             <div className="sidebarSubmenuContent shadow-1dp dis-fl-col h-perc-100 pos-r" ref={wrapperRef}>
-              <Loading  isSmall isLoading={isSmallLoading !== null} />
+              <Loading isSmall isLoading={isSmallLoading !== null} />
               {
                 activeMenu === 'propertyList' && (
-                  <Properties {...props} closeProperty={() => onClose(null)}/>
+                  <Properties {...props} closeProperty={() => onClose(null)} />
                 )
               }
               {
@@ -75,8 +75,7 @@ MenuNavigationSubmenu.defaultProps = {
 
 const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', null),
-})
-
+});
 
 export default compose(
   withRouter,

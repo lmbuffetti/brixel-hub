@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -8,12 +8,12 @@ import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
+import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import moment from 'moment';
 import { getGamegroup } from '../../../actions/GamificationActions';
 import newMarketCheck from '../../../images/MarketCheck/newMarketCheck.svg';
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import startMarketCheck from '../../../images/MarketCheck/startMarketCheck.svg';
 import simillarMarketCheck from '../../../images/MarketCheck/simillarMarketCheck.svg';
-import moment from 'moment';
 import emptyHouseImg from '../../../images/emptyHub.svg';
 
 function SuccessMarketCheck(props) {
@@ -37,7 +37,7 @@ function SuccessMarketCheck(props) {
     if (gameGroup) {
       let selectedGame;
       gameGroup.map((game) => {
-        let curGame = game.achievements.find(item => item.stub === getParams);
+        const curGame = game.achievements.find((item) => item.stub === getParams);
         if (curGame) selectedGame = curGame;
         return null;
       });
@@ -60,7 +60,7 @@ function SuccessMarketCheck(props) {
                         <div className="ta-c my-5">
                           <img className="h-fix-120" src={newMarketCheck} alt="Nes Assessor" />
                         </div>
-                        <p className="ta-c max-w-fix-376">Congrats! <br/> You earned the <span className="txtGreen400">Market Checker</span> Award and +{achievement.points} Brixels.</p>
+                        <p className="ta-c max-w-fix-376">Congrats! <br /> You earned the <span className="txtGreen400">Market Checker</span> Award and +{achievement.points} Brixels.</p>
                       </>
                     ) : (
                       <>
@@ -85,9 +85,9 @@ function SuccessMarketCheck(props) {
                                 <BrixelButtonPrimary
                                   rounded
                                   label="Update now"
-                                  background={"primary"}
+                                  background="primary"
                                   className="min-w-fix-208 m-a"
-                                  onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                                  onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                                   rightIcon="arrow-right"
                                 />
                               </div>
@@ -97,10 +97,11 @@ function SuccessMarketCheck(props) {
                               {
                                 get(marketData, 'similar_properties', -1) > -1 && (
                                   <div className="dis-fl-col a-c jc-c">
-                                    <img src={emptyHouseImg} alt="Empty Market Data"/>
-                                    <h5 className="mt-3 mb-2">Dude. Where's my data?</h5>
+                                    <img src={emptyHouseImg} alt="Empty Market Data" />
+                                    <h5 className="mt-3 mb-2">Dude. Where&apos;s my data?</h5>
                                     <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough
-                                      data available to calculate your result</p>
+                                      data available to calculate your result
+                                    </p>
                                   </div>
                                 )
                               }
@@ -131,9 +132,9 @@ function SuccessMarketCheck(props) {
               <BrixelButtonPrimary
                 rounded
                 label="Check market now"
-                background={"primary"}
+                background="primary"
                 className="min-w-fix-208 m-a"
-                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                 rightIcon="arrow-right"
               />
             </div>
@@ -145,18 +146,15 @@ function SuccessMarketCheck(props) {
 }
 
 SuccessMarketCheck.propTypes = {
-  finishedFlow: PropTypes.bool,
-  gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
+  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   groupdAchievement: PropTypes.object,
   gameStub: PropTypes.string,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
-  handleGetGamegroup: PropTypes.func.isRequired,
 };
 
 SuccessMarketCheck.defaultProps = {
-  finishedFlow: false,
   groupdAchievement: {},
   gameStub: null,
 

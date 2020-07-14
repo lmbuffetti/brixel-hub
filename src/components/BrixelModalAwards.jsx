@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { BrixelIcon } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
+import get from 'lodash/get';
+import { connect } from 'react-redux';
 import BrixelModalFullScreen from './BrixelModalFullScreen';
 import brixels from '../images/BrxielComingTown/brixels.svg';
 import { setModal } from '../actions/CommonActions';
-import get from 'lodash/get';
 import { sortObject } from '../utils/helpers';
-import { connect } from 'react-redux';
 
 const BrixelModalAwards = (props) => {
   // PROPS
@@ -25,19 +25,19 @@ const BrixelModalAwards = (props) => {
   const [toDo, setToDo] = useState(0);
   const [done, setDone] = useState(0);
   // PARAMS URL
-  //const propID = history.location.pathname.split('/')[1];
+  // const propID = history.location.pathname.split('/')[1];
 
   const onClose = () => {
     handleSetModal({
       showAwardsInfo: false,
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     if (gameGroup && gameHistory) {
       // let numDone = 0;
       let numTodo = 0;
-      const usrGroups = gameGroup.sort(sortObject('stub', 'asc'))
+      const usrGroups = gameGroup.sort(sortObject('stub', 'asc'));
       usrGroups.forEach((groups) => {
         if (groups.stub.includes(userTypes)) {
           groups.achievements.forEach((group) => {
@@ -50,12 +50,12 @@ const BrixelModalAwards = (props) => {
       setDone(awards);
       setToDo(numTodo);
     }
-  }, [gameGroup, gameHistory])
+  }, [gameGroup, gameHistory]);
 
   return (
     <BrixelModalFullScreen
       title="Your achievements"
-      state={true}
+      state
       onClose={() => onClose()}
     >
       <div>
@@ -99,18 +99,22 @@ const BrixelModalAwards = (props) => {
 
           <p className="mt-3"><span>This is our currency. You earn Brixels by completing tasks and getting awards.</span>
 
-            <span className="txtRed700 fweight-500 dis-b mt-4">Coming soon: During your journey you can use Brixels to unlock additional features and gifts.</span></p>
+            <span className="txtRed700 fweight-500 dis-b mt-4">Coming soon: During your journey you can use Brixels to unlock additional features and gifts.</span>
+          </p>
 
         </div>
       </div>
     </BrixelModalFullScreen>
-  )
+  );
 };
 
 BrixelModalAwards.propTypes = {
   awards: PropTypes.number.isRequired,
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
+  brixelPoints: PropTypes.number.isRequired,
+  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
+  gameHistory: PropTypes.object.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
+  userTypes: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -130,5 +134,5 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(BrixelModalAwards);

@@ -2,7 +2,7 @@ import {
   GET_ACTIVE_SINGLE_COMPANY,
   SET_ACTIVE_SINGLE_COMPANY,
   GET_COMPANY_BY_COUNTRY,
-} from '../actions/types/CompanyTypes'
+} from '../actions/types/CompanyTypes';
 
 import api from '../controllers/api/config';
 

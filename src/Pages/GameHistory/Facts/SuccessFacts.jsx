@@ -20,9 +20,8 @@ const FactsRewards = (props) => {
   const propID = get(match, 'params.propId', '');
   const perc = 25;
 
-
   return (
-    <main id="rewards" className={`w-perc-100 h-perc-100 dis-fl-col a-c`}>
+    <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col a-c">
       <div className="dis-fl-col a-c">
         {
           totalComplete <= 9 && (
@@ -37,7 +36,8 @@ const FactsRewards = (props) => {
             <>
               <h5 className="ta-c mb-2">Add more facts</h5>
               <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">Try to complete <span className="txtGreen400 fsize-300 lh-in"> at least {perc}%</span> of
-                all facts to achieve this reward.</p>
+                all facts to achieve this reward.
+              </p>
             </>
           )
         }
@@ -52,9 +52,9 @@ const FactsRewards = (props) => {
         }
 
         <div className="brdRadius max-w-fix-232 w-perc-100 m-a my-5">
-          { totalComplete <= 9 && ( <img className="w-fix-148 dis-f m-a mb-2" src={addFacts} alt="Add Facts" />)}
-          { totalComplete > 9 && totalComplete < perc &&( <img className="w-fix-148 dis-f m-a mb-2" src={addMoreFacts} alt="Add More Facts" />)}
-          { totalComplete >= perc && ( <img className="w-fix-148 dis-f m-a mb-2" src={factsWellDone} alt="Facts Well Done" />)}
+          { totalComplete <= 9 && (<img className="w-fix-148 dis-f m-a mb-2" src={addFacts} alt="Add Facts" />)}
+          { totalComplete > 9 && totalComplete < perc && (<img className="w-fix-148 dis-f m-a mb-2" src={addMoreFacts} alt="Add More Facts" />)}
+          { totalComplete >= perc && (<img className="w-fix-148 dis-f m-a mb-2" src={factsWellDone} alt="Facts Well Done" />)}
           <BrixelProgressBar
             rounded
             saturation={700}
@@ -90,7 +90,7 @@ const FactsRewards = (props) => {
                 rounded
                 rightIcon="arrow-right"
                 className="min-w-fix-208 m-a"
-                onClick={() => totalComplete < perc ? history.push(`/${propID}/rewards/achievement/facts`) : history.push(`/${propID}/property/facts/propertyType`)}
+                onClick={() => (totalComplete < perc ? history.push(`/${propID}/rewards/achievement/facts`) : history.push(`/${propID}/property/facts/propertyType`))}
               />
             </>
           )
@@ -121,24 +121,24 @@ const FactsRewards = (props) => {
         </div>
       </div>
     </main>
-  )
+  );
 };
 
 FactsRewards.propTypes = {
   history: Proptypes.object.isRequired,
   match: Proptypes.object.isRequired,
   totalComplete: Proptypes.number,
-}
+};
 
 FactsRewards.defaultProps = {
   totalComplete: 9,
-}
+};
 
 const mapStateToProps = (state) => ({
   totalComplete: get(state, 'form.Property.values.inputSheet.totalComplete', 9),
-})
+});
 
-export default compose (
+export default compose(
   withRouter,
-  connect(mapStateToProps, null)
+  connect(mapStateToProps, null),
 )(FactsRewards);

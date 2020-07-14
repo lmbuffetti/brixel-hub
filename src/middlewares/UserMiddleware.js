@@ -1,5 +1,6 @@
 import get from 'lodash/get';
-import {user} from '../resources/localData/user';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { user } from '../resources/localData/user';
 import {
   CHECK_TOKEN,
   CREATE_USER,
@@ -26,7 +27,6 @@ import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
 import api from '../controllers/api/config';
 
 import { setCookie, removeCookie } from '../utils/helpers';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 
 const checkUser = (store) => (next) => (action) => {
   switch (action.type) {
@@ -41,7 +41,7 @@ const checkUser = (store) => (next) => (action) => {
         .then((response) => {
           if (response.data && response.data.statusCode && response.data.statusCode === 401 && window.location.hostname.includes('localhost')) {
             removeCookie('brixelToken');
-            window.location.href = `/tokeninput`;
+            window.location.href = '/tokeninput';
           } else if (response.data && response.data.statusCode && response.data.statusCode === 401) {
             window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
           } else {
@@ -64,7 +64,7 @@ const checkUser = (store) => (next) => (action) => {
       const addProperty = action.payload.addProperty || false;
       delete action.payload.user;
       delete action.payload.addProperty;
-      api.user.getToken(data, {rememberMe: true})
+      api.user.getToken(data, { rememberMe: true })
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
             setCookie('brixelToken', res.data.token);
@@ -72,7 +72,7 @@ const checkUser = (store) => (next) => (action) => {
               const dataProperty = action.payload;
               dataProperty.token = res.data.token;
               dataProperty.owner = res.data.user.id;
-              store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty })
+              store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
             }
           } else {
             const alertProps = {
@@ -119,7 +119,7 @@ const checkUser = (store) => (next) => (action) => {
               const dataProperty = action.payload;
               dataProperty.token = userData.token;
               dataProperty.owner = userData.user.id;
-              store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty })
+              store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
             }
             store.dispatch({ type: SPINNER_OFF });
           }
@@ -143,7 +143,7 @@ const checkUser = (store) => (next) => (action) => {
             api.common.sendGenericMessage(sendEmail)
               .then(() => {
                 // console.log(res.data);
-              })
+              });
           }
         })
         .catch(() => {

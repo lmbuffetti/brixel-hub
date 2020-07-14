@@ -1,6 +1,9 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+/* eslint-disable no-alert */
+import React, {
+  useCallback, useEffect, useState, useRef,
+} from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
@@ -22,7 +25,7 @@ import { ReactSortable } from 'react-sortablejs';
 import { deleteImg, uploadImg, multiUploadImg } from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
 import { Truncate, tobase64Handler } from '../../../utils/helpers';
-import upload_photos_empty from '../../../images/Upload/upload_photos_empty.svg';
+import uploadPhotosEmpty from '../../../images/Upload/upload_photos_empty.svg';
 import OutsideElement from '../../../components/OutsideElement';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
@@ -50,11 +53,12 @@ const Photos = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
   // REF
+  // eslint-disable-next-line no-unused-vars
   const arrayImg = [...Array(photos ? photos.length : 0)].map((_, index) => React.createRef());
   const wrappImg = useRef(arrayImg);
 
   useEffect(() => {
-    //setNewImages([]);
+    // setNewImages([]);
     if (Object.keys(diff(photos, fixPhotos)).length > 0 && !isSmallLoading) {
       setNewImages([]);
       setConfirmDelete(null);
@@ -64,20 +68,17 @@ const Photos = (props) => {
   });
 
   const deleteImage = (id) => {
-    const propID = get(match, 'params.propId', null);
     const mediaID = id;
     const data = {
       id: mediaID,
       pageID: propID,
       type: 'photos',
     };
-    // eslint-disable-next-line no-alert
     handleDeleteImg(data);
-    history.push(`/${propID}/property/photos`)
+    history.push(`/${propID}/property/photos`);
   };
 
   // DROPZONE SETTINGS
-  // const dropzoneRef = useRef(null);
   const onDrop = useCallback(async (acceptedFiles) => {
     const reader = new FileReader();
     // const imgType = imageType.find((val) => val.name === 'Gallery');
@@ -90,18 +91,15 @@ const Photos = (props) => {
       loggedInUser.user.id,
       'photos',
       formValue.id,
-      imgType.id
+      imgType.id,
     );
-    imgList.then((res, i) => {
+    imgList.then((res) => {
       handleMultiUploadImg({
         allImgs: res,
         actions: 'photos',
         pageID: formValue.id,
-        smallLoader: 'upload'
+        smallLoader: 'upload',
       });
-      // arrayDates.push({galleryThumbnailPath: res, createdAt: Date().now});
-      // setNewImages([...arrayDates]);
-      // handleUploadImg(binaryStr);
     });
   }, []);
 
@@ -139,7 +137,7 @@ const Photos = (props) => {
   OutsideElement(wrappImg, {
     id: confirmDelete || 0,
     action: 'function',
-    func: () => { setConfirmDelete(null) },
+    func: () => { setConfirmDelete(null); },
   });
 
   return (
@@ -165,12 +163,12 @@ const Photos = (props) => {
               (fixPhotos && fixPhotos.length > 0) && (
                 <>
                   <ReactSortable
-                    scroll={true}
-                    bubbleScroll={true}
+                    scroll
+                    bubbleScroll
                     tag="ul"
                     className="image-list row-cols-2-gut-1 row-cols-md-3-gut-1"
                     list={cloneDeep(fixPhotos).concat(newImages)}
-                    setList={(order, evt) => {
+                    setList={(order) => {
                       changeOrder(order);
                     }}
                   >
@@ -183,7 +181,7 @@ const Photos = (props) => {
                         >
                           <div
                             className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
-                            onClick={() => windowDimensions.width < 1025 ? history.push(`/${propID}/property/photos/${item.id}/edit/photos`) : ''}
+                            onClick={() => (windowDimensions.width < 1025 ? history.push(`/${propID}/property/photos/${item.id}/edit/photos`) : '')}
                           >
                             <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}>
                               <div
@@ -226,10 +224,10 @@ const Photos = (props) => {
                                 i === 0 && (
                                   <div className="fixedActionsBtmRight">
                                     <BrixelIcon
-                                      icon={'star-fill'}
-                                      color={'primary'}
+                                      icon="star-fill"
+                                      color="primary"
                                       saturationTxt={400}
-                                      className={'fSizePx24'}
+                                      className="fSizePx24"
                                     />
                                   </div>
                                 )
@@ -278,7 +276,7 @@ const Photos = (props) => {
                 {
                   (!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (
                     <div className="dis-fl-col">
-                      <img className="h-fix-120" src={upload_photos_empty} alt="Empty State" />
+                      <img className="h-fix-120" src={uploadPhotosEmpty} alt="Empty State" />
                       <h5 className="mt-3 mb-2">Upload your first photo</h5>
                     </div>
                   )
@@ -316,9 +314,10 @@ Photos.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
+  handleMultiUploadImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
@@ -331,7 +330,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
-  imageType:  get(state, 'image.imageType', []),
+  imageType: get(state, 'image.imageType', []),
   percentage: get(state, 'common.percentage', 0),
   loggedInUser: get(state, 'user.loggedInUser', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),

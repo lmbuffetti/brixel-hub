@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isNaN from 'lodash/isNaN';
 import isBoolean from 'lodash/isBoolean';
-import Emoji from './Emoji';
-import { translateTo } from '../utils/translation';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import { translateTo } from '../utils/translation';
+import Emoji from './Emoji';
 
 const BrixelRadioEmoji = (props) => {
   const {
@@ -46,23 +46,23 @@ const BrixelRadioEmoji = (props) => {
     {
       label: 'I don\'t care',
       value: 4,
-      symbol: "🙁"
+      symbol: '🙁',
     },
     {
       label: 'Why not',
       value: 3,
-      symbol: "😐"
+      symbol: '😐',
     },
     {
       label: 'Nice to have',
       value: 2,
-      symbol: "🙂"
+      symbol: '🙂',
     },
     {
       label: 'Must have',
       value: 1,
-      symbol: "🥳"
-    }
+      symbol: '🥳',
+    },
   ];
 
   return (
@@ -90,7 +90,7 @@ const BrixelRadioEmoji = (props) => {
                 className={`${disabled ? 'disabled' : ''} ${opt.value === input.value ? 'checked' : ''}`}
                 htmlFor={`${input.name}_${i}`}
               >
-                <Emoji label={opt.label} symbol={opt.symbol}/>
+                <Emoji label={opt.label} symbol={opt.symbol} />
                 <span className="otp-label">{translateTo(lang, opt.label)}</span>
               </label>
             </div>
@@ -105,23 +105,17 @@ BrixelRadioEmoji.propTypes = {
   className: PropTypes.string,
   deactivable: PropTypes.bool,
   disabled: PropTypes.bool,
-  icons: PropTypes.bool,
   input: PropTypes.object.isRequired,
-  inputClassName: PropTypes.string,
   label: PropTypes.string,
   lang: PropTypes.string,
-  modal: PropTypes.object,
-  options: PropTypes.arrayOf(PropTypes.object),
 };
 
 BrixelRadioEmoji.defaultProps = {
   className: '',
   deactivable: true,
   disabled: false,
-  icons: false,
-  inputClassName: '',
+  lang: 'en',
   label: null,
-  modal: null,
 };
 
 const mapStateToProps = (state) => ({

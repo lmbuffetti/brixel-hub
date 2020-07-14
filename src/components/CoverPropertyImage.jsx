@@ -32,7 +32,7 @@ const CoverPropertyImage = (props) => {
         )
       }
     </>
-  )
+  );
 };
 
 CoverPropertyImage.propTypes = {

@@ -1,14 +1,14 @@
 /* global Transifex */
 import get from 'lodash/get';
 
-//import { configureStore } from '../store';
+// import { configureStore } from '../store';
 const configLang = [
-  {value: 'dk', label: 'dk'},
-  {value: 'de', label: 'de'},
-  {value: 'en', label: 'en'},
-  {value: 'nl', label: 'nl'},
-  {value: 'pt', label: 'pt'},
-  {value: 'se', label: 'se'},
+  { value: 'dk', label: 'dk' },
+  { value: 'de', label: 'de' },
+  { value: 'en', label: 'en' },
+  { value: 'nl', label: 'nl' },
+  { value: 'pt', label: 'pt' },
+  { value: 'se', label: 'se' },
 ];
 
 const dynImport = {};
@@ -27,16 +27,16 @@ export const translateTo = (lang, word) => {
   if (typeof Transifex !== 'undefined') {
     if (Transifex && Transifex.live.getAllLanguages()) {
       const transLang = Transifex.live.getAllLanguages();
-      const compareLang = transLang.find(item => item.code === lang);
+      const compareLang = transLang.find((item) => item.code === lang);
       exist = typeof compareLang !== 'undefined';
     }
   }
-  let translateFile = dynImport['en'];
+  let translateFile = dynImport.en;
   if (!exist) {
     translateFile = dynImport[lang];
   }
   const translated = word;
-  let translation = get(translateFile, word, word);
+  const translation = get(translateFile, word, word);
   if (typeof translation !== 'undefined') {
     return translation || translated;
   }
@@ -46,7 +46,7 @@ export const translateTo = (lang, word) => {
 export const generalTranslate = (lang, word) => {
   const translated = word;
   const translateFile = dynImportGeneral[lang];
-  let translation = get(translateFile, word, word);
+  const translation = get(translateFile, word, word);
   if (typeof translation !== 'undefined') {
     return translation || translated;
   }

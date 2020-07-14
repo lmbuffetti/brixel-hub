@@ -19,10 +19,17 @@ const BrixelButtonAchievement = (props) => {
   const activeClass = active ? 'active' : '';
   const defaultClass = 'brixel-button-achievement dis-f a-c jc-b w-perc-100 p-1 brdRadius';
 
+  const subTitleHover = () => {
+    if (isFree) return 'Free';
+    if (isFree === null) return 'Coming soon';
+    return `Unlock ${subtitle}`;
+  };
+
   return (
-    <div className='pos-r'>
+    <div className="pos-r">
       <button
-        onClick={(e) => onClick ? onClick(e) : ''}
+        type="button"
+        onClick={(e) => (onClick ? onClick(e) : '')}
         className={`${defaultClass} ${activeClass}`}
         disabled={disabled}
       >
@@ -67,12 +74,12 @@ const BrixelButtonAchievement = (props) => {
                 />
                 <BrixelStatus
                   className="pos-a-fix x-r-0 y-b-0"
-                  color={'red'}
+                  color="red"
                   saturation={400}
                 />
               </div>
               <div className="ta-l w-perc-100 pl-2">
-                <span className={isFree ? "txtGreen400" : "txtRed400"}>{isFree ? 'Free' : isFree === null ? `Coming soon` : `Unlock ${subtitle}` }</span>
+                <span className={isFree ? 'txtGreen400' : 'txtRed400'}>{subTitleHover}</span>
                 <p className="body txtDark700">{title}</p>
               </div>
               <BrixelIcon
@@ -81,7 +88,7 @@ const BrixelButtonAchievement = (props) => {
                 color="light"
                 saturationTxt={400}
                 className="fsize-400 mr-1 onHover"
-                icon={disabled ? '' : "arrow-simple-right"}
+                icon={disabled ? '' : 'arrow-simple-right'}
               />
             </>
           )
@@ -93,12 +100,12 @@ const BrixelButtonAchievement = (props) => {
         )
       }
     </div>
-  )
+  );
 };
 
 BrixelButtonAchievement.propTypes = {
+  onClick: PropTypes.func.isRequired,
   active: PropTypes.bool,
-  award: PropTypes.bool,
   config: PropTypes.object,
   disabled: PropTypes.bool,
   isFree: PropTypes.bool,
@@ -110,9 +117,15 @@ BrixelButtonAchievement.propTypes = {
 };
 
 BrixelButtonAchievement.defaultProps = {
-  award: false,
+  active: true,
   config: {},
   disabled: false,
+  done: false,
+  icon: '',
+  isFree: false,
+  lineAfter: false,
+  subtitle: '',
+  title: '',
 };
 
 export default BrixelButtonAchievement;

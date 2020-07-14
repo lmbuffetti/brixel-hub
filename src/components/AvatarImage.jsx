@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { imageExists } from '../utils/helpers';
 import { BrixelIcon } from '@brixel/brixel-components';
+import { imageExists } from '../utils/helpers';
 
 const AvatarImage = (props) => {
   const {
@@ -16,8 +16,8 @@ const AvatarImage = (props) => {
     const splitName = name ? name.split(' ') : null;
     if (splitName) {
       if (splitName.length > 1) return `${splitName[0].charAt(0).toUpperCase()}${splitName[1].charAt(0).toUpperCase()}`;
-      return `${splitName[0].charAt(0).toUpperCase()}${splitName[0].charAt(1).toUpperCase()}`
-    } else return '';
+      return `${splitName[0].charAt(0).toUpperCase()}${splitName[0].charAt(1).toUpperCase()}`;
+    } return '';
   };
 
   return (
@@ -32,10 +32,10 @@ const AvatarImage = (props) => {
             onClick={() => onClick()}
           />
         ) : (
-          <div className={`defaultAvt flex-${size} w-fix-${size} h-fix-${size} ${isIcon ? 'withIcon': ''}`} onClick={() => onClick()}>
+          <div className={`defaultAvt flex-${size} w-fix-${size} h-fix-${size} ${isIcon ? 'withIcon' : ''}`} onClick={() => onClick()}>
             {
               isIcon ? (
-                <BrixelIcon iconSize={`fSizePx${size/2 + 2}`} saturationTxt={700} icon="user-solid" color="primary" />
+                <BrixelIcon iconSize={`fSizePx${size / 2 + 2}`} saturationTxt={700} icon="user-solid" color="primary" />
               ) : (
                 extractName()
               )
@@ -44,7 +44,7 @@ const AvatarImage = (props) => {
         )
       }
     </>
-  )
+  );
 };
 
 AvatarImage.propTypes = {

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
@@ -14,10 +14,10 @@ import {
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
-import LoadingSimple from '../../components/LoadingSimple';
-import Loading from '../../components/Loading';
 import last from 'lodash/last';
 import Sticker from 'react-stickyfill';
+import LoadingSimple from '../../components/LoadingSimple';
+import Loading from '../../components/Loading';
 
 const Facts = Loadable({
   loader: () => import('../EditProperty/Facts' /* webpackChunkName: "Facts" */),
@@ -62,17 +62,17 @@ const HomeDashboard = (props) => {
 
   useEffect(() => {
     if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'property') {
-      history.push({pathname: `/${propID}/property/facts` });
+      history.push({ pathname: `/${propID}/property/facts` });
     }
   }, [windowDimensions, getFact()]);
 
   useEffect(() => {
     if (property.id && loggedInUser.user) {
-      let userType = 'buyer';
+      let userTypeCur = 'buyer';
       if (property.id && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
-        userType = 'seller';
+        userTypeCur = 'seller';
       }
-      setUserType(userType);
+      setUserType(userTypeCur);
     }
   }, [property, loggedInUser]);
 
@@ -88,7 +88,7 @@ const HomeDashboard = (props) => {
 
   const calcLenght = (val) => {
     if (val) return val.length;
-    return 0
+    return 0;
   };
 
   return (
@@ -112,7 +112,7 @@ const HomeDashboard = (props) => {
                           label="Facts"
                           labelClass="fweight-400"
                           subtitle={`<span>${get(formValue, 'inputSheet.totalComplete', 0)}%</span>&nbsp;<span>complete</span>`}
-                          subtitleClass={'ff-mono fsize-200 txtPrimary700 mt-small-4'}
+                          subtitleClass="ff-mono fsize-200 txtPrimary700 mt-small-4"
                           className="w-perc-100 cur-poi p-2 labelAend"
                           colorIcon="primary700"
                           backIcon="primary100"
@@ -218,7 +218,7 @@ const HomeDashboard = (props) => {
         </div>
         {
           getFact() !== 'property' && (
-            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed': 'opened'}`}>
+            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed' : 'opened'}`}>
               <Route path="/:propId?/property/facts" component={Facts} />
               <Route path="/:propId?/property/photos" component={Photos} />
               <Route path="/:propId?/property/floorPlans" component={Plans} />
@@ -229,17 +229,15 @@ const HomeDashboard = (props) => {
         }
       </div>
     </>
-  )
+  );
 };
 
 HomeDashboard.propTypes = {
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  langConfig: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   property: PropTypes.object.isRequired,
-  userAwards: PropTypes.arrayOf(PropTypes.object.isRequired),
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -254,10 +252,7 @@ const mapStateToProps = (state) => ({
   property: get(state, 'property.activeSingleProperty', {}),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
-
 export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, null),
 )(HomeDashboard);

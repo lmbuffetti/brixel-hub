@@ -26,16 +26,13 @@ const PagePublishedRewards = (props) => {
   const gameStub = history.location.pathname.split('/')[3];
 
   useEffect(() => {
-    const isCheckDone = gameHistory.find(item => item.page === propID && item.achievement.stub === gameStub);
-    if (typeof isCheckDone !== 'undefined' && pagePublished)
-      setStatus('online');
-    else if (pageReview)
-      setStatus('review');
-    else
-      setStatus('offline');
+    const isCheckDone = gameHistory.find((item) => item.page === propID && item.achievement.stub === gameStub);
+    if (typeof isCheckDone !== 'undefined' && pagePublished) setStatus('online');
+    else if (pageReview) setStatus('review');
+    else setStatus('offline');
   }, [gameHistory, pagePublished, pageReview]);
 
-  const openPreview = (done = false) => {
+  const openPreview = () => {
     history.push(`/${propID}/listings/page`);
   };
 
@@ -108,20 +105,19 @@ const PagePublishedRewards = (props) => {
         )
       }
     </main>
-  )
+  );
 };
 
 PagePublishedRewards.propTypes = {
-  handleAddGameHistory: Proptypes.func.isRequired,
   history: Proptypes.object.isRequired,
   match: Proptypes.object.isRequired,
-  gameHistory: Proptypes.arrayOf(Proptypes.object),
+  gameHistory: Proptypes.arrayOf(Proptypes.object).isRequired,
   pageReview: Proptypes.bool.isRequired,
   pagePublished: Proptypes.bool.isRequired,
-}
+};
 
 PagePublishedRewards.defaultProps = {
-}
+};
 
 const mapStateToProps = (state) => ({
   gameHistory: get(state, 'gamification.gameHistory.data', []),
@@ -133,7 +129,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });
 
-export default compose (
+export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(PagePublishedRewards);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -25,7 +25,7 @@ function ResumeAssessor(props) {
   // STATE
   const [selBaseRenovation, setSelRenovation] = useState('construction');
   const getCountryCode = get(formValue, 'location.countryCode', 'CH');
-  const getAssessorAvgLifespan = AssessorAvgLifespan[getCountryCode.toLowerCase()] ? AssessorAvgLifespan[getCountryCode.toLowerCase()] : AssessorAvgLifespan['ch'];
+  const getAssessorAvgLifespan = AssessorAvgLifespan[getCountryCode.toLowerCase()] ? AssessorAvgLifespan[getCountryCode.toLowerCase()] : AssessorAvgLifespan.ch;
   const [AvgLifeSpan] = useState(cloneDeep(getAssessorAvgLifespan));
 
   useEffect(() => {
@@ -49,7 +49,7 @@ function ResumeAssessor(props) {
     if (type === 'construction') name = 'constructionMaterials';
     if (type === 'roof') name = 'roofType';
     if (factsOptions[name]) {
-      getElement = factsOptions[name].find(val => val.value === value);
+      getElement = factsOptions[name].find((val) => val.value === value);
     }
     let year = AvgLifeSpan[type][value];
     if (typeof year === 'undefined') year = AvgLifeSpan[type];
@@ -58,10 +58,10 @@ function ResumeAssessor(props) {
       label = `<span>${getElement.label}</span><span>,</span>`;
     }
     return {
-      label: getElement? getElement.label : null,
-      year: year,
-      string: `${label}<span> ø ${year}&nbsp;</span><span>years</span>`
-    }
+      label: getElement ? getElement.label : null,
+      year,
+      string: `${label}<span> ø ${year}&nbsp;</span><span>years</span>`,
+    };
   };
 
   const startEndYear = (type) => {
@@ -75,7 +75,7 @@ function ResumeAssessor(props) {
       start: startYear,
       end: +startYear + avgYear,
       lineValue: percentage > 100 ? 100 : percentage,
-    })
+    });
   };
 
   const getEvaluationScale = (type) => {
@@ -90,17 +90,18 @@ function ResumeAssessor(props) {
     return {
       label: factsOptions.qualityAssessor[value - 1] ? factsOptions.qualityAssessor[value - 1].label : null,
       color: color[value - 1],
-    }
+    };
   };
 
   return (
     <main id="rewards" className="pb-4 h-perc-100">
-      <h5 className='ta-c'>Voila!</h5>
-      <h5 className='ta-c mb-5'>Here is your condition check.</h5>
+      <h5 className="ta-c">Voila!</h5>
+      <h5 className="ta-c mb-5">Here is your condition check.</h5>
 
       <div className="my-4 pos-r zIndex2 ta-c dis-fl-col a-c jc-c">
         <p
-          className={`ta-c ${has(condition, 'renovation.construction') ? 'mr-2' : 'mr-1'} txtDark700 mb-1`}>
+          className={`ta-c ${has(condition, 'renovation.construction') ? 'mr-2' : 'mr-1'} txtDark700 mb-1`}
+        >
           {
             !has(condition, 'renovation.construction') ? (
               <>
@@ -119,12 +120,12 @@ function ResumeAssessor(props) {
               options={[
                 {
                   value: 'construction',
-                  label: 'Construction year'
+                  label: 'Construction year',
                 },
                 {
                   value: 'renovation',
-                  label: 'Renovation year'
-                }
+                  label: 'Renovation year',
+                },
               ]}
               input={{
                 onChange: (val) => setSelRenovation(val),
@@ -135,7 +136,6 @@ function ResumeAssessor(props) {
           )
         }
       </div>
-
 
       <div className="p-md-2 py-2 mb-3 ta-c max-w-fix-360 m-a">
         <ChartDonuts
@@ -168,19 +168,20 @@ function ResumeAssessor(props) {
                 <React.Fragment key={i.toString()}>
                   {
                     has(condition, `[${selBaseRenovation}][${key}]`) && getEvaluationScale(key).label && (
-                      <div className='dis-f-md jc-b mb-3 mb-md-4'>
+                      <div className="dis-f-md jc-b mb-3 mb-md-4">
                         <div className="max-w-fix-md-176 w-perc-100 mb-1 mb-md-0">
                           <p className="fweight-500 txtDark700">{AssessorLabel[key]}</p>
                           <p
                             className="body2"
-                            dangerouslySetInnerHTML={{ __html: getLabel(key).string}}
+                            dangerouslySetInnerHTML={{ __html: getLabel(key).string }}
                           />
                         </div>
                         <div className="dis-f jc-b w-perc-100">
                           <div className="w-perc-100 ml-md-3">
                             <div className="barAssessor pos-r bgLight200 mt-1">
                               <div
-                                className={`w-perc-${startEndYear(key).lineValue} ${getEvaluationScale(key).color} h-perc-100 pos-a-fix x-l-0 x-t-0`} />
+                                className={`w-perc-${startEndYear(key).lineValue} ${getEvaluationScale(key).color} h-perc-100 pos-a-fix x-l-0 x-t-0`}
+                              />
                             </div>
                             <div className="dis-f jc-b a-c fsize-100 mt-1 pr-small-4 pl-small-4">
                               <p
@@ -189,7 +190,8 @@ function ResumeAssessor(props) {
                                 {startEndYear(key).start}
                               </p>
                               <p
-                                className="fweight-500 txtDark700 body2 w-perc-34 ta-c">
+                                className="fweight-500 txtDark700 body2 w-perc-34 ta-c"
+                              >
                                 {getEvaluationScale(key).label}
                               </p>
                               <p className="body2 txtDark200 w-perc-33 ta-r">
@@ -208,23 +210,17 @@ function ResumeAssessor(props) {
         )
       }
 
-      <div>
-
-      </div>
+      <div />
     </main>
   );
 }
 
 ResumeAssessor.propTypes = {
-  condition: PropTypes.object,
-  finishStep: PropTypes.bool,
+  condition: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
-  history: PropTypes.object.isRequired,
 };
 
 ResumeAssessor.defaultProps = {
-  finishStep: false,
 };
 
 const mapStateToProps = (state) => ({
@@ -233,10 +229,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
-
 export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, null),
 )(ResumeAssessor);

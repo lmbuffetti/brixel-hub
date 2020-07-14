@@ -36,8 +36,8 @@ import {
   SET_SAVED_SCREEN,
 } from '../actions/types/CommonTypes';
 import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
-import { properties }  from '../resources/localData/properties';
-import { page } from '../resources/localData/page';
+import { properties } from '../resources/localData/properties';
+import { pageContent } from '../resources/localData/page';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -45,7 +45,7 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const {
         getEstimation, token, redirectToUserFlow, redirectToRewards,
-        redirectToHome, smallLoader
+        redirectToHome, smallLoader,
       } = action.payload;
       delete action.payload.getEstimation;
       delete action.payload.token;
@@ -66,11 +66,9 @@ const checkCommon = (store) => (next) => (action) => {
             window.location.href = `/${res.data.id}/rewards`;
           } else if (redirectToUserFlow) {
             window.location.href = '/onBoarding/brixelComingInTown';
-          } else {
-            if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
-            else store.dispatch({ type: SPINNER_OFF });
-          }
-          //store.dispatch(reset('Property'));
+          } else if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
+          // store.dispatch(reset('Property'));
         })
         .catch(() => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
@@ -80,7 +78,9 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case SAVE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
-      const { id, redirectTo, redirectToHome, smallLoader, setSuccessNotification, getEstimation } = action.payload;
+      const {
+        id, redirectTo, redirectToHome, smallLoader, setSuccessNotification, getEstimation,
+      } = action.payload;
       delete action.payload.id;
       delete action.payload.redirectTo;
       delete action.payload.smallLoader;
@@ -144,7 +144,7 @@ const checkCommon = (store) => (next) => (action) => {
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       const fullVersion = get(action, 'payload.fullVersion', true);
-      const apiEndPoint = (data) => fullVersion ? api.property.getProperty(data) : api.property.getPropertySimplified(data);
+      const apiEndPoint = (data) => (fullVersion ? api.property.getProperty(data) : api.property.getPropertySimplified(data));
       apiEndPoint(action.payload.id)
         .then((res) => {
           store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
@@ -159,7 +159,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
           if (window.location.href.includes('localhost')) {
-            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: page });
+            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: pageContent });
           }
           if (multiLoader) store.dispatch({ type: SPINNER_OFF });
           // window.location.href = `/`;
@@ -189,7 +189,7 @@ const checkCommon = (store) => (next) => (action) => {
         .catch(() => {
           if (window.location.href.includes('localhost')) {
             if (setAsSingle) {
-              store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: page });
+              store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: pageContent });
             } else {
               store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: properties });
             }
@@ -371,7 +371,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (response.meta.status === 200) {
             store.dispatch({
               type: GET_ACTIVE_SINGLE_PROPERTY,
-              payload: { id: action.payload.pageId, smallLoader: true  },
+              payload: { id: action.payload.pageId, smallLoader: true },
             });
             store.dispatch({ type: SPINNER_OFF });
           } else {
@@ -399,14 +399,16 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case SAVE_PROPERTY_VISIT_BOOKING: {
       next(action);
-      const { scheduleId, data, smallLoader, redirectTo } = action.payload;
+      const {
+        scheduleId, data, smallLoader, redirectTo,
+      } = action.payload;
       store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader || 'saveBooking' });
       delete action.payload.id;
       api.property.updatePropertyVisit(scheduleId, data)
         .then(() => {
           store.dispatch({
             type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-            payload: { id: data.page, smallLoader: smallLoader, redirectTo: redirectTo },
+            payload: { id: data.page, smallLoader, redirectTo },
           });
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
@@ -420,7 +422,7 @@ const checkCommon = (store) => (next) => (action) => {
         .then(() => {
           store.dispatch({
             type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-            payload: { id: page, smallLoader: smallLoader, redirectTo: redirectTo },
+            payload: { id: page, smallLoader, redirectTo },
           });
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
@@ -471,10 +473,10 @@ const checkCommon = (store) => (next) => (action) => {
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.property.saveUpgradePlan(page, data)
-        .then((res) => {
+        .then(() => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
-          //store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
+          // store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           // console.log(res.data);
         });
       break;

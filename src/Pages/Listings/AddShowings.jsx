@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React  from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reduxForm, reset } from 'redux-form';
@@ -36,8 +36,6 @@ const Showings = (props) => {
   const propID = get(match, 'params.propId', null);
   const idShowing = get(match, 'params.idShowing', null);
 
-
-
   const saveData = () => {
     const data = {
       page: propID,
@@ -47,8 +45,8 @@ const Showings = (props) => {
           start: moment(schedule.slots[idShowing]).format('HH:mm'),
           end: moment(schedule.slots[idShowing]).add(1, 'hour').format('HH:mm'),
           date: moment(schedule.slots[idShowing]).format('YYYY-MM-DD'),
-          status: 'accepted'
-        }
+          status: 'accepted',
+        },
       ],
       buyer: {
         name: formValue.name,
@@ -100,23 +98,23 @@ const Showings = (props) => {
             <ReduxField
               form="Showings"
               input={{
-                name: "name",
-                type: "text",
+                name: 'name',
+                type: 'text',
                 placeholder: '',
-                validate: [Validation.required]
+                validate: [Validation.required],
               }}
               labels={{
-                label: "Name",
+                label: 'Name',
               }}
               design={{
-                className: 'mt-0'
+                className: 'mt-0',
               }}
               component={BrixelInputText}
               meta={{
                 dirty: formValue['name'] && errorValue['name'] !== true,
                 invalid: true,
               }}
-              //modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
+              // modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
               message={{
                 help: null,
                 error: errorValue['name'],
@@ -125,23 +123,23 @@ const Showings = (props) => {
             <ReduxField
               form="Showings"
               input={{
-                name: "email",
-                type: "email",
+                name: 'email',
+                type: 'email',
                 placeholder: '',
-                validate: [Validation.isEmail, Validation.required]
+                validate: [Validation.isEmail, Validation.required],
               }}
               design={{
-                className: 'mt-2'
+                className: 'mt-2',
               }}
               labels={{
-                label: "Email",
+                label: 'Email',
               }}
               component={BrixelInputText}
               meta={{
                 dirty: formValue['email'] && errorValue['email'] !== true,
                 invalid: true,
               }}
-              //modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
+              // modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
               message={{
                 help: null,
                 error: errorValue['email'],
@@ -150,19 +148,19 @@ const Showings = (props) => {
             <ReduxField
               form="Showings"
               design={{
-                className: 'mt-2'
+                className: 'mt-2',
               }}
               input={{
-                name: "phone",
-                type: "text",
+                name: 'phone',
+                type: 'text',
                 placeholder: '',
-                validate: [Validation.required]
+                validate: [Validation.required],
               }}
               inputFormat={{
                 formatType: 'tel',
               }}
               labels={{
-                label: "Phone",
+                label: 'Phone',
               }}
               component={BrixelInputText}
               type="text"
@@ -170,7 +168,7 @@ const Showings = (props) => {
                 dirty: formValue['phone'] && errorValue['phone'] !== true,
                 invalid: true,
               }}
-              //modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
+              // modal={input.modal ? {message: input.modal.func.hint, func: () => handleSetModal(input.modal.func)} : null }
               message={{
                 help: null,
                 error: errorValue['phone'],
@@ -180,7 +178,7 @@ const Showings = (props) => {
         </div>
         <div className="dis-f p-2">
           <BrixelButtonPrimary
-            label='Cancel'
+            label="Cancel"
             background="white"
             saturation={0}
             color="dark"
@@ -190,7 +188,7 @@ const Showings = (props) => {
             onClick={() => history.push(`/${propID}/listings/showings`)}
           />
           <BrixelButtonPrimary
-            label='Save'
+            label="Save"
             background="primary"
             className="shadow-3dp w-perc-100 ml-1"
             saturation={400}
@@ -206,10 +204,10 @@ const Showings = (props) => {
 };
 
 Showings.propTypes = {
-  activeSinglePropertyBooking: PropTypes.arrayOf(PropTypes.object).isRequired,
+  errorValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.string.isRequired,
   formValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
   match: PropTypes.object.isRequired,
@@ -217,6 +215,7 @@ Showings.propTypes = {
 };
 
 Showings.defaultProps = {
+  lang: 'en',
 };
 
 const ShowingsForm = reduxForm({
@@ -238,7 +237,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(change('Showings', field, value));
   },
   reset(form) {
-    (dispatch(reset(form)))
+    (dispatch(reset(form)));
   },
   handleCreatePropertyVisitBooking: bindActionCreators(createPropertyVisitBooking, dispatch),
 });

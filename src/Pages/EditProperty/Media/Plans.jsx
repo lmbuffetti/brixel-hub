@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
@@ -13,13 +15,13 @@ import {
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
+import cloneDeep from 'lodash/cloneDeep';
+import { diff } from 'deep-object-diff';
 import { deleteImg, multiUploadImg, uploadImg } from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
-import upload_floorPlans_empty from '../../../images/Upload/upload_floorPlans_empty.svg';
-import cloneDeep from 'lodash/cloneDeep';
+import uploadFloorPlansEmpty from '../../../images/Upload/upload_floorPlans_empty.svg';
 import OutsideElement from '../../../components/OutsideElement';
 import { tobase64Handler, Truncate } from '../../../utils/helpers';
-import { diff } from 'deep-object-diff';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const Photos = (props) => {
@@ -46,6 +48,7 @@ const Photos = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
   // REF
+  // eslint-disable-next-line no-unused-vars
   const arrayImg = [...Array(floorPlans ? floorPlans.length : 0)].map((_, index) => React.createRef());
   const wrappImg = useRef(arrayImg);
 
@@ -59,7 +62,6 @@ const Photos = (props) => {
   });
 
   const deleteImage = (id) => {
-    const propID = get(match, 'params.propId', null);
     const mediaID = id;
     const data = {
       id: mediaID,
@@ -69,7 +71,7 @@ const Photos = (props) => {
     };
     // eslint-disable-next-line no-alert
     handleDeleteImg(data);
-    history.push(`/${propID}/property/floorPlans`)
+    history.push(`/${propID}/property/floorPlans`);
   };
 
   // DROPZONE SETTINGS
@@ -82,11 +84,10 @@ const Photos = (props) => {
     setBtnActive('uploading');
     const imgType = imageType.find((val) => val.name === 'Gallery');
     const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'floorPlans', formValue.id, imgType.id);
-    imgList.then((res, i) => {
-      handleMultiUploadImg({ allImgs: res, actions: 'floorPlans', pageID: formValue.id, smallLoader: 'upload' });
-      // arrayDates.push({galleryThumbnailPath: res, createdAt: Date().now});
-      // setNewImages([...arrayDates]);
-      // handleUploadImg(binaryStr);
+    imgList.then((res) => {
+      handleMultiUploadImg({
+        allImgs: res, actions: 'floorPlans', pageID: formValue.id, smallLoader: 'upload',
+      });
     });
   }, []);
 
@@ -105,7 +106,6 @@ const Photos = (props) => {
         delete item.chosen;
         delete item.selected;
         imgArray.push(item);
-
       }
       return null;
     });
@@ -120,7 +120,7 @@ const Photos = (props) => {
   OutsideElement(wrappImg, {
     id: confirmDelete || 0,
     action: 'function',
-    func: () => { setConfirmDelete(null) },
+    func: () => { setConfirmDelete(null); },
   });
 
   return (
@@ -147,12 +147,12 @@ const Photos = (props) => {
               (fixPhotos && fixPhotos.length > 0) && (
                 <>
                   <ReactSortable
-                    scroll={true}
-                    bubbleScroll={true}
+                    scroll
+                    bubbleScroll
                     tag="ul"
                     className="image-list row-cols-2-gut-1 row-cols-md-3-gut-1"
                     list={cloneDeep(fixPhotos).concat(newImages)}
-                    setList={(order, evt) => {
+                    setList={(order) => {
                       changeOrder(order);
                     }}
                   >
@@ -165,10 +165,11 @@ const Photos = (props) => {
                         >
                           <div
                             className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
-                            onClick={() => windowDimensions.width < 1025 ? history.push(`/${propID}/property/floorPlans/${item.id}/edit/floorPlans`) : ''}
+                            onClick={() => (windowDimensions.width < 1025 ? history.push(`/${propID}/property/floorPlans/${item.id}/edit/floorPlans`) : '')}
                           >
                             <div
-                              className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}
+                              className="w-perc-100 square dis-fl-row imgConver"
+                              style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}
                             >
                               <div
                                 className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
@@ -250,7 +251,7 @@ const Photos = (props) => {
                 {
                   (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
                     <div>
-                      <img className="w-perc-100 h-fix-120" src={upload_floorPlans_empty} alt="Empty State" />
+                      <img className="w-perc-100 h-fix-120" src={uploadFloorPlansEmpty} alt="Empty State" />
                       <h5 className="mt-3 mb-2">Upload your floor Plans</h5>
                     </div>
                   )
@@ -291,7 +292,7 @@ Photos.propTypes = {
   handleMultiUploadImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
@@ -303,7 +304,7 @@ Photos.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'form.Property.values', {}),
-  imageType:  get(state, 'image.imageType', []),
+  imageType: get(state, 'image.imageType', []),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),

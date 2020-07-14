@@ -8,12 +8,12 @@ import {
 import get from 'lodash/get';
 import has from 'lodash/has';
 import PropTypes from 'prop-types';
+import * as moment from 'moment';
+import { BrixelIcon } from '@brixel/brixel-components';
 import { getActiveSingleProperty, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { sendGenericMail } from '../../../actions/CommonActions';
 import Maps from '../../../components/Map/Maps';
-import * as moment from 'moment';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
-import { BrixelIcon } from '@brixel/brixel-components';
 import emptyHouseImg from '../../../images/emptyHub.svg';
 
 function ResumeMarketCheck(props) {
@@ -112,7 +112,7 @@ function ResumeMarketCheck(props) {
                           <Maps
                             zoom={property.location.countryCode === 'PT' ? 15 : 12}
                             scrollZoom={false}
-                            subMinHeight={"min-h-fix-320"}
+                            subMinHeight="min-h-fix-320"
                             moveMarker
                             draggable
                             showMap
@@ -121,7 +121,7 @@ function ResumeMarketCheck(props) {
                             similarProperties={marketData.list}
                           />
                           <div className="dis-f jc-fs a-c mt-2">
-                            <BrixelIcon icon='location-pin-simple fsize-400' color="dark" saturationTxt={700} />
+                            <BrixelIcon icon="location-pin-simple fsize-400" color="dark" saturationTxt={700} />
                             <p className="ml-1 txtDark700 fsize-300">{property.location.address}</p>
                           </div>
                         </div>
@@ -154,7 +154,6 @@ function ResumeMarketCheck(props) {
                             }
                           </div>
                         </div>
-
 
                         <div className="boxMarketCheck w-perc-100">
                           {
@@ -196,7 +195,7 @@ function ResumeMarketCheck(props) {
               ) : (
                 <div className="dis-fl-col a-c jc-c">
                   <img src={emptyHouseImg} alt="Empty Market Data" />
-                  <h5 className="mt-3 mb-2">Dude. Where's my data?</h5>
+                  <h5 className="mt-3 mb-2">Dude. Where&apos;s my data?</h5>
                   <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to calculate your result</p>
                 </div>
               )
@@ -211,10 +210,7 @@ function ResumeMarketCheck(props) {
 ResumeMarketCheck.propTypes = {
   formValue: PropTypes.object,
   handleGetMarketData: PropTypes.func.isRequired,
-  handleGetPage: PropTypes.func.isRequired,
-  handleSendGenericMail: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  loggedInUser: PropTypes.object,
   match: PropTypes.object.isRequired,
   marketData: PropTypes.object,
   property: PropTypes.object,
@@ -222,7 +218,6 @@ ResumeMarketCheck.propTypes = {
 
 ResumeMarketCheck.defaultProps = {
   formValue: {},
-  loggedInUser: {},
   marketData: null,
   property: null,
 };

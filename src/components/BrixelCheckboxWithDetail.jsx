@@ -20,7 +20,7 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
   }, []);
 
   const onChange = (e, val) => {
-    let value = cloneDeep(arrVal) || [];
+    const value = cloneDeep(arrVal) || [];
     const idValue = value.findIndex((item) => item === val);
     if (idValue >= 0) value.splice(idValue, 1);
     else value.push(val);
@@ -30,7 +30,7 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
   };
 
   const onToggleAccordion = (id) => {
-    let getOpenDetail = openDetail;
+    const getOpenDetail = openDetail;
     getOpenDetail[id] = !getOpenDetail[id];
     setOpenDetail([...getOpenDetail]);
   };
@@ -47,7 +47,8 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
           options.map((option, i) => (
             <div
               className={`p-3 single-chackbox ${className} ${arrVal.includes(option.value) ? `brd${option.color} checked` : 'brdWhite'}`}
-              key={i.toString()}>
+              key={i.toString()}
+            >
               <label
                 className={`dis-fl-col dis-fl-row-md a-t a-md-c ${arrVal.includes(option.value) ? 'checked' : ''}`}
                 htmlFor={`${input.name}_${i}`}
@@ -71,20 +72,20 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
               <hr className="mt-3 mb-1" />
               <div className="dis-f a-c jc-b">
                 <BrixelButtonTertiary
-                  rightIcon={openDetail[i] ? "arrow-simple-up" : "arrow-simple-down"}
+                  rightIcon={openDetail[i] ? 'arrow-simple-up' : 'arrow-simple-down'}
                   label="All Details"
                   color="dark"
                   saturationTxt={700}
                   onClick={() => onToggleAccordion(i)}
-                  className={'td-n'}
+                  className="td-n"
                 />
-                <p className={`txt${option.color} fweight-700 ff-mono pl-2`} dangerouslySetInnerHTML={{ __html: option.priceInfo}} />
+                <p className={`txt${option.color} fweight-700 ff-mono pl-2`} dangerouslySetInnerHTML={{ __html: option.priceInfo }} />
               </div>
               <div className={`detailCheckbox ${openDetail[i] ? 'open' : 'close'}`}>
                 <ul>
                   {
-                    option.moreDetails.map((detail, i) => (
-                      <li key={i.toString()}>
+                    option.moreDetails.map((detail, f) => (
+                      <li key={f.toString()}>
                         <BrixelIcon
                           icon="check"
                           color="green"
@@ -105,34 +106,17 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
 });
 
 BrixelCheckboxWithDetail.propTypes = {
-  backIcon: PropTypes.string,
   className: PropTypes.string,
-  pdClass: PropTypes.string,
   disabled: PropTypes.bool,
-  isHorizontal: PropTypes.bool,
-  icons: PropTypes.bool,
   input: PropTypes.object.isRequired,
-  inputClassName: PropTypes.string,
   label: PropTypes.string,
-  limit: PropTypes.number,
-  message: PropTypes.object,
-  meta: PropTypes.object,
-  modal: PropTypes.object,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 BrixelCheckboxWithDetail.defaultProps = {
   className: '',
-  pdClass: '',
   disabled: false,
-  icons: false,
-  inputClassName: '',
-  isHorizontal: false,
   label: null,
-  limit: -1,
-  meta: {dirty: false, invalid: false},
-  message: {help: null, error: null},
-  modal: null,
 };
 
 export default BrixelCheckboxWithDetail;
