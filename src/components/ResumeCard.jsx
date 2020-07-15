@@ -62,7 +62,7 @@ const ResumeCard = (props) => {
         <h5 className="mb-3">What can I do now?</h5>
         <div className="mb-1 pos-r">
           <BrixelIcon className="pos-a" icon="check" color="green" />
-          <p className="ml-4 dis-b">Compare to your locla market.</p>
+          <p className="ml-4 dis-b">Compare to your local market.</p>
         </div>
         <div className="mb-1 pos-r">
           <BrixelIcon className="pos-a" icon="check" color="green" />

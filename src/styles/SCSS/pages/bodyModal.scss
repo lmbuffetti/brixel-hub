@@ -6,6 +6,7 @@
   position: fixed;
   left: 0;
   top: 0;
+  z-index: 1;
 
   &.withHeader {
     position: relative;
@@ -71,6 +72,10 @@
         position: relative;
         margin-bottom: auto;
         margin-top: auto;
+        &:before,
+        .footerAction {
+          max-width: 640px;
+        }
       }
 
       &[class*="bg"] .singleStep {
@@ -235,10 +240,22 @@
   }
   &.getStarted {
     .bodyModal {
+      // Styles for sign up screen
+      &.signUpScreen {
+        &:before {
+          background: rgba($brx-black, 0.5);
+          height: 100%;
+          width: 100%;
+          position: absolute;
+          content: '';
+          z-index: 1;
+        }
+      }
        #multiStepForm {
          .multiStepSlides {
            .singleStep {
-             padding-top: $step * 5;
+             padding-top: 80px;
+             padding-bottom: 80px;
            }
          }
        }

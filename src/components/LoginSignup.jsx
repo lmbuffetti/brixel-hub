@@ -127,11 +127,11 @@ const LoginSignup = (props) => {
             onClick={() => onCloseGoBack()}
           />
         </div>
-        <div className="max-w-fix-400 m-a onBoardingSignUp">
+        <div className="max-w-fix-360 m-a onBoardingSignUp">
           {
             loginPage === 'login' && (
               <>
-                <div className="w-perc-100 ta-c pr-5">
+                <div className="w-perc-100 ta-c mb-5">
                   <h5 className="txtWhite">{translateTo(lang, 'Login to your profile to save your progress.')}</h5>
                   <p className="txtWhite cur-poi mt-1 td-u" onClick={() => setLoginPage('register')}>
                     {translateTo(lang, 'or create profile here')}
@@ -154,8 +154,8 @@ const LoginSignup = (props) => {
           {
             loginPage === 'register' && (
               <>
-                <div className="w-perc-100 ta-c pr-5">
-                  <h5 className="txtWhite">{translateTo(lang, 'Create free profile to save')}</h5>
+                <div className="w-perc-100 ta-c mb-5">
+                  <h4 className="txtWhite">{translateTo(lang, 'Create free profile to save')}</h4>
                   <p className="txtWhite cur-poi mt-1 td-u" onClick={() => setLoginPage('login')}>
                     {translateTo(lang, 'or login here')}
                   </p>
@@ -167,19 +167,18 @@ const LoginSignup = (props) => {
           {
             loginPage === 'not_sure' && (
               <div className="txtWhite">
-                <h4 className="ta-c txtWhite">I understand you. But here are 3 reasons to sign up.</h4>
+                <h4 className="ta-c txtWhite">Here are 3 reasons to sign up.</h4>
                 <ol className="mt-3">
                   <li className="pl-1">You receive a free price indication and a local market check.</li>
                   <li className="pl-1 mt-1">You get free access to the full Brixel Hub. Your all-in-one tool to sell your home.</li>
                   <li className="pl-1 mt-1">All services are free of charge. You decide if you want to upgrade or not.</li>
                 </ol>
 
-                <h4 className="ta-c txtWhite mt-5">Don’t worry about spam. Here are 4 things I promise you:</h4>
+                <h4 className="ta-c txtWhite mt-5">Don’t worry about spam.</h4>
                 <ol className="mt-3">
                   <li className="pl-1">All your personal data is save with us. We are not using them for commercial purpose.</li>
                   <li className="pl-1 mt-1">We will contact you only for support and consultation</li>
                   <li className="pl-1 mt-1">Your property data will not be published unless you request it explicitly.</li>
-                  <li className="pl-1 mt-1">You can delete your profile at any time with a click. </li>
                 </ol>
               </div>
             )
@@ -202,7 +201,7 @@ const LoginSignup = (props) => {
       <div
         className="footerActionLogin py-3 px-2 shadow-1dp-top"
       >
-        <div className="dis-f a-c jc-b">
+        <div className="dis-f a-c jc-b pos-r">
           <BrixelButtonTertiary
             color="white"
             saturation={0}
@@ -211,6 +210,7 @@ const LoginSignup = (props) => {
             onClick={TertiaryButton().action}
           />
           <BrixelButtonPrimary
+            className="pos-a x-c pl-3 min-w-fix-144"
             rounded
             rightIcon="arrow-right-small"
             background="green"

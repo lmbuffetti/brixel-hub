@@ -381,7 +381,7 @@ const GetStarted = (props) => {
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${quest.background || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v' : 'ov-h'}`}
+          className={`interactive dis-fl-col jc-b ${quest.background || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : 'ov-h'}`}
         >
           <div className="multiStepSlides">
             <div
@@ -506,7 +506,7 @@ const GetStarted = (props) => {
                   )
                 }
                 {
-                  questions[currentIndex] && questions[currentIndex].inputs && (
+                  questions[currentIndex] && questions[currentIndex].inputs && currentIndex !== 6 && (
                     <BrixelButtonIcon
                       className={`shadow-2dp backBtn ${currentIndex === 0 ? 'hide' : ''} order-md-1`}
                       icon="arrow-simple-left"
