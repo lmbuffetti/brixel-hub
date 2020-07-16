@@ -59,7 +59,10 @@ const MenuSidebar = (props) => {
           });
         }
       });
-      if (get(formValue, 'location.countryCode', 'CH') !== 'CH') numTodo -= 1;
+      if (
+        get(formValue, 'location.countryCode', 'CH') !== 'CH' &&
+        get(formValue, 'location.countryCode', 'CH') !== 'PT'
+      ) numTodo -= 1;
       const nav = cloneDeep(firstRoutes);
       nav[0].title = `<span>Home</span><span class="numRecords">${numTodo}</span>`;
       setRouteNav([...nav]);

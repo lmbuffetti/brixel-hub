@@ -56,7 +56,7 @@ function SuccessBestimate(props) {
         propertyType: activeSingleProperty.properties.propertyType,
         minLivingSpace: +livingSpace - percLivingSpace,
         maxLivingSpace: +livingSpace + percLivingSpace,
-        stateCode: 'CH',
+        stateCode: activeSingleProperty.location.countryCode,
       };
       handleGetMarketCheck(data);
     }
@@ -98,34 +98,44 @@ function SuccessBestimate(props) {
                         {
                           get(marketData, 'priceDistribution.chartRangePrice', null) !== null ? (
                             <>
-                              <div className="dis-fl-col jc-c a-c">
-                                <h5 className="ta-c max-w-fix-376 mb-2">Your estimated value</h5>
-                                <p className="body2 max-w-fix-376 txtDark200 m-a ta-c">
-                                  Bestimate® is calculated based on similar transaction.
-                                </p>
-                                <div className="ta-c mb-5 mt-2 pos-r">
-                                  {
-                                    get(marketData, 'priceDistribution.chartRangePrice', null) && get(activeSingleProperty, 'estimation.bestimate', null) && (
-                                      <div className="dis-f jc-c">
-                                        <RangePriceChart
-                                          properties={marketData.priceDistribution.chartRangePrice}
-                                          type="bestimate"
-                                          bestimate={activeSingleProperty.estimation.bestimate}
-                                          showTopLabel={false}
-                                        />
+                              {
+                                get(activeSingleProperty, 'location.countryCode', null) === 'CH' ? (
+                                  <div className="dis-fl-col jc-c a-c">
+                                    <h5 className="ta-c max-w-fix-376 mb-2">Your estimated value</h5>
+                                    <p className="body2 max-w-fix-376 txtDark200 m-a ta-c">
+                                      Bestimate® is calculated based on similar transaction.
+                                    </p>
+                                    <div className="ta-c mb-5 mt-2 pos-r">
+                                      {
+                                        get(marketData, 'priceDistribution.chartRangePrice', null) && get(activeSingleProperty, 'estimation.bestimate', null) && (
+                                          <div className="dis-f jc-c">
+                                            <RangePriceChart
+                                              properties={marketData.priceDistribution.chartRangePrice}
+                                              type="bestimate"
+                                              bestimate={activeSingleProperty.estimation.bestimate}
+                                              showTopLabel={false}
+                                            />
+                                          </div>
+                                        )
+                                      }
+                                      <div className="ta-l m-a w-fit">
+                                        <p className="fsize-100 txtDark200">Worth up to</p>
+                                        <h5 className="ff-mono txtBlue700 fweight-700">
+                                          <span>{bestimate.currency}</span>&nbsp;
+                                          <span>{bestimateValue.toLocaleString('de-CH')}</span>
+                                        </h5>
                                       </div>
-                                    )
-                                  }
-                                  <div className="ta-l m-a w-fit">
-                                    <p className="fsize-100 txtDark200">Worth up to</p>
-                                    <h5 className="ff-mono txtBlue700 fweight-700">
-                                      <span>{bestimate.currency}</span>&nbsp;
-                                      <span>{bestimateValue.toLocaleString('de-CH')}</span>
-                                    </h5>
+                                    </div>
                                   </div>
-                                </div>
-
-                              </div>
+                                ) : (
+                                  <div className="dis-fl-col jc-c a-c">
+                                    <h5 className="ta-c max-w-fix-376 mb-2">Your estimated value</h5>
+                                    <p className="body2 max-w-fix-376 txtDark200 m-a ta-c">
+                                      We will contact you
+                                    </p>
+                                  </div>
+                                )
+                              }
                               <div className="w-perc-100">
                                 <BrixelButtonPrimary
                                   rounded
@@ -144,8 +154,8 @@ function SuccessBestimate(props) {
                                   <div className="dis-fl-col a-c jc-c">
                                     <img src={emptyHouseImg} alt="Empty Market Data" />
                                     <h5 className="mt-3 mb-2">Dude. Where&apos;s my data?</h5>
-                                    <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough
-                                      data available to calculate your result
+                                    <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to
+                                      calculate your result
                                     </p>
                                   </div>
                                 )
