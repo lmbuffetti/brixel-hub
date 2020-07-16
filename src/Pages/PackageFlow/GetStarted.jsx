@@ -362,7 +362,7 @@ const GetStarted = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className="withHeader">
+    <div id="bodyModalWrapper" className="withHeader getStarted">
       {
         get(quest, 'inputs', null) && (
           <BrixelProgressBar
@@ -375,22 +375,17 @@ const GetStarted = (props) => {
         )
       }
       <div
-        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v' : 'ov-h'} ${quest.history}`}
-
-        // disabled for this release
-        /* style={{
-          backgroundImage: `url(${quest.bgImg})`,
-          backgroundSize: roomValue
-        }} */
+        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : 'ov-h'} ${quest.history}`}
+        style={{ backgroundImage: `url(${quest.bgImg})` }}
       >
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${quest.background || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v' : 'ov-h'}`}
+          className={`interactive dis-fl-col jc-b ${quest.background || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : 'ov-h'}`}
         >
           <div className="multiStepSlides">
             <div
-              className={`singleStep jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter'}`}
+              className={`singleStep pt-5 jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter'}`}
             >
               <div className="subcontainer m-a">
                 {
@@ -511,7 +506,7 @@ const GetStarted = (props) => {
                   )
                 }
                 {
-                  questions[currentIndex] && questions[currentIndex].inputs && (
+                  questions[currentIndex] && questions[currentIndex].inputs && currentIndex !== 6 && (
                     <BrixelButtonIcon
                       className={`shadow-2dp backBtn ${currentIndex === 0 ? 'hide' : ''} order-md-1`}
                       icon="arrow-simple-left"

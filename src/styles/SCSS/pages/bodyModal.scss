@@ -6,6 +6,7 @@
   position: fixed;
   left: 0;
   top: 0;
+  z-index: 1;
 
   &.withHeader {
     position: relative;
@@ -71,6 +72,10 @@
         position: relative;
         margin-bottom: auto;
         margin-top: auto;
+        &:before,
+        .footerAction {
+          max-width: 640px;
+        }
       }
 
       &[class*="bg"] .singleStep {
@@ -90,8 +95,7 @@
         transform: translateX(-50%);
         background-color: $brx-white;
         box-shadow: $shadow-2dp;
-        border-top-left-radius: $brd-radius-small;
-        border-top-right-radius: $brd-radius-small;
+        border-radius: $brd-radius-small;
       }
 
       &.bgRed100 {
@@ -173,6 +177,8 @@
       transform: translateX(-50%);
       bottom: 0;
       transition: background $default-time $default-easing;
+      border-bottom-left-radius: $brd-radius-small;
+      border-bottom-right-radius: $brd-radius-small;
 
       &.staticFooter {
         left: 0;
@@ -232,6 +238,29 @@
       }
     }
   }
+  &.getStarted {
+    .bodyModal {
+      // Styles for sign up screen
+      &.signUpScreen {
+        &:before {
+          background: rgba($brx-black, 0.5);
+          height: 100%;
+          width: 100%;
+          position: absolute;
+          content: '';
+          z-index: 1;
+        }
+      }
+       #multiStepForm {
+         .multiStepSlides {
+           .singleStep {
+             padding-top: 80px;
+             padding-bottom: 80px;
+           }
+         }
+       }
+    }
+  }
 }
 /*
 @media (min-width: $responsive-medium) {
@@ -271,3 +300,4 @@
 .word-b {
   @include line-break;
 }
+

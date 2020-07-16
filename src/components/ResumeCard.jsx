@@ -19,7 +19,12 @@ const ResumeCard = (props) => {
   const defImg = get(formValue, 'properties.propertyType', null) === 'Apartment' ? resumeApartment : resumeHouse;
 
   return (
-    <div>
+    <div className="max-w-fix-344 m-a">
+      <h5
+        className="fadeAnim fsize-700 mb-5"
+        dangerouslySetInnerHTML={{ __html: title }}
+      />
+      {/* Property Card */}
       <div className="scaleAnim bgWhite max-w-fix-344 m-a brdRadius shadow-4dp ov-h">
         <img
           src={defImg}
@@ -53,10 +58,21 @@ const ResumeCard = (props) => {
           </div>
         </div>
       </div>
-      <h5
-        className="fadeAnim mt-5 ta-c"
-        dangerouslySetInnerHTML={{ __html: title }}
-      />
+      <div className="mt-5">
+        <h5 className="mb-3">What can I do now?</h5>
+        <div className="mb-1 pos-r">
+          <BrixelIcon className="pos-a" icon="check" color="green" />
+          <p className="ml-4 dis-b">Compare to your local market.</p>
+        </div>
+        <div className="mb-1 pos-r">
+          <BrixelIcon className="pos-a" icon="check" color="green" />
+          <p className="ml-4 dis-b">Get free price indication.</p>
+        </div>
+        <div className="mb-1 pos-r">
+          <BrixelIcon className="pos-a" icon="check" color="green" />
+          <p className="ml-4 dis-b">Simulate your sale for free.</p>
+        </div>
+      </div>
     </div>
   );
 };

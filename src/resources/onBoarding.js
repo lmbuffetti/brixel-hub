@@ -177,7 +177,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       bgImg: congratsSvg,
       cardType: 'loadComponent',
       component: ResumeCard,
-      background: 'bgRed100',
     },
     {
       conditions: [{
