@@ -4,6 +4,7 @@ import {
   BrixelInputText,
   BrixelExtraFeature,
   BrixelInputQuality,
+  BrixelRadioButton,
   FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
@@ -18,6 +19,17 @@ export const BestimateQuestions = () => [
     history: 'bathrooms',
     cardType: 'bathrooms',
     inputs: [
+      {
+        condition: [{
+          name: 'location.countryCode',
+          value: 'PT',
+        }],
+        component: BrixelRadioButton,
+        label: 'Property condition',
+        name: 'properties.building.conditionStatus',
+        options: factsOptions.conditionStatus,
+        validation: [Validation.markRequired],
+      },
       {
         condition: [{
           name: 'location.countryCode',
@@ -59,6 +71,18 @@ export const BestimateQuestions = () => [
     history: 'extraFeatures',
     cardType: 'extraFeatures',
     inputs: [
+      {
+        component: BrixelInputStepNumber,
+        className: '',
+        label: 'How many garage parking lots belong to the property?',
+        name: 'properties.parking.garage',
+        labelLeft: 'Garage parking',
+        step: 1,
+        min: 0,
+        max: 99,
+        placeholder: '0',
+        validation: [Validation.markRequired],
+      },
       {
         component: BrixelInputQuality,
         className: '',
