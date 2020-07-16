@@ -56,7 +56,7 @@ function SuccessBestimate(props) {
         propertyType: activeSingleProperty.properties.propertyType,
         minLivingSpace: +livingSpace - percLivingSpace,
         maxLivingSpace: +livingSpace + percLivingSpace,
-        stateCode: 'CH',
+        stateCode: activeSingleProperty.location.countryCode,
       };
       handleGetMarketCheck(data);
     }
@@ -140,13 +140,19 @@ function SuccessBestimate(props) {
                           ) : (
                             <>
                               {
-                                get(marketData, 'priceDistribution', null) && (
+                                get(marketData, 'priceDistribution', null) ? (
                                   <div className="dis-fl-col a-c jc-c">
                                     <img src={emptyHouseImg} alt="Empty Market Data" />
                                     <h5 className="mt-3 mb-2">Dude. Where&apos;s my data?</h5>
-                                    <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough
-                                      data available to calculate your result
+                                    <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to
+                                      calculate your result
                                     </p>
+                                  </div>
+                                ) : (
+                                  <div className="dis-fl-col a-c jc-c">
+                                    <img src={emptyHouseImg} alt="Empty Market Data" />
+                                    <h5 className="mt-3 mb-2">We will contact you</h5>
+                                    <p className="ta-c txtDark200 max-w-fix-320 m-a" />
                                   </div>
                                 )
                               }

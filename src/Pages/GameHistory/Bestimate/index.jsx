@@ -216,33 +216,35 @@ const Bestimate = (props) => {
               className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
               <div className="subcontainer mt-0 m-a">
-                <div className="mt-2 mb-5">
-                  <BrixelProgressLineDots
-                    color="Primary"
-                    backgroundSaturation={100}
-                    saturation={600}
-                    activeStep={currentIndex}
-                    steps={numberQuestions}
-                  />
-                </div>
                 {
                   quest.inputs && (
-                    <div>
-                      <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
-                      {quest.subtitle && (
-                        <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)}
-                      <MultiFileldsReduxForm
-                        disableNextBtn={false}
-                        formValue={formValue}
-                        form="GamingFlow"
-                        inputs={quest.inputs}
-                        onClick={() => ''}
-                      />
-                    </div>
+                    <>
+                      <div className="mt-2 mb-5">
+                        <BrixelProgressLineDots
+                          color="Primary"
+                          backgroundSaturation={100}
+                          saturation={600}
+                          activeStep={currentIndex}
+                          steps={numberQuestions}
+                        />
+                      </div>
+                      <div>
+                        <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
+                        {quest.subtitle && (
+                          <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)}
+                        <MultiFileldsReduxForm
+                          disableNextBtn={false}
+                          formValue={formValue}
+                          form="GamingFlow"
+                          inputs={quest.inputs}
+                          onClick={() => ''}
+                        />
+                      </div>
+                    </>
                   )
                 }
                 {
-                  quest && quest.cardType === 'loadComponent' && quest.history === questions[currentIndex].history && (
+                  get(quest, 'cardType', null) === 'loadComponent' && quest.history === questions[currentIndex].history && (
                     React.createElement(quest.component, { formName: 'GamingFlow', finishedFlow, initialValue: formValue })
                   )
                 }
