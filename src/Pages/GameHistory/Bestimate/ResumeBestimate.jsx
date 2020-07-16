@@ -77,50 +77,54 @@ function ResumeBestimate(props) {
       {
         has(marketData, 'priceDistribution.chartRangePrice') ? (
           <>
-            <h5 className="ta-c mb-5">We proudly present you your Bestimate&reg;.</h5>
             {
-              condition.higherValue && (
+              get(activeSingleProperty, 'location.countryCode', null) === 'CH' ? (
                 <>
-                  <p className="ta-c mb-1 txtDark700">Your property is worth up to</p>
-                  <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">CHF {condition.higherValue.toLocaleString('de-CH')}</p>
-                  <p className="body2 ta-c mb-5 txtDark700">Based on similar transactions.</p>
-                  <p className="fweight-400 ta-c mb-1 txtDark700">Similar properties are currently worth between</p>
-                  <p className="ff-mono txtPrimary700 fweight-600 ta-c mb-5">CHF {condition.lowerValue.toLocaleString('de-CH')} - CHF {condition.higherValue.toLocaleString('de-CH')}</p>
-                  <p className="fweight-400 ta-c txtDark700">Your Bestimate&reg; compared to local market data</p>
+                  <h5 className="ta-c mb-5">We proudly present you your Bestimate&reg;.</h5>
+                  {
+                    condition.higherValue && (
+                      <>
+                        <p className="ta-c mb-1 txtDark700">Your property is worth up to</p>
+                        <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">CHF {condition.higherValue.toLocaleString('de-CH')}</p>
+                        <p className="body2 ta-c mb-5 txtDark700">Based on similar transactions.</p>
+                        <p className="fweight-400 ta-c mb-1 txtDark700">Similar properties are currently worth between</p>
+                        <p className="ff-mono txtPrimary700 fweight-600 ta-c mb-5">CHF {condition.lowerValue.toLocaleString('de-CH')} - CHF {condition.higherValue.toLocaleString('de-CH')}</p>
+                        <p className="fweight-400 ta-c txtDark700">Your Bestimate&reg; compared to local market data</p>
+                      </>
+                    )
+                  }
+                  {
+                    has(activeSingleProperty, 'estimation.bestimate') && (
+                      <div className="dis-f jc-c">
+                        <RangePriceChart
+                          properties={marketData.priceDistribution.chartRangePrice}
+                          type="bestimate"
+                          bestimate={activeSingleProperty.estimation.bestimate}
+                          showTopLabel={false}
+                        />
+                      </div>
+                    )
+                  }
+                </>
+              ) : (
+                <>
+                  <h5 className="ta-c mb-5">We proudly present you your Bestimate&reg;.</h5>
+                  <p>We Will contact you</p>
                 </>
               )
             }
-            {
-              has(activeSingleProperty, 'estimation.bestimate') && (
-                <div className="dis-f jc-c">
-                  <RangePriceChart
-                    properties={marketData.priceDistribution.chartRangePrice}
-                    type="bestimate"
-                    bestimate={activeSingleProperty.estimation.bestimate}
-                    showTopLabel={false}
-                  />
-                </div>
-              )
-            }
-
             <p className="body2 mt-5 txtDark700">The Bestimate&reg; is your free price indication. <br /> It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.</p>
           </>
         ) : (
           <>
             {
-              get(marketData, 'priceDistribution', null) ? (
+              get(marketData, 'priceDistribution', null) && (
                 <div className="dis-fl-col a-c jc-c">
                   <img src={emptyHouseImg} alt="Empty Market Data" />
                   <h5 className="mt-3 mb-2">Dude. Where&apos;s my data?</h5>
                   <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to
                     calculate your result
                   </p>
-                </div>
-              ) : (
-                <div className="dis-fl-col a-c jc-c">
-                  <img src={emptyHouseImg} alt="Empty Market Data" />
-                  <h5 className="mt-3 mb-2">We will contact you</h5>
-                  <p className="ta-c txtDark200 max-w-fix-320 m-a" />
                 </div>
               )
             }
