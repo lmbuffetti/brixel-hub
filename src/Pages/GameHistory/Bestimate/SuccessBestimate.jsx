@@ -12,7 +12,7 @@ import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import { getGamegroup } from '../../../actions/GamificationActions';
 import newBestimate from '../../../images/Bestimate/newBestimate.svg';
 import startBestimate from '../../../images/Bestimate/startBestimate.svg';
-import generatingBestimate from '../../../images/Bestimate/generatingBestimate.png';
+import generatingBestimate from '../../../images/Bestimate/generatingBestimate.svg';
 import { getMarketCheck } from '../../../actions/PropertyActions';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../../images/emptyHub.svg';
@@ -146,7 +146,7 @@ function SuccessBestimate(props) {
                                     <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">
                                       Our experts are validating the data and generating an extimation report just for you
                                     </p>
-                                    <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-320 my-2" />
+                                    <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
                                     <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300 dis-f flex-wrap">
                                       If you have any questions please contact our <span className="ml-small-4 cur-poi txtPrimary400" onClick={() => history.push({ state: { showSupport: true } })}>support</span>
                                     </p>
