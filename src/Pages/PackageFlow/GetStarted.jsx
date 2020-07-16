@@ -209,8 +209,14 @@ const GetStarted = (props) => {
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
+    if (currentQuest.effect === 'slideUp') {
+      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex - 1]);
+    } else {
+      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+    }
   }, [lang]);
 
   // SET THE OWNER PROPERTY IF USER IS LOGGED IN
