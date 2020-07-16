@@ -57,7 +57,7 @@ const RewardsDashboard = (props) => {
     if (game === 'market-checker' && (get(formValue, 'location.countryCode', null) !== 'CH' && get(formValue, 'location.countryCode', null) !== 'PT')) {
       disabled = true;
     }
-    if (game === 'bestimate' && get(formValue, 'location.countryCode', null) !== 'CH') {
+    if (game === 'bestimate' && get(formValue, 'location.countryCode', null) !== 'CH' && get(formValue, 'location.countryCode', null) !== 'PT') {
       disabled = true;
     }
     return disabled;

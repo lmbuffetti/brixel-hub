@@ -334,6 +334,7 @@ const App = (props) => {
             !history.location.pathname.includes('packageFlow') &&
             !history.location.pathname.includes('onBoarding') &&
             !history.location.pathname.includes('upgrade') &&
+            !history.location.pathname.includes('achievement') &&
             loggedInUser &&
              (
                <MenuSidebar />

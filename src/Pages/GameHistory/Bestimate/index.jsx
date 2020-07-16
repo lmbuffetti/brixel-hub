@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonTertiary,
+  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonTertiary, BrixelProgressLineDots,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -38,6 +38,7 @@ const Bestimate = (props) => {
   const [selGameGroup, setSelGameGroup] = useState({});
   const [finishedFlow, setFinishedFlow] = useState(false);
   const [lastID, setLastID] = useState(0);
+  const [numberQuestions, setNumberQuestions] = useState(0);
   // GET URL PARAMS
   const getAchievement = () => history.location.pathname.split('/')[4];
   const propID = get(match, 'params.propId', null);
@@ -124,22 +125,30 @@ const Bestimate = (props) => {
   useEffect(() => {
     if (formValue.id) {
       const newQuest = [];
-      BestimateQuestions('en').map((questData) => {
+      let numQuest = 0;
+      BestimateQuestions().map((questData) => {
+        console.log(questData);
         if (questData.condition) {
           let isValid = true;
-          quest.condition.map((item) => {
+          console.log(questData.condition);
+          questData.condition.map((item) => {
             if (get(formValue, item.name, null) !== item.value) {
               isValid = false;
             }
             return null;
           });
-          if (isValid) newQuest.push(questData);
+          if (isValid) {
+            numQuest += 1;
+            newQuest.push(questData);
+          }
         } else {
+          if (questData.inputs) numQuest += 1;
           newQuest.push(questData);
         }
         return null;
       });
       setLastID(newQuest.length - 1);
+      setNumberQuestions(numQuest);
       setQuestions(newQuest);
     }
   }, [formValue]);
@@ -206,7 +215,16 @@ const Bestimate = (props) => {
             <div
               className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
-              <div className="subcontainer m-a">
+              <div className="subcontainer mt-0 m-a">
+                <div className="mt-2 mb-5">
+                  <BrixelProgressLineDots
+                    color="Primary"
+                    backgroundSaturation={100}
+                    saturation={600}
+                    activeStep={currentIndex}
+                    steps={numberQuestions}
+                  />
+                </div>
                 {
                   quest.inputs && (
                     <div>
@@ -308,6 +326,7 @@ const mapStateToProps = (state) => ({
   initialValues: {
     id: get(state, 'property.activeSingleProperty.id', null),
     properties: get(state, 'property.activeSingleProperty.properties', null),
+    location: get(state, 'property.activeSingleProperty.location', null),
   },
 });
 

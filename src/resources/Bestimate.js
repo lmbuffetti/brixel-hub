@@ -1,7 +1,9 @@
 /* eslint-disable max-len */
 import {
   BrixelInputStepNumber,
+  BrixelInputText,
   BrixelExtraFeature,
+  BrixelInputQuality,
   FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
@@ -11,21 +13,59 @@ const { factsOptions } = FactsOptions;
 
 export const BestimateQuestions = () => [
   {
-    title: 'How many bathrooms do you have?',
+    title: 'Step 1',
     extraInfo: 'We need some extra information about your property.',
     history: 'bathrooms',
     cardType: 'bathrooms',
     inputs: [
       {
+        condition: [{
+          name: 'location.countryCode',
+          value: 'PT',
+        }],
+        component: BrixelInputText,
+        className: '',
+        label: 'What\'s the gross size of the property?',
+        labelLeft: 'Gross size',
+        placeholder: '120',
+        unit: 'm2',
+        minLengthNum: 1,
+        maxLenghtNum: 5000,
+        name: 'properties.typology.grossArea.value',
+        type: 'number',
+        validation: [Validation.markRequired],
+      },
+      {
         component: BrixelInputStepNumber,
-        classNameBox: 'max-w-fix-md-232',
-        label: '',
+        className: '',
+        label: 'How many bathrooms does the property have?',
         name: 'properties.typology.bathrooms',
+        labelLeft: 'Bathrooms',
         step: 1,
+        min: 0,
+        max: 15,
         placeholder: '0',
-        max: 30,
-        fluid: true,
-        validation: [Validation.maxLengthNumRooms, Validation.required],
+        validation: [Validation.maxLengthNumRooms, Validation.markRequired],
+      },
+    ],
+  },
+  {
+    condition: [{
+      name: 'location.countryCode',
+      value: 'PT',
+    }],
+    title: 'STEP 2',
+    vCentered: true,
+    history: 'extraFeatures',
+    cardType: 'extraFeatures',
+    inputs: [
+      {
+        component: BrixelInputQuality,
+        className: '',
+        label: 'What\'s the energy efficiency of the property?',
+        name: 'properties.energy.efficiency',
+        options: factsOptions.energyEfficiencyOptions,
+        validation: [Validation.markRequired],
       },
     ],
   },

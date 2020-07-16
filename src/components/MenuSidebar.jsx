@@ -39,7 +39,7 @@ const MenuSidebar = (props) => {
   const propID = history.location.pathname.split('/')[1];
   const levelUrl = history.location.pathname.split('/');
 
-  // FUNCTION TO LOAD THE GAME GROUP AND THE GAME HISTORY AND CALC THE NUMBER OF SECTION TO DO (number iside red circle)
+  // FUNCTION TO LOAD THE GAME GROUP AND THE GAME HISTORY AND CALC THE NUMBER OF SECTION (number iside red circle)
   useEffect(() => {
     if (gameGroup && gameHistory) {
       // let numDone = 0;
