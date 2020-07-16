@@ -122,8 +122,13 @@
   background: map_get($primaryColor, 700);
   width: 100%;
   z-index: 100;
-  max-height: 100vh;
+  max-height: calc(100vh-90px);
   opacity: 0;
+
+  @media (max-width: $responsive-medium) {
+    top: 74px;
+    overflow: hidden;
+  }
 
   .h-perc-100 {
     > div {
@@ -139,15 +144,40 @@
 
 .footerActionLogin {
   background: map_get($primaryColor, 700);
+  border-top: 1px solid rgba($brx-white, 0.2);
+
+  @media (max-width: $responsive-medium) {
+    margin-top: auto;
+    margin-bottom: 0;
+  }
+
+  > div {
+    @media (max-width: $responsive-medium) {
+      flex-direction: column-reverse;
+    }
+  }
 }
 .bodyScrollUp {
-  padding-top: $step * 5;
-  padding-bottom: $step * 5;
+  padding-top: $step * 8;
   overflow: auto;
-  max-height: calc(100vh - 90px);
+  height: 100%;
   min-height: 440px;
 
+  @media (max-width: $responsive-medium) {
+    padding-top: $step * 4;
+    display: flex;
+    flex-direction: column;
+  }
+
   .onBoardingSignUp {
+    margin-bottom: $step * 5;
+
+    @media (max-width: $responsive-medium) {
+      padding-left: $step;
+      padding-right: $step;
+      margin-bottom: $step * 2;
+    }
+
     label.brixel-label {
       color: $brx-white;
       margin-bottom: $step;

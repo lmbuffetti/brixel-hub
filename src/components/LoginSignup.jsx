@@ -114,10 +114,10 @@ const LoginSignup = (props) => {
 
   return (
     <>
-      <div className="bodyScrollUp">
-        <div className="dis-f a-t jc-b">
+      <div className="bodyScrollUp pos-r">
+        <div className="dis-f jc-fe pos-r pos-a-md x-r zIndex1">
           <BrixelButtonIcon
-            className="shadow-3dp pos-a-fix x-r-3 x-t-5"
+            className="shadow-3dp pos-a-fix mt-2-neg mt-md-0 x-r-2 x-t-2"
             icon="close-small"
             color="dark"
             saturationTxt={700}
@@ -127,12 +127,12 @@ const LoginSignup = (props) => {
             onClick={() => onCloseGoBack()}
           />
         </div>
-        <div className="max-w-fix-360 m-a onBoardingSignUp">
+        <div className="max-w-fix-360 ml-a mr-a onBoardingSignUp">
           {
             loginPage === 'login' && (
               <>
-                <div className="w-perc-100 ta-c mb-5">
-                  <h5 className="txtWhite">{translateTo(lang, 'Login to your profile to save your progress.')}</h5>
+                <div className="w-perc-100 ta-c-md mb-5 pr-5 pr-md-0">
+                  <h4 className="txtWhite">{translateTo(lang, 'Login to your profile to save your progress.')}</h4>
                   <p className="txtWhite cur-poi mt-1 td-u" onClick={() => setLoginPage('register')}>
                     {translateTo(lang, 'or create profile here')}
                   </p>
@@ -154,7 +154,7 @@ const LoginSignup = (props) => {
           {
             loginPage === 'register' && (
               <>
-                <div className="w-perc-100 ta-c mb-5">
+                <div className="w-perc-100 ta-c-md mb-5 pr-5 pr-md-0">
                   <h4 className="txtWhite">{translateTo(lang, 'Create free profile to save')}</h4>
                   <p className="txtWhite cur-poi mt-1 td-u" onClick={() => setLoginPage('login')}>
                     {translateTo(lang, 'or login here')}
@@ -167,15 +167,15 @@ const LoginSignup = (props) => {
           {
             loginPage === 'not_sure' && (
               <div className="txtWhite">
-                <h4 className="ta-c txtWhite">Here are 3 reasons to sign up.</h4>
-                <ol className="mt-3">
+                <h4 className="ta-c-md txtWhite pr-5 pr-md-0">Here are 3 reasons to sign up.</h4>
+                <ol className="mt-3 px-2 px-md-0">
                   <li className="pl-1">You receive a free price indication and a local market check.</li>
                   <li className="pl-1 mt-1">You get free access to the full Brixel Hub. Your all-in-one tool to sell your home.</li>
                   <li className="pl-1 mt-1">All services are free of charge. You decide if you want to upgrade or not.</li>
                 </ol>
 
-                <h4 className="ta-c txtWhite mt-5">Don’t worry about spam.</h4>
-                <ol className="mt-3">
+                <h4 className="ta-c-md txtWhite mt-5 pr-5 pr-md-0">Don’t worry about spam.</h4>
+                <ol className="mt-3 px-2 px-md-0">
                   <li className="pl-1">All your personal data is save with us. We are not using them for commercial purpose.</li>
                   <li className="pl-1 mt-1">We will contact you only for support and consultation</li>
                   <li className="pl-1 mt-1">Your property data will not be published unless you request it explicitly.</li>
@@ -186,7 +186,7 @@ const LoginSignup = (props) => {
           {
             loginPage === 'support' && (
               <div>
-                <h4 className="ta-c txtWhite">You want to talk to us before? No propblem. We are here for you.</h4>
+                <h4 className="ta-c-md txtWhite pr-5 pr-md-0">You want to talk to us before? No propblem. We are here for you.</h4>
                 <Support
                   isFixed={false}
                   expanded
@@ -197,27 +197,25 @@ const LoginSignup = (props) => {
             )
           }
         </div>
-      </div>
-      <div
-        className="footerActionLogin py-3 px-2 shadow-1dp-top"
-      >
-        <div className="dis-f a-c jc-b pos-r">
-          <BrixelButtonTertiary
-            color="white"
-            saturation={0}
-            className="td-u"
-            label={TertiaryButton().label}
-            onClick={TertiaryButton().action}
-          />
-          <BrixelButtonPrimary
-            className="pos-a x-c pl-3 min-w-fix-144"
-            rounded
-            rightIcon="arrow-right-small"
-            background="green"
-            label={PrimaryButton().label}
-            onClick={PrimaryButton().action}
-          />
-          <span />
+        <div className="footerActionLogin py-3 px-2 shadow-1dp-top">
+          <div className="dis-fl-col dis-fl-row-md a-c jc-b pos-r">
+            <BrixelButtonTertiary
+              color="white"
+              saturation={0}
+              className="td-u mt-1 mt-md-0"
+              label={TertiaryButton().label}
+              onClick={TertiaryButton().action}
+            />
+            <BrixelButtonPrimary
+              className="pos-a-md x-c pl-3 min-w-fix-144"
+              rounded
+              rightIcon="arrow-right-small"
+              background="green"
+              label={PrimaryButton().label}
+              onClick={PrimaryButton().action}
+            />
+            <span />
+          </div>
         </div>
       </div>
     </>

@@ -277,7 +277,7 @@ header {
 }
 
 //todo styleguide
-.packageFlow #multiStepForm {
+.packageFlow #multiStepForm:not(.signUp) {
   .brixel-radio-button-icon.radioBtnImg {
     /*todo styleguide*/
     label .textLabel {
