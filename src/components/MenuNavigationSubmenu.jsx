@@ -49,6 +49,7 @@ const MenuNavigationSubmenu = (props) => {
                     isFixed={false}
                     onClose={() => onClose()}
                     expanded
+                    hideClose={false}
                   />
                 )
               }

@@ -12,6 +12,7 @@ import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import { getGamegroup } from '../../../actions/GamificationActions';
 import newBestimate from '../../../images/Bestimate/newBestimate.svg';
 import startBestimate from '../../../images/Bestimate/startBestimate.svg';
+import generatingBestimate from '../../../images/Bestimate/generatingBestimate.png';
 import { getMarketCheck } from '../../../actions/PropertyActions';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../../images/emptyHub.svg';
@@ -100,52 +101,58 @@ function SuccessBestimate(props) {
                             <>
                               {
                                 get(activeSingleProperty, 'location.countryCode', null) === 'CH' ? (
-                                  <div className="dis-fl-col jc-c a-c">
-                                    <h5 className="ta-c max-w-fix-376 mb-2">Your estimated value</h5>
-                                    <p className="body2 max-w-fix-376 txtDark200 m-a ta-c">
-                                      Bestimate® is calculated based on similar transaction.
-                                    </p>
-                                    <div className="ta-c mb-5 mt-2 pos-r">
-                                      {
-                                        get(marketData, 'priceDistribution.chartRangePrice', null) && get(activeSingleProperty, 'estimation.bestimate', null) && (
-                                          <div className="dis-f jc-c">
-                                            <RangePriceChart
-                                              properties={marketData.priceDistribution.chartRangePrice}
-                                              type="bestimate"
-                                              bestimate={activeSingleProperty.estimation.bestimate}
-                                              showTopLabel={false}
-                                            />
-                                          </div>
-                                        )
-                                      }
-                                      <div className="ta-l m-a w-fit">
-                                        <p className="fsize-100 txtDark200">Worth up to</p>
-                                        <h5 className="ff-mono txtBlue700 fweight-700">
-                                          <span>{bestimate.currency}</span>&nbsp;
-                                          <span>{bestimateValue.toLocaleString('de-CH')}</span>
-                                        </h5>
+                                  <>
+                                    <div className="dis-fl-col jc-c a-c">
+                                      <h5 className="ta-c max-w-fix-376 mb-2">Your estimated value</h5>
+                                      <p className="body2 max-w-fix-376 txtDark200 m-a ta-c">
+                                        Bestimate® is calculated based on similar transaction.
+                                      </p>
+                                      <div className="ta-c mb-5 mt-2 pos-r">
+                                        {
+                                          get(marketData, 'priceDistribution.chartRangePrice', null) && get(activeSingleProperty, 'estimation.bestimate', null) && (
+                                            <div className="dis-f jc-c">
+                                              <RangePriceChart
+                                                properties={marketData.priceDistribution.chartRangePrice}
+                                                type="bestimate"
+                                                bestimate={activeSingleProperty.estimation.bestimate}
+                                                showTopLabel={false}
+                                              />
+                                            </div>
+                                          )
+                                        }
+                                        <div className="ta-l m-a w-fit">
+                                          <p className="fsize-100 txtDark200">Worth up to</p>
+                                          <h5 className="ff-mono txtBlue700 fweight-700">
+                                            <span>{bestimate.currency}</span>&nbsp;
+                                            <span>{bestimateValue.toLocaleString('de-CH')}</span>
+                                          </h5>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
+                                    <div className="w-perc-100">
+                                      <BrixelButtonPrimary
+                                        rounded
+                                        label="See full Bestimate®"
+                                        background="primary"
+                                        className="min-w-fix-208 m-a "
+                                        onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
+                                        rightIcon="arrow-right"
+                                      />
+                                    </div>
+                                  </>
                                 ) : (
                                   <div className="dis-fl-col jc-c a-c">
-                                    <h5 className="ta-c max-w-fix-376 mb-2">Your estimated value</h5>
-                                    <p className="body2 max-w-fix-376 txtDark200 m-a ta-c">
-                                      We will contact you
+                                    <h5 className="ta-c max-w-fix-376 mb-2">Generating your estimation...</h5>
+                                    <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">
+                                      Our experts are validating the data and generating an extimation report just for you
+                                    </p>
+                                    <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-320 my-2" />
+                                    <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300 dis-f flex-wrap">
+                                      If you have any questions please contact our <span className="ml-small-4 cur-poi txtPrimary400" onClick={() => history.push({ state: { showSupport: true } })}>support</span>
                                     </p>
                                   </div>
                                 )
                               }
-                              <div className="w-perc-100">
-                                <BrixelButtonPrimary
-                                  rounded
-                                  label="See full Bestimate®"
-                                  background="primary"
-                                  className="min-w-fix-208 m-a "
-                                  onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
-                                  rightIcon="arrow-right"
-                                />
-                              </div>
                             </>
                           ) : (
                             <>

@@ -20,6 +20,7 @@ function ResumeBestimate(props) {
     handleGetEstimation,
     handleGetMarketCheck,
     handleSaveActiveSingleProperty,
+    history,
     marketData,
     match,
     activeSingleProperty,
@@ -46,8 +47,9 @@ function ResumeBestimate(props) {
         maxLivingSpace: +livingSpace + percLivingSpace,
         stateCode: activeSingleProperty.location.countryCode,
       };
-      console.log(data);
       handleGetMarketCheck(data);
+    } else if (get(marketData, 'priceDistribution', null) && get(activeSingleProperty, 'location.countryCode', null) === 'PT') {
+      history.push(`/${activeSingleProperty.id}/rewards/bestimate`);
     }
     handleGetEstimation(propID);
   }, [activeSingleProperty, marketData]);
@@ -142,6 +144,7 @@ ResumeBestimate.propTypes = {
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetMarketCheck: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
