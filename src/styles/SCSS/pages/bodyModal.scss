@@ -38,6 +38,10 @@
       background-size: 450px;
     }
 
+    @media (max-width: $responsive-small) {
+      background-image: none !important;
+    }
+
     animation: fadeInSec $default-time $default-easing;
 
     &.ov-v {
@@ -67,11 +71,16 @@
       &.interactive {
         // interactive bg
         height: auto;
-        min-height: 70%;
+        //min-height: 70%;
         max-height: 100%;
         position: relative;
         margin-bottom: auto;
         margin-top: auto;
+
+        @media (max-width: $responsive-small) {
+          min-height: 100%;
+        }
+
         &:before,
         .footerAction {
           max-width: 640px;
@@ -114,7 +123,7 @@
       .multiStepSlides {
         height: 100%;
         display: flex;
-        overflow: hidden;
+        overflow-y: auto;
 
         .singleStep {
           height: 100%;
@@ -176,7 +185,7 @@
       left: 50%;
       transform: translateX(-50%);
       bottom: 0;
-      transition: background $default-time $default-easing;
+      //transition: background $default-time $default-easing;
       border-bottom-left-radius: $brd-radius-small;
       border-bottom-right-radius: $brd-radius-small;
 
@@ -256,6 +265,11 @@
            .singleStep {
              padding-top: 80px;
              padding-bottom: 80px;
+
+             @media (max-width: $responsive-medium) {
+              padding-top: 40px;
+              padding-bottom: 40px;
+             }
            }
          }
        }

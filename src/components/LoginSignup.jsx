@@ -140,7 +140,7 @@ const LoginSignup = (props) => {
                 <BrixelLogin company={company} formName="GetStarted" showErrors={showErrors} />
                 <p className="mt-1">
                   <a
-                    className="txtWhite td-u cur-poi"
+                    className="txtWhite td-u cur-poi link"
                     href={`${baseByData.loginBasePath}/recover`}
                     target="_blank"
                     rel="noopener noreferrer"

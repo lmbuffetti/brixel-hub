@@ -61,11 +61,11 @@ const Tour = (props) => {
                       <BrixelButtonIcon
                         noBorder
                         padding={16}
+                        fontSize={16}
                         icon="play-fill"
                         background="white"
                         saturation={0}
                         color="primary"
-                        fontSize={16}
                         className="m-a opacity8"
                         saturationTxt={400}
                         onClick={() => setShowTour(true)}

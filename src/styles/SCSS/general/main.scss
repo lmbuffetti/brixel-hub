@@ -336,7 +336,7 @@ h4.longTitle {
 // custom input label style for hub
 label.brixel-label {
   display: inline-block;
-  margin-bottom: $step * 2;
+  //margin-bottom: $step * 2;
   color: map-get($darkColor, 200);
   @include fontStyle(400);
 }
