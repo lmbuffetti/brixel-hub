@@ -2,7 +2,7 @@
 #bodyModalWrapper {
   &.getStarted {
     .bodyModal {
-
+      transition: background-image $default-time $default-easing;
       background-size: 16%;
 
       &.resume,
@@ -136,9 +136,10 @@
         }
         .policyText {
           color: $brx-white;
-        }
-        .stengthPassword p {
-          color: $brx-white;
+          a {
+            color: $brx-white;
+            text-decoration: underline;
+          }
         }
         .link {
           @include fontStyle(300);
