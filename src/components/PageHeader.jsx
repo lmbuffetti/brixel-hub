@@ -126,7 +126,7 @@ function PageHeader(props) {
   return (
     <>
       <header className={`flowHeader zIndex${zIndexHeader}`}>
-        <div className={`container dis-f a-c p-1 pt-2 p-md-2 jc-b pos-r zIndex4 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
+        <div className={`container dis-f a-c p-1 pt-2 p-md-2 jc-b pos-r ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
           <img
             className={`logo dis-b ${history.location.pathname.includes('onBoarding') ? 'w-fix-86' : 'w-fix-40'}  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
             src={history.location.pathname.includes('onBoarding') ? logoColor : logoNorm}

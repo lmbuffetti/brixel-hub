@@ -31,17 +31,6 @@
     top: $step;
     bottom: 0;
 
-    background-size: 16%;
-
-    &.resume,
-    &.locationInput {
-      background-size: 450px;
-    }
-
-    @media (max-width: $responsive-small) {
-      background-image: none !important;
-    }
-
     animation: fadeInSec $default-time $default-easing;
 
     &.ov-v {
@@ -66,25 +55,6 @@
 
       &.ov-v {
         overflow: visible;
-      }
-
-      &.interactive {
-        // interactive bg
-        height: auto;
-        //min-height: 70%;
-        max-height: 100%;
-        position: relative;
-        margin-bottom: auto;
-        margin-top: auto;
-
-        @media (max-width: $responsive-small) {
-          min-height: 100%;
-        }
-
-        &:before,
-        .footerAction {
-          max-width: 640px;
-        }
       }
 
       &[class*="bg"] .singleStep {
@@ -186,30 +156,10 @@
       transform: translateX(-50%);
       bottom: 0;
       //transition: background $default-time $default-easing;
-      border-bottom-left-radius: $brd-radius-small;
-      border-bottom-right-radius: $brd-radius-small;
 
       &.staticFooter {
         left: 0;
         transform: none;
-      }
-
-      &.successNext {
-        background: map_get($primaryColor, 700);
-        .textSuccess {
-          @media (max-width: $responsive-medium) {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            transform: translateY(-100%);
-            padding: $step $step * 2 0;
-            background: map_get($primaryColor, 700);
-          }
-        }
-        .backBtn {
-          opacity: .5;
-        }
       }
       span {
         white-space: nowrap;
@@ -247,64 +197,7 @@
       }
     }
   }
-  &.getStarted {
-    .bodyModal {
-      // Styles for sign up screen
-      &.signUpScreen {
-        &:before {
-          background: rgba($brx-black, 0.5);
-          height: 100%;
-          width: 100%;
-          position: absolute;
-          content: '';
-          z-index: 1;
-        }
-      }
-       #multiStepForm {
-         .multiStepSlides {
-           .singleStep {
-             padding-top: 80px;
-             padding-bottom: 80px;
-
-             @media (max-width: $responsive-medium) {
-              padding-top: 40px;
-              padding-bottom: 40px;
-             }
-           }
-         }
-       }
-    }
-  }
 }
-/*
-@media (min-width: $responsive-medium) {
-  #bodyModalWrapper {
-    .bodyModal {
-      height: 100%;
-      overflow: hidden;
-      left: 50%;
-      transform: translate(-50%, 0);
-
-      #multiStepForm {
-        height: calc(100% - 146px);
-      }
-
-      &:not(.upgradeModal) {
-        height: calc(100% - #{$step * 2});
-      }
-      &.upgradeModal {
-        #multiStepForm {
-          height: calc(100% - 146px);
-        }
-        &.stepNo0 {
-          #multiStepForm {
-            height: calc(100% - 152px);
-          }
-        }
-      }
-    }
-  }
-} */
 
 .barAssessor {
   height: 8px;

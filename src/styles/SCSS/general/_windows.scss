@@ -112,32 +112,4 @@
   }
 }
 
-.slideUp {
-  position: fixed;
-  left: 50%;
-  bottom: -25%;
-  transform: translate(-50%, 0);
-  transition: bottom $default-time-long $default-easing;
-  max-width: 640px;
-  background: map_get($primaryColor, 700);
-  width: 100%;
-  z-index: 100;
-  max-height: calc(100vh-90px);
-  opacity: 0;
-
-  @media (max-width: $responsive-medium) {
-    top: 74px;
-    overflow: hidden;
-  }
-
-  .h-perc-100 {
-    > div {
-      height: 100%;
-    }
-  }
-  &.slide-enter-down {
-    bottom: 0;
-    opacity: 1;
-  }
-}
 
