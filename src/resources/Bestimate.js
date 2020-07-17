@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import {
+  BrixelCheckbox,
   BrixelInputStepNumber,
   BrixelInputText,
   BrixelExtraFeature,
@@ -94,6 +95,10 @@ export const BestimateQuestions = () => [
     ],
   },
   {
+    condition: [{
+      name: 'location.countryCode',
+      value: 'CH',
+    }],
     title: 'Which extra features do you have?',
     vCentered: true,
     history: 'extraFeatures',
@@ -106,6 +111,26 @@ export const BestimateQuestions = () => [
         pdClass: 'p-1',
         iconClass: 'p-small-17 fSizePx22 bgPrimary400 txtWhite brdRadius mr-1',
         options: factsOptions.BrixelExtraFeature,
+      },
+    ],
+  },
+  {
+    condition: [{
+      name: 'location.countryCode',
+      value: 'PT',
+    }],
+    title: 'Which extra features do you have?',
+    vCentered: true,
+    history: 'step3',
+    cardType: 'extraFeatures',
+    inputs: [
+      {
+        component: BrixelCheckbox,
+        label: '',
+        name: 'properties.extraFeaturesBestimatePT',
+        pdClass: 'p-1',
+        iconClass: 'p-small-17 fSizePx22 bgPrimary400 txtWhite brdRadius mr-1',
+        options: factsOptions.extraFeatureBestimatePT,
       },
     ],
   },
