@@ -56,9 +56,38 @@
           font-weight: 600;
         }
 
+        position: relative;
+        overflow-x: hidden;
+        padding-bottom: $step / 2;
+
+        @media (min-width: $responsive-small) {
+          padding-bottom: $step;
+        }
+
+        &::before {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          content: '';
+          top: 0;
+          left: 0;
+          transform: translateX(-100%);
+          background-color: map_get($primaryColor, 700);
+          transition: transform $default-time-long $default-easing;
+          opacity: 0;
+        }
+
         &.successNext {
-          background: map_get($primaryColor, 700);
+          &::before {
+            transform: translateX(0);
+            left: 0;
+            opacity: 1;
+          }
+          .primaryBtn {
+            animation: scaleUp $default-time-long $default-easing;
+          }
           .textSuccess {
+            animation: scaleUp $default-time-long $default-easing;
           }
           .backBtn {
             opacity: .5;
