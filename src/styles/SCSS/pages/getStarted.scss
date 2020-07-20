@@ -1,6 +1,7 @@
 
 #bodyModalWrapper {
   &.getStarted {
+    z-index: 1;
     .bodyModal {
       transition: background-image $default-time $default-easing;
       background-size: 16%;
@@ -68,6 +69,8 @@
   }
 }
 
+
+
 .signUpContainer {
   position: fixed;
   top: 0;
@@ -79,7 +82,7 @@
   .slideUp {
     position: fixed;
     left: 50%;
-    bottom: -25%;
+    bottom: -50%;
     transform: translate(-50%, 0);
     transition: bottom $default-time-long $default-easing;
     max-width: 640px;
@@ -148,7 +151,7 @@
           }
         }
         .stengthPassword {
-          > p {
+          .passContent > p {
             color: $brx-white;
           }
         }
@@ -166,6 +169,14 @@
   }
 }
 
+// space for notification bar
+.saveActionOn {
+  .signUpContainer {
+    .slideUp {
+      padding-bottom: 74px;
+    }
+  }
+}
 
 
 /* .getStartedWrapper {
