@@ -46,18 +46,18 @@
         border-bottom-left-radius: $brd-radius-small;
         border-bottom-right-radius: $brd-radius-small;
 
+
+        button.resume {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          min-width: 182px;
+          text-transform: uppercase;
+          font-weight: 600;
+        }
+
         &.successNext {
           background: map_get($primaryColor, 700);
           .textSuccess {
-            /* @media (max-width: $responsive-medium) {
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 100%;
-              transform: translateY(-100%);
-              padding: $step $step * 2 0;
-              background: map_get($primaryColor, 700);
-            } */
           }
           .backBtn {
             opacity: .5;
@@ -147,6 +147,11 @@
             color: $brx-white;
           }
         }
+        .stengthPassword {
+          > p {
+            color: $brx-white;
+          }
+        }
       }
       .footerActionLogin {
         background: map_get($primaryColor, 700);
@@ -155,12 +160,6 @@
         @media (max-width: $responsive-medium) {
           margin-top: auto;
           margin-bottom: 0;
-        }
-
-        > div {
-          @media (max-width: $responsive-medium) {
-            flex-direction: column-reverse;
-          }
         }
       }
     }

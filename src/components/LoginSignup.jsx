@@ -186,7 +186,7 @@ const LoginSignup = (props) => {
           {
             loginPage === 'support' && (
               <div>
-                <h4 className="ta-c-md txtWhite pr-5 pr-md-0">You want to talk to us before? No propblem. We are here for you.</h4>
+                <h4 className="ta-c-md txtWhite pr-5 pr-md-0">You want to talk to us before? No problem. We are here for you.</h4>
                 <Support
                   isFixed={false}
                   expanded

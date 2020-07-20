@@ -484,11 +484,11 @@ const GetStarted = (props) => {
                 }
 
                 <BrixelButtonPrimary
-                  className={`mr-0 ml-0 noWrap w-perc-100 max-w-fix-160 ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''}`}
+                  className={`mr-0 ml-0 noWrap w-perc-100 max-w-fix-160 ${quest.history} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''}`}
                   disabled={!checkValidateField()}
                   rounded
-                  background={`${currentIndex === 5 ? 'blue' : 'green'}`}
-                  saturation={`${currentIndex === 5 ? '700' : '400'}`}
+                  background={`${quest.history === 'resume' ? 'blue' : 'green'}`}
+                  saturation={400}
                   label={buttonLabel()}
                   rightIcon="arrow-right-small"
                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
@@ -498,7 +498,7 @@ const GetStarted = (props) => {
           </div>
         </form>
       </div>
-      {/* aldjf */}
+      {/* signup flow */}
       {
         questions[currentIndex].effect === 'slideUp' && (
           <div className="signUpContainer">
