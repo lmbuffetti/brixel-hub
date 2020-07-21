@@ -17,8 +17,8 @@ export const BestimateQuestions = () => [
   {
     title: 'Step 1',
     extraInfo: 'We need some extra information about your property.',
-    history: 'bathrooms',
-    cardType: 'bathrooms',
+    history: 'step1',
+    cardType: 'step1',
     inputs: [
       {
         condition: [{
@@ -69,8 +69,8 @@ export const BestimateQuestions = () => [
     }],
     title: 'STEP 2',
     vCentered: true,
-    history: 'extraFeatures',
-    cardType: 'extraFeatures',
+    history: 'step2',
+    cardType: 'step2',
     inputs: [
       {
         component: BrixelInputStepNumber,
@@ -101,8 +101,8 @@ export const BestimateQuestions = () => [
     }],
     title: 'Which extra features do you have?',
     vCentered: true,
-    history: 'extraFeatures',
-    cardType: 'extraFeatures',
+    history: 'step3',
+    cardType: 'step3',
     inputs: [
       {
         component: BrixelExtraFeature,
@@ -122,7 +122,7 @@ export const BestimateQuestions = () => [
     title: 'Which extra features do you have?',
     vCentered: true,
     history: 'step3',
-    cardType: 'extraFeatures',
+    cardType: 'step3',
     inputs: [
       {
         component: BrixelCheckbox,

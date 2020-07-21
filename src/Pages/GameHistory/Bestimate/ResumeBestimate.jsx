@@ -48,7 +48,8 @@ function ResumeBestimate(props) {
         stateCode: activeSingleProperty.location.countryCode,
       };
       handleGetMarketCheck(data);
-    } else if (get(marketData, 'priceDistribution', null) && get(activeSingleProperty, 'location.countryCode', null) === 'PT') {
+    }
+    if (get(activeSingleProperty, 'location.countryCode', null) === 'PT') {
       history.push(`/${activeSingleProperty.id}/rewards/bestimate`);
     }
     if (get(activeSingleProperty, 'location.countryCode', null) === 'CH') handleGetEstimation(propID);
