@@ -140,7 +140,7 @@ const LoginSignup = (props) => {
                 <BrixelLogin company={company} formName="GetStarted" showErrors={showErrors} />
                 <p className="mt-1">
                   <a
-                    className="txtWhite td-u cur-poi"
+                    className="txtWhite td-u cur-poi link"
                     href={`${baseByData.loginBasePath}/recover`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -186,7 +186,7 @@ const LoginSignup = (props) => {
           {
             loginPage === 'support' && (
               <div>
-                <h4 className="ta-c-md txtWhite pr-5 pr-md-0">You want to talk to us before? No propblem. We are here for you.</h4>
+                <h4 className="ta-c-md txtWhite pr-5 pr-md-0">You want to talk to us before? No problem. We are here for you.</h4>
                 <Support
                   isFixed={false}
                   expanded
@@ -197,8 +197,8 @@ const LoginSignup = (props) => {
             )
           }
         </div>
-        <div className="footerActionLogin py-3 px-2 shadow-1dp-top">
-          <div className="dis-fl-col dis-fl-row-md a-c jc-b pos-r">
+        <div className="footerActionLogin p-2 p-md-3 shadow-1dp-top">
+          <div className="dis-f a-c jc-b pos-r">
             <BrixelButtonTertiary
               color="white"
               saturation={0}
@@ -207,14 +207,13 @@ const LoginSignup = (props) => {
               onClick={TertiaryButton().action}
             />
             <BrixelButtonPrimary
-              className="pos-a-md x-c pl-3 min-w-fix-144"
+              className="pl-3 min-w-fix-144"
               rounded
               rightIcon="arrow-right-small"
               background="green"
               label={PrimaryButton().label}
               onClick={PrimaryButton().action}
             />
-            <span />
           </div>
         </div>
       </div>

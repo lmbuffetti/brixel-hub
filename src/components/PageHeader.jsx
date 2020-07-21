@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
-import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
+// import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_color.svg';
 import Loadable from 'react-loadable';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
@@ -126,10 +126,10 @@ function PageHeader(props) {
   return (
     <>
       <header className={`flowHeader zIndex${zIndexHeader}`}>
-        <div className={`container dis-f a-c p-1 pt-2 p-md-2 jc-b pos-r zIndex4 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
+        <div className={`dis-f a-c dis-f a-c p-2 py-small-md-21 px-small-md-29 jc-b pos-r  jc-b pos-r ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
           <img
-            className={`logo dis-b ${history.location.pathname.includes('onBoarding') ? 'w-fix-86' : 'w-fix-40'}  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
-            src={history.location.pathname.includes('onBoarding') ? logoColor : logoNorm}
+            className={`logo dis-b w-fix-86  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
+            src={logoColor}
             alt="Brixel Logo"
             id="header-logo"
           />

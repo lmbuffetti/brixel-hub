@@ -1,3 +1,213 @@
+
+#bodyModalWrapper {
+  &.getStarted {
+    z-index: 1;
+    .bodyModal {
+      transition: background-image $default-time $default-easing;
+      background-size: 16%;
+
+      &.resume,
+      &.locationInput {
+        background-size: 450px;
+      }
+      @media (max-width: $responsive-small) {
+        background-image: none !important;
+      }
+
+      #multiStepForm {
+        &.interactive {
+          height: auto;
+          max-height: 100%;
+          position: relative;
+          margin-bottom: auto;
+          margin-top: auto;
+
+          @media (max-width: $responsive-small) {
+            min-height: 100%;
+          }
+
+          &:before,
+          .footerAction {
+            max-width: 640px;
+          }
+        }
+        .multiStepSlides {
+          .singleStep {
+            padding-top: 80px;
+            padding-bottom: 80px;
+
+            @media (max-width: $responsive-medium) {
+             padding-top: 40px;
+             padding-bottom: 40px;
+            }
+          }
+        }
+      }
+      .footerAction {
+        border-bottom-left-radius: $brd-radius-small;
+        border-bottom-right-radius: $brd-radius-small;
+
+
+        button.resume {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          min-width: 182px;
+          text-transform: uppercase;
+          font-weight: 600;
+        }
+
+        position: relative;
+        overflow-x: hidden;
+        padding-bottom: $step / 2;
+
+        @media (min-width: $responsive-small) {
+          padding-bottom: $step;
+        }
+
+        &::before {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          content: '';
+          top: 0;
+          left: 0;
+          transform: translateX(-100%);
+          background-color: map_get($primaryColor, 700);
+          transition: transform $default-time-long $default-easing;
+          opacity: 0;
+        }
+
+        &.successNext {
+          &::before {
+            transform: translateX(0);
+            left: 0;
+            opacity: 1;
+          }
+          .primaryBtn {
+            animation: scaleUp $default-time-long $default-easing;
+          }
+          .textSuccess {
+            animation: scaleUp $default-time-long $default-easing;
+          }
+          .backBtn {
+            opacity: .5;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+.signUpContainer {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #00000073;
+  z-index: 100;
+
+  .slideUp {
+    position: fixed;
+    left: 50%;
+    bottom: -50%;
+    transform: translate(-50%, 0);
+    transition: bottom $default-time-long $default-easing;
+    max-width: 640px;
+    background: map_get($primaryColor, 700);
+    width: 100%;
+    z-index: 100;
+    max-height: calc(100vh-90px);
+    opacity: 0;
+    overflow-y: auto;
+
+    @media (max-width: $responsive-small) {
+      height: 100%;
+    }
+
+    .h-perc-100 {
+      > div {
+        height: 100%;
+      }
+    }
+    &.slide-enter-down {
+      bottom: 0;
+      opacity: 1;
+    }
+
+    .bodyScrollUp {
+      padding-top: $step * 8;
+      height: 100%;
+      min-height: 440px;
+
+      @media (max-width: $responsive-medium) {
+        padding-top: $step * 4;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .onBoardingSignUp {
+        margin-bottom: $step * 5;
+
+        @media (max-width: $responsive-medium) {
+          padding-left: $step;
+          padding-right: $step;
+          margin-bottom: $step * 2;
+        }
+
+        label.brixel-label {
+          color: $brx-white;
+          margin-bottom: $step;
+        }
+        .brixel-checkbox {
+          padding: $step;
+          background: rgba(map_get($darkColor, 700), 0.5);
+          border-radius: $brd-radius-small;
+          margin-bottom: 8px;
+        }
+        .policyText {
+          color: $brx-white;
+          a {
+            color: $brx-white;
+            text-decoration: underline;
+          }
+        }
+        .link {
+          @include fontStyle(300);
+          &:hover {
+            color: $brx-white;
+          }
+        }
+        .stengthPassword {
+          .passContent > p {
+            color: $brx-white;
+          }
+        }
+      }
+      .footerActionLogin {
+        background: map_get($primaryColor, 700);
+        border-top: 1px solid rgba($brx-white, 0.2);
+
+        @media (max-width: $responsive-medium) {
+          margin-top: auto;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+// space for notification bar
+.saveActionOn {
+  .signUpContainer {
+    .slideUp {
+      padding-bottom: 74px;
+    }
+  }
+}
+
+
 /* .getStartedWrapper {
   #progressBar {
     position: fixed;

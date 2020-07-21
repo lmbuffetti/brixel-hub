@@ -390,9 +390,7 @@ const GetStarted = (props) => {
           className={`interactive dis-fl-col jc-b ${quest.background || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : 'ov-h'}`}
         >
           <div className="multiStepSlides">
-            <div
-              className={`singleStep pt-5 jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter'}`}
-            >
+            <div className={`singleStep pt-5 jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter'}`}>
               <div className="subcontainer m-a">
                 {
                   quest.inputs && (
@@ -422,44 +420,6 @@ const GetStarted = (props) => {
                         showSendButton
                       />
                     </div>
-                  )
-                }
-                {
-                  questions[currentIndex].effect === 'slideUp' && (
-                    <>
-                      {
-                        questions[currentIndex] && questions[currentIndex].inputs && (
-                          <div id={`step-${currentIndex}slideUp`} className={`dis-f flex-wrap brdRadiusTop slideUp ${isEnter ? 'slide-enter-down' : ''}`}>
-                            {
-                              questions[currentIndex].titleGreen && (
-                                <h3 className="txtGreen400 w-perc-100">{questions[currentIndex].titleGreen}</h3>
-                              )
-                            }
-                            {
-                              questions[currentIndex].title && (
-                                <h3 className={`${questions[currentIndex].subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{questions[currentIndex].title}</h3>
-                              )
-                            }
-                            {
-                              questions[currentIndex].subtitle && (
-                                <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }} />)
-                            }
-                            <MultiFileldsReduxForm
-                              className="h-perc-100"
-                              form="GetStarted"
-                              disableNextBtn={false}
-                              formValue={formValue}
-                              inputs={questions[currentIndex].inputs}
-                              onSubmit={() => changeStep()}
-                              onCloseGoBack={() => changeStep('back')}
-                              onClickDisabled={!checkValidateField()}
-                              showSendButton
-                              showErrors
-                            />
-                          </div>
-                        )
-                      }
-                    </>
                   )
                 }
                 {
@@ -500,21 +460,11 @@ const GetStarted = (props) => {
             className={`footerAction shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
             <div className="pos-r p-1 p-md-2">
-              <div className={`buttonsHolder w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-b'}`}>
-                {
-                  checkValidateField() && quest.successMessage && (
-                    <div
-                      className="txtWhite ta-r ml-a pr-1 textSuccess order-md-2 w-perc-flex-100 w-auto-md mb-1 mb-md-0"
-                    >
-                      {quest.successMessage}
-                      <BrixelIcon icon="check" className="ml-1" />
-                    </div>
-                  )
-                }
+              <div className={`buttonsHolder w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>
                 {
                   questions[currentIndex] && questions[currentIndex].inputs && currentIndex !== 6 && (
                     <BrixelButtonIcon
-                      className={`shadow-2dp backBtn ${currentIndex === 0 ? 'hide' : ''} order-md-1`}
+                      className={`shadow-2dp backBtn ml-0 mr-a ${currentIndex === 0 ? 'hide' : ''}`}
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
                       background="white"
@@ -525,11 +475,19 @@ const GetStarted = (props) => {
                     />
                   )
                 }
+                {
+                  checkValidateField() && quest.successMessage && (
+                    <div className="txtWhite pr-1 textSuccess ml-a mr-0">
+                      {/* {quest.successMessage}  */} Ok! <BrixelIcon icon="check" className="ml-1" />
+                    </div>
+                  )
+                }
+
                 <BrixelButtonPrimary
-                  className={`order-md-3 noWrap w-perc-100 max-w-fix-160 ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'} ml-a` : ''}`}
+                  className={`mr-0 ml-0 noWrap w-perc-100 max-w-fix-160 ${quest.history} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''}`}
                   disabled={!checkValidateField()}
                   rounded
-                  background="green"
+                  background={`${quest.history === 'resume' ? 'blue' : 'green'}`}
                   saturation={400}
                   label={buttonLabel()}
                   rightIcon="arrow-right-small"
@@ -540,6 +498,45 @@ const GetStarted = (props) => {
           </div>
         </form>
       </div>
+      {/* signup flow */}
+      {
+        questions[currentIndex].effect === 'slideUp' && (
+          <div className="signUpContainer">
+            {
+              questions[currentIndex] && questions[currentIndex].inputs && (
+                <div id={`step-${currentIndex}slideUp`} className={`dis-f flex-wrap brdRadiusTop slideUp ${isEnter ? 'slide-enter-down' : ''}`}>
+                  {
+                    questions[currentIndex].titleGreen && (
+                      <h3 className="txtGreen400 w-perc-100">{questions[currentIndex].titleGreen}</h3>
+                    )
+                  }
+                  {
+                    questions[currentIndex].title && (
+                      <h3 className={`${questions[currentIndex].subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{questions[currentIndex].title}</h3>
+                    )
+                  }
+                  {
+                    questions[currentIndex].subtitle && (
+                      <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }} />)
+                  }
+                  <MultiFileldsReduxForm
+                    className="h-perc-100"
+                    form="GetStarted"
+                    disableNextBtn={false}
+                    formValue={formValue}
+                    inputs={questions[currentIndex].inputs}
+                    onSubmit={() => changeStep()}
+                    onCloseGoBack={() => changeStep('back')}
+                    onClickDisabled={!checkValidateField()}
+                    showSendButton
+                    showErrors
+                  />
+                </div>
+              )
+            }
+          </div>
+        )
+      }
     </div>
   );
 };
