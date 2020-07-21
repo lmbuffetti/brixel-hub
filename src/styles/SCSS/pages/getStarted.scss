@@ -47,7 +47,6 @@
         border-bottom-left-radius: $brd-radius-small;
         border-bottom-right-radius: $brd-radius-small;
 
-
         button.resume {
           padding-top: 12px;
           padding-bottom: 12px;
@@ -57,11 +56,11 @@
         }
 
         position: relative;
-        overflow-x: hidden;
-        padding-bottom: $step / 2;
+        overflow: hidden;
+        padding-bottom: 6px;
 
         @media (min-width: $responsive-small) {
-          padding-bottom: $step;
+          padding-bottom: 12px;
         }
 
         &::before {
@@ -84,13 +83,27 @@
             opacity: 1;
           }
           .primaryBtn {
-            animation: scaleUp $default-time-long $default-easing;
+            animation: popsUp1 500ms $default-easing;
           }
           .textSuccess {
-            animation: scaleUp $default-time-long $default-easing;
+            animation: popsUp2 500ms $default-easing;
           }
           .backBtn {
-            opacity: .5;
+            opacity: 0.5;
+          }
+          @keyframes popsUp1 {
+            0%, 50% {
+              opacity: 0;
+            } 100% {
+              opacity: 1;
+            }
+          }
+          @keyframes popsUp2 {
+            0%, 80% {
+              opacity: 0;
+            } 100% {
+              opacity: 1;
+            }
           }
         }
       }
