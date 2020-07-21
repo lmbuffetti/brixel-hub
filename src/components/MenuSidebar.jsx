@@ -92,7 +92,6 @@ const MenuSidebar = (props) => {
 
   // FUNCTION TO SHOW/HIDE THE SUPPORT MENU (history.push({state: {showSupport: true}}))
   useEffect(() => {
-    console.log(history);
     if (get(history, 'location.state.showSupport', null) === true) {
       onTabClick('support');
     }

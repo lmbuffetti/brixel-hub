@@ -74,12 +74,14 @@ const Bestimate = (props) => {
     setIsEnter(true);
     if (questions[currentIndex].history && loaded) {
       const redo = get(history, 'location.state.redo', false);
-      history.push({
-        pathname: `/${propID}/rewards/achievement/${getAchievement()}/${questions[currentIndex].history}`,
-        state: {
-          redo,
-        },
-      });
+      if (getAchievement()) {
+        history.push({
+          pathname: `/${propID}/rewards/achievement/${getAchievement()}/${questions[currentIndex].history}`,
+          state: {
+            redo,
+          },
+        });
+      }
     }
   }, [currentIndex, loaded]);
 
@@ -98,6 +100,7 @@ const Bestimate = (props) => {
     const data = {
       id: propID,
       properties: get(formValue, 'properties', {}),
+      // redirectTo: `/${propID}/rewards/${getAchievement()}`,
     };
     handleSaveActiveSingleProperty(data);
     handleAddGameHistory({ stub: getAchievement() });
@@ -127,10 +130,8 @@ const Bestimate = (props) => {
       const newQuest = [];
       let numQuest = 0;
       BestimateQuestions().map((questData) => {
-        console.log(questData);
         if (questData.condition) {
           let isValid = true;
-          console.log(questData.condition);
           questData.condition.map((item) => {
             if (get(formValue, item.name, null) !== item.value) {
               isValid = false;

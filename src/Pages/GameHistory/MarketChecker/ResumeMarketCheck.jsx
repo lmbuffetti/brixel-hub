@@ -45,7 +45,6 @@ function ResumeMarketCheck(props) {
         maxLivingSpace: +livingSpace + percLivingSpace,
         stateCode: activeSingleProperty.location.countryCode,
       };
-      console.log(data);
       handleGetMarketData(data);
     }
   }, [activeSingleProperty]);
