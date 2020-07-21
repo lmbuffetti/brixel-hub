@@ -51,7 +51,7 @@ function ResumeBestimate(props) {
     } else if (get(marketData, 'priceDistribution', null) && get(activeSingleProperty, 'location.countryCode', null) === 'PT') {
       history.push(`/${activeSingleProperty.id}/rewards/bestimate`);
     }
-    handleGetEstimation(propID);
+    if (get(activeSingleProperty, 'location.countryCode', null) === 'CH') handleGetEstimation(propID);
   }, [activeSingleProperty, marketData]);
 
   // LOAD THE ESTIMATION
