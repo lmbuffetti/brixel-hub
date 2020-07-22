@@ -146,7 +146,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       inputs: [
         {
           className: 'pos-r zIndex6',
-          classNameBox: 'max-w-perc-65 pr-1',
+          classNameBox: 'max-w-perc-65',
           component: BrixelSelect,
           label: 'Country',
           name: 'location.countryCode',

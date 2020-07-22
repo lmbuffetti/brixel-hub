@@ -47,12 +47,17 @@
         border-bottom-left-radius: $brd-radius-small;
         border-bottom-right-radius: $brd-radius-small;
 
-        button.resume {
+        .primaryBtn.resume {
           padding-top: 12px;
           padding-bottom: 12px;
           min-width: 182px;
           text-transform: uppercase;
-          font-weight: 600;
+        }
+
+        .primaryBtn {
+          > span {
+            text-transform: uppercase;
+          }
         }
 
         position: relative;
@@ -188,6 +193,8 @@
         }
         .link {
           @include fontStyle(300);
+          &:visited,
+          &:active,
           &:hover {
             color: $brx-white;
           }
@@ -201,6 +208,10 @@
       .footerActionLogin {
         background: map_get($primaryColor, 700);
         border-top: 1px solid rgba($brx-white, 0.2);
+
+        .primaryBtn > span {
+          text-transform: uppercase;
+        }
 
         @media (max-width: $responsive-medium) {
           margin-top: auto;

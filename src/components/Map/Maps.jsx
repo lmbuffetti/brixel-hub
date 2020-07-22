@@ -313,7 +313,7 @@ export const ComponentMap = (props) => {
         multipleFieldSearch && (
           <div className="fieldMapSearch mb-5">
             <div className="dis-f jc-b flex-wrap">
-              <div className="w-perc-65 pr-1 pos-r">
+              <div className="w-perc-65 pos-r">
                 <BrixelInputText
                   className="search-box"
                   type="text"
@@ -350,7 +350,7 @@ export const ComponentMap = (props) => {
                   )
                 }
               </div>
-              <div className="w-perc-35 pl-1">
+              <div className="w-perc-35 pl-2">
                 <BrixelInputText
                   className="search-box"
                   type="text"
