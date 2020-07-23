@@ -3,13 +3,12 @@
   &.getStarted {
     z-index: 1;
     .bodyModal {
-      transition: background-image $default-time $default-easing;
-      background-size: 16%;
-
-      &.resume,
+      transition: all $default-loader-time $default-easing;
+      //will-change: background-image, opacity;
+      /* &.resume,
       &.locationInput {
         background-size: 450px;
-      }
+      } */
       @media (max-width: $responsive-small) {
         background-image: none !important;
       }
@@ -31,7 +30,7 @@
           }
         }
         .multiStepSlides {
-          height: auto;
+          height: calc(100% - 72px);
           max-height: inherit;
 
           @media (max-width: $responsive-medium) {
@@ -62,7 +61,7 @@
         }
 
         .primaryBtn {
-          transition: background-color 450ms ease;
+          transition: background-color $default-loader-time ease;
         }
 
         position: relative;
@@ -100,7 +99,7 @@
             opacity: 1;
           }
           .textSuccess {
-            animation: popsUp2 400ms $default-easing;
+            animation: popsUp2 $default-loader-time $default-easing;
           }
           .backBtn {
             opacity: 0.5;
