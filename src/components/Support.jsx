@@ -72,11 +72,12 @@ const Support = (props) => {
             <div className="ta-c max-w-fix-376 m-a">
               <h5 className="ta-c mt-3 mb-2">Let us give you some free advice.</h5>
               <p className="ta-c fsize-300 txtDark200">What is the right selling price? When is the right time to start? How long does it take?</p>
+              <h5 className="txtDark700 mt-3">{companyLegalName}</h5>
             </div>
           )
         }
         <div
-          className={`dis-f a-c ${layout === 'rewards' ? 'jc-c my-5' : 'mt-3 jc-b '} ${expanded ? '' : 'cur-poi'}`}
+          className={`dis-f a-c ${layout === 'rewards' ? 'jc-c mt-2 mb-5' : 'mt-3 jc-b '} ${expanded ? '' : 'cur-poi'}`}
           onClick={() => (expanded ? '' : onclickOne())}
         >
           {
