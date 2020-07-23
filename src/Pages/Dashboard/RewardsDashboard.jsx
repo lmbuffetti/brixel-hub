@@ -66,7 +66,7 @@ const RewardsDashboard = (props) => {
   useEffect(() => {
     let getNameGroup = localStorage.getItem('gameGroup') || null;
     if (windowDimensions && windowDimensions.width > 1024 && rewardType === 'rewards' && usrGroups) {
-      if (!getNameGroup && gameHistory) {
+      if (!getNameGroup && gameHistory && gameHistory.data) {
         usrGroups.forEach((groups) => {
           if (groups.stub.includes(userTypes)) {
             groups.achievements.forEach((group) => {
