@@ -300,6 +300,7 @@ const Photos = (props) => {
           get(activeSingleProperty, 'servicePackages', []).length === 0 && (
             <BrixelUpgradeMessage
               className="mt-3"
+              unlockFunction={false}
               title="Do you want professional photos?"
               description="Hight quality photos and much more is part of Brixel Premium."
             />

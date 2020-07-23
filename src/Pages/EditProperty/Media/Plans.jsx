@@ -278,6 +278,7 @@ const Photos = (props) => {
             <BrixelUpgradeMessage
               className="mt-3"
               title="You don’t have a plan?"
+              unlockFunction={false}
               description="Accurate floor plans and much more is part of Brixel Premium."
             />
           )

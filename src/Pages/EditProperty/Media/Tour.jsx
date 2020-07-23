@@ -96,9 +96,8 @@ const Tour = (props) => {
           ) : (
             <BrixelUpgradeMessage
               className="tourTeaser h-perc-100"
-              showClose
-              onClose={() => history.push(`/${propID}/property`)}
               title="Get your own 3D tour"
+              unlockFunction={false}
               virtualTour="https://my.matterport.com/show/?m=ctWod3ggrZi&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0"
               description="3D tour and much more is part of Brixel Premium."
             />
