@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm,
@@ -58,6 +58,9 @@ const GetStarted = (props) => {
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
+
+  const singleStepRef = useRef(null);
+  const multiStepSlidesRef = useRef(null);
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
@@ -139,7 +142,10 @@ const GetStarted = (props) => {
     }
     return newIndex;
   };
-  const singleStepEl = document.getElementsByClassName('singleStep')[0];
+
+  const singleStepEl = singleStepRef.current;
+  const multiStepSlidesEl = multiStepSlidesRef.current;
+
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e) => {
     if (e) e.preventDefault();
@@ -188,6 +194,7 @@ const GetStarted = (props) => {
       const getOnlyQuest = questions.filter((item) => item.inputs);
       setProgressBar((defId * 100) / getOnlyQuest.length);
       if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+      if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -392,8 +399,8 @@ const GetStarted = (props) => {
           className={`interactive dis-fl-col jc-b ${quest.background || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : 'ov-h'}`}
           onSubmit={(e) => changeStep(null, e)}
         >
-          <div className="multiStepSlides">
-            <div className={`singleStep pt-5 jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter'}`}>
+          <div ref={multiStepSlidesRef} className="multiStepSlides">
+            <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter'}`}>
               <div className="subcontainer m-a">
                 {
                   quest.inputs && (

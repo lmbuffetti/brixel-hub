@@ -94,6 +94,10 @@
         display: flex;
         overflow-y: auto;
 
+        @media (max-width: $responsive-medium) {
+          max-height: calc(100% - 54px);
+        }
+
         .singleStep {
           height: 100%;
           overflow-y: auto;

@@ -199,13 +199,12 @@ const LoginSignup = (props) => {
         </div>
         <div className="footerActionLogin p-2 p-md-3 shadow-1dp-top">
           <div className="dis-f a-c jc-b pos-r">
-            <BrixelButtonTertiary
-              color="white"
-              saturation={0}
-              className="td-u mt-1 mt-md-0"
-              label={TertiaryButton().label}
+            <span
+              className="txtWhite cur-poi dis-b td-u mt-1 mt-md-0"
               onClick={TertiaryButton().action}
-            />
+            >
+              {TertiaryButton().label}
+            </span>
             <BrixelButtonPrimary
               rounded
               rightIcon="arrow-right-small"
