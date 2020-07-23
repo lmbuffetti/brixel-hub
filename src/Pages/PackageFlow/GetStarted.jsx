@@ -139,7 +139,7 @@ const GetStarted = (props) => {
     }
     return newIndex;
   };
-
+  const singleStepEl = document.getElementsByClassName('singleStep')[0];
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act) => {
     let newIndex = currentIndex;
@@ -186,6 +186,7 @@ const GetStarted = (props) => {
       }
       const getOnlyQuest = questions.filter((item) => item.inputs);
       setProgressBar((defId * 100) / getOnlyQuest.length);
+      if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
