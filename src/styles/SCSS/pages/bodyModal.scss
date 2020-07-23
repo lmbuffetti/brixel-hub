@@ -17,6 +17,13 @@
     top: 0;
   }
 
+  &:not(.getStarted) {
+    .bodyModal {
+      max-height: calc(100% - #{$step * 2});
+      top: $step * 2;
+    }
+  }
+
   .bodyModal {
     display: flex;
     flex-direction: column;
