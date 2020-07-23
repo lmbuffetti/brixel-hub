@@ -55,17 +55,22 @@
         }
 
         .primaryBtn {
-          [class^="icon-"] {
-            font-size: 24px;
-          }
+          transition: background-color 450ms ease;
         }
 
         position: relative;
         overflow: hidden;
-        padding-bottom: 6px;
+
+        @media screen and (-webkit-min-device-pixel-ratio:0)
+          and (min-resolution:.001dpcm) {
+            padding-bottom: 6px;
+        }
 
         @media (min-width: $responsive-small) {
-          padding-bottom: 12px;
+          @media screen and (-webkit-min-device-pixel-ratio:0)
+            and (min-resolution:.001dpcm) {
+            padding-bottom: 12px;
+          }
         }
 
         &::before {
@@ -87,24 +92,14 @@
             left: 0;
             opacity: 1;
           }
-          .primaryBtn {
-            animation: popsUp1 500ms $default-easing;
-          }
           .textSuccess {
-            animation: popsUp2 500ms $default-easing;
+            animation: popsUp2 400ms $default-easing;
           }
           .backBtn {
             opacity: 0.5;
           }
-          @keyframes popsUp1 {
-            0%, 50% {
-              opacity: 0;
-            } 100% {
-              opacity: 1;
-            }
-          }
           @keyframes popsUp2 {
-            0%, 80% {
+            0%, 50% {
               opacity: 0;
             } 100% {
               opacity: 1;
