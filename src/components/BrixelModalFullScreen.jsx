@@ -64,7 +64,7 @@ const BrixelModalFullScreen = (props) => {
             <div className="pos-r">
               <div className="w-perc-100 a-c dis-fl-row jc-b m-a jc-c">
                 <BrixelButtonPrimary
-                  className="noWrap w-perc-100 max-w-fix-160"
+                  className="noWrap"
                   rounded
                   background="primary"
                   saturation={400}

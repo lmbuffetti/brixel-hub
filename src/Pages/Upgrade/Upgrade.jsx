@@ -238,7 +238,7 @@ const Upgrade = (props) => {
                   )
                 }
                 <BrixelButtonPrimary
-                  className="noWrap w-perc-100 max-w-fix-160"
+                  className="noWrap"
                   disabled={!checkValidateField()}
                   rounded
                   background={questions[currentIndex - 1] ? 'primary' : 'red'}

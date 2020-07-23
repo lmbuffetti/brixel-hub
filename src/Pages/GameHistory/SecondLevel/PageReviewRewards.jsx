@@ -93,7 +93,7 @@ const PageReviewRewards = (props) => {
                 label="Open preview"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="m-a"
                 onClick={() => openPreview(false)}
               />
             </div>
@@ -151,7 +151,7 @@ const PageReviewRewards = (props) => {
                 label="Open preview"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="m-a"
                 onClick={() => openPreview(true)}
                 isLoading={isSmallLoading === 'preview'}
               />

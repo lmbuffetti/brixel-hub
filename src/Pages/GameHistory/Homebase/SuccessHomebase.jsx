@@ -63,7 +63,7 @@ function SuccessHomebase(props) {
       <div className="dis-fl-col">
         <BrixelButtonPrimary
           rounded
-          className="mb-2 min-w-fix-208"
+          className="mb-2"
           label="Edit property facts"
           rightIcon="arrow-right"
           onClick={() => history.push(`/${propID}/property/facts`)}

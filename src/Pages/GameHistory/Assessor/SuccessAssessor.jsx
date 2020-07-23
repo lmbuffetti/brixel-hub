@@ -83,7 +83,7 @@ function SuccessAssessor(props) {
                             rounded
                             label="See full report"
                             background="primary"
-                            className="m-a mb-2 min-w-fix-208"
+                            className="m-a mb-2"
                             onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                             rightIcon="arrow-right"
                           />
@@ -121,7 +121,7 @@ function SuccessAssessor(props) {
                 rounded
                 label="Assess condition"
                 background="primary"
-                className="min-w-fix-208 m-a"
+                className="m-a"
                 onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                 rightIcon="arrow-right"
               />

@@ -59,10 +59,10 @@ const BrixelUpgradeMessage = (props) => {
           <div className="bgPrimary100">
             <h5 className="txtPrimary700 mb-3">{titleConfirm}</h5>
             <p className="max-w-fix-280 m-a txtDark700" dangerouslySetInnerHTML={{ __html: descriptionConfirm }} />
-            <div className="dis-f jc-b mt-3">
+            <div className="dis-f jc-c mt-3">
               <BrixelButtonPrimary
                 rounded
-                className="mr-1 w-perc-100 shadow-3dp"
+                className="mr-1"
                 label="Cancel"
                 background="white"
                 saturation={0}
@@ -72,7 +72,7 @@ const BrixelUpgradeMessage = (props) => {
               />
               <BrixelButtonPrimary
                 rounded
-                className="ml-1 w-perc-100"
+                className="ml-1"
                 label="Order now"
                 background="primary"
                 isLoading={isSmallLoading !== null}
@@ -134,7 +134,7 @@ const BrixelUpgradeMessage = (props) => {
             }
             <BrixelButtonPrimary
               rounded
-              className="m-a min-w-fix-176"
+              className="m-a"
               label={unlockFunction ? 'Unlock now' : 'Upgrade now'}
               background="red"
               saturation={400}

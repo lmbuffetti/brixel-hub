@@ -55,8 +55,8 @@
         }
 
         .primaryBtn {
-          > span {
-            text-transform: uppercase;
+          [class^="icon-"] {
+            font-size: 24px;
           }
         }
 

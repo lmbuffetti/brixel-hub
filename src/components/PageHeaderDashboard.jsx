@@ -207,7 +207,7 @@ function PageHeaderDashboard(props) {
               {
                 propID && windowDimensions.width > 1024 && (
                   <BrixelButtonSecondary
-                    className="hide dis-f-md min-h-fix-32 max-h-fix-32 p-0 px-1 min-w-fix-96 brdMedium mx-3"
+                    className="hide dis-f-md p-0 px-1 brdMedium mx-3"
                     label="Upgrade"
                     color="red"
                     rounded
@@ -299,7 +299,7 @@ function PageHeaderDashboard(props) {
                         <hr className="my-4" />
                         <div>
                           <BrixelButtonSecondary
-                            className="min-h-fix-32 max-h-fix-32 p-0 px-1 min-w-fix-96 brdMedium"
+                            className=" p-0 px-1 brdMedium"
                             label="Upgrade"
                             color="red"
                             rounded

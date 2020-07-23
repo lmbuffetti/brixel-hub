@@ -127,7 +127,7 @@ function MediaExplanation(props) {
                     rounded
                     label={currentIndex === Questions.length - 1 ? 'Finish' : 'Ok, next'}
                     background="primary"
-                    className="max-w-fix-280 min-w-fix-200"
+                    className=""
                     onClick={() => onClickNextBtn()}
                     rightIcon="arrow-right-small"
                   />

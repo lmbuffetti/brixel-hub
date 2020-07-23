@@ -89,7 +89,7 @@ const Page = (props) => {
                 {
                   formValue.published ? (
                     <BrixelButtonPrimary
-                      className="shadow-3dp"
+                      className=""
                       leftIcon="eye"
                       label="Live view"
                       rounded
@@ -97,7 +97,7 @@ const Page = (props) => {
                     />
                   ) : (
                     <BrixelButtonPrimary
-                      className="shadow-3dp"
+                      className=""
                       leftIcon="eye"
                       label="Preview"
                       rounded

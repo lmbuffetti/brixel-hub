@@ -184,13 +184,13 @@ const Showings = (props) => {
             color="dark"
             saturationTxt={400}
             rounded
-            className="shadow-3dp w-perc-100 mr-1"
+            className="shadow-3dp mr-1"
             onClick={() => history.push(`/${propID}/listings/showings`)}
           />
           <BrixelButtonPrimary
             label="Save"
             background="primary"
-            className="shadow-3dp w-perc-100 ml-1"
+            className="shadow-3dp ml-1"
             saturation={400}
             rounded
             onClick={() => saveData()}

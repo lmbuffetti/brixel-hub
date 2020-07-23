@@ -484,7 +484,7 @@ const GetStarted = (props) => {
                 }
 
                 <BrixelButtonPrimary
-                  className={`mr-0 ml-0 noWrap w-perc-100 max-w-fix-160 ${quest.history} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''}`}
+                  className={`mr-0 ml-0 noWrap ${quest.history} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''}`}
                   disabled={!checkValidateField()}
                   rounded
                   background={`${quest.history === 'resume' ? 'blue' : 'green'}`}

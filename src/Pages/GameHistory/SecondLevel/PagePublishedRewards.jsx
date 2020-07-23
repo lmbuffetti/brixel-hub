@@ -55,7 +55,7 @@ const PagePublishedRewards = (props) => {
                 label="Manage Page"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="m-a"
                 onClick={() => openPreview(false)}
               />
             </div>
@@ -77,7 +77,7 @@ const PagePublishedRewards = (props) => {
                 label="Manage Page"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="m-a"
                 onClick={() => openPreview(false)}
               />
             </div>
@@ -99,7 +99,7 @@ const PagePublishedRewards = (props) => {
                 label="Manage Page"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="m-a"
                 onClick={() => openPreview(false)}
               />
             </div>

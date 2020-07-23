@@ -44,7 +44,7 @@ const MediaRewards = (props) => {
                 label="Show me"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="m-a"
                 onClick={() => history.push(`/${propID}/rewards/achievement/media`)}
               />
             </div>

@@ -169,7 +169,7 @@ const Portals = (props) => {
                             <p className="txtDark200">You want to remove your property form all portals?</p>
 
                             <BrixelButtonPrimary
-                              className="m-a mt-3 min-w-fix-176"
+                              className="m-a mt-3"
                               label="Unpublish now"
                               background="dark"
                               rounded

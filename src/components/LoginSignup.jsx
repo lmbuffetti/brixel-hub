@@ -207,7 +207,6 @@ const LoginSignup = (props) => {
               onClick={TertiaryButton().action}
             />
             <BrixelButtonPrimary
-              className="pl-3 min-w-fix-144"
               rounded
               rightIcon="arrow-right-small"
               background="green"

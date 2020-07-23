@@ -276,7 +276,7 @@ const Assessor = (props) => {
                 {
                   buttonLabel().toLowerCase() === 'skip' ? (
                     <BrixelButtonTertiary
-                      className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                      className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
                       saturation={400}
                       color="light"
@@ -286,7 +286,7 @@ const Assessor = (props) => {
                     />
                   ) : (
                     <BrixelButtonPrimary
-                      className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                      className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
                       rounded
                       background="primary"
