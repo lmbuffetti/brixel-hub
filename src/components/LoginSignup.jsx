@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { change } from 'redux-form';
 import {
-  BrixelButtonIcon, BrixelLogin, BrixelRegister, BrixelButtonPrimary, BrixelButtonTertiary,
+  BrixelButtonIcon, BrixelLogin, BrixelRegister, BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { compose } from 'redux';
