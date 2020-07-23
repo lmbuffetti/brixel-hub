@@ -141,7 +141,8 @@ const GetStarted = (props) => {
   };
 
   // FUNCTION TO GO TO NEXT STEP
-  const changeStep = (act) => {
+  const changeStep = (act, e) => {
+    if (e) e.preventDefault();
     let newIndex = currentIndex;
     if (act === 'back') {
       newIndex -= 1;
@@ -388,6 +389,7 @@ const GetStarted = (props) => {
           id="multiStepForm"
           autoComplete="off"
           className={`interactive dis-fl-col jc-b ${quest.background || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : 'ov-h'}`}
+          onSubmit={(e) => changeStep(null, e)}
         >
           <div className="multiStepSlides">
             <div className={`singleStep pt-5 jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter'}`}>
