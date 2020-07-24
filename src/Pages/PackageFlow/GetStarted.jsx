@@ -389,10 +389,17 @@ const GetStarted = (props) => {
           />
         )
       }
+      {/* preload all background images */}
+      {
+        questions.map((questStep, i) => (
+          <div className="hide" key={i.toString()} style={{ backgroundImage: `url(${questStep.bgImg})` }} />
+        ))
+      }
       <div
         className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : 'ov-h'} ${quest.history}`}
         style={{ backgroundImage: `url(${quest.bgImg})` }}
       >
+
         <form
           id="multiStepForm"
           autoComplete="off"
