@@ -8,7 +8,7 @@ import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, Helpers } from '@brixel/brixel-components';
 import { getGamegroup } from '../../../actions/GamificationActions';
 import newBestimate from '../../../images/Bestimate/newBestimate.svg';
 import startBestimate from '../../../images/Bestimate/startBestimate.svg';
@@ -100,7 +100,7 @@ function SuccessBestimate(props) {
                           get(marketData, 'priceDistribution.chartRangePrice', null) !== null ? (
                             <>
                               {
-                                get(activeSingleProperty, 'location.countryCode', null) === 'CH' ? (
+                                get(activeSingleProperty, 'estimation.bestimate.lowerValue', null) ? (
                                   <>
                                     <div className="dis-fl-col jc-c a-c">
                                       <h5 className="ta-c max-w-fix-376 mb-2">Your estimated value</h5>
@@ -123,8 +123,8 @@ function SuccessBestimate(props) {
                                         <div className="ta-l m-a w-fit">
                                           <p className="fsize-100 txtDark200">Worth up to</p>
                                           <h5 className="ff-mono txtBlue700 fweight-700">
-                                            <span>{bestimate.currency}</span>&nbsp;
-                                            <span>{bestimateValue.toLocaleString('de-CH')}</span>
+                                            <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>&nbsp;
+                                            <span>{Helpers.formatNumberValue(bestimateValue, get(activeSingleProperty, 'price.currency', 'CHF'))}</span>
                                           </h5>
                                         </div>
                                       </div>
