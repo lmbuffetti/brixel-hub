@@ -3,7 +3,7 @@
   &.getStarted {
     z-index: 1;
     .bodyModal {
-      transition: all $default-loader-time $default-easing;
+     // transition: all $default-loader-time $default-easing;
       //will-change: background-image, opacity;
 
       /* &.resume,
@@ -23,16 +23,14 @@
           height: 100%;
           width: 100%;
           left: 100%;
-          transition: all $default-loader-time $default-easing;
+          transition: left $default-loader-time ease-in-out;
           position: relative;
-          opacity: 0;
+
           &.prev {
-            left: -50%;
-            opacity: 0.5;
+            left: -100%;
           }
           &.active {
             left: 0;
-            opacity: 1;
           }
         }
       }
