@@ -5,6 +5,7 @@
     .bodyModal {
       transition: all $default-loader-time $default-easing;
       //will-change: background-image, opacity;
+
       /* &.resume,
       &.locationInput {
         background-size: 450px;
@@ -12,6 +13,30 @@
       @media (max-width: $responsive-small) {
         background-image: none !important;
       }
+
+      .slideBg {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+
+        > div {
+          height: 100%;
+          width: 100%;
+          left: 100%;
+          transition: all $default-loader-time $default-easing;
+          position: relative;
+          opacity: 0;
+          &.prev {
+            left: -50%;
+            opacity: 0.5;
+          }
+          &.active {
+            left: 0;
+            opacity: 1;
+          }
+        }
+      }
+
 
       #multiStepForm {
         &.interactive {
