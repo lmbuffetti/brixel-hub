@@ -18,6 +18,11 @@
         position: absolute;
         height: 100%;
         width: 100%;
+        overflow: hidden;
+
+        @media (max-width: $responsive-small) {
+          display: none;
+        }
 
         > div {
           height: 100%;
@@ -52,13 +57,19 @@
             max-width: 640px;
           }
         }
+        &.signUp {
+          .multiStepSlides,
+          .singleStep {
+            overflow: hidden;
+          }
+        }
         .multiStepSlides {
           height: calc(100% - 72px);
           max-height: inherit;
 
           @media (max-width: $responsive-medium) {
             height: 100%;
-            max-height: calc(100% - 54px);
+            max-height: calc(100% - 53px);
           }
           .singleStep {
             padding-top: 80px;
@@ -155,19 +166,19 @@
     bottom: -50%;
     transform: translate(-50%, 0);
     transition: bottom $default-time-long $default-easing;
-    max-width: 640px;
-    background: map_get($primaryColor, 700);
     width: 100%;
     z-index: 100;
-    max-height: calc(100vh-90px);
+    max-height: 100%;
     opacity: 0;
     overflow-y: auto;
 
-    @media (max-width: $responsive-small) {
-      height: 100%;
-    }
+    > div {
+      max-width: 640px;
+      margin: 0 auto;
+      background: map_get($primaryColor, 700);
+      border-top-left-radius: $brd-radius-small;
+      border-top-right-radius: $brd-radius-small;
 
-    .h-perc-100 {
       > div {
         height: 100%;
       }

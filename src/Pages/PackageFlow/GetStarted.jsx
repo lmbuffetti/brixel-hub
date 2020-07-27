@@ -397,12 +397,19 @@ const GetStarted = (props) => {
         {/* preload all background images */}
         {
           questions.map((questStep, i) => (
-            <div className="slideBg" key={i.toString()}>
-              <div
-                className={`${currentIndex === i ? 'active' : ''} ${i < currentIndex ? 'prev' : ''}`}
-                style={{ backgroundImage: `url(${questStep.bgImg})` }}
-              />
-            </div>
+            <>
+              {
+                i <= 5 && (
+                  <div className="slideBg" key={i.toString()}>
+                    <div
+                      // eslint-disable-next-line no-nested-ternary
+                      className={`${i === currentIndex ? 'active' : currentIndex > 5 && i === 5 ? 'active' : ''} ${i < currentIndex && i <= 4 ? 'prev' : ''}`}
+                      style={{ backgroundImage: `url(${questStep.bgImg})` }}
+                    />
+                  </div>
+                )
+              }
+            </>
           ))
         }
         <form
