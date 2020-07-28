@@ -446,6 +446,7 @@ const GetStarted = (props) => {
                         onClick={() => changeStep()}
                         onCloseGoBack={() => changeStep('back')}
                         onClickDisabled={!checkValidateField()}
+                        onSubmit={() => changeStep()}
                         showSendButton
                       />
                     </div>

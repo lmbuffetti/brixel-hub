@@ -37,6 +37,7 @@ export const ComponentMap = (props) => {
     latitude,
     longitude,
     multipleFieldSearch,
+    onSubmit,
     showMessageToChangeAddress,
     selCountry,
     showMap,
@@ -195,6 +196,8 @@ export const ComponentMap = (props) => {
           handleUpdateCountry(newListcountry);
         }
         setSelectedAddress(true);
+        const getWrapStreetNumber = document.getElementsByClassName('streetNumber')[0];
+        getWrapStreetNumber.querySelector('input').focus();
         // changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
         // changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
         // changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
@@ -352,12 +355,13 @@ export const ComponentMap = (props) => {
               </div>
               <div className="w-perc-35 pl-2">
                 <BrixelInputText
-                  className="search-box"
+                  className="search-box streetNumber"
                   type="text"
                   disabled={disabled}
                   ref={inputSearch}
                   label="Street Number"
                   placeholder=""
+                  onKeyDown={(e) => (e.keyCode === 13 ? onSubmit() : '')}
                   input={{
                     onChange: (e) => changeStreetNumber(e),
                     onBlur: () => '',

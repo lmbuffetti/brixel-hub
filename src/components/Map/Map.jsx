@@ -337,7 +337,6 @@ export const ComponentMap = (props) => {
 };
 
 ComponentMap.propTypes = {
-  changeFieldValue: PropTypes.func.isRequired,
   curCountry: PropTypes.object,
   disableZoom: PropTypes.bool,
   draggable: PropTypes.bool,
