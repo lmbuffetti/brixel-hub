@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
+import { BrixelDropdown, BrixelModal, BrixelIcon } from '@brixel/brixel-components';
 // import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_color.svg';
 import Loadable from 'react-loadable';
@@ -19,6 +19,7 @@ import { getGameHistory } from '../actions/GamificationActions';
 import { translateTo } from '../utils/translation';
 import awards from '../images/BrxielComingTown/awards.svg';
 import brixels from '../images/BrxielComingTown/brixels.svg';
+import CallUsImg from '../images/Support/call_us.svg';
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -39,6 +40,7 @@ function PageHeader(props) {
   const [widthScreen, setWidthScreen] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [zIndexHeader, setZIndexHeader] = useState(11);
+  const [supportPhone, setSupportPhone] = useState('');
 
   // FUNCTION TO CHECK IF USER IS LOGGED IN
   useEffect(() => {
@@ -122,17 +124,33 @@ function PageHeader(props) {
     history.push(link);
     setShowMobileMenu(false);
   };
+  useEffect(() => {
+    switch (lang) {
+      case 'pt':
+        return setSupportPhone('+351 910 068 211');
+      default:
+        return setSupportPhone('+41 445 525 730');
+    }
+  }, [lang]);
 
   return (
     <>
       <header className={`flowHeader zIndex${zIndexHeader}`}>
-        <div className={`dis-f a-c dis-f a-c p-2 py-small-md-21 px-small-md-29 jc-b pos-r  jc-b pos-r ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
-          <img
-            className={`logo dis-b w-fix-86  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
-            src={logoColor}
-            alt="Brixel Logo"
-            id="header-logo"
-          />
+        <div className={`dis-f a-c dis-f a-c p-2 py-small-md-21 px-small-md-29 jc-b pos-r jc-b pos-r ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
+          <div className="dis-f jc-c a-c">
+            <img
+              className={`logo dis-b w-fix-86  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
+              src={logoColor}
+              alt="Brixel Logo"
+              id="header-logo"
+            />
+            <div className="support dis-f a-c ml-4">
+              <a className="fweight-500 dis-f a-c ff-mono" href={`call:${supportPhone}`}>
+                <img className="w-fix-32 mr-1" src={CallUsImg} alt="Call Us" />
+                <span className="body2 txtPrimary600 fweight-500">{supportPhone}</span>
+              </a>
+            </div>
+          </div>
           <div className="dis-f a-c">
             {
               !history.location.pathname.includes('packageFlow') &&
@@ -226,6 +244,7 @@ function PageHeader(props) {
           </div>
         </div>
       </header>
+
       {
         modal && (
           <>
