@@ -172,10 +172,8 @@ const GetStarted = (props) => {
         };
       }
       if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
-        setTimeout(() => {
-          setQuest(newQuest);
-          setCurrentIndex(defId);
-        }, 400);
+        setQuest(newQuest);
+        setCurrentIndex(defId);
       } else {
         setQuest(newQuest);
         setCurrentIndex(defId);
@@ -419,11 +417,11 @@ const GetStarted = (props) => {
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
-            <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter'}`}>
+            <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${quest.vCentered ? 'vertCentered' : ''} ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
               <div className="subcontainer m-a">
                 {
                   quest.inputs && (
-                    <div id={`step-${currentIndex}`} className={`dis-f flex-wrap ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
+                    <div id={`step-${currentIndex}`} className={`dis-f flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
                       {
                         quest.titleGreen && (
                           <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
@@ -517,7 +515,7 @@ const GetStarted = (props) => {
                   className={`mr-0 ml-0 noWrap ${quest.history} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''}`}
                   disabled={!checkValidateField()}
                   rounded
-                  background={`${quest.history === 'resume' ? 'blue' : 'green'}`}
+                  background="green"
                   saturation={400}
                   label={buttonLabel()}
                   rightIcon="arrow-right-small"
@@ -534,7 +532,7 @@ const GetStarted = (props) => {
           <div className="signUpContainer">
             {
               questions[currentIndex] && questions[currentIndex].inputs && (
-                <div id={`step-${currentIndex}slideUp`} className={`dis-f flex-wrap brdRadiusTop slideUp ${isEnter ? 'slide-enter-down' : ''}`}>
+                <div id={`step-${currentIndex}slideUp`} className={`dis-f flex-wrap slideUp ${isEnter ? 'slide-enter-down' : ''}`}>
                   {
                     questions[currentIndex].titleGreen && (
                       <h3 className="txtGreen400 w-perc-100">{questions[currentIndex].titleGreen}</h3>

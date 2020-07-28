@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import { BrixelDropdown, BrixelModal, BrixelIcon } from '@brixel/brixel-components';
+import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
 // import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_color.svg';
 import Loadable from 'react-loadable';
@@ -144,9 +144,9 @@ function PageHeader(props) {
               alt="Brixel Logo"
               id="header-logo"
             />
-            <div className="support dis-f a-c ml-4">
+            <div className="support dis-f a-c ml-2 ml-sm-4">
               <a className="fweight-500 dis-f a-c ff-mono" href={`call:${supportPhone}`}>
-                <img className="w-fix-32 mr-1" src={CallUsImg} alt="Call Us" />
+                <img className="w-fix-24 w-fix-sm-32 mr-1" src={CallUsImg} alt="Call Us" />
                 <span className="body2 txtPrimary600 fweight-500">{supportPhone}</span>
               </a>
             </div>
