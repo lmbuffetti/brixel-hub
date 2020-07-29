@@ -5,10 +5,10 @@ import { configureStore } from '../store';
 export const InputSheets = () => {
   let Input = [];
   if (configureStore) Input = InputSheetsConfig('hub', configureStore.getState(), Maps);
-  let filteredInput = [];
+  const filteredInput = [];
   Input.forEach((item, i) => {
     filteredInput[i] = item;
-    filteredInput[i].inputs = item.inputs.filter(subitem => subitem.hide !== true)
+    filteredInput[i].inputs = item.inputs.filter((subitem) => subitem.hide !== true);
   });
   return filteredInput;
-}
+};

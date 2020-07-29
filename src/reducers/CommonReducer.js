@@ -1,6 +1,7 @@
 import { handleActions } from 'redux-actions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import Cookies from 'universal-cookie';
+import { countryList } from '@brixel/brixel-components';
 
 import {
   ERROR_MESSAGE,
@@ -19,6 +20,7 @@ import {
   SET_UNSAVED_CHANGES_MODAL,
   SET_WINDOW_DIMENSIONS,
   SET_UPLOADING_PERCENTAGE,
+  SET_COUNTRY_LIST,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies();
@@ -35,95 +37,14 @@ export const defaultState = {
   configUrl: getConfigEnv,
   errorMsg: {},
   languages: [
-    {value: 'de', label: 'de'},
-    {value: 'dk', label: 'dk'},
-    {value: 'en', label: 'en'},
-    {value: 'nl', label: 'nl'},
-    {value: 'pt', label: 'pt'},
-    {value: 'se', label: 'se'},
+    { value: 'de', label: 'de' },
+    { value: 'dk', label: 'dk' },
+    { value: 'en', label: 'en' },
+    { value: 'nl', label: 'nl' },
+    { value: 'pt', label: 'pt' },
+    { value: 'se', label: 'se' },
   ],
-  country: [
-    {
-      label: '🌍 Everywhere',
-      full: 'Everywhere',
-      short: 'ALL',
-      value: 'all',
-      location: {
-        lat: 44.82,
-        lng: 4.31
-      }
-    },
-    {
-      label: '🇦🇹 Austria',
-      full: 'Austria',
-      short: 'AUT',
-      value: 'AT',
-      location: {
-        lat: 48.20817,
-        lng: 16.37382
-      }
-    },
-    {
-      label: '🇩🇰 Denmark',
-      full: 'Denmark',
-      short: 'DNK',
-      value: 'DK',
-      location: {
-        lat: 55.67610,
-        lng: 12.56834
-      }
-    },
-    {
-      label: '🇩🇪 Germany',
-      full: 'Germany',
-      short: 'DEU',
-      value: 'DE',
-      location: {
-        lat: 52.52001,
-        lng: 13.40495
-      }
-    },
-    {
-      label: '🇳🇱 Netherlands',
-      full: 'Netherlands',
-      short: 'NLD',
-      value: 'NL',
-      location: {
-        lat: 52.36670,
-        lng: 4.89454
-      }
-    },
-    {
-      label: '🇵🇹 Portugal',
-      full: 'Portugal',
-      short: 'PRT',
-      value: 'PT',
-      location: {
-        lat: 38.72225,
-        lng: -9.13934
-      }
-    },
-    {
-      label: '🇸🇪 Sweden',
-      full: 'Sweden',
-      short: 'SWE',
-      value: 'SE',
-      location: {
-        lat: 59.32932,
-        lng: 18.06858
-      }
-    },
-    {
-      label: '🇨🇭 Switzerland',
-      full: 'Switzerland',
-      short: 'SWI',
-      value: 'CH',
-      location: {
-        lat: 47.37689,
-        lng: 8.54169
-      }
-    },
-  ],
+  country: countryList,
   language: cookie.get('brixelLang') || 'en',
   notification: {},
   setPageData: null,
@@ -146,6 +67,10 @@ export default handleActions(
     [SPINNER_ON]: (state) => ({
       ...state,
       isLoading: state.isLoading + 1,
+    }),
+    [SET_COUNTRY_LIST]: (state, action) => ({
+      ...state,
+      country: action.payload,
     }),
     [SPINNER_OFF]: (state) => ({
       ...state,

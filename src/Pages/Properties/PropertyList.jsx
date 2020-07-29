@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { compose } from 'redux';
-import { sortObject } from '../../utils/helpers';
 import { BrixelButtonPrimary, BrixelStatus } from '@brixel/brixel-components';
+import { sortObject } from '../../utils/helpers';
 import CoverPropertyImage from '../../components/CoverPropertyImage';
 
 const PropertyList = (props) => {
@@ -26,6 +26,7 @@ const PropertyList = (props) => {
   // STATE
   const [activeProperties, setActiveProperties] = useState([]);
 
+  // GET LIST OF ALL PROPERTIES AS BUYER OR SELLER
   useEffect(() => {
     let propertiesList;
     switch (activeSection) {
@@ -58,7 +59,7 @@ const PropertyList = (props) => {
     return {
       label,
       colorIcon,
-    }
+    };
   };
 
   return (
@@ -134,19 +135,17 @@ const PropertyList = (props) => {
 
 PropertyList.propTypes = {
   activeSection: PropTypes.string,
+  className: PropTypes.string,
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  activeProperty: PropTypes.object.isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  userProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
-  favoritesProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
-  windowDimensions: PropTypes.object.isRequired,
+  userProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 PropertyList.defaultProps = {
   activeSection: null,
+  className: '',
 };
 
 const mapStateToProps = (state) => ({

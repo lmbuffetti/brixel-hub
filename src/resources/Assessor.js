@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+/* eslint-disable import/no-cycle */
 import {
   BrixelCheckbox,
   BrixelInputText,
@@ -15,8 +16,8 @@ export const AssessorQuestions = (lang = 'en') => [
   {
     title: "What's the basic construction material?",
     vCentered: true,
-    history: "constructionMaterials",
-    cardType: "constructionMaterials",
+    history: 'constructionMaterials',
+    cardType: 'constructionMaterials',
     inputs: [
       {
         component: BrixelRadioButton,
@@ -27,13 +28,13 @@ export const AssessorQuestions = (lang = 'en') => [
         options: factsOptions.constructionMaterials,
         icons: true,
       },
-    ]
+    ],
   },
   {
-    title: "What type of roof?",
-    history: "roofType",
+    title: 'What type of roof?',
+    history: 'roofType',
     vCentered: true,
-    cardType: "roofType",
+    cardType: 'roofType',
     inputs: [
       {
         component: BrixelRadioButton,
@@ -44,13 +45,13 @@ export const AssessorQuestions = (lang = 'en') => [
         options: factsOptions.roofType,
         icons: true,
       },
-    ]
+    ],
   },
   {
     title: "What's the kind of facade?",
-    history: "facade",
+    history: 'facade',
     vCentered: true,
-    cardType: "facade",
+    cardType: 'facade',
     inputs: [
       {
         component: BrixelRadioButton,
@@ -61,13 +62,13 @@ export const AssessorQuestions = (lang = 'en') => [
         options: factsOptions.facade,
         icons: true,
       },
-    ]
+    ],
   },
   {
-    title: "What heating system do you have?",
-    history: "heating",
+    title: 'What heating system do you have?',
+    history: 'heating',
     vCentered: true,
-    cardType: "heating",
+    cardType: 'heating',
     inputs: [
       {
         component: BrixelCheckbox,
@@ -79,18 +80,18 @@ export const AssessorQuestions = (lang = 'en') => [
         icons: true,
         limit: 10,
       },
-    ]
+    ],
   },
   {
-    title: "When was your last renovation?",
-    history: "yearRenovation",
-    cardType: "yearRenovation",
+    title: 'When was your last renovation?',
+    history: 'yearRenovation',
+    cardType: 'yearRenovation',
     inputs: [
       {
         component: BrixelInputText,
         className: '',
         hint: 'Insert the year of your last big renovation or leave it empty',
-        type: "number",
+        type: 'number',
         name: 'properties.building.renovated',
         validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear],
         classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-md-232',
@@ -98,15 +99,15 @@ export const AssessorQuestions = (lang = 'en') => [
         minLenghtNum: 999,
         maxLenghtNum: 9999,
       },
-    ]
+    ],
   },
   {
-    title: "Result Page",
+    title: 'Result Page',
     toSave: true,
-    subtitle: "Sales strategy & price",
+    subtitle: 'Sales strategy & price',
     vCentered: true,
-    history: "resumeFlow",
-    cardType: "loadComponent",
+    history: 'resumeFlow',
+    cardType: 'loadComponent',
     component: ResumeAssessor,
     resumeFlow: true,
   },
@@ -174,7 +175,7 @@ export const AssessorAvgLifespan = {
     kitchen: 20,
     wetCells: 20,
     electricalSystems: 30,
-  }
+  },
 };
 
 export const AssessorLabel = {

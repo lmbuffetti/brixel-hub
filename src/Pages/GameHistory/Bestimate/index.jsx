@@ -1,14 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonIcon, MultiFileldsReduxForm } from '@brixel/brixel-components';
-import { BestimateQuestions } from '../../../resources/Bestimate';
+import {
+  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonTertiary, BrixelProgressLineDots,
+} from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
+
 import { reduxForm, reset } from 'redux-form';
+import { BestimateQuestions } from '../../../resources/Bestimate';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
@@ -25,7 +27,7 @@ const Bestimate = (props) => {
     handleSaveActiveSingleProperty,
     history,
     match,
-    reset,
+    resetForm,
   } = props;
   // STATE
   const [questions, setQuestions] = useState(BestimateQuestions('en'));
@@ -36,20 +38,15 @@ const Bestimate = (props) => {
   const [selGameGroup, setSelGameGroup] = useState({});
   const [finishedFlow, setFinishedFlow] = useState(false);
   const [lastID, setLastID] = useState(0);
+  const [numberQuestions, setNumberQuestions] = useState(0);
   // GET URL PARAMS
   const getAchievement = () => history.location.pathname.split('/')[4];
   const propID = get(match, 'params.propId', null);
 
-  useEffect(() => {
-    return () => {
-      reset('Property');
-    };
-  }, []);
-
   // CHECK IF THE ACHIEVEMENT IS DONE
   useEffect(() => {
     if (gameHistory && gameHistory.data && activeSingleProperty.id) {
-      const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === activeSingleProperty.id);
+      const checkGameExist = gameHistory.data.find((item) => item.achievement.stub === getAchievement() && item.page === activeSingleProperty.id);
       if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
         if (lastID) {
@@ -63,46 +60,54 @@ const Bestimate = (props) => {
     }
   }, [gameHistory, activeSingleProperty, lastID]);
 
+  // LOAD THE CURRENT GAME GROUP
   useEffect(() => {
     if (gameGroup.length > 0) {
-      const group = gameGroup.find(game => game.achievements.some(item => item.stub === getAchievement()));
-      const defGroup = group.achievements.find(item => item.stub === getAchievement());
+      const group = gameGroup.find((game) => game.achievements.some((item) => item.stub === getAchievement()));
+      const defGroup = group.achievements.find((item) => item.stub === getAchievement());
       setSelGameGroup(defGroup);
     }
   }, [gameGroup]);
 
+  // ON CHANGE STEP LOAD THE ENTER EFFECT AND IF HAS TO REDO
   useEffect(() => {
     setIsEnter(true);
     if (questions[currentIndex].history && loaded) {
       const redo = get(history, 'location.state.redo', false);
-      history.push({
-        pathname: `/${propID}/rewards/achievement/${getAchievement()}/${questions[currentIndex].history}`,
-        state: {
-          redo: redo,
-        }
-      });
+      if (getAchievement()) {
+        history.push({
+          pathname: `/${propID}/rewards/achievement/${getAchievement()}/${questions[currentIndex].history}`,
+          state: {
+            redo,
+          },
+        });
+      }
     }
   }, [currentIndex, loaded]);
 
+  // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
     if (typeof window !== 'undefined' && window.innerWidth < 1024) {
       history.push(`/${propID}/rewards`);
     } else {
       history.push(`/${propID}/rewards/${getAchievement()}`);
     }
-    reset('Property');
+    resetForm('Property');
   };
 
+  // FUNCTION TO SAVE DATA
   const saveData = () => {
     const data = {
       id: propID,
       properties: get(formValue, 'properties', {}),
+      // redirectTo: `/${propID}/rewards/${getAchievement()}`,
     };
     handleSaveActiveSingleProperty(data);
-    handleAddGameHistory({stub: getAchievement()})
-    reset('Property');
+    handleAddGameHistory({ stub: getAchievement() });
+    resetForm('Property');
   };
 
+  // FUNCTION TO CHANGE STEP - BACK-FORWARD
   const changeStep = (act) => {
     setIsEnter(false);
     let newIndex = currentIndex;
@@ -119,29 +124,37 @@ const Bestimate = (props) => {
     setQuest(questions[newIndex]);
   };
 
+  // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
     if (formValue.id) {
-      let newQuest = [];
-      BestimateQuestions('en').map((quest) => {
-        if (quest.condition) {
+      const newQuest = [];
+      let numQuest = 0;
+      BestimateQuestions().map((questData) => {
+        if (questData.condition) {
           let isValid = true;
-          quest.condition.map((item) => {
+          questData.condition.map((item) => {
             if (get(formValue, item.name, null) !== item.value) {
-              isValid = false
+              isValid = false;
             }
             return null;
           });
-          if (isValid) newQuest.push(quest);
+          if (isValid) {
+            numQuest += 1;
+            newQuest.push(questData);
+          }
         } else {
-          newQuest.push(quest);
+          if (questData.inputs) numQuest += 1;
+          newQuest.push(questData);
         }
         return null;
       });
       setLastID(newQuest.length - 1);
+      setNumberQuestions(numQuest);
       setQuestions(newQuest);
     }
   }, [formValue]);
 
+  // CHECK IF FIELD IS VALID
   const checkValidateField = (act) => {
     let isValid = true;
     let isNotEmpty = false;
@@ -149,7 +162,7 @@ const Bestimate = (props) => {
       quest.inputs.map((input) => {
         const err = get(errorValue, input.name, null);
         const noEmpty = get(formValue, input.name, 'ayc');
-        if(noEmpty !== 'ayc') isNotEmpty = true;
+        if (noEmpty !== 'ayc') isNotEmpty = true;
         if (input.condition) {
           input.condition.map((item) => {
             if (get(formValue, item.name, null) === item.value) {
@@ -167,6 +180,7 @@ const Bestimate = (props) => {
     return isValid;
   };
 
+  // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
@@ -177,10 +191,10 @@ const Bestimate = (props) => {
     return label;
   };
 
-  if(!formValue.id && !loaded) {
+  if (!formValue.id && !loaded) {
     return (
-      <div/>
-    )
+      <div />
+    );
   }
 
   return (
@@ -198,30 +212,41 @@ const Bestimate = (props) => {
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
-          <div className={`multiStepSlides`}>
+          <div className="multiStepSlides">
             <div
               className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
-              <div className="subcontainer m-a">
+              <div className="subcontainer mt-0 m-a">
                 {
                   quest.inputs && (
-                    <div>
-                      <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
-                      {quest.subtitle && (
-                        <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)}
-                      <MultiFileldsReduxForm
-                        disableNextBtn={false}
-                        formValue={formValue}
-                        form="GamingFlow"
-                        inputs={quest.inputs}
-                        onClick={() => ''}
-                      />
-                    </div>
+                    <>
+                      <div className="mt-2 mb-5">
+                        <BrixelProgressLineDots
+                          color="Primary"
+                          backgroundSaturation={100}
+                          saturation={600}
+                          activeStep={currentIndex}
+                          steps={numberQuestions}
+                        />
+                      </div>
+                      <div>
+                        <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
+                        {quest.subtitle && (
+                          <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)}
+                        <MultiFileldsReduxForm
+                          disableNextBtn={false}
+                          formValue={formValue}
+                          form="GamingFlow"
+                          inputs={quest.inputs}
+                          onClick={() => ''}
+                        />
+                      </div>
+                    </>
                   )
                 }
                 {
-                  quest && quest.cardType === 'loadComponent' && quest.history === questions[currentIndex].history && (
-                    React.createElement(quest.component, {formName: 'GamingFlow', finishedFlow, initialValue: formValue})
+                  get(quest, 'cardType', null) === 'loadComponent' && quest.history === questions[currentIndex].history && (
+                    React.createElement(quest.component, { formName: 'GamingFlow', finishedFlow, initialValue: formValue })
                   )
                 }
               </div>
@@ -248,26 +273,26 @@ const Bestimate = (props) => {
                 }
 
                 {
-                  buttonLabel().toLowerCase() === "skip" ? (
+                  buttonLabel().toLowerCase() === 'skip' ? (
                     <BrixelButtonTertiary
-                      className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === "skip" ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                      className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
                       saturation={400}
                       color="light"
                       label={buttonLabel()}
                       rightIcon="arrow-right-small"
-                      onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                     />
                   ) : (
                     <BrixelButtonPrimary
-                      className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === "skip" ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                      className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
                       rounded
                       background="primary"
                       saturation={400}
                       label={buttonLabel()}
                       rightIcon="arrow-right-small"
-                      onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                     />
                   )
                 }
@@ -278,19 +303,20 @@ const Bestimate = (props) => {
         </form>
       </div>
     </div>
-  )
+  );
 };
 
 Bestimate.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
+  gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
-  reset: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -303,12 +329,13 @@ const mapStateToProps = (state) => ({
   initialValues: {
     id: get(state, 'property.activeSingleProperty.id', null),
     properties: get(state, 'property.activeSingleProperty.properties', null),
-  }
+    location: get(state, 'property.activeSingleProperty.location', null),
+  },
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  reset(form) {
-    (dispatch(reset(form)))
+  resetForm(form) {
+    (dispatch(reset(form)));
   },
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
@@ -318,7 +345,7 @@ const AnyForm = reduxForm({
   form: 'GamingFlow',
   enableReinitialize: true,
   destroyOnUnmount: true,
-})(Bestimate)
+})(Bestimate);
 
 export default compose(
   withRouter,

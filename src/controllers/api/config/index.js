@@ -1,5 +1,5 @@
-import ApiClient from './ApiClient';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import ApiClient from './ApiClient';
 
 import Common from '../actions/Common';
 import Company from '../actions/Company';

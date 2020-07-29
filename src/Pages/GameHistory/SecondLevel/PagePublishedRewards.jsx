@@ -25,17 +25,16 @@ const PagePublishedRewards = (props) => {
   const propID = get(match, 'params.propId', '');
   const gameStub = history.location.pathname.split('/')[3];
 
+  // GET THE PAGE STATUS
   useEffect(() => {
-    const isCheckDone = gameHistory.find(item => item.page === propID && item.achievement.stub === gameStub);
-    if (typeof isCheckDone !== 'undefined' && pagePublished)
-      setStatus('online');
-    else if (pageReview)
-      setStatus('review');
-    else
-      setStatus('offline');
+    const isCheckDone = gameHistory.find((item) => item.page === propID && item.achievement.stub === gameStub);
+    if (typeof isCheckDone !== 'undefined' && pagePublished) setStatus('online');
+    else if (pageReview) setStatus('review');
+    else setStatus('offline');
   }, [gameHistory, pagePublished, pageReview]);
 
-  const openPreview = (done = false) => {
+  // FUNCTION TO GO TO /LISTINGS/PAGE
+  const openPreview = () => {
     history.push(`/${propID}/listings/page`);
   };
 
@@ -56,7 +55,7 @@ const PagePublishedRewards = (props) => {
                 label="Manage Page"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="m-a"
                 onClick={() => openPreview(false)}
               />
             </div>
@@ -78,7 +77,7 @@ const PagePublishedRewards = (props) => {
                 label="Manage Page"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="m-a"
                 onClick={() => openPreview(false)}
               />
             </div>
@@ -100,7 +99,7 @@ const PagePublishedRewards = (props) => {
                 label="Manage Page"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="m-a"
                 onClick={() => openPreview(false)}
               />
             </div>
@@ -108,20 +107,19 @@ const PagePublishedRewards = (props) => {
         )
       }
     </main>
-  )
+  );
 };
 
 PagePublishedRewards.propTypes = {
-  handleAddGameHistory: Proptypes.func.isRequired,
   history: Proptypes.object.isRequired,
   match: Proptypes.object.isRequired,
-  gameHistory: Proptypes.arrayOf(Proptypes.object),
+  gameHistory: Proptypes.arrayOf(Proptypes.object).isRequired,
   pageReview: Proptypes.bool.isRequired,
   pagePublished: Proptypes.bool.isRequired,
-}
+};
 
 PagePublishedRewards.defaultProps = {
-}
+};
 
 const mapStateToProps = (state) => ({
   gameHistory: get(state, 'gamification.gameHistory.data', []),
@@ -133,7 +131,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });
 
-export default compose (
+export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(PagePublishedRewards);

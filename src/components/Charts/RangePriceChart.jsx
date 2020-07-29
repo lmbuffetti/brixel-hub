@@ -8,9 +8,9 @@ import PropTypes from 'prop-types';
 import first from 'lodash/first';
 import last from 'lodash/last';
 import get from 'lodash/get';
+import { DataByCountry } from '@brixel/brixel-components';
 import { formatNum } from '../../utils/helpers';
 import { generalTranslate } from '../../utils/translation';
-import { DataByCountry } from '@brixel/brixel-components'
 
 function RangePriceChart(props) {
   const {
@@ -37,13 +37,13 @@ function RangePriceChart(props) {
     right: 0,
   };
   const randomID = `rangePriceChart${type}`;
-  const transformation = properties.map(el => ({
+  const transformation = properties.map((el) => ({
     priceRangeStart: el ? +el.priceRangeStart : 0,
     numberOfProperties: el ? +el.numberOfProperties : 0,
     variation: el ? +el.variation : 0,
   }));
 
-  const getPosition = properties.findIndex(val => val.curEl);
+  const getPosition = properties.findIndex((val) => val.curEl);
   const firstRange = first(transformation) ? first(transformation).priceRangeStart : 0;
   const lastRange = last(transformation) ? last(transformation).priceRangeStart : 0;
   const scope = {
@@ -84,11 +84,11 @@ function RangePriceChart(props) {
     const xScale = d3.scaleBand()
       .rangeRound([0, width])
       .paddingInner(0.6)
-      .domain(properties.map(d => d ? d.priceRangeStart : 0))
+      .domain(properties.map((d) => (d ? d.priceRangeStart : 0)))
       .range([0, width]);
     const yScale = d3.scaleLinear()
       .rangeRound([height, 0])
-      .domain([0, d3.max(properties, d => d ? d.numberOfProperties + 1 : 1)])
+      .domain([0, d3.max(properties, (d) => (d ? d.numberOfProperties + 1 : 1))])
       .range([height, 0]);
 
     chart
@@ -103,6 +103,7 @@ function RangePriceChart(props) {
         if (type !== 'bestimate') {
           return `${cfg.label} ${formatNum(+firstRange.toFixed(0), "'", ',', cfg.localString)} +`;
         }
+        return '';
       });
 
     chart
@@ -118,6 +119,7 @@ function RangePriceChart(props) {
         if (type !== 'bestimate') {
           return `${cfg.label} ${formatNum(+lastRange.toFixed(0), "'", ',', cfg.localString)} +`;
         }
+        return '';
       });
 
     chart.selectAll('.filter-bar')
@@ -125,8 +127,8 @@ function RangePriceChart(props) {
       .enter()
       .append('rect')
       .classed('filter-bar', true)
-      .attr('id', d => `bar${d.id}`)
-      .attr('x', d => d ? xScale(d.priceRangeStart) : 0)
+      .attr('id', (d) => `bar${d.id}`)
+      .attr('x', (d) => (d ? xScale(d.priceRangeStart) : 0))
       .attr('y', () => 0)
       .attr('height', () => height)
       .attr('width', () => 5)
@@ -138,9 +140,9 @@ function RangePriceChart(props) {
       .enter()
       .append('rect')
       .classed('orange-bar filter-bar', true)
-      .attr('x', d => d ? xScale(d.priceRangeStart) : 0)
-      .attr('y', d => d ? yScale(d.numberOfProperties) : 0)
-      .attr('height', d => (height - yScale(d.numberOfProperties)))
+      .attr('x', (d) => (d ? xScale(d.priceRangeStart) : 0))
+      .attr('y', (d) => (d ? yScale(d.numberOfProperties) : 0))
+      .attr('height', (d) => (height - yScale(d.numberOfProperties)))
       .attr('width', () => 5)
       .style('fill', (d) => {
         if (bestimate && d) {
@@ -157,15 +159,15 @@ function RangePriceChart(props) {
       .enter()
       .append('rect')
       .classed('bar-label', true)
-      .attr('x', d => d ? xScale(d.priceRangeStart) : 0)
+      .attr('x', (d) => (d ? xScale(d.priceRangeStart) : 0))
       .attr('y', () => 0)
       .attr('height', () => height)
       .attr('width', () => 5)
       .style('fill', () => 'transparent')
-      .text(d => d.value)
+      .text((d) => d.value)
       .on('mouseover', (e) => {
         let transform = 'transform: translate(-50%,0);';
-        //let left = '50%';
+        // let left = '50%';
         if (e && xScale(e.priceRangeStart) < 70) {
           transform = 'transform: translate(-1%, 0)';
           // left = 0;
@@ -208,11 +210,9 @@ function RangePriceChart(props) {
         .append('line')
         .attr('class', 'trackback')
         .attr('fill', '#00FF00')
-        .attr('x1', () => {
-          return 13;
-        })
+        .attr('x1', () => 13)
         .attr('x2', () => {
-          let calcMax = xScale(discreteDomainMapper(cfg.maxValue)) + xScale.bandwidth();
+          const calcMax = xScale(discreteDomainMapper(cfg.maxValue)) + xScale.bandwidth();
           return calcMax;
         });
     }
@@ -224,7 +224,7 @@ function RangePriceChart(props) {
       .attr('x1', () => {
         let calcMin = xScale(discreteDomainMapper(cfg.minValue));
         if (type === 'bestimate' && properties) {
-          const getMinVal = properties.find(val => +val.priceRangeStart >= +bestimate.lowerValue);
+          const getMinVal = properties.find((val) => +val.priceRangeStart >= +bestimate.lowerValue);
           calcMin = getMinVal ? xScale(getMinVal.priceRangeStart) : 0;
         }
         return calcMin;
@@ -232,7 +232,7 @@ function RangePriceChart(props) {
       .attr('x2', () => {
         let calcMax = xScale(discreteDomainMapper(cfg.maxValue)) + xScale.bandwidth();
         if (type === 'bestimate' && properties) {
-          const getMaxVal = properties.find(val => +val.priceRangeStart >= +bestimate.higherValue);
+          const getMaxVal = properties.find((val) => +val.priceRangeStart >= +bestimate.higherValue);
           calcMax = getMaxVal ? xScale(getMaxVal.priceRangeStart) : 0;
         }
         return calcMax;
@@ -345,7 +345,7 @@ function RangePriceChart(props) {
 
 RangePriceChart.propTypes = {
   bestimate: PropTypes.object,
-  currency: PropTypes.string,
+  currency: PropTypes.string.isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   showTopLabel: PropTypes.bool,
   subtitle: PropTypes.bool,
@@ -356,6 +356,7 @@ RangePriceChart.propTypes = {
 
 RangePriceChart.defaultProps = {
   bestimate: null,
+  lang: 'en',
   showTopLabel: true,
   subtitle: false,
   title: null,
@@ -367,7 +368,7 @@ const mapStateToProps = (state) => {
     currency: DataByCountry(countryCode),
     lang: get(state, 'common.language', {}),
   });
-}
+};
 
 export default compose(
   withRouter,

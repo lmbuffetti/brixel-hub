@@ -1,5 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-nested-ternary */
 import React, {
   useEffect,
   useState,
@@ -13,8 +15,10 @@ import last from 'lodash/last';
 import queryString from 'query-string';
 import {
   withRouter,
-} from 'react-router-dom'
-import { change, isValid, Field, reduxForm } from 'redux-form';
+} from 'react-router-dom';
+import {
+  change, isValid, Field, reduxForm,
+} from 'redux-form';
 import Cookies from 'universal-cookie';
 import {
   BrixelButtonPrimary,
@@ -26,14 +30,18 @@ import {
   Validation,
 } from '@brixel/brixel-components';
 import {
-  getBrowserPlatform
+  getBrowserPlatform,
 } from '@brixel/brixel-components/src/utils/helper';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { doLogin, setAwards, setBrixelPoints, validateUser } from '../../actions/UserActions';
+import {
+  doLogin, setAwards, setBrixelPoints, validateUser,
+} from '../../actions/UserActions';
 import { createActiveSingleProperty } from '../../actions/PropertyActions';
-import { errorMessage, setPageData, setLanguage, setScreenNotification, setWindowDimensions } from '../../actions/CommonActions';
+import {
+  errorMessage, setPageData, setLanguage, setScreenNotification, setWindowDimensions,
+} from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion.js';
+import { QuestionsList } from '../../resources/onBoarding';
 import { setCookie } from '../../utils/helpers';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
@@ -78,24 +86,24 @@ function OnBoarding(props) {
   const [loginPage, setLoginPage] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [Questions, setQuestions] = useState(QuestionsList(lang,  get(formValue, 'location.countryCode', 'CH')));
-  //const [curCountry, setCurCountry] = useState(null);
+  const [Questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+  // const [curCountry, setCurCountry] = useState(null);
 
   useEffect(() => {
     if (baseByData.env === 'dev') {
       const location = {
-        type: "stateCode",
-        country: "Schweiz",
-        countryCode: "CH",
-        name: "Ernastrasse",
-        vicinity: "Kreis 4",
-        address: "Ernastrasse, 8004 Zürich, Schweiz",
+        type: 'stateCode',
+        country: 'Schweiz',
+        countryCode: 'CH',
+        name: 'Ernastrasse',
+        vicinity: 'Kreis 4',
+        address: 'Ernastrasse, 8004 Zürich, Schweiz',
         latitude: 47.3807432,
         longitude: 8.516775800000005,
-        state: "Zürich",
-        stateCode: "ZH",
+        state: 'Zürich',
+        stateCode: 'ZH',
         zip: 8004,
-        city: "Zürich",
+        city: 'Zürich',
       };
       changeFieldValue('location', location);
     }
@@ -109,16 +117,16 @@ function OnBoarding(props) {
     const getCurrent = country.find((val) => val.value.toLowerCase() === curVal.toLowerCase() || val.label === curVal.toLowerCase());
     changeFieldValue('location.countryCode', curVal);
     changeFieldValue('location.countryName', get(getCurrent, 'label', ''));
-    //setCurCountry(getCurrent);
+    // setCurCountry(getCurrent);
   };
 
   useEffect(() => {
-    const curVal = get(formValue, 'location.countryCode', '')
+    const curVal = get(formValue, 'location.countryCode', '');
     if (curVal) {
       const getCurrent = country.find((val) => val.value === curVal.toLowerCase() || val.value === curVal.toLowerCase());
       changeFieldValue('location.countryName', get(getCurrent, 'label', ''));
     }
-  }, [get(formValue, 'location.countryCode', null)])
+  }, [get(formValue, 'location.countryCode', null)]);
 
   useEffect(() => {
     if (loggedInUser.user) {
@@ -144,8 +152,7 @@ function OnBoarding(props) {
   const changePageTitle = () => {
     if (formValue) {
       const pageTitle = titleProperty(formValue.location, formValue.propertyType, lang, formValue);
-      if (pageTitle)
-        changeFieldValue('pageTitle', pageTitle);
+      if (pageTitle) changeFieldValue('pageTitle', pageTitle);
     }
   };
 
@@ -191,7 +198,7 @@ function OnBoarding(props) {
   }, [pageState]);
 
   // Function to save the data
-  const saveData = (e) => {
+  const saveData = () => {
     setShowError(false);
     let enableForm = true;
     // Check if exist any invalid field
@@ -206,7 +213,7 @@ function OnBoarding(props) {
     const data = {
       language: lang || 'en',
       title: formValue.pageTitle,
-      status: "on-request",
+      status: 'on-request',
       listed: false,
       active: true,
       published: false,
@@ -214,14 +221,14 @@ function OnBoarding(props) {
         propertyType: formValue.propertyType,
         typology: {
           bedrooms: formValue.bedrooms,
-          livingArea: { value: +formValue.livingSpace, unit: "sqm" }
+          livingArea: { value: +formValue.livingSpace, unit: 'sqm' },
         },
         building: {
           built: formValue.constructionYear,
-        }
+        },
       },
       location: formValue.location,
-      ownerType: "seller",
+      ownerType: 'seller',
       getEstimation: false, // not call the estimation function
       addProperty: true, // add the property
       redirectToUserFlow: true, // redirect the user to second part of flow
@@ -229,7 +236,7 @@ function OnBoarding(props) {
       packageFlowProcess: {
         propertyType: formValue.propertyType,
         bedrooms: formValue.bedrooms,
-        livingArea: { value: +formValue.livingSpace, unit: "sqm" },
+        livingArea: { value: +formValue.livingSpace, unit: 'sqm' },
         built: formValue.constructionYear,
         location: formValue.location,
       },
@@ -255,10 +262,10 @@ function OnBoarding(props) {
           name: `${formValue.firstName} ${formValue.lastName}`,
           firstName: formValue.firstName,
           lastName: formValue.lastName,
-          userType: "seller",
+          userType: 'seller',
           phone: formValue.phone,
           signupAccept: true,
-          signupChannel: "default",
+          signupChannel: 'default',
           signupProduct: null,
           language: lang || 'en',
           createUser: true,
@@ -273,15 +280,14 @@ function OnBoarding(props) {
 
   // Function to move next/prev question
   const changeStep = (act) => {
-    const getSellerLv1 = gameGroup.find(item => item.stub === 'seller-lvl1');
-    let getHomeBase = {name: 'Homebase', points: 100};
-    if (getSellerLv1 && getSellerLv1.achievements) getHomeBase = getSellerLv1.achievements.find(item => item.stub === 'homebase');
+    const getSellerLv1 = gameGroup.find((item) => item.stub === 'seller-lvl1');
+    let getHomeBase = { name: 'Homebase', points: 100 };
+    if (getSellerLv1 && getSellerLv1.achievements) getHomeBase = getSellerLv1.achievements.find((item) => item.stub === 'homebase');
     let newPosition = position;
     if (act === 'back') {
       setDisableNextBtn(false);
       newPosition = position - 1;
-    }
-    else {
+    } else {
       if (disableNextBtn) return false;
       setDisableNextBtn(true);
       newPosition = position + 1;
@@ -291,20 +297,20 @@ function OnBoarding(props) {
       Questions[newPosition].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
         if (val !== cond.value && checkCond) {
-          if (act === 'back') newPosition = newPosition - 1;
-          else newPosition = newPosition + 1;
+          if (act === 'back') newPosition -= 1;
+          else newPosition += 1;
           checkCond = false;
         }
         return null;
-      })
+      });
     }
     if (Questions[newPosition] && Questions[newPosition].conditions) {
       let checkCond = true;
       Questions[newPosition].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
         if (val !== cond.value && checkCond) {
-          if (act === 'back') newPosition = newPosition - 1;
-          else newPosition = newPosition + 1;
+          if (act === 'back') newPosition -= 1;
+          else newPosition += 1;
           checkCond = false;
         }
         return null;
@@ -320,10 +326,11 @@ function OnBoarding(props) {
       Questions[newPosition].cardType === 'RewardsStep'
     ) {
       let newPoints = gameHistory;
-      if (newPoints && newPoints.actualPoints) {}
-      else handleSetAwards(1);
+      if (newPoints && newPoints.actualPoints) {
+        const test = 'test';
+      } else handleSetAwards(1);
       if (newPoints && newPoints.actualPoints) newPoints.actualPoints += getHomeBase.points;
-      else newPoints = {actualPoints: getHomeBase.points};
+      else newPoints = { actualPoints: getHomeBase.points };
       handleSetBrixelPoints(newPoints.actualPoints);
     }
     if (
@@ -335,15 +342,14 @@ function OnBoarding(props) {
       saveData();
     }
     const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
-    setProgressBar(newPosition * 100 / questInputs.length);
+    setProgressBar((newPosition * 100) / questInputs.length);
     setTimeout(() => {
       const getCurStep = document.getElementById(`step-${newPosition}`);
       if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
         getCurStep.querySelector('input[type="number"]').removeAttribute('autofocus');
         getCurStep.querySelector('input[type="number"]').setAttribute('autofocus', 'autofocus');
         getCurStep.querySelector('input[type="number"]').focus();
-      }
-      else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+      } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
         getCurStep.querySelector('input[type="text"]').removeAttribute('autofocus');
         getCurStep.querySelector('input[type="text"]').setAttribute('autofocus', 'autofocus');
         getCurStep.querySelector('input[type="text"]').focus();
@@ -352,14 +358,13 @@ function OnBoarding(props) {
         document.getElementById('onBoarding').scrollTo(0, 0);
       }
     }, 100);
-    document.addEventListener('touchend', function(event) {
+    document.addEventListener('touchend', (event) => {
       const getCurStep = document.getElementById(`step-${newPosition}`);
       if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
         getCurStep.querySelector('input[type="number"]').removeAttribute('autofocus');
         getCurStep.querySelector('input[type="number"]').setAttribute('autofocus', 'autofocus');
         getCurStep.querySelector('input[type="number"]').focus();
-      }
-      else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+      } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
         getCurStep.querySelector('input[type="text"]').removeAttribute('autofocus');
         getCurStep.querySelector('input[type="text"]').setAttribute('autofocus', 'autofocus');
         getCurStep.querySelector('input[type="text"]').focus();
@@ -369,17 +374,18 @@ function OnBoarding(props) {
       document.getElementById('onBoarding').scrollTo(0, 0);
     }
     history.push(`/onBoarding/${Questions[newPosition].history}`);
+    return null;
   };
 
   useEffect(() => {
     // Function to detect the TAB
-    document.addEventListener('keydown', function (e) {
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'Tab') {
         changeStep();
       }
       document.getElementById('onBoarding').scrollTo(0, 0);
     }, false);
-    document.addEventListener('keyup', function (e) {
+    document.addEventListener('keyup', (e) => {
       document.getElementById('onBoarding').scrollTo(0, 0);
     }, false);
     // Get the company from url or cookie and set on cookie
@@ -387,7 +393,7 @@ function OnBoarding(props) {
     const companyCookie = cookie.get('brixelStubCompany') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
       const defComp = get(companyByUrl, 'company', companyCookie);
-      handleGetActiveSingleCompany({stub: defComp});
+      handleGetActiveSingleCompany({ stub: defComp });
       setCookie('brixelStubCompany', defComp);
     }
     // on load page redirect all to first step
@@ -413,34 +419,31 @@ function OnBoarding(props) {
   const calcFlowContentHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');
     const flowFooter = document.getElementsByClassName('footerAction');
-    if (windowDimensions.width <= 1024)  {
-      return flowHead[0]  && flowFooter[0] ? flowHead[0].offsetHeight + flowFooter[0].offsetHeight : 0;
-    } else {
-      return flowHead[0] ? flowHead[0].offsetHeight : 0;
+    if (windowDimensions.width <= 1024) {
+      return flowHead[0] && flowFooter[0] ? flowHead[0].offsetHeight + flowFooter[0].offsetHeight : 0;
     }
+    return flowHead[0] ? flowHead[0].offsetHeight : 0;
   };
 
   useEffect(() => {
     if (!disableNextBtn &&
       get(Questions, `[${currentIndex}].inputs`, null) &&
       get(Questions, `[${currentIndex}].successMessage`, null)) {
-      setIsSuccess(true)
+      setIsSuccess(true);
     } else {
-      setIsSuccess(false)
+      setIsSuccess(false);
     }
-  })
+  });
 
   const buttonLabel = () => {
     let label;
     if (!get(Questions, `[${currentIndex + 2}]`, null)) {
-      if(loginPage) label = translateTo(lang, "Login");
-      else label = translateTo(lang, "Create profile")
+      if (loginPage) label = translateTo(lang, 'Login');
+      else label = translateTo(lang, 'Create profile');
+    } else if (get(Questions, `[${currentIndex}].cardType`, null) === 'createProfile') {
+      label = translateTo(lang, 'Save');
     } else {
-      if (get(Questions, `[${currentIndex}].cardType`, null) === 'createProfile') {
-        label = translateTo(lang, "Save");
-      } else {
-        label = translateTo(lang, "Continue");
-      }
+      label = translateTo(lang, 'Continue');
     }
     return label;
   };
@@ -462,14 +465,16 @@ function OnBoarding(props) {
         <form
           id="multiStepForm"
           className=""
-          onSubmit={(e) => {e.preventDefault(); changeStep()}}
+          onSubmit={(e) => { e.preventDefault(); changeStep(); }}
           autoComplete="off"
         >
           <div
             className="multiStepSlides "
             style={
-              {transform: `translate(-${position * 100}%, 0)`,
-                height: windowDimensions.height - calcFlowContentHeight()}
+              {
+                transform: `translate(-${position * 100}%, 0)`,
+                height: windowDimensions.height - calcFlowContentHeight(),
+              }
             }
           >
             {
@@ -481,7 +486,7 @@ function OnBoarding(props) {
                   style={{
                     visibility: i !== currentIndex ? 'hidden' : 'visible',
                     opacity: i !== currentIndex ? '0' : '1',
-                    paddingBottom: !quest.vCentered && !quest.background && windowDimensions.width <= 1024 && isSuccess  ? '30px' : '',
+                    paddingBottom: !quest.vCentered && !quest.background && windowDimensions.width <= 1024 && isSuccess ? '30px' : '',
                   }}
                 >
                   <div className={`subcontainer ${i !== currentIndex ? '' : quest.className || ''}`}>
@@ -510,8 +515,8 @@ function OnBoarding(props) {
                                               moveMarker
                                               draggable
                                               showSearchLocation
-                                              showSelectCountry={true}
-                                              showMap={true}
+                                              showSelectCountry
+                                              showMap
                                               inputLabel={input.label}
                                               isShowZip={false}
                                               className="w-perc-100"
@@ -541,7 +546,7 @@ function OnBoarding(props) {
                                           label={input.label}
                                           icons={quest.icons}
                                           component={quest.component}
-                                          fluid={true}
+                                          fluid
                                           options={quest.options}
                                           validate={input.validation}
                                           type={input.type}
@@ -639,7 +644,7 @@ function OnBoarding(props) {
                                 </div>
                                 <h5
                                   className="fadeAnim mt-5 ta-c"
-                                  dangerouslySetInnerHTML={{ __html: quest.title}}
+                                  dangerouslySetInnerHTML={{ __html: quest.title }}
                                 />
                               </div>
                             )
@@ -650,13 +655,13 @@ function OnBoarding(props) {
                                 <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
                                 <h5
                                   className="fadeAnim mt-2 ta-c"
-                                  dangerouslySetInnerHTML={{ __html: quest.title}}
+                                  dangerouslySetInnerHTML={{ __html: quest.title }}
                                 />
                                 {
                                   quest.subtitle && (
                                     <h6
                                       className="fadeAnim mt-2 ta-c"
-                                      dangerouslySetInnerHTML={{ __html: quest.subtitle}}
+                                      dangerouslySetInnerHTML={{ __html: quest.subtitle }}
                                     />
                                   )
                                 }
@@ -682,13 +687,13 @@ function OnBoarding(props) {
                                           className="txtPrimary400 cur-poi"
                                           onClick={() => switchLoginSignUpPage(false)}
                                         >
-                                          {translateTo(lang, "You don’t have a profile?")}
+                                          {translateTo(lang, 'You don’t have a profile?')}
                                         </span>
                                       </p>
                                       <Field
                                         className="mt-2"
                                         component={BrixelInputText}
-                                        label={translateTo(lang, "Email address")}
+                                        label={translateTo(lang, 'Email address')}
                                         name="email"
                                         placeholder=""
                                         type="email"
@@ -698,13 +703,13 @@ function OnBoarding(props) {
                                           invalid: (showErrors || formValue.email) && errorValue.email !== true,
                                         }}
                                         message={{
-                                          error: translateTo(lang, "Please insert a valid email")
+                                          error: translateTo(lang, 'Please insert a valid email'),
                                         }}
                                       />
                                       <Field
                                         className="mt-2"
                                         component={BrixelInputText}
-                                        label={translateTo(lang, "Password")}
+                                        label={translateTo(lang, 'Password')}
                                         name="password"
                                         placeholder=""
                                         type="password"
@@ -714,7 +719,7 @@ function OnBoarding(props) {
                                           invalid: (showErrors || formValue.password) && errorValue.password !== true,
                                         }}
                                         message={{
-                                          error: translateTo(lang, "Please insert a valid password")
+                                          error: translateTo(lang, 'Please insert a valid password'),
                                         }}
                                       />
                                       <p className="mt-1">
@@ -724,7 +729,7 @@ function OnBoarding(props) {
                                           target="_blank"
                                           rel="noopener noreferrer"
                                         >
-                                          {translateTo(lang, "Forgot password?")}
+                                          {translateTo(lang, 'Forgot password?')}
                                         </a>
                                       </p>
                                     </>
@@ -735,14 +740,14 @@ function OnBoarding(props) {
                                           className="txtPrimary400 cur-poi"
                                           onClick={() => switchLoginSignUpPage(true)}
                                         >
-                                          {translateTo(lang, "You already have a profile?")}
+                                          {translateTo(lang, 'You already have a profile?')}
                                         </span>
                                       </p>
                                       <div className="dis-f">
                                         <Field
                                           className="mt-2 w-perc-100 mr-2"
                                           component={BrixelInputText}
-                                          label={translateTo(lang, "First name")}
+                                          label={translateTo(lang, 'First name')}
                                           name="firstName"
                                           placeholder=""
                                           type="text"
@@ -752,13 +757,13 @@ function OnBoarding(props) {
                                             invalid: (showErrors || formValue.firstName) && errorValue.firstName !== true,
                                           }}
                                           message={{
-                                            error: translateTo(lang, "Please insert a valid first name")
+                                            error: translateTo(lang, 'Please insert a valid first name'),
                                           }}
                                         />
                                         <Field
                                           className="mt-2 w-perc-100 ml-2"
                                           component={BrixelInputText}
-                                          label={translateTo(lang, "Last name")}
+                                          label={translateTo(lang, 'Last name')}
                                           name="lastName"
                                           placeholder=""
                                           type="text"
@@ -768,14 +773,14 @@ function OnBoarding(props) {
                                             invalid: (showErrors || formValue.lastName) && errorValue.lastName !== true,
                                           }}
                                           message={{
-                                            error: translateTo(lang, "Please insert a valid last name")
+                                            error: translateTo(lang, 'Please insert a valid last name'),
                                           }}
                                         />
                                       </div>
                                       <Field
                                         className="mt-2"
                                         component={BrixelInputText}
-                                        label={translateTo(lang, "Email address")}
+                                        label={translateTo(lang, 'Email address')}
                                         name="email"
                                         placeholder=""
                                         type="email"
@@ -785,13 +790,13 @@ function OnBoarding(props) {
                                           invalid: (showErrors || formValue.email) && errorValue.email !== true,
                                         }}
                                         message={{
-                                          error: translateTo(lang, "Please insert a valid email")
+                                          error: translateTo(lang, 'Please insert a valid email'),
                                         }}
                                       />
                                       <Field
                                         className="mt-2"
                                         component={BrixelInputText}
-                                        label={translateTo(lang, "Phone number")}
+                                        label={translateTo(lang, 'Phone number')}
                                         name="phone"
                                         placeholder=""
                                         type="text"
@@ -802,9 +807,9 @@ function OnBoarding(props) {
                                           options={[
                                             {
                                               // eslint-disable-next-line max-len
-                                              label: translateTo(lang, `I hereby confirm that I have read, understand and accept the <a href="https://gobrixel.nl/voorwaarden/" target="_blank">terms</a> and <a href="https://gobrixel.nl/privacybeleid/" target="_blank">privacy policy</a> of Brixel.`),
-                                              value: 'privacy'
-                                            }
+                                              label: translateTo(lang, 'I hereby confirm that I have read, understand and accept the <a href="https://gobrixel.nl/voorwaarden/" target="_blank">terms</a> and <a href="https://gobrixel.nl/privacybeleid/" target="_blank">privacy policy</a> of Brixel.'),
+                                              value: 'privacy',
+                                            },
                                           ]}
                                           name="privacy"
                                           className="body2 w-perc-100 max-w-perc-100"
@@ -814,7 +819,7 @@ function OnBoarding(props) {
                                             invalid: (showErrors || formValue.privacy) && errorValue.privacy !== true,
                                           }}
                                           message={{
-                                            error: translateTo(lang, "Please accept terms and privacy policy")
+                                            error: translateTo(lang, 'Please accept terms and privacy policy'),
                                           }}
                                         />
                                       </div>
@@ -873,9 +878,9 @@ function OnBoarding(props) {
                   <BrixelButtonPrimary
                     rounded
                     label={buttonLabel()}
-                    background={Questions[currentIndex].inputs ? "green" : "primary"}
+                    background={Questions[currentIndex].inputs ? 'green' : 'primary'}
                     className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
-                    onClick={() => Questions[currentIndex].cardType === 'createProfile' ? saveData() : changeStep()}
+                    onClick={() => (Questions[currentIndex].cardType === 'createProfile' ? saveData() : changeStep())}
                     rightIcon="arrow-right-small"
                     disabled={disableNextBtn}
                   />
@@ -897,8 +902,8 @@ OnBoarding.propTypes = {
   country: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  gameGroup: PropTypes.arrayOf(PropTypes.object),
-  gameHistory: PropTypes.object,
+  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
+  gameHistory: PropTypes.object.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   handleCreateActiveSingleProperty: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
@@ -910,17 +915,15 @@ OnBoarding.propTypes = {
   handleSetBrixelPoints: PropTypes.func.isRequired,
   handleSetNotification: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  initialValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   pageState: PropTypes.object,
-  redirectTo: PropTypes.object,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 OnBoarding.defaultProps = {
+  lang: 'en',
   pageState: null,
-  redirectTo: null,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -939,7 +942,7 @@ const mapStateToProps = (state, props) => ({
   initialValues: {
     bedrooms: 0,
     owner: null,
-  }
+  },
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -947,7 +950,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(change('OnBoarding', field, value));
   },
   checkValid() {
-    dispatch(isValid('OnBoarding'))
+    dispatch(isValid('OnBoarding'));
   },
   handleValidateUser: bindActionCreators(validateUser, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),

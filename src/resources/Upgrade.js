@@ -22,7 +22,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
         img: item.stub.includes('premium') ? brixelPremium : brixelPlus,
         priceInfo: `<span>Flat</span>&nbsp;<span>${item.price.currency}</span>&nbsp;<span>${item.price.total}</span>`,
         value: item.id,
-        moreDetails: item.details
+        moreDetails: item.details,
       });
     });
   }
@@ -32,7 +32,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
 
   return [
     {
-      title: translateTo(lang,"Do you want to upgrade?"),
+      title: translateTo(lang, 'Do you want to upgrade?'),
       subtitle: `<span class="txtGreen400">Save ${price}</span> on average compared to traditional agents.`,
       history: 'servicePackage',
       inputs: [
@@ -40,15 +40,15 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
           component: BrixelCheckboxWithDetail,
           pdClass: 'py-2 py-md-3 px-1',
           label: '',
-          name: "packageUpgrade.servicePackage",
+          name: 'packageUpgrade.servicePackage',
           validation: [Validation.required],
           options: optionsPackages,
         },
       ],
     },
     {
-      title: translateTo(lang,"When do you want to start?"),
-      subtitle: "This helps me planing your journey.",
+      title: translateTo(lang, 'When do you want to start?'),
+      subtitle: 'This helps me planing your journey.',
       history: 'wantToStart',
       vCentered: true,
       inputs: [
@@ -57,7 +57,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
           pdClass: 'py-2 py-md-3 px-1',
           icons: true,
           label: '',
-          name: "packageUpgrade.whenToStart",
+          name: 'packageUpgrade.whenToStart',
           validation: [Validation.required],
           options: [
             {
@@ -76,13 +76,13 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
               label: 'Later',
               value: 'later',
             },
-          ]
+          ],
         },
       ],
     },
     {
-      title: translateTo(lang,"Is the property currently inhabited?"),
-      subtitle: "",
+      title: translateTo(lang, 'Is the property currently inhabited?'),
+      subtitle: '',
       vCentered: true,
       history: 'propertyInhabited',
       inputs: [
@@ -91,7 +91,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
           pdClass: 'py-2 py-md-3 px-1',
           label: '',
           icons: true,
-          name: "packageUpgrade.propertyInhabited",
+          name: 'packageUpgrade.propertyInhabited',
           validation: [Validation.booleanRequired],
           options: [
             {
@@ -102,18 +102,18 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
               label: 'No',
               value: false,
             },
-          ]
+          ],
         },
         {
           condition: [{
-            name: "packageUpgrade.propertyInhabited",
+            name: 'packageUpgrade.propertyInhabited',
             value: true,
           }],
           component: BrixelRadioButton,
           pdClass: 'py-2 py-md-3 px-1',
           icons: true,
           title: 'Are you currently living there?',
-          name: "packageUpgrade.livingThere",
+          name: 'packageUpgrade.livingThere',
           validation: [Validation.booleanRequired],
           options: [
             {
@@ -124,13 +124,13 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
               label: 'No, someone else',
               value: false,
             },
-          ]
+          ],
         },
       ],
     },
     {
-      title: translateTo(lang,"How can I reach you best?"),
-      subtitle: "",
+      title: translateTo(lang, 'How can I reach you best?'),
+      subtitle: '',
       vCentered: true,
       history: 'contactDetails',
       inputs: [
@@ -139,7 +139,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
           pdClass: 'py-2 py-md-3 px-1',
           icons: true,
           label: '',
-          name: "contactPreference",
+          name: 'contactPreference',
           validation: [Validation.required],
           options: [
             {
@@ -154,14 +154,14 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
               label: 'Via E-Mail',
               value: 'email',
             },
-          ]
+          ],
         },
         {
           title: 'Are this your correct contact informations?',
           component: BrixelInputText,
           classNameBox: 'bgLight100 p-1',
           label: 'Phone number',
-          name: "packageUpgrade.contactPhone",
+          name: 'packageUpgrade.contactPhone',
           formatType: 'tel',
           placeholder: '+41 78 852 58 76',
           validation: [Validation.required],
@@ -170,7 +170,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
           component: BrixelInputText,
           classNameBox: 'bgLight100 p-1 mb-2',
           label: 'E-mail',
-          name: "packageUpgrade.contactEmail",
+          name: 'packageUpgrade.contactEmail',
           placeholder: 'hans.muster@amazon.com',
           validation: [Validation.isEmail, Validation.required],
         },
@@ -180,7 +180,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
           pdClass: 'py-2 py-md-3 px-1',
           icons: true,
           label: '',
-          name: "packageUpgrade.contactTime",
+          name: 'packageUpgrade.contactTime',
           validation: [Validation.required],
           options: [
             {
@@ -195,17 +195,17 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
               label: 'In the evening',
               value: 'evening',
             },
-          ]
+          ],
         },
       ],
     },
     {
-      title: translateTo(lang,"Great. Your order is complete. "),
-      subtitle: "We will reach out to you to organise the further steps and clarify all your questions.",
+      title: translateTo(lang, 'Great. Your order is complete. '),
+      subtitle: 'We will reach out to you to organise the further steps and clarify all your questions.',
       history: 'upgradeType',
       img: upgradeComplete,
       vCentered: true,
       toSave: true,
     },
   ];
-}
+};

@@ -28,16 +28,17 @@ const Properties = (props) => {
   // PROPS
   const {
     closeProperty,
-    //handleGetFavorites,
+    // handleGetFavorites,
     handleGetUserProperties,
     favoritesProperties,
     user,
     userProperties,
   } = props;
   // STATE
-  //const [activeTab, setActiveTab] = useState('');
+  // const [activeTab, setActiveTab] = useState('');
   const activeTab = '';
 
+  // GET USER PROPERTIES LIST
   useEffect(() => {
     if (get(user, 'user.id')) {
       handleGetUserProperties(user.user.id);
@@ -45,6 +46,8 @@ const Properties = (props) => {
     }
   }, [user]);
 
+  // FUNCTION TO COUNT USER PROPERTIES
+  // TODO SEPARATE BUYER/SELLER
   const countNumProperties = (section) => {
     let count = 0;
     switch (section) {
@@ -112,15 +115,10 @@ const Properties = (props) => {
 
 Properties.propTypes = {
   closeProperty: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  activeProperty: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  userProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
-  favoritesProperties: PropTypes.arrayOf(PropTypes.object.isRequired),
+  userProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetUserProperties: PropTypes.func.isRequired,
-  handleGetFavorites: PropTypes.func.isRequired,
-  windowDimensions: PropTypes.object.isRequired,
 };
 
 Properties.defaultProps = {

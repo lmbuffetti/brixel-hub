@@ -27,7 +27,6 @@ class Gamification extends Base {
     const url = ep.gamification.gameHistoryByUser(id);
     return this.apiClient.post(url, {}, data);
   }
-
 }
 
 export default Gamification;

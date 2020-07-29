@@ -10,7 +10,7 @@ class Property extends Base {
 
   getToken(data, remeberMe) {
     const url = ep.user.getToken();
-    return this.apiClient.get(url, {type: 'login'}, remeberMe, {}, data);
+    return this.apiClient.get(url, { type: 'login' }, remeberMe, {}, data);
   }
 
   recoverPassword(email) {

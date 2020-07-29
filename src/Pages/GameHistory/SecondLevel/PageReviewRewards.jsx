@@ -26,14 +26,16 @@ const PageReviewRewards = (props) => {
   const propID = get(match, 'params.propId', '');
   const gameStub = history.location.pathname.split('/')[3];
 
+  // CHECK IF THE SECTION IS DONE
   useEffect(() => {
-    const isCheckDone = gameHistory.find(item => item.page === propID && item.achievement.stub === gameStub);
+    const isCheckDone = gameHistory.find((item) => item.page === propID && item.achievement.stub === gameStub);
     setIsDone(typeof isCheckDone !== 'undefined');
   }, [gameHistory]);
 
-  const openPreview = (done = false) => {
+  // FUNCTION TO OPEN THE PAGE PREVIEW AND ADD TO GAME HISTORY
+  const openPreview = () => {
     const redirectUrl = `${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${window.location.href}`;
-    handleAddGameHistory({stub: gameStub, redirectTo: redirectUrl, smallLoader: 'preview'});
+    handleAddGameHistory({ stub: gameStub, redirectTo: redirectUrl, smallLoader: 'preview' });
   };
 
   return (
@@ -91,7 +93,7 @@ const PageReviewRewards = (props) => {
                 label="Open preview"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="m-a"
                 onClick={() => openPreview(false)}
               />
             </div>
@@ -149,7 +151,7 @@ const PageReviewRewards = (props) => {
                 label="Open preview"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="m-a"
                 onClick={() => openPreview(true)}
                 isLoading={isSmallLoading === 'preview'}
               />
@@ -158,22 +160,21 @@ const PageReviewRewards = (props) => {
         )
       }
     </main>
-  )
+  );
 };
 
 PageReviewRewards.propTypes = {
   activeSingleProperty: Proptypes.object.isRequired,
   formValue: Proptypes.object.isRequired,
   handleAddGameHistory: Proptypes.func.isRequired,
-  isSmallLoading: Proptypes.string,
+  isSmallLoading: Proptypes.string.isRequired,
   history: Proptypes.object.isRequired,
   match: Proptypes.object.isRequired,
-  gameHistory: Proptypes.arrayOf(Proptypes.object),
-}
+  gameHistory: Proptypes.arrayOf(Proptypes.object).isRequired,
+};
 
 PageReviewRewards.defaultProps = {
-  totalComplete: 9,
-}
+};
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
@@ -186,7 +187,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });
 
-export default compose (
+export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(PageReviewRewards);

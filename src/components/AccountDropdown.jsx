@@ -6,12 +6,13 @@ import { compose, bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { BrixelDropdown } from '@brixel/brixel-components';
-import { setUnsavedChangesModal } from '../actions/CommonActions';
 import has from 'lodash/has';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
+import { setUnsavedChangesModal } from '../actions/CommonActions';
 import AvatarImage from './AvatarImage';
 
 const AccountDropdown = (props) => {
+  // PROPS
   const {
     className,
     lang,
@@ -20,6 +21,7 @@ const AccountDropdown = (props) => {
     setUnsavedModal,
   } = props;
 
+  // FUNCTIONS TO CREATE THE PROFILE DROPDOWN MENU
   const dropdownAccount = () => (
     [
       {
@@ -60,8 +62,8 @@ const AccountDropdown = (props) => {
                 props: {
                   avatarImg: has(loggedInUser, 'user.avatar[0]') ? `${baseByData().shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null,
                   name: has(loggedInUser, 'user.name') ? loggedInUser.user.name : '',
-                  size: 32
-                }
+                  size: 32,
+                },
               }}
               options={dropdownAccount()}
               onSelect={(e, keys) => {
@@ -86,8 +88,6 @@ const AccountDropdown = (props) => {
 
 AccountDropdown.propTypes = {
   className: PropTypes.string,
-  configUrl: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   preventExit: PropTypes.bool.isRequired,

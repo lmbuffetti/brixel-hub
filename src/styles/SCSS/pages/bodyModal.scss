@@ -1,11 +1,12 @@
 #bodyModalWrapper {
   width: 100%;
   height: 100%;
-  background: map_get($lightColor, 100);
+  background-color: map_get($lightColor, 100);
   z-index: 10;
   position: fixed;
   left: 0;
   top: 0;
+  z-index: 10;
 
   &.withHeader {
     position: relative;
@@ -16,6 +17,13 @@
     top: 0;
   }
 
+  &:not(.getStarted) {
+    .bodyModal {
+      max-height: calc(100% - #{$step * 2});
+      top: $step * 2;
+    }
+  }
+
   .bodyModal {
     display: flex;
     flex-direction: column;
@@ -24,13 +32,16 @@
 
     position: relative;
     width: 100%;
-    z-index: 10;
+    height: 100%;
 
-    height: calc(100% - #{$step});
-    top: $step;
+    z-index: 10;
     bottom: 0;
 
     animation: fadeInSec $default-time $default-easing;
+
+    &.ov-v {
+      overflow: visible;
+    }
 
     .pageHeaderAchievement {
       > div {
@@ -48,15 +59,9 @@
       display: flex;
       flex-direction: column;
 
-     /*  &.interactive {
-        // interactive bg
-        margin-top: auto;
-        margin-bottom: auto;
-        height: auto;
-        min-height: 70%;
-        max-height: 100%;
-        position: relative;
-      } */
+      &.ov-v {
+        overflow: visible;
+      }
 
       &[class*="bg"] .singleStep {
         align-items: center;
@@ -75,8 +80,7 @@
         transform: translateX(-50%);
         background-color: $brx-white;
         box-shadow: $shadow-2dp;
-        border-top-left-radius: $brd-radius-small;
-        border-top-right-radius: $brd-radius-small;
+        border-radius: $brd-radius-small;
       }
 
       &.bgRed100 {
@@ -95,7 +99,11 @@
       .multiStepSlides {
         height: 100%;
         display: flex;
-        overflow: hidden;
+        overflow-y: auto;
+
+        @media (max-width: $responsive-medium) {
+          max-height: calc(100% - 54px);
+        }
 
         .singleStep {
           height: 100%;
@@ -157,29 +165,11 @@
       left: 50%;
       transform: translateX(-50%);
       bottom: 0;
-      transition: background $default-time $default-easing;
+      //transition: background $default-time $default-easing;
 
       &.staticFooter {
         left: 0;
         transform: none;
-      }
-
-      &.successNext {
-        background: map_get($primaryColor, 700);
-        .textSuccess {
-          @media (max-width: $responsive-medium) {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            transform: translateY(-100%);
-            padding: $step $step * 2 0;
-            background: map_get($primaryColor, 700);
-          }
-        }
-        .backBtn {
-          opacity: .5;
-        }
       }
       span {
         white-space: nowrap;
@@ -218,35 +208,6 @@
     }
   }
 }
-/*
-@media (min-width: $responsive-medium) {
-  #bodyModalWrapper {
-    .bodyModal {
-      height: 100%;
-      overflow: hidden;
-      left: 50%;
-      transform: translate(-50%, 0);
-
-      #multiStepForm {
-        height: calc(100% - 146px);
-      }
-
-      &:not(.upgradeModal) {
-        height: calc(100% - #{$step * 2});
-      }
-      &.upgradeModal {
-        #multiStepForm {
-          height: calc(100% - 146px);
-        }
-        &.stepNo0 {
-          #multiStepForm {
-            height: calc(100% - 152px);
-          }
-        }
-      }
-    }
-  }
-} */
 
 .barAssessor {
   height: 8px;
@@ -256,3 +217,4 @@
 .word-b {
   @include line-break;
 }
+

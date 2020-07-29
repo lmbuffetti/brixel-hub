@@ -1,13 +1,13 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React  from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelButtonIcon, MultiFileldsReduxForm  } from '@brixel/brixel-components';
+import { BrixelButtonIcon, MultiFileldsReduxForm } from '@brixel/brixel-components';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 
 const FactsQuestion = (props) => {
@@ -20,6 +20,7 @@ const FactsQuestion = (props) => {
   // PARAMS URL
   const propID = get(match, 'params.propId', null);
 
+  // FUNCTIONS TO SKIP SECTION
   /*
   const handleSkipSection = async (val) => {
     const inputSheet = get(formValue, 'inputSheet', {});
@@ -90,6 +91,7 @@ const FactsQuestion = (props) => {
           onClick={() => history.push(`/${propID}/property/facts`)}
         />
       </div>
+
       <MultiFileldsReduxForm
         classNameBox={quest.classNameBox}
         className="singleInput"
@@ -104,10 +106,8 @@ const FactsQuestion = (props) => {
 };
 
 FactsQuestion.propTypes = {
-  changeFieldValue: PropTypes.func.isRequired,
-  errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   quest: PropTypes.object,
 };
@@ -127,7 +127,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   reset(form) {
-    (dispatch(reset(form)))
+    (dispatch(reset(form)));
   },
 });
 

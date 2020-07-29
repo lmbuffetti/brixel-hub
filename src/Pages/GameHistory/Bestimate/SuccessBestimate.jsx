@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -8,10 +8,11 @@ import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
+import { BrixelButtonPrimary, Helpers } from '@brixel/brixel-components';
 import { getGamegroup } from '../../../actions/GamificationActions';
 import newBestimate from '../../../images/Bestimate/newBestimate.svg';
 import startBestimate from '../../../images/Bestimate/startBestimate.svg';
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import generatingBestimate from '../../../images/Bestimate/generatingBestimate.svg';
 import { getMarketCheck } from '../../../actions/PropertyActions';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../../images/emptyHub.svg';
@@ -41,8 +42,9 @@ function SuccessBestimate(props) {
     handleGetGamegroup();
   }, []);
 
+  // LOAD MARKET DATA
   useEffect(() => {
-    if (activeSingleProperty && activeSingleProperty.id && !marketData.priceDistribution) {
+    if (get(activeSingleProperty, 'id', '') && !marketData.priceDistribution) {
       const latBoundsRadius = 0.0675;
       const longBoundsRadius = 0.1;
       const livingSpace = get(activeSingleProperty, 'properties.typology.livingArea.value', 0);
@@ -55,7 +57,7 @@ function SuccessBestimate(props) {
         propertyType: activeSingleProperty.properties.propertyType,
         minLivingSpace: +livingSpace - percLivingSpace,
         maxLivingSpace: +livingSpace + percLivingSpace,
-        stateCode: 'CH',
+        stateCode: activeSingleProperty.location.countryCode,
       };
       handleGetMarketCheck(data);
     }
@@ -65,7 +67,7 @@ function SuccessBestimate(props) {
     if (gameGroup) {
       let selectedGame;
       gameGroup.map((game) => {
-        let curGame = game.achievements.find(item => item.stub === getParams);
+        const curGame = game.achievements.find((item) => item.stub === getParams);
         if (curGame) selectedGame = curGame;
         return null;
       });
@@ -78,7 +80,7 @@ function SuccessBestimate(props) {
   return (
     <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col a-c">
       {
-        groupdAchievement.done || getDoneFirstTime() === 'done' ? (
+        get(groupdAchievement, 'done', null) || getDoneFirstTime() === 'done' ? (
           <>
             {
               achievement && (
@@ -87,7 +89,7 @@ function SuccessBestimate(props) {
                     getDoneFirstTime().includes('-done') ? (
                       <>
                         <h5 className="ta-c max-w-fix-376 mb-2">Well done. You are now an Assessor.</h5>
-                        <p className="max-w-fix-376 m-a ta-c">Congrats! <br/><br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
+                        <p className="max-w-fix-376 m-a ta-c">Congrats! <br /><br /> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                         <div className="ta-c m-a my-5">
                           <img className="h-fix-120" src={newBestimate} alt="Nes Assessor" />
                         </div>
@@ -97,54 +99,71 @@ function SuccessBestimate(props) {
                         {
                           get(marketData, 'priceDistribution.chartRangePrice', null) !== null ? (
                             <>
-                              <div className="dis-fl-col jc-c a-c">
-                                <h5 className="ta-c max-w-fix-376 mb-2">Your estimated value</h5>
-                                <p className="body2 max-w-fix-376 txtDark200 m-a ta-c">
-                                  Bestimate® is calculated based on similar transaction.
-                                </p>
-                                <div className="ta-c mb-5 mt-2 pos-r">
-                                  {
-                                    get(marketData, 'priceDistribution.chartRangePrice', null) && get(activeSingleProperty, 'estimation.bestimate', null) && (
-                                      <div className="dis-f jc-c">
-                                        <RangePriceChart
-                                          properties={marketData.priceDistribution.chartRangePrice}
-                                          type="bestimate"
-                                          bestimate={activeSingleProperty.estimation.bestimate}
-                                          showTopLabel={false}
-                                        />
+                              {
+                                get(activeSingleProperty, 'estimation.bestimate.lowerValue', null) ? (
+                                  <>
+                                    <div className="dis-fl-col jc-c a-c">
+                                      <h5 className="ta-c max-w-fix-376 mb-2">Your estimated value</h5>
+                                      <p className="body2 max-w-fix-376 txtDark200 m-a ta-c">
+                                        Bestimate® is calculated based on similar transaction.
+                                      </p>
+                                      <div className="ta-c mb-5 mt-2 pos-r">
+                                        {
+                                          get(marketData, 'priceDistribution.chartRangePrice', null) && get(activeSingleProperty, 'estimation.bestimate', null) && (
+                                            <div className="dis-f jc-c">
+                                              <RangePriceChart
+                                                properties={marketData.priceDistribution.chartRangePrice}
+                                                type="bestimate"
+                                                bestimate={activeSingleProperty.estimation.bestimate}
+                                                showTopLabel={false}
+                                              />
+                                            </div>
+                                          )
+                                        }
+                                        <div className="ta-l m-a w-fit">
+                                          <p className="fsize-100 txtDark200">Worth up to</p>
+                                          <h5 className="ff-mono txtBlue700 fweight-700">
+                                            <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>&nbsp;
+                                            <span>{Helpers.formatNumberValue(bestimateValue, get(activeSingleProperty, 'price.currency', 'CHF'))}</span>
+                                          </h5>
+                                        </div>
                                       </div>
-                                    )
-                                  }
-                                  <div className="ta-l m-a w-fit">
-                                    <p className="fsize-100 txtDark200">Worth up to</p>
-                                    <h5 className="ff-mono txtBlue700 fweight-700">
-                                      <span>{bestimate.currency}</span>&nbsp;
-                                      <span>{bestimateValue.toLocaleString('de-CH')}</span>
-                                    </h5>
+                                    </div>
+                                    <div className="w-perc-100">
+                                      <BrixelButtonPrimary
+                                        rounded
+                                        label="See full Bestimate®"
+                                        background="primary"
+                                        className="m-a"
+                                        onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
+                                        rightIcon="arrow-right"
+                                      />
+                                    </div>
+                                  </>
+                                ) : (
+                                  <div className="dis-fl-col jc-c a-c">
+                                    <h5 className="ta-c max-w-fix-376 mb-2">Generating your estimation...</h5>
+                                    <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">
+                                      Our experts are validating the data and generating an extimation report just for you
+                                    </p>
+                                    <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
+                                    <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300 dis-f flex-wrap">
+                                      If you have any questions please contact our <span className="ml-small-4 cur-poi txtPrimary400" onClick={() => history.push({ state: { showSupport: true } })}>support</span>
+                                    </p>
                                   </div>
-                                </div>
-
-                              </div>
-                              <div className="w-perc-100">
-                                <BrixelButtonPrimary
-                                  rounded
-                                  label="See full Bestimate®"
-                                  background={"primary"}
-                                  className="min-w-fix-208 m-a "
-                                  onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
-                                  rightIcon="arrow-right"
-                                />
-                              </div>
+                                )
+                              }
                             </>
                           ) : (
                             <>
                               {
                                 get(marketData, 'priceDistribution', null) && (
                                   <div className="dis-fl-col a-c jc-c">
-                                    <img src={emptyHouseImg} alt="Empty Market Data"/>
-                                    <h5 className="mt-3 mb-2">Dude. Where's my data?</h5>
-                                    <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough
-                                      data available to calculate your result</p>
+                                    <img src={emptyHouseImg} alt="Empty Market Data" />
+                                    <h5 className="mt-3 mb-2">Dude. Where&apos;s my data?</h5>
+                                    <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to
+                                      calculate your result
+                                    </p>
                                   </div>
                                 )
                               }
@@ -175,9 +194,9 @@ function SuccessBestimate(props) {
               <BrixelButtonPrimary
                 rounded
                 label="Get free Bestimate®"
-                background={"primary"}
-                className="min-w-fix-208 m-a"
-                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                background="primary"
+                className="m-a"
+                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                 rightIcon="arrow-right"
               />
             </div>
@@ -191,18 +210,17 @@ function SuccessBestimate(props) {
 SuccessBestimate.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
-  finishedFlow: PropTypes.bool,
-  gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
   groupdAchievement: PropTypes.object,
+  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameStub: PropTypes.string,
   history: PropTypes.object.isRequired,
+  handleGetMarketCheck: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
 };
 
 SuccessBestimate.defaultProps = {
-  finishedFlow: false,
   groupdAchievement: {},
   gameStub: null,
 };

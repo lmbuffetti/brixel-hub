@@ -5,7 +5,7 @@ import ep from '../../endPoints.constant';
 class Property extends Base {
   addProperty(data, token) {
     const url = ep.property.addPage();
-    return this.apiClient.post(url, {token}, data);
+    return this.apiClient.post(url, { token }, data);
   }
 
   updateProperty(id, data) {
@@ -119,35 +119,42 @@ class Property extends Base {
   // BRIXELATOR
   getPriceDistribution(data) {
     const url = ep.brixelator.getPriceDistribution(data);
-    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+    return this.apiClient.get(url, { baseUrlType: 'brixelator' });
   }
+
   getLivingSpaceDistribution(data) {
     const url = ep.brixelator.getLivingSpaceDistribution(data);
-    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+    return this.apiClient.get(url, { baseUrlType: 'brixelator' });
   }
+
   getMerged(data) {
     const url = ep.brixelator.getMerged(data);
-    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+    return this.apiClient.get(url, { baseUrlType: 'brixelator' });
   }
+
   getPricePerSpace(data) {
     const url = ep.brixelator.getPricePerSpace(data);
-    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+    return this.apiClient.get(url, { baseUrlType: 'brixelator' });
   }
+
   getMarketDays(data) {
     const url = ep.brixelator.getMarketDays(data);
-    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+    return this.apiClient.get(url, { baseUrlType: 'brixelator' });
   }
+
   getContructionYears(data) {
     const url = ep.brixelator.getContructionYears(data);
-    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+    return this.apiClient.get(url, { baseUrlType: 'brixelator' });
   }
+
   getMergedBySubtype(data) {
     const url = ep.brixelator.getMergedBySubtype(data);
-    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+    return this.apiClient.get(url, { baseUrlType: 'brixelator' });
   }
+
   getMaketAggregate(data) {
     const url = ep.brixelator.getMaketAggregate(data);
-    return this.apiClient.get(url, {baseUrlType: 'brixelator'});
+    return this.apiClient.get(url, { baseUrlType: 'brixelator' });
   }
 }
 

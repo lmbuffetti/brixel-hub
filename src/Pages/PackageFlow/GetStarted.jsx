@@ -1,22 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+/* eslint-disable no-shadow */
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm } from '@brixel/brixel-components';
-import { QuestionsList } from '../../resources/brixelComintTownPropertyQuestion';
+import {
+  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm,
+} from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import { getActiveSingleCompany, getCompanyByCountry } from '../../actions/CompanyActions';
-import { createActiveSingleProperty } from '../../actions/PropertyActions';
 import { reduxForm, reset, change } from 'redux-form';
 import last from 'lodash/last';
-import { titleProperty } from '../../utils/titleCreation';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import queryString from 'query-string';
-import { setCookie } from '../../utils/helpers';
 import Cookies from 'universal-cookie';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
+import { createActiveSingleProperty } from '../../actions/PropertyActions';
+import { titleProperty } from '../../utils/titleCreation';
+import { setCookie } from '../../utils/helpers';
+import { QuestionsList } from '../../resources/onBoarding';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
@@ -44,23 +46,30 @@ const GetStarted = (props) => {
     reset,
   } = props;
   // STATE
+  // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
   const [progressBar, setProgressBar] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
+  // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [lastID, setLastID] = useState(0);
-  //const [roomValue, setRoomValue] = useState('');
+  // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
 
+  const singleStepRef = useRef(null);
+  const multiStepSlidesRef = useRef(null);
+
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     const dataForm = formValue;
-    const { profile, company } = dataForm;
-    delete dataForm.profile;
+    const { login, register, company } = dataForm;
+    delete dataForm.login;
+    delete dataForm.register;
     delete dataForm.company;
+    // PROPERTY DATA
     const data = {
       ...dataForm,
       packageFlowProcess: {
@@ -69,29 +78,36 @@ const GetStarted = (props) => {
       },
       language: lang || 'en',
       title: formValue.pageTitle,
-      status: "on-request",
+      status: 'on-request',
       listed: false,
       active: true,
       published: false,
       addProperty: true,
       redirectToUserFlow: false,
       redirectToHome: true,
-      company: company,
-    }
+      company,
+    };
     const page = get(formValue, 'signupScreen', null);
+    // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
     if (formValue.owner) {
       data.owner = loggedInUser.user.id;
+      // DISPATCH TO SAVE THE PROPERTY
       await handleCreateActiveSingleProperty(data);
     } else if (page === 'login') {
+      // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
+      // USER DATA
       data.user = {
-        username: profile.email,
-        password: profile.password,
+        username: login.email,
+        password: login.password,
       };
+      // DISPATCH TO DO LOGIN
       await handleDoLogin(data);
     } else {
+      // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
+      // USER DATA
       data.user = {
-        ...profile,
-        name: `${profile.firstName} ${profile.lastName}`,
+        ...register,
+        name: `${register.firstName} ${register.lastName}`,
         userType: 'seller',
         signupAccept: true,
         signupChannel: get(formValue, 'channel', 'default'),
@@ -100,12 +116,13 @@ const GetStarted = (props) => {
         createUser: true,
         company: cookie.get('brixelStubCompany') || null,
         ignoreEmail: false,
-        redirectTo: '/packageFlow/getStarted/success'
+        redirectTo: '/packageFlow/getStarted/success',
       };
+      // DISPATCH TO DO REGISTRATION USER
       await handleValidateUser(data);
     }
-    //handleCreateActiveSingleProperty({stub: getAchievement()});
-    //reset('Property');
+    // handleCreateActiveSingleProperty({stub: getAchievement()});
+    // reset('Property');
   };
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
@@ -116,18 +133,22 @@ const GetStarted = (props) => {
       questions[newIndex].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
         if (val !== cond.value && checkCond) {
-          if (act === 'back') newIndex = newIndex - 1;
-          else newIndex = newIndex + 1;
+          if (act === 'back') newIndex -= 1;
+          else newIndex += 1;
           checkCond = false;
         }
         return null;
-      })
+      });
     }
-    return newIndex
-  }
+    return newIndex;
+  };
 
-  // FUNCTION TO GO TO NEXT SPEP
-  const changeStep = (act) => {
+  const singleStepEl = singleStepRef.current;
+  const multiStepSlidesEl = multiStepSlidesRef.current;
+
+  // FUNCTION TO GO TO NEXT STEP
+  const changeStep = (act, e) => {
+    if (e) e.preventDefault();
     let newIndex = currentIndex;
     if (act === 'back') {
       newIndex -= 1;
@@ -142,8 +163,21 @@ const GetStarted = (props) => {
     if (questions[defId].toSave) saveData();
     else {
       setIsEnter(false);
-      setQuest(questions[defId]);
-      setCurrentIndex(defId);
+      let newQuest = {
+        ...questions[defId],
+      };
+      if (questions[defId].effect === 'slideUp') {
+        newQuest = {
+          ...questions[defId - 1],
+        };
+      }
+      if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
+        setQuest(newQuest);
+        setCurrentIndex(defId);
+      } else {
+        setQuest(newQuest);
+        setCurrentIndex(defId);
+      }
       setTimeout(() => {
         const getCurStep = document.getElementById(`step-${defId}`);
         if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
@@ -155,51 +189,43 @@ const GetStarted = (props) => {
       if (questions[defId].history) {
         history.push(`/packageFlow/getStarted/${questions[defId].history}`);
       }
-      const getOnlyQuest = questions.filter(item => item.inputs);
-      setProgressBar(defId * 100 / getOnlyQuest.length);
+      const getOnlyQuest = questions.filter((item) => item.inputs);
+      setProgressBar((defId * 100) / getOnlyQuest.length);
+      if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+      if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
+  // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
-    // SET DEFAULT LOCATION FOR DEV
-    if (baseByData.env === 'dev') {
-      /*const location = {
-        type: "stateCode",
-        country: "Schweiz",
-        countryCode: "CH",
-        name: "Ernastrasse",
-        vicinity: "Kreis 4",
-        address: "Ernastrasse, 8004 Zürich, Schweiz",
-        latitude: 47.3807432,
-        longitude: 8.516775800000005,
-        state: "Zürich",
-        stateCode: "ZH",
-        zip: 8004,
-        city: "Zürich",
-      };*/
-      //changeFieldValue('location', location);
-    }
-    // GET GAME GROUP TO POPULATE THE HOMEBASE SCREEN
     handleGetGamegroup();
-
     // GET THE COMPANY BY URL OR COOKIE
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
       const defComp = get(companyByUrl, 'company', companyCookie);
-      handleGetActiveSingleCompany({stub: defComp});
+      handleGetActiveSingleCompany({ stub: defComp });
       setCookie('brixelStubCompany', defComp);
     } else {
+      handleGetActiveSingleCompany({ stub: 'brixel_zurich' });
       changeFieldValue('location.countryCode', 'all');
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) history.push(`/packageFlow/getStarted/${questions[0].history}`);
   }, []);
 
+  // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')))
-    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex])
+    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
+    if (currentQuest.effect === 'slideUp') {
+      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex - 1]);
+    } else {
+      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+    }
   }, [lang]);
+
   // SET THE OWNER PROPERTY IF USER IS LOGGED IN
   useEffect(() => {
     if (loggedInUser.user) {
@@ -208,22 +234,24 @@ const GetStarted = (props) => {
     }
   }, [loggedInUser]);
 
+  // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
   useEffect(() => {
     if (get(initialValues, 'properties.propertyType', null)) {
       changeStep();
     }
-  }, [initialValues])
+  }, [initialValues]);
 
+  // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
     setIsEnter(true);
     if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
-      const countryCodeLocation = get(formValue, 'location.countryCode', null);
-      const countryCodeCompany = get(company, 'country.code', null);
+      const countryCodeLocation = get(formValue, 'location.countryCode', '');
+      const countryCodeCompany = get(company, 'country.code', '');
       if (countryCodeCompany !== countryCodeLocation) {
         let newCountryStub = '';
         if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
         if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
-        handleGetActiveSingleCompany({stub: newCountryStub})
+        handleGetActiveSingleCompany({ stub: newCountryStub });
       }
     }
   }, [currentIndex]);
@@ -251,13 +279,13 @@ const GetStarted = (props) => {
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     if (formValue) {
-      let newQuest = [];
+      const newQuest = [];
       QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
             if (get(formValue, item.name, null) !== item.value) {
-              isValid = false
+              isValid = false;
             }
             return null;
           });
@@ -269,16 +297,20 @@ const GetStarted = (props) => {
       });
       setLastID(newQuest.length - 1);
       setQuestions(newQuest);
-      const propertyType = get(formValue, 'properties.propertyType', null);
-      const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
-      if (pageTitle)
-        changeFieldValue('pageTitle', pageTitle);
     }
   }, [formValue]);
 
+  // FUCNTION TO CHANGE THE TITLE ON CHANGING LOCATION
+  useEffect(() => {
+    const propertyType = get(formValue, 'properties.propertyType', null);
+    const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
+    if (pageTitle) changeFieldValue('pageTitle', pageTitle);
+  }, [formValue.location]);
+
   // SET DATA BY COMPANY
   useEffect(() => {
-    if (has(company, 'stub')) {
+    const companyCookie = cookie.get('brixelStubCompany') || null;
+    if (has(company, 'stub') && companyCookie) {
       let getLang = cookie.get('brixelLang');
       if (get(company, 'language.code', null) && !getLang && currentIndex < 2) {
         const companyLang = get(company, 'language.code', 'en');
@@ -289,7 +321,7 @@ const GetStarted = (props) => {
       setQuestions(QuestionsList(getLang, companyCountry));
       changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
-      changeFieldValue('company', company.stub)
+      changeFieldValue('company', company.stub);
       changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
     }
   }, [company]);
@@ -302,7 +334,7 @@ const GetStarted = (props) => {
       quest.inputs.forEach((input) => {
         const err = get(errorValue, input.name, null);
         const noEmpty = get(formValue, input.name, 'ayc');
-        if(noEmpty !== 'ayc') isNotEmpty = true;
+        if (noEmpty !== 'ayc') isNotEmpty = true;
         if (input.condition) {
           input.condition.forEach((item) => {
             if (get(formValue, item.name, null) === item.value) {
@@ -310,23 +342,24 @@ const GetStarted = (props) => {
             }
           });
         } else if (input.validation) {
-          //const getRegField = get(registeredFields
+          // const getRegField = get(registeredFields
+          let field;
           if (input.name === 'profile') {
             const page = get(formValue, 'signupScreen', null);
-            let field = ['profile.email', 'profile.firstName', 'profile.lastName', 'privacy'];
+            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
             if (page === 'login') {
-              field = ['profile.email', 'profile.password'];
+              field = ['login.email', 'login.password'];
             }
             field.forEach((item) => {
-              const err = get(errorValue, item, null);
+              const err = get(errorValue, item, true);
               if (err !== true && err !== false && isValid) isValid = false;
-            })
+            });
           } else if (err !== true && err !== false && isValid) isValid = false;
         }
       });
     }
     if (quest.history === 'createProfile') {
-      //console.log(quest);
+      // console.log(quest);
     }
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
@@ -342,9 +375,9 @@ const GetStarted = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className="withHeader">
+    <div id="bodyModalWrapper" className="withHeader getStarted">
       {
-        get(quest, `inputs`, null) && (
+        get(quest, 'inputs', null) && (
           <BrixelProgressBar
             large
             saturation={400}
@@ -354,36 +387,54 @@ const GetStarted = (props) => {
           />
         )
       }
+
       <div
-        className="bodyModal"
-        // disabled for this release
-        /* style={{
-          backgroundImage: `url(${quest.bgImg})`,
-          backgroundSize: roomValue
-        }} */
+        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : 'ov-h'} ${quest.history}`}
+        // style={{ backgroundImage: `url(${quest.bgImg})` }}
       >
+        {/* preload all background images */}
+        {
+          questions.map((questStep, i) => (
+            <>
+              {
+                i <= 5 && (
+                  <div className="slideBg" key={i.toString()}>
+                    <div
+                      // eslint-disable-next-line no-nested-ternary
+                      className={`${i === currentIndex ? 'active' : currentIndex > 5 && i === 5 ? 'active' : ''} ${i < currentIndex && i <= 4 ? 'prev' : ''}`}
+                      style={{ backgroundImage: `url(${questStep.bgImg})` }}
+                    />
+                  </div>
+                )
+              }
+            </>
+          ))
+        }
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${quest.background || ''}`}
+          className={`interactive dis-fl-col jc-b ${quest.background || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : 'ov-h'}`}
+          onSubmit={(e) => changeStep(null, e)}
         >
-          <div className="multiStepSlides">
-            <div
-              className={`singleStep jc-c ${quest.vCentered ? 'vertCentered' : ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
-            >
+          <div ref={multiStepSlidesRef} className="multiStepSlides">
+            <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${quest.vCentered ? 'vertCentered' : ''} ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
               <div className="subcontainer m-a">
                 {
                   quest.inputs && (
-                    <div id={`step-${currentIndex}`} className="dis-f flex-wrap">
+                    <div id={`step-${currentIndex}`} className={`dis-f flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
                       {
                         quest.titleGreen && (
                           <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
                         )
                       }
-                      <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{quest.title}</h3>
+                      {
+                        quest.title && (
+                          <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{quest.title}</h3>
+                        )
+                      }
                       {
                         quest.subtitle && (
-                          <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)
+                          <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
                       <MultiFileldsReduxForm
                         form="GetStarted"
@@ -391,8 +442,10 @@ const GetStarted = (props) => {
                         formValue={formValue}
                         inputs={quest.inputs}
                         onClick={() => changeStep()}
+                        onCloseGoBack={() => changeStep('back')}
                         onClickDisabled={!checkValidateField()}
-                        showSendButton={true}
+                        onSubmit={() => changeStep()}
+                        showSendButton
                       />
                     </div>
                   )
@@ -404,8 +457,8 @@ const GetStarted = (props) => {
                       {
                         formName: 'GetStarted',
                         initialValue: formValue,
-                        ...quest
-                      }
+                        ...quest,
+                      },
                     )
                   )
                 }
@@ -415,13 +468,13 @@ const GetStarted = (props) => {
                       <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
                       <h5
                         className="fadeAnim mt-2 ta-c"
-                        dangerouslySetInnerHTML={{ __html: quest.title}}
+                        dangerouslySetInnerHTML={{ __html: quest.title }}
                       />
                       {
                         quest.subtitle && (
                           <h6
                             className="fadeAnim mt-2 ta-c"
-                            dangerouslySetInnerHTML={{ __html: quest.subtitle}}
+                            dangerouslySetInnerHTML={{ __html: quest.subtitle }}
                           />
                         )
                       }
@@ -435,21 +488,11 @@ const GetStarted = (props) => {
             className={`footerAction shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
             <div className="pos-r p-1 p-md-2">
-              <div className={`buttonsHolder w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-b'}`}>
+              <div className={`buttonsHolder w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>
                 {
-                  checkValidateField() && quest.successMessage && (
-                    <div
-                      className="txtWhite ta-r ml-a pr-1 textSuccess order-md-2 w-perc-flex-100 w-auto-md mb-1 mb-md-0"
-                    >
-                      {quest.successMessage}
-                      <BrixelIcon icon="check" className="ml-1" />
-                    </div>
-                  )
-                }
-                {
-                  questions[currentIndex] && questions[currentIndex].inputs && (
+                  questions[currentIndex] && questions[currentIndex].inputs && currentIndex !== 6 && (
                     <BrixelButtonIcon
-                      className={`shadow-2dp backBtn ${currentIndex === 0 ? 'hide' : ''} order-md-1`}
+                      className={`shadow-2dp backBtn ml-0 mr-a ${currentIndex === 0 ? 'hide' : ''}`}
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
                       background="white"
@@ -460,47 +503,99 @@ const GetStarted = (props) => {
                     />
                   )
                 }
+                {
+                  checkValidateField() && quest.successMessage && (
+                    <div className="txtWhite pr-1 textSuccess ml-a mr-0">
+                      {/* {quest.successMessage}  */} Ok! <BrixelIcon icon="check" className="ml-1" />
+                    </div>
+                  )
+                }
+
                 <BrixelButtonPrimary
-                  className={`order-md-3 noWrap w-perc-100 max-w-fix-160 ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'} ml-a` : ''}`}
+                  className={`mr-0 ml-0 noWrap ${quest.history} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''}`}
                   disabled={!checkValidateField()}
                   rounded
                   background="green"
                   saturation={400}
                   label={buttonLabel()}
                   rightIcon="arrow-right-small"
-                  onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                  onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                 />
               </div>
             </div>
           </div>
         </form>
       </div>
+      {/* signup flow */}
+      {
+        questions[currentIndex].effect === 'slideUp' && (
+          <div className="signUpContainer">
+            {
+              questions[currentIndex] && questions[currentIndex].inputs && (
+                <div id={`step-${currentIndex}slideUp`} className={`dis-f flex-wrap slideUp ${isEnter ? 'slide-enter-down' : ''}`}>
+                  {
+                    questions[currentIndex].titleGreen && (
+                      <h3 className="txtGreen400 w-perc-100">{questions[currentIndex].titleGreen}</h3>
+                    )
+                  }
+                  {
+                    questions[currentIndex].title && (
+                      <h3 className={`${questions[currentIndex].subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{questions[currentIndex].title}</h3>
+                    )
+                  }
+                  {
+                    questions[currentIndex].subtitle && (
+                      <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }} />)
+                  }
+                  <MultiFileldsReduxForm
+                    className="h-perc-100"
+                    form="GetStarted"
+                    disableNextBtn={false}
+                    formValue={formValue}
+                    inputs={questions[currentIndex].inputs}
+                    onSubmit={() => changeStep()}
+                    onCloseGoBack={() => changeStep('back')}
+                    onClickDisabled={!checkValidateField()}
+                    showSendButton
+                    showErrors
+                  />
+                </div>
+              )
+            }
+          </div>
+        )
+      }
     </div>
-  )
+  );
 };
 
 GetStarted.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
+  company: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleCreateActiveSingleProperty: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
-  handleGetCompanyByCountry: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleGetGamegroup: PropTypes.func.isRequired,
+  handleSetLanguage: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
+  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
-  registeredFields: PropTypes.object,
   reset: PropTypes.func.isRequired,
+};
+
+GetStarted.defaultProps = {
+  lang: 'en',
 };
 
 const mapStateToProps = (state, props) => {
   const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
   const channel = get(urlSearch, 'channel', 'default');
-  const propertyType = get(urlSearch, 'propertyType', null)
+  const propertyType = get(urlSearch, 'propertyType', null);
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
@@ -514,36 +609,35 @@ const mapStateToProps = (state, props) => {
     startForm: get(state, 'form.GetStarted', null),
     initialValues: {
       company: null,
-      channel: channel,
+      channel,
       price: {
-        currency: get(state, 'companies.activeSingleCompany.country.currency', null)
+        currency: get(state, 'companies.activeSingleCompany.country.currency', null),
       },
       changeCountry: null,
       properties: {
-        propertyType: propertyType,
+        propertyType,
         typology: {
           livingArea: {
-            unit: 'sqm'
-          }
-        }
-      }
-    }
+            unit: 'sqm',
+          },
+        },
+      },
+    },
   });
-}
+};
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('GetStarted', field, value));
   },
   reset(form) {
-    (dispatch(reset(form)))
+    (dispatch(reset(form)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleGetCompanyByCountry: bindActionCreators(getCompanyByCountry, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 
@@ -551,7 +645,7 @@ const AnyForm = reduxForm({
   form: 'GetStarted',
   enableReinitialize: false,
   destroyOnUnmount: false,
-})(GetStarted)
+})(GetStarted);
 
 export default compose(
   withRouter,

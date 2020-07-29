@@ -10,7 +10,7 @@ import portalsPublishedCheckImg from '../../../images/secondLevel/portalsPublish
 import portalReview from '../../../images/Listings/portals_review.svg';
 import portalPublished from '../../../images/Listings/portals_published.svg';
 
-//import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+// import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { addGameHistory } from '../../../actions/GamificationActions';
 
 const PortalsRewards = (props) => {
@@ -27,21 +27,20 @@ const PortalsRewards = (props) => {
   const propID = get(match, 'params.propId', '');
   const gameStub = history.location.pathname.split('/')[3];
 
+  // CHECK IF THE SECTION IS DONE
   useEffect(() => {
-    const isCheckDone = gameHistory.find(item => item.page === propID && item.achievement.stub === gameStub);
-    const checkifExist = Object.keys(portalsPublished).filter(key => portalsPublished[key] === true);
-    if (typeof isCheckDone !== 'undefined' && checkifExist.length > 0)
-      setStatus('online');
-    else if (portalsReview)
-      setStatus('review');
-    else
-      setStatus('offline');
+    const isCheckDone = gameHistory.find((item) => item.page === propID && item.achievement.stub === gameStub);
+    const checkifExist = Object.keys(portalsPublished).filter((key) => portalsPublished[key] === true);
+    if (typeof isCheckDone !== 'undefined' && checkifExist.length > 0) setStatus('online');
+    else if (portalsReview) setStatus('review');
+    else setStatus('offline');
   }, [gameHistory, portalsReview, portalsPublished]);
 
-  const openPreview = (done = false) => {
-    //if (!done) handleAddGameHistory({stub: gameStub});
+  // FUNCTION TO GO TO /LISTINGS/PORTALS
+  const openPreview = () => {
+    // if (!done) handleAddGameHistory({stub: gameStub});
     history.push(`/${propID}/listings/portals`);
-    //window.open(`${baseByData.pageUrl}preview/${propID}`, '_blank');
+    // window.open(`${baseByData.pageUrl}preview/${propID}`, '_blank');
   };
 
   return (
@@ -53,7 +52,7 @@ const PortalsRewards = (props) => {
               <h5 className="ta-c mb-2">First big step done.</h5>
               <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">Your property is on the market and ready to be discovered by it’s future buyer.</p>
               <div className="ta-c my-5">
-                <img className="h-fix-120" src={portalPublished} alt="Page Preview"/>
+                <img className="h-fix-120" src={portalPublished} alt="Page Preview" />
               </div>
             </div>
             <div>
@@ -61,7 +60,7 @@ const PortalsRewards = (props) => {
                 label="Manage Portals"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="m-a"
                 onClick={() => openPreview(false)}
               />
             </div>
@@ -75,7 +74,7 @@ const PortalsRewards = (props) => {
               <h5 className="ta-c mb-2">Put your property on the market.</h5>
               <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">Your are just 3 clicks away. Let your property fly.</p>
               <div className="ta-c my-5">
-                <img className="h-fix-120" src={portalsPublishedCheckImg} alt="Page Preview"/>
+                <img className="h-fix-120" src={portalsPublishedCheckImg} alt="Page Preview" />
               </div>
             </div>
             <div>
@@ -83,7 +82,7 @@ const PortalsRewards = (props) => {
                 label="Manage Portals"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="m-a"
                 onClick={() => openPreview(false)}
               />
             </div>
@@ -97,7 +96,7 @@ const PortalsRewards = (props) => {
               <h5 className="ta-c mb-2">On it’s way.</h5>
               <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300">Your property was sent to the portals and will be published soon. </p>
               <div className="ta-c my-5">
-                <img className="h-fix-120" onClick={() => openPreview(false)} src={portalReview} alt="Page Preview"/>
+                <img className="h-fix-120" onClick={() => openPreview(false)} src={portalReview} alt="Page Preview" />
               </div>
             </div>
             <div>
@@ -105,7 +104,7 @@ const PortalsRewards = (props) => {
                 label="Manage Portals"
                 rounded
                 rightIcon="arrow-right"
-                className="min-w-fix-216 m-a"
+                className="m-a"
                 onClick={() => openPreview(false)}
               />
             </div>
@@ -113,20 +112,19 @@ const PortalsRewards = (props) => {
         )
       }
     </main>
-  )
+  );
 };
 
 PortalsRewards.propTypes = {
-  handleAddGameHistory: Proptypes.func.isRequired,
   history: Proptypes.object.isRequired,
   match: Proptypes.object.isRequired,
-  gameHistory: Proptypes.arrayOf(Proptypes.object),
+  gameHistory: Proptypes.arrayOf(Proptypes.object).isRequired,
   portalsReview: Proptypes.bool.isRequired,
   portalsPublished: Proptypes.object.isRequired,
-}
+};
 
 PortalsRewards.defaultProps = {
-}
+};
 
 const mapStateToProps = (state) => ({
   gameHistory: get(state, 'gamification.gameHistory.data', []),
@@ -138,7 +136,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });
 
-export default compose (
+export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(PortalsRewards);

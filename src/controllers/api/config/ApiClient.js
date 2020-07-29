@@ -101,7 +101,7 @@ class ApiClient {
       type = 'data',
       baseUrlType = 'baseUrl',
       moreActions,
-    }
+    },
   ) {
     let head;
     if (type === 'login') {
@@ -132,7 +132,7 @@ class ApiClient {
         return queryString.stringify(p, { encode: true });
       },
       headers: head,
-      onUploadProgress: ( progressEvent ) => {
+      onUploadProgress: (progressEvent) => {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
         if (moreActions && moreActions.uploading) moreActions.uploading.dispatch({ type: SET_UPLOADING_PERCENTAGE, payload: percentCompleted });
         return percentCompleted;

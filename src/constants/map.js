@@ -1,3 +1,5 @@
+// STYLE OF MAP
+
 import clusterImg from '../images/location/cluster_icon.png';
 
 export const mapCaptionData = {
