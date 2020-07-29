@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
 import React, { useState, useEffect, useRef } from 'react';
@@ -447,6 +448,7 @@ const GetStarted = (props) => {
                         onSubmit={() => changeStep()}
                         showSendButton
                       />
+
                     </div>
                   )
                 }
@@ -481,11 +483,27 @@ const GetStarted = (props) => {
                     </div>
                   )
                 }
+                {
+                  quest.history === 'resume' && (
+                    <div className="max-w-fix-344 m-a">
+                      <BrixelButtonPrimary
+                        className={`mt-3 m-a noWrap ${quest.history}`}
+                        rounded
+                        background="green"
+                        saturation={400}
+                        label={buttonLabel()}
+                        disabled={!checkValidateField()}
+                        rightIcon="arrow-right-small"
+                        onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                      />
+                    </div>
+                  )
+                }
               </div>
             </div>
           </div>
           <div
-            className={`footerAction shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+            className={`footerAction shadow-1dp-top ${quest.history === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
             <div className="pos-r p-1 p-md-2">
               <div className={`buttonsHolder w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>

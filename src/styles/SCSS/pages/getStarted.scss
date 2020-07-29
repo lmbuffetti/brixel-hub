@@ -71,12 +71,35 @@
             max-height: calc(100% - 53px);
           }
           .singleStep {
-            padding-top: 80px;
-            padding-bottom: 80px;
+            padding-top: 64px;
+            padding-bottom: 64px;
 
             @media (max-width: $responsive-medium) {
              padding-top: 40px;
              padding-bottom: 40px;
+            }
+          }
+        }
+      }
+
+      &.resume {
+        #multiStepForm {
+          .multiStepSlides {
+            height: 100%;
+            max-height: inherit;
+
+            @media (max-width: $responsive-medium) {
+              height: 100%;
+              max-height: inherit;
+            }
+            .subcontainer {
+              .scaleAnim {
+                animation: scaleUp $default-time-long $default-easing;
+              }
+              .tickIcon {
+                right: $step;
+                position: relative;
+              }
             }
           }
         }

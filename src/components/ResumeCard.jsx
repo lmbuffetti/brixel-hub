@@ -21,7 +21,7 @@ const ResumeCard = (props) => {
   return (
     <div className="max-w-fix-344 m-a">
       <h5
-        className="fadeAnim fsize-700 mb-5"
+        className="fadeAnim fsize-700 mb-5 ta-c"
         dangerouslySetInnerHTML={{ __html: title }}
       />
       {/* Property Card */}
@@ -58,19 +58,19 @@ const ResumeCard = (props) => {
           </div>
         </div>
       </div>
-      <div className="mt-5">
+      <div className="mt-5 ta-c">
         <h5 className="mb-3">What can I do now?</h5>
-        <div className="mb-1 pos-r">
-          <BrixelIcon className="pos-a" icon="check" color="green" />
-          <p className="ml-4 dis-b">Compare to your local market.</p>
+        <div className="dis-f jc-c mb-1 pos-r">
+          <BrixelIcon className="tickIcon" icon="check" color="green" />
+          <p className="dis-b">Compare to your local market.</p>
         </div>
-        <div className="mb-1 pos-r">
-          <BrixelIcon className="pos-a" icon="check" color="green" />
-          <p className="ml-4 dis-b">Get free price indication.</p>
+        <div className="dis-f jc-c mb-1 pos-r">
+          <BrixelIcon className="tickIcon" icon="check" color="green" />
+          <p className="dis-b">Get free price indication.</p>
         </div>
-        <div className="mb-1 pos-r">
-          <BrixelIcon className="pos-a" icon="check" color="green" />
-          <p className="ml-4 dis-b">Simulate your sale for free.</p>
+        <div className="dis-f jc-c mb-1 pos-r">
+          <BrixelIcon className="tickIcon" icon="check" color="green" />
+          <p className="dis-b">Simulate your sale for free.</p>
         </div>
       </div>
     </div>

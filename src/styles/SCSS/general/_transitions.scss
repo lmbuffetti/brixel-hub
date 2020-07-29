@@ -160,5 +160,5 @@
 }
 
 .resume .subcontainer {
-  animation: fadeInSec 450ms $default-easing;
+  animation: fadeInSec $default-time-long $default-easing;
 }
