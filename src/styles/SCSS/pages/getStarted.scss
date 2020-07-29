@@ -40,7 +40,6 @@
         }
       }
 
-
       #multiStepForm {
         &.interactive {
           height: auto;
@@ -176,9 +175,11 @@
       max-width: 640px;
       margin: 0 auto;
       background: map_get($primaryColor, 700);
-      border-top-left-radius: $brd-radius-small;
-      border-top-right-radius: $brd-radius-small;
 
+      @media (min-width: $responsive-small) {
+        border-top-left-radius: $brd-radius-small;
+        border-top-right-radius: $brd-radius-small;
+      }
       > div {
         height: 100%;
       }
