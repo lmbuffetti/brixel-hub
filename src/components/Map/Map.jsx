@@ -7,6 +7,8 @@ import {
 } from 'google-maps-react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { change } from 'redux-form';
 import { BrixelIcon } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import markerImg from '../../images/location/icon_location.svg';
@@ -337,6 +339,7 @@ export const ComponentMap = (props) => {
 };
 
 ComponentMap.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
   curCountry: PropTypes.object,
   disableZoom: PropTypes.bool,
   draggable: PropTypes.bool,
@@ -375,6 +378,12 @@ ComponentMap.defaultProps = {
   visible: true,
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(form, field, value) {
+    dispatch(change(form, field, value));
+  },
+});
+
 export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
   const prevLat = get(prevProps, 'latitude', null);
   const nextLat = get(nextProps, 'latitude', null);
@@ -388,4 +397,5 @@ export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
 
 export default compose(
   withRouter,
+  connect(null, mapDispatchToProps),
 )(Maps);

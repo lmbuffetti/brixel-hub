@@ -286,18 +286,20 @@ const Dashboard = (props) => {
         !isLoading &&
         validForm()
       ) {
-        handleSetScreenNotification({
-          state: true,
-          type: 'infoHub',
-          label: 'Unsaved changes',
-          actions:
-            [
-              { type: 'secondary', label: 'Discard', func: () => discardChanges(notification) },
-              {
-                type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading,
-              },
-            ],
-        });
+        if (get(notification, 'state', false) === false) {
+          handleSetScreenNotification({
+            state: true,
+            type: 'infoHub',
+            label: 'Unsaved changes',
+            actions:
+              [
+                { type: 'secondary', label: 'Discard', func: () => discardChanges(notification) },
+                {
+                  type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading,
+                },
+              ],
+          });
+        }
       } else if (
         !!notification &&
         !get(notification, 'label', '').toLowerCase().includes('saved')

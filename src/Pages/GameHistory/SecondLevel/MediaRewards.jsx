@@ -62,7 +62,7 @@ const MediaRewards = (props) => {
                     icon={photos.length > 0 ? 'check' : 'gallery'}
                     label="Photos"
                     labelClass="fweight-400"
-                    subtitle={'<span>Upload 1 photo<span>'}
+                    subtitle="<span>Upload 1 photo<span>"
                     subtitleClass={`fsize-200 txtDark200 pt-small-6 ${photos.length > 0 ? 'td-lt' : ''}`}
                     className="w-perc-100 mr-1 shadow-1dp brdMedium p-2 brdTrans"
                     colorIcon={photos.length > 0 ? 'green400' : 'primary700'}
@@ -76,7 +76,7 @@ const MediaRewards = (props) => {
                     icon={floorPlans.length > 0 ? 'check' : 'plans'}
                     label="Plans"
                     labelClass="fweight-400"
-                    subtitle={'<span>Upload 1 plan</span>'}
+                    subtitle="<span>Upload 1 plan</span>"
                     subtitleClass={`fsize-200 txtDark200 pt-small-6 ${floorPlans.length > 0 ? 'td-lt' : ''}`}
                     className="w-perc-100 ml-1 shadow-1dp brdMedium p-2 brdTrans"
                     colorIcon={floorPlans.length > 0 ? 'green400' : 'primary700'}
@@ -105,7 +105,7 @@ const MediaRewards = (props) => {
                     icon={documents.length > 0 ? 'check' : 'folder'}
                     label="Docubox"
                     labelClass="fweight-400"
-                    subtitle={'<span>Upload 1 document</span>'}
+                    subtitle="<span>Upload 1 document</span>"
                     subtitleClass={`fsize-200 txtDark200 pt-small-6 ${documents.length > 0 ? 'td-lt' : ''}`}
                     className="w-perc-100 ml-1 shadow-1dp brdMedium p-2 brdTrans"
                     colorIcon={documents.length > 0 ? 'green400' : 'primary700'}
