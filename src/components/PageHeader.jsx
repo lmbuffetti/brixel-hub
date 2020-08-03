@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
+import { BrixelDropdown, BrixelModal, Helpers } from '@brixel/brixel-components';
 // import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_color.svg';
 import Loadable from 'react-loadable';
@@ -29,7 +29,7 @@ const AvatarImage = Loadable({
 function PageHeader(props) {
   // PROPS
   const {
-    lang, languages, loggedInUser, userAwards, brixelPoints,
+    activeSingleCompany, lang, languages, loggedInUser, userAwards, brixelPoints,
     handleSetLanguage, history, handleGetGame, property, gameHistory,
   } = props;
 
@@ -40,7 +40,7 @@ function PageHeader(props) {
   const [widthScreen, setWidthScreen] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [zIndexHeader, setZIndexHeader] = useState(11);
-  const [supportPhone, setSupportPhone] = useState('');
+  const supportPhone = Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', '000'));
 
   // FUNCTION TO CHECK IF USER IS LOGGED IN
   useEffect(() => {
@@ -124,14 +124,6 @@ function PageHeader(props) {
     history.push(link);
     setShowMobileMenu(false);
   };
-  useEffect(() => {
-    switch (lang) {
-      case 'pt':
-        return setSupportPhone('+351 910 068 211');
-      default:
-        return setSupportPhone('+41 445 525 730');
-    }
-  }, [lang]);
 
   return (
     <>
@@ -351,6 +343,7 @@ function PageHeader(props) {
 }
 
 PageHeader.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   languages: PropTypes.arrayOf(PropTypes.object),
@@ -372,6 +365,7 @@ PageHeader.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   languages: get(state, 'common.languages', []),
   lang: get(state, 'common.language', []),
