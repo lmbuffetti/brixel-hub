@@ -20,6 +20,7 @@ import {
   SPINNER_SMALL_OFF,
   SET_SCREEN_NOTIFICATION,
   REDIRECT_TO,
+  SET_FORM_ERROR,
 } from '../actions/types/CommonTypes';
 
 import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
@@ -158,27 +159,21 @@ const checkUser = (store) => (next) => (action) => {
     // DISPATCH TO VALIDATE IF USER EXISTS
     case VALIDATE_USER: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
+      // store.dispatch({ type: SPINNER_ON });
       const newUser = action.payload.user.createUser || false;
       delete action.payload.user.createUser;
       api.user.validateUser(action.payload.user.email)
         .then((res) => {
           if (newUser && typeof res.data.statusCode === 'undefined') {
             const alertProps = {
-              icon: 'close-circle',
-              label: 'You already have a profile, please do a login',
-              type: 'alert',
+              message: 'You already have a profile, please do a login',
               state: true,
-              actions: [{
-                type: 'close',
-                func: () => store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null }),
-              }],
             };
-            store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: alertProps });
+            store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
           } else if (newUser) {
             store.dispatch({ type: CREATE_USER, payload: action.payload });
           }
-          store.dispatch({ type: SPINNER_OFF });
+          // store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           store.dispatch({ type: SPINNER_OFF });

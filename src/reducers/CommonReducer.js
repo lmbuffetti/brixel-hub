@@ -21,6 +21,7 @@ import {
   SET_WINDOW_DIMENSIONS,
   SET_UPLOADING_PERCENTAGE,
   SET_COUNTRY_LIST,
+  SET_FORM_ERROR,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies();
@@ -30,6 +31,7 @@ export const defaultState = {
     width: window.innerWidth,
     height: window.innerHeight,
   },
+  formError: {},
   isLoading: 0,
   isSmallLoading: null,
   requestDone: false,
@@ -131,6 +133,10 @@ export default handleActions(
     [SET_UPLOADING_PERCENTAGE]: (state, action) => ({
       ...state,
       percentage: action.payload,
+    }),
+    [SET_FORM_ERROR]: (state, action) => ({
+      ...state,
+      formError: action.payload,
     }),
   },
   defaultState,
