@@ -11,12 +11,21 @@ const checkCommon = (store) => (next) => (action) => {
     case GET_ACTIVE_SINGLE_COMPANY: {
       next(action);
       if (action.payload.stub) {
-        api.company.getCompanyByStub(action.payload.stub)
-          .then((res) => {
-            if (typeof res.data.status === 'undefined') {
-              store.dispatch({ type: SET_ACTIVE_SINGLE_COMPANY, payload: res.data });
-            }
-          });
+        if (action.payload.stub === 'default') {
+          api.company.getDefaultCompany()
+            .then((res) => {
+              if (typeof res.data.status === 'undefined') {
+                store.dispatch({ type: SET_ACTIVE_SINGLE_COMPANY, payload: res.data });
+              }
+            });
+        } else {
+          api.company.getCompanyByStub(action.payload.stub)
+            .then((res) => {
+              if (typeof res.data.status === 'undefined') {
+                store.dispatch({ type: SET_ACTIVE_SINGLE_COMPANY, payload: res.data });
+              }
+            });
+        }
       }
       if (action.payload.id) {
         api.company.getCompanyById(action.payload.id)
