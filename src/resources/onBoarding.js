@@ -114,6 +114,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           unit: 'm2',
           classNameBox: 'brdRadius max-w-fix-md-288',
           placeholder: translateTo(lang, 'e.g. 120'),
+          maxLenghtNum: 9999,
         },
       ],
       successMessage: translateTo(lang, 'Great living space.'),
