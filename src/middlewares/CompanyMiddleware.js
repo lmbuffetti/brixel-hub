@@ -14,15 +14,17 @@ const checkCommon = (store) => (next) => (action) => {
         if (action.payload.stub === 'default') {
           api.company.getDefaultCompany()
             .then((res) => {
-              if (typeof res.data.status === 'undefined') {
+              if (typeof res.data.statusCode === 'undefined') {
                 store.dispatch({ type: SET_ACTIVE_SINGLE_COMPANY, payload: res.data });
               }
             });
         } else {
           api.company.getCompanyByStub(action.payload.stub)
             .then((res) => {
-              if (typeof res.data.status === 'undefined') {
+              if (typeof res.data.statusCode === 'undefined') {
                 store.dispatch({ type: SET_ACTIVE_SINGLE_COMPANY, payload: res.data });
+              } else {
+                store.dispatch({ type: GET_ACTIVE_SINGLE_COMPANY, payload: { stub: 'default' } });
               }
             });
         }
@@ -30,7 +32,7 @@ const checkCommon = (store) => (next) => (action) => {
       if (action.payload.id) {
         api.company.getCompanyById(action.payload.id)
           .then((res) => {
-            if (typeof res.data.status === 'undefined') {
+            if (typeof res.data.statusCode === 'undefined') {
               store.dispatch({ type: SET_ACTIVE_SINGLE_COMPANY, payload: res.data });
             }
           });
