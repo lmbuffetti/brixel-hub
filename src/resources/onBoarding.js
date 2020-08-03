@@ -29,6 +29,7 @@ export const maxLengthNum = (val, name) => (value) => {
 
 export const minLengthNum = (val, name) => (value) => {
   let error = null;
+  console.log(value, val);
   if (value && value <= val) {
     error = name === 'year' ? `Too old! year can't be before ${val}` : `The ${name} have to be more then ${val}`;
   }
@@ -131,8 +132,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           type: 'number',
           classNameBox: 'brdRadius max-w-fix-md-232',
           placeholder: translateTo(lang, 'e.g. 1990'),
-          validation: [minLengthNumYear, Validation.positiveNumber, maxLengthNumYear, Validation.required],
-          minLenghtNum: 999,
+          validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
           maxLenghtNum: 9999,
         },
       ],
