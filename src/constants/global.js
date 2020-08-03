@@ -1,3 +1,4 @@
+// CONSTANTS USED TO EDIT THE REWARDS IN BASE OF LEVEL AND USERTYPE
 export const GameGroupConfig = {
   buyerLevel1: {
     name: 'Level 1',
@@ -28,7 +29,7 @@ export const GameGroupConfig = {
     saturationBgIcon: 100,
     iconColor: 'green',
     iconSaturation: 400,
-    lineAfter: 'bgGreen200'
+    lineAfter: 'bgGreen200',
   },
   sellerLevel2: {
     name: 'Level 2',
@@ -37,12 +38,12 @@ export const GameGroupConfig = {
     saturationBgIcon: 100,
     iconColor: 'red',
     iconSaturation: 400,
-    lineAfter: 'bgRed200'
+    lineAfter: 'bgRed200',
   },
   sellerLevel3: {
     name: 'Level 2',
     color: 'green100',
     bgIconColor: 'green400',
     iconColor: 'white',
-  }
+  },
 };

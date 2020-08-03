@@ -6,13 +6,13 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelIcon, BrixelButtonIcon, BrixelButtonBox } from '@brixel/brixel-components';
+import Sticker from 'react-stickyfill';
 import { addGameHistory } from '../../actions/GamificationActions';
 import Loading from '../../components/Loading';
 import { GameGroupConfig } from '../../constants/global';
 import helloImg from '../../images/hello.svg';
 import BrixelButtonAchievement from '../../components/BrixelButtonAchievement';
 import { setCookie, getCookie, sortObject } from '../../utils/helpers';
-import Sticker from 'react-stickyfill';
 
 import SuccessMarketCheck from '../GameHistory/MarketChecker/SuccessMarketCheck';
 import SuccessBestimate from '../GameHistory/Bestimate/SuccessBestimate';
@@ -38,7 +38,7 @@ const RewardsDashboard = (props) => {
     history,
     loggedInUser,
     match,
-    property,
+    activeSingleProperty,
     windowDimensions,
   } = props;
   // STATE
@@ -57,7 +57,7 @@ const RewardsDashboard = (props) => {
     if (game === 'market-checker' && (get(formValue, 'location.countryCode', null) !== 'CH' && get(formValue, 'location.countryCode', null) !== 'PT')) {
       disabled = true;
     }
-    if (game === 'bestimate' && get(formValue, 'location.countryCode', null) !== 'CH') {
+    if (game === 'bestimate' && get(formValue, 'location.countryCode', null) !== 'CH' && get(formValue, 'location.countryCode', null) !== 'PT') {
       disabled = true;
     }
     return disabled;
@@ -66,17 +66,18 @@ const RewardsDashboard = (props) => {
   useEffect(() => {
     let getNameGroup = localStorage.getItem('gameGroup') || null;
     if (windowDimensions && windowDimensions.width > 1024 && rewardType === 'rewards' && usrGroups) {
-      if (!getNameGroup) {
+      if (!getNameGroup && gameHistory && gameHistory.data) {
         usrGroups.forEach((groups) => {
           if (groups.stub.includes(userTypes)) {
             groups.achievements.forEach((group) => {
-              const selElTodo = gameHistory.data.find(game => game.achievement.stub === group.stub && game.page === propID);
+              const selElTodo = gameHistory.data.find((game) => game.achievement.stub === group.stub && game.page === propID);
               if (typeof selElTodo === 'undefined' && !getNameGroup && !isDisabledFlow(group.stub)) {
                 localStorage.setItem('gameGroup', group.stub);
                 getNameGroup = group.stub;
                 setActiveGameGroup(group.stub);
                 return false;
               }
+              return null;
             });
           }
         });
@@ -86,15 +87,17 @@ const RewardsDashboard = (props) => {
     }
   }, [windowDimensions, gameHistory, usrGroups, history.location.pathname]);
 
+  // FUNCTION TO ADD MEDIA TO GAME HISTORY
   useEffect(() => {
     const getFloorPlans = get(formValue, 'floorPlans', []);
     const getPhotos = get(formValue, 'photos', []);
     const getDocuments = get(formValue, 'documents', []);
     if (getDocuments.length > 0 && getPhotos.length > 0 && getFloorPlans.length > 0) {
-      handleAddGameHistory({stub: 'media'});
+      handleAddGameHistory({ stub: 'media' });
     }
-  }, [get(formValue, 'floorPlans', []), get(formValue, 'photos', []), get(formValue, 'documents', [])])
+  }, [get(formValue, 'floorPlans', []), get(formValue, 'photos', []), get(formValue, 'documents', [])]);
 
+  // FUNCTION TO ADD PAGE OR PORTALS TO GAME HISTORY
   useEffect(() => {
     let filtUsrGroup = [];
     filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userTypes) !== -1);
@@ -103,11 +106,11 @@ const RewardsDashboard = (props) => {
       // CHECK IF DONE HOMEBASE
       gameHistory.data.map((game) => {
         filtUsrGroup.map((group, f) => {
-          const idGroup = group.achievements.findIndex(val => val.stub === game.achievement.stub && property.id === game.page);
+          const idGroup = group.achievements.findIndex((val) => val.stub === game.achievement.stub && activeSingleProperty.id === game.page);
           if (idGroup >= 0) filtUsrGroup[f].achievements[idGroup].done = true;
           else if (filtUsrGroup[f].achievements) {
             // CHECK PORTALS
-            const idGroupPortals = group.achievements.findIndex(val => val.stub === 'portals');
+            const idGroupPortals = group.achievements.findIndex((val) => val.stub === 'portals');
             if (idGroupPortals > 0) {
               if (!filtUsrGroup[f].achievements[idGroupPortals].done) {
                 let isOnline = false;
@@ -123,7 +126,7 @@ const RewardsDashboard = (props) => {
               }
             }
             // CHECK PAGE
-            const idGroupPage = group.achievements.findIndex(val => val.stub === 'page-published');
+            const idGroupPage = group.achievements.findIndex((val) => val.stub === 'page-published');
             if (idGroupPage > 0) {
               if (!filtUsrGroup[f].achievements[idGroupPage].done) {
                 const pageIsOnline = get(formValue, 'published', false);
@@ -137,33 +140,35 @@ const RewardsDashboard = (props) => {
           return null;
         });
         return null;
-      })
+      });
     }
     setUsrGroups([...filtUsrGroup]);
-  }, [userTypes, property, gameGroup, gameHistory]);
+  }, [userTypes, activeSingleProperty, gameGroup, gameHistory]);
 
+  // FUNCTION TO ADD HOMEBASE TO GAME HISTORY
   useEffect(() => {
-    if (gameHistory.data && property.id) {
+    if (gameHistory.data && activeSingleProperty.id) {
       // CHECK IF DONE HOMEBASE
-      const getHomeBase = gameHistory.data.findIndex(val => val.achievement.stub === 'homebase' && property.id === val.page);
+      const getHomeBase = gameHistory.data.findIndex((val) => val.achievement.stub === 'homebase' && activeSingleProperty.id === val.page);
       if (getHomeBase === -1 && userTypes === 'seller') {
         const data = {
           id: loggedInUser.user.id,
-          page: property.stub,
+          page: activeSingleProperty.stub,
           achievement: 'homebase',
         };
         handleAddGameHistory(data);
       }
     }
-  }, [property, gameHistory, userTypes]);
+  }, [activeSingleProperty, gameHistory, userTypes]);
 
+  // FUNCTION TO SET THE ACTIVE REWARDS GROUP ON FIRST LOAD IF NOT COMPLETED
   useEffect(() => {
     if (gameHistory.data && rewardType && rewardType !== 'rewards' && gameGroup) {
       let selectEl;
       usrGroups.map((item) => {
-        if (!selectEl) selectEl = item.achievements.find(el => el.stub === rewardType);
+        if (!selectEl) selectEl = item.achievements.find((el) => el.stub === rewardType);
         return null;
-      })
+      });
       setActiveGameGroup(rewardType);
       setActiveAchievement(selectEl);
       if (rewardType === 'call-expert') {
@@ -175,46 +180,48 @@ const RewardsDashboard = (props) => {
     }
   }, [gameHistoryData, usrGroups, history, gameGroup, rewardType]);
 
+  // FUNCTION CLICK ON GAME GROUP
   const onClickAchievement = (game, achievement) => {
     setActiveGameGroup(game);
     localStorage.setItem('gameGroup', game);
-    history.push({pathname: `/${propID}/rewards/${game}` });
+    history.push({ pathname: `/${propID}/rewards/${game}` });
     setActiveAchievement(achievement);
   };
 
-  const getSuccessActiveGroup = () => {
-    return (
-      <>
-        {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-        {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-        {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-        {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-        {activeGameGroup === 'facts' && (<FactsRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-        {activeGameGroup === 'media' && (<MediaExplanation gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-        {activeGameGroup === 'page-preview' && (<PageReviewRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-        {activeGameGroup === 'page-published' && (<PagePublishedRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-        {activeGameGroup === 'portals' && (<PortalsRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-        {activeGameGroup === 'call-expert' && (<Support layout="rewards" expanded={true} isFixed={false} hideClose={true} />)}
-      </>
-    )
-  }
+  // LOAD COMPONENTET IN BASE OF ACTIVE GROUP ACTIVE
+  const getSuccessActiveGroup = () => (
+    <>
+      {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+      {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+      {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+      {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+      {activeGameGroup === 'facts' && (<FactsRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+      {activeGameGroup === 'media' && (<MediaExplanation gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+      {activeGameGroup === 'page-preview' && (<PageReviewRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+      {activeGameGroup === 'page-published' && (<PagePublishedRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+      {activeGameGroup === 'portals' && (<PortalsRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
+      {activeGameGroup === 'call-expert' && (<Support layout="rewards" expanded isFixed={false} hideClose />)}
+    </>
+  );
 
+  // IF NOT ON COOKIE SHOW HELLO MESSAGE
   const checkMessageHello = () => {
     if (typeof getCookie('brixelSayHello') !== 'undefined') {
       if (JSON.parse(getCookie('brixelSayHello')) !== true) {
-        return true
+        return true;
       }
       return false;
     }
     return true;
-  }
+  };
 
-  if (!property.id && !userTypes) {
-    return <Loading />
+  // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
+  if (!activeSingleProperty.id && !userTypes) {
+    return <Loading />;
   }
 
   return (
-    <div className={`rewards-container`} id="rewardsDashboard">
+    <div className="rewards-container" id="rewardsDashboard">
       {
         checkMessageHello() && showWelcomeMessage && (
           <div className="brdRadius bgWhite p-1 dis-f jc-b a-c p-1 p-md-2 mb-5">
@@ -235,14 +242,14 @@ const RewardsDashboard = (props) => {
               bgTransparent
               noBorder
               onClick={() => {
-                setCookie('brixelSayHello', true)
-                setShowWelcomeMessage(false)
+                setCookie('brixelSayHello', true);
+                setShowWelcomeMessage(false);
               }}
             />
           </div>
         )
       }
-      <div className={`dis-f a-t jc-c pos-r-md`}>
+      <div className="dis-f a-t jc-c pos-r-md">
         {
           usrGroups && (
             <div className="firstLevel mr-md-2">
@@ -278,7 +285,7 @@ const RewardsDashboard = (props) => {
                                       icon={item.icon}
                                       title={item.description}
                                       subtitle={item.name}
-                                      isFree={ isDisabledFlow(item.stub) ? null : item.isFree }
+                                      isFree={isDisabledFlow(item.stub) ? null : item.isFree}
                                       onClick={() => onClickAchievement(item.stub, item)}
                                       lineAfter={group.achievements.length - 1 > f}
                                       award={item.achievementType === 'award'}
@@ -348,9 +355,12 @@ const RewardsDashboard = (props) => {
                         </div>
                         {
                           activeAchievement.points && (
-                            <div className="cur-poi ml-2"  onClick={() => handleSetModal({
-                              showAwardsInfo: true,
-                            })}>
+                            <div
+                              className="cur-poi ml-2"
+                              onClick={() => handleSetModal({
+                                showAwardsInfo: true,
+                              })}
+                            >
                               {
                                 activeAchievement.achievementType === 'award' && (
                                   <BrixelIcon
@@ -375,25 +385,27 @@ const RewardsDashboard = (props) => {
         }
       </div>
     </div>
-  )
+  );
 };
 
 RewardsDashboard.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   userTypes: PropTypes.string,
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
   formValue: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  awards: PropTypes.number,
-  brixelPoints: PropTypes.number,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 RewardsDashboard.defaultProps = {
   gameGroup: [],
   gameHistory: {},
+  userTypes: 'user',
 };
 
 const mapStateToProps = (state) => ({
@@ -403,7 +415,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   awards: get(state, 'user.awards', []),
-  property: get(state, 'property.activeSingleProperty', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   brixelPoints: get(state, 'user.brixelPoints', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

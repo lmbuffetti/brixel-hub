@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 
+// COMPONENT FOR A SMALLER SPINNER
 function LoadingSimple(props) {
   const { isLoading } = props;
   if (isLoading) {

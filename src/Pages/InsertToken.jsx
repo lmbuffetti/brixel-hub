@@ -31,7 +31,7 @@ function TokenInput(props) {
                 label="Enter token here"
                 placeholder=""
                 input={{
-                  name: "token",
+                  name: 'token',
                   value: token,
                   onChange: (val) => setToken(val),
                 }}
@@ -50,16 +50,10 @@ function TokenInput(props) {
 }
 
 TokenInput.propTypes = {
-  history: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
-  request: PropTypes.bool,
-  user: PropTypes.object,
-  handleResetRequest: PropTypes.func.isRequired,
 };
 
 TokenInput.defaultProps = {
-  request: false,
-  user: {},
 };
 
 const mapStateToProps = (state) => ({

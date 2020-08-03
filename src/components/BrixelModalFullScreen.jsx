@@ -1,10 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
+
+// SIMPLE COMPONENT TO MANAGE THE FULLSCREEN MODAL
+// PROPS
+// children: HTML
+// title: STRING
+// onClose: FUNCTION
 
 const BrixelModalFullScreen = (props) => {
   // PROPS
@@ -39,13 +44,13 @@ const BrixelModalFullScreen = (props) => {
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
-          <div className={`multiStepSlides`}>
+          <div className="multiStepSlides">
             <div
-              className={`singleStep jc-c fade-enter-active`}
+              className="singleStep jc-c fade-enter-active"
             >
               <div className="subcontainer m-a">
                 <div>
-                  <h3 className={'mb-5 ta-c'}>{title}</h3>
+                  <h3 className="mb-5 ta-c">{title}</h3>
                   <div>
                     {children}
                   </div>
@@ -57,9 +62,9 @@ const BrixelModalFullScreen = (props) => {
             className="footerAction max-w-fix-760 m-a p-1 p-md-2 shadow-1dp-top normStep staticFooter"
           >
             <div className="pos-r">
-              <div className={`w-perc-100 a-c dis-fl-row jc-b m-a jc-c`}>
+              <div className="w-perc-100 a-c dis-fl-row jc-b m-a jc-c">
                 <BrixelButtonPrimary
-                  className={`noWrap w-perc-100 max-w-fix-160`}
+                  className="noWrap"
                   rounded
                   background="primary"
                   saturation={400}
@@ -73,12 +78,13 @@ const BrixelModalFullScreen = (props) => {
         </form>
       </div>
     </div>
-  )
+  );
 };
 
 BrixelModalFullScreen.propTypes = {
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
+  children: PropTypes.oneOfType([PropTypes.any]).isRequired,
+  title: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default compose(

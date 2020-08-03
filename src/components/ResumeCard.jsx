@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BrixelIcon } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
-import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
+import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
 
+// COMPONENT USED ON ONBOARDING TO SHOW THE PREVIEW OF CREATED PROPERTY
 const ResumeCard = (props) => {
   // PROPS
   const {
@@ -18,7 +19,12 @@ const ResumeCard = (props) => {
   const defImg = get(formValue, 'properties.propertyType', null) === 'Apartment' ? resumeApartment : resumeHouse;
 
   return (
-    <div>
+    <div className="max-w-fix-344 m-a">
+      <h5
+        className="fadeAnim fsize-700 mb-5 ta-c"
+        dangerouslySetInnerHTML={{ __html: title }}
+      />
+      {/* Property Card */}
       <div className="scaleAnim bgWhite max-w-fix-344 m-a brdRadius shadow-4dp ov-h">
         <img
           src={defImg}
@@ -52,12 +58,23 @@ const ResumeCard = (props) => {
           </div>
         </div>
       </div>
-      <h5
-        className="fadeAnim mt-5 ta-c"
-        dangerouslySetInnerHTML={{ __html: title}}
-      />
+      <div className="mt-5 ta-c">
+        <h5 className="mb-3">What can I do now?</h5>
+        <div className="dis-f jc-c mb-1 pos-r">
+          <BrixelIcon className="tickIcon" icon="check" color="green" />
+          <p className="dis-b">Compare to your local market.</p>
+        </div>
+        <div className="dis-f jc-c mb-1 pos-r">
+          <BrixelIcon className="tickIcon" icon="check" color="green" />
+          <p className="dis-b">Get free price indication.</p>
+        </div>
+        <div className="dis-f jc-c mb-1 pos-r">
+          <BrixelIcon className="tickIcon" icon="check" color="green" />
+          <p className="dis-b">Simulate your sale for free.</p>
+        </div>
+      </div>
     </div>
-  )
+  );
 };
 
 ResumeCard.propTypes = {

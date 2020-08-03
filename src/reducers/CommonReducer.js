@@ -1,7 +1,7 @@
 import { handleActions } from 'redux-actions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import Cookies from 'universal-cookie';
-import { countryList } from '@brixel/brixel-components'
+import { countryList } from '@brixel/brixel-components';
 
 import {
   ERROR_MESSAGE,
@@ -37,12 +37,12 @@ export const defaultState = {
   configUrl: getConfigEnv,
   errorMsg: {},
   languages: [
-    {value: 'de', label: 'de'},
-    {value: 'dk', label: 'dk'},
-    {value: 'en', label: 'en'},
-    {value: 'nl', label: 'nl'},
-    {value: 'pt', label: 'pt'},
-    {value: 'se', label: 'se'},
+    { value: 'de', label: 'de' },
+    { value: 'dk', label: 'dk' },
+    { value: 'en', label: 'en' },
+    { value: 'nl', label: 'nl' },
+    { value: 'pt', label: 'pt' },
+    { value: 'se', label: 'se' },
   ],
   country: countryList,
   language: cookie.get('brixelLang') || 'en',

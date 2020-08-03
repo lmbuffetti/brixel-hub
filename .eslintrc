@@ -1,16 +1,8 @@
 {
-  "extends": "react-app",
-  "overrides": [
-    {
-      "files": ["**/*.js?(x)"],
-      "rules": {
-        "react-hooks/exhaustive-deps": 0
-      }
-    }
-  ],
+  "extends": "airbnb",
   "rules": {
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": 0,
+    "no-console": "off",
+    "react-hooks/rules-of-hooks": 0,
     "indent": [
       2,
       2,
@@ -38,7 +30,7 @@
     // Legacy
     "max-len": [
       2,
-      550,
+      520,
       4,
       {
         "ignoreComments": true
@@ -67,6 +59,7 @@
     "prefer-destructuring": ["error", {"object": true, "array": false}],
     "react/no-danger": 0,
     "import/prefer-default-export": 0,
+    "import/no-named-as-default": 0,
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": false, "peerDependencies": false}],
     "react/prefer-stateless-function": 0,
     "jsx-a11y/label-has-for": 0,

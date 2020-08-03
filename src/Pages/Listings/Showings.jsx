@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reset } from 'redux-form';
@@ -18,13 +18,13 @@ import {
   BrixelTimeSlots,
   BrixelBookingCard,
 } from '@brixel/brixel-components';
+import Loadable from 'react-loadable';
 import {
   getActiveSinglePropertyBookings,
   savePropertyVisitSchedule,
   createPropertyVisitSchedule,
   savePropertyVisitBooking,
 } from '../../actions/PropertyActions';
-import Loadable from 'react-loadable';
 import LoadingSimple from '../../components/LoadingSimple';
 import ShowingPlaceholder from '../../images/Listings/showing_placeholder.svg';
 
@@ -43,7 +43,7 @@ const Showings = (props) => {
     history,
     lang,
     match,
-    reset,
+    resetForm,
   } = props;
   // STATE
   const [activeTab, setActiveTab] = useState('');
@@ -54,20 +54,22 @@ const Showings = (props) => {
   const propID = get(match, 'params.propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
+  // GET BOOKING
   useEffect(() => {
     const data = {
       id: propID,
       smallLoader: 'property',
-    }
+    };
     handleGetActiveSinglePropertyBookings(data);
   }, []);
 
+  // SET BOOKING
   useEffect(() => {
     if (formValue.booking && formValue.schedule && formValue.schedule.slots) {
       const allSlots = [];
       const allUnavailableSlots = [];
       formValue.booking.map((slot) => {
-        slot.slots.map((book) =>{
+        slot.slots.map((book) => {
           allSlots.push({
             buyer: slot.buyer,
             id: slot.id,
@@ -76,9 +78,9 @@ const Showings = (props) => {
           if (book.status !== 'canceled') allUnavailableSlots.push(book.slot);
         });
       });
-      allSlots.sort((a,b) => moment(a.slot.slot).format('YYYYMMDDHHmm') - new moment(b.slot.slot).format('YYYYMMDDHHmm'));
+      allSlots.sort((a, b) => moment(a.slot.slot).format('YYYYMMDDHHmm') - moment(b.slot.slot).format('YYYYMMDDHHmm'));
       formValue.schedule.slots.map((item, i) => {
-        const checkExist = allSlots.find(day => moment(day.slot.slot).format('YYYYMMDDHHmm') === moment(item).format('YYYYMMDDHHmm') && day.slot.status !== 'canceled');
+        const checkExist = allSlots.find((day) => moment(day.slot.slot).format('YYYYMMDDHHmm') === moment(item).format('YYYYMMDDHHmm') && day.slot.status !== 'canceled');
         if (typeof checkExist === 'undefined' && moment(item).isAfter(moment(), 'hour')) {
           allSlots.push({
             id: i,
@@ -86,7 +88,7 @@ const Showings = (props) => {
               slot: item,
               status: 'free',
             },
-          })
+          });
         }
       });
       setUnavailableSlots([...allUnavailableSlots]);
@@ -94,30 +96,31 @@ const Showings = (props) => {
     }
   }, [formValue.booking, formValue.schedule]);
 
+  // DISCARD BOOKING
   const discardChanges = () => {
     setManageAvailability(false);
-    reset('Property');
+    resetForm('Property');
   };
 
+  // MANAGE BOOKING VISIT
   const manageBooking = (book, action) => {
-    const allBook = get(formValue, `booking`, []);
-    const selectSlots = allBook.find(item => item.id === book.id);
-    const idSlot = selectSlots.slots.findIndex(item => {
-      return moment(item.slot).format('YYYY.MM.DD HH:mm') === moment(book.slot).format('YYYY.MM.DD HH:mm') || moment(item.slot).format('YYYY.MM.DD HH:mm') === moment(book.slot.slot).format('YYYY.MM.DD HH:mm')
-    });
+    const allBook = get(formValue, 'booking', []);
+    const selectSlots = allBook.find((item) => item.id === book.id);
+    const idSlot = selectSlots.slots.findIndex((item) => moment(item.slot).format('YYYY.MM.DD HH:mm') === moment(book.slot).format('YYYY.MM.DD HH:mm') || moment(item.slot).format('YYYY.MM.DD HH:mm') === moment(book.slot.slot).format('YYYY.MM.DD HH:mm'));
     selectSlots.slots[idSlot].status = action;
     const data = {
       scheduleId: book.id,
       data: {
-        message: get(selectSlots, `message`, []),
+        message: get(selectSlots, 'message', []),
         page: propID,
         slots: selectSlots.slots,
         buyer: book.buyer,
-      }
+      },
     };
     handleSavePropertyVisitBooking(data);
   };
 
+  // FUNCTION TO GROUP DATE BY MONTH
   const gorupByMonth = () => {
     const grouped = groupBy(bookingSlot, (d) => moment(d.slot.slot).format('MM.YYYY'));
     return grouped || {};
@@ -130,7 +133,7 @@ const Showings = (props) => {
           <div className="pos-r">
             <div className={`dis-f jc-b a-c ${!manageAvailability ? 'mb-3' : ''}`}>
               <BrixelButtonIcon
-                className={`shadow-3dp hide-md ${manageAvailability ? "opacity0" : ""}`}
+                className={`shadow-3dp hide-md ${manageAvailability ? 'opacity0' : ''}`}
                 icon="arrow-simple-left"
                 background="White"
                 color="primary"
@@ -141,12 +144,12 @@ const Showings = (props) => {
               <h5 className="m-a m-md-0 sectionTitle">Showings</h5>
               <BrixelButtonIcon
                 className="shadow-2dp"
-                icon={manageAvailability ? "close-small" : "calendar-edit"}
+                icon={manageAvailability ? 'close-small' : 'calendar-edit'}
                 background="White"
                 color="primary"
                 saturationTxt={400}
                 noBorder
-                onClick={() => manageAvailability ? discardChanges() : setManageAvailability(!manageAvailability)}
+                onClick={() => (manageAvailability ? discardChanges() : setManageAvailability(!manageAvailability))}
               />
             </div>
 
@@ -236,7 +239,7 @@ const Showings = (props) => {
                     className="zIndex1"
                     propertySlots={get(formValue, 'schedule.slots', [])}
                     occupedSlots={unavailableSlots}
-                    onSelect={(e, value) => changeFieldValue('schedule.slots', value) }
+                    onSelect={(e, value) => changeFieldValue('schedule.slots', value)}
                   />
                 </div>
               </>
@@ -247,7 +250,7 @@ const Showings = (props) => {
       {
         getFact() !== 'showings' && (
           <Route
-            path={'/:propId/listings/showings/addBooking/:idShowing'}
+            path="/:propId/listings/showings/addBooking/:idShowing"
             exact
             component={AddShowings}
           />
@@ -258,19 +261,18 @@ const Showings = (props) => {
 };
 
 Showings.propTypes = {
-  activeSinglePropertyBooking: PropTypes.arrayOf(PropTypes.object).isRequired,
+  changeFieldValue: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
-  handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSavePropertyVisitBooking: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
   formValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
   match: PropTypes.object.isRequired,
+  resetForm: PropTypes.func.isRequired,
 };
 
 Showings.defaultProps = {
+  lang: 'en',
 };
 
 const mapStateToProps = (state) => ({
@@ -285,8 +287,8 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  reset(form) {
-    (dispatch(reset(form)))
+  resetForm(form) {
+    (dispatch(reset(form)));
   },
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
   handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),

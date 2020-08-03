@@ -11,19 +11,21 @@ import { connect } from 'react-redux';
 import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
 
+import Loadable from 'react-loadable';
+import { change, reduxForm, reset } from 'redux-form';
+import { diff } from 'deep-object-diff';
+import has from 'lodash/has';
 import {
   getPropertyListings,
   getActiveSingleProperty,
   saveActiveSingleProperty,
   getActiveSinglePropertyBookings, savePropertyVisitSchedule, createPropertyVisitSchedule, savePropertyVisitBooking,
 } from '../../actions/PropertyActions';
-import Loadable from 'react-loadable';
-import { change, reduxForm, reset } from 'redux-form';
-import { diff } from 'deep-object-diff';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
-import { addGameHistory, getAchievement, getGamegroup, getGameHistory } from '../../actions/GamificationActions';
+import {
+  addGameHistory, getAchievement, getGamegroup, getGameHistory,
+} from '../../actions/GamificationActions';
 import { setModal, setScreenNotification } from '../../actions/CommonActions';
-import has from 'lodash/has';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { calcPercentageFacts } from '../../utils/helpers';
 
@@ -39,11 +41,6 @@ const PropertyDashboard = Loadable({
 
 const ListingsDashboard = Loadable({
   loader: () => import('./ListingsDashboard' /* webpackChunkName: "ListingsDashboard" */),
-  loading: () => null,
-});
-
-const SupportDashboard = Loadable({
-  loader: () => import('./SupportDashboard' /* webpackChunkName: "SupportDashboard" */),
   loading: () => null,
 });
 
@@ -95,25 +92,26 @@ const Dashboard = (props) => {
     match,
     notification,
     activeSingleProperty,
-    reset,
+    resetForm,
   } = props;
   const [isDiscardChanges, setIsDiscardChanges] = useState(false);
   const [userType, setUserType] = useState(null);
-  //const [showMessage, setShowMessage] = useState(false);
+  // const [showMessage, setShowMessage] = useState(false);
 
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
-  // const checkActiveTab = () => last(history.location.pathname.split('/'));
 
+  // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {
     if (
       !get(history, 'location.pathname', '').includes('facts') &&
       !get(history, 'location.pathname', '').includes('achievement')
     ) {
-      reset('Property');
+      resetForm('Property');
     }
-  }, [history.location.pathname])
+  }, [history.location.pathname]);
 
+  // FUNCTION TO LOAD DEFAULT USER PROPERTY IF NO ID
   const loadDefaultProperty = () => {
     if (!get(formValue, 'id', null)) {
       const data = {
@@ -126,9 +124,10 @@ const Dashboard = (props) => {
     }
   };
 
+  // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
     if (propID && !get(activeSingleProperty, 'id', null)) {
-      handleGetActiveSingleProperty({fullVersion: true, id: propID, multiLoader: true });
+      handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: true });
     } else if (!propID) {
       loadDefaultProperty();
     }
@@ -137,6 +136,7 @@ const Dashboard = (props) => {
     if (gameHistory.length === 0) handleGetGameHistory();
   }, []);
 
+  // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
     if (typeof activeSingleProperty !== 'undefined' && activeSingleProperty) {
       if (!propID && get(activeSingleProperty, 'id', null)) {
@@ -154,12 +154,13 @@ const Dashboard = (props) => {
       history.push('/no-property');
     }
     localStorage.removeItem('gameGroup');
-    const activeLeads = get(activeSingleProperty, 'pageLeads[0]', null)
+    const activeLeads = get(activeSingleProperty, 'pageLeads[0]', null);
     if (activeLeads) {
-      handleGetActiveSingleCompany({id: activeLeads.company});
+      handleGetActiveSingleCompany({ id: activeLeads.company });
     }
   }, [activeSingleProperty]);
 
+  // FUNCTION TO GLOBAL SAVE - BUTTON SAVE ON NOTIFICATION BAR
   const saveData = () => {
     const changeObj = diff(initialValues, formValue);
     if (Object.keys(changeObj).length > 0) {
@@ -200,15 +201,16 @@ const Dashboard = (props) => {
         handleSaveActiveSingleProperty(data);
         const inputSheet = get(formValue, 'inputSheet', {}) || {};
         if (inputSheet.totalComplete >= 24) {
-          handleAddGameHistory({stub: 'facts'});
+          handleAddGameHistory({ stub: 'facts' });
         }
         if (get(formValue, 'photos', []).length > 0 && get(formValue, 'floorPlans', []).length > 0 && get(formValue, 'documents', []).length > 0) {
-          handleAddGameHistory({stub: 'media'});
+          handleAddGameHistory({ stub: 'media' });
         }
       }
     }
   };
 
+  // FORM VALIDATION
   const validForm = () => {
     const changeObj = diff(initialValues, formValue);
     const allVal = [];
@@ -216,10 +218,9 @@ const Dashboard = (props) => {
     const extrackKey = (obj, parent) => {
       Object.keys(obj).map((key) => {
         if (isObject(obj[key])) {
-          let newKey = parent ? `${parent}.${key}` : key;
+          const newKey = parent ? `${parent}.${key}` : key;
           extrackKey(obj[key], newKey);
-        }
-        else {
+        } else {
           allVal.push(`${parent}.${key}`);
         }
         return null;
@@ -234,10 +235,11 @@ const Dashboard = (props) => {
     return isValid;
   };
 
-  useEffect(() =>{
+  // FUNCTION TO DISCARD SAVE
+  useEffect(() => {
     if (isDiscardChanges) {
       const newNotification = cloneDeep(notification);
-      reset('Property');
+      resetForm('Property');
       newNotification.state = false;
       handleSetScreenNotification({
         ...newNotification,
@@ -246,27 +248,30 @@ const Dashboard = (props) => {
     }
   }, [isDiscardChanges]);
 
-  const discardChanges = (not) => {
-    setIsDiscardChanges(true)
+  // FUNCTION TO SET TRUE THE DISCARD SAVE
+  const discardChanges = () => {
+    setIsDiscardChanges(true);
   };
 
+  // FUNCTION TO ADD THE SMALL LOADING ON BUTTON SAVE ON NOTIFICATION BAR
   useEffect(() => {
     if (notification && notification.actions && notification.type === 'infoHub' && isSmallLoading) {
-      const getID = notification.actions.findIndex(item => item.label === 'Save');
+      const getID = notification.actions.findIndex((item) => item.label === 'Save');
       if (getID > -1) {
         const newNotification = cloneDeep(notification);
         newNotification.actions[getID].isLoading = isSmallLoading !== null;
         handleSetScreenNotification({
           ...newNotification,
-        })
+        });
       }
     }
   }, [isSmallLoading]);
 
+  // FUNCTION TO SHOW/HIDE THE NOTIFICATION BAR TO SAVE
   useEffect(() => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
-      const checkIsValid = Object.keys(changeObj).find(key => typeof changeObj[key] !== 'undefined');
+      const checkIsValid = Object.keys(changeObj).find((key) => typeof changeObj[key] !== 'undefined');
       if (Object.keys(changeObj).length === 0 && !get(notification, 'label', '').toLowerCase().includes('saved')) {
         handleSetScreenNotification({
           ...notification,
@@ -276,7 +281,7 @@ const Dashboard = (props) => {
       if (
         checkIsValid &&
         Object.keys(changeObj).length > 0 &&
-        (Object.keys(changeObj).length > 1 || !changeObj.inputSheet ) &&
+        (Object.keys(changeObj).length > 1 || !changeObj.inputSheet) &&
         !isSmallLoading &&
         !isLoading &&
         validForm()
@@ -288,7 +293,9 @@ const Dashboard = (props) => {
           actions:
             [
               { type: 'secondary', label: 'Discard', func: () => discardChanges(notification) },
-              { type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading },
+              {
+                type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading,
+              },
             ],
         });
       } else if (
@@ -301,6 +308,7 @@ const Dashboard = (props) => {
         });
       }
     }
+    // FUNCTION TO CHANGE THE FACTS PERCENTAGE
     if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
       const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
       inputSheet.totalComplete = calcPercentageFacts().calcPerc;
@@ -312,22 +320,22 @@ const Dashboard = (props) => {
 
   return (
     <div className="container dashboardContainer" id="dashboard">
-      { /* SECTION: APP HEADER */ }
+      { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
-      <ProtectedRoute path="/:propId?/support" component={SupportDashboard} />
       <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
       <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
     </div>
-  )
+  );
 };
 
 Dashboard.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   errorValue: PropTypes.object,
+  activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool,
+  isLoading: PropTypes.bool.isRequired,
   isSmallLoading: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   userTypes: PropTypes.string,
   gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -345,18 +353,19 @@ Dashboard.propTypes = {
   handleGetImageType: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
-  handleSavePropertyVisitBooking: PropTypes.func.isRequired,
-  imageType: PropTypes.arrayOf(PropTypes.object),
+  history: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
+  imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   notification: PropTypes.object,
-  regFields: PropTypes.object,
   handleSetScreenNotification: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
 };
 
 Dashboard.defaultProps = {
   errorValue: null,
-  regFields: null,
+  isSmallLoading: null,
   userTypes: null,
   notification: null,
 };
@@ -388,7 +397,7 @@ const mapStateToProps = (state) => {
     gameAchievement: get(state, 'gamification.achievement', []),
     gameGroup: get(state, 'gamification.gameGroup', []),
     gameHistory: get(state, 'gamification.gameHistory', {}),
-    imageType:  get(state, 'image.imageType', []),
+    imageType: get(state, 'image.imageType', []),
     isLoading: get(state, 'common.isLoading', 0) > 0,
     isSmallLoading: get(state, 'common.isSmallLoading', null),
     loggedInUser: get(state, 'user.loggedInUser', {}),
@@ -411,7 +420,7 @@ const mapStateToProps = (state) => {
       // listed: get(state, 'property.activeSingleProperty.listed', null),
       location: {
         ...get(state, 'property.activeSingleProperty.location', {}),
-        searchAddress: get(state, 'property.activeSingleProperty.location.address', {})
+        searchAddress: get(state, 'property.activeSingleProperty.location.address', {}),
       },
       photos: get(state, 'property.activeSingleProperty.photos', []),
       portals: get(state, 'property.activeSingleProperty.portals', {}),
@@ -429,13 +438,13 @@ const mapStateToProps = (state) => {
       virtual: get(state, 'property.activeSingleProperty.virtual', null),
     },
   });
-}
+};
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  reset(form) {
-    (dispatch(reset(form)))
+  resetForm(form) {
+    (dispatch(reset(form)));
   },
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),

@@ -14,6 +14,7 @@ import {
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import last from 'lodash/last';
 import {
   setModal, setScreenNotification,
 } from '../../actions/CommonActions';
@@ -24,7 +25,6 @@ import { calcPercentageFacts } from '../../utils/helpers';
 // COMPONENTS
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import FactsQuestion from './FactsQuestion';
-import last from 'lodash/last';
 
 const Facts = (props) => {
   const {
@@ -41,6 +41,7 @@ const Facts = (props) => {
   const propID = get(match, 'params.propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
+  // FUNCTION TO CHECK IF MAIN SECTION IS FINISH OR NOT
   const checkSectionDone = (val, act = 'section') => {
     let sectionDone = true;
     val.inputs.map((item) => {
@@ -66,8 +67,10 @@ const Facts = (props) => {
       return null;
     });
     if (act === 'section') return sectionDone;
+    return null;
   };
 
+  // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
     if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
       const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
@@ -75,32 +78,35 @@ const Facts = (props) => {
       changeFieldValue('inputSheet', inputSheet);
     }
     if (selectedQuest) {
-      const findCurrentId = Questions.findIndex(quest => quest.history === selectedQuest.history);
+      const findCurrentId = Questions.findIndex((quest) => quest.history === selectedQuest.history);
       const quest = InputSheets(formValue)[findCurrentId];
       setQuestions(InputSheets(formValue));
       setSelectedQuest(quest);
     }
   }, [formValue]);
 
+  // ON CHANGE HISTORY SELECT THE CORRECT QUESTIONS
   useEffect(() => {
     if (history && !selectedQuest && getFact() !== 'facts') {
-      const quest = Questions.find(item => item.history === getFact());
+      const quest = Questions.find((item) => item.history === getFact());
       setSelectedQuest(quest);
     } else if (getFact() === 'facts') {
       setSelectedQuest(null);
     }
   }, [history, getFact()]);
 
+  // ON CLICK SELECT THE RIGHT QUESTIONS AND CHANGE THE URL
   const onSelectQuest = (quest) => {
-    //TODO
+    // TODO
     setTimeout(() => {
       history.push(`/${propID}/property/facts/${quest.history}`);
-      setSelectedQuest(quest)
+      setSelectedQuest(quest);
     }, 0);
   };
 
+  // FUNCTION TO GO TO NEXT QUESTIONS LIST
   const onNextSection = (act) => {
-    const findCurrentId = Questions.findIndex(quest => quest.history === selectedQuest.history);
+    const findCurrentId = Questions.findIndex((quest) => quest.history === selectedQuest.history);
     if (findCurrentId > -1 && Questions[findCurrentId + 1]) {
       if (act === 'label') {
         return Questions[findCurrentId + 1].title;
@@ -109,10 +115,11 @@ const Facts = (props) => {
         onSelectQuest(Questions[findCurrentId + 1]);
         const scrollElement = document.getElementById('bodyScroll');
         const scrollElementMobile = document.getElementById('factsQuestion');
-        scrollElement.scrollTo({top: 0, behavior: 'smooth'});
-        scrollElementMobile.scrollTo({top: 0, behavior: 'smooth'});
+        scrollElement.scrollTo({ top: 0, behavior: 'smooth' });
+        scrollElementMobile.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
+    return null;
   };
 
   return (
@@ -207,46 +214,33 @@ const Facts = (props) => {
 };
 
 Facts.propTypes = {
-  isLoading: PropTypes.bool,
+  changeFieldValue: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  reset: PropTypes.func.isRequired,
-  errorValue: PropTypes.object.isRequired,
-  initial: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
-  singleUserPropertyList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  handleSetModal: PropTypes.func.isRequired,
-  setNotification: PropTypes.func.isRequired,
-  isUnsavedChangesModal: PropTypes.object,
 };
 
 Facts.defaultProps = {
-  isUnsavedChangesModal: {},
-  isLoading: false,
 };
 
-const mapStateToProps = (state) => {
-  return ({
-    errorValue: get(state, 'form.Property.syncErrors', {}),
-    formValue: get(state, 'form.Property.values', {}),
-    isLoading: get(state, 'common.isLoading', 0) > 0,
-    isSmallLoading: get(state, 'common.isSmallLoading', null),
-    activeSingleUser: get(state, 'user.activeSingleUser', {}),
-    singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
-    notification: get(state, 'common.notification', {}),
-    initial: get(state, 'form.Property.initial', {}),
-    loggedInUser: get(state, 'user.loggedInUser', {}),
-  });
-};
+const mapStateToProps = (state) => ({
+  errorValue: get(state, 'form.Property.syncErrors', {}),
+  formValue: get(state, 'form.Property.values', {}),
+  isLoading: get(state, 'common.isLoading', 0) > 0,
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  activeSingleUser: get(state, 'user.activeSingleUser', {}),
+  singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
+  notification: get(state, 'common.notification', {}),
+  initial: get(state, 'form.Property.initial', {}),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
   reset(form) {
-    (dispatch(reset(form)))
+    (dispatch(reset(form)));
   },
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),

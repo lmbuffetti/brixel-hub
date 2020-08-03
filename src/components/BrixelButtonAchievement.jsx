@@ -19,14 +19,23 @@ const BrixelButtonAchievement = (props) => {
   const activeClass = active ? 'active' : '';
   const defaultClass = 'brixel-button-achievement dis-f a-c jc-b w-perc-100 p-1 brdRadius';
 
+  // FUNCTIONS TO MANAGE THE SUBTITLE OVER THE TITLE
+  const subTitleHover = () => {
+    if (isFree) return 'Free';
+    if (isFree === null) return 'Coming soon';
+    return `Unlock ${subtitle}`;
+  };
+
   return (
-    <div className='pos-r'>
+    <div className="pos-r">
       <button
-        onClick={(e) => onClick ? onClick(e) : ''}
+        type="button"
+        onClick={(e) => (onClick ? onClick(e) : '')}
         className={`${defaultClass} ${activeClass}`}
         disabled={disabled}
       >
         {
+          // CONDITION IF THE SECTION IS DONE OR NOT
           done ? (
             <>
               <BrixelIcon
@@ -40,18 +49,6 @@ const BrixelButtonAchievement = (props) => {
               <div className="ta-l w-perc-100 pl-2">
                 <p className="body txtDark200 td-lt">{title}</p>
               </div>
-              {/* according to the new desgin from Michael no award icon for done item */}
-              {/* {
-                award && (
-                  <BrixelIcon
-                    rounded
-                    bgTransparent
-                    color="green"
-                    saturationTxt={400}
-                    icon="cup-awards"
-                  />
-                )
-              } */}
             </>
           ) : (
             <>
@@ -67,12 +64,12 @@ const BrixelButtonAchievement = (props) => {
                 />
                 <BrixelStatus
                   className="pos-a-fix x-r-0 y-b-0"
-                  color={'red'}
+                  color="red"
                   saturation={400}
                 />
               </div>
               <div className="ta-l w-perc-100 pl-2">
-                <span className={isFree ? "txtGreen400" : "txtRed400"}>{isFree ? 'Free' : isFree === null ? `Coming soon` : `Unlock ${subtitle}` }</span>
+                <span className={isFree ? 'txtGreen400' : 'txtRed400'}>{subTitleHover()}</span>
                 <p className="body txtDark700">{title}</p>
               </div>
               <BrixelIcon
@@ -81,24 +78,25 @@ const BrixelButtonAchievement = (props) => {
                 color="light"
                 saturationTxt={400}
                 className="fsize-400 mr-1 onHover"
-                icon={disabled ? '' : "arrow-simple-right"}
+                icon={disabled ? '' : 'arrow-simple-right'}
               />
             </>
           )
         }
       </button>
       {
+        // VERTICAL LINE AFTER BUTTON
         lineAfter && (
           <div className={`lineAfter ${config.lineAfter}`} />
         )
       }
     </div>
-  )
+  );
 };
 
 BrixelButtonAchievement.propTypes = {
+  onClick: PropTypes.func.isRequired,
   active: PropTypes.bool,
-  award: PropTypes.bool,
   config: PropTypes.object,
   disabled: PropTypes.bool,
   isFree: PropTypes.bool,
@@ -110,9 +108,15 @@ BrixelButtonAchievement.propTypes = {
 };
 
 BrixelButtonAchievement.defaultProps = {
-  award: false,
+  active: true,
   config: {},
   disabled: false,
+  done: false,
+  icon: '',
+  isFree: false,
+  lineAfter: false,
+  subtitle: '',
+  title: '',
 };
 
 export default BrixelButtonAchievement;

@@ -1,17 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-shadow */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
-import { UpgradeQuestions } from '../../resources/Upgrade';
+import { BrixelButtonIcon, BrixelButtonPrimary, MultiFileldsReduxForm } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { BrixelButtonPrimary, MultiFileldsReduxForm } from '@brixel/brixel-components';
-import InfoImg from '../../images/Upgrade/info.svg';
+
 import Loadable from 'react-loadable';
-import Loading from '../../components/Loading';
 import { reduxForm, reset } from 'redux-form';
+import Loading from '../../components/Loading';
+import { UpgradeQuestions } from '../../resources/Upgrade';
+import InfoImg from '../../images/Upgrade/info.svg';
 import { getPackagesProperty, saveUpgradePlan } from '../../actions/PropertyActions';
 
 const Support = Loadable({
@@ -40,10 +41,12 @@ const Upgrade = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
 
+  // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
   }, [currentIndex]);
 
+  // LOAD THE QUESTIONS
   useEffect(() => {
     if (packagesProperty.length > 0) {
       setQuestions(UpgradeQuestions('en', packagesProperty, get(formValue, 'location', {})));
@@ -51,6 +54,7 @@ const Upgrade = (props) => {
     }
   }, [packagesProperty]);
 
+  // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
     reset('GamingFlow');
     const url = localStorage.getItem('backUrl');
@@ -58,15 +62,17 @@ const Upgrade = (props) => {
     history.push(url || `/${propID}`);
   };
 
+  // FUNCTION TO SAVE DATA
   const saveData = () => {
     const data = {
       page: propID,
       smallLoader: true,
-      data: formValue.packageUpgrade
+      data: formValue.packageUpgrade,
     };
     handleSaveUpgradePlan(data);
   };
 
+  // FUNCTION TO CHANGE STEP - BACK-FORWARD
   const changeStep = (act) => {
     setIsEnter(false);
     let newIndex = currentIndex;
@@ -83,21 +89,22 @@ const Upgrade = (props) => {
     setQuest(questions[newIndex]);
   };
 
+  // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
     if (formValue.id) {
-      let newQuest = [];
-      UpgradeQuestions('en').map((quest) => {
-        if (quest.condition) {
+      const newQuest = [];
+      UpgradeQuestions('en').map((quests) => {
+        if (quests.condition) {
           let isValid = true;
-          quest.condition.map((item) => {
+          quests.condition.map((item) => {
             if (get(formValue, item.name, null) !== item.value) {
-              isValid = false
+              isValid = false;
             }
             return null;
           });
-          if (isValid) newQuest.push(quest);
+          if (isValid) newQuest.push(quests);
         } else {
-          newQuest.push(quest);
+          newQuest.push(quests);
         }
         return null;
       });
@@ -105,10 +112,11 @@ const Upgrade = (props) => {
     }
   }, [formValue]);
 
+  // CHECK IF FIELD IS VALID
   const checkValidateField = () => {
     let isValid = true;
     if (questions[currentIndex].inputs) {
-      questions[currentIndex].inputs.forEach((input, i) => {
+      questions[currentIndex].inputs.forEach((input) => {
         const err = get(errorValue, input.name, null);
         if (input.condition) {
           input.condition.map((item) => {
@@ -117,14 +125,13 @@ const Upgrade = (props) => {
             }
             return null;
           });
-        } else {
-          if (err !== true && err !== false && isValid) isValid = false;
-        }
+        } else if (err !== true && err !== false && isValid) isValid = false;
       });
     }
     return isValid;
   };
 
+  // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
     if (currentIndex === 0) label = 'Order now';
@@ -155,7 +162,7 @@ const Upgrade = (props) => {
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
-          <div className={`multiStepSlides`}>
+          <div className="multiStepSlides">
             <div
               className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
@@ -165,7 +172,7 @@ const Upgrade = (props) => {
                     <div>
 
                       <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
-                      {quest.subtitle && ( <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle}} /> )}
+                      {quest.subtitle && (<p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)}
 
                       <MultiFileldsReduxForm
                         disableNextBtn={false}
@@ -211,7 +218,7 @@ const Upgrade = (props) => {
                     <div className="dis-fl-col dis-fl-row-md a-c w-perc-100">
                       <img src={InfoImg} alt="Info" className="mb-1 mb-md-0" />
                       <p className="body2 ml-1 mb-1 mb-md-0 ta-c ta-l-md  max-w-fix-384">
-                        Don't worry. You will not be charged for now. Get the result first. Pay later.
+                        Don&apos;t worry. You will not be charged for now. Get the result first. Pay later.
                       </p>
                     </div>
                   )
@@ -219,7 +226,7 @@ const Upgrade = (props) => {
                 {
                   currentIndex > 0 && questions[currentIndex].inputs && (
                     <BrixelButtonIcon
-                      className={`shadow-2dp backBtn`}
+                      className="shadow-2dp backBtn"
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
                       background="white"
@@ -231,14 +238,14 @@ const Upgrade = (props) => {
                   )
                 }
                 <BrixelButtonPrimary
-                  className="noWrap w-perc-100 max-w-fix-160"
+                  className="noWrap"
                   disabled={!checkValidateField()}
                   rounded
-                  background={questions[currentIndex -1] ? 'primary' : 'red'}
+                  background={questions[currentIndex - 1] ? 'primary' : 'red'}
                   saturation={400}
                   label={buttonLabel()}
                   rightIcon="arrow-right-small"
-                  onClick={() => questions[currentIndex +1] ? changeStep() : closeWindow()}
+                  onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                 />
               </div>
             </div>
@@ -246,13 +253,12 @@ const Upgrade = (props) => {
         </form>
       </div>
     </div>
-  )
+  );
 };
 
 Upgrade.propTypes = {
   formValue: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
-  handleGetPackagesProperty: PropTypes.func.isRequired,
   handleSaveUpgradePlan: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -266,12 +272,12 @@ const mapStateToProps = (state) => ({
   packagesProperty: get(state, 'companies.activeSingleCompany.servicePackages', []),
   initialValues: {
     id: get(state, 'property.activeSingleProperty.id', null),
-  }
+  },
 });
 
 const mapDispatchToProps = (dispatch) => ({
   reset(form) {
-    (dispatch(reset(form)))
+    (dispatch(reset(form)));
   },
   handleGetPackagesProperty: bindActionCreators(getPackagesProperty, dispatch),
   handleSaveUpgradePlan: bindActionCreators(saveUpgradePlan, dispatch),
@@ -282,7 +288,7 @@ const AnyForm = reduxForm({
   form: 'GamingFlow',
   enableReinitialize: true,
   destroyOnUnmount: true,
-})(Upgrade)
+})(Upgrade);
 
 export default compose(
   withRouter,

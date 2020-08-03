@@ -36,7 +36,6 @@ $responsive-medium: map_get($grid-breakpoints, md);
 "../components/radioButtonCard",
 "../components/avatar",
 "../components/multi_stepform_modal",
-"../components/drawer",
 "../components/support",
 "../components/timeline_achievement",
 "../components/options-menu",
@@ -278,7 +277,7 @@ header {
 }
 
 //todo styleguide
-.packageFlow #multiStepForm {
+.packageFlow #multiStepForm:not(.signUp) {
   .brixel-radio-button-icon.radioBtnImg {
     /*todo styleguide*/
     label .textLabel {
@@ -335,10 +334,9 @@ h4.longTitle {
 
 
 // custom input label style for hub
-
 label.brixel-label {
   display: inline-block;
-  margin-bottom: $step * 2;
+  //margin-bottom: $step * 2;
   color: map-get($darkColor, 200);
   @include fontStyle(400);
 }
@@ -348,9 +346,12 @@ label.brixel-label {
   }
 }
 
+
+
 .singleInput {
   padding-bottom: $step * 3;
   margin-bottom: $step * 3;
+
   &:not(:last-child) {
     border-bottom: 1px solid map-get($lightColor, 200 );
   }

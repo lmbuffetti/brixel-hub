@@ -1,8 +1,8 @@
 import isObject from 'lodash/isObject';
 import Cookies from 'universal-cookie';
-import { translateTo } from './translation';
 import get from 'lodash/get';
 import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
+import { translateTo } from './translation';
 import { AssessorAvgLifespan } from '../resources/Assessor';
 import { configureStore } from '../store';
 import { InputSheets } from '../resources/inputSheets';
@@ -42,17 +42,17 @@ export const calcPercentageFacts = (form = 'Property') => {
     });
     return null;
   });
-  //const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
-  const calPerc = Math.floor(countDone * 100 / countTotal);
-  const savedPerc = Math.floor(get(formValue, `inputSheet.totalComplete`, 0) || 0);
+  // const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+  const calPerc = Math.floor((countDone * 100) / countTotal);
+  const savedPerc = Math.floor(get(formValue, 'inputSheet.totalComplete', 0) || 0);
   return {
-    realPerc: countDone * 100 / countTotal,
+    realPerc: (countDone * 100) / countTotal,
     calcPerc: calPerc,
-    savedPerc: savedPerc,
-    countTotal: countTotal,
-    countDone: countDone,
+    savedPerc,
+    countTotal,
+    countDone,
   };
-}
+};
 
 export const cutValue = (val) => {
   let formatVal = val;
@@ -72,9 +72,9 @@ export const cutValue = (val) => {
 
 export function formatNum(num, separator, fraction, localeString = 'de-CH') {
   const convNum = +num;
-  let str = convNum.toLocaleString(localeString);
-  //str = str.replace(/\./g, separator);
-  //str = str.replace(/,/g, fraction);
+  const str = convNum.toLocaleString(localeString);
+  // str = str.replace(/\./g, separator);
+  // str = str.replace(/,/g, fraction);
   return str;
 }
 
@@ -286,11 +286,11 @@ export const sortObjByKey = (obj, key, isBool = false) => {
   return orderedObj;
 };
 
-export const imageExists = (image_url) => {
-  if (typeof window !== 'undefined' && !image_url.includes('undefined')) {
+export const imageExists = (imageUrl) => {
+  if (typeof window !== 'undefined' && !imageUrl.includes('undefined')) {
     const http = new XMLHttpRequest();
 
-    http.open('HEAD', image_url, false);
+    http.open('HEAD', imageUrl, false);
     http.send();
 
     return http.status !== 404;
@@ -322,7 +322,7 @@ export const setCookie = (key, val) => {
     domain = `.brixel.${curDomain}`;
   }
   const options = {
-    domain: domain,
+    domain,
     path: '/',
     expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
     sameSite: 'strict',
@@ -344,7 +344,7 @@ export const getCookie = (key) => {
     domain = `.brixel.${curDomain}`;
   }
   const options = {
-    domain: domain,
+    domain,
     path: '/',
     expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
     sameSite: 'strict',
@@ -366,7 +366,7 @@ export const removeCookie = (key) => {
     domain = `.brixel.${curDomain}`;
   }
   const options = {
-    domain: domain,
+    domain,
     path: '/',
     expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
     sameSite: 'strict',
@@ -399,13 +399,12 @@ export const getCalcSectionInputSheets = (Questions, initialValues, accordion, a
       allSection[quest.history] = true;
       if (typeof accordion[quest.history] === 'undefined') {
         getAccordion[quest.history] = getSectionFilt[quest.history] ? false : curAccordion;
-      }
-      else {
+      } else {
         getAccordion[quest.history] = accordion[quest.history];
       }
       return null;
     });
-    const newTotalDone = Object.keys(getSectionFilt).filter(keySkip => getSectionFilt[keySkip] === true);
+    const newTotalDone = Object.keys(getSectionFilt).filter((keySkip) => getSectionFilt[keySkip] === true);
     const total = Object.keys(Questions).length;
     if (act === 'getPercentage') return Math.ceil((newTotalDone.length * 100) / total);
 
@@ -420,9 +419,10 @@ export const getCalcSectionInputSheets = (Questions, initialValues, accordion, a
         total,
         totalComplete: newTotalDone.length,
         totalUncomplete: total - newTotalDone.length,
-      }
+      },
     });
   }
+  return {};
 };
 
 export const calculateAge = (date) => { // birthday is a date
@@ -438,7 +438,7 @@ export const calculateAgeByYear = (year) => { // birthday is a date
 
 export const calcConditionAssessor = (age, group, name = null, countryCode = 'CH') => {
   let condition;
-  const getAssessorAvgLifespan = AssessorAvgLifespan[countryCode.toLowerCase()] ? AssessorAvgLifespan[countryCode.toLowerCase()] : AssessorAvgLifespan['ch'];
+  const getAssessorAvgLifespan = AssessorAvgLifespan[countryCode.toLowerCase()] ? AssessorAvgLifespan[countryCode.toLowerCase()] : AssessorAvgLifespan.ch;
   if (name) {
     if (age <= Math.round(getAssessorAvgLifespan[group][name] * 0.25)) condition = 4;
     else if (age <= Math.round(getAssessorAvgLifespan[group][name] * 0.5)) condition = 3;
@@ -488,29 +488,28 @@ export const extractAssessorCondition = (age, construction, roof, facade, heatin
   return assessor;
 };
 
-export const sortObject = (key, order = 'asc') => {
-  return function innerSort(a, b) {
-    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-      // property doesn't exist on either object
-      return 0;
-    }
+export const sortObject = (key, order = 'asc') => function innerSort(a, b) {
+  // eslint-disable-next-line no-prototype-builtins
+  if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+    // property doesn't exist on either object
+    return 0;
+  }
 
-    const varA = (typeof a[key] === 'string')
-      ? a[key].toUpperCase() : a[key];
-    const varB = (typeof b[key] === 'string')
-      ? b[key].toUpperCase() : b[key];
+  const varA = (typeof a[key] === 'string')
+    ? a[key].toUpperCase() : a[key];
+  const varB = (typeof b[key] === 'string')
+    ? b[key].toUpperCase() : b[key];
 
-    let comparison = 0;
-    if (varA > varB) {
-      comparison = 1;
-    } else if (varA < varB) {
-      comparison = -1;
-    }
-    return (
-      (order === 'desc') ? (comparison * -1) : comparison
-    );
-  };
-}
+  let comparison = 0;
+  if (varA > varB) {
+    comparison = 1;
+  } else if (varA < varB) {
+    comparison = -1;
+  }
+  return (
+    (order === 'desc') ? (comparison * -1) : comparison
+  );
+};
 
 export const Truncate = (text, limit, showAllDescription = false) => {
   let txt = text;
@@ -522,45 +521,43 @@ export const Truncate = (text, limit, showAllDescription = false) => {
   return txt;
 };
 
-export const toBase64 = (file) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve({
-      file: reader.result,
-      name: file.name,
-    });
-    reader.onerror = error => reject(error);
+export const toBase64 = (file) => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve({
+    file: reader.result,
+    name: file.name,
   });
-};
+  reader.onerror = (error) => reject(error);
+});
 
 export const tobase64Handler = async (files, user, action, pageID, imgType) => {
   const filePathsPromises = [];
-  files.forEach(file => {
+  files.forEach((file) => {
     filePathsPromises.push(toBase64(file));
   });
   const filePaths = await Promise.all(filePathsPromises);
-  const mappedFiles = filePaths.map((base64File, i) => {
+  const mappedFiles = filePaths.map((base64File) => {
     if (action === 'documents') {
       const name = get(base64File, 'name', Date.now() / 1000);
       return {
-        name: name,
-        user: user,
+        name,
+        user,
         isBrochure: false,
         file: base64File.file,
-        pageID: pageID,
+        pageID,
         smallLoader: 'upload',
-      }
+      };
     }
     return {
       name: Date.now() / 1000,
       file: base64File.file,
-      user: user,
+      user,
       imageType: imgType,
-      pageID: pageID,
+      pageID,
       uploadAction: action,
       smallLoader: 'upload',
-    }
+    };
   });
   return mappedFiles;
-}
+};

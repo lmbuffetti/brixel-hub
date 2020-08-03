@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React  from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { change, reset } from 'redux-form';
@@ -37,16 +37,18 @@ const Page = (props) => {
   const currency = get(company, 'country.currency', '');
   const meta = get(company, 'meta', {});
 
+  // GET PAGE STATUS
   const changeReviewStatus = (status) => {
     const data = {
       page: propID,
       smallLoader: true,
-      status: status,
+      status,
     };
     handleUpdatePublishedReview(data);
-    //if (status === 'online') handleAddGameHistory({stub: 'page-published'});
+    // if (status === 'online') handleAddGameHistory({stub: 'page-published'});
   };
 
+  // FUNCTION TO GO TO PREVIEW OR LIVE PAGE
   const onClickPreview = () => {
     let url;
     if (formValue.published) {
@@ -56,15 +58,16 @@ const Page = (props) => {
       url = `${baseByData.pageUrl}preview/${formValue.stub}?hubUrl=${window.location.href}`;
       window.location.href = url;
     }
+  };
 
-  }
-
+  // SET DURATION PUBLISHING BY COMPANY DATA
   const publishDuration = () => {
     const duration = get(meta, 'publish.duration', null);
     if (!duration || +duration === 0) return 'unlimited';
     if (+duration === 1) return `for <span class="notranslate">${duration}</span> month`;
     if (+duration > 1) return `for <span class="notranslate">${duration}</span> months`;
-  }
+    return '';
+  };
 
   return (
     <div className="dis-f">
@@ -86,7 +89,7 @@ const Page = (props) => {
                 {
                   formValue.published ? (
                     <BrixelButtonPrimary
-                      className="shadow-3dp"
+                      className=""
                       leftIcon="eye"
                       label="Live view"
                       rounded
@@ -94,7 +97,7 @@ const Page = (props) => {
                     />
                   ) : (
                     <BrixelButtonPrimary
-                      className="shadow-3dp"
+                      className=""
                       leftIcon="eye"
                       label="Preview"
                       rounded
@@ -285,8 +288,7 @@ Page.propTypes = {
   company: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleUpdatePublishedReview: PropTypes.func.isRequired,
-  handleAddGameHistory: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.string.isRequired,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -305,7 +307,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(change('Property', field, value));
   },
   reset(form) {
-    (dispatch(reset(form)))
+    (dispatch(reset(form)));
   },
   handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),

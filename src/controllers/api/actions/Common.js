@@ -7,10 +7,12 @@ class Common extends Base {
     const url = ep.common.sendMessage();
     return this.apiClient.post(url, { }, data);
   }
+
   sendGenericMessage(data) {
     const url = ep.common.sendGenericMessage();
     return this.apiClient.post(url, {}, data);
   }
+
   sendScheduleVisit(data) {
     const url = ep.common.sendScheduleVisit();
     return this.apiClient.post(url, {}, data);

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import isArray from 'lodash/isArray';
 
+// FUNCTION TO MANAGE THE CLICK OUTSIDE OF ELEMENT useOutsideAlerter(REF_ELEMENT, {action: 'function', func: () => ''})
 function useOutsideAlerter(ref, action) {
   /**
    * Alert if clicked on outside of element
