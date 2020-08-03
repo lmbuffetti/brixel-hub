@@ -18,7 +18,6 @@ import {
   SPINNER_OFF,
   SPINNER_SMALL_ON,
   SPINNER_SMALL_OFF,
-  SET_SCREEN_NOTIFICATION,
   REDIRECT_TO,
   SET_FORM_ERROR,
 } from '../actions/types/CommonTypes';
@@ -79,16 +78,10 @@ const checkUser = (store) => (next) => (action) => {
             }
           } else {
             const alertProps = {
-              icon: 'close-circle',
-              label: 'Email and password combination are invalid.',
-              type: 'alert',
+              message: 'Email and password combination are invalid.',
               state: true,
-              actions: [{
-                type: 'close',
-                func: () => store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null }),
-              }],
             };
-            store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: alertProps });
+            store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
           }
           store.dispatch({ type: SPINNER_OFF });
         })
