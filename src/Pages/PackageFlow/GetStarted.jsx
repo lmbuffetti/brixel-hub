@@ -210,7 +210,7 @@ const GetStarted = (props) => {
       handleGetActiveSingleCompany({ stub: defComp });
       setCookie('brixelStubCompany', defComp);
     } else {
-      handleGetActiveSingleCompany({ stub: 'brixel_zurich' });
+      handleGetActiveSingleCompany({ stub: 'default' });
       changeFieldValue('location.countryCode', 'all');
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
