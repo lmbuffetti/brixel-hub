@@ -101,7 +101,7 @@ export const FactsApartment = () => {
             validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear],
             formatType: 'date-yyyy',
             minLenght: 999,
-            maxLength: 2030,
+            maxLength: 9999,
           },
           {
             component: BrixelInputText,
