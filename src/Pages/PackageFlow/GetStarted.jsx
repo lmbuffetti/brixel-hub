@@ -67,9 +67,9 @@ const GetStarted = (props) => {
   const saveData = async () => {
     const dataForm = formValue;
     const { login, register, company } = dataForm;
-    delete dataForm.login;
-    delete dataForm.register;
-    delete dataForm.company;
+    // delete dataForm.login;
+    changeFieldValue('register.password', '');
+    // delete dataForm.company;
     // PROPERTY DATA
     const data = {
       ...dataForm,
@@ -95,6 +95,7 @@ const GetStarted = (props) => {
       // DISPATCH TO SAVE THE PROPERTY
       await handleCreateActiveSingleProperty(data);
     } else if (page === 'login') {
+      changeFieldValue('register.email', login.email);
       // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
       data.user = {
@@ -104,6 +105,7 @@ const GetStarted = (props) => {
       // DISPATCH TO DO LOGIN
       await handleDoLogin(data);
     } else {
+      changeFieldValue('login.email', register.email);
       // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
       data.user = {
@@ -122,7 +124,7 @@ const GetStarted = (props) => {
       // DISPATCH TO DO REGISTRATION USER
       await handleValidateUser(data);
     }
-    // handleCreateActiveSingleProperty({stub: getAchievement()});
+    // handleCreateActiveSingleProperty({ stub: getAchievement() });
     // reset('Property');
   };
 
@@ -633,6 +635,7 @@ const mapStateToProps = (state, props) => {
         currency: get(state, 'companies.activeSingleCompany.country.currency', null),
       },
       changeCountry: null,
+      login: {},
       properties: {
         propertyType,
         typology: {
@@ -641,6 +644,7 @@ const mapStateToProps = (state, props) => {
           },
         },
       },
+      register: {},
     },
   });
 };

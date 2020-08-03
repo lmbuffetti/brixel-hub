@@ -20,6 +20,7 @@ const LoginSignup = (props) => {
     changeFieldValue,
     company,
     errorValue,
+    formError,
     formName,
     formValue,
     onChangeLogin,
@@ -40,6 +41,12 @@ const LoginSignup = (props) => {
     changeFieldValue(formName, 'signupScreen', loginPage);
     onChangeLogin(loginPage);
   }, [loginPage]);
+
+  useEffect(() => {
+    if (loginPage === 'register' && get(formError, 'state', false)) {
+      setLoginPage('login');
+    }
+  }, [formError]);
 
   // FUNCTION TO SAVE THE DATA, IF NOT VALID SHOW THE ERROR
   const onSubmitForm = () => {
@@ -137,6 +144,13 @@ const LoginSignup = (props) => {
                     {translateTo(lang, 'or create profile here')}
                   </p>
                 </div>
+                {
+                  get(formError, 'state', false) && (
+                    <p className="txtRed400">
+                      {get(formError, 'message', '')}
+                    </p>
+                  )
+                }
                 <BrixelLogin company={company} formName="GetStarted" showErrors={showErrors} />
                 <p className="mt-1">
                   <a
@@ -223,6 +237,7 @@ LoginSignup.propTypes = {
   company: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
+  formError: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   formName: PropTypes.string.isRequired,
   lang: PropTypes.string,
@@ -240,6 +255,7 @@ LoginSignup.defaultProps = {
 
 const mapStateToProps = (state, props) => ({
   company: get(state, 'companies.activeSingleCompany', {}),
+  formError: get(state, 'common.formError', {}),
   errorValue: get(state, `form.${props.formName}.syncErrors`, {}),
   formValue: get(state, `form.${props.formName}.values`, {}),
   lang: get(state, 'common.language', {}),

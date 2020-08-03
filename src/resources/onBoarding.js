@@ -29,7 +29,6 @@ export const maxLengthNum = (val, name) => (value) => {
 
 export const minLengthNum = (val, name) => (value) => {
   let error = null;
-  console.log(value, val);
   if (value && value <= val) {
     error = name === 'year' ? `Too old! year can't be before ${val}` : `The ${name} have to be more then ${val}`;
   }
