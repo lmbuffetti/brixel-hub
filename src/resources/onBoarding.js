@@ -43,7 +43,9 @@ const maxLengthNumYear = maxLengthNum(2031, 'year');
 // QUESTION LISTS
 export const QuestionsList = (lang, country = 'CH') => {
   let countryList = [];
-  if (configureStore) countryList = get(configureStore.getState(), 'common.country', []);
+  if (configureStore) {
+    countryList = get(configureStore.getState(), 'common.country', []);
+  }
   return [
     {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
