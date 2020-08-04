@@ -119,9 +119,12 @@ export const ComponentMap = (props) => {
   // FUNCTION TO EXTRACT DATA FROM SELECTED ADDRESS
   const geoCode = (adr) => {
     const geocoder = new google.maps.Geocoder();
+    const defAdr = adr.split(',');
+    console.log(defAdr);
     geocoder.geocode({
       address: adr,
     }, (result, status) => {
+      console.log(result, adr);
       if (status === 'OK') {
         const formattedPlace = {};
         formattedPlace.country = null;
@@ -154,7 +157,11 @@ export const ComponentMap = (props) => {
 
         if (location.formatted_address) {
           setNewLocation(location.formatted_address);
-          formattedPlace.address = location.formatted_address;
+          if (location.formatted_address.split(',').length === 2) {
+            formattedPlace.address = `${location.formatted_address.split(',')[0]}, ${defAdr[1]}, ${location.formatted_address.split(',')[1]}`;
+          } else {
+            formattedPlace.address = location.formatted_address;
+          }
         }
 
         if (location.address_components) {
@@ -245,6 +252,7 @@ export const ComponentMap = (props) => {
             newAddress += `, ${item}`;
           }
         });
+        console.log(newAddress);
         geoCode(newAddress);
       }
       setStartSearch(false);
