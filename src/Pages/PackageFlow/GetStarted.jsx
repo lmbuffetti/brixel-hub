@@ -260,6 +260,12 @@ const GetStarted = (props) => {
     }
   }, [currentIndex]);
 
+  // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
+  useEffect(() => {
+    const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
+    changeFieldValue('properties.typology.livingArea.value', livingSpace);
+  }, [get(formValue, 'properties.typology.grossArea.value', 2)]);
+
   // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
   /* useEffect(() => {
     let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
@@ -640,6 +646,9 @@ const mapStateToProps = (state, props) => {
         propertyType,
         typology: {
           livingArea: {
+            unit: 'sqm',
+          },
+          grossArea: {
             unit: 'sqm',
           },
         },

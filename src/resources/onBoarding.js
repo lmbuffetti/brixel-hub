@@ -101,7 +101,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       successMessage: translateTo(lang, 'This is a nice number.'),
     },
     {
-      title: translateTo(lang, 'What is the living space size?'),
+      title: country === 'PT' ? translateTo(lang, 'What is the gross area size?') : translateTo(lang, 'What is the living space size?'),
       history: 'livingSpace',
       cardType: 'livingSpace',
       bgImg: spaceSvg,
@@ -109,8 +109,8 @@ export const QuestionsList = (lang, country = 'CH') => {
         {
           component: BrixelInputText,
           className: 'max-w-fix-md-232',
-          label: 'Net living space',
-          name: 'properties.typology.livingArea.value',
+          label: country === 'PT' ? 'Gross area' : 'Net living space',
+          name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
           type: 'number',
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
           unit: 'm2',
