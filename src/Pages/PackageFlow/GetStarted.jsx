@@ -262,8 +262,10 @@ const GetStarted = (props) => {
 
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
   useEffect(() => {
-    const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
-    changeFieldValue('properties.typology.livingArea.value', livingSpace);
+    if (get(formValue, 'properties.typology.grossArea.value', 0) > 0) {
+      const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
+      changeFieldValue('properties.typology.livingArea.value', livingSpace);
+    }
   }, [get(formValue, 'properties.typology.grossArea.value', 2)]);
 
   // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
@@ -456,6 +458,7 @@ const GetStarted = (props) => {
                         onClickDisabled={!checkValidateField()}
                         onSubmit={() => changeStep()}
                         showSendButton
+                        disableDelay
                       />
 
                     </div>
