@@ -40,7 +40,7 @@ const BrixelModalFullScreen = (props) => {
         </header>
         <form
           id="multiStepForm"
-          // onSubmit={(e) => {e.preventDefault(); changeStep()}}
+          onSubmit={(e) => e.preventDefault()}
           autoComplete="off"
           className="dis-fl-col jc-b"
         >

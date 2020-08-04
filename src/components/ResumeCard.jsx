@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrixelIcon } from '@brixel/brixel-components';
+import { BrixelIcon, FormatValue } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -43,11 +43,11 @@ const ResumeCard = (props) => {
           <div className="dis-f jc-b a-c">
             <p className="dis-f a-c">
               <BrixelIcon icon="bed" className="mr-1" />
-              <span className="ff-mono body2">{get(formValue, 'properties.typology.bedrooms', 0)}</span>
+              <span className="ff-mono body2">{FormatValue.formatRooms(get(formValue, 'properties.typology.bedrooms', 0))}</span>
             </p>
             <p className="dis-f a-c">
               <BrixelIcon icon="plans" className="mr-1" />
-              <span className="ff-mono body2">{get(formValue, 'properties.typology.livingArea.value', 0)} m</span>
+              <span className="ff-mono body2">{get(formValue, 'properties.typology.livingArea.value', 0)} m2</span>
             </p>
             <p className="dis-f a-c">
               <BrixelIcon icon="house-built" className="mr-1" />
@@ -62,15 +62,15 @@ const ResumeCard = (props) => {
         <h5 className="mb-3">What can I do now?</h5>
         <div className="dis-f jc-c mb-1 pos-r">
           <BrixelIcon className="tickIcon" icon="check" color="green" />
-          <p className="dis-b">Compare to your local market.</p>
+          <p className="dis-b">Compare to your local market</p>
         </div>
         <div className="dis-f jc-c mb-1 pos-r">
           <BrixelIcon className="tickIcon" icon="check" color="green" />
-          <p className="dis-b">Get free price indication.</p>
+          <p className="dis-b">Get free price indication</p>
         </div>
         <div className="dis-f jc-c mb-1 pos-r">
           <BrixelIcon className="tickIcon" icon="check" color="green" />
-          <p className="dis-b">Simulate your sale for free.</p>
+          <p className="dis-b">Simulate your sale for free</p>
         </div>
       </div>
     </div>
