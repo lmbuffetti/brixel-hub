@@ -120,11 +120,9 @@ export const ComponentMap = (props) => {
   const geoCode = (adr) => {
     const geocoder = new google.maps.Geocoder();
     const defAdr = adr.split(',');
-    console.log(defAdr);
     geocoder.geocode({
       address: adr,
     }, (result, status) => {
-      console.log(result, adr);
       if (status === 'OK') {
         const formattedPlace = {};
         formattedPlace.country = null;
@@ -252,7 +250,6 @@ export const ComponentMap = (props) => {
             newAddress += `, ${item}`;
           }
         });
-        console.log(newAddress);
         geoCode(newAddress);
       }
       setStartSearch(false);
