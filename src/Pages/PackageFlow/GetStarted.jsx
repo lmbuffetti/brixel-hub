@@ -110,7 +110,7 @@ const GetStarted = (props) => {
       // USER DATA
       data.user = {
         ...register,
-        name: `${register.firstName} ${register.lastName}`,
+        name: `${register.firstName} ${get(register, 'lastName', '')}`,
         userType: 'seller',
         signupAccept: true,
         signupChannel: get(formValue, 'channel', 'default'),
