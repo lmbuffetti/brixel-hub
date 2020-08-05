@@ -43,7 +43,7 @@ const ResumeCard = (props) => {
           <div className="dis-f jc-b a-c">
             <p className="dis-f a-c">
               <BrixelIcon icon="bed" className="mr-1" />
-              <span className="ff-mono body2">{FormatValue.formatRooms(get(formValue, 'properties.typology.bedrooms', 0))}</span>
+              <span className="ff-mono body2">{FormatValue.formatRooms(get(formValue, 'properties.typology.bedrooms', 0), get(formValue, 'location.countryCode', ''))}</span>
             </p>
             <p className="dis-f a-c">
               <BrixelIcon icon="plans" className="mr-1" />
