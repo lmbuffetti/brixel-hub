@@ -140,7 +140,7 @@ const Page = (props) => {
                     <div className="dis-f jc-b a-c pb-3">
                       <h6 className="w-fix-24 ff-mono">{FormatValue.formatRooms(get(formValue, 'properties.typology.bedrooms', 0), get(formValue, 'location.countryCode', 'CH'))}</h6>
                       {
-                        get(formValue, 'location.countryCode', '') === 'PT' ? (
+                        get(formValue, 'location.countryCode', '') === 'PT' && get(formValue, 'properties.typology.grossArea.value', 0) > 0 ? (
                           <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.grossArea.value', 0)}</h6>
                         ) : (
                           <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.livingArea.value', 0)}</h6>

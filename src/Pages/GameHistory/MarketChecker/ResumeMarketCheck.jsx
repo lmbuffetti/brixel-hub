@@ -34,7 +34,7 @@ function ResumeMarketCheck(props) {
       const latBoundsRadius = 0.0675;
       const longBoundsRadius = 0.1;
       let livingSpace = get(activeSingleProperty, 'properties.typology.livingArea.value', 0);
-      if (get(activeSingleProperty, 'location.countryCode', '') === 'PT') {
+      if (get(activeSingleProperty, 'location.countryCode', '') === 'PT' && get(formValue, 'properties.typology.grossArea.value', 0) > 0) {
         livingSpace = get(activeSingleProperty, 'properties.typology.grossArea.value', 0);
       }
       const percLivingSpace = +livingSpace * 0.5;
