@@ -17,6 +17,7 @@ const Support = (props) => {
     layout,
     onClose,
   } = props;
+
   // STATIC CONTCT DATA FROM COMPANY
   const phone = get(activeSingleCompany, 'contact.phone', null);
   const email = get(activeSingleCompany, 'contact.email', null);
