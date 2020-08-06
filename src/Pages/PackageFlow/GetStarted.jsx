@@ -10,7 +10,6 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import has from 'lodash/has';
 import { reduxForm, reset, change } from 'redux-form';
 import last from 'lodash/last';
 import queryString from 'query-string';
@@ -321,8 +320,7 @@ const GetStarted = (props) => {
 
   // SET DATA BY COMPANY
   useEffect(() => {
-    const companyCookie = cookie.get('brixelStubCompany') || null;
-    if (has(company, 'stub') && companyCookie) {
+    if (get(company, 'stub', null)) {
       let getLang = cookie.get('brixelLang');
       if (get(company, 'language.code', null) && !getLang && currentIndex < 2) {
         const companyLang = get(company, 'language.code', 'en');
