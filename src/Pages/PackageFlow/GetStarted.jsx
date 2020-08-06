@@ -316,10 +316,11 @@ const GetStarted = (props) => {
     const propertyType = get(formValue, 'properties.propertyType', null);
     const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
     if (pageTitle) changeFieldValue('pageTitle', pageTitle);
-  }, [formValue.location]);
+  }, [formValue.location, lang]);
 
   // SET DATA BY COMPANY
   useEffect(() => {
+    console.log(company);
     if (get(company, 'stub', null)) {
       let getLang = cookie.get('brixelLang');
       if (get(company, 'language.code', null) && !getLang && currentIndex < 2) {
