@@ -130,7 +130,7 @@ function PageHeader(props) {
     history.push(link);
     setShowMobileMenu(false);
   };
-  console.log(Helpers.telephoneFormat(supportPhone));
+
   return (
     <>
       <header className={`flowHeader zIndex${zIndexHeader}`}>
