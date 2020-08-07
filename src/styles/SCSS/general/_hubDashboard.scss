@@ -1,7 +1,8 @@
 .hubDashboard {
 
   @media (min-width: $responsive-medium) {
-    .rewardsTop .secondLevel {
+    .rewardsTop .secondLevel,
+    .mediaDetails {
       position: sticky;
       top: $step * 3;
     }
