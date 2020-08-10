@@ -320,7 +320,6 @@ const GetStarted = (props) => {
 
   // SET DATA BY COMPANY
   useEffect(() => {
-    console.log(company);
     if (get(company, 'stub', null)) {
       let getLang = cookie.get('brixelLang');
       if (get(company, 'language.code', null) && !getLang && currentIndex < 2) {

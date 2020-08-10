@@ -40,7 +40,6 @@ function PageHeader(props) {
   const [widthScreen, setWidthScreen] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [zIndexHeader, setZIndexHeader] = useState(11);
-  console.log(activeSingleCompany);
   const [supportPhone, setSupportPhone] = useState('');
 
   // FUNCTION TO CHECK IF USER IS LOGGED IN
