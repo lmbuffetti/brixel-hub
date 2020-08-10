@@ -47,7 +47,13 @@ const ResumeCard = (props) => {
             </p>
             <p className="dis-f a-c">
               <BrixelIcon icon="plans" className="mr-1" />
-              <span className="ff-mono body2">{get(formValue, 'properties.typology.livingArea.value', 0)} m2</span>
+              {
+                get(formValue, 'location.countryCode', '') === 'PT' && get(formValue, 'properties.typology.grossArea.value', 0) > 0 ? (
+                  <span className="ff-mono body2">{get(formValue, 'properties.typology.grossArea.value', 0)} m2</span>
+                ) : (
+                  <span className="ff-mono body2">{get(formValue, 'properties.typology.livingArea.value', 0)} m2</span>
+                )
+              }
             </p>
             <p className="dis-f a-c">
               <BrixelIcon icon="house-built" className="mr-1" />

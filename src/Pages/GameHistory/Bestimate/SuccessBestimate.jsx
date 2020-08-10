@@ -47,7 +47,10 @@ function SuccessBestimate(props) {
     if (get(activeSingleProperty, 'id', '') && !marketData.priceDistribution) {
       const latBoundsRadius = 0.0675;
       const longBoundsRadius = 0.1;
-      const livingSpace = get(activeSingleProperty, 'properties.typology.livingArea.value', 0);
+      let livingSpace = get(activeSingleProperty, 'properties.typology.livingArea.value', 0);
+      if (get(activeSingleProperty, 'location.countryCode', '') === 'PT' && get(activeSingleProperty, 'properties.typology.grossArea.value', 0) > 0) {
+        livingSpace = get(activeSingleProperty, 'properties.typology.grossArea.value', 0);
+      }
       const percLivingSpace = +livingSpace * 0.5;
       const data = {
         north: activeSingleProperty.location.latitude + latBoundsRadius,

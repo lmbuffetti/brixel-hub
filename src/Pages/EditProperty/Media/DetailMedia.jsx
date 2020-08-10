@@ -4,7 +4,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
-import { Field, change, reduxForm } from 'redux-form';
+import {
+  Field, change, reduxForm, reset,
+} from 'redux-form';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -29,6 +31,7 @@ const DetailMedia = (props) => {
     history,
     isSmallLoading,
     match,
+    resetForm,
   } = props;
   // STATE
   const [rotation, setRotation] = useState(0);
@@ -55,6 +58,7 @@ const DetailMedia = (props) => {
 
   // RELAOD THE EFFECT OF EDIT MEDIA ON CHANGE IMAGE ID
   useEffect(() => {
+    resetForm();
     if (formValue[mediaType][idImg]) {
       if (formValue[mediaType][idImg] !== '') {
         if (thirdlevelEl) {
@@ -236,6 +240,7 @@ DetailMedia.propTypes = {
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.string.isRequired,
   match: PropTypes.object.isRequired,
+  resetForm: PropTypes.func.isRequired,
 };
 
 DetailMedia.defaultProps = {
@@ -257,6 +262,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
+  },
+  resetForm() {
+    dispatch(reset('Property'));
   },
   handleRotateImg: bindActionCreators(rotateImg, dispatch),
   handleDeleteImg: bindActionCreators(deleteImg, dispatch),

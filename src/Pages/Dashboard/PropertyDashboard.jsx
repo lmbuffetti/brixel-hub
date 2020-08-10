@@ -136,7 +136,13 @@ const HomeDashboard = (props) => {
                   </div>
                   <div className="dis-fl-col ta-l">
                     <span className="subtitle fsize-200 txtDark200">Living space</span>
-                    <span className="value ff-mono txtDark400">{(has(property.properties, 'typology') && property.properties.typology.livingArea) ? property.properties.typology.livingArea.value : 'N/A'} m2</span>
+                    {
+                      get(property, 'location.countryCode', '') === 'PT' && get(formValue, 'properties.typology.grossArea.value', 0) > 0 ? (
+                        <span className="value ff-mono txtDark400">{get(property, 'properties.typology.grossArea.value', 'N/A')} m2</span>
+                      ) : (
+                        <span className="value ff-mono txtDark400">{get(property, 'properties.typology.livingArea.value', 'N/A')} m2</span>
+                      )
+                    }
                   </div>
                   <div className="dis-fl-col ta-l">
                     <span className="subtitle fsize-200 txtDark200">Year built</span>

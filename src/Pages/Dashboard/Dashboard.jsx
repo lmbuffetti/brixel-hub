@@ -272,7 +272,7 @@ const Dashboard = (props) => {
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
       const checkIsValid = Object.keys(changeObj).find((key) => typeof changeObj[key] !== 'undefined');
-      if (Object.keys(changeObj).length === 0 && !get(notification, 'label', '').toLowerCase().includes('saved')) {
+      if (Object.keys(changeObj).length === 0 && get(notification, 'label', '').toLowerCase().includes('changes')) {
         handleSetScreenNotification({
           ...notification,
           state: false,

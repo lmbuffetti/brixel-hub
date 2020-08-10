@@ -40,7 +40,7 @@ function PageHeader(props) {
   const [widthScreen, setWidthScreen] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [zIndexHeader, setZIndexHeader] = useState(11);
-  const supportPhone = Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', '000'));
+  const [supportPhone, setSupportPhone] = useState('');
 
   // FUNCTION TO CHECK IF USER IS LOGGED IN
   useEffect(() => {
@@ -52,6 +52,11 @@ function PageHeader(props) {
       if (!gameHistory.data) handleGetGame();
     }
   }, [loggedInUser, lang]);
+
+  // GET COMPANY INFO
+  useEffect(() => {
+    setSupportPhone(get(activeSingleCompany, 'contact.phone', ''));
+  }, [activeSingleCompany]);
 
   // FUNCTION TO POPULATE THE DROPDOWN LANGUAGE MENU
   useEffect(() => {
@@ -139,7 +144,7 @@ function PageHeader(props) {
             <div className="support dis-f a-c ml-2 ml-sm-4">
               <a className="fweight-500 dis-f a-c ff-mono" href={`tel:${supportPhone}`}>
                 <img className="w-fix-24 w-fix-sm-32 mr-1" src={CallUsImg} alt="Call Us" />
-                <span className="body2 txtPrimary600 fweight-500">{supportPhone}</span>
+                <span className="body2 txtPrimary600 fweight-500">{Helpers.telephoneFormat(supportPhone)}</span>
               </a>
             </div>
           </div>
