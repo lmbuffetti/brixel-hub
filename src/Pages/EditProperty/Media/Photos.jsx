@@ -143,6 +143,11 @@ const Photos = (props) => {
     func: () => { setConfirmDelete(null); },
   });
 
+  const scrollToTopEdit = () => {
+    const scrollEl = document.getElementsByClassName('hubDasContent')[0];
+    if (scrollEl) scrollEl.scrollTo({ top: 10, behavior: 'smooth' });
+  };
+
   return (
     <div className="photosWrapper dis-f">
       <div className="secondLevel dis-fl-col">
@@ -220,7 +225,12 @@ const Photos = (props) => {
                                   noBorder
                                   icon="edit"
                                   className={`shadow-2dp ml-1 ${confirmDelete === i ? 'hide' : ''}`}
-                                  onClick={() => history.push(`/${propID}/property/photos/${item.id}/edit/photos`)}
+                                  onClick={
+                                    () => {
+                                      history.push(`/${propID}/property/photos/${item.id}/edit/photos`);
+                                      scrollToTopEdit();
+                                    }
+                                  }
                                 />
                               </div>
                               {
