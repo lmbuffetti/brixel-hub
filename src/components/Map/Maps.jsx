@@ -330,13 +330,13 @@ export const ComponentMap = (props) => {
                   disabled={disabled}
                   placeholder="Write street name"
                   input={{
-                    onChange: (e) => changeFieldValue(formName, 'location.searchAddress', e),
+                    onChange: (e) => (disabled ? '' : changeFieldValue(formName, 'location.searchAddress', e)),
                     onBlur: () => '',
-                    onFocus: () => setSelectedAddress(false),
+                    onFocus: () => (disabled ? '' : setSelectedAddress(false)),
                     value: get(formValue, 'location.searchAddress', '') || '',
                     name: 'location.searchAddress',
                   }}
-                  onKeyDown={(e) => keyUpInput(e)}
+                  onKeyDown={(e) => (disabled ? '' : keyUpInput(e))}
                   onClear={() => (disabled ? '' : changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude }))}
                   message={showMessageToChangeAddress ? { help: 'placeholder' } : null}
                 />
@@ -368,7 +368,7 @@ export const ComponentMap = (props) => {
                   placeholder=""
                   onKeyDown={(e) => (e.keyCode === 13 ? onSubmit() : '')}
                   input={{
-                    onChange: (e) => changeStreetNumber(e),
+                    onChange: (e) => (disabled ? '' : changeStreetNumber(e)),
                     onBlur: () => '',
                     value: get(formValue, 'location.streetNumber', ''),
                     name: 'location.streetNumber',

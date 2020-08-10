@@ -16,7 +16,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
 import {
-  setModal, setScreenNotification,
+  setModal, setScreenNotification, setPageData,
 } from '../../actions/CommonActions';
 import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { InputSheets } from '../../resources/inputSheets';
@@ -30,6 +30,7 @@ const Facts = (props) => {
   const {
     changeFieldValue,
     formValue,
+    handleSaveData,
     history,
     match,
   } = props;
@@ -118,6 +119,7 @@ const Facts = (props) => {
         scrollElement.scrollTo({ top: 0, behavior: 'smooth' });
         scrollElementMobile.scrollTo({ top: 0, behavior: 'smooth' });
       }
+      handleSaveData('saveFacts');
     }
     return null;
   };
@@ -215,6 +217,7 @@ const Facts = (props) => {
 
 Facts.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
+  handleSaveData: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
@@ -247,6 +250,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   setNotification: bindActionCreators(setScreenNotification, dispatch),
+  handleSaveData: bindActionCreators(setPageData, dispatch),
 });
 
 export default compose(
