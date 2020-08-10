@@ -97,6 +97,9 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.property.updateProperty(id, action.payload)
         .then((res) => {
+          if (setSuccessNotification) {
+            store.dispatch({ type: SET_SAVED_SCREEN });
+          }
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
           store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
@@ -105,9 +108,6 @@ const checkCommon = (store) => (next) => (action) => {
           }
           if (redirectTo) {
             store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
-          }
-          if (setSuccessNotification) {
-            store.dispatch({ type: SET_SAVED_SCREEN });
           }
           if (redirectToHome) {
             window.location.href = `/${res.data.id}/home`;
