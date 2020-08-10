@@ -40,6 +40,29 @@ const aptAdjective = {
     'Modern',
     'Incredible',
   ],
+  it: [
+    'Luminoso',
+    'Confortevole',
+    'Elegante',
+    'Prestigioso',
+    'Spazioso',
+    'Superbo',
+    'Splendido',
+    'Signorile',
+    'Sofisticato',
+    'Moderno',
+    'Incredibile',
+  ],
+  pt: [
+    'Charmoso',
+    'Elegante',
+    'Confortável',
+    'Sofisticado',
+    'Moderno',
+    'Aconchegante',
+    'Acolhedor',
+    'Luminoso',
+  ],
 };
 
 const houseAdjective = {
@@ -79,6 +102,29 @@ const houseAdjective = {
     'Modern',
     'Incredible',
   ],
+  it: [
+    'Luminosa',
+    'Confortevole',
+    'Elegante',
+    'Prestigiosa',
+    'Spaziosa',
+    'Superba',
+    'Splendida',
+    'Signorile',
+    'Sofisticata',
+    'Moderna',
+    'Incredibile',
+  ],
+  pt: [
+    'Charmosa',
+    'Elegante',
+    'Confortável',
+    'Sofisticada',
+    'Moderna',
+    'Aconchegante',
+    'Acolhedora',
+    'Luminosa',
+  ],
 };
 
 export const titleProperty = (location, propertyType, lang, formValue) => {
@@ -90,7 +136,7 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
   if (propertyType === 'House') adjective = houseAdjective;
   if (getCountry === 'PT') {
     const bedrooms = get(formValue, 'properties.typology.bedrooms', null);
-    const livingSpace = get(formValue, 'properties.typology.grossArea.value', null);
+    const livingSpace = get(formValue, 'properties.typology.grossArea.value', get(formValue, 'properties.typology.livingArea.value', null));
     const curLocation = get(formValue, 'location', null);
     if (bedrooms >= 0 && livingSpace && curLocation) {
       const typology = FormatValue.formatRooms(bedrooms, 'pt');
@@ -99,9 +145,7 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
   } else if (getCountry && propertyType) {
     const randomNumber = Math.floor(Math.random() * adjective.en.length);
     pageTitle = `${adjective.en[randomNumber]} ${translatedPropertyType}`;
-    if (getCountry === 'CH') {
-      pageTitle = `${adjective.de[randomNumber]} ${translatedPropertyType}`;
-    }
+    pageTitle = adjective[lang] ? `${adjective[lang][randomNumber]} ${translatedPropertyType}` : `${adjective.en[randomNumber]} ${translatedPropertyType}`;
     if (location.city) {
       pageTitle += ` in ${location.city}`;
     } else if (location.state) {

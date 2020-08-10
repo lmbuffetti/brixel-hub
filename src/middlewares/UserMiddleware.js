@@ -129,19 +129,28 @@ const checkUser = (store) => (next) => (action) => {
     // DISPATCH TO UPDATE USER - USER OBJECT
     case SAVE_ACTIVE_SINGLE_USER: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
       const { id } = action.payload;
-      const { sendEmail } = action.payload;
+      const { sendEmail, setLoggedInUser, smallLoader } = action.payload;
       delete action.payload.id;
       delete action.payload.sendEmail;
+      delete action.payload.smallLoader;
+      delete action.payload.setLoggedInUser;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: 'userData' });
+      else store.dispatch({ type: SPINNER_ON });
       api.user.updateUser(id, action.payload)
-        .then(() => {
-          store.dispatch({ type: SPINNER_OFF });
+        .then((response) => {
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
           if (sendEmail) {
             api.common.sendGenericMessage(sendEmail)
               .then(() => {
                 // console.log(res.data);
               });
+          }
+          if (setLoggedInUser) {
+            const userData = store.getState().user.loggedInUser;
+            userData.user = response.data;
+            store.dispatch({ type: SET_LOGGED_IN_USER, payload: userData });
           }
         })
         .catch(() => {

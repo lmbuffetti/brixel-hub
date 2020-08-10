@@ -167,7 +167,7 @@ const App = (props) => {
       const element = document.getElementsByTagName('BODY')[0];
       element.classList.remove('txlive');
     }
-  }, [localTransifex, loggedInUser]);
+  }, [localTransifex, get(loggedInUser, 'user.id', null)]);
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {

@@ -10,7 +10,6 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import has from 'lodash/has';
 import { reduxForm, reset, change } from 'redux-form';
 import last from 'lodash/last';
 import queryString from 'query-string';
@@ -110,7 +109,7 @@ const GetStarted = (props) => {
       // USER DATA
       data.user = {
         ...register,
-        name: `${register.firstName} ${register.lastName}`,
+        name: `${register.firstName} ${get(register, 'lastName', '')}`,
         userType: 'seller',
         signupAccept: true,
         signupChannel: get(formValue, 'channel', 'default'),
@@ -262,8 +261,10 @@ const GetStarted = (props) => {
 
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
   useEffect(() => {
-    const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
-    changeFieldValue('properties.typology.livingArea.value', livingSpace);
+    if (get(formValue, 'properties.typology.grossArea.value', 0) > 0) {
+      const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
+      changeFieldValue('properties.typology.livingArea.value', livingSpace);
+    }
   }, [get(formValue, 'properties.typology.grossArea.value', 2)]);
 
   // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
@@ -315,12 +316,11 @@ const GetStarted = (props) => {
     const propertyType = get(formValue, 'properties.propertyType', null);
     const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
     if (pageTitle) changeFieldValue('pageTitle', pageTitle);
-  }, [formValue.location]);
+  }, [formValue.location, lang]);
 
   // SET DATA BY COMPANY
   useEffect(() => {
-    const companyCookie = cookie.get('brixelStubCompany') || null;
-    if (has(company, 'stub') && companyCookie) {
+    if (get(company, 'stub', null)) {
       let getLang = cookie.get('brixelLang');
       if (get(company, 'language.code', null) && !getLang && currentIndex < 2) {
         const companyLang = get(company, 'language.code', 'en');
@@ -456,6 +456,7 @@ const GetStarted = (props) => {
                         onClickDisabled={!checkValidateField()}
                         onSubmit={() => changeStep()}
                         showSendButton
+                        disableDelay
                       />
 
                     </div>

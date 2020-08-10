@@ -174,7 +174,7 @@ const LoginSignup = (props) => {
                     {translateTo(lang, 'or login here')}
                   </p>
                 </div>
-                <BrixelRegister company={company} formName="GetStarted" showErrors={showErrors} />
+                <BrixelRegister showGeneratePassword={false} company={company} formName="GetStarted" showErrors={showErrors} />
               </>
             )
           }
