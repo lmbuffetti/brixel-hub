@@ -25,7 +25,7 @@ import { deleteDocument, uploadDocument, getImageType } from '../../actions/Uplo
 import {
   addGameHistory, getAchievement, getGamegroup, getGameHistory,
 } from '../../actions/GamificationActions';
-import { setModal, setScreenNotification } from '../../actions/CommonActions';
+import { setModal, setPageData, setScreenNotification } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { calcPercentageFacts } from '../../utils/helpers';
 
@@ -83,6 +83,8 @@ const Dashboard = (props) => {
     handleSavePropertyVisitSchedule,
     handleCreatePropertyVisitSchedule,
     handleSetScreenNotification,
+    handleSaveData,
+    savePageData,
     history,
     imageType,
     initialValues,
@@ -235,6 +237,14 @@ const Dashboard = (props) => {
     return isValid;
   };
 
+  // LOAD SAVE FUNCTION FORM REDUX
+  useEffect(() => {
+    if (savePageData === 'saveFacts') {
+      saveData();
+      handleSaveData(null);
+    }
+  }, [savePageData]);
+
   // FUNCTION TO DISCARD SAVE
   useEffect(() => {
     if (isDiscardChanges) {
@@ -353,6 +363,7 @@ Dashboard.propTypes = {
   handleGetImageType: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
+  handleSaveData: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -361,6 +372,7 @@ Dashboard.propTypes = {
   notification: PropTypes.object,
   handleSetScreenNotification: PropTypes.func.isRequired,
   resetForm: PropTypes.func.isRequired,
+  savePageData: PropTypes.string.isRequired,
 };
 
 Dashboard.defaultProps = {
@@ -399,6 +411,7 @@ const mapStateToProps = (state) => {
     gameHistory: get(state, 'gamification.gameHistory', {}),
     imageType: get(state, 'image.imageType', []),
     isLoading: get(state, 'common.isLoading', 0) > 0,
+    savePageData: get(state, 'common.setPageData', null),
     isSmallLoading: get(state, 'common.isSmallLoading', null),
     loggedInUser: get(state, 'user.loggedInUser', {}),
     notification: get(state, 'common.notification', {}),
@@ -463,6 +476,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetScreenNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
+  handleSaveData: bindActionCreators(setPageData, dispatch),
 });
 
 export default compose(

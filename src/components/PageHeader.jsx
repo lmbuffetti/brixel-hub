@@ -141,12 +141,16 @@ function PageHeader(props) {
               alt="Brixel Logo"
               id="header-logo"
             />
-            <div className="support dis-f a-c ml-2 ml-sm-4">
-              <a className="fweight-500 dis-f a-c ff-mono" href={`tel:${supportPhone}`}>
-                <img className="w-fix-24 w-fix-sm-32 mr-1" src={CallUsImg} alt="Call Us" />
-                <span className="body2 txtPrimary600 fweight-500">{Helpers.telephoneFormat(supportPhone)}</span>
-              </a>
-            </div>
+            {
+              supportPhone && (
+                <div className="support dis-f a-c ml-2 ml-sm-4">
+                  <a className="fweight-500 dis-f a-c ff-mono" href={`tel:${supportPhone}`}>
+                    <img className="w-fix-24 w-fix-sm-32 mr-1" src={CallUsImg} alt="Call Us" />
+                    <span className="body2 txtPrimary600 fweight-500">{Helpers.telephoneFormat(supportPhone)}</span>
+                  </a>
+                </div>
+              )
+            }
           </div>
           <div className="dis-f a-c">
             {
