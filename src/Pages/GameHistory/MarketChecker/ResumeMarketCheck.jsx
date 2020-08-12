@@ -8,12 +8,12 @@ import {
 import get from 'lodash/get';
 import has from 'lodash/has';
 import PropTypes from 'prop-types';
+import * as moment from 'moment';
+import { BrixelIcon } from '@brixel/brixel-components';
 import { getActiveSingleProperty, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { sendGenericMail } from '../../../actions/CommonActions';
 import Maps from '../../../components/Map/Maps';
-import * as moment from 'moment';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
-import { BrixelIcon } from '@brixel/brixel-components';
 import emptyHouseImg from '../../../images/emptyHub.svg';
 
 function ResumeMarketCheck(props) {
@@ -23,45 +23,49 @@ function ResumeMarketCheck(props) {
     handleGetMarketData,
     handleSaveActiveSingleProperty,
     marketData,
-    property,
+    activeSingleProperty,
     match,
   } = props;
   // STATE
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    if (property && property.id && !marketData.priceDistribution) {
+    if (get(activeSingleProperty, 'id', null) && !marketData.priceDistribution) {
       const latBoundsRadius = 0.0675;
       const longBoundsRadius = 0.1;
-      const livingSpace = get(property, 'properties.typology.livingArea.value', 0);
+      let livingSpace = get(activeSingleProperty, 'properties.typology.livingArea.value', 0);
+      if (get(activeSingleProperty, 'location.countryCode', '') === 'PT' && get(formValue, 'properties.typology.grossArea.value', 0) > 0) {
+        livingSpace = get(activeSingleProperty, 'properties.typology.grossArea.value', 0);
+      }
       const percLivingSpace = +livingSpace * 0.5;
       const data = {
-        north: property.location.latitude + latBoundsRadius,
-        south: property.location.latitude - latBoundsRadius,
-        west: property.location.longitude - longBoundsRadius,
-        east: property.location.longitude + longBoundsRadius,
-        propertyType: property.properties.propertyType,
+        north: activeSingleProperty.location.latitude + latBoundsRadius,
+        south: activeSingleProperty.location.latitude - latBoundsRadius,
+        west: activeSingleProperty.location.longitude - longBoundsRadius,
+        east: activeSingleProperty.location.longitude + longBoundsRadius,
+        propertyType: activeSingleProperty.properties.propertyType,
         minLivingSpace: +livingSpace - percLivingSpace,
         maxLivingSpace: +livingSpace + percLivingSpace,
-        stateCode: property.location.countryCode,
+        stateCode: activeSingleProperty.location.countryCode,
       };
       handleGetMarketData(data);
     }
-  }, [property]);
+  }, [activeSingleProperty]);
 
+  // GET MARKET CHECK
   useEffect(() => {
     if (get(marketData, 'priceDistribution', null) && !saved) {
-      const oldPackageflow = get(property, 'packageFlowProcess', {});
-      const getOldOwnerType = get(property, 'ownerType', null);
-      const getOldWhenToSell = get(property, 'whenToSell', null);
-      const getOldTypeOfBuyer = get(property, 'typeOfBuyer', null);
+      const oldPackageflow = get(activeSingleProperty, 'packageFlowProcess', {});
+      const getOldOwnerType = get(activeSingleProperty, 'ownerType', null);
+      const getOldWhenToSell = get(activeSingleProperty, 'whenToSell', null);
+      const getOldTypeOfBuyer = get(activeSingleProperty, 'typeOfBuyer', null);
       const getOwnerType = get(oldPackageflow, 'ownerType', getOldOwnerType);
       const getWhenToSell = get(oldPackageflow, 'whenToSell', getOldWhenToSell);
       const getTypeOfBuyer = get(oldPackageflow, 'typeOfBuyer', getOldTypeOfBuyer);
       const data = {
         id: match.params.propId,
         packageFlowProcess: oldPackageflow,
-        properties: property.properties,
+        properties: activeSingleProperty.properties,
         ownerType: formValue.ownerType,
         typeOfBuyer: formValue.typeOfBuyer,
         whenToSell: formValue.whenToSell,
@@ -105,14 +109,14 @@ function ResumeMarketCheck(props) {
                     <span>similar apartments in your area are on sale.</span>
                   </h5>
                   {
-                    has(property, 'location') &&
-                    has(property, 'packageFlowProcess.rewardScreenData') && (
+                    has(activeSingleProperty, 'location') &&
+                    has(activeSingleProperty, 'packageFlowProcess.rewardScreenData') && (
                       <div>
                         <div>
                           <Maps
-                            zoom={property.location.countryCode === 'PT' ? 15 : 12}
+                            zoom={get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? 15 : 12}
                             scrollZoom={false}
-                            subMinHeight={"min-h-fix-320"}
+                            subMinHeight="min-h-fix-320"
                             moveMarker
                             draggable
                             showMap
@@ -121,8 +125,8 @@ function ResumeMarketCheck(props) {
                             similarProperties={marketData.list}
                           />
                           <div className="dis-f jc-fs a-c mt-2">
-                            <BrixelIcon icon='location-pin-simple fsize-400' color="dark" saturationTxt={700} />
-                            <p className="ml-1 txtDark700 fsize-300">{property.location.address}</p>
+                            <BrixelIcon icon="location-pin-simple fsize-400" color="dark" saturationTxt={700} />
+                            <p className="ml-1 txtDark700 fsize-300">{get(activeSingleProperty, 'location.address', '')}</p>
                           </div>
                         </div>
 
@@ -155,12 +159,17 @@ function ResumeMarketCheck(props) {
                           </div>
                         </div>
 
-
                         <div className="boxMarketCheck w-perc-100">
                           {
                             get(marketData, 'livingSpacesDistribution.median', null) && (
                               <div className="">
-                                <p className="mb-1 body2 fweight-600 txtDark700">Living Sapce</p>
+                                {
+                                  get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
+                                    <p className="mb-1 body2 fweight-600 txtDark700">Gross Area</p>
+                                  ) : (
+                                    <p className="mb-1 body2 fweight-600 txtDark700">Living Space</p>
+                                  )
+                                }
                                 <p><span className="ff-mono txtGreen400 fsize-700">{Math.ceil(marketData.livingSpacesDistribution.median)}</span> <span className="fsize-100 txtDark200">m2</span></p>
                               </div>
                             )
@@ -196,7 +205,7 @@ function ResumeMarketCheck(props) {
               ) : (
                 <div className="dis-fl-col a-c jc-c">
                   <img src={emptyHouseImg} alt="Empty Market Data" />
-                  <h5 className="mt-3 mb-2">Dude. Where's my data?</h5>
+                  <h5 className="mt-3 mb-2">Dude. Where&apos;s my data?</h5>
                   <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to calculate your result</p>
                 </div>
               )
@@ -211,25 +220,21 @@ function ResumeMarketCheck(props) {
 ResumeMarketCheck.propTypes = {
   formValue: PropTypes.object,
   handleGetMarketData: PropTypes.func.isRequired,
-  handleGetPage: PropTypes.func.isRequired,
-  handleSendGenericMail: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  loggedInUser: PropTypes.object,
   match: PropTypes.object.isRequired,
   marketData: PropTypes.object,
-  property: PropTypes.object,
+  activeSingleProperty: PropTypes.object,
 };
 
 ResumeMarketCheck.defaultProps = {
   formValue: {},
-  loggedInUser: {},
   marketData: null,
-  property: null,
+  activeSingleProperty: null,
 };
 
 const mapStateToProps = (state, props) => ({
   formValue: get(state, `form.${props.formName}.values`, {}),
-  property: get(state, 'property.activeSingleProperty', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   marketData: get(state, 'property.marketCheck', {}),
 });

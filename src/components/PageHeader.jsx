@@ -7,18 +7,19 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
-import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
+import { BrixelDropdown, BrixelModal, Helpers } from '@brixel/brixel-components';
+// import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_color.svg';
 import Loadable from 'react-loadable';
+import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
 import { translateTo } from '../utils/translation';
 import awards from '../images/BrxielComingTown/awards.svg';
 import brixels from '../images/BrxielComingTown/brixels.svg';
-import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import CallUsImg from '../images/Support/call_us.svg';
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -28,7 +29,7 @@ const AvatarImage = Loadable({
 function PageHeader(props) {
   // PROPS
   const {
-    lang, languages, loggedInUser, userAwards, brixelPoints,
+    activeSingleCompany, lang, languages, loggedInUser, userAwards, brixelPoints,
     handleSetLanguage, history, handleGetGame, property, gameHistory,
   } = props;
 
@@ -38,7 +39,10 @@ function PageHeader(props) {
   const [modal, setModal] = useState(false);
   const [widthScreen, setWidthScreen] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [zIndexHeader, setZIndexHeader] = useState(11);
+  const [supportPhone, setSupportPhone] = useState('');
 
+  // FUNCTION TO CHECK IF USER IS LOGGED IN
   useEffect(() => {
     if (loggedInUser && loggedInUser.user) {
       const langUsr = loggedInUser.user.language;
@@ -49,6 +53,12 @@ function PageHeader(props) {
     }
   }, [loggedInUser, lang]);
 
+  // GET COMPANY INFO
+  useEffect(() => {
+    setSupportPhone(get(activeSingleCompany, 'contact.phone', ''));
+  }, [activeSingleCompany]);
+
+  // FUNCTION TO POPULATE THE DROPDOWN LANGUAGE MENU
   useEffect(() => {
     const drpLng = [];
     languages.map((lng, i) => {
@@ -61,11 +71,13 @@ function PageHeader(props) {
     setDropLang(drpLng);
   }, [languages]);
 
+  // FUNCTION TO TRANSLATE THE CONTENT USING TRANSIFEX
   useEffect(() => {
     setCurrentLang(lang);
     if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
   }, [lang]);
 
+  // FUNCTION LOADED WHEN SCREEN IS RESIZED
   const screenResize = () => {
     setWidthScreen(window.innerWidth);
     if (window.innerWidth > 1024) {
@@ -74,6 +86,7 @@ function PageHeader(props) {
     }
   };
 
+  // FUNCTION TO INITIALIZE THE EVENT LISTENER FOR SCREEN RESIZE
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setWidthScreen(window.innerWidth);
@@ -81,6 +94,17 @@ function PageHeader(props) {
     }
   }, []);
 
+  // FUNCTION TO MANAGE THE ZINDEX IF slideUp CLASS EXISTS
+  useEffect(() => {
+    const getElementByClass = document.getElementsByClassName('slideUp');
+    if (getElementByClass.length > 0) {
+      setZIndexHeader(0);
+    } else {
+      setZIndexHeader(11);
+    }
+  }, [get(history, 'location.pathname', null)]);
+
+  // FUNCTION TO SET THE LANGUAGE WHEN SELECTED
   const newLang = (e, langCode) => {
     e.stopPropagation();
     setCurrentLang(langCode.value);
@@ -89,16 +113,18 @@ function PageHeader(props) {
     setCookie('brixelLang', langCode.value);
   };
 
+  // FUNCTION WHEN CLICKED ON AVATAR - DIFFERENT IF DESKTOP OR MOBILE
   const avatarAction = () => {
     // Mobile actions for the avatar click
     if (widthScreen < 769) {
       setShowMobileMenu(true);
       document.body.classList.add('ov-h');
     } else {
-      window.open(baseByData(null,'io').profileURL, '_blank');
+      window.open(baseByData(null, 'io').profileURL, '_blank');
     }
   };
 
+  // FUNCTION WHEN MENU ELEMENT IS CLICKED
   const onClickMenu = (link) => {
     history.push(link);
     setShowMobileMenu(false);
@@ -106,14 +132,26 @@ function PageHeader(props) {
 
   return (
     <>
-      <header className="flowHeader zIndex11">
-        <div className={`container dis-f a-c p-1 pt-2 p-md-2 jc-b pos-r zIndex4 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
-          <img
-            className={`logo dis-b ${history.location.pathname.includes('onBoarding') ? 'w-fix-86' : 'w-fix-40' }  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
-            src={ history.location.pathname.includes('onBoarding') ? logoColor : logoNorm }
-            alt="Brixel Logo"
-            id="header-logo"
-          />
+      <header className={`flowHeader zIndex${zIndexHeader}`}>
+        <div className={`dis-f a-c dis-f a-c p-2 py-small-md-21 px-small-md-29 jc-b pos-r jc-b pos-r ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
+          <div className="dis-f jc-c a-c">
+            <img
+              className={`logo dis-b w-fix-86  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
+              src={logoColor}
+              alt="Brixel Logo"
+              id="header-logo"
+            />
+            {
+              supportPhone && (
+                <div className="support dis-f a-c ml-2 ml-sm-4">
+                  <a className="fweight-500 dis-f a-c ff-mono" href={`tel:${supportPhone}`}>
+                    <img className="w-fix-24 w-fix-sm-32 mr-1" src={CallUsImg} alt="Call Us" />
+                    <span className="body2 txtPrimary600 fweight-500">{Helpers.telephoneFormat(supportPhone)}</span>
+                  </a>
+                </div>
+              )
+            }
+          </div>
           <div className="dis-f a-c">
             {
               !history.location.pathname.includes('packageFlow') &&
@@ -150,7 +188,7 @@ function PageHeader(props) {
                     Object.keys(brixelPoints).length > 0 && (
                       <div className="cur-poi ml-2" onClick={() => setModal('brixelPoints')}>
                         <img src={brixels} alt="icon awards" className="mr-1" />
-                        <span className="ff-mono txtRed600">{brixelPoints.reduce((prev,next) => prev + next.point,0)}</span>
+                        <span className="ff-mono txtRed600">{brixelPoints.reduce((prev, next) => prev + next.point, 0)}</span>
                       </div>
                     )
                   }
@@ -180,7 +218,7 @@ function PageHeader(props) {
                   {
                     !history.location.pathname.includes('packageFlow') && (
                       <AvatarImage
-                        avatarImg={ has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
+                        avatarImg={has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
                         name={loggedInUser.user.name}
                         size={40}
                         onClick={() => avatarAction()}
@@ -197,7 +235,7 @@ function PageHeader(props) {
                         color="dark"
                         saturationTxt={700}
                         icon="close-small"
-                        onClick={() => history.push(`/`)}
+                        onClick={() => history.push('/')}
                       />
                     )
                   }
@@ -207,6 +245,7 @@ function PageHeader(props) {
           </div>
         </div>
       </header>
+
       {
         modal && (
           <>
@@ -218,18 +257,18 @@ function PageHeader(props) {
                 >
                   <div className="modal-title">
                     <div className="title-container dis-f a-c">
-                      <div className={`w-fix-48 h-fix-48 brdRadius dis-f a-c jc-c p-1 mr-2`}>
+                      <div className="w-fix-48 h-fix-48 brdRadius dis-f a-c jc-c p-1 mr-2">
                         <img
                           src={awards}
-                          className={`title-img w-perc-100`}
+                          className="title-img w-perc-100"
                           alt="Awards Icon"
                         />
                       </div>
-                      <span className="heading3">{translateTo(lang, "Awards")}</span>
+                      <span className="heading3">{translateTo(lang, 'Awards')}</span>
                     </div>
                   </div>
-                  <p>{translateTo(lang, "Who does not like awards? To honor your effort and endurance we award you for specific achievements.")}</p>
-                  <p>{translateTo(lang, "Keep on going to collect more and enjoy the ride.")}</p>
+                  <p>{translateTo(lang, 'Who does not like awards? To honor your effort and endurance we award you for specific achievements.')}</p>
+                  <p>{translateTo(lang, 'Keep on going to collect more and enjoy the ride.')}</p>
                 </BrixelModal>
               )
             }
@@ -240,19 +279,19 @@ function PageHeader(props) {
                 >
                   <div className="modal-title">
                     <div className="title-container dis-f a-c">
-                      <div className={`w-fix-48 h-fix-48 brdRadius dis-f a-c jc-c p-1 mr-2`}>
+                      <div className="w-fix-48 h-fix-48 brdRadius dis-f a-c jc-c p-1 mr-2">
                         <img
                           src={brixels}
-                          className={`title-img w-perc-100`}
+                          className="title-img w-perc-100"
                           alt="Brixels Point Icon"
                         />
                       </div>
-                      <span className="heading3">{translateTo(lang, "Brixels")}</span>
+                      <span className="heading3">{translateTo(lang, 'Brixels')}</span>
                     </div>
                   </div>
-                  <p>{translateTo(lang, "This is our currency you can earn by fullfilling tasks along the way.")}</p>
-                  <p>{translateTo(lang, "During your journey you can use Brixels to unlock additional features and gifts.")}</p>
-                  <p>{translateTo(lang, "So keep collecting your Brixels.")}</p>
+                  <p>{translateTo(lang, 'This is our currency you can earn by fullfilling tasks along the way.')}</p>
+                  <p>{translateTo(lang, 'During your journey you can use Brixels to unlock additional features and gifts.')}</p>
+                  <p>{translateTo(lang, 'So keep collecting your Brixels.')}</p>
                 </BrixelModal>
               )
             }
@@ -276,18 +315,21 @@ function PageHeader(props) {
             />
             <div className="links dis-fl-col as-b pl-4">
               <button
+                type="button"
                 className="txtLight100 fweight-700 fSizePx28 mb-4"
                 onClick={() => onClickMenu(`/${property.id}/property/list`)}
               >
                 Properties
               </button>
               <button
+                type="button"
                 className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
                 onClick={() => ''}
               >
                 Messages
               </button>
               <button
+                type="button"
                 className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
                 onClick={() => ''}
               >
@@ -310,6 +352,7 @@ function PageHeader(props) {
 }
 
 PageHeader.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   languages: PropTypes.arrayOf(PropTypes.object),
@@ -324,14 +367,14 @@ PageHeader.propTypes = {
 
 PageHeader.defaultProps = {
   languages: [],
+  lang: 'en',
   loggedInUser: {},
-  noMenu: false,
   userAwards: [],
   brixelPoints: [],
-  withShadow: false,
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   languages: get(state, 'common.languages', []),
   lang: get(state, 'common.language', []),

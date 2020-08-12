@@ -1,5 +1,6 @@
 import get from 'lodash/get';
-import {user} from '../resources/localData/user';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { user } from '../resources/localData/user';
 import {
   CHECK_TOKEN,
   CREATE_USER,
@@ -17,8 +18,8 @@ import {
   SPINNER_OFF,
   SPINNER_SMALL_ON,
   SPINNER_SMALL_OFF,
-  SET_SCREEN_NOTIFICATION,
   REDIRECT_TO,
+  SET_FORM_ERROR,
 } from '../actions/types/CommonTypes';
 
 import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
@@ -26,10 +27,10 @@ import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
 import api from '../controllers/api/config';
 
 import { setCookie, removeCookie } from '../utils/helpers';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 
 const checkUser = (store) => (next) => (action) => {
   switch (action.type) {
+    // DISPATCH TO VERIFY THE USER TOKEN
     case CHECK_TOKEN: {
       next(action);
       const hideLoad = get(action, 'payload.hideLoad', false);
@@ -41,7 +42,7 @@ const checkUser = (store) => (next) => (action) => {
         .then((response) => {
           if (response.data && response.data.statusCode && response.data.statusCode === 401 && window.location.hostname.includes('localhost')) {
             removeCookie('brixelToken');
-            window.location.href = `/tokeninput`;
+            window.location.href = '/tokeninput';
           } else if (response.data && response.data.statusCode && response.data.statusCode === 401) {
             window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
           } else {
@@ -57,6 +58,7 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO DO THE USER LOGIN - username - password
     case DO_LOGIN: {
       next(action);
       // store.dispatch({ type: SPINNER_ON });
@@ -64,7 +66,7 @@ const checkUser = (store) => (next) => (action) => {
       const addProperty = action.payload.addProperty || false;
       delete action.payload.user;
       delete action.payload.addProperty;
-      api.user.getToken(data, {rememberMe: true})
+      api.user.getToken(data, { rememberMe: true })
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
             setCookie('brixelToken', res.data.token);
@@ -72,20 +74,14 @@ const checkUser = (store) => (next) => (action) => {
               const dataProperty = action.payload;
               dataProperty.token = res.data.token;
               dataProperty.owner = res.data.user.id;
-              store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty })
+              store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
             }
           } else {
             const alertProps = {
-              icon: 'close-circle',
-              label: 'Email and password combination are invalid.',
-              type: 'alert',
+              message: 'Email and password combination are invalid.',
               state: true,
-              actions: [{
-                type: 'close',
-                func: () => store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null }),
-              }],
             };
-            store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: alertProps });
+            store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
           }
           store.dispatch({ type: SPINNER_OFF });
         })
@@ -94,6 +90,7 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO CREATE USER - USER OBJECT
     case CREATE_USER: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -119,7 +116,7 @@ const checkUser = (store) => (next) => (action) => {
               const dataProperty = action.payload;
               dataProperty.token = userData.token;
               dataProperty.owner = userData.user.id;
-              store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty })
+              store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
             }
             store.dispatch({ type: SPINNER_OFF });
           }
@@ -129,21 +126,31 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO UPDATE USER - USER OBJECT
     case SAVE_ACTIVE_SINGLE_USER: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
       const { id } = action.payload;
-      const { sendEmail } = action.payload;
+      const { sendEmail, setLoggedInUser, smallLoader } = action.payload;
       delete action.payload.id;
       delete action.payload.sendEmail;
+      delete action.payload.smallLoader;
+      delete action.payload.setLoggedInUser;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: 'userData' });
+      else store.dispatch({ type: SPINNER_ON });
       api.user.updateUser(id, action.payload)
-        .then(() => {
-          store.dispatch({ type: SPINNER_OFF });
+        .then((response) => {
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
           if (sendEmail) {
             api.common.sendGenericMessage(sendEmail)
               .then(() => {
                 // console.log(res.data);
-              })
+              });
+          }
+          if (setLoggedInUser) {
+            const userData = store.getState().user.loggedInUser;
+            userData.user = response.data;
+            store.dispatch({ type: SET_LOGGED_IN_USER, payload: userData });
           }
         })
         .catch(() => {
@@ -151,35 +158,31 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO VALIDATE IF USER EXISTS
     case VALIDATE_USER: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
+      // store.dispatch({ type: SPINNER_ON });
       const newUser = action.payload.user.createUser || false;
       delete action.payload.user.createUser;
       api.user.validateUser(action.payload.user.email)
         .then((res) => {
           if (newUser && typeof res.data.statusCode === 'undefined') {
             const alertProps = {
-              icon: 'close-circle',
-              label: 'You already have a profile, please do a login',
-              type: 'alert',
+              message: 'You already have a profile, please do a login',
               state: true,
-              actions: [{
-                type: 'close',
-                func: () => store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: null }),
-              }],
             };
-            store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: alertProps });
+            store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
           } else if (newUser) {
             store.dispatch({ type: CREATE_USER, payload: action.payload });
           }
-          store.dispatch({ type: SPINNER_OFF });
+          // store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
+    // DISPATCH TO GET FAVORITES LIST
     case GET_FAVORITES: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: 'favorite' });
@@ -193,6 +196,7 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO GET FAVORITES LIST
     case GET_USER_PROPERTIES: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: 'usrProperties' });

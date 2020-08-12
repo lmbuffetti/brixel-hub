@@ -1,7 +1,9 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, {
+  useState, useRef, useCallback, useEffect,
+} from 'react';
 import { change, Field, reset } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -15,15 +17,14 @@ import {
   BrixelButtonTertiary, useOutsideAlerter, BrixelInputText,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { uploadDocument, deleteDocument, multiUploadDocument } from '../../actions/UploadActions';
-import { setScreenNotification } from '../../actions/CommonActions';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
-// IMAGES
-import upload_documents_empty from '../../images/Upload/upload_documents_empty.svg';
 import { useDropzone } from 'react-dropzone';
 import moment from 'moment';
+import { uploadDocument, deleteDocument, multiUploadDocument } from '../../actions/UploadActions';
+import { setScreenNotification } from '../../actions/CommonActions';
+// IMAGES
+import uploadDocumentsEmpty from '../../images/Upload/upload_documents_empty.svg';
 import { tobase64Handler } from '../../utils/helpers';
-
 
 // COMPONENTS
 
@@ -41,7 +42,7 @@ const Documents = (props) => {
     match,
     changeFieldValue,
     setNotification,
-    reset,
+    resetForm,
   } = props;
   const { documents } = formValue;
 
@@ -74,23 +75,21 @@ const Documents = (props) => {
     }
   }, [isSmallLoading]);
 
-
-  // DROPZONE SETTINGS
-  // const dropzoneRef = useRef(null);
+  // MULTIUPLOADING FUNCTION
   const onDrop = useCallback(async (acceptedFiles) => {
     const reader = new FileReader();
     // const imgType = imageType.find((val) => val.name === 'Gallery');
     reader.onabort = () => console.log('file reading was aborted');
     reader.onerror = () => console.log('file reading has failed');
     const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'documents', formValue.id);
-    imgList.then((res, i) => {
-      handleMultiUploadDocument({ allImgs: res, actions: 'documents', pageID: formValue.id, smallLoader: 'upload' });
-      // arrayDates.push({galleryThumbnailPath: res, createdAt: Date().now});
-      // setNewImages([...arrayDates]);
-      // handleUploadImg(binaryStr);
+    imgList.then((res) => {
+      handleMultiUploadDocument({
+        allImgs: res, actions: 'documents', pageID: formValue.id, smallLoader: 'upload',
+      });
     });
   }, []);
 
+  // DROPZONE SETTINGS - SUPPORTED EXTENSIONS AND MAX SIZE AND OTHER SETTINGS
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: 'image/png,image/jpg,image/jpeg,.pdf',
@@ -123,11 +122,12 @@ const Documents = (props) => {
     setTimeout(() => setNotification({ state: false }), 2000);
   };
 
+  // FUNCTION TO EDIT DOCUMENT
   const onEditMode = (doc) => {
     setEditDocument({ id: doc.id, active: !editDocument.active });
     set(formValue, '', doc.companyRole);
     setDocumentOptionsOpen({ id: null, active: false });
-  }
+  };
 
   // Function to close the small menus when we click outside
   useOutsideAlerter(documentRef, {
@@ -160,10 +160,10 @@ const Documents = (props) => {
               <>
                 <div className="documents-container dis-fl-col w-perc-100">
                   <ReactSortable
-                    scroll={true}
-                    bubbleScroll={true}
+                    scroll
+                    bubbleScroll
                     list={cloneDeep(documents)}
-                    setList={(order, evt) => changeOrder(order)}
+                    setList={(order) => changeOrder(order)}
                     className="document-list"
                     handle=".handle"
                   >
@@ -172,9 +172,9 @@ const Documents = (props) => {
                         <li
                           key={i.toString()}
                           data-id={JSON.stringify(doc)}
-                          className={`single-document dis-fl-row a-c jc-b pb-1 pt-1 ${editDocument.active ? 'hand' : 'handle'}`}
+                          className="single-document dis-fl-row a-c jc-b pb-1 pt-1"
                         >
-                          <div className="name dis-fl-row a-c w-perc-100 pr-1">
+                          <div className={`name dis-fl-row a-c w-perc-100 pr-1 ${editDocument.active ? 'hand' : 'handle'}`}>
 
                             <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
                               <BrixelIcon
@@ -196,7 +196,7 @@ const Documents = (props) => {
                                   />
                                 </div>
                               ) : (
-                                <div className="dis-fl-col cur-poi" onClick={() => window.open(`${getConfigEnv.shortPath}/document/${doc.id}`, "_blank")}>
+                                <div className="dis-fl-col cur-poi" onClick={() => window.open(`${getConfigEnv.shortPath}/document/${doc.id}`, '_blank')}>
                                   <span className="document-title max-w-fix-168 max-w-perc-md-100 txtDark700">{doc.name}</span>
                                   <span className="date body2 txtDark200">{moment(doc.createdAt).format('ddd MMM DD YYYY')}</span>
                                 </div>
@@ -246,7 +246,7 @@ const Documents = (props) => {
                                       saturationTxt={400}
                                       label="Cancel"
                                       onClick={() => {
-                                        reset('Property');
+                                        resetForm('Property');
                                         setEditDocument({ id: null, active: false });
                                       }}
                                     />
@@ -320,7 +320,7 @@ const Documents = (props) => {
               {
                 (!documents || (documents && documents.length === 0)) && (
                   <div>
-                    <img className="h-fix-120" src={upload_documents_empty} alt="Empty Documents" />
+                    <img className="h-fix-120" src={uploadDocumentsEmpty} alt="Empty Documents" />
                     <h5 className="mt-3 mb-2">Upload your first document</h5>
                   </div>
                 )
@@ -345,9 +345,13 @@ Documents.propTypes = {
   history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.string.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
+  handleDeleteDocument: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
-  reset: PropTypes.func.isRequired,
+  changeFieldValue: PropTypes.func.isRequired,
+  setNotification: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
 };
 
 Documents.defaultProps = {
@@ -363,8 +367,8 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  reset(form) {
-    (dispatch(reset(form)))
+  resetForm(form) {
+    (dispatch(reset(form)));
   },
   setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),

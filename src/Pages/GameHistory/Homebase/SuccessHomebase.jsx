@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   withRouter,
 } from 'react-router-dom';
@@ -43,11 +44,17 @@ function SuccessHomebase(props) {
             <div className="dis-f jc-b a-c">
               <p className="dis-f a-c">
                 <BrixelIcon icon="bed" className="mr-1" />
-                <span className="ff-mono body2">{get(formValue, 'properties.typology.bedrooms','0')}</span>
+                <span className="ff-mono body2">{get(formValue, 'properties.typology.bedrooms', '0')}</span>
               </p>
               <p className="dis-f a-c">
                 <BrixelIcon icon="plans" className="mr-1" />
-                <span className="ff-mono body2">{get(formValue, 'properties.typology.livingArea.value', '0')} m</span>
+                {
+                  get(formValue, 'location.countryCode', '') === 'PT' && get(formValue, 'properties.typology.grossArea.value', 0) > 0 ? (
+                    <span className="ff-mono body2">{get(formValue, 'properties.typology.grossArea.value', '0')} m</span>
+                  ) : (
+                    <span className="ff-mono body2">{get(formValue, 'properties.typology.livingArea.value', '0')} m</span>
+                  )
+                }
               </p>
               <p className="dis-f a-c">
                 <BrixelIcon icon="house-built" className="mr-1" />
@@ -62,30 +69,32 @@ function SuccessHomebase(props) {
       <div className="dis-fl-col">
         <BrixelButtonPrimary
           rounded
-          className="mb-2 min-w-fix-208"
+          className="mb-2"
           label="Edit property facts"
           rightIcon="arrow-right"
           onClick={() => history.push(`/${propID}/property/facts`)}
         />
         <BrixelButtonTertiary
           label="Add new propety"
-          onClick={() => history.push(`/packageFlow/getStarted`)}
+          onClick={() => history.push('/packageFlow/getStarted')}
         />
       </div>
     </main>
   );
 }
 
+SuccessHomebase.propTypes = {
+  formValue: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   formValue: get(state, 'form.Property.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
-
-
 export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, null),
 )(SuccessHomebase);

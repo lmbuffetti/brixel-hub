@@ -11,15 +11,15 @@ const { factsOptions } = FactsOptions;
 
 export const MarketCheckQuestions = (lang) => [
   {
-    title: translateTo(lang,"What do you need the market check for?"),
-    history: "ownerType",
+    title: translateTo(lang, 'What do you need the market check for?'),
+    history: 'ownerType',
     vCentered: true,
     inputs: [
       {
         component: BrixelRadioButton,
         pdClass: 'py-2 py-md-3 px-1',
         label: '',
-        name: "ownerType",
+        name: 'ownerType',
         validation: [Validation.required],
         options: factsOptions.userType,
         icons: true,
@@ -27,13 +27,13 @@ export const MarketCheckQuestions = (lang) => [
     ],
   },
   {
-    title: translateTo(lang,"When do you want to sell?"),
+    title: translateTo(lang, 'When do you want to sell?'),
     vCentered: true,
     condition: [{
       name: 'ownerType',
       value: 'seller',
     }],
-    history: "apartmentSellTiming",
+    history: 'apartmentSellTiming',
     inputs: [
       {
         component: BrixelRadioButton,
@@ -47,12 +47,12 @@ export const MarketCheckQuestions = (lang) => [
     ],
   },
   {
-    title: translateTo(lang, "When do you want to sell?"),
+    title: translateTo(lang, 'When do you want to sell?'),
     condition: [{
       name: 'ownerType',
       value: 'buyer',
     }],
-    history: "typeOfBuyer",
+    history: 'typeOfBuyer',
     inputs: [
       {
         component: BrixelRadioButton,
@@ -66,12 +66,12 @@ export const MarketCheckQuestions = (lang) => [
     ],
   },
   {
-    title: "Market Check",
+    title: 'Market Check',
     vCentered: true,
     toSave: true,
-    subtitle: "Sales strategy & price",
-    history: "localMarketCheck",
-    cardType: "loadComponent",
+    subtitle: 'Sales strategy & price',
+    history: 'localMarketCheck',
+    cardType: 'loadComponent',
     component: ResumeMarketCheck,
   },
 ];

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -7,10 +7,10 @@ import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
+import { BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
 import { getGamegroup } from '../../../actions/GamificationActions';
 import newAssessor from '../../../images/Assessor/newAssessor.svg';
 import startAssessor from '../../../images/Assessor/startAssessor.svg';
-import { BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
 import ChartDonuts from '../../../components/Charts/ChartDonuts';
 
 function SuccessAssessor(props) {
@@ -30,12 +30,12 @@ function SuccessAssessor(props) {
   const propID = get(match, 'params.propId', null);
   const isNew = get(history, 'location.state.isNew', false);
 
-
+  // GET CURRENT GROUP
   useEffect(() => {
     if (gameGroup) {
       let selectedGame;
       gameGroup.map((game) => {
-        let curGame = game.achievements.find(item => item.stub === getParams);
+        const curGame = game.achievements.find((item) => item.stub === getParams);
         if (curGame) selectedGame = curGame;
         return null;
       });
@@ -57,7 +57,7 @@ function SuccessAssessor(props) {
                         <div className="dis-fl-col jc-c a-c">
                           <h5 className="max-w-fix-376 m-a ta-c mb-2">Well done. You are now an Assessor.</h5>
                           <div className="ta-c my-5"><img src={newAssessor} alt="new Assessor" /></div>
-                          <p className="max-w-fix-376 m-a ta-c">Congrats! <br/> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
+                          <p className="max-w-fix-376 m-a ta-c">Congrats! <br /> You earned the <span className="txtGreen400">Assessor</span> Award and +{achievement.points} Brixels.</p>
                         </div>
                       </>
                     ) : (
@@ -82,9 +82,9 @@ function SuccessAssessor(props) {
                           <BrixelButtonPrimary
                             rounded
                             label="See full report"
-                            background={"primary"}
-                            className="m-a mb-2 min-w-fix-208"
-                            onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                            background="primary"
+                            className="m-a mb-2"
+                            onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                             rightIcon="arrow-right"
                           />
                           <BrixelButtonTertiary
@@ -92,8 +92,8 @@ function SuccessAssessor(props) {
                             className="m-a"
                             onClick={() => history.push({
                               pathname: `/${propID}/rewards/achievement/${getParams}`,
-                              state: { redo: true }
-                            }) }
+                              state: { redo: true },
+                            })}
                           />
                         </div>
                       </>
@@ -120,9 +120,9 @@ function SuccessAssessor(props) {
               <BrixelButtonPrimary
                 rounded
                 label="Assess condition"
-                background={"primary"}
-                className="min-w-fix-208 m-a"
-                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`) }
+                background="primary"
+                className="m-a"
+                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                 rightIcon="arrow-right"
               />
             </div>
@@ -134,18 +134,15 @@ function SuccessAssessor(props) {
 }
 
 SuccessAssessor.propTypes = {
-  finishedFlow: PropTypes.bool,
   formValue: PropTypes.object.isRequired,
-  gameGroup: PropTypes.arrayOf(PropTypes.object.isRequired),
+  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   groupdAchievement: PropTypes.object,
   gameStub: PropTypes.string,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  handleGetGamegroup: PropTypes.func.isRequired,
 };
 
 SuccessAssessor.defaultProps = {
-  finishedFlow: false,
   groupdAchievement: {},
   gameStub: null,
 

@@ -48,6 +48,7 @@ function PathDonuts(props) {
 }
 
 PathDonuts.propTypes = {
+  isHover: PropTypes.bool.isRequired,
   hovered: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
   radius: PropTypes.number.isRequired,

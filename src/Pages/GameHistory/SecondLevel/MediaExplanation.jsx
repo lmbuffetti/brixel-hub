@@ -10,13 +10,13 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
   withRouter,
-} from 'react-router-dom'
+} from 'react-router-dom';
 import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
 } from '@brixel/brixel-components';
-import { MediaQuestions } from '../../../resources/MediaExplanation';
 import last from 'lodash/last';
+import { MediaQuestions } from '../../../resources/MediaExplanation';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 
 function MediaExplanation(props) {
@@ -37,10 +37,11 @@ function MediaExplanation(props) {
   const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
 
+  // GET CURRENT GAME GROUP
   useEffect(() => {
     if (gameGroup.length > 0) {
-      const group = gameGroup.find(game => game.achievements.some(item => item.stub === getAchievement()));
-      const defGroup = group.achievements.find(item => item.stub === getAchievement());
+      const group = gameGroup.find((game) => game.achievements.some((item) => item.stub === getAchievement()));
+      const defGroup = group.achievements.find((item) => item.stub === getAchievement());
       setSelGameGroup(defGroup);
     }
   }, [gameGroup]);
@@ -50,22 +51,22 @@ function MediaExplanation(props) {
     let newPosition = position;
     if (act === 'back') {
       newPosition = position - 1;
-    }
-    else {
+    } else {
       newPosition = position + 1;
     }
     setPosition(newPosition);
     setCurrentIndex(newPosition);
   };
 
+  // FUNCTION TO CHANGE STEP
   const onClickNextBtn = () => {
     if (currentIndex === Questions.length - 1) {
       localStorage.setItem('donMediaExplanation', propID);
       history.push(`/${propID}/rewards/media`);
     } else {
-      changeStep()
+      changeStep();
     }
-  }
+  };
 
   return (
     <main id="bodyModalWrapper" className="achievementFlow">
@@ -78,7 +79,7 @@ function MediaExplanation(props) {
         />
         <form
           id="multiStepForm"
-          // onSubmit={(e) => {e.preventDefault(); changeStep()}}
+          onSubmit={(e) => e.preventDefault()}
           autoComplete="off"
         >
           <div className="multiStepSlides" style={{ transform: `translate(-${position * 100}%, 0)` }}>
@@ -104,14 +105,15 @@ function MediaExplanation(props) {
             }
           </div>
           <div
-            className={`footerAction p-1 p-md-2 shadow-1dp-top`}
+            className="footerAction p-1 p-md-2 shadow-1dp-top"
           >
             <div className="container pos-r">
               <div className="subcontainer">
                 <div
-                  className={`dis-f a-c jc-b`}>
+                  className="dis-f a-c jc-b"
+                >
                   <BrixelButtonIcon
-                    className={`shadow-2dp backBtn`}
+                    className="shadow-2dp backBtn"
                     icon="arrow-simple-left"
                     onClick={() => changeStep('back')}
                     background="white"
@@ -123,9 +125,9 @@ function MediaExplanation(props) {
                   />
                   <BrixelButtonPrimary
                     rounded
-                    label={currentIndex === Questions.length - 1 ? "Finish" : "Ok, next"}
+                    label={currentIndex === Questions.length - 1 ? 'Finish' : 'Ok, next'}
                     background="primary"
-                    className="max-w-fix-280 min-w-fix-200"
+                    className=""
                     onClick={() => onClickNextBtn()}
                     rightIcon="arrow-right-small"
                   />
@@ -140,23 +142,21 @@ function MediaExplanation(props) {
 }
 
 MediaExplanation.propTypes = {
+  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.object.isRequired,
+  lang: PropTypes.string,
+  match: PropTypes.object.isRequired,
 };
 
 MediaExplanation.defaultProps = {
-  pageState: null,
-  redirectTo: null,
+  lang: 'en',
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-
 });
 
 export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, null),
 )(MediaExplanation);

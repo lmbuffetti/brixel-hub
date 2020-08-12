@@ -50,13 +50,15 @@ function PageHeaderAchievement(props) {
 }
 
 PageHeaderAchievement.propTypes = {
+  history: PropTypes.object.isRequired,
   icon: PropTypes.string,
   title: PropTypes.string,
   match: PropTypes.object.isRequired,
-  subtitle: PropTypes.string,
 };
 
 PageHeaderAchievement.defaultProps = {
+  icon: '',
+  title: null,
 };
 
 export default withRouter(PageHeaderAchievement);

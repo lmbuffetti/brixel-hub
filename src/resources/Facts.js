@@ -11,6 +11,7 @@ import {
   Validation,
 } from '@brixel/brixel-components';
 import { configureStore } from '../store';
+
 const { factsOptions } = FactsOptions;
 
 export const FactsApartment = () => {
@@ -18,13 +19,13 @@ export const FactsApartment = () => {
   if (get(formValue, 'properties.propertyType', null) === 'Apartment') {
     return [
       // SECTION: PROPERTY TYPE APARTMENT
-      //STEP 1
+      // STEP 1
       {
         className: 'radioBtnImg',
-        group: "Type",
-        title: "Step 1",
-        history: "step1",
-        cardType: "step1",
+        group: 'Type',
+        title: 'Step 1',
+        history: 'step1',
+        cardType: 'step1',
         inputs: [
           {
             component: BrixelRadioButton,
@@ -43,7 +44,7 @@ export const FactsApartment = () => {
             min: 0,
             max: 15,
             placeholder: '0',
-            validation: [Validation.maxLengthNumRooms]
+            validation: [Validation.maxLengthNumRooms],
           },
           {
             component: BrixelInputScale,
@@ -52,15 +53,15 @@ export const FactsApartment = () => {
             name: 'properties.building.apartmentQuality',
             options: factsOptions.quality,
           },
-        ]
+        ],
       },
-      //STEP 2
+      // STEP 2
       {
         className: 'radioBtnImg',
-        group: "Type",
-        title: "Step 2",
-        history: "step2",
-        cardType: "step2",
+        group: 'Type',
+        title: 'Step 2',
+        history: 'step2',
+        cardType: 'step2',
         inputs: [
           {
             component: BrixelExtraFeature,
@@ -71,13 +72,13 @@ export const FactsApartment = () => {
           },
         ],
       },
-      //STEP 3
+      // STEP 3
       {
         className: 'radioBtnImg',
-        group: "Type",
-        title: "Step 3",
-        history: "step3",
-        cardType: "step3",
+        group: 'Type',
+        title: 'Step 3',
+        history: 'step3',
+        cardType: 'step3',
         inputs: [
           {
             component: BrixelRadioButton,
@@ -89,7 +90,7 @@ export const FactsApartment = () => {
           {
             condition: [{
               name: 'properties.building.isPropertyRenovated',
-              value: 1
+              value: 1,
             }],
             component: BrixelInputText,
             className: '',
@@ -100,7 +101,7 @@ export const FactsApartment = () => {
             validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear],
             formatType: 'date-yyyy',
             minLenght: 999,
-            maxLength: 2030,
+            maxLength: 9999,
           },
           {
             component: BrixelInputText,
@@ -128,13 +129,13 @@ export const FactsApartment = () => {
           },
         ],
       },
-      //STEP 4
+      // STEP 4
       {
         className: 'radioBtnImg',
-        group: "Type",
-        title: "Step 4",
-        history: "step4",
-        cardType: "step4",
+        group: 'Type',
+        title: 'Step 4',
+        history: 'step4',
+        cardType: 'step4',
         inputs: [
           {
             component: BrixelInputStepNumber,
@@ -172,13 +173,13 @@ export const FactsApartment = () => {
           },
         ],
       },
-      //STEP 5
+      // STEP 5
       {
         className: 'radioBtnImg',
-        group: "Type",
-        title: "Step 5",
-        history: "step5",
-        cardType: "step5",
+        group: 'Type',
+        title: 'Step 5',
+        history: 'step5',
+        cardType: 'step5',
         inputs: [
           {
             component: BrixelInputText,
@@ -220,13 +221,13 @@ export const FactsApartment = () => {
           },
         ],
       },
-      //STEP 6
+      // STEP 6
       {
         className: 'radioBtnImg',
-        group: "Type",
-        title: "Step 6",
-        history: "step6",
-        cardType: "step6",
+        group: 'Type',
+        title: 'Step 6',
+        history: 'step6',
+        cardType: 'step6',
         inputs: [
           {
             component: BrixelInputText,
@@ -243,23 +244,23 @@ export const FactsApartment = () => {
           },
         ],
       },
-      //STEP TO SAVE
+      // STEP TO SAVE
       {
-        history: "success",
+        history: 'success',
         toSave: true,
-      }
+      },
     ];
   }
   if (get(formValue, 'properties.propertyType', null) === 'House') {
     return [
       // SECTION: PROPERTY TYPE HOUSE
-      //STEP 1
+      // STEP 1
       {
         className: 'radioBtnImg',
-        group: "Type",
-        title: "Step 1",
-        history: "step1",
-        cardType: "step1",
+        group: 'Type',
+        title: 'Step 1',
+        history: 'step1',
+        cardType: 'step1',
         inputs: [
 
           {
@@ -279,14 +280,14 @@ export const FactsApartment = () => {
             min: 0,
             max: 15,
             placeholder: '0',
-            validation: [Validation.maxLengthNumRooms]
+            validation: [Validation.maxLengthNumRooms],
           },
           {
             component: BrixelInputText,
             className: '',
             label: 'What\'s the lot size?',
             name: 'properties.typology.lotArea.value',
-            type: "number",
+            type: 'number',
             unit: 'm2',
             minLengthNum: 1,
             maxLenghtNum: 99999,
@@ -302,24 +303,24 @@ export const FactsApartment = () => {
             minLengthNum: 1,
             maxLenghtNum: 99999,
             name: 'properties.typology.constructedVolume.value',
-            type: "number",
+            type: 'number',
           },
           {
             component: BrixelInputScale,
             className: 'helpLink',
             label: 'In which condition is the property?',
             name: 'properties.building.conditionCode',
-            options: factsOptions.quality
+            options: factsOptions.quality,
           },
-        ]
+        ],
       },
-      //STEP 2
+      // STEP 2
       {
         className: 'radioBtnImg',
-        group: "Type",
-        title: "Step 2",
-        history: "step2",
-        cardType: "step2",
+        group: 'Type',
+        title: 'Step 2',
+        history: 'step2',
+        cardType: 'step2',
         inputs: [
           {
             component: BrixelExtraFeature,
@@ -330,13 +331,13 @@ export const FactsApartment = () => {
           },
         ],
       },
-      //STEP 3
+      // STEP 3
       {
         className: 'radioBtnImg',
-        group: "Type",
-        title: "Step 3",
-        history: "step3",
-        cardType: "step3",
+        group: 'Type',
+        title: 'Step 3',
+        history: 'step3',
+        cardType: 'step3',
         inputs: [
           {
             component: BrixelRadioButton,
@@ -348,7 +349,7 @@ export const FactsApartment = () => {
           {
             condition: [{
               name: 'properties.building.isPropertyRenovated',
-              value: 1
+              value: 1,
             }],
             component: BrixelInputText,
             className: '',
@@ -399,13 +400,13 @@ export const FactsApartment = () => {
           },
         ],
       },
-      //STEP 4
+      // STEP 4
       {
         className: 'radioBtnImg',
-        group: "Type",
-        title: "Step 4",
-        history: "step4",
-        cardType: "step4",
+        group: 'Type',
+        title: 'Step 4',
+        history: 'step4',
+        cardType: 'step4',
         inputs: [
           {
             component: BrixelCheckbox,
@@ -416,13 +417,13 @@ export const FactsApartment = () => {
           },
         ],
       },
-      //STEP 5
+      // STEP 5
       {
         className: 'radioBtnImg',
-        group: "Type",
-        title: "Step 5",
-        history: "step5",
-        cardType: "step5",
+        group: 'Type',
+        title: 'Step 5',
+        history: 'step5',
+        cardType: 'step5',
         inputs: [
           {
             component: BrixelInputText,
@@ -468,13 +469,13 @@ export const FactsApartment = () => {
           },
         ],
       },
-      //STEP 6
+      // STEP 6
       {
         className: 'radioBtnImg',
-        group: "Type",
-        title: "Step 6",
-        history: "step6",
-        cardType: "step6",
+        group: 'Type',
+        title: 'Step 6',
+        history: 'step6',
+        cardType: 'step6',
         inputs: [
           {
             component: BrixelInputText,
@@ -491,12 +492,12 @@ export const FactsApartment = () => {
           },
         ],
       },
-      //STEP TO SAVE
+      // STEP TO SAVE
       {
-        history: "success",
+        history: 'success',
         toSave: true,
-      }
+      },
     ];
   }
   return [];
-}
+};

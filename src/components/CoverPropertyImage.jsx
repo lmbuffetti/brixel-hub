@@ -4,6 +4,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
 import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 
+// COMPONENT TO LOAD THE COVER IMAGE IF EXISTS OR LOAD THE DEFAULT IN BASE OF THE PROPERTY TYPE
 const CoverPropertyImage = (props) => {
   const {
     className,
@@ -32,7 +33,7 @@ const CoverPropertyImage = (props) => {
         )
       }
     </>
-  )
+  );
 };
 
 CoverPropertyImage.propTypes = {

@@ -1,4 +1,4 @@
 module.exports = {
-  "Median price":"",
-  "Median price/m2":"",
+  'Median price': '',
+  'Median price/m2': '',
 };

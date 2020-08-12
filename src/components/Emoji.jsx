@@ -1,22 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Emoji = props => {
+// COMPONENT TO LOAD THE DIFFRENT EMOJI
+const Emoji = (props) => {
   const {
     label,
-    symbol
+    symbol,
   } = props;
 
   return (
     <span
       className="emoji dis-b"
       role="img"
-      aria-label={label ? label : ""}
-      aria-hidden={label ? "false" : "true"}
+      aria-label={label || ''}
+      aria-hidden={label ? 'false' : 'true'}
     >
       {symbol}
     </span>
-  )
+  );
 };
 
 Emoji.propTypes = {

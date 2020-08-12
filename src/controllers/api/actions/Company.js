@@ -13,8 +13,8 @@ class Company extends Base {
     return this.apiClient.get(url, { });
   }
 
-  getCompanyByCountry(country) {
-    const url = ep.company.getCompanyByCountry(country);
+  getDefaultCompany() {
+    const url = ep.company.getDefaultCompany();
     return this.apiClient.get(url, { });
   }
 }

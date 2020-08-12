@@ -1,7 +1,7 @@
 /* global Transifex */
 import get from 'lodash/get';
-import { translateTo } from './translation';
 import { FormatValue } from '@brixel/brixel-components';
+import { translateTo } from './translation';
 
 const aptAdjective = {
   de: [
@@ -39,8 +39,31 @@ const aptAdjective = {
     'Sophisticated',
     'Modern',
     'Incredible',
-  ]
-}
+  ],
+  it: [
+    'Luminoso',
+    'Confortevole',
+    'Elegante',
+    'Prestigioso',
+    'Spazioso',
+    'Superbo',
+    'Splendido',
+    'Signorile',
+    'Sofisticato',
+    'Moderno',
+    'Incredibile',
+  ],
+  pt: [
+    'Charmoso',
+    'Elegante',
+    'Confortável',
+    'Sofisticado',
+    'Moderno',
+    'Aconchegante',
+    'Acolhedor',
+    'Luminoso',
+  ],
+};
 
 const houseAdjective = {
   de: [
@@ -78,8 +101,31 @@ const houseAdjective = {
     'Sophisticated',
     'Modern',
     'Incredible',
-  ]
-}
+  ],
+  it: [
+    'Luminosa',
+    'Confortevole',
+    'Elegante',
+    'Prestigiosa',
+    'Spaziosa',
+    'Superba',
+    'Splendida',
+    'Signorile',
+    'Sofisticata',
+    'Moderna',
+    'Incredibile',
+  ],
+  pt: [
+    'Charmosa',
+    'Elegante',
+    'Confortável',
+    'Sofisticada',
+    'Moderna',
+    'Aconchegante',
+    'Acolhedora',
+    'Luminosa',
+  ],
+};
 
 export const titleProperty = (location, propertyType, lang, formValue) => {
   const getCountry = get(location, 'countryCode', null);
@@ -90,26 +136,24 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
   if (propertyType === 'House') adjective = houseAdjective;
   if (getCountry === 'PT') {
     const bedrooms = get(formValue, 'properties.typology.bedrooms', null);
-    const livingSpace = get(formValue, 'properties.typology.livingArea.value', null);
-    const location = get(formValue, 'location', null);
-    if (bedrooms >= 0 && livingSpace && location) {
+    const livingSpace = get(formValue, 'properties.typology.grossArea.value', get(formValue, 'properties.typology.livingArea.value', null));
+    const curLocation = get(formValue, 'location', null);
+    if (bedrooms >= 0 && livingSpace && curLocation) {
       const typology = FormatValue.formatRooms(bedrooms, 'pt');
-      pageTitle = `${translatedPropertyType} ${typology} com ${livingSpace}m2 em ${location.name}, ${location.city}`;
+      pageTitle = `${translatedPropertyType} ${typology} com ${livingSpace}m2 em ${curLocation.name}, ${curLocation.city}`;
     }
   } else if (getCountry && propertyType) {
     const randomNumber = Math.floor(Math.random() * adjective.en.length);
     pageTitle = `${adjective.en[randomNumber]} ${translatedPropertyType}`;
-    if (getCountry === 'CH') {
-      pageTitle = `${adjective.de[randomNumber]} ${translatedPropertyType}`;
-    }
+    pageTitle = adjective[lang] ? `${adjective[lang][randomNumber]} ${translatedPropertyType}` : `${adjective.en[randomNumber]} ${translatedPropertyType}`;
     if (location.city) {
-      pageTitle += ' in ' + location.city;
+      pageTitle += ` in ${location.city}`;
     } else if (location.state) {
-      pageTitle += ' in ' + location.state;
+      pageTitle += ` in ${location.state}`;
     } else if (location.country) {
-      pageTitle += ' in ' + location.country;
+      pageTitle += ` in ${location.country}`;
     } else {
-      pageTitle += ' in ' + location.address;
+      pageTitle += ` in ${location.address}`;
     }
   }
   return pageTitle;

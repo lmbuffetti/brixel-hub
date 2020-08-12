@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-return-assign */
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
@@ -9,8 +11,10 @@ import isArray from 'lodash/isArray';
 import Cookies from 'universal-cookie';
 import {
   withRouter,
-} from 'react-router-dom'
-import { change, isValid, Field, reduxForm } from 'redux-form';
+} from 'react-router-dom';
+import {
+  change, isValid, Field, reduxForm,
+} from 'redux-form';
 import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
@@ -21,7 +25,7 @@ import {
 } from '@brixel/brixel-components';
 import { saveActiveSingleUser, setAwards, setBrixelPoints } from '../../actions/UserActions';
 import { setScreenNotification, setWindowDimensions } from '../../actions/CommonActions';
-import { QuestionsList } from '../../resources/brixelComintTownUserQuestion.js';
+import { QuestionsList } from '../../resources/brixelComintTownUserQuestion';
 import Maps from '../../components/Map/Maps';
 import { translateTo } from '../../utils/translation';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
@@ -61,7 +65,7 @@ function UserFlow(props) {
     history.push(`/onBoarding/brixelComingInTown/${Questions[0].history}`);
     // GET Company data by cookie
     const companyCookie = cookie.get('brixelStubCompany') || null;
-    if (companyCookie) handleGetActiveSingleCompany({stub: companyCookie});
+    if (companyCookie) handleGetActiveSingleCompany({ stub: companyCookie });
   }, []);
 
   // LOAD QUESTIONS ON CHANGING LANGUAGE
@@ -72,15 +76,13 @@ function UserFlow(props) {
   const calcFlowContentHeight = () => {
     const flowHead = document.getElementsByClassName('flowHeader');
     const flowFooter = document.getElementsByClassName('footerAction');
-    if (windowDimensions.width <= 1024)  {
+    if (windowDimensions.width <= 1024) {
       if (Questions[currentIndex].cardType === 'chat') {
         return flowHead[0] ? flowHead[0].offsetHeight : 0;
-      } else {
-        return flowHead[0]  && flowFooter[0] ? flowHead[0].offsetHeight + flowFooter[0].offsetHeight : 0;
       }
-    } else {
-      return flowHead[0] ? flowHead[0].offsetHeight : 0;
+      return flowHead[0] && flowFooter[0] ? flowHead[0].offsetHeight + flowFooter[0].offsetHeight : 0;
     }
+    return flowHead[0] ? flowHead[0].offsetHeight : 0;
   };
 
   useEffect(() => {
@@ -89,8 +91,8 @@ function UserFlow(props) {
     if (loggedInUser.user) {
       if (loggedInUser.user.brixelComingFlowProcess && loggedInUser.user.brixelComingFlowProcess.answers && Object.keys(loggedInUser.user.brixelComingFlowProcess.answers).length > 0) {
         setHasToSave(false);
-        history.push(`/onBoarding/brixelComingInTown/chat`);
-        const curIndex = Questions.findIndex((item) => 'chat' === item.history);
+        history.push('/onBoarding/brixelComingInTown/chat');
+        const curIndex = Questions.findIndex((item) => item.history === 'chat');
         setCurrentIndex(curIndex);
         setPosition(curIndex);
       }
@@ -139,7 +141,7 @@ function UserFlow(props) {
 
   // Function to create the email
   const extractEmaildata = () => {
-    let formData = formValue;
+    const formData = formValue;
     let email = `<p><b>Name</b> ${loggedInUser.user.name}</p>`;
     email += `<p><b>Email</b> ${loggedInUser.user.email}</p>`;
     email += `<p><b>User Id</b> ${loggedInUser.user.id}</p>`;
@@ -147,21 +149,21 @@ function UserFlow(props) {
     const formInputs = QuestionsList('en').filter((itm) => typeof itm.inputs !== 'undefined');
     Object.keys(formData).map((key) => {
       formInputs.map((input) => {
-        const getField = input.inputs.find(subVal => subVal.name === key);
+        const getField = input.inputs.find((subVal) => subVal.name === key);
         let getFieldValueLabel = formData[key];
         if (input.options) {
-          getFieldValueLabel = input.options.find(subVal => subVal.value === formData[key]);
+          getFieldValueLabel = input.options.find((subVal) => subVal.value === formData[key]);
           if (getFieldValueLabel) getFieldValueLabel = getFieldValueLabel.label;
         }
         if (isObject(formData[key]) && !isArray(formData[key])) {
           let obj = 0;
           Object.keys(formData[key]).map((multiKey) => {
-            const getField = input.inputs.find(subVal => subVal.name.split('.')[1] === multiKey);
-            const getSubField = input.options.find(subVal => subVal.value === formData[key][multiKey]);
-            if (getField && getSubField) {
-              if (obj === 0 && email) email += "<hr />";
-              email += `<p><b>${getField.labelEmail || getField.label}</b> ${getSubField.label} - ${getSubField.value}</p>`;
-              obj++;
+            const getFieldCur = input.inputs.find((subVal) => subVal.name.split('.')[1] === multiKey);
+            const getSubField = input.options.find((subVal) => subVal.value === formData[key][multiKey]);
+            if (getFieldCur && getSubField) {
+              if (obj === 0 && email) email += '<hr />';
+              email += `<p><b>${getFieldCur.labelEmail || getFieldCur.label}</b> ${getSubField.label} - ${getSubField.value}</p>`;
+              obj += 1;
             }
             return null;
           });
@@ -169,18 +171,18 @@ function UserFlow(props) {
           let arr = 0;
           formData[key].map((val) => {
             if (input.options) {
-              const getSubField = input.options.find(subVal => subVal.value === val);
+              const getSubField = input.options.find((subVal) => subVal.value === val);
               if (getSubField && getField) {
-                if (arr === 0 && email) email += "<hr />";
+                if (arr === 0 && email) email += '<hr />';
                 email += `<p><b>${getField.labelEmail || getField.label}</b> ${getSubField.label}</p>`;
-                arr++;
+                arr += 1;
               }
             }
             return null;
           });
         } else if (getField) {
-          if (email) email += "<hr />";
-          email += `<p><b>${getField.labelEmail || getField.label}</b> ${getFieldValueLabel || formData[key]}</p>`
+          if (email) email += '<hr />';
+          email += `<p><b>${getField.labelEmail || getField.label}</b> ${getFieldValueLabel || formData[key]}</p>`;
         }
         return null;
       });
@@ -191,19 +193,19 @@ function UserFlow(props) {
 
   // Function to save the data
   const saveData = () => {
-    let message = extractEmaildata();
+    const message = extractEmaildata();
     // Save the obj data
     const data = {
       brixelComingFlowProcess: {
-        answers: formValue
+        answers: formValue,
       },
       id: loggedInUser.user.id,
       sendEmail: {
-        company : company.stub || null, // email destinatary
-        recipientEmail : 'support@brixel.io', // email
-        subject        : `New Sign up - Brixel Coming In Town - ${company.name || 'default'}`,
-        message        : `<h1>New Sign up - Brixel Coming In Town - ${company.name || 'default'}</h1> ${message}`,
-      }
+        company: company.stub || null, // email destinatary
+        recipientEmail: 'support@brixel.io', // email
+        subject: `New Sign up - Brixel Coming In Town - ${company.name || 'default'}`,
+        message: `<h1>New Sign up - Brixel Coming In Town - ${company.name || 'default'}</h1> ${message}`,
+      },
     };
     // Call to redux funciton to update the user
     if (hasToSave) {
@@ -218,8 +220,7 @@ function UserFlow(props) {
     if (act === 'back') {
       setDisableNextBtn(false);
       newPosition = position - 1;
-    }
-    else {
+    } else {
       setDisableNextBtn(true);
       setEmptyValue(true);
       newPosition = position + 1;
@@ -231,7 +232,7 @@ function UserFlow(props) {
     else setHidePrevBtn(true);
     // Filter by inputs to calc the number of steps with field and calc the progress bar
     const questInputs = Questions.filter((val) => typeof val.inputs !== 'undefined');
-    setProgressBar(newPosition * 100 / questInputs.length);
+    setProgressBar((newPosition * 100) / questInputs.length);
     // If the current and the preview are not steps with inputs save the data
     if (Questions[newPosition - 1].inputs && !Questions[newPosition].inputs) saveData();
     // Change the url in base of history key on question object
@@ -241,7 +242,7 @@ function UserFlow(props) {
   const checkRedirectLink = (url) => {
     let newUrl = url;
     if (!url.includes('http') && !url.includes('https')) {
-      newUrl = 'https://' + url;
+      newUrl = `https://${url}`;
     }
     return newUrl;
   };
@@ -253,11 +254,11 @@ function UserFlow(props) {
       Questions[currentIndex].successMessage
       && !emptyValue
     ) {
-      setIsSuccess(true)
+      setIsSuccess(true);
     } else {
-      setIsSuccess(false)
+      setIsSuccess(false);
     }
-  })
+  });
 
   return (
     <div className="onBoardingWrapper">
@@ -275,7 +276,7 @@ function UserFlow(props) {
       }
       <main
         id="onBoarding"
-        className={`notranslate`}
+        className="notranslate"
       >
         <form
           id="multiStepForm"
@@ -287,7 +288,7 @@ function UserFlow(props) {
             style={
               {
                 transform: `translate(-${position * 100}%, 0)`,
-                height: windowDimensions.height  - calcFlowContentHeight()
+                height: windowDimensions.height - calcFlowContentHeight(),
               }
             }
           >
@@ -300,7 +301,7 @@ function UserFlow(props) {
                   style={{
                     visibility: i !== currentIndex ? 'hidden' : 'visible',
                     opacity: i !== currentIndex ? '0' : '1',
-                    paddingBottom: !quest.vCentered && !quest.background && windowDimensions.width <= 1024 && isSuccess  ? '30px' : '',
+                    paddingBottom: !quest.vCentered && !quest.background && windowDimensions.width <= 1024 && isSuccess ? '30px' : '',
                   }}
                 >
                   <div className="subcontainer">
@@ -346,7 +347,12 @@ function UserFlow(props) {
                                           <>
                                             <div className="dis-f jc-b pos-r zIndex2 my-2 w-perc-100">
                                               <p>Is this the place?</p>
-                                              <button onClick={() => changeFieldValue('location', {})}>Change</button>
+                                              <button
+                                                type="button"
+                                                onClick={() => changeFieldValue('location', {})}
+                                              >
+                                                Change
+                                              </button>
                                             </div>
                                             <div className="pos-r zIndex1">
                                               <div className="curAdr">{formValue.location.address}</div>
@@ -374,7 +380,7 @@ function UserFlow(props) {
                                           icons={quest.icons}
                                           pdClass={input.pdClass}
                                           component={quest.component}
-                                          fluid={true}
+                                          fluid
                                           options={quest.options}
                                           validate={input.validation}
                                           type={input.type}
@@ -398,7 +404,7 @@ function UserFlow(props) {
                                         quest.inputs.length === 1 && (input.type === 'number' || input.type === 'text') && !input.step && (
                                           <BrixelButtonPrimary
                                             rounded
-                                            label={translateTo(lang,"Ok")}
+                                            label={translateTo(lang, 'Ok')}
                                             className="ml-2"
                                             background="primary"
                                             onClick={() => changeStep()}
@@ -428,17 +434,17 @@ function UserFlow(props) {
                             quest.cardType === 'RewardsStep' && (
                               <div className="ta-c">
                                 <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
-                                <h5 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.title}} />
-                                {quest.subtitle && (<h6 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
+                                <h5 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.title }} />
+                                {quest.subtitle && (<h6 className="mt-2 ta-c" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)}
                               </div>
                             )
                           }
                           {
                             quest.cardType === 'LastStep' && (
                               <div>
-                                <h5 className="mb-2 mb-md-9 ta-l" dangerouslySetInnerHTML={{ __html: quest.title}} />
+                                <h5 className="mb-2 mb-md-9 ta-l" dangerouslySetInnerHTML={{ __html: quest.title }} />
                                 <img src={quest.img} alt={quest.title} className="w-perc-100" />
-                                {quest.subtitle && (<h5 className="mt-2 ta-l" dangerouslySetInnerHTML={{ __html: quest.subtitle}} />)}
+                                {quest.subtitle && (<h5 className="mt-2 ta-l" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)}
                               </div>
                             )
                           }
@@ -446,20 +452,20 @@ function UserFlow(props) {
                             (quest.cardType === 'chat') && (
                               <div>
                                 <div className="dis-f a-c mb-4">
-                                  <img src={quest.img} alt=""/>
-                                  <h5 className="ml-3" dangerouslySetInnerHTML={{ __html: quest.title}} />
+                                  <img src={quest.img} alt="" />
+                                  <h5 className="ml-3" dangerouslySetInnerHTML={{ __html: quest.title }} />
                                 </div>
                                 <div className="chatContainer">
                                   {
-                                    quest.message && quest.message.map((msg, i) => (
-                                      <div className="messageChat" dangerouslySetInnerHTML={{ __html: msg }} key={i.toString()}/>
+                                    quest.message && quest.message.map((msg, f) => (
+                                      <div className="messageChat" dangerouslySetInnerHTML={{ __html: msg }} key={f.toString()} />
                                     ))
                                   }
                                 </div>
                                 <div className="dis-f w-perc-100 jc-fe chatBtn">
                                   <BrixelButtonSecondary
                                     rounded
-                                    label={translateTo(lang,"No thanks")}
+                                    label={translateTo(lang, 'No thanks')}
                                     color="primary"
                                     onClick={() => window.location.href = company.contactWebsite ? checkRedirectLink(company.contactWebsite) : 'https://brixel.ch'}
                                     disabled={disableNextBtn}
@@ -467,7 +473,7 @@ function UserFlow(props) {
                                   <BrixelButtonPrimary
                                     className="ml-1"
                                     rounded
-                                    label={translateTo(lang,"Yes, of course")}
+                                    label={translateTo(lang, 'Yes, of course')}
                                     background="green"
                                     onClick={() => changeStep()}
                                     disabled={disableNextBtn}
@@ -534,10 +540,10 @@ function UserFlow(props) {
                             label={
                               oneEmptyValue &&
                               Questions[currentIndex].inputs ?
-                                translateTo(lang,"Skip") :
-                                translateTo(lang,"Continue")
+                                translateTo(lang, 'Skip') :
+                                translateTo(lang, 'Continue')
                             }
-                            background={Questions[currentIndex].inputs ? "green" : "primary"}
+                            background={Questions[currentIndex].inputs ? 'green' : 'primary'}
                             className={Questions[currentIndex].inputs ? '' : 'max-w-fix-280 w-perc-100'}
                             onClick={() => changeStep()}
                             rightIcon="arrow-right-small"
@@ -561,7 +567,7 @@ function UserFlow(props) {
                                 />
                                 <BrixelButtonTertiary
                                   rounded
-                                  label={translateTo(lang,"Back to our website")}
+                                  label={translateTo(lang, 'Back to our website')}
                                   color="primary"
                                   onClick={() => window.location.href = company.contactWebsite ? checkRedirectLink(company.contactWebsite) : 'https://brixel.ch'}
                                   rightIcon="arrow-right-small"
@@ -592,8 +598,6 @@ UserFlow.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
-  handleSetAwards: PropTypes.func.isRequired,
-  handleSetBrixelPoints: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
@@ -602,10 +606,10 @@ UserFlow.propTypes = {
 };
 
 UserFlow.defaultProps = {
-
+  lang: 'en',
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   company: get(state, 'companies.activeSingleCompany', {}),
   errorValue: get(state, 'form.UserFlow.syncErrors', {}),
   formValue: get(state, 'form.UserFlow.values', {}),
@@ -619,7 +623,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(change('UserFlow', field, value));
   },
   checkValid() {
-    dispatch(isValid('UserFlow'))
+    dispatch(isValid('UserFlow'));
   },
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),

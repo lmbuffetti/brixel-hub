@@ -32,6 +32,7 @@ import {
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
+    // DISPATCH TO ROTATE IMG - by IMAGE ID
     case ROTATE_IMG: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader });
@@ -49,6 +50,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO IMG TYPE
     case GET_IMAGE_TYPE: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: 'imgType' });
@@ -59,9 +61,12 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO MULTI-UPLOAD IMAGES - ARRAY OF IMAGES
     case MULTI_UPLOAD_IMG: {
       next(action);
-      const { allImgs, actions, pageID, smallLoader } = action.payload;
+      const {
+        allImgs, actions, pageID, smallLoader,
+      } = action.payload;
       delete action.payload.allImgs;
       delete action.payload.actions;
       delete action.payload.pageID;
@@ -69,11 +74,11 @@ const checkCommon = (store) => (next) => (action) => {
       const calls = [];
       allImgs.forEach((img) => {
         calls.push(api.image.addImage(img));
-      })
+      });
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       Promise.all(calls).then((res) => {
-        let data = {};
+        const data = {};
         const filesArray = get(store.getState(), `form.Property.values[${actions}]`, []);
         res.forEach((resImg) => {
           filesArray.push(resImg.data);
@@ -91,6 +96,7 @@ const checkCommon = (store) => (next) => (action) => {
       });
       break;
     }
+    // DISPATCH TO SINGLE UPLOAD IMG - IMG OBJECT
     case UPLOAD_IMG: {
       next(action);
       const { imageType } = store.getState().image;
@@ -117,7 +123,7 @@ const checkCommon = (store) => (next) => (action) => {
 
             if (uploadAction === 'photos') {
               if (has(store.getState(), 'form.Property.values.coverPhoto.path')) {
-                coverPhoto = get(store.getState(), 'form.Property.values.coverPhoto', null)
+                coverPhoto = get(store.getState(), 'form.Property.values.coverPhoto', null);
               } else {
                 coverPhoto = res.data;
               }
@@ -133,7 +139,7 @@ const checkCommon = (store) => (next) => (action) => {
                 coverPhoto,
                 photos: img,
                 floorPlans: plan,
-                smallLoader: smallLoader,
+                smallLoader,
               };
               store.dispatch({
                 type: SAVE_ACTIVE_SINGLE_PROPERTY,
@@ -159,13 +165,14 @@ const checkCommon = (store) => (next) => (action) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
         })
-        .catch((res) => {
+        .catch(() => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
         });
 
       break;
     }
+    // DISPATCH TO DELETE IMG - IMAGE ID
     case DELETE_IMG: {
       next(action);
       const arrayImg = store.getState().form.Property.values[action.payload.type];
@@ -178,7 +185,7 @@ const checkCommon = (store) => (next) => (action) => {
           const data = {
             id: action.payload.pageID,
             [action.payload.type]: arrayImg,
-            smallLoader: true
+            smallLoader: true,
           };
           if (action.payload.type === 'photos') {
             data.coverPhoto = arrayImg[0] || {};
@@ -189,9 +196,12 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO MULTI-UPLOAD IMAGES - ARRAY OF IMAGES
     case MULTI_UPLOAD_DOCUMENT: {
       next(action);
-      const { allImgs, actions, pageID, smallLoader } = action.payload;
+      const {
+        allImgs, actions, pageID, smallLoader,
+      } = action.payload;
       delete action.payload.allImgs;
       delete action.payload.actions;
       delete action.payload.pageID;
@@ -199,12 +209,12 @@ const checkCommon = (store) => (next) => (action) => {
       const calls = [];
       allImgs.forEach((img) => {
         calls.push(api.image.uploadDocument(img));
-      })
+      });
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       Promise.all(calls).then((res) => {
-        let data = {};
-        const filesArray = get(store.getState(), `form.Property.values.documents`, []);
+        const data = {};
+        const filesArray = get(store.getState(), 'form.Property.values.documents', []);
         res.forEach((resImg) => {
           filesArray.push(resImg.data);
         });
@@ -221,6 +231,7 @@ const checkCommon = (store) => (next) => (action) => {
       });
       break;
     }
+    // DISPATCH TO SINGLE UPLOAD DOCUMENTS - DOCUMENTS ARRAY
     case UPLOAD_DOCUMENT: {
       next(action);
       const { pageID, smallLoader } = action.payload;
@@ -243,6 +254,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO SINGLE IMAGES - DOCUMENT OBJECT
     case DELETE_DOCUMENT: {
       next(action);
       const { smallLoader } = action.payload;
@@ -258,7 +270,7 @@ const checkCommon = (store) => (next) => (action) => {
           const data = {
             id: action.payload.pageID,
             documents: arrayImg,
-            smallLoader: true
+            smallLoader: true,
           };
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
@@ -266,6 +278,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO UPDATE IMAGES - DOCUMENT ID
     case UPDATE_DOCUMENT: {
       next(action);
       const { pageID, smallLoader } = action.payload;
@@ -284,7 +297,7 @@ const checkCommon = (store) => (next) => (action) => {
           const data = {
             id: pageID,
             documents: docList,
-            smallLoader: true
+            smallLoader: true,
           };
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
@@ -292,6 +305,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO SET COVER IMG - IMG OBJECT
     case SET_COVER_PHOTO: {
       next(action);
       store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: action.payload });

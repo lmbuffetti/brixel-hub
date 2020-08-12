@@ -7,7 +7,6 @@ const companyData = require('@brixel/brixel-configuration-partner/src/CompanyInf
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
@@ -32,10 +31,10 @@ const clientConfig = {
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
-    compress: devMode,
+    compress: !devMode,
     port: 5000,
     historyApiFallback: true,
-    open: true
+    open: true,
   },
   output: {
     publicPath: ASSET_PATH,
@@ -44,7 +43,7 @@ const clientConfig = {
     chunkFilename: 'js/[name].[hash].js',
     hotUpdateChunkFilename: 'hot/hot-update.[hash].js',
     hotUpdateMainFilename: 'hot/hot-update.[hash].json',
-    globalObject: 'this'
+    globalObject: 'this',
   },
   stats: {
     assets: false,
@@ -53,7 +52,7 @@ const clientConfig = {
     outputPath: false,
     publicPath: false,
     errors: true,
-    warnings: true
+    warnings: true,
   },
   module: {
     rules: [
@@ -175,9 +174,6 @@ const clientConfig = {
     ],
   },
   plugins: [
-    new ExtractCssChunks({
-      hot: true,
-    }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
@@ -192,9 +188,9 @@ const clientConfig = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: './public/favicon.png', to: './' }
-      ]},
-    ),
+        { from: './public/favicon.png', to: './' },
+      ],
+    }),
     // new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       chunksSortMode: 'none',
@@ -211,7 +207,7 @@ const clientConfig = {
         removeRedundantAttributes: true,
         removeScriptTypeAttributes: true,
         removeStyleLinkTypeAttributes: true,
-        useShortDoctype: true
+        useShortDoctype: true,
       },
       transifexKey: baseByData(getEnvBuild).transifexIdHub,
       googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
@@ -226,7 +222,7 @@ const clientConfig = {
       'process.env.BROWSER': JSON.stringify(true),
       'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
     }),
-    new WebpackAssetsManifest()
+    new WebpackAssetsManifest(),
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -254,30 +250,13 @@ const clientConfig = {
       automaticNameDelimiter: '~',
       automaticNameMaxLength: 30,
       name: true,
-      cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true,
-        },
-        styles: {
-          name: 'styles',
-          test: /\.scss$/,
-          chunks: 'all',
-          enforce: true,
-        },
-      },
     },
     removeAvailableModules: !devMode,
     noEmitOnErrors: !devMode,
     checkWasmTypes: false,
     minimizer: [
       new TerserPlugin({
-        cache: !devMode,
+        cache: false,
         parallel: true,
         sourceMap: devMode,
       }),
@@ -287,7 +266,7 @@ const clientConfig = {
         cssProcessorPluginOptions: {
           preset: ['default', { discardComments: { removeAll: true } }],
         },
-        canPrint: true
+        canPrint: true,
       }),
     ],
   },

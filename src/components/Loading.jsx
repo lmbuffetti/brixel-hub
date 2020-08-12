@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 
+// COMPONENT FOR THE FULL SCREEN SPINNER
 function Loading(props) {
   const { isLoading, isSmall } = props;
   if (isLoading) {

@@ -6,10 +6,10 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { BrixelButtonTertiary, BrixelTabs } from '@brixel/brixel-components';
-import useOutsideAlerter from '../components/OutsideElement';
 import get from 'lodash/get';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_full.svg';
 import { CSSTransition } from 'react-transition-group';
+import useOutsideAlerter from './OutsideElement';
 import { firstRoutes, secondRoutes } from '../resources/navigationRoutes';
 
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
@@ -39,16 +39,17 @@ const MenuSidebar = (props) => {
   const propID = history.location.pathname.split('/')[1];
   const levelUrl = history.location.pathname.split('/');
 
+  // FUNCTION TO LOAD THE GAME GROUP AND THE GAME HISTORY AND CALC THE NUMBER OF SECTION (number iside red circle)
   useEffect(() => {
     if (gameGroup && gameHistory) {
       // let numDone = 0;
       let numTodo = 0;
-      const usrGroups = gameGroup.sort(sortObject('stub', 'asc'))
+      const usrGroups = gameGroup.sort(sortObject('stub', 'asc'));
       usrGroups.forEach((groups) => {
         if (groups.stub.includes(userTypes)) {
           groups.achievements.forEach((group) => {
             if (gameHistory.data) {
-              const selElTodo = gameHistory.data.find(game => game.achievement.stub === group.stub && game.page === propID);
+              const selElTodo = gameHistory.data.find((game) => game.achievement.stub === group.stub && game.page === propID);
               if (typeof selElTodo === 'undefined') {
                 numTodo += 1;
               } else {
@@ -58,35 +59,41 @@ const MenuSidebar = (props) => {
           });
         }
       });
-      if (get(formValue, 'location.countryCode', 'CH') !== 'CH') numTodo -= 1;
+      if (
+        get(formValue, 'location.countryCode', 'CH') !== 'CH' &&
+        get(formValue, 'location.countryCode', 'CH') !== 'PT'
+      ) numTodo -= 2;
       const nav = cloneDeep(firstRoutes);
       nav[0].title = `<span>Home</span><span class="numRecords">${numTodo}</span>`;
       setRouteNav([...nav]);
     }
-  }, [gameGroup, gameHistory, activeSingleProperty])
+  }, [gameGroup, gameHistory, activeSingleProperty]);
 
+  // FUNCTION TO CALC IF TITLE IS LONG OR NOT AND ASSIGN THE DIFFERENT CLASS
   useEffect(() => {
     if (proTitleEl) {
-      const titleHeight = proTitleEl.offsetHeight
+      const titleHeight = proTitleEl.offsetHeight;
       if (titleHeight > 48) {
-        proTitleEl.classList.add('longTitle')
+        proTitleEl.classList.add('longTitle');
       }
     }
   });
 
+  // FUNCTION TO MAANGE THE TAB CLICK
   const onTabClick = (val, act = 'url') => {
     if (act === 'state' || val === 'support') {
       setActiveMenu(val);
       setSlideIn(true);
     } else {
       setActiveMenu(null);
-      history.push(`/${propID}/${val}`)
+      history.push(`/${propID}/${val}`);
     }
   };
 
+  // FUNCTION TO SHOW/HIDE THE SUPPORT MENU (history.push({state: {showSupport: true}}))
   useEffect(() => {
     if (get(history, 'location.state.showSupport', null) === true) {
-      onTabClick('support')
+      onTabClick('support');
     }
   }, [get(history, 'location.state', null)]);
 
@@ -101,12 +108,14 @@ const MenuSidebar = (props) => {
     return curTab;
   };
 
+  // FUNCTION WHEN SUPPORT MENU IS CLOSED
   const onCloseSupport = () => {
     setActiveMenu(null);
     setSlideIn(false);
-    history.push({state: null})
-  }
+    history.push({ state: null });
+  };
 
+  // FUNCTION TO MANAGE CLICK OUTSIDE OF SUPPORT MENU
   useOutsideAlerter(wrapperRef, {
     action: 'function',
     func: () => {
@@ -116,8 +125,8 @@ const MenuSidebar = (props) => {
 
   return (
     <>
-      <header className={`sideHeader dis-fl-col a-c jc-fs h-perc-100`} id="menu-sidebar">
-        <div className={`w-perc-100 h-perc-100 pos-r`}>
+      <header className="sideHeader dis-fl-col a-c jc-fs h-perc-100" id="menu-sidebar">
+        <div className="w-perc-100 h-perc-100 pos-r">
           { /* SECTION SIDEBAR MENU DESKTOP */ }
           <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite shadow-2dp ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
             <div className="hide dis-b-md pl-3 pr-2">
@@ -153,9 +162,9 @@ const MenuSidebar = (props) => {
               <BrixelTabs
                 classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
                 classNameUl="zIndex4"
-                labels={routeNav.concat(secondRoutes).map((item)  => item["title"])}
-                labelsIcons={firstRoutes.concat(secondRoutes).map((item)  => item["icon"])}
-                clicksList={firstRoutes.concat(secondRoutes).map((item)  => item["name"])}
+                labels={routeNav.concat(secondRoutes).map((item) => item.title)}
+                labelsIcons={firstRoutes.concat(secondRoutes).map((item) => item.icon)}
+                clicksList={firstRoutes.concat(secondRoutes).map((item) => item.name)}
                 classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
                 activeTab={activeMenu || checkActiveTab()}
                 fullWidth={windowDimensions.width <= 1024}
@@ -187,7 +196,7 @@ const MenuSidebar = (props) => {
             <MenuNavigationSubmenu
               windowDimensions={windowDimensions}
               activeMenu={activeMenu}
-              onClose={() => onCloseSupport() }
+              onClose={() => onCloseSupport()}
             />
           </CSSTransition>
         </div>
@@ -201,11 +210,13 @@ MenuSidebar.propTypes = {
   formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 MenuSidebar.defaultProps = {
+  userTypes: 'user',
 };
 
 const mapStateToProps = (state) => ({

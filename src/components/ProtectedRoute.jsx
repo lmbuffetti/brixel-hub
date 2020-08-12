@@ -12,6 +12,7 @@ import Cookies from 'universal-cookie';
 
 const cookie = new Cookies();
 
+// COMPONENT TO ENABLE ROUTES TO ONLY LOGGED IN USER
 const ProtectedRoute = (props) => {
   const {
     allowAccess,
@@ -51,17 +52,19 @@ const ProtectedRoute = (props) => {
 
 ProtectedRoute.propTypes = {
   userTypes: PropTypes.string,
+  allowAccess: PropTypes.bool,
+  loggedInUser: PropTypes.object.isRequired,
   component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   exact: PropTypes.bool,
   history: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
-  protect: PropTypes.bool,
 };
 
 ProtectedRoute.defaultProps = {
+  allowAccess: false,
+  component: null,
   userTypes: null,
   exact: false,
-  protect: false,
 };
 
 const mapStateToProps = (state) => ({

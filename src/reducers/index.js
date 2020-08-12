@@ -7,7 +7,6 @@ import user from './UserReducer';
 import image from './UploadReducer';
 import gamification from './GamificationReducer';
 
-
 export const rootReducer = combineReducers({
   common,
   companies,

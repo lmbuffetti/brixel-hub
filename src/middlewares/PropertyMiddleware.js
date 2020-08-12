@@ -36,16 +36,17 @@ import {
   SET_SAVED_SCREEN,
 } from '../actions/types/CommonTypes';
 import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
-import { properties }  from '../resources/localData/properties';
-import { page } from '../resources/localData/page';
+import { properties } from '../resources/localData/properties';
+import { pageContent } from '../resources/localData/page';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
+    // DISPATCH TO CREATE SINGLE PROPERTY - used on onBoarding
     case CREATE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
       const {
         getEstimation, token, redirectToUserFlow, redirectToRewards,
-        redirectToHome, smallLoader
+        redirectToHome, smallLoader,
       } = action.payload;
       delete action.payload.getEstimation;
       delete action.payload.token;
@@ -66,11 +67,9 @@ const checkCommon = (store) => (next) => (action) => {
             window.location.href = `/${res.data.id}/rewards`;
           } else if (redirectToUserFlow) {
             window.location.href = '/onBoarding/brixelComingInTown';
-          } else {
-            if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
-            else store.dispatch({ type: SPINNER_OFF });
-          }
-          //store.dispatch(reset('Property'));
+          } else if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
+          // store.dispatch(reset('Property'));
         })
         .catch(() => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
@@ -78,9 +77,12 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO UPDATE SINGLE PROPERTY - by PROPERTY ID
     case SAVE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
-      const { id, redirectTo, redirectToHome, smallLoader, setSuccessNotification, getEstimation } = action.payload;
+      const {
+        id, redirectTo, redirectToHome, smallLoader, setSuccessNotification, getEstimation,
+      } = action.payload;
       delete action.payload.id;
       delete action.payload.redirectTo;
       delete action.payload.smallLoader;
@@ -95,6 +97,9 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.property.updateProperty(id, action.payload)
         .then((res) => {
+          if (setSuccessNotification) {
+            store.dispatch({ type: SET_SAVED_SCREEN });
+          }
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
           store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
@@ -104,15 +109,13 @@ const checkCommon = (store) => (next) => (action) => {
           if (redirectTo) {
             store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
           }
-          if (setSuccessNotification) {
-            store.dispatch({ type: SET_SAVED_SCREEN });
-          }
           if (redirectToHome) {
             window.location.href = `/${res.data.id}/home`;
           }
         });
       break;
     }
+    // DISPATCH TO DELETE SINGLE PROPERTY - by PROPERTY ID
     case DELETE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -135,6 +138,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO GET SINGLE PROPERTY - by PROPERTY ID
     case GET_ACTIVE_SINGLE_PROPERTY: {
       next(action);
       const { smallLoader, setSuccessNotification, multiLoader } = action.payload;
@@ -144,7 +148,7 @@ const checkCommon = (store) => (next) => (action) => {
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       const fullVersion = get(action, 'payload.fullVersion', true);
-      const apiEndPoint = (data) => fullVersion ? api.property.getProperty(data) : api.property.getPropertySimplified(data);
+      const apiEndPoint = (data) => (fullVersion ? api.property.getProperty(data) : api.property.getPropertySimplified(data));
       apiEndPoint(action.payload.id)
         .then((res) => {
           store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
@@ -159,13 +163,14 @@ const checkCommon = (store) => (next) => (action) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
           if (window.location.href.includes('localhost')) {
-            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: page });
+            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: pageContent });
           }
           if (multiLoader) store.dispatch({ type: SPINNER_OFF });
           // window.location.href = `/`;
         });
       break;
     }
+    // DISPATCH TO GET USER PROPERTIES LIST - by USER ID
     case GET_PROPERTY_LISTINGS:
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -189,7 +194,7 @@ const checkCommon = (store) => (next) => (action) => {
         .catch(() => {
           if (window.location.href.includes('localhost')) {
             if (setAsSingle) {
-              store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: page });
+              store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: pageContent });
             } else {
               store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: properties });
             }
@@ -203,6 +208,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (multiLoader) store.dispatch({ type: SPINNER_OFF });
         });
       break;
+    // DISPATCH TO GET USER PROPERTIES LIST - by PROPERTY ID
     case GET_ESTIMATION:
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -218,6 +224,7 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
+    // DISPATCH TO GET MARKET CHECK PROPERTY - by PROPERTY ID
     case GET_MARKET_CHECK: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -327,6 +334,7 @@ const checkCommon = (store) => (next) => (action) => {
       getMarketData();
       break;
     }
+    // DISPATCH TO CREATE PROPERTY VISIT SCHEDULE - by PROPERTY ID
     case CREATE_PROPERTY_VISIT_SCHEDULE: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'visitSchedule' });
@@ -345,6 +353,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO UPDATE PROPERTY VISIT SCHEDULE - by SCHEDULE ID
     case SAVE_PROPERTY_VISIT_SCHEDULE: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'saveVisitSchedule' });
@@ -363,6 +372,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO DELETE PROPERTY VISIT SCHEDULE - by SCHEDULE ID
     case DELETE_PROPERTY_VISIT_SCHEDULE: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
@@ -371,7 +381,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (response.meta.status === 200) {
             store.dispatch({
               type: GET_ACTIVE_SINGLE_PROPERTY,
-              payload: { id: action.payload.pageId, smallLoader: true  },
+              payload: { id: action.payload.pageId, smallLoader: true },
             });
             store.dispatch({ type: SPINNER_OFF });
           } else {
@@ -381,6 +391,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO GET PROPERTY BOOKING - by PROPERTY ID
     case GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'booking' });
@@ -397,21 +408,25 @@ const checkCommon = (store) => (next) => (action) => {
       });
       break;
     }
+    // DISPATCH TO UPDATE PROPERTY BOOKING - by PROPERTY ID
     case SAVE_PROPERTY_VISIT_BOOKING: {
       next(action);
-      const { scheduleId, data, smallLoader, redirectTo } = action.payload;
+      const {
+        scheduleId, data, smallLoader, redirectTo,
+      } = action.payload;
       store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader || 'saveBooking' });
       delete action.payload.id;
       api.property.updatePropertyVisit(scheduleId, data)
         .then(() => {
           store.dispatch({
             type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-            payload: { id: data.page, smallLoader: smallLoader, redirectTo: redirectTo },
+            payload: { id: data.page, smallLoader, redirectTo },
           });
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }
+    // DISPATCH TO CREATE PROPERTY BOOKING - by PROPERTY ID
     case CREATE_PROPERTY_VISIT_BOOKING: {
       next(action);
       const { page, smallLoader, redirectTo } = action.payload;
@@ -420,12 +435,13 @@ const checkCommon = (store) => (next) => (action) => {
         .then(() => {
           store.dispatch({
             type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-            payload: { id: page, smallLoader: smallLoader, redirectTo: redirectTo },
+            payload: { id: page, smallLoader, redirectTo },
           });
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }
+    // DISPATCH TO UPDATE PORTALS REVIEW - by PROPERTY ID
     case UPDATE_PORTALS_REVIEW: {
       next(action);
       const { smallLoader, page, status } = action.payload;
@@ -439,6 +455,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO UPDATE PUBLISHED PAGE REVIEW - by PROPERTY ID
     case UPDATE_PUBLISHED_REVIEW: {
       next(action);
       const { smallLoader, page, status } = action.payload;
@@ -452,6 +469,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO GET PACKAGE FO PROPERTY - by PROPERTY ID
     case GET_PACKAGES_PROPERTY: {
       next(action);
       const { smallLoader } = action.payload;
@@ -465,16 +483,17 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     }
+    // DISPATCH TO UPDATE UPGRADE PACKAGE - by PROPERTY ID
     case SAVE_UPGRADE_PLAN: {
       next(action);
       const { smallLoader, page, data } = action.payload;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.property.saveUpgradePlan(page, data)
-        .then((res) => {
+        .then(() => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
-          //store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
+          // store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           // console.log(res.data);
         });
       break;

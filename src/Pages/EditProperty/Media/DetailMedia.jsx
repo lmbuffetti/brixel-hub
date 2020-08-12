@@ -4,7 +4,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
-import { Field, change, reduxForm } from 'redux-form';
+import {
+  Field, change, reduxForm, reset,
+} from 'redux-form';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -29,6 +31,7 @@ const DetailMedia = (props) => {
     history,
     isSmallLoading,
     match,
+    resetForm,
   } = props;
   // STATE
   const [rotation, setRotation] = useState(0);
@@ -43,41 +46,44 @@ const DetailMedia = (props) => {
   const wrapImg = useRef(null);
   const thirdlevelEl = document.getElementsByClassName('thirdLevel')[0];
 
+  // SET ID OF CURRENT IMAGE
   useEffect(() => {
     if (mediaID && formValue && mediaType) {
       if (formValue[mediaType]) {
-        const curId = formValue[mediaType].findIndex(img => img.id === mediaID);
+        const curId = formValue[mediaType].findIndex((img) => img.id === mediaID);
         setIdImg(curId);
       }
     }
   }, [formValue, mediaType, match]);
 
+  // RELAOD THE EFFECT OF EDIT MEDIA ON CHANGE IMAGE ID
   useEffect(() => {
-
+    resetForm();
     if (formValue[mediaType][idImg]) {
       if (formValue[mediaType][idImg] !== '') {
         if (thirdlevelEl) {
           thirdlevelEl.classList.add('move');
-          setTimeout(function(){
+          setTimeout(() => {
             thirdlevelEl.classList.remove('move');
           }, 500);
         }
       }
     }
-  }, [idImg])
+  }, [idImg]);
 
+  // WHEN THE SMALL LOADING END AND changeSection IS SET TO TRUE MOVED TO NEXT IMAGES
   useEffect(() => {
     if (changeSection && !isSmallLoading) {
       const arrayImages = get(formValue, mediaType, []);
-      const curImgID = arrayImages.findIndex(img => img.id === mediaID);
+      const curImgID = arrayImages.findIndex((img) => img.id === mediaID);
       if (curImgID >= 0 && arrayImages[curImgID + 1]) {
-        history.push(`/${propID}/property/photos/${arrayImages[curImgID + 1].id}/edit/${mediaType}`)
+        history.push(`/${propID}/property/photos/${arrayImages[curImgID + 1].id}/edit/${mediaType}`);
       }
     }
   }, [isSmallLoading]);
 
+  // FUNCTION TO DELETE THE IMAGES - FLOOR PLANS
   const deleteImage = () => {
-    const propID = get(match, 'params.propId', null);
     const data = {
       id: mediaID,
       pageID: propID,
@@ -86,11 +92,12 @@ const DetailMedia = (props) => {
     };
     // eslint-disable-next-line no-alert
     handleDeleteImg(data);
-    history.push(`/${propID}/property/${mediaType}`)
+    history.push(`/${propID}/property/${mediaType}`);
   };
 
+  // FUNCTION TO ROTATE THE IMAGES - FLOOR PLANS
   const rotateImage = () => {
-    let rotate = rotation + 90;
+    const rotate = rotation + 90;
     // if (rotate > 360) rotate = 90;
     const data = {
       type: mediaType,
@@ -102,20 +109,23 @@ const DetailMedia = (props) => {
     handleRotateImg(data);
   };
 
+  // FUNCTION TO SET COVER IMAGE
   const handleCoverPhoto = (e, photo) => {
     e.preventDefault();
     const allPhotos = cloneDeep(formValue.photos);
-    const getCoverID = allPhotos.findIndex(item => item.id === photo.id);
+    const getCoverID = allPhotos.findIndex((item) => item.id === photo.id);
     allPhotos.unshift(allPhotos.splice(getCoverID, 1)[0]);
     changeFieldValue('photos', allPhotos);
     changeFieldValue('coverPhoto', photo);
   };
 
+  // FUNCTION CLICK OUTSIDE OF IMAGE
   useOutsideAlerter(wrapImg, {
     action: 'function',
-    func: () => { setConfirmDelete(false) },
+    func: () => { setConfirmDelete(false); },
   });
 
+  // IF NOT FORM VALUE SHOW THE LOADING
   if (!formValue || !formValue[mediaType]) {
     return (
       <Loading isLoading />
@@ -136,7 +146,7 @@ const DetailMedia = (props) => {
                 color="primary"
                 saturationTxt={400}
                 noBorder
-                onClick={() => history.push(`/${propID}/property/${mediaType}`) }
+                onClick={() => history.push(`/${propID}/property/${mediaType}`)}
               />
             </div>
             <div className="pos-r image-ratio ov-h">
@@ -148,7 +158,7 @@ const DetailMedia = (props) => {
                   // />
                   <img
                     className="max-w-perc-100 shadow-2dp brdRadius w-perc-100"
-                    //style={{ transform: `rotate(${rotation}deg)` }}
+                    // style={{ transform: `rotate(${rotation}deg)` }}
                     src={`${baseByData.shortPath}${formValue[mediaType][idImg].path}??${Math.random().toString(36).slice(2)}`}
                     alt="Edit Media"
                   />
@@ -201,7 +211,7 @@ const DetailMedia = (props) => {
                       icon="bin"
                       color="red"
                       saturationTxt={400}
-                      onClick={(e) => setConfirmDelete(true)}
+                      onClick={() => setConfirmDelete(true)}
                     />
                   )
                 }
@@ -227,12 +237,10 @@ DetailMedia.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleRotateImg: PropTypes.func.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
-  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  handleSetCoverPhoto: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.string,
-  loggedInUser: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.string.isRequired,
   match: PropTypes.object.isRequired,
+  resetForm: PropTypes.func.isRequired,
 };
 
 DetailMedia.defaultProps = {
@@ -254,6 +262,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
+  },
+  resetForm() {
+    dispatch(reset('Property'));
   },
   handleRotateImg: bindActionCreators(rotateImg, dispatch),
   handleDeleteImg: bindActionCreators(deleteImg, dispatch),

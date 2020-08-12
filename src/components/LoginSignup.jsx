@@ -1,266 +1,261 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { translateTo } from '../utils/translation';
 import { change } from 'redux-form';
-import { BrixelCheckbox, BrixelInputText, Validation, ReduxField } from '@brixel/brixel-components';
+import {
+  BrixelButtonIcon, BrixelLogin, BrixelRegister, BrixelButtonPrimary,
+} from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { translateTo } from '../utils/translation';
+import Support from './Support';
 
+// COMPONENT FOR THE LOGIN/SIGN UP ON ONBOARDING
 const LoginSignup = (props) => {
   // PROPS
   const {
     changeFieldValue,
     company,
+    errorValue,
+    formError,
     formName,
     formValue,
     onChangeLogin,
-    errorValue,
+    onCloseGoBack,
     lang,
     loggedInUser,
-    showErrors,
+    onSubmit,
   } = props;
   // STATE
-  const [loginPage, setLoginPage] = useState(false);
+  const [loginPage, setLoginPage] = useState('register');
+  const [showErrors, setShowErrors] = useState(false);
 
+  // FUNCTION TO SAVE ON REDUX FORM THE CURRENT PAGE (LOGIN OR REGISTER)
   useEffect(() => {
     if (typeof loggedInUser.token === 'undefined') {
       changeFieldValue(formName, 'signup', !loginPage);
     }
-    changeFieldValue(formName, 'signupScreen', loginPage ? 'login' : 'register');
-    onChangeLogin(loginPage)
+    changeFieldValue(formName, 'signupScreen', loginPage);
+    onChangeLogin(loginPage);
   }, [loginPage]);
+
+  useEffect(() => {
+    if (loginPage === 'register' && get(formError, 'state', false)) {
+      setLoginPage('login');
+    }
+  }, [formError]);
+
+  // FUNCTION TO SAVE THE DATA, IF NOT VALID SHOW THE ERROR
+  const onSubmitForm = () => {
+    let isValid = true;
+    Object.keys(errorValue).forEach((key) => {
+      if (key.includes(loginPage)) {
+        const curErr = get(errorValue, key, true);
+        if (curErr !== true) {
+          setShowErrors(true);
+          isValid = false;
+        }
+      }
+    });
+    if (isValid) {
+      setShowErrors(false);
+      onSubmit();
+    }
+  };
+
+  // FUNCTION TO MANAGE THE ONLCIK FUNCTION AND LABEL OF TERTIARY BUTTON (bottom left)
+  const TertiaryButton = () => {
+    switch (loginPage) {
+      case 'not_sure':
+        return {
+          action: () => setLoginPage('support'),
+          label: 'Still, not convinced',
+        };
+      case 'support':
+        return {
+          action: () => setLoginPage('register'),
+          label: 'Cancel',
+        };
+      default:
+        return {
+          action: () => setLoginPage('not_sure'),
+          label: 'I am not sure',
+        };
+    }
+  };
+
+  // FUNCTION TO MANAGE THE ONLCIK FUNCTION AND LABEL OF PRIMARY BUTTON (center)
+  const PrimaryButton = () => {
+    switch (loginPage) {
+      case 'not_sure':
+        return {
+          action: () => setLoginPage('register'),
+          label: 'Ok, save now',
+        };
+      case 'support':
+        return {
+          action: () => setLoginPage('register'),
+          label: 'Ok, save now',
+        };
+      case 'login':
+        return {
+          action: () => onSubmitForm(),
+          label: 'Login',
+        };
+      default:
+        return {
+          action: () => onSubmitForm(),
+          label: 'Save',
+        };
+    }
+  };
 
   if (!formValue) {
     return (
       <div />
-    )
+    );
   }
 
   return (
     <>
-      {
-        loginPage ? (
-          <>
-            <h5>{translateTo(lang, "Login to your profile to save your progress.")}</h5>
-            <p className="mb-md-9">
-              <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(false)}>
-                {translateTo(lang, "You don't have a profile?")}
-              </span>
-            </p>
-            <ReduxField
-              input={{
-                name: "profile.email",
-                placeholder: "",
-                type: "email",
-                validate: [Validation.isEmail, Validation.required],
-              }}
-              labels={{
-                label: translateTo(lang, "Email address"),
-              }}
-              design={{
-                className: "mt-2",
-              }}
-              form={formName}
-              component={BrixelInputText}
-              meta={{
-                dirty: (showErrors || formValue.email),
-                invalid: get(errorValue, 'email', true) !== true,
-                message: {
-                  error: translateTo(lang, "Please insert a valid email")
-                },
-              }}
-            />
-            <ReduxField
-              input={{
-                name: "profile.password",
-                placeholder: "",
-                type: "password",
-                validate: [Validation.required],
-              }}
-              labels={{
-                label: translateTo(lang, "Password"),
-              }}
-              design={{
-                className: "mt-2",
-              }}
-              form={formName}
-              component={BrixelInputText}
-              meta={{
-                dirty: (showErrors || formValue.password),
-                invalid: get(errorValue, 'password', true) !== true,
-                message: {
-                  error: translateTo(lang, "Please insert a valid password")
-                },
-              }}
-            />
-            <p className="mt-1">
-              <a
-                className="txtPrimary400 cur-poi"
-                href={`${baseByData.loginBasePath}/recover`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {translateTo(lang, "Forgot password?")}
-              </a>
-            </p>
+      <div className="bodyScrollUp pos-r">
+        <div className="dis-f jc-fe pos-r pos-a-md x-r zIndex1">
+          <BrixelButtonIcon
+            className="shadow-3dp pos-a-fix mt-2-neg mt-md-0 x-r-2 x-t-2"
+            icon="close-small"
+            color="dark"
+            saturationTxt={700}
+            background="white"
+            saturation={0}
+            noBorder
+            onClick={() => onCloseGoBack()}
+          />
+        </div>
+        <div className="max-w-fix-360 ml-a mr-a onBoardingSignUp">
+          {
+            loginPage === 'login' && (
+              <>
+                <div className="w-perc-100 ta-c-md mb-5 pr-5 pr-md-0">
+                  <h4 className="txtWhite">{translateTo(lang, 'Login to your profile to save your progress.')}</h4>
+                  <p className="txtWhite cur-poi mt-1 td-u" onClick={() => setLoginPage('register')}>
+                    {translateTo(lang, 'or create profile here')}
+                  </p>
+                </div>
+                {
+                  get(formError, 'state', false) && (
+                    <p className="txtRed400">
+                      {get(formError, 'message', '')}
+                    </p>
+                  )
+                }
+                <BrixelLogin company={company} formName="GetStarted" showErrors={showErrors} />
+                <p className="mt-1">
+                  <a
+                    className="txtWhite td-u cur-poi link"
+                    href={`${baseByData.loginBasePath}/recover`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {translateTo(lang, 'Forgot password?')}
+                  </a>
+                </p>
+              </>
+            )
+          }
+          {
+            loginPage === 'register' && (
+              <>
+                <div className="w-perc-100 ta-c-md mb-5 pr-5 pr-md-0">
+                  <h4 className="txtWhite">{translateTo(lang, 'Create free profile to save')}</h4>
+                  <p className="txtWhite cur-poi mt-1 td-u" onClick={() => setLoginPage('login')}>
+                    {translateTo(lang, 'or login here')}
+                  </p>
+                </div>
+                <BrixelRegister showGeneratePassword={false} company={company} formName="GetStarted" showErrors={showErrors} />
+              </>
+            )
+          }
+          {
+            loginPage === 'not_sure' && (
+              <div className="txtWhite">
+                <h4 className="ta-c-md txtWhite pr-5 pr-md-0">Here are 3 reasons to sign up.</h4>
+                <ol className="mt-3 px-2 px-md-0">
+                  <li className="pl-1">You receive a free price indication and a local market check.</li>
+                  <li className="pl-1 mt-1">You get free access to the full Brixel Hub. Your all-in-one tool to sell your home.</li>
+                  <li className="pl-1 mt-1">All services are free of charge. You decide if you want to upgrade or not.</li>
+                </ol>
 
-          </>
-        ) : (
-          <>
-            <h5>{translateTo(lang, "Create your profile to save your progress.")}</h5>
-            <p className="mb-md-9">
-              <span className="txtPrimary400 cur-poi" onClick={() => setLoginPage(true)}>
-                {translateTo(lang, "You already have a profile?")}
-              </span>
-            </p>
-            <div className="dis-f">
-              <ReduxField
-                input={{
-                  name: "profile.firstName",
-                  placeholder: "",
-                  type: "text",
-                  validate: [Validation.required],
-                }}
-                labels={{
-                  label: translateTo(lang, "First name"),
-                }}
-                design={{
-                  className: "mt-2 w-perc-100 mr-1"
-                }}
-                form={formName}
-                component={BrixelInputText}
-                meta={{
-                  dirty: (showErrors || formValue.email),
-                  invalid: get(errorValue, 'firstName', true) !== true,
-                  message: {
-                    error: translateTo(lang, "Please insert a valid email")
-                  },
-                }}
-              />
-              <ReduxField
-                form={formName}
-                design={{
-                  className: "mt-2 w-perc-100 ml-1"
-                }}
-                input={{
-                  name: "profile.lastName",
-                  placeholder: "",
-                  type: "text",
-                  validate: [Validation.required],
-                }}
-                labels={{
-                  label: translateTo(lang, "Last name"),
-                }}
-                component={BrixelInputText}
-                meta={{
-                  dirty: (showErrors || formValue.lastName),
-                  invalid: (showErrors || formValue.lastName) && errorValue.lastName !== true,
-                  message: {
-                    error: translateTo(lang, "Please insert a valid last name")
-                  },
-                }}
-              />
-            </div>
-            <ReduxField
-              form={formName}
-              design={{
-                className: "mt-2",
-
-              }}
-              input={{
-                name: "profile.email",
-                type: "email",
-                placeholder: "",
-                validate: [Validation.isEmail, Validation.required],
-              }}
-              labels={{
-                label: translateTo(lang, "Email address")
-
-              }}
-              component={BrixelInputText}
-              meta={{
-                dirty: (showErrors || formValue.email),
-                invalid: (showErrors || formValue.email) && errorValue.email !== true,
-                message: {
-                  error: translateTo(lang, "Please insert a valid email")
-                },
-              }}
+                <h4 className="ta-c-md txtWhite mt-5 pr-5 pr-md-0">Don’t worry about spam.</h4>
+                <ol className="mt-3 px-2 px-md-0">
+                  <li className="pl-1">All your personal data is save with us. We are not using them for commercial purpose.</li>
+                  <li className="pl-1 mt-1">We will contact you only for support and consultation</li>
+                  <li className="pl-1 mt-1">Your property data will not be published unless you request it explicitly.</li>
+                </ol>
+              </div>
+            )
+          }
+          {
+            loginPage === 'support' && (
+              <div>
+                <h4 className="ta-c-md txtWhite pr-5 pr-md-0">You want to talk to us before? No problem. We are here for you.</h4>
+                <Support
+                  isFixed={false}
+                  expanded
+                  hideClose
+                  layout="onboarding"
+                />
+              </div>
+            )
+          }
+        </div>
+        <div className="footerActionLogin p-2 p-md-3 shadow-1dp-top">
+          <div className="dis-f a-c jc-b pos-r">
+            <span
+              className="txtWhite cur-poi dis-b td-u mt-1 mt-md-0"
+              onClick={TertiaryButton().action}
+            >
+              {TertiaryButton().label}
+            </span>
+            <BrixelButtonPrimary
+              rounded
+              rightIcon="arrow-right-small"
+              background="green"
+              label={PrimaryButton().label}
+              onClick={PrimaryButton().action}
             />
-            <ReduxField
-              form={formName}
-              design={{
-                className: "mt-2",
-              }}
-              input={{
-                name: "profile.phone",
-                placeholder: "",
-                type: "text",
-              }}
-              inputFormat={{
-                formatType: 'tel'
-              }}
-              labels={{
-                label: translateTo(lang, "Phone number"),
-              }}
-              component={BrixelInputText}
-            />
-            <div className="mt-2">
-              <ReduxField
-                form={formName}
-                component={BrixelCheckbox}
-                design={{
-                  className: "body2 w-perc-100 max-w-perc-100"
-                }}
-                input={{
-                  name: "privacy",
-                  options: [
-                    {
-                      label: translateTo(lang, `I hereby confirm that I have read, understand and accept the <a href="${get(company, 'links.terms', '')}" target="_blank">terms</a> and <a href="${get(company, 'links.privacy', '')}" target="_blank">privacy policy</a> of Brixel.`),
-                      value: 'privacy'
-                    }
-                  ],
-                  validate: [Validation.required],
-                }}
-                meta={{
-                  dirty: (showErrors || formValue.privacy),
-                  invalid: (showErrors || formValue.privacy) && errorValue.privacy !== true,
-                  message: {
-                    error: translateTo(lang, "Please accept terms and privacy policy")
-                  }
-                }}
-              />
-            </div>
-          </>
-        )
-      }
+          </div>
+        </div>
+      </div>
     </>
-  )
+  );
 };
 
 LoginSignup.propTypes = {
   company: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
+  formError: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   formName: PropTypes.string.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  showErrors: PropTypes.bool,
-  onChangeLogin: PropTypes.func.isRequired,
+  onChangeLogin: PropTypes.func,
+  onCloseGoBack: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
 };
 
 LoginSignup.defaultProps = {
-  redirectTo: null,
-  showErrors: false,
+  lang: 'en',
   onChangeLogin: () => '',
+  onSubmit: () => '',
 };
 
 const mapStateToProps = (state, props) => ({
   company: get(state, 'companies.activeSingleCompany', {}),
+  formError: get(state, 'common.formError', {}),
   errorValue: get(state, `form.${props.formName}.syncErrors`, {}),
   formValue: get(state, `form.${props.formName}.values`, {}),
   lang: get(state, 'common.language', {}),
@@ -277,4 +272,3 @@ export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(LoginSignup);
-

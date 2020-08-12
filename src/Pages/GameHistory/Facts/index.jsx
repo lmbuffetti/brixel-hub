@@ -1,18 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonIcon, MultiFileldsReduxForm } from '@brixel/brixel-components';
-import { FactsApartment } from '../../../resources/Facts';
+import {
+  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonTertiary, BrixelProgressLineDots,
+} from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
+
 import { reduxForm, reset } from 'redux-form';
+import { FactsApartment } from '../../../resources/Facts';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
-import { BrixelProgressLineDots } from '@brixel/brixel-components';
+
 import { calcPercentageFacts } from '../../../utils/helpers';
 
 const MarketCheck = (props) => {
@@ -27,7 +29,7 @@ const MarketCheck = (props) => {
     handleAddGameHistory,
     history,
     match,
-    reset,
+    resetForm,
     smallLoading,
   } = props;
   // STATE
@@ -47,12 +49,12 @@ const MarketCheck = (props) => {
   // CHECK IF THE ACHIEVEMENT IS DONE
   useEffect(() => {
     if (gameHistory && gameHistory.data && activeSingleProperty.id) {
-      const checkGameExist = gameHistory.data.find(item => item.achievement.stub === getAchievement() && item.page === activeSingleProperty.id);
+      const checkGameExist = gameHistory.data.find((item) => item.achievement.stub === getAchievement() && item.page === activeSingleProperty.id);
       if (typeof checkGameExist !== 'undefined' && activeSingleProperty.ownerType) {
         setFinishedFlow(true);
         if (lastID) {
-          //setCurrentIndex(lastID);
-          //setQuest(questions[lastID]);
+          // setCurrentIndex(lastID);
+          // setQuest(questions[lastID]);
         }
       } else {
         setFinishedFlow(false);
@@ -61,14 +63,16 @@ const MarketCheck = (props) => {
     }
   }, [gameHistory, activeSingleProperty, lastID]);
 
+  // LOAD THE CURRENT GAME GROUP
   useEffect(() => {
     if (gameGroup.length > 0) {
-      const group = gameGroup.find(game => game.achievements.some(item => item.stub === getAchievement()));
-      const defGroup = group.achievements.find(item => item.stub === getAchievement());
+      const group = gameGroup.find((game) => game.achievements.some((item) => item.stub === getAchievement()));
+      const defGroup = group.achievements.find((item) => item.stub === getAchievement());
       setSelGameGroup(defGroup);
     }
   }, [gameGroup]);
 
+  // ON CHANGE STEP LOAD THE ENTER EFFECT AND IF HAS TO REDO
   useEffect(() => {
     setIsEnter(true);
     if (get(questions, `[${currentIndex}].history`, null) && loaded) {
@@ -76,14 +80,15 @@ const MarketCheck = (props) => {
       history.push({
         pathname: `/${propID}/rewards/achievement/${getAchievement()}/${questions[currentIndex].history}`,
         state: {
-          redo: redo,
-        }
+          redo,
+        },
       });
     }
   }, [currentIndex, loaded]);
 
+  // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
-    reset('Property');
+    resetForm('Property');
     if (typeof window !== 'undefined' && window.innerWidth < 1024) {
       history.push(`/${propID}/rewards`);
     } else {
@@ -91,20 +96,22 @@ const MarketCheck = (props) => {
     }
   };
 
+  // FUNCTION TO SAVE DATA
   const saveData = () => {
-    //handleAddGameHistory({stub: getAchievement()});
+    // handleAddGameHistory({stub: getAchievement()});
     const data = {
       id: propID,
       smallLoader: 'property',
       redirectTo: `/${propID}/rewards/${getAchievement()}`,
-      ...formValue
+      ...formValue,
     };
-    if (calcPercentageFacts('GamingFlow').calcPerc >= 20 ) {
-      handleAddGameHistory({stub: 'facts'});
+    if (calcPercentageFacts('GamingFlow').calcPerc >= 20) {
+      handleAddGameHistory({ stub: 'facts' });
     }
     handleSaveActiveSingleProperty(data);
   };
 
+  // FUNCTION TO CHANGE STEP - BACK-FORWARD
   const changeStep = (act) => {
     let newIndex = currentIndex;
     if (act === 'back') {
@@ -124,36 +131,38 @@ const MarketCheck = (props) => {
       document.getElementsByClassName('singleStep')[0].scroll({
         behavior: 'smooth',
         left: 0,
-        top: 0
+        top: 0,
       });
     }
   };
 
+  // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
     if (formValue.id) {
-      let newQuest = [];
-      let originalQuests = FactsApartment('en');
-      originalQuests.map((quest) => {
-        if (quest.condition) {
+      const newQuest = [];
+      const originalQuests = FactsApartment('en');
+      originalQuests.map((questData) => {
+        if (questData.condition) {
           let isValid = true;
-          quest.condition.map((item) => {
+          questData.condition.map((item) => {
             if (get(formValue, item.name, null) !== item.value) {
-              isValid = false
+              isValid = false;
             }
             return null;
           });
-          if (isValid) newQuest.push(quest);
+          if (isValid) newQuest.push(questData);
         } else {
-          newQuest.push(quest);
+          newQuest.push(questData);
         }
         return null;
       });
       setLastID(newQuest.length - 1);
-      setNumberQuestions(originalQuests.filter(item => typeof item.inputs !== 'undefined').length);
+      setNumberQuestions(originalQuests.filter((item) => typeof item.inputs !== 'undefined').length);
       setQuestions(newQuest);
     }
   }, [formValue]);
 
+  // CHECK IF FIELD IS VALID
   const checkValidateField = (act) => {
     let isValid = true;
     let isNotEmpty = false;
@@ -161,7 +170,7 @@ const MarketCheck = (props) => {
       quest.inputs.map((input) => {
         const err = get(errorValue, input.name, null);
         const noEmpty = get(formValue, input.name, 'ayc');
-        if(noEmpty !== 'ayc') isNotEmpty = true;
+        if (noEmpty !== 'ayc') isNotEmpty = true;
         if (get(input, 'condition', null)) {
           input.condition.map((item) => {
             if (get(formValue, item.name, null) === item.value) {
@@ -179,9 +188,10 @@ const MarketCheck = (props) => {
     return isValid;
   };
 
+  // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
-    //const inputName = get(quest, 'inputs[0].name', null);
+    // const inputName = get(quest, 'inputs[0].name', null);
     if (currentIndex === questions.length - 1) label = 'Back to Hub';
     else if (questions[currentIndex + 1].toSave) label = 'Finish';
     else if (get(quest, 'inputs', []).length > 0) {
@@ -195,16 +205,15 @@ const MarketCheck = (props) => {
             label = 'Next';
           }
         }
-      })
-    }
-    else label = 'Next';
+      });
+    } else label = 'Next';
     return label;
   };
 
-  if(!formValue.id && !loaded) {
+  if (!formValue.id && !loaded) {
     return (
-      <div/>
-    )
+      <div />
+    );
   }
 
   return (
@@ -218,11 +227,11 @@ const MarketCheck = (props) => {
         />
         <form
           id="multiStepForm"
-          // onSubmit={(e) => {e.preventDefault(); changeStep()}}
+          onSubmit={(e) => e.preventDefault()}
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
-          <div className={`multiStepSlides`}>
+          <div className="multiStepSlides">
             <div
               className={`singleStep jc-c a-t ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
@@ -242,7 +251,7 @@ const MarketCheck = (props) => {
                       <h5 className={`${quest.subtitle ? 'mb-1' : 'mb-3'}`}>{quest.title}</h5>
                       {
                         quest.subtitle && (
-                          <p className="mb-3 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }}/>)
+                          <p className="mb-3 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
                       <MultiFileldsReduxForm
                         className="singleInput"
@@ -257,7 +266,7 @@ const MarketCheck = (props) => {
                 }
                 {
                   get(quest, 'cardType', null) === 'loadComponent' && get(quest, 'history', 'a') === get(questions, `[${currentIndex}].history`, 'b') && (
-                    React.createElement(quest.component, {formName: 'GamingFlow', finishedFlow, initialValue: formValue})
+                    React.createElement(quest.component, { formName: 'GamingFlow', finishedFlow, initialValue: formValue })
                   )
                 }
               </div>
@@ -283,27 +292,27 @@ const MarketCheck = (props) => {
                   )
                 }
                 {
-                  buttonLabel().toLowerCase() === "skip" ? (
+                  buttonLabel().toLowerCase() === 'skip' ? (
                     <BrixelButtonTertiary
-                      className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === "skip" ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                      className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
                       saturation={400}
                       color="light"
                       label={buttonLabel()}
                       rightIcon="arrow-right-small"
-                      onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                       isLoading={smallLoading === 'Property'}
                     />
                   ) : (
                     <BrixelButtonPrimary
-                      className={`noWrap w-perc-100 max-w-fix-160 ${buttonLabel().toLowerCase() === "skip" ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                      className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
                       rounded
                       background="primary"
                       saturation={400}
                       label={buttonLabel()}
                       rightIcon="arrow-right-small"
-                      onClick={() => questions[currentIndex + 1] ? changeStep() : closeWindow()}
+                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                       isLoading={smallLoading === 'property'}
                     />
                   )
@@ -314,20 +323,21 @@ const MarketCheck = (props) => {
         </form>
       </div>
     </div>
-  )
+  );
 };
 
 MarketCheck.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
+  gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
-  reset: PropTypes.func.isRequired,
-  smallLoading: PropTypes.string,
+  resetForm: PropTypes.func.isRequired,
+  smallLoading: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -343,13 +353,13 @@ const mapStateToProps = (state) => ({
     properties: get(state, 'property.activeSingleProperty.properties', null),
     description: get(state, 'property.activeSingleProperty.description', null),
     price: get(state, 'property.activeSingleProperty.price', null),
-    title: get(state, 'property.activeSingleProperty.title', null)
-  }
+    title: get(state, 'property.activeSingleProperty.title', null),
+  },
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  reset(form) {
-    (dispatch(reset(form)))
+  resetForm(form) {
+    (dispatch(reset(form)));
   },
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
@@ -359,7 +369,7 @@ const AnyForm = reduxForm({
   form: 'GamingFlow',
   enableReinitialize: true,
   destroyOnUnmount: true,
-})(MarketCheck)
+})(MarketCheck);
 
 export default compose(
   withRouter,
