@@ -8,6 +8,7 @@ import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
+import { Helpers } from '@brixel/brixel-components';
 import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../../images/emptyHub.svg';
@@ -15,6 +16,7 @@ import emptyHouseImg from '../../../images/emptyHub.svg';
 function ResumeBestimate(props) {
   // PROPS
   const {
+    activeSingleCompany,
     condition,
     estimation,
     handleGetEstimation,
@@ -52,7 +54,7 @@ function ResumeBestimate(props) {
       };
       handleGetMarketCheck(data);
     }
-    if (get(activeSingleProperty, 'location.countryCode', null) === 'PT') {
+    if (get(activeSingleProperty, 'location.countryCode', null) === 'PT' && !get(activeSingleProperty, 'estimation.bestimate.value', null)) {
       history.push(`/${activeSingleProperty.id}/rewards/bestimate`);
     }
     if (get(activeSingleProperty, 'location.countryCode', null) === 'CH') handleGetEstimation(propID);
@@ -84,17 +86,17 @@ function ResumeBestimate(props) {
         has(marketData, 'priceDistribution.chartRangePrice') ? (
           <>
             {
-              get(activeSingleProperty, 'location.countryCode', null) === 'CH' ? (
+              get(activeSingleProperty, 'estimation.bestimate.value', null) ? (
                 <>
                   <h5 className="ta-c mb-5">We proudly present you your Bestimate&reg;.</h5>
                   {
                     condition.higherValue && (
                       <>
                         <p className="ta-c mb-1 txtDark700">Your property is worth up to</p>
-                        <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">CHF {condition.higherValue.toLocaleString('de-CH')}</p>
+                        <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
                         <p className="body2 ta-c mb-5 txtDark700">Based on similar transactions.</p>
                         <p className="fweight-400 ta-c mb-1 txtDark700">Similar properties are currently worth between</p>
-                        <p className="ff-mono txtPrimary700 fweight-600 ta-c mb-5">CHF {condition.lowerValue.toLocaleString('de-CH')} - CHF {condition.higherValue.toLocaleString('de-CH')}</p>
+                        <p className="ff-mono txtPrimary700 fweight-600 ta-c mb-5">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.lowerValue, get(activeSingleCompany, 'country.currency', 'CHF'))} - {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
                         <p className="fweight-400 ta-c txtDark700">Your Bestimate&reg; compared to local market data</p>
                       </>
                     )
@@ -143,6 +145,7 @@ function ResumeBestimate(props) {
 }
 
 ResumeBestimate.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   condition: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
@@ -162,6 +165,7 @@ const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
   marketData: get(state, 'property.marketCheck', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   estimation: get(state, 'property.estimation', {}),
 });
 
