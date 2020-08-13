@@ -78,6 +78,11 @@ function SuccessBestimate(props) {
     }
   }, [gameGroup]);
 
+  const openSupport = (e) => {
+    e.preventDefault();
+    history.push({ state: { showSupport: true } });
+  };
+
   const bestimateValue = get(bestimate, 'higherValue', 0);
 
   return (
@@ -151,7 +156,15 @@ function SuccessBestimate(props) {
                                     </p>
                                     <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
                                     <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300 dis-f flex-wrap">
-                                      If you have any questions please contact our <span className="ml-small-4 cur-poi txtPrimary400" onClick={() => history.push({ state: { showSupport: true } })}>support</span>
+                                      <span>If you have any questions please contact our</span>
+                                      <a
+                                        href="#"
+                                        className="ml-small-4 cur-poi txtPrimary400"
+                                        onClick={(e) => openSupport(e)}
+                                        style={{ display: 'inline-flex' }}
+                                      >
+                                        <span>support</span>
+                                      </a>
                                     </p>
                                   </div>
                                 )
