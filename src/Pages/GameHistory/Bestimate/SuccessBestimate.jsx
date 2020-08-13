@@ -155,7 +155,7 @@ function SuccessBestimate(props) {
                                       Our experts are validating the data and generating an extimation report just for you
                                     </p>
                                     <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
-                                    <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300 dis-f flex-wrap">
+                                    <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">
                                       <span>If you have any questions please contact our</span>
                                       <a
                                         href="#"
