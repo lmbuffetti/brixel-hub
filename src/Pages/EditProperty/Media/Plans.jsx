@@ -307,13 +307,14 @@ Photos.propTypes = {
   handleMultiUploadImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isSmallLoading: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 Photos.defaultProps = {
+  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({

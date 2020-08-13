@@ -234,13 +234,14 @@ Portals.propTypes = {
   company: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.string,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
 };
 
 Portals.defaultProps = {
+  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => {

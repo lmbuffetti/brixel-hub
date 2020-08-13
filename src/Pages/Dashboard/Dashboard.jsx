@@ -15,6 +15,7 @@ import Loadable from 'react-loadable';
 import { change, reduxForm, reset } from 'redux-form';
 import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
+import { ReduxFormFunctions } from '@brixel/brixel-components';
 import {
   getPropertyListings,
   getActiveSingleProperty,
@@ -160,6 +161,7 @@ const Dashboard = (props) => {
     if (activeLeads) {
       handleGetActiveSingleCompany({ id: activeLeads.company });
     }
+    ReduxFormFunctions.InitilizeForm();
   }, [activeSingleProperty]);
 
   // FUNCTION TO GLOBAL SAVE - BUTTON SAVE ON NOTIFICATION BAR
@@ -322,7 +324,7 @@ const Dashboard = (props) => {
     if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
       const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
       inputSheet.totalComplete = calcPercentageFacts().calcPerc;
-      changeFieldValue('inputSheet', inputSheet);
+      // changeFieldValue('inputSheet', inputSheet);
     }
   }, [formValue, errorValue]);
 
@@ -382,12 +384,7 @@ Dashboard.defaultProps = {
   notification: null,
 };
 
-const DashboardForm = reduxForm({
-  // a unique name for the form
-  form: 'Property',
-  enableReinitialize: true,
-  destroyOnUnmount: false,
-})(Dashboard);
+const DashboardForm = Dashboard;
 
 const mapStateToProps = (state) => {
   const properties = get(state, 'property.activeSingleProperty.properties', {});

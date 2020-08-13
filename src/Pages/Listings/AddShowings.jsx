@@ -207,7 +207,7 @@ Showings.propTypes = {
   errorValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.string,
   formValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
   match: PropTypes.object.isRequired,
@@ -216,6 +216,7 @@ Showings.propTypes = {
 
 Showings.defaultProps = {
   lang: 'en',
+  isSmallLoading: null,
 };
 
 const ShowingsForm = reduxForm({

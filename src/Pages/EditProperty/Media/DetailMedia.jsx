@@ -238,12 +238,13 @@ DetailMedia.propTypes = {
   handleRotateImg: PropTypes.func.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.string,
   match: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
 };
 
 DetailMedia.defaultProps = {
+  isSmallLoading: null,
 };
 
 const DetailMediaForm = reduxForm({

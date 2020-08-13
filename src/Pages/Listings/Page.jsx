@@ -294,12 +294,13 @@ Page.propTypes = {
   company: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleUpdatePublishedReview: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.string,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
 Page.defaultProps = {
+  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({

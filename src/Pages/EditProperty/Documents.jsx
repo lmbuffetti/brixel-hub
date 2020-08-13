@@ -345,7 +345,7 @@ Documents.propTypes = {
   history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   handleDeleteDocument: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
@@ -355,6 +355,7 @@ Documents.propTypes = {
 };
 
 Documents.defaultProps = {
+  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
