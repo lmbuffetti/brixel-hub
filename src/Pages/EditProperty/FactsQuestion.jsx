@@ -117,8 +117,8 @@ FactsQuestion.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'form.Property.values', {}),
-  errorValue: get(state, 'form.Property.syncErrors', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
+  errorValue: get(state, 'brixelForm.syncErrors', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
