@@ -10,6 +10,7 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import { reduxForm, reset, change } from 'redux-form';
 import last from 'lodash/last';
 import queryString from 'query-string';
@@ -64,16 +65,17 @@ const GetStarted = (props) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
-    const dataForm = formValue;
+    const dataForm = cloneDeep(formValue);
     const { login, register, company } = dataForm;
     // delete dataForm.login;
     changeFieldValue('register.password', '');
+    delete dataForm.register.password;
     // delete dataForm.company;
     // PROPERTY DATA
     const data = {
       ...dataForm,
       packageFlowProcess: {
-        answers: formValue,
+        answers: dataForm,
         rewardScreenData: {},
       },
       language: lang || 'en',
