@@ -8,8 +8,6 @@ import user from './UserReducer';
 import image from './UploadReducer';
 import gamification from './GamificationReducer';
 
-console.log(formReduxer, common);
-
 export const rootReducer = combineReducers({
   brixelForm: formReduxer,
   common,

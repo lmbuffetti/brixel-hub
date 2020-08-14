@@ -29,6 +29,9 @@ import {
 import { setModal, setPageData, setScreenNotification } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { calcPercentageFacts } from '../../utils/helpers';
+import { configureStore } from '../../store';
+
+const store = configureStore;
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -152,6 +155,7 @@ const Dashboard = (props) => {
         loadDefaultProperty();
       }
       if (imageType.length === 0) handleGetImageType();
+      ReduxFormFunctions.InitilizeForm(store, 'Property', initialValues);
     } else {
       setUserType('emptyState');
       history.push('/no-property');
@@ -161,7 +165,6 @@ const Dashboard = (props) => {
     if (activeLeads) {
       handleGetActiveSingleCompany({ id: activeLeads.company });
     }
-    ReduxFormFunctions.InitilizeForm();
   }, [activeSingleProperty]);
 
   // FUNCTION TO GLOBAL SAVE - BUTTON SAVE ON NOTIFICATION BAR
@@ -384,7 +387,12 @@ Dashboard.defaultProps = {
   notification: null,
 };
 
-const DashboardForm = Dashboard;
+const DashboardForm = reduxForm({
+  // a unique name for the form
+  form: 'Property',
+  enableReinitialize: true,
+  destroyOnUnmount: false,
+})(Dashboard);
 
 const mapStateToProps = (state) => {
   const properties = get(state, 'property.activeSingleProperty.properties', {});
