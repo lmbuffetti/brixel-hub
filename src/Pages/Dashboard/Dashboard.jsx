@@ -155,7 +155,7 @@ const Dashboard = (props) => {
         loadDefaultProperty();
       }
       if (imageType.length === 0) handleGetImageType();
-      ReduxFormFunctions.InitilizeForm(store, 'Property', initialValues);
+      ReduxFormFunctions.InitilizeForm('Property', initialValues);
     } else {
       setUserType('emptyState');
       history.push('/no-property');
