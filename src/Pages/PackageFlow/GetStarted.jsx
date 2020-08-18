@@ -4,14 +4,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm,
+  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
-import { reduxForm, reset, change } from 'redux-form';
+import { reduxForm, reset } from 'redux-form';
 import last from 'lodash/last';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
@@ -38,6 +38,7 @@ const GetStarted = (props) => {
     handleGetActiveSingleCompany,
     handleSetLanguage,
     handleGetGamegroup,
+    initForm,
     initialValues,
     loggedInUser,
     handleDoLogin,
@@ -62,6 +63,11 @@ const GetStarted = (props) => {
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
+
+  // INITIALIZE FORM
+  useEffect(() => {
+    initForm(initialValues);
+  }, [initialValues]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
@@ -212,7 +218,7 @@ const GetStarted = (props) => {
       setCookie('brixelStubCompany', defComp);
     } else {
       handleGetActiveSingleCompany({ stub: 'default' });
-      changeFieldValue('location.countryCode', 'all');
+      // changeFieldValue('location.countryCode', 'all');
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) history.push(`/packageFlow/getStarted/${questions[0].history}`);
@@ -313,7 +319,7 @@ const GetStarted = (props) => {
     }
   }, [formValue]);
 
-  // FUCNTION TO CHANGE THE TITLE ON CHANGING LOCATION
+  // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
     const propertyType = get(formValue, 'properties.propertyType', null);
     const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
@@ -611,6 +617,7 @@ GetStarted.propTypes = {
   handleSetLanguage: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
@@ -629,8 +636,8 @@ const mapStateToProps = (state, props) => {
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
-    errorValue: get(state, 'form.GetStarted.syncErrors', {}),
-    formValue: get(state, 'form.GetStarted.values', {}),
+    errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
+    formValue: get(state, 'brixelForm.GetStarted.values', {}),
     gameGroup: get(state, 'gamification.gameGroup', []),
     gameHistory: get(state, 'gamification.gameHistory', {}),
     lang: get(state, 'common.language', 'en'),
@@ -664,6 +671,9 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('GetStarted', field, value));
+  },
+  initForm(value) {
+    dispatch(initializeForm('GetStarted', value));
   },
   reset(form) {
     (dispatch(reset(form)));

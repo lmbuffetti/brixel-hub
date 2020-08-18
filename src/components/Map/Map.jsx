@@ -265,6 +265,7 @@ export const ComponentMap = (props) => {
           </div>
         )
       }
+
       <div className={showMap ? `h-perc-100 ${subMinHeight}` : 'hide'}>
         <Map
           google={google}
@@ -398,4 +399,4 @@ export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
 export default compose(
   withRouter,
   connect(null, mapDispatchToProps),
-)(Maps);
+)(ComponentMap);

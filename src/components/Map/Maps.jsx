@@ -10,8 +10,7 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { change } from 'redux-form';
-import { BrixelInputText } from '@brixel/brixel-components';
+import { BrixelInputText, change } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { diff } from 'deep-object-diff';
@@ -456,13 +455,13 @@ const mapStateToProps = (state, props) => {
   const lng = get(state, 'property.activeSingleProperty.location.longitude', 0);
   return ({
     country: get(state, 'common.country', {}),
-    formValue: get(state, `form[${formName}].values`, {}),
+    formValue: get(state, `brixelForm[${formName}].values`, {}),
     formName,
-    init: get(state, `form[${formName}].initial`, {}),
+    init: get(state, `brixelForm[${formName}].initial`, {}),
     lang: get(state, 'common.language', 'en'),
-    property: get(state, `form[${formName}].values`, {}),
-    latitude: get(state, `form.[${formName}].values.location.latitude`, lat),
-    longitude: get(state, `form.[${formName}].values.location.longitude`, lng),
+    property: get(state, `brixelForm[${formName}].values`, {}),
+    latitude: get(state, `brixelForm.[${formName}].values.location.latitude`, lat),
+    longitude: get(state, `brixelForm.[${formName}].values.location.longitude`, lng),
   });
 };
 
@@ -487,4 +486,4 @@ export default compose(
   }),
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(Maps);
+)(ComponentMap);

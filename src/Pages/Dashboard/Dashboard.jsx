@@ -12,10 +12,10 @@ import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
 
 import Loadable from 'react-loadable';
-import { change, reduxForm, reset } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
-import { ReduxFormFunctions } from '@brixel/brixel-components';
+import { change, initializeForm, reset } from '@brixel/brixel-components';
 import {
   getPropertyListings,
   getActiveSingleProperty,
@@ -29,9 +29,6 @@ import {
 import { setModal, setPageData, setScreenNotification } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { calcPercentageFacts } from '../../utils/helpers';
-import { configureStore } from '../../store';
-
-const store = configureStore;
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -67,7 +64,7 @@ const ProtectedRoute = Loadable({
 const Dashboard = (props) => {
   // PROPS
   const {
-    changeFieldValue,
+    initForm,
     userTypes,
     errorValue,
     formValue,
@@ -82,7 +79,7 @@ const Dashboard = (props) => {
     handleGetImageType,
     handleSaveActiveSingleProperty,
     handleGetAchievement,
-    handleGetGamegroup,
+    handleGetGameGroup,
     handleGetGameHistory,
     handleSavePropertyVisitSchedule,
     handleCreatePropertyVisitSchedule,
@@ -138,9 +135,14 @@ const Dashboard = (props) => {
       loadDefaultProperty();
     }
     if (gameAchievement.length === 0) handleGetAchievement();
-    if (gameGroup.length === 0) handleGetGamegroup();
+    if (gameGroup.length === 0) handleGetGameGroup();
     if (gameHistory.length === 0) handleGetGameHistory();
   }, []);
+
+  // INITIALIZE FORM
+  useEffect(() => {
+    initForm(initialValues);
+  }, [initialValues]);
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
@@ -155,7 +157,6 @@ const Dashboard = (props) => {
         loadDefaultProperty();
       }
       if (imageType.length === 0) handleGetImageType();
-      ReduxFormFunctions.InitilizeForm('Property', initialValues);
     } else {
       setUserType('emptyState');
       history.push('/no-property');
@@ -222,18 +223,18 @@ const Dashboard = (props) => {
     const changeObj = diff(initialValues, formValue);
     const allVal = [];
     let isValid = true;
-    const extrackKey = (obj, parent) => {
+    const extractKey = (obj, parent) => {
       Object.keys(obj).map((key) => {
         if (isObject(obj[key])) {
           const newKey = parent ? `${parent}.${key}` : key;
-          extrackKey(obj[key], newKey);
+          extractKey(obj[key], newKey);
         } else {
           allVal.push(`${parent}.${key}`);
         }
         return null;
       });
     };
-    extrackKey(changeObj);
+    extractKey(changeObj);
     allVal.map((name) => {
       const getError = get(errorValue, name, true);
       if (getError !== 'Mark Required' && getError !== true && isValid) isValid = false;
@@ -327,7 +328,7 @@ const Dashboard = (props) => {
     if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
       const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
       inputSheet.totalComplete = calcPercentageFacts().calcPerc;
-      // changeFieldValue('inputSheet', inputSheet);
+      // initializeForm('inputSheet', inputSheet);
     }
   }, [formValue, errorValue]);
 
@@ -346,7 +347,7 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
-  changeFieldValue: PropTypes.func.isRequired,
+  initForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object,
   activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
@@ -363,7 +364,7 @@ Dashboard.propTypes = {
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleGetAchievement: PropTypes.func.isRequired,
-  handleGetGamegroup: PropTypes.func.isRequired,
+  handleGetGameGroup: PropTypes.func.isRequired,
   handleGetGameHistory: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
@@ -461,6 +462,9 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
+  initForm(value) {
+    dispatch(initializeForm('Property', value));
+  },
   resetForm(form) {
     (dispatch(reset(form)));
   },
@@ -471,7 +475,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetAchievement: bindActionCreators(getAchievement, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
+  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
   handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
   handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
