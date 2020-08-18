@@ -320,8 +320,8 @@ Assessor.propTypes = {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
-  errorValue: get(state, 'form.GamingFlow.syncErrors', {}),
-  formValue: get(state, 'form.GamingFlow.values', {}),
+  errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
+  formValue: get(state, 'brixelForm.GamingFlow.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),

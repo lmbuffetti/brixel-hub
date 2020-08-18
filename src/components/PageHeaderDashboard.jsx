@@ -375,7 +375,7 @@ const mapStateToProps = (state) => ({
   awards: get(state, 'user.awards', 0),
   brixelPoints: get(state, 'user.brixelPoints', 0),
   loggedInUser: get(state, 'user.loggedInUser', {}),
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   languages: get(state, 'common.languages', []),
   lang: get(state, 'common.language', []),
   property: get(state, 'property.activeSingleProperty', {}),

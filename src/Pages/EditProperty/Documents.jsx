@@ -359,7 +359,7 @@ Documents.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', {}),
 });

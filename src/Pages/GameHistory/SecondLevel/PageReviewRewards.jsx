@@ -191,7 +191,7 @@ PageReviewRewards.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', ''),
   gameHistory: get(state, 'gamification.gameHistory.data', []),
 });

@@ -89,7 +89,7 @@ ResumeCard.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'form.GetStarted.values', {}),
+  formValue: get(state, 'brixelForm.GetStarted.values', {}),
 });
 
 export default compose(

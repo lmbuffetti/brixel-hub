@@ -10,9 +10,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
-
 import Loadable from 'react-loadable';
-import { reduxForm } from 'redux-form';
 import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
 import { change, initializeForm, reset } from '@brixel/brixel-components';
@@ -141,8 +139,8 @@ const Dashboard = (props) => {
 
   // INITIALIZE FORM
   useEffect(() => {
-    initForm(initialValues);
-  }, [initialValues]);
+    initForm(cloneDeep(initialValues));
+  }, [activeSingleProperty]);
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
@@ -255,7 +253,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (isDiscardChanges) {
       const newNotification = cloneDeep(notification);
-      resetForm('Property');
+      resetForm('Property', initialValues);
       newNotification.state = false;
       handleSetScreenNotification({
         ...newNotification,
@@ -388,13 +386,6 @@ Dashboard.defaultProps = {
   notification: null,
 };
 
-const DashboardForm = reduxForm({
-  // a unique name for the form
-  form: 'Property',
-  enableReinitialize: true,
-  destroyOnUnmount: false,
-})(Dashboard);
-
 const mapStateToProps = (state) => {
   const properties = get(state, 'property.activeSingleProperty.properties', {});
   set(properties, 'typology.livingArea.unit', 'm2');
@@ -410,8 +401,8 @@ const mapStateToProps = (state) => {
   set(properties, 'typology.collectiveSpacesArea.unit', 'm2');
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', undefined),
-    errorValue: get(state, 'form.Property.syncErrors', null),
-    formValue: get(state, 'form.Property.values', {}),
+    errorValue: get(state, 'brixelForm.Property.syncErrors', null),
+    formValue: get(state, 'brixelForm.Property.values', {}),
     gameAchievement: get(state, 'gamification.achievement', []),
     gameGroup: get(state, 'gamification.gameGroup', []),
     gameHistory: get(state, 'gamification.gameHistory', {}),
@@ -421,7 +412,7 @@ const mapStateToProps = (state) => {
     isSmallLoading: get(state, 'common.isSmallLoading', null),
     loggedInUser: get(state, 'user.loggedInUser', {}),
     notification: get(state, 'common.notification', {}),
-    regFields: get(state, 'form.Property.registeredFields', null),
+    regFields: get(state, 'brixelForm.Property.registeredFields', null),
     userTypes: get(state, 'user.userTypes', null),
     initialValues: {
       changeCountry: get(state, 'property.activeSingleProperty.location.countryCode', {}),
@@ -465,8 +456,8 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('Property', value));
   },
-  resetForm(form) {
-    (dispatch(reset(form)));
+  resetForm(form, data) {
+    (dispatch(reset(form, data)));
   },
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
@@ -491,4 +482,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(DashboardForm);
+)(Dashboard);

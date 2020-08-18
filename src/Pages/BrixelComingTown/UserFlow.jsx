@@ -611,8 +611,8 @@ UserFlow.defaultProps = {
 
 const mapStateToProps = (state) => ({
   company: get(state, 'companies.activeSingleCompany', {}),
-  errorValue: get(state, 'form.UserFlow.syncErrors', {}),
-  formValue: get(state, 'form.UserFlow.values', {}),
+  errorValue: get(state, 'brixelForm.UserFlow.syncErrors', {}),
+  formValue: get(state, 'brixelForm.UserFlow.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   lang: get(state, 'common.language', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),

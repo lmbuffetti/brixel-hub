@@ -233,7 +233,7 @@ ResumeMarketCheck.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => ({
-  formValue: get(state, `form.${props.formName}.values`, {}),
+  formValue: get(state, `brixelForm.${props.formName}.values`, {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   marketData: get(state, 'property.marketCheck', {}),

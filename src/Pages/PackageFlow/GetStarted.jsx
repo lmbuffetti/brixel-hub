@@ -643,7 +643,7 @@ const mapStateToProps = (state, props) => {
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
-    startForm: get(state, 'form.GetStarted', null),
+    startForm: get(state, 'brixelForm.GetStarted', null),
     initialValues: {
       company: null,
       channel,

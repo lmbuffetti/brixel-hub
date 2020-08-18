@@ -3,11 +3,12 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelButtonIcon, MultiFileldsReduxForm } from '@brixel/brixel-components';
+import {
+  BrixelButtonIcon, MultiFileldsReduxForm, change, reset,
+} from '@brixel/brixel-components';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 
 const FactsQuestion = (props) => {

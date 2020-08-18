@@ -342,7 +342,7 @@ Photos.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   imageType: get(state, 'image.imageType', []),

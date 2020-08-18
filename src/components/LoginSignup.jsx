@@ -256,8 +256,8 @@ LoginSignup.defaultProps = {
 const mapStateToProps = (state, props) => ({
   company: get(state, 'companies.activeSingleCompany', {}),
   formError: get(state, 'common.formError', {}),
-  errorValue: get(state, `form.${props.formName}.syncErrors`, {}),
-  formValue: get(state, `form.${props.formName}.values`, {}),
+  errorValue: get(state, `brixelForm.${props.formName}.syncErrors`, {}),
+  formValue: get(state, `brixelForm.${props.formName}.values`, {}),
   lang: get(state, 'common.language', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
 });

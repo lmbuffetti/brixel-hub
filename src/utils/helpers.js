@@ -12,7 +12,7 @@ const cookies = new Cookies();
 export const calcPercentageFacts = (form = 'Property') => {
   let countTotal = 0;
   let countDone = 0;
-  const formValue = configureStore.getState().form[form].values;
+  const formValue = configureStore.getState().brixelForm[form].values;
   const Questions = InputSheets(formValue);
   Questions.map((val) => {
     val.inputs.map((item) => {

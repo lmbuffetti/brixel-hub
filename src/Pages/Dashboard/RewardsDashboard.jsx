@@ -412,7 +412,7 @@ const mapStateToProps = (state) => ({
   userTypes: get(state, 'user.userTypes', null),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   awards: get(state, 'user.awards', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),

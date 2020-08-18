@@ -38,7 +38,7 @@ const checkCommon = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader });
       api.image.rotateImg(action.payload.id, action.payload.rotate)
         .then((res) => {
-          const arrayImg = store.getState().form.Property.values[action.payload.type];
+          const arrayImg = store.getState().brixelForm.Property.values[action.payload.type];
           // eslint-disable-next-line array-callback-return
           const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
           if (idImg > -1) {
@@ -79,7 +79,7 @@ const checkCommon = (store) => (next) => (action) => {
       else store.dispatch({ type: SPINNER_ON });
       Promise.all(calls).then((res) => {
         const data = {};
-        const filesArray = get(store.getState(), `form.Property.values[${actions}]`, []);
+        const filesArray = get(store.getState(), `brixelForm.Property.values[${actions}]`, []);
         res.forEach((resImg) => {
           filesArray.push(resImg.data);
         });
@@ -118,12 +118,12 @@ const checkCommon = (store) => (next) => (action) => {
             uploadAction === 'contactAvatar') {
             let coverPhoto;
 
-            const img = store.getState().form.Property.values.photos || [];
-            const plan = store.getState().form.Property.values.floorPlans || [];
+            const img = store.getState().brixelForm.Property.values.photos || [];
+            const plan = store.getState().brixelForm.Property.values.floorPlans || [];
 
             if (uploadAction === 'photos') {
-              if (has(store.getState(), 'form.Property.values.coverPhoto.path')) {
-                coverPhoto = get(store.getState(), 'form.Property.values.coverPhoto', null);
+              if (has(store.getState(), 'brixelForm.Property.values.coverPhoto.path')) {
+                coverPhoto = get(store.getState(), 'brixelForm.Property.values.coverPhoto', null);
               } else {
                 coverPhoto = res.data;
               }
@@ -148,7 +148,7 @@ const checkCommon = (store) => (next) => (action) => {
               });
             }
           } else if (uploadAction === 'singleUserAvatar') {
-            let userAvatar = store.getState().form.User.values.avatar[0];
+            let userAvatar = store.getState().brixelForm.User.values.avatar[0];
 
             userAvatar = res.data;
 
@@ -175,7 +175,7 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO DELETE IMG - IMAGE ID
     case DELETE_IMG: {
       next(action);
-      const arrayImg = store.getState().form.Property.values[action.payload.type];
+      const arrayImg = store.getState().brixelForm.Property.values[action.payload.type];
       const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader });
       api.image.deleteImg(action.payload.id)
@@ -214,7 +214,7 @@ const checkCommon = (store) => (next) => (action) => {
       else store.dispatch({ type: SPINNER_ON });
       Promise.all(calls).then((res) => {
         const data = {};
-        const filesArray = get(store.getState(), 'form.Property.values.documents', []);
+        const filesArray = get(store.getState(), 'brixelForm.Property.values.documents', []);
         res.forEach((resImg) => {
           filesArray.push(resImg.data);
         });
@@ -241,7 +241,7 @@ const checkCommon = (store) => (next) => (action) => {
       else store.dispatch({ type: SPINNER_ON });
       api.image.uploadDocument(action.payload)
         .then((res) => {
-          const docList = store.getState().form.Property.values.documents || [];
+          const docList = store.getState().brixelForm.Property.values.documents || [];
           docList.push(res.data);
           const data = {
             id: pageID,
@@ -259,7 +259,7 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const { smallLoader } = action.payload;
       delete action.payload.smallLaoder;
-      const arrayImg = store.getState().form.Property.values.documents;
+      const arrayImg = store.getState().brixelForm.Property.values.documents;
       const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
@@ -288,7 +288,7 @@ const checkCommon = (store) => (next) => (action) => {
       else store.dispatch({ type: SPINNER_ON });
       api.image.updateDocument(action.payload.id, action.payload.body)
         .then((res) => {
-          const docList = store.getState().form.Property.values.documents;
+          const docList = store.getState().brixelForm.Property.values.documents;
           docList.forEach((el, index) => {
             if (el.id === res.data.id) {
               docList[index] = res.data;

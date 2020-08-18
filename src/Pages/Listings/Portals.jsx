@@ -245,10 +245,10 @@ Portals.defaultProps = {
 };
 
 const mapStateToProps = (state) => {
-  const formValue = get(state, 'form.Property.values', {});
+  const formValue = get(state, 'brixelForm.Property.values', {});
   return ({
     company: get(state, 'companies.activeSingleCompany', {}),
-    formValue: get(state, 'form.Property.values', {}),
+    formValue: get(state, 'brixelForm.Property.values', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', null),
     portals: get(formValue, 'portals', {}),
   });

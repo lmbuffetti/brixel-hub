@@ -222,7 +222,7 @@ MenuSidebar.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', { }),
   windowDimensions: get(state, 'common.windowDimensions', {}),
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   userTypes: get(state, 'user.userTypes', null),

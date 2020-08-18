@@ -267,8 +267,8 @@ Upgrade.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  errorValue: get(state, 'form.GamingFlow.syncErrors', {}),
-  formValue: get(state, 'form.GamingFlow.values', {}),
+  errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
+  formValue: get(state, 'brixelForm.GamingFlow.values', {}),
   packagesProperty: get(state, 'companies.activeSingleCompany.servicePackages', []),
   initialValues: {
     id: get(state, 'property.activeSingleProperty.id', null),

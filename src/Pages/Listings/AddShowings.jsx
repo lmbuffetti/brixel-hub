@@ -226,10 +226,10 @@ const ShowingsForm = reduxForm({
 
 const mapStateToProps = (state) => ({
   activeSinglePropertyBooking: get(state, 'property.activeSinglePropertyBooking', []),
-  errorValue: get(state, 'form.Showings.syncErrors', {}),
-  formValue: get(state, 'form.Showings.values', {}),
+  errorValue: get(state, 'brixelForm.Showings.syncErrors', {}),
+  formValue: get(state, 'brixelForm.Showings.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
-  schedule: get(state, 'form.Property.values.schedule', {}),
+  schedule: get(state, 'brixelForm.Property.values.schedule', {}),
   lang: get(state, 'coomon.currentLanguage', 'en'),
 });
 
