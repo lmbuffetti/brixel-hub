@@ -2,14 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonTertiary, BrixelProgressLineDots,
+  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonTertiary, BrixelProgressLineDots, reset,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-
-import { reduxForm, reset } from 'redux-form';
 import { FactsApartment } from '../../../resources/Facts';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
@@ -28,6 +26,7 @@ const MarketCheck = (props) => {
     handleSaveActiveSingleProperty,
     handleAddGameHistory,
     history,
+    initialValuesPage,
     match,
     resetForm,
     smallLoading,
@@ -88,7 +87,7 @@ const MarketCheck = (props) => {
 
   // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
-    resetForm('Property');
+    resetForm('Property', initialValuesPage);
     if (typeof window !== 'undefined' && window.innerWidth < 1024) {
       history.push(`/${propID}/rewards`);
     } else {
@@ -329,6 +328,7 @@ const MarketCheck = (props) => {
 MarketCheck.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  initialValuesPage: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
@@ -348,6 +348,7 @@ const mapStateToProps = (state) => ({
   gameHistory: get(state, 'gamification.gameHistory', {}),
   smallLoading: get(state, 'common.isSmallLoading', null),
   packagesProperty: get(state, 'property.packagesProperty', []),
+  initialValuesPage: get(state, 'brixelForm.Property.initialValues', {}),
   initialValues: {
     id: get(state, 'property.activeSingleProperty.id', null),
     properties: get(state, 'property.activeSingleProperty.properties', null),
@@ -358,20 +359,14 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  resetForm(form) {
-    (dispatch(reset(form)));
+  resetForm(form, data) {
+    (dispatch(reset(form, data)));
   },
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
-const AnyForm = reduxForm({
-  form: 'GamingFlow',
-  enableReinitialize: true,
-  destroyOnUnmount: true,
-})(MarketCheck);
-
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(AnyForm);
+)(MarketCheck);

@@ -6,12 +6,11 @@ import React, {
 import { Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
-import { change } from 'redux-form';
 import { connect } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonSecondary,
+  BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonSecondary, change,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';

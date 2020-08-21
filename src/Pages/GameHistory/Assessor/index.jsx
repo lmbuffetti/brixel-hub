@@ -8,8 +8,6 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-
-import { reduxForm } from 'redux-form';
 import { extractAssessorCondition, calculateAgeByYear } from '../../../utils/helpers';
 import { AssessorQuestions } from '../../../resources/Assessor';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
@@ -336,13 +334,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
-const AnyForm = reduxForm({
-  form: 'GamingFlow',
-  enableReinitialize: true,
-  destroyOnUnmount: true,
-})(Assessor);
-
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(AnyForm);
+)(Assessor);

@@ -17,10 +17,11 @@ import {
   withRouter,
 } from 'react-router-dom';
 import {
-  change, isValid, Field, reduxForm,
+  isValid, Field, reduxForm,
 } from 'redux-form';
 import Cookies from 'universal-cookie';
 import {
+  change,
   BrixelButtonPrimary,
   BrixelButtonIcon,
   BrixelIcon,
@@ -966,11 +967,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 
-const OnBoardingForm = reduxForm({
-  form: 'OnBoarding', // a unique identifier for this form
-})(OnBoarding);
-
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(OnBoardingForm);
+)(OnBoarding);

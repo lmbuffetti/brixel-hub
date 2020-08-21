@@ -4,14 +4,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change,
+  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
-import { reduxForm, reset } from 'redux-form';
 import last from 'lodash/last';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
@@ -686,13 +685,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 
-const AnyForm = reduxForm({
-  form: 'GetStarted',
-  enableReinitialize: false,
-  destroyOnUnmount: false,
-})(GetStarted);
-
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(AnyForm);
+)(GetStarted);

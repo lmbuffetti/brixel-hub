@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { change } from 'redux-form';
 import {
-  BrixelButtonIcon, BrixelLogin, BrixelRegister, BrixelButtonPrimary,
+  BrixelButtonIcon, BrixelLogin, BrixelRegister, BrixelButtonPrimary, change,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { compose } from 'redux';

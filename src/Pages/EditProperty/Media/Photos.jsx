@@ -5,7 +5,6 @@ import React, {
 import { Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
-import { change } from 'redux-form';
 import { connect } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import { diff } from 'deep-object-diff';
@@ -13,6 +12,7 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import isArray from 'lodash/isArray';
 import {
+  change,
   BrixelButtonIcon,
   BrixelIcon,
   BrixelButtonPrimary,

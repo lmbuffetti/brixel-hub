@@ -4,7 +4,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reduxForm, reset } from 'redux-form';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -15,6 +14,8 @@ import {
   BrixelInputText,
   Validation,
   ReduxField,
+  change,
+  reset,
 } from '@brixel/brixel-components';
 import {
   createPropertyVisitBooking,
@@ -219,11 +220,6 @@ Showings.defaultProps = {
   isSmallLoading: null,
 };
 
-const ShowingsForm = reduxForm({
-  // a unique name for the form
-  form: 'Showings',
-})(Showings);
-
 const mapStateToProps = (state) => ({
   activeSinglePropertyBooking: get(state, 'property.activeSinglePropertyBooking', []),
   errorValue: get(state, 'brixelForm.Showings.syncErrors', {}),
@@ -246,4 +242,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(ShowingsForm);
+)(Showings);

@@ -223,11 +223,11 @@ const MarketCheck = (props) => {
                     </div>
                   )
                 }
-                {/*
+                {
                   get(quest, 'cardType', null) === 'loadComponent' && get(quest, 'history', 'a') === get(questions, `[${currentIndex}].history`, 'b') && (
                     React.createElement(quest.component, { formName: 'GamingFlow', finishedFlow, initialValue: formValue })
                   )
-                */}
+                }
               </div>
             </div>
           </div>

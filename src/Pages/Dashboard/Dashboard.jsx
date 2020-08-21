@@ -18,7 +18,10 @@ import {
   getPropertyListings,
   getActiveSingleProperty,
   saveActiveSingleProperty,
-  getActiveSinglePropertyBookings, savePropertyVisitSchedule, createPropertyVisitSchedule, savePropertyVisitBooking,
+  getActiveSinglePropertyBookings,
+  savePropertyVisitSchedule,
+  createPropertyVisitSchedule,
+  savePropertyVisitBooking,
 } from '../../actions/PropertyActions';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
 import {
@@ -108,7 +111,7 @@ const Dashboard = (props) => {
       !get(history, 'location.pathname', '').includes('facts') &&
       !get(history, 'location.pathname', '').includes('achievement')
     ) {
-      resetForm('Property');
+      resetForm(initialValues);
     }
   }, [history.location.pathname]);
 
@@ -253,7 +256,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (isDiscardChanges) {
       const newNotification = cloneDeep(notification);
-      resetForm('Property', initialValues);
+      resetForm(initialValues);
       newNotification.state = false;
       handleSetScreenNotification({
         ...newNotification,
@@ -456,8 +459,8 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('Property', value));
   },
-  resetForm(form, data) {
-    (dispatch(reset(form, data)));
+  resetForm(data) {
+    (dispatch(reset('Property', data)));
   },
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),

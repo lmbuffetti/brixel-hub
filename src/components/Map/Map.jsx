@@ -8,8 +8,7 @@ import {
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { change } from 'redux-form';
-import { BrixelIcon } from '@brixel/brixel-components';
+import { BrixelIcon, change } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import markerImg from '../../images/location/icon_location.svg';
 import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
