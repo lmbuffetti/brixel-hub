@@ -210,7 +210,7 @@ const Dashboard = (props) => {
           handleAddGameHistory({ stub: 'facts' });
         }
         if (get(formValue, 'photos', []).length > 0 && get(formValue, 'floorPlans', []).length > 0 && get(formValue, 'documents', []).length > 0) {
-          handleAddGameHistory({ stub: 'media' });
+          // handleAddGameHistory({ stub: 'media' });
         }
       }
     }

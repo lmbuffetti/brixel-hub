@@ -158,7 +158,7 @@ BrixelUpgradeMessage.propTypes = {
   showClose: PropTypes.bool,
   title: PropTypes.string,
   titleConfirm: PropTypes.string,
-  unlockFunction: PropTypes.func,
+  unlockFunction: PropTypes.bool,
   virtualTour: PropTypes.string,
 };
 
@@ -172,7 +172,7 @@ BrixelUpgradeMessage.defaultProps = {
   showClose: false,
   title: null,
   titleConfirm: null,
-  unlockFunction: () => '',
+  unlockFunction: false,
   virtualTour: null,
 };
 
