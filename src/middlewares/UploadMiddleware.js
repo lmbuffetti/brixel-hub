@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { change, reset } from 'redux-form';
+import { change, reset } from '@brixel/brixel-components';
 import set from 'lodash/set';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -44,7 +44,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (idImg > -1) {
             arrayImg[idImg] = res.data;
             store.dispatch(change('Property', action.payload.type, arrayImg));
-            store.dispatch(reset('Property'));
+            store.dispatch(reset('Property', store.getState().brixelForm.Property.initialValues));
           }
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });

@@ -4,9 +4,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
-import {
-  Field, reduxForm,
-} from 'redux-form';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -16,6 +13,7 @@ import {
   BrixelButtonSecondary,
   BrixelButtonTertiary,
   BrixelTextArea,
+  ReduxField,
   useOutsideAlerter,
   reset,
   change,
@@ -220,13 +218,20 @@ const DetailMedia = (props) => {
                 }
               </div>
             </div>
-            <Field
-              name={`${mediaType}[${idImg}].description`}
-              label="Description"
+            <ReduxField
+              form="Property"
+              input={{
+                name: `${mediaType}[${idImg}].description`,
+                placeholder: 'Describe the photo',
+                type: 'text',
+              }}
+              labels={{
+                label: 'Description',
+              }}
               component={BrixelTextArea}
-              placeholder="Describe the photo"
-              type="text"
-              className="p-md-0 mb-2 txtDark300 fweight-400"
+              design={{
+                className: 'p-md-0 mb-2 txtDark300 fweight-400',
+              }}
             />
           </div>
         </div>
@@ -251,13 +256,6 @@ DetailMedia.defaultProps = {
   isSmallLoading: null,
 };
 
-const DetailMediaForm = reduxForm({
-  // a unique name for the form
-  form: 'Property',
-  enableReinitialize: true,
-  destroyOnUnmount: false,
-})(DetailMedia);
-
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   initialValues: get(state, 'brixelForm.Property.initialValues', {}),
@@ -281,4 +279,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(DetailMediaForm);
+)(DetailMedia);

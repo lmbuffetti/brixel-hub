@@ -4,7 +4,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -12,6 +11,7 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelIcon, Helpers,
+  change, reset,
 } from '@brixel/brixel-components';
 import has from 'lodash/has';
 import { updatePortalsReview } from '../../actions/PropertyActions';
@@ -258,8 +258,8 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  reset(form) {
-    (dispatch(reset(form)));
+  reset(form, data) {
+    (dispatch(reset(form, data)));
   },
   handleUpdatePortalsReview: bindActionCreators(updatePortalsReview, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),

@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { reducer as form } from 'redux-form';
 import { formReduxer } from '@brixel/brixel-components';
 import common from './CommonReducer';
 import companies from './CompanyReducer';
@@ -12,7 +11,6 @@ export const rootReducer = combineReducers({
   brixelForm: formReduxer,
   common,
   companies,
-  form,
   gamification,
   images: image,
   property,

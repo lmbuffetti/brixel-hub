@@ -4,7 +4,6 @@
 import React, {
   useState, useRef, useCallback, useEffect,
 } from 'react';
-import { Field } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,7 +13,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { ReactSortable } from 'react-sortablejs';
 import {
   BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelDropdown,
-  BrixelButtonTertiary, useOutsideAlerter, BrixelInputText, change, reset,
+  BrixelButtonTertiary, useOutsideAlerter, BrixelInputText, change, reset, ReduxField,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
@@ -189,11 +188,17 @@ const Documents = (props) => {
                             {
                               (editDocument.id === doc.id && editDocument.active) ? (
                                 <div className="dis-fl-row a-c w-perc-100">
-                                  <Field
-                                    className="zIndex1 w-perc-100"
-                                    name={`documents[${i}].name`}
-                                    placeholder="Name this document"
+                                  <ReduxField
+                                    form="Property"
+                                    input={{
+                                      name: `documents[${i}].name`,
+                                      placeholder: 'Name this document',
+                                      type: 'text',
+                                    }}
                                     component={BrixelInputText}
+                                    design={{
+                                      className: 'zIndex1 w-perc-100',
+                                    }}
                                   />
                                 </div>
                               ) : (
