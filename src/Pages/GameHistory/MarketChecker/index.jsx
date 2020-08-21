@@ -69,7 +69,7 @@ const MarketCheck = (props) => {
 
   useEffect(() => {
     initForm(initialValues);
-  }, []);
+  }, [activeSingleProperty]);
 
   // ON CHANGE STEP LOAD THE ENTER EFFECT AND IF HAS TO REDO
   useEffect(() => {
@@ -225,7 +225,15 @@ const MarketCheck = (props) => {
                 }
                 {
                   get(quest, 'cardType', null) === 'loadComponent' && get(quest, 'history', 'a') === get(questions, `[${currentIndex}].history`, 'b') && (
-                    React.createElement(quest.component, { formName: 'GamingFlow', finishedFlow, initialValue: formValue })
+                    <>
+                      {
+                        React.createElement(quest.component, {
+                          formName: 'GamingFlow',
+                          finishedFlow,
+                          initialValue: formValue,
+                        })
+                      }
+                    </>
                   )
                 }
               </div>

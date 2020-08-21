@@ -258,7 +258,7 @@ const Bestimate = (props) => {
                   )
                 }
                 {
-                  get(quest, 'cardType', null) === 'loadComponent' && quest.history === questions[currentIndex].history && (
+                  get(quest, 'cardType', null) === 'loadComponent' && quest.history === get(questions[currentIndex], 'history', null) && (
                     <>
                       {
                         React.createElement(quest.component, {
