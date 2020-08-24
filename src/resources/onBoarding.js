@@ -211,6 +211,60 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: 'createProfile',
       toSave: true,
     },
-
+    {
+      title: 'What do you need the market check for?',
+      history: 'ownerType',
+      vCentered: true,
+      inputs: [
+        {
+          component: BrixelRadioButton,
+          pdClass: 'py-2 py-md-3 px-1',
+          label: '',
+          name: 'register.ownerType',
+          validation: [Validation.required],
+          options: factsOptions.userType,
+          icons: true,
+        },
+      ],
+    },
+    {
+      title: 'When do you want to sell?',
+      vCentered: true,
+      condition: [{
+        name: 'register.ownerType',
+        value: 'seller',
+      }],
+      history: 'apartmentSellTiming',
+      inputs: [
+        {
+          component: BrixelRadioButton,
+          pdClass: 'py-2 py-md-3 px-1',
+          label: '',
+          name: 'register.whenToSell',
+          validation: [Validation.required],
+          icons: true,
+          options: factsOptions.userSeller,
+        },
+      ],
+    },
+    {
+      title: 'When do you want to sell?',
+      condition: [{
+        name: 'register.ownerType',
+        value: 'buyer',
+      }],
+      history: 'typeOfBuyer',
+      inputs: [
+        {
+          component: BrixelRadioButton,
+          pdClass: 'py-2 py-md-3 px-1',
+          icons: true,
+          label: '',
+          name: 'register.typeOfBuyer',
+          validation: [Validation.required],
+          options: factsOptions.userBuyer,
+        },
+      ],
+    },
   ];
 };

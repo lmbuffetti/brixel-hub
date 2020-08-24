@@ -91,7 +91,6 @@ const GetStarted = (props) => {
       published: false,
       addProperty: true,
       redirectToUserFlow: false,
-      redirectToHome: true,
       company,
     };
     const page = get(formValue, 'signupScreen', null);
@@ -99,6 +98,7 @@ const GetStarted = (props) => {
     if (formValue.owner) {
       data.owner = loggedInUser.user.id;
       // DISPATCH TO SAVE THE PROPERTY
+      data.redirectToHome = true;
       await handleCreateActiveSingleProperty(data);
     } else if (page === 'login') {
       changeFieldValue('register.email', login.email);
@@ -109,6 +109,7 @@ const GetStarted = (props) => {
         password: login.password,
       };
       // DISPATCH TO DO LOGIN
+      data.redirectToHome = true;
       await handleDoLogin(data);
     } else {
       changeFieldValue('login.email', register.email);
