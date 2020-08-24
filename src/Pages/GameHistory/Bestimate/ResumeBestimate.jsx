@@ -92,11 +92,29 @@ function ResumeBestimate(props) {
                   {
                     condition.higherValue && (
                       <>
-                        <p className="ta-c mb-1 txtDark700">Your property is worth up to</p>
-                        <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
+                        {
+                          get(activeSingleProperty, 'location.countryCode', null) === 'PT' ? (
+                            <>
+                              <p className="ta-c mb-1 txtDark700">Your property is worth</p>
+                              <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.value, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
+                            </>
+                          ) : (
+                            <>
+                              <p className="ta-c mb-1 txtDark700">Your property is worth up to</p>
+                              <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
+                            </>
+                          )
+                        }
                         <p className="body2 ta-c mb-5 txtDark700">Based on similar transactions.</p>
                         <p className="fweight-400 ta-c mb-1 txtDark700">Similar properties are currently worth between</p>
-                        <p className="ff-mono txtPrimary700 fweight-600 ta-c mb-5">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.lowerValue, get(activeSingleCompany, 'country.currency', 'CHF'))} - {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
+                        <div className="ta-c mb-5">
+                          <p className="ff-mono txtPrimary700 fweight-600 ta-c">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.lowerValue, get(activeSingleCompany, 'country.currency', 'CHF'))} - {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
+                          {
+                            get(activeSingleProperty, 'location.countryCode', null) === 'PT' && (
+                              <p className="fsize-200"><span>minimun value</span><span className="mx-2" /><span>maximun value</span></p>
+                            )
+                          }
+                        </div>
                         <p className="fweight-400 ta-c txtDark700">Your Bestimate&reg; compared to local market data</p>
                       </>
                     )
