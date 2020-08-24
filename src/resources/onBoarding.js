@@ -1,5 +1,10 @@
 import {
-  BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, BrixelSelect, Validation,
+  BrixelRadioButton,
+  BrixelInputStepNumber,
+  BrixelInputText,
+  BrixelSelect,
+  Validation,
+  FactsOptions,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import Maps from '../components/Map/Maps';
@@ -17,6 +22,8 @@ import locationSvg from '../images/getstarted/svgs/location.svg';
 import roomsSvg from '../images/getstarted/svgs/room.svg';
 import congratsSvg from '../images/getstarted/svgs/congrats.svg';
 import yearSvg from '../images/getstarted/svgs/year.svg';
+
+const { factsOptions } = FactsOptions;
 
 // VALIDATION OF FIELDS
 export const maxLengthNum = (val, name) => (value) => {
@@ -204,5 +211,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: 'createProfile',
       toSave: true,
     },
+
   ];
 };

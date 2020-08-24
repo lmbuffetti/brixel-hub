@@ -66,7 +66,7 @@ const GetStarted = (props) => {
   // INITIALIZE FORM
   useEffect(() => {
     initForm(initialValues);
-  }, [initialValues]);
+  }, [company]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
