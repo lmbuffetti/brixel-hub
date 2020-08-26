@@ -266,5 +266,11 @@ export const QuestionsList = (lang, country = 'CH') => {
         },
       ],
     },
+    {
+      history: 'savingData',
+      cardType: 'updateProfile',
+      toSave: true,
+      action: 'updateUser',
+    },
   ];
 };

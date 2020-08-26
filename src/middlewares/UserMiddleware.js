@@ -1,5 +1,7 @@
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { change } from '@brixel/brixel-components';
 import { user } from '../resources/localData/user';
 import {
   CHECK_TOKEN,
@@ -96,7 +98,7 @@ const checkUser = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       const data = action.payload.user;
       const addProperty = action.payload.addProperty || false;
-      const { redirectTo } = action.payload.user;
+      const { redirectTo, setOwner } = action.payload.user;
       delete action.payload.user;
       delete action.payload.addProperty;
       api.user.createUser(data)
@@ -110,10 +112,13 @@ const checkUser = (store) => (next) => (action) => {
               userData.user = res.data;
               userData.token = res.data.token;
             }
+            if (setOwner) {
+              store.dispatch(change('GetStarted', 'owner', userData.user.id));
+            }
             store.dispatch({ type: SET_LOGGED_IN_USER, payload: userData });
             if (redirectTo) store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
             if (addProperty) {
-              const dataProperty = action.payload;
+              const dataProperty = cloneDeep(action.payload);
               dataProperty.token = userData.token;
               dataProperty.owner = userData.user.id;
               store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
@@ -129,15 +134,16 @@ const checkUser = (store) => (next) => (action) => {
     // DISPATCH TO UPDATE USER - USER OBJECT
     case SAVE_ACTIVE_SINGLE_USER: {
       next(action);
+      const objData = cloneDeep(action.payload);
       const { id } = action.payload;
       const { sendEmail, setLoggedInUser, smallLoader } = action.payload;
-      delete action.payload.id;
-      delete action.payload.sendEmail;
-      delete action.payload.smallLoader;
-      delete action.payload.setLoggedInUser;
+      delete objData.id;
+      delete objData.sendEmail;
+      delete objData.smallLoader;
+      delete objData.setLoggedInUser;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: 'userData' });
       else store.dispatch({ type: SPINNER_ON });
-      api.user.updateUser(id, action.payload)
+      api.user.updateUser(id, objData)
         .then((response) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });

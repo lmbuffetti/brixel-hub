@@ -33,6 +33,7 @@ export const ComponentMap = (props) => {
     handleUpdateCountry,
     history,
     init,
+    input,
     latitude,
     longitude,
     multipleFieldSearch,
@@ -188,6 +189,7 @@ export const ComponentMap = (props) => {
           if (formattedPlace.zip) formattedPlace.cityZip = `${formattedPlace.zip} ${formattedPlace.city}`;
         }
         // if (!formattedPlace.zip && isShowZip) setShowZipCode(true);
+        if (input) input.onChange(formattedPlace.latitude);
         changeFieldValue(formName, 'changeCountry', formattedPlace.countryCode);
         changeFieldValue(formName, 'location', formattedPlace);
         const existCountry = country.find((item) => item.value === formattedPlace.countryCode);
@@ -418,6 +420,7 @@ ComponentMap.propTypes = {
   multipleFieldSearch: PropTypes.bool,
   handleUpdateCountry: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  input: PropTypes.object,
   longitude: PropTypes.number.isRequired,
   latitude: PropTypes.number.isRequired,
   onSubmit: PropTypes.func,
@@ -438,6 +441,7 @@ ComponentMap.defaultProps = {
   disabled: false,
   draggable: false,
   formName: '',
+  input: null,
   multipleFieldSearch: false,
   onSubmit: () => '',
   showMessageToChangeAddress: false,
@@ -450,7 +454,7 @@ ComponentMap.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => {
-  const formName = get(props, 'formName', Object.keys(get(state, 'form'))[0]);
+  const formName = get(props, 'formName', Object.keys(get(state, 'brixelForm'))[0]);
   const lat = get(state, 'property.activeSingleProperty.location.latitude', 0);
   const lng = get(state, 'property.activeSingleProperty.location.longitude', 0);
   return ({

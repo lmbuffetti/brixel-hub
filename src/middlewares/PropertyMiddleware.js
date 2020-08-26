@@ -1,5 +1,7 @@
 /* eslint-disable no-case-declarations */
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
+import { change } from '@brixel/brixel-components';
 import {
   GET_ESTIMATION,
   SET_ESTIMATION,
@@ -44,26 +46,28 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO CREATE SINGLE PROPERTY - used on onBoarding
     case CREATE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
+      const objData = cloneDeep(action.payload);
       const {
         getEstimation, token, redirectToUserFlow, redirectToRewards,
         redirectToHome, smallLoader,
-      } = action.payload;
-      delete action.payload.getEstimation;
-      delete action.payload.token;
-      delete action.payload.redirectToUserFlow;
-      delete action.payload.redirectToRewards;
-      delete action.payload.redirectToHome;
-      delete action.payload.smallLoader;
+      } = objData;
+      delete objData.getEstimation;
+      delete objData.token;
+      delete objData.redirectToUserFlow;
+      delete objData.redirectToRewards;
+      delete objData.redirectToHome;
+      delete objData.smallLoader;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
-      api.property.addProperty(action.payload, token)
+      api.property.addProperty(objData, token)
         .then((res) => {
-          store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
+          // store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
+          store.dispatch(change('GetStarted', 'pageID', res.data.id));
           if (getEstimation) {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
-          } else if (redirectToRewards) {
-            window.location.href = `/packageFlow/${action.payload}/rewards`;
           } else if (redirectToHome) {
+            window.location.href = `/${res.data.id}/home`;
+          } else if (redirectToRewards) {
             window.location.href = `/${res.data.id}/rewards`;
           } else if (redirectToUserFlow) {
             window.location.href = '/onBoarding/brixelComingInTown';
@@ -80,22 +84,23 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO UPDATE SINGLE PROPERTY - by PROPERTY ID
     case SAVE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
+      const obj = cloneDeep(action.payload);
       const {
         id, redirectTo, redirectToHome, smallLoader, setSuccessNotification, getEstimation,
       } = action.payload;
-      delete action.payload.id;
-      delete action.payload.redirectTo;
-      delete action.payload.smallLoader;
-      delete action.payload.redirectToHome;
-      delete action.payload.setSuccessNotification;
-      delete action.payload.getEstimation;
+      delete obj.id;
+      delete obj.redirectTo;
+      delete obj.smallLoader;
+      delete obj.redirectToHome;
+      delete obj.setSuccessNotification;
+      delete obj.getEstimation;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       const data = action.payload;
       if (get(data, 'photos', []).length > 0) {
         data.coverPhoto = data.photos[0];
       }
-      api.property.updateProperty(id, action.payload)
+      api.property.updateProperty(id, obj)
         .then((res) => {
           if (setSuccessNotification) {
             store.dispatch({ type: SET_SAVED_SCREEN });

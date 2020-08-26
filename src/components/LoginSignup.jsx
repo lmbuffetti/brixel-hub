@@ -32,6 +32,10 @@ const LoginSignup = (props) => {
   const [loginPage, setLoginPage] = useState('register');
   const [showErrors, setShowErrors] = useState(false);
 
+  useEffect(() => {
+    props.onDisableValidation(true);
+  }, []);
+
   // FUNCTION TO SAVE ON REDUX FORM THE CURRENT PAGE (LOGIN OR REGISTER)
   useEffect(() => {
     if (typeof loggedInUser.token === 'undefined') {
