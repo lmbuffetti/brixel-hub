@@ -32,7 +32,6 @@ class ApiClient {
   get(requestUrl, options = {}, params = {}, headers = {}, payload = {}) {
     const baseUrlType = options.baseUrlType ? options.baseUrlType : 'baseUrl';
     const type = options.type ? options.type : 'data';
-    console.log('TOKEN API', options.token, this.token);
     this.token = options.token || this.token;
     return this.request({
       url: requestUrl,
