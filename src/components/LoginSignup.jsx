@@ -24,6 +24,7 @@ const LoginSignup = (props) => {
     formValue,
     onChangeLogin,
     onCloseGoBack,
+    onDisableValidation,
     lang,
     loggedInUser,
     onSubmit,
@@ -33,7 +34,7 @@ const LoginSignup = (props) => {
   const [showErrors, setShowErrors] = useState(false);
 
   useEffect(() => {
-    props.onDisableValidation(true);
+    onDisableValidation(true);
   }, []);
 
   // FUNCTION TO SAVE ON REDUX FORM THE CURRENT PAGE (LOGIN OR REGISTER)
@@ -245,6 +246,7 @@ LoginSignup.propTypes = {
   formName: PropTypes.string.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
+  onDisableValidation: PropTypes.func,
   onChangeLogin: PropTypes.func,
   onCloseGoBack: PropTypes.func.isRequired,
   onSubmit: PropTypes.func,
@@ -253,6 +255,7 @@ LoginSignup.propTypes = {
 LoginSignup.defaultProps = {
   lang: 'en',
   onChangeLogin: () => '',
+  onDisableValidation: () => '',
   onSubmit: () => '',
 };
 

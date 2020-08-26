@@ -463,9 +463,6 @@ const GetStarted = (props) => {
           <div ref={multiStepSlidesRef} className="multiStepSlides">
             <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${quest.vCentered ? 'vertCentered' : ''} ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
               <div className="subcontainer m-a">
-                <h5>
-                  ID: {currentIndex}
-                </h5>
                 {
                   quest.inputs && (
                     <div id={`step-${currentIndex}`} className={`dis-f flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
@@ -681,45 +678,22 @@ const mapStateToProps = (state, props) => {
       price: {
         currency: get(state, 'companies.activeSingleCompany.country.currency', null),
       },
-      changeCountry: null,
-      login: {},
       location: {
-        // countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
-        address: 'Av. da Liberdade, 1250-096 Lisboa, Portugal',
-        city: 'Lisboa',
-        cityZip: '1250-096 Lisboa',
-        country: 'Portugal',
-        countryCode: 'PT',
-        latitude: 38.7205373,
-        longitude: -9.1459023,
-        name: 'Avenida da Liberdade',
-        searchAddress: 'Av. da Liberdade, 1250-096 Lisboa, Portugal',
-        state: 'Lisboa',
-        stateCode: 'Lisboa',
-        vicinity: null,
-        zip: '1250-096',
+        countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       },
+      changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
+      login: {},
       owner: get(state, 'user.loggedInUser.id', null),
       properties: {
-        propertyType: 'House',
+        propertyType,
         typology: {
-          bedrooms: '3',
           livingArea: {
             unit: 'sqm',
-            value: 200,
           },
           grossArea: {
             unit: 'sqm',
-            value: 100,
           },
         },
-      },
-      register: {
-        name: 'Mattia',
-        firstName: 'Mattia',
-        lastName: 'Buffetti',
-        email: 'mattia+006@brixel.io',
-        password: 'test.99',
       },
       signup: get(state, 'user.loggedInUser.id', null) !== null,
     },
