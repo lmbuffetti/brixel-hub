@@ -2,7 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonTertiary, BrixelProgressLineDots, reset,
+  BrixelButtonIcon,
+  MultiFileldsReduxForm,
+  BrixelButtonPrimary,
+  BrixelButtonTertiary,
+  BrixelProgressLineDots,
+  reset,
+  initializeForm,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -26,7 +32,9 @@ const MarketCheck = (props) => {
     handleSaveActiveSingleProperty,
     handleAddGameHistory,
     history,
+    initForm,
     initialValuesPage,
+    initialValues,
     match,
     resetForm,
     smallLoading,
@@ -52,8 +60,8 @@ const MarketCheck = (props) => {
       if (typeof checkGameExist !== 'undefined' && activeSingleProperty.ownerType) {
         setFinishedFlow(true);
         if (lastID) {
-          // setCurrentIndex(lastID);
-          // setQuest(questions[lastID]);
+          setCurrentIndex(lastID);
+          setQuest(questions[lastID]);
         }
       } else {
         setFinishedFlow(false);
@@ -61,6 +69,10 @@ const MarketCheck = (props) => {
       setLoaded(true);
     }
   }, [gameHistory, activeSingleProperty, lastID]);
+
+  useEffect(() => {
+    initForm(initialValues);
+  }, [activeSingleProperty]);
 
   // LOAD THE CURRENT GAME GROUP
   useEffect(() => {
@@ -158,8 +170,9 @@ const MarketCheck = (props) => {
       setLastID(newQuest.length - 1);
       setNumberQuestions(originalQuests.filter((item) => typeof item.inputs !== 'undefined').length);
       setQuestions(newQuest);
+      setQuest(FactsApartment('en')[currentIndex]);
     }
-  }, [formValue]);
+  }, [formValue, initialValues]);
 
   // CHECK IF FIELD IS VALID
   const checkValidateField = (act) => {
@@ -192,7 +205,7 @@ const MarketCheck = (props) => {
     let label;
     // const inputName = get(quest, 'inputs[0].name', null);
     if (currentIndex === questions.length - 1) label = 'Back to Hub';
-    else if (questions[currentIndex + 1].toSave) label = 'Finish';
+    else if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Finish';
     else if (get(quest, 'inputs', []).length > 0) {
       get(quest, 'inputs', []).forEach((item) => {
         if (label !== 'Next') {
@@ -232,7 +245,7 @@ const MarketCheck = (props) => {
         >
           <div className="multiStepSlides">
             <div
-              className={`singleStep jc-c a-t ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
+              className={`singleStep jc-c a-t ${get(quest, 'background', '')} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
               <div className="subcontainer m-a mt-0 rewardsFacts">
                 <div className="mt-2 mb-5">
@@ -245,7 +258,7 @@ const MarketCheck = (props) => {
                   />
                 </div>
                 {
-                  quest.inputs && (
+                  get(quest, 'inputs', null) && (
                     <div>
                       <h5 className={`${quest.subtitle ? 'mb-1' : 'mb-3'}`}>{quest.title}</h5>
                       {
@@ -329,6 +342,7 @@ MarketCheck.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   initialValuesPage: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
@@ -337,6 +351,7 @@ MarketCheck.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
+  initForm: PropTypes.func.isRequired,
   smallLoading: PropTypes.string.isRequired,
 };
 
@@ -359,6 +374,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  initForm(value) {
+    dispatch(initializeForm('GamingFlow', value));
+  },
   resetForm(form, data) {
     (dispatch(reset(form, data)));
   },
