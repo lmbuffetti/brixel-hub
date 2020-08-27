@@ -63,6 +63,7 @@ const checkCommon = (store) => (next) => (action) => {
         .then((res) => {
           // store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           store.dispatch(change('GetStarted', 'pageID', res.data.id));
+          store.dispatch(change('GetStarted', 'pageAnswer', res.data.packageFlowProcess));
           if (getEstimation) {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
           } else if (redirectToHome) {

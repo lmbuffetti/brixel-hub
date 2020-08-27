@@ -80,14 +80,20 @@ const GetStarted = (props) => {
         ownerType: get(dataForm, 'register.ownerType', null),
         redirectTo: `/${get(dataForm, 'pageID', null)}/rewards`,
       };
+      const packageFlowProcess = get(dataForm, 'pageAnswer', null);
+      packageFlowProcess.answers.userType = get(dataForm, 'register.ownerType', null);
+      packageFlowProcess.answers.owner = dataForm.owner;
       if (get(dataForm, 'register.ownerType', null) === 'buyer') {
         dataUser.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
         dataProperty.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
+        packageFlowProcess.answers.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
       }
       if (get(dataForm, 'register.ownerType', null) === 'seller') {
         dataUser.whenToSell = get(dataForm, 'register.whenToSell', null);
         dataProperty.whenToSell = get(dataForm, 'register.whenToSell', null);
+        packageFlowProcess.answers.whenToSell = get(dataForm, 'register.whenToSell', null);
       }
+      dataProperty.packageFlowProcess = packageFlowProcess;
       await handleSaveActiveSingleUser(dataUser);
       await handleSaveActiveSingleProperty(dataProperty);
     } else {

@@ -44,8 +44,15 @@ const MarketCheck = (props) => {
   // CHECK IF THE ACHIEVEMENT IS DONE
   useEffect(() => {
     if (gameHistory && gameHistory.data && activeSingleProperty.id) {
+      setCurrentIndex(lastID);
+      setQuest(questions[lastID]);
+      setLoaded(true);
+
       const checkGameExist = gameHistory.data.find((item) => item.achievement.stub === getAchievement() && item.page === activeSingleProperty.id);
-      if (typeof checkGameExist !== 'undefined' && activeSingleProperty.ownerType) {
+      if (typeof checkGameExist === 'undefined') {
+        handleAddGameHistory({ stub: 'market-checker' });
+      }
+      /* if (typeof checkGameExist !== 'undefined' && activeSingleProperty.ownerType) {
         setFinishedFlow(true);
         if (lastID) {
           setCurrentIndex(lastID);
@@ -54,7 +61,7 @@ const MarketCheck = (props) => {
       } else {
         setFinishedFlow(false);
       }
-      setLoaded(true);
+      setLoaded(true); */
     }
   }, [gameHistory, activeSingleProperty, lastID]);
 
