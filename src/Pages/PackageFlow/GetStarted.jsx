@@ -418,6 +418,16 @@ const GetStarted = (props) => {
     return label;
   };
 
+  const tansitionBg = (i, act = 'next') => {
+    console.log(i, currentIndex);
+    if (act === 'next') {
+      if (i === currentIndex) return 'active';
+      if (i === currentIndex + 1 && get(questions, `[${currentIndex + 1}].effect`, null) === 'slideUp') return 'active';
+    }
+    if (i < currentIndex) return 'prev';
+    return '';
+  };
+
   return (
     <div id="bodyModalWrapper" className="withHeader getStarted">
       {
@@ -440,17 +450,13 @@ const GetStarted = (props) => {
         {
           questions.map((questStep, i) => (
             <Fragment key={i.toString()}>
-              {
-                i <= 5 && (
-                  <div className="slideBg" key={i.toString()}>
-                    <div
-                      // eslint-disable-next-line no-nested-ternary
-                      className={`${i === currentIndex ? 'active' : currentIndex > 5 && i === 5 ? 'active' : ''} ${i < currentIndex && i <= 4 ? 'prev' : ''}`}
-                      style={{ backgroundImage: `url(${questStep.bgImg})` }}
-                    />
-                  </div>
-                )
-              }
+              <div className="slideBg" key={i.toString()}>
+                <div
+                  // eslint-disable-next-line no-nested-ternary
+                  className={` ${tansitionBg(i)} ${i < currentIndex && i <= 4 ? 'prev' : ''}`}
+                  style={{ backgroundImage: `url(${questStep.bgImg})` }}
+                />
+              </div>
             </Fragment>
           ))
         }

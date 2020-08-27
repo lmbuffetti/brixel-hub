@@ -22,6 +22,7 @@ import locationSvg from '../images/getstarted/svgs/location.svg';
 import roomsSvg from '../images/getstarted/svgs/room.svg';
 import congratsSvg from '../images/getstarted/svgs/congrats.svg';
 import yearSvg from '../images/getstarted/svgs/year.svg';
+import userType from '../images/getstarted/svgs/userType.svg';
 
 const { factsOptions } = FactsOptions;
 
@@ -215,6 +216,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: 'What do you need the market check for?',
       history: 'ownerType',
       vCentered: true,
+      bgImg: userType,
       inputs: [
         {
           component: BrixelRadioButton,
@@ -234,6 +236,7 @@ export const QuestionsList = (lang, country = 'CH') => {
         name: 'register.ownerType',
         value: 'seller',
       }],
+      bgImg: userType,
       history: 'apartmentSellTiming',
       inputs: [
         {
@@ -253,6 +256,7 @@ export const QuestionsList = (lang, country = 'CH') => {
         name: 'register.ownerType',
         value: 'buyer',
       }],
+      bgImg: userType,
       history: 'typeOfBuyer',
       inputs: [
         {
