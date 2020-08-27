@@ -695,6 +695,7 @@ const mapStateToProps = (state, props) => {
           },
         },
       },
+      register: {},
       signup: get(state, 'user.loggedInUser.id', null) !== null,
     },
   });

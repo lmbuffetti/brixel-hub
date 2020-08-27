@@ -379,7 +379,7 @@ Dashboard.propTypes = {
   notification: PropTypes.object,
   handleSetScreenNotification: PropTypes.func.isRequired,
   resetForm: PropTypes.func.isRequired,
-  savePageData: PropTypes.string.isRequired,
+  savePageData: PropTypes.string,
 };
 
 Dashboard.defaultProps = {
@@ -387,6 +387,7 @@ Dashboard.defaultProps = {
   isSmallLoading: null,
   userTypes: null,
   notification: null,
+  savePageData: null,
 };
 
 const mapStateToProps = (state) => {
