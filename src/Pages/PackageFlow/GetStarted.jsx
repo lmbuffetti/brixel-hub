@@ -70,6 +70,7 @@ const GetStarted = (props) => {
   // FUNCTION TO SAVE DATA
   const saveData = async (action) => {
     const dataForm = cloneDeep(formValue);
+    const dataFormAnswer = cloneDeep(formValue);
     if (action === 'updateUser') {
       const dataUser = {
         id: dataForm.owner,
@@ -100,13 +101,13 @@ const GetStarted = (props) => {
       const { login, register, company } = dataForm;
       // delete dataForm.login;
       changeFieldValue('register.password', '');
-      delete dataForm.register.password;
+      delete dataFormAnswer.register.password;
       // delete dataForm.company;
       // PROPERTY DATA
       const data = {
-        ...dataForm,
+        ...dataFormAnswer,
         packageFlowProcess: {
-          answers: dataForm,
+          answers: dataFormAnswer,
           rewardScreenData: {},
         },
         language: lang || 'en',
