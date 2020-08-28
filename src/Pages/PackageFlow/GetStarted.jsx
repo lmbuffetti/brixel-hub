@@ -66,16 +66,17 @@ const GetStarted = (props) => {
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     const dataForm = cloneDeep(formValue);
+    const dataFormAnswer = cloneDeep(formValue);
     const { login, register, company } = dataForm;
     // delete dataForm.login;
     changeFieldValue('register.password', '');
-    delete dataForm.register.password;
+    delete dataFormAnswer.register.password;
     // delete dataForm.company;
     // PROPERTY DATA
     const data = {
-      ...dataForm,
+      ...dataFormAnswer,
       packageFlowProcess: {
-        answers: dataForm,
+        answers: dataFormAnswer,
         rewardScreenData: {},
       },
       language: lang || 'en',
@@ -86,7 +87,6 @@ const GetStarted = (props) => {
       published: false,
       addProperty: true,
       redirectToUserFlow: false,
-      redirectToHome: true,
       company,
     };
     const page = get(formValue, 'signupScreen', null);
