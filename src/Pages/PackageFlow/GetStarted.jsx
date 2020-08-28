@@ -252,11 +252,11 @@ const GetStarted = (props) => {
       const countryCodeLocation = get(formValue, 'location.countryCode', '');
       const countryCodeCompany = get(company, 'country.code', '');
       if (countryCodeCompany !== countryCodeLocation) {
-        let newCountryStub = '';
-        if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
-        if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
-        if (countryCodeLocation === 'DE') newCountryStub = 'brixel_germany';
-        handleGetActiveSingleCompany({ stub: newCountryStub });
+        // let newCountryStub = '';
+        // if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
+        // if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
+        // if (countryCodeLocation === 'DE') newCountryStub = 'brixel_germany';
+        // handleGetActiveSingleCompany({ stub: newCountryStub });
       }
     }
   }, [currentIndex]);
