@@ -14,6 +14,7 @@ import Loadable from 'react-loadable';
 import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
 import { change, initializeForm, reset } from '@brixel/brixel-components';
+import { InputSheets } from '../../resources/inputSheets';
 import {
   getPropertyListings,
   getActiveSingleProperty,
@@ -286,6 +287,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO SHOW/HIDE THE NOTIFICATION BAR TO SAVE
   useEffect(() => {
+    console.log(InputSheets());
     if (formValue.id && initialValues.id) {
       const changeObj = diff(initialValues, formValue);
       const checkIsValid = Object.keys(changeObj).find((key) => typeof changeObj[key] !== 'undefined');

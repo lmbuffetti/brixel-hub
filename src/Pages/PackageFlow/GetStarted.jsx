@@ -426,7 +426,6 @@ const GetStarted = (props) => {
   };
 
   const tansitionBg = (i, act = 'next') => {
-    console.log(i, currentIndex);
     if (act === 'next') {
       if (i === currentIndex) return 'active';
       if (i === currentIndex + 1 && get(questions, `[${currentIndex + 1}].effect`, null) === 'slideUp') return 'active';
