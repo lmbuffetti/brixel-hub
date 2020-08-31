@@ -177,7 +177,14 @@ const App = (props) => {
   // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER
   useEffect(() => {
     if (get(redirectTo, 'history', null)) {
-      history.push(redirectTo.history);
+      if (get(redirectTo, 'history.pathname', null)) {
+        history.push({
+          pathname: get(redirectTo, 'history.pathname', ''),
+          state: get(redirectTo, 'history.state', {}),
+        });
+      } else {
+        history.push(redirectTo.history);
+      }
     }
     if (get(redirectTo, 'url', null)) {
       window.location.href = redirectTo.url;

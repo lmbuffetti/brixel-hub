@@ -154,7 +154,10 @@ const GetStarted = (props) => {
           createUser: true,
           company,
           ignoreEmail: false,
-          redirectTo: '/packageFlow/getStarted/success',
+          redirectTo: {
+            pathname: '/packageFlow/getStarted/success',
+            state: { hideClose: true },
+          },
         };
         // DISPATCH TO DO REGISTRATION USER
         await handleValidateUser(data);
@@ -228,7 +231,10 @@ const GetStarted = (props) => {
         }
       }, 100);
       if (questions[defId].history) {
-        history.push(`/packageFlow/getStarted/${questions[defId].history}`);
+        history.push({
+          pathname: `/packageFlow/getStarted/${questions[defId].history}`,
+          state: get(history, 'location.state', {}),
+        });
       }
       const getOnlyQuest = questions.filter((item) => item.inputs);
       setProgressBar((defId * 100) / getOnlyQuest.length);
@@ -260,7 +266,10 @@ const GetStarted = (props) => {
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
-      history.push(`/packageFlow/getStarted/${questions[0].history}`);
+      history.push({
+        pathname: `/packageFlow/getStarted/${questions[0].history}`,
+        state: {},
+      });
     }
   }, []);
 
@@ -485,7 +494,7 @@ const GetStarted = (props) => {
                       }
                       {
                         quest.title && (
-                          <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{quest.title}</h3>
+                          <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                         )
                       }
                       {
@@ -562,9 +571,9 @@ const GetStarted = (props) => {
             className={`footerAction shadow-1dp-top ${quest.history === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
             <div className="pos-r p-1 p-md-2">
-              <div className={`buttonsHolder w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>
+              <div className={`w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>
                 {
-                  questions[currentIndex] && questions[currentIndex].inputs && currentIndex !== 6 && (
+                  get(questions, `[${currentIndex - 1}].inputs`, null) && (
                     <BrixelButtonIcon
                       className={`shadow-2dp backBtn ml-0 mr-a ${currentIndex === 0 ? 'hide' : ''}`}
                       icon="arrow-simple-left"

@@ -116,7 +116,9 @@ const checkUser = (store) => (next) => (action) => {
               store.dispatch(change('GetStarted', 'owner', userData.user.id));
             }
             store.dispatch({ type: SET_LOGGED_IN_USER, payload: userData });
-            if (redirectTo) store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
+            if (redirectTo) {
+              store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
+            }
             if (addProperty) {
               const dataProperty = cloneDeep(action.payload);
               dataProperty.token = userData.token;

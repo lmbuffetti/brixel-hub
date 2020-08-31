@@ -213,7 +213,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       toSave: true,
     },
     {
-      title: 'What do you need the market check for?',
+      title: 'Welcome to Brixel.🖐️<br />What is your situation?',
       history: 'ownerType',
       vCentered: true,
       bgImg: userType,
