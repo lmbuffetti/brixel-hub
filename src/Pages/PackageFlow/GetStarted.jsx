@@ -87,6 +87,7 @@ const GetStarted = (props) => {
       published: false,
       addProperty: true,
       redirectToUserFlow: false,
+      redirectToRewards: true,
       company,
     };
     const page = get(formValue, 'signupScreen', null);
