@@ -144,7 +144,7 @@ const Dashboard = (props) => {
   // INITIALIZE FORM
   useEffect(() => {
     const changeInitialValue = diff(initialValues, initValues);
-    if (Object.keys(changeInitialValue).length > 0) initForm(cloneDeep(initialValues));
+    if (Object.keys(changeInitialValue).length > 1 || (Object.keys(changeInitialValue).length === 1 && Object.keys(changeInitialValue)[0] !== 'inputSheet')) initForm(cloneDeep(initialValues));
   }, [initialValues]);
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
