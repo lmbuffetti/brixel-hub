@@ -342,7 +342,7 @@ export const ComponentMap = (props) => {
                   message={showMessageToChangeAddress ? { help: 'placeholder' } : null}
                 />
                 {
-                  !selectedAddress && locList.length > 0 && (
+                  !selectedAddress && locList.length > 0 && !disabled && (
                     <ul className="resultAutoComplete" ref={addressRef}>
                       {
                         locList.map((loc, i) => (
