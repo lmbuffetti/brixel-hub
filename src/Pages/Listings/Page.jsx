@@ -70,6 +70,25 @@ const Page = (props) => {
     return '';
   };
 
+  // MESSAGE TO UNLOCK
+  const messageToUnlock = (key) => {
+    let message = {
+      title: 'Make your Brixel Page public.',
+      description: `Only <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()}. Don't worry. You will not be charged for now. Get the result first. Pay later.`,
+      titleConfirm: 'Please confirm your order.',
+      descriptionConfirm: `<b>Make Brixel page public.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()}. You will not be charged for now.</span>`,
+    };
+    if (get(formValue, 'location.countryCode', null) === 'PT') {
+      message = {
+        title: 'Make your Brixel Page public.',
+        description: `Test for free for 30 days. After the trial period, for <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()} will have 1 more year of insertion in our website.`,
+        titleConfirm: 'Please confirm your order.',
+        descriptionConfirm: 'Ask your expert to review your page and publish it on the Brixel website for free for 30 days.',
+      };
+    }
+    return message[key];
+  };
+
   return (
     <div className="dis-f">
       <div className="secondLevel dis-fl-col ml-md-1">
@@ -275,10 +294,10 @@ const Page = (props) => {
           !formValue.published && !formValue.publishReview && (
             <BrixelUpgradeMessage
               className="mt-3"
-              title="Make your Brixel Page public."
-              description={`Only <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()}. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
-              titleConfirm="Please confirm your order."
-              descriptionConfirm={`<b>Make Brixel page public.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()}. You will not be charged for now.</span>`}
+              title={messageToUnlock('title')}
+              description={messageToUnlock('description')}
+              titleConfirm={messageToUnlock('titleConfirm')}
+              descriptionConfirm={messageToUnlock('descriptionConfirm')}
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction

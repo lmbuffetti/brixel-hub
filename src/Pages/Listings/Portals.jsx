@@ -67,6 +67,25 @@ const Portals = (props) => {
     return '';
   };
 
+  // MESSAGE TO UNLOCK
+  const messageToUnlock = (key) => {
+    let message = {
+      title: 'Save 15% compared to listings price.',
+      description: `Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}. Don't worry. You will not be charged for now. Get the result first. Pay later.`,
+      titleConfirm: 'Please confirm your order.',
+      descriptionConfirm: `<b>Publish on portals.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}. You will not be charged for now.</span>`,
+    };
+    if (get(formValue, 'location.countryCode', null) === 'PT') {
+      message = {
+        title: 'Free trial for 30 days',
+        description: `Publish your property in the biggest portals for free for 30 days. After the trial period, and if you are happy, you get 3 more months for <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}.`,
+        titleConfirm: 'Please confirm your order.',
+        descriptionConfirm: `Free for 30 days, only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()} later. Ask your expert to review and publish it now.`,
+      };
+    }
+    return message[key];
+  };
+
   return (
     <div className="dis-f">
       <div className="secondLevel dis-fl-col ml-md-1">
@@ -214,10 +233,10 @@ const Portals = (props) => {
           !checkPortalsOnline() && !formValue.portalsReview && (
             <BrixelUpgradeMessage
               className="mt-3"
-              title="Save 15% compared to listings price."
-              description={`Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
-              titleConfirm="Please confirm your order."
-              descriptionConfirm={`<b>Publish on portals.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}. You will not be charged for now.</span>`}
+              title={messageToUnlock('title')}
+              description={messageToUnlock('description')}
+              titleConfirm={messageToUnlock('titleConfirm')}
+              descriptionConfirm={messageToUnlock('descriptionConfirm')}
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction
