@@ -78,7 +78,7 @@ const Portals = (props) => {
     if (get(formValue, 'location.countryCode', null) === 'PT') {
       message = {
         title: 'Free trial for 30 days',
-        description: `Publish your property in the biggest portals for free for 30 days. After the trial period, and if you are happy, you get 3 more months for <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}.`,
+        description: `Publish your property in the biggest portals for free for 30 days. After the trial period, and if you are happy, you get 3 more months for <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span>.`,
         titleConfirm: 'Please confirm your order.',
         descriptionConfirm: `Free for 30 days, only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()} later. Ask your expert to review and publish it now.`,
       };
