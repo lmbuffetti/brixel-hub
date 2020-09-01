@@ -35,7 +35,7 @@ const MarketCheck = (props) => {
   const [quest, setQuest] = useState(MarketCheckQuestions('en')[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [selGameGroup, setSelGameGroup] = useState({});
-  const [finishedFlow, setFinishedFlow] = useState(false);
+  // const [finishedFlow, setFinishedFlow] = useState(false);
   const [lastID, setLastID] = useState(0);
   // GET URL PARAMS
   const getAchievement = () => history.location.pathname.split('/')[4];
@@ -236,7 +236,6 @@ const MarketCheck = (props) => {
                       {
                         React.createElement(quest.component, {
                           formName: 'GamingFlow',
-                          finishedFlow,
                           initialValue: formValue,
                         })
                       }

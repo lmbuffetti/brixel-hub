@@ -52,7 +52,6 @@ const FactsQuestion = (props) => {
         });
       });
     });
-    console.log(keyify(fieldsChanged), fieldsChanged);
   }, [formValue]);
 
   // FUNCTIONS TO SKIP SECTION
