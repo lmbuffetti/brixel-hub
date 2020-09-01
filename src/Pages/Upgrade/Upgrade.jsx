@@ -2,14 +2,14 @@
 /* eslint-disable no-shadow */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonIcon, BrixelButtonPrimary, MultiFileldsReduxForm } from '@brixel/brixel-components';
+import {
+  BrixelButtonIcon, BrixelButtonPrimary, MultiFileldsReduxForm, reset,
+} from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-
 import Loadable from 'react-loadable';
-import { reduxForm, reset } from 'redux-form';
 import Loading from '../../components/Loading';
 import { UpgradeQuestions } from '../../resources/Upgrade';
 import InfoImg from '../../images/Upgrade/info.svg';
@@ -267,8 +267,8 @@ Upgrade.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  errorValue: get(state, 'form.GamingFlow.syncErrors', {}),
-  formValue: get(state, 'form.GamingFlow.values', {}),
+  errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
+  formValue: get(state, 'brixelForm.GamingFlow.values', {}),
   packagesProperty: get(state, 'companies.activeSingleCompany.servicePackages', []),
   initialValues: {
     id: get(state, 'property.activeSingleProperty.id', null),
@@ -284,13 +284,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 });
 
-const AnyForm = reduxForm({
-  form: 'GamingFlow',
-  enableReinitialize: true,
-  destroyOnUnmount: true,
-})(Upgrade);
-
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(AnyForm);
+)(Upgrade);

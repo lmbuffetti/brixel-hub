@@ -9,10 +9,10 @@ import { InputSheets } from '../resources/inputSheets';
 
 const cookies = new Cookies();
 
-export const calcPercentageFacts = (form = 'Property') => {
+export const calcPercentageFacts = (form = 'Property', value = {}) => {
   let countTotal = 0;
   let countDone = 0;
-  const formValue = configureStore.getState().form[form].values;
+  const formValue = get(configureStore.getState(), `brixelForm[${form}].values`, value);
   const Questions = InputSheets(formValue);
   Questions.map((val) => {
     val.inputs.map((item) => {
@@ -560,4 +560,21 @@ export const tobase64Handler = async (files, user, action, pageID, imgType) => {
     };
   });
   return mappedFiles;
+};
+
+export const keyify = (object) => {
+  const result = [];
+  function iter(o, p) {
+    if (Array.isArray(o)) { return; }
+    if (o && typeof o === 'object') {
+      const keys = Object.keys(o);
+      if (keys.length) {
+        keys.forEach((k) => { iter(o[k], p.concat(k)); });
+      }
+      return;
+    }
+    result.push(p.join('.'));
+  }
+  iter(object, []);
+  return result;
 };

@@ -4,9 +4,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
-import {
-  Field, change, reduxForm, reset,
-} from 'redux-form';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -16,7 +13,10 @@ import {
   BrixelButtonSecondary,
   BrixelButtonTertiary,
   BrixelTextArea,
+  ReduxField,
   useOutsideAlerter,
+  reset,
+  change,
 } from '@brixel/brixel-components';
 import Loading from '../../../components/Loading';
 import { rotateImg, deleteImg, setCoverPhoto } from '../../../actions/UploadActions';
@@ -26,6 +26,7 @@ const DetailMedia = (props) => {
   const {
     formValue,
     handleRotateImg,
+    initialValues,
     changeFieldValue,
     handleDeleteImg,
     history,
@@ -58,7 +59,7 @@ const DetailMedia = (props) => {
 
   // RELAOD THE EFFECT OF EDIT MEDIA ON CHANGE IMAGE ID
   useEffect(() => {
-    resetForm();
+    resetForm(initialValues);
     if (formValue[mediaType][idImg]) {
       if (formValue[mediaType][idImg] !== '') {
         if (thirdlevelEl) {
@@ -217,13 +218,20 @@ const DetailMedia = (props) => {
                 }
               </div>
             </div>
-            <Field
-              name={`${mediaType}[${idImg}].description`}
-              label="Description"
+            <ReduxField
+              form="Property"
+              input={{
+                name: `${mediaType}[${idImg}].description`,
+                placeholder: 'Describe the photo',
+                type: 'text',
+              }}
+              labels={{
+                label: 'Description',
+              }}
               component={BrixelTextArea}
-              placeholder="Describe the photo"
-              type="text"
-              className="p-md-0 mb-2 txtDark300 fweight-400"
+              design={{
+                className: 'p-md-0 mb-2 txtDark300 fweight-400',
+              }}
             />
           </div>
         </div>
@@ -235,26 +243,22 @@ const DetailMedia = (props) => {
 DetailMedia.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
   handleRotateImg: PropTypes.func.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.string,
   match: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
 };
 
 DetailMedia.defaultProps = {
+  isSmallLoading: null,
 };
 
-const DetailMediaForm = reduxForm({
-  // a unique name for the form
-  form: 'Property',
-  enableReinitialize: true,
-  destroyOnUnmount: false,
-})(DetailMedia);
-
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
+  initialValues: get(state, 'brixelForm.Property.initialValues', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', null),
 });
@@ -263,8 +267,8 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  resetForm() {
-    dispatch(reset('Property'));
+  resetForm(data) {
+    dispatch(reset('Property', data));
   },
   handleRotateImg: bindActionCreators(rotateImg, dispatch),
   handleDeleteImg: bindActionCreators(deleteImg, dispatch),
@@ -275,4 +279,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(DetailMediaForm);
+)(DetailMedia);

@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import {
@@ -11,6 +10,8 @@ import {
   BrixelProgressBar,
   BrixelButtonIcon,
   BrixelButtonTertiary,
+  change,
+  reset,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -227,14 +228,14 @@ Facts.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  errorValue: get(state, 'form.Property.syncErrors', {}),
-  formValue: get(state, 'form.Property.values', {}),
+  errorValue: get(state, 'brixelForm.Property.syncErrors', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   activeSingleUser: get(state, 'user.activeSingleUser', {}),
   singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
   notification: get(state, 'common.notification', {}),
-  initial: get(state, 'form.Property.initial', {}),
+  initial: get(state, 'brixelForm.Property.initial', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
 });
 

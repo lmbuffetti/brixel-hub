@@ -2,14 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonTertiary,
+  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonTertiary, reset, initializeForm,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-
-import { reduxForm, reset } from 'redux-form';
 import { MarketCheckQuestions } from '../../../resources/MarketCheck';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
@@ -25,6 +23,8 @@ const MarketCheck = (props) => {
     gameHistory,
     handleAddGameHistory,
     history,
+    initForm,
+    initialValues,
     match,
     resetForm,
   } = props;
@@ -35,7 +35,7 @@ const MarketCheck = (props) => {
   const [quest, setQuest] = useState(MarketCheckQuestions('en')[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [selGameGroup, setSelGameGroup] = useState({});
-  const [finishedFlow, setFinishedFlow] = useState(false);
+  // const [finishedFlow, setFinishedFlow] = useState(false);
   const [lastID, setLastID] = useState(0);
   // GET URL PARAMS
   const getAchievement = () => history.location.pathname.split('/')[4];
@@ -44,8 +44,15 @@ const MarketCheck = (props) => {
   // CHECK IF THE ACHIEVEMENT IS DONE
   useEffect(() => {
     if (gameHistory && gameHistory.data && activeSingleProperty.id) {
+      setCurrentIndex(lastID);
+      setQuest(questions[lastID]);
+      setLoaded(true);
+
       const checkGameExist = gameHistory.data.find((item) => item.achievement.stub === getAchievement() && item.page === activeSingleProperty.id);
-      if (typeof checkGameExist !== 'undefined' && activeSingleProperty.ownerType) {
+      if (typeof checkGameExist === 'undefined') {
+        handleAddGameHistory({ stub: 'market-checker' });
+      }
+      /* if (typeof checkGameExist !== 'undefined' && activeSingleProperty.ownerType) {
         setFinishedFlow(true);
         if (lastID) {
           setCurrentIndex(lastID);
@@ -54,7 +61,7 @@ const MarketCheck = (props) => {
       } else {
         setFinishedFlow(false);
       }
-      setLoaded(true);
+      setLoaded(true); */
     }
   }, [gameHistory, activeSingleProperty, lastID]);
 
@@ -66,6 +73,10 @@ const MarketCheck = (props) => {
       setSelGameGroup(defGroup);
     }
   }, [gameGroup]);
+
+  useEffect(() => {
+    initForm(initialValues);
+  }, [activeSingleProperty]);
 
   // ON CHANGE STEP LOAD THE ENTER EFFECT AND IF HAS TO REDO
   useEffect(() => {
@@ -83,7 +94,7 @@ const MarketCheck = (props) => {
 
   // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
-    resetForm('Property');
+    resetForm(initialValues);
     if (typeof window !== 'undefined' && window.innerWidth < 1024) {
       history.push(`/${propID}/rewards`);
     } else {
@@ -221,7 +232,14 @@ const MarketCheck = (props) => {
                 }
                 {
                   get(quest, 'cardType', null) === 'loadComponent' && get(quest, 'history', 'a') === get(questions, `[${currentIndex}].history`, 'b') && (
-                    React.createElement(quest.component, { formName: 'GamingFlow', finishedFlow, initialValue: formValue })
+                    <>
+                      {
+                        React.createElement(quest.component, {
+                          formName: 'GamingFlow',
+                          initialValue: formValue,
+                        })
+                      }
+                    </>
                   )
                 }
               </div>
@@ -283,19 +301,21 @@ const MarketCheck = (props) => {
 MarketCheck.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   gameHistory: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  initForm: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  errorValue: get(state, 'form.GamingFlow.syncErrors', {}),
-  formValue: get(state, 'form.GamingFlow.values', {}),
+  errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
+  formValue: get(state, 'brixelForm.GamingFlow.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),
@@ -305,20 +325,17 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  resetForm(form) {
-    (dispatch(reset(form)));
+  initForm(value) {
+    dispatch(initializeForm('GamingFlow', value));
+  },
+  resetForm(data) {
+    (dispatch(reset('GamingFlow', data)));
   },
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
-const AnyForm = reduxForm({
-  form: 'GamingFlow',
-  enableReinitialize: true,
-  destroyOnUnmount: true,
-})(MarketCheck);
-
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(AnyForm);
+)(MarketCheck);

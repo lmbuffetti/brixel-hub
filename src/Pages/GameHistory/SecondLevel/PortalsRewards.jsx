@@ -128,8 +128,8 @@ PortalsRewards.defaultProps = {
 
 const mapStateToProps = (state) => ({
   gameHistory: get(state, 'gamification.gameHistory.data', []),
-  portalsReview: get(state, 'form.Property.values.portalsReview', null) !== null,
-  portalsPublished: get(state, 'form.Property.values.portals', {}),
+  portalsReview: get(state, 'brixelForm.Property.values.portalsReview', null) !== null,
+  portalsPublished: get(state, 'brixelForm.Property.values.portals', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

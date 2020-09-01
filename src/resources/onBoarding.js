@@ -1,5 +1,10 @@
 import {
-  BrixelRadioButton, BrixelInputStepNumber, BrixelInputText, BrixelSelect, Validation,
+  BrixelRadioButton,
+  BrixelInputStepNumber,
+  BrixelInputText,
+  BrixelSelect,
+  Validation,
+  FactsOptions,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import Maps from '../components/Map/Maps';
@@ -17,6 +22,9 @@ import locationSvg from '../images/getstarted/svgs/location.svg';
 import roomsSvg from '../images/getstarted/svgs/room.svg';
 import congratsSvg from '../images/getstarted/svgs/congrats.svg';
 import yearSvg from '../images/getstarted/svgs/year.svg';
+import userType from '../images/getstarted/svgs/userType.svg';
+
+const { factsOptions } = FactsOptions;
 
 // VALIDATION OF FIELDS
 export const maxLengthNum = (val, name) => (value) => {
@@ -203,6 +211,70 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'savingData',
       cardType: 'createProfile',
       toSave: true,
+    },
+    {
+      title: 'Welcome to Brixel.🖐️<br />What is your situation?',
+      history: 'ownerType',
+      vCentered: true,
+      bgImg: userType,
+      inputs: [
+        {
+          component: BrixelRadioButton,
+          pdClass: 'py-2 py-md-3 px-1',
+          label: '',
+          name: 'register.ownerType',
+          validation: [Validation.required],
+          options: factsOptions.userType,
+          icons: true,
+        },
+      ],
+    },
+    {
+      title: 'When do you want to sell?',
+      vCentered: true,
+      condition: [{
+        name: 'register.ownerType',
+        value: 'seller',
+      }],
+      bgImg: userType,
+      history: 'apartmentSellTiming',
+      inputs: [
+        {
+          component: BrixelRadioButton,
+          pdClass: 'py-2 py-md-3 px-1',
+          label: '',
+          name: 'register.whenToSell',
+          validation: [Validation.required],
+          icons: true,
+          options: factsOptions.userSeller,
+        },
+      ],
+    },
+    {
+      title: 'How experienced are you?',
+      condition: [{
+        name: 'register.ownerType',
+        value: 'buyer',
+      }],
+      bgImg: userType,
+      history: 'typeOfBuyer',
+      inputs: [
+        {
+          component: BrixelRadioButton,
+          pdClass: 'py-2 py-md-3 px-1',
+          icons: true,
+          label: '',
+          name: 'register.typeOfBuyer',
+          validation: [Validation.required],
+          options: factsOptions.userBuyer,
+        },
+      ],
+    },
+    {
+      history: 'savingData',
+      cardType: 'updateProfile',
+      toSave: true,
+      action: 'updateUser',
     },
   ];
 };

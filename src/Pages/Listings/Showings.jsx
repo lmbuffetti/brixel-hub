@@ -4,7 +4,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import last from 'lodash/last';
 import groupBy from 'lodash/groupBy';
@@ -17,6 +16,8 @@ import {
   BrixelTabs,
   BrixelTimeSlots,
   BrixelBookingCard,
+  change,
+  reset,
 } from '@brixel/brixel-components';
 import Loadable from 'react-loadable';
 import {
@@ -38,6 +39,7 @@ const Showings = (props) => {
   const {
     changeFieldValue,
     formValue,
+    initialValues,
     handleSavePropertyVisitBooking,
     handleGetActiveSinglePropertyBookings,
     history,
@@ -99,7 +101,7 @@ const Showings = (props) => {
   // DISCARD BOOKING
   const discardChanges = () => {
     setManageAvailability(false);
-    resetForm('Property');
+    resetForm(initialValues);
   };
 
   // MANAGE BOOKING VISIT
@@ -266,6 +268,7 @@ Showings.propTypes = {
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSavePropertyVisitBooking: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
   match: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
@@ -277,7 +280,8 @@ Showings.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSinglePropertyBooking: get(state, 'property.activeSinglePropertyBooking', []),
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
+  initialValues: get(state, 'brixelForm.Property.initialValues', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   notification: get(state, 'common.notification', {}),
   lang: get(state, 'user.loggedInUser.user.language', {}),
@@ -287,8 +291,8 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  resetForm(form) {
-    (dispatch(reset(form)));
+  resetForm(data) {
+    (dispatch(reset('Property', data)));
   },
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
   handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),

@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { change } from 'redux-form';
 import {
-  BrixelButtonIcon, BrixelLogin, BrixelRegister, BrixelButtonPrimary,
+  BrixelButtonIcon, BrixelLogin, BrixelRegister, BrixelButtonPrimary, change,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { compose } from 'redux';
@@ -25,6 +24,7 @@ const LoginSignup = (props) => {
     formValue,
     onChangeLogin,
     onCloseGoBack,
+    onDisableValidation,
     lang,
     loggedInUser,
     onSubmit,
@@ -32,6 +32,10 @@ const LoginSignup = (props) => {
   // STATE
   const [loginPage, setLoginPage] = useState('register');
   const [showErrors, setShowErrors] = useState(false);
+
+  useEffect(() => {
+    onDisableValidation(true);
+  }, []);
 
   // FUNCTION TO SAVE ON REDUX FORM THE CURRENT PAGE (LOGIN OR REGISTER)
   useEffect(() => {
@@ -242,6 +246,7 @@ LoginSignup.propTypes = {
   formName: PropTypes.string.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
+  onDisableValidation: PropTypes.func,
   onChangeLogin: PropTypes.func,
   onCloseGoBack: PropTypes.func.isRequired,
   onSubmit: PropTypes.func,
@@ -250,14 +255,15 @@ LoginSignup.propTypes = {
 LoginSignup.defaultProps = {
   lang: 'en',
   onChangeLogin: () => '',
+  onDisableValidation: () => '',
   onSubmit: () => '',
 };
 
 const mapStateToProps = (state, props) => ({
   company: get(state, 'companies.activeSingleCompany', {}),
   formError: get(state, 'common.formError', {}),
-  errorValue: get(state, `form.${props.formName}.syncErrors`, {}),
-  formValue: get(state, `form.${props.formName}.values`, {}),
+  errorValue: get(state, `brixelForm.${props.formName}.syncErrors`, {}),
+  formValue: get(state, `brixelForm.${props.formName}.values`, {}),
   lang: get(state, 'common.language', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
 });

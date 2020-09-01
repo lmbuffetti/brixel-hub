@@ -5,9 +5,8 @@ import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
-import { change } from 'redux-form';
 import { connect } from 'react-redux';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelButtonIcon, change } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { uploadImg } from '../../../actions/UploadActions';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
@@ -120,7 +119,7 @@ Tour.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', null),
 });
 

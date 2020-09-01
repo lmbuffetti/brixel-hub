@@ -4,7 +4,6 @@
 import React, {
   useState, useRef, useCallback, useEffect,
 } from 'react';
-import { change, Field, reset } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,7 +13,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { ReactSortable } from 'react-sortablejs';
 import {
   BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelDropdown,
-  BrixelButtonTertiary, useOutsideAlerter, BrixelInputText,
+  BrixelButtonTertiary, useOutsideAlerter, BrixelInputText, change, reset, ReduxField,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
@@ -34,6 +33,7 @@ const Documents = (props) => {
   // PROPS
   const {
     formValue,
+    initialValues,
     handleMultiUploadDocument,
     loggedInUser,
     handleDeleteDocument,
@@ -188,11 +188,17 @@ const Documents = (props) => {
                             {
                               (editDocument.id === doc.id && editDocument.active) ? (
                                 <div className="dis-fl-row a-c w-perc-100">
-                                  <Field
-                                    className="zIndex1 w-perc-100"
-                                    name={`documents[${i}].name`}
-                                    placeholder="Name this document"
+                                  <ReduxField
+                                    form="Property"
+                                    input={{
+                                      name: `documents[${i}].name`,
+                                      placeholder: 'Name this document',
+                                      type: 'text',
+                                    }}
                                     component={BrixelInputText}
+                                    design={{
+                                      className: 'zIndex1 w-perc-100',
+                                    }}
                                   />
                                 </div>
                               ) : (
@@ -246,7 +252,7 @@ const Documents = (props) => {
                                       saturationTxt={400}
                                       label="Cancel"
                                       onClick={() => {
-                                        resetForm('Property');
+                                        resetForm(initialValues);
                                         setEditDocument({ id: null, active: false });
                                       }}
                                     />
@@ -344,8 +350,9 @@ const Documents = (props) => {
 Documents.propTypes = {
   history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   handleDeleteDocument: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
@@ -355,10 +362,12 @@ Documents.propTypes = {
 };
 
 Documents.defaultProps = {
+  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
+  initialValues: get(state, 'brixelForm.Property.initialValues', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', {}),
 });
@@ -367,8 +376,8 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  resetForm(form) {
-    (dispatch(reset(form)));
+  resetForm(data) {
+    (dispatch(reset('Property', data)));
   },
   setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),

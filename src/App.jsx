@@ -60,17 +60,6 @@ const InsertToken = Loadable({
   loading: Loading,
 });
 
-// ONBOARDING FLOW
-const OnBoarding = Loadable({
-  loader: () => import('./Pages/BrixelComingTown/OnBoarding' /* webpackChunkName: "OnBoarding" */),
-  loading: Loading,
-});
-
-const UserFlow = Loadable({
-  loader: () => import('./Pages/BrixelComingTown/UserFlow' /* webpackChunkName: "UserFlow" */),
-  loading: Loading,
-});
-
 // HUB DASHBOARD
 const Dashboard = Loadable({
   loader: () => import('./Pages/Dashboard/Dashboard' /* webpackChunkName: "Dashboard" */),
@@ -188,7 +177,14 @@ const App = (props) => {
   // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER
   useEffect(() => {
     if (get(redirectTo, 'history', null)) {
-      history.push(redirectTo.history);
+      if (get(redirectTo, 'history.pathname', null)) {
+        history.push({
+          pathname: get(redirectTo, 'history.pathname', ''),
+          state: get(redirectTo, 'history.state', {}),
+        });
+      } else {
+        history.push(redirectTo.history);
+      }
     }
     if (get(redirectTo, 'url', null)) {
       window.location.href = redirectTo.url;
@@ -366,14 +362,10 @@ const App = (props) => {
             >
               <Switch>
                 { /* SECTION: ONBOARDING */ }
-                <Route path="/onBoarding/brixelComingInTown" component={UserFlow} />
-                <Route path="/onBoarding/" component={OnBoarding} />
+                <Route path="/packageFlow/getstarted/" component={GetStarted} />
 
                 { /* SECTION: INSERT TOKEN */ }
                 <Route path="/tokeninput" component={InsertToken} />
-
-                { /* SECTION: GET STARTED */ }
-                <Route path="/packageFlow/getstarted/" component={GetStarted} />
 
                 { /* SECTION: HUB DASHBOARD */ }
                 {
@@ -402,7 +394,6 @@ const App = (props) => {
         <Switch>
           <ProtectedRoute path="/:propId?/rewards/achievement/market-checker" component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
           <ProtectedRoute path="/:propId?/rewards/achievement/assessor" component={Assessor} allowAccess="seller" />
-          <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess="seller" />

@@ -8,8 +8,7 @@ import {
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { change } from 'redux-form';
-import { BrixelIcon } from '@brixel/brixel-components';
+import { BrixelIcon, change } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import markerImg from '../../images/location/icon_location.svg';
 import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
@@ -265,6 +264,7 @@ export const ComponentMap = (props) => {
           </div>
         )
       }
+
       <div className={showMap ? `h-perc-100 ${subMinHeight}` : 'hide'}>
         <Map
           google={google}
@@ -398,4 +398,4 @@ export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
 export default compose(
   withRouter,
   connect(null, mapDispatchToProps),
-)(Maps);
+)(ComponentMap);

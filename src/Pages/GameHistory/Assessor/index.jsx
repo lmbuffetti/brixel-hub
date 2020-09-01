@@ -2,14 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonTertiary,
+  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonTertiary, initializeForm,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-
-import { reduxForm } from 'redux-form';
+import cloneDeep from 'lodash/cloneDeep';
 import { extractAssessorCondition, calculateAgeByYear } from '../../../utils/helpers';
 import { AssessorQuestions } from '../../../resources/Assessor';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
@@ -27,6 +26,8 @@ const Assessor = (props) => {
     handleAddGameHistory,
     handleSaveActiveSingleProperty,
     history,
+    initForm,
+    initialValues,
     match,
   } = props;
   // STATE
@@ -58,6 +59,11 @@ const Assessor = (props) => {
       setLoaded(true);
     }
   }, [gameHistory, activeSingleProperty, lastID]);
+
+  // INITIALIZE FORM
+  useEffect(() => {
+    initForm(cloneDeep(initialValues));
+  }, [activeSingleProperty]);
 
   // LOAD THE CURRENT GAME GROUP
   useEffect(() => {
@@ -309,19 +315,21 @@ const Assessor = (props) => {
 Assessor.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  initForm: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
-  errorValue: get(state, 'form.GamingFlow.syncErrors', {}),
-  formValue: get(state, 'form.GamingFlow.values', {}),
+  errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
+  formValue: get(state, 'brixelForm.GamingFlow.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),
@@ -332,17 +340,14 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  initForm(value) {
+    dispatch(initializeForm('GamingFlow', value));
+  },
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
-const AnyForm = reduxForm({
-  form: 'GamingFlow',
-  enableReinitialize: true,
-  destroyOnUnmount: true,
-})(Assessor);
-
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(AnyForm);
+)(Assessor);

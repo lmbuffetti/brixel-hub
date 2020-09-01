@@ -110,7 +110,7 @@ BrixelModalAwards.propTypes = {
 
 const mapStateToProps = (state) => ({
   brixelPoints: get(state, 'user.brixelPoints', 0),
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   property: get(state, 'property.activeSingleProperty', {}),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),

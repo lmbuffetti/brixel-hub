@@ -4,7 +4,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reduxForm, reset } from 'redux-form';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -15,6 +14,8 @@ import {
   BrixelInputText,
   Validation,
   ReduxField,
+  change,
+  reset,
 } from '@brixel/brixel-components';
 import {
   createPropertyVisitBooking,
@@ -207,7 +208,7 @@ Showings.propTypes = {
   errorValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.string,
   formValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
   match: PropTypes.object.isRequired,
@@ -216,19 +217,15 @@ Showings.propTypes = {
 
 Showings.defaultProps = {
   lang: 'en',
+  isSmallLoading: null,
 };
-
-const ShowingsForm = reduxForm({
-  // a unique name for the form
-  form: 'Showings',
-})(Showings);
 
 const mapStateToProps = (state) => ({
   activeSinglePropertyBooking: get(state, 'property.activeSinglePropertyBooking', []),
-  errorValue: get(state, 'form.Showings.syncErrors', {}),
-  formValue: get(state, 'form.Showings.values', {}),
+  errorValue: get(state, 'brixelForm.Showings.syncErrors', {}),
+  formValue: get(state, 'brixelForm.Showings.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
-  schedule: get(state, 'form.Property.values.schedule', {}),
+  schedule: get(state, 'brixelForm.Property.values.schedule', {}),
   lang: get(state, 'coomon.currentLanguage', 'en'),
 });
 
@@ -245,4 +242,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(ShowingsForm);
+)(Showings);

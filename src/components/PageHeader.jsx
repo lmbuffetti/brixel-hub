@@ -226,7 +226,8 @@ function PageHeader(props) {
                     )
                   }
                   {
-                    history.location.pathname.includes('packageFlow') && (
+                    history.location.pathname.includes('packageFlow') &&
+                    !(get(history, 'location.state.hideClose', null)) && (
                       <BrixelButtonIcon
                         className="shadow-2dp"
                         noBorder
