@@ -9,10 +9,10 @@ import { InputSheets } from '../resources/inputSheets';
 
 const cookies = new Cookies();
 
-export const calcPercentageFacts = (form = 'Property') => {
+export const calcPercentageFacts = (form = 'Property', value = {}) => {
   let countTotal = 0;
   let countDone = 0;
-  const formValue = configureStore.getState().brixelForm[form].values;
+  const formValue = get(configureStore.getState(), `brixelForm[${form}].values`, value);
   const Questions = InputSheets(formValue);
   Questions.map((val) => {
     val.inputs.map((item) => {

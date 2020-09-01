@@ -90,6 +90,7 @@ const Dashboard = (props) => {
     history,
     imageType,
     initialValues,
+    initValues,
     isLoading,
     isSmallLoading,
     loggedInUser,
@@ -142,8 +143,9 @@ const Dashboard = (props) => {
 
   // INITIALIZE FORM
   useEffect(() => {
-    initForm(cloneDeep(initialValues));
-  }, [activeSingleProperty]);
+    const changeInitialValue = diff(initialValues, initValues);
+    if (Object.keys(changeInitialValue).length > 0) initForm(cloneDeep(initialValues));
+  }, [initialValues]);
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
@@ -352,6 +354,7 @@ Dashboard.propTypes = {
   errorValue: PropTypes.object,
   activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  initValues: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isSmallLoading: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   userTypes: PropTypes.string,
@@ -392,6 +395,7 @@ Dashboard.defaultProps = {
 
 const mapStateToProps = (state) => {
   const properties = get(state, 'property.activeSingleProperty.properties', {});
+  const formValue = get(state, 'property.activeSingleProperty', {});
   set(properties, 'typology.livingArea.unit', 'm2');
   set(properties, 'typology.grossArea.unit', 'm2');
   set(properties, 'typology.lotArea.unit', 'm2');
@@ -403,10 +407,13 @@ const mapStateToProps = (state) => {
   set(properties, 'typology.basementArea.unit', 'm2');
   set(properties, 'building.properties.typology.storeroomArea.unit', 'm2');
   set(properties, 'typology.collectiveSpacesArea.unit', 'm2');
+  const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+  inputSheet.totalComplete = calcPercentageFacts('Property', formValue).calcPerc;
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', undefined),
     errorValue: get(state, 'brixelForm.Property.syncErrors', null),
     formValue: get(state, 'brixelForm.Property.values', {}),
+    initValues: get(state, 'brixelForm.Property.initialValues', {}),
     gameAchievement: get(state, 'gamification.achievement', []),
     gameGroup: get(state, 'gamification.gameGroup', []),
     gameHistory: get(state, 'gamification.gameHistory', {}),
@@ -427,7 +434,7 @@ const mapStateToProps = (state) => {
       description: get(state, 'property.activeSingleProperty.description', {}),
       id: get(state, 'property.activeSingleProperty.id', null),
       floorPlans: get(state, 'property.activeSingleProperty.floorPlans', []),
-      inputSheet: get(state, 'property.activeSingleProperty.inputSheet', {}),
+      inputSheet: get(state, 'property.activeSingleProperty.inputSheet', inputSheet) || inputSheet,
       price: get(state, 'property.activeSingleProperty.price', {}),
       status: get(state, 'property.activeSingleProperty.status', null),
       // language: get(state, 'property.activeSingleProperty.language', null),

@@ -251,7 +251,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       ],
     },
     {
-      title: 'When do you want to sell?',
+      title: 'How experienced are you?',
       condition: [{
         name: 'register.ownerType',
         value: 'buyer',
