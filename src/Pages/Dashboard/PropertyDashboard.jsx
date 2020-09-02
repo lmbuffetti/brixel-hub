@@ -55,7 +55,7 @@ const HomeDashboard = (props) => {
     windowDimensions,
   } = props;
   // STATE
-  const [userType, setUserType] = useState();
+  // const [userType, setUserType] = useState();
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
@@ -74,7 +74,7 @@ const HomeDashboard = (props) => {
       if (property.id && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
         userTypeCur = 'seller';
       }
-      setUserType(userTypeCur);
+      // setUserType(userTypeCur);
     }
   }, [property, loggedInUser]);
 
@@ -107,24 +107,20 @@ const HomeDashboard = (props) => {
             >
               <div className="transparency-container">
                 <div className="dis-fl-col ta-l cur-poi">
-                  {
-                    userType === 'seller' && (
-                      <>
-                        <BrixelButtonBox
-                          bgTransparent
-                          icon="document"
-                          label="Facts"
-                          labelClass="fweight-400"
-                          subtitle={`<span>${get(formValue, 'inputSheet.totalComplete', 0)}%</span>&nbsp;<span>complete</span>`}
-                          subtitleClass="ff-mono fsize-200 txtPrimary700 mt-small-4"
-                          className="w-perc-100 cur-poi p-2 labelAend"
-                          colorIcon="primary700"
-                          backIcon="primary100"
-                          hoverEffect={false}
-                        />
-                      </>
-                    )
-                  }
+                  <>
+                    <BrixelButtonBox
+                      bgTransparent
+                      icon="document"
+                      label="Facts"
+                      labelClass="fweight-400"
+                      subtitle={`<span>${get(formValue, 'inputSheet.totalComplete', 0)}%</span>&nbsp;<span>complete</span>`}
+                      subtitleClass="ff-mono fsize-200 txtPrimary700 mt-small-4"
+                      className="w-perc-100 cur-poi p-2 labelAend"
+                      colorIcon="primary700"
+                      backIcon="primary100"
+                      hoverEffect={false}
+                    />
+                  </>
                 </div>
               </div>
 
