@@ -135,7 +135,7 @@ FactsRewards.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  totalComplete: get(state, 'form.Property.values.inputSheet.totalComplete', 9),
+  totalComplete: get(state, 'brixelForm.Property.values.inputSheet.totalComplete', 9),
 });
 
 export default compose(

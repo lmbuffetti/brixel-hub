@@ -152,7 +152,7 @@ const mapStateToProps = (state) => ({
   activeProperty: get(state, 'property.activeSingleProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   favoritesProperties: get(state, 'user.favorites', []),
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   user: get(state, 'user.loggedInUser', {}),
   userProperties: get(state, 'user.userProperties', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),

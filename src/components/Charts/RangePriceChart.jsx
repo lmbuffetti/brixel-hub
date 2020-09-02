@@ -363,7 +363,7 @@ RangePriceChart.defaultProps = {
 };
 
 const mapStateToProps = (state) => {
-  const countryCode = get(state, 'form.Property.values.location.countryCode', 'CH');
+  const countryCode = get(state, 'brixelForm.Property.values.location.countryCode', 'CH');
   return ({
     currency: DataByCountry(countryCode),
     lang: get(state, 'common.language', {}),

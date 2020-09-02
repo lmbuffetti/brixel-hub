@@ -135,9 +135,9 @@ MediaRewards.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  documents: get(state, 'form.Property.values.documents', []),
-  floorPlans: get(state, 'form.Property.values.floorPlans', []),
-  photos: get(state, 'form.Property.values.photos', []),
+  documents: get(state, 'brixelForm.Property.values.documents', []),
+  floorPlans: get(state, 'brixelForm.Property.values.floorPlans', []),
+  photos: get(state, 'brixelForm.Property.values.photos', []),
 });
 
 export default compose(

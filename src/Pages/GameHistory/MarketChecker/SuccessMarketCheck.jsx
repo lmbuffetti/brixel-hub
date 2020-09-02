@@ -75,7 +75,7 @@ function SuccessMarketCheck(props) {
                                 </h5>
                                 <p className="body2 txtDark200 m-a ta-c max-w-fix-376">
                                   <span>Last updated</span>
-                                  <span>:&nbsp;{moment(marketData.market_check_date).format('MMMM DD YYYY / HH:mm')}</span>
+                                  <span>:&nbsp;{moment(marketData.market_check_date).format('D MMM YYYY, H:mm')}</span>
                                 </p>
                                 <div className="ta-c my-5">
                                   <img className="w-fix-352" src={simillarMarketCheck} alt="Done Market Check" />

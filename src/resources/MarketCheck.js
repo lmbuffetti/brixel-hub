@@ -5,13 +5,12 @@ import {
   Validation,
 } from '@brixel/brixel-components';
 import ResumeMarketCheck from '../Pages/GameHistory/MarketChecker/ResumeMarketCheck';
-import { translateTo } from '../utils/translation';
 
 const { factsOptions } = FactsOptions;
 
-export const MarketCheckQuestions = (lang) => [
+export const MarketCheckQuestions = () => [
   {
-    title: translateTo(lang, 'What do you need the market check for?'),
+    title: 'What do you need the market check for?',
     history: 'ownerType',
     vCentered: true,
     inputs: [
@@ -27,7 +26,7 @@ export const MarketCheckQuestions = (lang) => [
     ],
   },
   {
-    title: translateTo(lang, 'When do you want to sell?'),
+    title: 'When do you want to sell?',
     vCentered: true,
     condition: [{
       name: 'ownerType',
@@ -47,7 +46,7 @@ export const MarketCheckQuestions = (lang) => [
     ],
   },
   {
-    title: translateTo(lang, 'When do you want to sell?'),
+    title: 'When do you want to sell?',
     condition: [{
       name: 'ownerType',
       value: 'buyer',

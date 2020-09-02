@@ -83,7 +83,7 @@ function SuccessBestimate(props) {
     history.push({ state: { showSupport: true } });
   };
 
-  const bestimateValue = get(bestimate, 'higherValue', 0);
+  const bestimateValue = get(activeSingleProperty, 'location.countryCode', null) === 'PT' ? get(bestimate, 'value', 0) : get(bestimate, 'higherValue', 0);
 
   return (
     <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col a-c">
@@ -129,7 +129,13 @@ function SuccessBestimate(props) {
                                           )
                                         }
                                         <div className="ta-l m-a w-fit">
-                                          <p className="fsize-100 txtDark200">Worth up to</p>
+                                          {
+                                            get(activeSingleProperty, 'location.countryCode', null) === 'PT' ? (
+                                              <p className="fsize-100 txtDark200">Worth</p>
+                                            ) : (
+                                              <p className="fsize-100 txtDark200">Worth up to</p>
+                                            )
+                                          }
                                           <h5 className="ff-mono txtBlue700 fweight-700">
                                             <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>&nbsp;
                                             <span>{Helpers.formatNumberValue(bestimateValue, get(activeSingleProperty, 'price.currency', 'CHF'))}</span>

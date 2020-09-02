@@ -179,18 +179,19 @@ PageReviewRewards.propTypes = {
   activeSingleProperty: Proptypes.object.isRequired,
   formValue: Proptypes.object.isRequired,
   handleAddGameHistory: Proptypes.func.isRequired,
-  isSmallLoading: Proptypes.string.isRequired,
+  isSmallLoading: Proptypes.string,
   history: Proptypes.object.isRequired,
   match: Proptypes.object.isRequired,
   gameHistory: Proptypes.arrayOf(Proptypes.object).isRequired,
 };
 
 PageReviewRewards.defaultProps = {
+  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', ''),
   gameHistory: get(state, 'gamification.gameHistory.data', []),
 });

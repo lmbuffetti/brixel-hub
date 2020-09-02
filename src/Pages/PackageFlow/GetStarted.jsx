@@ -1,28 +1,29 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+  useState, useEffect, useRef, Fragment,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm,
+  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
-import { reduxForm, reset, change } from 'redux-form';
 import last from 'lodash/last';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import { createActiveSingleProperty } from '../../actions/PropertyActions';
+import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
 import { setCookie } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoarding';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage } from '../../actions/CommonActions';
-import { doLogin, validateUser } from '../../actions/UserActions';
+import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
 
 const cookie = new Cookies();
 
@@ -35,9 +36,12 @@ const GetStarted = (props) => {
     formValue,
     lang,
     handleCreateActiveSingleProperty,
+    handleSaveActiveSingleProperty,
     handleGetActiveSingleCompany,
+    handleSaveActiveSingleUser,
     handleSetLanguage,
     handleGetGamegroup,
+    initForm,
     initialValues,
     loggedInUser,
     handleDoLogin,
@@ -64,70 +68,106 @@ const GetStarted = (props) => {
   const multiStepSlidesRef = useRef(null);
 
   // FUNCTION TO SAVE DATA
-  const saveData = async () => {
+  const saveData = async (action) => {
     const dataForm = cloneDeep(formValue);
-    const { login, register, company } = dataForm;
-    // delete dataForm.login;
-    changeFieldValue('register.password', '');
-    delete dataForm.register.password;
-    // delete dataForm.company;
-    // PROPERTY DATA
-    const data = {
-      ...dataForm,
-      packageFlowProcess: {
-        answers: dataForm,
-        rewardScreenData: {},
-      },
-      language: lang || 'en',
-      title: formValue.pageTitle,
-      status: 'on-request',
-      listed: false,
-      active: true,
-      published: false,
-      addProperty: true,
-      redirectToUserFlow: false,
-      redirectToHome: true,
-      company,
-    };
-    const page = get(formValue, 'signupScreen', null);
-    // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
-    if (formValue.owner) {
-      data.owner = loggedInUser.user.id;
-      // DISPATCH TO SAVE THE PROPERTY
-      await handleCreateActiveSingleProperty(data);
-    } else if (page === 'login') {
-      changeFieldValue('register.email', login.email);
-      // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
-      // USER DATA
-      data.user = {
-        username: login.email,
-        password: login.password,
+    const dataFormAnswer = cloneDeep(formValue);
+    if (action === 'updateUser') {
+      const dataUser = {
+        id: dataForm.owner,
+        userType: get(dataForm, 'register.ownerType', null),
       };
-      // DISPATCH TO DO LOGIN
-      await handleDoLogin(data);
+      const dataProperty = {
+        id: get(dataForm, 'pageID', null),
+        ownerType: get(dataForm, 'register.ownerType', null),
+        redirectTo: `/${get(dataForm, 'pageID', null)}/rewards`,
+      };
+      const packageFlowProcess = get(dataForm, 'pageAnswer', null);
+      packageFlowProcess.answers.userType = get(dataForm, 'register.ownerType', null);
+      packageFlowProcess.answers.owner = dataForm.owner;
+      if (get(dataForm, 'register.ownerType', null) === 'buyer') {
+        dataUser.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
+        dataProperty.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
+        packageFlowProcess.answers.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
+      }
+      if (get(dataForm, 'register.ownerType', null) === 'seller') {
+        dataUser.whenToSell = get(dataForm, 'register.whenToSell', null);
+        dataProperty.whenToSell = get(dataForm, 'register.whenToSell', null);
+        packageFlowProcess.answers.whenToSell = get(dataForm, 'register.whenToSell', null);
+      }
+      dataProperty.packageFlowProcess = packageFlowProcess;
+      await handleSaveActiveSingleUser(dataUser);
+      await handleSaveActiveSingleProperty(dataProperty);
     } else {
-      changeFieldValue('login.email', register.email);
-      // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
-      // USER DATA
-      data.user = {
-        ...register,
-        name: `${register.firstName} ${get(register, 'lastName', '')}`,
-        userType: 'seller',
-        signupAccept: true,
-        signupChannel: get(formValue, 'channel', 'default'),
-        signupProduct: null,
+      const { login, register, company } = dataForm;
+      // delete dataForm.login;
+      changeFieldValue('register.password', '');
+      delete dataFormAnswer.register.password;
+      // delete dataForm.company;
+      // PROPERTY DATA
+      const data = {
+        ...dataFormAnswer,
+        packageFlowProcess: {
+          answers: dataFormAnswer,
+          rewardScreenData: {},
+        },
         language: lang || 'en',
-        createUser: true,
-        company: cookie.get('brixelStubCompany') || null,
-        ignoreEmail: false,
-        redirectTo: '/packageFlow/getStarted/success',
+        title: formValue.pageTitle,
+        status: 'on-request',
+        listed: false,
+        active: true,
+        published: false,
+        addProperty: true,
+        redirectToUserFlow: false,
+        company,
       };
-      // DISPATCH TO DO REGISTRATION USER
-      await handleValidateUser(data);
+      const page = get(formValue, 'signupScreen', null);
+      // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
+      if (formValue.owner) {
+        data.owner = loggedInUser.user.id;
+        // DISPATCH TO SAVE THE PROPERTY
+        data.redirectToRewards = true;
+        await handleCreateActiveSingleProperty(data);
+      } else if (page === 'login') {
+        changeFieldValue('register.email', login.email);
+        // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
+        // USER DATA
+        data.user = {
+          username: login.email,
+          password: login.password,
+        };
+        // DISPATCH TO DO LOGIN
+        data.redirectToHome = true;
+        await handleDoLogin(data);
+      } else {
+        changeFieldValue('login.email', register.email);
+        // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
+        // USER DATA
+        data.redirectToRewards = false;
+        data.user = {
+          ...register,
+          name: `${register.firstName} ${get(register, 'lastName', '')}`,
+          userType: 'seller',
+          signupAccept: true,
+          signupChannel: get(formValue, 'channel', 'default'),
+          signupProduct: null,
+          language: lang || 'en',
+          createUser: true,
+          company,
+          ignoreEmail: false,
+          redirectTo: {
+            pathname: '/packageFlow/getStarted/success',
+            state: { hideClose: true },
+          },
+        };
+        // DISPATCH TO DO REGISTRATION USER
+        await handleValidateUser(data);
+      }
     }
-    // handleCreateActiveSingleProperty({ stub: getAchievement() });
-    // reset('Property');
   };
+
+  useEffect(() => {
+    if (get(loggedInUser, 'user.id', null)) changeFieldValue('owner', get(loggedInUser, 'user.id', null));
+  }, [get(loggedInUser, 'user.id', null)]);
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
@@ -151,20 +191,20 @@ const GetStarted = (props) => {
   const multiStepSlidesEl = multiStepSlidesRef.current;
 
   // FUNCTION TO GO TO NEXT STEP
-  const changeStep = (act, e) => {
+  const changeStep = (act, e, step = 1) => {
     if (e) e.preventDefault();
     let newIndex = currentIndex;
     if (act === 'back') {
-      newIndex -= 1;
+      newIndex -= step;
     } else {
-      newIndex += 1;
+      newIndex += step;
     }
 
     let defId = checkCondition(newIndex, act);
     if (defId !== newIndex) defId = checkCondition(defId, act);
 
     // setPosition(newIndex);
-    if (questions[defId].toSave) saveData();
+    if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
     else {
       setIsEnter(false);
       let newQuest = {
@@ -191,7 +231,10 @@ const GetStarted = (props) => {
         }
       }, 100);
       if (questions[defId].history) {
-        history.push(`/packageFlow/getStarted/${questions[defId].history}`);
+        history.push({
+          pathname: `/packageFlow/getStarted/${questions[defId].history}`,
+          state: get(history, 'location.state', {}),
+        });
       }
       const getOnlyQuest = questions.filter((item) => item.inputs);
       setProgressBar((defId * 100) / getOnlyQuest.length);
@@ -199,6 +242,13 @@ const GetStarted = (props) => {
       if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
+
+  // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
+  useEffect(() => {
+    if (get(history, 'location.pathname', '').includes('success') && questions[currentIndex + 1]) {
+      changeStep('next', null, 2);
+    }
+  }, [get(history, 'location', null)]);
 
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
@@ -212,10 +262,15 @@ const GetStarted = (props) => {
       setCookie('brixelStubCompany', defComp);
     } else {
       handleGetActiveSingleCompany({ stub: 'default' });
-      changeFieldValue('location.countryCode', 'all');
+      // changeFieldValue('location.countryCode', 'all');`
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
-    if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) history.push(`/packageFlow/getStarted/${questions[0].history}`);
+    if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
+      history.push({
+        pathname: `/packageFlow/getStarted/${questions[0].history}`,
+        state: {},
+      });
+    }
   }, []);
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
@@ -230,18 +285,10 @@ const GetStarted = (props) => {
     }
   }, [lang]);
 
-  // SET THE OWNER PROPERTY IF USER IS LOGGED IN
-  useEffect(() => {
-    if (loggedInUser.user) {
-      changeFieldValue('owner', loggedInUser.user.id);
-      changeFieldValue('signup', false);
-    }
-  }, [loggedInUser]);
-
   // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
   useEffect(() => {
     if (get(initialValues, 'properties.propertyType', null)) {
-      changeStep();
+      // changeStep();
     }
   }, [initialValues]);
 
@@ -267,7 +314,7 @@ const GetStarted = (props) => {
       const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
       changeFieldValue('properties.typology.livingArea.value', livingSpace);
     }
-  }, [get(formValue, 'properties.typology.grossArea.value', 2)]);
+  }, [get(formValue, 'properties.typology.grossArea.value', 0)]);
 
   // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
   /* useEffect(() => {
@@ -313,7 +360,7 @@ const GetStarted = (props) => {
     }
   }, [formValue]);
 
-  // FUCNTION TO CHANGE THE TITLE ON CHANGING LOCATION
+  // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
     const propertyType = get(formValue, 'properties.propertyType', null);
     const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
@@ -336,6 +383,7 @@ const GetStarted = (props) => {
       changeFieldValue('company', company.stub);
       changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
     }
+    initForm(initialValues);
   }, [company]);
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
@@ -366,7 +414,7 @@ const GetStarted = (props) => {
               const err = get(errorValue, item, true);
               if (err !== true && err !== false && isValid) isValid = false;
             });
-          } else if (err !== true && err !== false && isValid) isValid = false;
+          } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
         }
       });
     }
@@ -380,10 +428,19 @@ const GetStarted = (props) => {
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
     let label;
-    if (currentIndex === questions.length - 1) label = 'Back to Hub';
+    if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
     else if (currentIndex === 0) label = 'Next';
     else label = 'Next';
     return label;
+  };
+
+  const tansitionBg = (i, act = 'next') => {
+    if (act === 'next') {
+      if (i === currentIndex) return 'active';
+      if (i === currentIndex + 1 && get(questions, `[${currentIndex + 1}].effect`, null) === 'slideUp') return 'active';
+    }
+    if (i < currentIndex) return 'prev';
+    return '';
   };
 
   return (
@@ -407,19 +464,15 @@ const GetStarted = (props) => {
         {/* preload all background images */}
         {
           questions.map((questStep, i) => (
-            <>
-              {
-                i <= 5 && (
-                  <div className="slideBg" key={i.toString()}>
-                    <div
-                      // eslint-disable-next-line no-nested-ternary
-                      className={`${i === currentIndex ? 'active' : currentIndex > 5 && i === 5 ? 'active' : ''} ${i < currentIndex && i <= 4 ? 'prev' : ''}`}
-                      style={{ backgroundImage: `url(${questStep.bgImg})` }}
-                    />
-                  </div>
-                )
-              }
-            </>
+            <Fragment key={i.toString()}>
+              <div className="slideBg" key={i.toString()}>
+                <div
+                  // eslint-disable-next-line no-nested-ternary
+                  className={` ${tansitionBg(i)} ${i < currentIndex && i <= 4 ? 'prev' : ''}`}
+                  style={{ backgroundImage: `url(${questStep.bgImg})` }}
+                />
+              </div>
+            </Fragment>
           ))
         }
         <form
@@ -441,7 +494,7 @@ const GetStarted = (props) => {
                       }
                       {
                         quest.title && (
-                          <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{quest.title}</h3>
+                          <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                         )
                       }
                       {
@@ -518,9 +571,9 @@ const GetStarted = (props) => {
             className={`footerAction shadow-1dp-top ${quest.history === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
             <div className="pos-r p-1 p-md-2">
-              <div className={`buttonsHolder w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>
+              <div className={`w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>
                 {
-                  questions[currentIndex] && questions[currentIndex].inputs && currentIndex !== 6 && (
+                  get(questions, `[${currentIndex - 1}].inputs`, null) && (
                     <BrixelButtonIcon
                       className={`shadow-2dp backBtn ml-0 mr-a ${currentIndex === 0 ? 'hide' : ''}`}
                       icon="arrow-simple-left"
@@ -605,12 +658,15 @@ GetStarted.propTypes = {
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleCreateActiveSingleProperty: PropTypes.func.isRequired,
+  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
@@ -629,22 +685,26 @@ const mapStateToProps = (state, props) => {
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
-    errorValue: get(state, 'form.GetStarted.syncErrors', {}),
-    formValue: get(state, 'form.GetStarted.values', {}),
+    errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
+    formValue: get(state, 'brixelForm.GetStarted.values', {}),
     gameGroup: get(state, 'gamification.gameGroup', []),
     gameHistory: get(state, 'gamification.gameHistory', {}),
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
-    startForm: get(state, 'form.GetStarted', null),
+    startForm: get(state, 'brixelForm.GetStarted', null),
     initialValues: {
-      company: null,
+      company: get(state, 'companies.activeSingleCompany.stub', null),
       channel,
       price: {
         currency: get(state, 'companies.activeSingleCompany.country.currency', null),
       },
-      changeCountry: null,
+      location: {
+        countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
+      },
+      changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       login: {},
+      owner: get(state, 'user.loggedInUser.id', null),
       properties: {
         propertyType,
         typology: {
@@ -657,6 +717,7 @@ const mapStateToProps = (state, props) => {
         },
       },
       register: {},
+      signup: get(state, 'user.loggedInUser.id', null) !== null,
     },
   });
 };
@@ -665,24 +726,23 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('GetStarted', field, value));
   },
+  initForm(value) {
+    dispatch(initializeForm('GetStarted', value));
+  },
   reset(form) {
     (dispatch(reset(form)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
-
-const AnyForm = reduxForm({
-  form: 'GetStarted',
-  enableReinitialize: false,
-  destroyOnUnmount: false,
-})(GetStarted);
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(AnyForm);
+)(GetStarted);

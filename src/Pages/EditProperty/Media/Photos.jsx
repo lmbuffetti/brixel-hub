@@ -5,7 +5,6 @@ import React, {
 import { Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
-import { change } from 'redux-form';
 import { connect } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import { diff } from 'deep-object-diff';
@@ -13,6 +12,7 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import isArray from 'lodash/isArray';
 import {
+  change,
   BrixelButtonIcon,
   BrixelIcon,
   BrixelButtonPrimary,
@@ -331,17 +331,18 @@ Photos.propTypes = {
   handleMultiUploadImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isSmallLoading: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 Photos.defaultProps = {
+  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   imageType: get(state, 'image.imageType', []),
