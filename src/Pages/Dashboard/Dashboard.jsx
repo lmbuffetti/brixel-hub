@@ -300,7 +300,7 @@ const Dashboard = (props) => {
       if (
         checkIsValid &&
         Object.keys(changeObj).length > 0 &&
-        (Object.keys(changeObj).length > 1 || !changeObj.inputSheet && get(changeObj)) &&
+        (Object.keys(changeObj).length > 1 || !changeObj.inputSheet) &&
         !isSmallLoading &&
         !isLoading &&
         validForm()
