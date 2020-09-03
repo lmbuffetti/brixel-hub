@@ -66,7 +66,6 @@ const GetStarted = (props) => {
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-
   // FUNCTION TO SAVE DATA
   const saveData = async (action) => {
     const dataForm = cloneDeep(formValue);
@@ -103,12 +102,19 @@ const GetStarted = (props) => {
       changeFieldValue('register.password', '');
       delete dataFormAnswer.register.password;
       // delete dataForm.company;
+      // BROWSER AND META USER DATA
+      const metaUserData = {};
+      // eslint-disable-next-line guard-for-in,no-restricted-syntax
+      for (const key in navigator) {
+        metaUserData[key] = navigator[key];
+      }
       // PROPERTY DATA
       const data = {
         ...dataFormAnswer,
         packageFlowProcess: {
           answers: dataFormAnswer,
           rewardScreenData: {},
+          metaUser: metaUserData,
         },
         language: lang || 'en',
         title: formValue.pageTitle,
@@ -417,9 +423,6 @@ const GetStarted = (props) => {
           } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
         }
       });
-    }
-    if (quest.history === 'createProfile') {
-      // console.log(quest);
     }
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;

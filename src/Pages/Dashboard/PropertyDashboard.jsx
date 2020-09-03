@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
@@ -49,13 +49,13 @@ const HomeDashboard = (props) => {
   const {
     formValue,
     history,
-    loggedInUser,
+    // loggedInUser,
     match,
     property,
     windowDimensions,
   } = props;
   // STATE
-  const [userType, setUserType] = useState();
+  // const [userType, setUserType] = useState();
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
@@ -68,15 +68,15 @@ const HomeDashboard = (props) => {
   }, [windowDimensions, getFact()]);
 
   // CHECK IF THE USER IS A BUYER OR SELLER
-  useEffect(() => {
+  /* useEffect(() => {
     if (property.id && loggedInUser.user) {
       let userTypeCur = 'buyer';
       if (property.id && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
         userTypeCur = 'seller';
       }
-      setUserType(userTypeCur);
+      // setUserType(userTypeCur);
     }
-  }, [property, loggedInUser]);
+  }, [property, loggedInUser]); */
 
   // CLASS FOR OPEN/CLOSE COLUMNS
   const openCloseColumn = () => {
@@ -107,24 +107,20 @@ const HomeDashboard = (props) => {
             >
               <div className="transparency-container">
                 <div className="dis-fl-col ta-l cur-poi">
-                  {
-                    userType === 'seller' && (
-                      <>
-                        <BrixelButtonBox
-                          bgTransparent
-                          icon="document"
-                          label="Facts"
-                          labelClass="fweight-400"
-                          subtitle={`<span>${get(formValue, 'inputSheet.totalComplete', 0)}%</span>&nbsp;<span>complete</span>`}
-                          subtitleClass="ff-mono fsize-200 txtPrimary700 mt-small-4"
-                          className="w-perc-100 cur-poi p-2 labelAend"
-                          colorIcon="primary700"
-                          backIcon="primary100"
-                          hoverEffect={false}
-                        />
-                      </>
-                    )
-                  }
+                  <>
+                    <BrixelButtonBox
+                      bgTransparent
+                      icon="document"
+                      label="Facts"
+                      labelClass="fweight-400"
+                      subtitle={`<span>${get(formValue, 'inputSheet.totalComplete', 0)}%</span>&nbsp;<span>complete</span>`}
+                      subtitleClass="ff-mono fsize-200 txtPrimary700 mt-small-4"
+                      className="w-perc-100 cur-poi p-2 labelAend"
+                      colorIcon="primary700"
+                      backIcon="primary100"
+                      hoverEffect={false}
+                    />
+                  </>
                 </div>
               </div>
 
@@ -245,7 +241,7 @@ const HomeDashboard = (props) => {
 HomeDashboard.propTypes = {
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
+  // loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   property: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
