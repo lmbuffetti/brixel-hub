@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   GET_ACHIEVEMENT,
   SET_ACHIEVEMENT,
@@ -75,12 +76,13 @@ const checkGamification = (store) => (next) => (action) => {
     // DISPATCH TO ADD A GAME HISTORY BY USER ID AND, IF NECESSARY, PAGE ID
     case ADD_GAME_HISTORY: {
       next(action);
+      const obj = cloneDeep(action.payload);
       const {
         id, stub, smallLoader, redirectTo,
       } = action.payload;
-      delete action.payload.id;
-      delete action.payload.smallLoader;
-      delete action.payload.redirectTo;
+      delete obj.id;
+      delete obj.smallLoader;
+      delete obj.redirectTo;
       const gameGroup = get(store.getState(), 'gamification.gameGroup', []);
       const gameHistory = get(store.getState(), 'gamification.gameHistory', []);
       let currentGroup = {};
@@ -94,7 +96,7 @@ const checkGamification = (store) => (next) => (action) => {
       const checkExist = gameHistoryData.find((item) => item.achievement.id === currentGroup.id && pageID === item.page);
       if (typeof checkExist === 'undefined' || currentGroup.isCumulative || id) {
         let newID = id;
-        let data = action.payload;
+        let data = cloneDeep(action.payload);
         if (currentGroup.id) {
           newID = get(store.getState(), 'user.loggedInUser.user.id', 0);
           data = {

@@ -121,7 +121,6 @@ const MarketCheck = (props) => {
       saveData();
     }
     setCurrentIndex(newIndex);
-    // setPosition(newIndex);
     setQuest(questions[newIndex]);
   };
 
