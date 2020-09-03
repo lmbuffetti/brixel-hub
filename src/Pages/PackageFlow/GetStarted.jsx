@@ -424,9 +424,6 @@ const GetStarted = (props) => {
         }
       });
     }
-    if (quest.history === 'createProfile') {
-      // console.log(quest);
-    }
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
