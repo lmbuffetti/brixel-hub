@@ -4,7 +4,7 @@ import { configureStore } from '../store';
 
 export const InputSheets = () => {
   let Input = [];
-  if (configureStore) Input = InputSheetsConfig('hub', configureStore.getState(), Maps);
+  if (configureStore) Input = InputSheetsConfig('hub', configureStore.getState(), Maps, 'brixelForm');
   const filteredInput = [];
   Input.forEach((item, i) => {
     filteredInput[i] = item;

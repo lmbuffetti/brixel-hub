@@ -433,7 +433,7 @@ export const FactsApartment = () => {
             placeholder: '1’500’000',
             name: 'price.total',
             formatType: 'price',
-            minLengthNum: 10000,
+            minLengthNum: 0,
             maxLenghtNum: 9999999,
             unit: get(formValue, 'price.currency', 'CHF'),
           },

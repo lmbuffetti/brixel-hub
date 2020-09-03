@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
@@ -49,7 +49,7 @@ const HomeDashboard = (props) => {
   const {
     formValue,
     history,
-    loggedInUser,
+    // loggedInUser,
     match,
     property,
     windowDimensions,
@@ -68,7 +68,7 @@ const HomeDashboard = (props) => {
   }, [windowDimensions, getFact()]);
 
   // CHECK IF THE USER IS A BUYER OR SELLER
-  useEffect(() => {
+  /* useEffect(() => {
     if (property.id && loggedInUser.user) {
       let userTypeCur = 'buyer';
       if (property.id && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
@@ -76,7 +76,7 @@ const HomeDashboard = (props) => {
       }
       // setUserType(userTypeCur);
     }
-  }, [property, loggedInUser]);
+  }, [property, loggedInUser]); */
 
   // CLASS FOR OPEN/CLOSE COLUMNS
   const openCloseColumn = () => {
@@ -241,7 +241,7 @@ const HomeDashboard = (props) => {
 HomeDashboard.propTypes = {
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
+  // loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   property: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
