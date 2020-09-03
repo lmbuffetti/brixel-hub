@@ -109,6 +109,7 @@ const GetStarted = (props) => {
         packageFlowProcess: {
           answers: dataFormAnswer,
           rewardScreenData: {},
+          metaUser: navigator,
         },
         language: lang || 'en',
         title: formValue.pageTitle,
