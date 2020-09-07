@@ -56,6 +56,24 @@ export const QuestionsList = (lang, country = 'CH') => {
   }
   return [
     {
+      conditions: [{
+        name: 'owner',
+        value: null,
+      }],
+      history: 'createProfile',
+      component: LoginSignup,
+      bgImg: congratsSvg,
+      signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
+      loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
+      effect: 'slideUp',
+      cardType: 'createProfile',
+      inputs: [{
+        component: LoginSignup,
+        name: 'profile',
+        validation: [Validation.required],
+      }],
+    },
+    {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
       title: translateTo(lang, 'What type of property do you have?'),
       history: 'propertyType',
@@ -188,24 +206,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       bgImg: congratsSvg,
       cardType: 'loadComponent',
       component: ResumeCard,
-    },
-    {
-      conditions: [{
-        name: 'owner',
-        value: null,
-      }],
-      history: 'createProfile',
-      component: LoginSignup,
-      bgImg: congratsSvg,
-      signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
-      loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
-      effect: 'slideUp',
-      cardType: 'createProfile',
-      inputs: [{
-        component: LoginSignup,
-        name: 'profile',
-        validation: [Validation.required],
-      }],
     },
     {
       history: 'savingData',
