@@ -15,7 +15,7 @@ import { configureStore } from '../store';
 const { factsOptions } = FactsOptions;
 
 export const FactsApartment = () => {
-  const formValue = get(configureStore.getState(), 'form.GamingFlow.values', {});
+  const formValue = get(configureStore.getState(), 'brixelForm.GamingFlow.values', {});
   if (get(formValue, 'properties.propertyType', null) === 'Apartment') {
     return [
       // SECTION: PROPERTY TYPE APARTMENT
@@ -433,7 +433,7 @@ export const FactsApartment = () => {
             placeholder: '1’500’000',
             name: 'price.total',
             formatType: 'price',
-            minLengthNum: 10000,
+            minLengthNum: 0,
             maxLenghtNum: 9999999,
             unit: get(formValue, 'price.currency', 'CHF'),
           },

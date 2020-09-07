@@ -10,16 +10,18 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
-
 import Loadable from 'react-loadable';
-import { change, reduxForm, reset } from 'redux-form';
 import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
+import { change, initializeForm, reset } from '@brixel/brixel-components';
 import {
   getPropertyListings,
   getActiveSingleProperty,
   saveActiveSingleProperty,
-  getActiveSinglePropertyBookings, savePropertyVisitSchedule, createPropertyVisitSchedule, savePropertyVisitBooking,
+  getActiveSinglePropertyBookings,
+  savePropertyVisitSchedule,
+  createPropertyVisitSchedule,
+  savePropertyVisitBooking,
 } from '../../actions/PropertyActions';
 import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
 import {
@@ -63,7 +65,7 @@ const ProtectedRoute = Loadable({
 const Dashboard = (props) => {
   // PROPS
   const {
-    changeFieldValue,
+    initForm,
     userTypes,
     errorValue,
     formValue,
@@ -78,7 +80,7 @@ const Dashboard = (props) => {
     handleGetImageType,
     handleSaveActiveSingleProperty,
     handleGetAchievement,
-    handleGetGamegroup,
+    handleGetGameGroup,
     handleGetGameHistory,
     handleSavePropertyVisitSchedule,
     handleCreatePropertyVisitSchedule,
@@ -88,6 +90,7 @@ const Dashboard = (props) => {
     history,
     imageType,
     initialValues,
+    initValues,
     isLoading,
     isSmallLoading,
     loggedInUser,
@@ -109,7 +112,7 @@ const Dashboard = (props) => {
       !get(history, 'location.pathname', '').includes('facts') &&
       !get(history, 'location.pathname', '').includes('achievement')
     ) {
-      resetForm('Property');
+      resetForm(initialValues);
     }
   }, [history.location.pathname]);
 
@@ -134,9 +137,15 @@ const Dashboard = (props) => {
       loadDefaultProperty();
     }
     if (gameAchievement.length === 0) handleGetAchievement();
-    if (gameGroup.length === 0) handleGetGamegroup();
+    if (gameGroup.length === 0) handleGetGameGroup();
     if (gameHistory.length === 0) handleGetGameHistory();
   }, []);
+
+  // INITIALIZE FORM
+  useEffect(() => {
+    const changeInitialValue = diff(initialValues, initValues);
+    if (Object.keys(changeInitialValue).length > 1 || (Object.keys(changeInitialValue).length === 1 && Object.keys(changeInitialValue)[0] !== 'inputSheet')) initForm(cloneDeep(initialValues));
+  }, [initialValues]);
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
@@ -217,18 +226,18 @@ const Dashboard = (props) => {
     const changeObj = diff(initialValues, formValue);
     const allVal = [];
     let isValid = true;
-    const extrackKey = (obj, parent) => {
+    const extractKey = (obj, parent) => {
       Object.keys(obj).map((key) => {
         if (isObject(obj[key])) {
           const newKey = parent ? `${parent}.${key}` : key;
-          extrackKey(obj[key], newKey);
+          extractKey(obj[key], newKey);
         } else {
           allVal.push(`${parent}.${key}`);
         }
         return null;
       });
     };
-    extrackKey(changeObj);
+    extractKey(changeObj);
     allVal.map((name) => {
       const getError = get(errorValue, name, true);
       if (getError !== 'Mark Required' && getError !== true && isValid) isValid = false;
@@ -249,7 +258,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (isDiscardChanges) {
       const newNotification = cloneDeep(notification);
-      resetForm('Property');
+      resetForm(initialValues);
       newNotification.state = false;
       handleSetScreenNotification({
         ...newNotification,
@@ -322,7 +331,7 @@ const Dashboard = (props) => {
     if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
       const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
       inputSheet.totalComplete = calcPercentageFacts().calcPerc;
-      changeFieldValue('inputSheet', inputSheet);
+      // initializeForm('inputSheet', inputSheet);
     }
   }, [formValue, errorValue]);
 
@@ -341,10 +350,11 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
-  changeFieldValue: PropTypes.func.isRequired,
+  initForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object,
   activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  initValues: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isSmallLoading: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   userTypes: PropTypes.string,
@@ -358,7 +368,7 @@ Dashboard.propTypes = {
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleGetAchievement: PropTypes.func.isRequired,
-  handleGetGamegroup: PropTypes.func.isRequired,
+  handleGetGameGroup: PropTypes.func.isRequired,
   handleGetGameHistory: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
@@ -372,7 +382,7 @@ Dashboard.propTypes = {
   notification: PropTypes.object,
   handleSetScreenNotification: PropTypes.func.isRequired,
   resetForm: PropTypes.func.isRequired,
-  savePageData: PropTypes.string.isRequired,
+  savePageData: PropTypes.string,
 };
 
 Dashboard.defaultProps = {
@@ -380,17 +390,12 @@ Dashboard.defaultProps = {
   isSmallLoading: null,
   userTypes: null,
   notification: null,
+  savePageData: null,
 };
-
-const DashboardForm = reduxForm({
-  // a unique name for the form
-  form: 'Property',
-  enableReinitialize: true,
-  destroyOnUnmount: false,
-})(Dashboard);
 
 const mapStateToProps = (state) => {
   const properties = get(state, 'property.activeSingleProperty.properties', {});
+  const formValue = get(state, 'property.activeSingleProperty', {});
   set(properties, 'typology.livingArea.unit', 'm2');
   set(properties, 'typology.grossArea.unit', 'm2');
   set(properties, 'typology.lotArea.unit', 'm2');
@@ -402,10 +407,13 @@ const mapStateToProps = (state) => {
   set(properties, 'typology.basementArea.unit', 'm2');
   set(properties, 'building.properties.typology.storeroomArea.unit', 'm2');
   set(properties, 'typology.collectiveSpacesArea.unit', 'm2');
+  const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+  inputSheet.totalComplete = calcPercentageFacts('Property', formValue).calcPerc;
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', undefined),
-    errorValue: get(state, 'form.Property.syncErrors', null),
-    formValue: get(state, 'form.Property.values', {}),
+    errorValue: get(state, 'brixelForm.Property.syncErrors', null),
+    formValue: get(state, 'brixelForm.Property.values', {}),
+    initValues: get(state, 'brixelForm.Property.initialValues', {}),
     gameAchievement: get(state, 'gamification.achievement', []),
     gameGroup: get(state, 'gamification.gameGroup', []),
     gameHistory: get(state, 'gamification.gameHistory', {}),
@@ -415,7 +423,7 @@ const mapStateToProps = (state) => {
     isSmallLoading: get(state, 'common.isSmallLoading', null),
     loggedInUser: get(state, 'user.loggedInUser', {}),
     notification: get(state, 'common.notification', {}),
-    regFields: get(state, 'form.Property.registeredFields', null),
+    regFields: get(state, 'brixelForm.Property.registeredFields', null),
     userTypes: get(state, 'user.userTypes', null),
     initialValues: {
       changeCountry: get(state, 'property.activeSingleProperty.location.countryCode', {}),
@@ -426,7 +434,7 @@ const mapStateToProps = (state) => {
       description: get(state, 'property.activeSingleProperty.description', {}),
       id: get(state, 'property.activeSingleProperty.id', null),
       floorPlans: get(state, 'property.activeSingleProperty.floorPlans', []),
-      inputSheet: get(state, 'property.activeSingleProperty.inputSheet', {}),
+      inputSheet: get(state, 'property.activeSingleProperty.inputSheet', inputSheet) || inputSheet,
       price: get(state, 'property.activeSingleProperty.price', {}),
       status: get(state, 'property.activeSingleProperty.status', null),
       // language: get(state, 'property.activeSingleProperty.language', null),
@@ -456,8 +464,11 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  resetForm(form) {
-    (dispatch(reset(form)));
+  initForm(value) {
+    dispatch(initializeForm('Property', value));
+  },
+  resetForm(data) {
+    (dispatch(reset('Property', data)));
   },
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
@@ -466,7 +477,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetAchievement: bindActionCreators(getAchievement, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
+  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
   handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
   handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
@@ -482,4 +493,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(DashboardForm);
+)(Dashboard);

@@ -1,24 +1,58 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reset } from 'redux-form';
 import get from 'lodash/get';
+import unset from 'lodash/unset';
+import { diff } from 'deep-object-diff';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelButtonIcon, MultiFileldsReduxForm } from '@brixel/brixel-components';
+import {
+  BrixelButtonIcon, MultiFileldsReduxForm, change, reset,
+} from '@brixel/brixel-components';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
+import { keyify } from '../../utils/helpers';
+import { InputSheets } from '../../resources/inputSheets';
 
 const FactsQuestion = (props) => {
   const {
     formValue,
     history,
+    initValues,
     match,
     quest,
   } = props;
   // PARAMS URL
   const propID = get(match, 'params.propId', null);
+
+  useEffect(() => {
+    const fieldsChanged = diff(initValues, formValue);
+    const keyChanged = keyify(fieldsChanged);
+    keyChanged.forEach((item) => {
+      InputSheets().forEach((singleQuest) => {
+        singleQuest.inputs.forEach((input) => {
+          if (input.condition) {
+            if (input.condition.name) {
+              if (input.condition.name === item) {
+                if (input.condition.value !== get(formValue, item, null)) {
+                  unset(formValue, input.name);
+                }
+              }
+            } else {
+              input.condition.forEach((condition) => {
+                if (condition.name === item) {
+                  if (condition.value !== get(formValue, item, null)) {
+                    unset(formValue, input.name);
+                  }
+                }
+              });
+            }
+          }
+        });
+      });
+    });
+  }, [formValue]);
 
   // FUNCTIONS TO SKIP SECTION
   /*
@@ -107,6 +141,7 @@ const FactsQuestion = (props) => {
 
 FactsQuestion.propTypes = {
   formValue: PropTypes.object.isRequired,
+  initValues: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   quest: PropTypes.object,
@@ -117,8 +152,9 @@ FactsQuestion.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'form.Property.values', {}),
-  errorValue: get(state, 'form.Property.syncErrors', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
+  initValues: get(state, 'brixelForm.Property.initialValues', {}),
+  errorValue: get(state, 'brixelForm.syncErrors', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

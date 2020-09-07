@@ -150,7 +150,7 @@ SuccessAssessor.defaultProps = {
 
 const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

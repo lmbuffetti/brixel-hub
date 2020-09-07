@@ -4,7 +4,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -12,6 +11,7 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelIcon, Helpers,
+  change, reset,
 } from '@brixel/brixel-components';
 import has from 'lodash/has';
 import { updatePortalsReview } from '../../actions/PropertyActions';
@@ -65,6 +65,25 @@ const Portals = (props) => {
     if (+duration === 1) return `for <span class="notranslate">${duration}</span> month`;
     if (+duration > 1) return `for <span class="notranslate">${duration}</span> months`;
     return '';
+  };
+
+  // MESSAGE TO UNLOCK
+  const messageToUnlock = (key) => {
+    let message = {
+      title: 'Save 15% compared to listings price.',
+      description: `Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}. Don't worry. You will not be charged for now. Get the result first. Pay later.`,
+      titleConfirm: 'Please confirm your order.',
+      descriptionConfirm: `<b>Publish on portals.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}. You will not be charged for now.</span>`,
+    };
+    if (get(formValue, 'location.countryCode', null) === 'PT') {
+      message = {
+        title: 'Free trial for 30 days',
+        description: `Publish your property in the biggest portals for free for 30 days. After the trial period, and if you are happy, you get 3 more months for <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span>.`,
+        titleConfirm: 'Please confirm your order.',
+        descriptionConfirm: `Free for 30 days, only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()} later. Ask your expert to review and publish it now.`,
+      };
+    }
+    return message[key];
   };
 
   return (
@@ -214,10 +233,10 @@ const Portals = (props) => {
           !checkPortalsOnline() && !formValue.portalsReview && (
             <BrixelUpgradeMessage
               className="mt-3"
-              title="Save 15% compared to listings price."
-              description={`Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
-              titleConfirm="Please confirm your order."
-              descriptionConfirm={`<b>Publish on portals.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}. You will not be charged for now.</span>`}
+              title={messageToUnlock('title')}
+              description={messageToUnlock('description')}
+              titleConfirm={messageToUnlock('titleConfirm')}
+              descriptionConfirm={messageToUnlock('descriptionConfirm')}
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction
@@ -234,20 +253,21 @@ Portals.propTypes = {
   company: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.string,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
 };
 
 Portals.defaultProps = {
+  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => {
-  const formValue = get(state, 'form.Property.values', {});
+  const formValue = get(state, 'brixelForm.Property.values', {});
   return ({
     company: get(state, 'companies.activeSingleCompany', {}),
-    formValue: get(state, 'form.Property.values', {}),
+    formValue: get(state, 'brixelForm.Property.values', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', null),
     portals: get(formValue, 'portals', {}),
   });
@@ -257,8 +277,8 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  reset(form) {
-    (dispatch(reset(form)));
+  reset(form, data) {
+    (dispatch(reset(form, data)));
   },
   handleUpdatePortalsReview: bindActionCreators(updatePortalsReview, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),

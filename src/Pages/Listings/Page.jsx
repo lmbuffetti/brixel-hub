@@ -4,7 +4,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { change, reset } from 'redux-form';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
@@ -15,6 +14,8 @@ import {
   BrixelIcon,
   Helpers,
   FormatValue,
+  change,
+  reset,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { updatePublishedReview } from '../../actions/PropertyActions';
@@ -67,6 +68,25 @@ const Page = (props) => {
     if (+duration === 1) return `for <span class="notranslate">${duration}</span> month`;
     if (+duration > 1) return `for <span class="notranslate">${duration}</span> months`;
     return '';
+  };
+
+  // MESSAGE TO UNLOCK
+  const messageToUnlock = (key) => {
+    let message = {
+      title: 'Make your Brixel Page public.',
+      description: `Only <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()}. Don't worry. You will not be charged for now. Get the result first. Pay later.`,
+      titleConfirm: 'Please confirm your order.',
+      descriptionConfirm: `<b>Make Brixel page public.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()}. You will not be charged for now.</span>`,
+    };
+    if (get(formValue, 'location.countryCode', null) === 'PT') {
+      message = {
+        title: 'Make your Brixel Page public.',
+        description: `Test for free for 30 days. After the trial period, for <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()} will have 1 more year of insertion in our website.`,
+        titleConfirm: 'Please confirm your order.',
+        descriptionConfirm: 'Ask your expert to review your page and publish it on the Brixel website for free for 30 days.',
+      };
+    }
+    return message[key];
   };
 
   return (
@@ -274,10 +294,10 @@ const Page = (props) => {
           !formValue.published && !formValue.publishReview && (
             <BrixelUpgradeMessage
               className="mt-3"
-              title="Make your Brixel Page public."
-              description={`Only <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()}. Don't worry. You will not be charged for now. Get the result first. Pay later.`}
-              titleConfirm="Please confirm your order."
-              descriptionConfirm={`<b>Make Brixel page public.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()}. You will not be charged for now.</span>`}
+              title={messageToUnlock('title')}
+              description={messageToUnlock('description')}
+              titleConfirm={messageToUnlock('titleConfirm')}
+              descriptionConfirm={messageToUnlock('descriptionConfirm')}
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction
@@ -294,17 +314,18 @@ Page.propTypes = {
   company: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleUpdatePublishedReview: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.string,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
 Page.defaultProps = {
+  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
   company: get(state, 'companies.activeSingleCompany', {}),
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
 });
 
@@ -312,8 +333,8 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  reset(form) {
-    (dispatch(reset(form)));
+  reset(form, data) {
+    (dispatch(reset(form, data)));
   },
   handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),

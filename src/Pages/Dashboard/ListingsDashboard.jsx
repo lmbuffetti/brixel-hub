@@ -270,7 +270,7 @@ ListingsDashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'form.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

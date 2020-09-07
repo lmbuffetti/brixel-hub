@@ -2,14 +2,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonTertiary, BrixelProgressLineDots,
+  BrixelButtonIcon,
+  MultiFileldsReduxForm,
+  BrixelButtonPrimary,
+  BrixelButtonTertiary,
+  BrixelProgressLineDots,
+  reset,
+  initializeForm,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-
-import { reduxForm, reset } from 'redux-form';
+import cloneDeep from 'lodash/cloneDeep';
 import { BestimateQuestions } from '../../../resources/Bestimate';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
@@ -26,6 +31,9 @@ const Bestimate = (props) => {
     handleAddGameHistory,
     handleSaveActiveSingleProperty,
     history,
+    initialValuesPage,
+    initForm,
+    initialValues,
     match,
     resetForm,
   } = props;
@@ -60,6 +68,11 @@ const Bestimate = (props) => {
     }
   }, [gameHistory, activeSingleProperty, lastID]);
 
+  // INITIALIZE FORM
+  useEffect(() => {
+    initForm(cloneDeep(initialValues));
+  }, [activeSingleProperty]);
+
   // LOAD THE CURRENT GAME GROUP
   useEffect(() => {
     if (gameGroup.length > 0) {
@@ -92,7 +105,7 @@ const Bestimate = (props) => {
     } else {
       history.push(`/${propID}/rewards/${getAchievement()}`);
     }
-    resetForm('Property');
+    resetForm('Property', initialValuesPage);
   };
 
   // FUNCTION TO SAVE DATA
@@ -104,7 +117,7 @@ const Bestimate = (props) => {
     };
     handleSaveActiveSingleProperty(data);
     handleAddGameHistory({ stub: getAchievement() });
-    resetForm('Property');
+    resetForm('Property', initialValuesPage);
   };
 
   // FUNCTION TO CHANGE STEP - BACK-FORWARD
@@ -245,8 +258,16 @@ const Bestimate = (props) => {
                   )
                 }
                 {
-                  get(quest, 'cardType', null) === 'loadComponent' && quest.history === questions[currentIndex].history && (
-                    React.createElement(quest.component, { formName: 'GamingFlow', finishedFlow, initialValue: formValue })
+                  get(quest, 'cardType', null) === 'loadComponent' && quest.history === get(questions[currentIndex], 'history', null) && (
+                    <>
+                      {
+                        React.createElement(quest.component, {
+                          formName: 'GamingFlow',
+                          finishedFlow,
+                          initialValue: formValue,
+                        })
+                      }
+                    </>
                   )
                 }
               </div>
@@ -309,20 +330,24 @@ const Bestimate = (props) => {
 Bestimate.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
+  initialValuesPage: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  initForm: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
-  errorValue: get(state, 'form.GamingFlow.syncErrors', {}),
-  formValue: get(state, 'form.GamingFlow.values', {}),
+  errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
+  formValue: get(state, 'brixelForm.GamingFlow.values', {}),
+  initialValuesPage: get(state, 'brixelForm.Property.initialValues', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),
@@ -334,20 +359,17 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  resetForm(form) {
-    (dispatch(reset(form)));
+  resetForm(form, data) {
+    (dispatch(reset(form, data)));
+  },
+  initForm(value) {
+    dispatch(initializeForm('GamingFlow', value));
   },
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
-const AnyForm = reduxForm({
-  form: 'GamingFlow',
-  enableReinitialize: true,
-  destroyOnUnmount: true,
-})(Bestimate);
-
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(AnyForm);
+)(Bestimate);

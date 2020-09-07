@@ -123,8 +123,8 @@ PagePublishedRewards.defaultProps = {
 
 const mapStateToProps = (state) => ({
   gameHistory: get(state, 'gamification.gameHistory.data', []),
-  pageReview: get(state, 'form.Property.values.publishReview', null) !== null,
-  pagePublished: get(state, 'form.Property.values.published', false),
+  pageReview: get(state, 'brixelForm.Property.values.publishReview', null) !== null,
+  pagePublished: get(state, 'brixelForm.Property.values.published', false),
 });
 
 const mapDispatchToProps = (dispatch) => ({
