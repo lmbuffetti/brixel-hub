@@ -9,7 +9,7 @@ function useOutsideAlerter(ref, action) {
   function handleClickOutside(event) {
     const getClass = document.getElementsByClassName('brixel-notification');
     const getClassMore = document.getElementsByClassName('block-click');
-    if (getClass.length + getClassMore.length === 1 && event.target && ref.current && isArray(ref.current)) {
+    if (getClass.length + getClassMore.length <= 1 && event.target && ref.current && isArray(ref.current)) {
       setTimeout(() => {
         const curRef = action.id ? ref.current[action.id] : ref.current[0];
         if (curRef && curRef.current) {
