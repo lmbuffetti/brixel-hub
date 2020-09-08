@@ -11,7 +11,7 @@ build site:
     FOLDER: $CI_COMMIT_REF_NAME
   only:
     - develop
-    - stage
+    - staging
     - master
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
