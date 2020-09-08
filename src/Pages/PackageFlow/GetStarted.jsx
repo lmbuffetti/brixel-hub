@@ -34,19 +34,19 @@ const GetStarted = (props) => {
     company,
     errorValue,
     formValue,
-    lang,
     handleCreateActiveSingleProperty,
-    handleSaveActiveSingleProperty,
+    handleDoLogin,
     handleGetActiveSingleCompany,
+    handleGetGamegroup,
+    handleSaveActiveSingleProperty,
     handleSaveActiveSingleUser,
     handleSetLanguage,
-    handleGetGamegroup,
-    initForm,
-    initialValues,
-    loggedInUser,
-    handleDoLogin,
     handleValidateUser,
     history,
+    initForm,
+    initialValues,
+    lang,
+    loggedInUser,
     match,
     reset,
   } = props;
@@ -461,7 +461,7 @@ const GetStarted = (props) => {
       }
 
       <div
-        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : 'ov-h'} ${quest.history}`}
+        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : 'ov-h'} ${get(quest, 'history', '')}`}
         // style={{ backgroundImage: `url(${quest.bgImg})` }}
       >
         {/* preload all background images */}
@@ -481,14 +481,14 @@ const GetStarted = (props) => {
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${quest.background || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : 'ov-h'}`}
+          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : 'ov-h'}`}
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
-            <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${quest.vCentered ? 'vertCentered' : ''} ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
+            <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${get(quest, 'vCentered', null) ? 'vertCentered' : ''} ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
               <div className="subcontainer m-a">
                 {
-                  quest.inputs && (
+                  get(quest, 'inputs', null) && (
                     <div id={`step-${currentIndex}`} className={`dis-f flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
                       {
                         quest.titleGreen && (
@@ -552,7 +552,7 @@ const GetStarted = (props) => {
                   )
                 }
                 {
-                  quest.history === 'resume' && (
+                  get(quest, 'history', null) === 'resume' && (
                     <div className="max-w-fix-344 m-a">
                       <BrixelButtonPrimary
                         className={`mt-3 m-a noWrap ${quest.history}`}
@@ -571,7 +571,7 @@ const GetStarted = (props) => {
             </div>
           </div>
           <div
-            className={`footerAction shadow-1dp-top ${quest.history === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+            className={`footerAction shadow-1dp-top ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
             <div className="pos-r p-1 p-md-2">
               <div className={`w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>
@@ -590,7 +590,7 @@ const GetStarted = (props) => {
                   )
                 }
                 {
-                  checkValidateField() && quest.successMessage && (
+                  checkValidateField() && get(quest, 'successMessage', null) && (
                     <div className="txtWhite pr-1 textSuccess ml-a mr-0">
                       {/* {quest.successMessage}  */} Ok! <BrixelIcon icon="check" className="ml-1" />
                     </div>
@@ -598,7 +598,7 @@ const GetStarted = (props) => {
                 }
 
                 <BrixelButtonPrimary
-                  className={`mr-0 ml-0 noWrap ${quest.history} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''}`}
+                  className={`mr-0 ml-0 noWrap ${get(quest, 'history', null)} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''}`}
                   disabled={!checkValidateField()}
                   rounded
                   background="green"
@@ -661,11 +661,11 @@ GetStarted.propTypes = {
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleCreateActiveSingleProperty: PropTypes.func.isRequired,
-  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
+  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
@@ -692,20 +692,16 @@ const mapStateToProps = (state, props) => {
     formValue: get(state, 'brixelForm.GetStarted.values', {}),
     gameGroup: get(state, 'gamification.gameGroup', []),
     gameHistory: get(state, 'gamification.gameHistory', {}),
-    lang: get(state, 'common.language', 'en'),
-    loggedInUser: get(state, 'user.loggedInUser', {}),
-    packagesProperty: get(state, 'property.packagesProperty', []),
-    startForm: get(state, 'brixelForm.GetStarted', null),
     initialValues: {
-      company: get(state, 'companies.activeSingleCompany.stub', null),
       channel,
+      changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
+      company: get(state, 'companies.activeSingleCompany.stub', null),
       price: {
         currency: get(state, 'companies.activeSingleCompany.country.currency', null),
       },
       location: {
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       },
-      changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       login: {},
       owner: get(state, 'user.loggedInUser.id', null),
       properties: {
@@ -722,6 +718,10 @@ const mapStateToProps = (state, props) => {
       register: {},
       signup: get(state, 'user.loggedInUser.id', null) !== null,
     },
+    lang: get(state, 'common.language', 'en'),
+    loggedInUser: get(state, 'user.loggedInUser', {}),
+    packagesProperty: get(state, 'property.packagesProperty', []),
+    startForm: get(state, 'brixelForm.GetStarted', null),
   });
 };
 
@@ -736,12 +736,12 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset(form)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
-  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
-  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
+  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 

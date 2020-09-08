@@ -9,6 +9,10 @@ build site:
   stage: build
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
+  only:
+    - develop
+    - stage
+    - master
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
@@ -34,7 +38,7 @@ deploy_dev:
   image: alpine
   stage: deploy
   only:
-    - feature/replacing-reduxForm
+    - develop
   script:
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh

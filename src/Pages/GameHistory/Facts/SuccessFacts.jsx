@@ -1,30 +1,52 @@
-import React from 'react';
-import Proptypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
-import { BrixelProgressBar, BrixelButtonPrimary } from '@brixel/brixel-components';
+import {
+  BrixelProgressBar, BrixelButtonPrimary,
+} from '@brixel/brixel-components';
 import infoImg from '../../../images/Upgrade/info.svg';
 import addFacts from '../../../images/secondLevel/addFacts.svg';
 import addMoreFacts from '../../../images/secondLevel/addMoreFacts.svg';
 import factsWellDone from '../../../images/secondLevel/factsWellDone.svg';
+import {
+  addGameHistory,
+} from '../../../actions/GamificationActions';
+import { calcPercentageFacts } from '../../../utils/helpers';
 
 const FactsRewards = (props) => {
   const {
+    formValue,
+    handleAddGameHistory,
     history,
     match,
     totalComplete,
   } = props;
+  // STATE
+  const [total, setTotal] = useState(totalComplete);
   // PARAMS URL
   const propID = get(match, 'params.propId', '');
   const perc = 25;
+
+  useEffect(() => {
+    if (calcPercentageFacts('Property', formValue).calcPerc > totalComplete) {
+      setTotal(calcPercentageFacts('Property', formValue).calcPerc);
+    }
+  }, [formValue, totalComplete]);
+
+  useEffect(() => {
+    if (total >= perc) {
+      handleAddGameHistory({ stub: 'facts' });
+    }
+  }, [total]);
 
   return (
     <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col a-c">
       <div className="dis-fl-col a-c">
         {
-          totalComplete <= 9 && (
+          total <= 9 && (
             <>
               <h5 className="ta-c mb-2">Provide all facts</h5>
               <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">Buyers appreciate a complete documentation. And it helps you to minimize your effort and building trust.</p>
@@ -32,7 +54,7 @@ const FactsRewards = (props) => {
           )
         }
         {
-          totalComplete > 9 && totalComplete < perc && (
+          total > 9 && total < perc && (
             <>
               <h5 className="ta-c mb-2">Add more facts</h5>
               <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">Try to complete <span className="txtGreen400 fsize-300 lh-in"> at least {perc}%</span> of
@@ -43,7 +65,7 @@ const FactsRewards = (props) => {
         }
 
         {
-          totalComplete >= perc && (
+          total >= perc && (
             <>
               <h5 className="ta-c mb-2">Well done</h5>
               <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 fsize-300">You completed at least {perc}% of all facts. Interested buyers will be very pleased. </p>
@@ -52,25 +74,25 @@ const FactsRewards = (props) => {
         }
 
         <div className="brdRadius max-w-fix-232 w-perc-100 m-a my-5">
-          { totalComplete <= 9 && (<img className="w-fix-148 dis-f m-a mb-2" src={addFacts} alt="Add Facts" />)}
-          { totalComplete > 9 && totalComplete < perc && (<img className="w-fix-148 dis-f m-a mb-2" src={addMoreFacts} alt="Add More Facts" />)}
-          { totalComplete >= perc && (<img className="w-fix-148 dis-f m-a mb-2" src={factsWellDone} alt="Facts Well Done" />)}
+          { total <= 9 && (<img className="w-fix-148 dis-f m-a mb-2" src={addFacts} alt="Add Facts" />)}
+          { total > 9 && total < perc && (<img className="w-fix-148 dis-f m-a mb-2" src={addMoreFacts} alt="Add More Facts" />)}
+          { total >= perc && (<img className="w-fix-148 dis-f m-a mb-2" src={factsWellDone} alt="Facts Well Done" />)}
           <BrixelProgressBar
             rounded
             saturation={700}
             barBackground="Red"
             backgroundSaturation={100}
-            progressValue={totalComplete}
+            progressValue={total}
             classBackground="ov-h brdRadius"
-            goalValue={totalComplete > 9 && totalComplete < perc ? perc : null}
+            goalValue={total > 9 && total < perc ? perc : null}
             showGoalValue={false}
             large={window.innerWidth >= 1024}
             small={window.innerWidth < 1024}
           />
-          <p className="ff-mono body2 txtPrimary700 mt-1"><span className="notranslate">{totalComplete}%</span>&nbsp;<span>completed</span></p>
+          <p className="ff-mono body2 txtPrimary700 mt-1"><span className="notranslate">{total}%</span>&nbsp;<span>completed</span></p>
         </div>
         {
-          totalComplete <= 9 && (
+          total <= 9 && (
             <>
               <BrixelButtonPrimary
                 label="Let's do this"
@@ -83,20 +105,20 @@ const FactsRewards = (props) => {
           )
         }
         {
-          totalComplete > 9 && totalComplete < perc && (
+          total > 9 && total < perc && (
             <>
               <BrixelButtonPrimary
                 label="Complete now"
                 rounded
                 rightIcon="arrow-right"
                 className="m-a"
-                onClick={() => (totalComplete < perc ? history.push(`/${propID}/rewards/achievement/facts`) : history.push(`/${propID}/property/facts/propertyType`))}
+                onClick={() => (total < perc ? history.push(`/${propID}/rewards/achievement/facts`) : history.push(`/${propID}/property/facts/propertyType`))}
               />
             </>
           )
         }
         {
-          totalComplete >= perc && (
+          total >= perc && (
             <>
               <BrixelButtonPrimary
                 label="Edit facts"
@@ -125,9 +147,11 @@ const FactsRewards = (props) => {
 };
 
 FactsRewards.propTypes = {
-  history: Proptypes.object.isRequired,
-  match: Proptypes.object.isRequired,
-  totalComplete: Proptypes.number,
+  formValue: PropTypes.object.isRequired,
+  handleAddGameHistory: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  totalComplete: PropTypes.number,
 };
 
 FactsRewards.defaultProps = {
@@ -135,10 +159,15 @@ FactsRewards.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  formValue: get(state, 'brixelForm.Property.values', { }),
   totalComplete: get(state, 'brixelForm.Property.values.inputSheet.totalComplete', 9),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });
 
 export default compose(
   withRouter,
-  connect(mapStateToProps, null),
+  connect(mapStateToProps, mapDispatchToProps),
 )(FactsRewards);
