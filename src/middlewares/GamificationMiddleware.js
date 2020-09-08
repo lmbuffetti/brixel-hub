@@ -107,7 +107,7 @@ const checkGamification = (store) => (next) => (action) => {
         if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
         api.gamification.addGameHistory(newID, data)
           .then((res) => {
-            if (typeof res.data.status === 'undefined') {
+            if (typeof res.data.status === 'undefined' && typeof res.data.statusCode === 'undefined') {
               store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });
               store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
               store.dispatch({ type: SET_BRIXEL_POINTS, payload: res.data.actualPoints });
