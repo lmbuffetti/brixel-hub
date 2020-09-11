@@ -144,7 +144,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           placeholder: translateTo(lang, 'e.g. 1990'),
           validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
           maxLenghtNum: 9999,
-          minLenghtNum: 999,
+          minLengthNum: 999,
         },
       ],
       successMessage: translateTo(lang, 'A good year for real estate.'),

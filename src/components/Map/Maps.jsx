@@ -367,7 +367,7 @@ export const ComponentMap = (props) => {
                   ref={inputSearch}
                   label="Street Number"
                   placeholder=""
-                  onKeyDown={(e) => (e.keyCode === 13 ? onSubmit() : '')}
+                  onKeyDown={(e) => (e.keyCode === 13 && get(formValue, 'location.latitude', '') ? onSubmit() : '')}
                   input={{
                     onChange: (e) => (disabled ? '' : changeStreetNumber(e)),
                     onBlur: () => '',

@@ -14,12 +14,9 @@ import GamificationMiddleware from '../middlewares/GamificationMiddleware';
 const enhancers = [];
 const middlewares = [thunkMiddleware];
 
-if (process.env.NODE_ENV === 'development') {
+const getIfDev = (window.location.href).split('?');
+if (typeof window !== 'undefined' && (process.env.NODE_ENV === 'development' || (getIfDev[1] && getIfDev[1].includes('dev=true')))) {
   middlewares.push(logger);
-  if (typeof window !== 'undefined') {
-    // const { devToolsExtension } = window;
-    // enhancers.push(devToolsExtension());
-  }
 }
 
 const composedEnhancers = compose(
