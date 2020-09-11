@@ -28,7 +28,7 @@ const AccountDropdown = (props) => {
   const [langMenu, setLangMenu] = useState([]);
   const [langSel, setSelLang] = useState(get(loggedInUser, 'user.language', 'en'));
   const [closeDropDown, setCloseDropdown] = useState(false);
-  const localTransifex = typeof Transifex !== undefined ? Transifex : null;
+  const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
 
   // GET LANGUAGE LISTS
   useEffect(() => {
