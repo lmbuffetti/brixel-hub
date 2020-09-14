@@ -252,7 +252,9 @@ const GetStarted = (props) => {
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
   useEffect(() => {
     if (get(history, 'location.pathname', '').includes('success') && questions[currentIndex + 1]) {
-      changeStep('next', null, 2);
+      setTimeout(() => {
+        changeStep('next', null, 2);
+      }, 500);
     }
   }, [get(history, 'location', null)]);
 
