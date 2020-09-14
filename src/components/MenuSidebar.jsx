@@ -146,15 +146,20 @@ const MenuSidebar = (props) => {
                     propertyType={get(formValue, 'properties.propertyType', undefined)}
                   />
                 </div>
-                <h6
-                  ref={proTitleRef}
-                  className=" mt-2 fsize-300 fweight-600 cur-poi"
-                  onClick={() => {
-                    if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
-                  }}
-                >
-                  {get(formValue, 'title', '')}
-                </h6>
+                <div className="titleWrapper pos-r">
+                  <h6
+                    ref={proTitleRef}
+                    className="mt-2 fsize-300 fweight-600 cur-poi"
+                    onClick={() => {
+                      if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
+                    }}
+                  >
+                    {get(formValue, 'title', '')}
+                  </h6>
+                  <span className="titleTooltip dis-b">
+                    {get(formValue, 'title', '')}
+                  </span>
+                </div>
               </div>
             </div>
             <hr className="my-2 mx-1 lighter" />
