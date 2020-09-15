@@ -74,11 +74,17 @@ const clientConfig = {
           {
             loader: 'postcss-loader',
             options: {
-              sourceMap: true,
-              config: {
-                path: 'postcss.config.js'
-              }
-            }
+              postcssOptions: {
+                plugins: [
+                  [
+                    'autoprefixer',
+                    {
+                      // Options
+                    },
+                  ],
+                ],
+              },
+            },
           },
           {
             loader: 'sass-loader',

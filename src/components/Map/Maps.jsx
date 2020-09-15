@@ -13,7 +13,6 @@ import { bindActionCreators, compose } from 'redux';
 import { BrixelInputText, change } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { diff } from 'deep-object-diff';
 import useOutsideAlerter from '../OutsideElement';
 import Map from './Map';
 import { setCountryList } from '../../actions/CommonActions';
@@ -79,10 +78,11 @@ export const ComponentMap = (props) => {
   const changeLocation = (val, hideSearch, type) => {
     if ((showSearchLocation && inputSearch.current) || hideSearch) {
       // setNewLocation(val);
+      console.log(props);
       const sessionToken = stateToken || new google.maps.places.AutocompleteSessionToken();
       const autocompleteService = new google.maps.places.AutocompleteService();
       if (!stateToken) setStateToken(sessionToken);
-      let typeSearch = ['address'];
+      let typeSearch = [get(props, 'searchType', 'address')];
       if (type === 'cities') typeSearch = ['(regions)'];
       if (type === 'zip') typeSearch = ['(regions)'];
       if (val.length > 3) {
@@ -307,6 +307,8 @@ export const ComponentMap = (props) => {
     };
   });
 
+  console.log(props);
+
   return (
     // Important! Always set the container height explicitly
     <div
@@ -474,13 +476,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(change(form, field, value));
   },
   handleUpdateCountry: bindActionCreators(setCountryList, dispatch),
-});
-
-export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
-  const changeLocation = diff(get(prevProps, 'formValue.location', null), get(nextProps, 'formValue.location', null));
-  return (
-    Object.keys(changeLocation).length === 0
-  );
 });
 
 export default compose(

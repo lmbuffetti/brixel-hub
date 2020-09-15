@@ -33,6 +33,11 @@ const GetStarted = Loadable({
   loading: Loading,
 });
 
+const GetStartedBuyer = Loadable({
+  loader: () => import('./Pages/PackageFlow/GetStartedBuyer' /* webpackChunkName: "GetStartedBuyer" */),
+  loading: Loading,
+});
+
 // GENERAL COMPONENTS
 const PageHeaderDashboard = Loadable({
   loader: () => import('./components/PageHeaderDashboard' /* webpackChunkName: "PageHeaderDashboard" */),
@@ -363,6 +368,7 @@ const App = (props) => {
               <Switch>
                 { /* SECTION: ONBOARDING */ }
                 <Route path="/packageFlow/getstarted/" component={GetStarted} />
+                <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
 
                 { /* SECTION: INSERT TOKEN */ }
                 <Route path="/tokeninput" component={InsertToken} />
