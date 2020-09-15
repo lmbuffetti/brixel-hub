@@ -78,7 +78,6 @@ export const ComponentMap = (props) => {
   const changeLocation = (val, hideSearch, type) => {
     if ((showSearchLocation && inputSearch.current) || hideSearch) {
       // setNewLocation(val);
-      console.log(props);
       const sessionToken = stateToken || new google.maps.places.AutocompleteSessionToken();
       const autocompleteService = new google.maps.places.AutocompleteService();
       if (!stateToken) setStateToken(sessionToken);
@@ -306,8 +305,6 @@ export const ComponentMap = (props) => {
       history.push({ state: { showSupport: true } });
     };
   });
-
-  console.log(props);
 
   return (
     // Important! Always set the container height explicitly

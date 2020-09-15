@@ -56,7 +56,6 @@ export const QuestionsList = (lang) => {
     formValue = get(configureStore.getState(), 'brixelForm.GetStarted.values', []);
     country = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', 'CH');
   }
-  console.log(country);
   return [
     {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
