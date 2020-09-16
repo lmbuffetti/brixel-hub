@@ -30,6 +30,7 @@ const MenuSidebar = (props) => {
   const [activeMenu, setActiveMenu] = useState(null);
   const [routeNav, setRouteNav] = useState([]);
   const [slideIn, setSlideIn] = useState(false);
+  const [titleTooltip, setTitleTooltip] = useState(false);
   // REF
   const wrapperRef = useRef(null);
   const proTitleRef = useRef(null);
@@ -75,6 +76,7 @@ const MenuSidebar = (props) => {
       const titleHeight = proTitleEl.offsetHeight;
       if (titleHeight > 48) {
         proTitleEl.classList.add('longTitle');
+        setTitleTooltip(true);
       }
     }
   });
@@ -146,15 +148,24 @@ const MenuSidebar = (props) => {
                     propertyType={get(formValue, 'properties.propertyType', undefined)}
                   />
                 </div>
-                <h6
-                  ref={proTitleRef}
-                  className=" mt-2 fsize-300 fweight-600 cur-poi"
-                  onClick={() => {
-                    if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
-                  }}
-                >
-                  {get(formValue, 'title', '')}
-                </h6>
+                <div className="titleWrapper pos-r">
+                  <h6
+                    ref={proTitleRef}
+                    className="mt-2 fsize-300 fweight-600 cur-poi"
+                    onClick={() => {
+                      if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
+                    }}
+                  >
+                    {get(formValue, 'title', '')}
+                  </h6>
+                  {
+                    titleTooltip && (
+                      <span className="titleTooltip dis-b">
+                        {get(formValue, 'title', '')}
+                      </span>
+                    )
+                  }
+                </div>
               </div>
             </div>
             <hr className="my-2 mx-1 lighter" />
