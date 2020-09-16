@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import EmptyHubImg from '../../images/emptyHub.svg';
-import { getActiveSingleCompany } from '../../actions/CompanyActions';
+import EmptyHubImg from '../../../images/emptyHub.svg';
+import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 
 const EmptyProperty = (props) => {
   // PROPS

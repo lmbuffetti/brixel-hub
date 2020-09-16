@@ -22,14 +22,15 @@ import {
   savePropertyVisitSchedule,
   createPropertyVisitSchedule,
   savePropertyVisitBooking,
-} from '../../actions/PropertyActions';
-import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
+} from '../../../actions/PropertyActions';
+import { deleteDocument, uploadDocument, getImageType } from '../../../actions/UploadActions';
 import {
   addGameHistory, getAchievement, getGamegroup, getGameHistory,
-} from '../../actions/GamificationActions';
-import { setModal, setPageData, setScreenNotification } from '../../actions/CommonActions';
-import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import { calcPercentageFacts } from '../../utils/helpers';
+} from '../../../actions/GamificationActions';
+import { setModal, setPageData, setScreenNotification } from '../../../actions/CommonActions';
+import { getActiveSingleCompany } from '../../../actions/CompanyActions';
+import { getUserDeals } from '../../../actions/DealsActions';
+import { calcPercentageFacts } from '../../../utils/helpers';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -53,12 +54,12 @@ const EmptyProperty = Loadable({
 
 // UPGRADE
 const Upgrade = Loadable({
-  loader: () => import('../Upgrade/Upgrade' /* webpackChunkName: "Upgrade" */),
+  loader: () => import('../../Upgrade/Upgrade' /* webpackChunkName: "Upgrade" */),
   loading: () => null,
 });
 
 const ProtectedRoute = Loadable({
-  loader: () => import('../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
+  loader: () => import('../../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
   loading: () => null,
 });
 
@@ -98,6 +99,7 @@ const Dashboard = (props) => {
     resetForm,
     savePageData,
     userTypes,
+    handleGetUserDeals,
   } = props;
   const [isDiscardChanges, setIsDiscardChanges] = useState(false);
   const [userType, setUserType] = useState(null);
@@ -139,6 +141,7 @@ const Dashboard = (props) => {
     if (gameAchievement.length === 0) handleGetAchievement();
     if (gameGroup.length === 0) handleGetGameGroup();
     if (gameHistory.length === 0) handleGetGameHistory();
+    handleGetUserDeals(loggedInUser.user.id);
   }, []);
 
   // INITIALIZE FORM
@@ -488,6 +491,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetScreenNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
+  handleGetUserDeals: bindActionCreators(getUserDeals, dispatch),
 });
 
 export default compose(

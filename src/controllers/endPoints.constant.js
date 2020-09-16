@@ -20,6 +20,9 @@ export default {
     getCompanyById: (id) => `/company/${id}`,
     getDefaultCompany: () => '/company/default',
   },
+  deal: {
+    dealByUserID: (id) => `/user/${id}/deals`,
+  },
   gamification: {
     group: () => '/gameGroup',
     groupdById: (id) => `/gameGroup/${id}`,

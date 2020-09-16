@@ -7,24 +7,24 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelIcon, BrixelButtonIcon, BrixelButtonBox } from '@brixel/brixel-components';
 import Sticker from 'react-stickyfill';
-import { addGameHistory } from '../../actions/GamificationActions';
-import Loading from '../../components/Loading';
-import { GameGroupConfig } from '../../constants/global';
-import helloImg from '../../images/hello.svg';
-import BrixelButtonAchievement from '../../components/BrixelButtonAchievement';
-import { setCookie, getCookie, sortObject } from '../../utils/helpers';
+import { addGameHistory } from '../../../actions/GamificationActions';
+import Loading from '../../../components/Loading';
+import { GameGroupConfig } from '../../../constants/global';
+import helloImg from '../../../images/hello.svg';
+import BrixelButtonAchievement from '../../../components/BrixelButtonAchievement';
+import { setCookie, getCookie, sortObject } from '../../../utils/helpers';
 
-import SuccessMarketCheck from '../GameHistory/MarketChecker/SuccessMarketCheck';
-import SuccessBestimate from '../GameHistory/Bestimate/SuccessBestimate';
-import SuccessAssessor from '../GameHistory/Assessor/SuccessAssessor';
-import SuccessHomebase from '../GameHistory/Homebase/SuccessHomebase';
-import FactsRewards from '../GameHistory/Facts/SuccessFacts';
-import MediaExplanation from '../GameHistory/SecondLevel/MediaRewards';
-import PageReviewRewards from '../GameHistory/SecondLevel/PageReviewRewards';
-import PagePublishedRewards from '../GameHistory/SecondLevel/PagePublishedRewards';
-import PortalsRewards from '../GameHistory/SecondLevel/PortalsRewards';
-import { setModal } from '../../actions/CommonActions';
-import Support from '../../components/Support';
+import SuccessMarketCheck from '../../GameHistory/MarketChecker/SuccessMarketCheck';
+import SuccessBestimate from '../../GameHistory/Bestimate/SuccessBestimate';
+import SuccessAssessor from '../../GameHistory/Assessor/SuccessAssessor';
+import SuccessHomebase from '../../GameHistory/Homebase/SuccessHomebase';
+import FactsRewards from '../../GameHistory/Facts/SuccessFacts';
+import MediaExplanation from '../../GameHistory/SecondLevel/MediaRewards';
+import PageReviewRewards from '../../GameHistory/SecondLevel/PageReviewRewards';
+import PagePublishedRewards from '../../GameHistory/SecondLevel/PagePublishedRewards';
+import PortalsRewards from '../../GameHistory/SecondLevel/PortalsRewards';
+import { setModal } from '../../../actions/CommonActions';
+import Support from '../../../components/Support';
 
 const RewardsDashboard = (props) => {
   // PROPS

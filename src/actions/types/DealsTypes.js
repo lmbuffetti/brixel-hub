@@ -1,0 +1,6 @@
+/**
+ * Deals types
+ *
+ */
+export const GET_USER_DEALS = 'GET_USER_DEALS';
+export const SET_USER_DEALS = 'SET_USER_DEALS';

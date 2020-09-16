@@ -65,9 +65,15 @@ const InsertToken = Loadable({
   loading: Loading,
 });
 
-// HUB DASHBOARD
-const Dashboard = Loadable({
-  loader: () => import('./Pages/Dashboard/Dashboard' /* webpackChunkName: "Dashboard" */),
+// HUB DASHBOARD - SELLER
+const DashboardSeller = Loadable({
+  loader: () => import('./Pages/Dashboard/Seller/Dashboard' /* webpackChunkName: "DashboardSeller" */),
+  loading: Loading,
+});
+
+// HUB DASHBOARD - BUYER
+const DashboardBuyer = Loadable({
+  loader: () => import('./Pages/Dashboard/Buyer/Dashboard' /* webpackChunkName: "DashboardBuyer" */),
   loading: Loading,
 });
 
@@ -376,15 +382,24 @@ const App = (props) => {
                 { /* SECTION: HUB DASHBOARD */ }
                 {
                   !history.location.pathname.includes('packageFlow') &&
+                  !history.location.pathname.includes('onBoarding') &&
+                  !history.location.pathname.includes('buyer') && (
+                    <>
+                      <ProtectedRoute path="/" exact component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?" exact component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/rewards" component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/listings" component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
+                    </>
+                  )
+                }
+                {
+                  !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') && (
                     <>
-                      <ProtectedRoute path="/" exact component={Dashboard} />
-                      <ProtectedRoute path="/:propId?" exact component={Dashboard} />
-                      <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
-                      <ProtectedRoute path="/:propId?/property" component={Dashboard} />
-                      <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
-                      <ProtectedRoute path="/:propId?/support" component={Dashboard} />
-                      <ProtectedRoute path="/:propId?/upgrade" component={Dashboard} />
+                      <ProtectedRoute path="/buyer" exact component={DashboardBuyer} />
                     </>
                   )
                 }

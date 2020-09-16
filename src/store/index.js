@@ -6,6 +6,7 @@ import { rootReducer } from '../reducers';
 // MIDDLEWARES
 import CommonMiddleware from '../middlewares/CommonMiddleware';
 import CompanyMiddleware from '../middlewares/CompanyMiddleware';
+import DealMiddleware from '../middlewares/DealMiddleware';
 import ImageMiddleware from '../middlewares/UploadMiddleware';
 import PropertyMiddleware from '../middlewares/PropertyMiddleware';
 import UserMiddleware from '../middlewares/UserMiddleware';
@@ -24,6 +25,7 @@ const composedEnhancers = compose(
     ...middlewares,
     CommonMiddleware,
     CompanyMiddleware,
+    DealMiddleware,
     GamificationMiddleware,
     ImageMiddleware,
     PropertyMiddleware,
