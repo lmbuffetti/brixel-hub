@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  withRouter,
+  withRouter, Redirect,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -17,6 +17,21 @@ const ProtectedRoute = Loadable({
   loading: () => null,
 });
 
+const PropertiesDashboard = Loadable({
+  loader: () => import('./PropertiesDashboard' /* webpackChunkName: "PropertiesDashboard" */),
+  loading: () => null,
+});
+
+const RewardsBuyerDashboard = Loadable({
+  loader: () => import('./RewardsBuyerDashboard' /* webpackChunkName: "RewardsBuyerDashboard" */),
+  loading: () => null,
+});
+
+const PropertyBuyerDashboard = Loadable({
+  loader: () => import('./PropertyBuyerDashboard' /* webpackChunkName: "PropertyBuyerDashboard" */),
+  loading: () => null,
+});
+
 const Dashboard = (props) => {
   // PROPS
   const {
@@ -27,8 +42,8 @@ const Dashboard = (props) => {
   } = props;
 
   // GET URL PARAMS
-  const propID = get(match, 'params.propId', null);
-
+  const propID = get(match, 'params.propID', null);
+  console.log(propID);
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
     handleGetUserDeals(loggedInUser.user.id);
@@ -38,8 +53,9 @@ const Dashboard = (props) => {
   return (
     <div className="container dashboardContainer" id="dashboard">
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-      <h1>BUYER</h1>
-      {/* <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} /> */}
+      <ProtectedRoute path="/buyer/propertyLists" exact component={PropertiesDashboard} />
+      <ProtectedRoute path="/buyer/rewards/:propID" component={RewardsBuyerDashboard} />
+      <ProtectedRoute path="/buyer/property/:propID" component={PropertyBuyerDashboard} />
     </div>
   );
 };
