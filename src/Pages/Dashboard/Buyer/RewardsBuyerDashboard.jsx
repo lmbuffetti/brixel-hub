@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -19,11 +19,11 @@ import { setModal } from '../../../actions/CommonActions';
 const RewardsBuyerDashboard = (props) => {
   // PROPS
   const {
-    userTypes,
+    activeSingleProperty,
     handleSetModal,
     history,
     match,
-    activeSingleProperty,
+    userTypes,
     windowDimensions,
   } = props;
   // STATE
@@ -141,20 +141,13 @@ const RewardsBuyerDashboard = (props) => {
 RewardsBuyerDashboard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   userTypes: PropTypes.string,
-  gameGroup: PropTypes.arrayOf(PropTypes.object),
-  gameHistory: PropTypes.object,
-  formValue: PropTypes.object.isRequired,
-  handleAddGameHistory: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 RewardsBuyerDashboard.defaultProps = {
-  gameGroup: [],
-  gameHistory: {},
   userTypes: 'user',
 };
 

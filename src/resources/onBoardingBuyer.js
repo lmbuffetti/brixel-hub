@@ -41,10 +41,8 @@ export const minLengthNum = (val, name) => (value) => {
   return error;
 };
 
-const minLengthNumYear = minLengthNum(1500, 'year');
 const maxLengthNumRooms = maxLengthNum(31, 'rooms');
 const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
-const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 // QUESTION LISTS
 export const QuestionsList = (lang) => {

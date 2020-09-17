@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  withRouter, Redirect,
+  withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -11,6 +11,7 @@ import Loadable from 'react-loadable';
 import { change, initializeForm, reset } from '@brixel/brixel-components';
 import { getUserDeals } from '../../../actions/DealsActions';
 import { setUserTypes } from '../../../actions/UserActions';
+import { setActiveSingleProperty } from '../../../actions/PropertyActions';
 
 const ProtectedRoute = Loadable({
   loader: () => import('../../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
@@ -35,20 +36,28 @@ const PropertyBuyerDashboard = Loadable({
 const Dashboard = (props) => {
   // PROPS
   const {
+    handleGetUserDeals,
+    handleSetActiveSingleProperty,
+    handleSetUserTypes,
     loggedInUser,
     match,
-    handleGetUserDeals,
-    handleSetUserTypes,
+    userBuyerProperties,
   } = props;
 
   // GET URL PARAMS
   const propID = get(match, 'params.propID', null);
-  console.log(propID);
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
     handleGetUserDeals(loggedInUser.user.id);
     handleSetUserTypes('buyer');
   }, []);
+
+  useEffect(() => {
+    if (propID && userBuyerProperties.length > 0) {
+      const selectProperty = userBuyerProperties.find((item) => item.id === propID);
+      if (selectProperty) handleSetActiveSingleProperty(selectProperty);
+    }
+  }, [propID, userBuyerProperties]);
 
   return (
     <div className="container dashboardContainer" id="dashboard">
@@ -61,16 +70,19 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
   handleGetUserDeals: PropTypes.func.isRequired,
+  handleSetActiveSingleProperty: PropTypes.func.isRequired,
+  handleSetUserTypes: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  userBuyerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 Dashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  activeSingleProperty: get(state, 'property.activeSingleProperty', undefined),
+  userBuyerProperties: get(state, 'user.userBuyerProperties', undefined),
   loggedInUser: get(state, 'user.loggedInUser', {}),
 });
 const mapDispatchToProps = (dispatch) => ({
@@ -84,6 +96,7 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset('Property', data)));
   },
   handleGetUserDeals: bindActionCreators(getUserDeals, dispatch),
+  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
 });
 

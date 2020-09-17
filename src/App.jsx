@@ -171,10 +171,10 @@ const App = (props) => {
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
-    if (activeSingleProperty && activeSingleProperty.id && loggedInUser.user && (activeSingleProperty.owner === loggedInUser.user.id || activeSingleProperty.owner.id === loggedInUser.user.id)) {
+    if (activeSingleProperty && activeSingleProperty.id && loggedInUser.user && (activeSingleProperty.owner === loggedInUser.user.id || activeSingleProperty.owner.id === loggedInUser.user.id) && !get(history, 'location.pathname', '').includes('buyer')) {
       handleSetUserTypes('seller');
     } else if (activeSingleProperty && activeSingleProperty.id) {
-      handleSetUserTypes('seller');
+      handleSetUserTypes('buyer');
     }
   }, [activeSingleProperty]);
 
@@ -400,6 +400,7 @@ const App = (props) => {
                   !history.location.pathname.includes('onBoarding') && (
                     <>
                       <ProtectedRoute path="/buyer" component={DashboardBuyer} />
+                      <ProtectedRoute path="/buyer/property/:propID" component={DashboardBuyer} />
                     </>
                   )
                 }

@@ -82,6 +82,7 @@ const Dashboard = (props) => {
     handleGetGameHistory,
     handleGetImageType,
     handleGetPropertyListings,
+    handleGetUserDeals,
     handleSaveActiveSingleProperty,
     handleSaveData,
     handleSavePropertyVisitSchedule,
@@ -99,7 +100,6 @@ const Dashboard = (props) => {
     resetForm,
     savePageData,
     userTypes,
-    handleGetUserDeals,
   } = props;
   const [isDiscardChanges, setIsDiscardChanges] = useState(false);
   const [userType, setUserType] = useState(null);
@@ -142,7 +142,7 @@ const Dashboard = (props) => {
     if (gameGroup.length === 0) handleGetGameGroup();
     if (gameHistory.length === 0) handleGetGameHistory();
     handleGetUserDeals(loggedInUser.user.id);
-  }, []);
+  }, [userTypes]);
 
   // INITIALIZE FORM
   useEffect(() => {
@@ -369,6 +369,7 @@ Dashboard.propTypes = {
   handleGetGameHistory: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleGetPropertyListings: PropTypes.func.isRequired,
+  handleGetUserDeals: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSaveData: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,

@@ -1,16 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Route,
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
-import has from 'lodash/has';
 import {
-  BrixelButtonBox,
-  BrixelButtonIcon, BrixelIcon,
-  FormatValue,
+  BrixelButtonIcon,
+  BrixelIcon,
   Helpers,
 } from '@brixel/brixel-components';
 import { compose } from 'redux';
@@ -22,17 +19,12 @@ import CoverPropertyImage from '../../../components/CoverPropertyImage';
 const HomeDashboard = (props) => {
   // PROPS
   const {
-    formValue,
     history,
-    // loggedInUser,
-    match,
     userBuyerProperties,
-    windowDimensions,
   } = props;
   // STATE
   // const [userType, setUserType] = useState();
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   const openCloseColumn = () => {
@@ -43,12 +35,6 @@ const HomeDashboard = (props) => {
       return 'closed';
     }
     return 'opened';
-  };
-
-  // FUNCTION TO CALC NUMBER OF PHOTOS - FLOORPLANS - DOCUMENTS
-  const calcLenght = (val) => {
-    if (val) return val.length;
-    return 0;
   };
 
   const showPrice = (property) => {
@@ -103,7 +89,7 @@ const HomeDashboard = (props) => {
                   className="dis-f p-1 shadow-1dp brdRadius bgWhite mb-2 shadowHover-3dp cur-poi"
                   onClick={() => history.push(`/buyer/property/${property.id}`)}
                 >
-                  <div className="image-ratio squared w-fix-flex-80 brdRadius ov-h mr-1">
+                  <div className="image-ratio squared w-fix-flex-80 h-fix-80 brdRadius ov-h mr-1">
                     <CoverPropertyImage coverPhoto={get(property, 'coverPhoto.thumbnailPath', null)} className="cover" />
                   </div>
                   <div className="w-perc-100 dis-fl-col jc-b">
@@ -160,13 +146,8 @@ const HomeDashboard = (props) => {
 };
 
 HomeDashboard.propTypes = {
-  formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  // loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  property: PropTypes.object.isRequired,
   userBuyerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  windowDimensions: PropTypes.object.isRequired,
 };
 
 HomeDashboard.defaultProps = {

@@ -1,4 +1,3 @@
-import cloneDeep from 'lodash/cloneDeep';
 import {
   SPINNER_ON,
   SPINNER_OFF,
