@@ -215,186 +215,117 @@ const Documents = (props) => {
                             }
                           </div>
 
-                          {
-                            userType === 'seller' ? (
-                              <div className="visibility-info dis-fl-row a-c">
-                                {
-                                  (editDocument.id === doc.id && editDocument.active) ? (
-                                    <BrixelDropdown
-                                      className="zIndex2 compact"
-                                      borderColor="light"
-                                      color="light"
-                                      options={[
-                                        {
-                                          label: 'Private',
-                                          value: true,
-                                        },
-                                        {
-                                          label: 'Public',
-                                          value: true,
-                                        }]}
-                                      selected={`${doc.isPrivate ? 'Private' : 'Public'}`}
-                                      onSelect={(e, value) => {
-                                        e.preventDefault();
-                                        changeFieldValue(`documents[${i}].isPrivate`, value.label !== 'Public');
+                          <div className="visibility-info dis-fl-row a-c">
+                            {
+                              userType === 'seller' && (
+                                <>
+                                  {
+                                    (editDocument.id === doc.id && editDocument.active) ? (
+                                      <BrixelDropdown
+                                        className="zIndex2 compact"
+                                        borderColor="light"
+                                        color="light"
+                                        options={[
+                                          {
+                                            label: 'Private',
+                                            value: true,
+                                          },
+                                          {
+                                            label: 'Public',
+                                            value: true,
+                                          }]}
+                                        selected={`${doc.isPrivate ? 'Private' : 'Public'}`}
+                                        onSelect={(e, value) => {
+                                          e.preventDefault();
+                                          changeFieldValue(`documents[${i}].isPrivate`, value.label !== 'Public');
+                                        }}
+                                      />
+                                    ) : (
+                                      <BrixelIcon
+                                        color={`${doc.isPrivate ? 'red' : 'green'}`}
+                                        icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
+                                      />
+                                    )
+                                  }
+                                </>
+                              )
+                            }
+                            <div className="pos-r" ref={documentRef}>
+                              {
+                                (editDocument.id === doc.id && editDocument.active) ? (
+                                  <div className="dis-fl-row">
+                                    <BrixelButtonIcon
+                                      icon="close-circle"
+                                      bgTransparent
+                                      noBorder
+                                      className="add-button"
+                                      color="red"
+                                      saturationTxt={400}
+                                      label="Cancel"
+                                      onClick={() => {
+                                        resetForm(initialValues);
+                                        setEditDocument({ id: null, active: false });
                                       }}
                                     />
-                                  ) : (
-                                    <BrixelIcon
-                                      color={`${doc.isPrivate ? 'red' : 'green'}`}
-                                      icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
+                                  </div>
+                                ) : (
+                                  <BrixelButtonIcon
+                                    className="p-md-0 mr-1-neg zIndex2"
+                                    bgTransparent
+                                    noBorder
+                                    color="dark"
+                                    saturationTxt={400}
+                                    icon="options-vertical"
+                                    onClick={() => {
+                                      setDocumentOptionsOpen({ id: doc.id, active: !documentOptionsOpen.active });
+                                    }}
+                                  />
+                                )
+                              }
+                              {
+                                (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
+                                  <>
+                                    <BrixelDropdownMini
+                                      topOffset={32}
+                                      rightAligned
+                                      links={
+                                        userType === 'seller' ? [
+                                          {
+                                            label: isCopied ? 'Copied' : 'Copy Link',
+                                            clickFunc: (e) => copyLinkToClipboard(e),
+                                          },
+                                          {
+                                            label: 'Edit',
+                                            clickFunc: () => onEditMode(doc),
+                                          },
+                                          {
+                                            label: 'Remove',
+                                            clickFunc: (e) => deleteDocs(e, doc.id),
+                                            className: 'txtRed400',
+                                          },
+                                        ] : [
+                                          {
+                                            label: isCopied ? 'Copied' : 'Copy Link',
+                                            clickFunc: (e) => copyLinkToClipboard(e),
+                                          },
+                                        ]
+                                      }
                                     />
-                                  )
-                                }
-                                <div className="pos-r">
-                                  {
-                                    (editDocument.id === doc.id && editDocument.active) ? (
-                                      <div className="dis-fl-row">
-                                        <BrixelButtonIcon
-                                          icon="close-circle"
-                                          bgTransparent
-                                          noBorder
-                                          className="add-button"
-                                          color="red"
-                                          saturationTxt={400}
-                                          label="Cancel"
-                                          onClick={() => {
-                                            resetForm(initialValues);
-                                            setEditDocument({ id: null, active: false });
-                                          }}
-                                        />
-                                      </div>
-                                    ) : (
-                                      <BrixelButtonIcon
-                                        className="p-md-0 mr-1-neg zIndex2"
-                                        bgTransparent
-                                        noBorder
-                                        color="dark"
-                                        saturationTxt={400}
-                                        icon="options-vertical"
-                                        onClick={() => {
-                                          setDocumentOptionsOpen({ id: doc.id, active: !documentOptionsOpen.active });
-                                        }}
-                                      />
-                                    )
-                                  }
-                                  {
-                                    (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
-                                      <div className="options-menu w-fix-160 zIndex3 shadow-1dp dis-fl-col p-1 pos-a a-bl" ref={documentRef}>
-                                        <BrixelButtonTertiary
-                                          className="copy p-0"
-                                          color="red"
-                                          label="Copy Link"
-                                          onClick={(e) => copyLinkToClipboard(e)}
-                                        />
-                                        <textarea
-                                          style={{
-                                            opacity: 0,
-                                            width: 0,
-                                            height: 0,
-                                          }}
-                                          readOnly
-                                          ref={textAreaRef}
-                                          value={`${getConfigEnv.shortPath}/document/${doc.id}`}
-                                        />
-                                        <BrixelButtonTertiary
-                                          className="edit p-0"
-                                          color="dark"
-                                          label="Edit"
-                                          saturation={100}
-                                          onClick={() => onEditMode(doc)}
-                                        />
-                                        <BrixelButtonTertiary
-                                          className="remove p-0"
-                                          color="red"
-                                          label="Remove"
-                                          onClick={(e) => deleteDocs(e, doc.id)}
-                                        />
-                                      </div>
-                                    )
-                                  }
-                                </div>
-                              </div>
-                            ) : (
-                              <div className="visibility-info dis-fl-row a-c">
-                                <div className="pos-r" ref={documentRef}>
-                                  {
-                                    (editDocument.id === doc.id && editDocument.active) ? (
-                                      <div className="dis-fl-row">
-                                        <BrixelButtonIcon
-                                          icon="close-circle"
-                                          bgTransparent
-                                          noBorder
-                                          className="add-button"
-                                          color="red"
-                                          saturationTxt={400}
-                                          label="Cancel"
-                                          onClick={() => {
-                                            resetForm(initialValues);
-                                            setEditDocument({ id: null, active: false });
-                                          }}
-                                        />
-                                      </div>
-                                    ) : (
-                                      <BrixelButtonIcon
-                                        className="p-md-0 mr-1-neg zIndex2"
-                                        bgTransparent
-                                        noBorder
-                                        color="dark"
-                                        saturationTxt={400}
-                                        icon="options-vertical"
-                                        onClick={() => {
-                                          setDocumentOptionsOpen({ id: doc.id, active: !documentOptionsOpen.active });
-                                        }}
-                                      />
-                                    )
-                                  }
-                                  {
-                                    (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
-                                      <>
-                                        <BrixelDropdownMini
-                                          topOffset={32}
-                                          rightAligned
-                                          links={
-                                            userType === 'seller' ? [
-                                              {
-                                                label: isCopied ? 'Copied' : 'Copy Link',
-                                                clickFunc: (e) => copyLinkToClipboard(e),
-                                              },
-                                              {
-                                                label: 'Edit',
-                                                clickFunc: () => onEditMode(doc),
-                                              },
-                                              {
-                                                label: 'Remove',
-                                                clickFunc: (e) => deleteDocs(e, doc.id),
-                                                className: 'txtRed400',
-                                              },
-                                            ] : [
-                                              {
-                                                label: isCopied ? 'Copied' : 'Copy Link',
-                                                clickFunc: (e) => copyLinkToClipboard(e),
-                                              },
-                                            ]
-                                          }
-                                        />
-                                        <textarea
-                                          style={{
-                                            opacity: 0,
-                                            width: 0,
-                                            height: 0,
-                                          }}
-                                          readOnly
-                                          ref={textAreaRef}
-                                          value={`${getConfigEnv.shortPath}/document/${doc.id}`}
-                                        />
-                                      </>
-                                    )
-                                  }
-                                </div>
-                              </div>
-                            )
-                          }
+                                    <textarea
+                                      style={{
+                                        opacity: 0,
+                                        width: 0,
+                                        height: 0,
+                                      }}
+                                      readOnly
+                                      ref={textAreaRef}
+                                      value={`${getConfigEnv.shortPath}/document/${doc.id}`}
+                                    />
+                                  </>
+                                )
+                              }
+                            </div>
+                          </div>
                         </li>
                       ))
                     }
