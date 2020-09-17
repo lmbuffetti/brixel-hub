@@ -158,6 +158,8 @@ const MenuSidebar = (props) => {
                   handleSetActiveSingleProperty({});
                   history.push('/');
                 }}
+                color="dark"
+                saturation={history.location.pathname.includes('buyer') ? 200 : 700}
               />
               <BrixelButtonTertiary
                 label="Buy"
@@ -168,6 +170,8 @@ const MenuSidebar = (props) => {
                   handleSetActiveSingleProperty({});
                   history.push('/buyer/propertyLists');
                 }}
+                color="dark"
+                saturation={history.location.pathname.includes('buyer') ? 700 : 200}
               />
 
               {
@@ -233,6 +237,7 @@ const MenuSidebar = (props) => {
                     labels={activeSingleProperty.id ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.title) : secondRoutesBuyer.map((item) => item.title)}
                     labelsIcons={activeSingleProperty.id ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.icon) : secondRoutesBuyer.map((item) => item.icon)}
                     clicksList={activeSingleProperty.id ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.path) : secondRoutesBuyer.map((item) => item.path)}
+                    clicksListName={activeSingleProperty.id ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.name) : secondRoutesBuyer.map((item) => item.name)}
                     classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
                     activeTab={activeMenu || checkActiveTab()}
                     fullWidth={windowDimensions.width <= 1024}
@@ -302,7 +307,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', { })),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
-  userType: get(state, 'user.userTypes', null),
+  userType: get(state, 'user.userTypes', ''),
 });
 
 const mapDispatchToProps = (dispatch) => ({

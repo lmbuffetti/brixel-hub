@@ -400,7 +400,7 @@ const App = (props) => {
                   !history.location.pathname.includes('onBoarding') && (
                     <>
                       <ProtectedRoute path="/buyer" component={DashboardBuyer} />
-                      <ProtectedRoute path="/buyer/property/:propID" component={DashboardBuyer} />
+                      <ProtectedRoute path="/buyer/:act/:propID" component={DashboardBuyer} />
                     </>
                   )
                 }

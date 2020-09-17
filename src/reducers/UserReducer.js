@@ -10,7 +10,7 @@ import {
 } from '../actions/types/UserTypes';
 
 export const defaultState = {
-  userTypes: null,
+  userTypes: '',
   awards: 0,
   brixelPoints: 0,
   favorites: [],

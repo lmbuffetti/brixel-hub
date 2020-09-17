@@ -87,7 +87,7 @@ const HomeDashboard = (props) => {
                 <div
                   key={i.toString()}
                   className="dis-f p-1 shadow-1dp brdRadius bgWhite mb-2 shadowHover-3dp cur-poi"
-                  onClick={() => history.push(`/buyer/property/${property.id}`)}
+                  onClick={() => history.push(`/buyer/rewards/${property.id}`)}
                 >
                   <div className="image-ratio squared w-fix-flex-80 h-fix-80 brdRadius ov-h mr-1">
                     <CoverPropertyImage coverPhoto={get(property, 'coverPhoto.thumbnailPath', null)} className="cover" />
