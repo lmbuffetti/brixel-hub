@@ -13,7 +13,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { ReactSortable } from 'react-sortablejs';
 import {
   BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelDropdown, BrixelDropdownMini,
-  BrixelButtonTertiary, useOutsideAlerter, BrixelInputText, change, reset, ReduxField,
+  useOutsideAlerter, BrixelInputText, change, reset, ReduxField,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
