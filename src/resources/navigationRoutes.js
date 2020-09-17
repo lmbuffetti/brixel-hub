@@ -41,10 +41,13 @@ export const firstRoutesBuyer = [
     icon: 'property-house',
     path: '/buyer/property/:propID',
   },
+];
+
+export const secondRoutesBuyer = [
   {
     title: 'Support',
     name: 'support',
     icon: 'conversation',
-    path: 'support',
+    path: '/support',
   },
 ];

@@ -12,7 +12,9 @@ import get from 'lodash/get';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_full.svg';
 import { CSSTransition } from 'react-transition-group';
 import useOutsideAlerter from './OutsideElement';
-import { firstRoutes, secondRoutes, firstRoutesBuyer } from '../resources/navigationRoutes';
+import {
+  firstRoutes, secondRoutes, firstRoutesBuyer, secondRoutesBuyer,
+} from '../resources/navigationRoutes';
 import { setUserTypes } from '../actions/UserActions';
 import { setActiveSingleProperty } from '../actions/PropertyActions';
 
@@ -228,9 +230,9 @@ const MenuSidebar = (props) => {
                   <BrixelTabs
                     classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
                     classNameUl="zIndex4"
-                    labels={firstRoutesBuyer.map((item) => item.title)}
-                    labelsIcons={firstRoutesBuyer.map((item) => item.icon)}
-                    clicksList={firstRoutesBuyer.map((item) => item.path)}
+                    labels={activeSingleProperty.id ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.title) : secondRoutesBuyer.map((item) => item.title)}
+                    labelsIcons={activeSingleProperty.id ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.icon) : secondRoutesBuyer.map((item) => item.icon)}
+                    clicksList={activeSingleProperty.id ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.path) : secondRoutesBuyer.map((item) => item.path)}
                     classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
                     activeTab={activeMenu || checkActiveTab()}
                     fullWidth={windowDimensions.width <= 1024}
@@ -244,14 +246,18 @@ const MenuSidebar = (props) => {
               }
             </div>
             <hr className="my-2 mx-1 lighter" />
-            <div className="hide dis-b-md pl-3 pr-2 mt-2">
-              <BrixelButtonTertiary
-                className="fsize-300 txtLight600 fweight-600 py-0 min-h-fix-30"
-                label="All properties"
-                rightIcon="arrow-right-small"
-                onClick={() => onTabClick('propertyList', 'state')}
-              />
-            </div>
+            {
+              userType === 'seller' && (
+                <div className="hide dis-b-md pl-3 pr-2 mt-2">
+                  <BrixelButtonTertiary
+                    className="fsize-300 txtLight600 fweight-600 py-0 min-h-fix-30"
+                    label="All properties"
+                    rightIcon="arrow-right-small"
+                    onClick={() => onTabClick('propertyList', 'state')}
+                  />
+                </div>
+              )
+            }
           </div>
           <CSSTransition
             in={slideIn}
