@@ -9,8 +9,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import { change, initializeForm, reset } from '@brixel/brixel-components';
-import { getUserDeals } from '../../../actions/DealsActions';
-import { setUserTypes } from '../../../actions/UserActions';
+import { setUserTypes, getUserPagesDeals } from '../../../actions/UserActions';
 import { setActiveSingleProperty } from '../../../actions/PropertyActions';
 
 const ProtectedRoute = Loadable({
@@ -18,8 +17,8 @@ const ProtectedRoute = Loadable({
   loading: () => null,
 });
 
-const PropertiesDashboard = Loadable({
-  loader: () => import('./PropertiesDashboard' /* webpackChunkName: "PropertiesDashboard" */),
+const PropertiesBuyerDashboard = Loadable({
+  loader: () => import('./PropertiesBuyerDashboard' /* webpackChunkName: "PropertiesBuyerDashboard" */),
   loading: () => null,
 });
 
@@ -36,7 +35,7 @@ const PropertyBuyerDashboard = Loadable({
 const Dashboard = (props) => {
   // PROPS
   const {
-    handleGetUserDeals,
+    handleGetUserPagesDeals,
     handleSetActiveSingleProperty,
     handleSetUserTypes,
     loggedInUser,
@@ -48,7 +47,7 @@ const Dashboard = (props) => {
   const propID = get(match, 'params.propID', null);
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
-    handleGetUserDeals(loggedInUser.user.id);
+    handleGetUserPagesDeals(loggedInUser.user.id);
     handleSetUserTypes('buyer');
   }, []);
 
@@ -62,7 +61,7 @@ const Dashboard = (props) => {
   return (
     <div className="container dashboardContainer" id="dashboard">
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-      <ProtectedRoute path="/buyer/propertyLists" exact component={PropertiesDashboard} />
+      <ProtectedRoute path="/buyer/propertyLists" exact component={PropertiesBuyerDashboard} />
       <ProtectedRoute path="/buyer/rewards/:propID" component={RewardsBuyerDashboard} />
       <ProtectedRoute path="/buyer/property/:propID" component={PropertyBuyerDashboard} />
     </div>
@@ -70,7 +69,7 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
-  handleGetUserDeals: PropTypes.func.isRequired,
+  handleGetUserPagesDeals: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -95,7 +94,7 @@ const mapDispatchToProps = (dispatch) => ({
   resetForm(data) {
     (dispatch(reset('Property', data)));
   },
-  handleGetUserDeals: bindActionCreators(getUserDeals, dispatch),
+  handleGetUserPagesDeals: bindActionCreators(getUserPagesDeals, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
 });

@@ -29,7 +29,7 @@ const Support = (props) => {
   const colorLinkTextInfo = layout === 'onboarding' ? 'txtWhite' : 'txtDark700';
 
   const [openDetail, setOpenDetail] = useState(expanded);
-
+  console.log(activeSingleCompany);
   // FUCNTION TO OPEN/CLOSE THE SUPPORT DETAIL AND SCROLL DOWN
   const onclickOne = () => {
     setOpenDetail(!openDetail);
@@ -173,7 +173,7 @@ Support.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany.id', null) ? get(state, 'companies.activeSingleCompany', null) : get(state, 'user.loggedInUser.user.company', {}),
 });
 
 export default connect(mapStateToProps, null)(Support);

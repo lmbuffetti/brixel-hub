@@ -70,5 +70,6 @@ export default {
     getPropertiesOfUser: (owner) => `/page/0/0?owner=${owner}`,
     validateUser: (email) => `/user/validate/${email}`,
     pageDealByUser: (id) => `/user/${id}/pageDeals`,
+    leadsByUser: (id) => `/user/${id}/userLeads`,
   },
 };

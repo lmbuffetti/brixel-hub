@@ -36,6 +36,11 @@ const RewardsDashboard = Loadable({
   loading: () => null,
 });
 
+const PropertiesDashboard = Loadable({
+  loader: () => import('./PropertiesDashboard' /* webpackChunkName: "PropertiesDashboard" */),
+  loading: () => null,
+});
+
 const PropertyDashboard = Loadable({
   loader: () => import('./PropertyDashboard' /* webpackChunkName: "PropertyDashboard" */),
   loading: () => null,
@@ -131,10 +136,12 @@ const Dashboard = (props) => {
 
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
-    if (propID && !get(activeSingleProperty, 'id', null)) {
-      handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: true });
-    } else if (!propID) {
-      loadDefaultProperty();
+    if (!history.location.pathname.includes('pageLists')) {
+      if (propID && !get(activeSingleProperty, 'id', null)) {
+        handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: true });
+      } else if (!propID) {
+        loadDefaultProperty();
+      }
     }
     if (gameAchievement.length === 0) handleGetAchievement();
     if (gameGroup.length === 0) handleGetGameGroup();
@@ -149,20 +156,22 @@ const Dashboard = (props) => {
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
-    if (typeof activeSingleProperty !== 'undefined' && activeSingleProperty) {
-      if (!propID && get(activeSingleProperty, 'id', null)) {
-        history.push(`/${activeSingleProperty.id}/rewards`);
+    if (!history.location.pathname.includes('pageLists')) {
+      if (typeof activeSingleProperty !== 'undefined' && activeSingleProperty) {
+        if (!propID && get(activeSingleProperty, 'id', null)) {
+          history.push(`/${activeSingleProperty.id}/rewards`);
+        }
+        if (get(activeSingleProperty, 'owner', null) === loggedInUser.user.id) {
+          // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
+          handleGetActiveSinglePropertyBookings({ id: propID });
+        } else if (get(activeSingleProperty, 'statusCode', null)) {
+          loadDefaultProperty();
+        }
+        if (imageType.length === 0) handleGetImageType();
+      } else {
+        setUserType('emptyState');
+        history.push('/no-property');
       }
-      if (get(activeSingleProperty, 'owner', null) === loggedInUser.user.id) {
-        // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
-        handleGetActiveSinglePropertyBookings({ id: propID });
-      } else if (get(activeSingleProperty, 'statusCode', null)) {
-        loadDefaultProperty();
-      }
-      if (imageType.length === 0) handleGetImageType();
-    } else {
-      setUserType('emptyState');
-      history.push('/no-property');
     }
     localStorage.removeItem('gameGroup');
     const activeLeads = get(activeSingleProperty, 'pageLeads[0]', null);
@@ -334,12 +343,13 @@ const Dashboard = (props) => {
       // initializeForm('inputSheet', inputSheet);
     }
   }, [formValue, errorValue]);
-
+  console.log('DDASDASDASDASD1');
   if (!userTypes && !userType) return (<div />);
-
+  console.log('DDASDASDASDASD2');
   return (
     <div className="container dashboardContainer" id="dashboard">
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
+      <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />

@@ -14,7 +14,6 @@ import {
   SET_USER_PROPERTIES,
   GET_FAVORITES,
   SET_FAVORITES,
-  SET_USER_BUYER_PROPERTIES,
   GET_USER_PAGES_DEALS,
   SET_USER_PAGES_DEALS,
 } from '../actions/types/UserTypes';
@@ -33,7 +32,6 @@ import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
 import api from '../controllers/api/config';
 
 import { setCookie, removeCookie } from '../utils/helpers';
-import { GET_USER_DEALS, SET_USER_DEALS } from '../actions/types/DealsTypes';
 
 const checkUser = (store) => (next) => (action) => {
   switch (action.type) {
@@ -177,19 +175,13 @@ const checkUser = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       api.user.getPagesByDealByUser(action.payload)
         .then((res) => {
-          store.dispatch({ type: SET_USER_DEALS, payload: res.data });
           const pageList = [];
-          const call2 = [];
           // eslint-disable-next-line no-return-assign
           res.data.forEach((item) => {
-            const checkPage = pageList.filter((f) => f.id === item.page.id);
-            if (checkPage.length === 0) {
-              pageList.push(item.page);
-            }
+            pageList.push(item.page);
           });
-          store.dispatch({ type: SET_USER_BUYER_PROPERTIES, payload: pageList });
+          store.dispatch({ type: SET_USER_PAGES_DEALS, payload: pageList });
           store.dispatch({ type: SPINNER_OFF });
-          if (call2.length === 0) store.dispatch({ type: SPINNER_OFF });
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
@@ -242,6 +234,7 @@ const checkUser = (store) => (next) => (action) => {
             store.dispatch({ type: SET_USER_PROPERTIES, payload: res.data });
           }
           store.dispatch({ type: SPINNER_SMALL_OFF });
+          store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           store.dispatch({ type: SPINNER_SMALL_OFF });

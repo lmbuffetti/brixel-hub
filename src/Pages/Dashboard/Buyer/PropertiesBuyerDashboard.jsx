@@ -16,7 +16,7 @@ import last from 'lodash/last';
 import Sticker from 'react-stickyfill';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 
-const HomeDashboard = (props) => {
+const PropertiesBuyerDashboard = (props) => {
   // PROPS
   const {
     history,
@@ -145,12 +145,12 @@ const HomeDashboard = (props) => {
   );
 };
 
-HomeDashboard.propTypes = {
+PropertiesBuyerDashboard.propTypes = {
   history: PropTypes.object.isRequired,
   userBuyerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-HomeDashboard.defaultProps = {
+PropertiesBuyerDashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
@@ -165,4 +165,4 @@ const mapStateToProps = (state) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, null),
-)(HomeDashboard);
+)(PropertiesBuyerDashboard);

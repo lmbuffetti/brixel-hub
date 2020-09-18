@@ -6,7 +6,7 @@ import {
   SET_FAVORITES,
   SET_LOGGED_IN_USER,
   SET_USER_PROPERTIES,
-  SET_USER_BUYER_PROPERTIES,
+  SET_USER_PAGES_DEALS,
 } from '../actions/types/UserTypes';
 
 export const defaultState = {
@@ -45,7 +45,7 @@ export default handleActions(
       ...state,
       userProperties: action.payload,
     }),
-    [SET_USER_BUYER_PROPERTIES]: (state, action) => ({
+    [SET_USER_PAGES_DEALS]: (state, action) => ({
       ...state,
       userBuyerProperties: action.payload,
     }),
