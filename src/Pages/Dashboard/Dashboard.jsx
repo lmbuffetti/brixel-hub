@@ -416,7 +416,7 @@ const mapStateToProps = (state) => {
     gameAchievement: get(state, 'gamification.achievement', []),
     gameGroup: get(state, 'gamification.gameGroup', []),
     gameHistory: get(state, 'gamification.gameHistory', {}),
-    imageType: get(state, 'image.imageType', []),
+    imageType: get(state, 'images.imageType', []),
     initValues: get(state, 'brixelForm.Property.initialValues', {}),
     initialValues: {
       assessor: get(state, 'property.activeSingleProperty.assessor', {}),

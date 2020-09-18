@@ -124,3 +124,56 @@
     }
   }
 }
+
+
+
+
+// Tooltip Title
+
+.titleWrapper {
+  &:hover {
+    .titleTooltip {
+      animation: showTooltip 500ms $default-easing forwards;
+      @keyframes showTooltip {
+        0% {
+          opacity: 0;
+          left: 40px;
+        } 100% {
+          opacity: 1;
+          left: 30px;
+        }
+      }
+    }
+  }
+}
+
+.titleTooltip {
+  opacity: 0;
+  position: fixed;
+  left: 30px;
+  margin-top: 8px;
+  max-width: 180px;
+  display: block;
+  transform: translate(100%, -100%);
+  background: map-get($darkColor, 400);
+  border-radius: $step;
+  padding: $step / 2 $step;
+  color: $brx-white;
+  pointer-events: none;
+  box-shadow: $shadow-2dp;
+  z-index: 9;
+  @include fontStyle(200);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid map-get($darkColor, 400);
+    transform: translateY(-50%) translateX(-75%) rotate(-90deg);
+  }
+}
