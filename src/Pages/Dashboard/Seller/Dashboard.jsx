@@ -29,7 +29,6 @@ import {
 } from '../../../actions/GamificationActions';
 import { setModal, setPageData, setScreenNotification } from '../../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
-import { getUserDeals } from '../../../actions/DealsActions';
 import { calcPercentageFacts } from '../../../utils/helpers';
 
 const RewardsDashboard = Loadable({
@@ -82,7 +81,6 @@ const Dashboard = (props) => {
     handleGetGameHistory,
     handleGetImageType,
     handleGetPropertyListings,
-    handleGetUserDeals,
     handleSaveActiveSingleProperty,
     handleSaveData,
     handleSavePropertyVisitSchedule,
@@ -141,7 +139,6 @@ const Dashboard = (props) => {
     if (gameAchievement.length === 0) handleGetAchievement();
     if (gameGroup.length === 0) handleGetGameGroup();
     if (gameHistory.length === 0) handleGetGameHistory();
-    handleGetUserDeals(loggedInUser.user.id);
   }, [userTypes]);
 
   // INITIALIZE FORM
@@ -369,7 +366,6 @@ Dashboard.propTypes = {
   handleGetGameHistory: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleGetPropertyListings: PropTypes.func.isRequired,
-  handleGetUserDeals: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSaveData: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
@@ -492,7 +488,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetScreenNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
-  handleGetUserDeals: bindActionCreators(getUserDeals, dispatch),
 });
 
 export default compose(

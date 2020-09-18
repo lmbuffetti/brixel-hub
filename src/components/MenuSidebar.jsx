@@ -92,7 +92,7 @@ const MenuSidebar = (props) => {
 
   // FUNCTION TO MAANGE THE TAB CLICK
   const onTabClick = (val, act = 'url') => {
-    if (act === 'state' || val === 'support') {
+    if (act === 'state' || val === 'support' || val === '/support') {
       setActiveMenu(val);
       setSlideIn(true);
     } else {

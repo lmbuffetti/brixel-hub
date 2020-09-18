@@ -28,6 +28,6 @@ function apiFactory(
 }
 
 export default apiFactory({
-  baseURL: getConfigEnv.apiRoot,
+  baseURL: 'http://localhost:46071/api/v3/',
   brixelator: getConfigEnv.brixelatorRoot,
 });

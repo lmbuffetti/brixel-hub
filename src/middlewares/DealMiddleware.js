@@ -19,26 +19,20 @@ const checkCommon = (store) => (next) => (action) => {
     case GET_USER_DEALS: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
-      api.deal.getUserDealLists(action.payload)
+      api.user.getPagesByDealByUser(action.payload)
         .then((res) => {
           store.dispatch({ type: SET_USER_DEALS, payload: res.data });
           const pageList = [];
-          const pages = [];
           const call2 = [];
           // eslint-disable-next-line no-return-assign
           res.data.forEach((item) => {
-            const checkPage = pageList.filter((f) => f.page === item.page);
+            const checkPage = pageList.filter((f) => f.id === item.page.id);
             if (checkPage.length === 0) {
-              pageList.push(item);
-              call2.push(api.property.getPropertySimplified(item.page).then((page) => {
-                pages.push(page.data);
-              }));
+              pageList.push(item.page);
             }
           });
-          Promise.all(call2).then(() => {
-            store.dispatch({ type: SET_USER_BUYER_PROPERTIES, payload: pages });
-            store.dispatch({ type: SPINNER_OFF });
-          });
+          store.dispatch({ type: SET_USER_BUYER_PROPERTIES, payload: pageList });
+          store.dispatch({ type: SPINNER_OFF });
           if (call2.length === 0) store.dispatch({ type: SPINNER_OFF });
           store.dispatch({ type: SPINNER_OFF });
         });

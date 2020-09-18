@@ -12,7 +12,11 @@ import {
   VALIDATE_USER,
   GET_USER_PROPERTIES,
   SET_USER_PROPERTIES,
-  GET_FAVORITES, SET_FAVORITES,
+  GET_FAVORITES,
+  SET_FAVORITES,
+  SET_USER_BUYER_PROPERTIES,
+  GET_USER_PAGES_DEALS,
+  SET_USER_PAGES_DEALS,
 } from '../actions/types/UserTypes';
 
 import {
@@ -29,6 +33,7 @@ import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
 import api from '../controllers/api/config';
 
 import { setCookie, removeCookie } from '../utils/helpers';
+import { GET_USER_DEALS, SET_USER_DEALS } from '../actions/types/DealsTypes';
 
 const checkUser = (store) => (next) => (action) => {
   switch (action.type) {
@@ -162,6 +167,29 @@ const checkUser = (store) => (next) => (action) => {
           }
         })
         .catch(() => {
+          store.dispatch({ type: SPINNER_OFF });
+        });
+      break;
+    }
+    // GET USER PAGES BY DEALS
+    case GET_USER_PAGES_DEALS: {
+      next(action);
+      store.dispatch({ type: SPINNER_ON });
+      api.user.getPagesByDealByUser(action.payload)
+        .then((res) => {
+          store.dispatch({ type: SET_USER_DEALS, payload: res.data });
+          const pageList = [];
+          const call2 = [];
+          // eslint-disable-next-line no-return-assign
+          res.data.forEach((item) => {
+            const checkPage = pageList.filter((f) => f.id === item.page.id);
+            if (checkPage.length === 0) {
+              pageList.push(item.page);
+            }
+          });
+          store.dispatch({ type: SET_USER_BUYER_PROPERTIES, payload: pageList });
+          store.dispatch({ type: SPINNER_OFF });
+          if (call2.length === 0) store.dispatch({ type: SPINNER_OFF });
           store.dispatch({ type: SPINNER_OFF });
         });
       break;

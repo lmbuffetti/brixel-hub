@@ -52,6 +52,11 @@ class Property extends Base {
     const url = ep.user.validateUser(email);
     return this.apiClient.get(url, {});
   }
+
+  getPagesByDealByUser(id) {
+    const url = ep.user.pageDealByUser(id);
+    return this.apiClient.get(url, {});
+  }
 }
 
 export default Property;
