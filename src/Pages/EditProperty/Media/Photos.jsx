@@ -86,6 +86,7 @@ const Photos = (props) => {
     reader.onerror = () => console.log('file reading has failed');
     setBtnActive('uploading');
     const imgType = imageType.find((val) => val.name === 'Gallery');
+    console.log(imgType);
     const imgList = tobase64Handler(
       acceptedFiles,
       loggedInUser.user.id,
@@ -345,7 +346,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
-  imageType: get(state, 'image.imageType', []),
+  imageType: get(state, 'images.imageType', []),
   percentage: get(state, 'common.percentage', 0),
   loggedInUser: get(state, 'user.loggedInUser', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
