@@ -153,17 +153,21 @@ const MenuSidebar = (props) => {
               <BrixelButtonTertiary
                 label="Sell"
                 rightIcon="arrow-right-small"
+                labelClass="fsize-300"
+                className="pb-small-4"
                 onClick={() => {
                   handleSetUserTypes('seller');
                   handleSetActiveSingleProperty({});
                   history.push('/');
                 }}
                 color="dark"
-                saturation={history.location.pathname.includes('buyer') ? 200 : 700}
+                saturation={history.location.pathname.includes('buyer') ? 100 : 700}
               />
               <BrixelButtonTertiary
                 label="Buy"
                 rightIcon="arrow-right-small"
+                labelClass="fsize-300"
+                className="pt-small-4"
                 onClick={() => {
                   destroyForm();
                   handleSetUserTypes('buyer');
@@ -171,12 +175,12 @@ const MenuSidebar = (props) => {
                   history.push('/buyer/propertyLists');
                 }}
                 color="dark"
-                saturation={history.location.pathname.includes('buyer') ? 700 : 200}
+                saturation={history.location.pathname.includes('buyer') ? 700 : 100}
               />
 
               {
                 get(formValue, 'id', undefined) && (
-                  <div className="propertyPanel mb-1">
+                  <div className="propertyPanel mb-1 mt-2">
                     <div
                       className="image-ratio squared w-perc-100 shadow-3dp w-fix-48 h-fix-48 brdRadius ov-h cur-poi"
                       onClick={() => {
