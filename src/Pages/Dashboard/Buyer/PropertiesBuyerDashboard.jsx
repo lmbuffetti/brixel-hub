@@ -76,11 +76,16 @@ const PropertiesBuyerDashboard = (props) => {
     );
   };
 
+  console.log(userBuyerProperties.length);
+
   return (
     <>
-      <div className="property-container dis-f jc-c h-perc-md-100 pos-r a-t" id="propertyDashboard">
+      <div className="property-container h-perc-md-100 pos-r" id="propertyDashboard">
+        <h5 className="mb-2">
+          Properties you are interested in ({get(userBuyerProperties, 'length', 0)})
+        </h5>
         <Sticker>
-          <div className={`firstLevel bgLight100 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
+          <div className="max-w-fix-480">
 
             {
               userBuyerProperties.map((property, i) => (
@@ -89,18 +94,18 @@ const PropertiesBuyerDashboard = (props) => {
                   className="dis-f p-1 shadow-1dp brdRadius bgWhite mb-2 shadowHover-3dp cur-poi"
                   onClick={() => history.push(`/buyer/rewards/${property.id}`)}
                 >
-                  <div className="image-ratio squared w-fix-flex-80 h-fix-80 brdRadius ov-h mr-1">
+                  <div className="image-ratio squared w-fix-flex-88 h-fix-88 brdRadius ov-h mr-1">
                     <CoverPropertyImage coverPhoto={get(property, 'coverPhoto.thumbnailPath', null)} className="cover" />
                   </div>
                   <div className="w-perc-100 dis-fl-col jc-b">
                     <p className="body2 txtPrimary400">{property.title}</p>
                     <p className="dis-f a-c body2 fweight-600">{showPrice(property)}</p>
-                    <div className="dis-f jc-b a-c w-perc-100">
+                    <div className="dis-f a-c w-perc-100">
                       <p className="dis-f a-c">
                         <BrixelIcon icon="bed" className="mr-1" />
                         <span className="ff-mono body2">{get(property, 'properties.typology.bedrooms', '0')}</span>
                       </p>
-                      <p className="dis-f a-c">
+                      <p className="dis-f a-c pl-2">
                         <BrixelIcon icon="plans" className="mr-1" />
                         {
                           get(property, 'location.countryCode', '') === 'PT' && get(property, 'properties.typology.grossArea.value', 0) > 0 ? (
@@ -110,7 +115,7 @@ const PropertiesBuyerDashboard = (props) => {
                           )
                         }
                       </p>
-                      <p className="dis-f a-c">
+                      <p className="dis-f a-c pl-2">
                         <BrixelIcon icon="house-built" className="mr-1" />
                         <span className="ff-mono body2">
                           {get(property, 'properties.building.built', '0000')}

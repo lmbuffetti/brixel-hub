@@ -343,9 +343,7 @@ const Dashboard = (props) => {
       // initializeForm('inputSheet', inputSheet);
     }
   }, [formValue, errorValue]);
-  console.log('DDASDASDASDASD1');
   if (!userTypes && !userType) return (<div />);
-  console.log('DDASDASDASDASD2');
   return (
     <div className="container dashboardContainer" id="dashboard">
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
