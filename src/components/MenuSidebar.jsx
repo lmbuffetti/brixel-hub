@@ -156,7 +156,7 @@ const MenuSidebar = (props) => {
                 onClick={() => {
                   handleSetUserTypes('seller');
                   handleSetActiveSingleProperty({});
-                  history.push('/');
+                  history.push('/seller/pageLists');
                 }}
                 color="dark"
                 saturation={history.location.pathname.includes('buyer') ? 200 : 700}
