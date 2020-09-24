@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
+import omit from 'lodash/omit';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import cloneDeep from 'lodash/cloneDeep';
@@ -298,8 +299,9 @@ const Dashboard = (props) => {
   // FUNCTION TO SHOW/HIDE THE NOTIFICATION BAR TO SAVE
   useEffect(() => {
     if (formValue.id && initialValues.id) {
-      const changeObj = diff(initialValues, formValue);
+      let changeObj = diff(initialValues, formValue);
       const checkIsValid = Object.keys(changeObj).find((key) => typeof changeObj[key] !== 'undefined');
+      changeObj = omit(changeObj, ['inputSheet']);
       if (Object.keys(changeObj).length === 0 && get(notification, 'label', '').toLowerCase().includes('changes')) {
         handleSetScreenNotification({
           ...notification,
