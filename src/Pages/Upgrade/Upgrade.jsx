@@ -186,7 +186,6 @@ const Upgrade = (props) => {
                         formValue={formValue}
                         form="GamingFlow"
                         inputs={quest.inputs}
-                        showErrors
                         onClick={() => ''}
                       />
                     </div>
