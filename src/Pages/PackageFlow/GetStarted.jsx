@@ -16,6 +16,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import last from 'lodash/last';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
+import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
@@ -687,6 +688,8 @@ const mapStateToProps = (state, props) => {
   const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
   const channel = get(urlSearch, 'channel', 'default');
   const propertyType = get(urlSearch, 'propertyType', null);
+  const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
+  const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
@@ -717,7 +720,12 @@ const mapStateToProps = (state, props) => {
           },
         },
       },
-      register: {},
+      register: {
+        phone: {
+          prefix: countryPhoneCode.dial_code,
+          number: '',
+        },
+      },
       signup: get(state, 'user.loggedInUser.id', null) !== null,
     },
     lang: get(state, 'common.language', 'en'),

@@ -29,7 +29,7 @@ const Support = (props) => {
   const colorLinkTextInfo = layout === 'onboarding' ? 'txtWhite' : 'txtDark700';
 
   const [openDetail, setOpenDetail] = useState(expanded);
-  console.log(activeSingleCompany);
+
   // FUCNTION TO OPEN/CLOSE THE SUPPORT DETAIL AND SCROLL DOWN
   const onclickOne = () => {
     setOpenDetail(!openDetail);

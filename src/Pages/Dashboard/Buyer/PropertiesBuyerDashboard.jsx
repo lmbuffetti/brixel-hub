@@ -76,8 +76,6 @@ const PropertiesBuyerDashboard = (props) => {
     );
   };
 
-  console.log(userBuyerProperties.length);
-
   return (
     <>
       <div className="property-container h-perc-md-100 pos-r" id="propertyDashboard">
