@@ -40,9 +40,9 @@ const clientConfig = {
     publicPath: ASSET_PATH,
     path: BUILD_DIR,
     filename: 'js/[name].bundle.js',
-    chunkFilename: 'js/[name].[hash].js',
-    hotUpdateChunkFilename: 'hot/hot-update.[hash].js',
-    hotUpdateMainFilename: 'hot/hot-update.[hash].json',
+    chunkFilename: devMode ? 'js/[name].js' : 'js/[name].[hash].js',
+    hotUpdateChunkFilename: devMode ? 'hot/hot-update.js' : 'hot/hot-update.[hash].js',
+    hotUpdateMainFilename: devMode ? 'hot/hot-update.json' : 'hot/hot-update.[hash].js',
     globalObject: 'this',
   },
   stats: {
