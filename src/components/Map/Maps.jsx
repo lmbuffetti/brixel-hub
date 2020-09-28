@@ -123,7 +123,7 @@ export const ComponentMap = (props) => {
       address: adr,
     }, (result, status) => {
       if (status === 'OK') {
-        const formattedPlace = {};
+        const formattedPlace = get(formValue, 'location', {});
         formattedPlace.country = null;
         formattedPlace.countryCode = null;
         formattedPlace.name = null;
