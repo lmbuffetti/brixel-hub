@@ -264,6 +264,7 @@ const GetStarted = (props) => {
     // GET THE COMPANY BY URL OR COOKIE
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
+    const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
       const defComp = get(companyByUrl, 'company', companyCookie);
       handleGetActiveSingleCompany({ stub: defComp });
@@ -271,6 +272,13 @@ const GetStarted = (props) => {
     } else {
       handleGetActiveSingleCompany({ stub: 'default' });
       // changeFieldValue('location.countryCode', 'all');`
+    }
+    if (get(companyByUrl, 'channel', channelCookie)) {
+      const defChan = get(companyByUrl, 'channel', channelCookie);
+      changeFieldValue('channel', defChan);
+      setCookie('brixelChannelSignup', defChan);
+    } else {
+      changeFieldValue('channel', channelCookie);
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
@@ -685,7 +693,8 @@ GetStarted.defaultProps = {
 
 const mapStateToProps = (state, props) => {
   const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
-  const channel = get(urlSearch, 'channel', 'default');
+  const channelCookie = cookie.get('brixelChannelSignup') || null;
+  const channel = get(urlSearch, 'channel', channelCookie);
   const propertyType = get(urlSearch, 'propertyType', null);
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
