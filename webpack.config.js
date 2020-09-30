@@ -78,9 +78,6 @@ const clientConfig = {
                 plugins: [
                   [
                     'autoprefixer',
-                    {
-                      // Options
-                    },
                   ],
                 ],
               },
@@ -199,7 +196,7 @@ const clientConfig = {
       template: './public/index.html',
       title: companyData.hub.title,
       meta: {
-        'keywords': companyData.hub.keywords,
+        keywords: companyData.hub.keywords,
       },
       minify: {
         collapseWhitespace: true,
