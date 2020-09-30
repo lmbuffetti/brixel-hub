@@ -56,13 +56,13 @@ const LoginSignup = (props) => {
   const onSubmitForm = () => {
     let isValid = true;
     Object.keys(errorValue).forEach((key) => {
-      if (key.includes(loginPage)) {
-        const curErr = get(errorValue, key, true);
+      Object.keys(errorValue[key]).forEach((subKey) => {
+        const curErr = get(errorValue[key], subKey, true);
         if (curErr !== true) {
           setShowErrors(true);
           isValid = false;
         }
-      }
+      });
     });
     if (isValid) {
       setShowErrors(false);
