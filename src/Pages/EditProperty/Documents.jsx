@@ -12,8 +12,8 @@ import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
 import { ReactSortable } from 'react-sortablejs';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelDropdown,
-  BrixelButtonTertiary, useOutsideAlerter, BrixelInputText, change, reset, ReduxField,
+  BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelDropdown, BrixelDropdownMini,
+  useOutsideAlerter, BrixelInputText, change, reset, ReduxField,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
@@ -28,8 +28,6 @@ import { tobase64Handler } from '../../utils/helpers';
 // COMPONENTS
 
 const Documents = (props) => {
-  const [documentOptionsOpen, setDocumentOptionsOpen] = useState({ id: null, active: false });
-  const [editDocument, setEditDocument] = useState({ id: null, active: false });
   // PROPS
   const {
     formValue,
@@ -41,10 +39,21 @@ const Documents = (props) => {
     isSmallLoading,
     match,
     changeFieldValue,
-    setNotification,
     resetForm,
+    userType,
   } = props;
+  const [documentOptionsOpen, setDocumentOptionsOpen] = useState({ id: null, active: false });
+  const [editDocument, setEditDocument] = useState({ id: null, active: false });
+  const [isCopied, setIsCopied] = useState(false);
+  const [documentLists, setDocumentLists] = useState([]);
+
   const { documents } = formValue;
+
+  useEffect(() => {
+    const docs = documents || [];
+    if (userType === 'seller') setDocumentLists(docs);
+    else setDocumentLists(docs.filter((item) => !item.isPrivate));
+  }, [documents, userType]);
 
   // ORDER DOCUMENTS
   const changeOrder = (order) => {
@@ -58,7 +67,7 @@ const Documents = (props) => {
       }
       return null;
     });
-    changeFieldValue('documents', docArray);
+    if (userType === 'seller') changeFieldValue('documents', docArray);
   };
 
   // URL PARAMS
@@ -99,7 +108,7 @@ const Documents = (props) => {
 
   // REMOVE DOCUMENTS
   const deleteDocs = (e, idDocs) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setDocumentOptionsOpen({ id: null, active: false });
     const data = {
       id: idDocs,
@@ -111,15 +120,11 @@ const Documents = (props) => {
 
   // COPY DOCUMENT LINK
   const copyLinkToClipboard = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     textAreaRef.current.select();
     document.execCommand('copy');
-    setNotification({
-      state: true,
-      type: 'success',
-      label: 'Link copied!',
-    });
-    setTimeout(() => setNotification({ state: false }), 2000);
+    setIsCopied(true);
+    setTimeout(() => { setIsCopied(false); }, 2000);
   };
 
   // FUNCTION TO EDIT DOCUMENT
@@ -156,25 +161,25 @@ const Documents = (props) => {
         </div>
         <div className="dis-fl-col uploadPanel a-c">
           {
-            (documents && documents.length > 0) && (
+            (documentLists.length > 0) && (
               <>
                 <div className="documents-container dis-fl-col w-perc-100">
                   <ReactSortable
                     scroll
                     bubbleScroll
-                    list={cloneDeep(documents)}
+                    list={cloneDeep(documentLists)}
                     setList={(order) => changeOrder(order)}
                     className="document-list"
                     handle=".handle"
                   >
                     {
-                      documents.map((doc, i) => (
+                      documentLists.map((doc, i) => (
                         <li
                           key={i.toString()}
                           data-id={JSON.stringify(doc)}
                           className="single-document dis-fl-row a-c jc-b pb-1 pt-1"
                         >
-                          <div className={`name dis-fl-row a-c w-perc-100 pr-1 ${editDocument.active ? 'hand' : 'handle'}`}>
+                          <div className={`name dis-fl-row a-c w-perc-100 pr-1 ${editDocument.active || userType !== 'seller' ? 'hand' : 'handle'}`}>
 
                             <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
                               <BrixelIcon
@@ -212,34 +217,40 @@ const Documents = (props) => {
 
                           <div className="visibility-info dis-fl-row a-c">
                             {
-                              (editDocument.id === doc.id && editDocument.active) ? (
-                                <BrixelDropdown
-                                  className="zIndex2 compact"
-                                  borderColor="light"
-                                  color="light"
-                                  options={[
-                                    {
-                                      label: 'Private',
-                                      value: true,
-                                    },
-                                    {
-                                      label: 'Public',
-                                      value: true,
-                                    }]}
-                                  selected={`${doc.isPrivate ? 'Private' : 'Public'}`}
-                                  onSelect={(e, value) => {
-                                    e.preventDefault();
-                                    changeFieldValue(`documents[${i}].isPrivate`, value.label !== 'Public');
-                                  }}
-                                />
-                              ) : (
-                                <BrixelIcon
-                                  color={`${doc.isPrivate ? 'red' : 'green'}`}
-                                  icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
-                                />
+                              userType === 'seller' && (
+                                <>
+                                  {
+                                    (editDocument.id === doc.id && editDocument.active) ? (
+                                      <BrixelDropdown
+                                        className="zIndex2 compact"
+                                        borderColor="light"
+                                        color="light"
+                                        options={[
+                                          {
+                                            label: 'Private',
+                                            value: true,
+                                          },
+                                          {
+                                            label: 'Public',
+                                            value: true,
+                                          }]}
+                                        selected={`${doc.isPrivate ? 'Private' : 'Public'}`}
+                                        onSelect={(e, value) => {
+                                          e.preventDefault();
+                                          changeFieldValue(`documents[${i}].isPrivate`, value.label !== 'Public');
+                                        }}
+                                      />
+                                    ) : (
+                                      <BrixelIcon
+                                        color={`${doc.isPrivate ? 'red' : 'green'}`}
+                                        icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
+                                      />
+                                    )
+                                  }
+                                </>
                               )
                             }
-                            <div className="pos-r">
+                            <div className="pos-r" ref={documentRef}>
                               {
                                 (editDocument.id === doc.id && editDocument.active) ? (
                                   <div className="dis-fl-row">
@@ -273,12 +284,32 @@ const Documents = (props) => {
                               }
                               {
                                 (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
-                                  <div className="options-menu w-fix-160 zIndex3 shadow-1dp dis-fl-col p-1 pos-a a-bl" ref={documentRef}>
-                                    <BrixelButtonTertiary
-                                      className="copy p-0"
-                                      color="red"
-                                      label="Copy Link"
-                                      onClick={(e) => copyLinkToClipboard(e)}
+                                  <>
+                                    <BrixelDropdownMini
+                                      topOffset={32}
+                                      rightAligned
+                                      links={
+                                        userType === 'seller' ? [
+                                          {
+                                            label: isCopied ? 'Copied' : 'Copy Link',
+                                            clickFunc: (e) => copyLinkToClipboard(e),
+                                          },
+                                          {
+                                            label: 'Edit',
+                                            clickFunc: () => onEditMode(doc),
+                                          },
+                                          {
+                                            label: 'Remove',
+                                            clickFunc: (e) => deleteDocs(e, doc.id),
+                                            className: 'txtRed400',
+                                          },
+                                        ] : [
+                                          {
+                                            label: isCopied ? 'Copied' : 'Copy Link',
+                                            clickFunc: (e) => copyLinkToClipboard(e),
+                                          },
+                                        ]
+                                      }
                                     />
                                     <textarea
                                       style={{
@@ -290,20 +321,7 @@ const Documents = (props) => {
                                       ref={textAreaRef}
                                       value={`${getConfigEnv.shortPath}/document/${doc.id}`}
                                     />
-                                    <BrixelButtonTertiary
-                                      className="edit p-0"
-                                      color="dark"
-                                      label="Edit"
-                                      saturation={100}
-                                      onClick={() => onEditMode(doc)}
-                                    />
-                                    <BrixelButtonTertiary
-                                      className="remove p-0"
-                                      color="red"
-                                      label="Remove"
-                                      onClick={(e) => deleteDocs(e, doc.id)}
-                                    />
-                                  </div>
+                                  </>
                                 )
                               }
                             </div>
@@ -317,30 +335,34 @@ const Documents = (props) => {
               </>
             )
           }
-          <>
-            <div
-              className={`${(!documents || (documents && documents.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-2 ta-c w-perc-100`}
-              {...getRootProps()}
-            >
-              <input {...getInputProps()} />
-              {
-                (!documents || (documents && documents.length === 0)) && (
-                  <div>
-                    <img className="h-fix-120" src={uploadDocumentsEmpty} alt="Empty Documents" />
-                    <h5 className="mt-3 mb-2">Upload your first document</h5>
-                  </div>
-                )
-              }
-              <span className="body2 txtDark200 max-width-220">Choose .pdf .jpeg .png with max. 10 MB size</span>
-              <BrixelButtonPrimary
-                label="upload"
-                rightIcon="upload"
-                rounded
-                className="mt-3"
-                isLoading={isSmallLoading}
-              />
-            </div>
-          </>
+          {
+            userType === 'seller' && (
+              <>
+                <div
+                  className={`${(!documentLists || (documentLists.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-2 ta-c w-perc-100`}
+                  {...getRootProps()}
+                >
+                  <input {...getInputProps()} />
+                  {
+                    (!documentLists || (documentLists.length === 0)) && (
+                      <div>
+                        <img className="h-fix-120" src={uploadDocumentsEmpty} alt="Empty Documents" />
+                        <h5 className="mt-3 mb-2">Upload your first document</h5>
+                      </div>
+                    )
+                  }
+                  <span className="body2 txtDark200 max-width-220">Choose .pdf .jpeg .png with max. 10 MB size</span>
+                  <BrixelButtonPrimary
+                    label="upload"
+                    rightIcon="upload"
+                    rounded
+                    className="mt-3"
+                    isLoading={isSmallLoading}
+                  />
+                </div>
+              </>
+            )
+          }
         </div>
       </div>
     </div>
@@ -357,8 +379,8 @@ Documents.propTypes = {
   handleDeleteDocument: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
-  setNotification: PropTypes.func.isRequired,
   resetForm: PropTypes.func.isRequired,
+  userType: PropTypes.string.isRequired,
 };
 
 Documents.defaultProps = {
@@ -366,10 +388,11 @@ Documents.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'brixelForm.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
   initialValues: get(state, 'brixelForm.Property.initialValues', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', {}),
+  userType: get(state, 'user.userTypes', ''),
 });
 
 const mapDispatchToProps = (dispatch) => ({

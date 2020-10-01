@@ -12,7 +12,10 @@ import {
   VALIDATE_USER,
   GET_USER_PROPERTIES,
   SET_USER_PROPERTIES,
-  GET_FAVORITES, SET_FAVORITES,
+  GET_FAVORITES,
+  SET_FAVORITES,
+  GET_USER_PAGES_DEALS,
+  SET_USER_PAGES_DEALS,
 } from '../actions/types/UserTypes';
 
 import {
@@ -166,6 +169,23 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
+    // GET USER PAGES BY DEALS
+    case GET_USER_PAGES_DEALS: {
+      next(action);
+      store.dispatch({ type: SPINNER_ON });
+      api.user.getPagesByDealByUser(action.payload)
+        .then((res) => {
+          const pageList = [];
+          // eslint-disable-next-line no-return-assign
+          res.data.forEach((item) => {
+            pageList.push(item.page);
+          });
+          store.dispatch({ type: SET_USER_PAGES_DEALS, payload: pageList });
+          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_OFF });
+        });
+      break;
+    }
     // DISPATCH TO VALIDATE IF USER EXISTS
     case VALIDATE_USER: {
       next(action);
@@ -214,6 +234,7 @@ const checkUser = (store) => (next) => (action) => {
             store.dispatch({ type: SET_USER_PROPERTIES, payload: res.data });
           }
           store.dispatch({ type: SPINNER_SMALL_OFF });
+          store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           store.dispatch({ type: SPINNER_SMALL_OFF });
