@@ -27,3 +27,27 @@ export const secondRoutes = [
     path: '/support',
   },
 ];
+
+export const firstRoutesBuyer = [
+  {
+    title: 'Home',
+    name: 'rewards',
+    icon: 'first-time-occupancy',
+    path: '/buyer/rewards/:propID',
+  },
+  {
+    title: 'Property',
+    name: 'property',
+    icon: 'property-house',
+    path: '/buyer/property/:propID',
+  },
+];
+
+export const secondRoutesBuyer = [
+  {
+    title: 'Support',
+    name: 'support',
+    icon: 'conversation',
+    path: '/support',
+  },
+];

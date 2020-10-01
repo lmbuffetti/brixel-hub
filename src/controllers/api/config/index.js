@@ -3,6 +3,7 @@ import ApiClient from './ApiClient';
 
 import Common from '../actions/Common';
 import Company from '../actions/Company';
+import Deal from '../actions/Deal';
 import Gamification from '../actions/Gamification';
 import Property from '../actions/Property';
 import Upload from '../actions/Upload';
@@ -18,6 +19,7 @@ function apiFactory(
   return {
     common: new Common({ apiClient: api }),
     company: new Company({ apiClient: api }),
+    deal: new Deal({ apiClient: api }),
     gamification: new Gamification({ apiClient: api }),
     image: new Upload({ apiClient: api }),
     property: new Property({ apiClient: api }),

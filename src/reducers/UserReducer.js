@@ -6,15 +6,17 @@ import {
   SET_FAVORITES,
   SET_LOGGED_IN_USER,
   SET_USER_PROPERTIES,
+  SET_USER_PAGES_DEALS,
 } from '../actions/types/UserTypes';
 
 export const defaultState = {
-  userTypes: null,
+  userTypes: '',
   awards: 0,
   brixelPoints: 0,
   favorites: [],
   loggedInUser: {},
   userProperties: [],
+  userBuyerProperties: [],
 };
 
 export default handleActions(
@@ -42,6 +44,10 @@ export default handleActions(
     [SET_USER_PROPERTIES]: (state, action) => ({
       ...state,
       userProperties: action.payload,
+    }),
+    [SET_USER_PAGES_DEALS]: (state, action) => ({
+      ...state,
+      userBuyerProperties: action.payload,
     }),
   },
   defaultState,

@@ -113,11 +113,11 @@ const Support = (props) => {
         <div className={`moreInfoSupport ${openDetail ? 'open' : 'close'} ${layout === 'rewards' ? 'w-fit m-a' : ''}`}>
           {
             phone && (
-              <a href={`tel:${phone}`} className="dis-f a-c mb-3">
+              <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-3">
                 <img className="w-fix-40" src={CallUsImg} alt="Call Us" />
                 <p className="ml-2">
                   <span className={`dis-b body2 ${colorLinkTextTitle}`}>Call Us</span>
-                  <span className={`ff-mono ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(phone.toString())}</span>
+                  <span className={`ff-mono ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(phone)}</span>
                 </p>
               </a>
             )
@@ -136,7 +136,7 @@ const Support = (props) => {
           {
             whatsapp && (
               <a
-                href={`https://wa.me/${(whatsapp).replace('+', '')}`}
+                href={`https://wa.me/${Helpers.telephoneFormat(whatsapp, false, false, false, true)}`}
                 className="dis-f a-c"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -173,7 +173,7 @@ Support.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany.id', null) ? get(state, 'companies.activeSingleCompany', null) : get(state, 'user.loggedInUser.user.company', {}),
 });
 
 export default connect(mapStateToProps, null)(Support);

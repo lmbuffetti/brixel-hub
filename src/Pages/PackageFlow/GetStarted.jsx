@@ -16,6 +16,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import last from 'lodash/last';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
+import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
@@ -80,8 +81,8 @@ const GetStarted = (props) => {
         ownerType: get(dataForm, 'register.ownerType', null),
         redirectTo: `/${get(dataForm, 'pageID', null)}/rewards`,
       };
-      const packageFlowProcess = get(dataForm, 'pageAnswer', null);
-      packageFlowProcess.answers.userType = get(dataForm, 'register.ownerType', null);
+      const packageFlowProcess = get(dataForm, 'pageAnswer', {});
+      packageFlowProcess.answers.userType = get(dataForm, 'register.ownerType', 'seller');
       packageFlowProcess.answers.owner = dataForm.owner;
       if (get(dataForm, 'register.ownerType', null) === 'buyer') {
         dataUser.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
@@ -264,6 +265,7 @@ const GetStarted = (props) => {
     // GET THE COMPANY BY URL OR COOKIE
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
+    const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
       const defComp = get(companyByUrl, 'company', companyCookie);
       handleGetActiveSingleCompany({ stub: defComp });
@@ -271,6 +273,13 @@ const GetStarted = (props) => {
     } else {
       handleGetActiveSingleCompany({ stub: 'default' });
       // changeFieldValue('location.countryCode', 'all');`
+    }
+    if (get(companyByUrl, 'channel', channelCookie)) {
+      const defChan = get(companyByUrl, 'channel', channelCookie);
+      changeFieldValue('channel', defChan);
+      setCookie('brixelChannelSignup', defChan);
+    } else {
+      changeFieldValue('channel', channelCookie);
     }
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
@@ -685,8 +694,11 @@ GetStarted.defaultProps = {
 
 const mapStateToProps = (state, props) => {
   const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
-  const channel = get(urlSearch, 'channel', 'default');
+  const channelCookie = cookie.get('brixelChannelSignup') || null;
+  const channel = get(urlSearch, 'channel', channelCookie);
   const propertyType = get(urlSearch, 'propertyType', null);
+  const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
+  const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
@@ -717,7 +729,12 @@ const mapStateToProps = (state, props) => {
           },
         },
       },
-      register: {},
+      register: {
+        phone: {
+          prefix: countryPhoneCode.dial_code,
+          number: '',
+        },
+      },
       signup: get(state, 'user.loggedInUser.id', null) !== null,
     },
     lang: get(state, 'common.language', 'en'),

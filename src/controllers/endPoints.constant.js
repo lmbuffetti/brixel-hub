@@ -20,6 +20,9 @@ export default {
     getCompanyById: (id) => `/company/${id}`,
     getDefaultCompany: () => '/company/default',
   },
+  deal: {
+    dealByUserID: (id) => `/user/${id}/deals`,
+  },
   gamification: {
     group: () => '/gameGroup',
     groupdById: (id) => `/gameGroup/${id}`,
@@ -66,5 +69,7 @@ export default {
     userById: (userId) => `/user/${userId}`,
     getPropertiesOfUser: (owner) => `/page/0/0?owner=${owner}`,
     validateUser: (email) => `/user/validate/${email}`,
+    pageDealByUser: (id) => `/user/${id}/pageDeals`,
+    leadsByUser: (id) => `/user/${id}/userLeads`,
   },
 };
