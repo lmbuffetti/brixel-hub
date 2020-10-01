@@ -86,7 +86,6 @@ const Photos = (props) => {
     reader.onerror = () => console.log('file reading has failed');
     setBtnActive('uploading');
     const imgType = imageType.find((val) => val.name === 'Gallery');
-    console.log(imgType);
     const imgList = tobase64Handler(
       acceptedFiles,
       loggedInUser.user.id,
