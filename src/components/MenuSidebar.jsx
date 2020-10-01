@@ -149,7 +149,7 @@ const MenuSidebar = (props) => {
               <div className="h-fix-64 dis-f a-c">
                 <img className="pos-r w-fix-56" src={logo} alt="Brixel Logo" id="logo" />
               </div>
-
+              {/*
               <BrixelButtonTertiary
                 label="Sell"
                 rightIcon="arrow-right-small"
@@ -177,7 +177,7 @@ const MenuSidebar = (props) => {
                 color="dark"
                 saturation={history.location.pathname.includes('buyer') ? 700 : 100}
               />
-
+              */}
               {
                 get(formValue, 'id', undefined) && (
                   <div className="propertyPanel mb-1 mt-2">
