@@ -32,6 +32,7 @@ function PageHeaderDashboard(props) {
     history,
     windowDimensions,
     formValue,
+    userType,
   } = props;
   // STATE
   // const [currentLang, setCurrentLang] = useState(lang);
@@ -205,7 +206,7 @@ function PageHeaderDashboard(props) {
                 )
               }
               {
-                propID && windowDimensions.width > 1024 && (
+                propID && windowDimensions.width > 1024 && userType === 'seller' && (
                   <BrixelButtonSecondary
                     className="hide dis-f-md p-0 px-1 brdMedium mx-3"
                     label="Upgrade"
@@ -297,16 +298,20 @@ function PageHeaderDashboard(props) {
                           </a>
                         </div>
                         <hr className="my-4" />
-                        <div>
-                          <BrixelButtonSecondary
-                            className=" p-0 px-1 brdMedium"
-                            label="Upgrade"
-                            color="red"
-                            rounded
-                            bgTransparent
-                            onClick={() => onUpgrade()}
-                          />
-                        </div>
+                        {
+                          userType === 'seller' && (
+                            <div>
+                              <BrixelButtonSecondary
+                                className=" p-0 px-1 brdMedium"
+                                label="Upgrade"
+                                color="red"
+                                rounded
+                                bgTransparent
+                                onClick={() => onUpgrade()}
+                              />
+                            </div>
+                          )
+                        }
                       </div>
                     </div>
                   )
@@ -363,6 +368,7 @@ PageHeaderDashboard.propTypes = {
   history: PropTypes.object.isRequired,
   handleGetGame: PropTypes.func.isRequired,
   windowDimensions: PropTypes.object.isRequired,
+  userType: PropTypes.string.isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {
@@ -383,7 +389,7 @@ const mapStateToProps = (state) => ({
   gameHistory: get(state, 'gamification.gameHistory', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
-  userTypes: get(state, 'user.userTypes', null),
+  userType: get(state, 'user.userTypes', ''),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -90,21 +90,6 @@ export const gameAchievement = [{
     createdAt: 1582205760336, updatedAt: 1582205760336, id: '5e4e8b40267c517a9bc7e973', stub: 'buyer-lvl1', name: 'Buyer Level I', description: '',
   },
 }, {
-  createdAt: 1582206527694,
-  updatedAt: 1582206891815,
-  id: '5e4e8e3f267c517a9bc7e974',
-  name: 'Digital Buyer',
-  stub: 'digital-buyer',
-  description: 'Check a Brixel Page',
-  points: 100,
-  achievementType: 'award',
-  orderInGroup: 1,
-  icon: 'property-house',
-  isCumulative: false,
-  group: {
-    createdAt: 1582205760336, updatedAt: 1582205760336, id: '5e4e8b40267c517a9bc7e973', stub: 'buyer-lvl1', name: 'Buyer Level I', description: '',
-  },
-}, {
   createdAt: 1582205013954,
   updatedAt: 1582205567174,
   id: '5e4e8855267c517a9bc7e971',

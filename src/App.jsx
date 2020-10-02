@@ -33,6 +33,11 @@ const GetStarted = Loadable({
   loading: Loading,
 });
 
+const GetStartedBuyer = Loadable({
+  loader: () => import('./Pages/PackageFlow/GetStartedBuyer' /* webpackChunkName: "GetStartedBuyer" */),
+  loading: Loading,
+});
+
 // GENERAL COMPONENTS
 const PageHeaderDashboard = Loadable({
   loader: () => import('./components/PageHeaderDashboard' /* webpackChunkName: "PageHeaderDashboard" */),
@@ -60,9 +65,15 @@ const InsertToken = Loadable({
   loading: Loading,
 });
 
-// HUB DASHBOARD
-const Dashboard = Loadable({
-  loader: () => import('./Pages/Dashboard/Dashboard' /* webpackChunkName: "Dashboard" */),
+// HUB DASHBOARD - SELLER
+const DashboardSeller = Loadable({
+  loader: () => import('./Pages/Dashboard/Seller/Dashboard' /* webpackChunkName: "DashboardSeller" */),
+  loading: Loading,
+});
+
+// HUB DASHBOARD - BUYER
+const DashboardBuyer = Loadable({
+  loader: () => import('./Pages/Dashboard/Buyer/Dashboard' /* webpackChunkName: "DashboardBuyer" */),
   loading: Loading,
 });
 
@@ -160,10 +171,10 @@ const App = (props) => {
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
-    if (activeSingleProperty && activeSingleProperty.id && loggedInUser.user && (activeSingleProperty.owner === loggedInUser.user.id || activeSingleProperty.owner.id === loggedInUser.user.id)) {
+    if ((activeSingleProperty && activeSingleProperty.id && loggedInUser.user && (activeSingleProperty.owner === loggedInUser.user.id || activeSingleProperty.owner.id === loggedInUser.user.id) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
       handleSetUserTypes('seller');
-    } else if (activeSingleProperty && activeSingleProperty.id) {
-      handleSetUserTypes('seller');
+    } else {
+      handleSetUserTypes('buyer');
     }
   }, [activeSingleProperty]);
 
@@ -363,6 +374,7 @@ const App = (props) => {
               <Switch>
                 { /* SECTION: ONBOARDING */ }
                 <Route path="/packageFlow/getstarted/" component={GetStarted} />
+                <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
 
                 { /* SECTION: INSERT TOKEN */ }
                 <Route path="/tokeninput" component={InsertToken} />
@@ -370,15 +382,26 @@ const App = (props) => {
                 { /* SECTION: HUB DASHBOARD */ }
                 {
                   !history.location.pathname.includes('packageFlow') &&
+                  !history.location.pathname.includes('onBoarding') &&
+                  !history.location.pathname.includes('buyer') && (
+                    <>
+                      <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
+                      <ProtectedRoute path="/" exact component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?" exact component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/rewards" component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/listings" component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
+                    </>
+                  )
+                }
+                {
+                  !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') && (
                     <>
-                      <ProtectedRoute path="/" exact component={Dashboard} />
-                      <ProtectedRoute path="/:propId?" exact component={Dashboard} />
-                      <ProtectedRoute path="/:propId?/rewards" component={Dashboard} />
-                      <ProtectedRoute path="/:propId?/property" component={Dashboard} />
-                      <ProtectedRoute path="/:propId?/listings" component={Dashboard} />
-                      <ProtectedRoute path="/:propId?/support" component={Dashboard} />
-                      <ProtectedRoute path="/:propId?/upgrade" component={Dashboard} />
+                      <ProtectedRoute path="/buyer" component={DashboardBuyer} />
+                      <ProtectedRoute path="/buyer/:act/:propID" component={DashboardBuyer} />
                     </>
                   )
                 }

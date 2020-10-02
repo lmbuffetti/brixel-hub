@@ -14,20 +14,20 @@ import last from 'lodash/last';
 import isNumber from 'lodash/isNumber';
 import Loadable from 'react-loadable';
 import Sticker from 'react-stickyfill';
-import Loading from '../../components/Loading';
+import Loading from '../../../components/Loading';
 
 const Showings = Loadable({
-  loader: () => import('../Listings/Showings' /* webpackChunkName: "Showings" */),
+  loader: () => import('../../Listings/Showings' /* webpackChunkName: "Showings" */),
   loading: Loading,
 });
 
 const Page = Loadable({
-  loader: () => import('../Listings/Page' /* webpackChunkName: "Page" */),
+  loader: () => import('../../Listings/Page' /* webpackChunkName: "Page" */),
   loading: Loading,
 });
 
 const Portals = Loadable({
-  loader: () => import('../Listings/Portals' /* webpackChunkName: "Portals" */),
+  loader: () => import('../../Listings/Portals' /* webpackChunkName: "Portals" */),
   loading: Loading,
 });
 
