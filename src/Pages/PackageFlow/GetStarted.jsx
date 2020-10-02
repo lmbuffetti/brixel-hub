@@ -379,9 +379,11 @@ const GetStarted = (props) => {
 
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
-    const propertyType = get(formValue, 'properties.propertyType', null);
-    const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
-    if (pageTitle) changeFieldValue('pageTitle', pageTitle);
+    if (currentIndex <= 5) {
+      const propertyType = get(formValue, 'properties.propertyType', null);
+      const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
+      if (pageTitle) changeFieldValue('pageTitle', pageTitle);
+    }
   }, [formValue.location, lang]);
 
   // SET DATA BY COMPANY
