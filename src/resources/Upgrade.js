@@ -163,7 +163,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
           label: 'Phone number',
           name: 'packageUpgrade.contactPhone',
           formatType: 'tel',
-          placeholder: '+41 78 852 58 76',
+          placeholder: '',
           validation: [Validation.required],
         },
         {
