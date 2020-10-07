@@ -108,7 +108,7 @@ const AccountDropdown = (props) => {
   return (
     <>
       {
-        (loggedInUser && loggedInUser.id) && (
+        (loggedInUser && loggedInUser.user) && (
           <div className={`${className}`}>
             <BrixelDropdown
               compact

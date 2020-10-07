@@ -40,9 +40,9 @@ const clientConfig = {
     publicPath: ASSET_PATH,
     path: BUILD_DIR,
     filename: 'js/[name].bundle.js',
-    chunkFilename: 'js/[name].[hash].js',
-    hotUpdateChunkFilename: 'hot/hot-update.[hash].js',
-    hotUpdateMainFilename: 'hot/hot-update.[hash].json',
+    chunkFilename: devMode ? 'js/[name].js' : 'js/[name].[hash].js',
+    hotUpdateChunkFilename: devMode ? 'hot/hot-update.js' : 'hot/hot-update.[hash].js',
+    hotUpdateMainFilename: devMode ? 'hot/hot-update.json' : 'hot/hot-update.[hash].js',
     globalObject: 'this',
   },
   stats: {
@@ -74,11 +74,14 @@ const clientConfig = {
           {
             loader: 'postcss-loader',
             options: {
-              sourceMap: true,
-              config: {
-                path: 'postcss.config.js'
-              }
-            }
+              postcssOptions: {
+                plugins: [
+                  [
+                    'autoprefixer',
+                  ],
+                ],
+              },
+            },
           },
           {
             loader: 'sass-loader',
@@ -90,12 +93,6 @@ const clientConfig = {
             },
           },
         ],
-      },
-      {
-        test: /\.css/,
-        use: [
-          { loader: 'postcss-loader', options: { sourceMap: true } },
-        ]
       },
       {
         test: /\.jsx?/,
@@ -199,7 +196,7 @@ const clientConfig = {
       template: './public/index.html',
       title: companyData.hub.title,
       meta: {
-        'keywords': companyData.hub.keywords,
+        keywords: companyData.hub.keywords,
       },
       minify: {
         collapseWhitespace: true,

@@ -5,44 +5,48 @@ import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelIcon, BrixelButtonIcon, BrixelButtonBox } from '@brixel/brixel-components';
+import {
+  BrixelButtonPrimary, BrixelIcon, BrixelButtonIcon, BrixelButtonBox,
+} from '@brixel/brixel-components';
 import Sticker from 'react-stickyfill';
-import { addGameHistory } from '../../actions/GamificationActions';
-import Loading from '../../components/Loading';
-import { GameGroupConfig } from '../../constants/global';
-import helloImg from '../../images/hello.svg';
-import BrixelButtonAchievement from '../../components/BrixelButtonAchievement';
-import { setCookie, getCookie, sortObject } from '../../utils/helpers';
+import { addGameHistory } from '../../../actions/GamificationActions';
+import Loading from '../../../components/Loading';
+import { GameGroupConfig } from '../../../constants/global';
+import helloImg from '../../../images/hello.svg';
+import BrixelButtonAchievement from '../../../components/BrixelButtonAchievement';
+import { setCookie, getCookie, sortObject } from '../../../utils/helpers';
 
-import SuccessMarketCheck from '../GameHistory/MarketChecker/SuccessMarketCheck';
-import SuccessBestimate from '../GameHistory/Bestimate/SuccessBestimate';
-import SuccessAssessor from '../GameHistory/Assessor/SuccessAssessor';
-import SuccessHomebase from '../GameHistory/Homebase/SuccessHomebase';
-import FactsRewards from '../GameHistory/Facts/SuccessFacts';
-import MediaExplanation from '../GameHistory/SecondLevel/MediaRewards';
-import PageReviewRewards from '../GameHistory/SecondLevel/PageReviewRewards';
-import PagePublishedRewards from '../GameHistory/SecondLevel/PagePublishedRewards';
-import PortalsRewards from '../GameHistory/SecondLevel/PortalsRewards';
-import { setModal } from '../../actions/CommonActions';
-import Support from '../../components/Support';
+import SuccessMarketCheck from '../../GameHistory/MarketChecker/SuccessMarketCheck';
+import SuccessBestimate from '../../GameHistory/Bestimate/SuccessBestimate';
+import SuccessAssessor from '../../GameHistory/Assessor/SuccessAssessor';
+import SuccessHomebase from '../../GameHistory/Homebase/SuccessHomebase';
+import FactsRewards from '../../GameHistory/Facts/SuccessFacts';
+import MediaExplanation from '../../GameHistory/SecondLevel/MediaRewards';
+import PageReviewRewards from '../../GameHistory/SecondLevel/PageReviewRewards';
+import PagePublishedRewards from '../../GameHistory/SecondLevel/PagePublishedRewards';
+import PortalsRewards from '../../GameHistory/SecondLevel/PortalsRewards';
+import { setModal } from '../../../actions/CommonActions';
+import Support from '../../../components/Support';
 
 const RewardsDashboard = (props) => {
   // PROPS
   const {
-    userTypes,
+    activeSingleProperty,
     formValue,
     gameGroup,
     gameHistory,
     handleAddGameHistory,
     handleSetModal,
     history,
+    language,
     loggedInUser,
     match,
-    activeSingleProperty,
+    userTypes,
     windowDimensions,
   } = props;
   // STATE
   const [usrGroups, setUsrGroups] = useState(gameGroup.sort(sortObject('stub', 'asc')));
+  const [idVideo, setIdVideo] = useState(null);
   const [activeGameGroup, setActiveGameGroup] = useState(null);
   const [activeAchievement, setActiveAchievement] = useState(null);
   const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
@@ -62,6 +66,20 @@ const RewardsDashboard = (props) => {
     }
     return disabled;
   };
+
+  // LOAD ID VIDEO BY LANGAUGE
+  useEffect(() => {
+    switch (language.toLowerCase()) {
+      case 'de':
+        setIdVideo('463015773');
+        break;
+      case 'pt':
+        setIdVideo('463008537');
+        break;
+      default:
+        setIdVideo(null);
+    }
+  }, [language]);
 
   useEffect(() => {
     let getNameGroup = localStorage.getItem('gameGroup') || null;
@@ -224,28 +242,55 @@ const RewardsDashboard = (props) => {
     <div className="rewards-container" id="rewardsDashboard">
       {
         checkMessageHello() && showWelcomeMessage && (
-          <div className="brdRadius bgWhite p-1 dis-f jc-b a-c p-1 p-md-2 mb-5">
-            <img src={helloImg} alt="Hell User" />
-            <div className="txtDark700 w-perc-100 pl-3">
-              <span>
-                <span>Hello</span>
-                <span>&nbsp;</span>
-                <span>{loggedInUser.user.firstName}!</span>
-              </span><br />
-              <span>Welcome to your Brixel Hub. I prepared a list of rewards to simplify your sale. Enjoy.</span>
+          <div className="brdRadius bgWhite p-1 p-1 p-md-2 mb-5">
+            <div className="dis-f jc-b a-c">
+              <img src={helloImg} alt="Hell User" />
+              <div className="txtDark700 w-perc-100 pl-3">
+                <span>
+                  <span>Hello</span>
+                  <span>&nbsp;</span>
+                  <span>{loggedInUser.user.firstName}!</span>
+                </span><br />
+                <span>Welcome to your Brixel Hub. I prepared a list of rewards to simplify your sale. Enjoy.</span>
+              </div>
+              <BrixelButtonIcon
+                className="shadow-2dp"
+                icon="close-small"
+                color="primary"
+                saturationTxt={400}
+                bgTransparent
+                noBorder
+                onClick={() => {
+                  setCookie('brixelSayHello', true);
+                  setShowWelcomeMessage(false);
+                }}
+              />
             </div>
-            <BrixelButtonIcon
-              className="shadow-2dp"
-              icon="close-small"
-              color="primary"
-              saturationTxt={400}
-              bgTransparent
-              noBorder
-              onClick={() => {
-                setCookie('brixelSayHello', true);
-                setShowWelcomeMessage(false);
-              }}
-            />
+            {
+              idVideo && (
+                <>
+                  <iframe
+                    className="dis-b ml-a mr-a mt-3 mb-3"
+                    title="Brixel Welcome Message"
+                    src={`https://player.vimeo.com/video/${idVideo}`}
+                    width="640"
+                    height="400"
+                    frameBorder="0"
+                    allow="autoplay; fullscreen"
+                    allowFullScreen
+                  />
+                  <BrixelButtonPrimary
+                    rounded
+                    className="ml-a mr-a"
+                    label="Ok. Close"
+                    onClick={() => {
+                      setCookie('brixelSayHello', true);
+                      setShowWelcomeMessage(false);
+                    }}
+                  />
+                </>
+              )
+            }
           </div>
         )
       }
@@ -398,6 +443,7 @@ RewardsDashboard.propTypes = {
   handleSetModal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  language: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -413,6 +459,7 @@ const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
+  language: get(state, 'user.loggedInUser.user.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   awards: get(state, 'user.awards', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),

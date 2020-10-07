@@ -16,6 +16,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import last from 'lodash/last';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
+import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
@@ -80,8 +81,8 @@ const GetStarted = (props) => {
         ownerType: get(dataForm, 'register.ownerType', null),
         redirectTo: `/${get(dataForm, 'pageID', null)}/rewards`,
       };
-      const packageFlowProcess = get(dataForm, 'pageAnswer', null);
-      packageFlowProcess.answers.userType = get(dataForm, 'register.ownerType', null);
+      const packageFlowProcess = get(dataForm, 'pageAnswer', {});
+      packageFlowProcess.answers.userType = get(dataForm, 'register.ownerType', 'seller');
       packageFlowProcess.answers.owner = dataForm.owner;
       if (get(dataForm, 'register.ownerType', null) === 'buyer') {
         dataUser.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
@@ -330,7 +331,10 @@ const GetStarted = (props) => {
       const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
       changeFieldValue('properties.typology.livingArea.value', livingSpace);
     }
-  }, [get(formValue, 'properties.typology.grossArea.value', 0)]);
+    if (get(formValue, 'properties.typology.floorSpace.value', 0) > 0) {
+      changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
+    }
+  }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0)]);
 
   // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
   /* useEffect(() => {
@@ -378,9 +382,11 @@ const GetStarted = (props) => {
 
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
-    const propertyType = get(formValue, 'properties.propertyType', null);
-    const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
-    if (pageTitle) changeFieldValue('pageTitle', pageTitle);
+    if (currentIndex <= 5) {
+      const propertyType = get(formValue, 'properties.propertyType', null);
+      const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
+      if (pageTitle) changeFieldValue('pageTitle', pageTitle);
+    }
   }, [formValue.location, lang]);
 
   // SET DATA BY COMPANY
@@ -696,6 +702,8 @@ const mapStateToProps = (state, props) => {
   const channelCookie = cookie.get('brixelChannelSignup') || null;
   const channel = get(urlSearch, 'channel', channelCookie);
   const propertyType = get(urlSearch, 'propertyType', null);
+  const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
+  const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
@@ -719,14 +727,22 @@ const mapStateToProps = (state, props) => {
         propertyType,
         typology: {
           livingArea: {
-            unit: 'sqm',
+            unit: 'm2',
           },
           grossArea: {
-            unit: 'sqm',
+            unit: 'm2',
+          },
+          floorSpace: {
+            unit: 'm2',
           },
         },
       },
-      register: {},
+      register: {
+        phone: {
+          prefix: countryPhoneCode.dial_code,
+          number: '',
+        },
+      },
       signup: get(state, 'user.loggedInUser.id', null) !== null,
     },
     lang: get(state, 'common.language', 'en'),

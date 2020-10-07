@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
+import omit from 'lodash/omit';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import cloneDeep from 'lodash/cloneDeep';
@@ -22,17 +23,22 @@ import {
   savePropertyVisitSchedule,
   createPropertyVisitSchedule,
   savePropertyVisitBooking,
-} from '../../actions/PropertyActions';
-import { deleteDocument, uploadDocument, getImageType } from '../../actions/UploadActions';
+} from '../../../actions/PropertyActions';
+import { deleteDocument, uploadDocument, getImageType } from '../../../actions/UploadActions';
 import {
   addGameHistory, getAchievement, getGamegroup, getGameHistory,
-} from '../../actions/GamificationActions';
-import { setModal, setPageData, setScreenNotification } from '../../actions/CommonActions';
-import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import { calcPercentageFacts } from '../../utils/helpers';
+} from '../../../actions/GamificationActions';
+import { setModal, setPageData, setScreenNotification } from '../../../actions/CommonActions';
+import { getActiveSingleCompany } from '../../../actions/CompanyActions';
+import { calcPercentageFacts } from '../../../utils/helpers';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
+  loading: () => null,
+});
+
+const PropertiesDashboard = Loadable({
+  loader: () => import('./PropertiesDashboard' /* webpackChunkName: "PropertiesDashboard" */),
   loading: () => null,
 });
 
@@ -53,12 +59,12 @@ const EmptyProperty = Loadable({
 
 // UPGRADE
 const Upgrade = Loadable({
-  loader: () => import('../Upgrade/Upgrade' /* webpackChunkName: "Upgrade" */),
+  loader: () => import('../../Upgrade/Upgrade' /* webpackChunkName: "Upgrade" */),
   loading: () => null,
 });
 
 const ProtectedRoute = Loadable({
-  loader: () => import('../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
+  loader: () => import('../../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
   loading: () => null,
 });
 
@@ -131,15 +137,17 @@ const Dashboard = (props) => {
 
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
-    if (propID && !get(activeSingleProperty, 'id', null)) {
-      handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: true });
-    } else if (!propID) {
-      loadDefaultProperty();
+    if (!history.location.pathname.includes('pageLists')) {
+      if (propID && !get(activeSingleProperty, 'id', null)) {
+        handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: true });
+      } else if (!propID) {
+        loadDefaultProperty();
+      }
     }
     if (gameAchievement.length === 0) handleGetAchievement();
     if (gameGroup.length === 0) handleGetGameGroup();
     if (gameHistory.length === 0) handleGetGameHistory();
-  }, []);
+  }, [userTypes]);
 
   // INITIALIZE FORM
   useEffect(() => {
@@ -149,20 +157,22 @@ const Dashboard = (props) => {
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
-    if (typeof activeSingleProperty !== 'undefined' && activeSingleProperty) {
-      if (!propID && get(activeSingleProperty, 'id', null)) {
-        history.push(`/${activeSingleProperty.id}/rewards`);
+    if (!history.location.pathname.includes('pageLists')) {
+      if (typeof activeSingleProperty !== 'undefined' && activeSingleProperty) {
+        if (!propID && get(activeSingleProperty, 'id', null)) {
+          history.push(`/${activeSingleProperty.id}/rewards`);
+        }
+        if (get(activeSingleProperty, 'owner', null) === loggedInUser.user.id) {
+          // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
+          handleGetActiveSinglePropertyBookings({ id: propID });
+        } else if (get(activeSingleProperty, 'statusCode', null)) {
+          loadDefaultProperty();
+        }
+        if (imageType.length === 0) handleGetImageType();
+      } else {
+        setUserType('emptyState');
+        history.push('/no-property');
       }
-      if (get(activeSingleProperty, 'owner', null) === loggedInUser.user.id) {
-        // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
-        handleGetActiveSinglePropertyBookings({ id: propID });
-      } else if (get(activeSingleProperty, 'statusCode', null)) {
-        loadDefaultProperty();
-      }
-      if (imageType.length === 0) handleGetImageType();
-    } else {
-      setUserType('emptyState');
-      history.push('/no-property');
     }
     localStorage.removeItem('gameGroup');
     const activeLeads = get(activeSingleProperty, 'pageLeads[0]', null);
@@ -289,8 +299,9 @@ const Dashboard = (props) => {
   // FUNCTION TO SHOW/HIDE THE NOTIFICATION BAR TO SAVE
   useEffect(() => {
     if (formValue.id && initialValues.id) {
-      const changeObj = diff(initialValues, formValue);
+      let changeObj = diff(initialValues, formValue);
       const checkIsValid = Object.keys(changeObj).find((key) => typeof changeObj[key] !== 'undefined');
+      changeObj = omit(changeObj, ['inputSheet']);
       if (Object.keys(changeObj).length === 0 && get(notification, 'label', '').toLowerCase().includes('changes')) {
         handleSetScreenNotification({
           ...notification,
@@ -334,12 +345,11 @@ const Dashboard = (props) => {
       // initializeForm('inputSheet', inputSheet);
     }
   }, [formValue, errorValue]);
-
   if (!userTypes && !userType) return (<div />);
-
   return (
     <div className="container dashboardContainer" id="dashboard">
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
+      <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
@@ -399,6 +409,8 @@ const mapStateToProps = (state) => {
   set(properties, 'typology.livingArea.unit', 'm2');
   set(properties, 'typology.grossArea.unit', 'm2');
   set(properties, 'typology.lotArea.unit', 'm2');
+  set(properties, 'typology.floorSpace.unit', 'm2');
+  set(properties, 'typology.roomHeight.unit', 'm');
   set(properties, 'typology.lotAreaUsable.unit', 'm2');
   set(properties, 'typology.constructedVolume.unit', 'm3');
   set(properties, 'typology.balconyArea.unit', 'm2');

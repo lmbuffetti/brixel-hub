@@ -16,31 +16,31 @@ import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import last from 'lodash/last';
 import Sticker from 'react-stickyfill';
-import LoadingSimple from '../../components/LoadingSimple';
-import Loading from '../../components/Loading';
+import LoadingSimple from '../../../components/LoadingSimple';
+import Loading from '../../../components/Loading';
 
 const Facts = Loadable({
-  loader: () => import('../EditProperty/Facts' /* webpackChunkName: "Facts" */),
+  loader: () => import('../../EditProperty/Facts' /* webpackChunkName: "Facts" */),
   loading: LoadingSimple,
 });
 
 const Photos = Loadable({
-  loader: () => import('../EditProperty/Media/Photos' /* webpackChunkName: "Photos" */),
+  loader: () => import('../../EditProperty/Media/Photos' /* webpackChunkName: "Photos" */),
   loading: LoadingSimple,
 });
 
 const Plans = Loadable({
-  loader: () => import('../EditProperty/Media/Plans' /* webpackChunkName: "Plans" */),
+  loader: () => import('../../EditProperty/Media/Plans' /* webpackChunkName: "Plans" */),
   loading: LoadingSimple,
 });
 
 const Tour = Loadable({
-  loader: () => import('../EditProperty/Media/Tour' /* webpackChunkName: "Tour" */),
+  loader: () => import('../../EditProperty/Media/Tour' /* webpackChunkName: "Tour" */),
   loading: LoadingSimple,
 });
 
 const Documents = Loadable({
-  loader: () => import('../EditProperty/Documents' /* webpackChunkName: "Documents" */),
+  loader: () => import('../../EditProperty/Documents' /* webpackChunkName: "Documents" */),
   loading: Loading,
 });
 

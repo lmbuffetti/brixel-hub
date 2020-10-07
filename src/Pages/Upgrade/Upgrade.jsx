@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary, MultiFileldsReduxForm, reset,
+  BrixelButtonIcon, BrixelButtonPrimary, MultiFileldsReduxForm, reset, initializeForm,
 } from '@brixel/brixel-components';
+import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -23,10 +24,13 @@ const Support = Loadable({
 const Upgrade = (props) => {
   // PROPS
   const {
+    activeSingleProperty,
     errorValue,
     formValue,
     handleSaveUpgradePlan,
     history,
+    initialValues,
+    initForm,
     match,
     packagesProperty,
     reset,
@@ -45,6 +49,10 @@ const Upgrade = (props) => {
   useEffect(() => {
     setIsEnter(true);
   }, [currentIndex]);
+
+  useEffect(() => {
+    initForm(initialValues);
+  }, [activeSingleProperty]);
 
   // LOAD THE QUESTIONS
   useEffect(() => {
@@ -257,25 +265,43 @@ const Upgrade = (props) => {
 };
 
 Upgrade.propTypes = {
-  formValue: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
   handleSaveUpgradePlan: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  initForm: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   reset: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
-  formValue: get(state, 'brixelForm.GamingFlow.values', {}),
-  packagesProperty: get(state, 'companies.activeSingleCompany.servicePackages', []),
-  initialValues: {
-    id: get(state, 'property.activeSingleProperty.id', null),
-  },
-});
+const mapStateToProps = (state) => {
+  const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
+  const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
+  return ({
+    activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+    errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
+    formValue: get(state, 'brixelForm.GamingFlow.values', {}),
+    packagesProperty: get(state, 'companies.activeSingleCompany.servicePackages', []),
+    initialValues: {
+      id: get(state, 'property.activeSingleProperty.id', null),
+      packageUpgrade: {
+        contactPhone: {
+          prefix: get(state, 'property.activeSingleProperty.owner.phone.prefix', countryPhoneCode.dial_code),
+          number: get(state, 'property.activeSingleProperty.owner.phone.number', ''),
+        },
+      },
+      contactEmail: get(state, 'property.activeSingleProperty.owner.email', null),
+    },
+  });
+};
 
 const mapDispatchToProps = (dispatch) => ({
+  initForm(value) {
+    dispatch(initializeForm('GamingFlow', value));
+  },
   reset(form) {
     (dispatch(reset(form)));
   },
