@@ -331,7 +331,10 @@ const GetStarted = (props) => {
       const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
       changeFieldValue('properties.typology.livingArea.value', livingSpace);
     }
-  }, [get(formValue, 'properties.typology.grossArea.value', 0)]);
+    if (get(formValue, 'properties.typology.floorSpace.value', 0) > 0) {
+      changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
+    }
+  }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0)]);
 
   // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
   /* useEffect(() => {
@@ -727,6 +730,9 @@ const mapStateToProps = (state, props) => {
             unit: 'sqm',
           },
           grossArea: {
+            unit: 'sqm',
+          },
+          floorSpace: {
             unit: 'sqm',
           },
         },
