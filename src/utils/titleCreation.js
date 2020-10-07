@@ -133,7 +133,7 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
   let pageTitle;
   let translatedPropertyType = translateTo(lang, propertyType);
   translatedPropertyType = (typeof Transifex !== 'undefined') ? Transifex.live.translateText(translatedPropertyType) : translatedPropertyType;
-  if (propertyType === 'House') adjective = houseAdjective;
+  if (propertyType === 'House' || propertyType === 'Commercial') adjective = houseAdjective;
   if (getCountry === 'PT') {
     const bedrooms = get(formValue, 'properties.typology.bedrooms', null);
     const livingSpace = get(formValue, 'properties.typology.grossArea.value', get(formValue, 'properties.typology.livingArea.value', null));

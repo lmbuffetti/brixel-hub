@@ -52,9 +52,13 @@ const maxLengthNumYear = maxLengthNum(2031, 'year');
 // QUESTION LISTS
 export const QuestionsList = (lang, country = 'CH') => {
   let countryList = [];
+  let propertyType = '';
   if (configureStore) {
     countryList = get(configureStore.getState(), 'common.country', []);
+    propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
   }
+  let livingAreaTitle = country === 'PT' ? translateTo(lang, 'What is the gross area size?') : translateTo(lang, 'What is the living space size?');
+  if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
   return [
     {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
@@ -114,16 +118,36 @@ export const QuestionsList = (lang, country = 'CH') => {
       successMessage: translateTo(lang, 'This is a nice number.'),
     },
     {
-      title: country === 'PT' ? translateTo(lang, 'What is the gross area size?') : translateTo(lang, 'What is the living space size?'),
+      title: livingAreaTitle,
       history: 'livingSpace',
       cardType: 'livingSpace',
       bgImg: spaceSvg,
       inputs: [
         {
+          condition: [{
+            name: 'properties.propertyType',
+            noValue: 'Commercial',
+          }],
           component: BrixelInputText,
           className: 'max-w-fix-md-232',
           label: country === 'PT' ? 'Gross area' : 'Net living space',
           name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
+          type: 'number',
+          validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
+          unit: 'm2',
+          classNameBox: 'brdRadius max-w-fix-md-288',
+          placeholder: translateTo(lang, 'e.g. 120'),
+          maxLenghtNum: 9999,
+        },
+        {
+          condition: [{
+            name: 'properties.propertyType',
+            value: 'Commercial',
+          }],
+          component: BrixelInputText,
+          className: 'max-w-fix-md-232',
+          label: 'Floor space',
+          name: 'properties.typology.floorSpace.value',
           type: 'number',
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
           unit: 'm2',
