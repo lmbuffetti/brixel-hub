@@ -357,3 +357,15 @@ label.brixel-label {
     border-bottom: 1px solid map-get($lightColor, 200 );
   }
 }
+
+
+// CUSTOM SCROLLBAR WITHOUT FORGROUND LAYER
+main > div ::-webkit-scrollbar {
+  width: $step;
+  height: $step;
+}
+main > div ::-webkit-scrollbar-thumb {
+  // manage scrollbar thumb background color here
+  border-radius: $step;
+  background:rgba(0, 0, 0, 0.2) !important;
+}

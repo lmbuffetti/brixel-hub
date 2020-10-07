@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonIcon, BrixelButtonPrimary, MultiFileldsReduxForm, reset, initializeForm,
 } from '@brixel/brixel-components';
+import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -276,19 +277,26 @@ Upgrade.propTypes = {
   reset: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  activeSingleProperty: get(state, 'property.activeSingleProperty', null),
-  errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
-  formValue: get(state, 'brixelForm.GamingFlow.values', {}),
-  packagesProperty: get(state, 'companies.activeSingleCompany.servicePackages', []),
-  initialValues: {
-    id: get(state, 'property.activeSingleProperty.id', null),
-    packageUpgrade: {
-      contactPhone: get(state, 'property.activeSingleProperty.owner.phone', null),
+const mapStateToProps = (state) => {
+  const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
+  const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
+  return ({
+    activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+    errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
+    formValue: get(state, 'brixelForm.GamingFlow.values', {}),
+    packagesProperty: get(state, 'companies.activeSingleCompany.servicePackages', []),
+    initialValues: {
+      id: get(state, 'property.activeSingleProperty.id', null),
+      packageUpgrade: {
+        contactPhone: {
+          prefix: get(state, 'property.activeSingleProperty.owner.phone.prefix', countryPhoneCode.dial_code),
+          number: get(state, 'property.activeSingleProperty.owner.phone.number', ''),
+        },
+      },
       contactEmail: get(state, 'property.activeSingleProperty.owner.email', null),
     },
-  },
-});
+  });
+};
 
 const mapDispatchToProps = (dispatch) => ({
   initForm(value) {

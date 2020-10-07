@@ -409,6 +409,8 @@ const mapStateToProps = (state) => {
   set(properties, 'typology.livingArea.unit', 'm2');
   set(properties, 'typology.grossArea.unit', 'm2');
   set(properties, 'typology.lotArea.unit', 'm2');
+  set(properties, 'typology.floorSpace.unit', 'm2');
+  set(properties, 'typology.roomHeight.unit', 'm');
   set(properties, 'typology.lotAreaUsable.unit', 'm2');
   set(properties, 'typology.constructedVolume.unit', 'm3');
   set(properties, 'typology.balconyArea.unit', 'm2');

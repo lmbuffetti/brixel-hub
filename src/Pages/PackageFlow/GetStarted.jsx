@@ -331,7 +331,10 @@ const GetStarted = (props) => {
       const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
       changeFieldValue('properties.typology.livingArea.value', livingSpace);
     }
-  }, [get(formValue, 'properties.typology.grossArea.value', 0)]);
+    if (get(formValue, 'properties.typology.floorSpace.value', 0) > 0) {
+      changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
+    }
+  }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0)]);
 
   // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
   /* useEffect(() => {
@@ -379,9 +382,11 @@ const GetStarted = (props) => {
 
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
-    const propertyType = get(formValue, 'properties.propertyType', null);
-    const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
-    if (pageTitle) changeFieldValue('pageTitle', pageTitle);
+    if (currentIndex <= 5) {
+      const propertyType = get(formValue, 'properties.propertyType', null);
+      const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
+      if (pageTitle) changeFieldValue('pageTitle', pageTitle);
+    }
   }, [formValue.location, lang]);
 
   // SET DATA BY COMPANY
@@ -722,10 +727,13 @@ const mapStateToProps = (state, props) => {
         propertyType,
         typology: {
           livingArea: {
-            unit: 'sqm',
+            unit: 'm2',
           },
           grossArea: {
-            unit: 'sqm',
+            unit: 'm2',
+          },
+          floorSpace: {
+            unit: 'm2',
           },
         },
       },

@@ -29,7 +29,7 @@ const ResumeCard = (props) => {
         <img
           src={defImg}
           className="dis-b"
-          alt={formValue.propertyType || 'Apartment'}
+          alt={formValue.propertyType || 'House'}
         />
         <div className="pt-1 pb-2 px-2">
           {
