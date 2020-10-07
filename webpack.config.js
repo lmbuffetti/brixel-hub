@@ -27,7 +27,7 @@ const clientConfig = {
   entry: [
     '@babel/polyfill',
     './src/index.jsx',
-    //'./src/styles/SCSS/general/main.scss',
+    // './src/styles/SCSS/general/main.scss',
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
@@ -117,7 +117,7 @@ const clientConfig = {
               emitWarning: true,
               fix: true,
             },
-          }
+          },
         ],
       },
       {
@@ -140,7 +140,7 @@ const clientConfig = {
         use: [{
           loader: 'file-loader',
           options: {
-            name: '[name].[ext]',
+            name: '[name].[hash].[ext]',
             outputPath: 'fonts/',
 
           },
@@ -208,7 +208,7 @@ const clientConfig = {
       },
       transifexKey: baseByData(getEnvBuild).transifexIdHub,
       googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
-      facebookPixelId: baseByData(getEnvBuild).facebookPixel
+      facebookPixelId: baseByData(getEnvBuild).facebookPixel,
     }),
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
