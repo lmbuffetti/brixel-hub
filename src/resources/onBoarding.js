@@ -15,7 +15,7 @@ import { configureStore } from '../store';
 
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
-import commercial from '../images/BrxielComingTown/house.svg';
+import commercial from '../images/BrxielComingTown/commercial.svg';
 
 import homesSvg from '../images/getstarted/svgs/homes.svg';
 import spaceSvg from '../images/getstarted/svgs/space.svg';
