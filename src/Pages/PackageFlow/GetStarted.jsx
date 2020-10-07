@@ -727,13 +727,13 @@ const mapStateToProps = (state, props) => {
         propertyType,
         typology: {
           livingArea: {
-            unit: 'sqm',
+            unit: 'm2',
           },
           grossArea: {
-            unit: 'sqm',
+            unit: 'm2',
           },
           floorSpace: {
-            unit: 'sqm',
+            unit: 'm2',
           },
         },
       },
