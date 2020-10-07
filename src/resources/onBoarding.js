@@ -82,7 +82,7 @@ export const QuestionsList = (lang, country = 'CH') => {
             img: house,
           },
           {
-            label: translateTo(lang, 'Commercial property'),
+            label: translateTo(lang, 'Commercial'),
             value: 'Commercial',
             img: commercial,
           },
