@@ -94,7 +94,7 @@ const Photos = (props) => {
   // DROPZONE SETTINGS - SUPPORTED EXTENSIONS AND MAX SIZE AND OTHER SETTINGS
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: 'image/png,image/jpg,image/jpeg',
+    accept: 'image/png,image/jpg,image/jpeg,application/pdf',
     minSize: 0,
     maxSize: 1e+7,
   });
@@ -269,7 +269,7 @@ const Photos = (props) => {
                     </div>
                   )
                 }
-                <span className="body2 txtDark200 max-width-220">Choose .jpeg .png with max. 10 MB size</span>
+                <span className="body2 txtDark200 max-width-220">Choose .jpeg .png .pdf with max. 10 MB size</span>
                 <BrixelButtonPrimary
                   rounded
                   label="upload"
