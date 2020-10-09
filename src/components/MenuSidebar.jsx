@@ -9,6 +9,7 @@ import {
   BrixelButtonTertiary, BrixelTabs, destroy,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_full.svg';
 import { CSSTransition } from 'react-transition-group';
 import useOutsideAlerter from './OutsideElement';
@@ -238,10 +239,10 @@ const MenuSidebar = (props) => {
                   <BrixelTabs
                     classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
                     classNameUl="zIndex4"
-                    labels={activeSingleProperty.id ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.title) : secondRoutesBuyer.map((item) => item.title)}
-                    labelsIcons={activeSingleProperty.id ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.icon) : secondRoutesBuyer.map((item) => item.icon)}
-                    clicksList={activeSingleProperty.id ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.path) : secondRoutesBuyer.map((item) => item.path)}
-                    clicksListName={activeSingleProperty.id ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.name) : secondRoutesBuyer.map((item) => item.name)}
+                    labels={has(activeSingleProperty, 'id') ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.title) : secondRoutesBuyer.map((item) => item.title)}
+                    labelsIcons={has(activeSingleProperty, 'id') ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.icon) : secondRoutesBuyer.map((item) => item.icon)}
+                    clicksList={has(activeSingleProperty, 'id') ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.path) : secondRoutesBuyer.map((item) => item.path)}
+                    clicksListName={has(activeSingleProperty, 'id') ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.name) : secondRoutesBuyer.map((item) => item.name)}
                     classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
                     activeTab={activeMenu || checkActiveTab()}
                     fullWidth={windowDimensions.width <= 1024}
@@ -289,8 +290,8 @@ const MenuSidebar = (props) => {
 };
 
 MenuSidebar.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object,
+  formValue: PropTypes.object,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
@@ -302,6 +303,8 @@ MenuSidebar.propTypes = {
 };
 
 MenuSidebar.defaultProps = {
+  activeSingleProperty: {},
+  formValue: {},
   userType: 'user',
 };
 

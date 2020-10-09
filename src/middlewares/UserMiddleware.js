@@ -231,7 +231,7 @@ const checkUser = (store) => (next) => (action) => {
       api.user.getPropertiesOfUser(action.payload)
         .then((res) => {
           if (res.meta.status === 200) {
-            store.dispatch({ type: SET_USER_PROPERTIES, payload: res.data });
+            store.dispatch({ type: SET_USER_PROPERTIES, payload: res.data || {} });
           }
           store.dispatch({ type: SPINNER_SMALL_OFF });
           store.dispatch({ type: SPINNER_OFF });
