@@ -169,7 +169,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
           if (window.location.href.includes('localhost')) {
-            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: pageContent });
+            // store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: pageContent });
           }
           if (multiLoader) store.dispatch({ type: SPINNER_OFF });
           // window.location.href = `/`;
@@ -192,7 +192,7 @@ const checkCommon = (store) => (next) => (action) => {
               window.location.href = '/no-property';
             }
           } else {
-            store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: res.data });
+            store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: res.data || {} });
           }
           store.dispatch({ type: SPINNER_OFF });
           if (multiLoader) store.dispatch({ type: SPINNER_OFF });
@@ -200,13 +200,14 @@ const checkCommon = (store) => (next) => (action) => {
         .catch(() => {
           if (window.location.href.includes('localhost')) {
             if (setAsSingle) {
-              store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: pageContent });
+              store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: {} });
             } else {
               store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: properties });
             }
           }
           if (setAsSingle) {
-            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: null });
+            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: { } });
+            window.location.href = '/no-property';
           } else {
             store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: [] });
           }

@@ -107,6 +107,7 @@ const Dashboard = (props) => {
   } = props;
   const [isDiscardChanges, setIsDiscardChanges] = useState(false);
   const [userType, setUserType] = useState(null);
+  const [loadedProp, setLoadedProp] = useState(false);
   // const [showMessage, setShowMessage] = useState(false);
 
   // GET URL PARAMS
@@ -116,7 +117,8 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (
       !get(history, 'location.pathname', '').includes('facts') &&
-      !get(history, 'location.pathname', '').includes('achievement')
+      !get(history, 'location.pathname', '').includes('achievement') &&
+      get(activeSingleProperty, 'id', null)
     ) {
       resetForm(initialValues);
     }
@@ -147,19 +149,27 @@ const Dashboard = (props) => {
     if (gameAchievement.length === 0) handleGetAchievement();
     if (gameGroup.length === 0) handleGetGameGroup();
     if (gameHistory.length === 0) handleGetGameHistory();
+    setLoadedProp(true);
   }, [userTypes]);
 
   // INITIALIZE FORM
   useEffect(() => {
     const changeInitialValue = diff(initialValues, initValues);
-    if (Object.keys(changeInitialValue).length > 1 || (Object.keys(changeInitialValue).length === 1 && Object.keys(changeInitialValue)[0] !== 'inputSheet')) initForm(cloneDeep(initialValues));
+    if (
+      typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null) && (
+        Object.keys(changeInitialValue).length > 1 ||
+        (Object.keys(changeInitialValue).length === 1 && Object.keys(changeInitialValue)[0] !== 'inputSheet')
+      )
+    ) {
+      initForm(cloneDeep(initialValues));
+    }
   }, [initialValues]);
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
-    if (!history.location.pathname.includes('pageLists')) {
-      if (typeof activeSingleProperty !== 'undefined' && activeSingleProperty) {
-        if (!propID && get(activeSingleProperty, 'id', null)) {
+    if (!history.location.pathname.includes('pageLists') && loadedProp) {
+      if ((typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null)) || propID === 'no-property') {
+        if ((!propID || propID === 'no-property') && get(activeSingleProperty, 'id', null)) {
           history.push(`/${activeSingleProperty.id}/rewards`);
         }
         if (get(activeSingleProperty, 'owner', null) === loggedInUser.user.id) {
@@ -422,7 +432,7 @@ const mapStateToProps = (state) => {
   const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
   inputSheet.totalComplete = calcPercentageFacts('Property', formValue).calcPerc;
   return ({
-    activeSingleProperty: get(state, 'property.activeSingleProperty', undefined),
+    activeSingleProperty: has(state, 'property.activeSingleProperty.id') ? get(state, 'property.activeSingleProperty', { }) : undefined,
     errorValue: get(state, 'brixelForm.Property.syncErrors', null),
     formValue: get(state, 'brixelForm.Property.values', {}),
     gameAchievement: get(state, 'gamification.achievement', []),
