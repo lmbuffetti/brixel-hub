@@ -108,6 +108,11 @@ const BrixelModalFullScreen = Loadable({
   loading: Loading,
 });
 
+const SingleDocument = Loadable({
+  loader: () => import('./Pages/EditProperty/SingleDocument' /* webpackChunkName: "SingleDocument" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -481,6 +486,11 @@ const App = (props) => {
           </>
         )
       }
+
+      {/* Splash screens for single deal, create new deal and edit document */}
+      <Switch>
+        <Route exact path="/:propID/property/documents/:docID/editDocument" component={SingleDocument} />
+      </Switch>
     </main>
   );
 };

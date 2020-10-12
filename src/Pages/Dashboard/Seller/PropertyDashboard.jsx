@@ -82,7 +82,7 @@ const HomeDashboard = (props) => {
   const openCloseColumn = () => {
     if (
       (history.location.pathname.includes('facts') && getFact() !== 'facts') ||
-      (history.location.pathname.includes('edit'))
+      ((history.location.pathname.includes('edit')) && !(history.location.pathname.includes('editDocument')))
     ) {
       return 'closed';
     }
@@ -229,7 +229,7 @@ const HomeDashboard = (props) => {
               <Route path="/:propId?/property/photos" component={Photos} />
               <Route path="/:propId?/property/floorPlans" component={Plans} />
               <Route path="/:propId?/property/tour" exact component={Tour} />
-              <Route path="/:propId?/property/documents" exact component={Documents} />
+              <Route path="/:propId?/property/documents" component={Documents} />
             </div>
           )
         }
