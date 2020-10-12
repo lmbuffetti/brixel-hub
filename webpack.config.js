@@ -225,32 +225,6 @@ const clientConfig = {
     extensions: ['.js', '.jsx'],
   },
   optimization: {
-    namedModules: true,
-    namedChunks: true,
-    nodeEnv: devMode ? 'development' : 'production',
-    flagIncludedChunks: true,
-    occurrenceOrder: true,
-    sideEffects: true,
-    usedExports: true,
-    concatenateModules: true,
-    minimize: !devMode,
-    runtimeChunk: {
-      name: 'runtime',
-    },
-    splitChunks: {
-      chunks: 'all',
-      minSize: 500,
-      maxSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
-      automaticNameDelimiter: '~',
-      automaticNameMaxLength: 30,
-      name: true,
-    },
-    removeAvailableModules: !devMode,
-    noEmitOnErrors: !devMode,
-    checkWasmTypes: false,
     minimizer: [
       new TerserPlugin({
         cache: false,
