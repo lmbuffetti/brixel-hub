@@ -7,6 +7,7 @@ const companyData = require('@brixel/brixel-configuration-partner/src/CompanyInf
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
@@ -16,7 +17,7 @@ const CSSNano = require('cssnano');
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
-const ASSET_PATH = process.env.ASSET_PATH || '/';
+
 
 const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
@@ -27,17 +28,17 @@ const clientConfig = {
   entry: [
     '@babel/polyfill',
     './src/index.jsx',
-    // './src/styles/SCSS/general/main.scss',
+    //'./src/styles/SCSS/general/main.scss',
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
-    compress: !devMode,
-    port: 5000,
+    compress: devMode,
+    port: 3000,
     historyApiFallback: true,
     open: true,
   },
   output: {
-    publicPath: ASSET_PATH,
+    publicPath: '/',
     path: BUILD_DIR,
     filename: 'js/[name].bundle.js',
     chunkFilename: devMode ? 'js/[name].js' : 'js/[name].[hash].js',
@@ -78,6 +79,9 @@ const clientConfig = {
                 plugins: [
                   [
                     'autoprefixer',
+                    {
+                      // Options
+                    },
                   ],
                 ],
               },
@@ -171,6 +175,9 @@ const clientConfig = {
     ],
   },
   plugins: [
+    new ExtractCssChunks({
+      hot: true,
+    }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
@@ -194,9 +201,9 @@ const clientConfig = {
       hash: true,
       filename: './index.html',
       template: './public/index.html',
-      title: companyData.hub.title,
+      title: companyData.admin.title,
       meta: {
-        keywords: companyData.hub.keywords,
+        keywords: companyData.admin.keywords,
       },
       minify: {
         collapseWhitespace: true,
@@ -206,8 +213,8 @@ const clientConfig = {
         removeStyleLinkTypeAttributes: true,
         useShortDoctype: true,
       },
-      transifexKey: baseByData(getEnvBuild).transifexIdHub,
-      googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
+      transifexKey: baseByData(getEnvBuild).transifexIdAdmin,
+      googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdAdmin,
       facebookPixelId: baseByData(getEnvBuild).facebookPixel,
     }),
     new webpack.DefinePlugin({
@@ -217,7 +224,6 @@ const clientConfig = {
       },
       'process.env.client': true,
       'process.env.BROWSER': JSON.stringify(true),
-      'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
     }),
     new WebpackAssetsManifest(),
   ],
@@ -225,9 +231,52 @@ const clientConfig = {
     extensions: ['.js', '.jsx'],
   },
   optimization: {
+    namedModules: true,
+    namedChunks: true,
+    nodeEnv: devMode ? 'development' : 'production',
+    flagIncludedChunks: true,
+    occurrenceOrder: true,
+    sideEffects: true,
+    usedExports: true,
+    concatenateModules: true,
+    minimize: !devMode,
+    runtimeChunk: {
+      name: 'runtime',
+    },
+    splitChunks: {
+      chunks: 'all',
+      minSize: 500,
+      maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      automaticNameMaxLength: 30,
+      name: true,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+        styles: {
+          name: 'styles',
+          test: /\.scss$/,
+          chunks: 'all',
+          enforce: true,
+        },
+      },
+    },
+    removeAvailableModules: !devMode,
+    noEmitOnErrors: !devMode,
+    checkWasmTypes: false,
     minimizer: [
       new TerserPlugin({
-        cache: false,
+        cache: !devMode,
         parallel: true,
         sourceMap: devMode,
       }),
