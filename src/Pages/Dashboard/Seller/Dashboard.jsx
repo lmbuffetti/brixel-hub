@@ -11,6 +11,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
+import find from 'lodash/find';
 import Loadable from 'react-loadable';
 import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
@@ -308,6 +309,15 @@ const Dashboard = (props) => {
 
   // FUNCTION TO SHOW/HIDE THE NOTIFICATION BAR TO SAVE
   useEffect(() => {
+    // eslint-disable-next-line consistent-return
+    const isDocEdit = find(diff(initialValues, formValue).documents, (el) => {
+      if (history.location.pathname.includes('documents') &&
+          (has(el, 'isPrivate') || has(el, 'name') || has(el, 'folder')) &&
+          !has(el, 'id')) {
+        return true;
+      }
+      return false;
+    });
     if (formValue.id && initialValues.id) {
       let changeObj = diff(initialValues, formValue);
       const checkIsValid = Object.keys(changeObj).find((key) => typeof changeObj[key] !== 'undefined');
@@ -324,6 +334,9 @@ const Dashboard = (props) => {
         (Object.keys(changeObj).length > 1 || !changeObj.inputSheet) &&
         !isSmallLoading &&
         !isLoading &&
+        !has(isDocEdit, 'name') &&
+        !has(isDocEdit, 'isPrivate') &&
+        !has(isDocEdit, 'folder') &&
         validForm()
       ) {
         handleSetScreenNotification({

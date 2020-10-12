@@ -151,6 +151,7 @@ const Documents = (props) => {
 
   // Function to close the small menus when we click outside
   useOutsideAlerter(documentRef, {
+    id: documentId,
     action: 'function',
     func: () => {
       setDocumentOptionsOpen({ id: null, active: false });
