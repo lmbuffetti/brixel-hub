@@ -56,10 +56,11 @@ const Documents = (props) => {
   }, [documents, userType]);
 
   useEffect(() => {
-    if (documents.length > 0) {
+    const docs = documents || [];
+    if (docs.length > 0) {
       const finalObj = {};
       const availableFolders = [];
-      documents.forEach((value) => {
+      docs.forEach((value) => {
         if (get(value, 'folder')) availableFolders.push(value.folder);
         if (!value.folder) availableFolders.push('NoFolder');
       });
@@ -68,13 +69,13 @@ const Documents = (props) => {
       array.forEach((value) => {
         set(finalObj, `${value}`, []);
       });
-      documents.forEach((doc) => {
+      docs.forEach((doc) => {
         if (get(doc, 'folder')) finalObj[`${doc.folder}`].push(doc);
         if (!doc.folder) finalObj.NoFolder.push(doc);
       });
       setProcessedDocuments(finalObj);
     }
-  }, [documents.length]);
+  }, [documents]);
 
   const manageDocument = (e, id) => {
     if (e) e.preventDefault();
@@ -177,7 +178,7 @@ const Documents = (props) => {
           {
             (processedDocuments && Object.keys(processedDocuments).length > 0) && (
               <>
-                <div className="documents-container dis-fl-col">
+                <div className="documents-container w-perc-100 dis-fl-col">
                   <ul
                     className="folder-list"
                   >
@@ -233,18 +234,10 @@ const Documents = (props) => {
                                         saturationTxt={400}
                                       />
                                     </div>
-                                    <span
-                                      className="document-title cur-poi max-w-fix-296"
-                                      title={doc.name}
-                                      onClick={(e) => openDocument(e, doc.id)}
-                                    >
-                                      {doc.name}
-                                    </span>
-                                  </div>
-
-                                  <div className="upload-info dis-fl-col">
-                                    <span className="date">{moment(doc.createdAt).format('D MMM YYYY, H:mm')}</span>
-                                    <span className="user">{doc.user.name}</span>
+                                    <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
+                                      <span className="document-title max-w-fix-168 max-w-perc-md-100 txtDark700">{doc.name}</span>
+                                      <span className="date body2 txtDark200">{moment(doc.createdAt).format('D MMM YYYY, H:mm')}</span>
+                                    </div>
                                   </div>
 
                                   <div className="visibility-info dis-fl-row a-c">
@@ -339,18 +332,10 @@ const Documents = (props) => {
                                     saturationTxt={400}
                                   />
                                 </div>
-                                <span
-                                  className="document-title cur-poi max-w-fix-296"
-                                  title={doc.name}
-                                  onClick={(e) => openDocument(e, doc.id)}
-                                >
-                                  {doc.name}
-                                </span>
-                              </div>
-
-                              <div className="upload-info dis-fl-col">
-                                <span className="date">{moment(doc.createdAt).format('D MMM YYYY, H:mm')}</span>
-                                <span className="user">{doc.user.name}</span>
+                                <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
+                                  <span className="document-title max-w-fix-168 max-w-perc-md-100 txtDark700">{doc.name}</span>
+                                  <span className="date body2 txtDark200">{moment(doc.createdAt).format('D MMM YYYY, H:mm')}</span>
+                                </div>
                               </div>
 
                               <div className="visibility-info dis-fl-row a-c">
@@ -360,7 +345,6 @@ const Documents = (props) => {
                                     color={`${doc.isPrivate ? 'red' : 'green'}`}
                                     icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
                                   />
-                                  <span className="visibility">{doc.isPrivate ? 'Private' : 'Public'}</span>
                                 </>
                               </div>
                               <div className="pos-r">
