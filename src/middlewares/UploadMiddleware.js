@@ -297,7 +297,7 @@ const checkCommon = (store) => (next) => (action) => {
           const data = {
             id: pageID,
             documents: docList,
-            smallLoader: true,
+            setSuccessNotification: true,
           };
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
