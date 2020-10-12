@@ -13,6 +13,12 @@
     border-bottom: 1px solid map_get($lightColor, 200);
     cursor: grab;
 
+    &:last-child {
+      border-bottom: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
     .name {
       width: calc(100% - 44px);
     }

@@ -1,0 +1,87 @@
+.wrapSplash {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  background: rgba(map_get($darkColor, 700), .7);
+
+  &.edit-document {
+
+    .container {
+      height: unset;
+      max-width: 560px;
+    }
+  }
+
+  .container {
+    position: relative;
+    top: 120px;
+    height: calc(100% - 120px);
+    width: 100%;
+    max-width: 930px;
+
+    // Media edit styles
+    .image-detail {
+      height: 100%;
+      background-color: white;
+
+      .title {
+        @include fontStyle(500, 'medium', left);
+        color: map-get($darkColor, 700);
+      }
+
+      .details {
+        background-color: map-get($lightColor, 100);
+
+        .detail-title,
+        .detail-info {
+          @include fontStyle(400, 'regular', left);
+          color: map-get($darkColor, 200);
+        }
+
+        .detail-info {
+          color: map-get($darkColor, 700);
+
+          &.link {
+            align-self: end;
+          }
+        }
+      }
+    }
+
+    // Packages styles
+    .service-packages {
+
+      .container {
+
+        .currency {
+          @include fontStyle(300,'medium',left);
+        }
+
+        .stub {
+          @include fontStyle(300,'regular',left);
+        }
+
+        &.red {
+          background-color: map-get($redColor, 100);
+
+          .title {
+            @include fontStyle(500,'medium',left);
+            color: map-get($redColor, 400);
+          }
+        }
+
+        &.green {
+          background-color: map-get($greenColor, 100);
+
+          .title {
+            @include fontStyle(500,'medium',left);
+            color: map-get($greenColor, 400);
+          }
+        }
+      }
+    }
+  }
+}
