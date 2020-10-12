@@ -185,7 +185,7 @@ const Documents = (props) => {
                     {
                       Object.keys(processedDocuments).map((key, i) => (
                         key !== 'NoFolder' ? (
-                          <div className="document-folder shadow-1dp dis-fl-col p-1 p-md-2 mb-2 brdRadius" key={i.toString()}>
+                          <div className="document-folder shadow-1dp dis-fl-col p-1 mb-2 brdRadius" key={i.toString()}>
                             <div className="dis-fl-row jc-b a-c">
                               <div className={`dis-fl-row a-c ${(index(i) !== -1) ? 'mb-3' : ''}`}>
                                 <BrixelIcon
@@ -240,17 +240,12 @@ const Documents = (props) => {
                                     </div>
                                   </div>
 
-                                  <div className="visibility-info dis-fl-row a-c">
-                                    <>
-                                      <BrixelIcon
-                                        className="mr-1"
-                                        color={`${doc.isPrivate ? 'red' : 'green'}`}
-                                        icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
-                                      />
-                                      <span className="visibility">{doc.isPrivate ? 'Private' : 'Public'}</span>
-                                    </>
-                                  </div>
-                                  <div className="pos-r">
+                                  <div className="pos-r dis-fl-row a-c">
+                                    <BrixelIcon
+                                      className="mr-1"
+                                      color={`${doc.isPrivate ? 'red' : 'green'}`}
+                                      icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
+                                    />
                                     <BrixelButtonIcon
                                       bgTransparent
                                       noBorder
@@ -319,7 +314,7 @@ const Documents = (props) => {
                           processedDocuments[key].map((doc, k) => (
                             <div
                               key={k.toString()}
-                              className="single-document-folder dis-fl-row a-c jc-b p-1 p-md-2 mb-2 brdRadius shadow-1dp"
+                              className="single-document-folder dis-fl-row a-c jc-b p-1 mb-2 brdRadius shadow-1dp"
                             >
 
                               <div className="name w-fix-184 w-fix-md-352 dis-fl-row a-c pr-1 pr-sm-0">
@@ -338,16 +333,12 @@ const Documents = (props) => {
                                 </div>
                               </div>
 
-                              <div className="visibility-info dis-fl-row a-c">
-                                <>
-                                  <BrixelIcon
-                                    className="mr-1"
-                                    color={`${doc.isPrivate ? 'red' : 'green'}`}
-                                    icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
-                                  />
-                                </>
-                              </div>
-                              <div className="pos-r">
+                              <div className="pos-r dis-fl-row a-c">
+                                <BrixelIcon
+                                  className="mr-1"
+                                  color={`${doc.isPrivate ? 'red' : 'green'}`}
+                                  icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
+                                />
                                 <BrixelButtonIcon
                                   bgTransparent
                                   noBorder
