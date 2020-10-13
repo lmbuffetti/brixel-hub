@@ -98,7 +98,6 @@ const Documents = (props) => {
 
   // REF
   const documentRef = useRef(null);
-  const textAreaRef = useRef(null);
 
   useEffect(() => {
     if (!isSmallLoading) {
@@ -141,10 +140,14 @@ const Documents = (props) => {
   };
 
   // COPY DOCUMENT LINK
-  const copyLinkToClipboard = (e) => {
-    if (e) e.preventDefault();
-    textAreaRef.current.select();
+  const copyLinkToClipboard = (id) => {
+    const dummy = document.createElement('input');
+    document.body.appendChild(dummy);
+    dummy.setAttribute('id', 'dummy_id');
+    document.getElementById('dummy_id').value = `${getConfigEnv.shortPath}/document/${id}`;
+    dummy.select();
     document.execCommand('copy');
+    document.body.removeChild(dummy);
     setIsCopied(true);
     setTimeout(() => { setIsCopied(false); }, 2000);
   };
@@ -244,8 +247,8 @@ const Documents = (props) => {
                                   <div className="pos-r dis-fl-row a-c">
                                     <BrixelIcon
                                       className="mr-1"
-                                      color={`${doc.isPrivate ? 'red' : 'green'}`}
-                                      icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
+                                      color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
+                                      icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
                                     />
                                     <BrixelButtonIcon
                                       bgTransparent
@@ -271,7 +274,7 @@ const Documents = (props) => {
                                               [
                                                 {
                                                   label: isCopied ? 'Copied' : 'Copy Link',
-                                                  clickFunc: () => copyLinkToClipboard(),
+                                                  clickFunc: () => copyLinkToClipboard(doc.id),
                                                 },
                                                 {
                                                   label: 'View',
@@ -290,18 +293,6 @@ const Documents = (props) => {
                                                 },
                                               ]
                                             }
-                                          />
-                                          <textarea
-                                            style={{
-                                              opacity: 0,
-                                              width: 0,
-                                              height: 0,
-                                              position: 'absolute',
-                                              border: 0,
-                                            }}
-                                            readOnly
-                                            ref={textAreaRef}
-                                            value={`${getConfigEnv.shortPath}/document/${doc.id}`}
                                           />
                                         </>
                                       )
@@ -337,8 +328,8 @@ const Documents = (props) => {
                               <div className="pos-r dis-fl-row a-c">
                                 <BrixelIcon
                                   className="mr-1"
-                                  color={`${doc.isPrivate ? 'red' : 'green'}`}
-                                  icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
+                                  color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
+                                  icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
                                 />
                                 <BrixelButtonIcon
                                   bgTransparent
@@ -364,7 +355,7 @@ const Documents = (props) => {
                                           [
                                             {
                                               label: isCopied ? 'Copied' : 'Copy Link',
-                                              clickFunc: () => copyLinkToClipboard(),
+                                              clickFunc: () => copyLinkToClipboard(doc.id),
                                             },
                                             {
                                               label: 'View',
@@ -383,18 +374,6 @@ const Documents = (props) => {
                                             },
                                           ]
                                         }
-                                      />
-                                      <textarea
-                                        style={{
-                                          opacity: 0,
-                                          width: 0,
-                                          height: 0,
-                                          position: 'absolute',
-                                          border: 0,
-                                        }}
-                                        readOnly
-                                        ref={textAreaRef}
-                                        value={`${getConfigEnv.shortPath}/document/${doc.id}`}
                                       />
                                     </>
                                   )
