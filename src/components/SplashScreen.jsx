@@ -21,6 +21,7 @@ const SplashScreen = (props) => {
     className,
     closeLink,
     history,
+    closeOutside,
   } = props;
 
   const drawerRef = useRef(null);
@@ -29,8 +30,10 @@ const SplashScreen = (props) => {
   useOutsideAlerter(drawerRef, {
     action: 'function',
     func: () => {
-      document.body.classList.remove('ov-h');
-      history.push(closeLink);
+      if (closeOutside === true) {
+        document.body.classList.remove('ov-h');
+        history.push(closeLink);
+      }
     },
   });
 
@@ -50,11 +53,13 @@ SplashScreen.propTypes = {
   className: PropTypes.string,
   closeLink: PropTypes.string,
   history: PropTypes.object.isRequired,
+  closeOutside: PropTypes.bool,
 };
 
 SplashScreen.defaultProps = {
   className: '',
   closeLink: './',
+  closeOutside: true,
 };
 
 const mapStateToProps = () => ({});
