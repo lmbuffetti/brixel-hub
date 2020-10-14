@@ -30,12 +30,6 @@ export const secondRoutes = [
 
 export const firstRoutesBuyer = [
   {
-    title: 'Home',
-    name: 'rewards',
-    icon: 'first-time-occupancy',
-    path: '/buyer/rewards/:propID',
-  },
-  {
     title: 'Property',
     name: 'property',
     icon: 'property-house',

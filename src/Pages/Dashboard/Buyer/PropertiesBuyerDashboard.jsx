@@ -1,22 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
-  withRouter,
+  Link, withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon,
   BrixelIcon,
+  FactsOptions,
   Helpers,
 } from '@brixel/brixel-components';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
-import Sticker from 'react-stickyfill';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 
 const PropertiesBuyerDashboard = (props) => {
+  const { factsOptions } = FactsOptions;
   // PROPS
   const {
     history,
@@ -60,7 +60,7 @@ const PropertiesBuyerDashboard = (props) => {
           property.status === 'to-rent' && (
             <>
               <span>{currency}&nbsp;</span>
-              <span>{Helpers.formatNumberValue(+get(property, 'price.rent', 0))}</span>
+              <span>{Helpers.formatNumberValue(get(property, 'price.rent', 0), currency)}</span>
             </>
           )
         }
@@ -68,7 +68,7 @@ const PropertiesBuyerDashboard = (props) => {
           (!property.status || property.status === 'on-sale') && (
             <>
               <span>{currency}&nbsp;</span>
-              <span>{Helpers.formatNumberValue(+get(property, 'price.total', 0))}</span>
+              <span>{Helpers.formatNumberValue(get(property, 'price.total', 0), currency)}</span>
             </>
           )
         }
@@ -82,61 +82,86 @@ const PropertiesBuyerDashboard = (props) => {
         <h5 className="mb-2">
           Properties you are interested in ({get(userBuyerProperties, 'length', 0)})
         </h5>
-        <Sticker>
-          <div className="max-w-fix-480">
-
+        <div className="properties listings-wrapper w-perc-100">
+          <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
             {
               userBuyerProperties.map((property, i) => (
-                <div
-                  key={i.toString()}
-                  className="dis-f p-1 shadow-1dp brdRadius bgWhite mb-2 shadowHover-3dp cur-poi"
-                  onClick={() => history.push(`/buyer/rewards/${property.id}`)}
-                >
-                  <div className="image-ratio squared w-fix-flex-88 h-fix-88 brdRadius ov-h mr-1">
-                    <CoverPropertyImage coverPhoto={get(property, 'coverPhoto.thumbnailPath', null)} className="cover" />
-                  </div>
-                  <div className="w-perc-100 dis-fl-col jc-b">
-                    <p className="body2 txtPrimary400">{property.title}</p>
-                    <p className="dis-f a-c body2 fweight-600">{showPrice(property)}</p>
-                    <div className="dis-f a-c w-perc-100">
-                      <p className="dis-f a-c">
-                        <BrixelIcon icon="bed" className="mr-1" />
-                        <span className="ff-mono body2">{get(property, 'properties.typology.bedrooms', '0')}</span>
-                      </p>
-                      <p className="dis-f a-c pl-2">
-                        <BrixelIcon icon="plans" className="mr-1" />
-                        {
-                          get(property, 'location.countryCode', '') === 'PT' && get(property, 'properties.typology.grossArea.value', 0) > 0 ? (
-                            <span className="ff-mono body2">{get(property, 'properties.typology.grossArea.value', '0')} m</span>
-                          ) : (
-                            <span className="ff-mono body2">{get(property, 'properties.typology.livingArea.value', '0')} m</span>
-                          )
-                        }
-                      </p>
-                      <p className="dis-f a-c pl-2">
-                        <BrixelIcon icon="house-built" className="mr-1" />
-                        <span className="ff-mono body2">
-                          {get(property, 'properties.building.built', '0000')}
-                        </span>
-                      </p>
+                <Fragment key={i.toString()}>
+                  <div className="results dis-f shadow-1dp mb-2">
+                    <div className="row-section avatar-container p-1 dis-f a-c ov-h flex-112">
+                      <Link
+                        className="cur-po"
+                        to={{
+                          pathname: `/buyer/property/${property.id}`,
+                        }}
+                      >
+                        <CoverPropertyImage
+                          coverPhoto={get(property, 'coverPhoto.thumbnailPath', null)}
+                          className="avatar w-fix-96 h-fix-96 pos-r brdRadius"
+                        />
+                      </Link>
                     </div>
+
+                    <div className="row-section name p-1 notranslate w-perc-100">
+                      <div className="wrapper dis-fl-col a-bl">
+                        <Link
+                          className="link"
+                          to={{
+                            pathname: `/buyer/property/${property.id}`,
+                          }}
+                        >
+                          {property.title}
+                        </Link>
+                        <span className="address">
+                          {get(property, 'location.name', '')} {get(property, 'location.streetNumber', '')}, {get(property, 'location.zip', '')} {get(property, 'location.city', '')}
+                        </span>
+                        {/* <span className="id">{property.id}</span> */}
+                      </div>
+                    </div>
+
+                    <div className="row-section owner w-perc-100 p-1">
+                      <div className="dis-f jc-b a-c">
+                        <p className="dis-f a-c">
+                          <BrixelIcon icon="bed" className="mr-1" label="Rooms" />
+                          <span className="ff-mono body2">{get(property, 'properties.typology.bedrooms', '0')}</span>
+                        </p>
+                        <p className="dis-f a-c">
+                          <BrixelIcon icon="plans" className="mr-1" label="Living Area" />
+                          {
+                            get(property, 'location.countryCode', '') === 'PT' && get(property, 'properties.typology.grossArea.value', 0) > 0 ? (
+                              <span className="ff-mono body2">{get(property, 'properties.typology.grossArea.value', '0')} m</span>
+                            ) : (
+                              <span className="ff-mono body2">{get(property, 'properties.typology.livingArea.value', '0')} m</span>
+                            )
+                          }
+                        </p>
+                        <p className="dis-f a-c">
+                          <BrixelIcon icon="house-built" className="mr-1" label="Year" />
+                          <span className="ff-mono body2">
+                            {get(property, 'properties.building.built', '0000')}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="row-section status p-1 w-perc-100 dis-f jc-fe">
+                      {showPrice(property)}
+                    </div>
+
+                    <div className="row-section status p-1 w-perc-100 dis-f jc-fe">
+                      <a href="" target="_blank">
+                        <BrixelIcon
+                          icon="link-open"
+                          label="Open Page"
+                        />
+                      </a>
+                    </div>
+
                   </div>
-                </div>
+                </Fragment>
               ))
             }
           </div>
-        </Sticker>
-        <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
-          <BrixelButtonIcon
-            background="white"
-            saturation={0}
-            color="primary"
-            saturationTxt={400}
-            icon="arrow-simple-left"
-            noBorder
-            className="shadow-2dp"
-            onClick={() => history.push('../facts')}
-          />
         </div>
         {
           getFact() !== 'property' && (

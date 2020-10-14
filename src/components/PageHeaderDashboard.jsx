@@ -5,14 +5,25 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
-import { BrixelIcon, BrixelButtonSecondary, BrixelButtonIcon } from '@brixel/brixel-components';
+import has from 'lodash/has';
+import {
+  BrixelIcon,
+  BrixelButtonSecondary,
+  BrixelButtonIcon,
+  BrixelTabs,
+} from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import useOutsideAlerter from './OutsideElement';
 import { setCookie } from '../utils/helpers';
 import { setLanguage, setModal } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
-import { firstRoutes, secondRoutes } from '../resources/navigationRoutes';
+import {
+  firstRoutes,
+  firstRoutesBuyer,
+  secondRoutes,
+  secondRoutesBuyer,
+} from '../resources/navigationRoutes';
 import brixels from '../images/BrxielComingTown/brixels.svg';
 import CoverPropertyImage from './CoverPropertyImage';
 import AccountDropdown from './AccountDropdown';
@@ -20,6 +31,7 @@ import AccountDropdown from './AccountDropdown';
 function PageHeaderDashboard(props) {
   // PROPS
   const {
+    activeSingleProperty,
     awards,
     brixelPoints,
     changeZIndex,
@@ -37,9 +49,10 @@ function PageHeaderDashboard(props) {
   // STATE
   // const [currentLang, setCurrentLang] = useState(lang);
   // const [dropLang, setDropLang] = useState([]);
-  const [activeMenu, setActiveMenu] = useState(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(null);
+  const [slideIn, setSlideIn] = useState(false);
   // REF
   const profileMenu = useRef(null);
   const proTitleRef = useRef(null);
@@ -148,6 +161,29 @@ function PageHeaderDashboard(props) {
       }
     }
   });
+
+  // FUNCTION TO MAANGE THE TAB CLICK
+  const onTabClick = (val, act = 'url') => {
+    if (act === 'state' || val === 'support' || val === '/support') {
+      setActiveMenu(val.replace('/', ''));
+      setSlideIn(true);
+    } else {
+      const url = val.replace(':propID', propID);
+      history.push(url);
+      setActiveMenu(null);
+    }
+  };
+
+  // CHECK TAB BY URL
+  const checkActiveTab = () => {
+    let curTab = '';
+    if (history) {
+      if (history.location.pathname.includes('rewards')) curTab = 'rewards';
+      else if (history.location.pathname.includes('property')) curTab = 'property';
+      else if (history.location.pathname.includes('listings')) curTab = 'listings';
+    }
+    return curTab;
+  };
 
   return (
     <>
@@ -321,6 +357,47 @@ function PageHeaderDashboard(props) {
             </div>
           </div>
         </div>
+        <div>
+          {
+            has(activeSingleProperty, 'id') && (
+              <>
+                {
+                  userType === 'seller' ? (
+                    <BrixelTabs
+                      classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
+                      classNameUl="zIndex4"
+                      labels={has(activeSingleProperty, 'id') ? firstRoutes.map((item) => item.title) : []}
+                      labelsIcons={has(activeSingleProperty, 'id') ? firstRoutes.map((item) => item.icon) : []}
+                      clicksList={has(activeSingleProperty, 'id') ? firstRoutes.map((item) => item.path) : []}
+                      clicksListName={has(activeSingleProperty, 'id') ? firstRoutes.map((item) => item.name) : []}
+                      classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
+                      activeTab={activeMenu || checkActiveTab()}
+                      onClick={(val) => onTabClick(val)}
+                      showFull={false}
+                      classNameIcon="fsize-md-400 txtLight600"
+                      classNameLabel="fsize-300 txtLight600 dis-f a-c"
+                    />
+                  ) : (
+                    <BrixelTabs
+                      classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
+                      classNameUl="zIndex4"
+                      labels={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.title) : []}
+                      labelsIcons={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.icon) : []}
+                      clicksList={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.path) : []}
+                      clicksListName={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.name) : []}
+                      classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
+                      activeTab={activeMenu || checkActiveTab()}
+                      onClick={(val) => onTabClick(val)}
+                      showFull={false}
+                      classNameIcon="fsize-md-400 txtLight600"
+                      classNameLabel="fsize-300 txtLight600 dis-f a-c"
+                    />
+                  )
+                }
+              </>
+            )
+          }
+        </div>
         {
           windowDimensions.width <= 1024 && (
             <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
@@ -356,19 +433,20 @@ function PageHeaderDashboard(props) {
 }
 
 PageHeaderDashboard.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   awards: PropTypes.number.isRequired,
-  changeZIndex: PropTypes.func,
   brixelPoints: PropTypes.number.isRequired,
+  changeZIndex: PropTypes.func,
+  formValue: PropTypes.object.isRequired,
   gameHistory: PropTypes.object.isRequired,
+  handleGetGame: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
-  formValue: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object,
-  history: PropTypes.object.isRequired,
-  handleGetGame: PropTypes.func.isRequired,
-  windowDimensions: PropTypes.object.isRequired,
   userType: PropTypes.string.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {
@@ -378,6 +456,7 @@ PageHeaderDashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   awards: get(state, 'user.awards', 0),
   brixelPoints: get(state, 'user.brixelPoints', 0),
   loggedInUser: get(state, 'user.loggedInUser', {}),

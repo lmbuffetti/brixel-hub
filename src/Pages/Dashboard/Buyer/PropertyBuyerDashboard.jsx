@@ -18,8 +18,8 @@ import Sticker from 'react-stickyfill';
 import LoadingSimple from '../../../components/LoadingSimple';
 import Loading from '../../../components/Loading';
 
-const Facts = Loadable({
-  loader: () => import('../../EditProperty/Facts' /* webpackChunkName: "Facts" */),
+const PageBuyer = Loadable({
+  loader: () => import('./PageBuyer' /* webpackChunkName: "PageBuyer" */),
   loading: LoadingSimple,
 });
 
@@ -61,7 +61,7 @@ const PropertyBuyerDashboard = (props) => {
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
   useEffect(() => {
     if (windowDimensions && windowDimensions.width > 1024 && getFact() === propID) {
-      history.push({ pathname: `/buyer/property/${propID}/documents` });
+      history.push({ pathname: `/buyer/property/${propID}/page` });
     }
   }, [windowDimensions, getFact()]);
 
@@ -90,6 +90,21 @@ const PropertyBuyerDashboard = (props) => {
 
             <div className="dis-f mt-2">
               <BrixelButtonBox
+                verticalView
+                bgTransparent
+                icon="copy-link"
+                label="Page"
+                labelClass="fweight-400"
+                subtitle=""
+                subtitleClass="fsize-200 pt-small-6"
+                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                colorIcon="primary700"
+                backIcon="primary100"
+                onClick={() => history.push(`/buyer/property/${propID}/page`)}
+              />
+
+              <BrixelButtonBox
+                verticalView
                 bgTransparent
                 icon="folder"
                 label="Docubox"
@@ -114,16 +129,13 @@ const PropertyBuyerDashboard = (props) => {
             icon="arrow-simple-left"
             noBorder
             className="shadow-2dp"
-            onClick={() => history.push('../facts')}
+            onClick={() => history.push('../page')}
           />
         </div>
         {
           getFact() !== 'property' && (
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed' : 'opened'}`}>
-              <Route path="/:propId?/property/facts" component={Facts} />
-              <Route path="/:propId?/property/photos" component={Photos} />
-              <Route path="/:propId?/property/floorPlans" component={Plans} />
-              <Route path="/:propId?/property/tour" exact component={Tour} />
+              <Route path="/buyer/property/:propId/page" component={PageBuyer} />
               <Route path="/buyer/property/:propId/documents" exact component={Documents} />
             </div>
           )
@@ -145,7 +157,7 @@ PropertyBuyerDashboard.defaultProps = {
 
 const mapStateToProps = (state) => ({
   windowDimensions: get(state, 'common.windowDimensions', {}),
-  formValue: get(state, 'brixelForm.Property.values', {}),
+  formValue: get(state, 'property.activeSingleProperty', {}),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),

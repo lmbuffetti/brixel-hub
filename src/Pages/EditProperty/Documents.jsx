@@ -335,11 +335,15 @@ const Documents = (props) => {
                               </div>
 
                               <div className="pos-r dis-fl-row a-c">
-                                <BrixelIcon
-                                  className="mr-1"
-                                  color={`${doc.isPrivate ? 'red' : 'green'}`}
-                                  icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
-                                />
+                                {
+                                  userType === 'seller' && (
+                                    <BrixelIcon
+                                      className="mr-1"
+                                      color={`${doc.isPrivate ? 'red' : 'green'}`}
+                                      icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
+                                    />
+                                  )
+                                }
                                 <BrixelButtonIcon
                                   bgTransparent
                                   noBorder
@@ -361,7 +365,7 @@ const Documents = (props) => {
                                         topOffset={40}
                                         rightAligned
                                         links={
-                                          [
+                                          userType === 'seller' ? [
                                             {
                                               label: isCopied ? 'Copied' : 'Copy Link',
                                               clickFunc: () => copyLinkToClipboard(),
@@ -380,6 +384,15 @@ const Documents = (props) => {
                                               label: 'Remove',
                                               className: 'txtRed400',
                                               clickFunc: (e) => deleteDocs(e, doc.id),
+                                            },
+                                          ] : [
+                                            {
+                                              label: isCopied ? 'Copied' : 'Copy Link',
+                                              clickFunc: () => copyLinkToClipboard(),
+                                            },
+                                            {
+                                              label: 'View',
+                                              clickFunc: (e) => openDocument(e, doc.id),
                                             },
                                           ]
                                         }

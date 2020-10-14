@@ -4,6 +4,9 @@
     min-height: 100%;
     @media (min-width: $responsive-medium) {
       padding: $step * 3;
+      &.dashboardContainer {
+        padding: $step * 5 $step * 3 $step * 3;
+      }
     }
     @media (max-width: $responsive-medium) {
       padding: $step * 2;

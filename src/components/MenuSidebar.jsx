@@ -14,7 +14,7 @@ import logo from '@brixel/brixel-configuration-partner/src/images/logo_full.svg'
 import { CSSTransition } from 'react-transition-group';
 import useOutsideAlerter from './OutsideElement';
 import {
-  firstRoutes, secondRoutes, firstRoutesBuyer, secondRoutesBuyer,
+  firstRoutes, secondRoutes,
 } from '../resources/navigationRoutes';
 import { setUserTypes } from '../actions/UserActions';
 import { setActiveSingleProperty } from '../actions/PropertyActions';
@@ -150,7 +150,6 @@ const MenuSidebar = (props) => {
               <div className="h-fix-64 dis-f a-c">
                 <img className="pos-r w-fix-56" src={logo} alt="Brixel Logo" id="logo" />
               </div>
-              {/*
               <BrixelButtonTertiary
                 label="Sell"
                 rightIcon="arrow-right-small"
@@ -178,7 +177,6 @@ const MenuSidebar = (props) => {
                 color="dark"
                 saturation={history.location.pathname.includes('buyer') ? 700 : 100}
               />
-              */}
               {
                 get(formValue, 'id', undefined) && (
                   <div className="propertyPanel mb-1 mt-2">
@@ -216,46 +214,6 @@ const MenuSidebar = (props) => {
                 )
               }
             </div>
-            <hr className="my-2 mx-1 lighter" />
-            <div className={`brixelNavMenu ${windowDimensions.width <= 1024 ? 'shadow-3dp' : ''}`}>
-              {
-                userType === 'seller' ? (
-                  <BrixelTabs
-                    classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
-                    classNameUl="zIndex4"
-                    labels={routeNav.concat(secondRoutes).map((item) => item.title)}
-                    labelsIcons={firstRoutes.concat(secondRoutes).map((item) => item.icon)}
-                    clicksList={firstRoutes.concat(secondRoutes).map((item) => item.name)}
-                    classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
-                    activeTab={activeMenu || checkActiveTab()}
-                    fullWidth={windowDimensions.width <= 1024}
-                    onClick={(val) => onTabClick(val)}
-                    showFull={false}
-                    vertical={windowDimensions.width > 1024}
-                    classNameIcon="fsize-md-400 txtLight600"
-                    classNameLabel="fsize-300 txtLight600 dis-f a-c"
-                  />
-                ) : (
-                  <BrixelTabs
-                    classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
-                    classNameUl="zIndex4"
-                    labels={has(activeSingleProperty, 'id') ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.title) : secondRoutesBuyer.map((item) => item.title)}
-                    labelsIcons={has(activeSingleProperty, 'id') ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.icon) : secondRoutesBuyer.map((item) => item.icon)}
-                    clicksList={has(activeSingleProperty, 'id') ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.path) : secondRoutesBuyer.map((item) => item.path)}
-                    clicksListName={has(activeSingleProperty, 'id') ? firstRoutesBuyer.concat(secondRoutesBuyer).map((item) => item.name) : secondRoutesBuyer.map((item) => item.name)}
-                    classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
-                    activeTab={activeMenu || checkActiveTab()}
-                    fullWidth={windowDimensions.width <= 1024}
-                    onClick={(val) => onTabClick(val)}
-                    showFull={false}
-                    vertical={windowDimensions.width > 1024}
-                    classNameIcon="fsize-md-400 txtLight600"
-                    classNameLabel="fsize-300 txtLight600 dis-f a-c"
-                  />
-                )
-              }
-            </div>
-            <hr className="my-2 mx-1 lighter" />
             {
               userType === 'seller' && (
                 <div className="hide dis-b-md pl-3 pr-2 mt-2">
@@ -268,6 +226,12 @@ const MenuSidebar = (props) => {
                 </div>
               )
             }
+            <BrixelButtonTertiary
+              className="fsize-300 txtLight600 fweight-600 py-0 min-h-fix-30 td-n pos-a-fix x-b-2 x-l-2"
+              label="Support"
+              leftIcon="conversation"
+              onClick={() => onTabClick('support')}
+            />
           </div>
           <CSSTransition
             in={slideIn}
