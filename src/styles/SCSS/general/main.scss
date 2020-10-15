@@ -116,9 +116,12 @@ body {
 
 a {
   text-decoration: none;
-  color: map_get($primaryColor, 400);
-  &:hover {
-    color: map_get($primaryColor, 600);
+  &:not([class*="txt"]) {
+    color: map_get($primaryColor, 400);
+
+    &:hover {
+      color: map_get($primaryColor, 600);
+    }
   }
 }
 
