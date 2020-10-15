@@ -7,13 +7,17 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import {
+  BrixelAvatar,
   BrixelButtonBox,
   BrixelButtonIcon,
+  Helpers,
 } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import last from 'lodash/last';
+import has from 'lodash/has';
 import Sticker from 'react-stickyfill';
 import LoadingSimple from '../../../components/LoadingSimple';
 import Loading from '../../../components/Loading';
@@ -116,6 +120,26 @@ const PropertyBuyerDashboard = (props) => {
                 backIcon="primary100"
                 onClick={() => history.push(`/buyer/property/${propID}/documents`)}
               />
+            </div>
+
+            <div>
+              <h6 className="overline mt-3 mb-2">Contact</h6>
+              <div className="dis-f p-3 shadow-2dp brdRadius">
+                <BrixelAvatar
+                  avatarImg={has(formValue, 'contacts[0].avatar.path') ? `${baseByData.shortPath}${get(formValue, 'contacts[0].avatar.path', '')}` : null}
+                  name={get(formValue, 'contacts[0].name', '')}
+                  size="large"
+                />
+                <div className="ml-2">
+                  <h6>{get(formValue, 'contacts[0].name', '')}</h6>
+                  <p className="body2">{get(formValue, 'contacts[0].company', '')}</p>
+                  {
+                    get(formValue, 'contacts[0].phone.number', null) && (
+                      <p className="body2">{Helpers.telephoneFormat(get(formValue, 'contacts[0].phone', {}))}</p>
+                    )
+                  }
+                </div>
+              </div>
             </div>
 
           </div>

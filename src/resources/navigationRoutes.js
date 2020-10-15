@@ -21,10 +21,10 @@ export const firstRoutes = [
 
 export const secondRoutes = [
   {
-    title: 'Support',
-    name: 'support',
-    icon: 'conversation',
-    path: '/support',
+    title: 'Property List',
+    name: 'seller',
+    icon: 'property-house',
+    path: '/seller/pageLists',
   },
 ];
 
@@ -39,9 +39,9 @@ export const firstRoutesBuyer = [
 
 export const secondRoutesBuyer = [
   {
-    title: 'Support',
-    name: 'support',
-    icon: 'conversation',
-    path: '/support',
+    title: 'Property List',
+    name: 'buyer',
+    icon: 'property-house',
+    path: '/seller/pageLists',
   },
 ];

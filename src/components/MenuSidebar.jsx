@@ -114,17 +114,6 @@ const MenuSidebar = (props) => {
     }
   }, [get(history, 'location.state', null)]);
 
-  // CHECK TAB BY URL
-  const checkActiveTab = () => {
-    let curTab = '';
-    if (history) {
-      if (history.location.pathname.includes('rewards')) curTab = 'rewards';
-      else if (history.location.pathname.includes('property')) curTab = 'property';
-      else if (history.location.pathname.includes('listings')) curTab = 'listings';
-    }
-    return curTab;
-  };
-
   // FUNCTION WHEN SUPPORT MENU IS CLOSED
   const onCloseSupport = () => {
     setActiveMenu(null);
@@ -154,7 +143,7 @@ const MenuSidebar = (props) => {
                 label="Sell"
                 rightIcon="arrow-right-small"
                 labelClass="fsize-300"
-                className="pb-small-4"
+                className="pb-small-4 td-n"
                 onClick={() => {
                   handleSetUserTypes('seller');
                   handleSetActiveSingleProperty({});
@@ -167,7 +156,7 @@ const MenuSidebar = (props) => {
                 label="Buy"
                 rightIcon="arrow-right-small"
                 labelClass="fsize-300"
-                className="pt-small-4"
+                className="pt-small-4 td-n"
                 onClick={() => {
                   destroyForm();
                   handleSetUserTypes('buyer');
@@ -177,55 +166,8 @@ const MenuSidebar = (props) => {
                 color="dark"
                 saturation={history.location.pathname.includes('buyer') ? 700 : 100}
               />
-              {
-                get(formValue, 'id', undefined) && (
-                  <div className="propertyPanel mb-1 mt-2">
-                    <div
-                      className="image-ratio squared w-perc-100 shadow-3dp w-fix-48 h-fix-48 brdRadius ov-h cur-poi"
-                      onClick={() => {
-                        if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
-                      }}
-                    >
-                      <CoverPropertyImage
-                        className="cover"
-                        coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
-                        propertyType={get(formValue, 'properties.propertyType', undefined)}
-                      />
-                    </div>
-                    <div className="titleWrapper pos-r">
-                      <h6
-                        ref={proTitleRef}
-                        className="mt-2 fsize-300 fweight-600 cur-poi"
-                        onClick={() => {
-                          if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
-                        }}
-                      >
-                        {get(formValue, 'title', '')}
-                      </h6>
-                      {
-                        titleTooltip && (
-                          <span className="titleTooltip dis-b">
-                            {get(formValue, 'title', '')}
-                          </span>
-                        )
-                      }
-                    </div>
-                  </div>
-                )
-              }
             </div>
-            {
-              userType === 'seller' && (
-                <div className="hide dis-b-md pl-3 pr-2 mt-2">
-                  <BrixelButtonTertiary
-                    className="fsize-300 txtLight600 fweight-600 py-0 min-h-fix-30"
-                    label="All properties"
-                    rightIcon="arrow-right-small"
-                    onClick={() => onTabClick('propertyList', 'state')}
-                  />
-                </div>
-              )
-            }
+
             <BrixelButtonTertiary
               className="fsize-300 txtLight600 fweight-600 py-0 min-h-fix-30 td-n pos-a-fix x-b-2 x-l-2"
               label="Support"

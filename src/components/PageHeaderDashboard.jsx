@@ -11,6 +11,7 @@ import {
   BrixelButtonSecondary,
   BrixelButtonIcon,
   BrixelTabs,
+  BrixelButtonTertiary,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import useOutsideAlerter from './OutsideElement';
@@ -119,8 +120,8 @@ function PageHeaderDashboard(props) {
 
   // FUNCTION TO GET CURRENT URL LOCATION
   const getCurrentRoute = () => {
-    const path = history.location.pathname.split('/')[2];
-    const currentPath = firstRoutes.concat(secondRoutes).find((item) => item.name === path);
+    const path = history.location.pathname;
+    const currentPath = firstRoutes.concat(secondRoutes, firstRoutesBuyer, secondRoutesBuyer).find((item) => path.includes(item.name));
     return currentPath || {};
   };
 
@@ -190,7 +191,41 @@ function PageHeaderDashboard(props) {
       <header className="hubDasHeader">
         <div className="dasHeaderContainer">
           <div className="dis-f a-c px-2 px-md-3 h-fix-64 jc-b pos-r bgWhite">
+
             {
+              activeSingleProperty.id ? (
+                <div
+                  className="propertyPanel dis-f a-c"
+                  onClick={() => {
+                    if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
+                  }}
+                >
+                  <div className="image-ratio flex-48 squared shadow-2dp w-fix-48 h-fix-48 brdRadius ov-h">
+                    <CoverPropertyImage
+                      className="cover"
+                      coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
+                      propertyType={get(formValue, 'properties.propertyType', undefined)}
+                    />
+                  </div>
+                  <div className="ml-2">
+                    <BrixelButtonTertiary
+                      className="fsize-300 txtLight600 fweight-600 py-0 min-h-fix-30 td-n"
+                      label="Back to the list"
+                      leftIcon="arrow-left-small"
+                      onClick={() => console.log('TODO')}
+                    />
+                    <h4 ref={proTitleRef} className="fsize-400 fweight-600"> {get(formValue, 'title', '')}</h4>
+                  </div>
+                </div>
+              ) : (
+                <div className="header-section dis-fl-row a-c jc-b">
+                  <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} />
+                  <h5 className="ml-2">{getCurrentRoute().title}</h5>
+                </div>
+              )
+            }
+
+            {/*
               windowDimensions.width > 1024 && (
                 <div className="header-section dis-fl-row a-c jc-b">
                   <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} />
@@ -216,7 +251,7 @@ function PageHeaderDashboard(props) {
                   <h4 ref={proTitleRef} className="ml-2 fsize-400 fweight-600"> {get(formValue, 'title', '')}</h4>
                 </div>
               )
-            }
+            */}
 
             <div className="dis-f a-c">
               {
@@ -353,7 +388,11 @@ function PageHeaderDashboard(props) {
                   )
                 }
               </div>
-              <MenuNavigationSubmenu windowDimensions={windowDimensions} activeMenu={activeMenu} onClose={() => setActiveMenu(null)} />
+              <MenuNavigationSubmenu
+                windowDimensions={windowDimensions}
+                activeMenu={activeMenu}
+                onClose={() => setActiveMenu(null)}
+              />
             </div>
           </div>
         </div>
@@ -390,7 +429,7 @@ function PageHeaderDashboard(props) {
                       onClick={(val) => onTabClick(val)}
                       showFull={false}
                       classNameIcon="fsize-md-400 txtLight600"
-                      classNameLabel="fsize-300 txtLight600 dis-f a-c"
+                      classNameLabel="fsize-300 txtLight600 dis-f a-c ml-1"
                     />
                   )
                 }
@@ -460,7 +499,7 @@ const mapStateToProps = (state) => ({
   awards: get(state, 'user.awards', 0),
   brixelPoints: get(state, 'user.brixelPoints', 0),
   loggedInUser: get(state, 'user.loggedInUser', {}),
-  formValue: get(state, 'brixelForm.Property.values', {}),
+  formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
   languages: get(state, 'common.languages', []),
   lang: get(state, 'common.language', []),
   property: get(state, 'property.activeSingleProperty', {}),
