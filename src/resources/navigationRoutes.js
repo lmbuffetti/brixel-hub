@@ -3,19 +3,19 @@ export const firstRoutes = [
     title: 'Home',
     name: 'rewards',
     icon: 'first-time-occupancy',
-    path: '/rewards',
+    path: '/:propID/rewards',
   },
   {
     title: 'Property',
     name: 'property',
     icon: 'property-house',
-    path: '/property',
+    path: '/:propID/property',
   },
   {
     title: 'Listings',
     name: 'listings',
     icon: 'upload',
-    path: '/listings',
+    path: '/:propID/listings',
   },
 ];
 

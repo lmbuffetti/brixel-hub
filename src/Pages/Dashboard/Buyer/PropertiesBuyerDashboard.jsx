@@ -102,7 +102,7 @@ const PropertiesBuyerDashboard = (props) => {
     <>
       <div className="property-container h-perc-md-100 pos-r" id="propertyDashboard">
         <h5 className="mb-2">
-          Properties you are interested in ({activeBuyerProperties.length})
+          Properties you are interested in ({JSON.stringify(activeBuyerProperties)})
         </h5>
         <div className="properties listings-wrapper w-perc-100">
           <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
@@ -112,6 +112,7 @@ const PropertiesBuyerDashboard = (props) => {
                   key={i.toString()}
                   className="results dis-f shadow-3dp mb-2 a-c bgWhite brdRadius"
                 >
+                  eh
                   <div className="row-section avatar-container p-1 dis-f a-c ov-h flex-112">
                     <Link
                       className="cur-po"

@@ -23,19 +23,21 @@ const HomeDashboard = (props) => {
     handleGetUserProperties,
     history,
     loggedInUser,
+    match,
     userProperties,
   } = props;
   // STATE
   // const [userType, setUserType] = useState();
   // URL PARAMS
   const getFact = () => last(history.location.pathname.split('/'));
+  const propID = get(match, 'params.propID', null);
 
   // GET USER PROPERTIES LIST
   useEffect(() => {
     if (get(loggedInUser, 'user.id')) {
       handleGetUserProperties(loggedInUser.user.id);
     }
-  }, [loggedInUser]);
+  }, [loggedInUser, propID]);
 
   const openCloseColumn = () => {
     if (
@@ -159,6 +161,7 @@ HomeDashboard.propTypes = {
   handleGetUserProperties: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

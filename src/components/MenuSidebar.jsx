@@ -98,7 +98,8 @@ const MenuSidebar = (props) => {
       setSlideIn(true);
     } else {
       if (userType === 'seller') {
-        history.push(`/${propID}/${val}`);
+        const url = val.replace(':propID', propID);
+        history.push(url);
       } else {
         const url = val.replace(':propID', propID);
         history.push(url);

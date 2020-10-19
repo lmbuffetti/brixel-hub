@@ -414,7 +414,7 @@ function PageHeaderDashboard(props) {
                       onClick={(val) => onTabClick(val)}
                       showFull={false}
                       classNameIcon="fsize-md-400 txtLight600"
-                      classNameLabel="fsize-300 txtLight600 dis-f a-c"
+                      classNameLabel="fsize-300 txtLight600 dis-f a-c ml-1"
                     />
                   ) : (
                     <BrixelTabs
