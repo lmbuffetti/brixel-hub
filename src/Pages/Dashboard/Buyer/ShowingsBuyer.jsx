@@ -12,8 +12,10 @@ import get from 'lodash/get';
 
 import {
   BrixelButtonPrimary,
-  BrixelButtonIcon,
+  BrixelButtonIcon, BrixelBookingCard,
 } from '@brixel/brixel-components';
+import groupBy from 'lodash/groupBy';
+import moment from 'moment';
 import { getActiveSinglePropertyBookings } from '../../../actions/PropertyActions';
 import scheduleCalendar from '../../../images/schedule-calendar.svg';
 
@@ -26,9 +28,12 @@ const ShowingsBuyer = (props) => {
     formValue,
     handleGetActiveSinglePropertyBookings,
     history,
+    lang,
     loggedInUser,
     match,
   } = props;
+  // STATE
+  const [bookingSlot, setBookingSlot] = useState([]);
 
   const propID = get(match, 'params.propId', null);
 
@@ -43,6 +48,40 @@ const ShowingsBuyer = (props) => {
       handleGetActiveSinglePropertyBookings(data);
     }
   }, [formValue]);
+
+  // SET BOOKING
+  useEffect(() => {
+    if (activeSinglePropertyBooking.length > 0) {
+      const allSlots = [];
+      const allUnavailableSlots = [];
+      activeSinglePropertyBooking.map((slot) => {
+        slot.slots.map((book) => {
+          allSlots.push({
+            buyer: slot.buyer,
+            id: slot.id,
+            slot: book,
+          });
+          if (book.status !== 'canceled') allUnavailableSlots.push(book.slot);
+        });
+      });
+      allSlots.sort((a, b) => {
+        if (a.slot.start) {
+          return moment.unix(a.slot.start).format('YYYYMMDDHHmm') - moment.unix(b.slot.start).format('YYYYMMDDHHmm');
+        }
+        return moment(a.slot.slot).format('YYYYMMDDHHmm') - moment(b.slot.slot).format('YYYYMMDDHHmm');
+      });
+      setBookingSlot([...allSlots]);
+    }
+  }, [activeSinglePropertyBooking]);
+
+  // FUNCTION TO GROUP DATE BY MONTH
+  const gorupByMonth = () => {
+    const grouped = groupBy(bookingSlot, (d) => {
+      if (d.slot.start) return moment.unix(d.slot.start).format('MM.YYYY');
+      return moment(d.slot.slot).format('MM.YYYY');
+    });
+    return grouped || {};
+  };
 
   return (
     <div className="secondLevel h-perc-md-100">
@@ -63,6 +102,36 @@ const ShowingsBuyer = (props) => {
         </div>
         <div className="dis-fl-col a-c">
           {
+            Object.keys(gorupByMonth()).map((key, e) => (
+              <React.Fragment key={e.toString()}>
+                <h6 className="txtLight400 mt-3 mb-1">
+                  <span>{moment(key, 'MM.YYYY').format('MMMM')}</span>
+                  &nbsp;-&nbsp;
+                  <span>{moment(key, 'MM.YYYY').format('YYYY')}</span>
+                </h6>
+                <div className="scheduleGrid">
+                  {
+                    gorupByMonth()[key].map((day, g) => (
+                      <div key={g.toString()}>
+                        <BrixelBookingCard
+                          countryLang={lang}
+                          dimensionsFixed={false}
+                          className="mb-1"
+                          slot={day.slot}
+                          buyer={day.buyer}
+                          onAdd={() => history.push(`/${propID}/listings/showings/addBooking/${day.id}`)}
+                          insertBooking={day.slot.status === 'free'}
+                          showActions={moment(day.slot.slot).isAfter(moment(), 'hour')}
+                        />
+                      </div>
+                    ))
+                  }
+                </div>
+              </React.Fragment>
+            ))
+          }
+
+          {/*
             activeSinglePropertyBooking.length > 0 ? (
               <ul className="w-perc-100">
                 {
@@ -85,7 +154,7 @@ const ShowingsBuyer = (props) => {
             ) : (
               <img src={scheduleCalendar} alt="Schedule a Visit" />
             )
-          }
+          */}
           <h5 className="my-3">Request your showing</h5>
           <BrixelButtonPrimary
             rounded
@@ -104,6 +173,7 @@ ShowingsBuyer.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -116,6 +186,7 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyBooking: get(state, 'property.activeSinglePropertyBooking', []),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
+  lang: get(state, 'user.loggedInUser.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({
