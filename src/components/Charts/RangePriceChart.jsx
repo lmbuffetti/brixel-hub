@@ -165,10 +165,10 @@ function RangePriceChart(props) {
       .attr('width', () => 5)
       .style('fill', () => 'transparent')
       .text((d) => d.value)
-      .on('mouseover', (e) => {
+      .on('mouseover', (e, data) => {
         let transform = 'transform: translate(-50%,0);';
         // let left = '50%';
-        if (e && xScale(e.priceRangeStart) < 70) {
+        if (e && xScale(data.priceRangeStart) < 70) {
           transform = 'transform: translate(-1%, 0)';
           // left = 0;
         }
@@ -176,8 +176,8 @@ function RangePriceChart(props) {
         circle.append('div')
           .attr('id', `tooltip${randomID}`)
           .attr('class', 'range-tip')
-          .attr('style', `left: ${e ? xScale(e.priceRangeStart) : 0}px; ${transform}`)
-          .html(`<p class="txtDark700"><span class="txtDark700">Properties</span><span class="txtDark700">: ${e ? e.numberOfProperties : 0}</span></p><span class="data-range info">${cfg.label} ${e.rangePrice}</span>`);
+          .attr('style', `left: ${data ? xScale(data.priceRangeStart) : 0}px; ${transform}`)
+          .html(`<p class="txtDark700"><span class="txtDark700">Properties</span><span class="txtDark700">: ${data ? data.numberOfProperties : 0}</span></p><span class="data-range info">${cfg.label} ${data.rangePrice}</span>`);
       })
       .on('mouseout', () => {
         const circle = d3.select(`#tooltip${randomID}`);
