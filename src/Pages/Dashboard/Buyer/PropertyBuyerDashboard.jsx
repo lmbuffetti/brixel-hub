@@ -27,18 +27,8 @@ const PageBuyer = Loadable({
   loading: LoadingSimple,
 });
 
-const Photos = Loadable({
-  loader: () => import('../../EditProperty/Media/Photos' /* webpackChunkName: "Photos" */),
-  loading: LoadingSimple,
-});
-
-const Plans = Loadable({
-  loader: () => import('../../EditProperty/Media/Plans' /* webpackChunkName: "Plans" */),
-  loading: LoadingSimple,
-});
-
-const Tour = Loadable({
-  loader: () => import('../../EditProperty/Media/Tour' /* webpackChunkName: "Tour" */),
+const ShowingsBuyer = Loadable({
+  loader: () => import('./ShowingsBuyer' /* webpackChunkName: "ShowingsBuyer" */),
   loading: LoadingSimple,
 });
 
@@ -122,9 +112,26 @@ const PropertyBuyerDashboard = (props) => {
               />
             </div>
 
-            <div>
+            <div className="dis-f mt-2">
+              <BrixelButtonBox
+                verticalView
+                bgTransparent
+                icon="calendar"
+                label="Showings"
+                labelClass="fweight-400 w-perc-50"
+                subtitle=""
+                subtitleClass="fsize-200 pt-small-6"
+                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                colorIcon="primary700"
+                backIcon="primary100"
+                onClick={() => history.push(`/buyer/property/${propID}/showings`)}
+              />
+
+            </div>
+
+            <div className="pl-1">
               <h6 className="overline mt-3 mb-2">Contact</h6>
-              <div className="dis-f p-3 shadow-2dp brdRadius">
+              <div className="dis-f">
                 <BrixelAvatar
                   avatarImg={has(formValue, 'contacts[0].avatar.path') ? `${baseByData.shortPath}${get(formValue, 'contacts[0].avatar.path', '')}` : null}
                   name={get(formValue, 'contacts[0].name', '')}
@@ -132,10 +139,27 @@ const PropertyBuyerDashboard = (props) => {
                 />
                 <div className="ml-2">
                   <h6>{get(formValue, 'contacts[0].name', '')}</h6>
-                  <p className="body2">{get(formValue, 'contacts[0].company', '')}</p>
+                  {
+                    get(formValue, 'contacts[0].company', null) && (
+                      <p className="body2">{get(formValue, 'contacts[0].company', '')}</p>
+                    )
+                  }
                   {
                     get(formValue, 'contacts[0].phone.number', null) && (
-                      <p className="body2">{Helpers.telephoneFormat(get(formValue, 'contacts[0].phone', {}))}</p>
+                      <div>
+                        <a
+                          href={`${Helpers.telephoneFormat(get(formValue, 'contacts[0].phone', {}), false, false, true)}`}
+                          className="body2 txtDark700"
+                        >{Helpers.telephoneFormat(get(formValue, 'contacts[0].phone', {}))}
+                        </a>
+                      </div>
+                    )
+                  }
+                  {
+                    get(formValue, 'contacts[0].email', null) && (
+                      <div>
+                        <a href={`mailto:${get(formValue, 'contacts[0].email', '')}`} className="body2 txtDark700">{get(formValue, 'contacts[0].email', '')}</a>
+                      </div>
                     )
                   }
                 </div>
@@ -161,6 +185,7 @@ const PropertyBuyerDashboard = (props) => {
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed' : 'opened'}`}>
               <Route path="/buyer/property/:propId/page" component={PageBuyer} />
               <Route path="/buyer/property/:propId/documents" exact component={Documents} />
+              <Route path="/buyer/property/:propId/showings" exact component={ShowingsBuyer} />
             </div>
           )
         }

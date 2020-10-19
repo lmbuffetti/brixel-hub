@@ -378,7 +378,7 @@ const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   languages: get(state, 'common.languages', []),
-  lang: get(state, 'common.language', []),
+  lang: get(state, 'common.language', ''),
   userAwards: get(state, 'user.awards', []),
   property: get(state, 'property.activeSingleProperty', {}),
   brixelPoints: get(state, 'user.brixelPoints', []),

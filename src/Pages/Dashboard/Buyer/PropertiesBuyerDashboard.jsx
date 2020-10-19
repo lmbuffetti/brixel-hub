@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Link, withRouter,
@@ -27,9 +27,14 @@ const PropertiesBuyerDashboard = (props) => {
     userBuyerProperties,
   } = props;
   // STATE
-  // const [userType, setUserType] = useState();
+  const [activeBuyerProperties, setSctiveBuyerProperties] = useState([]);
   // URL PARAMS
   const getFact = () => last(history.location.pathname.split('/'));
+
+  useEffect(() => {
+    const properties = userBuyerProperties.filter((item) => item.archivedByBuyer !== true);
+    setSctiveBuyerProperties(properties);
+  }, [userBuyerProperties]);
 
   const openCloseColumn = () => {
     if (
@@ -97,92 +102,92 @@ const PropertiesBuyerDashboard = (props) => {
     <>
       <div className="property-container h-perc-md-100 pos-r" id="propertyDashboard">
         <h5 className="mb-2">
-          Properties you are interested in ({get(userBuyerProperties, 'length', 0)})
+          Properties you are interested in ({activeBuyerProperties.length})
         </h5>
         <div className="properties listings-wrapper w-perc-100">
           <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
             {
-              userBuyerProperties.filter((item) => item.archivedByBuyer !== true).map((property, i) => (
-                <Fragment key={i.toString()}>
-                  <div className="results dis-f shadow-1dp mb-2 a-c">
-                    <div className="row-section avatar-container p-1 dis-f a-c ov-h flex-112">
+              activeBuyerProperties.map((property, i) => (
+                <div
+                  key={i.toString()}
+                  className="results dis-f shadow-3dp mb-2 a-c bgWhite brdRadius"
+                >
+                  <div className="row-section avatar-container p-1 dis-f a-c ov-h flex-112">
+                    <Link
+                      className="cur-po"
+                      to={{
+                        pathname: `/buyer/property/${property.id}`,
+                      }}
+                    >
+                      <CoverPropertyImage
+                        coverPhoto={get(property, 'coverPhoto.thumbnailPath', null)}
+                        className="avatar w-fix-96 h-fix-96 pos-r brdRadius"
+                      />
+                    </Link>
+                  </div>
+
+                  <div className="row-section name p-1 notranslate w-perc-100">
+                    <div className="wrapper dis-fl-col a-bl">
                       <Link
-                        className="cur-po"
+                        className="link txtDark700 body2"
                         to={{
                           pathname: `/buyer/property/${property.id}`,
                         }}
                       >
-                        <CoverPropertyImage
-                          coverPhoto={get(property, 'coverPhoto.thumbnailPath', null)}
-                          className="avatar w-fix-96 h-fix-96 pos-r brdRadius"
-                        />
+                        {property.title}
                       </Link>
+                      <span className="address body2">
+                        {get(property, 'location.name', '')} {get(property, 'location.streetNumber', '')}, {get(property, 'location.zip', '')} {get(property, 'location.city', '')}
+                      </span>
                     </div>
-
-                    <div className="row-section name p-1 notranslate w-perc-100">
-                      <div className="wrapper dis-fl-col a-bl">
-                        <Link
-                          className="link txtDark700 body2"
-                          to={{
-                            pathname: `/buyer/property/${property.id}`,
-                          }}
-                        >
-                          {property.title}
-                        </Link>
-                        <span className="address body2">
-                          {get(property, 'location.name', '')} {get(property, 'location.streetNumber', '')}, {get(property, 'location.zip', '')} {get(property, 'location.city', '')}
-                        </span>
-                        {/* <span className="id">{property.id}</span> */}
-                      </div>
-                    </div>
-
-                    <div className="row-section status p-1 px-2 ws-nw">
-                      <h6 className="fsize-100">Price</h6>
-                      <div className="txtGreen400">{showPrice(property)}</div>
-                    </div>
-
-                    <div className="row-section owner p-1">
-                      <div className="dis-f jc-b a-c">
-                        <div className="px-1">
-                          <h6 className="fsize-100 ws-nw">Rooms</h6>
-                          <span className="ff-mono body2">{get(property, 'properties.typology.bedrooms', '0')}</span>
-                        </div>
-                        <div className="px-1">
-                          <h6 className="fsize-100 ws-nw">Living space</h6>
-                          {
-                            get(property, 'location.countryCode', '') === 'PT' && get(property, 'properties.typology.grossArea.value', 0) > 0 ? (
-                              <span className="ff-mono body2">{get(property, 'properties.typology.grossArea.value', '0')} m</span>
-                            ) : (
-                              <span className="ff-mono body2">{get(property, 'properties.typology.livingArea.value', '0')} m</span>
-                            )
-                          }
-                        </div>
-                        <div className="px-1">
-                          <h6 className="fsize-100 ws-nw">Year</h6>
-                          <span className="ff-mono body2">
-                            {get(property, 'properties.building.built', '0000')}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row-section status p-1 dis-f jc-fe">
-                      <BrixelButtonIcon
-                        bgTransparent
-                        color="dark"
-                        background="dark"
-                        saturation={100}
-                        fontSize={16}
-                        saturationTxt={500}
-                        icon="archive"
-                        className="archiveBtn zIndex1"
-                        onClick={(e) => archOnClick(e, property.dealID, property.archivedByBuyer)}
-                        label={property.archivedByBuyer ? 'Unarchive' : 'Archive'}
-                      />
-                    </div>
-
                   </div>
-                </Fragment>
+
+                  <div className="row-section status p-1 px-2 ws-nw">
+                    <h6 className="fsize-100">Price</h6>
+                    <div className="txtGreen400">{showPrice(property)}</div>
+                  </div>
+
+                  <div className="row-section owner p-1">
+                    <div className="dis-f jc-b a-c">
+                      <div className="px-1 ws-nw">
+                        <h6 className="fsize-100 ws-nw">Rooms</h6>
+                        <span className="ff-mono body2">{get(property, 'properties.typology.bedrooms', '0')}</span>
+                      </div>
+                      <div className="px-1 ws-nw">
+                        <h6 className="fsize-100 ws-nw">Living space</h6>
+                        {
+                          get(property, 'location.countryCode', '') === 'PT' && get(property, 'properties.typology.grossArea.value', 0) > 0 ? (
+                            <span className="ff-mono body2">{get(property, 'properties.typology.grossArea.value', '0')} m</span>
+                          ) : (
+                            <span className="ff-mono body2">{get(property, 'properties.typology.livingArea.value', '0')} m</span>
+                          )
+                        }
+                      </div>
+                      <div className="px-1 ws-nw">
+                        <h6 className="fsize-100 ws-nw">Year</h6>
+                        <span className="ff-mono body2">
+                          {get(property, 'properties.building.built', '0000')}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row-section status p-1 dis-f jc-fe">
+                    <BrixelButtonIcon
+                      bgTransparent
+                      color="dark"
+                      background="dark"
+                      saturation={100}
+                      fontSize={16}
+                      saturationTxt={500}
+                      icon="archive"
+                      className="archiveBtn zIndex1"
+                      onClick={(e) => archOnClick(e, property.dealID, property.archivedByBuyer)}
+                      label={property.archivedByBuyer ? 'Unarchive' : 'Archive'}
+                    />
+                  </div>
+
+                </div>
               ))
             }
           </div>

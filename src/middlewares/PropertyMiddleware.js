@@ -402,8 +402,8 @@ const checkCommon = (store) => (next) => (action) => {
     case GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'booking' });
-      const { id, redirectTo } = action.payload;
-      api.property.getPageVisits(id).then((response) => {
+      const { id, data, redirectTo } = action.payload;
+      api.property.getPageVisits(id, data).then((response) => {
         store.dispatch({
           type: SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
           payload: response.data,
@@ -436,13 +436,18 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO CREATE PROPERTY BOOKING - by PROPERTY ID
     case CREATE_PROPERTY_VISIT_BOOKING: {
       next(action);
-      const { page, smallLoader, redirectTo } = action.payload;
+      const {
+        page, smallLoader, redirectTo, getByUser,
+      } = action.payload;
+      delete action.payload.getByUser;
       store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader || 'saveBooking' });
       api.property.createPropertyVisit(action.payload)
         .then(() => {
           store.dispatch({
             type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-            payload: { id: page, smallLoader, redirectTo },
+            payload: {
+              id: page, data: { user: getByUser }, smallLoader, redirectTo,
+            },
           });
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });

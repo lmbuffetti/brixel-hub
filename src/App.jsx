@@ -113,6 +113,11 @@ const SingleDocument = Loadable({
   loading: Loading,
 });
 
+const AddShowingsBuyer = Loadable({
+  loader: () => import('./Pages/Dashboard/Buyer/AddShowingsBuyer' /* webpackChunkName: "AddShowingsBuyer" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -366,6 +371,7 @@ const App = (props) => {
                 !history.location.pathname.includes('packageFlow') &&
                 !history.location.pathname.includes('onBoarding')) &&
                 !history.location.pathname.includes('upgrade') &&
+                !history.location.pathname.includes('showings/add') &&
               (
                 <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
               )
@@ -425,6 +431,7 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess="seller" />
+          <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
         </Switch>
       }
 
