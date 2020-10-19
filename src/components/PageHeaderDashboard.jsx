@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelIcon,
   BrixelButtonSecondary,
@@ -15,7 +16,7 @@ import {
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import useOutsideAlerter from './OutsideElement';
-import { setCookie } from '../utils/helpers';
+import { setCookie, sortObject } from '../utils/helpers';
 import { setLanguage, setModal } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
@@ -36,24 +37,25 @@ function PageHeaderDashboard(props) {
     awards,
     brixelPoints,
     changeZIndex,
-    lang,
-    loggedInUser,
+    formValue,
+    gameGroup,
     gameHistory,
     handleGetGame,
-    handleSetModal,
     handleSetLanguage,
+    handleSetModal,
     history,
-    windowDimensions,
-    formValue,
+    lang,
+    loggedInUser,
     userType,
+    windowDimensions,
   } = props;
   // STATE
   // const [currentLang, setCurrentLang] = useState(lang);
   // const [dropLang, setDropLang] = useState([]);
+  const [routeNav, setRouteNav] = useState([]);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
-  const [slideIn, setSlideIn] = useState(false);
   // REF
   const profileMenu = useRef(null);
   const proTitleRef = useRef(null);
@@ -90,6 +92,36 @@ function PageHeaderDashboard(props) {
       window.addEventListener('resize', () => screenResize());
     }
   }, []);
+
+  // FUNCTION TO LOAD THE GAME GROUP AND THE GAME HISTORY AND CALC THE NUMBER OF SECTION (number iside red circle)
+  useEffect(() => {
+    if (gameGroup && gameHistory) {
+      // let numDone = 0;
+      let numTodo = 0;
+      const usrGroups = gameGroup.sort(sortObject('stub', 'asc'));
+      usrGroups.forEach((groups) => {
+        if (groups.stub.includes(userType)) {
+          groups.achievements.forEach((group) => {
+            if (gameHistory.data) {
+              const selElTodo = gameHistory.data.find((game) => game.achievement.stub === group.stub && game.page === propID);
+              if (typeof selElTodo === 'undefined') {
+                numTodo += 1;
+              } else {
+                // numDone += 1;
+              }
+            }
+          });
+        }
+      });
+      if (
+        get(formValue, 'location.countryCode', 'CH') !== 'CH' &&
+        get(formValue, 'location.countryCode', 'CH') !== 'PT'
+      ) numTodo -= 2;
+      const nav = cloneDeep(firstRoutes);
+      nav[0].title = `<span>Home</span><span class="numRecords">${numTodo}</span>`;
+      setRouteNav([...nav]);
+    }
+  }, [gameGroup, gameHistory, activeSingleProperty]);
 
   // SHOW DETAILS WHEN CLICK ON BRIXELS POINTS
   const brixelsAchievementDetail = () => {
@@ -167,7 +199,6 @@ function PageHeaderDashboard(props) {
   const onTabClick = (val, act = 'url') => {
     if (act === 'state' || val === 'support' || val === '/support') {
       setActiveMenu(val.replace('/', ''));
-      setSlideIn(true);
     } else {
       const url = val.replace(':propID', propID);
       history.push(url);
@@ -405,10 +436,10 @@ function PageHeaderDashboard(props) {
                     <BrixelTabs
                       classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
                       classNameUl="zIndex4"
-                      labels={has(activeSingleProperty, 'id') ? firstRoutes.map((item) => item.title) : []}
-                      labelsIcons={has(activeSingleProperty, 'id') ? firstRoutes.map((item) => item.icon) : []}
-                      clicksList={has(activeSingleProperty, 'id') ? firstRoutes.map((item) => item.path) : []}
-                      clicksListName={has(activeSingleProperty, 'id') ? firstRoutes.map((item) => item.name) : []}
+                      labels={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.title) : []}
+                      labelsIcons={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.icon) : []}
+                      clicksList={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.path) : []}
+                      clicksListName={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.name) : []}
                       classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
                       activeTab={activeMenu || checkActiveTab()}
                       onClick={(val) => onTabClick(val)}
@@ -477,6 +508,7 @@ PageHeaderDashboard.propTypes = {
   brixelPoints: PropTypes.number.isRequired,
   changeZIndex: PropTypes.func,
   formValue: PropTypes.object.isRequired,
+  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleGetGame: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
@@ -498,16 +530,16 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   awards: get(state, 'user.awards', 0),
   brixelPoints: get(state, 'user.brixelPoints', 0),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
-  languages: get(state, 'common.languages', []),
+  gameGroup: get(state, 'gamification.gameGroup', []),
+  gameHistory: get(state, 'gamification.gameHistory', {}),
   lang: get(state, 'common.language', []),
+  languages: get(state, 'common.languages', []),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),
   userBrixelPoint: get(state, 'user.brixelPoints', []),
-  gameHistory: get(state, 'gamification.gameHistory', {}),
-  gameGroup: get(state, 'gamification.gameGroup', []),
-  windowDimensions: get(state, 'common.windowDimensions', {}),
   userType: get(state, 'user.userTypes', ''),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

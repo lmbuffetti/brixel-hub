@@ -2,7 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useState, useRef, useCallback, useEffect,
+  useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -17,7 +17,6 @@ import {
 import groupBy from 'lodash/groupBy';
 import moment from 'moment';
 import { getActiveSinglePropertyBookings } from '../../../actions/PropertyActions';
-import scheduleCalendar from '../../../images/schedule-calendar.svg';
 
 // COMPONENTS
 
@@ -130,31 +129,6 @@ const ShowingsBuyer = (props) => {
               </React.Fragment>
             ))
           }
-
-          {/*
-            activeSinglePropertyBooking.length > 0 ? (
-              <ul className="w-perc-100">
-                {
-                  activeSinglePropertyBooking.map((item, i) => (
-                    <li
-                      key={i.toString()}
-                      className="ta-l"
-                    >
-                      {
-                        item.slots.map((day, f) => (
-                          <div key={f.toString()}>
-                            <p>{day.slot} <span>{day.status}</span></p>
-                          </div>
-                        ))
-                      }
-                    </li>
-                  ))
-                }
-              </ul>
-            ) : (
-              <img src={scheduleCalendar} alt="Schedule a Visit" />
-            )
-          */}
           <h5 className="my-3">Request your showing</h5>
           <BrixelButtonPrimary
             rounded
@@ -179,7 +153,7 @@ ShowingsBuyer.propTypes = {
 };
 
 ShowingsBuyer.defaultProps = {
-  isSmallLoading: null,
+  activeSinglePropertyBooking: [],
 };
 
 const mapStateToProps = (state) => ({

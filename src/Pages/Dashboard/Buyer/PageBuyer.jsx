@@ -18,34 +18,17 @@ import {
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { updatePublishedReview } from '../../../actions/PropertyActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
-import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 import { addGameHistory } from '../../../actions/GamificationActions';
 
 const PageBuyer = (props) => {
   // PROPS
   const {
-    company,
     formValue,
-    handleUpdatePublishedReview,
     history,
-    isSmallLoading,
     match,
   } = props;
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
-  const currency = get(company, 'country.currency', '');
-  const meta = get(company, 'meta', {});
-
-  // GET PAGE STATUS
-  const changeReviewStatus = (status) => {
-    const data = {
-      page: propID,
-      smallLoader: true,
-      status,
-    };
-    handleUpdatePublishedReview(data);
-    // if (status === 'online') handleAddGameHistory({stub: 'page-published'});
-  };
 
   // FUNCTION TO GO TO PREVIEW OR LIVE PAGE
   const onClickPreview = () => {
@@ -57,15 +40,6 @@ const PageBuyer = (props) => {
       url = `${baseByData.pageUrl}preview/${formValue.stub}?hubUrl=${window.location.href}`;
       window.location.href = url;
     }
-  };
-
-  // SET DURATION PUBLISHING BY COMPANY DATA
-  const publishDuration = () => {
-    const duration = get(meta, 'publish.duration', null);
-    if (!duration || +duration === 0) return 'unlimited';
-    if (+duration === 1) return `for <span class="notranslate">${duration}</span> month`;
-    if (+duration > 1) return `for <span class="notranslate">${duration}</span> months`;
-    return '';
   };
 
   return (
@@ -153,20 +127,15 @@ const PageBuyer = (props) => {
 };
 
 PageBuyer.propTypes = {
-  company: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  handleUpdatePublishedReview: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
 PageBuyer.defaultProps = {
-  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
-  company: get(state, 'companies.activeSingleCompany', {}),
   formValue: get(state, 'property.activeSingleProperty', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
 });

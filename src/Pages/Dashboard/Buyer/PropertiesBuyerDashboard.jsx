@@ -7,8 +7,6 @@ import {
 import get from 'lodash/get';
 import {
   BrixelButtonIcon,
-  BrixelIcon,
-  FactsOptions,
   Helpers,
 } from '@brixel/brixel-components';
 import { compose, bindActionCreators } from 'redux';
@@ -18,7 +16,6 @@ import CoverPropertyImage from '../../../components/CoverPropertyImage';
 import { saveActiveSingleDeal } from '../../../actions/DealsActions';
 
 const PropertiesBuyerDashboard = (props) => {
-  const { factsOptions } = FactsOptions;
   // PROPS
   const {
     handleSaveActiveSingleDeal,
@@ -95,14 +92,13 @@ const PropertiesBuyerDashboard = (props) => {
       },
     };
     handleSaveActiveSingleDeal(data);
-    console.log(dealsID, isArchived);
   };
 
   return (
     <>
       <div className="property-container h-perc-md-100 pos-r" id="propertyDashboard">
         <h5 className="mb-2">
-          Properties you are interested in ({JSON.stringify(activeBuyerProperties)})
+          <span>Properties you are interested in</span> <span className="notranslate">({activeBuyerProperties.length})</span>
         </h5>
         <div className="properties listings-wrapper w-perc-100">
           <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
@@ -112,7 +108,6 @@ const PropertiesBuyerDashboard = (props) => {
                   key={i.toString()}
                   className="results dis-f shadow-3dp mb-2 a-c bgWhite brdRadius"
                 >
-                  eh
                   <div className="row-section avatar-container p-1 dis-f a-c ov-h flex-112">
                     <Link
                       className="cur-po"

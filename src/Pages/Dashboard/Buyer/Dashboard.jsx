@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   withRouter,
@@ -9,12 +9,12 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import {
-  BrixelTabs, change, initializeForm, reset,
+  change,
+  initializeForm,
+  reset,
 } from '@brixel/brixel-components';
-import has from 'lodash/has';
 import { setUserTypes, getUserPagesDeals } from '../../../actions/UserActions';
 import { setActiveSingleProperty } from '../../../actions/PropertyActions';
-import { firstRoutesBuyer, secondRoutesBuyer } from '../../../resources/navigationRoutes';
 
 const ProtectedRoute = Loadable({
   loader: () => import('../../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
@@ -73,11 +73,9 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
   handleGetUserPagesDeals: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   userBuyerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,

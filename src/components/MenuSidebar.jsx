@@ -1,34 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import cloneDeep from 'lodash/cloneDeep';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import {
-  BrixelButtonTertiary, BrixelTabs, destroy,
+  BrixelButtonTertiary, destroy,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import has from 'lodash/has';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_full.svg';
 import { CSSTransition } from 'react-transition-group';
 import useOutsideAlerter from './OutsideElement';
-import {
-  firstRoutes, secondRoutes,
-} from '../resources/navigationRoutes';
 import { setUserTypes } from '../actions/UserActions';
 import { setActiveSingleProperty } from '../actions/PropertyActions';
 
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
-import CoverPropertyImage from './CoverPropertyImage';
-import { sortObject } from '../utils/helpers';
 
 const MenuSidebar = (props) => {
   const {
-    activeSingleProperty,
-    formValue,
-    gameGroup,
-    gameHistory,
     handleSetUserTypes,
     handleSetActiveSingleProperty,
     destroyForm,
@@ -38,58 +27,12 @@ const MenuSidebar = (props) => {
   } = props;
   // STATE
   const [activeMenu, setActiveMenu] = useState(null);
-  const [routeNav, setRouteNav] = useState([]);
   const [slideIn, setSlideIn] = useState(false);
-  const [titleTooltip, setTitleTooltip] = useState(false);
   // REF
   const wrapperRef = useRef(null);
-  const proTitleRef = useRef(null);
-
-  const proTitleEl = proTitleRef.current;
   // URL PARAMS
   const propID = userType === 'seller' ? history.location.pathname.split('/')[1] : history.location.pathname.split('/')[3];
   const levelUrl = history.location.pathname.split('/');
-
-  // FUNCTION TO LOAD THE GAME GROUP AND THE GAME HISTORY AND CALC THE NUMBER OF SECTION (number iside red circle)
-  useEffect(() => {
-    if (gameGroup && gameHistory) {
-      // let numDone = 0;
-      let numTodo = 0;
-      const usrGroups = gameGroup.sort(sortObject('stub', 'asc'));
-      usrGroups.forEach((groups) => {
-        if (groups.stub.includes(userType)) {
-          groups.achievements.forEach((group) => {
-            if (gameHistory.data) {
-              const selElTodo = gameHistory.data.find((game) => game.achievement.stub === group.stub && game.page === propID);
-              if (typeof selElTodo === 'undefined') {
-                numTodo += 1;
-              } else {
-                // numDone += 1;
-              }
-            }
-          });
-        }
-      });
-      if (
-        get(formValue, 'location.countryCode', 'CH') !== 'CH' &&
-        get(formValue, 'location.countryCode', 'CH') !== 'PT'
-      ) numTodo -= 2;
-      const nav = cloneDeep(firstRoutes);
-      nav[0].title = `<span>Home</span><span class="numRecords">${numTodo}</span>`;
-      setRouteNav([...nav]);
-    }
-  }, [gameGroup, gameHistory, activeSingleProperty]);
-
-  // FUNCTION TO CALC IF TITLE IS LONG OR NOT AND ASSIGN THE DIFFERENT CLASS
-  useEffect(() => {
-    if (proTitleEl) {
-      const titleHeight = proTitleEl.offsetHeight;
-      if (titleHeight > 48) {
-        proTitleEl.classList.add('longTitle');
-        setTitleTooltip(true);
-      }
-    }
-  });
 
   // FUNCTION TO MAANGE THE TAB CLICK
   const onTabClick = (val, act = 'url') => {
@@ -197,10 +140,6 @@ const MenuSidebar = (props) => {
 };
 
 MenuSidebar.propTypes = {
-  activeSingleProperty: PropTypes.object,
-  formValue: PropTypes.object,
-  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
-  gameHistory: PropTypes.object.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   destroyForm: PropTypes.func.isRequired,
@@ -210,17 +149,11 @@ MenuSidebar.propTypes = {
 };
 
 MenuSidebar.defaultProps = {
-  activeSingleProperty: {},
-  formValue: {},
   userType: 'user',
 };
 
 const mapStateToProps = (state) => ({
-  activeSingleProperty: get(state, 'property.activeSingleProperty', { }),
   windowDimensions: get(state, 'common.windowDimensions', {}),
-  formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', { })),
-  gameGroup: get(state, 'gamification.gameGroup', []),
-  gameHistory: get(state, 'gamification.gameHistory', {}),
   userType: get(state, 'user.userTypes', ''),
 });
 

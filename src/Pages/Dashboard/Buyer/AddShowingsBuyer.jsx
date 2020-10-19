@@ -2,7 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useState, useRef, useCallback, useEffect,
+  useState, useRef, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
@@ -24,7 +24,6 @@ import {
 import defaultMessages from '@brixel/brixel-configuration-partner/src/Messages';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
-import { formatDate } from '../../../utils/helpers';
 import { createPropertyVisitBooking } from '../../../actions/PropertyActions';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-input-range/lib/css/index.css';
@@ -39,22 +38,15 @@ const AddShowingsBuyer = (props) => {
     history,
     lang,
     handleCreatePropertyVisitBooking,
-    isSmallLoading,
     loggedInUser,
-    scheduleSlots,
     smallLoading,
   } = props;
-  const numDates = 1;
-  const arrayDates = [...Array(numDates)].map((_, index) => index + 1);
   const [allDay, setAllDay] = useState(false);
   const [date, setDate] = useState(null);
   const [datePickerModal, setDatePickerModal] = useState(false);
   const [hours, setHours] = useState({ min: 8, max: 20 });
   const [isEnter, setIsEnter] = useState(true);
-  const [openBooking, setOpenBooking] = useState(false);
-  const [scheduleVisit, setScheduleVisit] = useState([]);
   const [scheduleVisitFree, setScheduleVisitFree] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
   const [showDate, setShowDate] = useState(false);
   const [showResizer, setShowResizer] = useState(false);
   const [message, setMessage] = useState('');
@@ -66,8 +58,6 @@ const AddShowingsBuyer = (props) => {
   const datePicker = useRef(null);
   const hoursRef = useRef(null);
 
-  const { documents } = formValue;
-
   useEffect(() => {
     setIsEnter(true);
   }, [step]);
@@ -78,16 +68,6 @@ const AddShowingsBuyer = (props) => {
     else setPhone({ prefix: activeSingleCompany.defaultDialCode, number: '' });
     setMessage(get(defaultMessages, `scheduleTextArea.${lang}`, ''));
   }, [loggedInUser]);
-
-  const editDate = (val) => {
-    setOpenBooking(true);
-    setSelectedDate(val);
-  };
-
-  const filterFromToday = () => {
-    const filteredDate = scheduleSlots.filter((item) => moment(item).isAfter(moment()));
-    return filteredDate;
-  };
 
   const removeEl = (id) => {
     const visit = scheduleVisitFree;
@@ -169,177 +149,145 @@ const AddShowingsBuyer = (props) => {
                 {
                   step === 0 && (
                     <>
-                      {
-                        filterFromToday().length > 0 ? (
-                          <div className="dis-f jc-c mt-3 mb-md-18">
-                            {
-                              arrayDates.map((date, i) => (
-                                <div
-                                  key={i.toString()}
-                                  onClick={() => (scheduleVisit[i] ? editDate(i) : setOpenBooking(true))}
-                                  className={`btnSelectDate ${scheduleVisit[i] ? 'selected' : ''} ${i > 0 ? 'ml-1' : ''}`}
-                                >
+                      <div className="min-h-fix-320">
+                        {
+                          scheduleVisitFree.map((val, i) => (
+                            <div
+                              className="date-schedule mx-2-neg px-2 bgWhite mx-sm-5-neg px-sm-5"
+                              key={i.toString()}
+                            >
+                              <div>
+                                <div className="day mb-1">
+                                  <i className="icon-calendar" />
+                                  {moment(val.date).format('dddd, DD MMMM YYYY')}
+                                </div>
+                                <div className="time">
+                                  <i className="icon-clock" />
                                   {
-                                    scheduleVisit[i] ? (
-                                      <>
-                                        <p>{moment(scheduleVisit[i]).format('ddd')}</p>
-                                        <b>{moment(scheduleVisit[i]).format('DD')}</b>
-                                        <span>{moment(scheduleVisit[i]).format('HH')} - {moment(scheduleVisit[i]).add(1, 'hour').format('HH')}</span>
-                                      </>
+                                    val.isAllDay ? (
+                                      <span>All day</span>
                                     ) : (
                                       <>
-                                        <BrixelIcon icon="calendar-add" color="primary" />
-                                        <p className="txtPrimary400 mt-1">add date</p>
+                                        <span>{val.start}</span>
+                                        {
+                                          val.end && (
+                                            <span>
+                                      &nbsp;-&nbsp;
+                                              {val.end}
+                                            </span>
+                                          )
+                                        }
                                       </>
                                     )
                                   }
-
                                 </div>
-                              ))
-                            }
-                          </div>
-                        ) : (
-                          <div className="min-h-fix-320">
-                            {
-                              scheduleVisitFree.map((val, i) => (
-                                <div
-                                  className="date-schedule mx-2-neg px-2 bgWhite mx-sm-5-neg px-sm-5"
-                                  key={i.toString()}
-                                >
-                                  <div>
-                                    <div className="day mb-1">
-                                      <i className="icon-calendar" />
-                                      {moment(val.date).format('dddd, DD MMMM YYYY')}
-                                    </div>
-                                    <div className="time">
-                                      <i className="icon-clock" />
-                                      {
-                                        val.isAllDay ? (
-                                          <span>All day</span>
-                                        ) : (
-                                          <>
-                                            <span>{val.start}</span>
-                                            {
-                                              val.end && (
-                                                <span>
-                                      &nbsp;-&nbsp;
-                                                  {val.end}
-                                                </span>
-                                              )
-                                            }
-                                          </>
-                                        )
-                                      }
-                                    </div>
-                                  </div>
-                                  <div className="remove cur-poi" onClick={() => removeEl(i)}><BrixelIcon
-                                    icon="bin"
-                                    color="red"
-                                  />
-                                  </div>
-                                </div>
-                              ))
-                            }
-                            {
-                              scheduleVisitFree.length < 3 && (
-                                <div className={`dis-f a-c jc-c ${scheduleVisit.length > 0 ? 'mt-2' : ''}`}>
-                                  <BrixelButtonSecondary
-                                    bgTransparent
-                                    className="w-perc-100 max-w-fix-240 mt-3"
-                                    background="primary"
-                                    saturation={400}
-                                    label="Choose new date"
-                                    rounded
-                                    leftIcon="calendar"
-                                    onClick={() => {
-                                      setShowDate(!showDate);
-                                      setDatePickerModal(!datePickerModal);
-                                    }}
-                                  />
-                                </div>
-                              )
-                            }
-                            {
-                              scheduleVisit.length < 3 && datePickerModal && (
-                                <div id="chooseDate">
-                                  <div id="wrapDatePicker">
-                                    {
-                                      showDate && (
-                                        <div className="overlay">
-                                          <div id="fixedDatePicker" ref={datePicker}>
-                                            <DatePicker
-                                              inline
-                                              selected={date}
-                                              onChange={(day) => handleChangeDate(day)}
-                                              ref={calendarRef}
-                                              minDate={subDays(new Date(), 0)}
-                                              locale={lang.value || lang}
-                                            />
-                                            <div className="bgWhite dis-f a-c jc-c my-1 mt-md-2 mb-md-3">
-                                              <BrixelButtonPrimary
-                                                className="w-perc-100 max-w-fix-240"
-                                                background="primary"
-                                                disabled={!date}
-                                                saturation={400}
-                                                label="Choose time"
-                                                rounded
-                                                onClick={() => {
-                                                  setShowDate(false);
-                                                  setShowResizer(true);
-                                                }}
-                                              />
-                                            </div>
-                                          </div>
+                              </div>
+                              <div className="remove cur-poi" onClick={() => removeEl(i)}><BrixelIcon
+                                icon="bin"
+                                color="red"
+                              />
+                              </div>
+                            </div>
+                          ))
+                        }
+                        {
+                          scheduleVisitFree.length < 3 && (
+                            <div className={`dis-f a-c jc-c ${scheduleVisitFree.length > 0 ? 'mt-2' : ''}`}>
+                              <BrixelButtonSecondary
+                                bgTransparent
+                                className="w-perc-100 max-w-fix-240 mt-3"
+                                background="primary"
+                                saturation={400}
+                                label="Choose new date"
+                                rounded
+                                leftIcon="calendar"
+                                onClick={() => {
+                                  setShowDate(!showDate);
+                                  setDatePickerModal(!datePickerModal);
+                                }}
+                              />
+                            </div>
+                          )
+                        }
+                        {
+                          scheduleVisitFree.length < 3 && datePickerModal && (
+                            <div id="chooseDate">
+                              <div id="wrapDatePicker">
+                                {
+                                  showDate && (
+                                    <div className="overlay">
+                                      <div id="fixedDatePicker" ref={datePicker}>
+                                        <DatePicker
+                                          inline
+                                          selected={date}
+                                          onChange={(day) => handleChangeDate(day)}
+                                          ref={calendarRef}
+                                          minDate={subDays(new Date(), 0)}
+                                          locale={lang.value || lang}
+                                        />
+                                        <div className="bgWhite dis-f a-c jc-c my-1 mt-md-2 mb-md-3">
+                                          <BrixelButtonPrimary
+                                            className="w-perc-100 max-w-fix-240"
+                                            background="primary"
+                                            disabled={!date}
+                                            saturation={400}
+                                            label="Choose time"
+                                            rounded
+                                            onClick={() => {
+                                              setShowDate(false);
+                                              setShowResizer(true);
+                                            }}
+                                          />
                                         </div>
-                                      )
-                                    }
-                                  </div>
-                                  <div>
-                                    {
-                                      showResizer && (
-                                        <div className="overlay">
-                                          <div id="rzSlider" className="modalWindow" ref={hoursRef}>
-                                            <h5>Choose the time </h5>
-                                            <p
-                                              className="mt-4 mb-2 mb-md-0 mt-md-0x"
-                                            >{hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}
-                                            </p>
-                                            <InputRange
-                                              maxValue={20}
-                                              minValue={8}
-                                              value={hours}
-                                              step={0.5}
-                                              formatLabel={(value) => `${value % 1 !== 0 ? `${Math.trunc(value)}:30` : `${value}:00`}`}
-                                              onChange={(value) => setHours(value)}
-                                              disabled={allDay}
-                                            />
-                                            <div className="dis-f a-c mb-1 mb-md-0">
-                                              <BrixelSwitchButton
-                                                label="All day"
-                                                input={{
-                                                  onChange: (e) => handleChange(e),
-                                                }}
-                                              />
-                                            </div>
-                                            <div className="dis-f jc-c">
-                                              <BrixelButtonPrimary
-                                                onClick={(e) => saveDate(e)}
-                                                rounded
-                                                label="Save"
-                                                className="mt-4 w-perc-100 max-w-fix-240"
-                                              />
-                                            </div>
-                                          </div>
+                                      </div>
+                                    </div>
+                                  )
+                                }
+                              </div>
+                              <div>
+                                {
+                                  showResizer && (
+                                    <div className="overlay">
+                                      <div id="rzSlider" className="modalWindow" ref={hoursRef}>
+                                        <h5>Choose the time </h5>
+                                        <p
+                                          className="mt-4 mb-2 mb-md-0 mt-md-0x"
+                                        >{hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}
+                                        </p>
+                                        <InputRange
+                                          maxValue={20}
+                                          minValue={8}
+                                          value={hours}
+                                          step={0.5}
+                                          formatLabel={(value) => `${value % 1 !== 0 ? `${Math.trunc(value)}:30` : `${value}:00`}`}
+                                          onChange={(value) => setHours(value)}
+                                          disabled={allDay}
+                                        />
+                                        <div className="dis-f a-c mb-1 mb-md-0">
+                                          <BrixelSwitchButton
+                                            label="All day"
+                                            input={{
+                                              onChange: (e) => handleChange(e),
+                                            }}
+                                          />
                                         </div>
-                                      )
-                                    }
-                                  </div>
-                                </div>
-                              )
-                            }
-                          </div>
-                        )
-                      }
+                                        <div className="dis-f jc-c">
+                                          <BrixelButtonPrimary
+                                            onClick={(e) => saveDate(e)}
+                                            rounded
+                                            label="Save"
+                                            className="mt-4 w-perc-100 max-w-fix-240"
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )
+                                }
+                              </div>
+                            </div>
+                          )
+                        }
+                      </div>
                     </>
                   )
                 }
@@ -409,12 +357,10 @@ AddShowingsBuyer.propTypes = {
   history: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  scheduleSlots: PropTypes.arrayOf(PropTypes.object),
   smallLoading: PropTypes.string,
 };
 
 AddShowingsBuyer.defaultProps = {
-  scheduleSlots: [],
   smallLoading: '',
 };
 
