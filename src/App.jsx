@@ -411,7 +411,7 @@ const App = (props) => {
                   !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') && (
                     <>
-                      <ProtectedRoute path="/buyer" component={DashboardBuyer} />
+                      <ProtectedRoute path="/buyer" exact component={DashboardBuyer} />
                       <ProtectedRoute path="/buyer/:act/:propID" component={DashboardBuyer} />
                     </>
                   )
