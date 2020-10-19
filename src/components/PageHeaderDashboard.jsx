@@ -95,7 +95,7 @@ function PageHeaderDashboard(props) {
 
   // FUNCTION TO LOAD THE GAME GROUP AND THE GAME HISTORY AND CALC THE NUMBER OF SECTION (number iside red circle)
   useEffect(() => {
-    if (gameGroup && gameHistory) {
+    if (gameGroup && gameHistory && userType === 'seller') {
       // let numDone = 0;
       let numTodo = 0;
       const usrGroups = gameGroup.sort(sortObject('stub', 'asc'));
@@ -118,10 +118,12 @@ function PageHeaderDashboard(props) {
         get(formValue, 'location.countryCode', 'CH') !== 'PT'
       ) numTodo -= 2;
       const nav = cloneDeep(firstRoutes);
-      nav[0].title = `<span>Home</span><span class="numRecords">${numTodo}</span>`;
+      console.log(numTodo, gameHistory, gameGroup, userType);
+      nav[0].title = '<span>Home</span>';
+      if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
       setRouteNav([...nav]);
     }
-  }, [gameGroup, gameHistory, activeSingleProperty]);
+  }, [gameGroup, gameHistory, activeSingleProperty, userType]);
 
   // SHOW DETAILS WHEN CLICK ON BRIXELS POINTS
   const brixelsAchievementDetail = () => {
