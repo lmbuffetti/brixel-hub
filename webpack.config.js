@@ -33,7 +33,7 @@ const clientConfig = {
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: devMode,
-    port: 3000,
+    port: 5000,
     historyApiFallback: true,
     open: true,
   },
@@ -201,9 +201,9 @@ const clientConfig = {
       hash: true,
       filename: './index.html',
       template: './public/index.html',
-      title: companyData.admin.title,
+      title: companyData.hub.title,
       meta: {
-        keywords: companyData.admin.keywords,
+        keywords: companyData.hub.keywords,
       },
       minify: {
         collapseWhitespace: true,
@@ -213,8 +213,8 @@ const clientConfig = {
         removeStyleLinkTypeAttributes: true,
         useShortDoctype: true,
       },
-      transifexKey: baseByData(getEnvBuild).transifexIdAdmin,
-      googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdAdmin,
+      transifexKey: baseByData(getEnvBuild).transifexIdHub,
+      googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
       facebookPixelId: baseByData(getEnvBuild).facebookPixel,
     }),
     new webpack.DefinePlugin({
