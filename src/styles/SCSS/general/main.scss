@@ -42,7 +42,8 @@ $responsive-medium: map_get($grid-breakpoints, md);
 "../components/options-menu",
 "../components/documents",
 "../components/menu-sidebar",
-"../components/property-list";
+"../components/property-list",
+"../components/splash-screen";
 
 // PAGES
 @import "../pages/getStarted",
