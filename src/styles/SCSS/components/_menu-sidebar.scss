@@ -77,6 +77,11 @@
     }
   }
 }
+.withTopBar {
+  .buyerNav {
+    display: none;
+  }
+}
 
 .numRecords {
   width: 16px;

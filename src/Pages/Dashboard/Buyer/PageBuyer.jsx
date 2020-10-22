@@ -56,7 +56,7 @@ const PageBuyer = (props) => {
                   color="primary"
                   saturationTxt={400}
                   noBorder
-                  onClick={() => history.push(`/${propID}/listings`)}
+                  onClick={() => history.push(`/buyer/property/${propID}`)}
                 />
                 <h5>Brixel Page</h5>
                 <BrixelButtonPrimary
