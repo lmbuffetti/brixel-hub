@@ -131,11 +131,10 @@ const PropertyBuyerDashboard = (props) => {
 
             <div className="pl-1">
               <h6 className="overline mt-3 mb-2">Contact</h6>
-              <div className="dis-f">
+              <div className="dis-f p-2 buttonBox">
                 <BrixelAvatar
                   avatarImg={has(formValue, 'contacts[0].avatar.path') ? `${baseByData.shortPath}${get(formValue, 'contacts[0].avatar.path', '')}` : null}
                   name={get(formValue, 'contacts[0].name', '')}
-                  size="large"
                 />
                 <div className="ml-2">
                   <h6>{get(formValue, 'contacts[0].name', '')}</h6>

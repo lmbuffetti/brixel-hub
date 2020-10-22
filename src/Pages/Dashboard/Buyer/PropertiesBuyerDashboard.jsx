@@ -96,9 +96,10 @@ const PropertiesBuyerDashboard = (props) => {
 
   return (
     <>
-      <div className="property-container h-perc-md-100 pos-r" id="propertyDashboard">
+      <div className="property-container buyer-properties h-perc-md-100 pos-r mt-2" id="propertyDashboard">
         <h5 className="mb-2">
-          <span>Properties you are interested in</span> <span className="notranslate">({activeBuyerProperties.length})</span>
+          <span>Properties you are interested in</span>
+          <span className="notranslate">({activeBuyerProperties.length})</span>
         </h5>
         <div className="properties listings-wrapper w-perc-100">
           <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
@@ -106,9 +107,9 @@ const PropertiesBuyerDashboard = (props) => {
               activeBuyerProperties.map((property, i) => (
                 <div
                   key={i.toString()}
-                  className="results dis-f shadow-3dp mb-2 a-c bgWhite brdRadius"
+                  className="results dis-f shadow-3dp mb-3 a-c bgWhite brdRadius"
                 >
-                  <div className="row-section avatar-container p-1 dis-f a-c ov-h flex-112">
+                  <div className="row-section avatar-container dis-f a-c ov-h flex-112">
                     <Link
                       className="cur-po"
                       to={{
@@ -122,65 +123,60 @@ const PropertiesBuyerDashboard = (props) => {
                     </Link>
                   </div>
 
-                  <div className="row-section name p-1 notranslate w-perc-100">
+                  <div className="row-section name p-1 notranslate w-perc-100 max-w-fix-304">
                     <div className="wrapper dis-fl-col a-bl">
                       <Link
-                        className="link txtDark700 body2"
+                        className="link fsize-300 fweight-500 txtDark700 body2"
                         to={{
                           pathname: `/buyer/property/${property.id}`,
                         }}
                       >
                         {property.title}
                       </Link>
-                      <span className="address body2">
-                        {get(property, 'location.name', '')} {get(property, 'location.streetNumber', '')}, {get(property, 'location.zip', '')} {get(property, 'location.city', '')}
+                    </div>
+                  </div>
+
+                  <div className="dis-f w-perc-100 px-2 jc-b">
+                    <div className="">
+                      <h6 className="fsize-100 txtDark200">Price</h6>
+                      <div className="txtGreen400 ff-mono">{showPrice(property)}</div>
+                    </div>
+
+                    <div className="">
+                      <h6 className="fsize-100 txtDark200 ws-nw">Rooms</h6>
+                      <span className="ff-mono txtDark700">{get(property, 'properties.typology.bedrooms', '0')}</span>
+                    </div>
+                    <div className="">
+                      <h6 className="fsize-100 txtDark200 ws-nw">Living space</h6>
+                      {
+                        get(property, 'location.countryCode', '') === 'PT' && get(property, 'properties.typology.grossArea.value', 0) > 0 ? (
+                          <span className="ff-mono txtDark700">{get(property, 'properties.typology.grossArea.value', '0')} m</span>
+                        ) : (
+                          <span className="ff-mono txtDark700">{get(property, 'properties.typology.livingArea.value', '0')} m</span>
+                        )
+                      }
+                    </div>
+                    <div className="">
+                      <h6 className="fsize-100 txtDark200 ws-nw">Year</h6>
+                      <span className="ff-mono txtDark700">
+                        {get(property, 'properties.building.built', '0000')}
                       </span>
                     </div>
-                  </div>
 
-                  <div className="row-section status p-1 px-2 ws-nw">
-                    <h6 className="fsize-100">Price</h6>
-                    <div className="txtGreen400">{showPrice(property)}</div>
-                  </div>
-
-                  <div className="row-section owner p-1">
-                    <div className="dis-f jc-b a-c">
-                      <div className="px-1 ws-nw">
-                        <h6 className="fsize-100 ws-nw">Rooms</h6>
-                        <span className="ff-mono body2">{get(property, 'properties.typology.bedrooms', '0')}</span>
-                      </div>
-                      <div className="px-1 ws-nw">
-                        <h6 className="fsize-100 ws-nw">Living space</h6>
-                        {
-                          get(property, 'location.countryCode', '') === 'PT' && get(property, 'properties.typology.grossArea.value', 0) > 0 ? (
-                            <span className="ff-mono body2">{get(property, 'properties.typology.grossArea.value', '0')} m</span>
-                          ) : (
-                            <span className="ff-mono body2">{get(property, 'properties.typology.livingArea.value', '0')} m</span>
-                          )
-                        }
-                      </div>
-                      <div className="px-1 ws-nw">
-                        <h6 className="fsize-100 ws-nw">Year</h6>
-                        <span className="ff-mono body2">
-                          {get(property, 'properties.building.built', '0000')}
-                        </span>
-                      </div>
+                    <div className="row-section status p-1 dis-f jc-fe">
+                      <BrixelButtonIcon
+                        brdOnHover
+                        color="dark"
+                        background="dark"
+                        saturation={100}
+                        fontSize={16}
+                        saturationTxt={500}
+                        icon="archive"
+                        className="archiveBtn zIndex1"
+                        onClick={(e) => archOnClick(e, property.dealID, property.archivedByBuyer)}
+                        label={property.archivedByBuyer ? 'Unarchive' : 'Archive'}
+                      />
                     </div>
-                  </div>
-
-                  <div className="row-section status p-1 dis-f jc-fe">
-                    <BrixelButtonIcon
-                      bgTransparent
-                      color="dark"
-                      background="dark"
-                      saturation={100}
-                      fontSize={16}
-                      saturationTxt={500}
-                      icon="archive"
-                      className="archiveBtn zIndex1"
-                      onClick={(e) => archOnClick(e, property.dealID, property.archivedByBuyer)}
-                      label={property.archivedByBuyer ? 'Unarchive' : 'Archive'}
-                    />
                   </div>
 
                 </div>

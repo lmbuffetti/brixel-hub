@@ -45,23 +45,27 @@
     position: relative;
   }
   .tabWrapper {
-    background: #ffffff;
-    @media (max-width: $responsive-medium) {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1;
+    .brixel-tabs {
+      @media (max-width: $responsive-medium) {
+        background: #ffffff;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1;
+      }
     }
   }
 }
 
 .withTopBar {
   .tabWrapper {
-    @media (min-width: $responsive-medium) {
-      padding-top: 2px;
-      position: relative;
-      border-bottom: 1px solid map-get($lightColor, 200);
+    .brixel-tabs {
+      @media (min-width: $responsive-medium) {
+        padding-top: 2px;
+        position: relative;
+        border-bottom: 1px solid map-get($lightColor, 200);
+      }
     }
   }
 }

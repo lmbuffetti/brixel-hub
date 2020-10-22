@@ -260,7 +260,8 @@ const App = (props) => {
     if (
       (history.location.pathname.includes('property/') ||
       history.location.pathname.includes('listings/')) &&
-      windowDimensions.width <= 1024
+      windowDimensions.width <= 1024 &&
+      !history.location.pathname.includes('buyer')
     ) {
       setIsSecLevel(true);
       if (dashWrapperEl) {
