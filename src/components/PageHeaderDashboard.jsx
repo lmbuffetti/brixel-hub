@@ -227,13 +227,13 @@ function PageHeaderDashboard(props) {
 
             {
               activeSingleProperty.id ? (
-                <div
-                  className="propertyPanel dis-f a-c"
-                  onClick={() => {
-                    if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
-                  }}
-                >
-                  <div className="image-ratio flex-48 squared shadow-2dp w-fix-48 h-fix-48 brdRadius ov-h">
+                <div className="propertyPanel dis-f a-c">
+                  <div
+                    className="image-ratio flex-48 squared shadow-2dp w-fix-48 h-fix-48 brdRadius ov-h"
+                    onClick={() => {
+                      if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
+                    }}
+                  >
                     <CoverPropertyImage
                       className="cover"
                       coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
@@ -241,12 +241,13 @@ function PageHeaderDashboard(props) {
                     />
                   </div>
                   <div className="ml-2">
-                    <BrixelButtonTertiary
-                      className="fsize-300 txtLight600 fweight-600 py-0 min-h-fix-30 td-n"
-                      label="Back to the list"
-                      leftIcon="arrow-left-small"
+                    <div
+                      className="dis-f a-c cur-poi fsize-300 txtLight600 fweight-600 smallIconLink"
                       onClick={() => console.log('TODO')}
-                    />
+                    >
+                      <BrixelIcon className="mr-1" icon="arrow-left-small" />
+                      <span>Back to the list</span>
+                    </div>
                     <h4 ref={proTitleRef} className="fsize-400 fweight-600"> {get(formValue, 'title', '')}</h4>
                   </div>
                 </div>
@@ -429,7 +430,7 @@ function PageHeaderDashboard(props) {
             </div>
           </div>
         </div>
-        <div>
+        <div className="tabWrapper">
           {
             has(activeSingleProperty, 'id') && (
               <>
@@ -450,7 +451,8 @@ function PageHeaderDashboard(props) {
                       classNameLabel="fsize-300 txtLight600 dis-f a-c ml-1"
                     />
                   ) : (
-                    <BrixelTabs
+                    <>
+                      {/* <BrixelTabs
                       classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
                       classNameUl="zIndex4"
                       labels={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.title) : []}
@@ -463,7 +465,8 @@ function PageHeaderDashboard(props) {
                       showFull={false}
                       classNameIcon="fsize-md-400 txtLight600"
                       classNameLabel="fsize-300 txtLight600 dis-f a-c ml-1"
-                    />
+                    /> */}
+                    </>
                   )
                 }
               </>

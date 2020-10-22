@@ -38,16 +38,37 @@
     transition: margin-top $default-time-long $default-easing;
   }
   .mobileTitle {
-    background: map-get($lightColor, 100 );
+    background: map-get($lightColor, 100);
+  }
+  .smallIconLink .brixelIcon {
+    top: -1px;
+    position: relative;
+  }
+  .tabWrapper {
+    background: #ffffff;
+    @media (max-width: $responsive-medium) {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1;
+    }
+  }
+}
+
+.withTopBar {
+  .tabWrapper {
+    @media (min-width: $responsive-medium) {
+      padding-top: 2px;
+      position: relative;
+      border-bottom: 1px solid map-get($lightColor, 200);
+    }
   }
 }
 
 .scrollingHeader {
   .hubDasHeader {
     .dasHeaderContainer {
-      @media (min-width: $responsive-medium) {
-        box-shadow: $shadow-1dp;
-      }
       @media (max-width: $responsive-medium) {
         margin-top: -64px;
         position: relative;

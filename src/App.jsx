@@ -240,11 +240,15 @@ const App = (props) => {
       setZIndex(6);
     } else {
       if (history.location.pathname.includes('rewards')) {
-        setClassMain('w-perc-100 pos-r hubContainer rewardsTop');
+        setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar');
       } else if (history.location.pathname.includes('property')) {
-        setClassMain('w-perc-100 pos-r hubContainer propertyTop');
+        if (history.location.pathname.includes('buyer')) {
+          setClassMain('w-perc-100 pos-r hubContainer propertyTop');
+        } else {
+          setClassMain('w-perc-100 pos-r hubContainer propertyTop withTopBar');
+        }
       } else if (history.location.pathname.includes('listings')) {
-        setClassMain('w-perc-100 pos-r hubContainer listingsTop');
+        setClassMain('w-perc-100 pos-r hubContainer listingsTop withTopBar');
       } else {
         setClassMain('w-perc-100 pos-r hubContainer ov-h');
       }
