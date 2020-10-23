@@ -73,6 +73,8 @@ const MenuSidebar = (props) => {
     },
   });
 
+  console.log(userType, 'usertype');
+
   return (
     <>
       <header className="sideHeader dis-fl-col a-c jc-fs h-perc-100" id="menu-sidebar">
@@ -118,6 +120,35 @@ const MenuSidebar = (props) => {
               leftIcon="conversation"
               onClick={() => onTabClick('support')}
             />
+            {
+              (userType === 'buyer' || userType === 'seller') && windowDimensions.width <= 1024 && (
+                <>
+                  <div className="buyerNav a-c jc-c">
+                    <div
+                      className="fsize-400 fweight-500"
+                      onClick={() => {
+                        destroyForm();
+                        handleSetUserTypes('buyer');
+                        handleSetActiveSingleProperty({});
+                        history.push('/buyer/propertyLists');
+                      }}
+                    >
+                      Buyer Hub
+                    </div>
+                    <div
+                      className="fsize-400 fweight-500"
+                      onClick={() => {
+                        handleSetUserTypes('seller');
+                        handleSetActiveSingleProperty({});
+                        history.push('/seller/pageLists');
+                      }}
+                    >
+                      Seller Hub
+                    </div>
+                  </div>
+                </>
+              )
+            }
           </div>
           <CSSTransition
             in={slideIn}

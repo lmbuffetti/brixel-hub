@@ -50,6 +50,13 @@
       }
     }
   }
+  .withTopBar {
+    .hubDasContent {
+      @media (min-width: $responsive-medium) {
+        top: 107px;
+      }
+    }
+  }
   .rewards-container {
     .rewardsSplash {
       #rewards {

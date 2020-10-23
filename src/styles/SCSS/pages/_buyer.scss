@@ -1,0 +1,20 @@
+.buyer-properties {
+  .results {
+    transition: box-shadow $default-time $default-easing;
+    &:hover {
+      @extend .shadow-4dp;
+    }
+  }
+}
+
+
+
+.buttonBox {
+  border-radius: $step;
+  box-shadow: $shadow-1dp;
+  transition: all $default-time $default-easing;
+  transition-property: box-shadow;
+  &:hover {
+    box-shadow: $shadow-3dp;
+  }
+}
