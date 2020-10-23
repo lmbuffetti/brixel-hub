@@ -9,7 +9,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const CopyPlugin = require('copy-webpack-plugin');
 const CSSNano = require('cssnano');
@@ -275,11 +274,6 @@ const clientConfig = {
     noEmitOnErrors: !devMode,
     checkWasmTypes: false,
     minimizer: [
-      new TerserPlugin({
-        cache: !devMode,
-        parallel: true,
-        sourceMap: devMode,
-      }),
       new OptimizeCSSAssetsPlugin({
         assetNameRegExp: /\.optimize\.css$/g,
         cssProcessor: CSSNano,
