@@ -5,7 +5,7 @@ stages:
   - deploy
 
 build site:
-  image: node:node:14.14.0
+  image: node:14.14.0
   stage: build
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
