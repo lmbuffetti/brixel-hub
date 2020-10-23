@@ -82,7 +82,7 @@ const PropertyBuyerDashboard = (props) => {
         <Sticker>
           <div className={`firstLevel bgLight100 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
 
-            <div className="dis-f mt-2">
+            <div className="dis-f">
               <BrixelButtonBox
                 verticalView
                 bgTransparent
@@ -140,7 +140,7 @@ const PropertyBuyerDashboard = (props) => {
                   <h6>{get(formValue, 'contacts[0].name', '')}</h6>
                   {
                     get(formValue, 'contacts[0].company', null) && (
-                      <p className="body2">{get(formValue, 'contacts[0].company', '')}</p>
+                      <p className="body2 txtDark700">{get(formValue, 'contacts[0].company', '')}</p>
                     )
                   }
                   {

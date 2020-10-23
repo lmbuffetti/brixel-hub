@@ -99,7 +99,7 @@ const ShowingsBuyer = (props) => {
             Showings
           </h5>
         </div>
-        <div className="dis-fl-col a-c">
+        <div className="dis-fl-col a-c min-h-fix-336">
           {
             Object.keys(gorupByMonth()).map((key, e) => (
               <React.Fragment key={e.toString()}>

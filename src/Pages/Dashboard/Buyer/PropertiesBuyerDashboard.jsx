@@ -98,7 +98,7 @@ const PropertiesBuyerDashboard = (props) => {
     <>
       <div className="property-container buyer-properties h-perc-md-100 pos-r mt-2" id="propertyDashboard">
         <h5 className="mb-2">
-          <span>Properties you are interested in</span>
+          <span>Properties you are interested in </span>
           <span className="notranslate">({activeBuyerProperties.length})</span>
         </h5>
         <div className="properties listings-wrapper w-perc-100">
@@ -109,7 +109,7 @@ const PropertiesBuyerDashboard = (props) => {
                   key={i.toString()}
                   className="results dis-f shadow-3dp mb-3 a-c bgWhite brdRadius"
                 >
-                  <div className="row-section avatar-container dis-f a-c ov-h flex-112">
+                  <div className="row-section p-1 avatar-container dis-f a-c ov-h flex-112">
                     <Link
                       className="cur-po"
                       to={{
@@ -136,17 +136,17 @@ const PropertiesBuyerDashboard = (props) => {
                     </div>
                   </div>
 
-                  <div className="dis-f w-perc-100 px-2 jc-b">
-                    <div className="">
+                  <div className="dis-f w-perc-100 min-w-fix-360 max-w-fix-600 mt-1 mt-sm-0 px-2 jc-b ml-a">
+                    <div className="px-1">
                       <h6 className="fsize-100 txtDark200">Price</h6>
                       <div className="txtGreen400 ff-mono">{showPrice(property)}</div>
                     </div>
 
-                    <div className="">
+                    <div className="px-1">
                       <h6 className="fsize-100 txtDark200 ws-nw">Rooms</h6>
                       <span className="ff-mono txtDark700">{get(property, 'properties.typology.bedrooms', '0')}</span>
                     </div>
-                    <div className="">
+                    <div className="px-1">
                       <h6 className="fsize-100 txtDark200 ws-nw">Living space</h6>
                       {
                         get(property, 'location.countryCode', '') === 'PT' && get(property, 'properties.typology.grossArea.value', 0) > 0 ? (
@@ -156,7 +156,7 @@ const PropertiesBuyerDashboard = (props) => {
                         )
                       }
                     </div>
-                    <div className="">
+                    <div className="px-1">
                       <h6 className="fsize-100 txtDark200 ws-nw">Year</h6>
                       <span className="ff-mono txtDark700">
                         {get(property, 'properties.building.built', '0000')}

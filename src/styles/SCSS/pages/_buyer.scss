@@ -1,6 +1,9 @@
 .buyer-properties {
   .results {
     transition: box-shadow $default-time $default-easing;
+    @media (max-width: $responsive-small) {
+      flex-wrap: wrap;
+    }
     &:hover {
       @extend .shadow-4dp;
     }
