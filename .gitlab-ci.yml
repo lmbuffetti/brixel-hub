@@ -1,11 +1,11 @@
-image: node:latest
+image: node:14.14.0
 
 stages:
   - build
   - deploy
 
 build site:
-  image: node:latest
+  image: node:14.14.0
   stage: build
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
@@ -23,7 +23,9 @@ build site:
     - echo $CI_JOB_STAGE
     - echo $CI_COMMIT_REF_NAME
     - echo $CI_BUILD_REF_NAME
-    - npm install --progress=true
+    - node --version
+    - npm --version
+    - npm install
     - npm install git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel
     - if [ "$FOLDER" == "master" ]; then MODULE="prod"; else MODULE="dev"; fi
     - if [ "$FOLDER" == "staging" ]; then MODULE="stage"; else MODULESS="dev"; fi
