@@ -26,6 +26,7 @@ import { checkToken, setUserTypes } from './actions/UserActions';
 import { setLanguages, setModal, setWindowDimensions } from './actions/CommonActions';
 
 import BrixelModalAwards from './components/BrixelModalAwards';
+import { getImageType } from './actions/UploadActions';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
@@ -129,6 +130,7 @@ const App = (props) => {
     handleCheckToken,
     handleSetModal,
     handleSetWindowsDimension,
+    handleGetImageType,
     isLoading,
     loggedInUser,
     modal,
@@ -312,6 +314,7 @@ const App = (props) => {
       calcHeaderHeight();
       calcFlowHeaderHeight();
     });
+    handleGetImageType();
   }, []);
 
   const contentLayout = () => {
@@ -505,15 +508,16 @@ const App = (props) => {
 
 App.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  handleSetUserTypes: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
+  handleGetImageType: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
+  handleSetUserTypes: PropTypes.func.isRequired,
   handleSetWindowsDimension: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
   loggedInUser: PropTypes.object.isRequired,
-  notification: PropTypes.object,
   modal: PropTypes.object.isRequired,
+  notification: PropTypes.object,
   redirectTo: PropTypes.object,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
@@ -527,19 +531,20 @@ App.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', null),
   modal: get(state, 'common.modal', {}),
   notification: get(state, 'common.notification', null),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   redirectTo: get(state, 'common.redirectTo', null),
   userTypes: get(state, 'user.userTypes', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetLanguages: bindActionCreators(setLanguages, dispatch),

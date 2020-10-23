@@ -80,7 +80,7 @@ const Tour = (props) => {
                           className="min-h-fix-320"
                           width="100%"
                           height="100%"
-                          src={`https://my.matterport.com/show/?m=${get(formValue, 'virtual.matterport', null)}&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0`}
+                          src={`https://my.matterport.com/show/?m=${get(formValue, 'virtual.matterport', null)}&help=0&hl=2&nt=1&play=1&brand=0&mls=2&wh=0`}
                           allow="vr"
                           frameBorder="0"
                           allowFullScreen
@@ -97,7 +97,7 @@ const Tour = (props) => {
               className="tourTeaser h-perc-100"
               title="Get your own 3D tour"
               unlockFunction={false}
-              virtualTour="https://my.matterport.com/show/?m=ctWod3ggrZi&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0"
+              virtualTour="https://my.matterport.com/show/?m=ctWod3ggrZi&help=0&hl=2&nt=1&play=1&brand=0&mls=2&wh=0"
               description="3D tour and much more is part of Brixel Premium."
             />
           )

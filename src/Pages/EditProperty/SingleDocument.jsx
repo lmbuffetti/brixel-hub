@@ -12,6 +12,7 @@ import get from 'lodash/get';
 import set from 'lodash/set';
 import find from 'lodash/find';
 import has from 'lodash/has';
+import uniq from 'lodash/uniq';
 import {
   diff,
 } from 'deep-object-diff';
@@ -51,26 +52,32 @@ const SingleDocument = (props) => {
 
   useEffect(() => {
     const docID = get(match, 'params.docID', null);
+    const folderArrayAux = [];
     if (docID) {
       find(activeSingleProperty.documents, (el, key) => {
         if (el.id === docID) {
           if (el.isPrivate === true) set(el, 'isPrivate', 'Private');
           else if (el.isPrivate === false) set(el, 'isPrivate', 'Public');
-          if (get(el, 'folder')) {
-            const folder = {
-              label: el.folder,
-              value: el.folder,
-              id: el.folder.toLowerCase(),
-            };
-            documentFolders.push(folder);
-            setDocumentFolders(documentFolders);
-          }
           setActiveDocument(el);
           setActiveDocumentKey(key);
         }
       });
+      if (has(formValue, 'id')) {
+        activeSingleProperty.documents.forEach((value) => {
+          if (get(value, 'folder')) folderArrayAux.push(value.folder);
+        });
+        const array = uniq(folderArrayAux);
+        array.forEach((value, key) => {
+          array[key] = {
+            label: value,
+            value,
+            id: value.toLowerCase(),
+          };
+        });
+        setDocumentFolders(array);
+      }
     }
-  }, [activeSingleProperty.updatedAt]);
+  }, [activeSingleProperty.updatedAt, formValue]);
 
   useEffect(() => {
     if (has(activeDocument, 'id')) {
@@ -128,7 +135,7 @@ const SingleDocument = (props) => {
     <>
       {
         activeDocument.id && (
-          <SplashScreen className="edit-document" closeLink={`/${activeSingleProperty.id}/property/documents`}>
+          <SplashScreen closeOutside={false} className="edit-document">
             <div className="single-document dis-fl-col">
               {/* top panel */}
               <div className="top dis-fl-row a-c jc-b mb-5">
@@ -140,7 +147,10 @@ const SingleDocument = (props) => {
                   background="white"
                   color="dark"
                   saturationTxt={700}
-                  onClick={() => history.push(`/${activeSingleProperty.id}/property/documents`)}
+                  onClick={() => {
+                    changeFieldValue('documents', initialValues.documents);
+                    history.push(`/${activeSingleProperty.id}/property/documents`);
+                  }}
                 />
               </div>
 
@@ -219,6 +229,7 @@ const SingleDocument = (props) => {
                         saturationTxt={400}
                         label="Cancel"
                         onClick={() => {
+                          changeFieldValue(`documents[${activeDocumentKey}].folder`, get(`initialValues.documents[${activeDocumentKey}]`, 'folder', ''));
                           setNewFolder(false);
                         }}
                       />
@@ -267,6 +278,7 @@ const SingleDocument = (props) => {
                   label="Cancel"
                   saturation={700}
                   onClick={() => {
+                    changeFieldValue('documents', initialValues.documents);
                     history.push(`/${activeSingleProperty.id}/property/documents`);
                   }}
                 />
