@@ -13,6 +13,7 @@ import {
   BrixelButtonIcon,
   BrixelTabs,
   BrixelButtonTertiary,
+  destroy,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import useOutsideAlerter from './OutsideElement';
@@ -26,6 +27,8 @@ import {
   secondRoutes,
   secondRoutesBuyer,
 } from '../resources/navigationRoutes';
+import { setUserTypes } from '../actions/UserActions';
+import { setActiveSingleProperty } from '../actions/PropertyActions';
 import brixels from '../images/BrxielComingTown/brixels.svg';
 import CoverPropertyImage from './CoverPropertyImage';
 import AccountDropdown from './AccountDropdown';
@@ -33,6 +36,9 @@ import AccountDropdown from './AccountDropdown';
 function PageHeaderDashboard(props) {
   // PROPS
   const {
+    handleSetUserTypes,
+    handleSetActiveSingleProperty,
+    destroyForm,
     activeSingleProperty,
     awards,
     brixelPoints,
@@ -411,6 +417,43 @@ function PageHeaderDashboard(props) {
                         </button> */}
                         <div className="mini-menu dis-fl-col txtLight100">
                           <hr className="mb-4" />
+                          {
+                            userType === 'buyer' ? (
+                              <>
+                                <a
+                                  className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    handleSetUserTypes('seller');
+                                    handleSetActiveSingleProperty({});
+                                    history.push('/seller/pageLists');
+                                    toggleMobileMenu();
+                                    document.body.classList.remove('ov-h');
+                                  }}
+                                >
+                                  Seller
+                                </a>
+                              </>
+                            ) : (
+                              <>
+                                <a
+                                  className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    destroyForm();
+                                    handleSetUserTypes('buyer');
+                                    handleSetActiveSingleProperty({});
+                                    history.push('/buyer/propertyLists');
+                                    toggleMobileMenu();
+                                    document.body.classList.remove('ov-h');
+                                  }}
+                                >
+                                  Buyer
+                                </a>
+                              </>
+                            )
+                          }
+                          <hr className="mb-4" />
                           <a
                             className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
                             href={`${baseByData().loginBasePath}/account/profile?url=${window.location.href}`}
@@ -474,7 +517,7 @@ function PageHeaderDashboard(props) {
                       classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
                       classNameUl="zIndex4"
                       labels={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.title) : []}
-                      labelsIcons={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.icon) : []}
+                      labelsIcons={windowDimensions.width <= 1024 ? has(activeSingleProperty, 'id') ? routeNav.map((item) => item.icon) : [] : []}
                       clicksList={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.path) : []}
                       clicksListName={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.name) : []}
                       classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
@@ -483,7 +526,7 @@ function PageHeaderDashboard(props) {
                       showFull={false}
                       fullWidth={windowDimensions.width <= 1024}
                       classNameIcon="fsize-md-400 txtLight600"
-                      classNameLabel="fsize-300 txtLight600 dis-f a-c ml-1"
+                      classNameLabel={`${windowDimensions.width <= 1024 ? 'fsize-300' : 'fsize-400'} txtLight600 dis-f a-c ml-1`}
                     />
                   ) : (
                     <>
@@ -558,6 +601,9 @@ PageHeaderDashboard.propTypes = {
   loggedInUser: PropTypes.object,
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
+  handleSetUserTypes: PropTypes.func.isRequired,
+  handleSetActiveSingleProperty: PropTypes.func.isRequired,
+  destroyForm: PropTypes.func.isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {
@@ -583,6 +629,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  destroyForm() {
+    dispatch(destroy('Property'));
+  },
+  handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
+  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleGetGame: bindActionCreators(getGameHistory, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),

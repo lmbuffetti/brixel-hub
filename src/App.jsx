@@ -288,6 +288,11 @@ const App = (props) => {
   const headerCalc = () => {
     if (!isFlow) {
       if (windowDimensions.width <= 1024) {
+        if (userTypes === 'buyer' || history.location.pathname.includes('seller')) {
+          return {
+            height: '100%',
+          };
+        }
         return {
           height: (windowDimensions.height + extraHeight) - 174,
         };
