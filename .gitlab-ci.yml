@@ -1,4 +1,4 @@
-image: node:latest
+image: node:14.14.0
 
 stages:
   - build
@@ -25,7 +25,7 @@ build site:
     - echo $CI_BUILD_REF_NAME
     - node --version
     - npm --version
-    - npm install --force
+    - npm install
     - npm install git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel
     - if [ "$FOLDER" == "master" ]; then MODULE="prod"; else MODULE="dev"; fi
     - if [ "$FOLDER" == "staging" ]; then MODULE="stage"; else MODULESS="dev"; fi
