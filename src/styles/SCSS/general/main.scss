@@ -391,8 +391,15 @@ main > div ::-webkit-scrollbar-thumb {
 }
 
 .scheduleGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: $step * 2;
-  grid-row-gap: $step;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 550px;
+  margin: auto;
+
+  > div {
+    margin-bottom: $step;
+    &:nth-child(odd) {
+      margin-right: $step * 2;
+    }
+  }
 }

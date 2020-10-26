@@ -21,3 +21,34 @@
     box-shadow: $shadow-3dp;
   }
 }
+
+.buyerShowings {
+  opacity: 0;
+  animation: scaleUp $default-time $default-easing forwards;
+}
+.date-schedule {
+  opacity: 0;
+  animation: slideUpTrans $default-time $default-easing forwards;
+}
+
+.scheduleGrid .header {
+
+}
+.scheduleGrid {
+  width: 100%;
+  .header {
+    flex-direction: column;
+    .actions {
+      margin-top: $step;
+    }
+  }
+  > div {
+    width: calc(50% - 8px);
+  }
+}
+
+.property-container {
+  .avatar {
+    object-fit: cover;
+  }
+}

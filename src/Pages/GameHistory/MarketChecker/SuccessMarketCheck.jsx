@@ -107,7 +107,7 @@ function SuccessMarketCheck(props) {
                                       rounded
                                       label="Check market now"
                                       background="primary"
-                                      className="m-a"
+                                      className="m-a mt-2"
                                       onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                                       rightIcon="arrow-right"
                                     />

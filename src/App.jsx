@@ -190,6 +190,18 @@ const App = (props) => {
     }
   }, [activeSingleProperty]);
 
+  const bodyModal = document.getElementById('bodyModalWrapper');
+  useEffect(() => {
+    const hubDash = document.getElementsByClassName('hubDashboard')[0];
+    if (hubDash) {
+      if (bodyModal) {
+        hubDash.style.overflow = 'hidden';
+      } else {
+        hubDash.style.overflow = '';
+      }
+    }
+  }, [bodyModal]);
+
   // FUNCTION USED TO SEND THE DATA TO HANALITYCS
   useEffect(() => {
     if (get(history, 'location', null)) {

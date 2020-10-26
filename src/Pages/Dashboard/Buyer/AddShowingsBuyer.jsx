@@ -119,6 +119,7 @@ const AddShowingsBuyer = (props) => {
           email,
           language: lang,
         },
+        redirectTo: '../showings',
         message,
       };
       handleCreatePropertyVisitBooking(data);
@@ -153,16 +154,16 @@ const AddShowingsBuyer = (props) => {
                         {
                           scheduleVisitFree.map((val, i) => (
                             <div
-                              className="date-schedule mx-2-neg px-2 bgWhite mx-sm-5-neg px-sm-5"
+                              className="date-schedule brdSmall brdLight200 p-2 brdRadius bgWhite mb-1"
                               key={i.toString()}
                             >
                               <div>
                                 <div className="day mb-1">
-                                  <i className="icon-calendar" />
+                                  <i className="icon-calendar mr-1" />
                                   {moment(val.date).format('dddd, DD MMMM YYYY')}
                                 </div>
                                 <div className="time">
-                                  <i className="icon-clock" />
+                                  <i className="icon-clock mr-1" />
                                   {
                                     val.isAllDay ? (
                                       <span>All day</span>
@@ -182,17 +183,21 @@ const AddShowingsBuyer = (props) => {
                                   }
                                 </div>
                               </div>
-                              <div className="remove cur-poi" onClick={() => removeEl(i)}><BrixelIcon
-                                icon="bin"
-                                color="red"
-                              />
+                              <div
+                                className="remove cur-poi mt-1 a-c"
+                                onClick={() => removeEl(i)}
+                              >
+                                <BrixelIcon
+                                  icon="bin"
+                                  color="red"
+                                />
                               </div>
                             </div>
                           ))
                         }
                         {
                           scheduleVisitFree.length < 3 && (
-                            <div className={`dis-f a-c jc-c ${scheduleVisitFree.length > 0 ? 'mt-2' : ''}`}>
+                            <div className={`dis-f a-c jc-c mb-3 ${scheduleVisitFree.length > 0 ? 'mt-2' : ''}`}>
                               <BrixelButtonSecondary
                                 bgTransparent
                                 className="w-perc-100 max-w-fix-240 mt-3"
@@ -211,12 +216,12 @@ const AddShowingsBuyer = (props) => {
                         }
                         {
                           scheduleVisitFree.length < 3 && datePickerModal && (
-                            <div id="chooseDate">
+                            <div className="buyerShowings brdSmall brdLight200 brdRadius w-fix-336 p-3" id="chooseDate">
                               <div id="wrapDatePicker">
                                 {
                                   showDate && (
                                     <div className="overlay">
-                                      <div id="fixedDatePicker" ref={datePicker}>
+                                      <div className="dis-fl-col a-c" id="fixedDatePicker" ref={datePicker}>
                                         <DatePicker
                                           inline
                                           selected={date}
@@ -225,9 +230,8 @@ const AddShowingsBuyer = (props) => {
                                           minDate={subDays(new Date(), 0)}
                                           locale={lang.value || lang}
                                         />
-                                        <div className="bgWhite dis-f a-c jc-c my-1 mt-md-2 mb-md-3">
+                                        <div className="bgWhite mt-3">
                                           <BrixelButtonPrimary
-                                            className="w-perc-100 max-w-fix-240"
                                             background="primary"
                                             disabled={!date}
                                             saturation={400}
@@ -247,38 +251,36 @@ const AddShowingsBuyer = (props) => {
                               <div>
                                 {
                                   showResizer && (
-                                    <div className="overlay">
-                                      <div id="rzSlider" className="modalWindow" ref={hoursRef}>
-                                        <h5>Choose the time </h5>
-                                        <p
-                                          className="mt-4 mb-2 mb-md-0 mt-md-0x"
-                                        >{hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}
-                                        </p>
-                                        <InputRange
-                                          maxValue={20}
-                                          minValue={8}
-                                          value={hours}
-                                          step={0.5}
-                                          formatLabel={(value) => `${value % 1 !== 0 ? `${Math.trunc(value)}:30` : `${value}:00`}`}
-                                          onChange={(value) => setHours(value)}
-                                          disabled={allDay}
+                                    <div id="rzSlider" className="modalWindow" ref={hoursRef}>
+                                      <h5>Choose the time </h5>
+                                      <p
+                                        className="mt-4 mb-2 mb-md-0 mt-md-0x"
+                                      >{hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}
+                                      </p>
+                                      <InputRange
+                                        maxValue={20}
+                                        minValue={8}
+                                        value={hours}
+                                        step={0.5}
+                                        formatLabel={(value) => `${value % 1 !== 0 ? `${Math.trunc(value)}:30` : `${value}:00`}`}
+                                        onChange={(value) => setHours(value)}
+                                        disabled={allDay}
+                                      />
+                                      <div className="dis-f a-c mb-1 mb-md-0">
+                                        <BrixelSwitchButton
+                                          label="All day"
+                                          input={{
+                                            onChange: (e) => handleChange(e),
+                                          }}
                                         />
-                                        <div className="dis-f a-c mb-1 mb-md-0">
-                                          <BrixelSwitchButton
-                                            label="All day"
-                                            input={{
-                                              onChange: (e) => handleChange(e),
-                                            }}
-                                          />
-                                        </div>
-                                        <div className="dis-f jc-c">
-                                          <BrixelButtonPrimary
-                                            onClick={(e) => saveDate(e)}
-                                            rounded
-                                            label="Save"
-                                            className="mt-4 w-perc-100 max-w-fix-240"
-                                          />
-                                        </div>
+                                      </div>
+                                      <div className="dis-f jc-c mt-3">
+                                        <BrixelButtonPrimary
+                                          onClick={(e) => saveDate(e)}
+                                          rounded
+                                          label="Save"
+                                          className=""
+                                        />
                                       </div>
                                     </div>
                                   )
@@ -339,7 +341,7 @@ const AddShowingsBuyer = (props) => {
                   label={step === 0 ? 'Next' : 'Save'}
                   rightIcon="arrow-right-small"
                   onClick={() => changeStep()}
-                  isLoading={smallLoading === 'property'}
+                  isLoading={smallLoading === 'saveBooking'}
                 />
               </div>
             </div>

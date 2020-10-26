@@ -73,8 +73,6 @@ const MenuSidebar = (props) => {
     },
   });
 
-  console.log(userType, 'usertype');
-
   return (
     <>
       <header className="sideHeader dis-fl-col a-c jc-fs h-perc-100" id="menu-sidebar">

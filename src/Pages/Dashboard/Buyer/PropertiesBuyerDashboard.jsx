@@ -93,13 +93,23 @@ const PropertiesBuyerDashboard = (props) => {
     };
     handleSaveActiveSingleDeal(data);
   };
-
+  useEffect(() => {
+    console.log(userBuyerProperties);
+  });
   return (
     <>
       <div className="property-container buyer-properties h-perc-md-100 pos-r mt-2" id="propertyDashboard">
         <h5 className="mb-2">
-          <span>Properties you are interested in </span>
-          <span className="notranslate">({activeBuyerProperties.length})</span>
+          {
+            activeBuyerProperties.length > 0 ? (
+              <>
+                <span>Properties you are interested in </span>
+                <span className="notranslate">({activeBuyerProperties.length})</span>
+              </>
+            ) : (
+              <span>No favorite property found</span>
+            )
+          }
         </h5>
         <div className="properties listings-wrapper w-perc-100">
           <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">

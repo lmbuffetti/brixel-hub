@@ -16,7 +16,7 @@ import {
 } from '@brixel/brixel-components';
 import groupBy from 'lodash/groupBy';
 import moment from 'moment';
-import { getActiveSinglePropertyBookings } from '../../../actions/PropertyActions';
+import { getActiveSinglePropertyBookings, setActiveSinglePropertyBookings } from '../../../actions/PropertyActions';
 
 // COMPONENTS
 
@@ -26,6 +26,7 @@ const ShowingsBuyer = (props) => {
     activeSinglePropertyBooking,
     formValue,
     handleGetActiveSinglePropertyBookings,
+    handleSetActiveSinglePropertyBookings,
     history,
     lang,
     loggedInUser,
@@ -35,6 +36,8 @@ const ShowingsBuyer = (props) => {
   const [bookingSlot, setBookingSlot] = useState([]);
 
   const propID = get(match, 'params.propId', null);
+
+  useEffect(() => () => handleSetActiveSinglePropertyBookings([]), []);
 
   useEffect(() => {
     if (formValue.id) {
@@ -70,6 +73,8 @@ const ShowingsBuyer = (props) => {
         return moment(a.slot.slot).format('YYYYMMDDHHmm') - moment(b.slot.slot).format('YYYYMMDDHHmm');
       });
       setBookingSlot([...allSlots]);
+    } else {
+      setBookingSlot([]);
     }
   }, [activeSinglePropertyBooking]);
 
@@ -103,7 +108,7 @@ const ShowingsBuyer = (props) => {
           {
             Object.keys(gorupByMonth()).map((key, e) => (
               <React.Fragment key={e.toString()}>
-                <h6 className="txtLight400 mt-3 mb-1">
+                <h6 className="txtLight400 mb-2">
                   <span>{moment(key, 'MM.YYYY').format('MMMM')}</span>
                   &nbsp;-&nbsp;
                   <span>{moment(key, 'MM.YYYY').format('YYYY')}</span>
@@ -135,6 +140,7 @@ const ShowingsBuyer = (props) => {
             label="Add dates"
             rightIcon="calendar-add"
             onClick={() => history.push(`/buyer/property/${propID}/showings/add`)}
+            className="mb-3"
           />
         </div>
       </div>
@@ -146,6 +152,7 @@ ShowingsBuyer.propTypes = {
   activeSinglePropertyBooking: PropTypes.arrayOf(PropTypes.object),
   formValue: PropTypes.object.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
+  handleSetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -165,6 +172,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
+  handleSetActiveSinglePropertyBookings: bindActionCreators(setActiveSinglePropertyBookings, dispatch),
 });
 
 export default compose(
