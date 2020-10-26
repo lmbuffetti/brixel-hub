@@ -400,9 +400,8 @@ const checkCommon = (store) => (next) => (action) => {
     }
     // DISPATCH TO GET PROPERTY BOOKING - by PROPERTY ID
     case GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS: {
-      next(action);
-      console.log(action.payload.smallLoader);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'booking' });
+      next(action);
       const { id, data, redirectTo } = action.payload;
       api.property.getPageVisits(id, data).then((response) => {
         store.dispatch({
