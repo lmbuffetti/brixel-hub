@@ -28,11 +28,11 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
             img = brixelPlus;
             break;
           case 'one':
-            color = 'Primary400';
+            color = 'Blue400';
             img = brixelPremium;
             break;
           default:
-            color = 'Primary400';
+            color = 'Dark400';
             img = brixelPremium;
         }
         optionsPackages.push({
