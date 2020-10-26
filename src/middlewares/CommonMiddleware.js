@@ -41,7 +41,7 @@ const checkCommon = (store) => (next) => (action) => {
       setTimeout(() => {
         store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: notification });
       }, 100);
-      setTimeout(() => {
+      /* setTimeout(() => {
         store.dispatch({
           type: SET_SCREEN_NOTIFICATION,
           payload: {
@@ -49,7 +49,7 @@ const checkCommon = (store) => (next) => (action) => {
             state: false,
           },
         });
-      }, 1500);
+      }, 1500); */
       break;
     }
     default:
