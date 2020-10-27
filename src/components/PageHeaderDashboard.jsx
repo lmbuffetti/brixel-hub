@@ -124,7 +124,6 @@ function PageHeaderDashboard(props) {
         get(formValue, 'location.countryCode', 'CH') !== 'PT'
       ) numTodo -= 2;
       const nav = cloneDeep(firstRoutes);
-      console.log(numTodo, gameHistory, gameGroup, userType);
       nav[0].title = '<span>Home</span>';
       if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
       setRouteNav([...nav]);

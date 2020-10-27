@@ -93,9 +93,7 @@ const PropertiesBuyerDashboard = (props) => {
     };
     handleSaveActiveSingleDeal(data);
   };
-  useEffect(() => {
-    console.log(userBuyerProperties);
-  });
+
   return (
     <>
       <div className="property-container buyer-properties h-perc-md-100 pos-r mt-2" id="propertyDashboard">
