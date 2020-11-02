@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import set from 'lodash/set';
+import has from 'lodash/has';
 import findIndex from 'lodash/findIndex';
 import uniq from 'lodash/uniq';
 import cloneDeep from 'lodash/cloneDeep';
@@ -58,7 +59,9 @@ const Documents = (props) => {
   useEffect(() => {
     const docs = documents || [];
     if (docs.length > 0) {
-      const finalObj = {};
+      const finalObj = {
+        NoFolder: [],
+      };
       const availableFolders = [];
       docs.forEach((value) => {
         if (get(value, 'folder')) availableFolders.push(value.folder);
@@ -69,13 +72,17 @@ const Documents = (props) => {
       array.forEach((value) => {
         set(finalObj, `${value}`, []);
       });
-      docs.forEach((doc) => {
-        if (get(doc, 'folder')) finalObj[`${doc.folder}`].push(doc);
-        if (!doc.folder) finalObj.NoFolder.push(doc);
+      documents.forEach((doc) => {
+        if (!doc.folder) {
+          doc.folder = '';
+          finalObj.NoFolder.push(doc);
+        } else if (has(doc, 'folder') && doc.folder.length > 0) finalObj[`${doc.folder}`].push(doc);
+        else if (has(doc, 'folder') && doc.folder.length === 0) finalObj.NoFolder.push(doc);
       });
       setProcessedDocuments(finalObj);
     }
-  }, [documents]);
+    if (documents.length === 0) setProcessedDocuments({});
+  }, [documents.length]);
 
   const manageDocument = (e, id) => {
     if (e) e.preventDefault();
@@ -117,7 +124,7 @@ const Documents = (props) => {
         allImgs: res, actions: 'documents', pageID: formValue.id, smallLoader: 'upload',
       });
     });
-  }, []);
+  }, [formValue]);
 
   // DROPZONE SETTINGS - SUPPORTED EXTENSIONS AND MAX SIZE AND OTHER SETTINGS
   const { getRootProps, getInputProps } = useDropzone({
