@@ -193,14 +193,14 @@ function PageHeaderDashboard(props) {
   });
 
   // FUNCTION TO CALC IF TITLE IS LONG OR NOT AND ASSIGN THE DIFFERENT CLASS
-  useEffect(() => {
+  /* useEffect(() => {
     if (proTitleEl) {
       const titleHeight = proTitleEl.offsetHeight;
       if (titleHeight > 42) {
         proTitleEl.classList.add('longTitle');
       }
     }
-  });
+  }); */
 
   // FUNCTION TO MAANGE THE TAB CLICK
   const onTabClick = (val, act = 'url') => {
