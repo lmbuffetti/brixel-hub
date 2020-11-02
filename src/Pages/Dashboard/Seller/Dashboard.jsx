@@ -429,6 +429,8 @@ Dashboard.defaultProps = {
 const mapStateToProps = (state) => {
   const properties = get(state, 'property.activeSingleProperty.properties', {});
   const formValue = get(state, 'property.activeSingleProperty', {});
+  const allPortals = diff(get(state, 'property.activeSingleProperty.customPortals', {}), get(state, 'property.activeSingleProperty.portals', {}));
+  console.log(allPortals);
   set(properties, 'typology.livingArea.unit', 'm2');
   set(properties, 'typology.grossArea.unit', 'm2');
   set(properties, 'typology.lotArea.unit', 'm2');
@@ -458,6 +460,7 @@ const mapStateToProps = (state) => {
       booking: get(state, 'property.activeSinglePropertyBooking', []),
       changeCountry: get(state, 'property.activeSingleProperty.location.countryCode', {}),
       coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
+      customPortals: get(state, 'property.activeSingleProperty.customPortals', {}),
       description: get(state, 'property.activeSingleProperty.description', {}),
       documents: get(state, 'property.activeSingleProperty.documents', []),
       floorPlans: get(state, 'property.activeSingleProperty.floorPlans', []),
@@ -476,7 +479,7 @@ const mapStateToProps = (state) => {
         contactEmail: get(state, 'user.loggedInUser.user.email', ''),
         contactPhone: get(state, 'user.loggedInUser.user.phone', ''),
       },
-      portals: get(state, 'property.activeSingleProperty.portals', {}),
+      portals: allPortals,
       portalsReview: get(state, 'property.activeSingleProperty.portalsReview', null),
       properties: get(state, 'property.activeSingleProperty.properties', {}),
       publishReview: get(state, 'property.activeSingleProperty.publishReview', null),

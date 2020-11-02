@@ -25,6 +25,7 @@ const Portals = (props) => {
   // PROPS
   const {
     company,
+    customPortals,
     formValue,
     handleUpdatePortalsReview,
     history,
@@ -41,7 +42,7 @@ const Portals = (props) => {
   const checkPortalsOnline = () => {
     let isOnline = false;
     Object.keys(portals).map((key) => {
-      if (portals[key]) isOnline = true;
+      if (portals[key] && get(customPortals, `${key}`, true) && !isOnline && !key.includes('Url')) isOnline = true;
       return null;
     });
     return isOnline;
@@ -163,7 +164,7 @@ const Portals = (props) => {
                                 Object.keys(portals).map((key, i) => (
                                   <React.Fragment key={i.toString()}>
                                     {
-                                      portals[key] && !key.toLocaleLowerCase().includes('url') && (
+                                      portals[key] && get(customPortals, `${key}`, true) && !key.toLocaleLowerCase().includes('url') && (
                                         <a
                                           target="_blank"
                                           rel="noopener noreferrer"
@@ -251,10 +252,11 @@ const Portals = (props) => {
 
 Portals.propTypes = {
   company: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  handleUpdatePortalsReview: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
+  customPortals: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleUpdatePortalsReview: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.string,
   match: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
 };
@@ -267,6 +269,7 @@ const mapStateToProps = (state) => {
   const formValue = get(state, 'brixelForm.Property.values', {});
   return ({
     company: get(state, 'companies.activeSingleCompany', {}),
+    customPortals: get(formValue, 'customPortals', {}),
     formValue: get(state, 'brixelForm.Property.values', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', null),
     portals: get(formValue, 'portals', {}),

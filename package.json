@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^2.0.70",
+    "@brixel/brixel-components": "^2.0.73",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "css-split-webpack-plugin": "^0.2.6",
     "d3": "^6.2.0",
@@ -53,8 +53,8 @@
     "build-prod": "webpack --config webpack.config.js --env PROD --mode production",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "ncu": "ncu -x 'autoprefixer webpack webpack-cli'",
-    "ncu-u": "ncu -x 'autoprefixer webpack webpack-cli' -u"
+    "ncu": "ncu -x 'autoprefixer webpack webpack-cli node-sass'",
+    "ncu-u": "ncu -x 'autoprefixer webpack webpack-cli node-sass' -u"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -85,7 +85,7 @@
     "eslint-loader": "^4.0.2",
     "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "extract-css-chunks-webpack-plugin": "^4.7.5",
+    "extract-css-chunks-webpack-plugin": "^4.8.0",
     "history": "^5.0.0",
     "html-webpack-plugin": "^4.5.0",
     "ignore-loader": "^0.1.2",
@@ -106,7 +106,7 @@
     "webpack-assets-manifest": "^3.1.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^5.2.0",
+    "webpack-merge": "^5.3.0",
     "webpack-node-externals": "^2.5.2"
   }
 }
