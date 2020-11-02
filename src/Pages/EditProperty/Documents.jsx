@@ -82,7 +82,7 @@ const Documents = (props) => {
       setProcessedDocuments(finalObj);
     }
     if (documents.length === 0) setProcessedDocuments({});
-  }, [documents.length]);
+  }, [documents]);
 
   const manageDocument = (e, id) => {
     if (e) e.preventDefault();
