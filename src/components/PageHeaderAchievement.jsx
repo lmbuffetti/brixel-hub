@@ -11,6 +11,7 @@ function PageHeaderAchievement(props) {
     history,
     icon,
     match,
+    onClick,
     title,
   } = props;
 
@@ -41,7 +42,7 @@ function PageHeaderAchievement(props) {
           color="dark"
           saturationTxt={400}
           icon="close-small"
-          onClick={() => history.push(`/${pageId}/rewards/${rewardType}`)}
+          onClick={onClick ? () => onClick() : () => history.push(`/${pageId}/rewards/${rewardType}`)}
         />
       </div>
 
@@ -54,10 +55,12 @@ PageHeaderAchievement.propTypes = {
   icon: PropTypes.string,
   title: PropTypes.string,
   match: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
 };
 
 PageHeaderAchievement.defaultProps = {
   icon: '',
+  onClick: null,
   title: null,
 };
 

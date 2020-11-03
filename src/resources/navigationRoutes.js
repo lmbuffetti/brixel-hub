@@ -3,38 +3,32 @@ export const firstRoutes = [
     title: 'Home',
     name: 'rewards',
     icon: 'first-time-occupancy',
-    path: '/rewards',
+    path: '/:propID/rewards',
   },
   {
     title: 'Property',
     name: 'property',
     icon: 'property-house',
-    path: '/property',
+    path: '/:propID/property',
   },
   {
     title: 'Listings',
     name: 'listings',
     icon: 'upload',
-    path: '/listings',
+    path: '/:propID/listings',
   },
 ];
 
 export const secondRoutes = [
   {
-    title: 'Support',
-    name: 'support',
-    icon: 'conversation',
-    path: '/support',
+    title: 'Property List',
+    name: 'seller',
+    icon: 'property-house',
+    path: '/seller/pageLists',
   },
 ];
 
 export const firstRoutesBuyer = [
-  {
-    title: 'Home',
-    name: 'rewards',
-    icon: 'first-time-occupancy',
-    path: '/buyer/rewards/:propID',
-  },
   {
     title: 'Property',
     name: 'property',
@@ -45,9 +39,9 @@ export const firstRoutesBuyer = [
 
 export const secondRoutesBuyer = [
   {
-    title: 'Support',
-    name: 'support',
-    icon: 'conversation',
-    path: '/support',
+    title: 'Property List',
+    name: 'buyer',
+    icon: 'property-house',
+    path: '/seller/pageLists',
   },
 ];

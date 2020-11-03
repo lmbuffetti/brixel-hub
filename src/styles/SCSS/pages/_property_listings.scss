@@ -1,0 +1,357 @@
+.slideUp {
+  .listings-header {
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: all $default-time $default-easing;
+    transition-property: transform, opacity;
+  }
+  .listings-wrapper .listings-section .content-wrapper {
+    top: 0;
+    transition: top $default-time $default-easing;
+  }
+}
+
+.listings-wrapper {
+  display: inline-flex;
+
+  .listings-section {
+
+    .listings-header {
+      z-index: 5;
+
+      @media (max-width: $responsive-medium) {
+        top: 54px;
+        width: 100%;
+        position: fixed;
+      }
+
+      .listings-header-filter {
+        .header {
+          @include fontStyle(400,'medium',left);
+          letter-spacing: 1px;
+          color: map_get($lightColor, 700);
+        }
+      }
+    }
+
+    .content-wrapper {
+      position: relative;
+      @media (max-width: $responsive-medium) {
+        top: 168px;
+        min-width: 768px;
+      }
+      &.overlay {
+        &::before {
+          content: '';
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          top: 0;
+          left: 0;
+          background: #000;
+          opacity: 0.5;
+          z-index: 3;
+        }
+      }
+    }
+
+    .listings-container {
+      .listings-header-filter {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+      }
+
+      .table-container {
+        width: 100%;
+        border-spacing: 0 1rem;
+
+        .results-container {
+
+          .results {
+            background-color: $brx-white;
+            border-radius: $brd-radius-small;
+            transition: box-shadow $default-time $default-easing;
+
+            &:hover {
+              @extend .shadow-4dp;
+            }
+
+            .row-section {
+              a {
+                cursor: pointer;
+
+                &.link:hover {
+                  text-decoration: underline;
+                }
+              }
+
+              &.owner,
+              &.updated {
+                vertical-align: initial;
+
+                a {
+                  cursor: pointer;
+
+                  &:hover {
+                    color: map-get($primaryColor, 400);
+                  }
+                }
+              }
+
+              &:last-child {
+                border-top-right-radius: 6px;
+                border-bottom-right-radius: 6px;
+              }
+
+              .link,
+              .name {
+                @include fontStyle(300,'regular',left);
+                @include line-break;
+                color: map_get($darkColor, 700);
+              }
+
+              .id,
+              .phone,
+              .company,
+              .address,
+              .progress-status,
+              .status-label,
+              .updated-label,
+              .price-label,
+              .team-label,
+              .date,
+              .stub,
+              .contact,
+              .email {
+                @include fontStyle(300,'regular',left);
+                @include line-break;
+
+                &.rewards {
+                  transition: color $default-time $default-easing;
+
+                  &:hover {
+                    color: map-get($primaryColor, 400);
+                  }
+                }
+              }
+
+              &.name {
+                a {
+                  cursor: pointer;
+                  transition: all $default-time-long;
+
+                  &.link:hover {
+                    color: map_get($primaryColor, 400);
+                    text-decoration-color: map_get($primaryColor, 400);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  // properties listings
+  &.properties {
+
+    .header {
+      &:nth-child(1) {
+        padding-left: $step * 2;
+      }
+      &:nth-child(2),
+      &:nth-child(3) {
+        flex: 0 0 19.15%;
+        max-width: 19.15%;
+      }
+    }
+    .listings-container .avatar-space,
+    .results-container .avatar-container {
+      flex: 0 0 9%;
+      max-width: 9%;
+      min-width: 110px;
+    }
+    .content-wrapper {
+      //height: calc(100% - 163px);
+      //top: 163px;
+      @media (max-width: $responsive-small) {
+        top: 225px;
+      }
+
+      .results-container {
+        .results {
+          > :nth-child(2),
+          > :nth-child(3) {
+            flex: 0 0 19.15%;
+            max-width: 19.15%;
+          }
+        }
+      }
+      .avatar-container {
+        img {
+          border-radius: $brd-radius-small;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+  // companies listings
+  &.companies {
+    .header {
+      &:nth-child(2),
+      &:nth-child(3) {
+        flex: 0 0 20%;
+        max-width: 20%;
+      }
+    }
+    .listings-header .avatar-space,
+    .results-container .avatar-container {
+      flex: 0 0 10%;
+      max-width: 10%;
+      min-width: 110px;
+     }
+     .listings-container .avatar-space {
+      flex: 0 0 10%;
+      max-width: 10%;
+    }
+    .content-wrapper {
+      @media (max-width: $responsive-medium) {
+        top: 132px;
+      }
+    }
+    .listings-container {
+      // height: calc(100% - 186px);
+     // top: 186px;
+
+       // listings thumbnail
+       .avatar-container {
+        vertical-align: middle;
+
+        .avatar {
+          border-radius: $brd-radius-small;
+        }
+
+        @for $i from 1 to 7 {
+          .no-avatar#{$i} {
+            display: inline-flex;
+            background-color: nth($avatarColors, $i);
+            border-radius: $brd-radius-small;
+            color: $brx-white;
+            @include fontStyle(300,'semibold',left);
+          }
+        }
+      }
+    }
+  }
+  // users listings
+  &.users {
+    .header {
+      &:nth-child(2),
+      &:nth-child(3) {
+        flex: 0 0 25%;
+        max-width: 25%;
+      }
+      &:nth-child(4),
+      &:nth-child(5),
+      &:nth-child(6) {
+        flex: 0 0 13%;
+        max-width: 13%;
+      }
+    }
+    .listings-header .avatar-space,
+    .results-container .avatar-container {
+      flex: 0 0 10%;
+      max-width: 10%;
+    }
+    .listings-container .avatar-space {
+      flex: 0 0 10%;
+      max-width: 10%;
+    }
+    .content-wrapper {
+      @media (max-width: $responsive-small) {
+        top: 225px;
+      }
+      .results-container {
+        .results {
+          > :nth-child(2),
+          > :nth-child(3) {
+            flex: 0 0 25%;
+            max-width: 25%;
+          }
+          > :nth-child(4),
+          > :nth-child(5),
+          > :nth-child(6) {
+            flex: 0 0 13%;
+            max-width: 13%;
+          }
+        }
+      }
+      // listings thumbnail
+      .avatar-container {
+        img {
+          border-radius: 100%;
+          vertical-align: middle;
+        }
+        @for $i from 1 to 7 {
+          .no-avatar#{$i} {
+            display: inline-flex;
+            background-color: nth($avatarColors, $i);
+            border-radius: 100%;
+            color: $brx-white;
+            @include fontStyle(300,'semibold',left);
+          }
+        }
+      }
+    }
+  }
+  // packages listings
+  &.packages {
+    .content-wrapper {
+      @media (max-width: $responsive-medium) {
+        top: 132px;
+      }
+    }
+    .header {
+      &:nth-child(2),
+      &:nth-child(3) {
+        flex: 0 0 20%;
+        max-width: 20%;
+      }
+    }
+    .listings-header .avatar-space,
+    .results-container .avatar-container {
+      flex: 0 0 10%;
+      max-width: 10%;
+      min-width: 110px;
+     }
+    .listings-container .avatar-space {
+      flex: 0 0 10%;
+      max-width: 10%;
+    }
+    .listings-container {
+      // height: calc(100% - 186px);
+      //top: 186px;
+
+       // listings thumbnail
+       .avatar-container {
+        vertical-align: middle;
+
+        .avatar {
+          border-radius: $brd-radius-small;
+        }
+
+        @for $i from 1 to 7 {
+          .no-avatar#{$i} {
+            display: inline-flex;
+            background-color: nth($avatarColors, $i);
+            border-radius: $brd-radius-small;
+            color: $brx-white;
+            @include fontStyle(300,'semibold',left);
+          }
+        }
+      }
+    }
+  }
+}
+

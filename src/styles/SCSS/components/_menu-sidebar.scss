@@ -58,24 +58,47 @@
     top: $step;
     z-index: 2;
   }
-
-  .numRecords {
-    width: 16px;
-    height: 16px;
+}
+.hubContainer:not(.withTopBar) {
+  .buyerNav {
+    background: #ffffff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 4;
     display: flex;
-    align-content: center;
-    justify-content: center;
-    background: map_get($redColor, 500);
-    color: $brx-white;
-    border-radius: 50%;
-    @include fontStyle(100, 'medium');
-    margin-left: $step;
-    position: absolute;
-    top: 8px;
-    left: 50%;
-    @media (min-width: $responsive-medium) {
-      position: static;
+    height: 64px;
+    > div {
+      cursor: pointer;
+      flex: 50%;
+      display: flex;
+      justify-content: center;
     }
+  }
+}
+.withTopBar {
+  .buyerNav {
+    display: none;
+  }
+}
+
+.numRecords {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  background: map_get($redColor, 500);
+  color: $brx-white !important;
+  border-radius: 50%;
+  @include fontStyle(100, 'medium');
+  margin-left: $step;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  @media (min-width: $responsive-medium) {
+    position: static;
   }
 }
 

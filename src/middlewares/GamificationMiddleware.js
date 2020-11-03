@@ -94,7 +94,7 @@ const checkGamification = (store) => (next) => (action) => {
       const pageID = get(store.getState(), 'property.activeSingleProperty.id', 0);
       const gameHistoryData = get(gameHistory, 'data', []);
       const checkExist = gameHistoryData.find((item) => item.achievement.id === currentGroup.id && pageID === item.page);
-      if (typeof checkExist === 'undefined' || currentGroup.isCumulative || id) {
+      if ((typeof checkExist === 'undefined' || currentGroup.isCumulative) && pageID) {
         let newID = id;
         let data = cloneDeep(action.payload);
         if (currentGroup.id) {

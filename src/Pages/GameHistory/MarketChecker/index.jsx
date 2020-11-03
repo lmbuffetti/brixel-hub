@@ -50,7 +50,7 @@ const MarketCheck = (props) => {
 
       const checkGameExist = gameHistory.data.find((item) => item.achievement.stub === getAchievement() && item.page === activeSingleProperty.id);
       if (typeof checkGameExist === 'undefined') {
-        handleAddGameHistory({ stub: 'market-checker' });
+        // handleAddGameHistory({ stub: 'market-checker' });
       }
       /* if (typeof checkGameExist !== 'undefined' && activeSingleProperty.ownerType) {
         setFinishedFlow(true);

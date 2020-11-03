@@ -22,6 +22,7 @@ export default {
   },
   deal: {
     dealByUserID: (id) => `/user/${id}/deals`,
+    singleDeal: (id) => `/deal/${id}`,
   },
   gamification: {
     group: () => '/gameGroup',

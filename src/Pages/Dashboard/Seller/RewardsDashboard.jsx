@@ -103,7 +103,7 @@ const RewardsDashboard = (props) => {
       getNameGroup = getNameGroup || 'homebase';
       history.push({ pathname: `/${propID}/rewards/${getNameGroup}` });
     }
-  }, [windowDimensions, gameHistory, usrGroups, history.location.pathname]);
+  }, [windowDimensions, gameHistory, usrGroups]);
 
   // FUNCTION TO ADD MEDIA TO GAME HISTORY
   useEffect(() => {
@@ -177,7 +177,7 @@ const RewardsDashboard = (props) => {
         handleAddGameHistory(data);
       }
     }
-  }, [activeSingleProperty, gameHistory, userTypes]);
+  }, [activeSingleProperty, gameHistory, userTypes, history.location]);
 
   // FUNCTION TO SET THE ACTIVE REWARDS GROUP ON FIRST LOAD IF NOT COMPLETED
   useEffect(() => {
@@ -196,7 +196,7 @@ const RewardsDashboard = (props) => {
       setActiveGameGroup(null);
       setActiveAchievement(null);
     }
-  }, [gameHistoryData, usrGroups, history, gameGroup, rewardType]);
+  }, [gameHistoryData, usrGroups, history, gameGroup, rewardType, history.location]);
 
   // FUNCTION CLICK ON GAME GROUP
   const onClickAchievement = (game, achievement) => {
