@@ -60,7 +60,7 @@ const DetailMedia = (props) => {
   // RELAOD THE EFFECT OF EDIT MEDIA ON CHANGE IMAGE ID
   useEffect(() => {
     resetForm(initialValues);
-    if (formValue[mediaType][idImg]) {
+    if (get(formValue, `[${mediaType}][${idImg}]`, null)) {
       if (formValue[mediaType][idImg] !== '') {
         if (thirdlevelEl) {
           thirdlevelEl.classList.add('move');
@@ -70,7 +70,7 @@ const DetailMedia = (props) => {
         }
       }
     }
-  }, [idImg]);
+  }, [mediaID]);
 
   // WHEN THE SMALL LOADING END AND changeSection IS SET TO TRUE MOVED TO NEXT IMAGES
   useEffect(() => {
@@ -116,6 +116,7 @@ const DetailMedia = (props) => {
     const allPhotos = cloneDeep(formValue.photos);
     const getCoverID = allPhotos.findIndex((item) => item.id === photo.id);
     allPhotos.unshift(allPhotos.splice(getCoverID, 1)[0]);
+    console.log(allPhotos);
     changeFieldValue('photos', allPhotos);
     changeFieldValue('coverPhoto', photo);
   };

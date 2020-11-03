@@ -40,7 +40,7 @@ function SuccessBestimate(props) {
 
   useEffect(() => {
     handleGetGamegroup();
-  }, []);
+  }, [propID]);
 
   // LOAD MARKET DATA
   useEffect(() => {
