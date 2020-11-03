@@ -7,13 +7,11 @@ import {
 import get from 'lodash/get';
 import {
   BrixelButtonIcon,
-  BrixelIcon,
   Helpers,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
-import Sticker from 'react-stickyfill';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 import { getUserProperties } from '../../../actions/UserActions';
 

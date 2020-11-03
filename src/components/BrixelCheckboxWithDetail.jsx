@@ -49,15 +49,20 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
           // PRINT ALL OPTIONS (options=[{name: '', value: '', img: '', label: '', description: '', color: '', priceInfo: '', moreDetails: [{description: ''}]}])
           options.map((option, i) => (
             <div
-              className={`p-3 single-chackbox ${className} ${arrVal.includes(option.value) ? `brd${option.color} checked` : 'brdWhite'}`}
+              className={`p-3 pl-4 single-chackbox ${className} ${arrVal.includes(option.value) ? `brd${option.color} checked` : 'brdWhite'}`}
               key={i.toString()}
             >
+              <span className={`bg${option.color} sideCheckbox`} />
               <label
                 className={`dis-fl-col dis-fl-row-md a-t a-md-c ${arrVal.includes(option.value) ? 'checked' : ''}`}
                 htmlFor={`${input.name}_${i}`}
               >
-                <img src={option.img} alt={option.label} className="max-w-fix-80 max-w-fix-md-112" />
-                <div className="pl-md-3 pr-5 mt-2 mt-md-0">
+                {
+                  option.img && (
+                    <img src={option.img} alt={option.label} className="max-w-fix-80 max-w-fix-md-112 mr-md-3" />
+                  )
+                }
+                <div className="pr-5 mt-2 mt-md-0">
                   <h5 className={`txt${option.color} mb-md-2 mb-3`}>{option.label}</h5>
                   <p className="txtDark700">{option.description}</p>
                 </div>
@@ -82,7 +87,7 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
                   onClick={() => onToggleAccordion(i)}
                   className="td-n"
                 />
-                <p className={`txt${option.color} fweight-700 ff-mono pl-2`} dangerouslySetInnerHTML={{ __html: option.priceInfo }} />
+                <p className="txtDark700 fweight-700 ff-mono pl-2" dangerouslySetInnerHTML={{ __html: option.priceInfo }} />
               </div>
               <div className={`detailCheckbox ${openDetail[i] ? 'open' : 'close'}`}>
                 <ul>

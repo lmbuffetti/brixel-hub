@@ -5,9 +5,20 @@
     box-shadow: $shadow-1dp;
     border-radius: $brd-radius-small;
     margin-bottom: $step * 4;
+    position: relative;
     &:last-child {
       margin-bottom: 0;
     }
+  }
+
+  .sideCheckbox {
+    width: 15px;
+    height: calc(100% + 4px);
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    z-index: 1;
+    border-radius: 8px 0 0 8px;
   }
 
   .tertiaryBtn:hover span {

@@ -12,7 +12,6 @@ import {
   BrixelButtonSecondary,
   BrixelButtonIcon,
   BrixelTabs,
-  BrixelButtonTertiary,
   destroy,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
@@ -66,7 +65,6 @@ function PageHeaderDashboard(props) {
   const profileMenu = useRef(null);
   const proTitleRef = useRef(null);
 
-  const proTitleEl = proTitleRef.current;
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
 
@@ -222,6 +220,14 @@ function PageHeaderDashboard(props) {
       else if (history.location.pathname.includes('listings')) curTab = 'listings';
     }
     return curTab;
+  };
+
+  // LABEL ICONS FOR THE MENU TAB
+  const labelIcons = () => {
+    if (windowDimensions.width <= 1024) {
+      if (has(activeSingleProperty, 'id')) return routeNav.map((item) => item.icon);
+    }
+    return [];
   };
 
   return (
@@ -516,7 +522,7 @@ function PageHeaderDashboard(props) {
                       classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
                       classNameUl="zIndex4"
                       labels={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.title) : []}
-                      labelsIcons={windowDimensions.width <= 1024 ? has(activeSingleProperty, 'id') ? routeNav.map((item) => item.icon) : [] : []}
+                      labelsIcons={labelIcons()}
                       clicksList={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.path) : []}
                       clicksListName={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.name) : []}
                       classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}

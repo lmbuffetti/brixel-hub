@@ -7,8 +7,8 @@ import {
 } from '@brixel/brixel-components';
 import BrixelCheckboxWithDetail from '../components/BrixelCheckboxWithDetail';
 import { translateTo } from '../utils/translation';
-import brixelPlus from '../images/Upgrade/brixel_plus.svg';
-import brixelPremium from '../images/Upgrade/brixel_premium.svg';
+// import brixelPlus from '../images/Upgrade/brixel_plus.svg';
+// import brixelPremium from '../images/Upgrade/brixel_premium.svg';
 import upgradeComplete from '../images/Upgrade/upgrade_complete.svg';
 
 export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
@@ -16,30 +16,29 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
   if (packagesProperty) {
     packagesProperty.forEach((item) => {
       if (item.type === 'premium' || item.type === 'plus' || item.type === 'one') {
-        let img;
+        // let img;
         let color;
         switch (item.type) {
           case 'premium':
             color = 'Red400';
-            img = brixelPremium;
+            // img = brixelPremium;
             break;
           case 'plus':
             color = 'Green400';
-            img = brixelPlus;
+            // img = brixelPlus;
             break;
           case 'one':
-            color = 'Blue400';
-            img = brixelPremium;
+            color = 'Dark700';
+            // img = brixelPremium;
             break;
           default:
             color = 'Dark400';
-            img = brixelPremium;
+          // img = brixelPremium;
         }
         optionsPackages.push({
           color,
           label: item.name,
           description: item.description,
-          img,
           priceInfo: `<span>Flat</span>&nbsp;<span>${item.price.currency}</span>&nbsp;<span>${Helpers.formatNumberValue(item.price.total, item.price.currency)}</span>`,
           value: item.id,
           moreDetails: item.details || [],

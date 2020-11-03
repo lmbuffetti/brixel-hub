@@ -105,7 +105,6 @@ const Documents = (props) => {
 
   // REF
   const documentRef = useRef(null);
-  const textAreaRef = useRef(null);
 
   useEffect(() => {
     if (!isSmallLoading) {
