@@ -363,7 +363,7 @@ function PageHeaderDashboard(props) {
 
               {
                 windowDimensions.width > 1024 && (
-                  <div className="dis-f-md a-c cur-poi pos-r" onClick={() => setShowProfileMenu(!showProfileMenu)} ref={profileMenu}>
+                  <div className="dis-f-md a-c cur-poi pos-r zIndex5" onClick={() => setShowProfileMenu(!showProfileMenu)} ref={profileMenu}>
                     <AccountDropdown />
                   </div>
                 )
