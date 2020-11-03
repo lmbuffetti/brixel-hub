@@ -154,6 +154,7 @@ const Dashboard = (props) => {
   }, [userTypes, propID]);
 
   useEffect(() => {
+    handleGetGameHistory();
     handleGetGameGroup();
   }, [propID]);
 
