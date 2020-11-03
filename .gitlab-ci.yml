@@ -10,7 +10,7 @@ build site:
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   only:
-    - develop
+    - feature/buyer
     - staging
     - master
   before_script:
@@ -23,7 +23,9 @@ build site:
     - echo $CI_JOB_STAGE
     - echo $CI_COMMIT_REF_NAME
     - echo $CI_BUILD_REF_NAME
-    - npm install --progress=true
+    - node --version
+    - npm --version
+    - npm install
     - npm install git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel
     - if [ "$FOLDER" == "master" ]; then MODULE="prod"; else MODULE="dev"; fi
     - if [ "$FOLDER" == "staging" ]; then MODULE="stage"; else MODULESS="dev"; fi
@@ -38,7 +40,7 @@ deploy_dev:
   image: alpine
   stage: deploy
   only:
-    - develop
+    - feature/buyer
   script:
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh

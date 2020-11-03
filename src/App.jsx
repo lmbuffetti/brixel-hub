@@ -114,6 +114,11 @@ const SingleDocument = Loadable({
   loading: Loading,
 });
 
+const AddShowingsBuyer = Loadable({
+  loader: () => import('./Pages/Dashboard/Buyer/AddShowingsBuyer' /* webpackChunkName: "AddShowingsBuyer" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -185,6 +190,18 @@ const App = (props) => {
     }
   }, [activeSingleProperty]);
 
+  const bodyModal = document.getElementById('bodyModalWrapper');
+  useEffect(() => {
+    const hubDash = document.getElementsByClassName('hubDashboard')[0];
+    if (hubDash) {
+      if (bodyModal) {
+        hubDash.style.overflow = 'hidden';
+      } else {
+        hubDash.style.overflow = '';
+      }
+    }
+  }, [bodyModal]);
+
   // FUNCTION USED TO SEND THE DATA TO HANALITYCS
   useEffect(() => {
     if (get(history, 'location', null)) {
@@ -237,11 +254,15 @@ const App = (props) => {
       setZIndex(6);
     } else {
       if (history.location.pathname.includes('rewards')) {
-        setClassMain('w-perc-100 pos-r hubContainer rewardsTop');
+        setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar');
       } else if (history.location.pathname.includes('property')) {
-        setClassMain('w-perc-100 pos-r hubContainer propertyTop');
+        if (history.location.pathname.includes('buyer')) {
+          setClassMain('w-perc-100 pos-r hubContainer propertyTop');
+        } else {
+          setClassMain('w-perc-100 pos-r hubContainer propertyTop withTopBar');
+        }
       } else if (history.location.pathname.includes('listings')) {
-        setClassMain('w-perc-100 pos-r hubContainer listingsTop');
+        setClassMain('w-perc-100 pos-r hubContainer listingsTop withTopBar');
       } else {
         setClassMain('w-perc-100 pos-r hubContainer ov-h');
       }
@@ -253,7 +274,8 @@ const App = (props) => {
     if (
       (history.location.pathname.includes('property/') ||
       history.location.pathname.includes('listings/')) &&
-      windowDimensions.width <= 1024
+      windowDimensions.width <= 1024 &&
+      !history.location.pathname.includes('buyer')
     ) {
       setIsSecLevel(true);
       if (dashWrapperEl) {
@@ -280,6 +302,11 @@ const App = (props) => {
   const headerCalc = () => {
     if (!isFlow) {
       if (windowDimensions.width <= 1024) {
+        if (userTypes === 'buyer' || history.location.pathname.includes('seller')) {
+          return {
+            height: '100%',
+          };
+        }
         return {
           height: (windowDimensions.height + extraHeight) - 174,
         };
@@ -369,6 +396,7 @@ const App = (props) => {
                 !history.location.pathname.includes('packageFlow') &&
                 !history.location.pathname.includes('onBoarding')) &&
                 !history.location.pathname.includes('upgrade') &&
+                !history.location.pathname.includes('showings/add') &&
               (
                 <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
               )
@@ -408,7 +436,8 @@ const App = (props) => {
                   !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') && (
                     <>
-                      <ProtectedRoute path="/buyer" component={DashboardBuyer} />
+                      <ProtectedRoute path="/buyer" exact component={DashboardBuyer} />
+                      <ProtectedRoute path="/buyer/propertyLists" exact component={DashboardBuyer} />
                       <ProtectedRoute path="/buyer/:act/:propID" component={DashboardBuyer} />
                     </>
                   )
@@ -428,6 +457,7 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess="seller" />
+          <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
         </Switch>
       }
 

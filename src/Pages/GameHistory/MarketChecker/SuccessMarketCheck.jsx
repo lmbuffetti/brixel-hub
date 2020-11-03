@@ -103,6 +103,14 @@ function SuccessMarketCheck(props) {
                                     <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough
                                       data available to calculate your result
                                     </p>
+                                    <BrixelButtonPrimary
+                                      rounded
+                                      label="Check market now"
+                                      background="primary"
+                                      className="m-a mt-2"
+                                      onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
+                                      rightIcon="arrow-right"
+                                    />
                                   </div>
                                 )
                               }

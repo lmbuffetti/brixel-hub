@@ -151,7 +151,12 @@ const Dashboard = (props) => {
     if (gameGroup.length === 0) handleGetGameGroup();
     if (gameHistory.length === 0) handleGetGameHistory();
     setLoadedProp(true);
-  }, [userTypes]);
+  }, [userTypes, propID]);
+
+  useEffect(() => {
+    handleGetGameHistory();
+    handleGetGameGroup();
+  }, [propID]);
 
   // INITIALIZE FORM
   useEffect(() => {
@@ -164,7 +169,7 @@ const Dashboard = (props) => {
     ) {
       initForm(cloneDeep(initialValues));
     }
-  }, [initialValues]);
+  }, [initialValues, propID]);
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
@@ -429,6 +434,7 @@ Dashboard.defaultProps = {
 const mapStateToProps = (state) => {
   const properties = get(state, 'property.activeSingleProperty.properties', {});
   const formValue = get(state, 'property.activeSingleProperty', {});
+  const allPortals = diff(get(state, 'property.activeSingleProperty.customPortals', {}), get(state, 'property.activeSingleProperty.portals', {}));
   set(properties, 'typology.livingArea.unit', 'm2');
   set(properties, 'typology.grossArea.unit', 'm2');
   set(properties, 'typology.lotArea.unit', 'm2');
@@ -458,6 +464,7 @@ const mapStateToProps = (state) => {
       booking: get(state, 'property.activeSinglePropertyBooking', []),
       changeCountry: get(state, 'property.activeSingleProperty.location.countryCode', {}),
       coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
+      customPortals: get(state, 'property.activeSingleProperty.customPortals', {}),
       description: get(state, 'property.activeSingleProperty.description', {}),
       documents: get(state, 'property.activeSingleProperty.documents', []),
       floorPlans: get(state, 'property.activeSingleProperty.floorPlans', []),
@@ -476,7 +483,7 @@ const mapStateToProps = (state) => {
         contactEmail: get(state, 'user.loggedInUser.user.email', ''),
         contactPhone: get(state, 'user.loggedInUser.user.phone', ''),
       },
-      portals: get(state, 'property.activeSingleProperty.portals', {}),
+      portals: allPortals,
       portalsReview: get(state, 'property.activeSingleProperty.portalsReview', null),
       properties: get(state, 'property.activeSingleProperty.properties', {}),
       publishReview: get(state, 'property.activeSingleProperty.publishReview', null),

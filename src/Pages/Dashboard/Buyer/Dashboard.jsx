@@ -8,7 +8,11 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
-import { change, initializeForm, reset } from '@brixel/brixel-components';
+import {
+  change,
+  initializeForm,
+  reset,
+} from '@brixel/brixel-components';
 import { setUserTypes, getUserPagesDeals } from '../../../actions/UserActions';
 import { setActiveSingleProperty } from '../../../actions/PropertyActions';
 
@@ -81,6 +85,7 @@ Dashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   userBuyerProperties: get(state, 'user.userBuyerProperties', undefined),
   loggedInUser: get(state, 'user.loggedInUser', {}),
 });

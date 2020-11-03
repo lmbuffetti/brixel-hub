@@ -1,0 +1,157 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable dot-notation */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import get from 'lodash/get';
+import { bindActionCreators, compose } from 'redux';
+import { connect } from 'react-redux';
+import {
+  BrixelButtonIcon,
+  BrixelButtonPrimary,
+  BrixelIcon,
+  FormatValue,
+  change,
+  reset,
+} from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { updatePublishedReview } from '../../../actions/PropertyActions';
+import CoverPropertyImage from '../../../components/CoverPropertyImage';
+import { addGameHistory } from '../../../actions/GamificationActions';
+
+const PageBuyer = (props) => {
+  // PROPS
+  const {
+    formValue,
+    history,
+    match,
+  } = props;
+  // URL PARAMS
+  const propID = get(match, 'params.propId', null);
+
+  // FUNCTION TO GO TO PREVIEW OR LIVE PAGE
+  const onClickPreview = () => {
+    let url;
+    if (formValue.published) {
+      url = `${baseByData.pageUrl}${formValue.stub}`;
+      window.open(url, '_blank');
+    } else {
+      url = `${baseByData.pageUrl}preview/${formValue.stub}?hubUrl=${window.location.href}`;
+      window.location.href = url;
+    }
+  };
+
+  return (
+    <div className="dis-f">
+      <div className="secondLevel dis-fl-col ml-md-1">
+        <div>
+          <div className="brixelPageWrapper dis-fl-col cardInfoBox">
+            <div className="pos-r">
+              <div className="dis-f jc-b a-c mb-3">
+                <BrixelButtonIcon
+                  className="shadow-3dp hide-md"
+                  icon="arrow-simple-left"
+                  background="White"
+                  color="primary"
+                  saturationTxt={400}
+                  noBorder
+                  onClick={() => history.push(`/buyer/property/${propID}`)}
+                />
+                <h5>Brixel Page</h5>
+                <BrixelButtonPrimary
+                  className=""
+                  leftIcon="eye"
+                  label="Open"
+                  rounded
+                  onClick={() => onClickPreview()}
+                />
+              </div>
+            </div>
+            <div className="pb-4">
+              <>
+                <div
+                  className="websitePage brdRadius ov-h shadow-3dp pos-r cur-poi"
+                  onClick={() => onClickPreview()}
+                >
+                  <div className="dis-f bgLight100 p-1">
+                    <div className="square brdCircle w-fix-8 bgRed400 mr-1" />
+                    <div className="square brdCircle w-fix-8 bgYellow400 mr-1" />
+                    <div className="square brdCircle w-fix-8 bgGreen400" />
+                  </div>
+                  <div className="image-ratio">
+                    <CoverPropertyImage
+                      className="cover"
+                      coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
+                      propertyType={get(formValue, 'properties.propertyType', undefined)}
+                    />
+                  </div>
+                  <div className="cardPageInfo">
+                    <div className="w-fix-80 bgPrimary400 opacity5 h-fix-8 mb-1" />
+                    <h6>{formValue.title}</h6>
+                    <div className="dis-f jc-b a-c mt-2">
+                      <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
+                      <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
+                    </div>
+                    <div className="dis-f jc-b a-c mt-3">
+                      <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
+                      <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
+                      <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
+                    </div>
+                    <div className="dis-f jc-b a-c pb-3">
+                      <h6 className="w-fix-24 ff-mono">{FormatValue.formatRooms(get(formValue, 'properties.typology.bedrooms', 0), get(formValue, 'location.countryCode', 'CH'))}</h6>
+                      {
+                        get(formValue, 'location.countryCode', '') === 'PT' && get(formValue, 'properties.typology.grossArea.value', 0) > 0 ? (
+                          <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.grossArea.value', 0)}</h6>
+                        ) : (
+                          <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.livingArea.value', 0)}</h6>
+                        )
+                      }
+                      <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.building.built', 0)}</h6>
+                    </div>
+                    <div className="contactPageCard">
+                      <div className="contactUser">
+                        <BrixelIcon icon="account" />
+                      </div>
+                      <div className="button" />
+                    </div>
+                  </div>
+                </div>
+              </>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+PageBuyer.propTypes = {
+  history: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+};
+
+PageBuyer.defaultProps = {
+};
+
+const mapStateToProps = (state) => ({
+  formValue: get(state, 'property.activeSingleProperty', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('Property', field, value));
+  },
+  reset(form, data) {
+    (dispatch(reset(form, data)));
+  },
+  handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
+  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(PageBuyer);

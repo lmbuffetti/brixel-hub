@@ -179,7 +179,13 @@ const Documents = (props) => {
             color="primary"
             saturationTxt={400}
             noBorder
-            onClick={() => history.push(`/${propID}/property`)}
+            onClick={() => {
+              if (history.location.pathname.includes('buyer')) {
+                history.push(`/buyer/property/${propID}`);
+              } else {
+                history.push(`/${propID}/property`);
+              }
+            }}
           />
           <h5 className="m-a m-md-0 sectionTitle">
             Docubox
@@ -362,7 +368,7 @@ const Documents = (props) => {
                                           [
                                             {
                                               label: isCopied ? 'Copied' : 'Copy Link',
-                                              clickFunc: () => copyLinkToClipboard(doc.id),
+                                              clickFunc: () => copyLinkToClipboard(),
                                             },
                                             {
                                               label: 'View',

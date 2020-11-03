@@ -7,6 +7,11 @@ class Deal extends Base {
     const url = ep.deal.dealByUserID(id);
     return this.apiClient.get(url, { }, { });
   }
+
+  updateSingleDeal(id, data) {
+    const url = ep.deal.singleDeal(id);
+    return this.apiClient.put(url, {}, data);
+  }
 }
 
 export default Deal;

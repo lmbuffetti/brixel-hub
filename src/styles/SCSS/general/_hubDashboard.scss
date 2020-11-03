@@ -17,6 +17,7 @@
     @media (min-width: $responsive-medium) {
       padding-left: 210px;
       top: 64px;
+      padding-top: 20px;
       position: relative;
     }
     .property-container,
@@ -46,6 +47,13 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
+      }
+    }
+  }
+  .withTopBar {
+    .hubDasContent {
+      @media (min-width: $responsive-medium) {
+        top: 107px;
       }
     }
   }
