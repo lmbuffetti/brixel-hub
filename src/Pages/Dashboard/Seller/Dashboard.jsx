@@ -151,7 +151,11 @@ const Dashboard = (props) => {
     if (gameGroup.length === 0) handleGetGameGroup();
     if (gameHistory.length === 0) handleGetGameHistory();
     setLoadedProp(true);
-  }, [userTypes]);
+  }, [userTypes, propID]);
+
+  useEffect(() => {
+    handleGetGameGroup();
+  }, [propID]);
 
   // INITIALIZE FORM
   useEffect(() => {
@@ -164,7 +168,7 @@ const Dashboard = (props) => {
     ) {
       initForm(cloneDeep(initialValues));
     }
-  }, [initialValues]);
+  }, [initialValues, propID]);
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
@@ -430,7 +434,6 @@ const mapStateToProps = (state) => {
   const properties = get(state, 'property.activeSingleProperty.properties', {});
   const formValue = get(state, 'property.activeSingleProperty', {});
   const allPortals = diff(get(state, 'property.activeSingleProperty.customPortals', {}), get(state, 'property.activeSingleProperty.portals', {}));
-  console.log(allPortals);
   set(properties, 'typology.livingArea.unit', 'm2');
   set(properties, 'typology.grossArea.unit', 'm2');
   set(properties, 'typology.lotArea.unit', 'm2');
