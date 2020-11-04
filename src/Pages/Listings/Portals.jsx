@@ -113,9 +113,21 @@ const Portals = (props) => {
                   <>
                     <div className="ta-c mt-2">
                       <img className="h-fix-120" src={portalReview} alt="Page Under review" />
-                      <h5 className="txtPrimary600 mb-2 mt-3">Your property gets published…</h5>
+                      {
+                        formValue.portalsReview === 'offline' ? (
+                          <>
+                            <h5 className="txtPrimary600 mb-2 mt-3">Your property gets unpublished…</h5>
 
-                      <p className="mb-1">Portals can take up to 8 hours until your property is online.</p>
+                            <p className="mb-1">Portals can take up to 8 hours until your property is offline.</p>
+                          </>
+                        ) : (
+                          <>
+                            <h5 className="txtPrimary600 mb-2 mt-3">Your property gets published…</h5>
+
+                            <p className="mb-1">Portals can take up to 8 hours until your property is online.</p>
+                          </>
+                        )
+                      }
                       <hr className="my-3" />
 
                       <p className="txtDark200">Any questions?</p>
