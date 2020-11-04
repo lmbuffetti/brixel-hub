@@ -256,10 +256,14 @@ function PageHeaderDashboard(props) {
                       windowDimensions.width > 1024 && (
                         <div
                           className="dis-f a-c cur-poi fsize-300 txtLight600 fweight-600 smallIconLink"
-                          onClick={() => console.log('TODO')}
+                          onClick={() => {
+                            handleSetUserTypes('seller');
+                            handleSetActiveSingleProperty({});
+                            history.push('/seller/pageLists');
+                          }}
                         >
                           <BrixelIcon className="mr-1" icon="arrow-left-small" />
-                          <span>Back to the list</span>
+                          <span>All properties</span>
                         </div>
                       )
                     }
