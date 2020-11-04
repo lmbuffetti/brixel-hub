@@ -31,6 +31,7 @@ function ResumeMarketCheck(props) {
   } = props;
   // STATE
   const [saved, setSaved] = useState(false);
+  const [isMarketCheckDone, setIsMarketCheckDone] = useState(false);
 
   useEffect(() => {
     if (get(activeSingleProperty, 'id', null) && !marketData.priceDistribution) {
@@ -58,8 +59,9 @@ function ResumeMarketCheck(props) {
   useEffect(() => {
     if (get(gameHistory, 'data', null)) {
       const checkGameExist = gameHistory.data.find((item) => item.achievement.stub === 'market-checker' && item.page === activeSingleProperty.id);
-      if (typeof checkGameExist === 'undefined') {
+      if (typeof checkGameExist === 'undefined' && !isMarketCheckDone) {
         handleAddGameHistory({ stub: 'market-checker' });
+        setIsMarketCheckDone(true);
       }
     }
   }, [gameHistory]);
@@ -250,6 +252,7 @@ const mapStateToProps = (state, props) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, `brixelForm.${props.formName}.values`, {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
+  gameHistory: get(state, 'gamification.gameHistory', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   marketData: get(state, 'property.marketCheck', {}),
 });

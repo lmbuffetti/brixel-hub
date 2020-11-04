@@ -116,7 +116,6 @@ const DetailMedia = (props) => {
     const allPhotos = cloneDeep(formValue.photos);
     const getCoverID = allPhotos.findIndex((item) => item.id === photo.id);
     allPhotos.unshift(allPhotos.splice(getCoverID, 1)[0]);
-    console.log(allPhotos);
     changeFieldValue('photos', allPhotos);
     changeFieldValue('coverPhoto', photo);
   };
