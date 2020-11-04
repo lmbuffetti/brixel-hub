@@ -8,7 +8,7 @@ import {
   BrixelButtonTertiary,
   BrixelProgressLineDots,
   reset,
-  initializeForm,
+  initializeForm, change,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -24,6 +24,7 @@ const Bestimate = (props) => {
   // PROPS
   const {
     activeSingleProperty,
+    changeFieldValue,
     errorValue,
     formValue,
     gameGroup,
@@ -31,22 +32,22 @@ const Bestimate = (props) => {
     handleAddGameHistory,
     handleSaveActiveSingleProperty,
     history,
-    initialValuesPage,
     initForm,
     initialValues,
+    initialValuesPage,
     match,
     resetForm,
   } = props;
   // STATE
-  const [questions, setQuestions] = useState(BestimateQuestions('en'));
-  const [loaded, setLoaded] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(BestimateQuestions('en')[0]);
-  const [isEnter, setIsEnter] = useState(true);
-  const [selGameGroup, setSelGameGroup] = useState({});
   const [finishedFlow, setFinishedFlow] = useState(false);
+  const [isEnter, setIsEnter] = useState(true);
   const [lastID, setLastID] = useState(0);
+  const [loaded, setLoaded] = useState(false);
   const [numberQuestions, setNumberQuestions] = useState(0);
+  const [quest, setQuest] = useState(BestimateQuestions('en')[0]);
+  const [questions, setQuestions] = useState(BestimateQuestions('en'));
+  const [selGameGroup, setSelGameGroup] = useState({});
   // GET URL PARAMS
   const getAchievement = () => history.location.pathname.split('/')[4];
   const propID = get(match, 'params.propId', null);
@@ -97,6 +98,13 @@ const Bestimate = (props) => {
       }
     }
   }, [currentIndex, loaded]);
+
+  useEffect(() => {
+    if (get(formValue, 'properties.extraFeaturesBestimatePT', null)) {
+      changeFieldValue('properties.typology.storeroom', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('storageRoom'));
+      changeFieldValue('properties.typology.basement', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('basement'));
+    }
+  }, [get(formValue, 'properties.extraFeaturesBestimatePT', null)]);
 
   // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
@@ -329,16 +337,17 @@ const Bestimate = (props) => {
 
 Bestimate.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
-  initialValues: PropTypes.object.isRequired,
-  initialValuesPage: PropTypes.object.isRequired,
+  changeFieldValue: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired,
+  initialValuesPage: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
 };
@@ -347,9 +356,9 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
   errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
   formValue: get(state, 'brixelForm.GamingFlow.values', {}),
-  initialValuesPage: get(state, 'brixelForm.Property.initialValues', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
+  initialValuesPage: get(state, 'brixelForm.Property.initialValues', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),
   initialValues: {
     id: get(state, 'property.activeSingleProperty.id', null),
@@ -359,6 +368,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('GamingFlow', field, value));
+  },
   resetForm(form, data) {
     (dispatch(reset(form, data)));
   },
