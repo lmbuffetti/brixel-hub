@@ -93,11 +93,12 @@ const Photos = (props) => {
       formValue.id,
       imgType.id,
     );
+    console.log(imgList);
     imgList.then((res) => {
       handleMultiUploadImg({
         allImgs: res,
         actions: 'photos',
-        pageID: formValue.id,
+        pageID: activeSingleProperty.id,
         smallLoader: 'upload',
       });
     });

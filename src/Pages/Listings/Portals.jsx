@@ -45,6 +45,10 @@ const Portals = (props) => {
       if (portals[key] && get(customPortals, `${key}`, true) && !isOnline && !key.includes('Url')) isOnline = true;
       return null;
     });
+    Object.keys(customPortals).map((key) => {
+      if (customPortals[key] && !isOnline && !key.includes('Url')) isOnline = true;
+      return null;
+    });
     return isOnline;
   };
 
@@ -181,6 +185,28 @@ const Portals = (props) => {
                                           target="_blank"
                                           rel="noopener noreferrer"
                                           href={portals[`${key}Url`]}
+                                        >
+                                          <BrixelIcon
+                                            className="mr-1"
+                                            icon="copy-link"
+                                            color="primary"
+                                          />
+                                          <span>{key}</span>
+                                        </a>
+                                      )
+                                    }
+                                  </React.Fragment>
+                                ))
+                              }
+                              {
+                                Object.keys(customPortals).map((key, i) => (
+                                  <React.Fragment key={i.toString()}>
+                                    {
+                                      customPortals[key] && !key.toLocaleLowerCase().includes('url') && (
+                                        <a
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          href={customPortals[`${key}Url`]}
                                         >
                                           <BrixelIcon
                                             className="mr-1"

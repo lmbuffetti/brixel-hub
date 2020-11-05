@@ -79,6 +79,10 @@ const ListingsDashboard = (props) => {
       if (portals[key] && get(customPortals, `${key}`, true) && !isOnline && !key.includes('Url')) isOnline = true;
       return null;
     });
+    Object.keys(customPortals).map((key) => {
+      if (customPortals[key] && !isOnline && !key.includes('Url')) isOnline = true;
+      return null;
+    });
     return isOnline;
   };
   // CHECK STATUS PORTALS
