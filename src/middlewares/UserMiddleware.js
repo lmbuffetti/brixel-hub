@@ -129,6 +129,14 @@ const checkUser = (store) => (next) => (action) => {
               store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
             }
             store.dispatch({ type: SPINNER_OFF });
+          } else if (res.data.statusCode === 400 && res.data.errorMessage === 'Email is invalid!') {
+            const alertProps = {
+              message: 'Please use a valid e-mail address',
+              state: true,
+              noRedirect: true,
+            };
+            store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
+            store.dispatch({ type: SPINNER_OFF });
           }
         })
         .catch(() => {

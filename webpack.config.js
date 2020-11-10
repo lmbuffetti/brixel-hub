@@ -62,7 +62,6 @@ const clientConfig = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              hmr: devMode,
             },
           },
           {
@@ -230,49 +229,11 @@ const clientConfig = {
     extensions: ['.js', '.jsx'],
   },
   optimization: {
-    namedModules: true,
-    namedChunks: true,
     nodeEnv: devMode ? 'development' : 'production',
-    flagIncludedChunks: true,
-    occurrenceOrder: true,
-    sideEffects: true,
-    usedExports: true,
-    concatenateModules: true,
     minimize: !devMode,
-    runtimeChunk: {
-      name: 'runtime',
-    },
     splitChunks: {
       chunks: 'all',
-      minSize: 500,
-      maxSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
-      automaticNameDelimiter: '~',
-      automaticNameMaxLength: 30,
-      name: true,
-      cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true,
-        },
-        styles: {
-          name: 'styles',
-          test: /\.scss$/,
-          chunks: 'all',
-          enforce: true,
-        },
-      },
     },
-    removeAvailableModules: !devMode,
-    noEmitOnErrors: !devMode,
-    checkWasmTypes: false,
     minimizer: [
       new OptimizeCSSAssetsPlugin({
         assetNameRegExp: /\.optimize\.css$/g,
@@ -280,7 +241,7 @@ const clientConfig = {
         cssProcessorPluginOptions: {
           preset: ['default', { discardComments: { removeAll: true } }],
         },
-        canPrint: true,
+        canPrint: true
       }),
     ],
   },
