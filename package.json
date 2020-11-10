@@ -44,7 +44,7 @@
     "universal-cookie": "^4.0.4"
   },
   "scripts": {
-    "start": "webpack-dev-server --config webpack.config.js --env DEV --mode development",
+    "start": "webpack serve --config webpack.config.js --env DEV --mode development",
     "start-prod": "webpack serve --config webpack.config.js --env DEV --mode production",
     "test-build": "babel-node server/webpack.bundle",
     "build": "webpack --config webpack.config.js --progress --env DEV --mode production",
@@ -53,8 +53,8 @@
     "build-prod": "webpack --config webpack.config.js --env PROD --mode production",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "ncu": "ncu -x 'autoprefixer webpack webpack-cli node-sass'",
-    "ncu-u": "ncu -x 'autoprefixer webpack webpack-cli node-sass' -u"
+    "ncu": "ncu -x 'autoprefixer node-sass'",
+    "ncu-u": "ncu -x 'autoprefixer node-sass' -u"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -102,9 +102,9 @@
     "reload": "^3.1.1",
     "resolve-url-loader": "^3.1.2",
     "svg-inline-loader": "^0.8.2",
-    "webpack": "4.44.2",
+    "webpack": "5.4.0",
     "webpack-assets-manifest": "^3.1.1",
-    "webpack-cli": "^3.3.12",
+    "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.3.0",
     "webpack-node-externals": "^2.5.2"
