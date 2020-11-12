@@ -119,7 +119,6 @@ const ShowingsBuyer = (props) => {
             <div className="dis-fl-col a-c min-h-fix-336">
               <img src={showingsIMG} alt="Showing Buyer" />
               <h5 className="my-3">Thanks for your request.</h5>
-              {console.log(bookingSlot)}
               {
                 bookingSlot.map((day, g) => (
                   <div key={g.toString()} className="w-perc-100 max-w-fix-360">

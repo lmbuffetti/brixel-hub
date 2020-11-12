@@ -535,7 +535,6 @@ const getImageDimensions = (file) => new Promise((resolve, reject) => file.then(
   const i = new Image();
   i.onload = () => resolve({ w: i.width, h: i.height });
   i.onerror = (error) => reject(error);
-  console.log(img);
   i.src = img.file;
 }));
 

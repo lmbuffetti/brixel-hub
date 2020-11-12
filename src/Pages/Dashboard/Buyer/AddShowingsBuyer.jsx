@@ -23,6 +23,7 @@ import {
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { createPropertyVisitBooking } from '../../../actions/PropertyActions';
+import { spinnerSmallOff } from '../../../actions/CommonActions';
 import ContactForm from '../../../components/ContactForm';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-input-range/lib/css/index.css';
@@ -33,6 +34,7 @@ const AddShowingsBuyer = (props) => {
   // PROPS
   const {
     activeSingleProperty,
+    handleSpinnerSmallOff,
     history,
     lang,
     smallLoading,
@@ -54,6 +56,7 @@ const AddShowingsBuyer = (props) => {
   useEffect(() => {
     if (smallLoading === 'savedBooking') {
       setCurrentStep('sentMessage');
+      handleSpinnerSmallOff();
     }
   }, [smallLoading]);
 
@@ -96,7 +99,6 @@ const AddShowingsBuyer = (props) => {
 
   const buttonActions = () => {
     let btn = null;
-    console.log(action);
     if (currentStep === 'schedule') {
       btn = [
         {
@@ -300,7 +302,6 @@ const AddShowingsBuyer = (props) => {
           </div>
         )
       }
-      {console.log(baseByData)}
       {
         currentStep === 'sentMessage' && (
           <div id="messageSent" className="dis-fl-col jc-b h-perc-100 mb-2-neg">
@@ -345,11 +346,10 @@ const AddShowingsBuyer = (props) => {
 };
 
 AddShowingsBuyer.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
+  handleSpinnerSmallOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
   smallLoading: PropTypes.string,
 };
 
@@ -374,6 +374,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   handleCreatePropertyVisitBooking: bindActionCreators(createPropertyVisitBooking, dispatch),
+  handleSpinnerSmallOff: bindActionCreators(spinnerSmallOff, dispatch),
 });
 
 export default compose(
