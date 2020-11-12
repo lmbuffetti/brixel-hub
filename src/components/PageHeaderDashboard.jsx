@@ -211,6 +211,13 @@ function PageHeaderDashboard(props) {
     }
   };
 
+  // FUNCTION TO GO TO SELLERS/BUYERS PROPERTIES
+  const onBackProperrties = () => {
+    handleSetActiveSingleProperty({});
+    if (userType === 'seller') history.push('/seller/pageLists');
+    else history.push('/buyer/propertyLists');
+  };
+
   // CHECK TAB BY URL
   const checkActiveTab = () => {
     let curTab = '';
@@ -256,11 +263,7 @@ function PageHeaderDashboard(props) {
                       windowDimensions.width > 1024 && (
                         <div
                           className="dis-f a-c cur-poi fsize-300 txtLight600 fweight-600 smallIconLink"
-                          onClick={() => {
-                            handleSetUserTypes('seller');
-                            handleSetActiveSingleProperty({});
-                            history.push('/seller/pageLists');
-                          }}
+                          onClick={() => onBackProperrties()}
                         >
                           <BrixelIcon className="mr-1" icon="arrow-left-small" />
                           <span>All properties</span>

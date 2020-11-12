@@ -9,14 +9,16 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
-
 import {
   BrixelButtonPrimary,
-  BrixelButtonIcon, BrixelBookingCard,
+  BrixelButtonIcon,
 } from '@brixel/brixel-components';
 import groupBy from 'lodash/groupBy';
 import moment from 'moment';
+import BrixelInfoSlot from '../../../components/BrixelInfoSlot';
 import { getActiveSinglePropertyBookings, setActiveSinglePropertyBookings } from '../../../actions/PropertyActions';
+import showingsIMG from '../../../images/Listings/showings.svg';
+import showingsEmpty from '../../../images/Listings/showing_placeholder.svg';
 
 // COMPONENTS
 
@@ -79,12 +81,20 @@ const ShowingsBuyer = (props) => {
   }, [activeSinglePropertyBooking]);
 
   // FUNCTION TO GROUP DATE BY MONTH
-  const gorupByMonth = () => {
+  const groupByMonth = () => {
     const grouped = groupBy(bookingSlot, (d) => {
       if (d.slot.start) return moment.unix(d.slot.start).format('MM.YYYY');
       return moment(d.slot.slot).format('MM.YYYY');
     });
     return grouped || {};
+  };
+
+  const extractDate = (date, getHours = false) => {
+    if (date) {
+      if (getHours) return date.split(' ').splice(1, 3).join(' ');
+      return date.split(' ')[0];
+    }
+    return '';
   };
 
   return (
@@ -104,45 +114,40 @@ const ShowingsBuyer = (props) => {
             Showings
           </h5>
         </div>
-        <div className="dis-fl-col a-c min-h-fix-336">
-          {
-            Object.keys(gorupByMonth()).map((key, e) => (
-              <React.Fragment key={e.toString()}>
-                <h6 className="txtLight400 mb-2">
-                  <span>{moment(key, 'MM.YYYY').format('MMMM')}</span>
-                  &nbsp;-&nbsp;
-                  <span>{moment(key, 'MM.YYYY').format('YYYY')}</span>
-                </h6>
-                <div className="scheduleGrid">
-                  {
-                    gorupByMonth()[key].map((day, g) => (
-                      <div key={g.toString()}>
-                        <BrixelBookingCard
-                          countryLang={lang}
-                          dimensionsFixed={false}
-                          className="mb-1"
-                          slot={day.slot}
-                          buyer={day.buyer}
-                          onAdd={() => history.push(`/${propID}/listings/showings/addBooking/${day.id}`)}
-                          insertBooking={day.slot.status === 'free'}
-                          showActions={moment(day.slot.slot).isAfter(moment(), 'hour')}
-                        />
-                      </div>
-                    ))
-                  }
-                </div>
-              </React.Fragment>
-            ))
-          }
-          <h5 className="my-3">Request your showing</h5>
-          <BrixelButtonPrimary
-            rounded
-            label="Add dates"
-            rightIcon="calendar-add"
-            onClick={() => history.push(`/buyer/property/${propID}/showings/add`)}
-            className="mb-3"
-          />
-        </div>
+        {
+          bookingSlot.length < 0 ? (
+            <div className="dis-fl-col a-c min-h-fix-336">
+              <img src={showingsIMG} alt="Showing Buyer" />
+              <h5 className="my-3">Thanks for your request.</h5>
+              {console.log(bookingSlot)}
+              {
+                bookingSlot.map((day, g) => (
+                  <div key={g.toString()} className="w-perc-100 max-w-fix-360">
+                    <BrixelInfoSlot
+                      title={moment(extractDate(day.slot.slot)).format('dddd - Do MMM YYYY')}
+                      subtitle={extractDate(day.slot.slot, true)}
+                    />
+                  </div>
+                ))
+              }
+              <h6>
+                We will contact you as soon as possible for confirmation.
+              </h6>
+            </div>
+          ) : (
+            <div className="dis-fl-col a-c min-h-fix-336">
+              <img src={showingsEmpty} alt="Showing Buyer" />
+              <h5 className="my-3">Add showing</h5>
+              <BrixelButtonPrimary
+                rounded
+                label="Add dates"
+                rightIcon="calendar-add"
+                onClick={() => history.push(`/buyer/property/${propID}/showings/add`)}
+                className="mb-3"
+              />
+            </div>
+          )
+        }
       </div>
     </div>
   );

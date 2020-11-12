@@ -14,17 +14,16 @@ import moment from 'moment';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import {
-  BrixelIcon,
+  BrixelModal,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelSwitchButton,
-  BrixelTextArea,
-  BrixelInputText,
+  BrixelIcon,
 } from '@brixel/brixel-components';
-import defaultMessages from '@brixel/brixel-configuration-partner/src/Messages';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 import { createPropertyVisitBooking } from '../../../actions/PropertyActions';
+import ContactForm from '../../../components/ContactForm';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-input-range/lib/css/index.css';
 
@@ -33,41 +32,30 @@ import 'react-input-range/lib/css/index.css';
 const AddShowingsBuyer = (props) => {
   // PROPS
   const {
-    activeSingleCompany,
-    formValue,
+    activeSingleProperty,
     history,
     lang,
-    handleCreatePropertyVisitBooking,
-    loggedInUser,
     smallLoading,
   } = props;
+  const [currentStep, setCurrentStep] = useState('schedule');
+  const [action, setAction] = useState(null);
   const [allDay, setAllDay] = useState(false);
   const [date, setDate] = useState(null);
   const [datePickerModal, setDatePickerModal] = useState(false);
   const [hours, setHours] = useState({ min: 8, max: 20 });
-  const [isEnter, setIsEnter] = useState(true);
   const [scheduleVisitFree, setScheduleVisitFree] = useState([]);
   const [showDate, setShowDate] = useState(false);
   const [showResizer, setShowResizer] = useState(false);
-  const [message, setMessage] = useState('');
-  const [phone, setPhone] = useState({});
-  const [email, setEmail] = useState('');
-  const [step, setStep] = useState(0);
   // REFS
   const calendarRef = useRef(null);
   const datePicker = useRef(null);
   const hoursRef = useRef(null);
 
   useEffect(() => {
-    setIsEnter(true);
-  }, [step]);
-
-  useEffect(() => {
-    setEmail(get(loggedInUser, 'email', ''));
-    if (get(loggedInUser, 'phone.prefix', null)) setPhone(get(loggedInUser, 'phone', {}));
-    else setPhone({ prefix: activeSingleCompany.defaultDialCode, number: '' });
-    setMessage(get(defaultMessages, `scheduleTextArea.${lang}`, ''));
-  }, [loggedInUser]);
+    if (smallLoading === 'savedBooking') {
+      setCurrentStep('sentMessage');
+    }
+  }, [smallLoading]);
 
   const removeEl = (id) => {
     const visit = scheduleVisitFree;
@@ -106,256 +94,259 @@ const AddShowingsBuyer = (props) => {
     setShowResizer(false);
   };
 
-  const changeStep = () => {
-    if (step === 0) setStep(1);
-    else {
-      const data = {
-        getByUser: loggedInUser.id,
-        page: formValue.id,
-        slots: scheduleVisitFree,
-        buyer: {
-          name: loggedInUser.name,
-          phone,
-          email,
-          language: lang,
+  const buttonActions = () => {
+    let btn = null;
+    console.log(action);
+    if (currentStep === 'schedule') {
+      btn = [
+        {
+          name: 'Continue',
+          disabled: scheduleVisitFree.length === 0,
+          func: () => setCurrentStep('message'),
+          btnType: 'Primary',
+          className: 'mr-1',
+          bkg: 'primary',
+          sat: 400,
+          round: true,
         },
-        redirectTo: '../showings',
-        message,
-      };
-      handleCreatePropertyVisitBooking(data);
+      ];
     }
+    if (currentStep === 'message') {
+      btn = [
+        {
+          name: 'Send',
+          func: () => setAction('send'),
+          btnType: 'Primary',
+          className: 'mr-1',
+          bkg: 'primary',
+          isLoading: action === 'isLoading',
+          sat: 400,
+          round: true,
+        },
+      ];
+    }
+    return btn;
   };
 
-  const checkValidateField = () => true;
-
   return (
-    <div id="bodyModalWrapper" className="achievementFlow">
-      <div className="bodyModal">
-        <PageHeaderAchievement
-          icon="calendar-add"
-          title="Add Showings"
-          onClick={() => history.push('../showings')}
-        />
-        <form
-          id="multiStepForm"
-          onSubmit={(e) => e.preventDefault()}
-          autoComplete="off"
-          className="dis-fl-col jc-b"
-        >
-          <div className="multiStepSlides">
-            <div
-              className={`singleStep jc-c a-t w-perc-100 max-w-fix-440 m-a ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
-            >
-              <div className="subcontainer m-a mt-0 rewardsFacts">
+    <BrixelModal
+      multiActions={buttonActions()}
+      onClose={() => history.push(`/buyer/property/${activeSingleProperty.id}/showings/`)}
+      id="contact-foreground"
+      layout="large"
+    >
+      {
+        currentStep === 'schedule' && (
+          <div className="dis-fl-col test">
+            <section className="titleSection">
+              <h4 className="mb-2 txtDark700">Schedule a visit</h4>
+              <h5 className="heading6 txtDark700">Suggest up to 3 suitable dates to visit the property</h5>
+              <div className="min-h-fix-320">
                 {
-                  step === 0 && (
-                    <>
-                      <div className="min-h-fix-320">
-                        {
-                          scheduleVisitFree.map((val, i) => (
-                            <div
-                              className="date-schedule brdSmall brdLight200 p-2 brdRadius bgWhite mb-1"
-                              key={i.toString()}
-                            >
-                              <div>
-                                <div className="day mb-1">
-                                  <i className="icon-calendar mr-1" />
-                                  {moment(val.date).format('dddd, DD MMMM YYYY')}
-                                </div>
-                                <div className="time">
-                                  <i className="icon-clock mr-1" />
-                                  {
-                                    val.isAllDay ? (
-                                      <span>All day</span>
-                                    ) : (
-                                      <>
-                                        <span>{val.start}</span>
-                                        {
-                                          val.end && (
-                                            <span>
+                  scheduleVisitFree.map((val, i) => (
+                    <div
+                      className="date-schedule brdSmall brdLight200 p-2 brdRadius bgWhite mt-1"
+                      key={i.toString()}
+                    >
+                      <div>
+                        <div className="day mb-1">
+                          <i className="icon-calendar mr-1" />
+                          {moment(val.date).format('dddd, DD MMMM YYYY')}
+                        </div>
+                        <div className="time">
+                          <i className="icon-clock mr-1" />
+                          {
+                            val.isAllDay ? (
+                              <span>All day</span>
+                            ) : (
+                              <>
+                                <span>{val.start}</span>
+                                {
+                                  val.end && (
+                                    <span>
                                       &nbsp;-&nbsp;
-                                              {val.end}
-                                            </span>
-                                          )
-                                        }
-                                      </>
-                                    )
-                                  }
+                                      {val.end}
+                                    </span>
+                                  )
+                                }
+                              </>
+                            )
+                          }
+                        </div>
+                      </div>
+                      <div
+                        className="remove cur-poi mt-1 a-c"
+                        onClick={() => removeEl(i)}
+                      >
+                        <BrixelIcon
+                          icon="bin"
+                          color="red"
+                        />
+                      </div>
+                    </div>
+
+                  ))
+                }
+                {
+                  scheduleVisitFree.length < 3 && (
+                    <>
+                      <div className={`dis-f a-c jc-c ${scheduleVisitFree.length > 0 ? 'mt-2' : ''}`}>
+                        <BrixelButtonSecondary
+                          bgTransparent
+                          className="w-perc-100 max-w-fix-240 mt-3"
+                          background="primary"
+                          saturation={400}
+                          label="Choose new date"
+                          rounded
+                          leftIcon="calendar"
+                          onClick={() => {
+                            setShowDate(!showDate);
+                            setDatePickerModal(!datePickerModal);
+                          }}
+                        />
+                      </div>
+                      <div id="chooseDate">
+                        <div id="wrapDatePicker">
+                          {
+                            showDate && (
+                              <div className="overlay">
+                                <div id="fixedDatePicker" ref={datePicker}>
+                                  <DatePicker
+                                    inline
+                                    selected={date}
+                                    onChange={(day) => handleChangeDate(day)}
+                                    ref={calendarRef}
+                                    minDate={subDays(new Date(), 0)}
+                                    locale={lang.value || lang}
+                                  />
+                                  <div className="bgWhite dis-f a-c jc-c my-1 mt-md-2 mb-md-3">
+                                    <BrixelButtonPrimary
+                                      background="primary"
+                                      disabled={!date}
+                                      saturation={400}
+                                      label="Choose time"
+                                      rounded
+                                      onClick={() => {
+                                        setShowDate(false);
+                                        setShowResizer(true);
+                                      }}
+                                    />
+                                  </div>
                                 </div>
                               </div>
-                              <div
-                                className="remove cur-poi mt-1 a-c"
-                                onClick={() => removeEl(i)}
-                              >
-                                <BrixelIcon
-                                  icon="bin"
-                                  color="red"
-                                />
+                            )
+                          }
+                        </div>
+                        <div>
+                          {
+                            showResizer && (
+                              <div className="overlay">
+                                <div id="rzSlider" className="modalWindow" ref={hoursRef}>
+                                  <h5>Choose the time </h5>
+                                  <p className="mt-4 mb-2 mb-md-0 mt-md-0x">{hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}</p>
+                                  <InputRange
+                                    maxValue={20}
+                                    minValue={8}
+                                    value={hours}
+                                    step={0.5}
+                                    formatLabel={(value) => `${value % 1 !== 0 ? `${Math.trunc(value)}:30` : `${value}:00`}`}
+                                    onChange={(value) => setHours(value)}
+                                    disabled={allDay}
+                                  />
+                                  <div className="dis-f a-c mb-1 mb-md-0">
+                                    <BrixelSwitchButton
+                                      label="All day"
+                                      input={{
+                                        onChange: (e) => handleChange(e),
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="dis-f jc-c">
+                                    <BrixelButtonPrimary
+                                      onClick={(e) => saveDate(e)}
+                                      rounded
+                                      label="Save"
+                                      className="mt-4"
+                                    />
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          ))
-                        }
-                        {
-                          scheduleVisitFree.length < 3 && (
-                            <div className={`dis-f a-c jc-c mb-3 ${scheduleVisitFree.length > 0 ? 'mt-2' : ''}`}>
-                              <BrixelButtonSecondary
-                                bgTransparent
-                                className="w-perc-100 max-w-fix-240 mt-3"
-                                background="primary"
-                                saturation={400}
-                                label="Choose new date"
-                                rounded
-                                leftIcon="calendar"
-                                onClick={() => {
-                                  setShowDate(!showDate);
-                                  setDatePickerModal(!datePickerModal);
-                                }}
-                              />
-                            </div>
-                          )
-                        }
-                        {
-                          scheduleVisitFree.length < 3 && datePickerModal && (
-                            <div className="buyerShowings brdSmall brdLight200 brdRadius w-fix-336 p-3" id="chooseDate">
-                              <div id="wrapDatePicker">
-                                {
-                                  showDate && (
-                                    <div className="overlay">
-                                      <div className="dis-fl-col a-c" id="fixedDatePicker" ref={datePicker}>
-                                        <DatePicker
-                                          inline
-                                          selected={date}
-                                          onChange={(day) => handleChangeDate(day)}
-                                          ref={calendarRef}
-                                          minDate={subDays(new Date(), 0)}
-                                          locale={lang.value || lang}
-                                        />
-                                        <div className="bgWhite mt-3">
-                                          <BrixelButtonPrimary
-                                            background="primary"
-                                            disabled={!date}
-                                            saturation={400}
-                                            label="Choose time"
-                                            rounded
-                                            onClick={() => {
-                                              setShowDate(false);
-                                              setShowResizer(true);
-                                            }}
-                                          />
-                                        </div>
-                                      </div>
-                                    </div>
-                                  )
-                                }
-                              </div>
-                              <div>
-                                {
-                                  showResizer && (
-                                    <div id="rzSlider" className="modalWindow" ref={hoursRef}>
-                                      <h5>Choose the time </h5>
-                                      <p
-                                        className="mt-4 mb-2 mb-md-0 mt-md-0x"
-                                      >{hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}
-                                      </p>
-                                      <InputRange
-                                        maxValue={20}
-                                        minValue={8}
-                                        value={hours}
-                                        step={0.5}
-                                        formatLabel={(value) => `${value % 1 !== 0 ? `${Math.trunc(value)}:30` : `${value}:00`}`}
-                                        onChange={(value) => setHours(value)}
-                                        disabled={allDay}
-                                      />
-                                      <div className="dis-f a-c mb-1 mb-md-0">
-                                        <BrixelSwitchButton
-                                          label="All day"
-                                          input={{
-                                            onChange: (e) => handleChange(e),
-                                          }}
-                                        />
-                                      </div>
-                                      <div className="dis-f jc-c mt-3">
-                                        <BrixelButtonPrimary
-                                          onClick={(e) => saveDate(e)}
-                                          rounded
-                                          label="Save"
-                                          className=""
-                                        />
-                                      </div>
-                                    </div>
-                                  )
-                                }
-                              </div>
-                            </div>
-                          )
-                        }
+                            )
+                          }
+                        </div>
                       </div>
                     </>
                   )
                 }
-                {
-                  step === 1 && (
-                    <div>
-                      <BrixelInputText
-                        label="Email"
-                        input={{
-                          onChange: (val) => setEmail(val),
-                          name: 'email',
-                          value: email,
-                        }}
-                      />
-                      <BrixelInputText
-                        label="Phone"
-                        formatType="tel"
-                        input={{
-                          onChange: (val) => setPhone(val),
-                          name: 'phone',
-                          value: phone,
-                        }}
-                      />
-                      <BrixelTextArea
-                        label="Message"
-                        input={{
-                          onChange: (val) => setMessage(val),
-                          name: 'message',
-                          value: message,
-                        }}
-                      />
-                    </div>
-                  )
-                }
               </div>
-            </div>
+            </section>
           </div>
-          <div
-            className={`footerAction p-1 p-md-2 shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
-          >
-            <div className="container pos-r">
-              <div className="w-perc-100 a-c dis-fl-row m-a jc-fe">
-                <BrixelButtonPrimary
-                  className="noWrap"
-                  disabled={scheduleVisitFree.length === 0}
-                  rounded
-                  background="primary"
-                  saturation={400}
-                  label={step === 0 ? 'Next' : 'Save'}
-                  rightIcon="arrow-right-small"
-                  onClick={() => changeStep()}
-                  isLoading={smallLoading === 'saveBooking'}
+        )
+      }
+      {
+        currentStep === 'message' && (
+          <div className="dis-fl-col test">
+            <section className="titleSection">
+              <h4 className="mb-2 txtDark700">About you</h4>
+              <h5 className="heading6 txtDark700">How can we reach you?</h5>
+              <div className="min-h-fix-320">
+                <ContactForm
+                  action={action}
+                  onChangeAction={(val) => setAction(val)}
+                  scheduleVisit={scheduleVisitFree}
                 />
               </div>
-            </div>
+            </section>
           </div>
-        </form>
-      </div>
-    </div>
+        )
+      }
+      {console.log(baseByData)}
+      {
+        currentStep === 'sentMessage' && (
+          <div id="messageSent" className="dis-fl-col jc-b h-perc-100 mb-2-neg">
+            <section className="titleSection">
+              <h6 className="mb-1 txtGreen400 dis-f a-bl">
+                YOUR MESSAGE WAS SENT
+              </h6>
+              <h4 className="mb-2 txtDark700">Thank you</h4>
+              <h5 className="heading6 txtDark700">We will contact you as soon as possible.</h5>
+            </section>
+            <section className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg">
+              <p className="mb-2"><b>Here are 3 tips for a smooth process</b></p>
+
+              <ul>
+                <li>
+                  <BrixelIcon icon="tour" color="green" background="green" saturation={200} saturationTxt={700} />
+                  <div>
+                    <span>Make sure you visited the</span>&nbsp;
+                    <span
+                      className="txtPrimary400 cur-poi"
+                      onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}/explore/tour`, '_blank')}
+                    >
+                      <span>3D Tour</span>
+                    </span>
+                  </div>
+                </li>
+                <li className="redIcon">
+                  <BrixelIcon icon="favorite-house" color="green" background="green" saturation={200} saturationTxt={700} />
+                  Do not forget to favorite the property to keep all the information in one place
+                </li>
+                <li className="redIcon">
+                  <BrixelIcon icon="money" color="green" background="green" saturation={200} saturationTxt={700} />
+                  Get in touch with your bank about financing before you visit
+                </li>
+              </ul>
+            </section>
+          </div>
+        )
+      }
+    </BrixelModal>
   );
 };
 
 AddShowingsBuyer.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
-  handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -372,6 +363,7 @@ const mapStateToProps = (state) => {
   const activeSingleCompany = get(state, 'companies.activeSingleCompany', {});
   activeSingleCompany.defaultDialCode = countryPhoneCode.dial_code;
   return ({
+    activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
     activeSingleCompany,
     formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
     lang: get(state, 'user.loggedInUser.user.language', ''),

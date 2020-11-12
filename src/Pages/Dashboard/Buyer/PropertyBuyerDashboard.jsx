@@ -37,6 +37,11 @@ const Documents = Loadable({
   loading: Loading,
 });
 
+const AddShowingsBuyer = Loadable({
+  loader: () => import('./AddShowingsBuyer' /* webpackChunkName: "AddShowingsBuyer" */),
+  loading: Loading,
+});
+
 const PropertyBuyerDashboard = (props) => {
   // PROPS
   const {
@@ -112,7 +117,7 @@ const PropertyBuyerDashboard = (props) => {
               />
             </div>
 
-            <div className="dis-f mt-2">
+            <div className="dis-f mt-2 w-perc-50">
               <BrixelButtonBox
                 verticalView
                 bgTransparent
@@ -184,7 +189,7 @@ const PropertyBuyerDashboard = (props) => {
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed' : 'opened'}`}>
               <Route path="/buyer/property/:propId/page" component={PageBuyer} />
               <Route path="/buyer/property/:propId/documents" exact component={Documents} />
-              <Route path="/buyer/property/:propId/showings" exact component={ShowingsBuyer} />
+              <Route path="/buyer/property/:propId/showings" component={ShowingsBuyer} />
             </div>
           )
         }

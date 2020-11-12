@@ -8,9 +8,9 @@
 
 .input-range {
   margin: 0 auto $step * 3;
-  height: 20px;
+  height: 24px;
   @media (min-width: $responsive-medium) {
-    margin: 16px auto 20px;
+    margin: 16px auto 24px;
   }
   .input-range__label {
     display: none !important;
@@ -21,10 +21,10 @@
   }
   .input-range__slider {
     border-color: map_get($primaryColor, 400) !important;
-    width: 20px;
-    height: 20px;
-    margin-left: -10px;
-    margin-top: -13px;
+    width: 24px;
+    height: 24px;
+    margin-left: -12px;
+    margin-top: -14px;
   }
   .input-range__track {
     height: 4px;

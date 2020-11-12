@@ -16,6 +16,8 @@ const enhancers = [];
 const middlewares = [thunkMiddleware];
 
 const getIfDev = (window.location.href).split('?');
+
+console.log(process.env.NODE_ENV);
 if (typeof window !== 'undefined' && (process.env.NODE_ENV === 'development' || (getIfDev[1] && getIfDev[1].includes('dev=true')))) {
   middlewares.push(logger);
 }

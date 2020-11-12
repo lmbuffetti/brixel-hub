@@ -16,18 +16,16 @@ const CSSNano = require('cssnano');
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
-
-
 const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
 
 const clientConfig = {
-  mode: 'client',
+  mode: 'development',
   devtool: devMode ? 'inline-source-map' : 'cheap-source-map',
   entry: [
     '@babel/polyfill',
     './src/index.jsx',
-    //'./src/styles/SCSS/general/main.scss',
+    // './src/styles/SCSS/general/main.scss',
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
@@ -61,8 +59,6 @@ const clientConfig = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-            },
           },
           {
             loader: 'css-loader',
@@ -72,28 +68,16 @@ const clientConfig = {
           },
           {
             loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [
-                  [
-                    'autoprefixer',
-                    {
-                      // Options
-                    },
-                  ],
-                ],
-              },
-            },
           },
           {
             loader: 'sass-loader',
-            options: {
-              sassOptions: {
-                outputStyle: 'compressed',
-              },
-              sourceMap: devMode,
-            },
           },
+        ],
+      },
+      {
+        test: /\.css/,
+        use: [
+          { loader: 'postcss-loader' },
         ],
       },
       {
@@ -233,15 +217,32 @@ const clientConfig = {
     minimize: !devMode,
     splitChunks: {
       chunks: 'all',
+      maxSize: 200000,
+      cacheGroups: {
+        default: false, // disable the built-in groups, default & vendors (vendors is overwritten below)
+        reactDom: {
+          test: /[\\/]node_modules[\\/]react-dom[\\/]/,
+          name: 'vendor.react-dom',
+          enforce: !devMode,
+          priority: 20,
+          maxSize: 200000,
+        },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          priority: 10,
+          enforce: !devMode, // create chunk regardless of the size of the chunk
+          maxSize: 200000,
+        },
+      },
     },
     minimizer: [
       new OptimizeCSSAssetsPlugin({
-        assetNameRegExp: /\.optimize\.css$/g,
         cssProcessor: CSSNano,
         cssProcessorPluginOptions: {
           preset: ['default', { discardComments: { removeAll: true } }],
         },
-        canPrint: true
+        canPrint: true,
       }),
     ],
   },
