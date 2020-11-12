@@ -3,6 +3,7 @@ import {
   BrixelCheckbox,
   BrixelRadioButton,
   BrixelInputText,
+  Helpers,
   Validation,
 } from '@brixel/brixel-components';
 import BrixelCheckboxWithDetail from '../components/BrixelCheckboxWithDetail';
@@ -15,17 +16,39 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
   const optionsPackages = [];
   if (packagesProperty) {
     packagesProperty.forEach((item) => {
-      optionsPackages.push({
-        color: item.stub.includes('premium') ? 'Red400' : 'Green400',
-        label: item.name,
-        description: item.description,
-        img: item.stub.includes('premium') ? brixelPremium : brixelPlus,
-        priceInfo: `<span>Flat</span>&nbsp;<span>${item.price.currency}</span>&nbsp;<span>${item.price.total}</span>`,
-        value: item.id,
-        moreDetails: item.details,
-      });
+      if (item.type === 'premium' || item.type === 'plus' || item.type === 'one') {
+        let img;
+        let color;
+        switch (item.type) {
+          case 'premium':
+            color = 'Red400';
+            img = brixelPremium;
+            break;
+          case 'plus':
+            color = 'Green400';
+            img = brixelPlus;
+            break;
+          case 'one':
+            color = 'Dark700';
+            img = brixelPremium;
+            break;
+          default:
+            color = 'Dark400';
+            img = brixelPremium;
+        }
+        optionsPackages.push({
+          color,
+          img,
+          label: item.name,
+          description: item.description,
+          priceInfo: `<span>Flat</span>&nbsp;<span>${item.price.currency}</span>&nbsp;<span>${Helpers.formatNumberValue(item.price.total, item.price.currency)}</span>`,
+          value: item.id,
+          moreDetails: item.details || [],
+        });
+      }
     });
   }
+
   let price = 'CHF 26\'000';
   if (location.countryCode === 'CH') price = 'CHF 26\'000';
   if (location.countryCode === 'PT') price = 'EUR 12\'000';

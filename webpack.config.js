@@ -61,9 +61,6 @@ const clientConfig = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: devMode,
-            },
           },
           {
             loader: 'css-loader',

@@ -47,7 +47,7 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
       <div>
         {
           // PRINT ALL OPTIONS (options=[{name: '', value: '', img: '', label: '', description: '', color: '', priceInfo: '', moreDetails: [{description: ''}]}])
-          options.map((option, i) => (
+          options && options.map((option, i) => (
             <div
               className={`p-3 single-chackbox ${className} ${arrVal.includes(option.value) ? `brd${option.color} checked` : 'brdWhite'}`}
               key={i.toString()}
@@ -87,7 +87,7 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
               <div className={`detailCheckbox ${openDetail[i] ? 'open' : 'close'}`}>
                 <ul>
                   {
-                    option.moreDetails.map((detail, f) => (
+                    option.moreDetails && option.moreDetails.map((detail, f) => (
                       <li key={f.toString()}>
                         <BrixelIcon
                           icon="check"
