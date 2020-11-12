@@ -115,7 +115,7 @@ const ShowingsBuyer = (props) => {
           </h5>
         </div>
         {
-          bookingSlot.length < 0 ? (
+          bookingSlot.length > 0 ? (
             <div className="dis-fl-col a-c min-h-fix-336">
               <img src={showingsIMG} alt="Showing Buyer" />
               <h5 className="my-3">Thanks for your request.</h5>
