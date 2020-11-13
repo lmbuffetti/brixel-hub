@@ -25,7 +25,10 @@ const clientConfig = {
   entry: [
     '@babel/polyfill',
     './src/index.jsx',
-    // './src/styles/SCSS/general/main.scss',
+    './src/styles/SCSS/general/main.scss',
+    './src/styles/SCSS/general/helpers.scss',
+    './src/styles/SCSS/general/spacing.scss',
+    './src/styles/SCSS/general/boxModel.scss',
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
@@ -55,17 +58,8 @@ const clientConfig = {
   module: {
     rules: [
       {
-        test: /\.(sa|sc|c)ss$/,
+        test: /\.(sa|sc)ss$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: devMode,
-            },
-          },
           {
             loader: 'postcss-loader',
           },
@@ -77,7 +71,15 @@ const clientConfig = {
       {
         test: /\.css/,
         use: [
-          { loader: 'postcss-loader' },
+          {
+            loader: ExtractCssChunks.loader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: devMode,
+            },
+          },
         ],
       },
       {
@@ -158,13 +160,14 @@ const clientConfig = {
   },
   plugins: [
     new ExtractCssChunks({
-      hot: true,
+      filename: devMode ? 'css/[name].css' : 'css/[name].[hash].css',
+      chunkFilename: devMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[hash].css',
     }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
       filename: devMode ? 'css/[name].css' : 'css/[name].[hash].css',
-      chunkFilename: devMode ? 'css/[id].css' : 'css/[id].[hash].css',
+      chunkFilename: devMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[hash].css',
     }),
     new CleanWebpackPlugin({
       dry: false,
@@ -224,15 +227,20 @@ const clientConfig = {
           test: /[\\/]node_modules[\\/]react-dom[\\/]/,
           name: 'vendor.react-dom',
           enforce: !devMode,
-          priority: 20,
           maxSize: 200000,
         },
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
-          priority: 10,
           enforce: !devMode, // create chunk regardless of the size of the chunk
           maxSize: 200000,
+        },
+        styles: {
+          name: 'styles',
+          test: /\.(sa|sc)ss$/,
+          chunks: 'all',
+          enforce: true,
+          maxSize: 2000,
         },
       },
     },
