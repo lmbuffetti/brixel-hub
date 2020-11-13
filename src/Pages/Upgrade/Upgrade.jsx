@@ -208,7 +208,7 @@ const Upgrade = (props) => {
                 }
                 {
                   currentIndex === 0 && (
-                    <div className="max-w-fix-304 shadow-1dp mt-3 m-a">
+                    <div className="max-w-fix-360 shadow-1dp mt-3 m-a">
                       <Support hideClose expanded />
                     </div>
                   )
