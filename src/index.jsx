@@ -9,8 +9,6 @@ import App from './App';
 import { configureStore } from './store';
 import * as serviceWorker from './serviceWorker';
 import './styles/SCSS/general/main.scss';
-import '@brixel/brixel-components/src/styles/SCSS/general/_fontStyle.scss';
-import '@brixel/brixel-components/src/styles/SCSS/utils/_helpers.scss';
 
 // SET THE STORE FROM REDUX REDUCER
 const store = configureStore;
