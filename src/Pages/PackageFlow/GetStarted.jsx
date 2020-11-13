@@ -152,6 +152,8 @@ const GetStarted = (props) => {
         data.redirectToRewards = false;
         data.user = {
           ...register,
+          acceptTerms: get(register, 'privacy[0]', true),
+          acceptMarketing: get(register, 'acceptMarketing[0]', false),
           name: `${register.firstName} ${get(register, 'lastName', '')}`,
           userType: 'seller',
           signupAccept: true,
