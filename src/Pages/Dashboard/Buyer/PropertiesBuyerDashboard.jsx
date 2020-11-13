@@ -64,7 +64,7 @@ const PropertiesBuyerDashboard = (props) => {
         }
         {
           property.status === 'to-rent' && (
-            <div className="dis-f a-b">
+            <div className="dis-f a-b notranslate">
               <span>{currency}&nbsp;</span>
               <span>{Helpers.formatNumberValue(get(property, 'price.rent', 0), currency)}</span>
             </div>
@@ -72,7 +72,7 @@ const PropertiesBuyerDashboard = (props) => {
         }
         {
           (!property.status || property.status === 'on-sale') && (
-            <div className="dis-f a-b">
+            <div className="dis-f a-b notranslate">
               <span className="fsize-100 pb-small-2">{currency}&nbsp;</span>
               <span>{Helpers.formatNumberValue(get(property, 'price.total', 0), currency)}</span>
             </div>

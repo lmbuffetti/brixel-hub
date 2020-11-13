@@ -127,6 +127,7 @@ export const BestimatePT = () => [
         name: 'properties.parking.garage',
         labelLeft: 'Garage parking',
         step: 1,
+        startFrom: 0,
         min: 0,
         max: 99,
         placeholder: '0',

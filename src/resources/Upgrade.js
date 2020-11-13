@@ -41,7 +41,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
           img,
           label: item.name,
           description: item.description,
-          priceInfo: `<span>Flat</span>&nbsp;<span>${item.price.currency}</span>&nbsp;<span>${Helpers.formatNumberValue(item.price.total, item.price.currency)}</span>`,
+          priceInfo: `<span>Flat</span>&nbsp;<span class="notranslate">${item.price.currency}</span>&nbsp;<span class="notranslate">${Helpers.formatNumberValue(item.price.total, item.price.currency)}</span>`,
           value: item.id,
           moreDetails: item.details || [],
         });
