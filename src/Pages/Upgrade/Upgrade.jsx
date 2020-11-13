@@ -292,8 +292,8 @@ const mapStateToProps = (state) => {
           prefix: get(state, 'property.activeSingleProperty.owner.phone.prefix', countryPhoneCode.dial_code),
           number: get(state, 'property.activeSingleProperty.owner.phone.number', ''),
         },
+        contactEmail: get(state, 'property.activeSingleProperty.owner.email', null),
       },
-      contactEmail: get(state, 'property.activeSingleProperty.owner.email', null),
     },
   });
 };
