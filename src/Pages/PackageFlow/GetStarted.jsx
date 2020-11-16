@@ -154,7 +154,7 @@ const GetStarted = (props) => {
           ...register,
           acceptTerms: get(register, 'privacy[0]', true),
           acceptMarketing: get(register, 'acceptMarketing[0]', false),
-          name: `${register.firstName} ${get(register, 'lastName', '')}`,
+          name: get(formValue, 'register.name', ''),
           userType: 'seller',
           signupAccept: true,
           signupChannel: get(formValue, 'channel', 'default'),

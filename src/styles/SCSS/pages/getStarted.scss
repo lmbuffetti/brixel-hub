@@ -89,11 +89,15 @@
         #multiStepForm {
           .multiStepSlides {
             height: 100%;
-            max-height: inherit;
+            max-height: 100%;
 
             @media (max-width: $responsive-medium) {
               height: 100%;
               max-height: inherit;
+            }
+            .singleStep {
+              padding-top: 42px;
+              padding-bottom: 42px;
             }
             .subcontainer {
               .scaleAnim {
