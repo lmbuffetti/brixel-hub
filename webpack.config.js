@@ -61,6 +61,15 @@ const clientConfig = {
         test: /\.(sa|sc)ss$/,
         use: [
           {
+            loader: ExtractCssChunks.loader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: devMode,
+            },
+          },
+          {
             loader: 'postcss-loader',
           },
           {
