@@ -39,7 +39,6 @@ function PageHeader(props) {
   const [modal, setModal] = useState(false);
   const [widthScreen, setWidthScreen] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [zIndexHeader, setZIndexHeader] = useState('');
   const [supportPhone, setSupportPhone] = useState('');
 
   // FUNCTION TO CHECK IF USER IS LOGGED IN
