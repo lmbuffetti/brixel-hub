@@ -449,7 +449,7 @@ const checkCommon = (store) => (next) => (action) => {
               id: page, data: { user: getByUser }, smallLoader, redirectTo,
             },
           });
-          store.dispatch({ type: SPINNER_SMALL_OFF });
+          store.dispatch({ type: SPINNER_SMALL_ON, payload: 'savedBooking' });
         });
       break;
     }

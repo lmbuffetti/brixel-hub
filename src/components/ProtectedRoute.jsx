@@ -29,9 +29,8 @@ const ProtectedRoute = (props) => {
       history.push('/tokeninput');
     } else if (typeof cookie.get('brixelToken') === 'undefined') {
       window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
-    }
-    if (loggedInUser.token && userTypes && allowAccess && allowAccess !== userTypes) {
-      history.push('/');
+    } else if (loggedInUser.token && userTypes && allowAccess && allowAccess !== userTypes) {
+      // history.push('/');
     }
   }, [loggedInUser]);
 

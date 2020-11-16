@@ -124,7 +124,7 @@ const AccountDropdown = (props) => {
                 component: BrixelAvatar,
                 props: {
                   avatarImg: has(loggedInUser, 'user.avatar[0]') ? `${baseByData().shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null,
-                  name: has(loggedInUser, 'user.name') ? loggedInUser.user.name : '',
+                  name: has(loggedInUser, 'user.firstName') ? loggedInUser.user.firstName : '',
                   isIcon: true,
                 },
               }}

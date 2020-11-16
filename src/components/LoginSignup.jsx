@@ -5,10 +5,11 @@ import {
   BrixelButtonIcon, BrixelLogin, BrixelRegister, BrixelButtonPrimary, change,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { setFormError } from '../actions/CommonActions';
 import { translateTo } from '../utils/translation';
 import Support from './Support';
 
@@ -22,6 +23,7 @@ const LoginSignup = (props) => {
     formError,
     formName,
     formValue,
+    handleSetFormError,
     onChangeLogin,
     onCloseGoBack,
     onDisableValidation,
@@ -47,7 +49,7 @@ const LoginSignup = (props) => {
   }, [loginPage]);
 
   useEffect(() => {
-    if (loginPage === 'register' && get(formError, 'state', false)) {
+    if (loginPage === 'register' && get(formError, 'state', false) && !get(formError, 'noRedirect', false)) {
       setLoginPage('login');
     }
   }, [formError]);
@@ -69,22 +71,28 @@ const LoginSignup = (props) => {
     }
   };
 
+  // CHANGE PAGE
+  const changeScreen = (page) => {
+    setLoginPage(page);
+    handleSetFormError({});
+  };
+
   // FUNCTION TO MANAGE THE ONLCIK FUNCTION AND LABEL OF TERTIARY BUTTON (bottom left)
   const TertiaryButton = () => {
     switch (loginPage) {
       case 'not_sure':
         return {
-          action: () => setLoginPage('support'),
+          action: () => changeScreen('support'),
           label: 'Still, not convinced',
         };
       case 'support':
         return {
-          action: () => setLoginPage('register'),
+          action: () => changeScreen('register'),
           label: 'Cancel',
         };
       default:
         return {
-          action: () => setLoginPage('not_sure'),
+          action: () => changeScreen('not_sure'),
           label: 'I am not sure',
         };
     }
@@ -95,12 +103,12 @@ const LoginSignup = (props) => {
     switch (loginPage) {
       case 'not_sure':
         return {
-          action: () => setLoginPage('register'),
+          action: () => changeScreen('register'),
           label: 'Ok, save now',
         };
       case 'support':
         return {
-          action: () => setLoginPage('register'),
+          action: () => changeScreen('register'),
           label: 'Ok, save now',
         };
       case 'login':
@@ -143,7 +151,7 @@ const LoginSignup = (props) => {
               <>
                 <div className="w-perc-100 ta-c-md mb-5 pr-5 pr-md-0">
                   <h4 className="txtWhite">{translateTo(lang, 'Login to your profile to save your progress.')}</h4>
-                  <p className="txtWhite cur-poi mt-1 td-u" onClick={() => setLoginPage('register')}>
+                  <p className="txtWhite cur-poi mt-1 td-u" onClick={() => changeScreen('register')}>
                     {translateTo(lang, 'or create profile here')}
                   </p>
                 </div>
@@ -173,11 +181,23 @@ const LoginSignup = (props) => {
               <>
                 <div className="w-perc-100 ta-c-md mb-5 pr-5 pr-md-0">
                   <h4 className="txtWhite">{translateTo(lang, 'Create free profile to save')}</h4>
-                  <p className="txtWhite cur-poi mt-1 td-u" onClick={() => setLoginPage('login')}>
+                  <p className="txtWhite cur-poi mt-1 td-u" onClick={() => changeScreen('login')}>
                     {translateTo(lang, 'or login here')}
                   </p>
                 </div>
-                <BrixelRegister showGeneratePassword={false} company={company} formName="GetStarted" showErrors={showErrors} />
+                {
+                  get(formError, 'state', false) && (
+                    <p className="txtRed400">
+                      {get(formError, 'message', '')}
+                    </p>
+                  )
+                }
+                <BrixelRegister
+                  showGeneratePassword={false}
+                  company={company}
+                  formName="GetStarted"
+                  showErrors={showErrors}
+                />
               </>
             )
           }
@@ -243,6 +263,7 @@ LoginSignup.propTypes = {
   formError: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   formName: PropTypes.string.isRequired,
+  handleSetFormError: PropTypes.func.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   onDisableValidation: PropTypes.func,
@@ -271,6 +292,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(formName, field, value) {
     dispatch(change(formName, field, value));
   },
+  handleSetFormError: bindActionCreators(setFormError, dispatch),
 });
 
 export default compose(

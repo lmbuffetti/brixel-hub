@@ -100,8 +100,8 @@ const GetStarted = (props) => {
     } else {
       const { login, register, company } = dataForm;
       // delete dataForm.login;
-      changeFieldValue('register.password', '');
-      delete dataFormAnswer.register.password;
+      // changeFieldValue('register.password', '');
+      // delete dataFormAnswer.register.password;
       // delete dataForm.company;
       // BROWSER AND META USER DATA
       const metaUserData = {};
@@ -154,7 +154,7 @@ const GetStarted = (props) => {
           ...register,
           acceptTerms: get(register, 'privacy[0]', true),
           acceptMarketing: get(register, 'acceptMarketing[0]', false),
-          name: `${register.firstName} ${get(register, 'lastName', '')}`,
+          name: get(formValue, 'register.name', ''),
           userType: 'seller',
           signupAccept: true,
           signupChannel: get(formValue, 'channel', 'default'),
@@ -573,7 +573,7 @@ const GetStarted = (props) => {
                   get(quest, 'history', null) === 'resume' && (
                     <div className="max-w-fix-344 m-a">
                       <BrixelButtonPrimary
-                        className={`mt-3 m-a noWrap ${quest.history}`}
+                        className={`mt-3 mb-2 m-a noWrap ${quest.history}`}
                         rounded
                         background="green"
                         saturation={400}

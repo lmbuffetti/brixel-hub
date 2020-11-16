@@ -81,7 +81,12 @@ const checkCommon = (store) => (next) => (action) => {
         const data = {};
         const filesArray = get(store.getState(), `brixelForm.Property.values[${actions}]`, []);
         res.forEach((resImg) => {
-          filesArray.push(resImg.data);
+          const selOriginalImg = allImgs.find((img) => img.name.toString() === resImg.data.name.toString());
+          filesArray.push({
+            width: get(selOriginalImg, 'width', null),
+            height: get(selOriginalImg, 'height', null),
+            ...resImg.data,
+          });
         });
         set(data, actions, filesArray);
         data.id = pageID;

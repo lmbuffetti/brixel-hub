@@ -19,6 +19,7 @@
   transition-property: box-shadow;
   &:hover {
     box-shadow: $shadow-3dp;
+    background: $brx-white;
   }
 }
 

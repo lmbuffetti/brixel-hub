@@ -9,14 +9,16 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
-
 import {
   BrixelButtonPrimary,
-  BrixelButtonIcon, BrixelBookingCard,
+  BrixelButtonIcon,
 } from '@brixel/brixel-components';
-import groupBy from 'lodash/groupBy';
+// import groupBy from 'lodash/groupBy';
 import moment from 'moment';
+import BrixelInfoSlot from '../../../components/BrixelInfoSlot';
 import { getActiveSinglePropertyBookings, setActiveSinglePropertyBookings } from '../../../actions/PropertyActions';
+import showingsIMG from '../../../images/Listings/showings.svg';
+import showingsEmpty from '../../../images/Listings/showing_placeholder.svg';
 
 // COMPONENTS
 
@@ -28,7 +30,7 @@ const ShowingsBuyer = (props) => {
     handleGetActiveSinglePropertyBookings,
     handleSetActiveSinglePropertyBookings,
     history,
-    lang,
+    isSmallLoading,
     loggedInUser,
     match,
   } = props;
@@ -56,7 +58,8 @@ const ShowingsBuyer = (props) => {
     if (activeSinglePropertyBooking.length > 0) {
       const allSlots = [];
       const allUnavailableSlots = [];
-      activeSinglePropertyBooking.map((slot) => {
+      const currentBooking = activeSinglePropertyBooking.filter((day) => day.page === formValue.id);
+      currentBooking.map((slot) => {
         slot.slots.map((book) => {
           allSlots.push({
             buyer: slot.buyer,
@@ -79,13 +82,25 @@ const ShowingsBuyer = (props) => {
   }, [activeSinglePropertyBooking]);
 
   // FUNCTION TO GROUP DATE BY MONTH
-  const gorupByMonth = () => {
+  /* const groupByMonth = () => {
     const grouped = groupBy(bookingSlot, (d) => {
       if (d.slot.start) return moment.unix(d.slot.start).format('MM.YYYY');
       return moment(d.slot.slot).format('MM.YYYY');
     });
     return grouped || {};
+  }; */
+
+  const extractDate = (date, getHours = false) => {
+    if (date) {
+      if (getHours) return date.split(' ').splice(1, 3).join(' ');
+      return date.split(' ')[0];
+    }
+    return '';
   };
+
+  if (isSmallLoading) {
+    return <div />;
+  }
 
   return (
     <div className="secondLevel h-perc-md-100">
@@ -104,45 +119,39 @@ const ShowingsBuyer = (props) => {
             Showings
           </h5>
         </div>
-        <div className="dis-fl-col a-c min-h-fix-336">
-          {
-            Object.keys(gorupByMonth()).map((key, e) => (
-              <React.Fragment key={e.toString()}>
-                <h6 className="txtLight400 mb-2">
-                  <span>{moment(key, 'MM.YYYY').format('MMMM')}</span>
-                  &nbsp;-&nbsp;
-                  <span>{moment(key, 'MM.YYYY').format('YYYY')}</span>
-                </h6>
-                <div className="scheduleGrid">
-                  {
-                    gorupByMonth()[key].map((day, g) => (
-                      <div key={g.toString()}>
-                        <BrixelBookingCard
-                          countryLang={lang}
-                          dimensionsFixed={false}
-                          className="mb-1"
-                          slot={day.slot}
-                          buyer={day.buyer}
-                          onAdd={() => history.push(`/${propID}/listings/showings/addBooking/${day.id}`)}
-                          insertBooking={day.slot.status === 'free'}
-                          showActions={moment(day.slot.slot).isAfter(moment(), 'hour')}
-                        />
-                      </div>
-                    ))
-                  }
-                </div>
-              </React.Fragment>
-            ))
-          }
-          <h5 className="my-3">Request your showing</h5>
-          <BrixelButtonPrimary
-            rounded
-            label="Add dates"
-            rightIcon="calendar-add"
-            onClick={() => history.push(`/buyer/property/${propID}/showings/add`)}
-            className="mb-3"
-          />
-        </div>
+        {
+          bookingSlot.length > 0 ? (
+            <div className="dis-fl-col a-c min-h-fix-336">
+              <img src={showingsIMG} alt="Showing Buyer" />
+              <h5 className="my-3">Thanks for your request.</h5>
+              {
+                bookingSlot.map((day, g) => (
+                  <div key={g.toString()} className="w-perc-100 max-w-fix-360">
+                    <BrixelInfoSlot
+                      title={moment(extractDate(day.slot.slot)).format('dddd - Do MMM YYYY')}
+                      subtitle={extractDate(day.slot.slot, true)}
+                    />
+                  </div>
+                ))
+              }
+              <h6>
+                We will contact you as soon as possible for confirmation.
+              </h6>
+            </div>
+          ) : (
+            <div className="dis-fl-col a-c min-h-fix-336">
+              <img src={showingsEmpty} alt="Showing Buyer" />
+              <h5 className="my-3">Add showing</h5>
+              <BrixelButtonPrimary
+                rounded
+                label="Add dates"
+                rightIcon="calendar-add"
+                onClick={() => history.push(`/buyer/property/${propID}/showings/add`)}
+                className="mb-3"
+              />
+            </div>
+          )
+        }
       </div>
     </div>
   );
@@ -153,8 +162,8 @@ ShowingsBuyer.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSetActiveSinglePropertyBookings: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.string.isRequired,
   history: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -166,6 +175,7 @@ ShowingsBuyer.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSinglePropertyBooking: get(state, 'property.activeSinglePropertyBooking', []),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   lang: get(state, 'user.loggedInUser.language', 'en'),
 });

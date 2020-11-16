@@ -41,6 +41,7 @@ map-get($blueColor, 300);
 "../components/donut",
 "../components/header",
 "../components/booking",
+"../components/contact_modal",
 "../components/datePicker",
 "../components/rangeInput",
 "../components/checkboxWithDetail",
@@ -309,10 +310,21 @@ header {
   .brixel-input-step input {
     @include fontStyle(600);
   }
+  .brixel-select .mobile-version,
   .brixel-select .dropdown,
   .brixel-text-input {
     @include fontStyle(500);
     height: 48px;
+  }
+  .brixel-select {
+    .mobile-version {
+      select {
+        @include fontStyle(500);
+      }
+      &::after {
+        top: 12px;
+      }
+    }
   }
 }
 

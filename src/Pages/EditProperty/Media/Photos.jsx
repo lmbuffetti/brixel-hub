@@ -97,7 +97,7 @@ const Photos = (props) => {
       handleMultiUploadImg({
         allImgs: res,
         actions: 'photos',
-        pageID: formValue.id,
+        pageID: activeSingleProperty.id,
         smallLoader: 'upload',
       });
     });
