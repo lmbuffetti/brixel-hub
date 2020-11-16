@@ -30,6 +30,7 @@ const ShowingsBuyer = (props) => {
     handleGetActiveSinglePropertyBookings,
     handleSetActiveSinglePropertyBookings,
     history,
+    isSmallLoading,
     lang,
     loggedInUser,
     match,
@@ -96,6 +97,10 @@ const ShowingsBuyer = (props) => {
     }
     return '';
   };
+
+  if (isSmallLoading) {
+    return <div />;
+  }
 
   return (
     <div className="secondLevel h-perc-md-100">
@@ -170,6 +175,7 @@ ShowingsBuyer.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSinglePropertyBooking: get(state, 'property.activeSinglePropertyBooking', []),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   lang: get(state, 'user.loggedInUser.language', 'en'),
 });

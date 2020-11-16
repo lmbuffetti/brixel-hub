@@ -69,16 +69,16 @@ const HomeDashboard = (props) => {
         {
           property.status === 'to-rent' && (
             <>
-              <span>{currency}&nbsp;</span>
-              <span>{Helpers.formatNumberValue(+get(property, 'price.rent', 0))}</span>
+              <span className="notranslate">{currency}&nbsp;</span>
+              <span className="notranslate">{Helpers.formatNumberValue(+get(property, 'price.rent', 0))}</span>
             </>
           )
         }
         {
           (!property.status || property.status === 'on-sale') && (
             <>
-              <span>{currency}&nbsp;</span>
-              <span>{Helpers.formatNumberValue(+get(property, 'price.total', 0))}</span>
+              <span className="notranslate">{currency}&nbsp;</span>
+              <span className="notranslate">{Helpers.formatNumberValue(+get(property, 'price.total', 0))}</span>
             </>
           )
         }
