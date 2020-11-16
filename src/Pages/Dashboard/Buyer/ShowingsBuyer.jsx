@@ -13,7 +13,7 @@ import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
 } from '@brixel/brixel-components';
-import groupBy from 'lodash/groupBy';
+// import groupBy from 'lodash/groupBy';
 import moment from 'moment';
 import BrixelInfoSlot from '../../../components/BrixelInfoSlot';
 import { getActiveSinglePropertyBookings, setActiveSinglePropertyBookings } from '../../../actions/PropertyActions';
@@ -31,7 +31,6 @@ const ShowingsBuyer = (props) => {
     handleSetActiveSinglePropertyBookings,
     history,
     isSmallLoading,
-    lang,
     loggedInUser,
     match,
   } = props;
@@ -59,7 +58,8 @@ const ShowingsBuyer = (props) => {
     if (activeSinglePropertyBooking.length > 0) {
       const allSlots = [];
       const allUnavailableSlots = [];
-      activeSinglePropertyBooking.map((slot) => {
+      const currentBooking = activeSinglePropertyBooking.filter((day) => day.page === formValue.id);
+      currentBooking.map((slot) => {
         slot.slots.map((book) => {
           allSlots.push({
             buyer: slot.buyer,
@@ -82,13 +82,13 @@ const ShowingsBuyer = (props) => {
   }, [activeSinglePropertyBooking]);
 
   // FUNCTION TO GROUP DATE BY MONTH
-  const groupByMonth = () => {
+  /* const groupByMonth = () => {
     const grouped = groupBy(bookingSlot, (d) => {
       if (d.slot.start) return moment.unix(d.slot.start).format('MM.YYYY');
       return moment(d.slot.slot).format('MM.YYYY');
     });
     return grouped || {};
-  };
+  }; */
 
   const extractDate = (date, getHours = false) => {
     if (date) {
@@ -162,8 +162,8 @@ ShowingsBuyer.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSetActiveSinglePropertyBookings: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.string.isRequired,
   history: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };

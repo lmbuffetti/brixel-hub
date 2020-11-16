@@ -37,11 +37,6 @@ const Documents = Loadable({
   loading: Loading,
 });
 
-const AddShowingsBuyer = Loadable({
-  loader: () => import('./AddShowingsBuyer' /* webpackChunkName: "AddShowingsBuyer" */),
-  loading: Loading,
-});
-
 const PropertyBuyerDashboard = (props) => {
   // PROPS
   const {

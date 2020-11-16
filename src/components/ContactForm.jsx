@@ -24,6 +24,7 @@ function ContactForm(props) {
     initForm,
     initialValues,
     lang,
+    loggedInUser,
     messageSent,
     onChangeAction,
     scheduleVisit,
@@ -76,6 +77,7 @@ function ContactForm(props) {
           email: formValue.userEmail,
           language: lang,
         },
+        getByUser: loggedInUser.id,
         message: formValue.userMessage,
       };
       handleCreatePropertyVisitBooking(data);
@@ -253,6 +255,7 @@ ContactForm.propTypes = {
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   messageSent: PropTypes.bool,
   onChangeAction: PropTypes.func.isRequired,
   scheduleVisit: PropTypes.arrayOf(PropTypes.object),
@@ -274,6 +277,7 @@ const mapStateToProps = (state) => {
     errorValue: get(state, 'brixelForm.ContactForm.syncErrors', {}),
     formValue: get(state, 'brixelForm.ContactForm.values', {}),
     lang: get(state, 'common.language.code', 'de'),
+    loggedInUser: get(state, 'user.loggedInUser.user', {}),
     messageSent: get(state, 'common.messageSent', false),
     initialValues: {
       userName: get(loggedInUser, 'name', {}),
