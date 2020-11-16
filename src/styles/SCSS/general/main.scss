@@ -19,7 +19,9 @@ $grid-breakpoints: (
 $responsive-medium: map_get($grid-breakpoints, md);
 
 
-@import '~@brixel/brixel-components/src/styles/SCSS/general/main.scss';
+@import '~@brixel/brixel-components/src/styles/SCSS/general/variables';
+@import '~@brixel/brixel-components/src/styles/SCSS/utils/fontMixin';
+@import '~@brixel/brixel-components/src/styles/SCSS/general/icomoon';
 
 $sidebarWidth: 210px;
 $sidebarWidthCollapsed: 70px;

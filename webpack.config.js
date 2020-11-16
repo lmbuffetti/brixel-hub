@@ -9,7 +9,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WebpackAssetsManifest = require('webpack-assets-manifest');
 const CopyPlugin = require('copy-webpack-plugin');
 const CSSNano = require('cssnano');
 
@@ -22,14 +21,15 @@ const getEnvBuild = process.argv[process.argv.length - 3];
 const clientConfig = {
   mode: 'development',
   devtool: devMode ? 'inline-source-map' : 'cheap-source-map',
-  entry: [
-    '@babel/polyfill',
-    './src/index.jsx',
-    './src/styles/SCSS/general/main.scss',
-    './src/styles/SCSS/general/helpers.scss',
-    './src/styles/SCSS/general/spacing.scss',
-    './src/styles/SCSS/general/boxModel.scss',
-  ],
+  entry: {
+    polyfill: '@babel/polyfill',
+    mainjs: './src/index.jsx',
+    general: './src/styles/SCSS/general/main.scss',
+    styleguide: './src/styles/SCSS/general/mainStyleguide.scss',
+    spacing: './src/styles/SCSS/general/spacing.scss',
+    boxModel: './src/styles/SCSS/general/boxModel.scss',
+    main: './src/styles/SCSS/general/helpers.scss',
+  },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: devMode,
@@ -219,7 +219,6 @@ const clientConfig = {
       'process.env.client': true,
       'process.env.BROWSER': JSON.stringify(true),
     }),
-    new WebpackAssetsManifest(),
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
