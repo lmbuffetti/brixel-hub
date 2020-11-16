@@ -48,6 +48,9 @@
           margin-bottom: auto;
           margin-top: auto;
 
+          @media (min-width: $responsive-small) {
+            max-height: calc(100% - 16px);
+          }
           @media (max-width: $responsive-small) {
             height: 100%;
           }
