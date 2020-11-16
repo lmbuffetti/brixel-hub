@@ -100,8 +100,8 @@ const GetStarted = (props) => {
     } else {
       const { login, register, company } = dataForm;
       // delete dataForm.login;
-      changeFieldValue('register.password', '');
-      delete dataFormAnswer.register.password;
+      // changeFieldValue('register.password', '');
+      // delete dataFormAnswer.register.password;
       // delete dataForm.company;
       // BROWSER AND META USER DATA
       const metaUserData = {};
