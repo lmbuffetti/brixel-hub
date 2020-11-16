@@ -573,7 +573,7 @@ const GetStarted = (props) => {
                   get(quest, 'history', null) === 'resume' && (
                     <div className="max-w-fix-344 m-a">
                       <BrixelButtonPrimary
-                        className={`mt-3 m-a noWrap ${quest.history}`}
+                        className={`mt-3 mb-2 m-a noWrap ${quest.history}`}
                         rounded
                         background="green"
                         saturation={400}
