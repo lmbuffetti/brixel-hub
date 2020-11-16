@@ -59,7 +59,8 @@ const ShowingsBuyer = (props) => {
     if (activeSinglePropertyBooking.length > 0) {
       const allSlots = [];
       const allUnavailableSlots = [];
-      activeSinglePropertyBooking.map((slot) => {
+      const currentBooking = activeSinglePropertyBooking.filter((day) => day.page === formValue.id);
+      currentBooking.map((slot) => {
         slot.slots.map((book) => {
           allSlots.push({
             buyer: slot.buyer,
