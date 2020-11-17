@@ -11,6 +11,8 @@ const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const CSSNano = require('cssnano');
+const HtmlCriticalWebpackPlugin = require("html-critical-webpack-plugin");
+
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -193,6 +195,7 @@ const clientConfig = {
     new HtmlWebpackPlugin({
       chunksSortMode: 'none',
       hash: true,
+      inject: true,
       filename: './index.html',
       template: './public/index.html',
       title: companyData.hub.title,
@@ -210,6 +213,19 @@ const clientConfig = {
       transifexKey: baseByData(getEnvBuild).transifexIdHub,
       googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
       facebookPixelId: baseByData(getEnvBuild).facebookPixel,
+    }),
+    new HtmlCriticalWebpackPlugin({
+      base: path.resolve(__dirname, 'dist'),
+      src: 'index.html',
+      dest: 'index.html',
+      inline: true,
+      minify: true,
+      extract: true,
+      width: 375,
+      height: 565,
+      penthouse: {
+        blockJSRequests: true,
+      },
     }),
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
