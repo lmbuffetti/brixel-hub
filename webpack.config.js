@@ -248,7 +248,7 @@ const clientConfig = {
           test: /\.(sa|sc)ss$/,
           chunks: 'all',
           enforce: true,
-          maxSize: 2000,
+          maxSize: 200000,
         },
       },
     },

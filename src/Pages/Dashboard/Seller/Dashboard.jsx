@@ -140,7 +140,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
-    if (!history.location.pathname.includes('pageLists')) {
+    if (!history.location.pathname.includes('pageLists') && propID !== get(activeSingleProperty, 'id', null)) {
       if (propID && !get(activeSingleProperty, 'id', null)) {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: true });
       } else if (!propID) {
@@ -152,11 +152,6 @@ const Dashboard = (props) => {
     if (gameHistory.length === 0) handleGetGameHistory();
     setLoadedProp(true);
   }, [userTypes, propID]);
-
-  useEffect(() => {
-    // handleGetGameHistory();
-    // handleGetGameGroup();
-  }, [propID]);
 
   // INITIALIZE FORM
   useEffect(() => {
