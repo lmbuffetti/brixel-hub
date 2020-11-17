@@ -11,7 +11,6 @@ const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const CSSNano = require('cssnano');
-const HtmlCriticalWebpackPlugin = require("html-critical-webpack-plugin");
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -25,11 +24,12 @@ const clientConfig = {
   entry: {
     polyfill: '@babel/polyfill',
     mainjs: './src/index.jsx',
-    general: './src/styles/SCSS/general/main.scss',
-    styleguide: './src/styles/SCSS/general/mainStyleguide.scss',
-    spacing: './src/styles/SCSS/general/spacing.scss',
-    boxModel: './src/styles/SCSS/general/boxModel.scss',
-    main: './src/styles/SCSS/general/helpers.scss',
+    main: './src/styles/SCSS/general/main.scss',
+    fontStyle: './src/styles/SCSS/styleguide/fontStyle.scss',
+    styleguide: './src/styles/SCSS/styleguide/mainStyleguide.scss',
+    spacing: './src/styles/SCSS/styleguide/spacing.scss',
+    boxModel: './src/styles/SCSS/styleguide/boxModel.scss',
+    helpers: './src/styles/SCSS/styleguide/helpers.scss',
   },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
@@ -170,8 +170,8 @@ const clientConfig = {
   },
   plugins: [
     new ExtractCssChunks({
-      filename: devMode ? 'css/[name].css' : 'css/[name].[hash].css',
-      chunkFilename: devMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[hash].css',
+      filename: devMode ? 'css/[name].css' : 'css/[name].[contenthash].css',
+      chunkFilename: devMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[contenthash].css',
     }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
@@ -212,19 +212,6 @@ const clientConfig = {
       transifexKey: baseByData(getEnvBuild).transifexIdHub,
       googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
       facebookPixelId: baseByData(getEnvBuild).facebookPixel,
-    }),
-    new HtmlCriticalWebpackPlugin({
-      base: path.resolve(__dirname, 'dist'),
-      src: 'index.html',
-      dest: 'index.html',
-      inline: true,
-      minify: true,
-      extract: true,
-      width: 375,
-      height: 565,
-      penthouse: {
-        blockJSRequests: false,
-      },
     }),
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),

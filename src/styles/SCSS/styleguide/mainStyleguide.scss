@@ -5,7 +5,7 @@ $iphone5: 320px;
 // GENERAL
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 $imgpath: "~@brixel/brixel-components/dist/styles/";
-@import '~@brixel/brixel-configuration-partner/src/Variables';
+@import 'node_modules/@brixel/brixel-configuration-partner/src/Variables';
 
 $grid-breakpoints: (
         xxs: 0,
@@ -18,7 +18,7 @@ $grid-breakpoints: (
 );
 $responsive-medium: map_get($grid-breakpoints, md);
 
-@import '~@brixel/brixel-components/src/styles/SCSS/general/main.scss';
+@import 'node_modules/@brixel/brixel-components/src/styles/SCSS/general/main';
 
 $sidebarWidth: 210px;
 $sidebarWidthCollapsed: 70px;
