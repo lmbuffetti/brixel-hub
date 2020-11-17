@@ -31,6 +31,7 @@ const Upgrade = (props) => {
     history,
     initialValues,
     initForm,
+    isSmallLoading,
     loggedInUser,
     match,
     packagesProperty,
@@ -151,6 +152,10 @@ const Upgrade = (props) => {
     else label = 'Next';
     return label;
   };
+
+  if (isSmallLoading) {
+    return <div />;
+  }
 
   return (
     <div id="bodyModalWrapper" className="modalFlow">
@@ -276,6 +281,7 @@ Upgrade.propTypes = {
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -289,6 +295,7 @@ const mapStateToProps = (state) => {
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
     formValue: get(state, 'brixelForm.GamingFlow.values', {}),
+    isSmallLoading: get(state, 'common.isSmallLoading', null),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     packagesProperty: get(state, 'companies.activeSingleCompany.servicePackages', []),
     initialValues: {

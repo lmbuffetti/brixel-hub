@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -117,10 +118,10 @@ const RewardsDashboard = (props) => {
 
   // FUNCTION TO ADD PAGE OR PORTALS TO GAME HISTORY
   useEffect(() => {
-    let filtUsrGroup = [];
-    filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userTypes) !== -1);
+    let filtUsrGroup = cloneDeep(gameGroup);
+    filtUsrGroup = filtUsrGroup.filter((val) => val.stub.indexOf(userTypes) !== -1);
     filtUsrGroup = filtUsrGroup.sort(sortObject('stub', 'asc'));
-    if (gameHistory.data) {
+    if (gameHistory.data && activeSingleProperty.id === propID && formValue.id === propID) {
       // CHECK IF DONE HOMEBASE
       gameHistory.data.map((game) => {
         filtUsrGroup.map((group, f) => {
@@ -161,23 +162,7 @@ const RewardsDashboard = (props) => {
       });
     }
     setUsrGroups([...filtUsrGroup]);
-  }, [userTypes, activeSingleProperty, gameGroup, gameHistory]);
-
-  // FUNCTION TO ADD HOMEBASE TO GAME HISTORY
-  useEffect(() => {
-    if (gameHistory.data && activeSingleProperty.id) {
-      // CHECK IF DONE HOMEBASE
-      const getHomeBase = gameHistory.data.findIndex((val) => val.achievement.stub === 'homebase' && activeSingleProperty.id === val.page);
-      if (getHomeBase === -1 && userTypes === 'seller') {
-        const data = {
-          id: loggedInUser.user.id,
-          page: activeSingleProperty.stub,
-          achievement: 'homebase',
-        };
-        handleAddGameHistory(data);
-      }
-    }
-  }, [activeSingleProperty, gameHistory, userTypes, history.location]);
+  }, [userTypes, activeSingleProperty, gameGroup, gameHistory, formValue.id]);
 
   // FUNCTION TO SET THE ACTIVE REWARDS GROUP ON FIRST LOAD IF NOT COMPLETED
   useEffect(() => {
@@ -196,7 +181,7 @@ const RewardsDashboard = (props) => {
       setActiveGameGroup(null);
       setActiveAchievement(null);
     }
-  }, [gameHistoryData, usrGroups, history, gameGroup, rewardType, history.location]);
+  }, [gameHistoryData, usrGroups, history, gameGroup, rewardType, formValue.id]);
 
   // FUNCTION CLICK ON GAME GROUP
   const onClickAchievement = (game, achievement) => {
@@ -302,18 +287,18 @@ const RewardsDashboard = (props) => {
                 usrGroups.map((group, i) => (
                   <div className={`level-${group.stub.replace(/^\D+/g, '')} pr-md-8`} key={i.toString()}>
                     {
-                      GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`] && (
+                      GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`] && (
                         <>
                           {
                             i === 0 ? (
                               <div className="dis-f jc-b a-c mb-3 mt-0 mt-md-2">
                                 <span className="dis-b txtGreen700 fweight-500">
-                                  {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
+                                  {GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`].name}
                                 </span>
                               </div>
                             ) : (
                               <span className="mb-3 dis-b txtRed700 fweight-500">
-                                {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
+                                {GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`].name}
                               </span>
                             )
                           }
@@ -335,7 +320,7 @@ const RewardsDashboard = (props) => {
                                       lineAfter={group.achievements.length - 1 > f}
                                       award={item.achievementType === 'award'}
                                       disabled={isDisabledFlow(item.stub)}
-                                      config={GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`]}
+                                      config={GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`]}
                                     />
                                   </div>
                                   {
