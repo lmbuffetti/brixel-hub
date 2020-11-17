@@ -108,7 +108,7 @@ const checkGamification = (store) => (next) => (action) => {
         api.gamification.addGameHistory(newID, data)
           .then((res) => {
             if (typeof res.data.status === 'undefined' && typeof res.data.statusCode === 'undefined') {
-              store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });
+              store.dispatch({ type: GET_GAME_HISTORY });
               store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
               store.dispatch({ type: SET_BRIXEL_POINTS, payload: res.data.actualPoints });
               if (redirectTo) window.location.href = redirectTo;

@@ -154,8 +154,8 @@ const Dashboard = (props) => {
   }, [userTypes, propID]);
 
   useEffect(() => {
-    handleGetGameHistory();
-    handleGetGameGroup();
+    // handleGetGameHistory();
+    // handleGetGameGroup();
   }, [propID]);
 
   // INITIALIZE FORM
@@ -164,7 +164,8 @@ const Dashboard = (props) => {
     if (
       typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null) && (
         Object.keys(changeInitialValue).length > 1 ||
-        (Object.keys(changeInitialValue).length === 1 && Object.keys(changeInitialValue)[0] !== 'inputSheet')
+        (Object.keys(changeInitialValue).length === 1 && Object.keys(changeInitialValue)[0] !== 'inputSheet') ||
+        propID !== formValue.id
       )
     ) {
       initForm(cloneDeep(initialValues));

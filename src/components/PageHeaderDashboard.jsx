@@ -212,7 +212,7 @@ function PageHeaderDashboard(props) {
   };
 
   // FUNCTION TO GO TO SELLERS/BUYERS PROPERTIES
-  const onBackProperrties = () => {
+  const onBackProperties = () => {
     handleSetActiveSingleProperty({});
     if (userType === 'seller') history.push('/seller/pageLists');
     else history.push('/buyer/propertyLists');
@@ -263,7 +263,7 @@ function PageHeaderDashboard(props) {
                       windowDimensions.width > 1024 && (
                         <div
                           className="dis-f a-c cur-poi fsize-300 txtLight600 fweight-600 smallIconLink"
-                          onClick={() => onBackProperrties()}
+                          onClick={() => onBackProperties()}
                         >
                           <BrixelIcon className="mr-1" icon="arrow-left-small" />
                           <span>All properties</span>

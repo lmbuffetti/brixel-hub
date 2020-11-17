@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon,
+  BrixelButtonIcon, BrixelButtonPrimary,
   Helpers,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
@@ -18,8 +18,10 @@ import { getUserProperties } from '../../../actions/UserActions';
 const HomeDashboard = (props) => {
   // PROPS
   const {
+    activeSingleCompany,
     handleGetUserProperties,
     history,
+    isSmallLoading,
     loggedInUser,
     match,
     userProperties,
@@ -90,6 +92,19 @@ const HomeDashboard = (props) => {
     <>
       <div className="property-container  jc-c h-perc-md-100 pos-r a-t" id="propertyDashboard">
         <div>
+          <div className={`dis-f jc-fe mb-3 ${userProperties.length === 0 ? 'mt-3' : ''}`}>
+            <BrixelButtonPrimary
+              label="Create new"
+              rightIcon="plus"
+              rounded
+              onClick={() => history.push(`/packageFlow/getStarted?company=${get(activeSingleCompany, 'stub', '')}`)}
+            />
+          </div>
+          {
+            isSmallLoading && (
+              <div>LOADING</div>
+            )
+          }
           <div className="properties listings-wrapper w-perc-100">
             <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
               {
@@ -183,23 +198,28 @@ const HomeDashboard = (props) => {
 };
 
 HomeDashboard.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   handleGetUserProperties: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 HomeDashboard.defaultProps = {
+  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
-  userProperties: get(state, 'user.userProperties', []),
-  windowDimensions: get(state, 'common.windowDimensions', {}),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),
+  userProperties: get(state, 'user.userProperties', []),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
