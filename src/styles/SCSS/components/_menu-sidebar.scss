@@ -133,15 +133,15 @@
 
 @media (min-width: $responsive-medium) {
   #menu-sidebar {
-    width: 210px;
-    flex: 0 0 210px;
+    width: $sidebarWidth;
+    flex: 0 0 $sidebarWidth;
     height: 100vh;
     z-index: 5;
     position: fixed;
     left: 0;
   }
   .sidebarSubmenu {
-    left: 210px;
+    left: $sidebarWidth;
     .sidebarSubmenuContent {
       max-width: 448px;
     }

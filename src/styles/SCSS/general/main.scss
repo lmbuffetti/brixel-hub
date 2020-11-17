@@ -21,7 +21,7 @@ $responsive-medium: map_get($grid-breakpoints, md);
 
 @import '~@brixel/brixel-components/src/styles/SCSS/general/main.scss';
 
-$sidebarWidth: 210px;
+$sidebarWidth: 160px;
 $sidebarWidthCollapsed: 70px;
 // Color array to be used with randomizer for avatar background
 $avatarColors: map-get($primaryColor, 300),
