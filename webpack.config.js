@@ -7,7 +7,6 @@ const companyData = require('@brixel/brixel-configuration-partner/src/CompanyInf
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const CSSNano = require('cssnano');
@@ -68,36 +67,29 @@ const clientConfig = {
   module: {
     rules: [
       {
-        test: /\.(sa|sc)ss$/,
+        test: /\.(sa|sc|c)ss$/,
         use: [
           {
-            loader: ExtractCssChunks.loader,
+            loader: MiniCssExtractPlugin.loader,
           },
           {
             loader: 'css-loader',
             options: {
+              sourceMap: devMode,
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                outputStyle: 'compressed',
+              },
               sourceMap: devMode,
             },
           },
           {
             loader: 'postcss-loader',
-          },
-          {
-            loader: 'sass-loader',
-          },
-        ],
-      },
-      {
-        test: /\.css/,
-        use: [
-          {
-            loader: ExtractCssChunks.loader,
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: devMode,
-            },
           },
         ],
       },
@@ -178,10 +170,6 @@ const clientConfig = {
     ],
   },
   plugins: [
-    new ExtractCssChunks({
-      filename: devMode ? 'css/[name].css' : 'css/[name].[contenthash].css',
-      chunkFilename: devMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[contenthash].css',
-    }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
@@ -252,13 +240,6 @@ const clientConfig = {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
           enforce: !devMode, // create chunk regardless of the size of the chunk
-          maxSize: 200000,
-        },
-        styles: {
-          name: 'styles',
-          test: /\.(sa|sc)ss$/,
-          chunks: 'all',
-          enforce: true,
           maxSize: 200000,
         },
       },
