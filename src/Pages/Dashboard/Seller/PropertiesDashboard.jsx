@@ -21,7 +21,7 @@ const HomeDashboard = (props) => {
     activeSingleCompany,
     handleGetUserProperties,
     history,
-    isSmallLoading,
+    // isSmallLoading,
     loggedInUser,
     match,
     userProperties,
@@ -100,11 +100,6 @@ const HomeDashboard = (props) => {
               onClick={() => history.push(`/packageFlow/getStarted?company=${get(activeSingleCompany, 'stub', '')}`)}
             />
           </div>
-          {
-            isSmallLoading && (
-              <div>LOADING</div>
-            )
-          }
           <div className="properties listings-wrapper w-perc-100">
             <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
               {
@@ -201,20 +196,20 @@ HomeDashboard.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   handleGetUserProperties: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.string,
+  // isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 HomeDashboard.defaultProps = {
-  isSmallLoading: null,
+  // isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  // isSmallLoading: get(state, 'common.isSmallLoading', null),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),
