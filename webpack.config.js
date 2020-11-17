@@ -23,13 +23,22 @@ const clientConfig = {
   devtool: devMode ? 'inline-source-map' : 'cheap-source-map',
   entry: {
     polyfill: '@babel/polyfill',
-    mainjs: './src/index.jsx',
-    main: './src/styles/SCSS/general/main.scss',
-    fontStyle: './src/styles/SCSS/styleguide/fontStyle.scss',
-    styleguide: './src/styles/SCSS/styleguide/mainStyleguide.scss',
-    spacing: './src/styles/SCSS/styleguide/spacing.scss',
-    boxModel: './src/styles/SCSS/styleguide/boxModel.scss',
-    helpers: './src/styles/SCSS/styleguide/helpers.scss',
+    main: [
+      './src/index.jsx',
+      './src/styles/SCSS/general/main.scss',
+      './src/styles/SCSS/styleguide/boxModel.scss',
+    ],
+    secondary: [
+      './src/styles/SCSS/styleguide/helpers.scss',
+      './src/styles/SCSS/styleguide/grid.scss',
+    ],
+    styleguide: [
+      './src/styles/SCSS/styleguide/mainStyleguide.scss',
+      './src/styles/SCSS/styleguide/container.scss',
+      './src/styles/SCSS/styleguide/fontStyle.scss',
+      './src/styles/SCSS/styleguide/spacing.scss',
+      './src/styles/SCSS/styleguide/boxModel.scss',
+    ],
   },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
