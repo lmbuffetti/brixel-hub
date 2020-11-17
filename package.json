@@ -99,6 +99,7 @@
     "postcss-cli": "^8.2.0",
     "postcss-loader": "^4.0.4",
     "postcss-split-css": "^1.0.2",
+    "purgecss-webpack-plugin": "^3.0.0",
     "react-dev-utils": "^11.0.0",
     "react-stickyfill": "^0.2.5",
     "reload": "^3.1.1",

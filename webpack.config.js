@@ -12,13 +12,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const CSSNano = require('cssnano');
 const HtmlCriticalWebpackPlugin = require("html-critical-webpack-plugin");
-
+const PurgeCSSPlugin = require('purgecss-webpack-plugin');
+const glob = require('glob');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
 const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
+const PATHS = {
+  src: path.join(__dirname, 'dist'),
+};
 
 const clientConfig = {
   mode: 'development',
@@ -224,7 +228,7 @@ const clientConfig = {
       width: 375,
       height: 565,
       penthouse: {
-        blockJSRequests: true,
+        blockJSRequests: false,
       },
     }),
     new webpack.DefinePlugin({
@@ -234,6 +238,9 @@ const clientConfig = {
       },
       'process.env.client': true,
       'process.env.BROWSER': JSON.stringify(true),
+    }),
+    new PurgeCSSPlugin({
+      paths: glob.sync(`${PATHS.src}/**/*`,  { nodir: true }),
     }),
   ],
   resolve: {
