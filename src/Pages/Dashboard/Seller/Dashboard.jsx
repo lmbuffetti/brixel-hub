@@ -72,6 +72,7 @@ const ProtectedRoute = Loadable({
 const Dashboard = (props) => {
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleProperty,
     errorValue,
     formValue,
@@ -140,7 +141,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
-    if (!history.location.pathname.includes('pageLists') && propID !== get(activeSingleProperty, 'id', null)) {
+    if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
       if (propID && !get(activeSingleProperty, 'id', null)) {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: true });
       } else if (!propID) {
@@ -188,7 +189,7 @@ const Dashboard = (props) => {
     }
     localStorage.removeItem('gameGroup');
     const activeLeads = get(activeSingleProperty, 'pageLeads[0]', null);
-    if (activeLeads) {
+    if (activeLeads && activeLeads.company !== activeSingleCompany.id) {
       handleGetActiveSingleCompany({ id: activeLeads.company });
     }
   }, [activeSingleProperty]);
@@ -384,6 +385,7 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
@@ -447,6 +449,7 @@ const mapStateToProps = (state) => {
   const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
   inputSheet.totalComplete = calcPercentageFacts('Property', formValue).calcPerc;
   return ({
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty: has(state, 'property.activeSingleProperty.id') ? get(state, 'property.activeSingleProperty', { }) : undefined,
     errorValue: get(state, 'brixelForm.Property.syncErrors', null),
     formValue: get(state, 'brixelForm.Property.values', {}),
