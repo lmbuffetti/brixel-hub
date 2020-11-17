@@ -76,8 +76,11 @@ const clientConfig = {
             loader: 'css-loader',
             options: {
               sourceMap: devMode,
-              importLoaders: 1,
+              importLoaders: 1
             },
+          },
+          {
+            loader: 'postcss-loader',
           },
           {
             loader: 'sass-loader',
@@ -87,9 +90,6 @@ const clientConfig = {
               },
               sourceMap: devMode,
             },
-          },
-          {
-            loader: 'postcss-loader',
           },
         ],
       },
