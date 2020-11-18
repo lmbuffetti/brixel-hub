@@ -27,7 +27,7 @@
 
 .hubDasHeader {
   @media (min-width: $responsive-medium) {
-    padding-left: 210px;
+    padding-left: $sidebarWidth;
     position: fixed;
     width: 100%;
     top: 0;

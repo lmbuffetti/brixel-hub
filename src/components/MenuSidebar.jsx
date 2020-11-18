@@ -79,10 +79,11 @@ const MenuSidebar = (props) => {
         <div className="w-perc-100 h-perc-100 pos-r">
           { /* SECTION SIDEBAR MENU DESKTOP */ }
           <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite shadow-2dp ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
-            <div className="hide dis-b-md pl-3 pr-2">
-              <div className="h-fix-64 dis-f a-c">
-                <img className="pos-r w-fix-56" src={logo} alt="Brixel Logo" id="logo" />
+            <div className="hide dis-b-md px-2">
+              <div className="h-fix-64 dis-f a-c logoWrapper">
+                <img className="pos-r w-fix-64" src={logo} alt="Brixel Logo" id="logo" />
               </div>
+              <hr className="lighter mb-2" />
               <BrixelButtonTertiary
                 label="Sell"
                 rightIcon="arrow-right-small"
