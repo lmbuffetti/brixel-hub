@@ -25,7 +25,6 @@ const clientConfig = {
     main: [
       './src/index.jsx',
       './src/styles/SCSS/general/main.scss',
-      './src/styles/SCSS/styleguide/boxModel.scss',
     ],
     secondary: [
       './src/styles/SCSS/styleguide/helpers.scss',
