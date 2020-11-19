@@ -2,12 +2,11 @@
   overflow: hidden;
   position: relative;
   transition: all 450ms ease;
-  transition-property: opacity, height, margin-bottom;
 
   &.smallBanner {
     opacity: 0;
     padding-bottom: $step * 2;
-    animation: fadeIn 450ms ease forwards;;
+    animation: fadeIn 450ms ease forwards;
   }
   &.closeBanner {
     height: 0px !important;

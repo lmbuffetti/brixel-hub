@@ -31,12 +31,12 @@ const TeaserBanner = (props) => {
   return (
     <>
       {
-        (animClass || isClosed === 'yes') && (
+        isClosed === 'yes' && (
           <div
             ref={smallBannerRef}
             className={`teaserBanner ${isClosed !== 'yes' ? 'opned' : ''} smallBanner dis-f`}
           >
-            <span className="teaserTag"> Free </span>
+            <span className="teaserTag as-c"> Free </span>
             <span className="pl-2 body2 txtDark700"> Request your free scan and estimation now. </span>
             <span className="ml-1 link body2 txtPrimary400 fweight-500 td-u">Read more </span>
           </div>
