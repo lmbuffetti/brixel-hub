@@ -110,13 +110,15 @@ const MenuSidebar = (props) => {
                 saturation={history.location.pathname.includes('buyer') ? 700 : 100}
               />
             </div>
-
-            <BrixelButtonTertiary
-              className="fsize-300 txtLight600 fweight-600 py-0 min-h-fix-30 td-n pos-a-fix x-b-2 x-l-2"
-              label="Support"
-              leftIcon="conversation"
-              onClick={() => onTabClick('support')}
-            />
+            <div className="pos-a-fix x-b-2 px-2 w-perc-100">
+              <hr className="lighter mb-2" />
+              <BrixelButtonTertiary
+                className="fsize-300 txtDark400 py-0 td-n"
+                label="Support"
+                leftIcon="conversation"
+                onClick={() => onTabClick('support')}
+              />
+            </div>
           </div>
           <CSSTransition
             in={slideIn}
