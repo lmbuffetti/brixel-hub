@@ -10,6 +10,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelIcon,
   BrixelButtonSecondary,
+  BrixelButtonTertiary,
   BrixelButtonIcon,
   BrixelTabs,
   destroy,
@@ -364,8 +365,8 @@ function PageHeaderDashboard(props) {
               }
               {
                 propID && windowDimensions.width > 1024 && userType === 'seller' && (
-                  <BrixelButtonSecondary
-                    className="hide dis-f-md p-0 px-1 brdMedium mx-3"
+                  <BrixelButtonTertiary
+                    className="hide dis-f-md mx-3"
                     label="Upgrade"
                     color="red"
                     rounded
@@ -495,14 +496,15 @@ function PageHeaderDashboard(props) {
                         {
                           userType === 'seller' && (
                             <div>
-                              <BrixelButtonSecondary
-                                className=" p-0 px-1 brdMedium"
-                                label="Upgrade"
-                                color="red"
-                                rounded
-                                bgTransparent
-                                onClick={() => onUpgrade()}
-                              />
+                              <a
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  onUpgrade();
+                                }}
+                                className="link txtRed400 fweight-500 fsize-500 ta-l"
+                              >
+                                Upgrade
+                              </a>
                             </div>
                           )
                         }
