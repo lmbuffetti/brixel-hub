@@ -1,9 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
-import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
-import BrixelButtonTertiary from '@brixel/brixel-components/dist/components/BrixelButtonTertiary';
+import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
 import TeaserImg from '../images/TeaserBanner.png';
 import TeaserImg2x from '../images/TeaserBanner@2x.png';
 
@@ -16,10 +14,19 @@ const TeaserBanner = (props) => {
   const [animClass, setAnimClass] = useState(false);
 
   const smallBannerRef = useRef(null);
-  const smallBannerEl = smallBannerRef.current;
+  // const smallBannerEl = smallBannerRef.current;
   const teaserRef = useRef(null);
   const teaserEl = teaserRef.current;
 
+  // URL PARAMS
+  // const propID = history.location.pathname.split('/')[1];
+
+  // WHEN CLICK ON UPGRADE BUTTON
+  /* const onRequest = () => {
+    localStorage.setItem('backUrl', history.location.pathname);
+    history.push(`/${propID}/trialRequest`);
+  };
+ */
   useEffect(() => {
     localStorage.setItem('isBannerClosed', isClosed);
   }, [isClosed]);
@@ -65,12 +72,8 @@ const TeaserBanner = (props) => {
                 label="Tell me more"
                 rounded
                 className="as-fe"
-                onClick={() => {
-                  setAnimClass(true);
-                  setTimeout(() => {
-                    setIsClosed('yes');
-                  }, 650);
-                }}
+                /* onClick={() => onRequest()} */
+
               />
             </div>
             <div className="ml-a">
@@ -99,6 +102,7 @@ const TeaserBanner = (props) => {
 
 TeaserBanner.propTypes = {
   className: PropTypes.string,
+  // history: PropTypes.object.isRequired,
 };
 
 TeaserBanner.defaultProps = {
