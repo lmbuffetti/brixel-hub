@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^2.1.6",
+    "@brixel/brixel-components": "^2.1.8",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "css-split-webpack-plugin": "^0.2.6",
     "d3": "^6.2.0",
@@ -95,7 +95,7 @@
     "node-sass": "4.14.1",
     "open": "^7.3.0",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
-    "postcss-cli": "^8.2.0",
+    "postcss-cli": "^8.3.0",
     "postcss-loader": "^4.0.4",
     "postcss-split-css": "^1.0.2",
     "react-dev-utils": "^11.0.0",
