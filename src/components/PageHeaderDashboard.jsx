@@ -15,6 +15,7 @@ import {
   destroy,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
+import BrixelButtonTertiary from '@brixel/brixel-components/dist/components/BrixelButtonTertiary';
 import useOutsideAlerter from './OutsideElement';
 import { setCookie, sortObject } from '../utils/helpers';
 import { setLanguage, setModal } from '../actions/CommonActions';
@@ -364,11 +365,10 @@ function PageHeaderDashboard(props) {
               }
               {
                 propID && windowDimensions.width > 1024 && userType === 'seller' && (
-                  <BrixelButtonSecondary
-                    className="hide dis-f-md p-0 px-1 brdMedium mx-3"
+                  <BrixelButtonTertiary
+                    className="hide dis-f-md mx-3"
                     label="Upgrade"
                     color="red"
-                    rounded
                     onClick={() => onUpgrade()}
                   />
                 )

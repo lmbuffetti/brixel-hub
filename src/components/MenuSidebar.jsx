@@ -86,7 +86,6 @@ const MenuSidebar = (props) => {
               <hr className="lighter mb-2" />
               <BrixelButtonTertiary
                 label="Sell"
-                rightIcon="arrow-right-small"
                 labelClass="fsize-300"
                 className="pb-small-4 td-n"
                 onClick={() => {
@@ -99,7 +98,6 @@ const MenuSidebar = (props) => {
               />
               <BrixelButtonTertiary
                 label="Buy"
-                rightIcon="arrow-right-small"
                 labelClass="fsize-300"
                 className="pt-small-4 td-n"
                 onClick={() => {
