@@ -134,7 +134,9 @@
             width: 100%;
             max-width: 480px;
             margin: auto;
-
+            &.subcontainerlg {
+              max-width: 680px
+            }
             &.rewardsFacts {
               max-width: 345px;
             }

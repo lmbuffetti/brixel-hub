@@ -64,6 +64,11 @@ const Upgrade = Loadable({
   loading: () => null,
 });
 
+const ScanTrialFlow = Loadable({
+  loader: () => import('../../ScanTrialFlow/ScanTrialFlow' /* webpackChunkName: "ScanTrialFlow" */),
+  loading: () => null,
+});
+
 const ProtectedRoute = Loadable({
   loader: () => import('../../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
   loading: () => null,
@@ -383,13 +388,14 @@ const Dashboard = (props) => {
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
       <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
+      <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
       <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
     </div>
   );
 };
 
 Dashboard.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object,
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
   gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -425,6 +431,7 @@ Dashboard.propTypes = {
 };
 
 Dashboard.defaultProps = {
+  activeSingleProperty: {},
   errorValue: null,
   isSmallLoading: null,
   notification: null,

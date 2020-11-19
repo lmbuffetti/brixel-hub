@@ -415,3 +415,32 @@ main > div ::-webkit-scrollbar-thumb {
     }
   }
 }
+
+.olLgNum {
+  counter-reset: olList;
+  li {
+    list-style: none;
+    position: relative;
+    padding-left: 56px;
+    margin-bottom: $step * 2;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    &:before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      @include fontStyle(400, 'medium');
+      counter-increment: olList;
+      content: counter(olList);
+      border-radius: 50%;
+      color: map_get($greenColor, 400);
+      border: 1px solid map_get($greenColor, 400);
+      display: flex;
+      width: 40px;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

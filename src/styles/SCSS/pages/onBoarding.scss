@@ -37,6 +37,14 @@
         margin: auto;
         padding: $step * 3;
       }
+
+      .subcontainerlg {
+        width: 100%;
+        max-width: 680px;
+        margin: auto;
+        padding: $step * 3;
+      }
+
       @media (max-width: $responsive-medium) {
         .chat .subcontainer {
           padding: $step * 3;

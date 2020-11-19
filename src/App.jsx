@@ -243,7 +243,8 @@ const App = (props) => {
     if (
       history.location.pathname.includes('packageFlow') ||
       history.location.pathname.includes('onBoarding') ||
-      history.location.pathname.includes('upgrade')
+      history.location.pathname.includes('upgrade') ||
+      history.location.pathname.includes('trialRequest')
     ) {
       if (history.location.pathname.includes('packageFlow')) {
         setClassMain('flowContainer packageFlow w-perc-100');
@@ -376,6 +377,7 @@ const App = (props) => {
             !history.location.pathname.includes('packageFlow') &&
             !history.location.pathname.includes('onBoarding') &&
             !history.location.pathname.includes('upgrade') &&
+            !history.location.pathname.includes('trialRequest') &&
             !history.location.pathname.includes('achievement') &&
             loggedInUser &&
              (
@@ -396,6 +398,7 @@ const App = (props) => {
                 !history.location.pathname.includes('packageFlow') &&
                 !history.location.pathname.includes('onBoarding')) &&
                 !history.location.pathname.includes('upgrade') &&
+                !history.location.pathname.includes('trialRequest') &&
               (
                 <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
               )
@@ -428,6 +431,7 @@ const App = (props) => {
                       <ProtectedRoute path="/:propId?/listings" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
                     </>
                   )
                 }
@@ -481,7 +485,12 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification && !history.location.pathname.includes('rewards') && !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('upgrade') && notification.type === ('infoHub') && (
+        notification &&
+        !history.location.pathname.includes('rewards') &&
+        !history.location.pathname.includes('packageFlow') &&
+        !history.location.pathname.includes('upgrade') &&
+        !history.location.pathname.includes('trialRequest') &&
+        notification.type === ('infoHub') && (
           <BrixelNotification
             saveBar
             label={notification.label}
