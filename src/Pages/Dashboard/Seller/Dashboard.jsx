@@ -1,3 +1,4 @@
+// @collapse
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -32,6 +33,7 @@ import {
 import { setModal, setPageData, setScreenNotification } from '../../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { calcPercentageFacts } from '../../../utils/helpers';
+import TeaserBanner from '../../../components/TeaserBanner';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -377,6 +379,7 @@ const Dashboard = (props) => {
   if (!userTypes && !userType) return (<div />);
   return (
     <div className="container dashboardContainer" id="dashboard">
+      <TeaserBanner />
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
       <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />

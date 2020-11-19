@@ -1,0 +1,44 @@
+.teaserBanner {
+  overflow: hidden;
+  position: relative;
+  transition: all 450ms ease;
+  transition-property: opacity, height, margin-bottom;
+
+  &.smallBanner {
+    opacity: 0;
+    padding-bottom: $step * 2;
+    animation: fadeIn 450ms ease forwards;;
+  }
+  &.closeBanner {
+    height: 0px !important;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+  &.bigBanner {
+    img {
+      border-radius: 4px;
+      object-fit: cover;
+      object-position: left;
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    } 100% {
+      opacity: 1;
+    }
+  }
+  .teaserTag {
+    background-color: map-get($greenColor, 400);
+    padding-left: $step * 2;
+    padding-right: $step * 2;
+    @include fontStyle(100, 'medium');
+    color: white;
+    border-radius: $step / 2;
+    text-align: center;
+    line-height: 24px;
+  }
+}

@@ -291,7 +291,7 @@ const RewardsDashboard = (props) => {
                         <>
                           {
                             i === 0 ? (
-                              <div className="dis-f jc-b a-c mb-3 mt-0 mt-md-2">
+                              <div className="dis-f jc-b a-c mb-3 mt-0">
                                 <span className="dis-b txtGreen700 fweight-500">
                                   {GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`].name}
                                 </span>
