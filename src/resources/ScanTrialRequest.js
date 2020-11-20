@@ -20,7 +20,7 @@ export const ScanTrialQuestions = (lang = {}) => {
     },
     {
       title: isNotInterested ? 'Fair enough. Please let us know why you are not interested to help improve our product.' : 'Please just confirm your personal data so we can reach out to you.',
-      history: 'contactInformation',
+      history: isNotInterested ? 'contactInformation' : 'feedbackForm',
       vCentered: true,
       inputs: [
         {
@@ -79,7 +79,7 @@ export const ScanTrialQuestions = (lang = {}) => {
     {
       title: translateTo(lang, 'Thanks for your feedback'),
       img: scanComplete,
-      subtitle: 'We will contact as soos as possible',
+      subtitle: isNotInterested ? 'We will work on your feedback.' : 'We will contact as soos as possible',
       history: 'success',
       vCentered: true,
       toSave: true,

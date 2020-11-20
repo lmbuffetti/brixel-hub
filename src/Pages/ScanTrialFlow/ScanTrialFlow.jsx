@@ -157,6 +157,10 @@ const ScanTrialFlow = (props) => {
     return label;
   };
 
+  useEffect(() => {
+    console.log(questions[currentIndex].history);
+  });
+
   if (isSmallLoading) {
     return <div />;
   }
