@@ -1,15 +1,23 @@
 .hubDashboard {
-
+  @media (min-width: $responsive-medium) {
+    overflow-y: hidden;
+  }
+  .hubTopWrapper {
+    @media (min-width: $responsive-medium) {
+      background-color: map-get($lightColor, 100);
+      min-height: 100vh;
+    }
+  }
   @media (min-width: $responsive-medium) {
     .rewardsTop .secondLevel,
     .mediaDetails {
       position: sticky;
-      top: $step * 3;
+      top: 0;
     }
     .propertyTop .firstLevel,
     .listingsTop .firstLevel {
       position: sticky;
-      top: $step * 3;
+      top: 0;
     }
   }
 
@@ -53,7 +61,7 @@
   .withTopBar {
     .hubDasContent {
       @media (min-width: $responsive-medium) {
-        top: 107px;
+        top: 106px;
       }
     }
   }

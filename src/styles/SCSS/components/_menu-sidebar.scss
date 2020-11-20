@@ -200,3 +200,15 @@
     transform: translateY(-50%) translateX(-75%) rotate(-90deg);
   }
 }
+
+.sidebarNav {
+  .tertiaryBtn {
+    justify-content: flex-start;
+    width: 100%;
+    padding-left: $step * 2;
+    padding-right: $step * 2;
+    &:hover {
+      background-color: map-get($lightColor, 100);
+    }
+  }
+}

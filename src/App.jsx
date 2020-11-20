@@ -383,7 +383,7 @@ const App = (props) => {
              )
           }
           <div
-            className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
+            className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : ''}`}
             style={contentLayout()}
           >
             {
@@ -402,7 +402,7 @@ const App = (props) => {
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
+              className={`${!isFlow ? 'hubDasContent ov-y-a ov-x-h bgLight100' : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
               style={isSecLevel ? { height: '100%' } : headerCalc()}
               ref={dashContentRef}
             >

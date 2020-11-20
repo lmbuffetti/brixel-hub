@@ -27,6 +27,7 @@
 
 .hubDasHeader {
   @media (min-width: $responsive-medium) {
+    background-color: map-get($lightColor, 100);
     padding-left: $sidebarWidth;
     position: fixed;
     width: 100%;
@@ -36,6 +37,9 @@
   }
   .dasHeaderContainer {
     transition: margin-top $default-time-long $default-easing;
+    .wrapperHeader {
+      box-shadow: $shadow-1dp;
+    }
   }
   .mobileTitle {
     background: map-get($lightColor, 100);
@@ -59,12 +63,12 @@
 }
 
 .withTopBar {
-  .tabWrapper {
-    .brixel-tabs {
-      @media (min-width: $responsive-medium) {
+  @media (min-width: $responsive-medium) {
+    .tabWrapper {
+      background-color: map-get($lightColor, 100);
+      .brixel-tabs {
         padding-top: 2px;
         position: relative;
-        border-bottom: 1px solid map-get($lightColor, 200);
       }
     }
   }
