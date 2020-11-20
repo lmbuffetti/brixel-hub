@@ -8,6 +8,7 @@ import get from 'lodash/get';
 import { translateTo } from '../utils/translation';
 import IntroScanFlow from '../Pages/ScanTrialFlow/IntroScanFlow';
 import { configureStore } from '../store';
+import scanComplete from '../images/Upgrade/upgrade_complete.svg';
 
 export const ScanTrialQuestions = (lang = {}) => {
   const formValue = get(configureStore.getState(), 'brixelForm.scanFlow.values', {});
@@ -77,6 +78,7 @@ export const ScanTrialQuestions = (lang = {}) => {
     },
     {
       title: translateTo(lang, 'Thanks for your feedback'),
+      img: scanComplete,
       subtitle: 'We will contact as soos as possible',
       history: 'success',
       vCentered: true,

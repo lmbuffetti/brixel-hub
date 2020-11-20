@@ -1,14 +1,19 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useRef, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
-import TeaserImg from '../images/TeaserBanner.png';
-import TeaserImg2x from '../images/TeaserBanner@2x.png';
+import TeaserImg from '../images/scanTrial/TeaserBanner.png';
+import TeaserImg2x from '../images/scanTrial/TeaserBanner@2x.png';
 
 const TeaserBanner = (props) => {
   const {
     className,
+    history,
   } = props;
+
+  // URL PARAMS
+  const propID = history.location.pathname.split('/')[1];
 
   const [isClosed, setIsClosed] = useState(localStorage.getItem('isBannerClosed'));
   const [animClass, setAnimClass] = useState(false);
@@ -18,22 +23,15 @@ const TeaserBanner = (props) => {
   const teaserRef = useRef(null);
   const teaserEl = teaserRef.current;
 
-  // URL PARAMS
-  // const propID = history.location.pathname.split('/')[1];
-
-  // WHEN CLICK ON UPGRADE BUTTON
-  /* const onRequest = () => {
-    localStorage.setItem('backUrl', history.location.pathname);
-    history.push(`/${propID}/trialRequest`);
-  };
- */
   useEffect(() => {
     localStorage.setItem('isBannerClosed', isClosed);
   }, [isClosed]);
 
-  useEffect(() => {
-    if (teaserEl) console.log(teaserEl.offsetHeight);
-  });
+  const bannerHeight = () => {
+    let height;
+    if (teaserEl) height = teaserEl.offsetHeight;
+    return height;
+  };
 
   return (
     <>
@@ -45,7 +43,12 @@ const TeaserBanner = (props) => {
           >
             <span className="teaserTag as-c"> Free </span>
             <span className="pl-2 body2 txtDark700"> Request your free scan and estimation now. </span>
-            <span className="ml-1 link body2 txtPrimary400 fweight-500 td-u">Read more </span>
+            <span
+              className="ml-1 link body2 txtPrimary400 fweight-500 td-u cur-poi"
+              onClick={() => history.push(`/${propID}/trialRequest`)}
+            >
+              Read more
+            </span>
           </div>
         )
       }
@@ -54,9 +57,9 @@ const TeaserBanner = (props) => {
         isClosed !== 'yes' && (
           <div
             ref={teaserRef}
-            className={`teaserBanner bigBanner ${animClass ? 'closeBanner' : ''} p-1 mb-2 dis-f bgWhite brdRadius w-perc-100 w-perc-md-80 ml-a mr-a ${className}`}
+            className={`teaserBanner bigBanner ${animClass ? 'closeBanner' : ''} p-1 mb-2 dis-f bgWhite brdRadius w-perc-100 w-perc-md-90 ml-a mr-a ${className}`}
             // eslint-disable-next-line no-nested-ternary
-            style={{ height: `${teaserEl ? teaserEl.offsetHeight : ''}px` }}
+            style={{ height: `${bannerHeight()}px` }}
           >
             <div className="max-w-fix-224 pos-r">
               <span className="teaserTag pos-a-fix x-b-1 x-r-2"> Free </span>
@@ -65,14 +68,17 @@ const TeaserBanner = (props) => {
                 <img width="225" height="100%" className="h-perc-100" src={TeaserImg} alt="" />
               </picture>
             </div>
-            <div className="dis-fl-col w-perc-100 w-perc-md-90 pl-2">
+            <div className="dis-fl-col w-perc-100 w-perc-md-60 pl-2">
               <h5 className="pl-2 pt-1"> Request your free photo scan and estimation. </h5>
               <p className="p-2 body txtDark700">Do you want to capture your property in its best possible light? Request a free on-site appointment by one of our experts.</p>
               <BrixelButtonPrimary
                 label="Tell me more"
                 rounded
                 className="as-fe"
-                /* onClick={() => onRequest()} */
+                onClick={() => {
+                  localStorage.setItem('isBannerClosed', 'yes');
+                  history.push(`/${propID}/trialRequest`);
+                }}
 
               />
             </div>
@@ -82,7 +88,7 @@ const TeaserBanner = (props) => {
                 saturationTxt={400}
                 bgTransparent
                 noBorder
-                className="shadow-2dp as-c"
+                className="as-c"
                 icon="close-small"
                 onClick={() => {
                   setAnimClass(true);
@@ -102,11 +108,11 @@ const TeaserBanner = (props) => {
 
 TeaserBanner.propTypes = {
   className: PropTypes.string,
-  // history: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 TeaserBanner.defaultProps = {
   className: '',
 };
 
-export default TeaserBanner;
+export default withRouter(TeaserBanner);

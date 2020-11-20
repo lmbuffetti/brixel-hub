@@ -306,6 +306,8 @@ const Dashboard = (props) => {
     setIsDiscardChanges(true);
   };
 
+  const teaserScreens = history.location.pathname.includes('rewards') || history.location.pathname.includes('property') || history.location.pathname.includes('listings');
+
   // FUNCTION TO ADD THE SMALL LOADING ON BUTTON SAVE ON NOTIFICATION BAR
   useEffect(() => {
     if (notification && notification.actions && notification.type === 'infoHub' && isSmallLoading) {
@@ -384,7 +386,7 @@ const Dashboard = (props) => {
   if (!userTypes && !userType) return (<div />);
   return (
     <div className="container dashboardContainer" id="dashboard">
-      <TeaserBanner />
+      {teaserScreens && (<TeaserBanner />)}
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
       <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
