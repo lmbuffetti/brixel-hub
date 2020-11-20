@@ -242,7 +242,7 @@ function PageHeaderDashboard(props) {
     <>
       <header className="hubDasHeader">
         <div className="dasHeaderContainer">
-          <div className="dis-f a-c px-2 px-md-3 h-fix-64 jc-b pos-r bgWhite">
+          <div className="wrapperHeader dis-f a-c px-2 px-md-3 h-fix-64 jc-b pos-r bgWhite">
 
             {
               activeSingleProperty.id ? (

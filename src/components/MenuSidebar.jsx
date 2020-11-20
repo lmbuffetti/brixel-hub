@@ -79,45 +79,49 @@ const MenuSidebar = (props) => {
         <div className="w-perc-100 h-perc-100 pos-r">
           { /* SECTION SIDEBAR MENU DESKTOP */ }
           <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite shadow-2dp ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
-            <div className="hide dis-b-md px-2">
-              <div className="h-fix-64 dis-f a-c logoWrapper">
+            <div className="hide dis-b-md">
+              <div className="h-fix-64 dis-f a-c logoWrapper px-2 shadow-1dp">
                 <img className="pos-r w-fix-64" src={logo} alt="Brixel Logo" id="logo" />
               </div>
-              <hr className="lighter mb-2" />
-              <BrixelButtonTertiary
-                label="Sell"
-                labelClass="fsize-300"
-                className="pb-small-4 td-n"
-                onClick={() => {
-                  handleSetUserTypes('seller');
-                  handleSetActiveSingleProperty({});
-                  history.push('/seller/pageLists');
-                }}
-                color="dark"
-                saturation={history.location.pathname.includes('buyer') ? 100 : 700}
-              />
-              <BrixelButtonTertiary
-                label="Buy"
-                labelClass="fsize-300"
-                className="pt-small-4 td-n"
-                onClick={() => {
-                  destroyForm();
-                  handleSetUserTypes('buyer');
-                  handleSetActiveSingleProperty({});
-                  history.push('/buyer/propertyLists');
-                }}
-                color="dark"
-                saturation={history.location.pathname.includes('buyer') ? 700 : 100}
-              />
+              <hr className="lighter" />
+              <div className="sidebarNav">
+                <BrixelButtonTertiary
+                  label="Sell"
+                  labelClass="fsize-300"
+                  className={`pb-small-4 td-n ${history.location.pathname.includes('buyer') ? '' : 'bgLight100'}`}
+                  onClick={() => {
+                    handleSetUserTypes('seller');
+                    handleSetActiveSingleProperty({});
+                    history.push('/seller/pageLists');
+                  }}
+                  color="dark"
+                  saturation={history.location.pathname.includes('buyer') ? 100 : 700}
+                />
+                <BrixelButtonTertiary
+                  label="Buy"
+                  labelClass="fsize-300"
+                  className={`pb-small-4 td-n ${history.location.pathname.includes('buyer') ? 'bgLight100' : ''}`}
+                  onClick={() => {
+                    destroyForm();
+                    handleSetUserTypes('buyer');
+                    handleSetActiveSingleProperty({});
+                    history.push('/buyer/propertyLists');
+                  }}
+                  color="dark"
+                  saturation={history.location.pathname.includes('buyer') ? 700 : 100}
+                />
+              </div>
             </div>
-            <div className="pos-a-fix x-b-2 px-2 w-perc-100">
+            <div className="pos-a-fix x-b-2 w-perc-100">
               <hr className="lighter mb-2" />
-              <BrixelButtonTertiary
-                className="fsize-300 txtDark400 py-0 td-n"
-                label="Support"
-                leftIcon="conversation"
-                onClick={() => onTabClick('support')}
-              />
+              <div className="px-2">
+                <BrixelButtonTertiary
+                  className="fsize-300 txtDark400 py-0 td-n"
+                  label="Support"
+                  leftIcon="conversation"
+                  onClick={() => onTabClick('support')}
+                />
+              </div>
             </div>
           </div>
           <CSSTransition
