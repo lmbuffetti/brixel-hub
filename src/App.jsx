@@ -23,7 +23,7 @@ import 'moment/locale/en-gb';
 import { BrixelIcon, BrixelNotification } from '@brixel/brixel-components';
 import Loading from './components/Loading';
 import { checkToken, setUserTypes } from './actions/UserActions';
-import { setLanguages, setModal, setWindowDimensions } from './actions/CommonActions';
+import { setLanguage, setModal, setWindowDimensions } from './actions/CommonActions';
 
 import BrixelModalAwards from './components/BrixelModalAwards';
 import { getImageType } from './actions/UploadActions';
@@ -128,6 +128,7 @@ const App = (props) => {
     handleSetUserTypes,
     history,
     handleCheckToken,
+    handleSetLanguage,
     handleSetModal,
     handleSetWindowsDimension,
     handleGetImageType,
@@ -161,6 +162,7 @@ const App = (props) => {
   useEffect(() => {
     if (loggedInUser.user && localTransifex) {
       const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
+      handleSetLanguage(lang);
       if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
       if (lang === 'ch' || lang === 'de') {
         moment.locale('de-ch');
@@ -540,6 +542,7 @@ App.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
+  handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   handleSetWindowsDimension: PropTypes.func.isRequired,
@@ -577,7 +580,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
-  handleSetLanguages: bindActionCreators(setLanguages, dispatch),
+  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });

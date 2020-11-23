@@ -26,7 +26,7 @@ const AccountDropdown = (props) => {
 
   // STATE
   const [langMenu, setLangMenu] = useState([]);
-  const [langSel, setSelLang] = useState(get(loggedInUser, 'user.language', 'en'));
+  const [langSel, setSelLang] = useState(lang);
   const [closeDropDown, setCloseDropdown] = useState(false);
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
 
