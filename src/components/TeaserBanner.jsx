@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
+import { setCookie, getCookie } from '../utils/helpers';
 import TeaserImg from '../images/scanTrial/TeaserBanner.png';
 import TeaserImg2x from '../images/scanTrial/TeaserBanner@2x.png';
 
@@ -15,7 +16,7 @@ const TeaserBanner = (props) => {
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
 
-  const [isClosed, setIsClosed] = useState(localStorage.getItem('isBannerClosed'));
+  const [isClosed, setIsClosed] = useState(getCookie('brixelBannerClosed') || false);
   const [animClass, setAnimClass] = useState(false);
 
   const smallBannerRef = useRef(null);
@@ -24,8 +25,20 @@ const TeaserBanner = (props) => {
   const teaserEl = teaserRef.current;
 
   useEffect(() => {
-    localStorage.setItem('isBannerClosed', isClosed);
+    setCookie('brixelBannerClosed', isClosed);
   }, [isClosed]);
+
+  const openTrialRequestFlow = () => {
+    setCookie('isBannerClosed', true);
+    history.push(`/${propID}/trialRequest`);
+  };
+
+  const closeBanner = () => {
+    setAnimClass(true);
+    setTimeout(() => {
+      setIsClosed(true);
+    }, 650);
+  };
 
   const bannerHeight = () => {
     let height;
@@ -36,25 +49,21 @@ const TeaserBanner = (props) => {
   return (
     <>
       {
-        isClosed === 'yes' && (
+        isClosed ? (
           <div
             ref={smallBannerRef}
-            className={`teaserBanner ${isClosed !== 'yes' ? 'opned' : ''} smallBanner dis-f`}
+            className={`teaserBanner ${!isClosed ? 'opned' : ''} smallBanner dis-f`}
           >
-            <span className="teaserTag as-c"> Free </span>
-            <span className="pl-2 body2 txtDark700"> Request your free scan and estimation now. </span>
+            <span className="teaserTag as-c">Free</span>
+            <span className="pl-2 body2 txtDark700">Request your free scan and estimation now.</span>
             <span
               className="ml-1 link body2 txtPrimary400 fweight-500 td-u cur-poi"
-              onClick={() => history.push(`/${propID}/trialRequest`)}
+              onClick={() => openTrialRequestFlow()}
             >
               Read more
             </span>
           </div>
-        )
-      }
-
-      {
-        isClosed !== 'yes' && (
+        ) : (
           <div
             ref={teaserRef}
             className={`teaserBanner bigBanner ${animClass ? 'closeBanner' : ''} p-1 mb-2 dis-f bgWhite brdRadius w-perc-100 w-perc-md-90 ml-a mr-a ${className}`}
@@ -69,16 +78,13 @@ const TeaserBanner = (props) => {
               </picture>
             </div>
             <div className="dis-fl-col w-perc-100 w-perc-md-60 pl-2">
-              <h5 className="pl-2 pt-1"> Request your free photo scan and estimation. </h5>
+              <h5 className="pl-2 pt-1">Request your free photo scan and estimation. </h5>
               <p className="p-2 body txtDark700">Do you want to capture your property in its best possible light? Request a free on-site appointment by one of our experts.</p>
               <BrixelButtonPrimary
                 label="Tell me more"
                 rounded
                 className="as-fe"
-                onClick={() => {
-                  localStorage.setItem('isBannerClosed', 'yes');
-                  history.push(`/${propID}/trialRequest`);
-                }}
+                onClick={() => openTrialRequestFlow()}
 
               />
             </div>
@@ -90,12 +96,7 @@ const TeaserBanner = (props) => {
                 noBorder
                 className="as-c"
                 icon="close-small"
-                onClick={() => {
-                  setAnimClass(true);
-                  setTimeout(() => {
-                    setIsClosed('yes');
-                  }, 650);
-                }}
+                onClick={() => closeBanner()}
               />
             </div>
           </div>

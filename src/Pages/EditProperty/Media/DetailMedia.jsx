@@ -26,13 +26,11 @@ const DetailMedia = (props) => {
   const {
     formValue,
     handleRotateImg,
-    initialValues,
     changeFieldValue,
     handleDeleteImg,
     history,
     isSmallLoading,
     match,
-    resetForm,
   } = props;
   // STATE
   const [rotation, setRotation] = useState(0);
@@ -45,7 +43,6 @@ const DetailMedia = (props) => {
   const mediaType = get(match, 'params.editType', null);
   // REF
   const wrapImg = useRef(null);
-  const thirdlevelEl = document.getElementsByClassName('thirdLevel')[0];
 
   // SET ID OF CURRENT IMAGE
   useEffect(() => {
@@ -248,13 +245,11 @@ const DetailMedia = (props) => {
 DetailMedia.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
-  initialValues: PropTypes.object.isRequired,
   handleRotateImg: PropTypes.func.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.string,
   match: PropTypes.object.isRequired,
-  resetForm: PropTypes.func.isRequired,
 };
 
 DetailMedia.defaultProps = {

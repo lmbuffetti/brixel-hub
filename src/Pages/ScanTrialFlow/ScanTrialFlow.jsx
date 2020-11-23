@@ -328,10 +328,15 @@ ScanTrialFlow.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   destroyForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   reset: PropTypes.func.isRequired,
+};
+
+ScanTrialFlow.defaultProps = {
+  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => {
