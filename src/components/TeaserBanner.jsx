@@ -16,7 +16,7 @@ const TeaserBanner = (props) => {
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
 
-  const [isClosed, setIsClosed] = useState(getCookie('brixelBannerClosed') || false);
+  const [isClosed, setIsClosed] = useState(getCookie('brixelBannerClosed') === 'true');
   const [animClass, setAnimClass] = useState(false);
 
   const smallBannerRef = useRef(null);
@@ -52,7 +52,7 @@ const TeaserBanner = (props) => {
         isClosed ? (
           <div
             ref={smallBannerRef}
-            className={`teaserBanner ${!isClosed ? 'opned' : ''} smallBanner dis-f`}
+            className={`teaserBanner ${!isClosed ? 'opened' : ''} smallBanner dis-f`}
           >
             <span className="teaserTag as-c">Free</span>
             <span className="pl-2 body2 txtDark700">Request your free scan and estimation now.</span>
