@@ -15,7 +15,9 @@ import Loading from '../../../components/Loading';
 import { GameGroupConfig } from '../../../constants/global';
 import helloImg from '../../../images/hello.svg';
 import BrixelButtonAchievement from '../../../components/BrixelButtonAchievement';
-import { setCookie, getCookie, sortObject } from '../../../utils/helpers';
+import {
+  setCookie, getCookie, sortObject,
+} from '../../../utils/helpers';
 
 import SuccessMarketCheck from '../../GameHistory/MarketChecker/SuccessMarketCheck';
 import SuccessBestimate from '../../GameHistory/Bestimate/SuccessBestimate';
@@ -410,14 +412,19 @@ const RewardsDashboard = (props) => {
                   }
                   {getSuccessActiveGroup()}
                 </div>
-                <BrixelUpgradeMessage
-                  className="mt-3"
-                  unlockFunction={false}
-                  title="Do you want to capture your property in its best possible light?"
-                  description="Request a free photo shooting by one of our experts."
-                  btnLabel="Request photo shoot"
-                  redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
-                />
+                {
+                  rewardType === 'media' && (
+                    <BrixelUpgradeMessage
+                      className="mt-3"
+                      unlockFunction={false}
+                      title="Do you want to capture your property in its best possible light?"
+                      description="Request a free photo shooting by one of our experts."
+                      btnLabel="Request photo shoot"
+                      redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
+                      trialRequest
+                    />
+                  )
+                }
               </div>
             </Sticker>
           )

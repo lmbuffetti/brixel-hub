@@ -32,7 +32,7 @@ import {
 } from '../../../actions/GamificationActions';
 import { setModal, setPageData, setScreenNotification } from '../../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
-import { calcPercentageFacts } from '../../../utils/helpers';
+import { calcPercentageFacts, isEligible } from '../../../utils/helpers';
 import TeaserBanner from '../../../components/TeaserBanner';
 
 const RewardsDashboard = Loadable({
@@ -308,24 +308,6 @@ const Dashboard = (props) => {
 
   const teaserScreens = history.location.pathname.includes('rewards') || history.location.pathname.includes('property') || history.location.pathname.includes('listings');
 
-  const isEligible = () => {
-    if (has(activeSingleProperty, 'location.country') && activeSingleProperty.location.country === 'Schweiz') {
-      return true;
-    }
-    if (has(activeSingleProperty, 'location.country') && activeSingleProperty.location.country === 'Portugal') {
-      if (has(activeSingleProperty, 'location.state')) {
-        if (activeSingleProperty.location.state === 'Lisboa' ||
-            activeSingleProperty.location.state === 'Porto' ||
-            activeSingleProperty.location.state === 'Setúbal') {
-          return true;
-        }
-        return false;
-      }
-      return false;
-    }
-    return false;
-  };
-
   // FUNCTION TO ADD THE SMALL LOADING ON BUTTON SAVE ON NOTIFICATION BAR
   useEffect(() => {
     if (notification && notification.actions && notification.type === 'infoHub' && isSmallLoading) {
@@ -404,7 +386,7 @@ const Dashboard = (props) => {
   if (!userTypes && !userType) return (<div />);
   return (
     <div className="container dashboardContainer" id="dashboard">
-      {teaserScreens && isEligible() && (<TeaserBanner />)}
+      {teaserScreens && isEligible(activeSingleProperty) && (<TeaserBanner />)}
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
       <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />

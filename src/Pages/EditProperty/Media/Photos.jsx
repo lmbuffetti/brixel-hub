@@ -315,6 +315,7 @@ const Photos = (props) => {
               description="High-quality photos help you to stand out in the market. Request a free on-site appointment by one of our experts to get a free photo shooting."
               btnLabel="Request photo shoot"
               redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
+              trialRequest
             />
           )
         }

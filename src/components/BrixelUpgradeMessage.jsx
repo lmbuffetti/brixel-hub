@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
 import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
 import defaultCover from '../images/3d-tour-placeholder.jpg';
+import { isEligible } from '../utils/helpers';
 
 const BrixelUpgradeMessage = (props) => {
   const {
+    activeSingleProperty,
     btnLabel,
     className,
     history,
@@ -19,6 +24,7 @@ const BrixelUpgradeMessage = (props) => {
     redirectUrl,
     showClose,
     unlockFunction,
+    trialRequest,
     virtualTour,
   } = props;
   // URL PARAMS
@@ -35,6 +41,10 @@ const BrixelUpgradeMessage = (props) => {
   };
 
   const bgColor = showUnlockMessage ? 'bgPrimary100' : 'bgGreen100';
+
+  if (!isEligible(activeSingleProperty) && trialRequest) {
+    return <span />;
+  }
 
   return (
     <div className={`brixel-upgrade-message ta-c brdRadius ${className} ${bgColor}`}>
@@ -151,6 +161,7 @@ const BrixelUpgradeMessage = (props) => {
 };
 
 BrixelUpgradeMessage.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   btnLabel: PropTypes.string,
   className: PropTypes.string,
   description: PropTypes.string,
@@ -163,6 +174,7 @@ BrixelUpgradeMessage.propTypes = {
   showClose: PropTypes.bool,
   title: PropTypes.string,
   titleConfirm: PropTypes.string,
+  trialRequest: PropTypes.bool,
   unlockFunction: PropTypes.bool,
   virtualTour: PropTypes.string,
 };
@@ -179,8 +191,16 @@ BrixelUpgradeMessage.defaultProps = {
   showClose: false,
   title: null,
   titleConfirm: null,
+  trialRequest: false,
   unlockFunction: false,
   virtualTour: null,
 };
 
-export default withRouter(BrixelUpgradeMessage);
+const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, null),
+)(BrixelUpgradeMessage);

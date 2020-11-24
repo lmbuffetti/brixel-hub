@@ -291,6 +291,7 @@ const Photos = (props) => {
               description="Accurate floor plans are important for your potential buyers. Request a free photo shooting by one of our experts to get your own plan."
               btnLabel="Request photo shoot"
               redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
+              trialRequest
             />
           )
         }

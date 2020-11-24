@@ -101,6 +101,7 @@ const Tour = (props) => {
               btnLabel="Request scan"
               redirectUrl={`/${formValue.id}/trialRequest`}
               virtualTour
+              trialRequest
             />
           )
         }
