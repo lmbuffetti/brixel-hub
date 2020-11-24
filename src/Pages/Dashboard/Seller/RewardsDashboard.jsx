@@ -40,8 +40,6 @@ const RewardsDashboard = (props) => {
     handleAddGameHistory,
     handleSetModal,
     history,
-    language,
-    loggedInUser,
     match,
     userTypes,
     windowDimensions,
