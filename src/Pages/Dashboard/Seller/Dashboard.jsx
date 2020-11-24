@@ -309,10 +309,10 @@ const Dashboard = (props) => {
   const teaserScreens = history.location.pathname.includes('rewards') || history.location.pathname.includes('property') || history.location.pathname.includes('listings');
 
   const isEligible = () => {
-    if (has(activeSingleProperty, 'location.country') && activeSingleProperty.location.country === 'Schweiz') {
+    if (has(activeSingleProperty, 'location.countryCode') && activeSingleProperty.location.countryCode === 'CH') {
       return true;
     }
-    if (has(activeSingleProperty, 'location.country') && activeSingleProperty.location.country === 'Portugal') {
+    if (has(activeSingleProperty, 'location.countryCode') && activeSingleProperty.location.countryCode === 'PT') {
       if (has(activeSingleProperty, 'location.state')) {
         if (activeSingleProperty.location.state === 'Lisboa' ||
             activeSingleProperty.location.state === 'Porto' ||
