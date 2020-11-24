@@ -67,7 +67,7 @@ const TeaserBanner = (props) => {
         ) : (
           <div
             ref={teaserRef}
-            className={`teaserBanner bigBanner ${animClass ? 'closeBanner' : ''} p-1 mb-2 dis-f bgWhite brdRadius w-perc-100 ml-a mr-a ${className}`}
+            className={`teaserBanner bigBanner ${animClass ? 'closeBanner' : ''} p-2 dis-f bgWhite brdRadius w-perc-100 ${className}`}
             // eslint-disable-next-line no-nested-ternary
             style={{ height: `${bannerHeight()}px` }}
           >
@@ -78,13 +78,13 @@ const TeaserBanner = (props) => {
                 <img width="225" height="100%" className="h-perc-100" src={TeaserImg} alt="" />
               </picture>
             </div>
-            <div className="dis-fl-col w-perc-100 w-perc-md-80 pl-2">
-              <h5 className="pl-2 pt-1">Request your free photo scan and estimation. </h5>
-              <p className="p-2 body txtDark700">Do you want to capture your property in its best possible light? Request a free on-site appointment by one of our experts.</p>
+            <div className="dis-fl-col w-perc-100 max-w-fix-600 pl-3">
+              <h5 className="pt-1">Request your free photo scan and estimation. </h5>
+              <p className="pt-2 pb-2 pr-2 body txtDark700">Do you want to capture your property in its best possible light? Request a free on-site appointment by one of our experts.</p>
               <BrixelButtonPrimary
                 label="Tell me more"
                 rounded
-                className="as-fe"
+                className="as-fs"
                 onClick={() => openTrialRequestFlow()}
 
               />
