@@ -39,10 +39,10 @@ const IntroScanFlow = () => (
       </li>
       <li>
         <h5>Prepare your property.</h5>
-        <p>Once you&sbquo;ve sent us the relevant documents for the estimation, make sure your property is clean and styled for the scan.</p>
+        <p>Once you&apos;ve sent us the relevant documents for the estimation, make sure your property is clean and styled for the scan.</p>
       </li>
       <li>
-        <h5>Open the door</h5>
+        <h5>Open the door.</h5>
         <p>Our experts will do a full scan of your property to use it for photos, floor plans and a 3D tour. This digital twin of your property also helps to get an accurate estimation value.</p>
       </li>
       <li>

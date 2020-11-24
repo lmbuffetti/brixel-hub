@@ -2,6 +2,8 @@
 import {
   BrixelCheckbox,
   BrixelInputText,
+  BrixelTextArea,
+  FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
@@ -13,6 +15,7 @@ import scanComplete from '../images/Upgrade/upgrade_complete.svg';
 export const ScanTrialQuestions = (lang = {}) => {
   const formValue = get(configureStore.getState(), 'brixelForm.scanFlow.values', {});
   const isNotInterested = get(formValue, 'condition', null) === 'interested';
+  const { factsOptions } = FactsOptions;
   return [
     {
       history: 'servicePackage',
@@ -32,30 +35,25 @@ export const ScanTrialQuestions = (lang = {}) => {
           label: '',
           name: 'feedback',
           placeholder: '',
-          validation: [Validation.required],
-          options: [
-            {
-              label: 'In the morning',
-              value: 'morning',
-            },
-            {
-              label: 'In the afternoon',
-              value: 'afternoon',
-            },
-            {
-              label: 'In the evening',
-              value: 'evening',
-            },
-          ],
+          options: factsOptions.scanTrialFeedback,
         },
         {
           condition: [{
             name: 'condition',
             value: 'interested',
           }],
-          title: 'Are this your correct contact informations?',
           component: BrixelInputText,
-          classNameBox: 'bgLight100 p-1',
+          label: 'Your full name',
+          name: 'contactFullName',
+          placeholder: '',
+          validation: [Validation.required],
+        },
+        {
+          condition: [{
+            name: 'condition',
+            value: 'interested',
+          }],
+          component: BrixelInputText,
           label: 'Phone number',
           name: 'contactPhone',
           formatType: 'tel',
@@ -68,11 +66,32 @@ export const ScanTrialQuestions = (lang = {}) => {
             value: 'interested',
           }],
           component: BrixelInputText,
-          classNameBox: 'bgLight100 p-1 mb-2',
           label: 'E-mail',
           name: 'contactEmail',
           placeholder: 'hans.muster@amazon.com',
           validation: [Validation.isEmail, Validation.required],
+        },
+        {
+          condition: [{
+            name: 'condition',
+            value: 'interested',
+          }],
+          component: BrixelCheckbox,
+          label: 'What do you want to us to do?',
+          name: 'interest',
+          placeholder: '',
+          options: factsOptions.scanTrialInterest,
+        },
+        {
+          condition: [{
+            name: 'condition',
+            value: 'interested',
+          }],
+          component: BrixelTextArea,
+          label: 'Comments',
+          name: 'comments',
+          placeholder: '',
+          options: factsOptions.scanTrialInterest,
         },
       ],
     },
