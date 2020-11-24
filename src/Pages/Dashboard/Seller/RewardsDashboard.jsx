@@ -13,11 +13,9 @@ import Sticker from 'react-stickyfill';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import Loading from '../../../components/Loading';
 import { GameGroupConfig } from '../../../constants/global';
-import helloImg from '../../../images/hello.svg';
+// import helloImg from '../../../images/hello.svg';
 import BrixelButtonAchievement from '../../../components/BrixelButtonAchievement';
-import {
-  setCookie, getCookie, sortObject,
-} from '../../../utils/helpers';
+import { /* setCookie, getCookie,  */sortObject } from '../../../utils/helpers';
 
 import SuccessMarketCheck from '../../GameHistory/MarketChecker/SuccessMarketCheck';
 import SuccessBestimate from '../../GameHistory/Bestimate/SuccessBestimate';
@@ -50,10 +48,10 @@ const RewardsDashboard = (props) => {
   } = props;
   // STATE
   const [usrGroups, setUsrGroups] = useState(gameGroup.sort(sortObject('stub', 'asc')));
-  const [idVideo, setIdVideo] = useState(null);
+  // const [idVideo, setIdVideo] = useState(null);
   const [activeGameGroup, setActiveGameGroup] = useState(null);
   const [activeAchievement, setActiveAchievement] = useState(null);
-  const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
+  // const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
   // PARAMS URL
   const splitRewards = get(history, 'location.pathname', '').split('/');
   const rewardType = splitRewards[3] ? splitRewards[3].replace('-done', '') : splitRewards[2];
@@ -72,7 +70,7 @@ const RewardsDashboard = (props) => {
   };
 
   // LOAD ID VIDEO BY LANGAUGE
-  useEffect(() => {
+  /* useEffect(() => {
     switch (language.toLowerCase()) {
       case 'de':
         setIdVideo('463015773');
@@ -83,7 +81,7 @@ const RewardsDashboard = (props) => {
       default:
         setIdVideo(null);
     }
-  }, [language]);
+  }, [language]); */
 
   useEffect(() => {
     let getNameGroup = localStorage.getItem('gameGroup') || null;
@@ -211,7 +209,7 @@ const RewardsDashboard = (props) => {
   );
 
   // IF NOT ON COOKIE SHOW HELLO MESSAGE
-  const checkMessageHello = () => {
+  /* const checkMessageHello = () => {
     if (typeof getCookie('brixelSayHello') !== 'undefined') {
       if (JSON.parse(getCookie('brixelSayHello')) !== true) {
         return true;
@@ -219,7 +217,7 @@ const RewardsDashboard = (props) => {
       return false;
     }
     return true;
-  };
+  }; */
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
   if (!activeSingleProperty.id && !userTypes) {
@@ -228,7 +226,7 @@ const RewardsDashboard = (props) => {
 
   return (
     <div className="rewards-container" id="rewardsDashboard">
-      {
+      {/* {
         checkMessageHello() && showWelcomeMessage && (
           <div className="brdRadius bgWhite p-1 p-1 p-md-2 mb-5">
             <div className="dis-f jc-b a-c">
@@ -281,7 +279,7 @@ const RewardsDashboard = (props) => {
             }
           </div>
         )
-      }
+      } */}
       <div className="dis-f a-t jc-c pos-r-md">
         {
           usrGroups && (
