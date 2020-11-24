@@ -1,25 +1,39 @@
-.teaserBanner {
+.teaserWrapper {
   overflow: hidden;
-  position: relative;
-  transition: all 450ms ease;
+  max-width: 1272px;
+  margin: auto;
 
-  &.smallBanner {
-    margin-top: 8px;
-    margin-bottom: 16px;
-    opacity: 0;
-    padding-bottom: $step * 2;
-    animation: fadeIn 450ms ease forwards;
+  &.smallOn {
+    .smallBanner {
+      transition: all 450ms ease;
+      transition-property: opacity, marginTop;
+      opacity: 1;
+      margin-top: 8px;
+      margin-bottom: 24px;
+    }
+    .bigBanner {
+      opacity: 0;
+    }
   }
-  &.closeBanner {
-    height: 0px !important;
-    opacity: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin-bottom: 0;
+  &.bigOn {
+    .smallBanner {
+      position: absolute;
+      top: 0;
+      opacity: 0;
+    }
+    .bigBanner {
+      transition: opacity 450ms ease;
+      opacity: 1;
+      margin-top: 16px;
+      margin-bottom: 24px;
+    }
   }
+}
+.teaserBanner {
+  position: relative;
+  transition: opacity 450ms ease;
+
   &.bigBanner {
-    margin-top: 8px;
-    margin-bottom: 24px;
     background-color: map-get($greenColor, 100);
     .innerContent {
       max-width: 500px;
