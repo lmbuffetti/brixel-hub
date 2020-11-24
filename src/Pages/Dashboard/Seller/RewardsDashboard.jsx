@@ -28,6 +28,7 @@ import PagePublishedRewards from '../../GameHistory/SecondLevel/PagePublishedRew
 import PortalsRewards from '../../GameHistory/SecondLevel/PortalsRewards';
 import { setModal } from '../../../actions/CommonActions';
 import Support from '../../../components/Support';
+import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const RewardsDashboard = (props) => {
   // PROPS
@@ -409,6 +410,19 @@ const RewardsDashboard = (props) => {
                   }
                   {getSuccessActiveGroup()}
                 </div>
+                {
+                  rewardType === 'media' && (
+                    <BrixelUpgradeMessage
+                      className="mt-3"
+                      unlockFunction={false}
+                      title="Do you want to capture your property in its best possible light?"
+                      description="Request a free photo shooting by one of our experts."
+                      btnLabel="Request photo shoot"
+                      redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
+                      trialRequest
+                    />
+                  )
+                }
               </div>
             </Sticker>
           )

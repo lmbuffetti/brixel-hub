@@ -30,6 +30,7 @@ const TeaserBanner = (props) => {
 
   const openTrialRequestFlow = () => {
     setCookie('isBannerClosed', true);
+    localStorage.setItem('backUrl', history.location.pathname);
     history.push(`/${propID}/trialRequest`);
   };
 
