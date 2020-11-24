@@ -1,13 +1,11 @@
-.teaserWrapper {
-  padding-left: $step * 3;
-  padding-right: $step * 3;
-}
 .teaserBanner {
   overflow: hidden;
   position: relative;
   transition: all 450ms ease;
 
   &.smallBanner {
+    margin-top: 8px;
+    margin-bottom: 16px;
     opacity: 0;
     padding-bottom: $step * 2;
     animation: fadeIn 450ms ease forwards;
@@ -20,7 +18,12 @@
     margin-bottom: 0;
   }
   &.bigBanner {
-    max-width: 900px;
+    margin-top: 8px;
+    margin-bottom: 24px;
+    background-color: map-get($greenColor, 100);
+    .innerContent {
+      max-width: 500px;
+    }
     img {
       border-radius: 4px;
       object-fit: cover;
