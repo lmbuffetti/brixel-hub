@@ -593,6 +593,8 @@ export const keyify = (object) => {
 };
 
 export const isEligible = (activeSingleProperty) => {
+  const hasPackage = get(activeSingleProperty, 'servicePackages', []).filter((pkg) => pkg.type === 'premium' || pkg.type === 'plus' || pkg.type === 'one');
+  if (hasPackage.length > 0) return false;
   if (has(activeSingleProperty, 'location.countryCode') && activeSingleProperty.location.countryCode === 'CH') {
     return true;
   }
