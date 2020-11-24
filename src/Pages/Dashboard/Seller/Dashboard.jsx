@@ -308,12 +308,18 @@ const Dashboard = (props) => {
 
   const teaserScreens = history.location.pathname.includes('rewards') || history.location.pathname.includes('property') || history.location.pathname.includes('listings');
 
-  const isDistrictAccepted = () => {
-    if (has(activeSingleProperty, 'location.state')) {
-      if (activeSingleProperty.location.state === 'Lisboa' ||
-          activeSingleProperty.location.state === 'Porto' ||
-          activeSingleProperty.location.state === 'Setúbal') {
-        return true;
+  const isEligible = () => {
+    if (has(activeSingleProperty, 'location.country') && activeSingleProperty.location.country === 'Schweiz') {
+      return true;
+    }
+    if (has(activeSingleProperty, 'location.country') && activeSingleProperty.location.country === 'Portugal') {
+      if (has(activeSingleProperty, 'location.state')) {
+        if (activeSingleProperty.location.state === 'Lisboa' ||
+            activeSingleProperty.location.state === 'Porto' ||
+            activeSingleProperty.location.state === 'Setúbal') {
+          return true;
+        }
+        return false;
       }
       return false;
     }
@@ -398,7 +404,7 @@ const Dashboard = (props) => {
   if (!userTypes && !userType) return (<div />);
   return (
     <div className="container dashboardContainer" id="dashboard">
-      {teaserScreens && isDistrictAccepted() && (<TeaserBanner />)}
+      {teaserScreens && isEligible() && (<TeaserBanner />)}
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
       <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
