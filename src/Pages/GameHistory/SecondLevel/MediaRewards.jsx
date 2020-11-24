@@ -1,14 +1,16 @@
 import React from 'react';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import get from 'lodash/get';
 import { BrixelButtonPrimary, BrixelButtonBox } from '@brixel/brixel-components';
 import uploadMedia from '../../../images/secondLevel/uploadMedia.svg';
+import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const MediaRewards = (props) => {
   const {
+    activeSingleProperty,
     documents,
     floorPlans,
     history,
@@ -124,17 +126,19 @@ const MediaRewards = (props) => {
 };
 
 MediaRewards.propTypes = {
-  documents: Proptypes.arrayOf(Proptypes.object).isRequired,
-  floorPlans: Proptypes.arrayOf(Proptypes.object).isRequired,
-  history: Proptypes.object.isRequired,
-  match: Proptypes.object.isRequired,
-  photos: Proptypes.arrayOf(Proptypes.object).isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
+  documents: PropTypes.arrayOf(PropTypes.object).isRequired,
+  floorPlans: PropTypes.arrayOf(PropTypes.object).isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  photos: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 MediaRewards.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', null),
   documents: get(state, 'brixelForm.Property.values.documents', []),
   floorPlans: get(state, 'brixelForm.Property.values.floorPlans', []),
   photos: get(state, 'brixelForm.Property.values.photos', []),

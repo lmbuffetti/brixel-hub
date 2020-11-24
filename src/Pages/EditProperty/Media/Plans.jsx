@@ -286,9 +286,11 @@ const Photos = (props) => {
           get(activeSingleProperty, 'servicePackages', []).length === 0 && (
             <BrixelUpgradeMessage
               className="mt-3"
-              title="You don’t have a plan?"
               unlockFunction={false}
-              description="Accurate floor plans and much more is part of Brixel Premium."
+              title="You don't have a plan?"
+              description="Accurate floor plans are important for your potential buyers. Request a free photo shooting by one of our experts to get your own plan."
+              btnLabel="Request photo shoot"
+              redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
             />
           )
         }

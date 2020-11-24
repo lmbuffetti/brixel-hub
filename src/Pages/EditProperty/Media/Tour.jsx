@@ -94,11 +94,13 @@ const Tour = (props) => {
             </div>
           ) : (
             <BrixelUpgradeMessage
-              className="tourTeaser h-perc-100"
-              title="Get your own 3D tour"
+              className="mt-3"
               unlockFunction={false}
-              virtualTour="https://my.matterport.com/show/?m=ctWod3ggrZi&help=0&hl=2&nt=1&play=1&brand=0&mls=2&wh=0"
-              description="3D tour and much more is part of Brixel Premium."
+              title="Do you want a 3D tour for your property?"
+              description="A 3D tour helps you to avoid unnecessary showings and increases the attention of your property in the market. Request a free scan by one of our experts to get your own tour."
+              btnLabel="Request scan"
+              redirectUrl={`/${formValue.id}/trialRequest`}
+              virtualTour
             />
           )
         }

@@ -311,8 +311,10 @@ const Photos = (props) => {
             <BrixelUpgradeMessage
               className="mt-3"
               unlockFunction={false}
-              title="Do you want professional photos?"
-              description="Hight quality photos and much more is part of Brixel Premium."
+              title="Do you want to capture your property in its best possible light?"
+              description="High-quality photos help you to stand out in the market. Request a free on-site appointment by one of our experts to get a free photo shooting."
+              btnLabel="Request photo shoot"
+              redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
             />
           )
         }

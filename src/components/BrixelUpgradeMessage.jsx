@@ -6,6 +6,7 @@ import defaultCover from '../images/3d-tour-placeholder.jpg';
 
 const BrixelUpgradeMessage = (props) => {
   const {
+    btnLabel,
     className,
     history,
     title,
@@ -15,6 +16,7 @@ const BrixelUpgradeMessage = (props) => {
     descriptionConfirm,
     onClick,
     onClose,
+    redirectUrl,
     showClose,
     unlockFunction,
     virtualTour,
@@ -28,7 +30,8 @@ const BrixelUpgradeMessage = (props) => {
   // WHEN CLICK TO CONFIRM THE UPGRADE
   const onUpgrade = () => {
     localStorage.setItem('backUrl', history.location.pathname);
-    history.push(`/${propID}/upgrade`);
+    if (redirectUrl) history.push(redirectUrl);
+    else history.push(`/${propID}/upgrade`);
   };
 
   const bgColor = showUnlockMessage ? 'bgPrimary100' : 'bgGreen100';
@@ -135,7 +138,7 @@ const BrixelUpgradeMessage = (props) => {
             <BrixelButtonPrimary
               rounded
               className="m-a"
-              label={unlockFunction ? 'Unlock now' : 'Upgrade now'}
+              label={unlockFunction ? 'Unlock now' : btnLabel}
               background="red"
               saturation={400}
               onClick={() => (unlockFunction ? setShowUnlockMessage(true) : onUpgrade())}
@@ -148,6 +151,7 @@ const BrixelUpgradeMessage = (props) => {
 };
 
 BrixelUpgradeMessage.propTypes = {
+  btnLabel: PropTypes.string,
   className: PropTypes.string,
   description: PropTypes.string,
   descriptionConfirm: PropTypes.string,
@@ -155,6 +159,7 @@ BrixelUpgradeMessage.propTypes = {
   isSmallLoading: PropTypes.string,
   onClose: PropTypes.func,
   onClick: PropTypes.func,
+  redirectUrl: PropTypes.string,
   showClose: PropTypes.bool,
   title: PropTypes.string,
   titleConfirm: PropTypes.string,
@@ -163,12 +168,14 @@ BrixelUpgradeMessage.propTypes = {
 };
 
 BrixelUpgradeMessage.defaultProps = {
+  btnLabel: 'Upgrade now',
   className: '',
   description: null,
   descriptionConfirm: null,
   isSmallLoading: null,
   onClose: () => '',
   onClick: () => '',
+  redirectUrl: null,
   showClose: false,
   title: null,
   titleConfirm: null,
