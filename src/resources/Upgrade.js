@@ -10,7 +10,7 @@ import BrixelCheckboxWithDetail from '../components/BrixelCheckboxWithDetail';
 import { translateTo } from '../utils/translation';
 import brixelPlus from '../images/Upgrade/brixel_plus.svg';
 import brixelPremium from '../images/Upgrade/brixel_premium.svg';
-import upgradeComplete from '../images/Upgrade/upgrade_complete.svg';
+// import upgradeComplete from '../images/Upgrade/upgrade_complete.svg';
 
 export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
   const optionsPackages = [];

@@ -517,7 +517,7 @@ const checkCommon = (store) => (next) => (action) => {
       const { page, data, smallLoader } = action.payload;
       store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       api.property.sendScanTrial(page, data)
-        .then((res) => {
+        .then(() => {
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
