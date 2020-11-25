@@ -13,6 +13,8 @@ import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../.
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../../images/emptyHub.svg';
 
+nvm;
+
 function ResumeBestimate(props) {
   // PROPS
   const {

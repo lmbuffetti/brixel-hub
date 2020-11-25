@@ -243,7 +243,7 @@ const ScanTrialFlow = (props) => {
                   quest.history === 'success' && (
                     <div className="ta-l">
                       {
-                        get(formValue, 'condition', null) === 'interested' ? (
+                        get(formValue, 'interested', null) ? (
                           <div>
                             <h3
                               className="mt-5"
