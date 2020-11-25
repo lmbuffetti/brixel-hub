@@ -35,15 +35,13 @@ const ScanTrialFlow = (props) => {
     isSmallLoading,
     loggedInUser,
     match,
-    packagesProperty,
     reset,
   } = props;
   // STATE
-  const locationQuest = get(formValue, 'location', {});
-  const [questions, setQuestions] = useState(ScanTrialQuestions('en', packagesProperty, locationQuest));
+  const [questions, setQuestions] = useState(ScanTrialQuestions());
   // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(ScanTrialQuestions('en', packagesProperty, locationQuest)[0]);
+  const [quest, setQuest] = useState(ScanTrialQuestions()[0]);
   const [isEnter, setIsEnter] = useState(true);
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
@@ -71,14 +69,6 @@ const ScanTrialFlow = (props) => {
     initForm(initialValues);
   }, [activeSingleProperty]);
 
-  // LOAD THE QUESTIONS
-  useEffect(() => {
-    if (packagesProperty.length > 0) {
-      setQuestions(ScanTrialQuestions('en', packagesProperty, get(formValue, 'location', {})));
-      setQuest(ScanTrialQuestions('en', packagesProperty, get(formValue, 'location', {}))[0]);
-    }
-  }, [packagesProperty]);
-
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
     reset('scanFlow');
@@ -94,13 +84,13 @@ const ScanTrialFlow = (props) => {
       smallLoader: 'sendData',
       data: {
         user: loggedInUser.id,
-        interested: get(formValue, 'condition', null) === 'interested',
+        interested: get(formValue, 'interested', null),
         meta: {
           userName: get(formValue, 'contactFullName', null),
           userEmail: get(formValue, 'contactEmail', null),
           userPhone: get(formValue, 'contactPhone', null),
           comments: get(formValue, 'comments', ''),
-          answers: get(formValue, 'interest', []),
+          answers: get(formValue, 'answers', []),
         },
       },
     };
@@ -109,7 +99,7 @@ const ScanTrialFlow = (props) => {
 
   // FUNCTION TO CHANGE STEP - BACK-FORWARD
   const changeStep = (act, condition) => {
-    if (condition) changeFieldValue('condition', condition);
+    if (condition || condition === false) changeFieldValue('interested', condition);
     let newIndex = currentIndex;
     if (act === 'back') {
       newIndex -= 1;
@@ -145,6 +135,7 @@ const ScanTrialFlow = (props) => {
         }
         return null;
       });
+      setQuest(questions[currentIndex]);
       setQuestions(newQuest);
     }
   }, [formValue]);
@@ -310,7 +301,7 @@ const ScanTrialFlow = (props) => {
                         color="primary"
                         saturation={400}
                         label="Not interested"
-                        onClick={() => changeStep('next', 'not-interested')}
+                        onClick={() => changeStep('next', false)}
                       />
                       <BrixelButtonPrimary
                         className="noWrap ml-2"
@@ -318,7 +309,7 @@ const ScanTrialFlow = (props) => {
                         background="primary"
                         saturation={400}
                         label="Request appointment"
-                        onClick={() => changeStep('next', 'interested')}
+                        onClick={() => changeStep('next', true)}
                       />
                     </>
                   )
@@ -388,7 +379,6 @@ ScanTrialFlow.propTypes = {
   isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   reset: PropTypes.func.isRequired,
 };
 
@@ -405,7 +395,6 @@ const mapStateToProps = (state) => {
     formValue: get(state, 'brixelForm.scanFlow.values', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', null),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    packagesProperty: get(state, 'companies.activeSingleCompany.servicePackages', []),
     initialValues: {
       id: get(state, 'property.activeSingleProperty.id', null),
       contactFullName: get(state, 'user.loggedInUser.user.name', null),

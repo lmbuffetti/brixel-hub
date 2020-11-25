@@ -35,8 +35,6 @@ const Portals = (props) => {
   } = props;
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
-  const currency = get(company, 'country.currency', '');
-  const meta = get(company, 'meta', {});
 
   // GET PORTALS STATUS
   const checkPortalsOnline = () => {

@@ -17,7 +17,7 @@ const TeaserBanner = (props) => {
   const propID = history.location.pathname.split('/')[1];
 
   const [isClosed, setIsClosed] = useState(getCookie('brixelBannerClosed') === 'true');
-  const [animClass, setAnimClass] = useState(false);
+  // const [animClass, setAnimClass] = useState(false);
 
   const smallBannerRef = useRef(null);
   const smallBannerEl = smallBannerRef.current;
@@ -35,12 +35,12 @@ const TeaserBanner = (props) => {
     history.push(`/${propID}/trialRequest`);
   };
 
-  const closeBanner = () => {
+  /* const closeBanner = () => {
     setAnimClass(true);
     setTimeout(() => {
       setIsClosed(true);
-    }, 650);
-  };
+    }, 650);m
+  }; */
 
   const bannerHeight = () => {
     let height;

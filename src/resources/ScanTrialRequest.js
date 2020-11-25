@@ -7,14 +7,13 @@ import {
   Validation,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import { translateTo } from '../utils/translation';
 import IntroScanFlow from '../Pages/ScanTrialFlow/IntroScanFlow';
 import { configureStore } from '../store';
 import scanComplete from '../images/Upgrade/upgrade_complete.svg';
 
-export const ScanTrialQuestions = (lang = {}) => {
+export const ScanTrialQuestions = () => {
   const formValue = get(configureStore.getState(), 'brixelForm.scanFlow.values', {});
-  const isNotInterested = get(formValue, 'condition', null) === 'interested';
+  const isInterested = get(formValue, 'interested', null);
   const { factsOptions } = FactsOptions;
   return [
     {
@@ -22,14 +21,14 @@ export const ScanTrialQuestions = (lang = {}) => {
       component: IntroScanFlow,
     },
     {
-      title: isNotInterested ? translateTo(lang, 'Fair enough. Please let us know why you are not interested to help improve our product.') : translateTo(lang, 'Please just confirm your personal data so we can reach out to you.'),
-      history: isNotInterested ? 'contactInformation' : 'feedbackForm',
+      title: isInterested ? 'Please just confirm your personal data so we can reach out to you.' : 'Fair enough. Please let us know why you are not interested to help improve our product.',
+      history: isInterested ? 'contactInformation' : 'feedbackForm',
       vCentered: true,
       inputs: [
         {
           condition: [{
-            name: 'condition',
-            value: 'not-interested',
+            name: 'interested',
+            value: false,
           }],
           component: BrixelCheckbox,
           label: '',
@@ -39,8 +38,8 @@ export const ScanTrialQuestions = (lang = {}) => {
         },
         {
           condition: [{
-            name: 'condition',
-            value: 'interested',
+            name: 'interested',
+            value: true,
           }],
           component: BrixelInputText,
           label: 'Your full name',
@@ -50,8 +49,8 @@ export const ScanTrialQuestions = (lang = {}) => {
         },
         {
           condition: [{
-            name: 'condition',
-            value: 'interested',
+            name: 'interested',
+            value: true,
           }],
           component: BrixelInputText,
           label: 'Phone number',
@@ -62,8 +61,8 @@ export const ScanTrialQuestions = (lang = {}) => {
         },
         {
           condition: [{
-            name: 'condition',
-            value: 'interested',
+            name: 'interested',
+            value: true,
           }],
           component: BrixelInputText,
           label: 'E-mail',
@@ -73,19 +72,19 @@ export const ScanTrialQuestions = (lang = {}) => {
         },
         {
           condition: [{
-            name: 'condition',
-            value: 'interested',
+            name: 'interested',
+            value: true,
           }],
           component: BrixelCheckbox,
           label: 'What do you want to us to do?',
-          name: 'interest',
+          name: 'answers',
           placeholder: '',
           options: factsOptions.scanTrialInterest,
         },
         {
           condition: [{
-            name: 'condition',
-            value: 'interested',
+            name: 'interested',
+            value: true,
           }],
           component: BrixelTextArea,
           label: 'Comments',
@@ -96,9 +95,9 @@ export const ScanTrialQuestions = (lang = {}) => {
       ],
     },
     {
-      title: translateTo(lang, 'Thanks for your feedback'),
+      title: 'Thanks for your feedback',
       img: scanComplete,
-      subtitle: isNotInterested ? 'We will work on your feedback.' : 'We will contact as soos as possible',
+      subtitle: isInterested ? 'We will work on your feedback.' : 'We will contact as soos as possible',
       history: 'success',
       vCentered: true,
       toSave: true,
