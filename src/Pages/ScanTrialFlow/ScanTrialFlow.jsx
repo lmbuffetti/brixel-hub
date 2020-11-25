@@ -99,8 +99,8 @@ const ScanTrialFlow = (props) => {
           userName: get(formValue, 'contactFullName', null),
           userEmail: get(formValue, 'contactEmail', null),
           userPhone: get(formValue, 'contactPhone', null),
-          comments: get(formValue, 'comments', null),
-          answeres: get(formValue, 'interest', null),
+          comments: get(formValue, 'comments', ''),
+          answers: get(formValue, 'interest', []),
         },
       },
     };
