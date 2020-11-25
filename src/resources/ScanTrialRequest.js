@@ -32,7 +32,7 @@ export const ScanTrialQuestions = () => {
           }],
           component: BrixelCheckbox,
           label: '',
-          name: 'feedback',
+          name: 'answers',
           placeholder: '',
           options: factsOptions.scanTrialFeedback,
         },

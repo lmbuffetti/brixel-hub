@@ -149,7 +149,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (!history.location.pathname.includes('pageLists')) {
       if (propID && !get(activeSingleProperty, 'id', null)) {
-        handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: true });
+        handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
       } else if (!propID) {
         loadDefaultProperty();
       }

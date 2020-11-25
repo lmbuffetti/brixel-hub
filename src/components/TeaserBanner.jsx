@@ -16,7 +16,7 @@ const TeaserBanner = (props) => {
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
 
-  const [isClosed, setIsClosed] = useState(getCookie('brixelBannerClosed') === 'true');
+  const [isOpen, setIsOpen] = useState(getCookie('brixelBannerClosed') !== 'true');
   // const [animClass, setAnimClass] = useState(false);
 
   const smallBannerRef = useRef(null);
@@ -25,12 +25,11 @@ const TeaserBanner = (props) => {
   const teaserEl = teaserRef.current;
 
   useEffect(() => {
-    setCookie('brixelBannerClosed', isClosed);
-  }, [isClosed]);
+    // setCookie('brixelBannerClosed', isOpen);
+  }, [isOpen]);
 
   const openTrialRequestFlow = () => {
     setCookie('brixelBannerClosed', true);
-    setCookie('isBannerClosed', true);
     localStorage.setItem('backUrl', history.location.pathname);
     history.push(`/${propID}/trialRequest`);
   };
@@ -38,7 +37,7 @@ const TeaserBanner = (props) => {
   /* const closeBanner = () => {
     setAnimClass(true);
     setTimeout(() => {
-      setIsClosed(true);
+      setIsOpen(true);
     }, 650);m
   }; */
 
@@ -52,13 +51,14 @@ const TeaserBanner = (props) => {
     if (smallBannerEl) height = smallBannerEl.offsetHeight;
     return height;
   };
+
   return (
-    <div className={`teaserWrapper ${isClosed ? 'smallOn' : 'bigOn'}`}>
+    <div className={`teaserWrapper ${isOpen ? 'bigOn' : 'smallOn'}`}>
       <div>
         <div
           ref={teaserRef}
           className={`p-2 teaserBanner bigBanner dis-f bgWhite brdRadius w-perc-100 ${className}`}
-          style={{ marginTop: `${isClosed ? `-${bannerHeight()}` : '0'}px` }}
+          style={{ marginTop: `${isOpen ? '0' : `-${bannerHeight()}`}px` }}
         >
           <div className="max-w-fix-224 pos-r">
             <span className="teaserTag pos-a-fix x-b-1 x-l-2"> Free </span>
@@ -75,7 +75,7 @@ const TeaserBanner = (props) => {
               rounded
               className="as-fs"
               onClick={() => {
-                setIsClosed(!isClosed);
+                setIsOpen(!isOpen);
                 openTrialRequestFlow();
               }}
 
@@ -89,21 +89,21 @@ const TeaserBanner = (props) => {
               noBorder
               className="as-c"
               icon="close-small"
-              onClick={() => setIsClosed(!isClosed)}
+              onClick={() => setIsOpen(!isOpen)}
             />
           </div>
         </div>
         <div
           ref={smallBannerRef}
           className="teaserBanner smallBanner dis-f"
-          style={{ marginTop: `${isClosed ? '0' : `-${bannerHeightSmall()}`}px` }}
+          style={{ marginTop: isOpen ? `-${bannerHeightSmall()}px` : '0' }}
         >
           <span className="teaserTag as-c">Free</span>
           <span className="pl-2 body2 txtDark700">Request your free scan and estimation now.</span>
           <span
             className="ml-1 link body2 txtPrimary400 fweight-500 td-u cur-poi"
             onClick={() => {
-              setIsClosed(!isClosed);
+              setIsOpen(!isOpen);
             }}
           >
             Read more

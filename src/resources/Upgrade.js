@@ -226,7 +226,6 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
       title: translateTo(lang, 'Great. Your order is complete. '),
       subtitle: 'We will reach out to you to organise the further steps and clarify all your questions.',
       history: 'upgradeType',
-      img: upgradeComplete,
       vCentered: true,
       toSave: true,
     },

@@ -25,6 +25,7 @@ import { uploadDocument, deleteDocument, multiUploadDocument } from '../../actio
 import { setScreenNotification } from '../../actions/CommonActions';
 // IMAGES
 import uploadDocumentsEmpty from '../../images/Upload/upload_documents_empty.svg';
+import buyerDocumentsEmpty from '../../images/Media/buyer_docuboxEmpty.svg';
 import { tobase64Handler } from '../../utils/helpers';
 
 // COMPONENTS
@@ -81,7 +82,7 @@ const Documents = (props) => {
       });
       setProcessedDocuments(finalObj);
     }
-    if (documents.length === 0) setProcessedDocuments({});
+    if (documents && documents.length === 0) setProcessedDocuments({});
   }, [documents]);
 
   const manageDocument = (e, id) => {
@@ -192,6 +193,15 @@ const Documents = (props) => {
           </h5>
         </div>
         <div className="dis-fl-col uploadPanel a-c">
+          {
+            processedDocuments && Object.keys(processedDocuments).length < 1 && userType === 'buyer' && (
+              <div>
+                <img className="h-fix-120" src={buyerDocumentsEmpty} alt="Empty Documents" />
+                <h5 className="mt-3 mb-2 ta-c">No documents available.</h5>
+                <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-5">Please conact the seller for further documents about this property.</p>
+              </div>
+            )
+          }
           {
             (processedDocuments && Object.keys(processedDocuments).length > 0) && (
               <>
