@@ -51,8 +51,8 @@
     .levelsWrapper {
       &.closed {
         max-width: 768px;
-        width: calc(100% - 320px);
-        min-width: 60%;
+        // width: calc(100% - 320px);
+        // min-width: 60%;
       }
     }
     .secondLevel,
@@ -61,7 +61,7 @@
       margin-bottom: $step * 3;
 
       &.inputSheet {
-        max-width: 448px;
+        max-width: 478px;
         width: 100%;
       }
 

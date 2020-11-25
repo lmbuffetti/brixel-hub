@@ -65,6 +65,7 @@
 .withTopBar {
   @media (min-width: $responsive-medium) {
     .tabWrapper {
+      min-height: 42px;
       background-color: map-get($lightColor, 100);
       .brixel-tabs {
         padding-top: 2px;
