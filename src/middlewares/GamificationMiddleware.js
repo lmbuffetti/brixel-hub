@@ -56,12 +56,14 @@ const checkGamification = (store) => (next) => (action) => {
     // DISPATCH TO GET THE GAME HISTORY BY USER ID
     case GET_GAME_HISTORY: {
       next(action);
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: 'loadGameHistory' });
       const userLoggedIn = store.getState().user.loggedInUser.user.id;
       api.gamification.getGameHistoryByUser(userLoggedIn)
         .then((res) => {
           store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });
           store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
           store.dispatch({ type: SET_BRIXEL_POINTS, payload: res.data.actualPoints });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         })
         .catch(() => {
           if (window.location.href.includes('localhost')) {
@@ -69,7 +71,7 @@ const checkGamification = (store) => (next) => (action) => {
             store.dispatch({ type: SET_AWARDS, payload: 2 });
             store.dispatch({ type: SET_BRIXEL_POINTS, payload: 1000 });
           }
-          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }

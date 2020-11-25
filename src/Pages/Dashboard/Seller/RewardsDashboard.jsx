@@ -7,7 +7,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelButtonPrimary, BrixelIcon, BrixelButtonIcon, BrixelButtonBox,
+  BrixelIcon, BrixelButtonIcon, BrixelButtonBox,
 } from '@brixel/brixel-components';
 import Sticker from 'react-stickyfill';
 import { addGameHistory } from '../../../actions/GamificationActions';
@@ -40,6 +40,7 @@ const RewardsDashboard = (props) => {
     handleAddGameHistory,
     handleSetModal,
     history,
+    isSmallLoading,
     match,
     userTypes,
     windowDimensions,
@@ -218,7 +219,7 @@ const RewardsDashboard = (props) => {
   }; */
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
-  if (!activeSingleProperty.id && !userTypes) {
+  if ((!activeSingleProperty.id && !userTypes) || isSmallLoading) {
     return <Loading />;
   }
 
@@ -432,35 +433,36 @@ const RewardsDashboard = (props) => {
 
 RewardsDashboard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  userTypes: PropTypes.string,
+  formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
-  formValue: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.string,
   match: PropTypes.object.isRequired,
-  language: PropTypes.string.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
+  userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 RewardsDashboard.defaultProps = {
   gameGroup: [],
   gameHistory: {},
+  isSmallLoading: null,
   userTypes: 'user',
 };
 
 const mapStateToProps = (state) => ({
-  userTypes: get(state, 'user.userTypes', null),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  awards: get(state, 'user.awards', []),
+  brixelPoints: get(state, 'user.brixelPoints', []),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
-  formValue: get(state, 'brixelForm.Property.values', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   language: get(state, 'user.loggedInUser.user.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', {}),
-  awards: get(state, 'user.awards', []),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  brixelPoints: get(state, 'user.brixelPoints', []),
+  userTypes: get(state, 'user.userTypes', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

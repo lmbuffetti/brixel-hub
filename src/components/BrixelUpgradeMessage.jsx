@@ -40,6 +40,12 @@ const BrixelUpgradeMessage = (props) => {
     else history.push(`/${propID}/upgrade`);
   };
 
+  const onClickBtn = () => {
+    if (unlockFunction && titleConfirm) setShowUnlockMessage(true);
+    else if (unlockFunction) onClick();
+    else onUpgrade();
+  };
+
   const bgColor = showUnlockMessage ? 'bgPrimary100' : 'bgGreen100';
 
   if (!isEligible(activeSingleProperty) && trialRequest) {
@@ -148,10 +154,10 @@ const BrixelUpgradeMessage = (props) => {
             <BrixelButtonPrimary
               rounded
               className="m-a"
-              label={unlockFunction ? 'Unlock now' : btnLabel}
+              label={unlockFunction ? btnLabel || 'Unlock now' : btnLabel}
               background="red"
               saturation={400}
-              onClick={() => (unlockFunction ? setShowUnlockMessage(true) : onUpgrade())}
+              onClick={() => onClickBtn()}
             />
           </div>
         )

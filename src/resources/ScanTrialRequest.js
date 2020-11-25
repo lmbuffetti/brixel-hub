@@ -22,7 +22,7 @@ export const ScanTrialQuestions = (lang = {}) => {
       component: IntroScanFlow,
     },
     {
-      title: isNotInterested ? 'Fair enough. Please let us know why you are not interested to help improve our product.' : 'Please just confirm your personal data so we can reach out to you.',
+      title: isNotInterested ? translateTo(lang, 'Fair enough. Please let us know why you are not interested to help improve our product.') : translateTo(lang, 'Please just confirm your personal data so we can reach out to you.'),
       history: isNotInterested ? 'contactInformation' : 'feedbackForm',
       vCentered: true,
       inputs: [

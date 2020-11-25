@@ -18,7 +18,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
-import { getPackagesProperty, saveUpgradePlan } from '../../actions/PropertyActions';
+import { sendScanTrialRequest } from '../../actions/PropertyActions';
 
 const ScanTrialFlow = (props) => {
   // PROPS
@@ -28,7 +28,7 @@ const ScanTrialFlow = (props) => {
     destroyForm,
     errorValue,
     formValue,
-    handleSaveUpgradePlan,
+    handleSendScanTrial,
     history,
     initForm,
     initialValues,
@@ -53,7 +53,19 @@ const ScanTrialFlow = (props) => {
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
+    if (questions[currentIndex].history) {
+      history.push(`/${propID}/trialRequest/${questions[currentIndex].history}`);
+    }
   }, [currentIndex]);
+
+  useEffect(() => {
+    console.log(questions[currentIndex].history);
+    if (!isSmallLoading && questions[currentIndex + 1].history === 'success') {
+      const newIndex = currentIndex + 1;
+      setCurrentIndex(newIndex);
+      setQuest(questions[newIndex]);
+    }
+  }, [isSmallLoading]);
 
   useEffect(() => {
     initForm(initialValues);
@@ -79,18 +91,24 @@ const ScanTrialFlow = (props) => {
   const saveData = () => {
     const data = {
       page: propID,
-      smallLoader: true,
+      smallLoader: 'sendData',
       data: {
-        userId: loggedInUser.id,
-        ...formValue.packageUpgrade,
+        user: loggedInUser.id,
+        interested: get(formValue, 'condition', null) === 'interested',
+        meta: {
+          userName: get(formValue, 'contactFullName', null),
+          userEmail: get(formValue, 'contactEmail', null),
+          userPhone: get(formValue, 'contactPhone', null),
+          comments: get(formValue, 'comments', null),
+          answeres: get(formValue, 'interest', null),
+        },
       },
     };
-    handleSaveUpgradePlan(data);
+    handleSendScanTrial(data);
   };
 
   // FUNCTION TO CHANGE STEP - BACK-FORWARD
   const changeStep = (act, condition) => {
-    setIsEnter(false);
     if (condition) changeFieldValue('condition', condition);
     let newIndex = currentIndex;
     if (act === 'back') {
@@ -98,12 +116,14 @@ const ScanTrialFlow = (props) => {
     } else {
       newIndex += 1;
     }
-    if (questions[currentIndex + 1].toSave) {
+    if (questions[newIndex].toSave) {
       saveData();
+    } else {
+      setIsEnter(false);
+      setCurrentIndex(newIndex);
+      // setPosition(newIndex);
+      setQuest(questions[newIndex]);
     }
-    setCurrentIndex(newIndex);
-    // setPosition(newIndex);
-    setQuest(questions[newIndex]);
   };
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
@@ -138,7 +158,7 @@ const ScanTrialFlow = (props) => {
         if (input.condition) {
           input.condition.map((item) => {
             if (get(formValue, item.name, null) === item.value) {
-              if (err !== true && err !== false && isValid) isValid = false;
+              if (err !== true && err !== false && err !== null && isValid) isValid = false;
             }
             return null;
           });
@@ -156,14 +176,6 @@ const ScanTrialFlow = (props) => {
     else label = 'Next';
     return label;
   };
-
-  useEffect(() => {
-    console.log(questions[currentIndex].history);
-  });
-
-  if (isSmallLoading) {
-    return <div />;
-  }
 
   return (
     <div id="bodyModalWrapper" className="modalFlow">
@@ -221,7 +233,7 @@ const ScanTrialFlow = (props) => {
                   )
                 }
                 {
-                  !quest.inputs && !quest.component && (
+                  !quest.inputs && !quest.component && quest.history !== 'success' && (
                     <div className="ta-c">
                       <div className="h-fix-248">
                         <img src={quest.img} alt={quest.title} />
@@ -234,6 +246,50 @@ const ScanTrialFlow = (props) => {
                         className="m-a mt-2 max-w-fix-400"
                         dangerouslySetInnerHTML={{ __html: quest.subtitle }}
                       />
+                    </div>
+                  )
+                }
+                {
+                  quest.history === 'success' && (
+                    <div className="ta-l">
+                      {
+                        get(formValue, 'condition', null) === 'interested' ? (
+                          <div>
+                            <h3
+                              className="mt-5"
+                            >
+                              Thank you for your request.
+                            </h3>
+                            <p
+                              className="m-a mt-2 max-w-fix-400"
+                            >
+                              One of our experts will get in touch with you as soon as possible to schedule your personal appointment.
+                            </p>
+                            <p className="my-1 max-w-fix-400 m-a">
+                              To speed up the process you can already  prepare the following documents for your estimation:
+                            </p>
+                            <ul className="max-w-fix-400 m-a pl-2">
+                              <li>Extract from the land register</li>
+                              <li>Building insurance policy</li>
+                              <li>Previous estimation report (if available)</li>
+                            </ul>
+                          </div>
+                        ) : (
+                          <div>
+                            <h3
+                              className="mt-5 ta-c"
+                            >
+                              Thank you for your feedback.
+                            </h3>
+                            <p
+                              className="m-a mt-2 max-w-fix-400 ta-c"
+                            >
+                              Feel free to contact us any time if you change your mind.
+                            </p>
+                          </div>
+                        )
+                      }
+
                     </div>
                   )
                 }
@@ -288,6 +344,7 @@ const ScanTrialFlow = (props) => {
                         saturation={400}
                         label="Send request"
                         rightIcon="arrow-right-small"
+                        isLoading={isSmallLoading === 'sendData'}
                         onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                       />
                     </>
@@ -322,7 +379,7 @@ ScanTrialFlow.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleSaveUpgradePlan: PropTypes.func.isRequired,
+  handleSendScanTrial: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
@@ -351,11 +408,12 @@ const mapStateToProps = (state) => {
     packagesProperty: get(state, 'companies.activeSingleCompany.servicePackages', []),
     initialValues: {
       id: get(state, 'property.activeSingleProperty.id', null),
+      contactFullName: get(state, 'user.loggedInUser.user.name', null),
       contactPhone: {
-        prefix: get(state, 'property.activeSingleProperty.owner.phone.prefix', countryPhoneCode.dial_code),
-        number: get(state, 'property.activeSingleProperty.owner.phone.number', ''),
+        prefix: get(state, 'user.loggedInUser.user.phone.prefix', countryPhoneCode.dial_code),
+        number: get(state, 'user.loggedInUser.user.phone.number', ''),
       },
-      contactEmail: get(state, 'property.activeSingleProperty.owner.email', null),
+      contactEmail: get(state, 'user.loggedInUser.user.email', null),
     },
   });
 };
@@ -373,8 +431,7 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)));
   },
-  handleGetPackagesProperty: bindActionCreators(getPackagesProperty, dispatch),
-  handleSaveUpgradePlan: bindActionCreators(saveUpgradePlan, dispatch),
+  handleSendScanTrial: bindActionCreators(sendScanTrialRequest, dispatch),
 
 });
 

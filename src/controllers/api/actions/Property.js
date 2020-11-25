@@ -156,6 +156,11 @@ class Property extends Base {
     const url = ep.brixelator.getMaketAggregate(data);
     return this.apiClient.get(url, { baseUrlType: 'brixelator' });
   }
+
+  sendScanTrial(id, data) {
+    const url = ep.property.scanTrial(id);
+    return this.apiClient.put(url, {}, data);
+  }
 }
 
 export default Property;
