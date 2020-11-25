@@ -12,6 +12,7 @@ import { Helpers } from '@brixel/brixel-components';
 import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../../images/emptyHub.svg';
+import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 function ResumeBestimate(props) {
   // PROPS

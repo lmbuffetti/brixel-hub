@@ -207,16 +207,25 @@ const RewardsDashboard = (props) => {
     </>
   );
 
-  // IF NOT ON COOKIE SHOW HELLO MESSAGE
-  /* const checkMessageHello = () => {
-    if (typeof getCookie('brixelSayHello') !== 'undefined') {
-      if (JSON.parse(getCookie('brixelSayHello')) !== true) {
-        return true;
-      }
-      return false;
+  // TEXT FOR SCAN TRIAL BOX MESSAGE
+  const brixelScanTrialMessage = (type) => {
+    switch (type) {
+      case 'media':
+        return {
+          title: 'Do you want to capture your property in its best possible light?',
+          description: 'Request a free photo shooting by one of our experts.',
+          btnLabel: 'Request photo shoot',
+        };
+      case 'bestimate':
+        return {
+          title: 'Do you want a more accurate estimation value?',
+          description: 'Request a free on-site appointment by one of our experts.',
+          btnLabel: 'Request estimation',
+        };
+      default:
+        return null;
     }
-    return true;
-  }; */
+  };
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
   if ((!activeSingleProperty.id && !userTypes) || isSmallLoading) {
@@ -225,60 +234,6 @@ const RewardsDashboard = (props) => {
 
   return (
     <div className="rewards-container" id="rewardsDashboard">
-      {/* {
-        checkMessageHello() && showWelcomeMessage && (
-          <div className="brdRadius bgWhite p-1 p-1 p-md-2 mb-5">
-            <div className="dis-f jc-b a-c">
-              <img src={helloImg} alt="Hell User" />
-              <div className="txtDark700 w-perc-100 pl-3">
-                <span>
-                  <span>Hello</span>
-                  <span>&nbsp;</span>
-                  <span>{loggedInUser.user.firstName}!</span>
-                </span><br />
-                <span>Welcome to your Brixel Hub. I prepared a list of rewards to simplify your sale. Enjoy.</span>
-              </div>
-              <BrixelButtonIcon
-                className="shadow-2dp"
-                icon="close-small"
-                color="primary"
-                saturationTxt={400}
-                bgTransparent
-                noBorder
-                onClick={() => {
-                  setCookie('brixelSayHello', true);
-                  setShowWelcomeMessage(false);
-                }}
-              />
-            </div>
-            {
-              idVideo && (
-                <>
-                  <iframe
-                    className="dis-b ml-a mr-a mt-3 mb-3"
-                    title="Brixel Welcome Message"
-                    src={`https://player.vimeo.com/video/${idVideo}`}
-                    width="640"
-                    height="400"
-                    frameBorder="0"
-                    allow="autoplay; fullscreen"
-                    allowFullScreen
-                  />
-                  <BrixelButtonPrimary
-                    rounded
-                    className="ml-a mr-a"
-                    label="Ok. Close"
-                    onClick={() => {
-                      setCookie('brixelSayHello', true);
-                      setShowWelcomeMessage(false);
-                    }}
-                  />
-                </>
-              )
-            }
-          </div>
-        )
-      } */}
       <div className="dis-f a-t jc-c pos-r-md">
         {
           usrGroups && (
@@ -410,13 +365,13 @@ const RewardsDashboard = (props) => {
                   {getSuccessActiveGroup()}
                 </div>
                 {
-                  rewardType === 'media' && (
+                  brixelScanTrialMessage(rewardType) && (
                     <BrixelUpgradeMessage
                       className="mt-3"
                       unlockFunction={false}
-                      title="Do you want to capture your property in its best possible light?"
-                      description="Request a free photo shooting by one of our experts."
-                      btnLabel="Request photo shoot"
+                      title={brixelScanTrialMessage(rewardType).title}
+                      description={brixelScanTrialMessage(rewardType).description}
+                      btnLabel={brixelScanTrialMessage(rewardType).btnLabel}
                       redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
                       trialRequest
                     />
