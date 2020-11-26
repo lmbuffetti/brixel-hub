@@ -97,19 +97,20 @@ const TeaserBanner = (props) => {
         </div>
         <div
           ref={smallBannerRef}
-          className="teaserBanner smallBanner dis-f"
+          className="teaserBanner brdRadius smallBanner dis-f"
           style={{ marginTop: `${isClosed ? '0' : `-${bannerHeightSmall()}`}px` }}
         >
           <span className="teaserTag as-c">Free</span>
-          <span className="pl-2 body2 txtDark700">Request your free scan and estimation now.</span>
-          <span
-            className="ml-1 link body2 txtPrimary400 fweight-500 td-u cur-poi"
-            onClick={() => {
-              setIsClosed(!isClosed);
-            }}
-          >
-            Read more
-          </span>
+          <p className="pl-2 body2 txtDark700">Request your free scan and estimation now.
+            <span
+              className="ml-1 link body2 txtPrimary400 fweight-500 td-u cur-poi"
+              onClick={() => {
+                setIsClosed(!isClosed);
+              }}
+            >
+              Read more
+            </span>
+          </p>
         </div>
       </div>
     </div>
