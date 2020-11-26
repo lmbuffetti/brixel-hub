@@ -77,7 +77,7 @@ const BrixelUpgradeMessage = (props) => {
         showUnlockMessage ? (
           <div className="bgPrimary100">
             <h5 className="txtPrimary700 mb-3">{titleConfirm}</h5>
-            <p className="max-w-fix-280 m-a txtDark700" dangerouslySetInnerHTML={{ __html: descriptionConfirm }} />
+            <p className="max-w-fix-360 m-a txtDark700" dangerouslySetInnerHTML={{ __html: descriptionConfirm }} />
             <div className="dis-f jc-c mt-3">
               <BrixelButtonPrimary
                 rounded
@@ -103,7 +103,7 @@ const BrixelUpgradeMessage = (props) => {
         ) : (
           <div className="bgGreen100 pb-3">
             <h5 className="txtGreen700">{title}</h5>
-            <p className="mt-3 mb-3 max-w-fix-280 m-a txtDark700" dangerouslySetInnerHTML={{ __html: description }} />
+            <p className="mt-3 mb-3 max-w-fix-360 m-a txtDark700" dangerouslySetInnerHTML={{ __html: description }} />
             {
               // CONDITION TO SHOW MESSAGE OR DEFAULT DEFAULT TOUR IF TOUR 3D
               virtualTour && (

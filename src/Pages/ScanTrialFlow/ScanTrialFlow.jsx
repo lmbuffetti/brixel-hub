@@ -327,7 +327,7 @@ const ScanTrialFlow = (props) => {
                         rounded
                         background="primary"
                         saturation={400}
-                        label="Request appointment"
+                        label="Get appointment"
                         onClick={() => changeStep('next', true)}
                       />
                     </>
