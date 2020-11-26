@@ -106,6 +106,11 @@ const ScanTrialFlow = (props) => {
 
   // FUNCTION TO CHANGE STEP - BACK-FORWARD
   const changeStep = (act, condition) => {
+    const el = document.getElementById('scrollEl');
+    el.scrollTo({
+      top: 0,
+      left: 0,
+    });
     if (condition || condition === false) changeFieldValue('interested', condition);
     if (condition) {
       const answers = [];
@@ -128,13 +133,6 @@ const ScanTrialFlow = (props) => {
       // setPosition(newIndex);
       setQuest(questions[newIndex]);
     }
-    const el = document.getElementById('scrollEl');
-
-    el.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth', // or can get `auto` variable
-    });
   };
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
