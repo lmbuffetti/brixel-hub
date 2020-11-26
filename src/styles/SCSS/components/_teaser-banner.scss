@@ -38,12 +38,57 @@
     .innerContent {
       max-width: 500px;
     }
-    img {
+
+    .teaserImage img {
       border-radius: 4px;
       object-fit: cover;
       object-position: left;
+      width: 225px;
+      height: auto;
+    }
+    padding: $step * 2;
+    .bannerContent {
+      padding-right: $step * 3;
+      padding-left: $step * 3;
+      padding-top: $step * 1;
+      p {
+        padding-top: $step * 2;
+        padding-bottom: $step * 2;
+      }
+    }
+    @media (max-width: $responsive-small) {
+      flex-direction: column;
+      padding: 0px;
+      padding-bottom: 16px;
+      .closeBtn {
+        position: absolute;
+        top: $step;
+        right: $step;
+        .iconBtn {
+          background: $brx-white;
+        }
+      }
+      .teaserImage {
+        max-width: 100%;
+        width: 100%;
+        img {
+          width: 100%;
+          border-bottom-right-radius: 0px;
+          border-bottom-left-radius: 0px;
+        }
+      }
+      .bannerContent {
+        padding-top: $step * 2;
+        padding-right: $step * 2;
+        padding-left: $step * 2;
+        p {
+          padding-bottom: $step * 3;
+        }
+      }
     }
   }
+
+
 
   @keyframes fadeIn {
     0% {
