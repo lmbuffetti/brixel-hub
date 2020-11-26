@@ -16,7 +16,7 @@ const TeaserBanner = (props) => {
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
 
-  const [isOpen, setIsOpen] = useState(getCookie('brixelBannerClosed') !== 'true');
+  const [isClosed, setIsClosed] = useState(getCookie('brixelBannerClosed') === 'true');
   // const [animClass, setAnimClass] = useState(false);
 
   const smallBannerRef = useRef(null);
@@ -25,10 +25,11 @@ const TeaserBanner = (props) => {
   const teaserEl = teaserRef.current;
 
   useEffect(() => {
-    // setCookie('brixelBannerClosed', isOpen);
-  }, [isOpen]);
+    setCookie('brixelBannerClosed', isClosed);
+  }, [isClosed]);
 
   const openTrialRequestFlow = () => {
+    setIsClosed(!isClosed);
     setCookie('brixelBannerClosed', true);
     localStorage.setItem('backUrl', history.location.pathname);
     history.push(`/${propID}/trialRequest`);
@@ -46,12 +47,12 @@ const TeaserBanner = (props) => {
   };
 
   return (
-    <div className={`teaserWrapper ${isOpen ? 'bigOn' : 'smallOn'}`}>
+    <div className={`teaserWrapper ${isClosed ? 'smallOn' : 'bigOn'}`}>
       <div>
         <div
           ref={teaserRef}
           className={`teaserBanner bigBanner dis-f bgWhite brdRadius w-perc-100 ${className}`}
-          style={{ marginTop: `${isOpen ? '0' : `-${bannerHeight()}`}px` }}
+          style={{ marginTop: `${isClosed ? `-${bannerHeight()}` : '0'}px` }}
         >
           <div className="teaserImage pos-r">
             <span className="teaserTag pos-a-fix x-b-1 x-l-2"> Free </span>
@@ -68,7 +69,6 @@ const TeaserBanner = (props) => {
               rounded
               className="as-fs"
               onClick={() => {
-                setIsOpen(!isOpen);
                 openTrialRequestFlow();
               }}
 
@@ -82,21 +82,21 @@ const TeaserBanner = (props) => {
               noBorder
               className="as-c"
               icon="close-small"
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => setIsClosed(!isClosed)}
             />
           </div>
         </div>
         <div
           ref={smallBannerRef}
           className="teaserBanner smallBanner dis-f"
-          style={{ marginTop: isOpen ? `-${bannerHeightSmall()}px` : '0' }}
+          style={{ marginTop: `${isClosed ? '0' : `-${bannerHeightSmall()}`}px` }}
         >
           <span className="teaserTag as-c">Free</span>
           <span className="pl-2 body2 txtDark700">Request your free scan and estimation now.</span>
           <span
             className="ml-1 link body2 txtPrimary400 fweight-500 td-u cur-poi"
             onClick={() => {
-              setIsOpen(!isOpen);
+              setIsClosed(!isClosed);
             }}
           >
             Read more
