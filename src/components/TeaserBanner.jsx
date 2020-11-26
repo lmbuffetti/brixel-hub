@@ -56,7 +56,7 @@ const TeaserBanner = (props) => {
   }
 
   return (
-    <div className={`teaserWrapper ${isClosed ? 'smallOn' : 'bigOn'}`}>
+    <div className={`teaserWrapper container ${isClosed ? 'smallOn' : 'bigOn'}`}>
       <div>
         <div
           ref={teaserRef}
