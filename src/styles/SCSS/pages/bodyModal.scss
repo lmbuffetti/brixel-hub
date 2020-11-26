@@ -21,6 +21,10 @@
     .bodyModal {
       max-height: calc(100% - #{$step * 2});
       top: $step * 2;
+      @media (max-width: $responsive-small) {
+        top: 0;
+        max-height: 100%;
+      }
     }
   }
 

@@ -5,8 +5,7 @@
 
   &.smallOn {
     .smallBanner {
-      transition: all 450ms ease;
-      transition-property: opacity, marginTop;
+      transition: opacity 450ms ease;
       opacity: 1;
       margin-top: 8px;
       margin-bottom: 24px;
