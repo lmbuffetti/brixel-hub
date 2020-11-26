@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
-import { setCookie, getCookie } from '../utils/helpers';
+import { setCookie, getCookie, isEligible } from '../utils/helpers';
 import TeaserImg from '../images/scanTrial/TeaserBanner.png';
 import TeaserImg2x from '../images/scanTrial/TeaserBanner@2x.png';
 
@@ -53,8 +53,18 @@ const TeaserBanner = (props) => {
     return height;
   };
 
+  if (
+    !history.location.pathname.includes('packageFlow') &&
+    !history.location.pathname.includes('onBoarding') &&
+    !history.location.pathname.includes('upgrade') &&
+    !history.location.pathname.includes('trialRequest') &&
+    isEligible()
+  ) {
+    return <span />;
+  }
+
   return (
-    <div className={`teaserWrapper ${isClosed ? 'smallOn' : 'bigOn'} hide`}>
+    <div className={`teaserWrapper ${isClosed ? 'smallOn' : 'bigOn'}`}>
       <div>
         <div
           ref={teaserRef}
