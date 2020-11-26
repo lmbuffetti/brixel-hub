@@ -6,6 +6,7 @@ import {
   BrixelButtonTertiary,
   BrixelButtonIcon,
   BrixelButtonPrimary,
+  FactsOptions,
   MultiFileldsReduxForm,
   change,
   destroy,
@@ -19,6 +20,8 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
 import { sendScanTrialRequest } from '../../actions/PropertyActions';
+
+const { factsOptions } = FactsOptions;
 
 const ScanTrialFlow = (props) => {
   // PROPS
@@ -104,6 +107,11 @@ const ScanTrialFlow = (props) => {
   // FUNCTION TO CHANGE STEP - BACK-FORWARD
   const changeStep = (act, condition) => {
     if (condition || condition === false) changeFieldValue('interested', condition);
+    if (condition) {
+      const answers = [];
+      factsOptions.scanTrialInterest.forEach((input) => answers.push(input.value));
+      changeFieldValue('answers', answers);
+    }
     let newIndex = currentIndex;
     if (act === 'back') {
       newIndex -= 1;
@@ -118,6 +126,13 @@ const ScanTrialFlow = (props) => {
       // setPosition(newIndex);
       setQuest(questions[newIndex]);
     }
+    const el = document.getElementById('scrollEl');
+
+    el.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth', // or can get `auto` variable
+    });
   };
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
@@ -194,7 +209,7 @@ const ScanTrialFlow = (props) => {
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
-          <div className="multiStepSlides">
+          <div className="multiStepSlides" id="scrollEl">
             <div
               className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
@@ -337,7 +352,7 @@ const ScanTrialFlow = (props) => {
                         rounded
                         background={questions[currentIndex - 1] ? 'primary' : 'red'}
                         saturation={400}
-                        label="Send request"
+                        label={get(formValue, 'interested', null) ? 'Send request' : 'Send feedback'}
                         rightIcon="arrow-right-small"
                         isLoading={isSmallLoading === 'sendData'}
                         onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
