@@ -416,7 +416,11 @@ const App = (props) => {
               style={isSecLevel ? { height: '100%' } : headerCalc()}
               ref={dashContentRef}
             >
-              <TeaserBanner />
+              {
+                !history.location.pathname.includes('packageFlow') &&
+                !history.location.pathname.includes('onBoarding') &&
+                !history.location.pathname.includes('buyer') && (<TeaserBanner />)
+              }
               <Switch>
                 { /* SECTION: ONBOARDING */ }
                 <Route path="/packageFlow/getstarted/" component={GetStarted} />
