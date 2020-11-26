@@ -85,14 +85,19 @@ const ScanTrialFlow = (props) => {
         user: loggedInUser.id,
         interested: get(formValue, 'interested', null),
         meta: {
-          userName: get(formValue, 'contactFullName', null),
-          userEmail: get(formValue, 'contactEmail', null),
-          userPhone: get(formValue, 'contactPhone', null),
-          comments: get(formValue, 'comments', ''),
           answers: get(formValue, 'answers', []),
         },
       },
     };
+    if (get(formValue, 'interested', null)) {
+      data.data.meta = {
+        ...data.data.meta,
+        userName: get(formValue, 'contactFullName', null),
+        userEmail: get(formValue, 'contactEmail', null),
+        userPhone: get(formValue, 'contactPhone', null),
+        comments: get(formValue, 'comments', ''),
+      };
+    }
     handleSendScanTrial(data);
   };
 
