@@ -54,11 +54,10 @@ const TeaserBanner = (props) => {
   };
 
   if (
-    !history.location.pathname.includes('packageFlow') &&
-    !history.location.pathname.includes('onBoarding') &&
-    !history.location.pathname.includes('upgrade') &&
-    !history.location.pathname.includes('trialRequest') &&
-    isEligible()
+    !history.location.pathname.includes('rewards') &&
+    !history.location.pathname.includes('listings') &&
+    !history.location.pathname.includes('property') &&
+    !isEligible()
   ) {
     return <span />;
   }
