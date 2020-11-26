@@ -111,6 +111,8 @@ const ScanTrialFlow = (props) => {
       const answers = [];
       factsOptions.scanTrialInterest.forEach((input) => answers.push(input.value));
       changeFieldValue('answers', answers);
+    } else {
+      changeFieldValue('answers', []);
     }
     let newIndex = currentIndex;
     if (act === 'back') {
