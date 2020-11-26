@@ -32,8 +32,7 @@ import {
 } from '../../../actions/GamificationActions';
 import { setModal, setPageData, setScreenNotification } from '../../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
-import { calcPercentageFacts, isEligible } from '../../../utils/helpers';
-import TeaserBanner from '../../../components/TeaserBanner';
+import { calcPercentageFacts } from '../../../utils/helpers';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -306,8 +305,6 @@ const Dashboard = (props) => {
     setIsDiscardChanges(true);
   };
 
-  const teaserScreens = history.location.pathname.includes('rewards') || history.location.pathname.includes('property') || history.location.pathname.includes('listings');
-
   // FUNCTION TO ADD THE SMALL LOADING ON BUTTON SAVE ON NOTIFICATION BAR
   useEffect(() => {
     if (notification && notification.actions && notification.type === 'infoHub' && isSmallLoading) {
@@ -386,7 +383,7 @@ const Dashboard = (props) => {
   if (!userTypes && !userType) return (<div />);
   return (
     <div className="container dashboardContainer" id="dashboard">
-      {teaserScreens && isEligible(activeSingleProperty) && (<TeaserBanner />)}
+      {/* teaserScreens && isEligible(activeSingleProperty) && () */}
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
       <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />

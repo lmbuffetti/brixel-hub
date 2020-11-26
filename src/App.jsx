@@ -27,6 +27,7 @@ import { setLanguage, setModal, setWindowDimensions } from './actions/CommonActi
 
 import BrixelModalAwards from './components/BrixelModalAwards';
 import { getImageType } from './actions/UploadActions';
+import TeaserBanner from './components/TeaserBanner';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
@@ -392,7 +393,9 @@ const App = (props) => {
           >
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
-                <PageHeader />
+                <>
+                  <PageHeader />
+                </>
               )
             }
             {
@@ -402,7 +405,9 @@ const App = (props) => {
                 !history.location.pathname.includes('upgrade') &&
                 !history.location.pathname.includes('trialRequest') &&
               (
-                <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
+                <>
+                  <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
+                </>
               )
             }
             <div
@@ -411,6 +416,7 @@ const App = (props) => {
               style={isSecLevel ? { height: '100%' } : headerCalc()}
               ref={dashContentRef}
             >
+              <TeaserBanner />
               <Switch>
                 { /* SECTION: ONBOARDING */ }
                 <Route path="/packageFlow/getstarted/" component={GetStarted} />

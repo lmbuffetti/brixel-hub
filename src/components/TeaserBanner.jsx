@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
-import { setCookie, getCookie } from '../utils/helpers';
+import { setCookie, getCookie, isEligible } from '../utils/helpers';
 import TeaserImg from '../images/scanTrial/TeaserBanner.png';
 import TeaserImg2x from '../images/scanTrial/TeaserBanner@2x.png';
 
@@ -45,6 +45,15 @@ const TeaserBanner = (props) => {
     if (smallBannerEl) height = smallBannerEl.offsetHeight;
     return height;
   };
+
+  if (
+    !history.location.pathname.includes('rewards') &&
+    !history.location.pathname.includes('listings') &&
+    !history.location.pathname.includes('property') &&
+    !isEligible()
+  ) {
+    return <span />;
+  }
 
   return (
     <div className={`teaserWrapper ${isClosed ? 'smallOn' : 'bigOn'}`}>
