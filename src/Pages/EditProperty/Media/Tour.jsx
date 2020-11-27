@@ -93,16 +93,29 @@ const Tour = (props) => {
               }
             </div>
           ) : (
-            <BrixelUpgradeMessage
-              className="mt-3"
-              unlockFunction={false}
-              title="Do you want a 3D tour for your property?"
-              description="A 3D tour helps you to avoid unnecessary showings and increases the attention of your property in the market. Request a free scan by one of our experts to get your own tour."
-              btnLabel="Request scan"
-              redirectUrl={`/${formValue.id}/trialRequest`}
-              virtualTour
-              trialRequest
-            />
+            <div className="tour brixel-upgrade-message p- rewardsSplash">
+              <div className="dis-f jc-b a-c mb-3 hide-md p-2">
+                <BrixelButtonIcon
+                  className="shadow-3dp hide-md"
+                  icon="arrow-simple-left"
+                  background="White"
+                  color="primary"
+                  saturationTxt={400}
+                  noBorder
+                  onClick={() => history.push(`/${propID}/property`)}
+                />
+              </div>
+              <BrixelUpgradeMessage
+                className="mt-0 p-2"
+                unlockFunction={false}
+                title="Do you want a 3D tour for your property?"
+                description="A 3D tour helps you to avoid unnecessary showings and increases the attention of your property in the market. Request a free scan by one of our experts to get your own tour."
+                btnLabel="Request scan"
+                redirectUrl={`/${formValue.id}/trialRequest`}
+                virtualTour
+                trialRequest
+              />
+            </div>
           )
         }
       </div>

@@ -111,13 +111,15 @@ const ScanTrialFlow = (props) => {
       top: 0,
       left: 0,
     });
-    if (condition || condition === false) changeFieldValue('interested', condition);
-    if (condition) {
-      const answers = [];
-      factsOptions.scanTrialInterest.forEach((input) => answers.push(input.value));
-      changeFieldValue('answers', answers);
-    } else {
-      changeFieldValue('answers', []);
+    if (currentIndex < 1) {
+      if (condition || condition === false) changeFieldValue('interested', condition);
+      if (condition) {
+        const answers = [];
+        factsOptions.scanTrialInterest.forEach((input) => answers.push(input.value));
+        changeFieldValue('answers', answers);
+      } else {
+        changeFieldValue('answers', []);
+      }
     }
     let newIndex = currentIndex;
     if (act === 'back') {
@@ -271,14 +273,14 @@ const ScanTrialFlow = (props) => {
                               Thank you for your request.
                             </h3>
                             <p
-                              className="m-a mt-2 max-w-fix-400"
+                              className="mt-2 max-w-fix-400"
                             >
                               One of our experts will get in touch with you as soon as possible to schedule your personal appointment.
                             </p>
-                            <p className="my-1 max-w-fix-400 m-a">
+                            <p className="my-1 max-w-fix-400">
                               To speed up the process you can already  prepare the following documents for your estimation:
                             </p>
-                            <ul className="max-w-fix-400 m-a pl-2">
+                            <ul className="max-w-fix-400 ml-1 pl-2">
                               <li>Extract from the land register</li>
                               <li>Building insurance policy</li>
                               <li>Previous estimation report (if available)</li>
@@ -327,7 +329,7 @@ const ScanTrialFlow = (props) => {
                         rounded
                         background="primary"
                         saturation={400}
-                        label="Get appointment"
+                        label="Request appointment"
                         onClick={() => changeStep('next', true)}
                       />
                     </>

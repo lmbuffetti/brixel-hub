@@ -95,7 +95,7 @@
   }
 }
 
-.brixel-upgrade-message:not(.tourTeaser) {
+.brixel-upgrade-message:not(.tourTeaser):not(.tour) {
   @media (max-width: $responsive-medium) {
     margin-top: auto;
   }
