@@ -198,7 +198,7 @@ const Documents = (props) => {
               <div>
                 <img className="h-fix-120" src={buyerDocumentsEmpty} alt="Empty Documents" />
                 <h5 className="mt-3 mb-2 ta-c">No documents available.</h5>
-                <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-5">Please conact the seller for further documents about this property.</p>
+                <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-5">Please contact the seller for further documents about this property.</p>
               </div>
             )
           }
