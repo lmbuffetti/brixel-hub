@@ -1,5 +1,5 @@
 import React from 'react';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -124,11 +124,11 @@ const MediaRewards = (props) => {
 };
 
 MediaRewards.propTypes = {
-  documents: Proptypes.arrayOf(Proptypes.object).isRequired,
-  floorPlans: Proptypes.arrayOf(Proptypes.object).isRequired,
-  history: Proptypes.object.isRequired,
-  match: Proptypes.object.isRequired,
-  photos: Proptypes.arrayOf(Proptypes.object).isRequired,
+  documents: PropTypes.arrayOf(PropTypes.object).isRequired,
+  floorPlans: PropTypes.arrayOf(PropTypes.object).isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  photos: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 MediaRewards.defaultProps = {

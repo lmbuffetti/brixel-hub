@@ -8,8 +8,9 @@ import {
   BrixelButtonTertiary, destroy,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import logo from '@brixel/brixel-configuration-partner/src/images/logo_full.svg';
+import logo from '@brixel/brixel-configuration-partner/src/images/logo_full_v2.svg';
 import { CSSTransition } from 'react-transition-group';
+import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
 import useOutsideAlerter from './OutsideElement';
 import { setUserTypes } from '../actions/UserActions';
 import { setActiveSingleProperty } from '../actions/PropertyActions';
@@ -28,6 +29,7 @@ const MenuSidebar = (props) => {
   // STATE
   const [activeMenu, setActiveMenu] = useState(null);
   const [slideIn, setSlideIn] = useState(false);
+  const [isBuyer, setIsBuyer] = useState(false);
   // REF
   const wrapperRef = useRef(null);
   // URL PARAMS
@@ -65,6 +67,18 @@ const MenuSidebar = (props) => {
     history.push({ state: null });
   };
 
+  useEffect(() => {
+    if (history.location.pathname.includes('buyer')) {
+      setIsBuyer(true);
+    } else {
+      setIsBuyer(false);
+    }
+  });
+
+  useEffect(() => {
+    console.log(isBuyer);
+  });
+
   // FUNCTION TO MANAGE CLICK OUTSIDE OF SUPPORT MENU
   useOutsideAlerter(wrapperRef, {
     action: 'function',
@@ -80,35 +94,32 @@ const MenuSidebar = (props) => {
           { /* SECTION SIDEBAR MENU DESKTOP */ }
           <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite shadow-2dp ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
             <div className="hide dis-b-md">
-              <div className="h-fix-64 dis-f a-c logoWrapper px-2 shadow-1dp">
+              <div className="h-fix-64 dis-f a-c logoWrapper px-2">
                 <img className="pos-r w-fix-64" src={logo} alt="Brixel Logo" id="logo" />
               </div>
-              <hr className="lighter" />
-              <div className="sidebarNav">
-                <BrixelButtonTertiary
+              <div className="sidebarNav mt-5 px-2">
+                <BrixelButtonPrimary
                   label="Sell"
                   labelClass="fsize-300"
-                  className={`pb-small-4 td-n ${history.location.pathname.includes('buyer') ? '' : 'bgLight100'}`}
+                  leftIcon="property-house"
+                  className={`${isBuyer ? '' : 'active'}`}
                   onClick={() => {
                     handleSetUserTypes('seller');
                     handleSetActiveSingleProperty({});
                     history.push('/seller/pageLists');
                   }}
-                  color="dark"
-                  saturation={history.location.pathname.includes('buyer') ? 100 : 700}
                 />
-                <BrixelButtonTertiary
+                <BrixelButtonPrimary
                   label="Buy"
                   labelClass="fsize-300"
-                  className={`pb-small-4 td-n ${history.location.pathname.includes('buyer') ? 'bgLight100' : ''}`}
+                  leftIcon="favorite"
+                  className={`${isBuyer ? 'active' : ''}`}
                   onClick={() => {
                     destroyForm();
                     handleSetUserTypes('buyer');
                     handleSetActiveSingleProperty({});
                     history.push('/buyer/propertyLists');
                   }}
-                  color="dark"
-                  saturation={history.location.pathname.includes('buyer') ? 700 : 100}
                 />
               </div>
             </div>

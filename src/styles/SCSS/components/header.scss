@@ -65,6 +65,7 @@
 .withTopBar {
   @media (min-width: $responsive-medium) {
     .tabWrapper {
+      min-height: 42px;
       background-color: map-get($lightColor, 100);
       .brixel-tabs {
         padding-top: 2px;
@@ -110,6 +111,30 @@
       margin-bottom: $step;
       white-space: nowrap;
       &:last-child { margin-bottom: 0}
+    }
+  }
+}
+
+.mobile-menu {
+  .brixel-select {
+    .mobile-version {
+      border: none;
+      display: inline-block;
+      position: relative;
+      &:after {
+        @include icomoon();
+        font-size: 16px;
+        content: $icon-arrow-simple-down;
+        color: map_get($darkColor, 700);
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      select {
+        width: auto;
+        @include fontStyle(300);
+      }
     }
   }
 }

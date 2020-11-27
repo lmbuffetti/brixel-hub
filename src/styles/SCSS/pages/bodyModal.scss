@@ -21,6 +21,10 @@
     .bodyModal {
       max-height: calc(100% - #{$step * 2});
       top: $step * 2;
+      @media (max-width: $responsive-small) {
+        top: 0;
+        max-height: 100%;
+      }
     }
   }
 
@@ -134,7 +138,9 @@
             width: 100%;
             max-width: 480px;
             margin: auto;
-
+            &.subcontainerlg {
+              max-width: 680px
+            }
             &.rewardsFacts {
               max-width: 345px;
             }

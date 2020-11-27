@@ -1,3 +1,4 @@
+/* global Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
@@ -9,13 +10,14 @@ import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelIcon,
-  BrixelButtonSecondary,
   BrixelButtonTertiary,
   BrixelButtonIcon,
   BrixelTabs,
-  destroy,
+  destroy, BrixelSelect,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
+import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
+import logo from '@brixel/brixel-configuration-partner/src/images/logo_full_v2.svg';
 import useOutsideAlerter from './OutsideElement';
 import { setCookie, sortObject } from '../utils/helpers';
 import { setLanguage, setModal } from '../actions/CommonActions';
@@ -27,7 +29,7 @@ import {
   secondRoutes,
   secondRoutesBuyer,
 } from '../resources/navigationRoutes';
-import { setUserTypes } from '../actions/UserActions';
+import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
 import { setActiveSingleProperty } from '../actions/PropertyActions';
 import brixels from '../images/BrxielComingTown/brixels.svg';
 import CoverPropertyImage from './CoverPropertyImage';
@@ -49,6 +51,7 @@ function PageHeaderDashboard(props) {
     handleGetGame,
     handleSetLanguage,
     handleSetModal,
+    handleSaveActiveSingleUser,
     history,
     lang,
     loggedInUser,
@@ -62,6 +65,9 @@ function PageHeaderDashboard(props) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
+  const [langMenu, setLangMenu] = useState([]);
+  const [langSel, setSelLang] = useState(lang);
+  const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   // REF
   const profileMenu = useRef(null);
   const proTitleRef = useRef(null);
@@ -73,6 +79,45 @@ function PageHeaderDashboard(props) {
   useEffect(() => {
     setShowMobileMenu(false);
   }, [history]);
+
+  // GET LANGUAGE LISTS
+  useEffect(() => {
+    if (typeof Transifex !== 'undefined') {
+      if (Transifex.live.getAllLanguages()) {
+        const langHeader = [];
+        Transifex.live.getAllLanguages().map((lng, i) => {
+          langHeader[i] = lng;
+          langHeader[i].value = lng.code;
+          langHeader[i].label = lng.name;
+          return null;
+        });
+        setLangMenu(langHeader);
+      }
+    }
+  }, [localTransifex]);
+
+  // FUNCTION TO CHANGE  THE LANGUAGE
+  const newLang = (langCode) => {
+    // handleChangeLanguage(lang);
+    const defLangCode = get(langCode, 'value', null) ? langCode.value : langCode;
+    if (typeof Transifex !== 'undefined') {
+      setTimeout(() => {
+        Transifex.live.translateTo(defLangCode);
+      }, 100);
+      setSelLang(defLangCode);
+      localStorage.setItem('lang', defLangCode);
+      setCookie('brixelLang', defLangCode);
+    }
+    if (get(loggedInUser, 'user.id', null)) {
+      const userData = {
+        id: get(loggedInUser, 'user.id', null),
+        language: defLangCode,
+        setLoggedInUser: true,
+        smallLoader: true,
+      };
+      handleSaveActiveSingleUser(userData);
+    }
+  };
 
   // CHECK IF USER IS LOGGED IN AND LOAD GAME HISTORY IF NO DATA
   useEffect(() => {
@@ -341,7 +386,7 @@ function PageHeaderDashboard(props) {
             */}
 
             <div className="dis-f a-c">
-              {
+              {/*
                 windowDimensions.width > 1024 && (
                   <div className="dis-f a-c" onClick={() => brixelsAchievementDetail()}>
                     {
@@ -362,7 +407,7 @@ function PageHeaderDashboard(props) {
                     }
                   </div>
                 )
-              }
+              */}
               {
                 propID && windowDimensions.width > 1024 && userType === 'seller' && (
                   <BrixelButtonTertiary
@@ -395,119 +440,101 @@ function PageHeaderDashboard(props) {
                 />
                 {
                   showMobileMenu && (
-                    <div className="mobile-menu bgGreen700 w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-2 pb-2 zIndex5" style={{ height: windowDimensions.height }}>
-                      <BrixelButtonIcon
-                        className="as-fe mb-5"
-                        icon="close-small"
-                        background="light"
-                        saturation={100}
-                        color="green"
-                        saturationTxt={700}
-                        onClick={() => {
-                          toggleMobileMenu();
-                          document.body.classList.remove('ov-h');
-                        }}
-                      />
+                    <div className="mobile-menu bgWhite w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-3 pb-2 zIndex5" style={{ height: windowDimensions.height }}>
+                      <div className="dis-f jc-b a-c w-perc-100">
+                        <img className="pos-r w-fix-80" src={logo} alt="Brixel Logo" id="logo" />
+                        <BrixelButtonIcon
+                          className="as-fe"
+                          icon="close-small"
+                          background="light"
+                          saturation={100}
+                          color="green"
+                          saturationTxt={700}
+                          onClick={() => {
+                            toggleMobileMenu();
+                            document.body.classList.remove('ov-h');
+                          }}
+                        />
+                      </div>
                       <div className="links dis-fl-col as-b w-perc-100">
-                        <button
-                          type="button"
-                          className="txtLight100 fweight-700 fSizePx28 mb-4 ta-l"
-                          onClick={() => onClickMobileMenu('propertyList')}
-                        >
-                          All properties
-                        </button>
-                        {/* <button
-                          className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
-                          onClick={() => ''}
-                        >
-                          Messages
-                        </button>
-                        <button
-                          className="txtDark200 fweight-700 fSizePx28 mb-4 poi-none ta-l"
-                          onClick={() => ''}
-                        >
-                          Calendar
-                        </button> */}
+                        <div className="sidebarNav mt-5">
+                          <BrixelButtonPrimary
+                            label="Sell"
+                            labelClass="fsize-300"
+                            leftIcon="property-house"
+                            className={`${userType === 'seller' ? 'active' : ''}`}
+                            onClick={() => {
+                              handleSetUserTypes('seller');
+                              handleSetActiveSingleProperty({});
+                              history.push('/seller/pageLists');
+                            }}
+                          />
+                          <BrixelButtonPrimary
+                            label="Buy"
+                            labelClass="fsize-300"
+                            leftIcon="favorite"
+                            className={`${userType === 'buyer' ? 'active' : ''}`}
+                            onClick={() => {
+                              destroyForm();
+                              handleSetUserTypes('buyer');
+                              handleSetActiveSingleProperty({});
+                              history.push('/buyer/propertyLists');
+                            }}
+                          />
+                          <BrixelButtonTertiary
+                            className="fsize-300 txtLight700 px-1 td-n"
+                            label="Support"
+                            leftIcon="conversation"
+                            onClick={() => onTabClick('support')}
+                          />
+                        </div>
+
+                        <hr className="my-3" />
+
                         <div className="mini-menu dis-fl-col txtLight100">
-                          <hr className="mb-4" />
                           {
-                            userType === 'buyer' ? (
-                              <>
+                            userType === 'seller' && (
+                              <div className="mb-2">
                                 <a
-                                  className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
                                   onClick={(e) => {
                                     e.preventDefault();
-                                    handleSetUserTypes('seller');
-                                    handleSetActiveSingleProperty({});
-                                    history.push('/seller/pageLists');
-                                    toggleMobileMenu();
-                                    document.body.classList.remove('ov-h');
+                                    onUpgrade();
                                   }}
+                                  className="px-2 link txtRed400 fweight-500 fsize-300 ta-l"
                                 >
-                                  Seller
+                                  Upgrade
                                 </a>
-                              </>
-                            ) : (
-                              <>
-                                <a
-                                  className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    destroyForm();
-                                    handleSetUserTypes('buyer');
-                                    handleSetActiveSingleProperty({});
-                                    history.push('/buyer/propertyLists');
-                                    toggleMobileMenu();
-                                    document.body.classList.remove('ov-h');
-                                  }}
-                                >
-                                  Buyer
-                                </a>
-                              </>
+                              </div>
                             )
                           }
-                          <hr className="mb-4" />
+                          <BrixelSelect
+                            options={langMenu}
+                            className="mb-2"
+                            input={{
+                              value: langSel,
+                              name: 'lang',
+                              onChange: (val) => newLang(val),
+                            }}
+                          />
                           <a
-                            className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
-                            href={`${baseByData().loginBasePath}/account/profile?url=${window.location.href}`}
-                          >
-                            Profile
-                          </a>
-                          <a
-                            className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
+                            className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-l"
                             href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}
                           >
                             Password
                           </a>
                           <a
-                            className="link txtLight100 fweight-500 fsize-500 mb-3 ta-l"
+                            className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-l"
                             href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}
                           >
                             Preferences
                           </a>
                           <a
-                            className="link txtRed400 fweight-500 fsize-500 ta-l"
+                            className="px-2 link txtDark700 fweight-500 fsize-300 ta-l"
                             href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}
                           >
                             Logout
                           </a>
                         </div>
-                        <hr className="my-4" />
-                        {
-                          userType === 'seller' && (
-                            <div>
-                              <a
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  onUpgrade();
-                                }}
-                                className="link txtRed400 fweight-500 fsize-500 ta-l"
-                              >
-                                Upgrade
-                              </a>
-                            </div>
-                          )
-                        }
                       </div>
                     </div>
                   )
@@ -604,20 +631,21 @@ PageHeaderDashboard.propTypes = {
   awards: PropTypes.number.isRequired,
   brixelPoints: PropTypes.number.isRequired,
   changeZIndex: PropTypes.func,
+  destroyForm: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleGetGame: PropTypes.func.isRequired,
+  handleSaveActiveSingleUser: PropTypes.func.isRequired,
+  handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
+  handleSetUserTypes: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object,
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
-  handleSetUserTypes: PropTypes.func.isRequired,
-  handleSetActiveSingleProperty: PropTypes.func.isRequired,
-  destroyForm: PropTypes.func.isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {
@@ -646,11 +674,12 @@ const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     dispatch(destroy('Property'));
   },
-  handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
+  handleGetGame: bindActionCreators(getGameHistory, dispatch),
+  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
-  handleGetGame: bindActionCreators(getGameHistory, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
+  handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageHeaderDashboard));

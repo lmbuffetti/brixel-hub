@@ -40,7 +40,7 @@ const checkUser = (store) => (next) => (action) => {
       next(action);
       const hideLoad = get(action, 'payload.hideLoad', false);
       delete action.payload.hideLoad;
-      store.dispatch({ type: SPINNER_ON });
+      if (!hideLoad) store.dispatch({ type: SPINNER_ON });
       let data = hideLoad ? undefined : action.payload;
       if (data) data = Object.keys(data).length > 0 ? data : undefined;
       api.user.validateToken(data)
@@ -242,7 +242,6 @@ const checkUser = (store) => (next) => (action) => {
             store.dispatch({ type: SET_USER_PROPERTIES, payload: res.data || {} });
           }
           store.dispatch({ type: SPINNER_SMALL_OFF });
-          store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           store.dispatch({ type: SPINNER_SMALL_OFF });
