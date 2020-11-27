@@ -26,13 +26,11 @@ const DetailMedia = (props) => {
   const {
     formValue,
     handleRotateImg,
-    initialValues,
     changeFieldValue,
     handleDeleteImg,
     history,
     isSmallLoading,
     match,
-    resetForm,
   } = props;
   // STATE
   const [rotation, setRotation] = useState(0);
@@ -45,7 +43,6 @@ const DetailMedia = (props) => {
   const mediaType = get(match, 'params.editType', null);
   // REF
   const wrapImg = useRef(null);
-  const thirdlevelEl = document.getElementsByClassName('thirdLevel')[0];
 
   // SET ID OF CURRENT IMAGE
   useEffect(() => {
@@ -58,7 +55,7 @@ const DetailMedia = (props) => {
   }, [formValue, mediaType, match]);
 
   // RELAOD THE EFFECT OF EDIT MEDIA ON CHANGE IMAGE ID
-  useEffect(() => {
+  /*  useEffect(() => {
     resetForm(initialValues);
     if (get(formValue, `[${mediaType}][${idImg}]`, null)) {
       if (formValue[mediaType][idImg] !== '') {
@@ -70,7 +67,7 @@ const DetailMedia = (props) => {
         }
       }
     }
-  }, [mediaID]);
+  }, [mediaID]); */
 
   // WHEN THE SMALL LOADING END AND changeSection IS SET TO TRUE MOVED TO NEXT IMAGES
   useEffect(() => {
@@ -126,6 +123,11 @@ const DetailMedia = (props) => {
     func: () => { setConfirmDelete(false); },
   });
 
+  const imgUrl = () => {
+    const url = `${baseByData.shortPath}${formValue[mediaType][idImg].bigPath}??${Math.random().toString(36).slice(2)}`;
+    return url;
+  };
+
   // IF NOT FORM VALUE SHOW THE LOADING
   if (!formValue || !formValue[mediaType]) {
     return (
@@ -160,7 +162,7 @@ const DetailMedia = (props) => {
                   <img
                     className="max-w-perc-100 shadow-2dp brdRadius w-perc-100"
                     // style={{ transform: `rotate(${rotation}deg)` }}
-                    src={`${baseByData.shortPath}${formValue[mediaType][idImg].bigPath}??${Math.random().toString(36).slice(2)}`}
+                    src={imgUrl()}
                     alt="Edit Media"
                   />
                 )
@@ -243,13 +245,11 @@ const DetailMedia = (props) => {
 DetailMedia.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
-  initialValues: PropTypes.object.isRequired,
   handleRotateImg: PropTypes.func.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.string,
   match: PropTypes.object.isRequired,
-  resetForm: PropTypes.func.isRequired,
 };
 
 DetailMedia.defaultProps = {

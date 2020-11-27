@@ -2,6 +2,7 @@ import isObject from 'lodash/isObject';
 import Cookies from 'universal-cookie';
 import get from 'lodash/get';
 import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
+import has from 'lodash/has';
 import { translateTo } from './translation';
 import { AssessorAvgLifespan } from '../resources/Assessor';
 import { configureStore } from '../store';
@@ -589,4 +590,24 @@ export const keyify = (object) => {
   }
   iter(object, []);
   return result;
+};
+
+export const isEligible = (activeSingleProperty) => {
+  const hasPackage = get(activeSingleProperty, 'servicePackages', []).filter((pkg) => pkg.type === 'premium' || pkg.type === 'plus' || pkg.type === 'one');
+  if (hasPackage.length > 0) return false;
+  if (has(activeSingleProperty, 'location.countryCode') && activeSingleProperty.location.countryCode === 'CH') {
+    return true;
+  }
+  if (has(activeSingleProperty, 'location.countryCode') && activeSingleProperty.location.countryCode === 'PT') {
+    if (has(activeSingleProperty, 'location.state')) {
+      if (activeSingleProperty.location.state === 'Lisboa' ||
+        activeSingleProperty.location.state === 'Porto' ||
+        activeSingleProperty.location.state === 'Setúbal') {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
+  return false;
 };

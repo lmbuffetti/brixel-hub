@@ -8,8 +8,9 @@ import {
   BrixelButtonTertiary, destroy,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import logo from '@brixel/brixel-configuration-partner/src/images/logo_full.svg';
+import logo from '@brixel/brixel-configuration-partner/src/images/logo_full_v2.svg';
 import { CSSTransition } from 'react-transition-group';
+import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
 import useOutsideAlerter from './OutsideElement';
 import { setUserTypes } from '../actions/UserActions';
 import { setActiveSingleProperty } from '../actions/PropertyActions';
@@ -28,6 +29,7 @@ const MenuSidebar = (props) => {
   // STATE
   const [activeMenu, setActiveMenu] = useState(null);
   const [slideIn, setSlideIn] = useState(false);
+  const [isBuyer, setIsBuyer] = useState(false);
   // REF
   const wrapperRef = useRef(null);
   // URL PARAMS
@@ -65,6 +67,18 @@ const MenuSidebar = (props) => {
     history.push({ state: null });
   };
 
+  useEffect(() => {
+    if (history.location.pathname.includes('buyer')) {
+      setIsBuyer(true);
+    } else {
+      setIsBuyer(false);
+    }
+  });
+
+  useEffect(() => {
+    console.log(isBuyer);
+  });
+
   // FUNCTION TO MANAGE CLICK OUTSIDE OF SUPPORT MENU
   useOutsideAlerter(wrapperRef, {
     action: 'function',
@@ -79,45 +93,47 @@ const MenuSidebar = (props) => {
         <div className="w-perc-100 h-perc-100 pos-r">
           { /* SECTION SIDEBAR MENU DESKTOP */ }
           <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite shadow-2dp ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
-            <div className="hide dis-b-md pl-3 pr-2">
-              <div className="h-fix-64 dis-f a-c">
-                <img className="pos-r w-fix-56" src={logo} alt="Brixel Logo" id="logo" />
+            <div className="hide dis-b-md">
+              <div className="h-fix-64 dis-f a-c logoWrapper px-2">
+                <img className="pos-r w-fix-64" src={logo} alt="Brixel Logo" id="logo" />
               </div>
-              <BrixelButtonTertiary
-                label="Sell"
-                rightIcon="arrow-right-small"
-                labelClass="fsize-300"
-                className="pb-small-4 td-n"
-                onClick={() => {
-                  handleSetUserTypes('seller');
-                  handleSetActiveSingleProperty({});
-                  history.push('/seller/pageLists');
-                }}
-                color="dark"
-                saturation={history.location.pathname.includes('buyer') ? 100 : 700}
-              />
-              <BrixelButtonTertiary
-                label="Buy"
-                rightIcon="arrow-right-small"
-                labelClass="fsize-300"
-                className="pt-small-4 td-n"
-                onClick={() => {
-                  destroyForm();
-                  handleSetUserTypes('buyer');
-                  handleSetActiveSingleProperty({});
-                  history.push('/buyer/propertyLists');
-                }}
-                color="dark"
-                saturation={history.location.pathname.includes('buyer') ? 700 : 100}
-              />
+              <div className="sidebarNav mt-5 px-2">
+                <BrixelButtonPrimary
+                  label="Sell"
+                  labelClass="fsize-300"
+                  leftIcon="property-house"
+                  className={`${isBuyer ? '' : 'active'}`}
+                  onClick={() => {
+                    handleSetUserTypes('seller');
+                    handleSetActiveSingleProperty({});
+                    history.push('/seller/pageLists');
+                  }}
+                />
+                <BrixelButtonPrimary
+                  label="Buy"
+                  labelClass="fsize-300"
+                  leftIcon="favorite"
+                  className={`${isBuyer ? 'active' : ''}`}
+                  onClick={() => {
+                    destroyForm();
+                    handleSetUserTypes('buyer');
+                    handleSetActiveSingleProperty({});
+                    history.push('/buyer/propertyLists');
+                  }}
+                />
+              </div>
             </div>
-
-            <BrixelButtonTertiary
-              className="fsize-300 txtLight600 fweight-600 py-0 min-h-fix-30 td-n pos-a-fix x-b-2 x-l-2"
-              label="Support"
-              leftIcon="conversation"
-              onClick={() => onTabClick('support')}
-            />
+            <div className="pos-a-fix x-b-2 w-perc-100">
+              <hr className="lighter mb-2" />
+              <div className="px-2">
+                <BrixelButtonTertiary
+                  className="fsize-300 txtDark400 py-0 td-n"
+                  label="Support"
+                  leftIcon="conversation"
+                  onClick={() => onTabClick('support')}
+                />
+              </div>
+            </div>
           </div>
           <CSSTransition
             in={slideIn}

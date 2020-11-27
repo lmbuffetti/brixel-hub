@@ -1,0 +1,177 @@
+.hubDasContent {
+  .teaserWrapper.container {
+    min-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    @media (min-width: 1400px) {
+      max-width: 1312px;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
+}
+.teaserWrapper {
+  overflow: hidden;
+  margin: auto;
+
+  .smallBanner {
+    .link {
+      line-height: 16px;
+    }
+    @media (max-width: $responsive-small) {
+      flex-wrap: wrap;
+      flex-direction: column;
+      background-color: map-get($greenColor, 100);
+      justify-content: center;
+      text-align: center;
+      padding: $step;
+      margin-bottom: $step * 2;
+      .teaserTag {
+        margin-bottom: $step;
+      }
+      p {
+        padding-left: 0;
+        span {
+          display: block;
+        }
+      }
+    }
+  }
+  &.smallOn {
+    .smallBanner {
+      transition: opacity 450ms ease;
+      opacity: 1;
+      margin-top: 8px;
+      margin-bottom: 24px;
+    }
+    .bigBanner {
+      opacity: 0;
+    }
+  }
+  &.bigOn {
+    .smallBanner {
+      position: absolute;
+      top: 0;
+      opacity: 0;
+    }
+    .bigBanner {
+      transition: opacity 450ms ease;
+      opacity: 1;
+      margin-top: 16px;
+      margin-bottom: 24px;
+    }
+  }
+}
+.teaserBanner {
+  position: relative;
+  transition: opacity 450ms ease;
+
+  &.bigBanner {
+    background-color: map-get($greenColor, 100);
+    .innerContent {
+      max-width: 500px;
+    }
+
+    .teaserImage img {
+      border-radius: 4px;
+      object-fit: cover;
+      object-position: left;
+      width: 225px;
+      height: 100%;
+    }
+    padding: $step * 2;
+    .bannerContent {
+      padding-right: $step * 3;
+      padding-left: $step * 3;
+      padding-top: $step * 1;
+      p {
+        padding-top: $step * 2;
+        padding-bottom: $step * 2;
+      }
+    }
+    @media (max-width: $responsive-small) {
+      flex-direction: column;
+      padding: 0px;
+      padding-bottom: 16px;
+      .closeBtn {
+        position: absolute;
+        top: $step;
+        right: $step;
+        .iconBtn {
+          background: $brx-white;
+        }
+      }
+      .teaserImage {
+        max-width: 100%;
+        width: 100%;
+        img {
+          width: 100%;
+          border-bottom-right-radius: 0px;
+          border-bottom-left-radius: 0px;
+        }
+      }
+      .bannerContent {
+        padding-top: $step * 2;
+        padding-right: $step * 2;
+        padding-left: $step * 2;
+        p {
+          padding-bottom: $step * 3;
+        }
+      }
+    }
+  }
+
+
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    } 100% {
+      opacity: 1;
+    }
+  }
+  .teaserTag {
+    background-color: map-get($greenColor, 400);
+    padding-left: $step * 2;
+    padding-right: $step * 2;
+    @include fontStyle(100, 'medium');
+    color: white;
+    border-radius: $step / 2;
+    text-align: center;
+    line-height: 24px;
+  }
+}
+
+.introScanFlow {
+  .olLgNum {
+    counter-reset: olList;
+    li {
+      list-style: none;
+      position: relative;
+      padding-left: 72px;
+      margin-bottom: $step * 4;
+      > h5 {
+        margin-bottom: $step;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+      &:before {
+        position: absolute;
+        left: 16px;
+        transform: translateY(-15%);
+        @include fontStyle(400, 'medium');
+        counter-increment: olList;
+        content: counter(olList);
+        border-radius: 50%;
+        color: map_get($greenColor, 400);
+        border: 1px solid map_get($greenColor, 400);
+        display: flex;
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}

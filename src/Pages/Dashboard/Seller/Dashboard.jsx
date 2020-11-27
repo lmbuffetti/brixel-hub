@@ -1,3 +1,4 @@
+// @collapse
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -61,6 +62,11 @@ const EmptyProperty = Loadable({
 // UPGRADE
 const Upgrade = Loadable({
   loader: () => import('../../Upgrade/Upgrade' /* webpackChunkName: "Upgrade" */),
+  loading: () => null,
+});
+
+const ScanTrialFlow = Loadable({
+  loader: () => import('../../ScanTrialFlow/ScanTrialFlow' /* webpackChunkName: "ScanTrialFlow" */),
   loading: () => null,
 });
 
@@ -142,7 +148,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (!history.location.pathname.includes('pageLists')) {
       if (propID && !get(activeSingleProperty, 'id', null)) {
-        handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: true });
+        handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
       } else if (!propID) {
         loadDefaultProperty();
       }
@@ -377,19 +383,21 @@ const Dashboard = (props) => {
   if (!userTypes && !userType) return (<div />);
   return (
     <div className="container dashboardContainer" id="dashboard">
+      {/* teaserScreens && isEligible(activeSingleProperty) && () */}
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
       <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
       <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
+      <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
       <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
     </div>
   );
 };
 
 Dashboard.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object,
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
   gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -425,6 +433,7 @@ Dashboard.propTypes = {
 };
 
 Dashboard.defaultProps = {
+  activeSingleProperty: {},
   errorValue: null,
   isSmallLoading: null,
   notification: null,

@@ -19,7 +19,12 @@ import api from '../controllers/api/config';
 import { gameAchievement } from '../resources/localData/gameAchievement';
 import { gameGroupDataLocal } from '../resources/localData/gameGroup';
 import { gameHistoryDataLocal } from '../resources/localData/gameHistory';
-import { SPINNER_OFF, SPINNER_SMALL_ON, SPINNER_SMALL_OFF } from '../actions/types/CommonTypes';
+import {
+  SPINNER_ON,
+  SPINNER_OFF,
+  SPINNER_SMALL_ON,
+  SPINNER_SMALL_OFF,
+} from '../actions/types/CommonTypes';
 
 const checkGamification = (store) => (next) => (action) => {
   switch (action.type) {
@@ -34,7 +39,6 @@ const checkGamification = (store) => (next) => (action) => {
           if (window.location.href.includes('localhost')) {
             store.dispatch({ type: SET_ACHIEVEMENT, payload: gameAchievement });
           }
-          store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
@@ -49,19 +53,20 @@ const checkGamification = (store) => (next) => (action) => {
           if (window.location.href.includes('localhost')) {
             store.dispatch({ type: SET_GAMEGROUP, payload: gameGroupDataLocal });
           }
-          store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
     // DISPATCH TO GET THE GAME HISTORY BY USER ID
     case GET_GAME_HISTORY: {
       next(action);
+      store.dispatch({ type: SPINNER_ON });
       const userLoggedIn = store.getState().user.loggedInUser.user.id;
       api.gamification.getGameHistoryByUser(userLoggedIn)
         .then((res) => {
           store.dispatch({ type: SET_GAME_HISTORY, payload: res.data });
           store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
           store.dispatch({ type: SET_BRIXEL_POINTS, payload: res.data.actualPoints });
+          store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           if (window.location.href.includes('localhost')) {

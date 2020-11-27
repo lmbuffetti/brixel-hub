@@ -201,9 +201,13 @@ const Upgrade = (props) => {
                     </div>
                   ) : (
                     <div className="ta-c">
-                      <div className="h-fix-248">
-                        <img src={quest.img} alt={quest.title} />
-                      </div>
+                      {
+                        quest.img && (
+                          <div className="h-fix-248">
+                            <img src={quest.img} alt={quest.title} />
+                          </div>
+                        )
+                      }
                       <h3
                         className="mt-5"
                         dangerouslySetInnerHTML={{ __html: quest.title }}
@@ -233,7 +237,11 @@ const Upgrade = (props) => {
                 {
                   currentIndex === 0 && (
                     <div className="dis-fl-col dis-fl-row-md a-c w-perc-100">
-                      <img src={InfoImg} alt="Info" className="mb-1 mb-md-0" />
+                      {
+                        InfoImg && (
+                          <img src={InfoImg} alt="Info" className="mb-1 mb-md-0" />
+                        )
+                      }
                       <p className="body2 ml-1 mb-1 mb-md-0 ta-c ta-l-md  max-w-fix-384">
                         Don&apos;t worry. You will not be charged for now. Get the result first. Pay later.
                       </p>

@@ -10,7 +10,7 @@ import BrixelCheckboxWithDetail from '../components/BrixelCheckboxWithDetail';
 import { translateTo } from '../utils/translation';
 import brixelPlus from '../images/Upgrade/brixel_plus.svg';
 import brixelPremium from '../images/Upgrade/brixel_premium.svg';
-import upgradeComplete from '../images/Upgrade/upgrade_complete.svg';
+// import upgradeComplete from '../images/Upgrade/upgrade_complete.svg';
 
 export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
   const optionsPackages = [];
@@ -226,7 +226,6 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
       title: translateTo(lang, 'Great. Your order is complete. '),
       subtitle: 'We will reach out to you to organise the further steps and clarify all your questions.',
       history: 'upgradeType',
-      img: upgradeComplete,
       vCentered: true,
       toSave: true,
     },
