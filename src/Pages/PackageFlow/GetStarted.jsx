@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset,
+  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -33,6 +33,7 @@ const GetStarted = (props) => {
   const {
     changeFieldValue,
     company,
+    destroyForm,
     errorValue,
     formValue,
     handleCreateActiveSingleProperty,
@@ -67,6 +68,10 @@ const GetStarted = (props) => {
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
+
+  // DESTROY FORM ON EXIT
+  useEffect(() => () => destroyForm(), []);
+
   // FUNCTION TO SAVE DATA
   const saveData = async (action) => {
     const dataForm = cloneDeep(formValue);
@@ -676,6 +681,7 @@ const GetStarted = (props) => {
 GetStarted.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   company: PropTypes.object.isRequired,
+  destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleCreateActiveSingleProperty: PropTypes.func.isRequired,
@@ -757,6 +763,9 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('GetStarted', field, value));
+  },
+  destroyForm() {
+    dispatch(destroy('GetStarted'));
   },
   initForm(value) {
     dispatch(initializeForm('GetStarted', value));

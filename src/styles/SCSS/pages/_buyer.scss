@@ -1,8 +1,15 @@
 .buyer-properties {
+  .properties {
+    overflow: auto;
+  }
+  .listings-section {
+    width: fit-content;
+  }
   .results {
     transition: box-shadow $default-time $default-easing;
     @media (max-width: $responsive-small) {
-      flex-wrap: wrap;
+      width: fit-content;
+      min-width: 600px;
     }
     &:hover {
       @extend .shadow-4dp;
