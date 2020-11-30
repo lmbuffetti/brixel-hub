@@ -467,6 +467,7 @@ function PageHeaderDashboard(props) {
                               handleSetUserTypes('seller');
                               handleSetActiveSingleProperty({});
                               history.push('/seller/pageLists');
+                              toggleMobileMenu();
                             }}
                           />
                           <BrixelButtonPrimary
@@ -479,6 +480,7 @@ function PageHeaderDashboard(props) {
                               handleSetUserTypes('buyer');
                               handleSetActiveSingleProperty({});
                               history.push('/buyer/propertyLists');
+                              toggleMobileMenu();
                             }}
                           />
                           <BrixelButtonTertiary
@@ -599,6 +601,7 @@ function PageHeaderDashboard(props) {
                 {/* <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} /> */}
                 <h5 className="">{getCurrentRoute().title}</h5>
               </div>
+              {/*
               <div className="dis-f a-c" onClick={() => brixelsAchievementDetail()}>
                 {
                   awards >= 0 && (
@@ -617,7 +620,7 @@ function PageHeaderDashboard(props) {
                   )
                 }
               </div>
-
+              */}
             </div>
           )
         }
