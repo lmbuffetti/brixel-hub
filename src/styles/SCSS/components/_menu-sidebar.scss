@@ -223,11 +223,10 @@
       background-color: map-get($lightColor, 200);
       color: map-get($primaryColor, 700);
     }
-  }
-  @media (min-width: $responsive-medium) {
-    color: map-get($lightColor, 400);
-    justify-content: center;
-    min-width: 100%;
-    margin: 0 auto;
+    @media (min-width: $responsive-medium) {
+      color: map-get($lightColor, 400);
+      min-width: 100%;
+      justify-content: flex-start;
+    }
   }
 }
