@@ -7,8 +7,8 @@ const companyData = require('@brixel/brixel-configuration-partner/src/CompanyInf
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const CopyPlugin = require('copy-webpack-plugin');
 const CSSNano = require('cssnano');
@@ -16,13 +16,11 @@ const CSSNano = require('cssnano');
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
-const ASSET_PATH = process.env.ASSET_PATH || '/';
-
 const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
 
 const clientConfig = {
-  mode: 'client',
+  mode: 'development',
   devtool: devMode ? 'inline-source-map' : 'cheap-source-map',
   entry: [
     '@babel/polyfill',
@@ -31,13 +29,13 @@ const clientConfig = {
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
-    compress: !devMode,
+    compress: devMode,
     port: 5000,
     historyApiFallback: true,
     open: true,
   },
   output: {
-    publicPath: ASSET_PATH,
+    publicPath: '/',
     path: BUILD_DIR,
     filename: 'js/[name].bundle.js',
     chunkFilename: devMode ? 'js/[name].js' : 'js/[name].[hash].js',
@@ -70,25 +68,16 @@ const clientConfig = {
           },
           {
             loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [
-                  [
-                    'autoprefixer',
-                  ],
-                ],
-              },
-            },
           },
           {
             loader: 'sass-loader',
-            options: {
-              sassOptions: {
-                outputStyle: 'compressed',
-              },
-              sourceMap: devMode,
-            },
           },
+        ],
+      },
+      {
+        test: /\.css/,
+        use: [
+          { loader: 'postcss-loader' },
         ],
       },
       {
@@ -168,6 +157,9 @@ const clientConfig = {
     ],
   },
   plugins: [
+    new ExtractCssChunks({
+      hot: true,
+    }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
@@ -214,7 +206,6 @@ const clientConfig = {
       },
       'process.env.client': true,
       'process.env.BROWSER': JSON.stringify(true),
-      'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
     }),
     new WebpackAssetsManifest(),
   ],
@@ -222,14 +213,31 @@ const clientConfig = {
     extensions: ['.js', '.jsx'],
   },
   optimization: {
+    nodeEnv: devMode ? 'development' : 'production',
+    minimize: !devMode,
+    splitChunks: {
+      chunks: 'all',
+      maxSize: 200000,
+      cacheGroups: {
+        default: false, // disable the built-in groups, default & vendors (vendors is overwritten below)
+        reactDom: {
+          test: /[\\/]node_modules[\\/]react-dom[\\/]/,
+          name: 'vendor.react-dom',
+          enforce: !devMode,
+          priority: 20,
+          maxSize: 200000,
+        },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          priority: 10,
+          enforce: !devMode, // create chunk regardless of the size of the chunk
+          maxSize: 200000,
+        },
+      },
+    },
     minimizer: [
-      new TerserPlugin({
-        cache: false,
-        parallel: true,
-        sourceMap: devMode,
-      }),
       new OptimizeCSSAssetsPlugin({
-        assetNameRegExp: /\.optimize\.css$/g,
         cssProcessor: CSSNano,
         cssProcessorPluginOptions: {
           preset: ['default', { discardComments: { removeAll: true } }],

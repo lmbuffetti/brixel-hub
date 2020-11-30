@@ -25,6 +25,7 @@ const Portals = (props) => {
   // PROPS
   const {
     company,
+    customPortals,
     formValue,
     handleUpdatePortalsReview,
     history,
@@ -34,14 +35,16 @@ const Portals = (props) => {
   } = props;
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
-  const currency = get(company, 'country.currency', '');
-  const meta = get(company, 'meta', {});
 
   // GET PORTALS STATUS
   const checkPortalsOnline = () => {
     let isOnline = false;
     Object.keys(portals).map((key) => {
-      if (portals[key]) isOnline = true;
+      if (portals[key] && get(customPortals, `${key}`, true) && !isOnline && !key.includes('Url')) isOnline = true;
+      return null;
+    });
+    Object.keys(customPortals).map((key) => {
+      if (customPortals[key] && !isOnline && !key.includes('Url')) isOnline = true;
       return null;
     });
     return isOnline;
@@ -58,29 +61,18 @@ const Portals = (props) => {
     // if (status === 'online') handleAddGameHistory({stub: 'portals'});
   };
 
-  // SET DURATION PUBLISHING BY COMPANY DATA
-  const publishDuration = () => {
-    const duration = get(meta, 'portals.duration', null);
-    if (!duration || +duration === 0) return 'unlimited';
-    if (+duration === 1) return `for <span class="notranslate">${duration}</span> month`;
-    if (+duration > 1) return `for <span class="notranslate">${duration}</span> months`;
-    return '';
-  };
-
   // MESSAGE TO UNLOCK
   const messageToUnlock = (key) => {
     let message = {
-      title: 'Save 15% compared to listings price.',
-      description: `Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}. Don't worry. You will not be charged for now. Get the result first. Pay later.`,
-      titleConfirm: 'Please confirm your order.',
-      descriptionConfirm: `<b>Publish on portals.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()}. You will not be charged for now.</span>`,
+      title: 'Get 7 days of listings for free.',
+      description: 'We offer you a free trial of 7 days on the biggest portals. During this time we will publish your listing on Homegate, Immoscout24 and Newhome. After this period you can upgrade to Private, Premium or One to continue being present on the biggest portals.',
+      btnLabel: 'Request 7 days trial',
     };
     if (get(formValue, 'location.countryCode', null) === 'PT') {
       message = {
-        title: 'Free trial for 30 days',
-        description: `Publish your property in the biggest portals for free for 30 days. After the trial period, and if you are happy, you get 3 more months for <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span>.`,
-        titleConfirm: 'Please confirm your order.',
-        descriptionConfirm: `Free for 30 days, only <span class="notranslate">${currency} ${get(meta, 'portals.price', '')}</span> ${publishDuration()} later. Ask your expert to review and publish it now.`,
+        title: 'Get 7 days of listings for free.',
+        description: 'We offer you a free trial of 7 days on the biggest portals. During this time we will publish your listing on Idealista and Imovirtual. After this period you can upgrade to Private, Premium or One to continue being present on the biggest portals.',
+        btnLabel: 'Request 7 days trial',
       };
     }
     return message[key];
@@ -112,9 +104,22 @@ const Portals = (props) => {
                   <>
                     <div className="ta-c mt-2">
                       <img className="h-fix-120" src={portalReview} alt="Page Under review" />
-                      <h5 className="txtPrimary600 mb-2 mt-3">Your property gets published…</h5>
+                      {
+                        formValue.portalsReview === 'offline' ? (
+                          <>
+                            <h5 className="txtPrimary600 mb-2 mt-3">Your property gets unpublished…</h5>
 
-                      <p className="mb-1">Portals can take up to 8 hours until your property is online.</p>
+                            <p className="mb-1">Portals can take up to 8 hours until your property is offline.</p>
+                          </>
+                        ) : (
+                          <>
+                            <h5 className="txtPrimary600 mb-2 mt-3">Your property gets published…</h5>
+
+                            <p className="mb-1">Portals can take up to 8 hours until your property is online.</p>
+                            <p className="mb-1">We will let you know as soon as your listings are online.</p>
+                          </>
+                        )
+                      }
                       <hr className="my-3" />
 
                       <p className="txtDark200">Any questions?</p>
@@ -163,11 +168,33 @@ const Portals = (props) => {
                                 Object.keys(portals).map((key, i) => (
                                   <React.Fragment key={i.toString()}>
                                     {
-                                      portals[key] && !key.toLocaleLowerCase().includes('url') && (
+                                      portals[key] && get(customPortals, `${key}`, true) && !key.toLocaleLowerCase().includes('url') && (
                                         <a
                                           target="_blank"
                                           rel="noopener noreferrer"
                                           href={portals[`${key}Url`]}
+                                        >
+                                          <BrixelIcon
+                                            className="mr-1"
+                                            icon="copy-link"
+                                            color="primary"
+                                          />
+                                          <span>{key}</span>
+                                        </a>
+                                      )
+                                    }
+                                  </React.Fragment>
+                                ))
+                              }
+                              {
+                                Object.keys(customPortals).map((key, i) => (
+                                  <React.Fragment key={i.toString()}>
+                                    {
+                                      customPortals[key] && !key.toLocaleLowerCase().includes('url') && (
+                                        <a
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          href={customPortals[`${key}Url`]}
                                         >
                                           <BrixelIcon
                                             className="mr-1"
@@ -202,19 +229,19 @@ const Portals = (props) => {
                             <h5 className="mb-2 mt-3">Your property on the biggest portals.</h5>
 
                             <div className="ta-l max-w-fix-344 m-a">
-                              <div className="mb-1 pos-r">
+                              <div className="mb-1 pos-r dis-f">
                                 <BrixelIcon className="pos-a" icon="check" color="green" />
                                 <p className="ml-4 dis-b">Publish all your listings with one click</p>
                               </div>
 
-                              <div className="mb-1 pos-r">
+                              <div className="mb-1 pos-r dis-f">
                                 <BrixelIcon className="pos-a" icon="check" color="green" />
-                                <p className="ml-4">Weekly republishing for best visibility</p>
+                                <p className="ml-4">Manage all your listings in one place</p>
                               </div>
 
-                              <div className="mb-1 pos-r">
+                              <div className="mb-1 pos-r dis-f">
                                 <BrixelIcon className="pos-a" icon="check" color="green" />
-                                <p className="ml-4">Homegate, Immoscout24, Comparis and many more...</p>
+                                <p className="ml-4">Use the free trial to test out your listings.</p>
                               </div>
                             </div>
 
@@ -235,8 +262,7 @@ const Portals = (props) => {
               className="mt-3"
               title={messageToUnlock('title')}
               description={messageToUnlock('description')}
-              titleConfirm={messageToUnlock('titleConfirm')}
-              descriptionConfirm={messageToUnlock('descriptionConfirm')}
+              btnLabel={messageToUnlock('btnLabel')}
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction
@@ -251,10 +277,11 @@ const Portals = (props) => {
 
 Portals.propTypes = {
   company: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  handleUpdatePortalsReview: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
+  customPortals: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleUpdatePortalsReview: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.string,
   match: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
 };
@@ -267,6 +294,7 @@ const mapStateToProps = (state) => {
   const formValue = get(state, 'brixelForm.Property.values', {});
   return ({
     company: get(state, 'companies.activeSingleCompany', {}),
+    customPortals: get(formValue, 'customPortals', {}),
     formValue: get(state, 'brixelForm.Property.values', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', null),
     portals: get(formValue, 'portals', {}),

@@ -82,7 +82,7 @@ const HomeDashboard = (props) => {
   const openCloseColumn = () => {
     if (
       (history.location.pathname.includes('facts') && getFact() !== 'facts') ||
-      (history.location.pathname.includes('edit'))
+      ((history.location.pathname.includes('edit')) && !(history.location.pathname.includes('editDocument')))
     ) {
       return 'closed';
     }
@@ -100,7 +100,6 @@ const HomeDashboard = (props) => {
       <div className="property-container dis-f jc-c h-perc-md-100 pos-r a-t" id="propertyDashboard">
         <Sticker>
           <div className={`firstLevel bgLight100 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
-
             <div
               className={`cur-poi showHover brdRadius shadow-1dp brdMedium ${getFact() === 'facts' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
               onClick={() => history.push(`/${propID}/property/facts`)}
@@ -229,7 +228,7 @@ const HomeDashboard = (props) => {
               <Route path="/:propId?/property/photos" component={Photos} />
               <Route path="/:propId?/property/floorPlans" component={Plans} />
               <Route path="/:propId?/property/tour" exact component={Tour} />
-              <Route path="/:propId?/property/documents" exact component={Documents} />
+              <Route path="/:propId?/property/documents" component={Documents} />
             </div>
           )
         }

@@ -1,3 +1,4 @@
+// @collapse
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -11,6 +12,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
+import find from 'lodash/find';
 import Loadable from 'react-loadable';
 import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
@@ -60,6 +62,11 @@ const EmptyProperty = Loadable({
 // UPGRADE
 const Upgrade = Loadable({
   loader: () => import('../../Upgrade/Upgrade' /* webpackChunkName: "Upgrade" */),
+  loading: () => null,
+});
+
+const ScanTrialFlow = Loadable({
+  loader: () => import('../../ScanTrialFlow/ScanTrialFlow' /* webpackChunkName: "ScanTrialFlow" */),
   loading: () => null,
 });
 
@@ -141,7 +148,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (!history.location.pathname.includes('pageLists')) {
       if (propID && !get(activeSingleProperty, 'id', null)) {
-        handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: true });
+        handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
       } else if (!propID) {
         loadDefaultProperty();
       }
@@ -150,7 +157,12 @@ const Dashboard = (props) => {
     if (gameGroup.length === 0) handleGetGameGroup();
     if (gameHistory.length === 0) handleGetGameHistory();
     setLoadedProp(true);
-  }, [userTypes]);
+  }, [userTypes, propID]);
+
+  useEffect(() => {
+    // handleGetGameHistory();
+    // handleGetGameGroup();
+  }, [propID]);
 
   // INITIALIZE FORM
   useEffect(() => {
@@ -158,12 +170,13 @@ const Dashboard = (props) => {
     if (
       typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null) && (
         Object.keys(changeInitialValue).length > 1 ||
-        (Object.keys(changeInitialValue).length === 1 && Object.keys(changeInitialValue)[0] !== 'inputSheet')
+        (Object.keys(changeInitialValue).length === 1 && Object.keys(changeInitialValue)[0] !== 'inputSheet') ||
+        propID !== formValue.id
       )
     ) {
       initForm(cloneDeep(initialValues));
     }
-  }, [initialValues]);
+  }, [initialValues, propID]);
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
@@ -308,6 +321,15 @@ const Dashboard = (props) => {
 
   // FUNCTION TO SHOW/HIDE THE NOTIFICATION BAR TO SAVE
   useEffect(() => {
+    // eslint-disable-next-line consistent-return
+    const isDocEdit = find(diff(initialValues, formValue).documents, (el) => {
+      if (history.location.pathname.includes('documents') &&
+          (has(el, 'isPrivate') || has(el, 'name') || has(el, 'folder')) &&
+          !has(el, 'id')) {
+        return true;
+      }
+      return false;
+    });
     if (formValue.id && initialValues.id) {
       let changeObj = diff(initialValues, formValue);
       const checkIsValid = Object.keys(changeObj).find((key) => typeof changeObj[key] !== 'undefined');
@@ -324,6 +346,9 @@ const Dashboard = (props) => {
         (Object.keys(changeObj).length > 1 || !changeObj.inputSheet) &&
         !isSmallLoading &&
         !isLoading &&
+        !has(isDocEdit, 'name') &&
+        !has(isDocEdit, 'isPrivate') &&
+        !has(isDocEdit, 'folder') &&
         validForm()
       ) {
         handleSetScreenNotification({
@@ -358,19 +383,21 @@ const Dashboard = (props) => {
   if (!userTypes && !userType) return (<div />);
   return (
     <div className="container dashboardContainer" id="dashboard">
+      {/* teaserScreens && isEligible(activeSingleProperty) && () */}
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
       <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
       <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
+      <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
       <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
     </div>
   );
 };
 
 Dashboard.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object,
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
   gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -406,6 +433,7 @@ Dashboard.propTypes = {
 };
 
 Dashboard.defaultProps = {
+  activeSingleProperty: {},
   errorValue: null,
   isSmallLoading: null,
   notification: null,
@@ -416,6 +444,7 @@ Dashboard.defaultProps = {
 const mapStateToProps = (state) => {
   const properties = get(state, 'property.activeSingleProperty.properties', {});
   const formValue = get(state, 'property.activeSingleProperty', {});
+  const allPortals = diff(get(state, 'property.activeSingleProperty.customPortals', {}), get(state, 'property.activeSingleProperty.portals', {}));
   set(properties, 'typology.livingArea.unit', 'm2');
   set(properties, 'typology.grossArea.unit', 'm2');
   set(properties, 'typology.lotArea.unit', 'm2');
@@ -445,6 +474,7 @@ const mapStateToProps = (state) => {
       booking: get(state, 'property.activeSinglePropertyBooking', []),
       changeCountry: get(state, 'property.activeSingleProperty.location.countryCode', {}),
       coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
+      customPortals: get(state, 'property.activeSingleProperty.customPortals', {}),
       description: get(state, 'property.activeSingleProperty.description', {}),
       documents: get(state, 'property.activeSingleProperty.documents', []),
       floorPlans: get(state, 'property.activeSingleProperty.floorPlans', []),
@@ -463,7 +493,7 @@ const mapStateToProps = (state) => {
         contactEmail: get(state, 'user.loggedInUser.user.email', ''),
         contactPhone: get(state, 'user.loggedInUser.user.phone', ''),
       },
-      portals: get(state, 'property.activeSingleProperty.portals', {}),
+      portals: allPortals,
       portalsReview: get(state, 'property.activeSingleProperty.portalsReview', null),
       properties: get(state, 'property.activeSingleProperty.properties', {}),
       publishReview: get(state, 'property.activeSingleProperty.publishReview', null),

@@ -63,7 +63,7 @@ const BrixelButtonAchievement = (props) => {
                   className="shadow-3dp"
                 />
                 <BrixelStatus
-                  className="pos-a-fix x-r-0 y-b-0"
+                  className="pos-a-fix x-r-0 x-b-0"
                   color="red"
                   saturation={400}
                 />

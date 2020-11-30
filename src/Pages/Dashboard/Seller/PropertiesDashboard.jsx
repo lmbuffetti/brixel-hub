@@ -2,40 +2,42 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  withRouter,
+  withRouter, Link,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon,
-  BrixelIcon,
+  BrixelButtonIcon, BrixelButtonPrimary,
   Helpers,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
-import Sticker from 'react-stickyfill';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 import { getUserProperties } from '../../../actions/UserActions';
 
 const HomeDashboard = (props) => {
   // PROPS
   const {
+    activeSingleCompany,
     handleGetUserProperties,
     history,
+    // isSmallLoading,
     loggedInUser,
+    match,
     userProperties,
   } = props;
   // STATE
   // const [userType, setUserType] = useState();
   // URL PARAMS
   const getFact = () => last(history.location.pathname.split('/'));
+  const propID = get(match, 'params.propID', null);
 
   // GET USER PROPERTIES LIST
   useEffect(() => {
     if (get(loggedInUser, 'user.id')) {
       handleGetUserProperties(loggedInUser.user.id);
     }
-  }, [loggedInUser]);
+  }, [loggedInUser, propID]);
 
   const openCloseColumn = () => {
     if (
@@ -69,16 +71,16 @@ const HomeDashboard = (props) => {
         {
           property.status === 'to-rent' && (
             <>
-              <span>{currency}&nbsp;</span>
-              <span>{Helpers.formatNumberValue(+get(property, 'price.rent', 0))}</span>
+              <span className="notranslate">{currency}&nbsp;</span>
+              <span className="notranslate">{Helpers.formatNumberValue(+get(property, 'price.rent', 0))}</span>
             </>
           )
         }
         {
           (!property.status || property.status === 'on-sale') && (
             <>
-              <span>{currency}&nbsp;</span>
-              <span>{Helpers.formatNumberValue(+get(property, 'price.total', 0))}</span>
+              <span className="notranslate">{currency}&nbsp;</span>
+              <span className="notranslate">{Helpers.formatNumberValue(+get(property, 'price.total', 0))}</span>
             </>
           )
         }
@@ -88,51 +90,86 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-container dis-f jc-c h-perc-md-100 pos-r a-t" id="propertyDashboard">
-        <Sticker>
-          <div className={`firstLevel bgLight100 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
+      <div className="property-container seller-properties jc-c h-perc-md-100 pos-r a-t" id="propertyDashboard">
+        <div>
+          <div className={`dis-f jc-fe mb-3 ${userProperties.length === 0 ? 'mt-3' : ''}`}>
+            <BrixelButtonPrimary
+              label="Create new"
+              rightIcon="plus"
+              rounded
+              onClick={() => history.push(`/packageFlow/getStarted?company=${get(activeSingleCompany, 'stub', '')}`)}
+            />
+          </div>
+          <div className="properties listings-wrapper w-perc-100">
+            <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
+              {
+                userProperties.map((property, i) => (
+                  <div
+                    key={i.toString()}
+                    className="results dis-f shadow-3dp mb-3 a-c bgWhite brdRadius cur-poi"
+                    onClick={() => history.push(`/${property.id}/rewards`)}
+                  >
+                    <div className="row-section p-1 avatar-container dis-f a-c ov-h flex-112">
+                      <Link
+                        className="cur-po"
+                        to={{
+                          pathname: `/buyer/property/${property.id}`,
+                        }}
+                      >
+                        <CoverPropertyImage
+                          coverPhoto={get(property, 'coverPhoto.thumbnailPath', null)}
+                          className="avatar w-fix-96 h-fix-96 pos-r brdRadius"
+                        />
+                      </Link>
+                    </div>
 
-            {
-              userProperties.map((property, i) => (
-                <div
-                  key={i.toString()}
-                  className="dis-f p-1 shadow-1dp brdRadius bgWhite mb-2 shadowHover-3dp cur-poi"
-                  onClick={() => history.push(`/${property.id}/rewards`)}
-                >
-                  <div className="image-ratio squared w-fix-flex-80 h-fix-80 brdRadius ov-h mr-1">
-                    <CoverPropertyImage coverPhoto={get(property, 'coverPhoto.thumbnailPath', null)} className="cover" />
-                  </div>
-                  <div className="w-perc-100 dis-fl-col jc-b">
-                    <p className="body2 txtPrimary400">{property.title}</p>
-                    <p className="dis-f a-c body2 fweight-600">{showPrice(property)}</p>
-                    <div className="dis-f jc-b a-c w-perc-100">
-                      <p className="dis-f a-c">
-                        <BrixelIcon icon="bed" className="mr-1" />
-                        <span className="ff-mono body2">{get(property, 'properties.typology.bedrooms', '0')}</span>
-                      </p>
-                      <p className="dis-f a-c">
-                        <BrixelIcon icon="plans" className="mr-1" />
+                    <div className="row-section name p-1 notranslate w-perc-100 max-w-fix-304">
+                      <div className="wrapper dis-fl-col a-bl">
+                        <Link
+                          className="link fsize-300 fweight-500 txtDark700 body2"
+                          to={{
+                            pathname: `/buyer/property/${property.id}`,
+                          }}
+                        >
+                          {property.title}
+                        </Link>
+                      </div>
+                    </div>
+
+                    <div className="dis-f w-perc-100 min-w-fix-360 max-w-fix-600 mt-1 mt-sm-0 px-2 jc-b ml-a">
+                      <div className="px-1">
+                        <h6 className="fsize-100 txtDark200">Price</h6>
+                        <div className="txtGreen400 ff-mono">{showPrice(property)}</div>
+                      </div>
+
+                      <div className="px-1">
+                        <h6 className="fsize-100 txtDark200 ws-nw">Rooms</h6>
+                        <span className="ff-mono txtDark700">{get(property, 'properties.typology.bedrooms', '0')}</span>
+                      </div>
+                      <div className="px-1">
+                        <h6 className="fsize-100 txtDark200 ws-nw">Living space</h6>
                         {
                           get(property, 'location.countryCode', '') === 'PT' && get(property, 'properties.typology.grossArea.value', 0) > 0 ? (
-                            <span className="ff-mono body2">{get(property, 'properties.typology.grossArea.value', '0')} m</span>
+                            <span className="ff-mono txtDark700">{get(property, 'properties.typology.grossArea.value', '0')} m</span>
                           ) : (
-                            <span className="ff-mono body2">{get(property, 'properties.typology.livingArea.value', '0')} m</span>
+                            <span className="ff-mono txtDark700">{get(property, 'properties.typology.livingArea.value', '0')} m</span>
                           )
                         }
-                      </p>
-                      <p className="dis-f a-c">
-                        <BrixelIcon icon="house-built" className="mr-1" />
-                        <span className="ff-mono body2">
+                      </div>
+                      <div className="px-1">
+                        <h6 className="fsize-100 txtDark200 ws-nw">Year</h6>
+                        <span className="ff-mono txtDark700">
                           {get(property, 'properties.building.built', '0000')}
                         </span>
-                      </p>
+                      </div>
                     </div>
+
                   </div>
-                </div>
-              ))
-            }
+                ))
+              }
+            </div>
           </div>
-        </Sticker>
+        </div>
         <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
           <BrixelButtonIcon
             background="white"
@@ -156,22 +193,28 @@ const HomeDashboard = (props) => {
 };
 
 HomeDashboard.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   handleGetUserProperties: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  // isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 HomeDashboard.defaultProps = {
+  // isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
-  userProperties: get(state, 'user.userProperties', []),
-  windowDimensions: get(state, 'common.windowDimensions', {}),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
+  // isSmallLoading: get(state, 'common.isSmallLoading', null),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),
+  userProperties: get(state, 'user.userProperties', []),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -31,6 +31,8 @@ const Upgrade = (props) => {
     history,
     initialValues,
     initForm,
+    isSmallLoading,
+    loggedInUser,
     match,
     packagesProperty,
     reset,
@@ -75,7 +77,10 @@ const Upgrade = (props) => {
     const data = {
       page: propID,
       smallLoader: true,
-      data: formValue.packageUpgrade,
+      data: {
+        userId: loggedInUser.id,
+        ...formValue.packageUpgrade,
+      },
     };
     handleSaveUpgradePlan(data);
   };
@@ -148,6 +153,10 @@ const Upgrade = (props) => {
     return label;
   };
 
+  if (isSmallLoading) {
+    return <div />;
+  }
+
   return (
     <div id="bodyModalWrapper" className="modalFlow">
       <div className={`bodyModal dis-fl-col upgradeModal stepNo${currentIndex}`}>
@@ -192,9 +201,13 @@ const Upgrade = (props) => {
                     </div>
                   ) : (
                     <div className="ta-c">
-                      <div className="h-fix-248">
-                        <img src={quest.img} alt={quest.title} />
-                      </div>
+                      {
+                        quest.img && (
+                          <div className="h-fix-248">
+                            <img src={quest.img} alt={quest.title} />
+                          </div>
+                        )
+                      }
                       <h3
                         className="mt-5"
                         dangerouslySetInnerHTML={{ __html: quest.title }}
@@ -208,7 +221,7 @@ const Upgrade = (props) => {
                 }
                 {
                   currentIndex === 0 && (
-                    <div className="max-w-fix-304 shadow-1dp mt-3 m-a">
+                    <div className="max-w-fix-360 shadow-1dp mt-3 m-a">
                       <Support hideClose expanded />
                     </div>
                   )
@@ -224,7 +237,11 @@ const Upgrade = (props) => {
                 {
                   currentIndex === 0 && (
                     <div className="dis-fl-col dis-fl-row-md a-c w-perc-100">
-                      <img src={InfoImg} alt="Info" className="mb-1 mb-md-0" />
+                      {
+                        InfoImg && (
+                          <img src={InfoImg} alt="Info" className="mb-1 mb-md-0" />
+                        )
+                      }
                       <p className="body2 ml-1 mb-1 mb-md-0 ta-c ta-l-md  max-w-fix-384">
                         Don&apos;t worry. You will not be charged for now. Get the result first. Pay later.
                       </p>
@@ -272,6 +289,8 @@ Upgrade.propTypes = {
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.string.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   reset: PropTypes.func.isRequired,
@@ -284,6 +303,8 @@ const mapStateToProps = (state) => {
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
     formValue: get(state, 'brixelForm.GamingFlow.values', {}),
+    isSmallLoading: get(state, 'common.isSmallLoading', null),
+    loggedInUser: get(state, 'user.loggedInUser.user', {}),
     packagesProperty: get(state, 'companies.activeSingleCompany.servicePackages', []),
     initialValues: {
       id: get(state, 'property.activeSingleProperty.id', null),
@@ -292,8 +313,8 @@ const mapStateToProps = (state) => {
           prefix: get(state, 'property.activeSingleProperty.owner.phone.prefix', countryPhoneCode.dial_code),
           number: get(state, 'property.activeSingleProperty.owner.phone.number', ''),
         },
+        contactEmail: get(state, 'property.activeSingleProperty.owner.email', null),
       },
-      contactEmail: get(state, 'property.activeSingleProperty.owner.email', null),
     },
   });
 };

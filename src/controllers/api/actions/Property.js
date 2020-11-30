@@ -90,9 +90,9 @@ class Property extends Base {
     return this.apiClient.put(url, {}, data);
   }
 
-  getPageVisits(id) {
+  getPageVisits(id, data) {
     const url = ep.property.getPageVisits(id);
-    return this.apiClient.get(url, {});
+    return this.apiClient.get(url, {}, data);
   }
 
   changePublishReview(id, status) {
@@ -155,6 +155,11 @@ class Property extends Base {
   getMaketAggregate(data) {
     const url = ep.brixelator.getMaketAggregate(data);
     return this.apiClient.get(url, { baseUrlType: 'brixelator' });
+  }
+
+  sendScanTrial(id, data) {
+    const url = ep.property.scanTrial(id);
+    return this.apiClient.put(url, {}, data);
   }
 }
 

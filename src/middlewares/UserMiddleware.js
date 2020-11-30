@@ -40,7 +40,7 @@ const checkUser = (store) => (next) => (action) => {
       next(action);
       const hideLoad = get(action, 'payload.hideLoad', false);
       delete action.payload.hideLoad;
-      store.dispatch({ type: SPINNER_ON });
+      if (!hideLoad) store.dispatch({ type: SPINNER_ON });
       let data = hideLoad ? undefined : action.payload;
       if (data) data = Object.keys(data).length > 0 ? data : undefined;
       api.user.validateToken(data)
@@ -129,6 +129,14 @@ const checkUser = (store) => (next) => (action) => {
               store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
             }
             store.dispatch({ type: SPINNER_OFF });
+          } else if (res.data.statusCode === 400 && res.data.errorMessage === 'Email is invalid!') {
+            const alertProps = {
+              message: 'Please use a valid e-mail address',
+              state: true,
+              noRedirect: true,
+            };
+            store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
+            store.dispatch({ type: SPINNER_OFF });
           }
         })
         .catch(() => {
@@ -178,7 +186,7 @@ const checkUser = (store) => (next) => (action) => {
           const pageList = [];
           // eslint-disable-next-line no-return-assign
           res.data.forEach((item) => {
-            pageList.push(item.page);
+            pageList.push({ ...item.page, dealID: item.id, archivedByBuyer: item.archivedByBuyer || false });
           });
           store.dispatch({ type: SET_USER_PAGES_DEALS, payload: pageList });
           store.dispatch({ type: SPINNER_OFF });
@@ -234,7 +242,6 @@ const checkUser = (store) => (next) => (action) => {
             store.dispatch({ type: SET_USER_PROPERTIES, payload: res.data || {} });
           }
           store.dispatch({ type: SPINNER_SMALL_OFF });
-          store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           store.dispatch({ type: SPINNER_SMALL_OFF });

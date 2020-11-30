@@ -3,18 +3,19 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelButtonPrimary, BrixelIcon, BrixelButtonIcon, BrixelButtonBox,
+  BrixelIcon, BrixelButtonIcon, BrixelButtonBox,
 } from '@brixel/brixel-components';
 import Sticker from 'react-stickyfill';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import Loading from '../../../components/Loading';
 import { GameGroupConfig } from '../../../constants/global';
-import helloImg from '../../../images/hello.svg';
+// import helloImg from '../../../images/hello.svg';
 import BrixelButtonAchievement from '../../../components/BrixelButtonAchievement';
-import { setCookie, getCookie, sortObject } from '../../../utils/helpers';
+import { /* setCookie, getCookie,  */sortObject } from '../../../utils/helpers';
 
 import SuccessMarketCheck from '../../GameHistory/MarketChecker/SuccessMarketCheck';
 import SuccessBestimate from '../../GameHistory/Bestimate/SuccessBestimate';
@@ -27,6 +28,7 @@ import PagePublishedRewards from '../../GameHistory/SecondLevel/PagePublishedRew
 import PortalsRewards from '../../GameHistory/SecondLevel/PortalsRewards';
 import { setModal } from '../../../actions/CommonActions';
 import Support from '../../../components/Support';
+import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const RewardsDashboard = (props) => {
   // PROPS
@@ -38,18 +40,17 @@ const RewardsDashboard = (props) => {
     handleAddGameHistory,
     handleSetModal,
     history,
-    language,
-    loggedInUser,
+    isSmallLoading,
     match,
     userTypes,
     windowDimensions,
   } = props;
   // STATE
   const [usrGroups, setUsrGroups] = useState(gameGroup.sort(sortObject('stub', 'asc')));
-  const [idVideo, setIdVideo] = useState(null);
+  // const [idVideo, setIdVideo] = useState(null);
   const [activeGameGroup, setActiveGameGroup] = useState(null);
   const [activeAchievement, setActiveAchievement] = useState(null);
-  const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
+  // const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
   // PARAMS URL
   const splitRewards = get(history, 'location.pathname', '').split('/');
   const rewardType = splitRewards[3] ? splitRewards[3].replace('-done', '') : splitRewards[2];
@@ -68,7 +69,7 @@ const RewardsDashboard = (props) => {
   };
 
   // LOAD ID VIDEO BY LANGAUGE
-  useEffect(() => {
+  /* useEffect(() => {
     switch (language.toLowerCase()) {
       case 'de':
         setIdVideo('463015773');
@@ -79,7 +80,7 @@ const RewardsDashboard = (props) => {
       default:
         setIdVideo(null);
     }
-  }, [language]);
+  }, [language]); */
 
   useEffect(() => {
     let getNameGroup = localStorage.getItem('gameGroup') || null;
@@ -103,7 +104,7 @@ const RewardsDashboard = (props) => {
       getNameGroup = getNameGroup || 'homebase';
       history.push({ pathname: `/${propID}/rewards/${getNameGroup}` });
     }
-  }, [windowDimensions, gameHistory, usrGroups, history.location.pathname]);
+  }, [windowDimensions, gameHistory, usrGroups]);
 
   // FUNCTION TO ADD MEDIA TO GAME HISTORY
   useEffect(() => {
@@ -117,10 +118,10 @@ const RewardsDashboard = (props) => {
 
   // FUNCTION TO ADD PAGE OR PORTALS TO GAME HISTORY
   useEffect(() => {
-    let filtUsrGroup = [];
-    filtUsrGroup = gameGroup.filter((val) => val.stub.indexOf(userTypes) !== -1);
+    let filtUsrGroup = cloneDeep(gameGroup);
+    filtUsrGroup = filtUsrGroup.filter((val) => val.stub.indexOf(userTypes) !== -1);
     filtUsrGroup = filtUsrGroup.sort(sortObject('stub', 'asc'));
-    if (gameHistory.data) {
+    if (gameHistory.data && activeSingleProperty.id === propID && formValue.id === propID) {
       // CHECK IF DONE HOMEBASE
       gameHistory.data.map((game) => {
         filtUsrGroup.map((group, f) => {
@@ -161,23 +162,7 @@ const RewardsDashboard = (props) => {
       });
     }
     setUsrGroups([...filtUsrGroup]);
-  }, [userTypes, activeSingleProperty, gameGroup, gameHistory]);
-
-  // FUNCTION TO ADD HOMEBASE TO GAME HISTORY
-  useEffect(() => {
-    if (gameHistory.data && activeSingleProperty.id) {
-      // CHECK IF DONE HOMEBASE
-      const getHomeBase = gameHistory.data.findIndex((val) => val.achievement.stub === 'homebase' && activeSingleProperty.id === val.page);
-      if (getHomeBase === -1 && userTypes === 'seller') {
-        const data = {
-          id: loggedInUser.user.id,
-          page: activeSingleProperty.stub,
-          achievement: 'homebase',
-        };
-        handleAddGameHistory(data);
-      }
-    }
-  }, [activeSingleProperty, gameHistory, userTypes]);
+  }, [userTypes, activeSingleProperty, gameGroup, gameHistory, formValue.id]);
 
   // FUNCTION TO SET THE ACTIVE REWARDS GROUP ON FIRST LOAD IF NOT COMPLETED
   useEffect(() => {
@@ -196,7 +181,7 @@ const RewardsDashboard = (props) => {
       setActiveGameGroup(null);
       setActiveAchievement(null);
     }
-  }, [gameHistoryData, usrGroups, history, gameGroup, rewardType]);
+  }, [gameHistoryData, usrGroups, history, gameGroup, rewardType, formValue.id]);
 
   // FUNCTION CLICK ON GAME GROUP
   const onClickAchievement = (game, achievement) => {
@@ -222,78 +207,33 @@ const RewardsDashboard = (props) => {
     </>
   );
 
-  // IF NOT ON COOKIE SHOW HELLO MESSAGE
-  const checkMessageHello = () => {
-    if (typeof getCookie('brixelSayHello') !== 'undefined') {
-      if (JSON.parse(getCookie('brixelSayHello')) !== true) {
-        return true;
-      }
-      return false;
+  // TEXT FOR SCAN TRIAL BOX MESSAGE
+  const brixelScanTrialMessage = (type) => {
+    switch (type) {
+      case 'media':
+        return {
+          title: 'Do you want to capture your property in its best possible light?',
+          description: 'Request a free photo shooting by one of our experts.',
+          btnLabel: 'Request photo shoot',
+        };
+      case 'bestimate':
+        return {
+          title: 'Do you want a more accurate estimation value?',
+          description: 'Request a free on-site appointment by one of our experts.',
+          btnLabel: 'Request estimation',
+        };
+      default:
+        return null;
     }
-    return true;
   };
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
-  if (!activeSingleProperty.id && !userTypes) {
+  if ((!activeSingleProperty.id && !userTypes) || isSmallLoading) {
     return <Loading />;
   }
 
   return (
     <div className="rewards-container" id="rewardsDashboard">
-      {
-        checkMessageHello() && showWelcomeMessage && (
-          <div className="brdRadius bgWhite p-1 p-1 p-md-2 mb-5">
-            <div className="dis-f jc-b a-c">
-              <img src={helloImg} alt="Hell User" />
-              <div className="txtDark700 w-perc-100 pl-3">
-                <span>
-                  <span>Hello</span>
-                  <span>&nbsp;</span>
-                  <span>{loggedInUser.user.firstName}!</span>
-                </span><br />
-                <span>Welcome to your Brixel Hub. I prepared a list of rewards to simplify your sale. Enjoy.</span>
-              </div>
-              <BrixelButtonIcon
-                className="shadow-2dp"
-                icon="close-small"
-                color="primary"
-                saturationTxt={400}
-                bgTransparent
-                noBorder
-                onClick={() => {
-                  setCookie('brixelSayHello', true);
-                  setShowWelcomeMessage(false);
-                }}
-              />
-            </div>
-            {
-              idVideo && (
-                <>
-                  <iframe
-                    className="dis-b ml-a mr-a mt-3 mb-3"
-                    title="Brixel Welcome Message"
-                    src={`https://player.vimeo.com/video/${idVideo}`}
-                    width="640"
-                    height="400"
-                    frameBorder="0"
-                    allow="autoplay; fullscreen"
-                    allowFullScreen
-                  />
-                  <BrixelButtonPrimary
-                    rounded
-                    className="ml-a mr-a"
-                    label="Ok. Close"
-                    onClick={() => {
-                      setCookie('brixelSayHello', true);
-                      setShowWelcomeMessage(false);
-                    }}
-                  />
-                </>
-              )
-            }
-          </div>
-        )
-      }
       <div className="dis-f a-t jc-c pos-r-md">
         {
           usrGroups && (
@@ -302,18 +242,18 @@ const RewardsDashboard = (props) => {
                 usrGroups.map((group, i) => (
                   <div className={`level-${group.stub.replace(/^\D+/g, '')} pr-md-8`} key={i.toString()}>
                     {
-                      GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`] && (
+                      GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`] && (
                         <>
                           {
                             i === 0 ? (
-                              <div className="dis-f jc-b a-c mb-3 mt-0 mt-md-2">
+                              <div className="dis-f jc-b a-c mb-3 mt-0">
                                 <span className="dis-b txtGreen700 fweight-500">
-                                  {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
+                                  {GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`].name}
                                 </span>
                               </div>
                             ) : (
                               <span className="mb-3 dis-b txtRed700 fweight-500">
-                                {GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`].name}
+                                {GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`].name}
                               </span>
                             )
                           }
@@ -335,7 +275,7 @@ const RewardsDashboard = (props) => {
                                       lineAfter={group.achievements.length - 1 > f}
                                       award={item.achievementType === 'award'}
                                       disabled={isDisabledFlow(item.stub)}
-                                      config={GameGroupConfig[`${userTypes}Level${group.stub.replace(/^\D+/g, '')}`]}
+                                      config={GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`]}
                                     />
                                   </div>
                                   {
@@ -424,6 +364,19 @@ const RewardsDashboard = (props) => {
                   }
                   {getSuccessActiveGroup()}
                 </div>
+                {
+                  brixelScanTrialMessage(rewardType) && (
+                    <BrixelUpgradeMessage
+                      className="mt-3"
+                      unlockFunction={false}
+                      title={brixelScanTrialMessage(rewardType).title}
+                      description={brixelScanTrialMessage(rewardType).description}
+                      btnLabel={brixelScanTrialMessage(rewardType).btnLabel}
+                      redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
+                      trialRequest
+                    />
+                  )
+                }
               </div>
             </Sticker>
           )
@@ -435,35 +388,36 @@ const RewardsDashboard = (props) => {
 
 RewardsDashboard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  userTypes: PropTypes.string,
+  formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
-  formValue: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.string,
   match: PropTypes.object.isRequired,
-  language: PropTypes.string.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
+  userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 RewardsDashboard.defaultProps = {
   gameGroup: [],
   gameHistory: {},
+  isSmallLoading: null,
   userTypes: 'user',
 };
 
 const mapStateToProps = (state) => ({
-  userTypes: get(state, 'user.userTypes', null),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  awards: get(state, 'user.awards', []),
+  brixelPoints: get(state, 'user.brixelPoints', []),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
-  formValue: get(state, 'brixelForm.Property.values', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   language: get(state, 'user.loggedInUser.user.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', {}),
-  awards: get(state, 'user.awards', []),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  brixelPoints: get(state, 'user.brixelPoints', []),
+  userTypes: get(state, 'user.userTypes', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

@@ -14,12 +14,12 @@
   }
 }
 
-@media (min-width: $responsive-medium) {
+@media (min-width: 1180px) {
   #supportBox {
     &.fixed {
-      position: absolute;
-      bottom: 0;
-      right: 0;
+      position: fixed;
+      bottom: 48px;
+      right: $step;
     }
   }
 }

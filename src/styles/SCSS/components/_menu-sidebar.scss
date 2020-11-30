@@ -58,24 +58,47 @@
     top: $step;
     z-index: 2;
   }
-
-  .numRecords {
-    width: 16px;
-    height: 16px;
+}
+.hubContainer:not(.withTopBar) {
+  .buyerNav {
+    background: #ffffff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 4;
     display: flex;
-    align-content: center;
-    justify-content: center;
-    background: map_get($redColor, 500);
-    color: $brx-white;
-    border-radius: 50%;
-    @include fontStyle(100, 'medium');
-    margin-left: $step;
-    position: absolute;
-    top: 8px;
-    left: 50%;
-    @media (min-width: $responsive-medium) {
-      position: static;
+    height: 64px;
+    > div {
+      cursor: pointer;
+      flex: 50%;
+      display: flex;
+      justify-content: center;
     }
+  }
+}
+.withTopBar {
+  .buyerNav {
+    display: none;
+  }
+}
+
+.numRecords {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  background: map_get($redColor, 500);
+  color: $brx-white !important;
+  border-radius: 50%;
+  @include fontStyle(100, 'medium');
+  margin-left: $step;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  @media (min-width: $responsive-medium) {
+    position: static;
   }
 }
 
@@ -110,15 +133,15 @@
 
 @media (min-width: $responsive-medium) {
   #menu-sidebar {
-    width: 210px;
-    flex: 0 0 210px;
+    width: $sidebarWidth;
+    flex: 0 0 $sidebarWidth;
     height: 100vh;
     z-index: 5;
     position: fixed;
     left: 0;
   }
   .sidebarSubmenu {
-    left: 210px;
+    left: $sidebarWidth;
     .sidebarSubmenuContent {
       max-width: 448px;
     }
@@ -175,5 +198,35 @@
     border-right: 5px solid transparent;
     border-bottom: 5px solid map-get($darkColor, 400);
     transform: translateY(-50%) translateX(-75%) rotate(-90deg);
+  }
+}
+
+.sidebarNav {
+  .primaryBtn {
+    background-color: $brx-white;
+    color: map-get($lightColor, 700);
+    max-width: 100%;
+    margin: 0;
+    margin-bottom: $step;
+    justify-content: flex-start;
+    &:hover {
+      background-color: map-get($lightColor, 100);
+      color: map-get($primaryColor, 600);
+    }
+    .brixelIcon {
+      i {
+        margin-right: 12px;
+        font-size: 18px;
+      }
+    }
+    &.active {
+      background-color: map-get($lightColor, 200);
+      color: map-get($primaryColor, 700);
+    }
+    @media (min-width: $responsive-medium) {
+      color: map-get($lightColor, 400);
+      min-width: 100%;
+      justify-content: flex-start;
+    }
   }
 }

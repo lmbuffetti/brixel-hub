@@ -74,8 +74,13 @@ const ListingsDashboard = (props) => {
   const checkPortalsOnline = () => {
     let isOnline = false;
     const portals = get(formValue, 'portals', {});
+    const customPortals = get(formValue, 'customPortals', {});
     Object.keys(portals).map((key) => {
-      if (portals[key]) isOnline = true;
+      if (portals[key] && get(customPortals, `${key}`, true) && !isOnline && !key.includes('Url')) isOnline = true;
+      return null;
+    });
+    Object.keys(customPortals).map((key) => {
+      if (customPortals[key] && !isOnline && !key.includes('Url')) isOnline = true;
       return null;
     });
     return isOnline;

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="301px" height="119px" viewBox="0 0 301 119" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Empty-State-01</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Buyer" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Buyer-hub-property-docubox-Copy" transform="translate(-693.000000, -188.000000)">
+            <g id="Group-5" transform="translate(693.000000, 188.000000)">
+                <g id="Empty-State-01" transform="translate(0.000000, 0.000000)">
+                    <g id="Ebene_1">
+                        <g id="Group">
+                            <g id="XMLID_43_" transform="translate(0.000000, 1.121689)" fill-rule="nonzero">
+                                <g id="Group">
+                                    <polygon id="Path" fill="#1E1491" points="300.899964 90.5517466 182.620721 110.588485 102.709982 30.1465259 196.21045 3.58155444"></polygon>
+                                    <polygon id="Path" fill="#5A6EFF" points="182.620721 110.588485 146.505441 117.077459 71.3681441 32.3192384 102.709982 30.1465259"></polygon>
+                                    <polygon id="Path" fill="#82D2FA" points="146.505441 117.077459 66.9845766 102.764701 0.721657658 0.388104553 71.3681441 32.3192384"></polygon>
+                                </g>
+                            </g>
+                            <g id="XMLID_15_" transform="translate(110.594595, 6.730137)" fill="#F0EFED" fill-rule="nonzero">
+                                <polygon id="Path" points="181.590739 71.2519578 72.5053694 90.6078311 0.890342342 19.6587294 92.924036 1.01288558 92.9765405 1.02971092"></polygon>
+                            </g>
+                            <g id="XMLID_14_" transform="translate(110.594595, 6.730137)" fill="#F0EFED" fill-rule="nonzero">
+                                <polygon id="Path" points="181.590739 77.2114939 72.5031351 96.5684888 0.885873874 25.6182655 92.9218018 6.97354336 89.5704505 0.222094513"></polygon>
+                            </g>
+                            <g id="XMLID_6_" transform="translate(110.594595, 0.000000)" fill="#F0EFED" fill-rule="nonzero">
+                                <polygon id="Path" points="181.590739 71.117355 72.5053694 90.47435 0.888108108 19.5218833 92.924036 0.878282846 92.9776577 0.893986498"></polygon>
+                            </g>
+                            <path d="M140.839423,83.7767423 C141.814667,70.3893786 140.591423,59.1242513 150.98955,56.6957937 C157.715712,55.1254284 161.64573,59.3586844 163.310234,66.2279107" id="Path" stroke="#82D2FA" stroke-width="1.2168" stroke-linecap="round"></path>
+                            <path d="M124.138523,66.0237632 C125.113766,52.6375212 123.889405,41.3712723 134.287532,38.9405712 C141.013694,37.3713277 144.942595,41.6045837 146.609333,48.4749316" id="Path" stroke="#82D2FA" stroke-width="1.2168" stroke-linecap="round"></path>
+                            <line x1="165.97009" y1="57.7658854" x2="241.306234" y2="44.0397715" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                            <line x1="128.494162" y1="22.9778086" x2="158.746811" y2="17.4658266" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                            <line x1="132.434234" y1="27.4129687" x2="162.686883" y2="21.9009867" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                            <line x1="137.567387" y1="31.2928925" x2="167.816685" y2="25.7786671" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                            <line x1="186.233477" y1="27.2525671" x2="216.487243" y2="21.7417068" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                            <line x1="189.054198" y1="31.4174" x2="219.303495" y2="25.9042963" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                            <line x1="193.64555" y1="35.629344" x2="223.897081" y2="30.117362" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                            <line x1="193.359568" y1="83.716171" x2="223.608865" y2="78.204189" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                            <line x1="172.891748" y1="62.911075" x2="248.226775" y2="49.1860827" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                            <line x1="179.903892" y1="68.6014056" x2="255.238919" y2="54.87417" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                            <line x1="184.301982" y1="72.8234447" x2="259.638126" y2="59.0973308" id="Path" stroke="#6A6E7D" stroke-width="0.9276"></line>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

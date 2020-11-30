@@ -40,7 +40,7 @@ function SuccessBestimate(props) {
 
   useEffect(() => {
     handleGetGamegroup();
-  }, []);
+  }, [propID]);
 
   // LOAD MARKET DATA
   useEffect(() => {
@@ -137,8 +137,8 @@ function SuccessBestimate(props) {
                                             )
                                           }
                                           <h5 className="ff-mono txtBlue700 fweight-700">
-                                            <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>&nbsp;
-                                            <span>{Helpers.formatNumberValue(bestimateValue, get(activeSingleProperty, 'price.currency', 'CHF'))}</span>
+                                            <span className="notranslate">{get(activeSingleProperty, 'price.currency', 'CHF')}</span>&nbsp;
+                                            <span className="notranslate">{Helpers.formatNumberValue(bestimateValue, get(activeSingleProperty, 'price.currency', 'CHF'))}</span>
                                           </h5>
                                         </div>
                                       </div>
@@ -225,6 +225,7 @@ function SuccessBestimate(props) {
           </>
         )
       }
+
     </main>
   );
 }

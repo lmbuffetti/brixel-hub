@@ -39,7 +39,6 @@ function PageHeader(props) {
   const [modal, setModal] = useState(false);
   const [widthScreen, setWidthScreen] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [zIndexHeader, setZIndexHeader] = useState(11);
   const [supportPhone, setSupportPhone] = useState('');
 
   // FUNCTION TO CHECK IF USER IS LOGGED IN
@@ -49,7 +48,7 @@ function PageHeader(props) {
       setCurrentLang(lang);
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
-      if (!gameHistory.data) handleGetGame();
+      if (!gameHistory.data && !history.location.pathname.includes('getStarted')) handleGetGame();
     }
   }, [loggedInUser, lang]);
 
@@ -95,14 +94,14 @@ function PageHeader(props) {
   }, []);
 
   // FUNCTION TO MANAGE THE ZINDEX IF slideUp CLASS EXISTS
-  useEffect(() => {
+  /* useEffect(() => {
     const getElementByClass = document.getElementsByClassName('slideUp');
     if (getElementByClass.length > 0) {
       setZIndexHeader(0);
-    } else {
+    } else if (!history.location.pathname.includes('packageFlow')) {
       setZIndexHeader(11);
     }
-  }, [get(history, 'location.pathname', null)]);
+  }, [get(history, 'location.pathname', null)]); */
 
   // FUNCTION TO SET THE LANGUAGE WHEN SELECTED
   const newLang = (e, langCode) => {
@@ -132,7 +131,7 @@ function PageHeader(props) {
 
   return (
     <>
-      <header className={`flowHeader zIndex${zIndexHeader}`}>
+      <header className="flowHeader">
         <div className={`dis-f a-c dis-f a-c p-2 py-small-md-21 px-small-md-29 jc-b pos-r jc-b pos-r ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
           <div className="dis-f jc-c a-c">
             <img
@@ -378,7 +377,7 @@ const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   languages: get(state, 'common.languages', []),
-  lang: get(state, 'common.language', []),
+  lang: get(state, 'common.language', ''),
   userAwards: get(state, 'user.awards', []),
   property: get(state, 'property.activeSingleProperty', {}),
   brixelPoints: get(state, 'user.brixelPoints', []),

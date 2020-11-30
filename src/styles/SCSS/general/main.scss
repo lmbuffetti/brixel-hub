@@ -18,7 +18,18 @@ $grid-breakpoints: (
 );
 $responsive-medium: map_get($grid-breakpoints, md);
 
+
 @import '~@brixel/brixel-components/src/styles/SCSS/general/main.scss';
+
+$sidebarWidth: 160px;
+$sidebarWidthCollapsed: 70px;
+// Color array to be used with randomizer for avatar background
+$avatarColors: map-get($primaryColor, 300),
+map-get($darkColor, 300),
+map-get($redColor, 300),
+map-get($greenColor, 300),
+map-get($yellowColor, 300),
+map-get($blueColor, 300);
 
 // DASHBOARD STUFF
 @import "./windows",
@@ -29,6 +40,10 @@ $responsive-medium: map_get($grid-breakpoints, md);
 "../components/radioButtonEmoji",
 "../components/donut",
 "../components/header",
+"../components/booking",
+"../components/contact_modal",
+"../components/datePicker",
+"../components/rangeInput",
 "../components/checkboxWithDetail",
 "../components/rangePriceChart",
 "../components/buttonAchievement",
@@ -42,16 +57,21 @@ $responsive-medium: map_get($grid-breakpoints, md);
 "../components/options-menu",
 "../components/documents",
 "../components/menu-sidebar",
-"../components/property-list";
+"../components/property-list",
+"../components/teaser-banner",
+"../components/splash-screen";
 
 // PAGES
 @import "../pages/getStarted",
 "../pages/onBoarding",
 "../pages/listings",
+"../pages/_property_listings",
 "../pages/upgrade",
 "../pages/images",
 "../pages/bodyModal",
-"../pages/facts";
+"../pages/facts",
+"../pages/buyer",
+"../pages/seller";
 
 // TRANSITIONS
 @import "./transitions";
@@ -103,9 +123,12 @@ body {
 
 a {
   text-decoration: none;
-  color: map_get($primaryColor, 400);
-  &:hover {
-    color: map_get($primaryColor, 600);
+  &:not([class*="txt"]) {
+    color: map_get($primaryColor, 400);
+
+    &:hover {
+      color: map_get($primaryColor, 600);
+    }
   }
 }
 
@@ -289,10 +312,21 @@ header {
   .brixel-input-step input {
     @include fontStyle(600);
   }
+  .brixel-select .mobile-version,
   .brixel-select .dropdown,
   .brixel-text-input {
     @include fontStyle(500);
     height: 48px;
+  }
+  .brixel-select {
+    .mobile-version {
+      select {
+        @include fontStyle(500);
+      }
+      &::after {
+        top: 12px;
+      }
+    }
   }
 }
 
@@ -368,4 +402,18 @@ main > div ::-webkit-scrollbar-thumb {
   // manage scrollbar thumb background color here
   border-radius: $step;
   background:rgba(0, 0, 0, 0.2) !important;
+}
+
+.scheduleGrid {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 550px;
+  margin: auto;
+
+  > div {
+    margin-bottom: $step;
+    &:nth-child(odd) {
+      margin-right: $step * 2;
+    }
+  }
 }

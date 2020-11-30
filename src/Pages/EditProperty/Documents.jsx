@@ -9,11 +9,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import set from 'lodash/set';
+import has from 'lodash/has';
+import findIndex from 'lodash/findIndex';
+import uniq from 'lodash/uniq';
 import cloneDeep from 'lodash/cloneDeep';
-import { ReactSortable } from 'react-sortablejs';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelDropdown, BrixelDropdownMini,
-  useOutsideAlerter, BrixelInputText, change, reset, ReduxField,
+  BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelDropdownMini,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
@@ -23,6 +25,7 @@ import { uploadDocument, deleteDocument, multiUploadDocument } from '../../actio
 import { setScreenNotification } from '../../actions/CommonActions';
 // IMAGES
 import uploadDocumentsEmpty from '../../images/Upload/upload_documents_empty.svg';
+import buyerDocumentsEmpty from '../../images/Media/buyer_docuboxEmpty.svg';
 import { tobase64Handler } from '../../utils/helpers';
 
 // COMPONENTS
@@ -31,19 +34,18 @@ const Documents = (props) => {
   // PROPS
   const {
     formValue,
-    initialValues,
     handleMultiUploadDocument,
     loggedInUser,
     handleDeleteDocument,
     history,
     isSmallLoading,
     match,
-    changeFieldValue,
-    resetForm,
     userType,
   } = props;
   const [documentOptionsOpen, setDocumentOptionsOpen] = useState({ id: null, active: false });
-  const [editDocument, setEditDocument] = useState({ id: null, active: false });
+  const [documentId, setDocumentId] = useState(0);
+  const [processedDocuments, setProcessedDocuments] = useState({});
+  const [showFullFolder, setShowFullFolder] = useState([]);
   const [isCopied, setIsCopied] = useState(false);
   const [documentLists, setDocumentLists] = useState([]);
 
@@ -55,32 +57,59 @@ const Documents = (props) => {
     else setDocumentLists(docs.filter((item) => !item.isPrivate));
   }, [documents, userType]);
 
-  // ORDER DOCUMENTS
-  const changeOrder = (order) => {
-    const docArray = [];
-    // eslint-disable-next-line array-callback-return
-    order.map((item) => {
-      if (item.id) {
-        delete item.chosen;
-        delete item.selected;
-        docArray.push(item);
-      }
-      return null;
+  useEffect(() => {
+    const docs = documents || [];
+    if (docs.length > 0) {
+      const finalObj = {
+        NoFolder: [],
+      };
+      const availableFolders = [];
+      docs.forEach((value) => {
+        if (get(value, 'folder')) availableFolders.push(value.folder);
+        if (!value.folder) availableFolders.push('NoFolder');
+      });
+      const array = uniq(availableFolders);
+      array.push(array.splice(array.indexOf('NoFolder'), 1)[0]);
+      array.forEach((value) => {
+        set(finalObj, `${value}`, []);
+      });
+      documents.forEach((doc) => {
+        if (!doc.folder) {
+          doc.folder = '';
+          finalObj.NoFolder.push(doc);
+        } else if (has(doc, 'folder') && doc.folder.length > 0) finalObj[`${doc.folder}`].push(doc);
+        else if (has(doc, 'folder') && doc.folder.length === 0) finalObj.NoFolder.push(doc);
+      });
+      setProcessedDocuments(finalObj);
+    }
+    if (documents && documents.length === 0) setProcessedDocuments({});
+  }, [documents]);
+
+  const manageDocument = (e, id) => {
+    if (e) e.preventDefault();
+    setDocumentOptionsOpen({
+      id: null,
+      active: false,
     });
-    if (userType === 'seller') changeFieldValue('documents', docArray);
+    history.push(`${match.url}/${id}/editDocument`);
   };
+
+  const openDocument = (e, id) => {
+    if (e) e.preventDefault();
+    window.open(`${getConfigEnv.shortPath}/document/${id}`, '_blank');
+  };
+
+  const index = (key) => findIndex(showFullFolder, (el) => el === key);
 
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
 
   // REF
   const documentRef = useRef(null);
-  const textAreaRef = useRef(null);
 
   useEffect(() => {
     if (!isSmallLoading) {
       setDocumentOptionsOpen({ id: null, active: false });
-      setEditDocument({ id: null, active: false });
     }
   }, [isSmallLoading]);
 
@@ -96,7 +125,7 @@ const Documents = (props) => {
         allImgs: res, actions: 'documents', pageID: formValue.id, smallLoader: 'upload',
       });
     });
-  }, []);
+  }, [formValue]);
 
   // DROPZONE SETTINGS - SUPPORTED EXTENSIONS AND MAX SIZE AND OTHER SETTINGS
   const { getRootProps, getInputProps } = useDropzone({
@@ -119,23 +148,21 @@ const Documents = (props) => {
   };
 
   // COPY DOCUMENT LINK
-  const copyLinkToClipboard = (e) => {
-    if (e) e.preventDefault();
-    textAreaRef.current.select();
+  const copyLinkToClipboard = (id) => {
+    const dummy = document.createElement('input');
+    document.body.appendChild(dummy);
+    dummy.setAttribute('id', 'dummy_id');
+    document.getElementById('dummy_id').value = `${getConfigEnv.shortPath}/document/${id}`;
+    dummy.select();
     document.execCommand('copy');
+    document.body.removeChild(dummy);
     setIsCopied(true);
     setTimeout(() => { setIsCopied(false); }, 2000);
   };
 
-  // FUNCTION TO EDIT DOCUMENT
-  const onEditMode = (doc) => {
-    setEditDocument({ id: doc.id, active: !editDocument.active });
-    set(formValue, '', doc.companyRole);
-    setDocumentOptionsOpen({ id: null, active: false });
-  };
-
   // Function to close the small menus when we click outside
   useOutsideAlerter(documentRef, {
+    id: documentId,
     action: 'function',
     func: () => {
       setDocumentOptionsOpen({ id: null, active: false });
@@ -153,7 +180,13 @@ const Documents = (props) => {
             color="primary"
             saturationTxt={400}
             noBorder
-            onClick={() => history.push(`/${propID}/property`)}
+            onClick={() => {
+              if (history.location.pathname.includes('buyer')) {
+                history.push(`/buyer/property/${propID}`);
+              } else {
+                history.push(`/${propID}/property`);
+              }
+            }}
           />
           <h5 className="m-a m-md-0 sectionTitle">
             Docubox
@@ -161,177 +194,221 @@ const Documents = (props) => {
         </div>
         <div className="dis-fl-col uploadPanel a-c">
           {
-            (documentLists.length > 0) && (
+            processedDocuments && Object.keys(processedDocuments).length < 1 && userType === 'buyer' && (
+              <div>
+                <img className="h-fix-120" src={buyerDocumentsEmpty} alt="Empty Documents" />
+                <h5 className="mt-3 mb-2 ta-c">No documents available.</h5>
+                <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-5">Please contact the seller for further documents about this property.</p>
+              </div>
+            )
+          }
+          {
+            (processedDocuments && Object.keys(processedDocuments).length > 0) && (
               <>
-                <div className="documents-container dis-fl-col w-perc-100">
-                  <ReactSortable
-                    scroll
-                    bubbleScroll
-                    list={cloneDeep(documentLists)}
-                    setList={(order) => changeOrder(order)}
-                    className="document-list"
-                    handle=".handle"
+                <div className="documents-container w-perc-100 dis-fl-col">
+                  <ul
+                    className="folder-list"
                   >
                     {
-                      documentLists.map((doc, i) => (
-                        <li
-                          key={i.toString()}
-                          data-id={JSON.stringify(doc)}
-                          className="single-document dis-fl-row a-c jc-b pb-1 pt-1"
-                        >
-                          <div className={`name dis-fl-row a-c w-perc-100 pr-1 ${editDocument.active || userType !== 'seller' ? 'hand' : 'handle'}`}>
-
-                            <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
-                              <BrixelIcon
-                                icon="document"
-                                background="primary"
-                                saturation={100}
+                      Object.keys(processedDocuments).map((key, i) => (
+                        key !== 'NoFolder' ? (
+                          <div className="document-folder shadow-1dp dis-fl-col p-1 mb-2 brdRadius" key={i.toString()}>
+                            <div className="dis-fl-row jc-b a-c">
+                              <div className={`dis-fl-row a-c ${(index(i) !== -1) ? 'mb-3' : ''}`}>
+                                <BrixelIcon
+                                  icon="folder"
+                                  color="green"
+                                  saturationTxt={400}
+                                  saturation={100}
+                                  background="green"
+                                  className="mr-2"
+                                />
+                                <h6>{key}</h6>
+                              </div>
+                              <BrixelButtonIcon
+                                className={`${(index(i) !== -1) ? 'as-fs' : ''}`}
+                                bgTransparent
+                                noBorder
                                 color="dark"
-                                saturationTxt={700}
+                                saturationTxt={400}
+                                fontSize={16}
+                                icon={`${(index(i) !== -1) ? 'arrow-simple-up' : 'arrow-simple-down'}`}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  const clone = cloneDeep(showFullFolder);
+                                  if (index(i) === -1) {
+                                    clone.push(i);
+                                  } else if (index(i) !== -1) {
+                                    clone.splice(index(i), 1);
+                                  }
+                                  setShowFullFolder(clone);
+                                }}
                               />
                             </div>
                             {
-                              (editDocument.id === doc.id && editDocument.active) ? (
-                                <div className="dis-fl-row a-c w-perc-100">
-                                  <ReduxField
-                                    form="Property"
-                                    input={{
-                                      name: `documents[${i}].name`,
-                                      placeholder: 'Name this document',
-                                      type: 'text',
-                                    }}
-                                    component={BrixelInputText}
-                                    design={{
-                                      className: 'zIndex1 w-perc-100',
-                                    }}
+                              (index(i) !== -1) && processedDocuments[key].map((doc, k) => (
+                                <li
+                                  key={k.toString()}
+                                  className="single-document pl-5 dis-fl-row a-c jc-b pb-1 mb-1"
+                                >
+                                  <div className="name w-fix-184 w-fix-md-352 dis-fl-row a-c pr-1 pr-sm-0">
+                                    <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
+                                      <BrixelIcon
+                                        icon="document"
+                                        background="blue"
+                                        saturation={100}
+                                        color="blue"
+                                        saturationTxt={400}
+                                      />
+                                    </div>
+                                    <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
+                                      <span className="document-title max-w-fix-168 max-w-perc-md-100 txtDark700">{doc.name}</span>
+                                      <span className="date body2 txtDark200">{moment(doc.createdAt).format('D MMM YYYY, H:mm')}</span>
+                                    </div>
+                                  </div>
+
+                                  <div className="pos-r dis-fl-row a-c">
+                                    <BrixelIcon
+                                      className="mr-1"
+                                      color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
+                                      icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
+                                    />
+                                    <BrixelButtonIcon
+                                      bgTransparent
+                                      noBorder
+                                      color="dark"
+                                      saturationTxt={100}
+                                      icon="options-vertical"
+                                      onClick={() => {
+                                        setDocumentOptionsOpen({
+                                          id: doc.id,
+                                          active: !documentOptionsOpen.active,
+                                        });
+                                        setDocumentId(i);
+                                      }}
+                                    />
+                                    {
+                                      (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
+                                        <>
+                                          <BrixelDropdownMini
+                                            topOffset={40}
+                                            rightAligned
+                                            links={
+                                              [
+                                                {
+                                                  label: isCopied ? 'Copied' : 'Copy Link',
+                                                  clickFunc: () => copyLinkToClipboard(doc.id),
+                                                },
+                                                {
+                                                  label: 'View',
+                                                  clickFunc: (e) => openDocument(e, doc.id),
+                                                },
+                                                {
+                                                  label: 'Edit',
+                                                  clickFunc: (e) => {
+                                                    manageDocument(e, doc.id);
+                                                  },
+                                                },
+                                                {
+                                                  label: 'Remove',
+                                                  className: 'txtRed400',
+                                                  clickFunc: (e) => deleteDocs(e, doc.id),
+                                                },
+                                              ]
+                                            }
+                                          />
+                                        </>
+                                      )
+                                    }
+                                  </div>
+                                </li>
+                              ))
+                            }
+                          </div>
+                        ) : (
+                          processedDocuments[key].map((doc, k) => (
+                            <div
+                              key={k.toString()}
+                              className="single-document-folder dis-fl-row a-c jc-b p-1 mb-2 brdRadius shadow-1dp"
+                            >
+
+                              <div className="name w-fix-184 w-fix-md-352 dis-fl-row a-c pr-1 pr-sm-0">
+                                <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
+                                  <BrixelIcon
+                                    icon="document"
+                                    background="blue"
+                                    saturation={100}
+                                    color="blue"
+                                    saturationTxt={400}
                                   />
                                 </div>
-                              ) : (
-                                <div className="dis-fl-col cur-poi" onClick={() => window.open(`${getConfigEnv.shortPath}/document/${doc.id}`, '_blank')}>
+                                <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                   <span className="document-title max-w-fix-168 max-w-perc-md-100 txtDark700">{doc.name}</span>
                                   <span className="date body2 txtDark200">{moment(doc.createdAt).format('D MMM YYYY, H:mm')}</span>
                                 </div>
-                              )
-                            }
-                          </div>
+                              </div>
 
-                          <div className="visibility-info dis-fl-row a-c">
-                            {
-                              userType === 'seller' && (
-                                <>
-                                  {
-                                    (editDocument.id === doc.id && editDocument.active) ? (
-                                      <BrixelDropdown
-                                        className="zIndex2 compact"
-                                        borderColor="light"
-                                        color="light"
-                                        options={[
-                                          {
-                                            label: 'Private',
-                                            value: true,
-                                          },
-                                          {
-                                            label: 'Public',
-                                            value: true,
-                                          }]}
-                                        selected={`${doc.isPrivate ? 'Private' : 'Public'}`}
-                                        onSelect={(e, value) => {
-                                          e.preventDefault();
-                                          changeFieldValue(`documents[${i}].isPrivate`, value.label !== 'Public');
-                                        }}
+                              <div className="pos-r dis-fl-row a-c">
+                                <BrixelIcon
+                                  className="mr-1"
+                                  color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
+                                  icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
+                                />
+                                <BrixelButtonIcon
+                                  bgTransparent
+                                  noBorder
+                                  color="dark"
+                                  saturationTxt={100}
+                                  icon="options-vertical"
+                                  onClick={() => {
+                                    setDocumentOptionsOpen({
+                                      id: doc.id,
+                                      active: !documentOptionsOpen.active,
+                                    });
+                                    setDocumentId(i);
+                                  }}
+                                />
+                                {
+                                  (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
+                                    <>
+                                      <BrixelDropdownMini
+                                        topOffset={40}
+                                        rightAligned
+                                        links={
+                                          [
+                                            {
+                                              label: isCopied ? 'Copied' : 'Copy Link',
+                                              clickFunc: () => copyLinkToClipboard(),
+                                            },
+                                            {
+                                              label: 'View',
+                                              clickFunc: (e) => openDocument(e, doc.id),
+                                            },
+                                            {
+                                              label: 'Edit',
+                                              clickFunc: (e) => {
+                                                manageDocument(e, doc.id);
+                                              },
+                                            },
+                                            {
+                                              label: 'Remove',
+                                              className: 'txtRed400',
+                                              clickFunc: (e) => deleteDocs(e, doc.id),
+                                            },
+                                          ]
+                                        }
                                       />
-                                    ) : (
-                                      <BrixelIcon
-                                        color={`${doc.isPrivate ? 'red' : 'green'}`}
-                                        icon={`${doc.isPrivate ? 'locked' : 'eye'}`}
-                                      />
-                                    )
-                                  }
-                                </>
-                              )
-                            }
-                            <div className="pos-r" ref={documentRef}>
-                              {
-                                (editDocument.id === doc.id && editDocument.active) ? (
-                                  <div className="dis-fl-row">
-                                    <BrixelButtonIcon
-                                      icon="close-circle"
-                                      bgTransparent
-                                      noBorder
-                                      className="add-button"
-                                      color="red"
-                                      saturationTxt={400}
-                                      label="Cancel"
-                                      onClick={() => {
-                                        resetForm(initialValues);
-                                        setEditDocument({ id: null, active: false });
-                                      }}
-                                    />
-                                  </div>
-                                ) : (
-                                  <BrixelButtonIcon
-                                    className="p-md-0 mr-1-neg zIndex2"
-                                    bgTransparent
-                                    noBorder
-                                    color="dark"
-                                    saturationTxt={400}
-                                    icon="options-vertical"
-                                    onClick={() => {
-                                      setDocumentOptionsOpen({ id: doc.id, active: !documentOptionsOpen.active });
-                                    }}
-                                  />
-                                )
-                              }
-                              {
-                                (documentOptionsOpen.id === doc.id && documentOptionsOpen.active) && (
-                                  <>
-                                    <BrixelDropdownMini
-                                      topOffset={32}
-                                      rightAligned
-                                      links={
-                                        userType === 'seller' ? [
-                                          {
-                                            label: isCopied ? 'Copied' : 'Copy Link',
-                                            clickFunc: (e) => copyLinkToClipboard(e),
-                                          },
-                                          {
-                                            label: 'Edit',
-                                            clickFunc: () => onEditMode(doc),
-                                          },
-                                          {
-                                            label: 'Remove',
-                                            clickFunc: (e) => deleteDocs(e, doc.id),
-                                            className: 'txtRed400',
-                                          },
-                                        ] : [
-                                          {
-                                            label: isCopied ? 'Copied' : 'Copy Link',
-                                            clickFunc: (e) => copyLinkToClipboard(e),
-                                          },
-                                        ]
-                                      }
-                                    />
-                                    <textarea
-                                      style={{
-                                        opacity: 0,
-                                        width: 0,
-                                        height: 0,
-                                      }}
-                                      readOnly
-                                      ref={textAreaRef}
-                                      value={`${getConfigEnv.shortPath}/document/${doc.id}`}
-                                    />
-                                  </>
-                                )
-                              }
+                                    </>
+                                  )
+                                }
+                              </div>
                             </div>
-                          </div>
-                        </li>
+                          ))
+                        )
                       ))
                     }
-                  </ReactSortable>
+                  </ul>
                 </div>
-
               </>
             )
           }
@@ -372,14 +449,11 @@ const Documents = (props) => {
 Documents.propTypes = {
   history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  initialValues: PropTypes.object.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   handleDeleteDocument: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
-  resetForm: PropTypes.func.isRequired,
   userType: PropTypes.string.isRequired,
 };
 
@@ -389,19 +463,12 @@ Documents.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
-  initialValues: get(state, 'brixelForm.Property.initialValues', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   userType: get(state, 'user.userTypes', ''),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeFieldValue(field, value) {
-    dispatch(change('Property', field, value));
-  },
-  resetForm(data) {
-    (dispatch(reset('Property', data)));
-  },
   setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),

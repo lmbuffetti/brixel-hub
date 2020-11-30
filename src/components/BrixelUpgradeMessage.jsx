@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
 import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
 import defaultCover from '../images/3d-tour-placeholder.jpg';
+import { isEligible } from '../utils/helpers';
 
 const BrixelUpgradeMessage = (props) => {
   const {
+    activeSingleProperty,
+    btnLabel,
     className,
     history,
     title,
@@ -15,8 +21,10 @@ const BrixelUpgradeMessage = (props) => {
     descriptionConfirm,
     onClick,
     onClose,
+    redirectUrl,
     showClose,
     unlockFunction,
+    trialRequest,
     virtualTour,
   } = props;
   // URL PARAMS
@@ -28,10 +36,21 @@ const BrixelUpgradeMessage = (props) => {
   // WHEN CLICK TO CONFIRM THE UPGRADE
   const onUpgrade = () => {
     localStorage.setItem('backUrl', history.location.pathname);
-    history.push(`/${propID}/upgrade`);
+    if (redirectUrl) history.push(redirectUrl);
+    else history.push(`/${propID}/upgrade`);
+  };
+
+  const onClickBtn = () => {
+    if (unlockFunction && titleConfirm) setShowUnlockMessage(true);
+    else if (unlockFunction) onClick();
+    else onUpgrade();
   };
 
   const bgColor = showUnlockMessage ? 'bgPrimary100' : 'bgGreen100';
+
+  if (!isEligible(activeSingleProperty) && trialRequest) {
+    return <span />;
+  }
 
   return (
     <div className={`brixel-upgrade-message ta-c brdRadius ${className} ${bgColor}`}>
@@ -58,7 +77,7 @@ const BrixelUpgradeMessage = (props) => {
         showUnlockMessage ? (
           <div className="bgPrimary100">
             <h5 className="txtPrimary700 mb-3">{titleConfirm}</h5>
-            <p className="max-w-fix-280 m-a txtDark700" dangerouslySetInnerHTML={{ __html: descriptionConfirm }} />
+            <p className="max-w-fix-360 m-a txtDark700" dangerouslySetInnerHTML={{ __html: descriptionConfirm }} />
             <div className="dis-f jc-c mt-3">
               <BrixelButtonPrimary
                 rounded
@@ -84,7 +103,7 @@ const BrixelUpgradeMessage = (props) => {
         ) : (
           <div className="bgGreen100 pb-3">
             <h5 className="txtGreen700">{title}</h5>
-            <p className="mt-3 mb-3 max-w-fix-280 m-a txtDark700" dangerouslySetInnerHTML={{ __html: description }} />
+            <p className="mt-3 mb-3 max-w-fix-360 m-a txtDark700" dangerouslySetInnerHTML={{ __html: description }} />
             {
               // CONDITION TO SHOW MESSAGE OR DEFAULT DEFAULT TOUR IF TOUR 3D
               virtualTour && (
@@ -135,10 +154,10 @@ const BrixelUpgradeMessage = (props) => {
             <BrixelButtonPrimary
               rounded
               className="m-a"
-              label={unlockFunction ? 'Unlock now' : 'Upgrade now'}
+              label={unlockFunction ? btnLabel || 'Unlock now' : btnLabel}
               background="red"
               saturation={400}
-              onClick={() => (unlockFunction ? setShowUnlockMessage(true) : onUpgrade())}
+              onClick={() => onClickBtn()}
             />
           </div>
         )
@@ -148,6 +167,8 @@ const BrixelUpgradeMessage = (props) => {
 };
 
 BrixelUpgradeMessage.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
+  btnLabel: PropTypes.string,
   className: PropTypes.string,
   description: PropTypes.string,
   descriptionConfirm: PropTypes.string,
@@ -155,25 +176,37 @@ BrixelUpgradeMessage.propTypes = {
   isSmallLoading: PropTypes.string,
   onClose: PropTypes.func,
   onClick: PropTypes.func,
+  redirectUrl: PropTypes.string,
   showClose: PropTypes.bool,
   title: PropTypes.string,
   titleConfirm: PropTypes.string,
+  trialRequest: PropTypes.bool,
   unlockFunction: PropTypes.bool,
   virtualTour: PropTypes.string,
 };
 
 BrixelUpgradeMessage.defaultProps = {
+  btnLabel: 'Upgrade now',
   className: '',
   description: null,
   descriptionConfirm: null,
   isSmallLoading: null,
   onClose: () => '',
   onClick: () => '',
+  redirectUrl: null,
   showClose: false,
   title: null,
   titleConfirm: null,
+  trialRequest: false,
   unlockFunction: false,
   virtualTour: null,
 };
 
-export default withRouter(BrixelUpgradeMessage);
+const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, null),
+)(BrixelUpgradeMessage);

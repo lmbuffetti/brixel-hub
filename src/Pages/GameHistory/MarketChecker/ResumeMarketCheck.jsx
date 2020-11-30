@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { BrixelIcon } from '@brixel/brixel-components';
 import { getActiveSingleProperty, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { sendGenericMail } from '../../../actions/CommonActions';
+import { addGameHistory } from '../../../actions/GamificationActions';
 import Maps from '../../../components/Map/Maps';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../../images/emptyHub.svg';
@@ -24,10 +25,13 @@ function ResumeMarketCheck(props) {
     handleSaveActiveSingleProperty,
     marketData,
     activeSingleProperty,
+    gameHistory,
+    handleAddGameHistory,
     match,
   } = props;
   // STATE
   const [saved, setSaved] = useState(false);
+  const [isMarketCheckDone, setIsMarketCheckDone] = useState(false);
 
   useEffect(() => {
     if (get(activeSingleProperty, 'id', null) && !marketData.priceDistribution) {
@@ -51,6 +55,16 @@ function ResumeMarketCheck(props) {
       handleGetMarketData(data);
     }
   }, [activeSingleProperty]);
+
+  useEffect(() => {
+    if (get(gameHistory, 'data', null)) {
+      const checkGameExist = gameHistory.data.find((item) => item.achievement.stub === 'market-checker' && item.page === activeSingleProperty.id);
+      if (typeof checkGameExist === 'undefined' && !isMarketCheckDone) {
+        handleAddGameHistory({ stub: 'market-checker' });
+        setIsMarketCheckDone(true);
+      }
+    }
+  }, [gameHistory]);
 
   // GET MARKET CHECK
   useEffect(() => {
@@ -218,12 +232,14 @@ function ResumeMarketCheck(props) {
 }
 
 ResumeMarketCheck.propTypes = {
+  activeSingleProperty: PropTypes.object,
   formValue: PropTypes.object,
+  gameHistory: PropTypes.object.isRequired,
+  handleAddGameHistory: PropTypes.func.isRequired,
   handleGetMarketData: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired,
   marketData: PropTypes.object,
-  activeSingleProperty: PropTypes.object,
+  match: PropTypes.object.isRequired,
 };
 
 ResumeMarketCheck.defaultProps = {
@@ -233,16 +249,19 @@ ResumeMarketCheck.defaultProps = {
 };
 
 const mapStateToProps = (state, props) => ({
-  formValue: get(state, `brixelForm.${props.formName}.values`, {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  formValue: get(state, `brixelForm.${props.formName}.values`, {}),
+  gameGroup: get(state, 'gamification.gameGroup', []),
+  gameHistory: get(state, 'gamification.gameHistory', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   marketData: get(state, 'property.marketCheck', {}),
 });
 const mapDispatchToProps = (dispatch) => ({
-  handleGetPage: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleGetMarketData: bindActionCreators(getMarketCheck, dispatch),
-  handleSendGenericMail: bindActionCreators(sendGenericMail, dispatch),
+  handleGetPage: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleSendGenericMail: bindActionCreators(sendGenericMail, dispatch),
 });
 
 export default compose(

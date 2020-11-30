@@ -3,29 +3,30 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import { change } from '@brixel/brixel-components';
 import {
-  GET_ESTIMATION,
-  SET_ESTIMATION,
-  GET_MARKET_CHECK,
-  SET_MARKET_CHECK,
-  GET_ACTIVE_SINGLE_PROPERTY,
   CREATE_ACTIVE_SINGLE_PROPERTY,
-  SAVE_ACTIVE_SINGLE_PROPERTY,
-  DELETE_ACTIVE_SINGLE_PROPERTY,
-  GET_PROPERTY_LISTINGS,
-  SET_ACTIVE_SINGLE_PROPERTY,
-  SET_PROPERTY_LISTINGS,
-  CREATE_PROPERTY_VISIT_SCHEDULE,
-  SAVE_PROPERTY_VISIT_SCHEDULE,
-  DELETE_PROPERTY_VISIT_SCHEDULE,
-  GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-  SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-  SAVE_PROPERTY_VISIT_BOOKING,
   CREATE_PROPERTY_VISIT_BOOKING,
+  CREATE_PROPERTY_VISIT_SCHEDULE,
+  DELETE_ACTIVE_SINGLE_PROPERTY,
+  DELETE_PROPERTY_VISIT_SCHEDULE,
+  GET_ACTIVE_SINGLE_PROPERTY,
+  GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
+  GET_ESTIMATION,
+  GET_MARKET_CHECK,
+  GET_PACKAGES_PROPERTY,
+  GET_PROPERTY_LISTINGS,
+  SAVE_ACTIVE_SINGLE_PROPERTY,
+  SAVE_PROPERTY_VISIT_BOOKING,
+  SAVE_PROPERTY_VISIT_SCHEDULE,
+  SAVE_UPGRADE_PLAN,
+  SEND_SCAN_TRIAL_REQUEST,
+  SET_ACTIVE_SINGLE_PROPERTY,
+  SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
+  SET_ESTIMATION,
+  SET_MARKET_CHECK,
+  SET_PACKAGES_PROPERTY,
+  SET_PROPERTY_LISTINGS,
   UPDATE_PORTALS_REVIEW,
   UPDATE_PUBLISHED_REVIEW,
-  GET_PACKAGES_PROPERTY,
-  SET_PACKAGES_PROPERTY,
-  SAVE_UPGRADE_PLAN,
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
@@ -39,7 +40,7 @@ import {
 } from '../actions/types/CommonTypes';
 import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
 import { properties } from '../resources/localData/properties';
-import { pageContent } from '../resources/localData/page';
+// import { pageContent } from '../resources/localData/page';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -400,10 +401,10 @@ const checkCommon = (store) => (next) => (action) => {
     }
     // DISPATCH TO GET PROPERTY BOOKING - by PROPERTY ID
     case GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS: {
-      next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader || 'booking' });
-      const { id, redirectTo } = action.payload;
-      api.property.getPageVisits(id).then((response) => {
+      next(action);
+      const { id, data, redirectTo } = action.payload;
+      api.property.getPageVisits(id, data).then((response) => {
         store.dispatch({
           type: SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
           payload: response.data,
@@ -436,15 +437,20 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO CREATE PROPERTY BOOKING - by PROPERTY ID
     case CREATE_PROPERTY_VISIT_BOOKING: {
       next(action);
-      const { page, smallLoader, redirectTo } = action.payload;
+      const {
+        page, smallLoader, redirectTo, getByUser,
+      } = action.payload;
+      delete action.payload.getByUser;
       store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader || 'saveBooking' });
       api.property.createPropertyVisit(action.payload)
         .then(() => {
           store.dispatch({
             type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
-            payload: { id: page, smallLoader, redirectTo },
+            payload: {
+              id: page, data: { user: getByUser }, smallLoader, redirectTo,
+            },
           });
-          store.dispatch({ type: SPINNER_SMALL_OFF });
+          store.dispatch({ type: SPINNER_SMALL_ON, payload: 'savedBooking' });
         });
       break;
     }
@@ -502,6 +508,17 @@ const checkCommon = (store) => (next) => (action) => {
           else store.dispatch({ type: SPINNER_OFF });
           // store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           // console.log(res.data);
+        });
+      break;
+    }
+    // SEND TRIAL REQUEST
+    case SEND_SCAN_TRIAL_REQUEST: {
+      next(action);
+      const { page, data, smallLoader } = action.payload;
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
+      api.property.sendScanTrial(page, data)
+        .then(() => {
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }

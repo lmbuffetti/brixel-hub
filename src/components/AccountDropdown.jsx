@@ -26,7 +26,7 @@ const AccountDropdown = (props) => {
 
   // STATE
   const [langMenu, setLangMenu] = useState([]);
-  const [langSel, setSelLang] = useState(get(loggedInUser, 'user.language', 'en'));
+  const [langSel, setSelLang] = useState(lang);
   const [closeDropDown, setCloseDropdown] = useState(false);
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
 
@@ -124,7 +124,7 @@ const AccountDropdown = (props) => {
                 component: BrixelAvatar,
                 props: {
                   avatarImg: has(loggedInUser, 'user.avatar[0]') ? `${baseByData().shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null,
-                  name: has(loggedInUser, 'user.name') ? loggedInUser.user.name : '',
+                  name: has(loggedInUser, 'user.firstName') ? loggedInUser.user.firstName : '',
                   isIcon: true,
                 },
               }}

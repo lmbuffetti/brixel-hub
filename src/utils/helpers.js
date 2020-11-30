@@ -2,6 +2,7 @@ import isObject from 'lodash/isObject';
 import Cookies from 'universal-cookie';
 import get from 'lodash/get';
 import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
+import has from 'lodash/has';
 import { translateTo } from './translation';
 import { AssessorAvgLifespan } from '../resources/Assessor';
 import { configureStore } from '../store';
@@ -531,13 +532,23 @@ export const toBase64 = (file) => new Promise((resolve, reject) => {
   reader.onerror = (error) => reject(error);
 });
 
+const getImageDimensions = (file) => new Promise((resolve, reject) => file.then((img) => {
+  const i = new Image();
+  i.onload = () => resolve({ w: i.width, h: i.height });
+  i.onerror = (error) => reject(error);
+  i.src = img.file;
+}));
+
 export const tobase64Handler = async (files, user, action, pageID, imgType) => {
   const filePathsPromises = [];
-  files.forEach((file) => {
+  const dimensions = [];
+  await files.forEach((file) => {
+    dimensions.push(getImageDimensions(toBase64(file)));
     filePathsPromises.push(toBase64(file));
   });
+  const fileDimensions = await Promise.all(dimensions);
   const filePaths = await Promise.all(filePathsPromises);
-  const mappedFiles = filePaths.map((base64File) => {
+  const mappedFiles = filePaths.map((base64File, i) => {
     if (action === 'documents') {
       const name = get(base64File, 'name', Date.now() / 1000);
       return {
@@ -554,6 +565,8 @@ export const tobase64Handler = async (files, user, action, pageID, imgType) => {
       file: base64File.file,
       user,
       imageType: imgType,
+      width: fileDimensions[i].w,
+      height: fileDimensions[i].h,
       pageID,
       uploadAction: action,
       smallLoader: 'upload',
@@ -577,4 +590,24 @@ export const keyify = (object) => {
   }
   iter(object, []);
   return result;
+};
+
+export const isEligible = (activeSingleProperty) => {
+  const hasPackage = get(activeSingleProperty, 'servicePackages', []).filter((pkg) => pkg.type === 'premium' || pkg.type === 'plus' || pkg.type === 'one');
+  if (hasPackage.length > 0) return false;
+  if (has(activeSingleProperty, 'location.countryCode') && activeSingleProperty.location.countryCode === 'CH') {
+    return true;
+  }
+  if (has(activeSingleProperty, 'location.countryCode') && activeSingleProperty.location.countryCode === 'PT') {
+    if (has(activeSingleProperty, 'location.state')) {
+      if (activeSingleProperty.location.state === 'Lisboa' ||
+        activeSingleProperty.location.state === 'Porto' ||
+        activeSingleProperty.location.state === 'Setúbal') {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
+  return false;
 };

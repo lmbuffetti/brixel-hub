@@ -23,9 +23,11 @@ import 'moment/locale/en-gb';
 import { BrixelIcon, BrixelNotification } from '@brixel/brixel-components';
 import Loading from './components/Loading';
 import { checkToken, setUserTypes } from './actions/UserActions';
-import { setLanguages, setModal, setWindowDimensions } from './actions/CommonActions';
+import { setLanguage, setModal, setWindowDimensions } from './actions/CommonActions';
 
 import BrixelModalAwards from './components/BrixelModalAwards';
+import { getImageType } from './actions/UploadActions';
+import TeaserBanner from './components/TeaserBanner';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
@@ -108,6 +110,16 @@ const BrixelModalFullScreen = Loadable({
   loading: Loading,
 });
 
+const SingleDocument = Loadable({
+  loader: () => import('./Pages/EditProperty/SingleDocument' /* webpackChunkName: "SingleDocument" */),
+  loading: Loading,
+});
+
+const AddShowingsBuyer = Loadable({
+  loader: () => import('./Pages/Dashboard/Buyer/AddShowingsBuyer' /* webpackChunkName: "AddShowingsBuyer" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -117,8 +129,10 @@ const App = (props) => {
     handleSetUserTypes,
     history,
     handleCheckToken,
+    handleSetLanguage,
     handleSetModal,
     handleSetWindowsDimension,
+    handleGetImageType,
     isLoading,
     loggedInUser,
     modal,
@@ -149,6 +163,7 @@ const App = (props) => {
   useEffect(() => {
     if (loggedInUser.user && localTransifex) {
       const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
+      handleSetLanguage(lang);
       if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
       if (lang === 'ch' || lang === 'de') {
         moment.locale('de-ch');
@@ -177,6 +192,18 @@ const App = (props) => {
       handleSetUserTypes('buyer');
     }
   }, [activeSingleProperty]);
+
+  const bodyModal = document.getElementById('bodyModalWrapper');
+  useEffect(() => {
+    const hubDash = document.getElementsByClassName('hubDashboard')[0];
+    if (hubDash) {
+      if (bodyModal) {
+        hubDash.style.overflow = 'hidden';
+      } else {
+        hubDash.style.overflow = '';
+      }
+    }
+  }, [bodyModal]);
 
   // FUNCTION USED TO SEND THE DATA TO HANALITYCS
   useEffect(() => {
@@ -219,7 +246,8 @@ const App = (props) => {
     if (
       history.location.pathname.includes('packageFlow') ||
       history.location.pathname.includes('onBoarding') ||
-      history.location.pathname.includes('upgrade')
+      history.location.pathname.includes('upgrade') ||
+      history.location.pathname.includes('trialRequest')
     ) {
       if (history.location.pathname.includes('packageFlow')) {
         setClassMain('flowContainer packageFlow w-perc-100');
@@ -230,11 +258,15 @@ const App = (props) => {
       setZIndex(6);
     } else {
       if (history.location.pathname.includes('rewards')) {
-        setClassMain('w-perc-100 pos-r hubContainer rewardsTop');
+        setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar');
       } else if (history.location.pathname.includes('property')) {
-        setClassMain('w-perc-100 pos-r hubContainer propertyTop');
+        if (history.location.pathname.includes('buyer')) {
+          setClassMain('w-perc-100 pos-r hubContainer propertyTop');
+        } else {
+          setClassMain('w-perc-100 pos-r hubContainer propertyTop withTopBar');
+        }
       } else if (history.location.pathname.includes('listings')) {
-        setClassMain('w-perc-100 pos-r hubContainer listingsTop');
+        setClassMain('w-perc-100 pos-r hubContainer listingsTop withTopBar');
       } else {
         setClassMain('w-perc-100 pos-r hubContainer ov-h');
       }
@@ -246,7 +278,8 @@ const App = (props) => {
     if (
       (history.location.pathname.includes('property/') ||
       history.location.pathname.includes('listings/')) &&
-      windowDimensions.width <= 1024
+      windowDimensions.width <= 1024 &&
+      !history.location.pathname.includes('buyer')
     ) {
       setIsSecLevel(true);
       if (dashWrapperEl) {
@@ -273,6 +306,11 @@ const App = (props) => {
   const headerCalc = () => {
     if (!isFlow) {
       if (windowDimensions.width <= 1024) {
+        if (userTypes === 'buyer' || history.location.pathname.includes('seller')) {
+          return {
+            height: '100%',
+          };
+        }
         return {
           height: (windowDimensions.height + extraHeight) - 174,
         };
@@ -302,6 +340,7 @@ const App = (props) => {
       calcHeaderHeight();
       calcFlowHeaderHeight();
     });
+    handleGetImageType();
   }, []);
 
   const contentLayout = () => {
@@ -341,6 +380,7 @@ const App = (props) => {
             !history.location.pathname.includes('packageFlow') &&
             !history.location.pathname.includes('onBoarding') &&
             !history.location.pathname.includes('upgrade') &&
+            !history.location.pathname.includes('trialRequest') &&
             !history.location.pathname.includes('achievement') &&
             loggedInUser &&
              (
@@ -348,12 +388,14 @@ const App = (props) => {
              )
           }
           <div
-            className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
+            className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : ''}`}
             style={contentLayout()}
           >
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
-                <PageHeader />
+                <>
+                  <PageHeader />
+                </>
               )
             }
             {
@@ -361,16 +403,24 @@ const App = (props) => {
                 !history.location.pathname.includes('packageFlow') &&
                 !history.location.pathname.includes('onBoarding')) &&
                 !history.location.pathname.includes('upgrade') &&
+                !history.location.pathname.includes('trialRequest') &&
               (
-                <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
+                <>
+                  <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
+                </>
               )
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
+              className={`${!isFlow ? 'hubDasContent ov-y-a ov-x-h bgLight100' : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
               style={isSecLevel ? { height: '100%' } : headerCalc()}
               ref={dashContentRef}
             >
+              {
+                !history.location.pathname.includes('packageFlow') &&
+                !history.location.pathname.includes('onBoarding') &&
+                !history.location.pathname.includes('buyer') && (<TeaserBanner />)
+              }
               <Switch>
                 { /* SECTION: ONBOARDING */ }
                 <Route path="/packageFlow/getstarted/" component={GetStarted} />
@@ -393,6 +443,7 @@ const App = (props) => {
                       <ProtectedRoute path="/:propId?/listings" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
                     </>
                   )
                 }
@@ -400,7 +451,8 @@ const App = (props) => {
                   !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') && (
                     <>
-                      <ProtectedRoute path="/buyer" component={DashboardBuyer} />
+                      <ProtectedRoute path="/buyer" exact component={DashboardBuyer} />
+                      <ProtectedRoute path="/buyer/propertyLists" exact component={DashboardBuyer} />
                       <ProtectedRoute path="/buyer/:act/:propID" component={DashboardBuyer} />
                     </>
                   )
@@ -420,6 +472,7 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess="seller" />
+          <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
         </Switch>
       }
 
@@ -444,7 +497,12 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification && !history.location.pathname.includes('rewards') && !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('upgrade') && notification.type === ('infoHub') && (
+        notification &&
+        !history.location.pathname.includes('rewards') &&
+        !history.location.pathname.includes('packageFlow') &&
+        !history.location.pathname.includes('upgrade') &&
+        !history.location.pathname.includes('trialRequest') &&
+        notification.type === ('infoHub') && (
           <BrixelNotification
             saveBar
             label={notification.label}
@@ -481,21 +539,28 @@ const App = (props) => {
           </>
         )
       }
+
+      {/* Splash screens for single deal, create new deal and edit document */}
+      <Switch>
+        <Route exact path="/:propID/property/documents/:docID/editDocument" component={SingleDocument} />
+      </Switch>
     </main>
   );
 };
 
 App.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  handleSetUserTypes: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
+  handleGetImageType: PropTypes.func.isRequired,
+  handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
+  handleSetUserTypes: PropTypes.func.isRequired,
   handleSetWindowsDimension: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
   loggedInUser: PropTypes.object.isRequired,
-  notification: PropTypes.object,
   modal: PropTypes.object.isRequired,
+  notification: PropTypes.object,
   redirectTo: PropTypes.object,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
@@ -509,22 +574,23 @@ App.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', null),
   modal: get(state, 'common.modal', {}),
   notification: get(state, 'common.notification', null),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   redirectTo: get(state, 'common.redirectTo', null),
   userTypes: get(state, 'user.userTypes', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
-  handleSetLanguages: bindActionCreators(setLanguages, dispatch),
+  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
