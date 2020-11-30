@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom';
 import FirstImpression from '../../images/scanTrial/firstImpression.png';
 import ScanTrialPlaceholder from '../../images/scanTrial/placeholderScanTrial.png';
+import scanTrialImg2 from '../../images/scanTrial/scanTrialImg2.png';
+import scanTrialImg3 from '../../images/scanTrial/scanTrialImg3.png';
 
 const IntroScanFlow = () => (
   <main id="rewards" className="introScanFlow pb-4 h-perc-100 txtDark700">
@@ -14,19 +16,25 @@ const IntroScanFlow = () => (
     <h5 className="mb-5 txtDark200">Here are your main advantages of it:</h5>
     <div className="row">
       <div className="col-12 col-sm-4 mb-2 mb-sm-0">
-        <img src={FirstImpression} alt="text-1" />
-        <h5 className="mt-2 mb-1">First impressions matter.</h5>
-        <p>Our experts will capture your property in its best possible light to stand out in the market. You can use these photos also <b>for free</b> in the Basic package.</p>
+        <div className="brdRadius ov-h">
+          <img src={FirstImpression} alt="text-1" />
+          <h5 className="mt-2 mb-1">First impressions matter.</h5>
+          <p>Our experts will capture your property in its best possible light to stand out in the market. You can use these photos also <b>for free</b> in the Basic package.</p>
+        </div>
       </div>
       <div className="col-12 col-sm-4 mb-2 mb-sm-0">
-        <img src={ScanTrialPlaceholder} alt="text-1" />
-        <h5 className="mt-2 mb-1">Get only qualified buyers.</h5>
-        <p>We will offer you a 3D tour of your property to improve the quality of your visitors. You can test the 3D tour <b>7 days for free</b>. No strings attached.</p>
+        <div className="brdRadius ov-h">
+          <img src={scanTrialImg2} alt="text-1" />
+          <h5 className="mt-2 mb-1">Get only qualified buyers.</h5>
+          <p>We will offer you a 3D tour of your property to improve the quality of your visitors. You can test the 3D tour <b>7 days for free</b>. No strings attached.</p>
+        </div>
       </div>
-      <div className="col-12 col-sm-4">
-        <img src={ScanTrialPlaceholder} alt="text-1" />
-        <h5 className="mt-2 mb-1">Know what your property is worth.</h5>
-        <p>You will get to know what&apos;s the fair market value of your property thanks to a full estimation by our experts.</p>
+      <div className="col-12 col-sm-4 brdRadius">
+        <div className="brdRadius ov-h">
+          <img src={scanTrialImg3} alt="text-1" />
+          <h5 className="mt-2 mb-1">Know what your property is worth.</h5>
+          <p>You will get to know what&apos;s the fair market value of your property thanks to a full estimation by our experts.</p>
+        </div>
       </div>
     </div>
 
