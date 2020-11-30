@@ -90,7 +90,7 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-container  jc-c h-perc-md-100 pos-r a-t" id="propertyDashboard">
+      <div className="property-container seller-properties jc-c h-perc-md-100 pos-r a-t" id="propertyDashboard">
         <div>
           <div className={`dis-f jc-fe mb-3 ${userProperties.length === 0 ? 'mt-3' : ''}`}>
             <BrixelButtonPrimary
