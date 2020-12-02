@@ -156,7 +156,7 @@ const ScanTrialFlow = (props) => {
         }
         return null;
       });
-      setQuest(questions[currentIndex]);
+      setQuest(newQuest[currentIndex]);
       setQuestions(newQuest);
     }
   }, [formValue]);
