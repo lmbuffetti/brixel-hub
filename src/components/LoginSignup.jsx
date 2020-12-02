@@ -193,12 +193,12 @@ const LoginSignup = (props) => {
                   )
                 }
                 <BrixelRegister
-                  // baseURL={baseByData.apiRoot}
+                  baseURL={baseByData.apiRoot}
                   showGeneratePassword={false}
                   company={company}
                   formName="GetStarted"
                   showErrors={showErrors}
-                  // validateEmail
+                  validateEmail
                 />
               </>
             )
