@@ -37,6 +37,9 @@ const clientConfig = {
       './src/styles/SCSS/styleguide/spacing.scss',
       './src/styles/SCSS/styleguide/boxModel.scss',
     ],
+    primary: [
+      './src/styles/SCSS/general/componentsLoad.scss',
+    ],
   },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),

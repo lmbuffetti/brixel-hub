@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import {
-  BrixelButtonTertiary, destroy,
+  BrixelButtonTertiary, destroy, BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_full_v2.svg';

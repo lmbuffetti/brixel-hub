@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* global Transifex */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -9,10 +10,12 @@ import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelIcon,
+  BrixelButtonPrimary,
   BrixelButtonTertiary,
   BrixelButtonIcon,
   BrixelTabs,
-  destroy, BrixelSelect,
+  destroy,
+  BrixelSelect,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_full_v2.svg';
@@ -29,7 +32,7 @@ import {
 } from '../resources/navigationRoutes';
 import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
 import { setActiveSingleProperty } from '../actions/PropertyActions';
-import brixels from '../images/BrxielComingTown/brixels.svg';
+// import brixels from '../images/BrxielComingTown/brixels.svg';
 import CoverPropertyImage from './CoverPropertyImage';
 import AccountDropdown from './AccountDropdown';
 

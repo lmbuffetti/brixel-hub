@@ -46,7 +46,7 @@ function SuccessAssessor(props) {
   return (
     <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col a-c">
       {
-        groupdAchievement.done ? (
+        get(groupdAchievement, 'done', null) ? (
           <>
             {
               achievement && (
