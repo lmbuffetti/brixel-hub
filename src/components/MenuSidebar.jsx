@@ -75,10 +75,6 @@ const MenuSidebar = (props) => {
     }
   });
 
-  useEffect(() => {
-    console.log(isBuyer);
-  });
-
   // FUNCTION TO MANAGE CLICK OUTSIDE OF SUPPORT MENU
   useOutsideAlerter(wrapperRef, {
     action: 'function',
