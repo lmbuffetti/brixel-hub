@@ -33,52 +33,6 @@ map-get($greenColor, 300),
 map-get($yellowColor, 300),
 map-get($blueColor, 300);
 
-// DASHBOARD STUFF
-@import "./windows",
-"./hubDashboard";
-
-// COMPONENTS
-@import "../components/loading",
-"../components/radioButtonEmoji",
-"../components/donut",
-"../components/header",
-"../components/booking",
-"../components/contact_modal",
-"../components/datePicker",
-"../components/rangeInput",
-"../components/checkboxWithDetail",
-"../components/rangePriceChart",
-"../components/buttonAchievement",
-"../components/assessor",
-"../components/map",
-"../components/radioButtonCard",
-"../components/avatar",
-"../components/multi_stepform_modal",
-"../components/support",
-"../components/timeline_achievement",
-"../components/options-menu",
-"../components/documents",
-"../components/menu-sidebar",
-"../components/property-list",
-"../components/teaser-banner",
-"../components/splash-screen";
-
-// PAGES
-@import "../pages/getStarted",
-"../pages/onBoarding",
-"../pages/listings",
-"../pages/_property_listings",
-"../pages/upgrade",
-"../pages/images",
-"../pages/bodyModal",
-"../pages/facts",
-"../pages/buyer",
-"../pages/seller";
-
-// TRANSITIONS
-@import "./transitions";
-
-
 html, body {
   position: relative;
   height: 100%;
