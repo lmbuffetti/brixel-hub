@@ -35,8 +35,6 @@ const Page = (props) => {
   } = props;
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
-  const currency = get(company, 'country.currency', '');
-  const meta = get(company, 'meta', {});
 
   // GET PAGE STATUS
   const changeReviewStatus = (status) => {
@@ -59,34 +57,6 @@ const Page = (props) => {
       url = `${baseByData.pageUrl}preview/${formValue.stub}?hubUrl=${window.location.href}`;
       window.location.href = url;
     }
-  };
-
-  // SET DURATION PUBLISHING BY COMPANY DATA
-  const publishDuration = () => {
-    const duration = get(meta, 'publish.duration', null);
-    if (!duration || +duration === 0) return 'unlimited';
-    if (+duration === 1) return `for <span class="notranslate">${duration}</span> month`;
-    if (+duration > 1) return `for <span class="notranslate">${duration}</span> months`;
-    return '';
-  };
-
-  // MESSAGE TO UNLOCK
-  const messageToUnlock = (key) => {
-    let message = {
-      title: 'Make your Brixel Page public.',
-      description: `Only <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()}. Don't worry. You will not be charged for now. Get the result first. Pay later.`,
-      titleConfirm: 'Please confirm your order.',
-      descriptionConfirm: `<b>Make Brixel page public.</b><span>Only <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()}. You will not be charged for now.</span>`,
-    };
-    if (get(formValue, 'location.countryCode', null) === 'PT') {
-      message = {
-        title: 'Make your Brixel Page public.',
-        description: `Test for free for 30 days. After the trial period, for <span class="notranslate">${currency} ${get(meta, 'publish.price', '')}</span> ${publishDuration()} will have 1 more year of insertion in our website.`,
-        titleConfirm: 'Please confirm your order.',
-        descriptionConfirm: 'Ask your expert to review your page and publish it on the Brixel website for free for 30 days.',
-      };
-    }
-    return message[key];
   };
 
   return (
@@ -294,10 +264,11 @@ const Page = (props) => {
           !formValue.published && !formValue.publishReview && (
             <BrixelUpgradeMessage
               className="mt-3"
-              title={messageToUnlock('title')}
-              description={messageToUnlock('description')}
-              titleConfirm={messageToUnlock('titleConfirm')}
-              descriptionConfirm={messageToUnlock('descriptionConfirm')}
+              title="Make your Brixel Page public."
+              description="You can publish your Brixel Page for free to share it wherever you want. We will review your content before publishing to make sure you get the best result."
+              btnLabel="Request Brixel Page"
+              titleConfirm="Please confirm your order."
+              descriptionConfirm="You can publish your Brixel Page for free to share it wherever you want. We will review your content before publishing to make sure you get the best result."
               onClick={() => changeReviewStatus('online')}
               isSmallLoading={isSmallLoading}
               unlockFunction

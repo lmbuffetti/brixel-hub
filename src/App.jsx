@@ -23,10 +23,11 @@ import 'moment/locale/en-gb';
 import { BrixelIcon, BrixelNotification } from '@brixel/brixel-components';
 import Loading from './components/Loading';
 import { checkToken, setUserTypes } from './actions/UserActions';
-import { setLanguages, setModal, setWindowDimensions } from './actions/CommonActions';
+import { setLanguage, setModal, setWindowDimensions } from './actions/CommonActions';
 
 import BrixelModalAwards from './components/BrixelModalAwards';
 import { getImageType } from './actions/UploadActions';
+import TeaserBanner from './components/TeaserBanner';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
@@ -128,6 +129,7 @@ const App = (props) => {
     handleSetUserTypes,
     history,
     handleCheckToken,
+    handleSetLanguage,
     handleSetModal,
     handleSetWindowsDimension,
     handleGetImageType,
@@ -161,6 +163,7 @@ const App = (props) => {
   useEffect(() => {
     if (loggedInUser.user && localTransifex) {
       const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
+      handleSetLanguage(lang);
       if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
       if (lang === 'ch' || lang === 'de') {
         moment.locale('de-ch');
@@ -243,7 +246,8 @@ const App = (props) => {
     if (
       history.location.pathname.includes('packageFlow') ||
       history.location.pathname.includes('onBoarding') ||
-      history.location.pathname.includes('upgrade')
+      history.location.pathname.includes('upgrade') ||
+      history.location.pathname.includes('trialRequest')
     ) {
       if (history.location.pathname.includes('packageFlow')) {
         setClassMain('flowContainer packageFlow w-perc-100');
@@ -376,6 +380,7 @@ const App = (props) => {
             !history.location.pathname.includes('packageFlow') &&
             !history.location.pathname.includes('onBoarding') &&
             !history.location.pathname.includes('upgrade') &&
+            !history.location.pathname.includes('trialRequest') &&
             !history.location.pathname.includes('achievement') &&
             loggedInUser &&
              (
@@ -383,12 +388,14 @@ const App = (props) => {
              )
           }
           <div
-            className={`zIndex${zIndex} w-perc-100 dis-fl-col`}
+            className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : ''}`}
             style={contentLayout()}
           >
             {
               (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding')) && (
-                <PageHeader />
+                <>
+                  <PageHeader />
+                </>
               )
             }
             {
@@ -396,16 +403,24 @@ const App = (props) => {
                 !history.location.pathname.includes('packageFlow') &&
                 !history.location.pathname.includes('onBoarding')) &&
                 !history.location.pathname.includes('upgrade') &&
+                !history.location.pathname.includes('trialRequest') &&
               (
-                <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
+                <>
+                  <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
+                </>
               )
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? 'hubDasContent bgLight100 ov-y-a ov-x-h' : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
+              className={`${!isFlow ? 'hubDasContent ov-y-a ov-x-h bgLight100' : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
               style={isSecLevel ? { height: '100%' } : headerCalc()}
               ref={dashContentRef}
             >
+              {
+                !history.location.pathname.includes('packageFlow') &&
+                !history.location.pathname.includes('onBoarding') &&
+                !history.location.pathname.includes('buyer') && (<TeaserBanner />)
+              }
               <Switch>
                 { /* SECTION: ONBOARDING */ }
                 <Route path="/packageFlow/getstarted/" component={GetStarted} />
@@ -428,6 +443,7 @@ const App = (props) => {
                       <ProtectedRoute path="/:propId?/listings" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
                     </>
                   )
                 }
@@ -481,7 +497,12 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification && !history.location.pathname.includes('rewards') && !history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('upgrade') && notification.type === ('infoHub') && (
+        notification &&
+        !history.location.pathname.includes('rewards') &&
+        !history.location.pathname.includes('packageFlow') &&
+        !history.location.pathname.includes('upgrade') &&
+        !history.location.pathname.includes('trialRequest') &&
+        notification.type === ('infoHub') && (
           <BrixelNotification
             saveBar
             label={notification.label}
@@ -531,6 +552,7 @@ App.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
+  handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   handleSetWindowsDimension: PropTypes.func.isRequired,
@@ -568,7 +590,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
-  handleSetLanguages: bindActionCreators(setLanguages, dispatch),
+  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });

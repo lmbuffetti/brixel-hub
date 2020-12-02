@@ -64,6 +64,11 @@ const Upgrade = Loadable({
   loading: () => null,
 });
 
+const ScanTrialFlow = Loadable({
+  loader: () => import('../../ScanTrialFlow/ScanTrialFlow' /* webpackChunkName: "ScanTrialFlow" */),
+  loading: () => null,
+});
+
 const ProtectedRoute = Loadable({
   loader: () => import('../../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
   loading: () => null,
@@ -143,7 +148,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
       if (propID && !get(activeSingleProperty, 'id', null)) {
-        handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: true });
+        handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
       } else if (!propID) {
         loadDefaultProperty();
       }
@@ -386,7 +391,7 @@ const Dashboard = (props) => {
 
 Dashboard.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
-  activeSingleProperty: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object,
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
   gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -422,6 +427,7 @@ Dashboard.propTypes = {
 };
 
 Dashboard.defaultProps = {
+  activeSingleProperty: {},
   errorValue: null,
   isSmallLoading: null,
   notification: null,
