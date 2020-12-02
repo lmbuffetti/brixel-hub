@@ -13,7 +13,7 @@ import scanComplete from '../images/Upgrade/upgrade_complete.svg';
 
 export const ScanTrialQuestions = () => {
   const formValue = get(configureStore.getState(), 'brixelForm.scanFlow.values', {});
-  const isInterested = get(formValue, 'interested', null);
+  const isInterested = get(formValue, 'interested', false);
   const { factsOptions } = FactsOptions;
   return [
     {
