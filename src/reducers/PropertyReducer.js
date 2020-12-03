@@ -7,12 +7,14 @@ import {
   SET_PACKAGES_PROPERTY,
   SET_PAGE_DEALS,
   SET_PROPERTY_LISTINGS,
+  SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
 } from '../actions/types/PropertyTypes';
 
 export const defaultState = {
   activeSingleProperty: {},
   activeSinglePropertyBooking: [],
   activeSinglePropertyDeals: [],
+  activeSinglePropertyDealsCount: {},
   estimation: {},
   marketCheck: {},
   packagesProperty: [],
@@ -48,6 +50,10 @@ export default handleActions(
     [SET_PAGE_DEALS]: (state, action) => ({
       ...state,
       activeSinglePropertyDeals: action.payload,
+    }),
+    [SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT]: (state, action) => ({
+      ...state,
+      activeSinglePropertyDealsCount: action.payload,
     }),
   },
   defaultState,

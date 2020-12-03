@@ -33,6 +33,8 @@ import {
   UPDATE_PUBLISHED_REVIEW,
   GET_PAGE_DEALS,
   SET_PAGE_DEALS,
+  SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
+  GET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
@@ -568,6 +570,29 @@ const checkCommon = (store) => (next) => (action) => {
             });
           });
         });
+      break;
+    }
+    case GET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT: {
+      next(action);
+      store.dispatch({
+        type: SPINNER_ON,
+      });
+      api.property.getPageDealsCount(action.payload).then((res) => {
+        if (res.meta.status === 200) {
+          store.dispatch({
+            type: SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
+            payload: res.data,
+          });
+          store.dispatch({
+            type: SPINNER_OFF,
+          });
+        } else {
+          // TODO: Should dispatch error state
+          store.dispatch({
+            type: SPINNER_OFF,
+          });
+        }
+      });
       break;
     }
     default:

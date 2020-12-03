@@ -30,7 +30,7 @@ import {
   secondRoutesBuyer,
 } from '../resources/navigationRoutes';
 import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
-import { setActiveSingleProperty } from '../actions/PropertyActions';
+import { setActiveSingleProperty, getActiveSinglePropertyDealsCount, setActiveSinglePropertyDealsCount } from '../actions/PropertyActions';
 // import brixels from '../images/BrxielComingTown/brixels.svg';
 import CoverPropertyImage from './CoverPropertyImage';
 import AccountDropdown from './AccountDropdown';
@@ -57,6 +57,8 @@ function PageHeaderDashboard(props) {
     loggedInUser,
     userType,
     windowDimensions,
+    getPropertyDealsCount,
+    setDealsCount,
   } = props;
   // STATE
   // const [currentLang, setCurrentLang] = useState(lang);
@@ -146,6 +148,7 @@ function PageHeaderDashboard(props) {
   // FUNCTION TO LOAD THE GAME GROUP AND THE GAME HISTORY AND CALC THE NUMBER OF SECTION (number iside red circle)
   useEffect(() => {
     if (gameGroup && gameHistory && userType === 'seller') {
+      getPropertyDealsCount(activeSingleProperty.id);
       // let numDone = 0;
       let numTodo = 0;
       const usrGroups = gameGroup.sort(sortObject('stub', 'asc'));
@@ -260,6 +263,7 @@ function PageHeaderDashboard(props) {
   // FUNCTION TO GO TO SELLERS/BUYERS PROPERTIES
   const onBackProperties = () => {
     handleSetActiveSingleProperty({});
+    setDealsCount({});
     if (userType === 'seller') history.push('/seller/pageLists');
     else history.push('/buyer/propertyLists');
   };
@@ -650,6 +654,8 @@ PageHeaderDashboard.propTypes = {
   loggedInUser: PropTypes.object,
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
+  getPropertyDealsCount: PropTypes.func.isRequired,
+  setDealsCount: PropTypes.func.isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {
@@ -684,6 +690,8 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
+  getPropertyDealsCount: bindActionCreators(getActiveSinglePropertyDealsCount, dispatch),
+  setDealsCount: bindActionCreators(setActiveSinglePropertyDealsCount, dispatch),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageHeaderDashboard));
