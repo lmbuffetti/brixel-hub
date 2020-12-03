@@ -23,7 +23,7 @@ import { titleProperty } from '../../utils/titleCreation';
 import { setCookie } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoarding';
 import { getGamegroup } from '../../actions/GamificationActions';
-import { setLanguage } from '../../actions/CommonActions';
+import { setLanguage, spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
 
 const cookie = new Cookies();
@@ -43,6 +43,7 @@ const GetStarted = (props) => {
     handleSaveActiveSingleProperty,
     handleSaveActiveSingleUser,
     handleSetLanguage,
+    handleSpinnerOff,
     handleValidateUser,
     history,
     initForm,
@@ -70,7 +71,10 @@ const GetStarted = (props) => {
   const multiStepSlidesRef = useRef(null);
 
   // DESTROY FORM ON EXIT
-  useEffect(() => () => destroyForm(), []);
+  useEffect(() => {
+    handleSpinnerOff();
+    return () => destroyForm();
+  }, []);
 
   // FUNCTION TO SAVE DATA
   const saveData = async (action) => {
@@ -780,6 +784,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 

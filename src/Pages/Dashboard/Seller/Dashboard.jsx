@@ -30,9 +30,11 @@ import { deleteDocument, uploadDocument, getImageType } from '../../../actions/U
 import {
   addGameHistory, getAchievement, getGamegroup, getGameHistory,
 } from '../../../actions/GamificationActions';
-import { setModal, setPageData, setScreenNotification } from '../../../actions/CommonActions';
+import {
+  setModal, setPageData, setScreenNotification, spinnerOn,
+} from '../../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
-import { calcPercentageFacts } from '../../../utils/helpers';
+import { calcPercentageFacts, setCookie } from '../../../utils/helpers';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -111,6 +113,7 @@ const Dashboard = (props) => {
     resetForm,
     savePageData,
     userTypes,
+    handleSpinnerOn,
   } = props;
   const [isDiscardChanges, setIsDiscardChanges] = useState(false);
   const [userType, setUserType] = useState(null);
@@ -130,6 +133,16 @@ const Dashboard = (props) => {
       resetForm(initialValues);
     }
   }, [history.location.pathname]);
+
+  // CHECK IF USER IS LOGGED IN AND LOAD GAME HISTORY IF NO DATA
+  useEffect(() => {
+    if (loggedInUser && loggedInUser.user) {
+      if (!gameHistory.data) {
+        if (history.location.pathname.includes('rewards')) handleSpinnerOn();
+        handleGetGameHistory();
+      }
+    }
+  }, [loggedInUser]);
 
   // FUNCTION TO LOAD DEFAULT USER PROPERTY IF NO ID
   const loadDefaultProperty = () => {
@@ -154,15 +167,16 @@ const Dashboard = (props) => {
       }
     }
     if (gameAchievement.length === 0) handleGetAchievement();
-    if (gameGroup.length === 0) handleGetGameGroup();
-    if (gameHistory.length === 0) handleGetGameHistory();
+    if (gameGroup.length === 0) {
+      // if (history.location.pathname.includes('rewards')) handleSpinnerOn();
+      handleGetGameGroup();
+    }
+    if (gameHistory.length === 0) {
+      if (history.location.pathname.includes('rewards')) handleSpinnerOn();
+      handleGetGameHistory();
+    }
     setLoadedProp(true);
   }, [userTypes, propID]);
-
-  useEffect(() => {
-    // handleGetGameHistory();
-    // handleGetGameGroup();
-  }, [propID]);
 
   // INITIALIZE FORM
   useEffect(() => {
@@ -430,6 +444,7 @@ Dashboard.propTypes = {
   resetForm: PropTypes.func.isRequired,
   savePageData: PropTypes.string,
   userTypes: PropTypes.string,
+  handleSpinnerOn: PropTypes.func.isRequired,
 };
 
 Dashboard.defaultProps = {
@@ -522,6 +537,7 @@ const mapDispatchToProps = (dispatch) => ({
   resetForm(data) {
     (dispatch(reset('Property', data)));
   },
+  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
