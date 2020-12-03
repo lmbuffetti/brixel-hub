@@ -11,6 +11,7 @@ import ImageMiddleware from '../middlewares/UploadMiddleware';
 import PropertyMiddleware from '../middlewares/PropertyMiddleware';
 import UserMiddleware from '../middlewares/UserMiddleware';
 import GamificationMiddleware from '../middlewares/GamificationMiddleware';
+import HistoryMiddleware from '../middlewares/HistoryMiddleware';
 
 const enhancers = [];
 const middlewares = [thunkMiddleware];
@@ -28,6 +29,7 @@ const composedEnhancers = compose(
     CompanyMiddleware,
     DealMiddleware,
     GamificationMiddleware,
+    HistoryMiddleware,
     ImageMiddleware,
     PropertyMiddleware,
     UserMiddleware,

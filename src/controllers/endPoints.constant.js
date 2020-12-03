@@ -21,8 +21,11 @@ export default {
     getDefaultCompany: () => '/company/default',
   },
   deal: {
+    createSingleDeal: () => '/deal',
     dealByUserID: (id) => `/user/${id}/deals`,
     singleDeal: (id) => `/deal/${id}`,
+    updateMultipleDeals: () => '/deal/updateGroup',
+    getListOfDeals: (paginationLimit, paginationSkip, data) => `/deal/${paginationLimit}/${paginationSkip}${data}`,
   },
   gamification: {
     gameAchievement: () => '/gameAchievement',

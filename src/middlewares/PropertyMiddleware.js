@@ -1,7 +1,11 @@
 /* eslint-disable no-case-declarations */
-import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
 import { change } from '@brixel/brixel-components';
+import filter from 'lodash/filter';
+import set from 'lodash/set';
+import get from 'lodash/get';
+import has from 'lodash/has';
+import findIndex from 'lodash/findIndex';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   CREATE_ACTIVE_SINGLE_PROPERTY,
   CREATE_PROPERTY_VISIT_BOOKING,
@@ -27,6 +31,8 @@ import {
   SET_PROPERTY_LISTINGS,
   UPDATE_PORTALS_REVIEW,
   UPDATE_PUBLISHED_REVIEW,
+  GET_PAGE_DEALS,
+  SET_PAGE_DEALS,
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
@@ -519,6 +525,48 @@ const checkCommon = (store) => (next) => (action) => {
       api.property.sendScanTrial(page, data)
         .then(() => {
           store.dispatch({ type: SPINNER_SMALL_OFF });
+        });
+      break;
+    }
+    // GET DEALS BY PAGE
+    case GET_PAGE_DEALS: {
+      next(action);
+      store.dispatch({
+        type: SPINNER_ON,
+      });
+      api.property.getPageDeals(action.payload)
+        .then((response) => {
+          const calls = [];
+          const deals = response.data;
+          deals.forEach((deal) => {
+            // We only need user actions for the property on this deal when the deal is on stage 'Interested'
+            if (deal.stage === 'Interested') {
+              // if get user push
+              if (has(deal, 'user.id')) {
+                const queryParams = `?parent=${deal.user.id}&order=updatedAt&direction=DESC`;
+                calls.push(api.history.getHistoryList(50, 0, queryParams));
+              }
+            }
+          });
+
+          Promise.all(calls).then((res) => {
+            // Process the user history for each deal
+            res.forEach((userHistory) => {
+              // We need the the user history filtered by the active property
+              const userHistoryFiltered = filter(userHistory.data.data, (el) => get(el, 'child.id', '') === action.payload);
+              // We need the most recent entry, which is the first position based on the direction written on the queryparams
+              const mostRecentUserHistoryFiltered = userHistoryFiltered[0];
+              const dealIndex = findIndex(deals, (d) => d.user.id === get(mostRecentUserHistoryFiltered, 'parent.id', ''));
+              set(deals[dealIndex], 'lastAction', mostRecentUserHistoryFiltered);
+            });
+            store.dispatch({
+              type: SET_PAGE_DEALS,
+              payload: deals,
+            });
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          });
         });
       break;
     }
