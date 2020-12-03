@@ -14,6 +14,7 @@ import {
   BrixelButtonIcon,
   BrixelTabs,
   destroy, BrixelSelect,
+  BrixelStatus,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
@@ -59,6 +60,7 @@ function PageHeaderDashboard(props) {
     windowDimensions,
     getPropertyDealsCount,
     setDealsCount,
+    activeSinglePropertyDealsCount,
   } = props;
   // STATE
   // const [currentLang, setCurrentLang] = useState(lang);
@@ -146,11 +148,13 @@ function PageHeaderDashboard(props) {
   }, []);
 
   // FUNCTION TO LOAD THE GAME GROUP AND THE GAME HISTORY AND CALC THE NUMBER OF SECTION (number iside red circle)
+  // FUNCTION TO CALC THE NUMBER OF NEW DEALS IN ORDER TO HIGHLIGHT DEALS TAB
   useEffect(() => {
     if (gameGroup && gameHistory && userType === 'seller') {
       getPropertyDealsCount(activeSingleProperty.id);
       // let numDone = 0;
       let numTodo = 0;
+      let newCount = 0;
       const usrGroups = gameGroup.sort(sortObject('stub', 'asc'));
       usrGroups.forEach((groups) => {
         if (groups.stub.includes(userType)) {
@@ -171,11 +175,19 @@ function PageHeaderDashboard(props) {
         get(formValue, 'location.countryCode', 'CH') !== 'PT'
       ) numTodo -= 2;
       const nav = cloneDeep(firstRoutes);
-      nav[0].title = '<span>Home</span>';
-      if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
-      setRouteNav([...nav]);
+      if (Object.keys(activeSinglePropertyDealsCount).length > 0) {
+        Object.keys(activeSinglePropertyDealsCount).forEach((label) => {
+          newCount += activeSinglePropertyDealsCount[label].new;
+        });
+        if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
+        if (newCount > 0) nav[3].title += '<BrixelStatus className="mr-1 zIndex0" color="primary" />';
+        setRouteNav([...nav]);
+      } else {
+        if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
+        setRouteNav([...nav]);
+      }
     }
-  }, [gameGroup, gameHistory, activeSingleProperty, userType]);
+  }, [gameGroup, gameHistory, activeSingleProperty, userType, Object.keys(activeSinglePropertyDealsCount).length > 0]);
 
   // SHOW DETAILS WHEN CLICK ON BRIXELS POINTS
   const brixelsAchievementDetail = () => {
@@ -636,6 +648,7 @@ function PageHeaderDashboard(props) {
 
 PageHeaderDashboard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  activeSinglePropertyDealsCount: PropTypes.object.isRequired,
   awards: PropTypes.number.isRequired,
   brixelPoints: PropTypes.number.isRequired,
   changeZIndex: PropTypes.func,
@@ -666,6 +679,7 @@ PageHeaderDashboard.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
   awards: get(state, 'user.awards', 0),
   brixelPoints: get(state, 'user.brixelPoints', 0),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
