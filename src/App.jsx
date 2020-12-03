@@ -442,6 +442,7 @@ const App = (props) => {
                       <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/listings" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/deals" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
                     </>

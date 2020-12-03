@@ -31,7 +31,7 @@ import {
 } from '../resources/navigationRoutes';
 import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
 import { setActiveSingleProperty } from '../actions/PropertyActions';
-import brixels from '../images/BrxielComingTown/brixels.svg';
+// import brixels from '../images/BrxielComingTown/brixels.svg';
 import CoverPropertyImage from './CoverPropertyImage';
 import AccountDropdown from './AccountDropdown';
 
@@ -42,13 +42,13 @@ function PageHeaderDashboard(props) {
     handleSetActiveSingleProperty,
     destroyForm,
     activeSingleProperty,
-    awards,
-    brixelPoints,
+    // awards,
+    // brixelPoints,
     changeZIndex,
     formValue,
     gameGroup,
     gameHistory,
-    handleGetGame,
+    // handleGetGame,
     handleSetLanguage,
     handleSetModal,
     handleSaveActiveSingleUser,
