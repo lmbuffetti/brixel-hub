@@ -19,7 +19,7 @@ export const firstRoutes = [
   },
   {
     title: 'Deals',
-    name: 'delas',
+    name: 'deals',
     icon: 'upload',
     path: '/:propID/deals',
   },

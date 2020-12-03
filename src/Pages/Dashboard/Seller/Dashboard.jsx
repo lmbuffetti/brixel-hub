@@ -400,8 +400,10 @@ const Dashboard = (props) => {
     }
   }, [formValue, errorValue]);
   if (!userTypes && !userType) return (<div />);
+  const sectionClass = get(history, 'location.pathname', '/').split('/');
+  console.log();
   return (
-    <div className="container dashboardContainer" id="dashboard">
+    <div className={`container dashboardContainer ${sectionClass[2]}`} id="dashboard">
       {/* teaserScreens && isEligible(activeSingleProperty) && () */}
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
       <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />

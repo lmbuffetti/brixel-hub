@@ -271,6 +271,7 @@ function PageHeaderDashboard(props) {
       if (history.location.pathname.includes('rewards')) curTab = 'rewards';
       else if (history.location.pathname.includes('property')) curTab = 'property';
       else if (history.location.pathname.includes('listings')) curTab = 'listings';
+      else if (history.location.pathname.includes('deals')) curTab = 'deals';
     }
     return curTab;
   };

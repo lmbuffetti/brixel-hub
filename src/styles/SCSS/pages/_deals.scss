@@ -1,0 +1,270 @@
+
+body .container.deals {
+
+  @media (max-width: $responsive-large) {
+    overflow-y: hidden;
+  }
+
+  .single-property-container,
+  .content-wrapper {
+    position: relative;
+    max-width: inherit;
+    @media (max-width: $responsive-medium) {
+      overflow-y: auto;
+    }
+  }
+
+  .single-property-container {
+    .header-section {
+      position: relative;
+      top: -1px;
+      @media (max-width: $responsive-medium) {
+        position: fixed;
+        top: 56px;
+        width: 100%;
+        left: 0;
+      }
+    }
+    .listings-header {
+      background-color: map-get($lightColor, 100);
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      @media (max-width: $responsive-medium) {
+        position: fixed;
+        top: 104px;
+        width: 100%;
+        left: 0;
+        padding-left: $step * 2;
+      }
+    }
+  }
+
+  .dealsWrapper {
+    @media (max-width: $responsive-large) {
+      min-width: 1200px;
+      position: relative;
+      top: 130px;
+      padding-right: $step * 3;
+    }
+    .filterHolder {
+      top: 84px;
+    }
+    @media (max-width: $responsive-desktop) and (min-width: $responsive-large) {
+      .dealsContainer .dealsCard {
+        height: 128px;
+      }
+    }
+  }
+
+  .dealsContainer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    @media (min-width: $responsive-large) {
+      min-height: calc(100vh - 278px);
+      //height: 100vh;
+    }
+    @media (max-width: $responsive-large) {
+      max-height: calc(100vh - 324px);
+      height: 100vh;
+    }
+
+    .leftCol {
+      flex-basis: 25%;
+      height: 100%;
+      display: flex;
+
+      .scrollContent {
+        display: flex;
+        flex: 1;
+        height: 100%;
+
+        .singleCol {
+          display: flex;
+          flex-direction: column;
+          overflow-y: auto;
+          height: 100%;
+          min-height: 100px;
+          flex: 1;
+        }
+
+        .listWrapper {
+          flex: 1;
+          height: 100%;
+        }
+      }
+    }
+    .topParent {
+      flex-basis: 100%;
+      display: flex;
+      position: relative;
+    }
+    .rightCol {
+      flex-basis: 100%;
+      display: flex;
+
+      .scrollContent {
+        min-height: 100%;
+        display: flex;
+        flex: 1;
+        justify-content: space-between;
+
+        .singleCol {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          overflow-y: auto;
+          position: relative;
+          background: $brx-white;
+          border: 1px solid $brx-white;
+          &.active {
+            border-color: map-get($primaryColor, 400);
+          }
+          .list-item:not(.enabled) {
+            transform: none !important;
+          }
+          .emptyCard {
+            width: 100%;
+            min-height: 128px;
+            margin-bottom: 24px;
+          }
+          &.blockAnimation {
+            .list-item {
+              transform: none !important;
+            }
+          }
+          .listWrapper {
+            flex: 1;
+            height: 100%;
+          }
+        }
+      }
+    }
+
+    .list-item {
+      user-select: none;
+
+      .dealsCard {
+        transition: box-shadow $default-time-long $default-easing;
+        &:hover {
+          //box-shadow: $shadow-3dp;
+        }
+      }
+      &.archived {
+        .dealsCard {
+          filter: grayscale(1);
+          opacity: 0.7;
+        }
+
+        .archiveBtn {
+          opacity: 0.6;
+        }
+        &:hover {
+          .archiveBtn {
+            @media (min-width: $responsive-medium) {
+              opacity: 1;
+            }
+          }
+        }
+      }
+
+      &:hover {
+        .archiveBtn {
+          opacity: 1;
+        }
+      }
+      .archiveBtn {
+        transition: opacity $default-time $default-easing;
+        @media (min-width: $responsive-medium) {
+          opacity: 0;
+        }
+      }
+      .metaMessage {
+        line-height: 18px;
+        padding-top: 4px;
+      }
+    }
+  }
+
+  .titleContainer {
+    display: flex;
+    width: 100%;
+    position: sticky;
+    top: 73px;
+    z-index: 1;
+
+    .rightCol {
+      background: $brx-white;
+      display: flex;
+      width: 100%;
+      border-top-left-radius: $step;
+      border-top-right-radius: $step;
+      > div {
+        flex: 1;
+      }
+    }
+  }
+
+  .archivedDeal {
+    filter: grayscale(1);
+
+    &.winner {
+      background-color: map-get($greenColor, 100);
+    }
+  }
+
+  .emptyDeals {
+    .titleContainer {
+      display: none;
+    }
+    .scrollContent {
+      flex-wrap: wrap;
+      align-content: flex-start;
+    }
+  }
+
+}
+
+
+
+.cardTag {
+  background-color: map-get($lightColor, 200);
+  padding: $step / 2 $step;
+  @include fontStyle(100);
+  color: map-get($darkColor, 700);
+  border-radius: $step / 2;
+  width: 68px;
+  text-align: center;
+  line-height: 17px;
+
+  &.winner {
+    background-color: map-get($greenColor, 200);
+  }
+}
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.singleCol {
+  padding-top: 2px;
+  padding-left: 16px;
+  padding-right: 16px;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.singleCol::-webkit-scrollbar {
+  visibility: hidden;
+  width: 0px;
+  display: none;
+}
+.emptyMessage {
+  animation: fadeInSec $default-time-long $default-easing;
+}
+.bodyLoading {
+  .content.deals {
+    .emptyMessage {
+      display: none;
+    }
+  }
+}

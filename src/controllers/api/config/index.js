@@ -8,6 +8,7 @@ import Gamification from '../actions/Gamification';
 import Property from '../actions/Property';
 import Upload from '../actions/Upload';
 import User from '../actions/User';
+import History from '../actions/History';
 
 function apiFactory(
   {
@@ -24,6 +25,7 @@ function apiFactory(
     image: new Upload({ apiClient: api }),
     property: new Property({ apiClient: api }),
     user: new User({ apiClient: api }),
+    history: new History({ apiClient: api }),
   };
 }
 

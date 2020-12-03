@@ -132,9 +132,9 @@ const FilterBar = (props) => {
   useEffect(() => {
     const contentWrapper = document.getElementsByClassName('content-wrapper')[0];
     if (filterMenu && contentWrapper) {
-      contentWrapper.classList.add('overlay');
+      // contentWrapper.classList.add('overlay');
     } else {
-      contentWrapper.classList.remove('overlay');
+      // contentWrapper.classList.remove('overlay');
     }
   });
 
@@ -443,7 +443,7 @@ FilterBar.propTypes = {
   filterDeals: PropTypes.object,
   filterModalData: PropTypes.string,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.string,
   isSuperAdmin: PropTypes.bool.isRequired,
   propertyFilter: PropTypes.bool,
   sortBarType: PropTypes.string.isRequired,
@@ -457,6 +457,7 @@ FilterBar.defaultProps = {
   dealsFilter: false,
   filterDeals: null,
   className: null,
+  isSmallLoading: null,
   filterModalData: '',
   propertyFilter: false,
 };

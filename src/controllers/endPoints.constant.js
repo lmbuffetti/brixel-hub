@@ -38,6 +38,11 @@ export default {
     groupList: (limit, offset) => `/gameGroup/${limit}/${offset}?order=name&direction=desc`,
     groupdById: (id) => `/gameGroup/${id}`,
   },
+  history: {
+    historyById: (id) => `/history/${id}`,
+    createHistory: () => '/history/',
+    getHistoryListOfParent: (paginationLimit, paginationSkip, data) => `/history/${paginationLimit}/${paginationSkip}${data}`,
+  },
   property: {
     addPage: () => '/page/',
     createPropertyVisit: () => '/scheduleVisit',
@@ -50,6 +55,8 @@ export default {
     packagesList: (limit, offset) => `/servicePackage/${limit}/${offset}`,
     page: (limit, offset) => `/page/${limit}/${offset}`,
     pageById: (id) => `/page/${id}`,
+    pageDeals: (id) => `/page/${id}/deals`,
+    pageDealsCount: (id) => `/page/${id}/dealsCount`,
     portalsReview: (id, status) => `/page/${id}/portalsReview?status=${status}`,
     propertyVisitById: (id) => `/scheduleVisit/${id}`,
     propertyVisitScheduleById: (id) => `/schedule/${id}`,
