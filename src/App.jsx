@@ -115,6 +115,11 @@ const SingleDocument = Loadable({
   loading: Loading,
 });
 
+const CreateDeal = Loadable({
+  loader: () => import('./Pages/Deals/CreateDeal' /* webpackChunkName: "CreateDeal" */),
+  loading: Loading,
+});
+
 const AddShowingsBuyer = Loadable({
   loader: () => import('./Pages/Dashboard/Buyer/AddShowingsBuyer' /* webpackChunkName: "AddShowingsBuyer" */),
   loading: Loading,
@@ -544,6 +549,7 @@ const App = (props) => {
       {/* Splash screens for single deal, create new deal and edit document */}
       <Switch>
         <Route exact path="/:propID/property/documents/:docID/editDocument" component={SingleDocument} />
+        <Route exact path="/:propID/deals/newDeal" component={CreateDeal} />
       </Switch>
     </main>
   );

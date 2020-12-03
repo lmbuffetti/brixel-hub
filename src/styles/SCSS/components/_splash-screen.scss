@@ -15,6 +15,14 @@
     }
   }
 
+  &.create-deal {
+
+    .container {
+      height: unset;
+      max-width: 424px;
+    }
+  }
+
   .container {
     position: relative;
     top: 120px;
