@@ -181,7 +181,11 @@ const CreateDeal = (props) => {
   });
 
   return (
-    <SplashScreen closeLink={`/${activeSingleProperty.id}/deals`} className="create-deal">
+    <SplashScreen
+      closeLink={`/${activeSingleProperty.id}/deals`}
+      className="create-deal"
+      closeOutside={false}
+    >
       <div className="add-deal-container w-perc-100 h-perc-100 dis-fl-col p-2">
         <div className="dis-f jc-fe">
           <BrixelButtonIcon

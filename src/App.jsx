@@ -130,11 +130,6 @@ const SingleDeal = Loadable({
   loading: Loading,
 });
 
-const CreateDeal = Loadable({
-  loader: () => import('./Pages/Deals/CreateDeal' /* webpackChunkName: "CreateDeal" */),
-  loading: Loading,
-});
-
 const cookies = new Cookies();
 
 const App = (props) => {

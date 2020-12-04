@@ -551,6 +551,12 @@ const checkCommon = (store) => (next) => (action) => {
             }
           });
 
+          store.dispatch({
+            type: SET_PAGE_DEALS,
+            payload: deals,
+          });
+          store.dispatch({ type: SPINNER_OFF });
+
           Promise.all(calls).then((res) => {
             // Process the user history for each deal
             res.forEach((userHistory) => {
@@ -564,9 +570,6 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SET_PAGE_DEALS,
               payload: deals,
-            });
-            store.dispatch({
-              type: SPINNER_OFF,
             });
           });
         });
