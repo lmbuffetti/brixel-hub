@@ -173,7 +173,7 @@ const Deals = (props) => {
     let section;
 
     if (stage === 'New') {
-      section = 'new';
+      section = 'newSeller';
     }
     if (stage === 'Interested') {
       section = 'interested';
@@ -190,7 +190,7 @@ const Deals = (props) => {
     find(deals, (element, key) => {
       if (element.id === id) {
         set(deals[key], 'active', !processedDeals[parent][section][key].active);
-        set(deals[key], 'new', false);
+        set(deals[key], 'newSeller', false);
         saveDeal(deals[key], 'archive');
       }
     });
@@ -221,7 +221,7 @@ const Deals = (props) => {
 
     if (source !== destination) {
       let stage;
-      if (destination.split('.')[1] === 'new') {
+      if (destination.split('.')[1] === 'newSeller') {
         stage = 'New';
       }
       if (destination.split('.')[1] === 'interested') {
@@ -233,8 +233,8 @@ const Deals = (props) => {
       if (destination.split('.')[1] === 'offers') {
         stage = 'Offer';
       }
-      if (activeDealsCopy[destination.split('.')[0]][destination.split('.')[1]][destinationIndex].new === true) {
-        activeDealsCopy[destination.split('.')[0]][destination.split('.')[1]][destinationIndex].new = false;
+      if (activeDealsCopy[destination.split('.')[0]][destination.split('.')[1]][destinationIndex].newSeller === true) {
+        activeDealsCopy[destination.split('.')[0]][destination.split('.')[1]][destinationIndex].newSeller = false;
       }
       activeDealsCopy[destination.split('.')[0]][destination.split('.')[1]][destinationIndex].stage = stage;
     }
@@ -245,7 +245,7 @@ const Deals = (props) => {
       const singleDeal = {
         id: el.id,
         stage: el.stage,
-        new: el.new,
+        newSeller: el.newSeller,
       };
       resultArray.push(singleDeal);
     });
@@ -291,16 +291,16 @@ const Deals = (props) => {
       const filterDeals = get(processedDeals, 'right', {});
       const selected = {};
       Object.keys(filterDeals).forEach((key) => {
-        const isNew = has(filterModal, 'status') && filterModal.status === 'new';
+        const isNew = has(filterModal, 'status') && filterModal.status === 'newSeller';
         const isAll = has(filterModal, 'status') && filterModal.status === 'all';
         const isArchived = has(filterModal, 'status') && filterModal.status === 'archived';
-        let filteredDealsByStatus = filterDeals[key].filter((deal) => deal.new === isNew || deal.active === isArchived);
+        let filteredDealsByStatus = filterDeals[key].filter((deal) => deal.newSeller === isNew || deal.active === isArchived);
         if (isAll) {
           filteredDealsByStatus = filterDeals[key].filter((deal) => deal.active === true || deal.active === false);
         } else if (isArchived) {
           filteredDealsByStatus = filterDeals[key].filter((deal) => deal.active === false);
         }
-        if (isNew) filteredDealsByStatus = filteredDealsByStatus.filter((deal) => deal.new === true);
+        if (isNew) filteredDealsByStatus = filteredDealsByStatus.filter((deal) => deal.newSeller === true);
         selected[key] = filteredDealsByStatus;
       });
       setFilteredDeals({
@@ -490,7 +490,7 @@ const Deals = (props) => {
                                                             archOnClick={() => archiveDeal(item.id, item.stage, key)}
                                                             archived={!item.active}
                                                             isWinner={get(item, 'winner')}
-                                                            isNew={get(item, 'new')}
+                                                            isNew={get(item, 'newSeller')}
                                                             lastAction={has(item, 'lastAction') ? item.lastAction : {}}
                                                           />
                                                         </div>
@@ -529,7 +529,7 @@ const Deals = (props) => {
                                                       archOnClick={() => archiveDeal(item.id, item.stage, key)}
                                                       archived={!item.active}
                                                       isWinner={get(item, 'winner')}
-                                                      isNew={get(item, 'new')}
+                                                      isNew={get(item, 'newSeller')}
                                                       lastAction={has(item, 'lastAction') ? item.lastAction : {}}
                                                     />
                                                   </div>

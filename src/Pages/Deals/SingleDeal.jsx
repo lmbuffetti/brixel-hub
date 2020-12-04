@@ -122,13 +122,13 @@ const SingleDeal = (props) => {
   };
 
   const archiveDeal = () => {
-    if (activeSingleDeal.new === true) set(activeSingleDeal, 'new', false);
+    if (activeSingleDeal.newSeller === true) set(activeSingleDeal, 'newSeller', false);
     set(activeSingleDeal, 'active', !activeSingleDeal.active);
     saveData();
   };
 
   const newDeal = () => {
-    set(activeSingleDeal, 'new', !activeSingleDeal.new);
+    set(activeSingleDeal, 'newSeller', !activeSingleDeal.newSeller);
     saveData();
   };
 
@@ -208,7 +208,7 @@ const SingleDeal = (props) => {
                       className: 'txtPrimary400',
                     },
                     {
-                      label: activeSingleDeal.new ? 'Mark as read' : 'Mark as new',
+                      label: activeSingleDeal.newSeller ? 'Mark as read' : 'Mark as new',
                       clickFunc: () => { newDeal(); setOptionsOpen(false); },
                       className: 'txtPrimary400',
                     },
