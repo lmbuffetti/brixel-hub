@@ -14,7 +14,6 @@ import {
   BrixelButtonIcon,
   BrixelTabs,
   destroy, BrixelSelect,
-  BrixelStatus,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
@@ -180,7 +179,7 @@ function PageHeaderDashboard(props) {
           newCount += activeSinglePropertyDealsCount[label].new;
         });
         if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
-        if (newCount > 0) nav[3].title += '<BrixelStatus className="mr-1 zIndex0" color="primary" />';
+        if (newCount > 0) nav[3].title += `<span class="numRecords notranslate txtWhite">${newCount}</span>`;
         setRouteNav([...nav]);
       } else {
         if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
