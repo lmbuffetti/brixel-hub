@@ -5,10 +5,12 @@ import Common from '../actions/Common';
 import Company from '../actions/Company';
 import Deal from '../actions/Deal';
 import Gamification from '../actions/Gamification';
+import History from '../actions/History';
+import Lead from '../actions/Lead';
+import Note from '../actions/Note';
 import Property from '../actions/Property';
 import Upload from '../actions/Upload';
 import User from '../actions/User';
-import History from '../actions/History';
 
 function apiFactory(
   {
@@ -22,10 +24,12 @@ function apiFactory(
     company: new Company({ apiClient: api }),
     deal: new Deal({ apiClient: api }),
     gamification: new Gamification({ apiClient: api }),
+    history: new History({ apiClient: api }),
     image: new Upload({ apiClient: api }),
+    lead: new Lead({ apiClient: api }),
+    note: new Note({ apiClient: api }),
     property: new Property({ apiClient: api }),
     user: new User({ apiClient: api }),
-    history: new History({ apiClient: api }),
   };
 }
 

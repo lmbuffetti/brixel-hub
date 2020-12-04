@@ -42,10 +42,8 @@ body .container.deals {
 
   .dealsWrapper {
     @media (max-width: $responsive-large) {
-      min-width: 1200px;
+      min-width: 100%;
       position: relative;
-      top: 130px;
-      padding-right: $step * 3;
     }
     .filterHolder {
       top: 84px;
@@ -100,6 +98,10 @@ body .container.deals {
       flex-basis: 100%;
       display: flex;
       position: relative;
+      @media (max-width: $responsive-large) {
+        max-width: 100%;
+      }
+      max-width: 100%;
     }
     .rightCol {
       flex-basis: 100%;

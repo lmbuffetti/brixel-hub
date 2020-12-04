@@ -7,11 +7,13 @@ import { rootReducer } from '../reducers';
 import CommonMiddleware from '../middlewares/CommonMiddleware';
 import CompanyMiddleware from '../middlewares/CompanyMiddleware';
 import DealMiddleware from '../middlewares/DealMiddleware';
-import ImageMiddleware from '../middlewares/UploadMiddleware';
-import PropertyMiddleware from '../middlewares/PropertyMiddleware';
-import UserMiddleware from '../middlewares/UserMiddleware';
 import GamificationMiddleware from '../middlewares/GamificationMiddleware';
 import HistoryMiddleware from '../middlewares/HistoryMiddleware';
+import ImageMiddleware from '../middlewares/UploadMiddleware';
+import LeadMiddleware from '../middlewares/LeadMiddleware';
+import NoteMiddleware from '../middlewares/NoteMiddleware';
+import PropertyMiddleware from '../middlewares/PropertyMiddleware';
+import UserMiddleware from '../middlewares/UserMiddleware';
 
 const enhancers = [];
 const middlewares = [thunkMiddleware];
@@ -31,6 +33,8 @@ const composedEnhancers = compose(
     GamificationMiddleware,
     HistoryMiddleware,
     ImageMiddleware,
+    LeadMiddleware,
+    NoteMiddleware,
     PropertyMiddleware,
     UserMiddleware,
   ),

@@ -43,6 +43,11 @@ export default {
     createHistory: () => '/history/',
     getHistoryListOfParent: (paginationLimit, paginationSkip, data) => `/history/${paginationLimit}/${paginationSkip}${data}`,
   },
+  note: {
+    singleNote: (id) => `/note/${id}`,
+    createSingleNote: (type) => `/note/${type}`,
+    getListOfNotes: (type, id, paginationLimit, paginationSkip, data) => `/note/${type}/${id}/${paginationLimit}/${paginationSkip}${data}`,
+  },
   property: {
     addPage: () => '/page/',
     createPropertyVisit: () => '/scheduleVisit',

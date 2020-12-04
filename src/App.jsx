@@ -120,6 +120,16 @@ const AddShowingsBuyer = Loadable({
   loading: Loading,
 });
 
+const SingleDeal = Loadable({
+  loader: () => import('./Pages/Deals/SingleDeal' /* webpackChunkName: "SingleDeal" */),
+  loading: Loading,
+});
+
+const CreateDeal = Loadable({
+  loader: () => import('./Pages/Deals/CreateDeal' /* webpackChunkName: "CreateDeal" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -355,6 +365,11 @@ const App = (props) => {
     return null;
   };
 
+  const overflowClass = () => {
+    if (history.location.pathname.includes('deals')) return 'ov-y-h ov-x-h';
+    return 'ov-y-a ov-x-h';
+  };
+
   // CONDITION TO VIEW THE ELEMENTS AFTER LOADING
   if (
     !loggedInUser ||
@@ -412,7 +427,7 @@ const App = (props) => {
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? 'hubDasContent ov-y-a ov-x-h bgLight100' : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
+              className={`${!isFlow ? `hubDasContent ${overflowClass()} bgLight100` : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
               style={isSecLevel ? { height: '100%' } : headerCalc()}
               ref={dashContentRef}
             >
@@ -474,6 +489,8 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess="seller" />
           <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
+          <ProtectedRoute exact path="/:propID/deals/:dealID/deal" component={SingleDeal} />
+          <ProtectedRoute exact path="/:propID/deals/newDeal" component={CreateDeal} />
         </Switch>
       }
 

@@ -50,7 +50,7 @@ function PageHeaderDashboard(props) {
     gameHistory,
     // handleGetGame,
     handleSetLanguage,
-    handleSetModal,
+    // handleSetModal,
     handleSaveActiveSingleUser,
     history,
     lang,
@@ -175,7 +175,7 @@ function PageHeaderDashboard(props) {
   }, [gameGroup, gameHistory, activeSingleProperty, userType]);
 
   // SHOW DETAILS WHEN CLICK ON BRIXELS POINTS
-  const brixelsAchievementDetail = () => {
+  /* const brixelsAchievementDetail = () => {
     handleSetModal({
       showAwardsInfo: true,
     });
@@ -187,7 +187,7 @@ function PageHeaderDashboard(props) {
     setActiveMenu(link);
     changeZIndex(1);
     document.body.classList.remove('ov-h');
-  };
+  }; */
 
   // SHOW/HIDE MOBILE MENU
   const toggleMobileMenu = () => {
@@ -598,10 +598,14 @@ function PageHeaderDashboard(props) {
         {
           windowDimensions.width <= 1024 && (
             <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
-              <div className="header-section dis-fl-row a-c jc-b">
-                {/* <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} /> */}
-                <h5 className="">{getCurrentRoute().title}</h5>
-              </div>
+              {
+                getCurrentRoute().name !== 'deals' && (
+                  <div className="header-section dis-fl-row a-c jc-b">
+                    {/* <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} /> */}
+                    <h5 className="">{getCurrentRoute().title}</h5>
+                  </div>
+                )
+              }
               {/*
               <div className="dis-f a-c" onClick={() => brixelsAchievementDetail()}>
                 {
@@ -632,18 +636,18 @@ function PageHeaderDashboard(props) {
 
 PageHeaderDashboard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  awards: PropTypes.number.isRequired,
-  brixelPoints: PropTypes.number.isRequired,
+  // awards: PropTypes.number.isRequired,
+  // brixelPoints: PropTypes.number.isRequired,
   changeZIndex: PropTypes.func,
   destroyForm: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
-  handleGetGame: PropTypes.func.isRequired,
+  // handleGetGame: PropTypes.func.isRequired,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
-  handleSetModal: PropTypes.func.isRequired,
+  // handleSetModal: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,

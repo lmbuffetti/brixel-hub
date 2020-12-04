@@ -45,7 +45,6 @@ import Timeline from '../../components/Timeline';
 const SingleDeal = (props) => {
   const {
     history,
-    isSuperAdmin,
     handleSaveDeal,
     handleSaveMultipleDeal,
     activeSingleProperty,
@@ -189,28 +188,22 @@ const SingleDeal = (props) => {
     <>
       {
         activeSingleDeal.id && (
-          <SplashScreen className={activeSingleDeal.active ? '' : 'archivedDeal'} closeLink={`/${activeSingleProperty.id}/property/deals`}>
+          <SplashScreen
+            className={activeSingleDeal.active ? '' : 'archivedDeal'}
+            closeLink={`/${activeSingleProperty.id}/deals`}
+          >
             <div className="single-deal dis-fl-col">
               {/* top panel */}
               <div className="top p-2 dis-fl-row jc-b mb-4">
                 <div className="user dis-fl-row col-7 p-0">
                   <BrixelAvatar
-                    className="cur-poi"
                     avatarImg={get(activeSingleDeal.user, 'avatar[0]', '') ? getConfigEnv.shortPath + activeSingleDeal.user.avatar[0].thumbnailPath : null}
                     name={get(activeSingleDeal.user, 'name') ? get(activeSingleDeal.user, 'name') : get(activeSingleDeal.user, 'email', '')}
                     profileId={get(activeSingleDeal.user, 'id', '')}
-                    onClick={(e) => {
-                      if (e) e.preventDefault();
-                      history.push(`/${activeSingleDeal.user.id}/user`);
-                    }}
                   />
                   <div className="title dis-fl-col ml-2">
                     <span
-                      className={`name dis-b fsize-500 cur-poi fweight-500 ${get(activeSingleDeal, 'user.name') ? 'txtDark700' : 'txtDark100'}`}
-                      onClick={(e) => {
-                        if (e) e.preventDefault();
-                        history.push(`/${activeSingleDeal.user.id}/user`);
-                      }}
+                      className={`name dis-b fsize-500 fweight-500 ${get(activeSingleDeal, 'user.name') ? 'txtDark700' : 'txtDark100'}`}
                     >
                       {get(activeSingleDeal, 'user.name') ? activeSingleDeal.user.name : 'No name'}
                     </span>
@@ -289,7 +282,7 @@ const SingleDeal = (props) => {
                       background="white"
                       color="dark"
                       saturationTxt={700}
-                      onClick={() => history.push(`/${activeSingleProperty.id}/property/deals`)}
+                      onClick={() => history.push(`/${activeSingleProperty.id}/deals`)}
                     />
                   </div>
                 </div>
@@ -313,24 +306,12 @@ const SingleDeal = (props) => {
                           )
                         }
                       </div>
-                      <div className="dis-fl-col ta-l mb-2">
-                        <span className="subtitle fsize-200 txtDark200">User ID</span>
-                        <span className="value txtDark700">{get(activeSingleDeal, 'user.id', '-')}</span>
-                      </div>
-                      <div className="dis-fl-col ta-l mb-2">
-                        <span className="subtitle fsize-200 txtDark200">Language</span>
-                        <span className="value txtDark700 tt-up">{getLanguage()}</span>
-                      </div>
                     </div>
 
                     <div className="dis-fl-col col-6 p-0">
                       <div className="dis-fl-col ta-l mb-2">
                         <span className="subtitle fsize-200 txtDark200">Signed Up</span>
                         <span className="value txtDark700">{moment(get(activeSingleDeal, 'user.createdAt', '-')).format('D MMM YY, H:mm')}</span>
-                      </div>
-                      <div className="dis-fl-col ta-l mb-2">
-                        <span className="subtitle fsize-200 txtDark200">Signup Channel</span>
-                        <span className="value txtDark700">{get(activeSingleDeal, 'user.signupChannel', '-')}</span>
                       </div>
                     </div>
 
