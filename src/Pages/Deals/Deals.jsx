@@ -355,8 +355,8 @@ const Deals = (props) => {
         {
           windowDimensions.width <= 1024 && (
             <BrixelTabs
-              labels={['Interested', 'Visits', 'Offer']}
-              clicksList={['interested', 'visits', 'offer']}
+              labels={['Interested', 'Visits', 'Offers']}
+              clicksList={['interested', 'visits', 'offers']}
               onClick={(val) => mobileTabsDeal(val)}
               fullWidth
             />

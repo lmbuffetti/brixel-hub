@@ -322,7 +322,7 @@ const App = (props) => {
           };
         }
         return {
-          height: (windowDimensions.height + extraHeight) - 174,
+          height: (windowDimensions.height) - 140,
         };
       }
       return {

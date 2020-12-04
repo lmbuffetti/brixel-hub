@@ -3,6 +3,8 @@ body .container.deals {
 
   @media (max-width: $responsive-large) {
     overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   .single-property-container,
@@ -30,8 +32,8 @@ body .container.deals {
     top: 0;
     z-index: 3;
     @media (max-width: $responsive-medium) {
-      position: fixed;
-      top: 104px;
+      //position: fixed;
+      //top: 104px;
       width: 100%;
       left: 0;
       padding-left: $step * 2;
@@ -42,6 +44,7 @@ body .container.deals {
     @media (max-width: $responsive-large) {
       min-width: 100%;
       position: relative;
+      min-height: 100%;
     }
     .filterHolder {
       top: 84px;
@@ -63,7 +66,7 @@ body .container.deals {
       //height: 100vh;
     }
     @media (max-width: $responsive-large) {
-      max-height: calc(100vh - 324px);
+      max-height: calc(100vh - 80px - 60px - 91px - 56px);
       height: 100vh;
     }
 
@@ -116,6 +119,7 @@ body .container.deals {
           flex-direction: column;
           flex: 1;
           overflow-y: auto;
+          overflow-x: hidden;
           position: relative;
           background: $brx-white;
           border: 1px solid $brx-white;
