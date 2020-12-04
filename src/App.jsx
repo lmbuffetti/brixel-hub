@@ -366,7 +366,7 @@ const App = (props) => {
   };
 
   const overflowClass = () => {
-    if (history.location.pathname.includes('deals')) return 'ov-y-h ov-x-h';
+    if (history.location.pathname.includes('deals') && windowDimensions.width <= 1024) return 'ov-y-h ov-x-h';
     return 'ov-y-a ov-x-h';
   };
 

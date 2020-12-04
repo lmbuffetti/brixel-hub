@@ -14,29 +14,27 @@ body .container.deals {
     }
   }
 
-  .single-property-container {
-    .header-section {
-      position: relative;
-      top: -1px;
-      @media (max-width: $responsive-medium) {
-        position: fixed;
-        top: 56px;
-        width: 100%;
-        left: 0;
-      }
+  .header-section {
+    position: relative;
+    top: -1px;
+    @media (max-width: $responsive-medium) {
+      position: fixed;
+      top: 56px;
+      width: 100%;
+      left: 0;
     }
-    .listings-header {
-      background-color: map-get($lightColor, 100);
-      position: sticky;
-      top: 0;
-      z-index: 3;
-      @media (max-width: $responsive-medium) {
-        position: fixed;
-        top: 104px;
-        width: 100%;
-        left: 0;
-        padding-left: $step * 2;
-      }
+  }
+  .listings-header {
+    background-color: map-get($lightColor, 100);
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    @media (max-width: $responsive-medium) {
+      position: fixed;
+      top: 104px;
+      width: 100%;
+      left: 0;
+      padding-left: $step * 2;
     }
   }
 
