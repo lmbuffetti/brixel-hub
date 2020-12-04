@@ -179,13 +179,16 @@ const SingleDeal = (props) => {
 
   const OptionsDropdown = (data) => {
     if ((data.showMobile && windowDimensions.width <= 1024) || (data.showDesktop && windowDimensions.width > 1024)) {
+      const className = data.className || '';
+      const btnClass = data.btnClass || '';
       return (
-        <div className="pos-r mr-2" ref={optionsRef}>
+        <div className={`pos-r mr-2 ${className}`} ref={optionsRef}>
           <BrixelButtonIcon
             icon="options-vertical"
             noBorder
-            className="shadow-1dp ml-a"
+            className={`shadow-1dp ml-a ${btnClass}`}
             background="white"
+            saturation={0}
             color="dark"
             saturationTxt={700}
             onClick={() => {
@@ -243,8 +246,8 @@ const SingleDeal = (props) => {
           >
             <div className="single-deal dis-fl-col">
               {/* top panel */}
-              <div className="top p-md-2 dis-fl-row jc-b mb-4">
-                <div className="user dis-fl-row col-7 p-0">
+              <div className="top p-md-2 dis-fl-row jc-b mb-0 mb-md-4">
+                <div className="user dis-fl-row col-7 p-2 p-md-0">
                   <BrixelAvatar
                     avatarImg={get(activeSingleDeal.user, 'avatar[0]', '') ? getConfigEnv.shortPath + activeSingleDeal.user.avatar[0].thumbnailPath : null}
                     name={get(activeSingleDeal.user, 'name') ? get(activeSingleDeal.user, 'name') : get(activeSingleDeal.user, 'email', '')}
@@ -299,8 +302,8 @@ const SingleDeal = (props) => {
               </div>
 
               {/* middle panel */}
-              <div className="mid p-2 dis-fl-row mb-2">
-                <div className="left dis-fl-col col-7 p-0">
+              <div className="mid p-2 dis-fl-row flex-wrap mb-md-2 pos-r">
+                <div className="left dis-fl-col col-7 p-0 min-w-perc-100 min-w-perc-md-0">
                   <span className="fsize-200 overline tt-up mb-2">Information</span>
 
                   <div className="detail-part dis-fl-row">
@@ -328,7 +331,7 @@ const SingleDeal = (props) => {
                   </div>
 
                 </div>
-                <div className="right dis-fl-col col-5 p-0">
+                <div className="right dis-fl-col col-5 p-0 min-w-perc-100 min-w-perc-md-0">
                   {
                     activeSingleDeal.id && (
                       <ProgressBar
@@ -340,10 +343,6 @@ const SingleDeal = (props) => {
                       />
                     )
                   }
-
-                  <OptionsDropdown
-                    showMobile
-                  />
 
                   <div className="mb-3 hide">
                     <span className="overline mb-2">Showings</span>
@@ -375,13 +374,18 @@ const SingleDeal = (props) => {
               </div>
 
               {/* bottom panel */}
-              <div className="bottom dis-fl-row col-12 bgLight100 px-2 w-perc-100 h-perc-100 py-3">
+              <div className="bottom dis-fl-row col-12 bgLight100 px-2 w-perc-100 h-perc-100 py-3 pos-r">
+                <OptionsDropdown
+                  btnClass="shadow-3dp"
+                  className="pos-a-fix x-t-0 x-r-1 mt-2-neg"
+                  showMobile
+                />
                 <Timeline
                   countryLang={userLang}
                   isDeal
-                  className="w-perc-100 col-7 p-0"
+                  className="w-perc-100 col-7 p-0 min-w-perc-100 min-w-perc-md-0"
                 />
-                <div className="dis-fl-col col-5 pl-4 pr-0 right-container">
+                <div className="dis-fl-col-md col-5 pl-4 pr-0 right-container hide">
                   <div className="showings">
                     <span className="title overline tt-up mb-3">Showings</span>
                   </div>

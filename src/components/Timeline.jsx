@@ -288,7 +288,7 @@ const Timeline = (props) => {
     <div className={`timeline dis-fl-col ${className}`}>
       <span className="title overline tt-up mb-3">History</span>
       <div className="events-container w-perc-100 dis-fl-col a-c">
-        <div ref={noteWrapperRef} className="add-note-container w-perc-100 dis-fl-col p-2 mb-4">
+        <div ref={noteWrapperRef} className="add-note-container w-perc-100 dis-fl-col p-2 mb-1 md-md-4">
           <div className="text-container dis-fl-row">
             <BrixelAvatar
               avatarImg={get(loggedInUser, 'avatar[0]', '') ? getConfigEnv.shortPath + get(loggedInUser, 'avatar[0]', '').thumbnailPath : null}
@@ -310,7 +310,7 @@ const Timeline = (props) => {
           </div>
           <div
             ref={noteBtnRef}
-            className="addBtn dis-f jc-fe"
+            className="addBtn dis-f jc-fe mt-1"
           >
             <BrixelButtonPrimary
               small
