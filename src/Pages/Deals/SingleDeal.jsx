@@ -44,21 +44,22 @@ import Timeline from '../../components/Timeline';
 
 const SingleDeal = (props) => {
   const {
-    history,
+    activeSingleDeal,
+    activeSingleProperty,
+    activeSinglePropertyDeals,
+    getActiveDeal,
+    getDealNotes,
+    getHistoryList,
     handleSaveDeal,
     handleSaveMultipleDeal,
-    activeSingleProperty,
-    getActiveDeal,
-    activeSingleDeal,
+    history,
     match,
-    activeSinglePropertyDeals,
-    userLang,
-    getDealNotes,
-    setDealNotes,
-    getHistoryList,
-    setDeal,
     setActiveSingleDealHistory,
     setActiveSingleDealOwnerHistory,
+    setDeal,
+    setDealNotes,
+    userLang,
+    windowDimensions,
   } = props;
 
   const [optionsOpen, setOptionsOpen] = useState(false);
@@ -176,6 +177,54 @@ const SingleDeal = (props) => {
     return '-';
   };
 
+  const OptionsDropdown = (data) => {
+    if ((data.showMobile && windowDimensions.width <= 1024) || (data.showDesktop && windowDimensions.width > 1024)) {
+      return (
+        <div className="pos-r mr-2" ref={optionsRef}>
+          <BrixelButtonIcon
+            icon="options-vertical"
+            noBorder
+            className="shadow-1dp ml-a"
+            background="white"
+            color="dark"
+            saturationTxt={700}
+            onClick={() => {
+              setOptionsOpen(!optionsOpen);
+            }}
+          />
+          {
+            optionsOpen && (
+              <BrixelDropdownMini
+                rightAligned
+                topOffset={48}
+                links={
+                  [
+                    {
+                      label: activeSingleDeal.winner ? 'Remove winner' : 'Winner',
+                      clickFunc: () => { winDeal(); setOptionsOpen(false); },
+                      className: 'txtPrimary400',
+                    },
+                    {
+                      label: activeSingleDeal.new ? 'Mark as read' : 'Mark as new',
+                      clickFunc: () => { newDeal(); setOptionsOpen(false); },
+                      className: 'txtPrimary400',
+                    },
+                    {
+                      label: activeSingleDeal.active ? 'Archive' : 'Unarchive',
+                      clickFunc: () => { archiveDeal(); setOptionsOpen(false); },
+                      className: 'txtPrimary400',
+                    },
+                  ]
+                }
+              />
+            )
+          }
+        </div>
+      );
+    }
+    return null;
+  };
+
   // FUNCTION TO MANAGE THE CLICK OUTSIDE OF ELEMENT
   useOutsideAlerter(optionsRef, {
     action: 'function',
@@ -194,7 +243,7 @@ const SingleDeal = (props) => {
           >
             <div className="single-deal dis-fl-col">
               {/* top panel */}
-              <div className="top p-2 dis-fl-row jc-b mb-4">
+              <div className="top p-md-2 dis-fl-row jc-b mb-4">
                 <div className="user dis-fl-row col-7 p-0">
                   <BrixelAvatar
                     avatarImg={get(activeSingleDeal.user, 'avatar[0]', '') ? getConfigEnv.shortPath + activeSingleDeal.user.avatar[0].thumbnailPath : null}
@@ -234,46 +283,7 @@ const SingleDeal = (props) => {
                   </div>
                 </div>
                 <div className="actions dis-fl-row jc-fe col-5 p-0">
-                  <div className="pos-r mr-2" ref={optionsRef}>
-                    <BrixelButtonIcon
-                      icon="options-vertical"
-                      noBorder
-                      className="shadow-1dp ml-a"
-                      background="white"
-                      color="dark"
-                      saturationTxt={700}
-                      onClick={() => {
-                        setOptionsOpen(!optionsOpen);
-                      }}
-                    />
-                    {
-                      optionsOpen && (
-                        <BrixelDropdownMini
-                          rightAligned
-                          topOffset={48}
-                          links={
-                            [
-                              {
-                                label: activeSingleDeal.winner ? 'Remove winner' : 'Winner',
-                                clickFunc: () => { winDeal(); setOptionsOpen(false); },
-                                className: 'txtPrimary400',
-                              },
-                              {
-                                label: activeSingleDeal.new ? 'Mark as read' : 'Mark as new',
-                                clickFunc: () => { newDeal(); setOptionsOpen(false); },
-                                className: 'txtPrimary400',
-                              },
-                              {
-                                label: activeSingleDeal.active ? 'Archive' : 'Unarchive',
-                                clickFunc: () => { archiveDeal(); setOptionsOpen(false); },
-                                className: 'txtPrimary400',
-                              },
-                            ]
-                          }
-                        />
-                      )
-                    }
-                  </div>
+                  <OptionsDropdown showDesktop />
                   <div>
                     <BrixelButtonIcon
                       icon="close-small"
@@ -330,6 +340,11 @@ const SingleDeal = (props) => {
                       />
                     )
                   }
+
+                  <OptionsDropdown
+                    showMobile
+                  />
+
                   <div className="mb-3 hide">
                     <span className="overline mb-2">Showings</span>
                     <BrixelButtonSecondary
@@ -384,22 +399,22 @@ const SingleDeal = (props) => {
 };
 
 SingleDeal.propTypes = {
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  getActiveDeal: PropTypes.func.isRequired,
-  handleSaveDeal: PropTypes.func.isRequired,
-  getDealNotes: PropTypes.func.isRequired,
-  setDealNotes: PropTypes.func.isRequired,
-  getHistoryList: PropTypes.func.isRequired,
-  handleSaveMultipleDeal: PropTypes.func.isRequired,
   activeSingleDeal: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  isSuperAdmin: PropTypes.bool.isRequired,
   activeSinglePropertyDeals: PropTypes.arrayOf(PropTypes.object).isRequired,
-  userLang: PropTypes.string.isRequired,
-  setDeal: PropTypes.func.isRequired,
+  getActiveDeal: PropTypes.func.isRequired,
+  getDealNotes: PropTypes.func.isRequired,
+  getHistoryList: PropTypes.func.isRequired,
+  handleSaveDeal: PropTypes.func.isRequired,
+  handleSaveMultipleDeal: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   setActiveSingleDealHistory: PropTypes.func.isRequired,
   setActiveSingleDealOwnerHistory: PropTypes.func.isRequired,
+  setDeal: PropTypes.func.isRequired,
+  setDealNotes: PropTypes.func.isRequired,
+  userLang: PropTypes.string.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 SingleDeal.defaultProps = {};
@@ -410,6 +425,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
   userLang: get(state, 'user.loggedInUser.language', 'en'),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

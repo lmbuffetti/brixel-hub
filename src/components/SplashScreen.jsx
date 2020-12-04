@@ -40,7 +40,7 @@ const SplashScreen = (props) => {
   return (
     <div className={`wrapSplash ${className}`}>
       <div className="container brdRadius m-a bgWhite p-small-4" ref={drawerRef}>
-        <div className="h-perc-100 ov-a p-3">
+        <div className="h-perc-100 ov-a p-md-3 p-2">
           {children}
         </div>
       </div>
