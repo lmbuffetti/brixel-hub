@@ -23,9 +23,9 @@ import {
 import {
   createDeal,
 } from '../../actions/DealActions';
-import {
-  getLeadListings,
-} from '../../actions/LeadActions';
+// import {
+//   getLeadListings,
+// } from '../../actions/LeadActions';
 
 // COMPONENTS
 import SplashScreen from '../../components/SplashScreen';
@@ -35,7 +35,7 @@ const CreateDeal = (props) => {
   const {
     activeSingleProperty,
     handleCreateDeal,
-    handleGetLeads,
+    // handleGetLeads,
     formValue,
     userListings,
     changeFieldValue,
@@ -89,7 +89,7 @@ const CreateDeal = (props) => {
         smallLoader: true,
       };
       // Get list of users
-      handleGetLeads(data);
+      // handleGetLeads(data);
     }
     if (selected) {
       setTimeout(() => {
@@ -309,7 +309,7 @@ CreateDeal.propTypes = {
   loggedInUser: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleCreateDeal: PropTypes.func.isRequired,
-  handleGetLeads: PropTypes.func.isRequired,
+  // handleGetLeads: PropTypes.func.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   userListings: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -339,7 +339,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(destroy('CreateDeal'));
   },
   handleCreateDeal: bindActionCreators(createDeal, dispatch),
-  handleGetLeads: bindActionCreators(getLeadListings, dispatch),
+  // handleGetLeads: bindActionCreators(getLeadListings, dispatch),
 });
 
 export default compose(
