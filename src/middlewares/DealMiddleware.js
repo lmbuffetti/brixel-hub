@@ -90,99 +90,111 @@ const checkCommon = (store) => (next) => (action) => {
         link,
       } = action.payload;
       delete action.payload.link;
-      if (has(action.payload, 'leadEmail')) {
-        const registerUser = omit(action.payload, ['page', 'stage', 'actionStub']);
-        api.lead.createUserLead(registerUser)
-          .then((res) => {
-            if (res.meta.normalizedStatus === 200) {
-              const deal = {
-                page: action.payload.page,
-                user: res.data.id,
-                stage: action.payload.stage,
-                actionStub: action.payload.actionStub,
-              };
-              api.deal.createSingleDeal(deal)
-                .then((response) => {
-                  if (response.meta.normalizedStatus === 200) {
-                    store.dispatch({
-                      type: SET_SCREEN_NOTIFICATION,
-                      payload: {
-                        state: true,
-                        label: 'Deal created',
-                        type: 'success',
-                      },
+
+      api.user.getUserByEmail(action.payload.leadEmail)
+        .then((response) => {
+          // User not found, we need to create a new one
+          if (response.meta.normalizedStatus === 400) {
+            const registerUser = omit(action.payload, ['page', 'stage', 'actionStub']);
+            api.lead.createUserLead(registerUser)
+              .then((res) => {
+                if (res.meta.normalizedStatus === 200) {
+                  const deal = {
+                    page: action.payload.page,
+                    user: res.data.id,
+                    stage: action.payload.stage,
+                    actionStub: action.payload.actionStub,
+                  };
+                  api.deal.createSingleDeal(deal)
+                    .then((response1) => {
+                      if (response1.meta.normalizedStatus === 200) {
+                        store.dispatch({
+                          type: SET_SCREEN_NOTIFICATION,
+                          payload: {
+                            state: true,
+                            label: 'Deal created',
+                            type: 'success',
+                          },
+                        });
+                        store.dispatch({
+                          type: GET_PAGE_DEALS,
+                          payload: action.payload.page,
+                        });
+                        store.dispatch({
+                          type: REDIRECT_TO,
+                          payload: {
+                            history: link,
+                          },
+                        });
+                        store.dispatch({
+                          type: SPINNER_OFF,
+                        });
+                      } else {
+                        // TODO: Should dispatch error state
+                        store.dispatch({
+                          type: SET_SCREEN_NOTIFICATION,
+                          payload: {
+                            state: true,
+                            label: response.data.errorMessage,
+                            type: 'alert',
+                          },
+                        });
+                        store.dispatch({
+                          type: SPINNER_OFF,
+                        });
+                      }
                     });
-                    store.dispatch({
-                      type: GET_PAGE_DEALS,
-                      payload: action.payload.page,
-                    });
-                    store.dispatch({
-                      type: REDIRECT_TO,
-                      payload: {
-                        url: link,
-                      },
-                    });
-                    store.dispatch({
-                      type: SPINNER_OFF,
-                    });
-                  } else {
-                    // TODO: Should dispatch error state
-                    store.dispatch({
-                      type: SET_SCREEN_NOTIFICATION,
-                      payload: {
-                        state: true,
-                        label: response.data.errorMessage,
-                        type: 'alert',
-                      },
-                    });
-                    store.dispatch({
-                      type: SPINNER_OFF,
-                    });
-                  }
-                });
-            }
-          });
-      } else {
-        api.deal.createSingleDeal(action.payload)
-          .then((response) => {
-            if (response.meta.normalizedStatus === 200) {
-              store.dispatch({
-                type: SET_SCREEN_NOTIFICATION,
-                payload: {
-                  state: true,
-                  label: 'Deal created',
-                  type: 'success',
-                },
+                }
               });
-              store.dispatch({
-                type: GET_PAGE_DEALS,
-                payload: action.payload.page,
+          } else if (response.meta.normalizedStatus === 200) {
+            // User already exists, we just need to create the deal
+            const deal = {
+              page: action.payload.page,
+              user: response.data.id,
+              stage: action.payload.stage,
+              actionStub: action.payload.actionStub,
+            };
+            api.deal.createSingleDeal(deal)
+              .then((response1) => {
+                if (response1.meta.normalizedStatus === 200) {
+                  store.dispatch({
+                    type: SET_SCREEN_NOTIFICATION,
+                    payload: {
+                      state: true,
+                      label: 'Deal created',
+                      type: 'success',
+                    },
+                  });
+                  store.dispatch({
+                    type: GET_PAGE_DEALS,
+                    payload: action.payload.page,
+                  });
+                  store.dispatch({
+                    type: REDIRECT_TO,
+                    payload: {
+                      history: link,
+                    },
+                  });
+                  store.dispatch({
+                    type: SPINNER_OFF,
+                  });
+                } else {
+                  // TODO: Should dispatch error state
+                  store.dispatch({
+                    type: SET_SCREEN_NOTIFICATION,
+                    payload: {
+                      state: true,
+                      label: response1.data.errorMessage,
+                      type: 'alert',
+                    },
+                  });
+                  store.dispatch({
+                    type: SPINNER_OFF,
+                  });
+                }
               });
-              store.dispatch({
-                type: REDIRECT_TO,
-                payload: {
-                  url: link,
-                },
-              });
-              store.dispatch({
-                type: SPINNER_OFF,
-              });
-            } else {
-              // TODO: Should dispatch error state
-              store.dispatch({
-                type: SET_SCREEN_NOTIFICATION,
-                payload: {
-                  state: true,
-                  label: response.data.errorMessage,
-                  type: 'alert',
-                },
-              });
-              store.dispatch({
-                type: SPINNER_OFF,
-              });
-            }
-          });
-      }
+          }
+        });
       break;
     }
     case DELETE_ACTIVE_SINGLE_DEAL: {

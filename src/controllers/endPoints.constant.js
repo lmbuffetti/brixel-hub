@@ -77,6 +77,10 @@ export default {
     singleDocument: (id) => `/document/${id}`,
     singleImage: (id) => `/image/${id}`,
   },
+  lead: {
+    getLeadList: (leadType, paginationLimit, paginationSkip, data) => `/lead/${leadType}/${paginationLimit}/${paginationSkip}${data}`,
+    singleUserLead: () => '/lead',
+  },
   user: {
     createUser: () => '/user/register',
     favoritePages: () => '/user/favoritePages',
@@ -88,5 +92,6 @@ export default {
     tokenValidationWithUser: () => '/authentication/getTokenWithUser',
     userById: (userId) => `/user/${userId}`,
     validateUser: (email) => `/user/validate/${email}`,
+    getUserByEmail: (email) => `/user/email/${email}`,
   },
 };
