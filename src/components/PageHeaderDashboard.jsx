@@ -611,16 +611,12 @@ function PageHeaderDashboard(props) {
           }
         </div>
         {
-          windowDimensions.width <= 1024 && (
+          windowDimensions.width <= 1024 && getCurrentRoute().name !== 'deals' && (
             <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
-              {
-                getCurrentRoute().name !== 'deals' && (
-                  <div className="header-section dis-fl-row a-c jc-b">
-                    {/* <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} /> */}
-                    <h5 className="">{getCurrentRoute().title}</h5>
-                  </div>
-                )
-              }
+              <div className="header-section dis-fl-row a-c jc-b">
+                {/* <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} /> */}
+                <h5 className="">{getCurrentRoute().title}</h5>
+              </div>
               {/*
               <div className="dis-f a-c" onClick={() => brixelsAchievementDetail()}>
                 {

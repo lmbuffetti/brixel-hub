@@ -323,7 +323,7 @@ const Deals = (props) => {
   return (
     <>
       <div className="listings-header p-md-2 pl-md-0 p-1">
-        <div className="dis-fl-row jc-b a-c">
+        <div className="dis-fl-row jc-b a-c pt-md-2">
           <h3>Deals</h3>
           <div className="dis-fl-row a-c">
             {
@@ -355,6 +355,7 @@ const Deals = (props) => {
         {
           windowDimensions.width <= 1024 && (
             <BrixelTabs
+              className="mt-2"
               labels={['Interested', 'Visits', 'Offers']}
               clicksList={['interested', 'visits', 'offers']}
               onClick={(val) => mobileTabsDeal(val)}

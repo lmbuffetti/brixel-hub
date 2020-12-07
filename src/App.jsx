@@ -321,8 +321,9 @@ const App = (props) => {
             height: '100%',
           };
         }
+        const headerHeight = document.getElementsByClassName('hubDasHeader')[0];
         return {
-          height: (windowDimensions.height) - 140,
+          height: (windowDimensions.height) - 60 - headerHeight.offsetHeight,
         };
       }
       return {
