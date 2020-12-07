@@ -424,10 +424,10 @@ SingleDeal.propTypes = {
 SingleDeal.defaultProps = {};
 
 const mapStateToProps = (state) => ({
-  isSuperAdmin: get(state, 'common.superAdmin', false),
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
+  isSuperAdmin: get(state, 'common.superAdmin', false),
   userLang: get(state, 'user.loggedInUser.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
@@ -437,14 +437,14 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(change('Property', field, value));
   },
   getActiveDeal: bindActionCreators(getActiveSingleDeal, dispatch),
-  getHistoryList: bindActionCreators(getHistoryListings, dispatch),
   getDealNotes: bindActionCreators(getNoteListings, dispatch),
-  setDealNotes: bindActionCreators(setDealNoteListings, dispatch),
-  setDeal: bindActionCreators(setActiveSingleDeal, dispatch),
-  setActiveSingleDealHistory: bindActionCreators(setDealHistoryListings, dispatch),
-  setActiveSingleDealOwnerHistory: bindActionCreators(setDealOwnerHistoryListings, dispatch),
+  getHistoryList: bindActionCreators(getHistoryListings, dispatch),
   handleSaveDeal: bindActionCreators(saveActiveSingleDeal, dispatch),
   handleSaveMultipleDeal: bindActionCreators(updateMultipleDeals, dispatch),
+  setActiveSingleDealHistory: bindActionCreators(setDealHistoryListings, dispatch),
+  setActiveSingleDealOwnerHistory: bindActionCreators(setDealOwnerHistoryListings, dispatch),
+  setDeal: bindActionCreators(setActiveSingleDeal, dispatch),
+  setDealNotes: bindActionCreators(setDealNoteListings, dispatch),
 });
 
 export default compose(
