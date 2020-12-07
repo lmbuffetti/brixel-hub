@@ -287,11 +287,10 @@ const SingleDeal = (props) => {
                 </div>
                 <div className="actions dis-fl-row jc-fe col-5 p-0">
                   <OptionsDropdown showDesktop />
-                  <div>
+                  <div className="pt-2 pr-1 pr-md-0 pt-md-0">
                     <BrixelButtonIcon
                       icon="close-small"
                       noBorder
-                      className="shadow-1dp"
                       background="white"
                       color="dark"
                       saturationTxt={700}

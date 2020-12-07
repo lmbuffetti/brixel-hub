@@ -239,18 +239,6 @@ const App = (props) => {
     }
   }, [redirectTo]);
 
-  useEffect(() => {
-    if (dashContentEl) {
-      dashContentEl.addEventListener('scroll', () => {
-        if (dashContentEl.scrollTop > 0) {
-          setExtraHeight(74);
-        } else {
-          setExtraHeight(0);
-        }
-      });
-    }
-  });
-
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
     if (
@@ -277,6 +265,8 @@ const App = (props) => {
         }
       } else if (history.location.pathname.includes('listings')) {
         setClassMain('w-perc-100 pos-r hubContainer listingsTop withTopBar');
+      } else if (history.location.pathname.includes('deals')) {
+        setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar');
       } else {
         setClassMain('w-perc-100 pos-r hubContainer ov-h');
       }
@@ -313,26 +303,41 @@ const App = (props) => {
     return flowHead[0] ? flowHead[0].offsetHeight : 0;
   };
 
+  const headerHeight = document.getElementsByClassName('hubDasHeader')[0];
+
+  useEffect(() => {
+    if (dashContentEl && headerHeight) {
+      dashContentEl.addEventListener('scroll', () => {
+        if (dashContentEl.scrollTop > 0) {
+          if (history.location.pathname.includes('propertyLists') ||
+          history.location.pathname.includes('pageList')) {
+            setExtraHeight(40);
+          } else {
+            setExtraHeight(100);
+          }
+        } else if (history.location.pathname.includes('propertyLists') ||
+        history.location.pathname.includes('pageList')) {
+          setExtraHeight(100);
+        } else {
+          setExtraHeight(164);
+        }
+      });
+    }
+    // console.log(extraHeight);
+  });
+
   const headerCalc = () => {
+    let contentHeight;
     if (!isFlow) {
       if (windowDimensions.width <= 1024) {
-        if (userTypes === 'buyer' || history.location.pathname.includes('seller')) {
-          return {
-            height: '100%',
-          };
-        }
-        const headerHeight = document.getElementsByClassName('hubDasHeader')[0];
-        return {
-          height: (windowDimensions.height) - 60 - headerHeight.offsetHeight,
-        };
+        contentHeight = windowDimensions.height - extraHeight;
+      } else {
+        contentHeight = `calc(100vh - ${calcHeaderHeight()}px)`;
       }
-      return {
-        height: `calc(100vh - ${calcHeaderHeight()}px)`,
-      };
+    } else {
+      contentHeight = windowDimensions.height - calcFlowHeaderHeight();
     }
-    return {
-      height: windowDimensions.height - calcFlowHeaderHeight(),
-    };
+    return contentHeight;
   };
 
   // DID MOUNT TO CHECK THE USER TOKEN AND INITIALIZE THE WINDOW SIZE LISTENER
@@ -429,7 +434,7 @@ const App = (props) => {
             <div
               id="bodyScroll"
               className={`${!isFlow ? `hubDasContent ${overflowClass()} bgLight100` : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
-              style={isSecLevel ? { height: '100%' } : headerCalc()}
+              style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
               ref={dashContentRef}
             >
               {

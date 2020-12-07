@@ -322,10 +322,10 @@ const Deals = (props) => {
 
   return (
     <>
-      <div className="listings-header p-md-2 pl-md-0 p-1">
-        <div className="dis-fl-row jc-b a-c pt-md-2">
-          <h3>Deals</h3>
-          <div className="dis-fl-row a-c">
+      <div className="listings-header bg-white">
+        <div className="dis-fl-row jc-b a-c">
+          <h3 className="pt-md-2 pb-md-3 pl-md-0 p-1">Deals</h3>
+          <div className="dis-fl-row a-c zIndex3">
             {
               !emptyDeals && (
                 <FilterBar
@@ -393,7 +393,7 @@ const Deals = (props) => {
             ))
           }
         </div>
-        <div className="dealsContainer mb-3">
+        <div className="dealsContainer">
           <DragDropContext
             onDragEnd={onDragEnd}
             onDragStart={onDragStart}

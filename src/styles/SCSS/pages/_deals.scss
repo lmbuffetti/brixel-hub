@@ -30,15 +30,31 @@ body .container.deals {
     background-color: map-get($lightColor, 100);
     position: sticky;
     top: 0;
-    z-index: 3;
+    z-index: 4;
     @media (max-width: $responsive-medium) {
-      //position: fixed;
-      //top: 104px;
       width: 100%;
       left: 0;
-      padding-left: $step * 2;
     }
   }
+.filterHolder {
+  top: 50px;
+
+  .statusList {
+    .statusItem {
+      position: relative;
+      &:hover {
+        background-color: map-get($lightColor, 100);
+      }
+      .statusIcon {
+        position: absolute;
+        left: $step;
+      }
+      .statusLabel {
+        padding-left: 32px;
+      }
+    }
+  }
+}
 
   .dealsWrapper {
     @media (max-width: $responsive-large) {
@@ -62,8 +78,7 @@ body .container.deals {
     height: 100%;
 
     @media (min-width: $responsive-large) {
-      min-height: calc(100vh - 278px);
-      //height: 100vh;
+      height: calc(100vh - 285px);
     }
     @media (max-width: $responsive-large) {
       max-height: calc(100vh - 80px - 60px - 91px - 56px);
@@ -196,8 +211,8 @@ body .container.deals {
     display: flex;
     width: 100%;
     position: sticky;
-    top: 73px;
-    z-index: 1;
+    top: 78px;
+    z-index: 3;
 
     .rightCol {
       background: $brx-white;

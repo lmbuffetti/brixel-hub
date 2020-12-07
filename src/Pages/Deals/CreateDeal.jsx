@@ -97,20 +97,22 @@ const CreateDeal = (props) => {
       className="create-deal"
       closeOutside={false}
     >
-      <div className="add-deal-container w-perc-100 h-perc-100 dis-fl-col p-2">
-        <div className="dis-f jc-fe">
-          <BrixelButtonIcon
-            className="shadow-1dp"
-            noBorder
-            bgTransparent
-            color="dark"
-            saturationTxt={400}
-            icon="close-small"
-            onClick={() => history.push(`/${activeSingleProperty.id}/deals`)}
-          />
+      <div className="add-deal-container w-perc-100 h-perc-100 dis-fl-col p-2 p-md-0">
+        <div className="dis-f jc-b a-c mb-4">
+          <h5>Create new deal</h5>
+          <div>
+            <BrixelButtonIcon
+              className="shadow-1dp"
+              noBorder
+              bgTransparent
+              color="dark"
+              saturationTxt={400}
+              icon="close-small"
+              onClick={() => history.push(`/${activeSingleProperty.id}/deals`)}
+            />
+          </div>
         </div>
         <div className="dis-fl-col max-w-fix-520 w-perc-100 h-perc-100 ml-a mr-a">
-          <h5 className="mb-2">Create new deal</h5>
           <ReduxField
             form="CreateDeal"
             design={{
