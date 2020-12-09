@@ -267,20 +267,16 @@ const ScanTrialFlow = (props) => {
                       {
                         get(formValue, 'interested', null) ? (
                           <div>
-                            <h3
-                              className="mt-5"
-                            >
-                              Thank you for your request.
+                            <h3 className="mt-5">
+                              Thank you for your request!
                             </h3>
-                            <p
-                              className="mt-2 max-w-fix-400"
-                            >
+                            <p className="mt-3">
                               One of our experts will get in touch with you as soon as possible to schedule your personal appointment.
                             </p>
-                            <p className="my-1 max-w-fix-400">
+                            <p className="my-2">
                               To speed up the process you can already  prepare the following documents for your estimation:
                             </p>
-                            <ul className="max-w-fix-400 ml-1 pl-2">
+                            <ul className="ml-3 pl-2">
                               <li>Extract from the land register</li>
                               <li>Building insurance policy</li>
                               <li>Previous estimation report (if available)</li>
@@ -288,14 +284,10 @@ const ScanTrialFlow = (props) => {
                           </div>
                         ) : (
                           <div>
-                            <h3
-                              className="mt-5 ta-c"
-                            >
+                            <h3 className="ta-c">
                               Thank you for your feedback.
                             </h3>
-                            <p
-                              className="m-a mt-2 max-w-fix-400 ta-c"
-                            >
+                            <p className="m-a mt-3 ta-c">
                               Feel free to contact us any time if you change your mind.
                             </p>
                           </div>

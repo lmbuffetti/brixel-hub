@@ -48,7 +48,7 @@ function PageHeader(props) {
       setCurrentLang(lang);
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
-      if (!gameHistory.data && !history.location.pathname.includes('getStarted')) handleGetGame();
+      // if (!gameHistory.data && !history.location.pathname.includes('getStarted')) handleGetGame();
     }
   }, [loggedInUser, lang]);
 

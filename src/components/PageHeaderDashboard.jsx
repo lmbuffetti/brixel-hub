@@ -125,7 +125,7 @@ function PageHeaderDashboard(props) {
       const langUsr = loggedInUser.user.language;
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
-      if (!gameHistory.data) handleGetGame();
+      // if (!gameHistory.data) handleGetGame();
     }
   }, [loggedInUser]);
 
