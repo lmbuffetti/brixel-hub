@@ -692,6 +692,7 @@ GetStarted.propTypes = {
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
