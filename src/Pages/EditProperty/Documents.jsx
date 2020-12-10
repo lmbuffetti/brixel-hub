@@ -130,7 +130,7 @@ const Documents = (props) => {
   // DROPZONE SETTINGS - SUPPORTED EXTENSIONS AND MAX SIZE AND OTHER SETTINGS
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: 'image/png,image/jpg,image/jpeg,.pdf',
+    accept: 'image/png,image/jpg,image/jpeg,application/pdf',
     minSize: 0,
     maxSize: 1e+7,
   });

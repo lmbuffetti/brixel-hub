@@ -176,7 +176,7 @@ function PageHeaderDashboard(props) {
       const nav = cloneDeep(firstRoutes);
       if (Object.keys(activeSinglePropertyDealsCount).length > 0) {
         Object.keys(activeSinglePropertyDealsCount).forEach((label) => {
-          newSellerCount += activeSinglePropertyDealsCount[label].newSeller;
+          newSellerCount += activeSinglePropertyDealsCount[label].new;
         });
         if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
         if (newSellerCount > 0) nav[3].title += `<span class="numRecords notranslate txtWhite">${newSellerCount}</span>`;

@@ -61,7 +61,7 @@ export default {
     page: (limit, offset) => `/page/${limit}/${offset}`,
     pageById: (id) => `/page/${id}`,
     pageDeals: (id) => `/page/${id}/deals`,
-    pageDealsCount: (id) => `/page/${id}/dealsCount`,
+    pageDealsCount: (id) => `/page/${id}/dealsCount?countDealsBy=newSeller`,
     portalsReview: (id, status) => `/page/${id}/portalsReview?status=${status}`,
     propertyVisitById: (id) => `/scheduleVisit/${id}`,
     propertyVisitScheduleById: (id) => `/schedule/${id}`,
