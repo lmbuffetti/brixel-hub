@@ -324,7 +324,7 @@ const Timeline = (props) => {
         {
           chronologicalData && chronologicalData.map((event, i) => (
             <div
-              className={`single-event p-small-12 w-perc-100 dis-fl-row a-t ${has(event, 'parent') ? 'note' : ''} ${has(event, 'parent') && event.pinned ? 'pinned' : ''}`}
+              className={`single-event p-small-12 w-perc-100 dis-fl-row a-t bgWhite mb-2 brdRadius ${has(event, 'parent') ? 'note' : ''} ${has(event, 'parent') && event.pinned ? 'pinned' : ''}`}
               id={`note-${i}`}
               key={i.toString()}
             >
