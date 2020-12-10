@@ -291,9 +291,9 @@ const Timeline = (props) => {
         <div ref={noteWrapperRef} className="add-note-container w-perc-100 dis-fl-col p-2 mb-1 md-md-4">
           <div className="text-container dis-fl-row">
             <BrixelAvatar
-              avatarImg={get(loggedInUser, 'avatar[0]', '') ? getConfigEnv.shortPath + get(loggedInUser, 'avatar[0]', '').thumbnailPath : null}
-              name={get(loggedInUser, 'name', loggedInUser.email)}
-              profileId={get(loggedInUser, 'id', '')}
+              avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? getConfigEnv.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
+              name={get(loggedInUser, 'user.name', loggedInUser.user.email)}
+              profileId={get(loggedInUser, 'user.id', '')}
             />
             <BrixelTextArea
               isSmall

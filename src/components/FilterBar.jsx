@@ -66,22 +66,22 @@ const FilterBar = (props) => {
   useEffect(() => {
     if (dealsFilter === true) {
       const status = get(filterDeals, 'status', 'all');
-      const index = findIndex(factsOptions.dealsStatus, (el) => el.value === status);
+      const index = findIndex(factsOptions.dealsStatusHub, (el) => el.value === status);
       setActiveData({
-        label: get(factsOptions, `dealsStatus[${index}].label`, ''),
-        status: get(factsOptions, `dealsStatus[${index}].value`, ''),
+        label: get(factsOptions, `dealsStatusHub[${index}].label`, ''),
+        status: get(factsOptions, `dealsStatusHub[${index}].value`, ''),
       });
     }
   }, [dealsFilter]);
 
   const getLabel = () => {
     const status = get(filterDeals, 'status', 'all');
-    const index = findIndex(factsOptions.dealsStatus, (el) => el.value === status);
+    const index = findIndex(factsOptions.dealsStatusHub, (el) => el.value === status);
     // setActiveData({
-    //   label: factsOptions.dealsStatus[index].label,
-    //   status: factsOptions.dealsStatus[index].value,
+    //   label: factsOptions.dealsStatusHub[index].label,
+    //   status: factsOptions.dealsStatusHub[index].value,
     // });
-    return get(factsOptions, `dealsStatus[${index}].label`, 'All Deals');
+    return get(factsOptions, `dealsStatusHub[${index}].label`, 'All Deals');
   };
 
   // FUNCTION TO MANAGE THE CLICK OUTSIDE OF ELEMENT
@@ -118,7 +118,7 @@ const FilterBar = (props) => {
                       <i className="icon-close txtDark700 pos-a x-r cur-poi mt-2 mr-2 fsize-400" onClick={() => setFilterMenu(!filterMenu)}> </i>
                     </div>
                     {
-                      get(factsOptions, 'dealsStatus', []).map((item, i) => (
+                      get(factsOptions, 'dealsStatusHub', []).map((item, i) => (
                         <div className="statusList dis-fl-col" key={i.toString()}>
                           <div
                             className="statusItem p-1 cur-poi dis-fl-row"

@@ -167,16 +167,6 @@ const SingleDeal = (props) => {
     });
   };
 
-  const getLanguage = () => {
-    if (has(activeSingleDeal, 'user.language') && activeSingleDeal.user.language.length > 0) {
-      return activeSingleDeal.user.language;
-    }
-    if (has(activeSingleProperty, 'language') && activeSingleProperty.language.length > 0) {
-      return activeSingleProperty.language;
-    }
-    return '-';
-  };
-
   const OptionsDropdown = (data) => {
     if ((data.showMobile && windowDimensions.width <= 1024) || (data.showDesktop && windowDimensions.width > 1024)) {
       const className = data.className || '';
@@ -385,12 +375,12 @@ const SingleDeal = (props) => {
                   className="w-perc-100 col-7 p-0 min-w-perc-100 min-w-perc-md-0"
                 />
                 <div className="dis-fl-col-md col-5 pl-4 pr-0 right-container hide">
-                  <div className="showings">
+                  {/* <div className="showings">
                     <span className="title overline tt-up mb-3">Showings</span>
                   </div>
                   <div className="offers">
                     <span className="title overline tt-up mb-3">Offers</span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

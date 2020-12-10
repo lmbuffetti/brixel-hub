@@ -248,10 +248,10 @@ const checkCommon = (store) => (next) => (action) => {
                 if (res.meta.status === 200) dealUserHistory = res.data;
               });
 
-            if (response.data.new === true) {
+            if (response.data.newSeller === true) {
               const obj = cloneDeep(response.data);
               delete obj.user;
-              set(obj, 'new', false);
+              set(obj, 'newSeller', false);
               call3 = api.deal.updateSingleDeal(action.payload, obj)
                 .then((res2) => {
                   if (res2.meta.status === 200) {

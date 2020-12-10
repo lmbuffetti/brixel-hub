@@ -153,7 +153,7 @@ function PageHeaderDashboard(props) {
       getPropertyDealsCount(activeSingleProperty.id);
       // let numDone = 0;
       let numTodo = 0;
-      let newCount = 0;
+      let newSellerCount = 0;
       const usrGroups = gameGroup.sort(sortObject('stub', 'asc'));
       usrGroups.forEach((groups) => {
         if (groups.stub.includes(userType)) {
@@ -176,10 +176,10 @@ function PageHeaderDashboard(props) {
       const nav = cloneDeep(firstRoutes);
       if (Object.keys(activeSinglePropertyDealsCount).length > 0) {
         Object.keys(activeSinglePropertyDealsCount).forEach((label) => {
-          newCount += activeSinglePropertyDealsCount[label].new;
+          newSellerCount += activeSinglePropertyDealsCount[label].newSeller;
         });
         if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
-        if (newCount > 0) nav[3].title += `<span class="numRecords notranslate txtWhite">${newCount}</span>`;
+        if (newSellerCount > 0) nav[3].title += `<span class="numRecords notranslate txtWhite">${newSellerCount}</span>`;
         setRouteNav([...nav]);
       } else {
         if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
