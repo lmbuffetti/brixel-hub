@@ -109,7 +109,7 @@ const Timeline = (props) => {
 
       if (activeDealHistoryList.total > 0 && activeDealHistoryList.data.length > 0) {
         forEach(activeDealHistoryList.data, (item) => {
-          if (item.actionStub !== 'create-deal' && get(item, 'meta.name') !== 'new') {
+          if (item.actionStub !== 'create-deal' && item.actionStub !== 'user-create-deal' && get(item, 'meta.name') !== 'new') {
             array.push(createTimelineEntry(item));
           }
         });
