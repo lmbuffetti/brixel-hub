@@ -101,7 +101,8 @@ const Timeline = (props) => {
       if (activeDealOwnerHistoryList.total > 0 && activeDealOwnerHistoryList.data.length > 0) {
         forEach(activeDealOwnerHistoryList.data, (item) => {
           // For deal timeline we only want user register
-          if (item.actionStub === 'user-register') {
+          if (item.actionStub === 'user-register' ||
+              item.actionStub === 'user-phone-call') {
             array.push(createTimelineEntry(item));
           }
         });
@@ -109,7 +110,7 @@ const Timeline = (props) => {
 
       if (activeDealHistoryList.total > 0 && activeDealHistoryList.data.length > 0) {
         forEach(activeDealHistoryList.data, (item) => {
-          if (item.actionStub !== 'create-deal' && item.actionStub !== 'user-create-deal' && get(item, 'meta.name') !== 'new') {
+          if (item.actionStub !== 'create-deal' && (get(item, 'meta.name', '') === 'winner' || get(item, 'meta.name', '') === 'active')) {
             array.push(createTimelineEntry(item));
           }
         });

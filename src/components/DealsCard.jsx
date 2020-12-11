@@ -28,6 +28,7 @@ const DealsCard = (props) => {
       if (lastAction.actionStub === 'user-add-favorite') return 'Marked page as favorite';
       if (lastAction.actionStub === 'user-schedule') return 'Requested showing';
       if (lastAction.actionStub === 'user-get-document') return 'Requested documents';
+      if (lastAction.actionStub === 'user-phone-call') return 'Made a phone call';
       if (lastAction.actionStub === 'user-send-message') {
         return `"${lastAction.meta.message}"`;
       }
