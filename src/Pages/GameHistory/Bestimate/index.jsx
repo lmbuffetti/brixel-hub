@@ -106,8 +106,10 @@ const Bestimate = (props) => {
       changeFieldValue('properties.typology.pantry', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('pantry'));
       changeFieldValue('properties.extraFeatures.cityView', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('cityView'));
       changeFieldValue('properties.extraFeatures.seaView', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('seaView'));
+      const efficiencyCertified = get(formValue, 'properties.energy.efficiency', null) !== null ? 'yes' : null;
+      changeFieldValue('properties.energy.efficiencyCertified', efficiencyCertified);
     }
-  }, [get(formValue, 'properties.extraFeaturesBestimatePT', null)]);
+  }, [get(formValue, 'properties.extraFeaturesBestimatePT', null), get(formValue, 'properties.energy.efficiency', [])]);
 
   // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
