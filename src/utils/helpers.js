@@ -539,6 +539,7 @@ export const tobase64Handler = async (files, user, action, pageID, imgType) => {
   });
   const filePaths = await Promise.all(filePathsPromises);
   const mappedFiles = filePaths.map((base64File, i) => {
+    console.log(base64File);
     if (action === 'documents') {
       const name = get(base64File, 'name', Date.now() / 1000);
       return {

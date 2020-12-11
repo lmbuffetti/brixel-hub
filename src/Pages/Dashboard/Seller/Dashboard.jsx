@@ -72,6 +72,11 @@ const ScanTrialFlow = Loadable({
   loading: () => null,
 });
 
+const Deals = Loadable({
+  loader: () => import('../../Deals/Deals' /* webpackChunkName: "Deals" */),
+  loading: () => null,
+});
+
 const ProtectedRoute = Loadable({
   loader: () => import('../../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
   loading: () => null,
@@ -80,6 +85,7 @@ const ProtectedRoute = Loadable({
 const Dashboard = (props) => {
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleProperty,
     errorValue,
     formValue,
@@ -213,7 +219,8 @@ const Dashboard = (props) => {
     }
     localStorage.removeItem('gameGroup');
     const activeLeads = get(activeSingleProperty, 'pageLeads[0]', null);
-    if (activeLeads) {
+    if (activeLeads && activeLeads.company !== activeSingleCompany.id) {
+      console.log('eh', activeLeads.company);
       handleGetActiveSingleCompany({ id: activeLeads.company });
     }
   }, [activeSingleProperty]);
@@ -379,8 +386,10 @@ const Dashboard = (props) => {
         });
       } else if (
         !!notification &&
-        !get(notification, 'label', '').toLowerCase().includes('saved')
+        !get(notification, 'label', '').toLowerCase().includes('saved') &&
+        get(notification, 'state', true) !== false
       ) {
+        console.log('hide');
         handleSetScreenNotification({
           ...notification,
           state: false,
@@ -395,8 +404,10 @@ const Dashboard = (props) => {
     }
   }, [formValue, errorValue]);
   if (!userTypes && !userType) return (<div />);
+  const sectionClass = get(history, 'location.pathname', '/').split('/');
+  console.log();
   return (
-    <div className="container dashboardContainer" id="dashboard">
+    <div className={`container dashboardContainer ${sectionClass[2]}`} id="dashboard">
       {/* teaserScreens && isEligible(activeSingleProperty) && () */}
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
       <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />
@@ -404,6 +415,7 @@ const Dashboard = (props) => {
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
       <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
+      <ProtectedRoute path="/:propId?/deals" component={Deals} />
       <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
       <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
     </div>
@@ -411,6 +423,7 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
+  activeSingleCompany: PropTypes.object,
   activeSingleProperty: PropTypes.object,
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
@@ -448,6 +461,7 @@ Dashboard.propTypes = {
 };
 
 Dashboard.defaultProps = {
+  activeSingleCompany: {},
   activeSingleProperty: {},
   errorValue: null,
   isSmallLoading: null,
@@ -476,6 +490,7 @@ const mapStateToProps = (state) => {
   const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
   inputSheet.totalComplete = calcPercentageFacts('Property', formValue).calcPerc;
   return ({
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty: has(state, 'property.activeSingleProperty.id') ? get(state, 'property.activeSingleProperty', { }) : undefined,
     errorValue: get(state, 'brixelForm.Property.syncErrors', null),
     formValue: get(state, 'brixelForm.Property.values', {}),

@@ -1,8 +1,8 @@
 .hubDasContent {
   .container {
     margin: auto;
-    min-height: 100%;
     @media (min-width: $responsive-medium) {
+      min-height: 100%;
       padding: $step * 3;
       &.dashboardContainer {
         padding: 0px $step * 3 $step * 3;

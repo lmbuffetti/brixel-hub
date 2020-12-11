@@ -17,7 +17,7 @@ $grid-breakpoints: (
   xxl: 1920px,
 );
 $responsive-medium: map_get($grid-breakpoints, md);
-
+$responsive-desktop: map-get($grid-breakpoints, xl );
 
 @import '~@brixel/brixel-components/src/styles/SCSS/general/main.scss';
 
@@ -54,11 +54,13 @@ map-get($blueColor, 300);
 "../components/multi_stepform_modal",
 "../components/support",
 "../components/timeline_achievement",
+"../components/progress-bar",
 "../components/options-menu",
 "../components/documents",
 "../components/menu-sidebar",
 "../components/property-list",
 "../components/teaser-banner",
+"../components/progress-bar",
 "../components/splash-screen";
 
 // PAGES
@@ -71,6 +73,7 @@ map-get($blueColor, 300);
 "../pages/bodyModal",
 "../pages/facts",
 "../pages/buyer",
+"../pages/deals",
 "../pages/seller";
 
 // TRANSITIONS

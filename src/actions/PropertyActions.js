@@ -25,6 +25,10 @@ import {
   SET_PROPERTY_LISTINGS,
   UPDATE_PORTALS_REVIEW,
   UPDATE_PUBLISHED_REVIEW,
+  GET_PAGE_DEALS,
+  SET_PAGE_DEALS,
+  SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
+  GET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
 } from './types/PropertyTypes';
 
 export const {
@@ -53,6 +57,10 @@ export const {
   setPropertyListings,
   updatePortalsReview,
   updatePublishedReview,
+  getPageDeals,
+  setPageDeals,
+  setActiveSinglePropertyDealsCount,
+  getActiveSinglePropertyDealsCount,
 } = createActions({
   [CREATE_ACTIVE_SINGLE_PROPERTY]: (payload) => payload,
   [CREATE_PROPERTY_VISIT_BOOKING]: (payload) => payload,
@@ -79,4 +87,8 @@ export const {
   [SET_PROPERTY_LISTINGS]: (payload) => payload,
   [UPDATE_PORTALS_REVIEW]: (payload) => payload,
   [UPDATE_PUBLISHED_REVIEW]: (payload) => payload,
+  [GET_PAGE_DEALS]: (payload) => payload,
+  [SET_PAGE_DEALS]: (payload) => payload,
+  [SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT]: (payload) => payload,
+  [GET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT]: (payload) => payload,
 });
