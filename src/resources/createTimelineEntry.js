@@ -73,6 +73,7 @@ export const createTimelineEntry = (item) => {
         return `<span>Requested showing</span></br></br><span>${dates}</span>`;
       }
       if (item.actionStub === 'user-get-document') return 'Requested documents';
+      if (item.actionStub === 'user-phone-call') return 'Made a phone call';
       if (item.actionStub === 'user-send-message') return `"${item.meta.message}"`;
 
       // DEAL HISTORY ENTRY
