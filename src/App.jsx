@@ -17,6 +17,8 @@ import 'moment/locale/nl';
 import 'moment/locale/se';
 import 'moment/locale/da';
 import 'moment/locale/de';
+import 'moment/locale/it';
+import 'moment/locale/fr';
 import 'moment/locale/de-at';
 import 'moment/locale/en-gb';
 // COMPONENTS
@@ -192,7 +194,7 @@ const App = (props) => {
       const element = document.getElementsByTagName('BODY')[0];
       element.classList.remove('txlive');
     }
-  }, [localTransifex, get(loggedInUser, 'user.id', null)]);
+  }, [localTransifex, loggedInUser]);
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
