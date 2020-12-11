@@ -9,6 +9,17 @@ import PropTypes from 'prop-types';
 import { BrixelDropdown, BrixelSelect, BrixelAvatar } from '@brixel/brixel-components';
 import has from 'lodash/has';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
+import moment from 'moment';
+import 'moment/locale/de-ch';
+import 'moment/locale/pt';
+import 'moment/locale/nl';
+import 'moment/locale/se';
+import 'moment/locale/da';
+import 'moment/locale/de';
+import 'moment/locale/it';
+import 'moment/locale/fr';
+import 'moment/locale/de-at';
+import 'moment/locale/en-gb';
 import { setUnsavedChangesModal } from '../actions/CommonActions';
 import { saveActiveSingleUser } from '../actions/UserActions';
 import { setCookie } from '../utils/helpers';
@@ -57,6 +68,14 @@ const AccountDropdown = (props) => {
       setSelLang(defLangCode);
       localStorage.setItem('lang', defLangCode);
       setCookie('brixelLang', defLangCode);
+      console.log(defLangCode);
+      if (defLangCode === 'ch' || defLangCode === 'de') {
+        moment.locale('de-ch');
+      } else if (defLangCode === 'en' || defLangCode === 'en_US') {
+        moment.locale('en-gb');
+      } else {
+        moment.locale(defLangCode);
+      }
     }
     if (get(loggedInUser, 'user.id', null)) {
       const userData = {
