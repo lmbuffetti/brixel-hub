@@ -416,7 +416,7 @@ const Deals = (props) => {
                                 <BrixelButtonPrimary
                                   label="Manage listings"
                                   rounded
-                                  onClick={() => history.push(`/${activeSingleProperty.id}/property/listings/page`)}
+                                  onClick={() => history.push(`/${activeSingleProperty.id}/listings/page`)}
                                 />
                               </div>
                             </div>
