@@ -106,8 +106,15 @@ const Bestimate = (props) => {
       changeFieldValue('properties.typology.pantry', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('pantry'));
       changeFieldValue('properties.extraFeatures.cityView', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('cityView'));
       changeFieldValue('properties.extraFeatures.seaView', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('seaView'));
+      changeFieldValue('properties.extraFeatures.equipedKitchen', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('equipedKitchen'));
+      changeFieldValue('properties.extraFeatures.gym', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('gym'));
+      changeFieldValue('properties.extraFeatures.elevator', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('elevator'));
+      changeFieldValue('properties.extraFeatures.wardrobe', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('wardrobe'));
+      changeFieldValue('properties.extraFeatures.fireplace', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('fireplace'));
+      changeFieldValue('properties.extraFeatures.swimmingPool', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('pool'));
       const efficiencyCertified = get(formValue, 'properties.energy.efficiency', null) !== null ? 'yes' : null;
       changeFieldValue('properties.energy.efficiencyCertified', efficiencyCertified);
+      daje;
     }
   }, [get(formValue, 'properties.extraFeaturesBestimatePT', null), get(formValue, 'properties.energy.efficiency', [])]);
 
