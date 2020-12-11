@@ -17,6 +17,12 @@ export const firstRoutes = [
     icon: 'upload',
     path: '/:propID/listings',
   },
+  {
+    title: 'Deals',
+    name: 'deals',
+    icon: 'upload',
+    path: '/:propID/deals',
+  },
 ];
 
 export const secondRoutes = [

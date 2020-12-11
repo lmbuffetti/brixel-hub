@@ -21,8 +21,11 @@ export default {
     getDefaultCompany: () => '/company/default',
   },
   deal: {
+    createSingleDeal: () => '/deal',
     dealByUserID: (id) => `/user/${id}/deals`,
     singleDeal: (id) => `/deal/${id}`,
+    updateMultipleDeals: () => '/deal/updateGroup',
+    getListOfDeals: (paginationLimit, paginationSkip, data) => `/deal/${paginationLimit}/${paginationSkip}${data}`,
   },
   gamification: {
     gameAchievement: () => '/gameAchievement',
@@ -34,6 +37,16 @@ export default {
     group: () => '/gameGroup',
     groupList: (limit, offset) => `/gameGroup/${limit}/${offset}?order=name&direction=desc`,
     groupdById: (id) => `/gameGroup/${id}`,
+  },
+  history: {
+    historyById: (id) => `/history/${id}`,
+    createHistory: () => '/history/',
+    getHistoryListOfParent: (paginationLimit, paginationSkip, data) => `/history/${paginationLimit}/${paginationSkip}${data}`,
+  },
+  note: {
+    singleNote: (id) => `/note/${id}`,
+    createSingleNote: (type) => `/note/${type}`,
+    getListOfNotes: (type, id, paginationLimit, paginationSkip, data) => `/note/${type}/${id}/${paginationLimit}/${paginationSkip}${data}`,
   },
   property: {
     addPage: () => '/page/',
@@ -47,6 +60,8 @@ export default {
     packagesList: (limit, offset) => `/servicePackage/${limit}/${offset}`,
     page: (limit, offset) => `/page/${limit}/${offset}`,
     pageById: (id) => `/page/${id}`,
+    pageDeals: (id) => `/page/${id}/deals`,
+    pageDealsCount: (id) => `/page/${id}/dealsCount?countDealsBy=newSeller`,
     portalsReview: (id, status) => `/page/${id}/portalsReview?status=${status}`,
     propertyVisitById: (id) => `/scheduleVisit/${id}`,
     propertyVisitScheduleById: (id) => `/schedule/${id}`,
@@ -62,6 +77,10 @@ export default {
     singleDocument: (id) => `/document/${id}`,
     singleImage: (id) => `/image/${id}`,
   },
+  lead: {
+    getLeadList: (leadType, paginationLimit, paginationSkip, data) => `/lead/${leadType}/${paginationLimit}/${paginationSkip}${data}`,
+    singleUserLead: () => '/lead',
+  },
   user: {
     createUser: () => '/user/register',
     favoritePages: () => '/user/favoritePages',
@@ -73,5 +92,6 @@ export default {
     tokenValidationWithUser: () => '/authentication/getTokenWithUser',
     userById: (userId) => `/user/${userId}`,
     validateUser: (email) => `/user/validate/${email}`,
+    getUserByEmail: (email) => `/user/email/${email}`,
   },
 };

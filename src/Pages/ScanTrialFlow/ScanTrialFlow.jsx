@@ -276,11 +276,21 @@ const ScanTrialFlow = (props) => {
                             <p className="my-2">
                               To speed up the process you can already  prepare the following documents for your estimation:
                             </p>
-                            <ul className="ml-3 pl-2">
-                              <li>Extract from the land register</li>
-                              <li>Building insurance policy</li>
-                              <li>Previous estimation report (if available)</li>
-                            </ul>
+                            {
+                              get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
+                                <ul className="ml-3 pl-2">
+                                  <li>Caderneta Predial Urbana</li>
+                                  <li>Floor plan</li>
+                                  <li>Previous estimation report</li>
+                                </ul>
+                              ) : (
+                                <ul className="ml-3 pl-2">
+                                  <li>Extract from the land register</li>
+                                  <li>Building insurance policy</li>
+                                  <li>Previous estimation report (if available)</li>
+                                </ul>
+                              )
+                            }
                           </div>
                         ) : (
                           <div>

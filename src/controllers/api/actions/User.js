@@ -62,6 +62,11 @@ class Property extends Base {
     const url = ep.user.leadsByUser(id);
     return this.apiClient.get(url, {});
   }
+
+  getUserByEmail(email) {
+    const url = ep.user.getUserByEmail(email);
+    return this.apiClient.get(url, {});
+  }
 }
 
 export default Property;
