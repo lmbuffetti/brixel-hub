@@ -85,15 +85,6 @@ const Documents = (props) => {
     if (documents && documents.length === 0) setProcessedDocuments({});
   }, [documents]);
 
-  const manageDocument = (e, id) => {
-    if (e) e.preventDefault();
-    setDocumentOptionsOpen({
-      id: null,
-      active: false,
-    });
-    history.push(`${match.url}/${id}/editDocument`);
-  };
-
   const openDocument = (e, id) => {
     if (e) e.preventDefault();
     window.open(`${getConfigEnv.shortPath}/document/${id}`, '_blank');
@@ -137,18 +128,6 @@ const Documents = (props) => {
     minSize: 0,
     maxSize: 1e+7,
   });
-
-  // REMOVE DOCUMENTS
-  const deleteDocs = (e, idDocs) => {
-    if (e) e.preventDefault();
-    setDocumentOptionsOpen({ id: null, active: false });
-    const data = {
-      id: idDocs,
-      pageID: formValue.id,
-      smallLoader: true,
-    };
-    handleDeleteDocument(data);
-  };
 
   // COPY DOCUMENT LINK
   const copyLinkToClipboard = (id) => {
@@ -306,17 +285,6 @@ const Documents = (props) => {
                                                   label: 'View',
                                                   clickFunc: (e) => openDocument(e, doc.id),
                                                 },
-                                                {
-                                                  label: 'Edit',
-                                                  clickFunc: (e) => {
-                                                    manageDocument(e, doc.id);
-                                                  },
-                                                },
-                                                {
-                                                  label: 'Remove',
-                                                  className: 'txtRed400',
-                                                  clickFunc: (e) => deleteDocs(e, doc.id),
-                                                },
                                               ]
                                             }
                                           />
@@ -386,17 +354,6 @@ const Documents = (props) => {
                                             {
                                               label: 'View',
                                               clickFunc: (e) => openDocument(e, doc.id),
-                                            },
-                                            {
-                                              label: 'Edit',
-                                              clickFunc: (e) => {
-                                                manageDocument(e, doc.id);
-                                              },
-                                            },
-                                            {
-                                              label: 'Remove',
-                                              className: 'txtRed400',
-                                              clickFunc: (e) => deleteDocs(e, doc.id),
                                             },
                                           ]
                                         }
