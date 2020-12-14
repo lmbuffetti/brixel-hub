@@ -167,7 +167,6 @@ const RewardsDashboard = (props) => {
 
   useEffect(() => {
     if (gameHistory.data) {
-      console.log('test');
       if (isLoading) handleSpinnerOff();
     }
   }, [gameHistory]);

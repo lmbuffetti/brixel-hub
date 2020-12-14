@@ -220,7 +220,6 @@ const Dashboard = (props) => {
     localStorage.removeItem('gameGroup');
     const activeLeads = get(activeSingleProperty, 'pageLeads[0]', null);
     if (activeLeads && activeLeads.company !== activeSingleCompany.id) {
-      console.log('eh', activeLeads.company);
       handleGetActiveSingleCompany({ id: activeLeads.company });
     }
   }, [activeSingleProperty]);
@@ -389,7 +388,6 @@ const Dashboard = (props) => {
         !get(notification, 'label', '').toLowerCase().includes('saved') &&
         get(notification, 'state', true) !== false
       ) {
-        console.log('hide');
         handleSetScreenNotification({
           ...notification,
           state: false,
@@ -405,7 +403,6 @@ const Dashboard = (props) => {
   }, [formValue, errorValue]);
   if (!userTypes && !userType) return (<div />);
   const sectionClass = get(history, 'location.pathname', '/').split('/');
-  console.log();
   return (
     <div className={`container dashboardContainer ${sectionClass[2]}`} id="dashboard">
       {/* teaserScreens && isEligible(activeSingleProperty) && () */}

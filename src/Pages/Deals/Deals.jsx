@@ -316,7 +316,6 @@ const Deals = (props) => {
   }, [processedDeals, filterStatus]);
 
   const mobileTabsDeal = (val) => {
-    console.log(val);
     setActiveTab(val);
   };
 
