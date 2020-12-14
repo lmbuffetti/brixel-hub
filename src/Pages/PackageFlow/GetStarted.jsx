@@ -416,7 +416,7 @@ const GetStarted = (props) => {
       changeFieldValue('company', company.stub);
       changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
     }
-    initForm(initialValues);
+    if (get(initialValues, 'properties.propertyType', null)) initForm(initialValues);
   }, [company]);
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON

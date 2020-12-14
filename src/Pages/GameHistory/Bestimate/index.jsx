@@ -114,7 +114,6 @@ const Bestimate = (props) => {
       changeFieldValue('properties.extraFeatures.swimmingPool', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('pool'));
       const efficiencyCertified = get(formValue, 'properties.energy.efficiency', null) !== null ? 'yes' : null;
       changeFieldValue('properties.energy.efficiencyCertified', efficiencyCertified);
-      daje;
     }
   }, [get(formValue, 'properties.extraFeaturesBestimatePT', null), get(formValue, 'properties.energy.efficiency', [])]);
 
