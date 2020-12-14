@@ -120,13 +120,12 @@ const Documents = (props) => {
     reader.onabort = () => console.log('file reading was aborted');
     reader.onerror = () => console.log('file reading has failed');
     const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'documents', formValue.id);
-    console.log(imgList);
     imgList.then((res) => {
       handleMultiUploadDocument({
         allImgs: res, actions: 'documents', pageID: formValue.id, smallLoader: 'upload',
       })
         .catch((error) => {
-          console.log(error);
+          console.err(error);
         });
     });
   }, [formValue]);

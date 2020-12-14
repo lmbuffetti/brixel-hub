@@ -68,7 +68,6 @@ const AccountDropdown = (props) => {
       setSelLang(defLangCode);
       localStorage.setItem('lang', defLangCode);
       setCookie('brixelLang', defLangCode);
-      console.log(defLangCode);
       if (defLangCode === 'ch' || defLangCode === 'de') {
         moment.locale('de-ch');
       } else if (defLangCode === 'en' || defLangCode === 'en_US') {
