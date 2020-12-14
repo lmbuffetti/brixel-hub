@@ -230,6 +230,7 @@ const ScanTrialFlow = (props) => {
                         form="scanFlow"
                         inputs={quest.inputs}
                         onClick={() => ''}
+                        className={quest.inputs.className}
                       />
                     </div>
                   )
