@@ -9,7 +9,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WebpackAssetsManifest = require('webpack-assets-manifest');
 const CopyPlugin = require('copy-webpack-plugin');
 const CSSNano = require('cssnano');
 
@@ -207,7 +206,6 @@ const clientConfig = {
       'process.env.client': true,
       'process.env.BROWSER': JSON.stringify(true),
     }),
-    new WebpackAssetsManifest(),
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
