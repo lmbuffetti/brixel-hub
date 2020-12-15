@@ -116,7 +116,9 @@ const checkLead = (store) => (next) => (action) => {
       const queryParams = `?search=${action.payload.text}`;
       let properties;
       let users;
+      // eslint-disable-next-line no-return-assign
       const pageQuery = api.lead.getLeadList('page', action.payload.resultsPerPage, action.payload.offset, queryParams).then((res) => (properties = res.data));
+      // eslint-disable-next-line no-return-assign
       const userQuery = api.lead.getLeadList('user', action.payload.resultsPerPage, action.payload.offset, queryParams).then((res) => (users = res.data));
       Promise.all([pageQuery, userQuery]).then(() => {
         let filtUsers = {
