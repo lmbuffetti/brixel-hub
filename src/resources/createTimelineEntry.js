@@ -5,7 +5,9 @@ import {
   has, get, tail,
 } from 'lodash';
 
-const formatPrice = (val) => val;
+import {
+  formatPrice,
+} from '../utils/helpers';
 
 export const createTimelineEntry = (item) => {
   const getHTMLDescription = () => {
@@ -66,7 +68,7 @@ export const createTimelineEntry = (item) => {
       if (item.actionStub === 'user-add-favorite') return 'Marked page as favorite';
       if (item.actionStub === 'user-schedule') {
         let dates = '';
-        const scheduleArray = tail(get(item, 'meta.schedule', '').split('•'));
+        const scheduleArray = tail(item.meta.schedule.split('•'));
         scheduleArray.forEach((date, key) => {
           dates += `<span>•${date}</span>${key !== (item.meta.schedule.split('•').length - 1) ? '</br>' : ''}`;
         });
@@ -137,7 +139,7 @@ export const createTimelineEntry = (item) => {
         }
       }
     }
-    return '';
+    return 'info';
   };
 
   // Return User Signup entry
