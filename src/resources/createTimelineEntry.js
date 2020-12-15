@@ -5,7 +5,9 @@ import {
   has, get, tail,
 } from 'lodash';
 
-const formatPrice = (val) => val;
+import {
+  formatPrice,
+} from '../utils/helpers';
 
 export const createTimelineEntry = (item) => {
   const getHTMLDescription = () => {
