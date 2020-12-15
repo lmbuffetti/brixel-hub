@@ -101,17 +101,17 @@ const Timeline = (props) => {
       if (activeDealOwnerHistoryList.total > 0 && activeDealOwnerHistoryList.data.length > 0) {
         forEach(activeDealOwnerHistoryList.data, (item) => {
           // For deal timeline we only want user register
-          if (item.actionStub === 'user-register' ||
-              item.actionStub === 'user-phone-call') {
+          if (item.actionStub === 'user-register') {
             array.push(createTimelineEntry(item));
           }
         });
       }
 
       if (activeDealHistoryList.total > 0 && activeDealHistoryList.data.length > 0) {
+        // eslint-disable-next-line consistent-return
         forEach(activeDealHistoryList.data, (item) => {
-          if (item.actionStub !== 'create-deal' &&
-          (get(item, 'meta.name', '') === 'winner' || get(item, 'meta.name', '') === 'active' || item.actionStub === 'user-phone-call')) {
+          if (item.actionStub !== 'create-deal') {
+            if (item.actionStub === 'update-deal' && Object.keys(item.meta).length === 0) return null;
             array.push(createTimelineEntry(item));
           }
         });
