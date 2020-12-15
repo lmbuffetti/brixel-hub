@@ -30,7 +30,7 @@ function PageHeader(props) {
   // PROPS
   const {
     activeSingleCompany, lang, languages, loggedInUser, userAwards, brixelPoints,
-    handleSetLanguage, history, handleGetGame, property, gameHistory,
+    handleSetLanguage, history, property,
   } = props;
 
   // STATE
@@ -48,7 +48,7 @@ function PageHeader(props) {
       setCurrentLang(lang);
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
-      if (!gameHistory.data && !history.location.pathname.includes('getStarted')) handleGetGame();
+      // if (!gameHistory.data && !history.location.pathname.includes('getStarted')) handleGetGame();
     }
   }, [loggedInUser, lang]);
 
@@ -353,13 +353,11 @@ function PageHeader(props) {
 
 PageHeader.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
-  gameHistory: PropTypes.object.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   languages: PropTypes.arrayOf(PropTypes.object),
   lang: PropTypes.string,
   loggedInUser: PropTypes.object,
   history: PropTypes.object.isRequired,
-  handleGetGame: PropTypes.func.isRequired,
   property: PropTypes.object.isRequired,
   userAwards: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
   brixelPoints: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),

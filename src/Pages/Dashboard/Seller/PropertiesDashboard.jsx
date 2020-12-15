@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary,
+  BrixelButtonIcon, BrixelButtonPrimary, FormatValue,
   Helpers,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
@@ -14,14 +14,16 @@ import { connect } from 'react-redux';
 import last from 'lodash/last';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 import { getUserProperties } from '../../../actions/UserActions';
+import { spinnerOff } from '../../../actions/CommonActions';
 
 const HomeDashboard = (props) => {
   // PROPS
   const {
     activeSingleCompany,
+    form,
     handleGetUserProperties,
     history,
-    // isSmallLoading,
+    handleSpinnerOff,
     loggedInUser,
     match,
     userProperties,
@@ -31,6 +33,11 @@ const HomeDashboard = (props) => {
   // URL PARAMS
   const getFact = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propID', null);
+
+  // DESTROY FORM ON EXIT
+  useEffect(() => {
+    if (!form.Property) handleSpinnerOff();
+  }, []);
 
   // GET USER PROPERTIES LIST
   useEffect(() => {
@@ -117,7 +124,7 @@ const HomeDashboard = (props) => {
                         }}
                       >
                         <CoverPropertyImage
-                          coverPhoto={get(property, 'coverPhoto.thumbnailPath', null)}
+                          coverPhoto={get(property, 'coverPhoto.galleryThumbnailPath', null)}
                           className="avatar w-fix-96 h-fix-96 pos-r brdRadius"
                         />
                       </Link>
@@ -144,7 +151,9 @@ const HomeDashboard = (props) => {
 
                       <div className="px-1">
                         <h6 className="fsize-100 txtDark200 ws-nw">Rooms</h6>
-                        <span className="ff-mono txtDark700">{get(property, 'properties.typology.bedrooms', '0')}</span>
+                        <span className="ff-mono txtDark700">
+                          {FormatValue.formatRooms(get(property, 'properties.typology.bedrooms', 0), get(property, 'location.countryCode', 'CH'))}
+                        </span>
                       </div>
                       <div className="px-1">
                         <h6 className="fsize-100 txtDark200 ws-nw">Living space</h6>
@@ -194,7 +203,9 @@ const HomeDashboard = (props) => {
 
 HomeDashboard.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
   handleGetUserProperties: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   // isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
@@ -208,7 +219,7 @@ HomeDashboard.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
-  formValue: get(state, 'brixelForm.Property.values', {}),
+  form: get(state, 'brixelForm', {}),
   // isSmallLoading: get(state, 'common.isSmallLoading', null),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
@@ -219,6 +230,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetUserProperties: bindActionCreators(getUserProperties, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
 export default compose(

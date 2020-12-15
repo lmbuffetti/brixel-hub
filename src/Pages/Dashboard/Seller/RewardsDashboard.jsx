@@ -16,7 +16,6 @@ import { GameGroupConfig } from '../../../constants/global';
 // import helloImg from '../../../images/hello.svg';
 import BrixelButtonAchievement from '../../../components/BrixelButtonAchievement';
 import { /* setCookie, getCookie,  */sortObject } from '../../../utils/helpers';
-
 import SuccessMarketCheck from '../../GameHistory/MarketChecker/SuccessMarketCheck';
 import SuccessBestimate from '../../GameHistory/Bestimate/SuccessBestimate';
 import SuccessAssessor from '../../GameHistory/Assessor/SuccessAssessor';
@@ -26,7 +25,7 @@ import MediaExplanation from '../../GameHistory/SecondLevel/MediaRewards';
 import PageReviewRewards from '../../GameHistory/SecondLevel/PageReviewRewards';
 import PagePublishedRewards from '../../GameHistory/SecondLevel/PagePublishedRewards';
 import PortalsRewards from '../../GameHistory/SecondLevel/PortalsRewards';
-import { setModal } from '../../../actions/CommonActions';
+import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import Support from '../../../components/Support';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
@@ -40,10 +39,12 @@ const RewardsDashboard = (props) => {
     handleAddGameHistory,
     handleSetModal,
     history,
+    isLoading,
     isSmallLoading,
     match,
     userTypes,
     windowDimensions,
+    handleSpinnerOff,
   } = props;
   // STATE
   const [usrGroups, setUsrGroups] = useState(gameGroup.sort(sortObject('stub', 'asc')));
@@ -163,6 +164,12 @@ const RewardsDashboard = (props) => {
     }
     setUsrGroups([...filtUsrGroup]);
   }, [userTypes, activeSingleProperty, gameGroup, gameHistory, formValue.id]);
+
+  useEffect(() => {
+    if (gameHistory.data) {
+      if (isLoading) handleSpinnerOff();
+    }
+  }, [gameHistory]);
 
   // FUNCTION TO SET THE ACTIVE REWARDS GROUP ON FIRST LOAD IF NOT COMPLETED
   useEffect(() => {
@@ -393,8 +400,10 @@ RewardsDashboard.propTypes = {
   gameHistory: PropTypes.object,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.string,
+  isLoading: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
@@ -415,6 +424,7 @@ const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isLoading: get(state, 'common.isLoading', 0) > 0,
   language: get(state, 'user.loggedInUser.user.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   userTypes: get(state, 'user.userTypes', null),
@@ -424,6 +434,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
 export default compose(
