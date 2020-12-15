@@ -248,7 +248,7 @@ function PageHeaderDashboard(props) {
         }
       });
     }
-  });
+  }, []);
 
   // FUNCTION TO CALC IF TITLE IS LONG OR NOT AND ASSIGN THE DIFFERENT CLASS
   /* useEffect(() => {
@@ -316,7 +316,7 @@ function PageHeaderDashboard(props) {
                   >
                     <CoverPropertyImage
                       className="cover"
-                      coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
+                      coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
                       propertyType={get(formValue, 'properties.propertyType', undefined)}
                     />
                   </div>
