@@ -309,24 +309,41 @@ const App = (props) => {
 
   useEffect(() => {
     if (dashContentEl && headerHeight) {
+      if (history.location.pathname.includes('deals')) {
+        setExtraHeight(124);
+      } else if (history.location.pathname.includes('propertyLists') ||
+      history.location.pathname.includes('pageList')) {
+        setExtraHeight(100);
+      }
+    }
+    // console.log(extraHeight);
+  }, []);
+
+  useEffect(() => {
+    if (dashContentEl) {
       dashContentEl.addEventListener('scroll', () => {
-        if (dashContentEl.scrollTop > 0) {
+        if (dashContentEl.scrollTop > 1) {
           if (history.location.pathname.includes('propertyLists') ||
           history.location.pathname.includes('pageList')) {
             setExtraHeight(40);
+          } else if (history.location.pathname.includes('deals')) {
+            setExtraHeight(100);
           } else {
             setExtraHeight(100);
           }
+        } else if (history.location.pathname.includes('deals')) {
+          setExtraHeight(124);
         } else if (history.location.pathname.includes('propertyLists') ||
         history.location.pathname.includes('pageList')) {
+          setExtraHeight(100);
+        } else if (history.location.pathname.includes('buyer')) {
           setExtraHeight(100);
         } else {
           setExtraHeight(164);
         }
       });
     }
-    // console.log(extraHeight);
-  });
+  }, [dashContentEl]);
 
   const headerCalc = () => {
     let contentHeight;

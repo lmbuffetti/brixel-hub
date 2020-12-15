@@ -125,7 +125,7 @@ const PropertiesBuyerDashboard = (props) => {
                       }}
                     >
                       <CoverPropertyImage
-                        coverPhoto={get(property, 'coverPhoto.thumbnailPath', null)}
+                        coverPhoto={get(property, 'coverPhoto.galleryThumbnailPath', null)}
                         className="avatar w-fix-96 h-fix-96 pos-r brdRadius"
                       />
                     </Link>
