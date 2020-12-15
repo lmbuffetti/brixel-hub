@@ -16,7 +16,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
 import moment from 'moment';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs,
+  BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs, Helpers,
 } from '@brixel/brixel-components';
 import {
   bindActionCreators, compose,
@@ -483,7 +483,7 @@ const Deals = (props) => {
                                                             avatarImg={get(item, 'user.avatar[0]') ? get(item, 'user.avatar[0].thumbnailPath', '') : null}
                                                             className={`${!item.active ? 'bgLight100' : 'bgWhite'} dealCard`}
                                                             profileId={get(item, 'user.id', '')}
-                                                            name={get(item, 'user.name') ? get(item, 'user.name') : get(item, 'user.email')}
+                                                            name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
                                                             hasMessage={item.actionStub}
                                                             date={moment(item.updatedAt).format('D MMM YY, H:mm')}
                                                             parentOnClick={() => openDeal(item.id)}
@@ -522,7 +522,7 @@ const Deals = (props) => {
                                                       avatarImg={get(item, 'user.avatar[0]') ? get(item, 'user.avatar[0].thumbnailPath', '') : null}
                                                       className={!item.active ? 'bgLight100' : 'bgWhite'}
                                                       profileId={get(item, 'user.id', '')}
-                                                      name={get(item, 'user.name') ? get(item, 'user.name') : get(item, 'user.email')}
+                                                      name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
                                                       hasMessage={item.actionStub}
                                                       date={moment(item.createdAt).format('D MMM YY, H:mm')}
                                                       parentOnClick={() => openDeal(item.id)}
