@@ -41,8 +41,8 @@
     .smallBanner {
       transition: opacity 450ms ease;
       opacity: 1;
-      margin-top: 8px;
       margin-bottom: 24px;
+      position: relative;
     }
     .bigBanner {
       opacity: 0;
