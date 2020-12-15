@@ -243,7 +243,7 @@ const checkCommon = (store) => (next) => (action) => {
             let updatedDeal;
             const queryParams = `?parent=${response.data.user.id}&order=createdAt&direction=ASC`;
             // eslint-disable-next-line no-return-assign
-            const call2 = api.history.getHistoryList(1, 0, queryParams)
+            const call2 = api.history.getHistoryList(10, 0, queryParams)
               .then((res) => {
                 if (res.meta.status === 200) dealUserHistory = res.data;
               });
