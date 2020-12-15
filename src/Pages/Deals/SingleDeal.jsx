@@ -236,18 +236,18 @@ const SingleDeal = (props) => {
           >
             <div className="single-deal dis-fl-col">
               {/* top panel */}
-              <div className="top p-md-2 dis-fl-row jc-b mb-0 mb-md-4">
+              <div className="top dis-fl-row jc-b mb-0 mb-md-4">
                 <div className="user dis-fl-row col-7 p-2 p-md-0">
                   <BrixelAvatar
                     avatarImg={get(activeSingleDeal.user, 'avatar[0]', '') ? getConfigEnv.shortPath + activeSingleDeal.user.avatar[0].thumbnailPath : null}
-                    name={get(activeSingleDeal.user, 'name') ? get(activeSingleDeal.user, 'name') : get(activeSingleDeal.user, 'email', '')}
+                    name={Helpers.userNameVal(activeSingleDeal.user.firstName, activeSingleDeal.user.lastName, activeSingleDeal.user.name) === 'No Name' ? get(activeSingleDeal.user, 'email', '') : Helpers.userNameVal(activeSingleDeal.user.firstName, activeSingleDeal.user.lastName, activeSingleDeal.user.name)}
                     profileId={get(activeSingleDeal.user, 'id', '')}
                   />
                   <div className="title dis-fl-col ml-2">
                     <span
                       className={`name dis-b fsize-500 fweight-500 ${get(activeSingleDeal, 'user.name') ? 'txtDark700' : 'txtDark100'}`}
                     >
-                      {get(activeSingleDeal, 'user.name') ? activeSingleDeal.user.name : 'No name'}
+                      {Helpers.userNameVal(activeSingleDeal.user.firstName, activeSingleDeal.user.lastName, activeSingleDeal.user.name)}
                     </span>
                     <div className="dis-f">
                       {
