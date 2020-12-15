@@ -276,6 +276,7 @@ const Documents = (props) => {
                                       color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
                                       icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
                                     />
+
                                     <BrixelButtonIcon
                                       bgTransparent
                                       noBorder
@@ -296,7 +297,7 @@ const Documents = (props) => {
                                           <BrixelDropdownMini
                                             topOffset={40}
                                             rightAligned
-                                            links={
+                                            links={userType !== 'buyer' ?
                                               [
                                                 {
                                                   label: isCopied ? 'Copied' : 'Copy Link',
@@ -306,19 +307,27 @@ const Documents = (props) => {
                                                   label: 'View',
                                                   clickFunc: (e) => openDocument(e, doc.id),
                                                 },
-                                                {
+                                                userType !== 'buyer' && {
                                                   label: 'Edit',
                                                   clickFunc: (e) => {
                                                     manageDocument(e, doc.id);
                                                   },
                                                 },
-                                                {
+                                                userType !== 'buyer' && {
                                                   label: 'Remove',
                                                   className: 'txtRed400',
                                                   clickFunc: (e) => deleteDocs(e, doc.id),
                                                 },
-                                              ]
-                                            }
+                                              ] : [
+                                                {
+                                                  label: isCopied ? 'Copied' : 'Copy Link',
+                                                  clickFunc: () => copyLinkToClipboard(doc.id),
+                                                },
+                                                {
+                                                  label: 'View',
+                                                  clickFunc: (e) => openDocument(e, doc.id),
+                                                },
+                                              ]}
                                           />
                                         </>
                                       )
@@ -352,11 +361,15 @@ const Documents = (props) => {
                               </div>
 
                               <div className="pos-r dis-fl-row a-c">
-                                <BrixelIcon
-                                  className="mr-1"
-                                  color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
-                                  icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
-                                />
+                                {
+                                  userType !== 'buyer' && (
+                                    <BrixelIcon
+                                      className="mr-1"
+                                      color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
+                                      icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
+                                    />
+                                  )
+                                }
                                 <BrixelButtonIcon
                                   bgTransparent
                                   noBorder
@@ -377,7 +390,7 @@ const Documents = (props) => {
                                       <BrixelDropdownMini
                                         topOffset={40}
                                         rightAligned
-                                        links={
+                                        links={userType !== 'buyer' ?
                                           [
                                             {
                                               label: isCopied ? 'Copied' : 'Copy Link',
@@ -398,8 +411,16 @@ const Documents = (props) => {
                                               className: 'txtRed400',
                                               clickFunc: (e) => deleteDocs(e, doc.id),
                                             },
-                                          ]
-                                        }
+                                          ] : [
+                                            {
+                                              label: isCopied ? 'Copied' : 'Copy Link',
+                                              clickFunc: () => copyLinkToClipboard(),
+                                            },
+                                            {
+                                              label: 'View',
+                                              clickFunc: (e) => openDocument(e, doc.id),
+                                            },
+                                          ]}
                                       />
                                     </>
                                   )

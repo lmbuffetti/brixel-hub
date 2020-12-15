@@ -103,19 +103,19 @@ const Bestimate = (props) => {
     if (get(formValue, 'properties.extraFeaturesBestimatePT', null)) {
       changeFieldValue('properties.extraFeatures.equippedKitchen', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('equippedKitchen'));
       changeFieldValue('properties.building.blinds.blindsElectric', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('electricBlinds'));
+      let windowsMaterials = [];
       if (get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('doubleGlazedWindows')) {
-        changeFieldValue('properties.building.windows.materials', ['doubleGlazed']);
-      } else {
-        changeFieldValue('properties.building.windows.materials', []);
+        windowsMaterials = ['doubleGlazed'];
       }
+      if (windowsMaterials[0] !== get(formValue, 'properties.building.windows.materials', [])[0]) changeFieldValue('properties.building.windows.materials', windowsMaterials);
       changeFieldValue('properties.extraFeatures.suite', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('masterBedroom'));
       changeFieldValue('properties.extraFeatures.wardrobe', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('wardrobe'));
       changeFieldValue('properties.energy.ac', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('airConditioning'));
+      let centralHeating = [];
       if (get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('heatingSystem')) {
-        changeFieldValue('properties.energy.heatingSystem', ['centralHeating']);
-      } else {
-        changeFieldValue('properties.energy.heatingSystem', []);
+        centralHeating = ['centralHeating'];
       }
+      if (centralHeating[0] !== get(formValue, 'properties.energy.heatingSystem', [])[0]) changeFieldValue('properties.energy.heatingSystem', centralHeating);
       changeFieldValue('properties.extraFeatures.fireplace', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('fireplace'));
       changeFieldValue('properties.extraFeatures.swimmingPool', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('pool'));
       changeFieldValue('properties.extraFeatures.gym', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('gym'));
@@ -130,7 +130,7 @@ const Bestimate = (props) => {
       const efficiencyCertified = get(formValue, 'properties.energy.efficiency', null) !== null ? 'yes' : null;
       changeFieldValue('properties.energy.efficiencyCertified', efficiencyCertified);
     }
-  }, [get(formValue, 'properties.extraFeaturesBestimatePT', null), get(formValue, 'properties.energy.efficiency', [])]);
+  }, [get(formValue, 'properties.extraFeaturesBestimatePT', null)]);
 
   // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
