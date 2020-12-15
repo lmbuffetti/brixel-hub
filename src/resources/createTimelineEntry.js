@@ -77,6 +77,7 @@ export const createTimelineEntry = (item) => {
       if (item.actionStub === 'user-get-document') return 'Requested documents';
       if (item.actionStub === 'user-phone-call') return 'Made a phone call';
       if (item.actionStub === 'user-send-message') return `"${item.meta.message}"`;
+      if (item.actionStub === 'user-portal-create-message') return `<span>Sent new message on </span><span>${item.meta.portal}</span></br></br><span>${item.meta.message}</span>`;
 
       // DEAL HISTORY ENTRY
       if (item.actionStub === 'update-deal') {
@@ -113,6 +114,7 @@ export const createTimelineEntry = (item) => {
     if (has(item, 'favorite')) return 'favorite-fill';
     // ITEM IS HISTORY ENTRY
     if (has(item, 'actionStub')) {
+      if (item.actionStub === 'user-portal-create-message') return 'message';
       if (item.actionStub.includes('create') ||
           item.actionStub.includes('published') ||
           item.actionStub.includes('unpublished') ||
