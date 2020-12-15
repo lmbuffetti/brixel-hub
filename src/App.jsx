@@ -17,6 +17,8 @@ import 'moment/locale/nl';
 import 'moment/locale/se';
 import 'moment/locale/da';
 import 'moment/locale/de';
+import 'moment/locale/it';
+import 'moment/locale/fr';
 import 'moment/locale/de-at';
 import 'moment/locale/en-gb';
 // COMPONENTS
@@ -115,8 +117,18 @@ const SingleDocument = Loadable({
   loading: Loading,
 });
 
+const CreateDeal = Loadable({
+  loader: () => import('./Pages/Deals/CreateDeal' /* webpackChunkName: "CreateDeal" */),
+  loading: Loading,
+});
+
 const AddShowingsBuyer = Loadable({
   loader: () => import('./Pages/Dashboard/Buyer/AddShowingsBuyer' /* webpackChunkName: "AddShowingsBuyer" */),
+  loading: Loading,
+});
+
+const SingleDeal = Loadable({
+  loader: () => import('./Pages/Deals/SingleDeal' /* webpackChunkName: "SingleDeal" */),
   loading: Loading,
 });
 
@@ -182,7 +194,7 @@ const App = (props) => {
       const element = document.getElementsByTagName('BODY')[0];
       element.classList.remove('txlive');
     }
-  }, [localTransifex, get(loggedInUser, 'user.id', null)]);
+  }, [localTransifex, loggedInUser]);
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
@@ -229,18 +241,6 @@ const App = (props) => {
     }
   }, [redirectTo]);
 
-  useEffect(() => {
-    if (dashContentEl) {
-      dashContentEl.addEventListener('scroll', () => {
-        if (dashContentEl.scrollTop > 0) {
-          setExtraHeight(74);
-        } else {
-          setExtraHeight(0);
-        }
-      });
-    }
-  });
-
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
     if (
@@ -267,6 +267,8 @@ const App = (props) => {
         }
       } else if (history.location.pathname.includes('listings')) {
         setClassMain('w-perc-100 pos-r hubContainer listingsTop withTopBar');
+      } else if (history.location.pathname.includes('deals')) {
+        setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar');
       } else {
         setClassMain('w-perc-100 pos-r hubContainer ov-h');
       }
@@ -303,25 +305,58 @@ const App = (props) => {
     return flowHead[0] ? flowHead[0].offsetHeight : 0;
   };
 
+  const headerHeight = document.getElementsByClassName('hubDasHeader')[0];
+
+  useEffect(() => {
+    if (dashContentEl && headerHeight) {
+      if (history.location.pathname.includes('deals')) {
+        setExtraHeight(124);
+      } else if (history.location.pathname.includes('propertyLists') ||
+      history.location.pathname.includes('pageList')) {
+        setExtraHeight(100);
+      }
+    }
+    // console.log(extraHeight);
+  }, []);
+
+  useEffect(() => {
+    if (dashContentEl) {
+      dashContentEl.addEventListener('scroll', () => {
+        if (dashContentEl.scrollTop > 1) {
+          if (history.location.pathname.includes('propertyLists') ||
+          history.location.pathname.includes('pageList')) {
+            setExtraHeight(40);
+          } else if (history.location.pathname.includes('deals')) {
+            setExtraHeight(100);
+          } else {
+            setExtraHeight(100);
+          }
+        } else if (history.location.pathname.includes('deals')) {
+          setExtraHeight(124);
+        } else if (history.location.pathname.includes('propertyLists') ||
+        history.location.pathname.includes('pageList')) {
+          setExtraHeight(100);
+        } else if (history.location.pathname.includes('buyer')) {
+          setExtraHeight(100);
+        } else {
+          setExtraHeight(164);
+        }
+      });
+    }
+  }, [dashContentEl]);
+
   const headerCalc = () => {
+    let contentHeight;
     if (!isFlow) {
       if (windowDimensions.width <= 1024) {
-        if (userTypes === 'buyer' || history.location.pathname.includes('seller')) {
-          return {
-            height: '100%',
-          };
-        }
-        return {
-          height: (windowDimensions.height + extraHeight) - 174,
-        };
+        contentHeight = windowDimensions.height - extraHeight;
+      } else {
+        contentHeight = `calc(100vh - ${calcHeaderHeight()}px)`;
       }
-      return {
-        height: `calc(100vh - ${calcHeaderHeight()}px)`,
-      };
+    } else {
+      contentHeight = windowDimensions.height - calcFlowHeaderHeight();
     }
-    return {
-      height: windowDimensions.height - calcFlowHeaderHeight(),
-    };
+    return contentHeight;
   };
 
   // DID MOUNT TO CHECK THE USER TOKEN AND INITIALIZE THE WINDOW SIZE LISTENER
@@ -353,6 +388,11 @@ const App = (props) => {
       }
     }
     return null;
+  };
+
+  const overflowClass = () => {
+    if (history.location.pathname.includes('deals')) return 'ov-y-h ov-x-h';
+    return 'ov-y-a ov-x-h';
   };
 
   // CONDITION TO VIEW THE ELEMENTS AFTER LOADING
@@ -412,8 +452,8 @@ const App = (props) => {
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? 'hubDasContent ov-y-a ov-x-h bgLight100' : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
-              style={isSecLevel ? { height: '100%' } : headerCalc()}
+              className={`${!isFlow ? `hubDasContent ${overflowClass()} bgLight100` : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
+              style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
               ref={dashContentRef}
             >
               {
@@ -442,6 +482,7 @@ const App = (props) => {
                       <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/listings" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
+                      <ProtectedRoute path="/:propId?/deals" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
                     </>
@@ -473,6 +514,8 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess="seller" />
           <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
+          <ProtectedRoute exact path="/:propID/deals/:dealID/deal" component={SingleDeal} />
+          <ProtectedRoute exact path="/:propID/deals/newDeal" component={CreateDeal} />
         </Switch>
       }
 
@@ -543,6 +586,7 @@ const App = (props) => {
       {/* Splash screens for single deal, create new deal and edit document */}
       <Switch>
         <Route exact path="/:propID/property/documents/:docID/editDocument" component={SingleDocument} />
+        <Route exact path="/:propID/deals/newDeal" component={CreateDeal} />
       </Switch>
     </main>
   );

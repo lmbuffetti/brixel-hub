@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon,
+  BrixelButtonIcon, FormatValue,
   Helpers,
 } from '@brixel/brixel-components';
 import { compose, bindActionCreators } from 'redux';
@@ -125,7 +125,7 @@ const PropertiesBuyerDashboard = (props) => {
                       }}
                     >
                       <CoverPropertyImage
-                        coverPhoto={get(property, 'coverPhoto.thumbnailPath', null)}
+                        coverPhoto={get(property, 'coverPhoto.galleryThumbnailPath', null)}
                         className="avatar w-fix-96 h-fix-96 pos-r brdRadius"
                       />
                     </Link>
@@ -152,7 +152,9 @@ const PropertiesBuyerDashboard = (props) => {
 
                     <div className="px-1">
                       <h6 className="fsize-100 txtDark200 ws-nw">Rooms</h6>
-                      <span className="ff-mono txtDark700">{get(property, 'properties.typology.bedrooms', '0')}</span>
+                      <span className="ff-mono txtDark700">
+                        {FormatValue.formatRooms(get(property, 'properties.typology.bedrooms', 0), get(property, 'location.countryCode', 'CH'))}
+                      </span>
                     </div>
                     <div className="px-1">
                       <h6 className="fsize-100 txtDark200 ws-nw">Living space</h6>

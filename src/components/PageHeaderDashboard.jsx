@@ -30,8 +30,8 @@ import {
   secondRoutesBuyer,
 } from '../resources/navigationRoutes';
 import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
-import { setActiveSingleProperty } from '../actions/PropertyActions';
-import brixels from '../images/BrxielComingTown/brixels.svg';
+import { setActiveSingleProperty, getActiveSinglePropertyDealsCount, setActiveSinglePropertyDealsCount } from '../actions/PropertyActions';
+// import brixels from '../images/BrxielComingTown/brixels.svg';
 import CoverPropertyImage from './CoverPropertyImage';
 import AccountDropdown from './AccountDropdown';
 
@@ -42,21 +42,24 @@ function PageHeaderDashboard(props) {
     handleSetActiveSingleProperty,
     destroyForm,
     activeSingleProperty,
-    awards,
-    brixelPoints,
+    // awards,
+    // brixelPoints,
     changeZIndex,
     formValue,
     gameGroup,
     gameHistory,
-    handleGetGame,
+    // handleGetGame,
     handleSetLanguage,
-    handleSetModal,
+    // handleSetModal,
     handleSaveActiveSingleUser,
     history,
     lang,
     loggedInUser,
     userType,
     windowDimensions,
+    getPropertyDealsCount,
+    setDealsCount,
+    activeSinglePropertyDealsCount,
   } = props;
   // STATE
   // const [currentLang, setCurrentLang] = useState(lang);
@@ -125,7 +128,7 @@ function PageHeaderDashboard(props) {
       const langUsr = loggedInUser.user.language;
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
-      if (!gameHistory.data) handleGetGame();
+      // if (!gameHistory.data) handleGetGame();
     }
   }, [loggedInUser]);
 
@@ -144,10 +147,13 @@ function PageHeaderDashboard(props) {
   }, []);
 
   // FUNCTION TO LOAD THE GAME GROUP AND THE GAME HISTORY AND CALC THE NUMBER OF SECTION (number iside red circle)
+  // FUNCTION TO CALC THE NUMBER OF NEW DEALS IN ORDER TO HIGHLIGHT DEALS TAB
   useEffect(() => {
     if (gameGroup && gameHistory && userType === 'seller') {
+      getPropertyDealsCount(activeSingleProperty.id);
       // let numDone = 0;
       let numTodo = 0;
+      let newSellerCount = 0;
       const usrGroups = gameGroup.sort(sortObject('stub', 'asc'));
       usrGroups.forEach((groups) => {
         if (groups.stub.includes(userType)) {
@@ -168,14 +174,22 @@ function PageHeaderDashboard(props) {
         get(formValue, 'location.countryCode', 'CH') !== 'PT'
       ) numTodo -= 2;
       const nav = cloneDeep(firstRoutes);
-      nav[0].title = '<span>Home</span>';
-      if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
-      setRouteNav([...nav]);
+      if (Object.keys(activeSinglePropertyDealsCount).length > 0) {
+        Object.keys(activeSinglePropertyDealsCount).forEach((label) => {
+          newSellerCount += activeSinglePropertyDealsCount[label].new;
+        });
+        if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
+        if (newSellerCount > 0) nav[3].title += `<span class="numRecords notranslate txtWhite">${newSellerCount}</span>`;
+        setRouteNav([...nav]);
+      } else {
+        if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
+        setRouteNav([...nav]);
+      }
     }
-  }, [gameGroup, gameHistory, activeSingleProperty, userType]);
+  }, [gameGroup, gameHistory, activeSingleProperty, userType, Object.keys(activeSinglePropertyDealsCount).length > 0]);
 
   // SHOW DETAILS WHEN CLICK ON BRIXELS POINTS
-  const brixelsAchievementDetail = () => {
+  /* const brixelsAchievementDetail = () => {
     handleSetModal({
       showAwardsInfo: true,
     });
@@ -187,7 +201,7 @@ function PageHeaderDashboard(props) {
     setActiveMenu(link);
     changeZIndex(1);
     document.body.classList.remove('ov-h');
-  };
+  }; */
 
   // SHOW/HIDE MOBILE MENU
   const toggleMobileMenu = () => {
@@ -234,7 +248,7 @@ function PageHeaderDashboard(props) {
         }
       });
     }
-  });
+  }, []);
 
   // FUNCTION TO CALC IF TITLE IS LONG OR NOT AND ASSIGN THE DIFFERENT CLASS
   /* useEffect(() => {
@@ -260,6 +274,7 @@ function PageHeaderDashboard(props) {
   // FUNCTION TO GO TO SELLERS/BUYERS PROPERTIES
   const onBackProperties = () => {
     handleSetActiveSingleProperty({});
+    setDealsCount({});
     if (userType === 'seller') history.push('/seller/pageLists');
     else history.push('/buyer/propertyLists');
   };
@@ -271,6 +286,7 @@ function PageHeaderDashboard(props) {
       if (history.location.pathname.includes('rewards')) curTab = 'rewards';
       else if (history.location.pathname.includes('property')) curTab = 'property';
       else if (history.location.pathname.includes('listings')) curTab = 'listings';
+      else if (history.location.pathname.includes('deals')) curTab = 'deals';
     }
     return curTab;
   };
@@ -300,7 +316,7 @@ function PageHeaderDashboard(props) {
                   >
                     <CoverPropertyImage
                       className="cover"
-                      coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
+                      coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
                       propertyType={get(formValue, 'properties.propertyType', undefined)}
                     />
                   </div>
@@ -595,7 +611,7 @@ function PageHeaderDashboard(props) {
           }
         </div>
         {
-          windowDimensions.width <= 1024 && (
+          windowDimensions.width <= 1024 && getCurrentRoute().name !== 'deals' && (
             <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
               <div className="header-section dis-fl-row a-c jc-b">
                 {/* <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} /> */}
@@ -631,24 +647,27 @@ function PageHeaderDashboard(props) {
 
 PageHeaderDashboard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  awards: PropTypes.number.isRequired,
-  brixelPoints: PropTypes.number.isRequired,
+  activeSinglePropertyDealsCount: PropTypes.object.isRequired,
+  // awards: PropTypes.number.isRequired,
+  // brixelPoints: PropTypes.number.isRequired,
   changeZIndex: PropTypes.func,
   destroyForm: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
-  handleGetGame: PropTypes.func.isRequired,
+  // handleGetGame: PropTypes.func.isRequired,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
-  handleSetModal: PropTypes.func.isRequired,
+  // handleSetModal: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object,
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
+  getPropertyDealsCount: PropTypes.func.isRequired,
+  setDealsCount: PropTypes.func.isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {
@@ -659,6 +678,7 @@ PageHeaderDashboard.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
   awards: get(state, 'user.awards', 0),
   brixelPoints: get(state, 'user.brixelPoints', 0),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
@@ -683,6 +703,8 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
+  getPropertyDealsCount: bindActionCreators(getActiveSinglePropertyDealsCount, dispatch),
+  setDealsCount: bindActionCreators(setActiveSinglePropertyDealsCount, dispatch),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageHeaderDashboard));

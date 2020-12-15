@@ -152,6 +152,13 @@ export const BestimatePT = () => [
         name: 'properties.energy.efficiency',
         options: factsOptions.energyEfficiencyOptions,
       },
+      {
+        component: BrixelCheckbox,
+        className: '',
+        label: 'What is the solar orientation?',
+        name: 'properties.building.solarOrientarion',
+        options: factsOptions.solarOrientation,
+      },
     ],
   },
   {

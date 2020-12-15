@@ -161,6 +161,16 @@ class Property extends Base {
     const url = ep.property.scanTrial(id);
     return this.apiClient.put(url, {}, data);
   }
+
+  getPageDeals(id) {
+    const url = ep.property.pageDeals(id);
+    return this.apiClient.get(url, {});
+  }
+
+  getPageDealsCount(id) {
+    const url = ep.property.pageDealsCount(id);
+    return this.apiClient.get(url, {});
+  }
 }
 
 export default Property;

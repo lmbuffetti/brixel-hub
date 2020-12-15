@@ -230,6 +230,7 @@ const ScanTrialFlow = (props) => {
                         form="scanFlow"
                         inputs={quest.inputs}
                         onClick={() => ''}
+                        className={quest.inputs.className}
                       />
                     </div>
                   )
@@ -267,35 +268,37 @@ const ScanTrialFlow = (props) => {
                       {
                         get(formValue, 'interested', null) ? (
                           <div>
-                            <h3
-                              className="mt-5"
-                            >
-                              Thank you for your request.
+                            <h3 className="mt-5">
+                              Thank you for your request!
                             </h3>
-                            <p
-                              className="mt-2 max-w-fix-400"
-                            >
+                            <p className="mt-3">
                               One of our experts will get in touch with you as soon as possible to schedule your personal appointment.
                             </p>
-                            <p className="my-1 max-w-fix-400">
+                            <p className="my-2">
                               To speed up the process you can already  prepare the following documents for your estimation:
                             </p>
-                            <ul className="max-w-fix-400 ml-1 pl-2">
-                              <li>Extract from the land register</li>
-                              <li>Building insurance policy</li>
-                              <li>Previous estimation report (if available)</li>
-                            </ul>
+                            {
+                              get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
+                                <ul className="ml-3 pl-2">
+                                  <li>Caderneta Predial Urbana</li>
+                                  <li>Floor plan</li>
+                                  <li>Previous estimation report</li>
+                                </ul>
+                              ) : (
+                                <ul className="ml-3 pl-2">
+                                  <li>Extract from the land register</li>
+                                  <li>Building insurance policy</li>
+                                  <li>Previous estimation report (if available)</li>
+                                </ul>
+                              )
+                            }
                           </div>
                         ) : (
                           <div>
-                            <h3
-                              className="mt-5 ta-c"
-                            >
+                            <h3 className="ta-c">
                               Thank you for your feedback.
                             </h3>
-                            <p
-                              className="m-a mt-2 max-w-fix-400 ta-c"
-                            >
+                            <p className="m-a mt-3 ta-c">
                               Feel free to contact us any time if you change your mind.
                             </p>
                           </div>
@@ -420,7 +423,7 @@ const mapStateToProps = (state) => {
       id: get(state, 'property.activeSingleProperty.id', null),
       contactFullName: get(state, 'user.loggedInUser.user.name', null),
       contactPhone: {
-        prefix: get(state, 'user.loggedInUser.user.phone.prefix', countryPhoneCode.dial_code),
+        prefix: get(state, 'user.loggedInUser.user.phone.prefix', countryPhoneCode.dial_code) || countryPhoneCode.dial_code,
         number: get(state, 'user.loggedInUser.user.phone.number', ''),
       },
       contactEmail: get(state, 'user.loggedInUser.user.email', null),

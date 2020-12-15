@@ -90,6 +90,7 @@ export const ScanTrialQuestions = () => {
           label: 'Comments',
           name: 'comments',
           placeholder: '',
+          className: 'mb-5',
           options: factsOptions.scanTrialInterest,
         },
       ],

@@ -32,7 +32,7 @@ export const defaultState = {
     height: window.innerHeight,
   },
   formError: {},
-  isLoading: 0,
+  isLoading: 1,
   isSmallLoading: null,
   requestDone: false,
   redirectTo: null,

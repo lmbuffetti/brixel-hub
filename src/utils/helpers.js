@@ -55,6 +55,11 @@ export const calcPercentageFacts = (form = 'Property', value = {}) => {
   };
 };
 
+export const formatPrice = (value, lang) => {
+  if (typeof value !== 'number' && !value) return '';
+  return Number(value).toLocaleString(lang);
+};
+
 export const cutValue = (val) => {
   let formatVal = val;
   if (val > 10000) {
@@ -538,7 +543,7 @@ export const tobase64Handler = async (files, user, action, pageID, imgType) => {
     filePathsPromises.push(toBase64(file));
   });
   const filePaths = await Promise.all(filePathsPromises);
-  const mappedFiles = filePaths.map((base64File, i) => {
+  const mappedFiles = filePaths.map((base64File) => {
     if (action === 'documents') {
       const name = get(base64File, 'name', Date.now() / 1000);
       return {
