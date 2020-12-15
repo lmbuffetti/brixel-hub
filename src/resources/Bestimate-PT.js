@@ -20,6 +20,15 @@ export const BestimatePT = () => [
     cardType: 'step1',
     inputs: [
       {
+        classNameParent: 'extraCols',
+        component: BrixelCheckbox,
+        label: '',
+        name: 'properties.extraFeaturesBestimatePT',
+        pdClass: 'p-1',
+        iconClass: 'p-small-17 fSizePx22 bgPrimary400 txtWhite brdRadius mr-1',
+        options: factsOptions.extraFeatureBestimatePT,
+      },
+      {
         component: BrixelRadioButton,
         label: 'Property condition',
         name: 'properties.building.conditionStatus',
@@ -151,6 +160,13 @@ export const BestimatePT = () => [
         label: 'What\'s the energy efficiency of the property?',
         name: 'properties.energy.efficiency',
         options: factsOptions.energyEfficiencyOptions,
+      },
+      {
+        component: BrixelCheckbox,
+        className: '',
+        label: 'What is the solar orientation?',
+        name: 'properties.building.solarOrientarion',
+        options: factsOptions.solarOrientation,
       },
     ],
   },

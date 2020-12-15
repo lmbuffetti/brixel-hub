@@ -101,21 +101,36 @@ const Bestimate = (props) => {
 
   useEffect(() => {
     if (get(formValue, 'properties.extraFeaturesBestimatePT', null)) {
-      changeFieldValue('properties.typology.storeroom', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('storageRoom'));
-      changeFieldValue('properties.typology.basement', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('basement'));
-      changeFieldValue('properties.typology.pantry', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('pantry'));
-      changeFieldValue('properties.extraFeatures.cityView', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('cityView'));
-      changeFieldValue('properties.extraFeatures.seaView', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('seaView'));
-      changeFieldValue('properties.extraFeatures.equipedKitchen', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('equipedKitchen'));
-      changeFieldValue('properties.extraFeatures.gym', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('gym'));
-      changeFieldValue('properties.extraFeatures.elevator', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('elevator'));
+      changeFieldValue('properties.extraFeatures.equippedKitchen', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('equippedKitchen'));
+      changeFieldValue('properties.building.blinds.blindsElectric', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('electricBlinds'));
+      let windowsMaterials = [];
+      if (get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('doubleGlazedWindows')) {
+        windowsMaterials = ['doubleGlazed'];
+      }
+      if (windowsMaterials[0] !== get(formValue, 'properties.building.windows.materials', [])[0]) changeFieldValue('properties.building.windows.materials', windowsMaterials);
+      changeFieldValue('properties.extraFeatures.suite', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('masterBedroom'));
       changeFieldValue('properties.extraFeatures.wardrobe', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('wardrobe'));
+      changeFieldValue('properties.energy.ac', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('airConditioning'));
+      let centralHeating = [];
+      if (get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('heatingSystem')) {
+        centralHeating = ['centralHeating'];
+      }
+      if (centralHeating[0] !== get(formValue, 'properties.energy.heatingSystem', [])[0]) changeFieldValue('properties.energy.heatingSystem', centralHeating);
       changeFieldValue('properties.extraFeatures.fireplace', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('fireplace'));
       changeFieldValue('properties.extraFeatures.swimmingPool', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('pool'));
+      changeFieldValue('properties.extraFeatures.gym', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('gym'));
+      changeFieldValue('properties.extraFeatures.elevator', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('elevator'));
+      changeFieldValue('properties.typology.storeroom', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('storageRoom'));
+      changeFieldValue('properties.typology.basement', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('basement'));
+      changeFieldValue('properties.extraFeatures.seaView', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('seaView'));
+      changeFieldValue('properties.extraFeatures.cityView', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('cityView'));
+      changeFieldValue('properties.typology.pantry', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('pantry'));
+      changeFieldValue('properties.extraFeatures.videoSecurity', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('dorbellVideo'));
+      changeFieldValue('properties.extraFeatures.alarm', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('alarm'));
       const efficiencyCertified = get(formValue, 'properties.energy.efficiency', null) !== null ? 'yes' : null;
       changeFieldValue('properties.energy.efficiencyCertified', efficiencyCertified);
     }
-  }, [get(formValue, 'properties.extraFeaturesBestimatePT', null), get(formValue, 'properties.energy.efficiency', [])]);
+  }, [get(formValue, 'properties.extraFeaturesBestimatePT', null)]);
 
   // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {

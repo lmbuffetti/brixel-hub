@@ -6,7 +6,6 @@ import {
   withRouter,
 } from 'react-router-dom';
 import FirstImpression from '../../images/scanTrial/firstImpression.png';
-import ScanTrialPlaceholder from '../../images/scanTrial/placeholderScanTrial.png';
 import scanTrialImg2 from '../../images/scanTrial/scanTrialImg2.png';
 import scanTrialImg3 from '../../images/scanTrial/scanTrialImg3.png';
 

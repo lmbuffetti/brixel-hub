@@ -168,7 +168,7 @@ const SingleDeal = (props) => {
   };
 
   const OptionsDropdown = (data) => {
-    if ((data.showMobile && windowDimensions.width <= 1024) || (data.showDesktop && windowDimensions.width > 1024)) {
+    if ((data.showMobile && get(windowDimensions, 'width', 0) <= 1024) || (data.showDesktop && get(windowDimensions, 'width', 0) > 1024)) {
       const className = data.className || '';
       const btnClass = data.btnClass || '';
       return (
@@ -193,17 +193,17 @@ const SingleDeal = (props) => {
                 links={
                   [
                     {
-                      label: activeSingleDeal.winner ? 'Remove winner' : 'Winner',
+                      label: get(activeSingleDeal, 'winner', null) ? 'Remove winner' : 'Winner',
                       clickFunc: () => { winDeal(); setOptionsOpen(false); },
                       className: 'txtPrimary400',
                     },
                     {
-                      label: activeSingleDeal.newSeller ? 'Mark as read' : 'Mark as new',
+                      label: get(activeSingleDeal, 'newSeller', null) ? 'Mark as read' : 'Mark as new',
                       clickFunc: () => { newDeal(); setOptionsOpen(false); },
                       className: 'txtPrimary400',
                     },
                     {
-                      label: activeSingleDeal.active ? 'Archive' : 'Unarchive',
+                      label: get(activeSingleDeal, 'active', null) ? 'Archive' : 'Unarchive',
                       clickFunc: () => { archiveDeal(); setOptionsOpen(false); },
                       className: 'txtPrimary400',
                     },

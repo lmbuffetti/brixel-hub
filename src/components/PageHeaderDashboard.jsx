@@ -110,7 +110,6 @@ function PageHeaderDashboard(props) {
       setSelLang(defLangCode);
       localStorage.setItem('lang', defLangCode);
       setCookie('brixelLang', defLangCode);
-      console.log(defLangCode);
     }
     if (get(loggedInUser, 'user.id', null)) {
       const userData = {

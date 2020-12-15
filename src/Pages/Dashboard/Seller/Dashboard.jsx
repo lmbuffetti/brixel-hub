@@ -34,7 +34,7 @@ import {
   setModal, setPageData, setScreenNotification, spinnerOn,
 } from '../../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
-import { calcPercentageFacts, setCookie } from '../../../utils/helpers';
+import { calcPercentageFacts } from '../../../utils/helpers';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
