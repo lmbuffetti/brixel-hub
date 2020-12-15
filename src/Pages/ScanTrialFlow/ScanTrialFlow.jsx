@@ -413,7 +413,6 @@ ScanTrialFlow.defaultProps = {
 const mapStateToProps = (state) => {
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
-  console.log(countryPhoneCode);
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     errorValue: get(state, 'brixelForm.scanFlow.syncErrors', {}),
