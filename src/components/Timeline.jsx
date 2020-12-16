@@ -352,6 +352,13 @@ const Timeline = (props) => {
                         }}
                       />
                       <div className="dis-fl-row">
+                        {
+                          has(event, 'user') && (
+                            <>
+                              <span className="fsize-100 txtDark200">{event.user}</span>&nbsp;
+                            </>
+                          )
+                        }
                         <span className="fsize-100 txtDark200">{event.formattedDate}</span>
                       </div>
                     </div>
