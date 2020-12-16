@@ -29,7 +29,7 @@ const DealsCard = (props) => {
       if (lastAction.actionStub === 'user-schedule') return 'Requested showing';
       if (lastAction.actionStub === 'user-get-document') return 'Requested documents';
       if (lastAction.actionStub === 'user-phone-call') return 'Made a phone call';
-      if (lastAction.actionStub === 'user-portal-create-message') return `Sent new message on ${lastAction.meta.portal}`;
+      if (lastAction.actionStub === 'user-portal-create-message') return `<span><span>Sent new message on</span> <span>${lastAction.meta.portal}</span></span>`;
       if (lastAction.actionStub === 'user-send-message') {
         return `"${lastAction.meta.message}"`;
       }
