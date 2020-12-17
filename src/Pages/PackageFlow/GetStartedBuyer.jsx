@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset,
+  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -22,7 +22,7 @@ import { titleProperty } from '../../utils/titleCreation';
 import { setCookie } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingBuyer';
 import { getGamegroup } from '../../actions/GamificationActions';
-import { setLanguage } from '../../actions/CommonActions';
+import { setLanguage, spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
 
 const cookie = new Cookies();
@@ -32,6 +32,7 @@ const GetStartedBuyer = (props) => {
   const {
     changeFieldValue,
     company,
+    destroyForm,
     errorValue,
     formValue,
     handleCreateActiveSingleProperty,
@@ -41,6 +42,7 @@ const GetStartedBuyer = (props) => {
     handleSaveActiveSingleProperty,
     handleSaveActiveSingleUser,
     handleSetLanguage,
+    handleSpinnerOff,
     handleValidateUser,
     history,
     initForm,
@@ -66,6 +68,13 @@ const GetStartedBuyer = (props) => {
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
+
+  // DESTROY FORM ON EXIT
+  useEffect(() => {
+    handleSpinnerOff();
+    return () => destroyForm();
+  }, []);
+
   // FUNCTION TO SAVE DATA
   const saveData = async (action) => {
     const dataForm = cloneDeep(formValue);
@@ -94,8 +103,8 @@ const GetStartedBuyer = (props) => {
         packageFlowProcess.answers.whenToSell = get(dataForm, 'register.whenToSell', null);
       }
       dataProperty.packageFlowProcess = packageFlowProcess;
-      await handleSaveActiveSingleUser(dataUser);
-      await handleSaveActiveSingleProperty(dataProperty);
+      // await handleSaveActiveSingleUser(dataUser);
+      // await handleSaveActiveSingleProperty(dataProperty);
     } else {
       const { login, register, company } = dataForm;
       // delete dataForm.login;
@@ -166,7 +175,7 @@ const GetStartedBuyer = (props) => {
           },
         };
         // DISPATCH TO DO REGISTRATION USER
-        await handleValidateUser(data);
+        // await handleValidateUser(data);
       }
     }
   };
@@ -660,6 +669,7 @@ const GetStartedBuyer = (props) => {
 GetStartedBuyer.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   company: PropTypes.object.isRequired,
+  destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleCreateActiveSingleProperty: PropTypes.func.isRequired,
@@ -669,6 +679,7 @@ GetStartedBuyer.propTypes = {
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
@@ -731,6 +742,9 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('GetStarted', field, value));
   },
+  destroyForm() {
+    dispatch(destroy('GetStarted'));
+  },
   initForm(value) {
     dispatch(initializeForm('GetStarted', value));
   },
@@ -744,6 +758,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 

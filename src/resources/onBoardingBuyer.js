@@ -1,5 +1,6 @@
 import {
   BrixelRadioButton,
+  BrixelExtraFeature,
   BrixelInputStepNumber,
   BrixelInputText,
   BrixelInputRange,
@@ -47,13 +48,16 @@ const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
 // QUESTION LISTS
 export const QuestionsList = (lang) => {
   let countryList = [];
-  let formValue = {};
+  const formValue = {};
   let country = 'CH';
+  let propertyType = '';
   if (configureStore) {
     countryList = get(configureStore.getState(), 'common.country', []);
-    formValue = get(configureStore.getState(), 'brixelForm.GetStarted.values', []);
+    propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
     country = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', 'CH');
   }
+  let livingAreaTitle = translateTo(lang, 'What is the living space size?');
+  if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
   return [
     {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
@@ -80,10 +84,24 @@ export const QuestionsList = (lang) => {
               label: translateTo(lang, 'House'),
               value: 'House',
               img: house,
-
+            },
+            {
+              label: 'Building land',
+              value: 'Building land',
+              img: house,
             },
           ],
         },
+      ],
+      successMessage: translateTo(lang, 'Ok. Got it.'),
+    },
+    {
+      title: translateTo(lang, 'How many rooms?'),
+      history: 'tipology',
+      vCentered: true,
+      bgImg: homesSvg,
+      inputs: [
+
         {
           component: BrixelInputStepNumber,
           classNameBox: 'max-w-fix-md-232',
@@ -98,8 +116,38 @@ export const QuestionsList = (lang) => {
           fluid: true,
           startFrom: 3,
         },
+      ],
+      successMessage: translateTo(lang, 'Ok. Got it.'),
+    },
+    {
+      title: livingAreaTitle,
+      history: 'livingSpace',
+      vCentered: true,
+      bgImg: homesSvg,
+      inputs: [
         {
           component: BrixelInputText,
+          className: 'max-w-fix-md-232',
+          label: country === 'PT' ? 'Gross area' : 'Net living space',
+          name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
+          type: 'number',
+          validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
+          unit: 'm2',
+          classNameBox: 'brdRadius max-w-fix-md-288',
+          placeholder: translateTo(lang, 'e.g. 120'),
+          maxLenghtNum: 9999,
+        },
+      ],
+      successMessage: translateTo(lang, 'Ok. Got it.'),
+    },
+    {
+      title: 'Extra Feature',
+      history: 'livingSpace',
+      vCentered: true,
+      bgImg: homesSvg,
+      inputs: [
+        {
+          component: BrixelExtraFeature,
           className: 'max-w-fix-md-232',
           label: country === 'PT' ? 'Gross area' : 'Net living space',
           name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
@@ -131,55 +179,6 @@ export const QuestionsList = (lang) => {
         },
       ],
       successMessage: translateTo(lang, 'This is a nice number.'),
-    },
-    {
-      title: translateTo(lang, 'What is the location?'),
-      history: 'locationInput',
-      cardType: 'locationInput',
-      bgImg: locationSvg,
-      inputs: [
-        {
-          className: 'pos-r zIndex6',
-          classNameBox: 'max-w-perc-65',
-          component: BrixelSelect,
-          label: 'Country',
-          name: 'location.countryCode',
-          options: countryList,
-          validation: [Validation.required],
-        },
-        {
-          component: Maps,
-          showMap: true,
-          name: 'location.latitude',
-          type: 'Map',
-          mapOptions: {
-            showMap: true,
-            hideSearch: false,
-            showSelectCountry: true,
-            multipleFieldSearch: true,
-            draggable: true,
-            searchType: '(regions)',
-          },
-          validation: [Validation.required],
-        },
-      ],
-      successMessage: translateTo(lang, 'That is an interesting location.'),
-    },
-    {
-      title: 'How experienced are you?',
-      bgImg: userType,
-      history: 'typeOfBuyer',
-      inputs: [
-        {
-          component: BrixelRadioButton,
-          pdClass: 'py-2 py-md-3 px-1',
-          icons: true,
-          label: '',
-          name: 'register.typeOfBuyer',
-          validation: [Validation.required],
-          options: factsOptions.userBuyer,
-        },
-      ],
     },
     {
       conditions: [{
