@@ -119,6 +119,7 @@ const GetStarted = (props) => {
         metaUserData[key] = navigator[key];
       }
       // PROPERTY DATA
+      delete dataFormAnswer.login;
       const data = {
         ...dataFormAnswer,
         packageFlowProcess: {
