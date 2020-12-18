@@ -10,6 +10,7 @@ import {
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import Maps from '../components/Map/Maps';
+import MapsCities from '../components/Map/MapsCities';
 import LoginSignup from '../components/LoginSignup';
 import { translateTo } from '../utils/translation';
 import { configureStore } from '../store';
@@ -21,7 +22,6 @@ import homesSvg from '../images/getstarted/svgs/homes.svg';
 import locationSvg from '../images/getstarted/svgs/location.svg';
 import roomsSvg from '../images/getstarted/svgs/room.svg';
 import congratsSvg from '../images/getstarted/svgs/congrats.svg';
-import userType from '../images/getstarted/svgs/userType.svg';
 
 const { factsOptions } = FactsOptions;
 
@@ -59,6 +59,38 @@ export const QuestionsList = (lang) => {
   let livingAreaTitle = translateTo(lang, 'What is the living space size?');
   if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
   return [
+    {
+      title: translateTo(lang, 'What is the location?'),
+      history: 'locationInput',
+      cardType: 'locationInput',
+      bgImg: locationSvg,
+      inputs: [
+        {
+          className: 'pos-r zIndex6',
+          classNameBox: 'max-w-perc-65',
+          component: BrixelSelect,
+          label: 'Country',
+          name: 'location.countryCode',
+          options: countryList,
+          validation: [Validation.required],
+        },
+        {
+          component: MapsCities,
+          showMap: true,
+          name: 'location.latitude',
+          type: 'Map',
+          mapOptions: {
+            showMap: true,
+            hideSearch: false,
+            showSelectCountry: true,
+            multipleFieldSearch: true,
+            draggable: true,
+          },
+          validation: [Validation.required],
+        },
+      ],
+      successMessage: translateTo(lang, 'That is an interesting location.'),
+    },
     {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
       title: translateTo(lang, 'What type of property do you have?'),

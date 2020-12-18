@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import {
-  Map, InfoWindow, Marker,
+  Map, InfoWindow, Marker, Circle,
 } from 'google-maps-react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
@@ -32,6 +32,7 @@ export const ComponentMap = (props) => {
     longitude,
     mapType,
     moveMarker,
+    rad,
     nearBy,
     scrollZoom,
     showMap,
@@ -295,6 +296,25 @@ export const ComponentMap = (props) => {
             )
           }
           {
+            rad && (
+              <Circle
+                radius={rad * 1000}
+                center={{
+                  lat: latitude,
+                  lng: longitude,
+                }}
+                onMouseover={() => console.log('mouseover')}
+                onClick={() => console.log('click')}
+                onMouseout={() => console.log('mouseout')}
+                strokeColor="transparent"
+                strokeOpacity={0}
+                strokeWeight={5}
+                fillColor="#FF0000"
+                fillOpacity={0.2}
+              />
+            )
+          }
+          {
             modalInfo.lat && (
               <InfoWindow
                 visible={showInfoWindow}
@@ -352,6 +372,7 @@ ComponentMap.propTypes = {
   mapType: PropTypes.string,
   moveMarker: PropTypes.bool,
   nearBy: PropTypes.bool,
+  rad: PropTypes.number,
   scrollZoom: PropTypes.bool,
   similarProperties: PropTypes.arrayOf(PropTypes.object),
   showMap: PropTypes.bool,
@@ -371,6 +392,7 @@ ComponentMap.defaultProps = {
   moveMarker: false,
   nearBy: false,
   scrollZoom: false,
+  rad: null,
   similarProperties: [],
   showMap: false,
   zoom: 10,
