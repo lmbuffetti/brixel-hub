@@ -164,6 +164,18 @@ export const createTimelineEntry = (item) => {
     ];
   }
 
+  // Return Update Deal entry
+  if (has(item, 'actionStub') && item.actionStub === 'update-deal') {
+    return {
+      description: getHTMLDescription(), // Content of the event
+      icon: getIcon(), // Defines the type of icon on the event
+      user: item.child.name,
+      formattedDate: moment(item.createdAt).format('D MMM YYYY, H:mm'), // Formatted date to be shown on the event
+      timestamp: moment(item.createdAt).valueOf(), // Unix timestamp for sorting purposes
+      pinned: false, // Flag for sorting purposes
+    };
+  }
+
   return {
     description: getHTMLDescription(), // Content of the event
     icon: getIcon(), // Defines the type of icon on the event
