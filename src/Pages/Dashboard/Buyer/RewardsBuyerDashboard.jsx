@@ -103,7 +103,7 @@ const RewardsBuyerDashboard = (props) => {
                             )
                           }
                         </div>
-                        {
+                        {/* {
                           activeAchievement.points && (
                             <div
                               className="cur-poi ml-2"
@@ -123,7 +123,7 @@ const RewardsBuyerDashboard = (props) => {
                               <span className="ff-mono txtDark700">{activeAchievement.points}</span>
                             </div>
                           )
-                        }
+                        } */}
                       </div>
                     )
                   }
