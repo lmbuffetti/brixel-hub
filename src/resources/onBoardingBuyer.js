@@ -60,38 +60,6 @@ export const QuestionsList = (lang) => {
   if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
   return [
     {
-      title: translateTo(lang, 'What is the location?'),
-      history: 'locationInput',
-      cardType: 'locationInput',
-      bgImg: locationSvg,
-      inputs: [
-        {
-          className: 'pos-r zIndex6',
-          classNameBox: 'max-w-perc-65',
-          component: BrixelSelect,
-          label: 'Country',
-          name: 'location.countryCode',
-          options: countryList,
-          validation: [Validation.required],
-        },
-        {
-          component: MapsCities,
-          showMap: true,
-          name: 'location.latitude',
-          type: 'Map',
-          mapOptions: {
-            showMap: true,
-            hideSearch: false,
-            showSelectCountry: true,
-            multipleFieldSearch: true,
-            draggable: true,
-          },
-          validation: [Validation.required],
-        },
-      ],
-      successMessage: translateTo(lang, 'That is an interesting location.'),
-    },
-    {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
       title: translateTo(lang, 'What type of property do you have?'),
       history: 'propertyType',
@@ -211,6 +179,38 @@ export const QuestionsList = (lang) => {
         },
       ],
       successMessage: translateTo(lang, 'This is a nice number.'),
+    },
+    {
+      title: translateTo(lang, 'What is the location?'),
+      history: 'locationInput',
+      cardType: 'locationInput',
+      bgImg: locationSvg,
+      inputs: [
+        {
+          className: 'pos-r zIndex6',
+          classNameBox: 'max-w-perc-65',
+          component: BrixelSelect,
+          label: 'Country',
+          name: 'location.countryCode',
+          options: countryList,
+          validation: [Validation.required],
+        },
+        {
+          component: MapsCities,
+          showMap: true,
+          name: 'location.latitude',
+          type: 'Map',
+          mapOptions: {
+            showMap: true,
+            hideSearch: false,
+            showSelectCountry: true,
+            multipleFieldSearch: true,
+            draggable: true,
+          },
+          validation: [Validation.required],
+        },
+      ],
+      successMessage: translateTo(lang, 'That is an interesting location.'),
     },
     {
       conditions: [{
