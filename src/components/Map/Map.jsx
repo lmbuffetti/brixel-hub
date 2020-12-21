@@ -22,8 +22,8 @@ export const ComponentMap = (props) => {
   const {
     changeFieldValue,
     curCountry,
-    draggable,
     disableZoom,
+    draggable,
     externalControls,
     formName,
     google,
@@ -32,8 +32,9 @@ export const ComponentMap = (props) => {
     longitude,
     mapType,
     moveMarker,
-    rad,
     nearBy,
+    points,
+    rad,
     scrollZoom,
     showMap,
     similarProperties,
@@ -136,11 +137,13 @@ export const ComponentMap = (props) => {
         lng: longitude,
       };
       if (latitude === 44.82 && longitude === 4.31) optMap.setZoom(4);
+      else if (points.length > 0) optMap.setZoom(12);
+      else if (rad) optMap.setZoom(13);
       else if (isDefView) optMap.setZoom(6);
       else optMap.setZoom(14);
       optMap.panTo(center);
     }
-  }, [latitude, longitude, optMap.zoom]);
+  }, [latitude, longitude, optMap.zoom, rad, points]);
 
   // FUNCTION IF ENABLED EXTERNAL CONTROLS
   const btnActions = (action) => {
@@ -303,9 +306,6 @@ export const ComponentMap = (props) => {
                   lat: latitude,
                   lng: longitude,
                 }}
-                onMouseover={() => console.log('mouseover')}
-                onClick={() => console.log('click')}
-                onMouseout={() => console.log('mouseout')}
                 strokeColor="transparent"
                 strokeOpacity={0}
                 strokeWeight={5}
@@ -313,6 +313,29 @@ export const ComponentMap = (props) => {
                 fillOpacity={0.2}
               />
             )
+          }
+          {
+            points.map((item) => ([
+              <Marker
+                position={{
+                  lat: item.latitude,
+                  lng: item.longitude,
+                }}
+                icon={markerImg}
+              />,
+              <Circle
+                radius={item.radius * 1000}
+                center={{
+                  lat: item.latitude,
+                  lng: item.longitude,
+                }}
+                strokeColor="transparent"
+                strokeOpacity={0}
+                strokeWeight={5}
+                fillColor="#FF0000"
+                fillOpacity={0.2}
+              />,
+            ]))
           }
           {
             modalInfo.lat && (
@@ -367,18 +390,19 @@ ComponentMap.propTypes = {
   formName: PropTypes.string,
   google: PropTypes.object.isRequired,
   isDefView: PropTypes.bool,
-  longitude: PropTypes.number.isRequired,
   latitude: PropTypes.number.isRequired,
+  longitude: PropTypes.number.isRequired,
   mapType: PropTypes.string,
   moveMarker: PropTypes.bool,
   nearBy: PropTypes.bool,
+  points: PropTypes.arrayOf(PropTypes.object),
   rad: PropTypes.number,
   scrollZoom: PropTypes.bool,
-  similarProperties: PropTypes.arrayOf(PropTypes.object),
   showMap: PropTypes.bool,
-  zoom: PropTypes.number,
+  similarProperties: PropTypes.arrayOf(PropTypes.object),
   subMinHeight: PropTypes.string,
   visible: PropTypes.bool,
+  zoom: PropTypes.number,
 };
 
 ComponentMap.defaultProps = {
@@ -391,13 +415,14 @@ ComponentMap.defaultProps = {
   mapType: 'roadmap',
   moveMarker: false,
   nearBy: false,
-  scrollZoom: false,
+  points: [],
   rad: null,
-  similarProperties: [],
+  scrollZoom: false,
   showMap: false,
-  zoom: 10,
+  similarProperties: [],
   subMinHeight: '',
   visible: true,
+  zoom: 10,
 };
 
 const mapDispatchToProps = (dispatch) => ({

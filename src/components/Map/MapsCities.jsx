@@ -10,7 +10,7 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { BrixelInputText, change } from '@brixel/brixel-components';
+import { BrixelInputText, BrixelButtonPrimary, change } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import useOutsideAlerter from '../OutsideElement';
@@ -82,7 +82,7 @@ export const MapsCities = (props) => {
       const autocompleteService = new google.maps.places.AutocompleteService();
       if (!stateToken) setStateToken(sessionToken);
       let typeSearch = [get(props, 'searchType', 'address')];
-      if (type === 'cities') typeSearch = ['(regions)'];
+      if (type === 'cities') typeSearch = ['(cities)'];
       if (type === 'zip') typeSearch = ['(regions)'];
       if (val.length > 3) {
         const searcCountry = selCountry === 'all' ? '' : selCountry;
@@ -307,6 +307,20 @@ export const MapsCities = (props) => {
     };
   });
 
+  const addLocation = () => {
+    console.log('Add location');
+    const location = get(formValue, 'locations', []);
+    location.push({
+      ...get(formValue, 'location', { }),
+    });
+    changeFieldValue(formName, 'location.radius', 0);
+    changeFieldValue(formName, 'locations', location);
+    changeFieldValue(formName, 'location', {
+      countryCode: get(formValue, 'location.countryCode', { }),
+    });
+    setLoclist([]);
+  };
+
   return (
     // Important! Always set the container height explicitly
     <div
@@ -370,15 +384,27 @@ export const MapsCities = (props) => {
                   onKeyDown={(e) => (e.keyCode === 13 && get(formValue, 'location.latitude', '') ? onSubmit() : '')}
                   input={{
                     onChange: (e) => changeFieldValue(formName, 'location.radius', e),
-                    onBlur: () => '',
-                    value: get(formValue, 'location.streetNumber', ''),
+                    value: get(formValue, 'location.radius', ''),
                     name: 'location.radius',
                   }}
+                />
+              </div>
+              <div>
+                <BrixelButtonPrimary
+                  label="Add point"
+                  onClick={() => addLocation()}
                 />
               </div>
             </div>
           </div>
         )
+      }
+      {
+        get(formValue, 'locations', []).map((loc, i) => (
+          <div key={i.toString()}>
+            {loc.address} - {loc.radius}km
+          </div>
+        ))
       }
       <div className={`${showMap ? `${multipleFieldSearch ? 'pos-r' : ''} ${subMinHeight}` : 'hide'} wrapMap ${mapSize}`}>
         <Map
@@ -395,6 +421,7 @@ export const MapsCities = (props) => {
             lat: latitude !== 0 ? latitude : get(curCountry, 'location.lat', 0),
             lng: longitude !== 0 ? longitude : get(curCountry, 'location.lng', 0),
           }}
+          points={get(formValue, 'locations', [])}
           rad={get(formValue, 'location.radius', null)}
           style={{
             width: showMap ? '100%' : '0px',
