@@ -10,7 +10,6 @@ import {
   FactsOptions,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import Maps from '../components/Map/Maps';
 import MapsCities from '../components/Map/MapsCities';
 import LoginSignup from '../components/LoginSignup';
 import { translateTo } from '../utils/translation';
@@ -72,7 +71,7 @@ export const QuestionsList = (lang) => {
           className: 'radioBtnImg max-w-fix-md-464',
           pdClass: 'py-2 py-md-3 px-1',
           label: '',
-          name: 'properties.propertyType',
+          name: 'characteristics.propertyType',
           validation: [Validation.required],
           icons: true,
           options: [
@@ -102,12 +101,11 @@ export const QuestionsList = (lang) => {
       vCentered: true,
       bgImg: homesSvg,
       inputs: [
-
         {
           component: BrixelInputStepNumber,
           classNameBox: 'max-w-fix-md-232',
           label: 'Tipology',
-          name: 'properties.typology.bedrooms',
+          name: 'characteristics.bedrooms',
           validation: [maxLengthNumRooms, Validation.required],
           step: 0.5,
           placeholder: country === 'PT' ? 'T3' : '3',
@@ -117,25 +115,15 @@ export const QuestionsList = (lang) => {
           fluid: true,
           startFrom: 3,
         },
-      ],
-      successMessage: translateTo(lang, 'Ok. Got it.'),
-    },
-    {
-      title: livingAreaTitle,
-      history: 'livingSpace',
-      vCentered: true,
-      bgImg: homesSvg,
-      inputs: [
         {
           component: BrixelInputText,
           className: 'max-w-fix-md-232',
           label: country === 'PT' ? 'Gross area' : 'Net living space',
-          name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
+          name: 'characteristics',
           type: 'number',
-          validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
+          validation: [Validation.required],
           unit: 'm2',
           classNameBox: 'brdRadius max-w-fix-md-288',
-          placeholder: translateTo(lang, 'e.g. 120'),
           maxLenghtNum: 9999,
         },
       ],
@@ -143,43 +131,20 @@ export const QuestionsList = (lang) => {
     },
     {
       title: 'Extra Feature',
-      history: 'livingSpace',
+      history: 'extraFeature',
       vCentered: true,
       bgImg: homesSvg,
       inputs: [
         {
           component: BrixelExtraFeature,
           className: 'max-w-fix-md-232',
-          label: country === 'PT' ? 'Gross area' : 'Net living space',
-          name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
+          name: 'characteristics.extraFeatures',
           type: 'number',
-          validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
-          unit: 'm2',
+          validation: [Validation.required],
           classNameBox: 'brdRadius max-w-fix-md-288',
-          placeholder: translateTo(lang, 'e.g. 120'),
-          maxLenghtNum: 9999,
         },
       ],
       successMessage: translateTo(lang, 'Ok. Got it.'),
-    },
-    {
-      title: translateTo(lang, 'What is the price?'),
-      history: 'price',
-      cardType: 'Price',
-      bgImg: roomsSvg,
-      inputs: [
-        {
-          component: BrixelInputRange,
-          className: '',
-          label: 'What is the selling price of the house?',
-          labelLeft: 'Price',
-          placeholder: '1’500’000',
-          name: 'price.total',
-          formatType: 'price',
-          unit: get(formValue, 'price.currency', 'CHF'),
-        },
-      ],
-      successMessage: translateTo(lang, 'This is a nice number.'),
     },
     {
       title: translateTo(lang, 'What is the location?'),
@@ -212,6 +177,78 @@ export const QuestionsList = (lang) => {
         },
       ],
       successMessage: translateTo(lang, 'That is an interesting location.'),
+    },
+    {
+      title: translateTo(lang, 'What is your budget?'),
+      history: 'price',
+      cardType: 'Price',
+      bgImg: roomsSvg,
+      inputs: [
+        {
+          component: BrixelInputText,
+          className: '',
+          label: `Max. selling price in ${get(formValue, 'price.currency', 'CHF')}`,
+          placeholder: '800’000',
+          name: 'finance.price.totalMax',
+          formatType: 'price',
+          unit: get(formValue, 'price.currency', 'CHF'),
+        },
+      ],
+      successMessage: translateTo(lang, 'This is a nice number.'),
+    },
+    {
+      title: translateTo(lang, 'How is your knowledge about buying a property?'),
+      history: 'knowledge',
+      cardType: 'Knowledge',
+      bgImg: roomsSvg,
+      inputs: [
+        {
+          component: BrixelRadioButton,
+          pdClass: 'py-2 py-md-3 px-1',
+          icons: true,
+          label: '',
+          name: 'knowledge',
+          validation: [Validation.required],
+          options: factsOptions.buyerKnowledge,
+        },
+      ],
+      successMessage: translateTo(lang, 'This is a nice number.'),
+    },
+    {
+      title: translateTo(lang, 'What is your current living situation?'),
+      history: 'livingSituation',
+      cardType: 'LivingSituation',
+      bgImg: roomsSvg,
+      inputs: [
+        {
+          component: BrixelRadioButton,
+          pdClass: 'py-2 py-md-3 px-1',
+          icons: true,
+          label: '',
+          name: 'livingSituation',
+          validation: [Validation.required],
+          options: factsOptions.buyerLivingSituation,
+        },
+      ],
+      successMessage: translateTo(lang, 'This is a nice number.'),
+    },
+    {
+      title: translateTo(lang, 'What is your family situation?'),
+      history: 'familySituation',
+      cardType: 'FamilySituation',
+      bgImg: roomsSvg,
+      inputs: [
+        {
+          component: BrixelRadioButton,
+          pdClass: 'py-2 py-md-3 px-1',
+          icons: true,
+          label: '',
+          name: 'familySituation',
+          validation: [Validation.required],
+          options: factsOptions.buyerFamilySituation,
+        },
+      ],
+      successMessage: translateTo(lang, 'This is a nice number.'),
     },
     {
       conditions: [{
