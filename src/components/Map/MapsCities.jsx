@@ -10,7 +10,7 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { BrixelInputText, BrixelButtonPrimary, change } from '@brixel/brixel-components';
+import { BrixelInputText, BrixelIcon, change } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import useOutsideAlerter from '../OutsideElement';
@@ -60,19 +60,6 @@ export const MapsCities = (props) => {
   // REF
   // const inputZipSearch = useRef(null);
   const addressRef = useRef(null);
-  // TIMER TYPING
-  let typingTimer; // timer identifier
-  const doneTypingInterval = 1500;
-
-  // FUNCTION FOR THE AUTOCOMPLETE OF STREET NUMBER
-  const changeStreetNumber = (e) => {
-    changeFieldValue(formName, 'location.streetNumber', e);
-    setLoclist([]);
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(() => {
-      setStartSearch(true);
-    }, doneTypingInterval);
-  };
 
   // FUNCTION FOR THE AUTOCOMPLETE - start only if value more then 3 characters - val.length
   const changeLocation = (val, hideSearch, type) => {
@@ -82,34 +69,27 @@ export const MapsCities = (props) => {
       const autocompleteService = new google.maps.places.AutocompleteService();
       if (!stateToken) setStateToken(sessionToken);
       let typeSearch = [get(props, 'searchType', 'address')];
-      if (type === 'cities') typeSearch = ['(cities)'];
+      if (type === 'cities') typeSearch = ['(cities)', '(regions)'];
       if (type === 'zip') typeSearch = ['(regions)'];
       if (val.length > 3) {
+        const searchList = [];
         const searcCountry = selCountry === 'all' ? '' : selCountry;
-        autocompleteService.getPlacePredictions(
-          {
-            input: val,
-            sessionToken,
-            componentRestrictions: { country: searcCountry },
-            types: typeSearch,
-          },
-          (predictions) => {
-            console.log(predictions);
-            if (predictions) {
-              const defPredition = predictions;
-              if (type === 'zip') {
-                // setZiplist(predictions);
-                setLoclist([]);
-              } else {
-                // setZiplist([]);
-                setLoclist(defPredition);
+        typeSearch.forEach((typesSearch) => {
+          autocompleteService.getPlacePredictions(
+            {
+              input: val,
+              sessionToken,
+              componentRestrictions: { country: searcCountry },
+              types: [typesSearch],
+            },
+            (predictions) => {
+              if (predictions) {
+                searchList.push(...predictions);
+                setLoclist(searchList);
               }
-            } else {
-              setLoclist([]);
-              // setZiplist([]);
-            }
-          },
-        );
+            },
+          );
+        });
       } else {
         setLoclist([]);
       }
@@ -189,9 +169,16 @@ export const MapsCities = (props) => {
           if (formattedPlace.zip) formattedPlace.cityZip = `${formattedPlace.zip} ${formattedPlace.city}`;
         }
         // if (!formattedPlace.zip && isShowZip) setShowZipCode(true);
+        const splittedAddress = formattedPlace.address.split(',');
+        formattedPlace.name = splittedAddress[0];
         if (input) input.onChange(formattedPlace.latitude);
         changeFieldValue(formName, 'changeCountry', formattedPlace.countryCode);
-        changeFieldValue(formName, 'location', formattedPlace);
+        changeFieldValue(formName, 'location', {
+          countryCode: get(formValue, 'location.countryCode', ''),
+        });
+        const locations = get(formValue, 'locations', []);
+        locations.push(formattedPlace);
+        changeFieldValue(formName, 'locations', locations);
         const existCountry = country.find((item) => item.value === formattedPlace.countryCode);
         if (typeof existCountry === 'undefined') {
           const newListcountry = country;
@@ -202,8 +189,8 @@ export const MapsCities = (props) => {
           handleUpdateCountry(newListcountry);
         }
         setSelectedAddress(true);
-        const getWrapStreetNumber = document.getElementsByClassName('streetNumber')[0];
-        getWrapStreetNumber.querySelector('input').focus();
+        // const getWrapStreetNumber = document.getElementsByClassName('streetNumber')[0];
+        // getWrapStreetNumber.querySelector('input').focus();
         // changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
         // changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
         // changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
@@ -224,16 +211,6 @@ export const MapsCities = (props) => {
       changeLocation(fullAddress, true, 'cities');
     }
   }, [get(formValue, 'location.searchAddress', null)]);
-
-  // FUNCTION TO LOAD AUTOCOMPLETE FUNCTION ON CHANGE cityZip
-  useEffect(() => {
-    const search = get(formValue, 'location.cityZip', null);
-    if (search) {
-      const fullAddress = `${search}`;
-      changeLocation(fullAddress, true, 'zip');
-    }
-    // setSelectedZip(false);
-  }, [get(formValue, 'location.cityZip', null)]);
 
   // FUNCTION TO LOAD AUTOCOMPLETE FUNCTION ON CHANGE startSearch
   useEffect(() => {
@@ -295,30 +272,13 @@ export const MapsCities = (props) => {
     }
   };
 
-  // ADD MESSAGE THAT THE ADDRESS IS NOT EDITABLE
-  useEffect(() => {
-    const messageEl = document.getElementsByClassName('message')[0];
-
-    const messageHtml = 'Address can not be changed. Please contact <span class="cur-poi txtPrimary400 supportlink" onclick="supportLink()"> Brixel Support </span> to request a change. ';
-    if (showMessageToChangeAddress && messageEl) messageEl.innerHTML = messageHtml;
-
-    window.supportLink = () => {
-      history.push({ state: { showSupport: true } });
-    };
-  });
-
-  const addLocation = () => {
-    console.log('Add location');
-    const location = get(formValue, 'locations', []);
-    location.push({
-      ...get(formValue, 'location', { }),
-    });
-    changeFieldValue(formName, 'location.radius', 0);
-    changeFieldValue(formName, 'locations', location);
-    changeFieldValue(formName, 'location', {
-      countryCode: get(formValue, 'location.countryCode', { }),
-    });
-    setLoclist([]);
+  // FUCNTION TO DELETE SELECTED CITY
+  const deleteLocation = (loc) => {
+    console.log(loc.address);
+    const locationsList = get(formValue, 'locations', []);
+    const findIndex = locationsList.findIndex((item) => item.address === loc.address);
+    locationsList.splice(findIndex, 1);
+    changeFieldValue(formName, 'locations', locationsList);
   };
 
   return (
@@ -336,12 +296,12 @@ export const MapsCities = (props) => {
         multipleFieldSearch && (
           <div className="fieldMapSearch mb-5">
             <div className="dis-f jc-b flex-wrap">
-              <div className="w-perc-65 pos-r">
+              <div className="w-perc-100 pos-r">
                 <BrixelInputText
                   className="search-box"
                   type="text"
                   ref={inputSearch}
-                  label="Address"
+                  label="Zip / City"
                   disabled={disabled}
                   placeholder="Write street name"
                   input={{
@@ -373,62 +333,58 @@ export const MapsCities = (props) => {
                   )
                 }
               </div>
-              <div className="w-perc-35 pl-2">
-                <BrixelInputText
-                  className="search-box streetNumber"
-                  type="number"
-                  disabled={disabled}
-                  ref={inputSearch}
-                  label="Distance"
-                  placeholder=""
-                  onKeyDown={(e) => (e.keyCode === 13 && get(formValue, 'location.latitude', '') ? onSubmit() : '')}
-                  input={{
-                    onChange: (e) => changeFieldValue(formName, 'location.radius', e),
-                    value: get(formValue, 'location.radius', ''),
-                    name: 'location.radius',
-                  }}
-                />
-              </div>
-              <div>
-                <BrixelButtonPrimary
-                  label="Add point"
-                  onClick={() => addLocation()}
-                />
-              </div>
             </div>
           </div>
         )
       }
       {
-        get(formValue, 'locations', []).map((loc, i) => (
-          <div key={i.toString()}>
-            {loc.address} - {loc.radius}km
-          </div>
-        ))
+        get(formValue, 'locations', []).length > 0 && (
+          <>
+            <h4 className="mb-2">Your locations</h4>
+            <div className="dis-f a-c">
+              {
+                get(formValue, 'locations', []).map((loc, i) => (
+                  <div key={i.toString()} className="dis-f a-c jc-fs bgDark700 brdRadius p-1 txtWhite w-fit fsize-100 mr-2">
+                    <span>{loc.name}{loc.name !== loc.city && (<>, {loc.city}</>)}</span>
+                    <BrixelIcon
+                      className="fSizePx12 ml-2"
+                      icon="close-small"
+                      onClick={() => deleteLocation(loc)}
+                    />
+                  </div>
+                ))
+              }
+            </div>
+          </>
+        )
       }
       <div className={`${showMap ? `${multipleFieldSearch ? 'pos-r' : ''} ${subMinHeight}` : 'hide'} wrapMap ${mapSize}`}>
-        <Map
-          draggable={draggable}
-          google={google}
-          zoom={zoom}
-          curCountry={curCountry}
-          showMap={showMap}
-          isDefView={latitude === 0 && longitude === 0}
-          visible={showMap && (latitude !== 0 || get(curCountry, 'location.lat', 0) !== 0)}
-          latitude={latitude !== 0 ? latitude : get(curCountry, 'location.lat', 0)}
-          longitude={longitude !== 0 ? longitude : get(curCountry, 'location.lng', 0)}
-          initialCenter={{
-            lat: latitude !== 0 ? latitude : get(curCountry, 'location.lat', 0),
-            lng: longitude !== 0 ? longitude : get(curCountry, 'location.lng', 0),
-          }}
-          points={get(formValue, 'locations', [])}
-          rad={get(formValue, 'location.radius', null)}
-          style={{
-            width: showMap ? '100%' : '0px',
-            height: showMap ? '100%' : '0px',
-          }}
-          similarProperties={similarProperties}
-        />
+        {
+          showMap && (
+            <Map
+              draggable={draggable}
+              google={google}
+              zoom={zoom}
+              curCountry={curCountry}
+              showMap={showMap}
+              isDefView={latitude === 0 && longitude === 0}
+              visible={showMap && (latitude !== 0 || get(curCountry, 'location.lat', 0) !== 0)}
+              latitude={latitude !== 0 ? latitude : get(curCountry, 'location.lat', 0)}
+              longitude={longitude !== 0 ? longitude : get(curCountry, 'location.lng', 0)}
+              initialCenter={{
+                lat: latitude !== 0 ? latitude : get(curCountry, 'location.lat', 0),
+                lng: longitude !== 0 ? longitude : get(curCountry, 'location.lng', 0),
+              }}
+              points={get(formValue, 'locations', [])}
+              rad={get(formValue, 'location.radius', null)}
+              style={{
+                width: showMap ? '100%' : '0px',
+                height: showMap ? '100%' : '0px',
+              }}
+              similarProperties={similarProperties}
+            />
+          )
+        }
       </div>
     </div>
   );

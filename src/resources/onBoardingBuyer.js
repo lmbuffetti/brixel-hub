@@ -1,5 +1,6 @@
 import {
   BrixelRadioButton,
+  BrixelCheckbox,
   BrixelExtraFeature,
   BrixelInputStepNumber,
   BrixelInputText,
@@ -67,7 +68,7 @@ export const QuestionsList = (lang) => {
       bgImg: homesSvg,
       inputs: [
         {
-          component: BrixelRadioButton,
+          component: BrixelCheckbox,
           className: 'radioBtnImg max-w-fix-md-464',
           pdClass: 'py-2 py-md-3 px-1',
           label: '',
@@ -197,11 +198,11 @@ export const QuestionsList = (lang) => {
         },
         {
           component: MapsCities,
-          showMap: true,
-          name: 'location.latitude',
+          showMap: false,
+          name: 'locations[0].latitude',
           type: 'Map',
           mapOptions: {
-            showMap: true,
+            showMap: false,
             hideSearch: false,
             showSelectCountry: true,
             multipleFieldSearch: true,
