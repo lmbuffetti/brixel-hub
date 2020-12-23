@@ -11,6 +11,7 @@ import Note from '../actions/Note';
 import Property from '../actions/Property';
 import Upload from '../actions/Upload';
 import User from '../actions/User';
+import SearchProfile from '../actions/SearchProfile';
 
 function apiFactory(
   {
@@ -30,6 +31,7 @@ function apiFactory(
     note: new Note({ apiClient: api }),
     property: new Property({ apiClient: api }),
     user: new User({ apiClient: api }),
+    searchProfile: new SearchProfile({ apiClient: api }),
   };
 }
 

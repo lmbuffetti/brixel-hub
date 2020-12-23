@@ -94,4 +94,8 @@ export default {
     validateUser: (email) => `/user/validate/${email}`,
     getUserByEmail: (email) => `/user/email/${email}`,
   },
+  searchProfile: {
+    searchProfileByUserID: (id) => `/user/${id}/searchProfile`,
+    singleSearchProfile: () => '/api/v3/searchProfile/',
+  },
 };
