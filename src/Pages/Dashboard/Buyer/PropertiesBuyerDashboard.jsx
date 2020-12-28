@@ -8,13 +8,15 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import {
   BrixelButtonIcon, FormatValue,
-  Helpers,
+  Helpers, BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 import { saveActiveSingleDeal } from '../../../actions/DealsActions';
 import { getUserSearchProfiles } from '../../../actions/SearchProfileActions';
+import searchImg from '../../../images/searchProfile/search.svg';
+import mapImg from '../../../images/searchProfile/map.svg';
 
 const PropertiesBuyerDashboard = (props) => {
   // PROPS
@@ -189,21 +191,41 @@ const PropertiesBuyerDashboard = (props) => {
           </div>
         </div>
 
-        <div className="profile-market-container dis-fl-row col-12 p-0">
-          <div className="search-profile col-5 p-0 mr-7">
+        <div className="profile-market-container dis-fl-col dis-fl-row-sm">
+          <div className="search-profile w-perc-100 mb-4 mb-sm-0 max-w-fix-sm-368 mr-5">
             <h6>Your search profile</h6>
             {
-              has(userSearchProfiles[0], 'id') && (
+              has(userSearchProfiles[0], 'id') ? (
                 <span>{userSearchProfiles[0].id}</span>
+              ) : (
+                <section className="searchProfile brdRadius bgWhite shadow-2dp ta-c p-3 mt-3">
+                  <h5 className="mb-2 txtDark700"> Create your search profile now. </h5>
+                  <p className="pb-4 txtDark700">Get exclusive access to our Brixel properties and get in touch with private sellers.</p>
+
+                  <img width="190" src={searchImg} alt="" />
+                  <BrixelButtonPrimary
+                    className="mt-5 ml-a mr-a"
+                    label="Get access for free"
+                    rightIcon="arrow-right"
+                    rounded
+                    background="green"
+                  />
+                </section>
               )
             }
           </div>
-          <div className="brixel-market col-6 p-0">
-            <div className="market-teaser dis-fl-row a-c">
-              <h6 className="mr-2">Brixel Market</h6>
-              <div className="teaser w-fix-96 h-fix-24 p-1 dis-fl-col jc-c a-c brdRadius">
-                <span className="fsize-100 txtWhite">Coming soon</span>
+          <div className="brixel-market">
+            <div className="market-teaser dis-fl-col h-perc-100">
+              <div className="dis-f">
+                <h6 className="mr-2">Brixel Market</h6>
+                <div className="teaser w-fix-96 h-fix-24 p-1 dis-fl-col jc-c a-c brdRadius">
+                  <span className="fsize-100 txtWhite">Coming soon</span>
+                </div>
               </div>
+              <section className="brdRadius bgWhite brdSmall brdLight400 ta-c p-3 mt-3 h-perc-100 dis-fl-col a-c jc-c">
+                <img width="254" src={mapImg} alt="" />
+                <p className="txtDark700 pt-5">Soon we will release the Brixel Market and match your search profile with our properties and sellers.  </p>
+              </section>
             </div>
           </div>
         </div>
