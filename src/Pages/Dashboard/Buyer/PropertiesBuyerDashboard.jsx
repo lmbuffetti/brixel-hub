@@ -195,23 +195,24 @@ const PropertiesBuyerDashboard = (props) => {
           <div className="search-profile w-perc-100 mb-4 mb-sm-0 max-w-fix-sm-368 mr-5">
             <h6>Your search profile</h6>
             {
-              has(userSearchProfiles[0], 'id') && (
+              has(userSearchProfiles[0], 'id') ? (
                 <span>{userSearchProfiles[0].id}</span>
+              ) : (
+                <section className="searchProfile brdRadius bgWhite shadow-2dp ta-c p-3 mt-3">
+                  <h5 className="mb-2 txtDark700"> Create your search profile now. </h5>
+                  <p className="pb-4 txtDark700">Get exclusive access to our Brixel properties and get in touch with private sellers.</p>
+
+                  <img width="190" src={searchImg} alt="" />
+                  <BrixelButtonPrimary
+                    className="mt-5 ml-a mr-a"
+                    label="Get access for free"
+                    rightIcon="arrow-right"
+                    rounded
+                    background="green"
+                  />
+                </section>
               )
             }
-            <section className="searchProfile brdRadius bgWhite shadow-2dp ta-c p-3 mt-3">
-              <h5 className="mb-2 txtDark700"> Create your search profile now. </h5>
-              <p className="pb-4 txtDark700">Get exclusive access to our Brixel properties and get in touch with private sellers.</p>
-
-              <img width="190" src={searchImg} alt="" />
-              <BrixelButtonPrimary
-                className="mt-5 ml-a mr-a"
-                label="Get access for free"
-                rightIcon="arrow-right"
-                rounded
-                background="green"
-              />
-            </section>
           </div>
           <div className="brixel-market">
             <div className="market-teaser dis-fl-col h-perc-100">

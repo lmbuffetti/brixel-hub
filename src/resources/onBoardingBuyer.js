@@ -45,10 +45,10 @@ export const minLengthNum = (val, name) => (value) => {
 export const QuestionsList = (lang) => {
   let countryList = [];
   const formValue = {};
-  let country = 'CH';
+  const country = 'CH';
   if (configureStore) {
     countryList = get(configureStore.getState(), 'common.country', []);
-    country = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', 'CH');
+    // country = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', 'CH');
   }
 
   return [
@@ -258,7 +258,7 @@ export const QuestionsList = (lang) => {
       cardType: 'createProfile',
       inputs: [{
         component: LoginSignup,
-        name: 'profile',
+        name: 'profileUaer',
         validation: [Validation.required],
       }],
     },
