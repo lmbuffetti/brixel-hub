@@ -341,7 +341,7 @@ export const MapsCities = (props) => {
         get(formValue, 'locations', []).length > 0 && (
           <>
             <h4 className="mb-2">Your locations</h4>
-            <div className="dis-f a-c">
+            <div className="dis-f a-c notranslate">
               {
                 get(formValue, 'locations', []).map((loc, i) => (
                   <div key={i.toString()} className="dis-f a-c jc-fs bgDark700 brdRadius p-1 txtWhite w-fit fsize-100 mr-2">

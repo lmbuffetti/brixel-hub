@@ -421,7 +421,7 @@ const GetStartedBuyer = (props) => {
         } else if (input.validation) {
           // const getRegField = get(registeredFields
           let field;
-          if (input.name === 'profile') {
+          if (input.name === 'profileUaer') {
             const page = get(formValue, 'signupScreen', null);
             field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
             if (page === 'login') {
@@ -709,25 +709,11 @@ const mapStateToProps = (state, props) => {
       channel,
       changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       company: get(state, 'companies.activeSingleCompany.stub', null),
-      price: {
-        currency: get(state, 'companies.activeSingleCompany.country.currency', null),
-      },
       location: {
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       },
       login: {},
-      owner: get(state, 'user.loggedInUser.id', null),
-      properties: {
-        propertyType,
-        typology: {
-          livingArea: {
-            unit: 'sqm',
-          },
-          grossArea: {
-            unit: 'sqm',
-          },
-        },
-      },
+      profile: {},
       register: {},
       signup: get(state, 'user.loggedInUser.id', null) !== null,
     },
