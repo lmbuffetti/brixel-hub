@@ -253,7 +253,7 @@ export const QuestionsList = (lang) => {
       cardType: 'createProfile',
       inputs: [{
         component: LoginSignup,
-        name: 'profile',
+        name: 'profileUaer',
         validation: [Validation.required],
       }],
     },
