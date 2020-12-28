@@ -2,9 +2,8 @@ import {
   BrixelRadioButton,
   BrixelCheckbox,
   BrixelExtraFeature,
-  BrixelInputStepNumber,
+  BrixelInputMultiRange,
   BrixelInputText,
-  BrixelInputRange,
   BrixelSelect,
   Validation,
   FactsOptions,
@@ -42,22 +41,16 @@ export const minLengthNum = (val, name) => (value) => {
   return error;
 };
 
-const maxLengthNumRooms = maxLengthNum(31, 'rooms');
-const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
-
 // QUESTION LISTS
 export const QuestionsList = (lang) => {
   let countryList = [];
   const formValue = {};
   let country = 'CH';
-  let propertyType = '';
   if (configureStore) {
     countryList = get(configureStore.getState(), 'common.country', []);
-    propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
     country = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', 'CH');
   }
-  let livingAreaTitle = translateTo(lang, 'What is the living space size?');
-  if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
+
   return [
     {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
@@ -96,35 +89,31 @@ export const QuestionsList = (lang) => {
       successMessage: translateTo(lang, 'Ok. Got it.'),
     },
     {
-      title: translateTo(lang, 'How many rooms?'),
+      title: translateTo(lang, 'How big should it be?'),
       history: 'tipology',
       vCentered: true,
       bgImg: homesSvg,
       inputs: [
         {
-          component: BrixelInputStepNumber,
-          classNameBox: 'max-w-fix-md-232',
-          label: 'Tipology',
+          component: BrixelInputMultiRange,
+          label: 'Number of rooms',
           name: 'characteristics.bedrooms',
-          validation: [maxLengthNumRooms, Validation.required],
-          step: 0.5,
-          placeholder: country === 'PT' ? 'T3' : '3',
-          formatType: country === 'PT' ? 'rooms-pt' : '',
-          min: 0,
-          max: 30,
-          fluid: true,
-          startFrom: 3,
+          validation: [Validation.required],
+          step: 1,
+          addPlusOnLast: true,
+          minLengthNum: 0,
+          maxLengthNum: 9,
         },
         {
-          component: BrixelInputText,
-          className: 'max-w-fix-md-232',
-          label: country === 'PT' ? 'Gross area' : 'Net living space',
-          name: 'characteristics',
-          type: 'number',
+          component: BrixelInputMultiRange,
+          className: 'mt-3',
+          classNameInput: 'pl-5',
+          label: 'Living Space in m2',
+          name: 'characteristics.livingArea',
           validation: [Validation.required],
-          unit: 'm2',
-          classNameBox: 'brdRadius max-w-fix-md-288',
-          maxLenghtNum: 9999,
+          step: 10,
+          minLengthNum: 0,
+          maxLengthNum: 300,
         },
       ],
       successMessage: translateTo(lang, 'Ok. Got it.'),
