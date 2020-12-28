@@ -458,7 +458,7 @@ const GetStartedBuyer = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className="withHeader getStarted">
+    <div id="bodyModalWrapper" className="withHeader getStarted buyerHub">
       {
         get(quest, 'inputs', null) && (
           <BrixelProgressBar
@@ -508,12 +508,12 @@ const GetStartedBuyer = (props) => {
                       }
                       {
                         quest.title && (
-                          <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100 max-w-fix-456`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                         )
                       }
                       {
                         quest.subtitle && (
-                          <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                          <p className="mb-5 txtDark700 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
                       <MultiFileldsReduxForm
                         form="GetStarted"

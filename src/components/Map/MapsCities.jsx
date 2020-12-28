@@ -294,7 +294,7 @@ export const MapsCities = (props) => {
       {
         // IF multipleFieldSearch SHOW THE FIELDS STREET NAME AND STREET NUMBER
         multipleFieldSearch && (
-          <div className="fieldMapSearch mb-5">
+          <div className="fieldMapSearch">
             <div className="dis-f jc-b flex-wrap">
               <div className="w-perc-100 pos-r">
                 <BrixelInputText
@@ -340,11 +340,11 @@ export const MapsCities = (props) => {
       {
         get(formValue, 'locations', []).length > 0 && (
           <>
-            <h4 className="mb-2">Your locations</h4>
-            <div className="dis-f a-c">
+            <p className="mb-2 txtDark700">Your locations</p>
+            <div className="dis-f a-c flex-wrap">
               {
                 get(formValue, 'locations', []).map((loc, i) => (
-                  <div key={i.toString()} className="dis-f a-c jc-fs bgDark700 brdRadius p-1 txtWhite w-fit fsize-100 mr-2">
+                  <div key={i.toString()} className="dis-f a-c jc-fs bgDark700 brdRadius h-fix-24 p-1 mb-1 txtWhite fweight-500 w-fit fsize-100 mr-2">
                     <span>{loc.name}{loc.name !== loc.city && (<>, {loc.city}</>)}</span>
                     <BrixelIcon
                       className="fSizePx12 ml-2"
