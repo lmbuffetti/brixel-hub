@@ -91,13 +91,13 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'How big should it be?'),
       history: 'tipology',
       vCentered: true,
-      bgImg: homesSvg,
+      bgImg: roomsSvg,
       inputs: [
         {
           component: BrixelInputMultiRange,
           label: 'Number of rooms',
           name: 'characteristics.bedrooms',
-          validation: [Validation.required],
+          // validation: [Validation.required],
           step: 1,
           addPlusOnLast: true,
           minLengthNum: 0,
@@ -109,7 +109,7 @@ export const QuestionsList = (lang) => {
           classNameInput: 'pl-5',
           label: 'Living Space in m2',
           name: 'characteristics.livingArea',
-          validation: [Validation.required],
+          // validation: [Validation.required],
           step: 10,
           minLengthNum: 0,
           maxLengthNum: 300,
@@ -122,7 +122,7 @@ export const QuestionsList = (lang) => {
       subtitle: 'You can choose more than one.',
       history: 'extraFeature',
       vCentered: true,
-      bgImg: homesSvg,
+      bgImg: roomsSvg,
       className: 'extraFeature',
       inputs: [
         {
@@ -173,7 +173,7 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'What is your budget?'),
       history: 'price',
       cardType: 'Price',
-      bgImg: roomsSvg,
+      bgImg: congratsSvg,
       inputs: [
         {
           component: BrixelInputText,
@@ -191,7 +191,7 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'What is your family situation?'),
       history: 'familySituation',
       cardType: 'FamilySituation',
-      bgImg: roomsSvg,
+      bgImg: congratsSvg,
       className: 'mb-2',
       inputs: [
         {
@@ -212,7 +212,7 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'How is your knowledge about buying a property?'),
       history: 'knowledge',
       cardType: 'Knowledge',
-      bgImg: roomsSvg,
+      bgImg: congratsSvg,
       inputs: [
         {
           component: BrixelRadioButton,
@@ -230,7 +230,7 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'What is your current living situation?'),
       history: 'livingSituation',
       cardType: 'LivingSituation',
-      bgImg: roomsSvg,
+      bgImg: congratsSvg,
       inputs: [
         {
           component: BrixelRadioButton,
