@@ -89,7 +89,7 @@ const GetStartedBuyer = (props) => {
         ownerType: get(dataForm, 'register.ownerType', null),
         redirectTo: `/${get(dataForm, 'pageID', null)}/rewards`,
       };
-      const packageFlowProcess = get(dataForm, 'pageAnswer', null);
+      const packageFlowProcess = get(dataForm, 'pageAnswerBuyer', null);
       packageFlowProcess.answers.userType = get(dataForm, 'register.ownerType', null);
       packageFlowProcess.answers.owner = dataForm.owner;
       if (get(dataForm, 'register.ownerType', null) === 'buyer') {
@@ -121,7 +121,7 @@ const GetStartedBuyer = (props) => {
       const data = {
         ...dataFormAnswer,
         packageFlowProcess: {
-          answers: dataFormAnswer,
+          answersBuyer: dataFormAnswer,
           rewardScreenData: {},
           metaUser: metaUserData,
         },
