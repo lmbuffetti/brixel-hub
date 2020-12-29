@@ -298,14 +298,6 @@ const GetStartedBuyer = (props) => {
     }
   }, [currentIndex]);
 
-  // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
-  useEffect(() => {
-    if (get(formValue, 'properties.typology.grossArea.value', 0) > 0) {
-      const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
-      changeFieldValue('properties.typology.livingArea.value', livingSpace);
-    }
-  }, [get(formValue, 'properties.typology.grossArea.value', 0)]);
-
   // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
   /* useEffect(() => {
     let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
@@ -319,11 +311,7 @@ const GetStartedBuyer = (props) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      history.push(`/${propID}/rewards`);
-    } else {
-      history.push(`/${propID}/rewards/${getAchievement()}`);
-    }
+    history.push('/buyer/propertyLists');
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
@@ -350,13 +338,6 @@ const GetStartedBuyer = (props) => {
     }
   }, [formValue]);
 
-  // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
-  useEffect(() => {
-    const propertyType = get(formValue, 'properties.propertyType', null);
-    const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
-    if (pageTitle) changeFieldValue('pageTitle', pageTitle);
-  }, [formValue.location, lang]);
-
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(company, 'stub', null)) {
@@ -371,7 +352,7 @@ const GetStartedBuyer = (props) => {
       changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
       changeFieldValue('company', company.stub);
-      changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
+      changeFieldValue('finance.currency', get(company, 'country.currency', 'CHF'));
     }
     initForm(initialValues);
   }, [company]);
@@ -687,6 +668,9 @@ const mapStateToProps = (state, props) => {
       owner: get(state, 'user.loggedInUser.id', null),
       user: get(state, 'user.loggedInUser.id', null),
       login: {},
+      finance: {
+        currency: get(state, 'companies.activeSingleCompany.country.currency', {}),
+      },
       profile: {},
       register: {},
       signup: get(state, 'user.loggedInUser.id', null) !== null,
