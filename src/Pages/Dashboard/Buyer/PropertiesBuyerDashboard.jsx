@@ -256,11 +256,11 @@ const PropertiesBuyerDashboard = (props) => {
                   <div className="dis-f jc-b">
                     <div>
                       <h6 className="txtDark500 body2">Rooms</h6>
-                      <p className="txtDark700">{get(userSearchProfiles[0], 'characteristics.bedrooms.min', 0)} - {get(userSearchProfiles[0], 'characteristics.bedrooms.max', 0)}</p>
+                      <p className="txtDark700">{get(userSearchProfiles[0], 'characteristics.bedroomsMin', 0)} - {get(userSearchProfiles[0], 'characteristics.bedroomsMax', 0)}</p>
                     </div>
                     <div>
                       <h6 className="txtDark500 body2">Living Space in m2</h6>
-                      <p className="txtDark700">{get(userSearchProfiles[0], 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles[0], 'characteristics.livingArea.max', 0)}</p>
+                      <p className="txtDark700">{get(userSearchProfiles[0], 'characteristics.livingAreaMin', 0)} - {get(userSearchProfiles[0], 'characteristics.livingAreaMax', 0)}</p>
                     </div>
                   </div>
 
