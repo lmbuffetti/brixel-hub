@@ -1,14 +1,15 @@
 import {
   BrixelRadioButton,
-  BrixelInputStepNumber,
+  BrixelCheckbox,
+  BrixelExtraFeature,
+  BrixelInputMultiRange,
   BrixelInputText,
-  BrixelInputRange,
   BrixelSelect,
   Validation,
   FactsOptions,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import Maps from '../components/Map/Maps';
+import MapsCities from '../components/Map/MapsCities';
 import LoginSignup from '../components/LoginSignup';
 import { translateTo } from '../utils/translation';
 import { configureStore } from '../store';
@@ -20,7 +21,6 @@ import homesSvg from '../images/getstarted/svgs/homes.svg';
 import locationSvg from '../images/getstarted/svgs/location.svg';
 import roomsSvg from '../images/getstarted/svgs/room.svg';
 import congratsSvg from '../images/getstarted/svgs/congrats.svg';
-import userType from '../images/getstarted/svgs/userType.svg';
 
 const { factsOptions } = FactsOptions;
 
@@ -41,33 +41,29 @@ export const minLengthNum = (val, name) => (value) => {
   return error;
 };
 
-const maxLengthNumRooms = maxLengthNum(31, 'rooms');
-const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
-
 // QUESTION LISTS
 export const QuestionsList = (lang) => {
   let countryList = [];
-  let formValue = {};
-  let country = 'CH';
+  const formValue = {};
+  const country = 'CH';
   if (configureStore) {
     countryList = get(configureStore.getState(), 'common.country', []);
-    formValue = get(configureStore.getState(), 'brixelForm.GetStarted.values', []);
-    country = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', 'CH');
+    // country = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', 'CH');
   }
+
   return [
     {
-      titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
-      title: translateTo(lang, 'What type of property do you have?'),
+      title: translateTo(lang, 'What kind of property would you like to buy?'),
       history: 'propertyType',
       vCentered: true,
       bgImg: homesSvg,
       inputs: [
         {
-          component: BrixelRadioButton,
+          component: BrixelCheckbox,
           className: 'radioBtnImg max-w-fix-md-464',
           pdClass: 'py-2 py-md-3 px-1',
           label: '',
-          name: 'properties.propertyType',
+          name: 'characteristics.propertyType',
           validation: [Validation.required],
           icons: true,
           options: [
@@ -80,60 +76,69 @@ export const QuestionsList = (lang) => {
               label: translateTo(lang, 'House'),
               value: 'House',
               img: house,
-
+            },
+            {
+              label: 'Building land',
+              value: 'Building land',
+              img: house,
             },
           ],
-        },
-        {
-          component: BrixelInputStepNumber,
-          classNameBox: 'max-w-fix-md-232',
-          label: 'Tipology',
-          name: 'properties.typology.bedrooms',
-          validation: [maxLengthNumRooms, Validation.required],
-          step: 0.5,
-          placeholder: country === 'PT' ? 'T3' : '3',
-          formatType: country === 'PT' ? 'rooms-pt' : '',
-          min: 0,
-          max: 30,
-          fluid: true,
-          startFrom: 3,
-        },
-        {
-          component: BrixelInputText,
-          className: 'max-w-fix-md-232',
-          label: country === 'PT' ? 'Gross area' : 'Net living space',
-          name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
-          type: 'number',
-          validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
-          unit: 'm2',
-          classNameBox: 'brdRadius max-w-fix-md-288',
-          placeholder: translateTo(lang, 'e.g. 120'),
-          maxLenghtNum: 9999,
         },
       ],
       successMessage: translateTo(lang, 'Ok. Got it.'),
     },
     {
-      title: translateTo(lang, 'What is the price?'),
-      history: 'price',
-      cardType: 'Price',
+      title: translateTo(lang, 'How big should it be?'),
+      history: 'tipology',
+      vCentered: true,
       bgImg: roomsSvg,
       inputs: [
         {
-          component: BrixelInputRange,
-          className: '',
-          label: 'What is the selling price of the house?',
-          labelLeft: 'Price',
-          placeholder: '1’500’000',
-          name: 'price.total',
-          formatType: 'price',
-          unit: get(formValue, 'price.currency', 'CHF'),
+          component: BrixelInputMultiRange,
+          label: 'Number of rooms',
+          name: 'characteristics.bedrooms',
+          // validation: [Validation.required],
+          step: 1,
+          addPlusOnLast: true,
+          minLengthNum: 0,
+          maxLengthNum: 9,
+        },
+        {
+          component: BrixelInputMultiRange,
+          className: 'mt-3',
+          classNameInput: 'pl-5',
+          label: 'Living Space in m2',
+          name: 'characteristics.livingArea',
+          // validation: [Validation.required],
+          step: 10,
+          minLengthNum: 0,
+          maxLengthNum: 300,
         },
       ],
-      successMessage: translateTo(lang, 'This is a nice number.'),
+      successMessage: translateTo(lang, 'Ok. Got it.'),
     },
     {
-      title: translateTo(lang, 'What is the location?'),
+      title: 'What extras are a must for you?',
+      subtitle: 'You can choose more than one.',
+      history: 'extraFeature',
+      vCentered: true,
+      bgImg: roomsSvg,
+      className: 'extraFeature',
+      inputs: [
+        {
+          className: 'extraFeature',
+          component: BrixelExtraFeature,
+          name: 'characteristics.extraFeatures',
+          type: 'number',
+          validation: [Validation.required],
+          classNameBox: 'brdRadius',
+        },
+      ],
+      successMessage: translateTo(lang, 'Ok. Got it.'),
+    },
+    {
+      title: translateTo(lang, 'Where would your dream home be located?'),
+      subtitle: translateTo(lang, 'You can add multiple addresses.'),
       history: 'locationInput',
       cardType: 'locationInput',
       bgImg: locationSvg,
@@ -148,17 +153,16 @@ export const QuestionsList = (lang) => {
           validation: [Validation.required],
         },
         {
-          component: Maps,
-          showMap: true,
-          name: 'location.latitude',
+          component: MapsCities,
+          showMap: false,
+          name: 'locations[0].latitude',
           type: 'Map',
           mapOptions: {
-            showMap: true,
+            showMap: false,
             hideSearch: false,
             showSelectCountry: true,
             multipleFieldSearch: true,
             draggable: true,
-            searchType: '(regions)',
           },
           validation: [Validation.required],
         },
@@ -166,20 +170,79 @@ export const QuestionsList = (lang) => {
       successMessage: translateTo(lang, 'That is an interesting location.'),
     },
     {
-      title: 'How experienced are you?',
-      bgImg: userType,
-      history: 'typeOfBuyer',
+      title: translateTo(lang, 'What is your budget?'),
+      history: 'price',
+      cardType: 'Price',
+      bgImg: congratsSvg,
+      inputs: [
+        {
+          component: BrixelInputText,
+          className: '',
+          label: `Max. selling price in ${get(formValue, 'price.currency', 'CHF')}`,
+          placeholder: '800’000',
+          name: 'finance.price.totalMax',
+          formatType: 'price',
+          unit: get(formValue, 'price.currency', 'CHF'),
+        },
+      ],
+      successMessage: translateTo(lang, 'This is a nice number.'),
+    },
+    {
+      title: translateTo(lang, 'What is your family situation?'),
+      history: 'familySituation',
+      cardType: 'FamilySituation',
+      bgImg: congratsSvg,
+      className: 'mb-2',
+      inputs: [
+        {
+          component: BrixelRadioButton,
+          classNameBox: 'familySituation',
+          pdClass: 'py-2 py-md-3 px-1',
+          icons: true,
+          label: '',
+          className: 'test3',
+          name: 'profile.familySituation',
+          validation: [Validation.required],
+          options: factsOptions.buyerFamilySituation,
+        },
+      ],
+      successMessage: translateTo(lang, 'This is a nice number.'),
+    },
+    {
+      title: translateTo(lang, 'How is your knowledge about buying a property?'),
+      history: 'knowledge',
+      cardType: 'Knowledge',
+      bgImg: congratsSvg,
       inputs: [
         {
           component: BrixelRadioButton,
           pdClass: 'py-2 py-md-3 px-1',
           icons: true,
           label: '',
-          name: 'register.typeOfBuyer',
+          name: 'profile.knowledge',
           validation: [Validation.required],
-          options: factsOptions.userBuyer,
+          options: factsOptions.buyerKnowledge,
         },
       ],
+      successMessage: translateTo(lang, 'This is a nice number.'),
+    },
+    {
+      title: translateTo(lang, 'What is your current living situation?'),
+      history: 'livingSituation',
+      cardType: 'LivingSituation',
+      bgImg: congratsSvg,
+      inputs: [
+        {
+          component: BrixelRadioButton,
+          pdClass: 'py-2 py-md-3 px-1',
+          icons: true,
+          label: '',
+          name: 'profile.livingSituation',
+          validation: [Validation.required],
+          options: factsOptions.buyerLivingSituation,
+        },
+      ],
+      successMessage: translateTo(lang, 'This is a nice number.'),
     },
     {
       conditions: [{
@@ -195,7 +258,7 @@ export const QuestionsList = (lang) => {
       cardType: 'createProfile',
       inputs: [{
         component: LoginSignup,
-        name: 'profile',
+        name: 'profileUaer',
         validation: [Validation.required],
       }],
     },

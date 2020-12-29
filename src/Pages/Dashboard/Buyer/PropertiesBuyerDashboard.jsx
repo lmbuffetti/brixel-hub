@@ -5,43 +5,39 @@ import {
   Link, withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import {
   BrixelButtonIcon, FormatValue,
-  Helpers,
+  Helpers, BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import last from 'lodash/last';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 import { saveActiveSingleDeal } from '../../../actions/DealsActions';
+import { getUserSearchProfiles } from '../../../actions/SearchProfileActions';
+import searchImg from '../../../images/searchProfile/search.svg';
+import mapImg from '../../../images/searchProfile/map.svg';
 
 const PropertiesBuyerDashboard = (props) => {
   // PROPS
   const {
     handleSaveActiveSingleDeal,
-    history,
     loggedInUser,
     userBuyerProperties,
+    handleGetUserSearchProfiles,
+    userSearchProfiles,
   } = props;
   // STATE
   const [activeBuyerProperties, setSctiveBuyerProperties] = useState([]);
-  // URL PARAMS
-  const getFact = () => last(history.location.pathname.split('/'));
 
   useEffect(() => {
     const properties = userBuyerProperties.filter((item) => item.archivedByBuyer !== true);
     setSctiveBuyerProperties(properties);
   }, [userBuyerProperties]);
 
-  const openCloseColumn = () => {
-    if (
-      (history.location.pathname.includes('facts') && getFact() !== 'facts') ||
-      (history.location.pathname.includes('edit'))
-    ) {
-      return 'closed';
-    }
-    return 'opened';
-  };
+  useEffect(() => {
+    handleGetUserSearchProfiles(loggedInUser.user.id);
+  }, [loggedInUser.user.id]);
 
   const showPrice = (property) => {
     const currency = get(property, 'price.currency', '');
@@ -109,7 +105,7 @@ const PropertiesBuyerDashboard = (props) => {
             )
           }
         </h5>
-        <div className="properties listings-wrapper w-perc-100">
+        <div className="properties mb-5 listings-wrapper w-perc-100">
           <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
             {
               activeBuyerProperties.map((property, i) => (
@@ -194,11 +190,45 @@ const PropertiesBuyerDashboard = (props) => {
             }
           </div>
         </div>
-        {
-          getFact() !== 'property' && (
-            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed' : 'opened'}`} />
-          )
-        }
+
+        <div className="profile-market-container dis-fl-col dis-fl-row-sm">
+          <div className="search-profile w-perc-100 mb-4 mb-sm-0 max-w-fix-sm-368 mr-5">
+            <h6>Your search profile</h6>
+            {
+              has(userSearchProfiles[0], 'id') ? (
+                <span>{userSearchProfiles[0].id}</span>
+              ) : (
+                <section className="searchProfile brdRadius bgWhite shadow-2dp ta-c p-3 mt-3">
+                  <h5 className="mb-2 txtDark700"> Create your search profile now. </h5>
+                  <p className="pb-4 txtDark700">Get exclusive access to our Brixel properties and get in touch with private sellers.</p>
+
+                  <img width="190" src={searchImg} alt="" />
+                  <BrixelButtonPrimary
+                    className="mt-5 ml-a mr-a"
+                    label="Get access for free"
+                    rightIcon="arrow-right"
+                    rounded
+                    background="green"
+                  />
+                </section>
+              )
+            }
+          </div>
+          <div className="brixel-market">
+            <div className="market-teaser dis-fl-col h-perc-100">
+              <div className="dis-f">
+                <h6 className="mr-2">Brixel Market</h6>
+                <div className="teaser w-fix-96 h-fix-24 p-1 dis-fl-col jc-c a-c brdRadius">
+                  <span className="fsize-100 txtWhite">Coming soon</span>
+                </div>
+              </div>
+              <section className="brdRadius bgWhite brdSmall brdLight400 ta-c p-3 mt-3 h-perc-100 dis-fl-col a-c jc-c">
+                <img width="254" src={mapImg} alt="" />
+                <p className="txtDark700 pt-5">Soon we will release the Brixel Market and match your search profile with our properties and sellers.  </p>
+              </section>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
@@ -206,9 +236,10 @@ const PropertiesBuyerDashboard = (props) => {
 
 PropertiesBuyerDashboard.propTypes = {
   handleSaveActiveSingleDeal: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
+  handleGetUserSearchProfiles: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   userBuyerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 PropertiesBuyerDashboard.defaultProps = {
@@ -221,10 +252,12 @@ const mapStateToProps = (state) => ({
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),
+  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleSaveActiveSingleDeal: bindActionCreators(saveActiveSingleDeal, dispatch),
+  handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
 });
 
 export default compose(

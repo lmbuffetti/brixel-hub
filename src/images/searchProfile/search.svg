@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="199px" height="127px" viewBox="0 0 199 127" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Empty-State-07</title>
+    <g id="Page" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Contact-5" transform="translate(-617.000000, -570.000000)" fill-rule="nonzero">
+            <g id="Modal---Favorite-2---left" transform="translate(480.000000, 262.000000)">
+                <g id="Actions-Bar" transform="translate(0.000000, 167.000000)">
+                    <g id="Empty-State-07" transform="translate(144.000000, 148.000000)">
+                        <g id="Group">
+                            <path d="M92.8345263,72.1969014 C100.143158,62.1549296 103.527579,49.2388732 99.9814737,34.4450704 C84.1869474,-31.4611268 -23.6042105,7.19492958 5.04505263,68.7033803 C22.2610526,105.66507 72.688,99.9016901 92.8345263,72.1969014 Z" id="Path" stroke="#6A6E7D" stroke-width="13.9999" fill="#F0EFED"></path>
+                            <line x1="96.3865263" y1="69.5991549" x2="168.156632" y2="100.372394" id="Path" stroke="#6A6E7D" stroke-width="15.4248" fill="#F0EFED"></line>
+                            <polygon id="Path" fill="#F03C50" points="181.018947 119.204789 112.421053 92.6957746 124.776421 68.675493 191.253895 98.1676056"></polygon>
+                        </g>
+                        <g id="Group" transform="translate(23.578947, 20.281690)">
+                            <polygon id="Path" fill="#82D2FA" points="40.0690526 7.37239437 22.7452632 22.9622535 22.3275789 53.5242254 54.0783158 50.5985915 54.4488421 23.3974648"></polygon>
+                            <polygon id="Path" fill="#F03C50" points="22.7477895 22.9630986 40.0690526 7.37239437 13.3894737 0.712394366 0.414315789 17.9721127"></polygon>
+                            <polygon id="Path" fill="#1E1491" points="0.414315789 17.9721127 22.7477895 22.9630986 22.3301053 53.5250704 0.016 50.0797183"></polygon>
+                            <polygon id="Path" stroke="#32373C" fill="#32373C" points="34.688 52.3859155 34.3107368 40.2904225 43.1781053 39.0338028 43.5191579 51.5721127"></polygon>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
