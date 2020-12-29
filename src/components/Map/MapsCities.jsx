@@ -274,7 +274,6 @@ export const MapsCities = (props) => {
 
   // FUCNTION TO DELETE SELECTED CITY
   const deleteLocation = (loc) => {
-    console.log(loc.address);
     const locationsList = get(formValue, 'locations', []);
     const findIndex = locationsList.findIndex((item) => item.address === loc.address);
     locationsList.splice(findIndex, 1);

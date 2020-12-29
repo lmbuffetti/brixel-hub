@@ -20,7 +20,6 @@ const checkSearchProfile = (store) => (next) => (action) => {
       api.searchProfile.searchProfileByUserID(action.payload)
         .then((res) => {
           if (res.meta.normalizedStatus === 200) {
-            console.log(res.data);
             store.dispatch({ type: SET_USER_SEARCH_PROFILES, payload: res.data });
             store.dispatch({
               type: SPINNER_OFF,
@@ -38,13 +37,11 @@ const checkSearchProfile = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       const token = action.payload.token || null;
       const addSearchProfile = action.payload.addSearchProfile || false;
-      console.log(action.payload);
       api.searchProfile.updateSearchProfile(action.payload.dataSearchProfile, token)
-        .then((res) => {
+        .then(() => {
           if (addSearchProfile) {
-            // window.location.href = '/buyer/propertyLists';
+            window.location.href = '/buyer/propertyLists';
           }
-          console.log(res);
         });
       break;
     }

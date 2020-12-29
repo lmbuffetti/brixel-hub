@@ -85,7 +85,7 @@ const checkUser = (store) => (next) => (action) => {
             if (addSearchProfile) {
               const dataProfile = action.payload;
               dataProfile.token = res.data.token;
-              dataProfile.dataSearchProfile.user = res.data.id;
+              dataProfile.dataSearchProfile.user = res.data.user.id;
               store.dispatch({ type: UPDATE_USER_SEARCH_PROFILE, payload: dataProfile });
             }
           } else {
