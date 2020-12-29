@@ -8,9 +8,9 @@ class SearchProfile extends Base {
     return this.apiClient.get(url);
   }
 
-  updateSearchProfile(data) {
+  updateSearchProfile(data, token) {
     const url = ep.searchProfile.singleSearchProfile();
-    return this.apiClient.post(url, {}, data);
+    return this.apiClient.post(url, { token }, data);
   }
 }
 

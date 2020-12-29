@@ -96,6 +96,6 @@ export default {
   },
   searchProfile: {
     searchProfileByUserID: (id) => `/user/${id}/searchProfile`,
-    singleSearchProfile: () => '/api/v3/searchProfile/',
+    singleSearchProfile: () => '/searchProfile/',
   },
 };

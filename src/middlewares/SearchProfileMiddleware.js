@@ -1,6 +1,7 @@
 import {
   GET_USER_SEARCH_PROFILES,
   SET_USER_SEARCH_PROFILES,
+  UPDATE_USER_SEARCH_PROFILE,
 } from '../actions/types/SearchProfileTypes';
 
 import {
@@ -29,6 +30,21 @@ const checkSearchProfile = (store) => (next) => (action) => {
               type: SPINNER_OFF,
             });
           }
+        });
+      break;
+    }
+    case UPDATE_USER_SEARCH_PROFILE: {
+      next(action);
+      store.dispatch({ type: SPINNER_ON });
+      const token = action.payload.token || null;
+      const addSearchProfile = action.payload.addSearchProfile || false;
+      console.log(action.payload);
+      api.searchProfile.updateSearchProfile(action.payload.dataSearchProfile, token)
+        .then((res) => {
+          if (addSearchProfile) {
+            // window.location.href = '/buyer/propertyLists';
+          }
+          console.log(res);
         });
       break;
     }

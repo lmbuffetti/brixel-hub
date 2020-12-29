@@ -10,8 +10,6 @@ import {
   SET_LOGGED_IN_USER,
   SAVE_ACTIVE_SINGLE_USER,
   VALIDATE_USER,
-  GET_USER_PROPERTIES,
-  SET_USER_PROPERTIES,
   GET_FAVORITES,
   SET_FAVORITES,
   GET_USER_PAGES_DEALS,
@@ -26,6 +24,8 @@ import {
   REDIRECT_TO,
   SET_FORM_ERROR,
 } from '../actions/types/CommonTypes';
+
+import { UPDATE_USER_SEARCH_PROFILE } from '../actions/types/SearchProfileTypes';
 
 import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
 
@@ -69,6 +69,7 @@ const checkUser = (store) => (next) => (action) => {
       // store.dispatch({ type: SPINNER_ON });
       const data = action.payload.user;
       const addProperty = action.payload.addProperty || false;
+      const addSearchProfile = action.payload.addSearchProfile || false;
       delete action.payload.user;
       delete action.payload.addProperty;
       api.user.getToken(data, { rememberMe: true })
@@ -80,6 +81,12 @@ const checkUser = (store) => (next) => (action) => {
               dataProperty.token = res.data.token;
               dataProperty.owner = res.data.user.id;
               store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
+            }
+            if (addSearchProfile) {
+              const dataProfile = action.payload;
+              dataProfile.token = res.data.token;
+              dataProfile.dataSearchProfile.user = res.data.id;
+              store.dispatch({ type: UPDATE_USER_SEARCH_PROFILE, payload: dataProfile });
             }
           } else {
             const alertProps = {
@@ -101,6 +108,7 @@ const checkUser = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       const data = action.payload.user;
       const addProperty = action.payload.addProperty || false;
+      const addSearchProfile = action.payload.addSearchProfile || false;
       const { redirectTo, setOwner } = action.payload.user;
       delete action.payload.user;
       delete action.payload.addProperty;
@@ -127,6 +135,12 @@ const checkUser = (store) => (next) => (action) => {
               dataProperty.token = userData.token;
               dataProperty.owner = userData.user.id;
               store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
+            }
+            if (addSearchProfile) {
+              const dataProfile = action.payload;
+              dataProfile.token = res.data.token;
+              dataProfile.dataSearchProfile.user = userData.user.id;
+              store.dispatch({ type: UPDATE_USER_SEARCH_PROFILE, payload: dataProfile });
             }
             store.dispatch({ type: SPINNER_OFF });
           } else if (res.data.statusCode === 400 && res.data.errorMessage === 'Email is invalid!') {
@@ -232,22 +246,7 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
-    // DISPATCH TO GET FAVORITES LIST
-    case GET_USER_PROPERTIES: {
-      next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON, payload: 'usrProperties' });
-      api.user.getPropertiesOfUser(action.payload)
-        .then((res) => {
-          if (res.meta.status === 200) {
-            store.dispatch({ type: SET_USER_PROPERTIES, payload: res.data || {} });
-          }
-          store.dispatch({ type: SPINNER_SMALL_OFF });
-        })
-        .catch(() => {
-          store.dispatch({ type: SPINNER_SMALL_OFF });
-        });
-      break;
-    }
+    // DISPATCH TO SAVE SEARCH PROFILE
     default:
       next(action);
   }

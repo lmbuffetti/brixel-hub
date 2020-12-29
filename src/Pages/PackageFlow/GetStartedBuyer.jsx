@@ -23,7 +23,8 @@ import { setCookie } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingBuyer';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff } from '../../actions/CommonActions';
-import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
+import { doLogin, validateUser } from '../../actions/UserActions';
+import { updateUserSearchProfile } from '../../actions/SearchProfileActions';
 
 const cookie = new Cookies();
 
@@ -40,7 +41,7 @@ const GetStartedBuyer = (props) => {
     handleGetActiveSingleCompany,
     handleGetGamegroup,
     handleSaveActiveSingleProperty,
-    handleSaveActiveSingleUser,
+    handleUpdateSearchProfile,
     handleSetLanguage,
     handleSpinnerOff,
     handleValidateUser,
@@ -79,104 +80,76 @@ const GetStartedBuyer = (props) => {
   const saveData = async (action) => {
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
-    if (action === 'updateUser') {
-      const dataUser = {
-        id: dataForm.owner,
-        userType: get(dataForm, 'register.ownerType', null),
+
+    const { login, register, company } = dataForm;
+    // delete dataForm.login;
+    changeFieldValue('register.password', '');
+    delete dataFormAnswer.register.password;
+    // delete dataForm.company;
+    // BROWSER AND META USER DATA
+    const metaUserData = {};
+    // eslint-disable-next-line guard-for-in,no-restricted-syntax
+    for (const key in navigator) {
+      metaUserData[key] = navigator[key];
+    }
+    const dataSearchProfile = {
+      characteristics: get(dataFormAnswer, 'characteristics', {}),
+      location: get(dataFormAnswer, 'locations', {}),
+      profile: get(dataFormAnswer, 'profile', {}),
+      finance: get(dataFormAnswer, 'finance', {}),
+    };
+    // PROPERTY DATA
+    const data = {
+      dataSearchProfile,
+      addSearchProfile: true,
+      redirectToUserFlow: false,
+      company,
+    };
+    const page = get(formValue, 'signupScreen', null);
+    // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
+    if (formValue.owner) {
+      data.owner = loggedInUser.user.id;
+      // DISPATCH TO SAVE THE PROPERTY
+      data.redirectToRewards = true;
+      data.dataSearchProfile.user = loggedInUser.user.id;
+      await handleUpdateSearchProfile(data);
+    } else if (page === 'login') {
+      changeFieldValue('register.email', login.email);
+      // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
+      // USER DATA
+      data.user = {
+        username: login.email,
+        password: login.password,
       };
-      const dataProperty = {
-        id: get(dataForm, 'pageID', null),
-        ownerType: get(dataForm, 'register.ownerType', null),
-        redirectTo: `/${get(dataForm, 'pageID', null)}/rewards`,
-      };
-      const packageFlowProcess = get(dataForm, 'pageAnswerBuyer', null);
-      packageFlowProcess.answers.userType = get(dataForm, 'register.ownerType', null);
-      packageFlowProcess.answers.owner = dataForm.owner;
-      if (get(dataForm, 'register.ownerType', null) === 'buyer') {
-        dataUser.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
-        dataProperty.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
-        packageFlowProcess.answers.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
-      }
-      if (get(dataForm, 'register.ownerType', null) === 'seller') {
-        dataUser.whenToSell = get(dataForm, 'register.whenToSell', null);
-        dataProperty.whenToSell = get(dataForm, 'register.whenToSell', null);
-        packageFlowProcess.answers.whenToSell = get(dataForm, 'register.whenToSell', null);
-      }
-      dataProperty.packageFlowProcess = packageFlowProcess;
-      // await handleSaveActiveSingleUser(dataUser);
-      // await handleSaveActiveSingleProperty(dataProperty);
+      // DISPATCH TO DO LOGIN
+      data.redirectToHome = true;
+      await handleDoLogin(data);
     } else {
-      const { login, register, company } = dataForm;
-      // delete dataForm.login;
-      changeFieldValue('register.password', '');
-      delete dataFormAnswer.register.password;
-      // delete dataForm.company;
-      // BROWSER AND META USER DATA
-      const metaUserData = {};
-      // eslint-disable-next-line guard-for-in,no-restricted-syntax
-      for (const key in navigator) {
-        metaUserData[key] = navigator[key];
-      }
-      // PROPERTY DATA
-      const data = {
-        ...dataFormAnswer,
-        packageFlowProcess: {
-          answersBuyer: dataFormAnswer,
-          rewardScreenData: {},
-          metaUser: metaUserData,
-        },
+      changeFieldValue('login.email', register.email);
+      // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
+      // USER DATA
+      data.redirectToRewards = false;
+      data.user = {
+        ...register,
+        acceptTerms: get(register, 'privacy[0]', true),
+        acceptMarketing: get(register, 'acceptMarketing[0]', false),
+        name: `${register.firstName} ${get(register, 'lastName', '')}`,
+        userType: 'buyer',
+        signupAccept: true,
+        buyer: true,
+        signupChannel: get(formValue, 'channel', 'default'),
+        signupProduct: null,
         language: lang || 'en',
-        title: formValue.pageTitle,
-        status: 'on-request',
-        listed: false,
-        active: true,
-        published: false,
-        addProperty: true,
-        redirectToUserFlow: false,
+        createUser: true,
         company,
+        ignoreEmail: false,
+        redirectTo: {
+          pathname: '/packageFlow/getstartedBuyer/success',
+          state: { hideClose: true },
+        },
       };
-      const page = get(formValue, 'signupScreen', null);
-      // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
-      if (formValue.owner) {
-        data.owner = loggedInUser.user.id;
-        // DISPATCH TO SAVE THE PROPERTY
-        data.redirectToRewards = true;
-        await handleCreateActiveSingleProperty(data);
-      } else if (page === 'login') {
-        changeFieldValue('register.email', login.email);
-        // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
-        // USER DATA
-        data.user = {
-          username: login.email,
-          password: login.password,
-        };
-        // DISPATCH TO DO LOGIN
-        data.redirectToHome = true;
-        await handleDoLogin(data);
-      } else {
-        changeFieldValue('login.email', register.email);
-        // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
-        // USER DATA
-        data.redirectToRewards = false;
-        data.user = {
-          ...register,
-          name: `${register.firstName} ${get(register, 'lastName', '')}`,
-          userType: 'seller',
-          signupAccept: true,
-          signupChannel: get(formValue, 'channel', 'default'),
-          signupProduct: null,
-          language: lang || 'en',
-          createUser: true,
-          company,
-          ignoreEmail: false,
-          redirectTo: {
-            pathname: '/packageFlow/getstartedBuyer/success',
-            state: { hideClose: true },
-          },
-        };
-        // DISPATCH TO DO REGISTRATION USER
-        // await handleValidateUser(data);
-      }
+      // DISPATCH TO DO REGISTRATION USER
+      await handleValidateUser(data);
     }
   };
 
@@ -677,7 +650,7 @@ GetStartedBuyer.propTypes = {
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  handleSaveActiveSingleUser: PropTypes.func.isRequired,
+  handleUpdateSearchProfile: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
@@ -697,7 +670,6 @@ GetStartedBuyer.defaultProps = {
 const mapStateToProps = (state, props) => {
   const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
   const channel = get(urlSearch, 'channel', 'default');
-  const propertyType = get(urlSearch, 'propertyType', null);
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
@@ -712,6 +684,8 @@ const mapStateToProps = (state, props) => {
       location: {
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       },
+      owner: get(state, 'user.loggedInUser.id', null),
+      user: get(state, 'user.loggedInUser.id', null),
       login: {},
       profile: {},
       register: {},
@@ -742,7 +716,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
+  handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
