@@ -657,6 +657,11 @@ const mapStateToProps = (state, props) => {
       location: {
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       },
+      characteristics: {
+        livingArea: {
+          unit: 'm2',
+        },
+      },
       owner: get(state, 'user.loggedInUser.id', null),
       user: get(state, 'user.loggedInUser.id', null),
       login: {},

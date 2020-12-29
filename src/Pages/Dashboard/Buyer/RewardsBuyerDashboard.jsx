@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelIcon, BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelButtonIcon } from '@brixel/brixel-components';
 import Sticker from 'react-stickyfill';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import Loading from '../../../components/Loading';
@@ -20,7 +20,6 @@ const RewardsBuyerDashboard = (props) => {
   // PROPS
   const {
     activeSingleProperty,
-    handleSetModal,
     history,
     match,
     userTypes,
@@ -141,7 +140,6 @@ const RewardsBuyerDashboard = (props) => {
 RewardsBuyerDashboard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   userTypes: PropTypes.string,
-  handleSetModal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,

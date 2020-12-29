@@ -99,7 +99,7 @@ const PropertiesBuyerDashboard = (props) => {
   const extraFeaturesList = () => {
     const extraFeatures = [];
     const defaultExtraFeatures = get(userSearchProfiles[0], 'characteristics.extraFeatures', {});
-    Object.keys(defaultExtraFeatures).forEach((key, i) => {
+    Object.keys(defaultExtraFeatures).forEach((key) => {
       if (key !== 'none' && defaultExtraFeatures[key]) {
         const objExtra = factsOptions.extraFeature.find((val) => val.value === key);
         if (get(objExtra, 'icon', null) && objExtra.value !== 'loggia') {

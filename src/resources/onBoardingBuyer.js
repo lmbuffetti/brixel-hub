@@ -45,7 +45,6 @@ export const minLengthNum = (val, name) => (value) => {
 export const QuestionsList = (lang) => {
   let countryList = [];
   let formValue = {};
-  const country = 'CH';
   if (configureStore) {
     countryList = get(configureStore.getState(), 'common.country', []);
     formValue = get(configureStore.getState(), 'brixelForm.GetStarted.values', []);
