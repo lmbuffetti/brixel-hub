@@ -44,10 +44,11 @@ export const minLengthNum = (val, name) => (value) => {
 // QUESTION LISTS
 export const QuestionsList = (lang) => {
   let countryList = [];
-  const formValue = {};
+  let formValue = {};
   const country = 'CH';
   if (configureStore) {
     countryList = get(configureStore.getState(), 'common.country', []);
+    formValue = get(configureStore.getState(), 'brixelForm.GetStarted.values', []);
     // country = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', 'CH');
   }
 
@@ -178,11 +179,11 @@ export const QuestionsList = (lang) => {
         {
           component: BrixelInputText,
           className: '',
-          label: `Max. selling price in ${get(formValue, 'price.currency', 'CHF')}`,
+          label: `Max. selling price in ${get(formValue, 'finance.currency', 'CHF')}`,
           placeholder: '800’000',
           name: 'finance.price.totalMax',
           formatType: 'price',
-          unit: get(formValue, 'price.currency', 'CHF'),
+          unit: get(formValue, 'finance.currency', 'CHF'),
         },
       ],
       successMessage: translateTo(lang, 'This is a nice number.'),

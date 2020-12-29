@@ -18,7 +18,6 @@ import queryString from 'query-string';
 import Cookies from 'universal-cookie';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { titleProperty } from '../../utils/titleCreation';
 import { setCookie } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingBuyer';
 import { getGamegroup } from '../../actions/GamificationActions';
@@ -36,11 +35,9 @@ const GetStartedBuyer = (props) => {
     destroyForm,
     errorValue,
     formValue,
-    handleCreateActiveSingleProperty,
     handleDoLogin,
     handleGetActiveSingleCompany,
     handleGetGamegroup,
-    handleSaveActiveSingleProperty,
     handleUpdateSearchProfile,
     handleSetLanguage,
     handleSpinnerOff,
@@ -50,7 +47,6 @@ const GetStartedBuyer = (props) => {
     initialValues,
     lang,
     loggedInUser,
-    match,
     reset,
   } = props;
   // STATE
@@ -63,9 +59,6 @@ const GetStartedBuyer = (props) => {
   const [isEnter, setIsEnter] = useState(true);
   const [lastID, setLastID] = useState(0);
   // const [roomValue, setRoomValue] = useState('');
-  // GET URL PARAMS
-  const getAchievement = () => last(history.location.pathname.split('/'));
-  const propID = get(match, 'params.propId', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -77,7 +70,7 @@ const GetStartedBuyer = (props) => {
   }, []);
 
   // FUNCTION TO SAVE DATA
-  const saveData = async (action) => {
+  const saveData = async () => {
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
 
@@ -181,6 +174,7 @@ const GetStartedBuyer = (props) => {
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1) => {
     if (e) e.preventDefault();
+    const reloadQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
     let newIndex = currentIndex;
     if (act === 'back') {
       newIndex -= step;
@@ -192,18 +186,18 @@ const GetStartedBuyer = (props) => {
     if (defId !== newIndex) defId = checkCondition(defId, act);
 
     // setPosition(newIndex);
-    if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
+    if (reloadQuestions[defId].toSave) saveData(get(reloadQuestions[defId], 'action', null));
     else {
       setIsEnter(false);
       let newQuest = {
-        ...questions[defId],
+        ...reloadQuestions[defId],
       };
-      if (questions[defId].effect === 'slideUp') {
+      if (reloadQuestions[defId].effect === 'slideUp') {
         newQuest = {
-          ...questions[defId - 1],
+          ...reloadQuestions[defId - 1],
         };
       }
-      if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
+      if (act === 'back' && reloadQuestions[defId + 1].effect === 'slideUp') {
         setQuest(newQuest);
         setCurrentIndex(defId);
       } else {
@@ -218,13 +212,14 @@ const GetStartedBuyer = (props) => {
           getCurStep.querySelector('input[type="text"]').focus();
         }
       }, 100);
-      if (questions[defId].history) {
+      if (reloadQuestions[defId].history) {
         history.push({
-          pathname: `/packageFlow/getstartedBuyer/${questions[defId].history}`,
+          pathname: `/packageFlow/getstartedBuyer/${reloadQuestions[defId].history}`,
           state: get(history, 'location.state', {}),
         });
       }
-      const getOnlyQuest = questions.filter((item) => item.inputs);
+      const getOnlyQuest = reloadQuestions.filter((item) => item.inputs);
+      setQuestions(reloadQuestions);
       setProgressBar((defId * 100) / getOnlyQuest.length);
       if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
       if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
@@ -626,11 +621,9 @@ GetStartedBuyer.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleCreateActiveSingleProperty: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
-  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleUpdateSearchProfile: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
@@ -640,7 +633,6 @@ GetStartedBuyer.propTypes = {
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
 };
 

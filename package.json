@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^2.1.35",
+    "@brixel/brixel-components": "^2.1.37",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "css-split-webpack-plugin": "^0.2.6",
     "d3": "^6.3.1",
@@ -106,7 +106,7 @@
     "svg-inline-loader": "^0.8.2",
     "webpack": "4.44.2",
     "webpack-cli": "3.3.12",
-    "webpack-dev-server": "^3.11.0",
+    "webpack-dev-server": "^3.11.1",
     "webpack-merge": "^5.7.3",
     "webpack-node-externals": "^2.5.2"
   }

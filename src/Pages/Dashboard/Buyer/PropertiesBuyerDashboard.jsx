@@ -7,8 +7,12 @@ import {
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
-  BrixelButtonIcon, FormatValue,
-  Helpers, BrixelButtonPrimary,
+  BrixelButtonIcon,
+  BrixelButtonPrimary,
+  BrixelIcon,
+  FactsOptions,
+  FormatValue,
+  Helpers,
 } from '@brixel/brixel-components';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -17,6 +21,8 @@ import { saveActiveSingleDeal } from '../../../actions/DealsActions';
 import { getUserSearchProfiles } from '../../../actions/SearchProfileActions';
 import searchImg from '../../../images/searchProfile/search.svg';
 import mapImg from '../../../images/searchProfile/map.svg';
+
+const { factsOptions } = FactsOptions;
 
 const PropertiesBuyerDashboard = (props) => {
   // PROPS
@@ -90,6 +96,39 @@ const PropertiesBuyerDashboard = (props) => {
     handleSaveActiveSingleDeal(data);
   };
 
+  const extraFeaturesList = () => {
+    const extraFeatures = [];
+    const defaultExtraFeatures = get(userSearchProfiles[0], 'characteristics.extraFeatures', {});
+    Object.keys(defaultExtraFeatures).forEach((key, i) => {
+      if (key !== 'none' && defaultExtraFeatures[key]) {
+        const objExtra = factsOptions.extraFeature.find((val) => val.value === key);
+        if (get(objExtra, 'icon', null) && objExtra.value !== 'loggia') {
+          extraFeatures.push({
+            icon: get(objExtra, 'icon', ''),
+            label: get(objExtra, 'label', ''),
+            subtitle: null,
+          });
+        }
+      }
+    });
+
+    return (
+      <div className="dis-f flex-wrap">
+        {
+          extraFeatures.map((item, i) => (
+            <p key={i.toString()} className="mr-1">
+              <BrixelIcon
+                color="green"
+                icon="check"
+              />
+              <span className="txtDark500">{item.label}</span>
+            </p>
+          ))
+        }
+      </div>
+    );
+  };
+
   return (
     <>
       <div className="property-container buyer-properties h-perc-md-100 pos-r mt-2" id="propertyDashboard">
@@ -105,7 +144,7 @@ const PropertiesBuyerDashboard = (props) => {
             )
           }
         </h5>
-        <div className="properties mb-5 listings-wrapper w-perc-100">
+        <div className="properties listings-wrapper mb-5 w-perc-100">
           <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
             {
               activeBuyerProperties.map((property, i) => (
@@ -196,7 +235,39 @@ const PropertiesBuyerDashboard = (props) => {
             <h6>Your search profile</h6>
             {
               has(userSearchProfiles[0], 'id') ? (
-                <span>{userSearchProfiles[0].id}</span>
+                <div className="bgWhite brdRadius shadow-3dp p-2 mt-3">
+                  <h6 className="txtDark500 body2">Type</h6>
+                  {
+                    get(userSearchProfiles[0], 'characteristics.propertyType', []).map((item, i) => (
+                      <p className="txtDark700" key={i.toString()}>{item}</p>
+                    ))
+                  }
+                  <h6 className="txtDark500 body2 mt-3">Location</h6>
+                  {
+                    get(userSearchProfiles[0], 'location', []).map((item, i) => (
+                      <p className="txtDark700" key={i.toString()}>{item.address}</p>
+                    ))
+                  }
+                  <h6 className="txtDark500 body2 mt-3">Price</h6>
+                  <p className="txtGreen400"><span className="body2 txtGreen400">{get(userSearchProfiles[0], 'finance.currency', 'CHF')}</span> <span className="fSizePx20">{Helpers.formatNumberValue(get(userSearchProfiles[0], 'finance.price.totalMax', 'CHF'), get(userSearchProfiles[0], 'finance.currency', 'CHF'))}</span></p>
+
+                  <hr className="my-3" />
+
+                  <div className="dis-f jc-b">
+                    <div>
+                      <h6 className="txtDark500 body2">Rooms</h6>
+                      <p className="txtDark700">{get(userSearchProfiles[0], 'characteristics.bedrooms.min', 0)} - {get(userSearchProfiles[0], 'characteristics.bedrooms.max', 0)}</p>
+                    </div>
+                    <div>
+                      <h6 className="txtDark500 body2">Living Space in m2</h6>
+                      <p className="txtDark700">{get(userSearchProfiles[0], 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles[0], 'characteristics.livingArea.max', 0)}</p>
+                    </div>
+                  </div>
+
+                  <hr className="my-3" />
+
+                  {extraFeaturesList()}
+                </div>
               ) : (
                 <section className="searchProfile brdRadius bgWhite shadow-2dp ta-c p-3 mt-3">
                   <h5 className="mb-2 txtDark700"> Create your search profile now. </h5>
