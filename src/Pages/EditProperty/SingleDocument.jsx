@@ -24,7 +24,7 @@ import {
 } from 'react-redux';
 import {
   BrixelInputText, BrixelButtonIcon, ReduxField, BrixelButtonPrimary,
-  change, BrixelSelect, BrixelButtonTertiary, BrixelButtonSecondary,
+  change, BrixelSelect, BrixelButtonText, BrixelButtonSecondary,
   BrixelRadioButton,
 } from '@brixel/brixel-components';
 import {
@@ -254,7 +254,7 @@ const SingleDocument = (props) => {
                           />
                         )
                       }
-                      <BrixelButtonTertiary
+                      <BrixelButtonText
                         className={`edit p-0 as-fs ${documentFolders.length > 0 ? 'mt-1' : 'mt-3'}`}
                         color="primary"
                         label="New folder"

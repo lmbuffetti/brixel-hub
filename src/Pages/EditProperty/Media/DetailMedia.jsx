@@ -11,7 +11,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import {
   BrixelButtonIcon,
   BrixelButtonSecondary,
-  BrixelButtonTertiary,
+  BrixelButtonText,
   BrixelTextArea,
   ReduxField,
   useOutsideAlerter,
@@ -172,7 +172,7 @@ const DetailMedia = (props) => {
               {
                 mediaType === 'photos' && (get(formValue[mediaType][idImg], 'id') !== formValue.coverPhoto.id)
                 && (
-                  <BrixelButtonTertiary
+                  <BrixelButtonText
                     rounded
                     leftIcon="star-fill"
                     label="Set as cover"

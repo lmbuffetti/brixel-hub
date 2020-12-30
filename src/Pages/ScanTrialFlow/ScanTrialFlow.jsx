@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonTertiary,
+  BrixelButtonText,
   BrixelButtonIcon,
   BrixelButtonPrimary,
   FactsOptions,
@@ -319,7 +319,7 @@ const ScanTrialFlow = (props) => {
                 {
                   currentIndex === 0 && (
                     <>
-                      <BrixelButtonTertiary
+                      <BrixelButtonText
                         className="noWrap"
                         rounded
                         color="primary"

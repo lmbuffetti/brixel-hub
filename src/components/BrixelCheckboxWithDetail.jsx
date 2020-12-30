@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
-import { BrixelButtonTertiary, BrixelIcon } from '@brixel/brixel-components';
+import { BrixelButtonText, BrixelIcon } from '@brixel/brixel-components';
 
 const BrixelCheckboxWithDetail = React.memo((props) => {
   const {
@@ -79,7 +79,7 @@ const BrixelCheckboxWithDetail = React.memo((props) => {
               </label>
               <hr className="mt-3 mb-1" />
               <div className="dis-f a-c jc-b">
-                <BrixelButtonTertiary
+                <BrixelButtonText
                   rightIcon={openDetail[i] ? 'arrow-simple-up' : 'arrow-simple-down'}
                   label="All Details"
                   color="dark"

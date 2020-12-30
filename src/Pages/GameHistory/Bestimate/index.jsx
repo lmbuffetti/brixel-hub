@@ -5,7 +5,7 @@ import {
   BrixelButtonIcon,
   MultiFileldsReduxForm,
   BrixelButtonPrimary,
-  BrixelButtonTertiary,
+  BrixelButtonText,
   BrixelProgressLineDots,
   reset,
   initializeForm, change,
@@ -329,7 +329,7 @@ const Bestimate = (props) => {
 
                 {
                   buttonLabel().toLowerCase() === 'skip' ? (
-                    <BrixelButtonTertiary
+                    <BrixelButtonText
                       className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
                       saturation={400}

@@ -12,7 +12,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelIcon,
   BrixelButtonPrimary,
-  BrixelButtonTertiary,
+  BrixelButtonText,
   BrixelButtonIcon,
   BrixelTabs,
   destroy,
@@ -428,7 +428,7 @@ function PageHeaderDashboard(props) {
               */}
               {
                 propID && windowDimensions.width > 1024 && userType === 'seller' && (
-                  <BrixelButtonTertiary
+                  <BrixelButtonText
                     className="hide dis-f-md mx-3"
                     label="Upgrade"
                     color="red"
@@ -501,7 +501,7 @@ function PageHeaderDashboard(props) {
                               toggleMobileMenu();
                             }}
                           />
-                          <BrixelButtonTertiary
+                          <BrixelButtonText
                             className="fsize-300 txtLight700 px-1 td-n"
                             label="Support"
                             leftIcon="conversation"

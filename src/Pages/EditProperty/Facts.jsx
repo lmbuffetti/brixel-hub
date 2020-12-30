@@ -9,7 +9,7 @@ import {
   BrixelIcon,
   BrixelProgressBar,
   BrixelButtonIcon,
-  BrixelButtonTertiary,
+  BrixelButtonText,
   change,
   reset,
 } from '@brixel/brixel-components';
@@ -199,7 +199,7 @@ const Facts = (props) => {
                 <div className="dis-f jc-fe mb-1">
                   {
                     onNextSection('label') && (
-                      <BrixelButtonTertiary
+                      <BrixelButtonText
                         rightIcon="arrow-right"
                         onClick={() => onNextSection('click')}
                         label={onNextSection('label')}

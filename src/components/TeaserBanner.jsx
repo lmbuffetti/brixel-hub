@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
 import { setCookie, getCookie, isEligible } from '../utils/helpers';
 import TeaserImg from '../images/scanTrial/TeaserBanner.png';
 import TeaserImg2x from '../images/scanTrial/TeaserBanner@2x.png';
@@ -103,7 +103,7 @@ const TeaserBanner = (props) => {
           <span className="teaserTag as-c">Free</span>
           <p className="pl-2 body2 txtDark700">
             <span>Request your free scan and estimation now.</span>
-            <BrixelButtonTertiary
+            <BrixelButtonText
               className="ml-1 link td-u p-0 btnInline"
               labelClass="fsize-300 fweight-500 txtPrimary400"
               color="primary"

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonTertiary, initializeForm,
+  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonText, initializeForm,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -281,7 +281,7 @@ const Assessor = (props) => {
                 }
                 {
                   buttonLabel().toLowerCase() === 'skip' ? (
-                    <BrixelButtonTertiary
+                    <BrixelButtonText
                       className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
                       saturation={400}

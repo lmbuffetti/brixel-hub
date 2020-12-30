@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import {
-  BrixelButtonTertiary, destroy, BrixelButtonPrimary,
+  BrixelButtonText, destroy, BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_full_v2.svg';
@@ -121,7 +121,7 @@ const MenuSidebar = (props) => {
             <div className="pos-a-fix x-b-2 w-perc-100">
               <hr className="lighter mb-2" />
               <div className="px-2">
-                <BrixelButtonTertiary
+                <BrixelButtonText
                   className="fsize-300 txtDark400 py-0 td-n"
                   label="Support"
                   leftIcon="conversation"

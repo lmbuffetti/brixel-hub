@@ -7,7 +7,7 @@ import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
 import { getGamegroup } from '../../../actions/GamificationActions';
 import newAssessor from '../../../images/Assessor/newAssessor.svg';
 import startAssessor from '../../../images/Assessor/startAssessor.svg';
@@ -87,7 +87,7 @@ function SuccessAssessor(props) {
                             onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                             rightIcon="arrow-right"
                           />
-                          <BrixelButtonTertiary
+                          <BrixelButtonText
                             label="Redo condition check"
                             className="m-a"
                             onClick={() => history.push({
