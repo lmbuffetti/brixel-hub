@@ -195,12 +195,10 @@ const ScanTrialFlow = (props) => {
         <header className="max-w-fix-760 ml-a mr-a dis-f w-perc-100 jc-fe">
           <div className="dis-f a-c p-1 p-md-2">
             <BrixelButtonIcon
+              ghost
+              theme="dark"
               icon="close-small"
-              color="primay"
-              saturationTxt={400}
-              bgTransparent
-              noBorder
-              className="shadow-2dp as-c"
+              className="as-c"
               onClick={() => closeWindow()}
             />
           </div>
@@ -322,16 +320,12 @@ const ScanTrialFlow = (props) => {
                       <BrixelButtonText
                         className="noWrap"
                         rounded
-                        color="primary"
-                        saturation={400}
                         label="Not interested"
                         onClick={() => changeStep('next', false)}
                       />
                       <BrixelButtonPrimary
                         className="noWrap ml-2"
                         rounded
-                        background="primary"
-                        saturation={400}
                         label="Request appointment"
                         onClick={() => changeStep('next', true)}
                       />
@@ -342,21 +336,17 @@ const ScanTrialFlow = (props) => {
                   currentIndex > 0 && currentIndex < questions.length - 1 && (
                     <>
                       <BrixelButtonIcon
-                        className={`shadow-2dp backBtn ${currentIndex === 0 ? 'hide' : ''}`}
+                        className={`backBtn ${currentIndex === 0 ? 'hide' : ''}`}
                         icon="arrow-simple-left"
                         onClick={() => changeStep('back')}
-                        background="white"
-                        saturation={0}
-                        color="primary"
-                        saturationTxt={400}
-                        noBorder
+                        theme="primary"
+                        ghost
                       />
                       <BrixelButtonPrimary
                         className="noWrap"
                         disabled={!checkValidateField()}
                         rounded
-                        background={questions[currentIndex - 1] ? 'primary' : 'red'}
-                        saturation={400}
+                        theme={questions[currentIndex - 1] ? 'primary' : 'red'}
                         label={get(formValue, 'interested', null) ? 'Send request' : 'Send feedback'}
                         rightIcon="arrow-right-small"
                         isLoading={isSmallLoading === 'sendData'}
@@ -372,8 +362,7 @@ const ScanTrialFlow = (props) => {
                         className="noWrap"
                         disabled={!checkValidateField()}
                         rounded
-                        background={questions[currentIndex - 1] ? 'primary' : 'red'}
-                        saturation={400}
+                        theme={questions[currentIndex - 1] ? 'primary' : 'red'}
                         label={buttonLabel()}
                         rightIcon="arrow-right-small"
                         onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}

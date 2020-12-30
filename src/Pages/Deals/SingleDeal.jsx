@@ -176,11 +176,9 @@ const SingleDeal = (props) => {
           <BrixelButtonIcon
             icon="options-vertical"
             noBorder
-            className={`shadow-1dp ml-a ${btnClass}`}
-            background="white"
-            saturation={0}
-            color="dark"
-            saturationTxt={700}
+            className={`ml-a ${btnClass}`}
+            theme="dark"
+            ghost
             onClick={() => {
               setOptionsOpen(!optionsOpen);
             }}

@@ -606,14 +606,11 @@ const GetStarted = (props) => {
                 {
                   get(questions, `[${currentIndex - 1}].inputs`, null) && (
                     <BrixelButtonIcon
-                      className={`shadow-2dp backBtn ml-0 mr-a ${currentIndex === 0 ? 'hide' : ''}`}
+                      className={`backBtn ml-0 mr-a ${currentIndex === 0 ? 'hide' : ''}`}
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
-                      background="white"
-                      saturation={0}
-                      color="green"
-                      saturationTxt={400}
-                      noBorder
+                      theme="green"
+                      ghost
                     />
                   )
                 }

@@ -431,7 +431,7 @@ function PageHeaderDashboard(props) {
                   <BrixelButtonText
                     className="hide dis-f-md mx-3"
                     label="Upgrade"
-                    color="red"
+                    theme="red"
                     rounded
                     onClick={() => onUpgrade()}
                   />

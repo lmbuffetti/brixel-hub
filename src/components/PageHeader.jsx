@@ -228,12 +228,8 @@ function PageHeader(props) {
                     history.location.pathname.includes('packageFlow') &&
                     !(get(history, 'location.state.hideClose', null)) && (
                       <BrixelButtonIcon
-                        className="shadow-2dp"
-                        noBorder
-                        background="white"
-                        saturation={0}
-                        color="dark"
-                        saturationTxt={700}
+                        ghost
+                        theme="dark"
                         icon="close-small"
                         onClick={() => history.push('/')}
                       />

@@ -210,14 +210,11 @@ const PropertiesBuyerDashboard = (props) => {
 
                     <div className="row-section status p-1 dis-f jc-fe">
                       <BrixelButtonIcon
-                        brdOnHover
-                        color="dark"
-                        background="dark"
-                        saturation={100}
-                        fontSize={16}
-                        saturationTxt={500}
+                        theme="dark"
                         icon="archive"
-                        className="archiveBtn zIndex1"
+                        className="zIndex1"
+                        ghost
+                        small
                         onClick={(e) => archOnClick(e, property.dealID, property.archivedByBuyer)}
                         label={property.archivedByBuyer ? 'Unarchive' : 'Archive'}
                       />

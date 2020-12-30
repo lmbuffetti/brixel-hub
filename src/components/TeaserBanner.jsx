@@ -77,18 +77,14 @@ const TeaserBanner = (props) => {
               label="Tell me more"
               rounded
               className="as-fs"
-              onClick={() => {
-                openTrialRequestFlow();
-              }}
-
+              onClick={() => openTrialRequestFlow()}
             />
           </div>
           <div className="ml-a closeBtn">
             <BrixelButtonIcon
-              color="dark"
-              saturationTxt={400}
+              theme="dark"
               bgTransparent
-              noBorder
+              ghost
               className="as-c"
               icon="close-small"
               onClick={() => setIsClosed(!isClosed)}
@@ -103,15 +99,12 @@ const TeaserBanner = (props) => {
           <span className="teaserTag as-c">Free</span>
           <p className="pl-2 body2 txtDark700">
             <span>Request your free scan and estimation now.</span>
-            <BrixelButtonText
-              className="ml-1 link td-u p-0 btnInline"
-              labelClass="fsize-300 fweight-500 txtPrimary400"
-              color="primary"
-              label="Read more"
-              onClick={() => {
-                setIsClosed(!isClosed);
-              }}
-            />
+            <span
+              onClick={() => setIsClosed(!isClosed)}
+              className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
+            >
+              Read more
+            </span>
           </p>
         </div>
       </div>

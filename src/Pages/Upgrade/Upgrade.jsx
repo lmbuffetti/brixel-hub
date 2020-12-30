@@ -163,12 +163,11 @@ const Upgrade = (props) => {
         <header className="max-w-fix-760 ml-a mr-a dis-f w-perc-100 jc-fe">
           <div className="dis-f a-c p-1 p-md-2">
             <BrixelButtonIcon
-              icon="close-small"
-              color="primay"
-              saturationTxt={400}
+              ghost
               bgTransparent
-              noBorder
-              className="shadow-2dp as-c"
+              icon="close-small"
+              theme="dark"
+              className="as-c"
               onClick={() => closeWindow()}
             />
           </div>
@@ -266,8 +265,7 @@ const Upgrade = (props) => {
                   className="noWrap"
                   disabled={!checkValidateField()}
                   rounded
-                  background={questions[currentIndex - 1] ? 'primary' : 'red'}
-                  saturation={400}
+                  theme={questions[currentIndex - 1] ? 'primary' : 'red'}
                   label={buttonLabel()}
                   rightIcon="arrow-right-small"
                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
