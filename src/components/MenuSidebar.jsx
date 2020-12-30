@@ -132,11 +132,11 @@ const MenuSidebar = (props) => {
               <div className="px-2 dis-f jc-c">
                 <span
                   onClick={() => onTabClick('support')}
-                  className="cur-poi txtDark700 fsize-300 fweight-500"
+                  className="cur-poi txtDark400 fsize-300 fweight-500"
                 >
                   <BrixelIcon
                     icon="conversation"
-                    className="mr-1"
+                    className="mr-2"
                   />
                   Support
                 </span>
