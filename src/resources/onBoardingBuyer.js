@@ -179,7 +179,7 @@ export const QuestionsList = (lang) => {
           component: BrixelInputText,
           className: '',
           label: `Max. selling price in ${get(formValue, 'finance.currency', 'CHF')}`,
-          placeholder: '800’000',
+          placeholder: get(formValue, 'finance.currency', 'CHF') === 'CHF' ? '800’000' : '800.000',
           name: 'finance.price.totalMax',
           formatType: 'price',
           unit: get(formValue, 'finance.currency', 'CHF'),

@@ -348,6 +348,7 @@ const GetStartedBuyer = (props) => {
       setCookie('brixelStubCompany', company.stub);
       changeFieldValue('company', company.stub);
       changeFieldValue('finance.currency', get(company, 'country.currency', 'CHF'));
+      changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
     }
     initForm(initialValues);
   }, [company]);
@@ -666,6 +667,9 @@ const mapStateToProps = (state, props) => {
       user: get(state, 'user.loggedInUser.id', null),
       login: {},
       finance: {
+        currency: get(state, 'companies.activeSingleCompany.country.currency', {}),
+      },
+      price: {
         currency: get(state, 'companies.activeSingleCompany.country.currency', {}),
       },
       profile: {},
