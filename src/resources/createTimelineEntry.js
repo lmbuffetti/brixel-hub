@@ -5,7 +5,9 @@ import {
   has, get, tail,
 } from 'lodash';
 
-const formatPrice = (val) => val;
+import {
+  formatPrice,
+} from '../utils/helpers';
 
 export const createTimelineEntry = (item) => {
   const getHTMLDescription = () => {
@@ -66,7 +68,7 @@ export const createTimelineEntry = (item) => {
       if (item.actionStub === 'user-add-favorite') return 'Marked page as favorite';
       if (item.actionStub === 'user-schedule') {
         let dates = '';
-        const scheduleArray = tail(get(item, 'meta.schedule', '').split('•'));
+        const scheduleArray = tail(item.meta.schedule.split('•'));
         scheduleArray.forEach((date, key) => {
           dates += `<span>•${date}</span>${key !== (item.meta.schedule.split('•').length - 1) ? '</br>' : ''}`;
         });
@@ -75,6 +77,7 @@ export const createTimelineEntry = (item) => {
       if (item.actionStub === 'user-get-document') return 'Requested documents';
       if (item.actionStub === 'user-phone-call') return 'Made a phone call';
       if (item.actionStub === 'user-send-message') return `"${item.meta.message}"`;
+      if (item.actionStub === 'user-portal-create-message') return `<span>Sent new message on </span><span>${item.meta.portal}</span></br></br><span>${item.meta.message}</span>`;
 
       // DEAL HISTORY ENTRY
       if (item.actionStub === 'update-deal') {
@@ -111,6 +114,7 @@ export const createTimelineEntry = (item) => {
     if (has(item, 'favorite')) return 'favorite-fill';
     // ITEM IS HISTORY ENTRY
     if (has(item, 'actionStub')) {
+      if (item.actionStub === 'user-portal-create-message') return 'message';
       if (item.actionStub.includes('create') ||
           item.actionStub.includes('published') ||
           item.actionStub.includes('unpublished') ||
@@ -137,7 +141,7 @@ export const createTimelineEntry = (item) => {
         }
       }
     }
-    return '';
+    return 'info';
   };
 
   // Return User Signup entry
@@ -158,6 +162,18 @@ export const createTimelineEntry = (item) => {
         pinned: false,
       },
     ];
+  }
+
+  // Return Update Deal entry
+  if (has(item, 'actionStub') && item.actionStub === 'update-deal') {
+    return {
+      description: getHTMLDescription(), // Content of the event
+      icon: getIcon(), // Defines the type of icon on the event
+      user: item.child.name,
+      formattedDate: moment(item.createdAt).format('D MMM YYYY, H:mm'), // Formatted date to be shown on the event
+      timestamp: moment(item.createdAt).valueOf(), // Unix timestamp for sorting purposes
+      pinned: false, // Flag for sorting purposes
+    };
   }
 
   return {

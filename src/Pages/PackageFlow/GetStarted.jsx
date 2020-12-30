@@ -119,6 +119,7 @@ const GetStarted = (props) => {
         metaUserData[key] = navigator[key];
       }
       // PROPERTY DATA
+      delete dataFormAnswer.login;
       const data = {
         ...dataFormAnswer,
         packageFlowProcess: {
@@ -416,7 +417,7 @@ const GetStarted = (props) => {
       changeFieldValue('company', company.stub);
       changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
     }
-    if (get(initialValues, 'properties.propertyType', null)) initForm(initialValues);
+    if (get(formValue, 'properties.propertyType', null) === null) initForm(initialValues);
   }, [company]);
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
@@ -692,10 +693,10 @@ GetStarted.propTypes = {
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
-  handleSpinnerOff: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,

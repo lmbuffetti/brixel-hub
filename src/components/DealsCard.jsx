@@ -29,6 +29,7 @@ const DealsCard = (props) => {
       if (lastAction.actionStub === 'user-schedule') return 'Requested showing';
       if (lastAction.actionStub === 'user-get-document') return 'Requested documents';
       if (lastAction.actionStub === 'user-phone-call') return 'Made a phone call';
+      if (lastAction.actionStub === 'user-portal-create-message') return `<span><span>Sent new message on</span> <span>${lastAction.meta.portal}</span></span>`;
       if (lastAction.actionStub === 'user-send-message') {
         return `"${lastAction.meta.message}"`;
       }
@@ -41,7 +42,7 @@ const DealsCard = (props) => {
   return (
     <>
       <div
-        className={`dealsCard ${archived ? '' : 'cur-as'} dis-f p-2 mb-3 shadow-1dp brdRadius h-fix-120 ${className} notranslate`}
+        className={`dealsCard ${archived ? '' : 'cur-as'} dis-f p-2 mb-3 shadow-1dp brdRadius h-fix-120 ${className}`}
         onClick={() => parentOnClick()}
       >
         <div className="leftPanel pr-2">
@@ -49,11 +50,12 @@ const DealsCard = (props) => {
             avatarImg={avatarImg ? get(getConfigEnv, 'shortPath', '') + avatarImg : null}
             name={name}
             profileId={profileId}
+            className="notranslate"
           />
         </div>
         <div className="rightPanel dis-fl-col jc-b">
           <div className="topPart">
-            <span className={`name dis-b fweight-500 ${name === 'No name' ? 'txtDark100' : 'txtDark700'}`}> {name} </span>
+            <span className={`name dis-b notranslate fweight-500 ${name === 'No name' ? 'txtDark100' : 'txtDark700'}`}> {name} </span>
             <span
               className="metaMessage fsize-300 txtDark700 dis-b"
               dangerouslySetInnerHTML={{

@@ -55,6 +55,11 @@ export const calcPercentageFacts = (form = 'Property', value = {}) => {
   };
 };
 
+export const formatPrice = (value, lang) => {
+  if (typeof value !== 'number' && !value) return '';
+  return Number(value).toLocaleString(lang);
+};
+
 export const cutValue = (val) => {
   let formatVal = val;
   if (val > 10000) {

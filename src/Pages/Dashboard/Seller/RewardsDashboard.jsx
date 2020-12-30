@@ -7,7 +7,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelIcon, BrixelButtonIcon, BrixelButtonBox,
+  BrixelButtonIcon, BrixelButtonBox,
 } from '@brixel/brixel-components';
 import Sticker from 'react-stickyfill';
 import { addGameHistory } from '../../../actions/GamificationActions';
@@ -37,7 +37,6 @@ const RewardsDashboard = (props) => {
     gameGroup,
     gameHistory,
     handleAddGameHistory,
-    handleSetModal,
     history,
     isLoading,
     isSmallLoading,
@@ -345,7 +344,7 @@ const RewardsDashboard = (props) => {
                             )
                           }
                         </div>
-                        {
+                        {/* {
                           activeAchievement.points && (
                             <div
                               className="cur-poi ml-2"
@@ -365,7 +364,7 @@ const RewardsDashboard = (props) => {
                               <span className="ff-mono txtDark700">{activeAchievement.points}</span>
                             </div>
                           )
-                        }
+                        } */}
                       </div>
                     )
                   }
@@ -399,7 +398,6 @@ RewardsDashboard.propTypes = {
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
   handleAddGameHistory: PropTypes.func.isRequired,
-  handleSetModal: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.string,

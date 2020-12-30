@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset,
+  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -18,12 +18,12 @@ import queryString from 'query-string';
 import Cookies from 'universal-cookie';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { titleProperty } from '../../utils/titleCreation';
 import { setCookie } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingBuyer';
 import { getGamegroup } from '../../actions/GamificationActions';
-import { setLanguage } from '../../actions/CommonActions';
-import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
+import { setLanguage, spinnerOff } from '../../actions/CommonActions';
+import { doLogin, validateUser } from '../../actions/UserActions';
+import { updateUserSearchProfile } from '../../actions/SearchProfileActions';
 
 const cookie = new Cookies();
 
@@ -32,22 +32,21 @@ const GetStartedBuyer = (props) => {
   const {
     changeFieldValue,
     company,
+    destroyForm,
     errorValue,
     formValue,
-    handleCreateActiveSingleProperty,
     handleDoLogin,
     handleGetActiveSingleCompany,
     handleGetGamegroup,
-    handleSaveActiveSingleProperty,
-    handleSaveActiveSingleUser,
+    handleUpdateSearchProfile,
     handleSetLanguage,
+    handleSpinnerOff,
     handleValidateUser,
     history,
     initForm,
     initialValues,
     lang,
     loggedInUser,
-    match,
     reset,
   } = props;
   // STATE
@@ -60,114 +59,90 @@ const GetStartedBuyer = (props) => {
   const [isEnter, setIsEnter] = useState(true);
   const [lastID, setLastID] = useState(0);
   // const [roomValue, setRoomValue] = useState('');
-  // GET URL PARAMS
-  const getAchievement = () => last(history.location.pathname.split('/'));
-  const propID = get(match, 'params.propId', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
+
+  // DESTROY FORM ON EXIT
+  useEffect(() => {
+    handleSpinnerOff();
+    return () => destroyForm();
+  }, []);
+
   // FUNCTION TO SAVE DATA
-  const saveData = async (action) => {
+  const saveData = async () => {
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
-    if (action === 'updateUser') {
-      const dataUser = {
-        id: dataForm.owner,
-        userType: get(dataForm, 'register.ownerType', null),
+
+    const { login, register, company } = dataForm;
+    // delete dataForm.login;
+    changeFieldValue('register.password', '');
+    delete dataFormAnswer.register.password;
+    // delete dataForm.company;
+    // BROWSER AND META USER DATA
+    const metaUserData = {};
+    // eslint-disable-next-line guard-for-in,no-restricted-syntax
+    for (const key in navigator) {
+      metaUserData[key] = navigator[key];
+    }
+    const dataSearchProfile = {
+      characteristics: get(dataFormAnswer, 'characteristics', {}),
+      location: get(dataFormAnswer, 'locations', {}),
+      profile: get(dataFormAnswer, 'profile', {}),
+      finance: get(dataFormAnswer, 'finance', {}),
+    };
+    // PROPERTY DATA
+    const data = {
+      dataSearchProfile,
+      addSearchProfile: true,
+      redirectToUserFlow: false,
+      company,
+    };
+    const page = get(formValue, 'signupScreen', null);
+    // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
+    if (formValue.owner) {
+      data.owner = loggedInUser.user.id;
+      // DISPATCH TO SAVE THE PROPERTY
+      data.redirectToRewards = true;
+      data.dataSearchProfile.user = loggedInUser.user.id;
+      await handleUpdateSearchProfile(data);
+    } else if (page === 'login') {
+      changeFieldValue('register.email', login.email);
+      // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
+      // USER DATA
+      data.user = {
+        username: login.email,
+        password: login.password,
       };
-      const dataProperty = {
-        id: get(dataForm, 'pageID', null),
-        ownerType: get(dataForm, 'register.ownerType', null),
-        redirectTo: `/${get(dataForm, 'pageID', null)}/rewards`,
-      };
-      const packageFlowProcess = get(dataForm, 'pageAnswer', null);
-      packageFlowProcess.answers.userType = get(dataForm, 'register.ownerType', null);
-      packageFlowProcess.answers.owner = dataForm.owner;
-      if (get(dataForm, 'register.ownerType', null) === 'buyer') {
-        dataUser.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
-        dataProperty.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
-        packageFlowProcess.answers.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
-      }
-      if (get(dataForm, 'register.ownerType', null) === 'seller') {
-        dataUser.whenToSell = get(dataForm, 'register.whenToSell', null);
-        dataProperty.whenToSell = get(dataForm, 'register.whenToSell', null);
-        packageFlowProcess.answers.whenToSell = get(dataForm, 'register.whenToSell', null);
-      }
-      dataProperty.packageFlowProcess = packageFlowProcess;
-      await handleSaveActiveSingleUser(dataUser);
-      await handleSaveActiveSingleProperty(dataProperty);
+      // DISPATCH TO DO LOGIN
+      data.redirectToHome = true;
+      await handleDoLogin(data);
     } else {
-      const { login, register, company } = dataForm;
-      // delete dataForm.login;
-      changeFieldValue('register.password', '');
-      delete dataFormAnswer.register.password;
-      // delete dataForm.company;
-      // BROWSER AND META USER DATA
-      const metaUserData = {};
-      // eslint-disable-next-line guard-for-in,no-restricted-syntax
-      for (const key in navigator) {
-        metaUserData[key] = navigator[key];
-      }
-      // PROPERTY DATA
-      const data = {
-        ...dataFormAnswer,
-        packageFlowProcess: {
-          answers: dataFormAnswer,
-          rewardScreenData: {},
-          metaUser: metaUserData,
-        },
+      changeFieldValue('login.email', register.email);
+      // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
+      // USER DATA
+      data.redirectToRewards = false;
+      data.user = {
+        ...register,
+        acceptTerms: get(register, 'privacy[0]', true),
+        acceptMarketing: get(register, 'acceptMarketing[0]', false),
+        name: `${register.firstName} ${get(register, 'lastName', '')}`,
+        userType: 'buyer',
+        signupAccept: true,
+        buyer: true,
+        signupChannel: get(formValue, 'channel', 'default'),
+        signupProduct: null,
         language: lang || 'en',
-        title: formValue.pageTitle,
-        status: 'on-request',
-        listed: false,
-        active: true,
-        published: false,
-        addProperty: true,
-        redirectToUserFlow: false,
+        createUser: true,
         company,
+        ignoreEmail: false,
+        redirectTo: {
+          pathname: '/packageFlow/getstartedBuyer/success',
+          state: { hideClose: true },
+        },
       };
-      const page = get(formValue, 'signupScreen', null);
-      // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
-      if (formValue.owner) {
-        data.owner = loggedInUser.user.id;
-        // DISPATCH TO SAVE THE PROPERTY
-        data.redirectToRewards = true;
-        await handleCreateActiveSingleProperty(data);
-      } else if (page === 'login') {
-        changeFieldValue('register.email', login.email);
-        // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
-        // USER DATA
-        data.user = {
-          username: login.email,
-          password: login.password,
-        };
-        // DISPATCH TO DO LOGIN
-        data.redirectToHome = true;
-        await handleDoLogin(data);
-      } else {
-        changeFieldValue('login.email', register.email);
-        // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
-        // USER DATA
-        data.redirectToRewards = false;
-        data.user = {
-          ...register,
-          name: `${register.firstName} ${get(register, 'lastName', '')}`,
-          userType: 'seller',
-          signupAccept: true,
-          signupChannel: get(formValue, 'channel', 'default'),
-          signupProduct: null,
-          language: lang || 'en',
-          createUser: true,
-          company,
-          ignoreEmail: false,
-          redirectTo: {
-            pathname: '/packageFlow/getstartedBuyer/success',
-            state: { hideClose: true },
-          },
-        };
-        // DISPATCH TO DO REGISTRATION USER
-        await handleValidateUser(data);
-      }
+      // DISPATCH TO DO REGISTRATION USER
+      await handleValidateUser(data);
     }
   };
 
@@ -199,6 +174,7 @@ const GetStartedBuyer = (props) => {
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1) => {
     if (e) e.preventDefault();
+    const reloadQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
     let newIndex = currentIndex;
     if (act === 'back') {
       newIndex -= step;
@@ -210,18 +186,18 @@ const GetStartedBuyer = (props) => {
     if (defId !== newIndex) defId = checkCondition(defId, act);
 
     // setPosition(newIndex);
-    if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
+    if (reloadQuestions[defId].toSave) saveData(get(reloadQuestions[defId], 'action', null));
     else {
       setIsEnter(false);
       let newQuest = {
-        ...questions[defId],
+        ...reloadQuestions[defId],
       };
-      if (questions[defId].effect === 'slideUp') {
+      if (reloadQuestions[defId].effect === 'slideUp') {
         newQuest = {
-          ...questions[defId - 1],
+          ...reloadQuestions[defId - 1],
         };
       }
-      if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
+      if (act === 'back' && reloadQuestions[defId + 1].effect === 'slideUp') {
         setQuest(newQuest);
         setCurrentIndex(defId);
       } else {
@@ -236,13 +212,14 @@ const GetStartedBuyer = (props) => {
           getCurStep.querySelector('input[type="text"]').focus();
         }
       }, 100);
-      if (questions[defId].history) {
+      if (reloadQuestions[defId].history) {
         history.push({
-          pathname: `/packageFlow/getstartedBuyer/${questions[defId].history}`,
+          pathname: `/packageFlow/getstartedBuyer/${reloadQuestions[defId].history}`,
           state: get(history, 'location.state', {}),
         });
       }
-      const getOnlyQuest = questions.filter((item) => item.inputs);
+      const getOnlyQuest = reloadQuestions.filter((item) => item.inputs);
+      setQuestions(reloadQuestions);
       setProgressBar((defId * 100) / getOnlyQuest.length);
       if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
       if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
@@ -316,14 +293,6 @@ const GetStartedBuyer = (props) => {
     }
   }, [currentIndex]);
 
-  // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
-  useEffect(() => {
-    if (get(formValue, 'properties.typology.grossArea.value', 0) > 0) {
-      const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
-      changeFieldValue('properties.typology.livingArea.value', livingSpace);
-    }
-  }, [get(formValue, 'properties.typology.grossArea.value', 0)]);
-
   // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
   /* useEffect(() => {
     let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
@@ -337,11 +306,7 @@ const GetStartedBuyer = (props) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      history.push(`/${propID}/rewards`);
-    } else {
-      history.push(`/${propID}/rewards/${getAchievement()}`);
-    }
+    history.push('/buyer/propertyLists');
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
@@ -368,13 +333,6 @@ const GetStartedBuyer = (props) => {
     }
   }, [formValue]);
 
-  // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
-  useEffect(() => {
-    const propertyType = get(formValue, 'properties.propertyType', null);
-    const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
-    if (pageTitle) changeFieldValue('pageTitle', pageTitle);
-  }, [formValue.location, lang]);
-
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(company, 'stub', null)) {
@@ -389,6 +347,7 @@ const GetStartedBuyer = (props) => {
       changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
       changeFieldValue('company', company.stub);
+      changeFieldValue('finance.currency', get(company, 'country.currency', 'CHF'));
       changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
     }
     initForm(initialValues);
@@ -412,7 +371,7 @@ const GetStartedBuyer = (props) => {
         } else if (input.validation) {
           // const getRegField = get(registeredFields
           let field;
-          if (input.name === 'profile') {
+          if (input.name === 'profileUaer') {
             const page = get(formValue, 'signupScreen', null);
             field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
             if (page === 'login') {
@@ -449,7 +408,7 @@ const GetStartedBuyer = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className="withHeader getStarted">
+    <div id="bodyModalWrapper" className="withHeader getStarted buyerHub">
       {
         get(quest, 'inputs', null) && (
           <BrixelProgressBar
@@ -499,12 +458,12 @@ const GetStartedBuyer = (props) => {
                       }
                       {
                         quest.title && (
-                          <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100 max-w-fix-456`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                         )
                       }
                       {
                         quest.subtitle && (
-                          <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                          <p className="mb-5 txtDark700 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
                       <MultiFileldsReduxForm
                         form="GetStarted"
@@ -660,22 +619,21 @@ const GetStartedBuyer = (props) => {
 GetStartedBuyer.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   company: PropTypes.object.isRequired,
+  destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleCreateActiveSingleProperty: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
-  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  handleSaveActiveSingleUser: PropTypes.func.isRequired,
+  handleUpdateSearchProfile: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
 };
 
@@ -686,7 +644,6 @@ GetStartedBuyer.defaultProps = {
 const mapStateToProps = (state, props) => {
   const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
   const channel = get(urlSearch, 'channel', 'default');
-  const propertyType = get(urlSearch, 'propertyType', null);
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
@@ -698,25 +655,24 @@ const mapStateToProps = (state, props) => {
       channel,
       changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       company: get(state, 'companies.activeSingleCompany.stub', null),
-      price: {
-        currency: get(state, 'companies.activeSingleCompany.country.currency', null),
-      },
       location: {
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       },
-      login: {},
-      owner: get(state, 'user.loggedInUser.id', null),
-      properties: {
-        propertyType,
-        typology: {
-          livingArea: {
-            unit: 'sqm',
-          },
-          grossArea: {
-            unit: 'sqm',
-          },
+      characteristics: {
+        livingArea: {
+          unit: 'm2',
         },
       },
+      owner: get(state, 'user.loggedInUser.id', null),
+      user: get(state, 'user.loggedInUser.id', null),
+      login: {},
+      finance: {
+        currency: get(state, 'companies.activeSingleCompany.country.currency', {}),
+      },
+      price: {
+        currency: get(state, 'companies.activeSingleCompany.country.currency', {}),
+      },
+      profile: {},
       register: {},
       signup: get(state, 'user.loggedInUser.id', null) !== null,
     },
@@ -731,6 +687,9 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('GetStarted', field, value));
   },
+  destroyForm() {
+    dispatch(destroy('GetStarted'));
+  },
   initForm(value) {
     dispatch(initializeForm('GetStarted', value));
   },
@@ -742,8 +701,9 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
+  handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 

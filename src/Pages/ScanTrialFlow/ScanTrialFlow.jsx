@@ -423,7 +423,7 @@ const mapStateToProps = (state) => {
       id: get(state, 'property.activeSingleProperty.id', null),
       contactFullName: get(state, 'user.loggedInUser.user.name', null),
       contactPhone: {
-        prefix: get(state, 'user.loggedInUser.user.phone.prefix', countryPhoneCode.dial_code),
+        prefix: get(state, 'user.loggedInUser.user.phone.prefix', countryPhoneCode.dial_code) || countryPhoneCode.dial_code,
         number: get(state, 'user.loggedInUser.user.phone.number', ''),
       },
       contactEmail: get(state, 'user.loggedInUser.user.email', null),
