@@ -300,10 +300,7 @@ function PageHeader(props) {
             <BrixelButtonIcon
               className="as-fe mb-5"
               icon="close-small"
-              background="light"
-              saturation={100}
-              color="green"
-              saturationTxt={700}
+              theme="green"
               onClick={() => {
                 setShowMobileMenu(false);
                 document.body.classList.remove('ov-h');

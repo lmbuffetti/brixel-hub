@@ -85,12 +85,8 @@ const Showings = (props) => {
             }
           </div>
           <BrixelButtonIcon
-            className="shadow-1dp"
             icon="close-small"
-            color="primary"
-            saturationTxt={400}
-            bgTransparent
-            noBorder
+            ghost
             onClick={() => history.push(`/${propID}/listings/showings`)}
           />
         </div>

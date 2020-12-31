@@ -83,6 +83,7 @@ const TeaserBanner = (props) => {
           <div className="ml-a closeBtn">
             <BrixelButtonIcon
               theme="dark"
+              small
               bgTransparent
               ghost
               className="as-c"

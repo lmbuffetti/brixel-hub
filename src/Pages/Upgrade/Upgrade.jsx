@@ -164,7 +164,6 @@ const Upgrade = (props) => {
           <div className="dis-f a-c p-1 p-md-2">
             <BrixelButtonIcon
               ghost
-              bgTransparent
               icon="close-small"
               theme="dark"
               className="as-c"
@@ -250,14 +249,10 @@ const Upgrade = (props) => {
                 {
                   currentIndex > 0 && questions[currentIndex].inputs && (
                     <BrixelButtonIcon
-                      className="shadow-2dp backBtn"
+                      className="backBtn"
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
-                      background="white"
-                      saturation={0}
-                      color="primary"
-                      saturationTxt={400}
-                      noBorder
+                      ghost
                     />
                   )
                 }

@@ -142,11 +142,8 @@ const SingleDocument = (props) => {
                 <span className="name dis-b fsize-500 fweight-500 txtDark700">Edit document</span>
                 <BrixelButtonIcon
                   icon="close-small"
-                  noBorder
-                  className="shadow-1dp"
-                  background="white"
-                  color="dark"
-                  saturationTxt={700}
+                  ghost
+                  theme="dark"
                   onClick={() => {
                     changeFieldValue('documents', initialValues.documents);
                     history.push(`/${activeSingleProperty.id}/property/documents`);
@@ -212,21 +209,17 @@ const SingleDocument = (props) => {
                       />
                       <BrixelButtonIcon
                         icon="check-small"
-                        bgTransparent
-                        noBorder
-                        color="green"
-                        saturationTxt={400}
+                        ghost
+                        theme="green"
                         className="add-button as-fe"
                         label="Save"
                         onClick={(e) => createNewFolder(e)}
                       />
                       <BrixelButtonIcon
                         icon="close-circle"
-                        bgTransparent
-                        noBorder
+                        ghost
                         className="add-button as-fe"
-                        color="red"
-                        saturationTxt={400}
+                        theme="red"
                         label="Cancel"
                         onClick={() => {
                           changeFieldValue(`documents[${activeDocumentKey}].folder`, get(`initialValues.documents[${activeDocumentKey}]`, 'folder', ''));
@@ -255,10 +248,8 @@ const SingleDocument = (props) => {
                         )
                       }
                       <BrixelButtonText
-                        className={`edit p-0 as-fs ${documentFolders.length > 0 ? 'mt-1' : 'mt-3'}`}
-                        color="primary"
+                        className={`edit as-fs ${documentFolders.length > 0 ? 'mt-1' : 'mt-3'}`}
                         label="New folder"
-                        saturation={400}
                         onClick={() => {
                           changeFieldValue(`documents[${activeDocumentKey}].folder`, '');
                           setNewFolder(true);
@@ -271,25 +262,22 @@ const SingleDocument = (props) => {
               {/* bottom panel */}
               <div className="bottom dis-fl-row jc-fe w-perc-100 h-perc-100">
                 <BrixelButtonSecondary
-                  className="edit p-0 mr-2"
-                  color="dark"
+                  className="edit mr-2"
+                  theme="dark"
                   rounded
                   small
                   label="Cancel"
-                  saturation={700}
                   onClick={() => {
                     changeFieldValue('documents', initialValues.documents);
                     history.push(`/${activeSingleProperty.id}/property/documents`);
                   }}
                 />
                 <BrixelButtonPrimary
-                  className="edit p-0"
-                  color="primary"
+                  className="edit"
                   label="Save"
                   rounded
                   small
                   disabled={checkDisabled()}
-                  saturation={400}
                   onClick={(e) => {
                     updateDoc(e);
                   }}

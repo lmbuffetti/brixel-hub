@@ -315,14 +315,10 @@ const Bestimate = (props) => {
                 {
                   questions[currentIndex] && questions[currentIndex].inputs && (
                     <BrixelButtonIcon
-                      className={`shadow-2dp backBtn ${currentIndex === 0 ? 'hide' : ''}`}
+                      className={`backBtn ${currentIndex === 0 ? 'hide' : ''}`}
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
-                      background="white"
-                      saturation={0}
-                      color="primary"
-                      saturationTxt={400}
-                      noBorder
+                      ghost
                     />
                   )
                 }

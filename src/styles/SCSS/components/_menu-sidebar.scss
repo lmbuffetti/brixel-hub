@@ -200,32 +200,29 @@
     transform: translateY(-50%) translateX(-75%) rotate(-90deg);
   }
 }
+.navigation {
+  > li {
+    background-color: $brx-white;
+    max-width: 100%;
+    margin-bottom: $step;
+    transition: all $default-time-long $default-easing;
 
-.sidebarNav {
-  .navigation {
-    > li {
-      background-color: $brx-white;
-      max-width: 100%;
-      margin-bottom: $step;
-      transition: all $default-time-long $default-easing;
-
-      .brixelIcon i {
-        font-size: 18px;
-      }
-
-      &:hover {
-        background-color: map-get($lightColor, 100);
-        color: map-get($primaryColor, 500);
-      }
-      &:active {
-        background-color: map-get($lightColor, 200);
-        color: map-get($primaryColor, 600);
-      }
-      &.active {
-        background-color: map-get($lightColor, 200);
-        color: map-get($primaryColor, 700);
-      }
-
+    .brixelIcon i {
+      font-size: 18px;
     }
+
+    &:hover {
+      background-color: map-get($lightColor, 100);
+      color: map-get($primaryColor, 500);
+    }
+    &:active {
+      background-color: map-get($lightColor, 200);
+      color: map-get($primaryColor, 600);
+    }
+    &.active {
+      background-color: map-get($lightColor, 200);
+      color: map-get($primaryColor, 700);
+    }
+
   }
 }

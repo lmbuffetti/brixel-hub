@@ -117,9 +117,7 @@ const FactsQuestion = (props) => {
         <h5>{quest.title}</h5>
         <BrixelButtonIcon
           icon="close-small"
-          theme="primary"
           ghost
-          noBorder
           onClick={() => history.push(`/${propID}/property/facts`)}
         />
       </div>

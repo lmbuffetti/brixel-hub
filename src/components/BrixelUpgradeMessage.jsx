@@ -59,11 +59,8 @@ const BrixelUpgradeMessage = (props) => {
         showClose && (
           <div className="dis-f hide-md a-c mb-3">
             <BrixelButtonIcon
-              className="shadow-3dp bgWhite"
               icon="arrow-simple-left"
-              color="primary"
-              saturationTxt={400}
-              noBorder
+              ghost
               onClick={() => onClose()}
             />
             {/* <h5 className="ml-2 body fweight-500 sectionTitle">
@@ -132,15 +129,9 @@ const BrixelUpgradeMessage = (props) => {
                         <div className="pos-a w-perc-100 h-perc-100 bgBlack opacity5" />
                         <div className="pos-a xy-c">
                           <BrixelButtonIcon
-                            noBorder
-                            padding={16}
+                            ghost
                             icon="play-fill"
-                            background="white"
-                            saturation={0}
-                            color="primary"
-                            fontSize={16}
                             className="m-a opacity8"
-                            saturationTxt={400}
                             onClick={() => setShowTour(true)}
                           />
                           <p className="ta-c txtWhite mt-2">Example 3D-Tour</p>

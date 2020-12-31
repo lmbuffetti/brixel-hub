@@ -31,12 +31,9 @@ const Tour = (props) => {
             <div className="tour">
               <div className="dis-f jc-b a-c mb-3">
                 <BrixelButtonIcon
-                  className="shadow-3dp hide-md"
+                  className="hide-md"
+                  ghost
                   icon="arrow-simple-left"
-                  background="White"
-                  color="primary"
-                  saturationTxt={400}
-                  noBorder
                   onClick={() => history.push(`/${propID}/property`)}
                 />
                 <h5 className="m-a m-md-0 sectionTitle">
@@ -58,15 +55,9 @@ const Tour = (props) => {
                     <div className="pos-a w-perc-100 h-perc-100 bgBlack opacity5" />
                     <div className="pos-a xy-c">
                       <BrixelButtonIcon
-                        noBorder
-                        padding={16}
-                        fontSize={16}
+                        ghost
                         icon="play-fill"
-                        background="white"
-                        saturation={0}
-                        color="primary"
                         className="m-a opacity8"
-                        saturationTxt={400}
                         onClick={() => setShowTour(true)}
                       />
                       <p className="ta-c txtWhite mt-2">Start 3D tour</p>
@@ -96,12 +87,9 @@ const Tour = (props) => {
             <div className="tour brixel-upgrade-message p- rewardsSplash">
               <div className="dis-f jc-b a-c mb-3 hide-md p-2">
                 <BrixelButtonIcon
-                  className="shadow-3dp hide-md"
+                  className="hide-md"
                   icon="arrow-simple-left"
-                  background="White"
-                  color="primary"
-                  saturationTxt={400}
-                  noBorder
+                  ghost
                   onClick={() => history.push(`/${propID}/property`)}
                 />
               </div>

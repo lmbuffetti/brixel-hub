@@ -252,14 +252,10 @@ const MarketCheck = (props) => {
                 {
                   questions[currentIndex] && questions[currentIndex].inputs && (
                     <BrixelButtonIcon
-                      className={`shadow-2dp backBtn ${currentIndex === 0 ? 'hide' : ''}`}
+                      className={`backBtn ${currentIndex === 0 ? 'hide' : ''}`}
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
-                      background="white"
-                      saturation={0}
-                      color="primary"
-                      saturationTxt={400}
-                      noBorder
+                      ghost
                     />
                   )
                 }
@@ -268,8 +264,7 @@ const MarketCheck = (props) => {
                     <BrixelButtonText
                       className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
-                      saturation={400}
-                      color="light"
+                      theme="light"
                       label={buttonLabel()}
                       rightIcon="arrow-right-small"
                       onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
@@ -280,8 +275,6 @@ const MarketCheck = (props) => {
                         className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                         disabled={!checkValidateField()}
                         rounded
-                        background="primary"
-                        saturation={400}
                         label={buttonLabel()}
                         rightIcon="arrow-right-small"
                         onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}

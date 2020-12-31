@@ -102,11 +102,8 @@ const CreateDeal = (props) => {
           <h5>Create new deal</h5>
           <div>
             <BrixelButtonIcon
-              className="shadow-1dp"
-              noBorder
-              bgTransparent
-              color="dark"
-              saturationTxt={400}
+              ghost
+              theme="dark"
               icon="close-small"
               onClick={() => history.push(`/${activeSingleProperty.id}/deals`)}
             />

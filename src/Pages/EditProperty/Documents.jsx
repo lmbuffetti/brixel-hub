@@ -177,12 +177,9 @@ const Documents = (props) => {
       <div className={`${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel`}>
         <div className="dis-f jc-b a-c mb-3">
           <BrixelButtonIcon
-            className="shadow-3dp hide-md"
+            className="hide-md"
             icon="arrow-simple-left"
-            background="White"
-            color="primary"
-            saturationTxt={400}
-            noBorder
+            ghost
             onClick={() => {
               if (history.location.pathname.includes('buyer')) {
                 history.push(`/buyer/property/${propID}`);
@@ -230,11 +227,8 @@ const Documents = (props) => {
                               </div>
                               <BrixelButtonIcon
                                 className={`${(index(i) !== -1) ? 'as-fs' : ''}`}
-                                bgTransparent
-                                noBorder
-                                color="dark"
-                                saturationTxt={400}
-                                fontSize={16}
+                                ghost
+                                theme="dark"
                                 icon={`${(index(i) !== -1) ? 'arrow-simple-up' : 'arrow-simple-down'}`}
                                 onClick={(e) => {
                                   e.preventDefault();
@@ -278,10 +272,8 @@ const Documents = (props) => {
                                     />
 
                                     <BrixelButtonIcon
-                                      bgTransparent
-                                      noBorder
-                                      color="dark"
-                                      saturationTxt={100}
+                                      ghost
+                                      theme="dark"
                                       icon="options-vertical"
                                       onClick={() => {
                                         setDocumentOptionsOpen({
@@ -372,9 +364,8 @@ const Documents = (props) => {
                                 }
                                 <BrixelButtonIcon
                                   bgTransparent
-                                  noBorder
-                                  color="dark"
-                                  saturationTxt={100}
+                                  ghost
+                                  theme="dark"
                                   icon="options-vertical"
                                   onClick={() => {
                                     setDocumentOptionsOpen({

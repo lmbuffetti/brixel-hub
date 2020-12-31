@@ -348,7 +348,7 @@ function PageHeaderDashboard(props) {
                           saturationTxt={400}
                           background="red"
                           saturation={100}
-                          className="noRadius w-fix-40 h-fix-40 shadow-2dp dis-f jc-c a-c"
+                          className="noRadius w-fix-40 h-fix-40 dis-f jc-c a-c"
                         />
                         <div className="ml-2">
                           <span className="fsize-300 fweight-500">Buy</span>
@@ -363,7 +363,7 @@ function PageHeaderDashboard(props) {
                           saturationTxt={400}
                           background="primary"
                           saturation={100}
-                          className="noRadius w-fix-40 h-fix-40 shadow-2dp dis-f jc-c a-c"
+                          className="noRadius w-fix-40 h-fix-40 dis-f jc-c a-c"
                         />
                         <div className="ml-2">
                           <h5>{getCurrentRoute().title}</h5>
@@ -446,120 +446,162 @@ function PageHeaderDashboard(props) {
                 )
               }
               { /* SECTION SIDEBAR MENU MOBILE */ }
-              <div className="hide-md ml-2">
-                <BrixelButtonIcon
-                  bgTransparent
-                  color="primary"
-                  saturationTxt={400}
-                  noBorder
-                  className="shadow-2dp btnMainMenu"
-                  icon={showMobileMenu ? 'close-small' : 'menu'}
-                  onClick={() => toggleMobileMenu()}
-                />
-                {
-                  showMobileMenu && (
-                    <div className="mobile-menu bgWhite w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-3 pb-2 zIndex5" style={{ height: windowDimensions.height }}>
-                      <div className="dis-f jc-b a-c w-perc-100">
-                        <img className="pos-r w-fix-80" src={logo} alt="Brixel Logo" id="logo" />
-                        <BrixelButtonIcon
-                          className="as-fe"
-                          icon="close-small"
-                          background="light"
-                          saturation={100}
-                          color="green"
-                          saturationTxt={700}
-                          onClick={() => {
-                            toggleMobileMenu();
-                            document.body.classList.remove('ov-h');
-                          }}
-                        />
-                      </div>
-                      <div className="links dis-fl-col as-b w-perc-100">
-                        <div className="sidebarNav mt-5">
-                          <BrixelButtonPrimary
-                            label="Sell"
-                            labelClass="fsize-300"
-                            leftIcon="property-house"
-                            className={`${userType === 'seller' ? 'active' : ''}`}
-                            onClick={() => {
-                              handleSetUserTypes('seller');
-                              handleSetActiveSingleProperty({});
-                              history.push('/seller/pageLists');
-                              toggleMobileMenu();
-                            }}
-                          />
-                          <BrixelButtonPrimary
-                            label="Buy"
-                            labelClass="fsize-300"
-                            leftIcon="favorite"
-                            className={`${userType === 'buyer' ? 'active' : ''}`}
-                            onClick={() => {
-                              destroyForm();
-                              handleSetUserTypes('buyer');
-                              handleSetActiveSingleProperty({});
-                              history.push('/buyer/propertyLists');
-                              toggleMobileMenu();
-                            }}
-                          />
-                          <BrixelButtonText
-                            className="fsize-300 txtLight700 px-1 td-n"
-                            label="Support"
-                            leftIcon="conversation"
-                            onClick={() => onTabClick('support')}
-                          />
-                        </div>
-
-                        <hr className="my-3" />
-
-                        <div className="mini-menu dis-fl-col txtLight100">
-                          {
-                            userType === 'seller' && (
-                              <div className="mb-2">
-                                <a
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    onUpgrade();
+              {
+                windowDimensions.width <= 1024 && (
+                  <div className="ml-2">
+                    <BrixelButtonIcon
+                      className="btnMainMenu"
+                      icon={showMobileMenu ? 'close-small' : 'menu'}
+                      onClick={() => toggleMobileMenu()}
+                      ghost
+                    />
+                    {
+                      showMobileMenu && (
+                        <div className="mobile-menu bgWhite w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-3 pb-2 zIndex5" style={{ height: windowDimensions.height }}>
+                          <div className="dis-f jc-b a-c w-perc-100">
+                            <img className="pos-r w-fix-80" src={logo} alt="Brixel Logo" id="logo" />
+                            <BrixelButtonIcon
+                              className="as-fe"
+                              icon="close-small"
+                              ghost
+                              theme="dark"
+                              onClick={() => {
+                                toggleMobileMenu();
+                                document.body.classList.remove('ov-h');
+                              }}
+                            />
+                          </div>
+                          <div className="links dis-fl-col as-b w-perc-100">
+                            <div className="sidebarNav mt-5">
+                              <ul className="navigation max-w-fix-240">
+                                <li
+                                  onClick={() => {
+                                    handleSetUserTypes('seller');
+                                    handleSetActiveSingleProperty({});
+                                    history.push('/seller/pageLists');
+                                    toggleMobileMenu();
                                   }}
-                                  className="px-2 link txtRed400 fweight-500 fsize-300 ta-l"
+                                  className={`${userType === 'buyer' ? '' : 'active'} fweight-500 fsize-300 dis-f a-c brdRadius px-2 h-fix-40 txtLight400 cur-poi`}
                                 >
-                                  Upgrade
-                                </a>
-                              </div>
-                            )
-                          }
-                          <BrixelSelect
-                            options={langMenu}
-                            className="mb-2"
-                            input={{
-                              value: langSel,
-                              name: 'lang',
-                              onChange: (val) => newLang(val),
-                            }}
-                          />
-                          <a
-                            className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-l"
-                            href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}
-                          >
-                            Password
-                          </a>
-                          <a
-                            className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-l"
-                            href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}
-                          >
-                            Preferences
-                          </a>
-                          <a
-                            className="px-2 link txtDark700 fweight-500 fsize-300 ta-l"
-                            href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}
-                          >
-                            Logout
-                          </a>
+                                  <BrixelIcon
+                                    icon="property-house"
+                                    className="mr-small-12"
+                                  />
+                                  Sell
+                                </li>
+                                <li
+                                  onClick={() => {
+                                    destroyForm();
+                                    handleSetUserTypes('buyer');
+                                    handleSetActiveSingleProperty({});
+                                    history.push('/buyer/propertyLists');
+                                    toggleMobileMenu();
+                                  }}
+                                  className={`${userType === 'buyer' ? 'active' : ''} fweight-500 fsize-300 dis-f a-c brdRadius px-2 h-fix-40 txtLight400 cur-poi`}
+                                >
+                                  <BrixelIcon
+                                    icon="favorite"
+                                    className="mr-small-12"
+                                  />
+                                  Buy
+                                </li>
+                              </ul>
+                              {/* <BrixelButtonPrimary
+                                label="Sell"
+                                labelClass="fsize-300"
+                                leftIcon="property-house"
+                                className={`${userType === 'seller' ? 'active' : ''}`}
+                                onClick={() => {
+                                  handleSetUserTypes('seller');
+                                  handleSetActiveSingleProperty({});
+                                  history.push('/seller/pageLists');
+                                  toggleMobileMenu();
+                                }}
+                              />
+                              <BrixelButtonPrimary
+                                label="Buy"
+                                labelClass="fsize-300"
+                                leftIcon="favorite"
+                                className={`${userType === 'buyer' ? 'active' : ''}`}
+                                onClick={() => {
+                                  destroyForm();
+                                  handleSetUserTypes('buyer');
+                                  handleSetActiveSingleProperty({});
+                                  history.push('/buyer/propertyLists');
+                                  toggleMobileMenu();
+                                }}
+                              /> */}
+                              {/* <BrixelButtonText
+                                className="fsize-300 txtLight700 px-1 td-n"
+                                label="Support"
+                                leftIcon="conversation"
+                                onClick={() => onTabClick('support')}
+                              /> */}
+                              <span
+                                onClick={() => onTabClick('support')}
+                                className="cur-poi txtDark400 fsize-300 fweight-500 px-2 py-1"
+                              >
+                                <BrixelIcon
+                                  icon="conversation"
+                                  className="mr-2 fsize-400"
+                                />
+                                Support
+                              </span>
+                            </div>
+
+                            <hr className="my-3" />
+
+                            <div className="mini-menu dis-fl-col">
+                              {
+                                userType === 'seller' && (
+                                  <div className="mb-2">
+                                    <a
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        onUpgrade();
+                                      }}
+                                      className="cur-poi px-2 link txtRed400 fweight-500 fsize-300 ta-l"
+                                    >
+                                      Upgrade
+                                    </a>
+                                  </div>
+                                )
+                              }
+                              <BrixelSelect
+                                options={langMenu}
+                                className="mb-2"
+                                input={{
+                                  value: langSel,
+                                  name: 'lang',
+                                  onChange: (val) => newLang(val),
+                                }}
+                              />
+                              <a
+                                className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-l"
+                                href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}
+                              >
+                                Password
+                              </a>
+                              <a
+                                className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-l"
+                                href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}
+                              >
+                                Preferences
+                              </a>
+                              <a
+                                className="px-2 link txtDark700 fweight-500 fsize-300 ta-l"
+                                href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}
+                              >
+                                Logout
+                              </a>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  )
-                }
-              </div>
+                      )
+                    }
+                  </div>
+                )
+              }
               <MenuNavigationSubmenu
                 windowDimensions={windowDimensions}
                 activeMenu={activeMenu}

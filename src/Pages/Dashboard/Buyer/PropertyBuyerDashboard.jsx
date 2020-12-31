@@ -170,9 +170,7 @@ const PropertyBuyerDashboard = (props) => {
         <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
           <BrixelButtonIcon
             ghost
-            theme="primary"
             icon="arrow-simple-left"
-            noBorder
             onClick={() => history.push('../page')}
           />
         </div>

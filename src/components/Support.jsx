@@ -57,7 +57,6 @@ const Support = (props) => {
                   <BrixelButtonIcon
                     className="hide dis-b-md"
                     icon="close-small"
-                    theme="primary"
                     ghost
                     onClick={() => onClose()}
                   />

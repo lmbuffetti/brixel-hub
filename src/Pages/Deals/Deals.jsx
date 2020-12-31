@@ -340,11 +340,10 @@ const Deals = (props) => {
             }
             <BrixelButtonIcon
               icon="plus"
-              theme="primary"
               className="ml-1"
               onClick={() => createNewDeal()}
               label="Add Deal"
-              tooltipWidth="92"
+              tooltipWidth="88"
             />
           </div>
         </div>
