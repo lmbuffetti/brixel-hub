@@ -122,8 +122,6 @@ function MediaExplanation(props) {
                   <BrixelButtonPrimary
                     rounded
                     label={currentIndex === Questions.length - 1 ? 'Finish' : 'Ok, next'}
-                    background="primary"
-                    className=""
                     onClick={() => onClickNextBtn()}
                     rightIcon="arrow-right-small"
                   />

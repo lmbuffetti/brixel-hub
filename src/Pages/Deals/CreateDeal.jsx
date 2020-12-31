@@ -195,8 +195,6 @@ const CreateDeal = (props) => {
             disabled={!checkValidateField()}
             rounded
             onClick={() => createNewDeal()}
-            background="primary"
-            saturation={400}
             label="Create deal"
             className="as-fe"
             rightIcon="arrow-right-small"

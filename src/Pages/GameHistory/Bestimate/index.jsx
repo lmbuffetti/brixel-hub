@@ -339,8 +339,6 @@ const Bestimate = (props) => {
                       className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
                       rounded
-                      background="primary"
-                      saturation={400}
                       label={buttonLabel()}
                       rightIcon="arrow-right-small"
                       onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}

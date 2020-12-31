@@ -518,8 +518,7 @@ const GetStartedBuyer = (props) => {
                       <BrixelButtonPrimary
                         className={`mt-3 m-a noWrap ${quest.history}`}
                         rounded
-                        background="green"
-                        saturation={400}
+                        theme="green"
                         label={buttonLabel()}
                         disabled={!checkValidateField()}
                         rightIcon="arrow-right-small"
@@ -539,7 +538,7 @@ const GetStartedBuyer = (props) => {
                 {
                   get(questions, `[${currentIndex - 1}].inputs`, null) && (
                     <BrixelButtonIcon
-                      className={`shadow-2dp backBtn ml-0 mr-a ${currentIndex === 0 ? 'hide' : ''}`}
+                      className={`backBtn ml-0 mr-a ${currentIndex === 0 ? 'hide' : ''}`}
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
                       theme="green"
@@ -559,8 +558,7 @@ const GetStartedBuyer = (props) => {
                   className={`mr-0 ml-0 noWrap ${get(quest, 'history', null)} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''}`}
                   disabled={!checkValidateField()}
                   rounded
-                  background="green"
-                  saturation={400}
+                  theme="green"
                   label={buttonLabel()}
                   rightIcon="arrow-right-small"
                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}

@@ -223,9 +223,7 @@ const AddShowingsBuyer = (props) => {
                                   />
                                   <div className="bgWhite dis-f a-c jc-c my-1 mt-md-2 mb-md-3">
                                     <BrixelButtonPrimary
-                                      background="primary"
                                       disabled={!date}
-                                      saturation={400}
                                       label="Choose time"
                                       rounded
                                       onClick={() => {

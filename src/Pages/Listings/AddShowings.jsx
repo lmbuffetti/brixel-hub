@@ -176,19 +176,14 @@ const Showings = (props) => {
         <div className="dis-f p-2">
           <BrixelButtonPrimary
             label="Cancel"
-            background="white"
-            saturation={0}
-            color="dark"
-            saturationTxt={400}
+            theme="white"
             rounded
-            className="shadow-3dp mr-1"
+            className="mr-1"
             onClick={() => history.push(`/${propID}/listings/showings`)}
           />
           <BrixelButtonPrimary
             label="Save"
-            background="primary"
-            className="shadow-3dp ml-1"
-            saturation={400}
+            className="ml-1"
             rounded
             onClick={() => saveData()}
             isLoading={isSmallLoading === 'addBooking' || isSmallLoading === 'booking'}

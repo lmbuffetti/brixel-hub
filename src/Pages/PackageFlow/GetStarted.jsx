@@ -585,8 +585,7 @@ const GetStarted = (props) => {
                       <BrixelButtonPrimary
                         className={`mt-3 mb-2 m-a noWrap ${quest.history}`}
                         rounded
-                        background="green"
-                        saturation={400}
+                        theme="green"
                         label={buttonLabel()}
                         disabled={!checkValidateField()}
                         rightIcon="arrow-right-small"
@@ -626,8 +625,7 @@ const GetStarted = (props) => {
                   className={`mr-0 ml-0 noWrap ${get(quest, 'history', null)} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''}`}
                   disabled={!checkValidateField()}
                   rounded
-                  background="green"
-                  saturation={400}
+                  theme="green"
                   label={buttonLabel()}
                   rightIcon="arrow-right-small"
                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}

@@ -80,19 +80,14 @@ const BrixelUpgradeMessage = (props) => {
                 rounded
                 className="mr-1"
                 label="Cancel"
-                background="white"
-                saturation={0}
-                color="dark"
-                saturationTxt={700}
+                theme="white"
                 onClick={() => setShowUnlockMessage(false)}
               />
               <BrixelButtonPrimary
                 rounded
                 className="ml-1"
                 label="Order now"
-                background="primary"
                 isLoading={isSmallLoading !== null}
-                saturation={400}
                 onClick={() => onClick()}
               />
             </div>
@@ -146,8 +141,7 @@ const BrixelUpgradeMessage = (props) => {
               rounded
               className="m-a"
               label={unlockFunction ? btnLabel || 'Unlock now' : btnLabel}
-              background="red"
-              saturation={400}
+              theme="red"
               onClick={() => onClickBtn()}
             />
           </div>

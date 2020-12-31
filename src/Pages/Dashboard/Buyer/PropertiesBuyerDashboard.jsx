@@ -144,7 +144,7 @@ const PropertiesBuyerDashboard = (props) => {
             )
           }
         </h5>
-        <div className="properties listings-wrapper mb-5 w-perc-100">
+        <div className="properties listings-wrapper mb-5 w-perc-100 px-1">
           <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
             {
               activeBuyerProperties.map((property, i) => (
@@ -276,7 +276,7 @@ const PropertiesBuyerDashboard = (props) => {
                     label="Get access for free"
                     rightIcon="arrow-right"
                     rounded
-                    background="green"
+                    theme="green"
                   />
                 </section>
               )

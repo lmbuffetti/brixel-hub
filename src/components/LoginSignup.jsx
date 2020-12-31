@@ -243,7 +243,7 @@ const LoginSignup = (props) => {
             <BrixelButtonPrimary
               rounded
               rightIcon="arrow-right-small"
-              background="green"
+              theme="green"
               label={PrimaryButton().label}
               onClick={PrimaryButton().action}
             />

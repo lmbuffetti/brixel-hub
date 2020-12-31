@@ -90,9 +90,9 @@ const DealsCard = (props) => {
         </div>
       </div>
       <BrixelButtonIcon
-        bgTransparent
         theme="dark"
         ghost
+        small
         icon="archive"
         className="archiveBtn zIndex1 pos-a bt x-r mr-1 mb-1"
         onClick={(e) => {

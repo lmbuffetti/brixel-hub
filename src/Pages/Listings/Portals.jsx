@@ -214,7 +214,7 @@ const Portals = (props) => {
                             <BrixelButtonPrimary
                               className="m-a mt-3"
                               label="Unpublish now"
-                              background="dark"
+                              theme="dark"
                               rounded
                               onClick={() => changeReviewStatus('offline')}
                               isLoading={isSmallLoading}

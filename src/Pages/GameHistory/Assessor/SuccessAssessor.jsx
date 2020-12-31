@@ -82,7 +82,6 @@ function SuccessAssessor(props) {
                           <BrixelButtonPrimary
                             rounded
                             label="See full report"
-                            background="primary"
                             className="m-a mb-2"
                             onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                             rightIcon="arrow-right"
@@ -120,7 +119,6 @@ function SuccessAssessor(props) {
               <BrixelButtonPrimary
                 rounded
                 label="Assess condition"
-                background="primary"
                 className="m-a"
                 onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                 rightIcon="arrow-right"

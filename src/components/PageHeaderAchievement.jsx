@@ -36,8 +36,8 @@ function PageHeaderAchievement(props) {
           </div>
         </div>
         <BrixelButtonIcon
+          icon="close-small"
           ghost
-          bgTransparent
           theme="dark"
           onClick={onClick ? () => onClick() : () => history.push(`/${pageId}/rewards/${rewardType}`)}
         />

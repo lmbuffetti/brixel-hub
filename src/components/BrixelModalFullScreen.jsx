@@ -64,8 +64,6 @@ const BrixelModalFullScreen = (props) => {
                 <BrixelButtonPrimary
                   className="noWrap"
                   rounded
-                  background="primary"
-                  saturation={400}
                   label="Ok, got it"
                   rightIcon="arrow-right-small"
                   onClick={() => onClose()}

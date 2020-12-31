@@ -106,7 +106,6 @@ function SuccessMarketCheck(props) {
                                     <BrixelButtonPrimary
                                       rounded
                                       label="Check market now"
-                                      background="primary"
                                       className="m-a mt-2"
                                       onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                                       rightIcon="arrow-right"
@@ -141,7 +140,6 @@ function SuccessMarketCheck(props) {
               <BrixelButtonPrimary
                 rounded
                 label="Check market now"
-                background="primary"
                 className="m-a"
                 onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                 rightIcon="arrow-right"

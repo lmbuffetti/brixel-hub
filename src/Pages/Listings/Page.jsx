@@ -76,7 +76,6 @@ const Page = (props) => {
                 {
                   formValue.published ? (
                     <BrixelButtonPrimary
-                      className=""
                       leftIcon="eye"
                       label="Live view"
                       rounded
@@ -84,7 +83,6 @@ const Page = (props) => {
                     />
                   ) : (
                     <BrixelButtonPrimary
-                      className=""
                       leftIcon="eye"
                       label="Preview"
                       rounded
@@ -244,7 +242,7 @@ const Page = (props) => {
                       <BrixelButtonPrimary
                         className="m-a mt-3"
                         label="Take Page offline"
-                        background="dark"
+                        theme="dark"
                         rounded
                         onClick={() => changeReviewStatus('offline')}
                         isLoading={isSmallLoading}
