@@ -1,6 +1,5 @@
 /* global Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* global Transifex */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -11,7 +10,6 @@ import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelIcon,
-  BrixelButtonPrimary,
   BrixelButtonText,
   BrixelButtonIcon,
   BrixelTabs,
@@ -40,28 +38,28 @@ import AccountDropdown from './AccountDropdown';
 function PageHeaderDashboard(props) {
   // PROPS
   const {
-    handleSetUserTypes,
-    handleSetActiveSingleProperty,
-    destroyForm,
-    activeSingleProperty,
     // awards,
     // brixelPoints,
+    // handleGetGame,
+    // handleSetModal,
+    activeSingleProperty,
+    activeSinglePropertyDealsCount,
     changeZIndex,
+    destroyForm,
     formValue,
     gameGroup,
     gameHistory,
-    // handleGetGame,
-    handleSetLanguage,
-    // handleSetModal,
+    getPropertyDealsCount,
     handleSaveActiveSingleUser,
+    handleSetActiveSingleProperty,
+    handleSetLanguage,
+    handleSetUserTypes,
     history,
     lang,
     loggedInUser,
+    setDealsCount,
     userType,
     windowDimensions,
-    getPropertyDealsCount,
-    setDealsCount,
-    activeSinglePropertyDealsCount,
   } = props;
   // STATE
   // const [currentLang, setCurrentLang] = useState(lang);
@@ -152,7 +150,9 @@ function PageHeaderDashboard(props) {
   // FUNCTION TO CALC THE NUMBER OF NEW DEALS IN ORDER TO HIGHLIGHT DEALS TAB
   useEffect(() => {
     if (gameGroup && gameHistory && userType === 'seller') {
-      getPropertyDealsCount(activeSingleProperty.id);
+      if (activeSingleProperty.id) {
+        getPropertyDealsCount(activeSingleProperty.id);
+      }
       // let numDone = 0;
       let numTodo = 0;
       let newSellerCount = 0;

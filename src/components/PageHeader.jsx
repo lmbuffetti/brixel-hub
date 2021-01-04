@@ -29,8 +29,15 @@ const AvatarImage = Loadable({
 function PageHeader(props) {
   // PROPS
   const {
-    activeSingleCompany, lang, languages, loggedInUser, userAwards, brixelPoints,
-    handleSetLanguage, history, property,
+    activeSingleCompany,
+    brixelPoints,
+    handleSetLanguage,
+    history,
+    lang,
+    languages,
+    loggedInUser,
+    property,
+    userAwards,
   } = props;
 
   // STATE

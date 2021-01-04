@@ -41,7 +41,9 @@ const HomeDashboard = (props) => {
 
   // GET USER PROPERTIES LIST
   useEffect(() => {
+    console.log(loggedInUser);
     if (get(loggedInUser, 'user.id')) {
+      console.log('load_prop');
       handleGetUserProperties(loggedInUser.user.id);
     }
   }, [loggedInUser, propID]);
