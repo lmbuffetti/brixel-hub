@@ -1,3 +1,5 @@
+@import '~@brixel/brixel-components/src/styles/SCSS/general/variables';
+
 .seller-properties {
   .properties {
     overflow: auto;
@@ -12,7 +14,7 @@
       min-width: 600px;
     }
     &:hover {
-      @extend .shadow-4dp;
+      box-shadow: $shadow-4dp;
     }
   }
 }

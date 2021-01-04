@@ -16,7 +16,7 @@ import {
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import {
-  BrixelIcon, BrixelButtonPrimary,
+  BrixelIcon, BrixelButtonText,
   FactsOptions, useOutsideAlerter,
 } from '@brixel/brixel-components';
 
@@ -100,11 +100,9 @@ const FilterBar = (props) => {
             <div className="deals-filter pos-r as-fe dis-f" ref={propertyFilterRef}>
               {/* {console.log(activeData.value)} */}
 
-              <BrixelButtonPrimary
+              <BrixelButtonText
                 className="ml-2"
-                background="white"
-                colorTxt="Dark"
-                saturationTxt={700}
+                theme="Dark"
                 rounded
                 label={`${getLabel()}`}
                 leftIcon="filter"

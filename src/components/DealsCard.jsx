@@ -90,13 +90,9 @@ const DealsCard = (props) => {
         </div>
       </div>
       <BrixelButtonIcon
-        bgTransparent
-        color="dark"
-        background="dark"
-        saturation={100}
-        fontSize={16}
-        saturationTxt={500}
-        noBorder
+        theme="dark"
+        ghost
+        small
         icon="archive"
         className="archiveBtn zIndex1 pos-a bt x-r mr-1 mb-1"
         onClick={(e) => {

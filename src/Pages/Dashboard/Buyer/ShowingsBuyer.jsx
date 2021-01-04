@@ -107,12 +107,9 @@ const ShowingsBuyer = (props) => {
       <div className="cardSecondLevel">
         <div className="dis-f jc-b a-c mb-3">
           <BrixelButtonIcon
-            className="shadow-3dp hide-md"
+            className="hide-md"
             icon="arrow-simple-left"
-            background="White"
-            color="primary"
-            saturationTxt={400}
-            noBorder
+            ghost
             onClick={() => history.push('../page')}
           />
           <h5 className="m-a m-md-0 sectionTitle">

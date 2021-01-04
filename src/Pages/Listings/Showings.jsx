@@ -137,20 +137,13 @@ const Showings = (props) => {
               <BrixelButtonIcon
                 className={`shadow-3dp hide-md ${manageAvailability ? 'opacity0' : ''}`}
                 icon="arrow-simple-left"
-                background="White"
-                color="primary"
-                saturationTxt={400}
-                noBorder
+                ghost
                 onClick={() => history.push(`/${propID}/listings`)}
               />
               <h5 className="m-a m-md-0 sectionTitle">Showings</h5>
               <BrixelButtonIcon
-                className="shadow-2dp"
                 icon={manageAvailability ? 'close-small' : 'calendar-edit'}
-                background="White"
-                color="primary"
-                saturationTxt={400}
-                noBorder
+                ghost
                 onClick={() => (manageAvailability ? discardChanges() : setManageAvailability(!manageAvailability))}
               />
             </div>

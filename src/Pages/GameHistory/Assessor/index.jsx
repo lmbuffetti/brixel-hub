@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonTertiary, initializeForm,
+  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonText, initializeForm,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -271,17 +271,13 @@ const Assessor = (props) => {
                       className={`shadow-2dp backBtn ${currentIndex === 0 ? 'hide' : ''}`}
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
-                      background="white"
-                      saturation={0}
-                      color="primary"
-                      saturationTxt={400}
-                      noBorder
+                      ghost
                     />
                   )
                 }
                 {
                   buttonLabel().toLowerCase() === 'skip' ? (
-                    <BrixelButtonTertiary
+                    <BrixelButtonText
                       className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
                       saturation={400}
@@ -295,8 +291,6 @@ const Assessor = (props) => {
                       className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
                       rounded
-                      background="primary"
-                      saturation={400}
                       label={buttonLabel()}
                       rightIcon="arrow-right-small"
                       onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}

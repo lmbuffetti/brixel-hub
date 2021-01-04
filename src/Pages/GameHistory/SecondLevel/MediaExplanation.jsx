@@ -113,21 +113,15 @@ function MediaExplanation(props) {
                   className="dis-f a-c jc-b"
                 >
                   <BrixelButtonIcon
-                    className="shadow-2dp backBtn"
+                    className="backBtn"
                     icon="arrow-simple-left"
                     onClick={() => changeStep('back')}
-                    background="white"
-                    saturation={0}
-                    color="primary"
-                    saturationTxt={400}
-                    noBorder
+                    ghost
                     disabled={currentIndex === 0}
                   />
                   <BrixelButtonPrimary
                     rounded
                     label={currentIndex === Questions.length - 1 ? 'Finish' : 'Ok, next'}
-                    background="primary"
-                    className=""
                     onClick={() => onClickNextBtn()}
                     rightIcon="arrow-right-small"
                   />

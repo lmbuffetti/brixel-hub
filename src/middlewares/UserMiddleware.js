@@ -12,6 +12,8 @@ import {
   VALIDATE_USER,
   GET_FAVORITES,
   SET_FAVORITES,
+  GET_USER_PROPERTIES,
+  SET_USER_PROPERTIES,
   GET_USER_PAGES_DEALS,
   SET_USER_PAGES_DEALS,
 } from '../actions/types/UserTypes';
@@ -188,6 +190,23 @@ const checkUser = (store) => (next) => (action) => {
         })
         .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
+        });
+      break;
+    }
+    // GET USER PROPERTIES AS SELLER
+    case GET_USER_PROPERTIES: {
+      next(action);
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: 'usrProperties' });
+      api.user.getPropertiesOfUser(action.payload)
+        .then((res) => {
+          if (res.meta.status === 200) {
+            store.dispatch({ type: SET_USER_PROPERTIES, payload: res.data });
+          }
+          store.dispatch({ type: SPINNER_SMALL_OFF });
+          store.dispatch({ type: SPINNER_OFF });
+        })
+        .catch(() => {
+          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }

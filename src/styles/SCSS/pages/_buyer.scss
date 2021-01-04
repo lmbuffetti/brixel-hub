@@ -12,7 +12,7 @@
       min-width: 600px;
     }
     &:hover {
-      @extend .shadow-4dp;
+      box-shadow: $shadow-4dp;
     }
   }
 
