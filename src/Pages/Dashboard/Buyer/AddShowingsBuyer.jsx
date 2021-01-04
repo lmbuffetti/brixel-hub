@@ -18,6 +18,7 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelSwitchButton,
+  BrixelButtonIcon,
   BrixelIcon,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -147,7 +148,7 @@ const AddShowingsBuyer = (props) => {
                 {
                   scheduleVisitFree.map((val, i) => (
                     <div
-                      className="date-schedule brdSmall brdLight200 p-2 brdRadius bgWhite mt-1"
+                      className="date-schedule brdSmall brdLight200 p-2 brdRadius bgWhite mt-2"
                       key={i.toString()}
                     >
                       <div>
@@ -177,12 +178,13 @@ const AddShowingsBuyer = (props) => {
                         </div>
                       </div>
                       <div
-                        className="remove cur-poi mt-1 a-c"
+                        className="remove cur-poi a-c"
                         onClick={() => removeEl(i)}
                       >
-                        <BrixelIcon
+                        <BrixelButtonIcon
                           icon="bin"
-                          color="red"
+                          theme="red"
+                          ghost
                         />
                       </div>
                     </div>
