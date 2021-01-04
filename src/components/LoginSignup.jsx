@@ -135,13 +135,9 @@ const LoginSignup = (props) => {
       <div className="bodyScrollUp pos-r">
         <div className="dis-f jc-fe pos-r pos-a-md x-r zIndex1">
           <BrixelButtonIcon
-            className="shadow-3dp pos-a-fix mt-2-neg mt-md-0 x-r-2 x-t-2"
+            className="pos-a-fix mt-2-neg mt-md-0 x-r-2 x-t-2"
             icon="close-small"
-            color="dark"
-            saturationTxt={700}
-            background="white"
-            saturation={0}
-            noBorder
+            theme="dark"
             onClick={() => onCloseGoBack()}
           />
         </div>
@@ -247,7 +243,7 @@ const LoginSignup = (props) => {
             <BrixelButtonPrimary
               rounded
               rightIcon="arrow-right-small"
-              background="green"
+              theme="green"
               label={PrimaryButton().label}
               onClick={PrimaryButton().action}
             />

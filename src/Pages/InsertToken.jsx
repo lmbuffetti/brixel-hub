@@ -1,18 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelInputText, BrixelButtonPrimary } from '@brixel/brixel-components';
-import { resetRequest } from '../actions/CommonActions';
+import { resetRequest, spinnerOff } from '../actions/CommonActions';
 import { checkToken } from '../actions/UserActions';
 import { setCookie } from '../utils/helpers';
 
 function TokenInput(props) {
   const [token, setToken] = useState('');
-  const { handleCheckToken } = props;
+  const {
+    handleCheckToken,
+    handleSpinnerOff,
+  } = props;
+
+  useEffect(() => {
+    handleSpinnerOff();
+  }, []);
 
   const tokenInput = (e) => {
     e.preventDefault();
@@ -51,6 +58,7 @@ function TokenInput(props) {
 
 TokenInput.propTypes = {
   handleCheckToken: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
 };
 
 TokenInput.defaultProps = {
@@ -64,6 +72,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleResetRequest: bindActionCreators(resetRequest, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TokenInput));

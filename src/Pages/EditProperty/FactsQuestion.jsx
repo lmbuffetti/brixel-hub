@@ -116,12 +116,8 @@ const FactsQuestion = (props) => {
       <div className="dis-f a-c jc-b pos-r mb-3">
         <h5>{quest.title}</h5>
         <BrixelButtonIcon
-          className="shadow-2dp"
           icon="close-small"
-          color="primary"
-          saturationTxt={400}
-          bgTransparent
-          noBorder
+          ghost
           onClick={() => history.push(`/${propID}/property/facts`)}
         />
       </div>

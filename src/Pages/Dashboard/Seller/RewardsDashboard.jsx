@@ -328,12 +328,9 @@ const RewardsDashboard = (props) => {
                       <div className="dis-f a-c jc-b mb-5 mb-md-2">
                         <div className="dis-f a-c">
                           <BrixelButtonIcon
-                            className="shadow-2dp mr-2 hide-md"
+                            className="mr-2 hide-md"
                             icon="arrow-simple-left"
-                            color="primary"
-                            saturationTxt={400}
-                            bgTransparent
-                            noBorder
+                            ghost
                             onClick={() => history.push(`/${propID}/rewards`)}
                           />
                           {

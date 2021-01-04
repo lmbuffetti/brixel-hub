@@ -144,7 +144,7 @@ const PropertiesBuyerDashboard = (props) => {
             )
           }
         </h5>
-        <div className="properties listings-wrapper mb-5 w-perc-100">
+        <div className="properties listings-wrapper mb-5 w-perc-100 px-1">
           <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
             {
               activeBuyerProperties.map((property, i) => (
@@ -210,14 +210,11 @@ const PropertiesBuyerDashboard = (props) => {
 
                     <div className="row-section status p-1 dis-f jc-fe">
                       <BrixelButtonIcon
-                        brdOnHover
-                        color="dark"
-                        background="dark"
-                        saturation={100}
-                        fontSize={16}
-                        saturationTxt={500}
+                        theme="dark"
                         icon="archive"
-                        className="archiveBtn zIndex1"
+                        className="zIndex1"
+                        ghost
+                        small
                         onClick={(e) => archOnClick(e, property.dealID, property.archivedByBuyer)}
                         label={property.archivedByBuyer ? 'Unarchive' : 'Archive'}
                       />
@@ -279,7 +276,7 @@ const PropertiesBuyerDashboard = (props) => {
                     label="Get access for free"
                     rightIcon="arrow-right"
                     rounded
-                    background="green"
+                    theme="green"
                   />
                 </section>
               )
