@@ -395,6 +395,17 @@ const App = (props) => {
     return 'ov-y-a ov-x-h';
   };
 
+  // add class to body when loading enabled
+  useEffect(() => {
+    const loadingClass = document.getElementsByClassName('elem-loader')[0];
+    const body = document.getElementsByTagName('body')[0];
+    if (loadingClass) {
+      body.classList.add('bodyLoading');
+    } else {
+      body.classList.remove('bodyLoading');
+    }
+  });
+
   // CONDITION TO VIEW THE ELEMENTS AFTER LOADING
   if (
     !loggedInUser ||

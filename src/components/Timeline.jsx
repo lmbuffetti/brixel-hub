@@ -409,7 +409,7 @@ const Timeline = (props) => {
                         )
                       }
                     </div>
-                    <div className={`actions dis-fl-col jc-b pos-r ${editNote.id === event.id && editNote.active ? '' : 'mr-1-neg mt-1-neg'}`}>
+                    <div className={`actions dis-fl-col jc-b pos-r ${editNote.id === event.id && editNote.active ? '' : ''}`}>
                       {
                         get(event, 'content', '') && event.content.length > 62 && !editNote.active && (
                           <BrixelButtonIcon
@@ -465,7 +465,7 @@ const Timeline = (props) => {
                             </div>
                           ) : (
                             <>
-                              <div className="as-fe dis-f a-c mb-1-neg pos-r">
+                              <div className="as-fe dis-f a-c pos-r">
                                 {
                                   event.pinned && (
                                     <BrixelButtonIcon
