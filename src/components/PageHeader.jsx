@@ -238,7 +238,7 @@ function PageHeader(props) {
                         ghost
                         theme="dark"
                         icon="close-small"
-                        onClick={() => history.push('/')}
+                        onClick={() => (history.location.pathname.toLowerCase().includes('getstartedbuyer') ? history.push('/buyer/propertyLists') : history.push('/'))}
                       />
                     )
                   }

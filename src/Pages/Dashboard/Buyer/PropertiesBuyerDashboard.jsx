@@ -9,6 +9,7 @@ import has from 'lodash/has';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
+  BrixelButtonSecondary,
   BrixelIcon,
   FactsOptions,
   FormatValue,
@@ -28,6 +29,7 @@ const PropertiesBuyerDashboard = (props) => {
   // PROPS
   const {
     handleSaveActiveSingleDeal,
+    history,
     loggedInUser,
     userBuyerProperties,
     handleGetUserSearchProfiles,
@@ -231,14 +233,24 @@ const PropertiesBuyerDashboard = (props) => {
           <div className="search-profile w-perc-100 mb-4 mb-sm-0 max-w-fix-sm-368 mr-5">
             <h6>Your search profile</h6>
             {
-              has(userSearchProfiles[0], 'id') ? (
+              has(userSearchProfiles[0], 'ids') ? (
                 <div className="bgWhite brdRadius shadow-3dp p-2 mt-3">
-                  <h6 className="txtDark500 body2">Type</h6>
-                  {
-                    get(userSearchProfiles[0], 'characteristics.propertyType', []).map((item, i) => (
-                      <p className="txtDark700" key={i.toString()}>{item}</p>
-                    ))
-                  }
+                  <div className="dis-f jc-b">
+                    <div>
+                      <h6 className="txtDark500 body2">Type</h6>
+                      {
+                        get(userSearchProfiles[0], 'characteristics.propertyType', []).map((item, i) => (
+                          <p className="txtDark700" key={i.toString()}>{item}</p>
+                        ))
+                      }
+                    </div>
+                    <div>
+                      <BrixelButtonSecondary
+                        rounded
+                        label="Update"
+                      />
+                    </div>
+                  </div>
                   <h6 className="txtDark500 body2 mt-3">Location</h6>
                   {
                     get(userSearchProfiles[0], 'location', []).map((item, i) => (
@@ -277,6 +289,7 @@ const PropertiesBuyerDashboard = (props) => {
                     rightIcon="arrow-right"
                     rounded
                     theme="green"
+                    onClick={() => history.push('/packageFlow/getStartedBuyer')}
                   />
                 </section>
               )
@@ -305,6 +318,7 @@ const PropertiesBuyerDashboard = (props) => {
 PropertiesBuyerDashboard.propTypes = {
   handleSaveActiveSingleDeal: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   userBuyerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
