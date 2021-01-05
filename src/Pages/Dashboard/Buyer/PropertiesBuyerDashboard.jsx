@@ -233,7 +233,7 @@ const PropertiesBuyerDashboard = (props) => {
           <div className="search-profile w-perc-100 mb-4 mb-sm-0 max-w-fix-sm-368 mr-5">
             <h6>Your search profile</h6>
             {
-              has(userSearchProfiles[0], 'ids') ? (
+              has(userSearchProfiles[0], 'id') ? (
                 <div className="bgWhite brdRadius shadow-3dp p-2 mt-3">
                   <div className="dis-f jc-b">
                     <div>
