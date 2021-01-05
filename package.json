@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@brixel/brixel-components": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-styleguide-components.git#feature/split-stylesheet",
-    "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
+    "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#feature/split-stylesheet",
     "css-split-webpack-plugin": "^0.2.6",
     "d3": "^6.3.1",
     "date-fns": "^2.16.1",

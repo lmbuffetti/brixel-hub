@@ -95,6 +95,7 @@ export const QuestionsList = (lang) => {
       inputs: [
         {
           component: BrixelInputMultiRange,
+          classNameInput: 'mt-1',
           label: 'Number of rooms',
           name: 'characteristics.bedrooms',
           validation: [Validation.required],
@@ -144,18 +145,23 @@ export const QuestionsList = (lang) => {
       bgImg: locationSvg,
       inputs: [
         {
-          className: 'pos-r zIndex6',
-          classNameBox: 'max-w-perc-65',
+          className: 'pos-r zIndex6 compact',
+          classNameBox: 'max-w-perc-100 pos-r',
           component: BrixelSelect,
           label: 'Country',
+          labelType: 'onlyFlag',
           name: 'location.countryCode',
           options: countryList,
           validation: [Validation.required],
+          widthBox: '20',
         },
         {
           component: MapsCities,
+          widthBox: '80',
+          classBoxWrapper: 'mt-0',
           showMap: false,
           name: 'locations[0].latitude',
+          classNameBox: 'max-w-perc-100 pl-2',
           type: 'Map',
           mapOptions: {
             showMap: false,

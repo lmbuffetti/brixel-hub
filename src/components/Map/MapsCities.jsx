@@ -336,7 +336,7 @@ export const MapsCities = (props) => {
       }
       {
         get(formValue, 'locations', []).length > 0 && (
-          <>
+          <div className="locationsListMap">
             <p className="mb-2 txtDark700">Your locations</p>
             <div className="dis-f a-c flex-wrap notranslate">
               {
@@ -352,7 +352,7 @@ export const MapsCities = (props) => {
                 ))
               }
             </div>
-          </>
+          </div>
         )
       }
       <div className={`${showMap ? `${multipleFieldSearch ? 'pos-r' : ''} ${subMinHeight}` : 'hide'} wrapMap ${mapSize}`}>
