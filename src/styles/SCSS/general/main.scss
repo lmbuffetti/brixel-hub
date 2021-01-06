@@ -346,16 +346,19 @@ header {
   .buyerHub .locationInput {
     #multiStepForm:not(.signUp) {
       overflow: visible !important;
+
       .multiStepSlides {
         overflow-y: visible !important;
       }
       .resultAutoComplete {
-        max-height: 450px;
+        max-height: 320px;
         position: relative;
         overflow: auto;
+
         @media (max-width: $responsive-small) {
           max-height: 250px;
         }
+
         @media (max-width: 320px) {
           max-height: 170px;
         }
