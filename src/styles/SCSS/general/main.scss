@@ -468,3 +468,17 @@ main > div ::-webkit-scrollbar-thumb {
     }
   }
 }
+
+@media (max-width: $responsive-medium) {
+
+  .input-range__track {
+    transition: left 0.1s ease-out, width 0.1s ease-out
+  }
+  .input-range__slider {
+    transition: left 0.1s ease-out, box-shadow 0.1s ease-out
+  }
+  .input-range__slider-container {
+    transition: left 0.1s ease-out
+  }
+
+}
