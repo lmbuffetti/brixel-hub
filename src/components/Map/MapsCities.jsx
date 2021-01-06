@@ -337,7 +337,6 @@ export const MapsCities = (props) => {
       {
         get(formValue, 'locations', []).length > 0 && (
           <div className="locationsListMap">
-            <p className="mb-2 txtDark700 fsize-800">Your locations</p>
             <div className="dis-f a-c flex-wrap notranslate">
               {
                 get(formValue, 'locations', []).map((loc, i) => (
