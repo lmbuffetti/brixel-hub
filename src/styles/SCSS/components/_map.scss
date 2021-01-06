@@ -33,9 +33,12 @@
 }
 
 .searchMapCountry {
-  width: 90px;
+  width: 85px;
+  .dropdown .selElement .title {
+    text-overflow: clip;
+  }
 }
 
 .searchMapFields {
-  width: calc(100% - 90px);
+  width: calc(100% - 85px);
 }
