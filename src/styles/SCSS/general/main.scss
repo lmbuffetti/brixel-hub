@@ -490,7 +490,7 @@ main > div ::-webkit-scrollbar-thumb {
 }
 
 // Rangeslider
-@media (max-width: $responsive-mobile) {
+@media (max-width: $responsive-small) {
   .rangeslider {
     width: 100%;
   }
