@@ -61,6 +61,58 @@ export const QuestionsList = (lang, country = 'CH') => {
   if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
   return [
     {
+      title: translateTo(lang, 'What is the location?'),
+      history: 'locationInput',
+      cardType: 'locationInput',
+      bgImg: locationSvg,
+      inputs: [
+        {
+          className: 'pos-r zIndex6 compact',
+          classNameBox: 'max-w-perc-100 pos-r',
+          classBoxWrapper: 'mt-0 searchMapCountry',
+          component: BrixelSelect,
+          label: 'Country',
+          labelType: 'onlyFlag',
+          name: 'location.countryCode',
+          options: countryList,
+          validation: [Validation.required],
+        },
+        {
+          component: Maps,
+          showMap: false,
+          name: 'location.latitude',
+          type: 'Map',
+          classNameBox: 'max-w-perc-100 pl-2',
+          classBoxWrapper: 'mt-0 searchMapFields',
+          mapOptions: {
+            showMap: false,
+            hideSearch: false,
+            showSelectCountry: true,
+            multipleFieldSearch: true,
+            draggable: true,
+          },
+        },
+        {
+          component: Maps,
+          showMap: true,
+          name: 'location.latitude',
+          type: 'Map',
+          classNameBox: 'max-w-perc-100',
+          classBoxWrapper: 'mt-0',
+          widthBox: '100',
+          mapOptions: {
+            showMap: true,
+            hideSearch: true,
+            showSelectCountry: false,
+            multipleFieldSearch: false,
+            draggable: false,
+          },
+          validation: [Validation.required],
+        },
+      ],
+      successMessage: translateTo(lang, 'That is an interesting location.'),
+    },
+    {
       titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
       title: translateTo(lang, 'What type of property do you have?'),
       history: 'propertyType',
@@ -185,18 +237,22 @@ export const QuestionsList = (lang, country = 'CH') => {
       bgImg: locationSvg,
       inputs: [
         {
-          className: 'pos-r zIndex6',
-          classNameBox: 'max-w-perc-65',
+          className: 'pos-r zIndex6 compact',
+          classNameBox: 'max-w-perc-100 pos-r',
           component: BrixelSelect,
           label: 'Country',
+          labelType: 'onlyFlag',
           name: 'location.countryCode',
           options: countryList,
           validation: [Validation.required],
+          widthBox: '20',
         },
         {
           component: Maps,
           showMap: true,
           name: 'location.latitude',
+          classNameBox: 'max-w-perc-100 pl-2',
+          widthBox: '80',
           type: 'Map',
           mapOptions: {
             showMap: true,
