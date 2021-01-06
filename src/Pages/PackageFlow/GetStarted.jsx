@@ -178,6 +178,21 @@ const GetStarted = (props) => {
             state: { hideClose: true },
           },
         };
+        const sellerType = [
+          'seller',
+          'inheritance',
+          'price-development',
+          'mortgage',
+        ];
+        const buyerType = [
+          'buyer',
+        ];
+        if (sellerType.includes(get(dataForm, 'register.ownerType', ''))) {
+          data.user.seller = true;
+        }
+        if (buyerType.includes(get(dataForm, 'register.ownerType', ''))) {
+          data.user.buyer = true;
+        }
         // DISPATCH TO DO REGISTRATION USER
         await handleValidateUser(data);
       }
