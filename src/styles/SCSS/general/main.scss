@@ -311,6 +311,11 @@ header {
     .brixel-checkbox-icon.radioBtnImg,
     .brixel-radio-button-icon.radioBtnImg {
       /*todo styleguide*/
+      label {
+        @media (max-width: $responsive-small) {
+          padding: $step + 2;
+        }
+      }
       label .textLabel {
         margin-left: $step * 2;
         @include fontStyle(500);
@@ -343,6 +348,25 @@ header {
     label.brixel-label {
       color: map-get($darkColor, 700);
     }
+
+
+    // Rangeslider
+    @media (max-width: $responsive-small) {
+      .rangeslider {
+        width: 100%;
+      }
+      .input-range__track {
+        transition: left 0.1s ease-out, width 0.1s ease-out
+      }
+      .input-range__slider {
+        transition: left 0.1s ease-out, box-shadow 0.1s ease-out
+      }
+      .input-range__slider-container {
+        transition: left 0.1s ease-out
+      }
+
+    }
+
     .extraFeature {
       flex-wrap: wrap;
       display: flex;
@@ -379,7 +403,7 @@ header {
 
           @media (max-width: $responsive-small) {
             overflow-wrap: anywhere;
-            font-size: 10px;
+            font-size: 12px;
           }
         }
         .brixelIcon {
@@ -390,6 +414,11 @@ header {
             color: map-get($greenColor, 700);
           }
         }
+      }
+    }
+    .brixel-select .mobile-version select {
+      @media (max-width: $responsive-small) {
+        color: white;
       }
     }
     .familySituation {
@@ -452,7 +481,6 @@ label.brixel-label {
 }
 
 
-
 .singleInput {
   padding-bottom: $step * 3;
   margin-bottom: $step * 3;
@@ -487,21 +515,4 @@ main > div ::-webkit-scrollbar-thumb {
       margin-right: $step * 2;
     }
   }
-}
-
-// Rangeslider
-@media (max-width: $responsive-small) {
-  .rangeslider {
-    width: 100%;
-  }
-  .input-range__track {
-    transition: left 0.1s ease-out, width 0.1s ease-out
-  }
-  .input-range__slider {
-    transition: left 0.1s ease-out, box-shadow 0.1s ease-out
-  }
-  .input-range__slider-container {
-    transition: left 0.1s ease-out
-  }
-
 }
