@@ -351,17 +351,36 @@ header {
         width: 50%;
         padding-bottom: $step * 3;
 
+        > label  {
+          @media (max-width: $responsive-small) {
+            padding: $step;
+          }
+        }
+
         &:nth-child(odd) {
           padding-right: 12px;
+
+          @media (max-width: $responsive-small) {
+            padding-right: 6px;
+          }
         }
         &:nth-child(even) {
           padding-left: 12px;
+
+          @media (max-width: $responsive-small) {
+            padding-left: 6px;
+          }
         }
         .textLabel {
           font-size: 14px;
           line-height: 18px;
           padding-right: 8px;
           font-weight: 500;
+
+          @media (max-width: $responsive-small) {
+            overflow-wrap: anywhere;
+            font-size: 10px;
+          }
         }
         .brixelIcon {
           background: white;
@@ -463,14 +482,18 @@ main > div ::-webkit-scrollbar-thumb {
 
   > div {
     margin-bottom: $step;
+
     &:nth-child(odd) {
       margin-right: $step * 2;
     }
   }
 }
 
-@media (max-width: $responsive-medium) {
-
+// Rangeslider
+@media (max-width: $responsive-mobile) {
+  .rangeslider {
+    width: 100%;
+  }
   .input-range__track {
     transition: left 0.1s ease-out, width 0.1s ease-out
   }
