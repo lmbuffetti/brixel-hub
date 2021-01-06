@@ -103,6 +103,21 @@ const GetStarted = (props) => {
         dataProperty.whenToSell = get(dataForm, 'register.whenToSell', null);
         packageFlowProcess.answers.whenToSell = get(dataForm, 'register.whenToSell', null);
       }
+      const sellerType = [
+        'seller',
+        'inheritance',
+        'price-development',
+        'mortgage',
+      ];
+      const buyerType = [
+        'buyer',
+      ];
+      if (sellerType.includes(get(dataForm, 'register.ownerType', ''))) {
+        dataUser.seller = true;
+      }
+      if (buyerType.includes(get(dataForm, 'register.ownerType', ''))) {
+        dataUser.buyer = true;
+      }
       dataProperty.packageFlowProcess = packageFlowProcess;
       await handleSaveActiveSingleUser(dataUser);
       await handleSaveActiveSingleProperty(dataProperty);
@@ -178,21 +193,6 @@ const GetStarted = (props) => {
             state: { hideClose: true },
           },
         };
-        const sellerType = [
-          'seller',
-          'inheritance',
-          'price-development',
-          'mortgage',
-        ];
-        const buyerType = [
-          'buyer',
-        ];
-        if (sellerType.includes(get(dataForm, 'register.ownerType', ''))) {
-          data.user.seller = true;
-        }
-        if (buyerType.includes(get(dataForm, 'register.ownerType', ''))) {
-          data.user.buyer = true;
-        }
         // DISPATCH TO DO REGISTRATION USER
         await handleValidateUser(data);
       }
