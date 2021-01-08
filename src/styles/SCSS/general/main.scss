@@ -381,8 +381,8 @@ header {
     }
     @media (max-width: $responsive-small) {
       .rangeslider {
-        width: calc(100% - 20px);
-        left: 10px;
+        width: calc(100% - 30px);
+        left: 15px;
       }
       .input-range__track {
         transition: left 0.1s ease-out, width 0.1s ease-out
