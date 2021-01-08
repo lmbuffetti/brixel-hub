@@ -376,9 +376,12 @@ header {
 
 
     // Rangeslider
+    .brixel-multirange {
+      overflow-x: hidden;
+    }
     @media (max-width: $responsive-small) {
       .rangeslider {
-        width: 100%;
+        width: calc(100% - 5px);
       }
       .input-range__track {
         transition: left 0.1s ease-out, width 0.1s ease-out
