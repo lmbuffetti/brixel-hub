@@ -41,7 +41,9 @@ const HomeDashboard = (props) => {
 
   // GET USER PROPERTIES LIST
   useEffect(() => {
+    console.log(loggedInUser);
     if (get(loggedInUser, 'user.id')) {
+      console.log('load_prop');
       handleGetUserProperties(loggedInUser.user.id);
     }
   }, [loggedInUser, propID]);
@@ -107,7 +109,7 @@ const HomeDashboard = (props) => {
               onClick={() => history.push(`/packageFlow/getStarted?company=${get(activeSingleCompany, 'stub', '')}`)}
             />
           </div>
-          <div className="properties listings-wrapper w-perc-100">
+          <div className="properties listings-wrapper w-perc-100 px-1">
             <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
               {
                 userProperties.map((property, i) => (
@@ -181,13 +183,9 @@ const HomeDashboard = (props) => {
         </div>
         <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
           <BrixelButtonIcon
-            background="white"
-            saturation={0}
-            color="primary"
-            saturationTxt={400}
+            ghost
             icon="arrow-simple-left"
             noBorder
-            className="shadow-2dp"
             onClick={() => history.push('../facts')}
           />
         </div>

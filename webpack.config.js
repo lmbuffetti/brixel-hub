@@ -7,7 +7,6 @@ const companyData = require('@brixel/brixel-configuration-partner/src/CompanyInf
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const CSSNano = require('cssnano');
@@ -21,11 +20,27 @@ const getEnvBuild = process.argv[process.argv.length - 3];
 const clientConfig = {
   mode: 'development',
   devtool: devMode ? 'inline-source-map' : 'cheap-source-map',
-  entry: [
-    '@babel/polyfill',
-    './src/index.jsx',
-    // './src/styles/SCSS/general/main.scss',
-  ],
+  entry: {
+    polyfill: '@babel/polyfill',
+    main: [
+      './src/index.jsx',
+      './src/styles/SCSS/general/main.scss',
+    ],
+    secondary: [
+      './src/styles/SCSS/styleguide/helpers.scss',
+      './src/styles/SCSS/styleguide/grid.scss',
+    ],
+    styleguide: [
+      './src/styles/SCSS/styleguide/mainStyleguide.scss',
+      './src/styles/SCSS/styleguide/container.scss',
+      './src/styles/SCSS/styleguide/fontStyle.scss',
+      './src/styles/SCSS/styleguide/spacing.scss',
+      './src/styles/SCSS/styleguide/boxModel.scss',
+    ],
+    primary: [
+      './src/styles/SCSS/general/componentsLoad.scss',
+    ],
+  },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: devMode,
@@ -63,6 +78,7 @@ const clientConfig = {
             loader: 'css-loader',
             options: {
               sourceMap: devMode,
+              importLoaders: 1
             },
           },
           {
@@ -70,13 +86,13 @@ const clientConfig = {
           },
           {
             loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                outputStyle: 'compressed',
+              },
+              sourceMap: devMode,
+            },
           },
-        ],
-      },
-      {
-        test: /\.css/,
-        use: [
-          { loader: 'postcss-loader' },
         ],
       },
       {
@@ -156,14 +172,11 @@ const clientConfig = {
     ],
   },
   plugins: [
-    new ExtractCssChunks({
-      hot: true,
-    }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
       filename: devMode ? 'css/[name].css' : 'css/[name].[hash].css',
-      chunkFilename: devMode ? 'css/[id].css' : 'css/[id].[hash].css',
+      chunkFilename: devMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[hash].css',
     }),
     new CleanWebpackPlugin({
       dry: false,
@@ -180,6 +193,7 @@ const clientConfig = {
     new HtmlWebpackPlugin({
       chunksSortMode: 'none',
       hash: true,
+      inject: true,
       filename: './index.html',
       template: './public/index.html',
       title: companyData.hub.title,
@@ -222,13 +236,11 @@ const clientConfig = {
           test: /[\\/]node_modules[\\/]react-dom[\\/]/,
           name: 'vendor.react-dom',
           enforce: !devMode,
-          priority: 20,
           maxSize: 200000,
         },
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
-          priority: 10,
           enforce: !devMode, // create chunk regardless of the size of the chunk
           maxSize: 200000,
         },

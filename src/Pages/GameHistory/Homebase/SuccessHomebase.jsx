@@ -7,7 +7,7 @@ import {
 import get from 'lodash/get';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelIcon, BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 
 function SuccessHomebase(props) {
@@ -74,7 +74,7 @@ function SuccessHomebase(props) {
           rightIcon="arrow-right"
           onClick={() => history.push(`/${propID}/property/facts`)}
         />
-        <BrixelButtonTertiary
+        <BrixelButtonText
           label="Add new propety"
           onClick={() => history.push('/packageFlow/getStarted')}
         />

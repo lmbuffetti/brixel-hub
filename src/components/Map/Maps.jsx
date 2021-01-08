@@ -321,7 +321,7 @@ export const ComponentMap = (props) => {
         multipleFieldSearch && (
           <div className="fieldMapSearch mb-5">
             <div className="dis-f jc-b flex-wrap">
-              <div className="w-perc-65 pos-r">
+              <div className="w-perc-75 pos-r">
                 <BrixelInputText
                   className="search-box"
                   type="text"
@@ -358,13 +358,13 @@ export const ComponentMap = (props) => {
                   )
                 }
               </div>
-              <div className="w-perc-35 pl-2">
+              <div className="w-perc-25 pl-2">
                 <BrixelInputText
                   className="search-box streetNumber"
                   type="text"
                   disabled={disabled}
                   ref={inputSearch}
-                  label="Street Number"
+                  label="Number"
                   placeholder=""
                   onKeyDown={(e) => (e.keyCode === 13 && get(formValue, 'location.latitude', '') ? onSubmit() : '')}
                   input={{

@@ -19,7 +19,9 @@ $grid-breakpoints: (
 $responsive-medium: map_get($grid-breakpoints, md);
 $responsive-desktop: map-get($grid-breakpoints, xl );
 
-@import '~@brixel/brixel-components/src/styles/SCSS/general/main.scss';
+@import '~@brixel/brixel-components/src/styles/SCSS/general/variables';
+@import '~@brixel/brixel-components/src/styles/SCSS/utils/fontMixin';
+@import '~@brixel/brixel-components/src/styles/SCSS/general/icomoon';
 
 $sidebarWidth: 176px;
 $sidebarWidthCollapsed: 70px;
@@ -303,31 +305,154 @@ header {
   line-height: initial;
 }
 
-//todo styleguide
-.packageFlow #multiStepForm:not(.signUp) {
-  .brixel-radio-button-icon.radioBtnImg {
-    /*todo styleguide*/
-    label .textLabel {
-      margin-left: $step * 2;
-      @include fontStyle(500);
-    }
-  }
-  .brixel-input-step input {
-    @include fontStyle(600);
-  }
-  .brixel-select .mobile-version,
-  .brixel-select .dropdown,
-  .brixel-text-input {
-    @include fontStyle(500);
-    height: 48px;
-  }
-  .brixel-select {
-    .mobile-version {
-      select {
+//on boarding custom styles
+.packageFlow {
+  #multiStepForm:not(.signUp) {
+    .brixel-checkbox-icon.radioBtnImg,
+    .brixel-radio-button-icon.radioBtnImg {
+      /*todo styleguide*/
+      label {
+        @media (max-width: $responsive-small) {
+          padding: $step + 2;
+        }
+      }
+      label .textLabel {
+        margin-left: $step * 2;
         @include fontStyle(500);
       }
-      &::after {
-        top: 12px;
+    }
+    .brixel-input-step input {
+      @include fontStyle(600);
+    }
+    .brixel-select .mobile-version,
+    .brixel-select .dropdown,
+    .brixel-text-input {
+      @include fontStyle(500);
+      height: 48px;
+    }
+    .brixel-select {
+      .mobile-version {
+        select {
+          @include fontStyle(500);
+        }
+        &::after {
+          top: 12px;
+        }
+      }
+    }
+  }
+
+  // locationInput dropdown overlfow
+  .buyerHub .locationInput {
+    #multiStepForm:not(.signUp) {
+      overflow: visible !important;
+
+      .multiStepSlides {
+        overflow-y: visible !important;
+      }
+      .resultAutoComplete {
+        max-height: 320px;
+        position: relative;
+        overflow: auto;
+
+        @media (max-width: $responsive-small) {
+          max-height: 250px;
+        }
+
+        @media (max-width: 320px) {
+          max-height: 170px;
+        }
+      }
+    }
+  }
+  .buyerHub #multiStepForm:not(.signUp) {
+
+    .brixel-multirange-container {
+      margin-top: $step * 2;
+    }
+    label.brixel-label {
+      color: map-get($darkColor, 700);
+    }
+
+
+    // Rangeslider
+    .brixel-multirange {
+      overflow-x: hidden;
+    }
+    @media (max-width: $responsive-small) {
+      .rangeslider {
+        width: calc(100% - 30px);
+        left: 15px;
+      }
+      .input-range__track {
+        transition: left 0.1s ease-out, width 0.1s ease-out
+      }
+      .input-range__slider {
+        transition: left 0.1s ease-out, box-shadow 0.1s ease-out
+      }
+      .input-range__slider-container {
+        transition: left 0.1s ease-out
+      }
+
+    }
+
+    .extraFeature {
+      flex-wrap: wrap;
+      display: flex;
+
+      > .brixel-checkbox-icon {
+        width: 50%;
+        padding-bottom: $step * 3;
+
+        > label  {
+          @media (max-width: $responsive-small) {
+            padding: $step;
+          }
+        }
+
+        &:nth-child(odd) {
+          padding-right: 12px;
+
+          @media (max-width: $responsive-small) {
+            padding-right: 6px;
+          }
+        }
+        &:nth-child(even) {
+          padding-left: 12px;
+
+          @media (max-width: $responsive-small) {
+            padding-left: 6px;
+          }
+        }
+        .textLabel {
+          font-size: 14px;
+          line-height: 18px;
+          padding-right: 8px;
+          font-weight: 500;
+
+          @media (max-width: $responsive-small) {
+            overflow-wrap: anywhere;
+            font-size: 12px;
+          }
+        }
+        .brixelIcon {
+          background: white;
+          padding: 8px;
+          border-radius: 8px;
+          i {
+            color: map-get($greenColor, 700);
+          }
+        }
+      }
+    }
+    .brixel-select .mobile-version select {
+      @media (max-width: $responsive-small) {
+        color: white;
+      }
+    }
+    .familySituation {
+      > div:last-child {
+        margin-top: $step;
       }
     }
   }
@@ -385,7 +510,6 @@ label.brixel-label {
 }
 
 
-
 .singleInput {
   padding-bottom: $step * 3;
   margin-bottom: $step * 3;
@@ -415,6 +539,7 @@ main > div ::-webkit-scrollbar-thumb {
 
   > div {
     margin-bottom: $step;
+
     &:nth-child(odd) {
       margin-right: $step * 2;
     }

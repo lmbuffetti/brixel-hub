@@ -12,7 +12,17 @@
       min-width: 600px;
     }
     &:hover {
-      @extend .shadow-4dp;
+      box-shadow: $shadow-4dp;
+    }
+  }
+
+  .profile-market-container {
+    .brixel-market {
+      .market-teaser {
+        .teaser {
+          background-color: map-get($redColor, 300);
+        }
+      }
     }
   }
 }

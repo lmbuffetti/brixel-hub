@@ -137,12 +137,9 @@ const Photos = (props) => {
         <div className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
           <div className="dis-f jc-b a-c mb-3">
             <BrixelButtonIcon
-              className="shadow-3dp hide-md"
+              className="hide-md"
               icon="arrow-simple-left"
-              background="White"
-              color="primary"
-              saturationTxt={400}
-              noBorder
+              ghost
               onClick={() => history.push(`/${propID}/property`)}
             />
             <h5 className="m-a m-md-0 sectionTitle">
@@ -185,33 +182,24 @@ const Photos = (props) => {
                               >
                                 <BrixelButtonSecondary
                                   rounded
-                                  color="red"
-                                  saturation={400}
-                                  saturationTxt={400}
+                                  theme="red"
                                   rightIcon="bin"
                                   label="delete?"
-                                  className={`shadow-2dp ${confirmDelete === i ? '' : 'hide'}`}
+                                  className={`${confirmDelete === i ? '' : 'hide'}`}
                                   onClick={() => deleteImage(item.id)}
                                   isLoading={isSmallLoading && btnActive === 'delete'}
                                 />
                                 <BrixelButtonIcon
-                                  background="white"
-                                  saturation={0}
-                                  color="red"
-                                  saturationTxt={400}
-                                  noBorder4
+                                  ghost
+                                  theme="red"
                                   icon="bin"
-                                  className={`shadow-2dp ${confirmDelete === i ? 'hide' : ''}`}
+                                  className={`${confirmDelete === i ? 'hide' : ''}`}
                                   onClick={() => onConfirmDelete(i)}
                                 />
                                 <BrixelButtonIcon
-                                  background="white"
-                                  saturation={0}
-                                  color="primary"
-                                  saturationTxt={400}
-                                  noBorder
+                                  ghost
                                   icon="edit"
-                                  className={`shadow-2dp ml-1 ${confirmDelete === i ? 'hide' : ''}`}
+                                  className={`ml-1 ${confirmDelete === i ? 'hide' : ''}`}
                                   onClick={
                                     () => {
                                       history.push(`/${propID}/property/floorPlans/${item.id}/edit/floorPlans`);

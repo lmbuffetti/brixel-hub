@@ -175,12 +175,9 @@ const SingleDeal = (props) => {
         <div className={`pos-r mr-2 ${className}`} ref={optionsRef}>
           <BrixelButtonIcon
             icon="options-vertical"
-            noBorder
-            className={`shadow-1dp ml-a ${btnClass}`}
-            background="white"
-            saturation={0}
-            color="dark"
-            saturationTxt={700}
+            className={`ml-a ${btnClass}`}
+            theme="dark"
+            ghost
             onClick={() => {
               setOptionsOpen(!optionsOpen);
             }}
@@ -280,10 +277,8 @@ const SingleDeal = (props) => {
                   <div className="pt-2 pr-1 pr-md-0 pt-md-0">
                     <BrixelButtonIcon
                       icon="close-small"
-                      noBorder
-                      background="white"
-                      color="dark"
-                      saturationTxt={700}
+                      ghost
+                      theme="dark"
                       onClick={() => history.push(`/${activeSingleProperty.id}/deals`)}
                     />
                   </div>

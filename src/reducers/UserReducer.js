@@ -9,12 +9,17 @@ import {
   SET_USER_PAGES_DEALS,
 } from '../actions/types/UserTypes';
 
+import {
+  SET_USER_SEARCH_PROFILES,
+} from '../actions/types/SearchProfileTypes';
+
 export const defaultState = {
   userTypes: '',
   awards: 0,
   brixelPoints: 0,
   favorites: [],
   loggedInUser: {},
+  userSearchProfiles: [],
   userProperties: [],
   userBuyerProperties: [],
 };
@@ -48,6 +53,10 @@ export default handleActions(
     [SET_USER_PAGES_DEALS]: (state, action) => ({
       ...state,
       userBuyerProperties: action.payload,
+    }),
+    [SET_USER_SEARCH_PROFILES]: (state, action) => ({
+      ...state,
+      userSearchProfiles: action.payload,
     }),
   },
   defaultState,

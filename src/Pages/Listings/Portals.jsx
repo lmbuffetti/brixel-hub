@@ -86,12 +86,9 @@ const Portals = (props) => {
             <div className="pos-r">
               <div className="dis-f jc-b a-c mb-3">
                 <BrixelButtonIcon
-                  className="shadow-3dp hide-md"
+                  className="hide-md"
                   icon="arrow-simple-left"
-                  background="White"
-                  color="primary"
-                  saturationTxt={400}
-                  noBorder
+                  ghost
                   onClick={() => history.push(`/${propID}/listings`)}
                 />
                 <h5 className="sectionTitle">Portals</h5>
@@ -217,7 +214,7 @@ const Portals = (props) => {
                             <BrixelButtonPrimary
                               className="m-a mt-3"
                               label="Unpublish now"
-                              background="dark"
+                              theme="dark"
                               rounded
                               onClick={() => changeReviewStatus('offline')}
                               isLoading={isSmallLoading}

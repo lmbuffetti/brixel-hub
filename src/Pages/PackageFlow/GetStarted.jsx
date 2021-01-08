@@ -103,6 +103,21 @@ const GetStarted = (props) => {
         dataProperty.whenToSell = get(dataForm, 'register.whenToSell', null);
         packageFlowProcess.answers.whenToSell = get(dataForm, 'register.whenToSell', null);
       }
+      const sellerType = [
+        'seller',
+        'inheritance',
+        'price-development',
+        'mortgage',
+      ];
+      const buyerType = [
+        'buyer',
+      ];
+      if (sellerType.includes(get(dataForm, 'register.ownerType', ''))) {
+        dataUser.seller = true;
+      }
+      if (buyerType.includes(get(dataForm, 'register.ownerType', ''))) {
+        dataUser.buyer = true;
+      }
       dataProperty.packageFlowProcess = packageFlowProcess;
       await handleSaveActiveSingleUser(dataUser);
       await handleSaveActiveSingleProperty(dataProperty);
@@ -585,8 +600,7 @@ const GetStarted = (props) => {
                       <BrixelButtonPrimary
                         className={`mt-3 mb-2 m-a noWrap ${quest.history}`}
                         rounded
-                        background="green"
-                        saturation={400}
+                        theme="green"
                         label={buttonLabel()}
                         disabled={!checkValidateField()}
                         rightIcon="arrow-right-small"
@@ -606,14 +620,11 @@ const GetStarted = (props) => {
                 {
                   get(questions, `[${currentIndex - 1}].inputs`, null) && (
                     <BrixelButtonIcon
-                      className={`shadow-2dp backBtn ml-0 mr-a ${currentIndex === 0 ? 'hide' : ''}`}
+                      className={`backBtn ml-0 mr-a ${currentIndex === 0 ? 'hide' : ''}`}
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
-                      background="white"
-                      saturation={0}
-                      color="green"
-                      saturationTxt={400}
-                      noBorder
+                      theme="green"
+                      ghost
                     />
                   )
                 }
@@ -629,8 +640,7 @@ const GetStarted = (props) => {
                   className={`mr-0 ml-0 noWrap ${get(quest, 'history', null)} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''}`}
                   disabled={!checkValidateField()}
                   rounded
-                  background="green"
-                  saturation={400}
+                  theme="green"
                   label={buttonLabel()}
                   rightIcon="arrow-right-small"
                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
@@ -693,10 +703,10 @@ GetStarted.propTypes = {
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
-  handleSpinnerOff: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
