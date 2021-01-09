@@ -278,14 +278,6 @@ export const MapsCities = (props) => {
     changeFieldValue(formName, 'locations', locationsList);
   };
 
-  useEffect(() => {
-    const cityDropdownEl = addressRef.current;
-    // const scrollingEl = addressRef.current;
-    if (cityDropdownEl) {
-      console.log(cityDropdownEl.offsetHeight);
-    }
-  });
-
   return (
     // Important! Always set the container height explicitly
     <div
