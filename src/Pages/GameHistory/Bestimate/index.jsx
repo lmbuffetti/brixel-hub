@@ -72,6 +72,14 @@ const Bestimate = (props) => {
   // INITIALIZE FORM
   useEffect(() => {
     initForm(cloneDeep(initialValues));
+    if (activeSingleProperty.id && initialValues.id && get(initialValues, 'location.countryCode', 'CH') === 'PT') {
+      if (get(initialValues, 'parking.garage', 0) === 0) {
+        changeFieldValue('properties.parking.garage', 0);
+      }
+      if (get(initialValues, 'parking.outside', 0) === 0) {
+        changeFieldValue('properties.parking.outside', 0);
+      }
+    }
   }, [activeSingleProperty]);
 
   // LOAD THE CURRENT GAME GROUP

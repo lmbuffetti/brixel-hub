@@ -24,8 +24,6 @@ import {
   SET_FORM_ERROR,
 } from '../actions/types/CommonTypes';
 
-console.log(countryList);
-
 const cookie = new Cookies();
 
 export const defaultState = {

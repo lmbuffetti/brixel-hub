@@ -481,7 +481,7 @@ const mapStateToProps = (state) => {
   set(properties, 'typology.gardenArea.unit', 'm2');
   set(properties, 'building.expandableAtticArea.unit', 'm2');
   set(properties, 'typology.basementArea.unit', 'm2');
-  set(properties, 'building.properties.typology.storeroomArea.unit', 'm2');
+  set(properties, 'typology.storeroomArea.unit', 'm2');
   set(properties, 'typology.collectiveSpacesArea.unit', 'm2');
   const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
   inputSheet.totalComplete = calcPercentageFacts('Property', formValue).calcPerc;
