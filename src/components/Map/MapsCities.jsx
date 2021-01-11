@@ -54,6 +54,7 @@ export const MapsCities = (props) => {
   const [selLocAuto, setSelLocAuto] = useState(-1);
   const [stateToken, setStateToken] = useState(null);
   const [startSearch, setStartSearch] = useState(false);
+  const [resultBoxHeight, setResultBoxHeight] = useState(0);
 
   // REF
   // const inputZipSearch = useRef(null);
@@ -278,6 +279,22 @@ export const MapsCities = (props) => {
     changeFieldValue(formName, 'locations', locationsList);
   };
 
+  useEffect(() => {
+    const flowWrapper = document.getElementsByClassName('singleStep')[0];
+    const resultBox = addressRef.current;
+
+    if (resultBox) {
+      const resultBoxRect = resultBox.getBoundingClientRect();
+
+      if (!selectedAddress && locList.length > 0 && !disabled && flowWrapper) {
+        flowWrapper.scrollTo({
+          top: resultBoxRect.bottom,
+          behavior: 'smooth',
+        });
+      }
+    }
+  });
+
   return (
     // Important! Always set the container height explicitly
     <div
@@ -300,7 +317,7 @@ export const MapsCities = (props) => {
                   ref={inputSearch}
                   label="Zip / City"
                   disabled={disabled}
-                  placeholder="Write street name"
+                  placeholder="Search for zip or city..."
                   input={{
                     onChange: (e) => (disabled ? '' : changeFieldValue(formName, 'location.searchAddress', e)),
                     onBlur: () => '',
@@ -314,7 +331,11 @@ export const MapsCities = (props) => {
                 />
                 {
                   !selectedAddress && locList.length > 0 && !disabled && (
-                    <ul className="resultAutoComplete" ref={addressRef}>
+                    <ul
+                      className="resultAutoComplete"
+                      ref={addressRef}
+                      // style={{ maxHeight: `calc(100vh - ${resultBoxHeight}px)` }}
+                    >
                       {
                         locList.map((loc, i) => (
                           <li

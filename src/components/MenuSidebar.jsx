@@ -107,7 +107,7 @@ const MenuSidebar = (props) => {
                       icon="property-house"
                       className="mr-small-12"
                     />
-                    Sell
+                    <span>Sell</span>
                   </li>
                   <li
                     onClick={() => {
@@ -122,7 +122,7 @@ const MenuSidebar = (props) => {
                       icon="favorite"
                       className="mr-small-12"
                     />
-                    Buy
+                    <span>Buy</span>
                   </li>
                 </ul>
               </div>

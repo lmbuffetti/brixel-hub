@@ -16,6 +16,7 @@ import { configureStore } from '../store';
 
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
+import buildingLand from '../images/BrxielComingTown/building-land.svg';
 
 import homesSvg from '../images/getstarted/svgs/homes.svg';
 import locationSvg from '../images/getstarted/svgs/location.svg';
@@ -80,7 +81,7 @@ export const QuestionsList = (lang) => {
             {
               label: 'Building land',
               value: 'Building land',
-              img: house,
+              img: buildingLand,
             },
           ],
         },
@@ -131,7 +132,6 @@ export const QuestionsList = (lang) => {
           className: 'extraFeature',
           component: BrixelExtraFeature,
           name: 'characteristics.extraFeatures',
-          validation: [Validation.required],
           extraFeatureCustomList: factsOptions.extraFeatureShort,
         },
       ],
