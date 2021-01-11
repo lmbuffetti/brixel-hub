@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelIcon, BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelButtonIcon } from '@brixel/brixel-components';
 import Sticker from 'react-stickyfill';
 import { addGameHistory } from '../../../actions/GamificationActions';
 import Loading from '../../../components/Loading';
@@ -20,7 +20,6 @@ const RewardsBuyerDashboard = (props) => {
   // PROPS
   const {
     activeSingleProperty,
-    handleSetModal,
     history,
     match,
     userTypes,
@@ -87,12 +86,9 @@ const RewardsBuyerDashboard = (props) => {
                       <div className="dis-f a-c jc-b mb-5 mb-md-2">
                         <div className="dis-f a-c">
                           <BrixelButtonIcon
-                            className="shadow-2dp mr-2 hide-md"
+                            className="mr-2 hide-md"
                             icon="arrow-simple-left"
-                            color="primary"
-                            saturationTxt={400}
-                            bgTransparent
-                            noBorder
+                            ghost
                             onClick={() => history.push(`/${propID}/rewards`)}
                           />
                           {
@@ -103,7 +99,7 @@ const RewardsBuyerDashboard = (props) => {
                             )
                           }
                         </div>
-                        {
+                        {/* {
                           activeAchievement.points && (
                             <div
                               className="cur-poi ml-2"
@@ -123,7 +119,7 @@ const RewardsBuyerDashboard = (props) => {
                               <span className="ff-mono txtDark700">{activeAchievement.points}</span>
                             </div>
                           )
-                        }
+                        } */}
                       </div>
                     )
                   }
@@ -141,7 +137,6 @@ const RewardsBuyerDashboard = (props) => {
 RewardsBuyerDashboard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   userTypes: PropTypes.string,
-  handleSetModal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,

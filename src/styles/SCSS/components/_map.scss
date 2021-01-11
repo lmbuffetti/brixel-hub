@@ -27,3 +27,18 @@
     height: 106px;
   }
 }
+
+.locationsListMap {
+  margin-left: -110px;
+}
+
+.searchMapCountry {
+  width: 85px;
+  .dropdown .selElement .title {
+    text-overflow: clip;
+  }
+}
+
+.searchMapFields {
+  width: calc(100% - 85px);
+}

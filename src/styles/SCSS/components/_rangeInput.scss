@@ -1,59 +1,69 @@
-.input-range__label {
-  display: none;
-}
-
-.input-range__label--value {
-  display: block;
-}
-
-.input-range {
-  margin: 0 auto $step * 3;
-  height: 24px;
-  @media (min-width: $responsive-medium) {
-    margin: 16px auto 24px;
-  }
+.hubDashboard {
   .input-range__label {
-    display: none !important;
+    display: none;
   }
-  .input-range__label-container {
-    top: -16px;
-    font-size: 1rem;
-  }
-  .input-range__slider {
-    border-color: map_get($primaryColor, 400) !important;
-    width: 24px;
-    height: 24px;
-    margin-left: -12px;
-    margin-top: -14px;
-  }
-  .input-range__track {
-    height: 4px;
-  }
-  .input-range__track--active {
-    background: map_get($primaryColor, 600) !important;
-  }
-  &:not(.input-range--disabled) {
-    .input-range__slider {
-      background: map_get($primaryColor, 400) !important;
-    }
-  }
-  &.input-range--disabled {
-    .input-range__track--active {
-      background: map_get($darkColor, 100) !important;
-    }
-    .input-range__slider {
-      border-color: map_get($darkColor, 100) !important;
-      background: map_get($darkColor, 100) !important;
-    }
-  }
-}
 
-#rzSlider {
+  .input-range__label--value {
+    display: block;
+  }
+
   .input-range {
-    width: calc(100% - 25px);
-  }
-}
+    margin: 0 auto $step * 3;
+    height: 24px;
+    @media (min-width: $responsive-medium) {
+      margin: 16px auto 24px;
+    }
 
-.react-switch-bg {
-  // background: map_get($primaryColor, 500) !important;
+    .input-range__label {
+      display: none !important;
+    }
+
+    .input-range__label-container {
+      top: -16px;
+      font-size: 1rem;
+    }
+
+    .input-range__slider {
+      border-color: map_get($primaryColor, 400) !important;
+      width: 24px;
+      height: 24px;
+      margin-left: -12px;
+      margin-top: -14px;
+    }
+
+    .input-range__track {
+      height: 4px;
+    }
+
+    .input-range__track--active {
+      background: map_get($primaryColor, 600) !important;
+    }
+
+    &:not(.input-range--disabled) {
+      .input-range__slider {
+        background: map_get($primaryColor, 400) !important;
+      }
+    }
+
+    &.input-range--disabled {
+      .input-range__track--active {
+        background: map_get($darkColor, 100) !important;
+      }
+
+      .input-range__slider {
+        border-color: map_get($darkColor, 100) !important;
+        background: map_get($darkColor, 100) !important;
+      }
+    }
+  }
+
+  #rzSlider {
+    .input-range {
+      width: calc(100% - 25px);
+    }
+  }
+
+  .react-switch-bg {
+    // background: map_get($primaryColor, 500) !important;
+  }
 }

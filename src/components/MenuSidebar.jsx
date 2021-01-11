@@ -5,12 +5,12 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import {
-  BrixelButtonTertiary, destroy,
+  destroy,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_full_v2.svg';
 import { CSSTransition } from 'react-transition-group';
-import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
+import BrixelIcon from '@brixel/brixel-components/dist/components/BrixelIcon';
 import useOutsideAlerter from './OutsideElement';
 import { setUserTypes } from '../actions/UserActions';
 import { setActiveSingleProperty } from '../actions/PropertyActions';
@@ -94,40 +94,52 @@ const MenuSidebar = (props) => {
                 <img className="pos-r w-fix-64" src={logo} alt="Brixel Logo" id="logo" />
               </div>
               <div className="sidebarNav mt-5 px-2">
-                <BrixelButtonPrimary
-                  label="Sell"
-                  labelClass="fsize-300"
-                  leftIcon="property-house"
-                  className={`${isBuyer ? '' : 'active'}`}
-                  onClick={() => {
-                    handleSetUserTypes('seller');
-                    handleSetActiveSingleProperty({});
-                    history.push('/seller/pageLists');
-                  }}
-                />
-                <BrixelButtonPrimary
-                  label="Buy"
-                  labelClass="fsize-300"
-                  leftIcon="favorite"
-                  className={`${isBuyer ? 'active' : ''}`}
-                  onClick={() => {
-                    destroyForm();
-                    handleSetUserTypes('buyer');
-                    handleSetActiveSingleProperty({});
-                    history.push('/buyer/propertyLists');
-                  }}
-                />
+                <ul className="navigation">
+                  <li
+                    onClick={() => {
+                      handleSetUserTypes('seller');
+                      handleSetActiveSingleProperty({});
+                      history.push('/seller/pageLists');
+                    }}
+                    className={`${isBuyer ? '' : 'active'} fweight-500 fsize-300 dis-f a-c brdRadius px-2 h-fix-40 txtLight400 cur-poi`}
+                  >
+                    <BrixelIcon
+                      icon="property-house"
+                      className="mr-small-12"
+                    />
+                    <span>Sell</span>
+                  </li>
+                  <li
+                    onClick={() => {
+                      destroyForm();
+                      handleSetUserTypes('buyer');
+                      handleSetActiveSingleProperty({});
+                      history.push('/buyer/propertyLists');
+                    }}
+                    className={`${isBuyer ? 'active' : ''} fweight-500 fsize-300 dis-f a-c brdRadius px-2 h-fix-40 txtLight400 cur-poi`}
+                  >
+                    <BrixelIcon
+                      icon="favorite"
+                      className="mr-small-12"
+                    />
+                    <span>Buy</span>
+                  </li>
+                </ul>
               </div>
             </div>
             <div className="pos-a-fix x-b-2 w-perc-100">
               <hr className="lighter mb-2" />
-              <div className="px-2">
-                <BrixelButtonTertiary
-                  className="fsize-300 txtDark400 py-0 td-n"
-                  label="Support"
-                  leftIcon="conversation"
+              <div className="px-2 dis-f jc-c">
+                <span
                   onClick={() => onTabClick('support')}
-                />
+                  className="cur-poi txtDark400 fsize-300 fweight-500"
+                >
+                  <BrixelIcon
+                    icon="conversation"
+                    className="mr-2"
+                  />
+                  Support
+                </span>
               </div>
             </div>
           </div>

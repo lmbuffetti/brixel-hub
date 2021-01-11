@@ -165,7 +165,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
-    if (!history.location.pathname.includes('pageLists')) {
+    if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
       if (propID && !get(activeSingleProperty, 'id', null)) {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
       } else if (!propID) {
@@ -385,8 +385,7 @@ const Dashboard = (props) => {
         });
       } else if (
         !!notification &&
-        !get(notification, 'label', '').toLowerCase().includes('saved') &&
-        get(notification, 'state', true) !== false
+        !get(notification, 'label', '').toLowerCase().includes('saved')
       ) {
         handleSetScreenNotification({
           ...notification,
@@ -482,7 +481,7 @@ const mapStateToProps = (state) => {
   set(properties, 'typology.gardenArea.unit', 'm2');
   set(properties, 'building.expandableAtticArea.unit', 'm2');
   set(properties, 'typology.basementArea.unit', 'm2');
-  set(properties, 'building.properties.typology.storeroomArea.unit', 'm2');
+  set(properties, 'typology.storeroomArea.unit', 'm2');
   set(properties, 'typology.collectiveSpacesArea.unit', 'm2');
   const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
   inputSheet.totalComplete = calcPercentageFacts('Property', formValue).calcPerc;

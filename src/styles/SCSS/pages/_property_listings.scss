@@ -74,7 +74,7 @@
             transition: box-shadow $default-time $default-easing;
 
             &:hover {
-              @extend .shadow-4dp;
+              box-shadow: $shadow-4dp;
             }
 
             .row-section {

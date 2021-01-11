@@ -113,6 +113,7 @@ const Timeline = (props) => {
           if (item.actionStub !== 'create-deal') {
             if (item.actionStub === 'update-deal' && Object.keys(item.meta).length === 0) return null;
             if (item.actionStub === 'update-deal' && item.meta.name === 'new') return null;
+            if (item.actionStub === 'portal-create-deal') return null;
             array.push(createTimelineEntry(item));
           }
         });
@@ -408,16 +409,13 @@ const Timeline = (props) => {
                         )
                       }
                     </div>
-                    <div className={`actions dis-fl-col jc-b pos-r ${editNote.id === event.id && editNote.active ? '' : 'mr-1-neg mt-1-neg'}`}>
+                    <div className={`actions dis-fl-col jc-b pos-r ${editNote.id === event.id && editNote.active ? '' : ''}`}>
                       {
                         get(event, 'content', '') && event.content.length > 62 && !editNote.active && (
                           <BrixelButtonIcon
                             className="as-fe"
-                            bgTransparent
-                            noBorder
-                            color="dark"
-                            saturationTxt={400}
-                            fontSize={16}
+                            ghost
+                            theme="dark"
                             icon={`${showFullNote.id === i && showFullNote.active ? 'arrow-simple-up' : 'arrow-simple-down'}`}
                             onClick={(e) => {
                               if (showFullNote.id !== i && !showFullNote.active) {
@@ -467,18 +465,15 @@ const Timeline = (props) => {
                             </div>
                           ) : (
                             <>
-                              <div className="as-fe dis-f a-c mb-1-neg pos-r">
+                              <div className="as-fe dis-f a-c pos-r">
                                 {
                                   event.pinned && (
                                     <BrixelButtonIcon
-                                      brdOnHover
-                                      className="mr-1"
+                                      small
+                                      ghost
                                       icon="pin-filled"
-                                      color="red"
-                                      background="Light"
-                                      saturation={200}
-                                      saturationTxt={300}
-                                      fontSize={14}
+                                      theme="red"
+                                      className="mr-1"
                                       onClick={(e) => {
                                         handlePinNote(e, event);
                                         setNoteOptionsOpen({
@@ -490,12 +485,9 @@ const Timeline = (props) => {
                                   )
                                 }
                                 <BrixelButtonIcon
-                                  brdOnHover
-                                  background="Light"
-                                  color="dark"
-                                  saturationTxt={400}
-                                  saturation={200}
-                                  fontSize={14}
+                                  small
+                                  theme="dark"
+                                  ghost
                                   icon="options-vertical"
                                   onClick={() => {
                                     setEditNote({

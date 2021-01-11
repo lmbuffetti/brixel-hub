@@ -11,7 +11,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import {
   BrixelButtonIcon,
   BrixelButtonSecondary,
-  BrixelButtonTertiary,
+  BrixelButtonText,
   BrixelTextArea,
   ReduxField,
   useOutsideAlerter,
@@ -143,11 +143,8 @@ const DetailMedia = (props) => {
             <div className="dis-f jc-b a-c mb-3">
               <h5 className="">{mediaType === 'photos' ? 'Edit photo' : 'Edit floor plan'}</h5>
               <BrixelButtonIcon
-                className="shadow-2dp"
+                ghost
                 icon="close-small"
-                background="White"
-                color="primary"
-                saturationTxt={400}
                 noBorder
                 onClick={() => history.push(`/${propID}/property/${mediaType}`)}
               />
@@ -172,7 +169,7 @@ const DetailMedia = (props) => {
               {
                 mediaType === 'photos' && (get(formValue[mediaType][idImg], 'id') !== formValue.coverPhoto.id)
                 && (
-                  <BrixelButtonTertiary
+                  <BrixelButtonText
                     rounded
                     leftIcon="star-fill"
                     label="Set as cover"
@@ -182,12 +179,9 @@ const DetailMedia = (props) => {
               }
               <div className="dis-f ml-a">
                 <BrixelButtonIcon
-                  className="mr-1 shadow-2dp"
-                  background="white"
-                  saturation={0}
+                  className="mr-1"
+                  ghost
                   icon="rotate"
-                  color="primary"
-                  saturationTxt={400}
                   isLoading={isSmallLoading === 'rotate'}
                   onClick={(e) => rotateImage(e)}
                 />
@@ -196,24 +190,18 @@ const DetailMedia = (props) => {
                     <div ref={wrapImg}>
                       <BrixelButtonSecondary
                         rounded
-                        color="red"
-                        saturation={400}
-                        saturationTxt={400}
+                        theme="red"
                         rightIcon="bin"
                         label="delete?"
-                        className="shadow-2dp"
                         isLoading={isSmallLoading === 'delete'}
                         onClick={() => deleteImage()}
                       />
                     </div>
                   ) : (
                     <BrixelButtonIcon
-                      className="shadow-2dp"
-                      background="white"
-                      saturation={0}
+                      ghost
                       icon="bin"
-                      color="red"
-                      saturationTxt={400}
+                      theme="red"
                       onClick={() => setConfirmDelete(true)}
                     />
                   )

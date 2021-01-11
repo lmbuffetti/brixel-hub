@@ -29,8 +29,15 @@ const AvatarImage = Loadable({
 function PageHeader(props) {
   // PROPS
   const {
-    activeSingleCompany, lang, languages, loggedInUser, userAwards, brixelPoints,
-    handleSetLanguage, history, property,
+    activeSingleCompany,
+    brixelPoints,
+    handleSetLanguage,
+    history,
+    lang,
+    languages,
+    loggedInUser,
+    property,
+    userAwards,
   } = props;
 
   // STATE
@@ -228,14 +235,10 @@ function PageHeader(props) {
                     history.location.pathname.includes('packageFlow') &&
                     !(get(history, 'location.state.hideClose', null)) && (
                       <BrixelButtonIcon
-                        className="shadow-2dp"
-                        noBorder
-                        background="white"
-                        saturation={0}
-                        color="dark"
-                        saturationTxt={700}
+                        ghost
+                        theme="dark"
                         icon="close-small"
-                        onClick={() => history.push('/')}
+                        onClick={() => (history.location.pathname.toLowerCase().includes('getstartedbuyer') ? history.push('/buyer/propertyLists') : history.push('/'))}
                       />
                     )
                   }
@@ -304,10 +307,7 @@ function PageHeader(props) {
             <BrixelButtonIcon
               className="as-fe mb-5"
               icon="close-small"
-              background="light"
-              saturation={100}
-              color="green"
-              saturationTxt={700}
+              theme="green"
               onClick={() => {
                 setShowMobileMenu(false);
                 document.body.classList.remove('ov-h');

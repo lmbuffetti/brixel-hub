@@ -28,11 +28,9 @@ const BrixelModalFullScreen = (props) => {
             <div className="dis-f a-c">
               <BrixelButtonIcon
                 icon="close-small"
-                color="dark"
-                saturationTxt={400}
-                bgTransparent
-                noBorder
-                className="shadow-2dp as-c"
+                theme="dark"
+                ghost
+                className="as-c"
                 onClick={() => onClose()}
               />
             </div>
@@ -66,8 +64,6 @@ const BrixelModalFullScreen = (props) => {
                 <BrixelButtonPrimary
                   className="noWrap"
                   rounded
-                  background="primary"
-                  saturation={400}
                   label="Ok, got it"
                   rightIcon="arrow-right-small"
                   onClick={() => onClose()}

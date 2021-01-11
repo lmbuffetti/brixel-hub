@@ -1,0 +1,53 @@
+import {
+  GET_USER_SEARCH_PROFILES,
+  SET_USER_SEARCH_PROFILES,
+  UPDATE_USER_SEARCH_PROFILE,
+} from '../actions/types/SearchProfileTypes';
+
+import {
+  SPINNER_ON,
+  SPINNER_OFF,
+} from '../actions/types/CommonTypes';
+
+import api from '../controllers/api/config';
+
+const checkSearchProfile = (store) => (next) => (action) => {
+  switch (action.type) {
+    // DISPATCH TO GET THE SINGLE COMAPNY BY stub OR BY id
+    case GET_USER_SEARCH_PROFILES: {
+      next(action);
+      store.dispatch({ type: SPINNER_ON });
+      api.searchProfile.searchProfileByUserID(action.payload)
+        .then((res) => {
+          if (res.meta.normalizedStatus === 200) {
+            store.dispatch({ type: SET_USER_SEARCH_PROFILES, payload: res.data });
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        });
+      break;
+    }
+    case UPDATE_USER_SEARCH_PROFILE: {
+      next(action);
+      store.dispatch({ type: SPINNER_ON });
+      const token = action.payload.token || null;
+      const addSearchProfile = action.payload.addSearchProfile || false;
+      api.searchProfile.updateSearchProfile(action.payload.dataSearchProfile, token)
+        .then(() => {
+          if (addSearchProfile) {
+            window.location.href = '/buyer/propertyLists';
+          }
+        });
+      break;
+    }
+    default:
+      next(action);
+  }
+};
+
+export default checkSearchProfile;

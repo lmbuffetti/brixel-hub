@@ -7,7 +7,7 @@ import { bindActionCreators, compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { BrixelButtonPrimary, BrixelButtonTertiary } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
 import { getGamegroup } from '../../../actions/GamificationActions';
 import newAssessor from '../../../images/Assessor/newAssessor.svg';
 import startAssessor from '../../../images/Assessor/startAssessor.svg';
@@ -46,7 +46,7 @@ function SuccessAssessor(props) {
   return (
     <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col a-c">
       {
-        groupdAchievement.done ? (
+        get(groupdAchievement, 'done', null) ? (
           <>
             {
               achievement && (
@@ -82,12 +82,11 @@ function SuccessAssessor(props) {
                           <BrixelButtonPrimary
                             rounded
                             label="See full report"
-                            background="primary"
                             className="m-a mb-2"
                             onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                             rightIcon="arrow-right"
                           />
-                          <BrixelButtonTertiary
+                          <BrixelButtonText
                             label="Redo condition check"
                             className="m-a"
                             onClick={() => history.push({
@@ -120,7 +119,6 @@ function SuccessAssessor(props) {
               <BrixelButtonPrimary
                 rounded
                 label="Assess condition"
-                background="primary"
                 className="m-a"
                 onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                 rightIcon="arrow-right"

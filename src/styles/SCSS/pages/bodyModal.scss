@@ -112,6 +112,7 @@
         .singleStep {
           height: 100%;
           // overflow-y: auto;
+          overflow-x: hidden;
           flex: 0 0 100%;
           padding: $step * 3;
           position: relative;
@@ -208,6 +209,16 @@
         p {
           span {
             vertical-align: baseline;
+          }
+        }
+      }
+      @media (max-width: $responsive-small) {
+        flex-wrap: wrap;
+        > div {
+          flex: 100%;
+
+          &:not(:last-child) {
+            border-right: none;
           }
         }
       }

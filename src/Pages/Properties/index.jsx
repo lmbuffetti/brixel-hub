@@ -81,11 +81,7 @@ const Properties = (props) => {
         </div>
 
         <BrixelButtonIcon
-          className="shadow-2dp"
-          noBorder
-          background="white"
-          color="primary"
-          saturationTxt={400}
+          ghost
           icon="close-small"
           onClick={() => closeProperty()}
         />

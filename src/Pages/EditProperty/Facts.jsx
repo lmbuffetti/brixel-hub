@@ -9,7 +9,7 @@ import {
   BrixelIcon,
   BrixelProgressBar,
   BrixelButtonIcon,
-  BrixelButtonTertiary,
+  BrixelButtonText,
   change,
   reset,
 } from '@brixel/brixel-components';
@@ -132,12 +132,9 @@ const Facts = (props) => {
           <div className="pb-3">
             <div className="dis-f jc-b a-c">
               <BrixelButtonIcon
-                className="dis-b shadow-3dp hide-md"
+                className="dis-b hide-md"
                 icon="arrow-simple-left"
-                background="White"
-                color="primary"
-                saturationTxt={400}
-                noBorder
+                ghost
                 onClick={() => history.push(`/${propID}/property`)}
               />
               <h5 className="m-a m-md-0 sectionTitle">Facts</h5>
@@ -199,7 +196,7 @@ const Facts = (props) => {
                 <div className="dis-f jc-fe mb-1">
                   {
                     onNextSection('label') && (
-                      <BrixelButtonTertiary
+                      <BrixelButtonText
                         rightIcon="arrow-right"
                         onClick={() => onNextSection('click')}
                         label={onNextSection('label')}
