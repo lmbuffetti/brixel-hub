@@ -25,6 +25,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import last from 'lodash/last';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
+import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { setCookie } from '../../utils/helpers';
@@ -33,7 +34,6 @@ import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
 import { updateUserSearchProfile } from '../../actions/SearchProfileActions';
-import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 
 const cookie = new Cookies();
 
