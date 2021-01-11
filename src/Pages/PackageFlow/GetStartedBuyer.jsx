@@ -33,6 +33,7 @@ import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
 import { updateUserSearchProfile } from '../../actions/SearchProfileActions';
+import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 
 const cookie = new Cookies();
 
@@ -362,6 +363,9 @@ const GetStartedBuyer = (props) => {
       changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
       setQuestions(QuestionsList(getLang, companyCountry));
       setQuest(QuestionsList(getLang, companyCountry)[currentIndex]);
+      const companyCountryCode = get(company, 'country.code', 'CH');
+      const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
+      changeFieldValue('register.phone.prefix', countryPhoneCode.dial_code);
     }
     initForm(initialValues);
   }, [company]);
@@ -668,6 +672,8 @@ GetStartedBuyer.defaultProps = {
 const mapStateToProps = (state, props) => {
   const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
   const channel = get(urlSearch, 'channel', 'default');
+  const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
+  const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
@@ -697,7 +703,12 @@ const mapStateToProps = (state, props) => {
         currency: get(state, 'companies.activeSingleCompany.country.currency', {}),
       },
       profile: {},
-      register: {},
+      register: {
+        phone: {
+          prefix: countryPhoneCode.dial_code,
+          number: '',
+        },
+      },
       signup: get(state, 'user.loggedInUser.id', null) !== null,
     },
     lang: get(state, 'common.language', 'en'),
