@@ -248,6 +248,7 @@ const PropertiesBuyerDashboard = (props) => {
                       <BrixelButtonSecondary
                         rounded
                         label="Update"
+                        onClick={() => history.push('/packageFlow/getStartedBuyer')}
                       />
                     </div>
                   </div>
@@ -257,8 +258,14 @@ const PropertiesBuyerDashboard = (props) => {
                       <p className="txtDark700" key={i.toString()}>{item.address}</p>
                     ))
                   }
-                  <h6 className="txtDark500 body2 mt-3">Price</h6>
-                  <p className="txtGreen400"><span className="body2 txtGreen400">{get(userSearchProfiles[0], 'finance.currency', 'CHF')}</span> <span className="fSizePx20">{Helpers.formatNumberValue(get(userSearchProfiles[0], 'finance.price.totalMax', 'CHF'), get(userSearchProfiles[0], 'finance.currency', 'CHF'))}</span></p>
+                  {
+                    get(userSearchProfiles[0], 'finance.price.totalMax', 0) && (
+                      <>
+                        <h6 className="txtDark500 body2 mt-3">Price</h6>
+                        <p className="txtGreen400"><span className="body2 txtGreen400">{get(userSearchProfiles[0], 'finance.currency', 'CHF')}</span> <span className="fSizePx20">{Helpers.formatNumberValue(get(userSearchProfiles[0], 'finance.price.totalMax', '0'), get(userSearchProfiles[0], 'finance.currency', 'CHF'))}</span></p>
+                      </>
+                    )
+                  }
 
                   <hr className="my-3" />
 

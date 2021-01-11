@@ -132,7 +132,6 @@ export const QuestionsList = (lang) => {
           className: 'extraFeature',
           component: BrixelExtraFeature,
           name: 'characteristics.extraFeatures',
-          validation: [Validation.required],
           extraFeatureCustomList: factsOptions.extraFeatureShort,
         },
       ],
