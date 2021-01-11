@@ -308,6 +308,9 @@ header {
 //on boarding custom styles
 .packageFlow {
   #multiStepForm:not(.signUp) {
+    .multiStepSlides {
+      overflow-y: inherit !important;
+    }
     .brixel-checkbox-icon.radioBtnImg,
     .brixel-radio-button-icon.radioBtnImg {
       /*todo styleguide*/

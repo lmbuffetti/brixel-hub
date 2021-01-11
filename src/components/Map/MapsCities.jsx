@@ -54,7 +54,6 @@ export const MapsCities = (props) => {
   const [selLocAuto, setSelLocAuto] = useState(-1);
   const [stateToken, setStateToken] = useState(null);
   const [startSearch, setStartSearch] = useState(false);
-  const [resultBoxHeight, setResultBoxHeight] = useState(0);
 
   // REF
   // const inputZipSearch = useRef(null);
