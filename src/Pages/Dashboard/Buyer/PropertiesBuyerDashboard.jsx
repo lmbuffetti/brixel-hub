@@ -248,7 +248,7 @@ const PropertiesBuyerDashboard = (props) => {
                       <BrixelButtonSecondary
                         rounded
                         label="Update"
-                        onClick={() => history.push('/packageFlow/getStartedBuyer')}
+                        onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'user.company.stub', '')}`)}
                       />
                     </div>
                   </div>
@@ -296,7 +296,7 @@ const PropertiesBuyerDashboard = (props) => {
                     rightIcon="arrow-right"
                     rounded
                     theme="green"
-                    onClick={() => history.push('/packageFlow/getStartedBuyer')}
+                    onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'user.company.stub', '')}`)}
                   />
                 </section>
               )
