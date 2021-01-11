@@ -280,12 +280,11 @@ export const MapsCities = (props) => {
   };
 
   useEffect(() => {
-    const flowWrapper = document.getElementsByClassName('multiStepSlides')[0];
+    const flowWrapper = document.getElementsByClassName('singleStep')[0];
     const resultBox = addressRef.current;
 
     if (resultBox) {
       const resultBoxRect = resultBox.getBoundingClientRect();
-      setResultBoxHeight(resultBoxRect.top);
 
       if (!selectedAddress && locList.length > 0 && !disabled && flowWrapper) {
         flowWrapper.scrollTo({
