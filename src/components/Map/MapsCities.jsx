@@ -316,7 +316,7 @@ export const MapsCities = (props) => {
                   ref={inputSearch}
                   label="Zip / City"
                   disabled={disabled}
-                  placeholder="Write street name"
+                  placeholder="Search for zip or city..."
                   input={{
                     onChange: (e) => (disabled ? '' : changeFieldValue(formName, 'location.searchAddress', e)),
                     onBlur: () => '',

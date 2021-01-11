@@ -6,7 +6,16 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy,
+  BrixelButtonPrimary,
+  BrixelButtonIcon,
+  BrixelIcon,
+  BrixelProgressBar,
+  MultiFileldsReduxForm,
+  initializeForm,
+  change,
+  reset,
+  destroy,
+  BrixelButtonText,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -286,8 +295,11 @@ const GetStartedBuyer = (props) => {
       if (countryCodeCompany !== countryCodeLocation) {
         let newCountryStub = '';
         if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
-        if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
-        if (countryCodeLocation === 'DE') newCountryStub = 'brixel_germany';
+        else if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
+        else if (countryCodeLocation === 'DE') newCountryStub = 'brixel_germany';
+        else {
+          changeFieldValue('finance.currency', 'EUR');
+        }
         handleGetActiveSingleCompany({ stub: newCountryStub });
       }
     }
@@ -343,12 +355,13 @@ const GetStartedBuyer = (props) => {
         getLang = companyLang.toLowerCase();
       }
       const companyCountry = get(company, 'country.code', 'CH');
-      setQuestions(QuestionsList(getLang, companyCountry));
       changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
       changeFieldValue('company', company.stub);
       changeFieldValue('finance.currency', get(company, 'country.currency', 'CHF'));
       changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
+      setQuestions(QuestionsList(getLang, companyCountry));
+      setQuest(QuestionsList(getLang, companyCountry)[currentIndex]);
     }
     initForm(initialValues);
   }, [company]);
@@ -392,8 +405,10 @@ const GetStartedBuyer = (props) => {
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
     let label;
+    const inputName = get(quest, 'inputs[0].name', null);
     if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
     else if (currentIndex === 0) label = 'Next';
+    else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else label = 'Next';
     return label;
   };
@@ -554,15 +569,29 @@ const GetStartedBuyer = (props) => {
                   )
                 }
 
-                <BrixelButtonPrimary
-                  className={`mr-0 ml-0 noWrap ${get(quest, 'history', null)} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''}`}
-                  disabled={!checkValidateField()}
-                  rounded
-                  theme="green"
-                  label={buttonLabel()}
-                  rightIcon="arrow-right-small"
-                  onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                />
+                {
+                  buttonLabel().toLowerCase() === 'skip' ? (
+                    <BrixelButtonText
+                      className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                      disabled={!checkValidateField()}
+                      saturation={400}
+                      color="light"
+                      label={buttonLabel()}
+                      rightIcon="arrow-right-small"
+                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                    />
+                  ) : (
+                    <BrixelButtonPrimary
+                      className={`mr-0 ml-0 noWrap ${get(quest, 'history', null)} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                      disabled={!checkValidateField()}
+                      rounded
+                      theme="green"
+                      label={buttonLabel()}
+                      rightIcon="arrow-right-small"
+                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                    />
+                  )
+                }
               </div>
             </div>
           </div>
