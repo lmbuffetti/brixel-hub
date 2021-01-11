@@ -138,6 +138,7 @@ const LoginSignup = (props) => {
             className="pos-a-fix mt-2-neg mt-md-0 x-r-2 x-t-2"
             icon="close-small"
             theme="dark"
+            ghost
             onClick={() => onCloseGoBack()}
           />
         </div>

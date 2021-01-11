@@ -103,7 +103,7 @@ const PropertiesBuyerDashboard = (props) => {
     const defaultExtraFeatures = get(userSearchProfiles[0], 'characteristics.extraFeatures', {});
     Object.keys(defaultExtraFeatures).forEach((key) => {
       if (key !== 'none' && defaultExtraFeatures[key]) {
-        const objExtra = factsOptions.extraFeature.find((val) => val.value === key);
+        const objExtra = factsOptions.extraFeatureShort.find((val) => val.value === key);
         if (get(objExtra, 'icon', null) && objExtra.value !== 'loggia') {
           extraFeatures.push({
             icon: get(objExtra, 'icon', ''),
@@ -259,7 +259,7 @@ const PropertiesBuyerDashboard = (props) => {
                     ))
                   }
                   {
-                    get(userSearchProfiles[0], 'finance.price.totalMax', 0) && (
+                    get(userSearchProfiles[0], 'finance.price.totalMax', null) && (
                       <>
                         <h6 className="txtDark500 body2 mt-3">Price</h6>
                         <p className="txtGreen400"><span className="body2 txtGreen400">{get(userSearchProfiles[0], 'finance.currency', 'CHF')}</span> <span className="fSizePx20">{Helpers.formatNumberValue(get(userSearchProfiles[0], 'finance.price.totalMax', '0'), get(userSearchProfiles[0], 'finance.currency', 'CHF'))}</span></p>
