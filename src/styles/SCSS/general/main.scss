@@ -512,6 +512,15 @@ label.brixel-label {
   }
 }
 
+// todo
+.brixel-quality-container  {
+  > div {
+    flex-wrap: wrap;
+    .step.inactive {
+      margin-bottom: $step;
+    }
+  }
+}
 
 .singleInput {
   padding-bottom: $step * 3;
