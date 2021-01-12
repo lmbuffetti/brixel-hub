@@ -43,8 +43,8 @@ class Property extends Base {
     return this.apiClient.put(url, {}, data);
   }
 
-  getPropertiesOfUser(id) {
-    const url = ep.user.getPropertiesOfUser(id);
+  getPropertiesOfUser(id, limit) {
+    const url = ep.user.getPropertiesOfUser(id, limit);
     return this.apiClient.get(url, {});
   }
 

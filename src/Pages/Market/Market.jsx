@@ -7,7 +7,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Sticker from 'react-stickyfill';
 import Loadable from 'react-loadable';
-import { getPropertyListings } from '../../actions/PropertyActions';
+import { getSellerProperties } from '../../actions/MarketActions';
 import '../../styles/SCSS/pages/market.scss';
 
 const MarketList = Loadable({
@@ -23,7 +23,7 @@ const MarketMap = Loadable({
 const Market = (props) => {
   // PROPS
   const {
-    handleGetPropertyListings,
+    handleGetSellerProperties,
     loggedInUser,
     windowDimensions,
   } = props;
@@ -31,14 +31,17 @@ const Market = (props) => {
   const [isMapActive, setIsMapActive] = useState(false);
 
   useEffect(() => {
-    const data = {
-      limit: 50,
-      offset: `0/?owner=${loggedInUser.user.id}`,
-      setAsSingle: true,
-      multiLoader: true,
-    };
-    // handleGetPropertyListings(data);
-  }, []);
+    if (loggedInUser.id) {
+      const data = {
+        limit: 50,
+        offset: `0/?owner=${loggedInUser.id}`,
+        userId: loggedInUser.id,
+        setAsSingle: true,
+        multiLoader: true,
+      };
+      handleGetSellerProperties(data);
+    }
+  }, [loggedInUser]);
 
   return (
     <div className="market-container" id="market">
@@ -64,7 +67,7 @@ const Market = (props) => {
 };
 
 Market.propTypes = {
-  handleGetPropertyListings: PropTypes.func.isRequired,
+  handleGetSellerProperties: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -73,12 +76,12 @@ Market.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  loggedInUser: get(state, 'user.loggedInUser', { }),
+  loggedInUser: get(state, 'user.loggedInUser.user', { }),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
+  handleGetSellerProperties: bindActionCreators(getSellerProperties, dispatch),
 });
 
 export default compose(

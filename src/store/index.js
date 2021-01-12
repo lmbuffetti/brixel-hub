@@ -11,6 +11,7 @@ import GamificationMiddleware from '../middlewares/GamificationMiddleware';
 import HistoryMiddleware from '../middlewares/HistoryMiddleware';
 import ImageMiddleware from '../middlewares/UploadMiddleware';
 import LeadMiddleware from '../middlewares/LeadMiddleware';
+import MarketMiddleware from '../middlewares/MarketMiddleware';
 import NoteMiddleware from '../middlewares/NoteMiddleware';
 import PropertyMiddleware from '../middlewares/PropertyMiddleware';
 import UserMiddleware from '../middlewares/UserMiddleware';
@@ -35,6 +36,7 @@ const composedEnhancers = compose(
     HistoryMiddleware,
     ImageMiddleware,
     LeadMiddleware,
+    MarketMiddleware,
     NoteMiddleware,
     PropertyMiddleware,
     UserMiddleware,

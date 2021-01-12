@@ -84,7 +84,7 @@ export default {
   user: {
     createUser: () => '/user/register',
     favoritePages: () => '/user/favoritePages',
-    getPropertiesOfUser: (owner) => `/page/0/0?owner=${owner}`,
+    getPropertiesOfUser: (owner, limit = 0) => `/page/${limit}/0?owner=${owner}`,
     getToken: () => '/authentication/getToken',
     leadsByUser: (id) => `/user/${id}/userLeads`,
     pageDealByUser: (id) => `/user/${id}/pageDeals`,
