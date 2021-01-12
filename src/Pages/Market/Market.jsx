@@ -37,7 +37,7 @@ const Market = (props) => {
       setAsSingle: true,
       multiLoader: true,
     };
-    handleGetPropertyListings(data);
+    // handleGetPropertyListings(data);
   }, []);
 
   return (
