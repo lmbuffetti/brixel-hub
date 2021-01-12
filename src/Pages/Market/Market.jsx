@@ -28,9 +28,9 @@ const Market = (props) => {
   const [isMapActive, setIsMapActive] = useState(false);
 
   return (
-    <div className="rewards-container" id="Market">
+    <div className="market-container" id="market">
       <div className="dis-f a-t jc-c pos-r-md">
-        <div className="firstLevel mr-md-2 w-perc-100">
+        <div className="firstLevel mx-md-2 w-perc-100">
           <MarketList
             onActiveMap={(val) => setIsMapActive(val)}
             isMapActive={isMapActive}

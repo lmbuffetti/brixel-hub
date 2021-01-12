@@ -432,7 +432,7 @@ const App = (props) => {
 
       <div className={`${classMain} ${isSecLevel ? 'fixedLayout' : ''}`}>
         <div className="dis-f">
-          {
+          {/* {
             !history.location.pathname.includes('packageFlow') &&
             !history.location.pathname.includes('onBoarding') &&
             !history.location.pathname.includes('upgrade') &&
@@ -442,7 +442,7 @@ const App = (props) => {
              (
                <MenuSidebar />
              )
-          }
+          } */}
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : ''}`}
             style={contentLayout()}
