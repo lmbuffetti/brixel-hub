@@ -1,0 +1,389 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable array-callback-return */
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import {
+  Map, InfoWindow, Marker, Circle, GoogleApiWrapper,
+} from 'google-maps-react';
+import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { BrixelIcon } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import markerImg from '../../images/location/icon_location.svg';
+import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
+import { mapCaptionData, mapStyles, getDistance } from '../../constants/map';
+import { compareArray } from '../../utils/helpers';
+
+const images = require.context('../../images', true);
+
+export const MarketMapComponent = (props) => {
+  // PROPS
+  const {
+    disableZoom,
+    externalControls,
+    google,
+    latitude,
+    longitude,
+    mapType,
+    nearBy,
+    points,
+    rad,
+    scrollZoom,
+    showMap,
+    similarProperties,
+    subMinHeight,
+    visible,
+    zoom,
+  } = props;
+  // STATE
+  const [selectedPlace, setSelectedPlace] = useState([]);
+  const [showInfoWindow, setShowInfoWindow] = useState(false);
+  const [modalInfo] = useState({});
+  const [mapTypeId, setMapTypeId] = useState('roadmap');
+  const [streetViewAvailable, setStretViewAvailable] = useState(false);
+  const [optMap, setOptMap] = useState({});
+
+  // FUNCTION TO INITIALIZE THE MAP
+  const fetchPlaces = (mapProps, map) => {
+    // MAP DEFAULT OPTIONS
+    map.setOptions({
+      styles: mapStyles,
+      disableDefaultUI: true,
+      clickableIcons: true,
+      zoomControl: externalControls ? false : !disableZoom,
+      mapTypeControl: false,
+      scaleControl: true,
+      streetViewControl: false,
+      rotateControl: true,
+      fullscreenControl: false,
+      scrollwheel: scrollZoom,
+      gestureHandling: 'cooperative',
+      mapTypeId: mapType,
+      linksControl: false,
+      panControl: false,
+      enableCloseButton: false,
+      draggable: false,
+    });
+
+    setOptMap(map);
+    // FUNCTION TO LOAD NEAR PLACES
+    if (nearBy) {
+      const service = new google.maps.places.PlacesService(map);
+      const streetViewService = new google.maps.StreetViewService();
+      const STREETVIEW_MAX_DISTANCE = 50;
+      const latLng = new google.maps.LatLng(center.lat, center.lng);
+      streetViewService.getPanoramaByLocation(latLng, STREETVIEW_MAX_DISTANCE, (streetViewPanoramaData, status) => {
+        if (status === google.maps.StreetViewStatus.OK) {
+          setStretViewAvailable(true);
+        } else {
+          setStretViewAvailable(false);
+        }
+      });
+
+      Object.keys(mapCaptionData).map(async (keys) => {
+        await mapCaptionData[keys].keywordsInclude.map(async (query) => {
+          const placeRequest = {
+            // location: center,
+            type: [query],
+            radius: 1000,
+          };
+          await service.nearbySearch(placeRequest, async (res) => {
+            const curPlace = selectedPlace;
+            compareArray(res, mapCaptionData[keys].keywordsExclude).map((val) => {
+              let photo;
+              if (val.photos && val.photos[0]) {
+                photo = val.photos[0].getUrl();
+              }
+              const urlImg = mapCaptionData[keys].iconSettings.icon.url;
+              const iconImg = images(`./${urlImg}`);
+              val.iconSettings = mapCaptionData[keys].iconSettings;
+              val.iconSettings.icon.newUrl = iconImg;
+              // ACTIVE ICON
+              const urlImgActive = mapCaptionData[keys].iconSettings.activeIcon.url;
+              val.iconSettings.icon.newUrlActive = images(`./${urlImgActive}`);
+              val.distance = getDistance({ lat: latitude, lng: longitude }, {
+                lat: val.geometry.location.lat(),
+                lng: val.geometry.location.lng(),
+              });
+              val.photo = photo;
+              curPlace.push(val);
+              return null;
+            });
+            setSelectedPlace([
+              ...selectedPlace,
+            ]);
+          });
+        });
+      });
+    }
+  };
+
+  // FUNCTION TO RE-CENTER THE MAP ON CHANGE THE LATITUDE OR LONGITUDE OR ZOOM
+  useEffect(() => {
+    if (Object.keys(optMap).length > 0) {
+      const center = {
+        lat: latitude,
+        lng: longitude,
+      };
+      if (latitude === 44.82 && longitude === 4.31) optMap.setZoom(4);
+      else if (points.length > 0) optMap.setZoom(12);
+      else if (rad) optMap.setZoom(13);
+      else optMap.setZoom(14);
+      optMap.panTo(center);
+    }
+  }, [latitude, longitude, optMap.zoom, rad, points]);
+
+  // FUNCTION IF ENABLED EXTERNAL CONTROLS
+  const btnActions = (action) => {
+    const center = {
+      lat: latitude,
+      lng: longitude,
+    };
+    const panorama = optMap.getStreetView();
+
+    switch (action) {
+      case 'zoomIn':
+        if (mapTypeId === 'streetview') {
+          panorama.setZoom(panorama.zoom + 1);
+        } else {
+          optMap.setZoom(optMap.zoom + 1);
+        }
+        break;
+      case 'zoomOut':
+        if (mapTypeId === 'streetview') {
+          panorama.setZoom(panorama.zoom - 1);
+        } else {
+          optMap.setZoom(optMap.zoom - 1);
+        }
+        break;
+      case 'roadmap':
+        setMapTypeId('roadmap');
+        optMap.setMapTypeId('roadmap');
+        panorama.setVisible(false);
+        break;
+      case 'satellite':
+        setMapTypeId('satellite');
+        optMap.setMapTypeId('satellite');
+        panorama.setVisible(false);
+        break;
+      case 'streetview':
+        panorama.setPosition(center);
+        panorama.setOptions({
+          linksControl: false,
+          panControl: false,
+          enableCloseButton: false,
+          addressControl: false,
+          zoomControl: false,
+          addressControlOptions: {
+            position: google.maps.ControlPosition.BOTTOM_CENTER,
+          },
+        });
+        panorama.setPov(({
+          heading: 0,
+          pitch: 0,
+        }));
+        setMapTypeId('streetview');
+        panorama.setVisible(true);
+        break;
+      default:
+      // do nothing
+    }
+  };
+
+  return (
+    // Important! Always set the container height explicitly
+    <>
+      {
+        (externalControls && showMap) && (
+          <div className="actionMaps">
+            {
+              streetViewAvailable && (
+                <div className="switchBtn shadow-4dp mr-1">
+                  <div
+                    className={`btn-action ${mapTypeId === 'streetview' ? 'active' : ''}`}
+                    onClick={() => btnActions('streetview')}
+                  >
+                    <BrixelIcon
+                      icon="streetview"
+                    />
+                  </div>
+                  <div
+                    className={`btn-action ${mapTypeId === 'roadmap' ? 'active' : ''}`}
+                    onClick={() => btnActions('roadmap')}
+                  >
+                    <BrixelIcon
+                      icon="roadmap"
+                    />
+                  </div>
+                  <div
+                    className={`btn-action ${mapTypeId === 'satellite' ? 'active' : ''}`}
+                    onClick={() => btnActions('satellite')}
+                  >
+                    <BrixelIcon
+                      icon="satellite"
+                    />
+                  </div>
+                </div>
+              )
+            }
+            <div className="switchBtn shadow-4dp">
+              <div
+                className="btn-action"
+                onClick={() => btnActions('zoomIn')}
+              >
+                <BrixelIcon
+                  icon="plus"
+                />
+              </div>
+              <div
+                className="btn-action"
+                onClick={() => btnActions('zoomOut')}
+              >
+                <BrixelIcon
+                  icon="min"
+                />
+              </div>
+            </div>
+          </div>
+        )
+      }
+
+      <div className={`h-perc-100 min-h-fix-400 pos-r ${subMinHeight}`}>
+        <Map
+          google={google}
+          onReady={(mapProps, map) => fetchPlaces(mapProps, map)}
+          zoom={zoom}
+          visible={visible}
+          initialCenter={{
+            lat: latitude !== 0,
+            lng: longitude !== 0,
+          }}
+          style={{
+            width: showMap ? '100%' : '0px',
+            height: showMap ? '100%' : '0px',
+          }}
+          onClick={() => setShowInfoWindow(false)}
+        >
+          {
+            rad && (
+              <Circle
+                radius={rad * 1000}
+                center={{
+                  lat: latitude,
+                  lng: longitude,
+                }}
+                strokeColor="transparent"
+                strokeOpacity={0}
+                strokeWeight={5}
+                fillColor="#FF0000"
+                fillOpacity={0.2}
+              />
+            )
+          }
+          {
+            points.map((item) => ([
+              <Marker
+                position={{
+                  lat: item.latitude,
+                  lng: item.longitude,
+                }}
+                icon={markerImg}
+              />,
+              <Circle
+                radius={item.radius * 1000}
+                center={{
+                  lat: item.latitude,
+                  lng: item.longitude,
+                }}
+                strokeColor="transparent"
+                strokeOpacity={0}
+                strokeWeight={5}
+                fillColor="#FF0000"
+                fillOpacity={0.2}
+              />,
+            ]))
+          }
+          {
+            modalInfo.lat && (
+              <InfoWindow
+                visible={showInfoWindow}
+                style={{ textAlign: 'center' }}
+                position={{
+                  lat: modalInfo.lat,
+                  lng: modalInfo.lng,
+                }}
+              >
+                <div className="modalMaps">
+                  <i style={{ backgroundImage: `url(${modalInfo.photo})` }} />
+                  <div>
+                    <h4>{modalInfo.title}</h4>
+                    <h6>{modalInfo.subtitle}</h6>
+                    <p>{`${modalInfo.distance}m`}</p>
+                  </div>
+                </div>
+              </InfoWindow>
+            )
+          }
+          {
+            similarProperties.map((item, i) => (
+              <Marker
+                position={{
+                  lat: item.Latitude,
+                  lng: item.Longitude,
+                }}
+                icon={{
+                  url: markerSimilarProperties,
+                  anchor: new google.maps.Point(16, 16),
+                  scaledSize: new google.maps.Size(8, 8),
+                }}
+                draggable={false}
+                key={i.toString()}
+              />
+            ))
+          }
+        </Map>
+      </div>
+    </>
+  );
+};
+
+MarketMapComponent.propTypes = {
+  disableZoom: PropTypes.bool,
+  externalControls: PropTypes.bool,
+  google: PropTypes.object.isRequired,
+  latitude: PropTypes.number.isRequired,
+  longitude: PropTypes.number.isRequired,
+  mapType: PropTypes.string,
+  nearBy: PropTypes.bool,
+  points: PropTypes.arrayOf(PropTypes.object),
+  rad: PropTypes.number,
+  scrollZoom: PropTypes.bool,
+  showMap: PropTypes.bool,
+  similarProperties: PropTypes.arrayOf(PropTypes.object),
+  subMinHeight: PropTypes.string,
+  visible: PropTypes.bool,
+  zoom: PropTypes.number,
+};
+
+MarketMapComponent.defaultProps = {
+  disableZoom: false,
+  externalControls: false,
+  mapType: 'roadmap',
+  nearBy: false,
+  points: [],
+  rad: null,
+  scrollZoom: false,
+  showMap: true,
+  similarProperties: [],
+  subMinHeight: '',
+  visible: true,
+  zoom: 10,
+};
+
+export default compose(
+  GoogleApiWrapper({
+    apiKey: (baseByData.googleMaps),
+    libraries: ['geometry', 'drawing', 'places'],
+  }),
+  withRouter,
+)(MarketMapComponent);

@@ -4,6 +4,7 @@ import common from './CommonReducer';
 import companies from './CompanyReducer';
 import deal from './DealReducer';
 import gamification from './GamificationReducer';
+import market from './MarketReducer';
 import image from './UploadReducer';
 import lead from './LeadReducer';
 import property from './PropertyReducer';
@@ -17,6 +18,7 @@ export const rootReducer = combineReducers({
   gamification,
   images: image,
   lead,
+  market,
   property,
   user,
 });

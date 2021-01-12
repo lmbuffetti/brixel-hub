@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
+import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
+
+const MarketMapComponent = Loadable({
+  loader: () => import('../../components/Map/MarketMapComponent' /* webpackChunkName: "MarketMapComponent" */),
+  loading: () => null,
+});
 
 const MarketMap = (props) => {
   // PROPS
@@ -15,6 +21,11 @@ const MarketMap = (props) => {
   return (
     <div>
       <h3>MapLevel</h3>
+      <MarketMapComponent
+        latitude={0}
+        longitude={0}
+        visible
+      />
     </div>
   );
 };

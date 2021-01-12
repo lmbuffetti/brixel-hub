@@ -7,6 +7,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Sticker from 'react-stickyfill';
 import Loadable from 'react-loadable';
+import { getPropertyListings } from '../../actions/PropertyActions';
 import '../../styles/SCSS/pages/market.scss';
 
 const MarketList = Loadable({
@@ -22,10 +23,22 @@ const MarketMap = Loadable({
 const Market = (props) => {
   // PROPS
   const {
+    handleGetPropertyListings,
+    loggedInUser,
     windowDimensions,
   } = props;
   // STATE
   const [isMapActive, setIsMapActive] = useState(false);
+
+  useEffect(() => {
+    const data = {
+      limit: 50,
+      offset: `0/?owner=${loggedInUser.user.id}`,
+      setAsSingle: true,
+      multiLoader: true,
+    };
+    handleGetPropertyListings(data);
+  }, []);
 
   return (
     <div className="rewards-container" id="Market">
@@ -51,6 +64,8 @@ const Market = (props) => {
 };
 
 Market.propTypes = {
+  handleGetPropertyListings: PropTypes.func.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -58,11 +73,12 @@ Market.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  loggedInUser: get(state, 'user.loggedInUser', { }),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+  handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
 });
 
 export default compose(

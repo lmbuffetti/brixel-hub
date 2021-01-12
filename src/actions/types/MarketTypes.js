@@ -1,0 +1,7 @@
+/**
+ * Lead actions
+ *
+ */
+
+export const GET_SELLER_PROPERTIES = 'GET_SELLER_PROPERTIES';
+export const SET_SELLER_PROPERTIES = 'SET_SELLER_PROPERTIES';
