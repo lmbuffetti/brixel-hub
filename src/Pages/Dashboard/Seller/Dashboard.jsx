@@ -31,7 +31,7 @@ import {
   addGameHistory, getAchievement, getGamegroup, getGameHistory,
 } from '../../../actions/GamificationActions';
 import {
-  setModal, setPageData, setScreenNotification, spinnerOn,
+  setModal, setPageData, setScreenNotification, spinnerOff, spinnerOn,
 } from '../../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { calcPercentageFacts } from '../../../utils/helpers';
@@ -120,6 +120,7 @@ const Dashboard = (props) => {
     savePageData,
     userTypes,
     handleSpinnerOn,
+    handleSpinnerOff,
   } = props;
   const [isDiscardChanges, setIsDiscardChanges] = useState(false);
   const [userType, setUserType] = useState(null);
@@ -150,26 +151,15 @@ const Dashboard = (props) => {
     }
   }, [loggedInUser]);
 
-  // FUNCTION TO LOAD DEFAULT USER PROPERTY IF NO ID
-  const loadDefaultProperty = () => {
-    if (!get(formValue, 'id', null)) {
-      const data = {
-        limit: 1,
-        offset: `0/?owner=${loggedInUser.user.id}`,
-        setAsSingle: true,
-        multiLoader: true,
-      };
-      handleGetPropertyListings(data);
-    }
-  };
-
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
     if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
-      if (propID && !get(activeSingleProperty, 'id', null)) {
+      if (propID && propID !== 'home' && !get(activeSingleProperty, 'id', null)) {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
       } else if (!propID) {
-        loadDefaultProperty();
+        history.push('/home');
+      } else {
+        handleSpinnerOff();
       }
     }
     if (gameAchievement.length === 0) handleGetAchievement();
@@ -454,6 +444,7 @@ Dashboard.propTypes = {
   savePageData: PropTypes.string,
   userTypes: PropTypes.string,
   handleSpinnerOn: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
 };
 
 Dashboard.defaultProps = {
@@ -549,6 +540,7 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset('Property', data)));
   },
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
