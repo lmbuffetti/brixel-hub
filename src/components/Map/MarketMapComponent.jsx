@@ -2,6 +2,7 @@
 /* eslint-disable array-callback-return */
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
+import get from 'lodash/get';
 import {
   Map, InfoWindow, Marker, Circle, GoogleApiWrapper,
 } from 'google-maps-react';
@@ -22,11 +23,9 @@ export const MarketMapComponent = (props) => {
     disableZoom,
     externalControls,
     google,
-    latitude,
-    longitude,
+    properties,
     mapType,
     nearBy,
-    points,
     rad,
     scrollZoom,
     showMap,
@@ -67,77 +66,25 @@ export const MarketMapComponent = (props) => {
 
     setOptMap(map);
     // FUNCTION TO LOAD NEAR PLACES
-    if (nearBy) {
-      const service = new google.maps.places.PlacesService(map);
-      const streetViewService = new google.maps.StreetViewService();
-      const STREETVIEW_MAX_DISTANCE = 50;
-      const latLng = new google.maps.LatLng(center.lat, center.lng);
-      streetViewService.getPanoramaByLocation(latLng, STREETVIEW_MAX_DISTANCE, (streetViewPanoramaData, status) => {
-        if (status === google.maps.StreetViewStatus.OK) {
-          setStretViewAvailable(true);
-        } else {
-          setStretViewAvailable(false);
-        }
-      });
-
-      Object.keys(mapCaptionData).map(async (keys) => {
-        await mapCaptionData[keys].keywordsInclude.map(async (query) => {
-          const placeRequest = {
-            // location: center,
-            type: [query],
-            radius: 1000,
-          };
-          await service.nearbySearch(placeRequest, async (res) => {
-            const curPlace = selectedPlace;
-            compareArray(res, mapCaptionData[keys].keywordsExclude).map((val) => {
-              let photo;
-              if (val.photos && val.photos[0]) {
-                photo = val.photos[0].getUrl();
-              }
-              const urlImg = mapCaptionData[keys].iconSettings.icon.url;
-              const iconImg = images(`./${urlImg}`);
-              val.iconSettings = mapCaptionData[keys].iconSettings;
-              val.iconSettings.icon.newUrl = iconImg;
-              // ACTIVE ICON
-              const urlImgActive = mapCaptionData[keys].iconSettings.activeIcon.url;
-              val.iconSettings.icon.newUrlActive = images(`./${urlImgActive}`);
-              val.distance = getDistance({ lat: latitude, lng: longitude }, {
-                lat: val.geometry.location.lat(),
-                lng: val.geometry.location.lng(),
-              });
-              val.photo = photo;
-              curPlace.push(val);
-              return null;
-            });
-            setSelectedPlace([
-              ...selectedPlace,
-            ]);
-          });
-        });
-      });
-    }
   };
 
   // FUNCTION TO RE-CENTER THE MAP ON CHANGE THE LATITUDE OR LONGITUDE OR ZOOM
   useEffect(() => {
     if (Object.keys(optMap).length > 0) {
       const center = {
-        lat: latitude,
-        lng: longitude,
+        lat: properties[0].location.latitude,
+        lng: properties[0].location.longitude,
       };
-      if (latitude === 44.82 && longitude === 4.31) optMap.setZoom(4);
-      else if (points.length > 0) optMap.setZoom(12);
-      else if (rad) optMap.setZoom(13);
-      else optMap.setZoom(14);
+      optMap.setZoom(8);
       optMap.panTo(center);
     }
-  }, [latitude, longitude, optMap.zoom, rad, points]);
+  }, [properties, optMap.zoom, rad]);
 
   // FUNCTION IF ENABLED EXTERNAL CONTROLS
   const btnActions = (action) => {
     const center = {
-      lat: latitude,
-      lng: longitude,
+      lat: properties[0].location.latitude,
+      lng: properties[0].location.longitude,
     };
     const panorama = optMap.getStreetView();
 
@@ -249,14 +196,15 @@ export const MarketMapComponent = (props) => {
       }
 
       <div className={`h-perc-100 min-h-fix-400 pos-r ${subMinHeight}`}>
+        {properties[0].location.latitude}
         <Map
           google={google}
           onReady={(mapProps, map) => fetchPlaces(mapProps, map)}
           zoom={zoom}
           visible={visible}
           initialCenter={{
-            lat: latitude !== 0,
-            lng: longitude !== 0,
+            lat: properties[0].location.latitude !== 0,
+            lng: properties[0].location.longitude !== 0,
           }}
           style={{
             width: showMap ? '100%' : '0px',
@@ -265,43 +213,15 @@ export const MarketMapComponent = (props) => {
           onClick={() => setShowInfoWindow(false)}
         >
           {
-            rad && (
-              <Circle
-                radius={rad * 1000}
-                center={{
-                  lat: latitude,
-                  lng: longitude,
-                }}
-                strokeColor="transparent"
-                strokeOpacity={0}
-                strokeWeight={5}
-                fillColor="#FF0000"
-                fillOpacity={0.2}
-              />
-            )
-          }
-          {
-            points.map((item) => ([
+            properties.map((item) => (
               <Marker
                 position={{
-                  lat: item.latitude,
-                  lng: item.longitude,
+                  lat: get(item, 'location.latitude', 200),
+                  lng: get(item, 'location.longitude', 200),
                 }}
                 icon={markerImg}
-              />,
-              <Circle
-                radius={item.radius * 1000}
-                center={{
-                  lat: item.latitude,
-                  lng: item.longitude,
-                }}
-                strokeColor="transparent"
-                strokeOpacity={0}
-                strokeWeight={5}
-                fillColor="#FF0000"
-                fillOpacity={0.2}
-              />,
-            ]))
+              />
+            ))
           }
           {
             modalInfo.lat && (
@@ -351,8 +271,7 @@ MarketMapComponent.propTypes = {
   disableZoom: PropTypes.bool,
   externalControls: PropTypes.bool,
   google: PropTypes.object.isRequired,
-  latitude: PropTypes.number.isRequired,
-  longitude: PropTypes.number.isRequired,
+  properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   mapType: PropTypes.string,
   nearBy: PropTypes.bool,
   points: PropTypes.arrayOf(PropTypes.object),

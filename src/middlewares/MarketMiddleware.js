@@ -1,5 +1,3 @@
-import get from 'lodash/get';
-import take from 'lodash/take';
 import {
   GET_SELLER_PROPERTIES,
   SET_SELLER_PROPERTIES,

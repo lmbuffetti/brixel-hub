@@ -15,22 +15,29 @@ const MarketMapComponent = Loadable({
 const MarketMap = (props) => {
   // PROPS
   const {
+    sellerMarketProperties,
     windowDimensions,
   } = props;
+  // STATE
+  const [activeProperties, setActiveProperties] = useState(sellerMarketProperties);
 
   return (
     <div>
       <h3>MapLevel</h3>
-      <MarketMapComponent
-        latitude={0}
-        longitude={0}
-        visible
-      />
+      {
+        activeProperties.length > 0 && (
+          <MarketMapComponent
+            properties={activeProperties}
+            visible
+          />
+        )
+      }
     </div>
   );
 };
 
 MarketMap.propTypes = {
+  sellerMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -38,6 +45,7 @@ MarketMap.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  sellerMarketProperties: get(state, 'market.sellerProperties', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
