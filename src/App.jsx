@@ -132,6 +132,11 @@ const SingleDeal = Loadable({
   loading: Loading,
 });
 
+const Market = Loadable({
+  loader: () => import('./Pages/Market/Market' /* webpackChunkName: "Market" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -486,6 +491,7 @@ const App = (props) => {
                   !history.location.pathname.includes('onBoarding') &&
                   !history.location.pathname.includes('buyer') && (
                     <>
+                      <ProtectedRoute exact path="/home" component={Market} />
                       <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
                       <ProtectedRoute path="/" exact component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?" exact component={DashboardSeller} />
