@@ -6,7 +6,7 @@ import {
 } from '../actions/types/MarketTypes';
 
 export const defaultState = {
-  sellerProperties: {},
+  sellerProperties: [],
 };
 
 export default handleActions(

@@ -28,7 +28,8 @@ const Market = (props) => {
     windowDimensions,
   } = props;
   // STATE
-  const [isMapActive, setIsMapActive] = useState(false);
+  const [isMapActive, setIsMapActive] = useState(true);
+  const [activeProperty, setActiveProperty] = useState(null);
 
   useEffect(() => {
     if (loggedInUser.id) {
@@ -47,6 +48,7 @@ const Market = (props) => {
     <div className="market-container" id="market">
       <div className="dis-f a-t jc-c pos-r-md">
         <div className="firstLevel mx-md-2 w-perc-100">
+          {activeProperty}
           <MarketList
             onActiveMap={(val) => setIsMapActive(val)}
             isMapActive={isMapActive}
@@ -56,7 +58,9 @@ const Market = (props) => {
           {
             isMapActive && (
               <div className="secondLevel w-perc-100 dis-fl-col ml-md">
-                <MarketMap />
+                <MarketMap
+                  onActiveProperty={(val) => setActiveProperty(val)}
+                />
               </div>
             )
           }

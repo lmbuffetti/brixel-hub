@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
+import { diff } from 'deep-object-diff';
 import { bindActionCreators, compose } from 'redux';
 import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
+import { ComponentMap } from '../../components/Map/Map';
 
 const MarketMapComponent = Loadable({
   loader: () => import('../../components/Map/MarketMapComponent' /* webpackChunkName: "MarketMapComponent" */),
@@ -15,11 +17,16 @@ const MarketMapComponent = Loadable({
 const MarketMap = (props) => {
   // PROPS
   const {
+    onActiveProperty,
     sellerMarketProperties,
     windowDimensions,
   } = props;
   // STATE
   const [activeProperties, setActiveProperties] = useState(sellerMarketProperties);
+
+  useEffect(() => {
+    setActiveProperties(sellerMarketProperties);
+  }, [sellerMarketProperties]);
 
   return (
     <div>
@@ -27,6 +34,7 @@ const MarketMap = (props) => {
       {
         activeProperties.length > 0 && (
           <MarketMapComponent
+            onActiveProperty={(val) => onActiveProperty(val)}
             properties={activeProperties}
             visible
           />
@@ -37,6 +45,7 @@ const MarketMap = (props) => {
 };
 
 MarketMap.propTypes = {
+  onActiveProperty: PropTypes.func.isRequired,
   sellerMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };

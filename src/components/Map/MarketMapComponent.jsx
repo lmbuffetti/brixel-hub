@@ -4,18 +4,16 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  Map, InfoWindow, Marker, Circle, GoogleApiWrapper,
+  Map, InfoWindow, Marker, GoogleApiWrapper,
 } from 'google-maps-react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { BrixelIcon } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { diff } from 'deep-object-diff';
 import markerImg from '../../images/location/icon_location.svg';
 import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
-import { mapCaptionData, mapStyles, getDistance } from '../../constants/map';
-import { compareArray } from '../../utils/helpers';
-
-const images = require.context('../../images', true);
+import { mapStyles } from '../../constants/map';
 
 export const MarketMapComponent = (props) => {
   // PROPS
@@ -25,7 +23,7 @@ export const MarketMapComponent = (props) => {
     google,
     properties,
     mapType,
-    nearBy,
+    onActiveProperty,
     rad,
     scrollZoom,
     showMap,
@@ -35,7 +33,6 @@ export const MarketMapComponent = (props) => {
     zoom,
   } = props;
   // STATE
-  const [selectedPlace, setSelectedPlace] = useState([]);
   const [showInfoWindow, setShowInfoWindow] = useState(false);
   const [modalInfo] = useState({});
   const [mapTypeId, setMapTypeId] = useState('roadmap');
@@ -75,7 +72,7 @@ export const MarketMapComponent = (props) => {
         lat: properties[0].location.latitude,
         lng: properties[0].location.longitude,
       };
-      optMap.setZoom(8);
+      optMap.setZoom(10);
       optMap.panTo(center);
     }
   }, [properties, optMap.zoom, rad]);
@@ -137,6 +134,11 @@ export const MarketMapComponent = (props) => {
     }
   };
 
+  // FUNCTION FORM MARKERS MAP
+  const onSelProperty = (type, id) => {
+    onActiveProperty(id);
+  };
+
   return (
     // Important! Always set the container height explicitly
     <>
@@ -196,7 +198,6 @@ export const MarketMapComponent = (props) => {
       }
 
       <div className={`h-perc-100 min-h-fix-400 pos-r ${subMinHeight}`}>
-        {properties[0].location.latitude}
         <Map
           google={google}
           onReady={(mapProps, map) => fetchPlaces(mapProps, map)}
@@ -213,13 +214,17 @@ export const MarketMapComponent = (props) => {
           onClick={() => setShowInfoWindow(false)}
         >
           {
-            properties.map((item) => (
+            properties.map((item, i) => (
               <Marker
+                key={i.toString()}
                 position={{
                   lat: get(item, 'location.latitude', 200),
                   lng: get(item, 'location.longitude', 200),
                 }}
                 icon={markerImg}
+                onClick={() => onSelProperty('click', item.id)}
+                // onMouseover={() => onSelProperty('enter', item.id)}
+                // onMouseout={() => onSelProperty('leave', item.id)}
               />
             ))
           }
@@ -274,6 +279,7 @@ MarketMapComponent.propTypes = {
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   mapType: PropTypes.string,
   nearBy: PropTypes.bool,
+  onActiveProperty: PropTypes.func.isRequired,
   points: PropTypes.arrayOf(PropTypes.object),
   rad: PropTypes.number,
   scrollZoom: PropTypes.bool,
@@ -299,10 +305,19 @@ MarketMapComponent.defaultProps = {
   zoom: 10,
 };
 
+export const MapComponent = React.memo(MarketMapComponent, (prevProps, nextProps) => {
+  const prevLat = get(prevProps, 'properties', null);
+  const nextLat = get(nextProps, 'properties', null);
+  const propDiff = diff(prevLat, nextLat);
+  return (
+    Object.keys(propDiff).length === 0
+  );
+});
+
 export default compose(
   GoogleApiWrapper({
     apiKey: (baseByData.googleMaps),
     libraries: ['geometry', 'drawing', 'places'],
   }),
   withRouter,
-)(MarketMapComponent);
+)(MapComponent);
