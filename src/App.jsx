@@ -491,10 +491,9 @@ const App = (props) => {
                   !history.location.pathname.includes('onBoarding') &&
                   !history.location.pathname.includes('buyer') && (
                     <>
-                      <ProtectedRoute exact path="/home" component={Market} />
+                      <ProtectedRoute path="/home" component={Market} />
                       <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
                       <ProtectedRoute path="/" exact component={DashboardSeller} />
-                      <ProtectedRoute path="/:propId?" exact component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/rewards" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/listings" component={DashboardSeller} />
