@@ -28,7 +28,6 @@ export const MarketMapComponent = (props) => {
     rad,
     scrollZoom,
     showMap,
-    similarProperties,
     subMinHeight,
     visible,
     zoom,
@@ -249,23 +248,6 @@ export const MarketMapComponent = (props) => {
               </InfoWindow>
             )
           }
-          {
-            similarProperties.map((item, i) => (
-              <Marker
-                position={{
-                  lat: item.Latitude,
-                  lng: item.Longitude,
-                }}
-                icon={{
-                  url: markerSimilarProperties,
-                  anchor: new google.maps.Point(16, 16),
-                  scaledSize: new google.maps.Size(8, 8),
-                }}
-                draggable={false}
-                key={i.toString()}
-              />
-            ))
-          }
         </Map>
       </div>
     </>
@@ -283,7 +265,6 @@ MarketMapComponent.propTypes = {
   rad: PropTypes.number,
   scrollZoom: PropTypes.bool,
   showMap: PropTypes.bool,
-  similarProperties: PropTypes.arrayOf(PropTypes.object),
   subMinHeight: PropTypes.string,
   visible: PropTypes.bool,
   zoom: PropTypes.number,
@@ -297,7 +278,6 @@ MarketMapComponent.defaultProps = {
   rad: null,
   scrollZoom: false,
   showMap: true,
-  similarProperties: [],
   subMinHeight: '',
   visible: true,
   zoom: 10,
