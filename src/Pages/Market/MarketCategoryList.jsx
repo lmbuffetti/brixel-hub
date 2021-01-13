@@ -12,14 +12,14 @@ import { connect } from 'react-redux';
 const MarketList = (props) => {
   // PROPS
   const {
-    windowDimensions,
+    windowDimensions, match, history,
   } = props;
 
   return (
     <>
       <div className="dis-fl-row s-c jc-b property-category mb-4">
         <BrixelButtonSecondary
-          onClick={() => ''}
+          onClick={() => history.push(`${match.url}/all`)}
           label="All (Open Map Test)"
           rounded
           ghost
@@ -27,7 +27,7 @@ const MarketList = (props) => {
           className="as-fs mr-2"
         />
         <BrixelButtonSecondary
-          onClick={() => ''}
+          onClick={() => history.push(`${match.url}/own`)}
           label="Your properties"
           rounded
           ghost
@@ -35,7 +35,7 @@ const MarketList = (props) => {
           className="as-fs mr-2"
         />
         <BrixelButtonSecondary
-          onClick={() => ''}
+          onClick={() => history.push(`${match.url}/lastViewed`)}
           label="Last viewed"
           rounded
           ghost
@@ -43,7 +43,7 @@ const MarketList = (props) => {
           className="as-fs mr-2"
         />
         <BrixelButtonSecondary
-          onClick={() => ''}
+          onClick={() => history.push(`${match.url}/favorites`)}
           label="Your favorites"
           rounded
           ghost
@@ -51,7 +51,7 @@ const MarketList = (props) => {
           className="as-fs mr-2"
         />
         <BrixelButtonSecondary
-          onClick={() => ''}
+          onClick={() => history.push(`${match.url}/radar`)}
           label="New in your radar"
           rounded
           ghost
@@ -59,7 +59,7 @@ const MarketList = (props) => {
           className="as-fs mr-2"
         />
         <BrixelButtonSecondary
-          onClick={() => ''}
+          onClick={() => history.push(`${match.url}/premium`)}
           label="Premium properties"
           rounded
           ghost
@@ -67,7 +67,7 @@ const MarketList = (props) => {
           className="as-fs mr-2"
         />
         <BrixelButtonSecondary
-          onClick={() => ''}
+          onClick={() => history.push(`${match.url}/preMarket`)}
           label="Pre-Market properties"
           rounded
           ghost
@@ -116,10 +116,11 @@ const MarketList = (props) => {
 
 MarketList.propTypes = {
   windowDimensions: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 MarketList.defaultProps = {
-  activeProperty: null,
 };
 
 const mapStateToProps = (state) => ({
