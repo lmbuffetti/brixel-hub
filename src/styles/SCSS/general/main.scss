@@ -7,6 +7,9 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 $imgpath: "~@brixel/brixel-components/dist/styles/";
 @import '~@brixel/brixel-configuration-partner/src/Variables';
 
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
 $grid-breakpoints: (
   xxs: 0,
   xs: 420,

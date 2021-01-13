@@ -8,11 +8,18 @@ import {
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import Loadable from 'react-loadable';
+
+const CarouselWrapper = Loadable({
+  loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
+  loading: () => null,
+});
 
 const MarketList = (props) => {
   // PROPS
   const {
     windowDimensions, match, history,
+    sellerMarketPropertiesExample,
   } = props;
 
   return (
@@ -78,6 +85,13 @@ const MarketList = (props) => {
 
       <div className="mb-4">
         <h2>All</h2>
+        {
+          sellerMarketPropertiesExample.length > 0 && (
+            <CarouselWrapper
+              items={sellerMarketPropertiesExample}
+            />
+          )
+        }
       </div>
 
       <div className="mb-4">
@@ -118,12 +132,15 @@ MarketList.propTypes = {
   windowDimensions: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  sellerMarketPropertiesExample: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 MarketList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  // As an example for now. Later we should get a sample for every category
+  sellerMarketPropertiesExample: get(state, 'market.sellerProperties', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
