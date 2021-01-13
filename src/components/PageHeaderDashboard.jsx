@@ -357,14 +357,18 @@ function PageHeaderDashboard(props) {
                       </>
                     ) : (
                       <>
-                        <BrixelIcon
-                          icon={getCurrentRoute().icon}
-                          color="dark"
-                          saturationTxt={400}
-                          background="primary"
-                          saturation={100}
-                          className="noRadius w-fix-40 h-fix-40 dis-f jc-c a-c"
-                        />
+                        {
+                          getCurrentRoute().icon && (
+                            <BrixelIcon
+                              icon={getCurrentRoute().icon}
+                              color="dark"
+                              saturationTxt={400}
+                              background="primary"
+                              saturation={100}
+                              className="noRadius w-fix-40 h-fix-40 dis-f jc-c a-c"
+                            />
+                          )
+                        }
                         <div className="ml-2">
                           <h5>{getCurrentRoute().title}</h5>
                         </div>

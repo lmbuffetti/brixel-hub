@@ -17,14 +17,11 @@ const MarketMap = Loadable({
 const MarketList = (props) => {
   // PROPS
   const {
-    activeProperty,
     loggedInUser,
     handleGetSellerProperties,
-    isMapActive,
-    onActiveMap,
-    onActiveProperty,
-    windowDimensions,
   } = props;
+  // STATE
+  const [activeProperty, setActiveProperty] = useState(null);
 
   useEffect(() => {
     console.log('TEST');
@@ -42,14 +39,14 @@ const MarketList = (props) => {
 
   return (
     <>
-      <div className="firstLevel mx-md-2 w-perc-100">
+      <div className="firstLevel mx-md-2 w-perc-100 dis-f">
         <h1>PROP LIST</h1>
       </div>
       <Sticker>
         <div className="secondLevel w-perc-100 dis-fl-col ml-md">
           <MarketMap
             activeProperty={activeProperty}
-            // onActiveProperty={(val) => setActiveProperty(val)}
+            onActiveProperty={(val) => setActiveProperty(val)}
           />
         </div>
       </Sticker>
@@ -60,15 +57,11 @@ const MarketList = (props) => {
 MarketList.propTypes = {
   handleGetSellerProperties: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  activeProperty: PropTypes.string,
-  isMapActive: PropTypes.bool.isRequired,
-  onActiveProperty: PropTypes.func.isRequired,
-  onActiveMap: PropTypes.func.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 MarketList.defaultProps = {
-  activeProperty: null,
+
 };
 
 const mapStateToProps = (state) => ({
