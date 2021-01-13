@@ -27,7 +27,7 @@ const MarkerComponent = (props) => {
   useEffect(() => {
     if (optMap.zoom && data.length > 0) {
       const markers = [];
-      data.forEach((item, i) => {
+      data.forEach((item) => {
         const marker = new google.maps.Marker({
           id: item.id,
           icon: markerSimilarProperties,
@@ -46,7 +46,7 @@ const MarkerComponent = (props) => {
   }, [optMap, data]);
 
   useEffect(() => {
-    if (props.optMap.zoom && data.length > 0) {
+    if (props.optMap.zoom && data.length > 0 && markerList.length > 0) {
       const curMarkerList = markerList;
       const loadedMarkers = cloneDeep(markerList);
       curMarkerList.forEach((marker, i) => {

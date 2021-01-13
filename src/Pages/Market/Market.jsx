@@ -9,6 +9,7 @@ import Sticker from 'react-stickyfill';
 import Loadable from 'react-loadable';
 import { getSellerProperties } from '../../actions/MarketActions';
 import '../../styles/SCSS/pages/market.scss';
+import { spinnerOff } from '../../actions/CommonActions';
 
 const MarketList = Loadable({
   loader: () => import('./MarketList' /* webpackChunkName: "MarketList" */),
@@ -24,9 +25,14 @@ const Market = (props) => {
   // PROPS
   const {
     handleGetSellerProperties,
+    handleSpinnerOff,
     loggedInUser,
     windowDimensions,
   } = props;
+
+  useEffect(() => {
+    handleSpinnerOff();
+  }, []);
 
   useEffect(() => {
     if (loggedInUser.id) {
@@ -53,6 +59,7 @@ const Market = (props) => {
 
 Market.propTypes = {
   handleGetSellerProperties: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -67,6 +74,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetSellerProperties: bindActionCreators(getSellerProperties, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
 export default compose(
