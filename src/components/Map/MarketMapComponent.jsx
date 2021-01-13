@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  Map, InfoWindow, Marker, GoogleApiWrapper,
+  Map, InfoWindow, GoogleApiWrapper, Marker,
 } from 'google-maps-react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
@@ -12,8 +12,6 @@ import { BrixelIcon } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { diff } from 'deep-object-diff';
 import MarkerComponent from './MarkerComponent';
-import markerImg from '../../images/location/icon_location.svg';
-import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
 import { mapStyles } from '../../constants/map';
 
 export const MarketMapComponent = (props) => {
@@ -59,7 +57,7 @@ export const MarketMapComponent = (props) => {
       linksControl: false,
       panControl: false,
       enableCloseButton: false,
-      draggable: false,
+      draggable: true,
     });
 
     setOptMap(map);
@@ -69,14 +67,23 @@ export const MarketMapComponent = (props) => {
   // FUNCTION TO RE-CENTER THE MAP ON CHANGE THE LATITUDE OR LONGITUDE OR ZOOM
   useEffect(() => {
     if (Object.keys(optMap).length > 0) {
-      const center = {
+      let center = {
         lat: properties[0].location.latitude,
         lng: properties[0].location.longitude,
       };
-      optMap.setZoom(10);
       optMap.panTo(center);
+      if (activeProperty) {
+        const filtProp = properties.find((item) => item.id === activeProperty);
+        if (filtProp) {
+          center = {
+            lat: filtProp.location.latitude,
+            lng: filtProp.location.longitude,
+          };
+          optMap.panTo(center);
+        }
+      }
     }
-  }, [properties, optMap.zoom, rad]);
+  }, [properties, optMap.zoom, rad, activeProperty]);
 
   // FUNCTION IF ENABLED EXTERNAL CONTROLS
   const btnActions = (action) => {
@@ -213,18 +220,16 @@ export const MarketMapComponent = (props) => {
           }}
           onClick={() => setShowInfoWindow(false)}
         >
-          {
-            properties.map((item, i) => (
-              <MarkerComponent
-                key={i.toString()}
-                item={item}
-                icon={activeProperty === item.id ? 'active' : 'inactive'}
-                onClick={() => onSelProperty('click', item.id)}
-                // onMouseover={() => onSelProperty('enter', item.id)}
-                // onMouseout={() => onSelProperty('leave', item.id)}
-              />
-            ))
-          }
+
+          <MarkerComponent
+            activeProperty={activeProperty}
+            optMap={optMap}
+            google={google}
+            data={properties}
+            onClick={(val) => onSelProperty('click', val)}
+            // onMouseover={() => onSelProperty('enter', item.id)}
+            // onMouseout={() => onSelProperty('leave', item.id)}
+          />
           {
             modalInfo.lat && (
               <InfoWindow
