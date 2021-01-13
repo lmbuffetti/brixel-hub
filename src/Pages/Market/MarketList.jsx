@@ -12,8 +12,10 @@ import { connect } from 'react-redux';
 const MarketList = (props) => {
   // PROPS
   const {
+    activeProperty,
     isMapActive,
     onActiveMap,
+    onActiveProperty,
     windowDimensions,
   } = props;
 
@@ -80,7 +82,13 @@ const MarketList = (props) => {
 
       <div className="mb-4">
         <h2>All</h2>
-        <div className="bgPrimary400 h-fix-400" />
+        <div className="bgPrimary400 h-fix-400">
+          <div
+            className={activeProperty === '5ed6218b14e01c7998d7fc2c' ? 'txtRed400' : 'txtWhite'}
+            onClick={() => onActiveProperty('5ed6218b14e01c7998d7fc2c')}
+          >PROPERTY 1
+          </div>
+        </div>
       </div>
 
       <div className="mb-4">
@@ -118,12 +126,15 @@ const MarketList = (props) => {
 };
 
 MarketList.propTypes = {
+  activeProperty: PropTypes.string,
   isMapActive: PropTypes.bool.isRequired,
+  onActiveProperty: PropTypes.func.isRequired,
   onActiveMap: PropTypes.func.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 MarketList.defaultProps = {
+  activeProperty: null,
 };
 
 const mapStateToProps = (state) => ({

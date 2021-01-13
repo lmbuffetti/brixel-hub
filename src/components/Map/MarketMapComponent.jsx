@@ -18,6 +18,7 @@ import { mapStyles } from '../../constants/map';
 export const MarketMapComponent = (props) => {
   // PROPS
   const {
+    activeProperty,
     disableZoom,
     externalControls,
     google,
@@ -196,7 +197,6 @@ export const MarketMapComponent = (props) => {
           </div>
         )
       }
-
       <div className={`h-perc-100 min-h-fix-400 pos-r ${subMinHeight}`}>
         <Map
           google={google}
@@ -221,7 +221,7 @@ export const MarketMapComponent = (props) => {
                   lat: get(item, 'location.latitude', 200),
                   lng: get(item, 'location.longitude', 200),
                 }}
-                icon={markerImg}
+                icon={activeProperty === item.id ? markerImg : markerSimilarProperties}
                 onClick={() => onSelProperty('click', item.id)}
                 // onMouseover={() => onSelProperty('enter', item.id)}
                 // onMouseout={() => onSelProperty('leave', item.id)}
@@ -273,14 +273,13 @@ export const MarketMapComponent = (props) => {
 };
 
 MarketMapComponent.propTypes = {
+  activeProperty: PropTypes.string,
   disableZoom: PropTypes.bool,
   externalControls: PropTypes.bool,
   google: PropTypes.object.isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   mapType: PropTypes.string,
-  nearBy: PropTypes.bool,
   onActiveProperty: PropTypes.func.isRequired,
-  points: PropTypes.arrayOf(PropTypes.object),
   rad: PropTypes.number,
   scrollZoom: PropTypes.bool,
   showMap: PropTypes.bool,
@@ -291,11 +290,10 @@ MarketMapComponent.propTypes = {
 };
 
 MarketMapComponent.defaultProps = {
+  activeProperty: null,
   disableZoom: false,
   externalControls: false,
   mapType: 'roadmap',
-  nearBy: false,
-  points: [],
   rad: null,
   scrollZoom: false,
   showMap: true,
@@ -310,7 +308,8 @@ export const MapComponent = React.memo(MarketMapComponent, (prevProps, nextProps
   const nextLat = get(nextProps, 'properties', null);
   const propDiff = diff(prevLat, nextLat);
   return (
-    Object.keys(propDiff).length === 0
+    Object.keys(propDiff).length === 0 &&
+    prevProps.activeProperty === nextProps.activeProperty
   );
 });
 

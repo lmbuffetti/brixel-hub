@@ -48,8 +48,9 @@ const Market = (props) => {
     <div className="market-container" id="market">
       <div className="dis-f a-t jc-c pos-r-md">
         <div className="firstLevel mx-md-2 w-perc-100">
-          {activeProperty}
           <MarketList
+            activeProperty={activeProperty}
+            onActiveProperty={(val) => setActiveProperty(val)}
             onActiveMap={(val) => setIsMapActive(val)}
             isMapActive={isMapActive}
           />
@@ -59,6 +60,7 @@ const Market = (props) => {
             isMapActive && (
               <div className="secondLevel w-perc-100 dis-fl-col ml-md">
                 <MarketMap
+                  activeProperty={activeProperty}
                   onActiveProperty={(val) => setActiveProperty(val)}
                 />
               </div>
