@@ -24,67 +24,8 @@ const MarketList = (props) => {
 
   return (
     <>
-      <div className="dis-fl-row s-c jc-b property-category mb-4">
-        <BrixelButtonSecondary
-          onClick={() => history.push(`${match.url}/all`)}
-          label="All (Open Map Test)"
-          rounded
-          ghost
-          theme="dark"
-          className="as-fs mr-2"
-        />
-        <BrixelButtonSecondary
-          onClick={() => history.push(`${match.url}/own`)}
-          label="Your properties"
-          rounded
-          ghost
-          theme="dark"
-          className="as-fs mr-2"
-        />
-        <BrixelButtonSecondary
-          onClick={() => history.push(`${match.url}/lastViewed`)}
-          label="Last viewed"
-          rounded
-          ghost
-          theme="dark"
-          className="as-fs mr-2"
-        />
-        <BrixelButtonSecondary
-          onClick={() => history.push(`${match.url}/favorites`)}
-          label="Your favorites"
-          rounded
-          ghost
-          theme="dark"
-          className="as-fs mr-2"
-        />
-        <BrixelButtonSecondary
-          onClick={() => history.push(`${match.url}/radar`)}
-          label="New in your radar"
-          rounded
-          ghost
-          theme="dark"
-          className="as-fs mr-2"
-        />
-        <BrixelButtonSecondary
-          onClick={() => history.push(`${match.url}/premium`)}
-          label="Premium properties"
-          rounded
-          ghost
-          theme="dark"
-          className="as-fs mr-2"
-        />
-        <BrixelButtonSecondary
-          onClick={() => history.push(`${match.url}/preMarket`)}
-          label="Pre-Market properties"
-          rounded
-          ghost
-          theme="dark"
-          className="as-fs"
-        />
-      </div>
-
-      <div className="mb-4">
-        <h2>All</h2>
+      <div className="mb-6 mt-7">
+        <h3 className="mb-3">Your properties</h3>
         {
           sellerMarketPropertiesExample.length > 0 && (
             <CarouselWrapper
@@ -94,33 +35,98 @@ const MarketList = (props) => {
         }
       </div>
 
+      <div className="dis-fl-col mb-6">
+        <div className="dis-fl-row a-c jc-b mb-4">
+          <div className="dis-fl-col">
+            <h3>Discover our market</h3>
+            <span>There are 251 properties that match your criteria</span>
+          </div>
+          <div className="brdRadius shadow-1dp">
+            <span>search profile</span>
+          </div>
+        </div>
+        <div className="dis-fl-row a-c jc-b property-category">
+          <BrixelButtonSecondary
+            onClick={() => history.push(`${match.url}/all`)}
+            label="All"
+            rounded
+            ghost
+            theme="dark"
+            className="as-fs mr-2"
+          />
+          <BrixelButtonSecondary
+            onClick={() => history.push(`${match.url}/own`)}
+            label="Your properties"
+            rounded
+            ghost
+            theme="dark"
+            className="as-fs mr-2"
+          />
+          <BrixelButtonSecondary
+            onClick={() => history.push(`${match.url}/lastViewed`)}
+            label="Last viewed"
+            rounded
+            ghost
+            theme="dark"
+            className="as-fs mr-2"
+          />
+          <BrixelButtonSecondary
+            onClick={() => history.push(`${match.url}/favorites`)}
+            label="Your favorites"
+            rounded
+            ghost
+            theme="dark"
+            className="as-fs mr-2"
+          />
+          <BrixelButtonSecondary
+            onClick={() => history.push(`${match.url}/radar`)}
+            label="New in your radar"
+            rounded
+            ghost
+            theme="dark"
+            className="as-fs mr-2"
+          />
+          <BrixelButtonSecondary
+            onClick={() => history.push(`${match.url}/premium`)}
+            label="Premium properties"
+            rounded
+            ghost
+            theme="dark"
+            className="as-fs mr-2"
+          />
+          <BrixelButtonSecondary
+            onClick={() => history.push(`${match.url}/preMarket`)}
+            label="Pre-Market properties"
+            rounded
+            ghost
+            theme="dark"
+            className="as-fs"
+          />
+        </div>
+      </div>
+
       <div className="mb-4">
-        <h2>Your properties</h2>
+        <h3>Last viewed</h3>
         <div className="bgPrimary400 h-fix-400" />
       </div>
 
       <div className="mb-4">
-        <h2>Last viewed</h2>
+        <h3>Your favorites</h3>
         <div className="bgPrimary400 h-fix-400" />
       </div>
 
       <div className="mb-4">
-        <h2>Your favorites</h2>
+        <h3>New in your radar</h3>
         <div className="bgPrimary400 h-fix-400" />
       </div>
 
       <div className="mb-4">
-        <h2>New in your radar</h2>
+        <h3>Premium properties</h3>
         <div className="bgPrimary400 h-fix-400" />
       </div>
 
       <div className="mb-4">
-        <h2>Premium properties</h2>
-        <div className="bgPrimary400 h-fix-400" />
-      </div>
-
-      <div className="mb-4">
-        <h2>Pre-Market properties</h2>
+        <h3>Pre-Market properties</h3>
         <div className="bgPrimary400 h-fix-400" />
       </div>
 

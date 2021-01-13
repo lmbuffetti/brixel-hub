@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import get from 'lodash/get';
 import Slider from 'react-slick';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import MarketCard from './MarketCard';
 
 const CarouselWrapper = (props) => {
   // PROPS
@@ -18,10 +18,8 @@ const CarouselWrapper = (props) => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
-    centerMode: true, // enable center mode
-    centerPadding: '50px', // set center padding
   };
 
   return (
@@ -29,9 +27,7 @@ const CarouselWrapper = (props) => {
       <Slider {...carouselSettings}>
         {
           items.length > 0 && items.map((item, i) => (
-            <div key={i.toString()}>
-              {item.id}
-            </div>
+            <MarketCard key={i.toString()} item={item} />
           ))
         }
       </Slider>
