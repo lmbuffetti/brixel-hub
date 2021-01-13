@@ -17,7 +17,8 @@ const MarketCard = (props) => {
   return (
     <div className="market-card h-fix-200 dis-fl-col brdRadius px-1">
       <CoverPropertyImage
-        className="cover"
+        className="cover brdRadius"
+        size=""
         coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
         propertyType={get(item, 'properties.propertyType', undefined)}
       />

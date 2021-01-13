@@ -77,6 +77,7 @@ const MarketList = (props) => {
         <div>
           <div className="dis-f jc-fs a-c mb-3">
             <BrixelButtonIcon
+              ghost
               onClick={() => history.push('/home')}
               icon="arrow-simple-left"
             />
