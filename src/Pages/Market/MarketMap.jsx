@@ -3,11 +3,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
-import { diff } from 'deep-object-diff';
 import { bindActionCreators, compose } from 'redux';
 import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
-import { ComponentMap } from '../../components/Map/Map';
 
 const MarketMapComponent = Loadable({
   loader: () => import('../../components/Map/MarketMapComponent' /* webpackChunkName: "MarketMapComponent" */),
