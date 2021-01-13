@@ -42,7 +42,7 @@ const Market = (props) => {
   }, [loggedInUser]);
 
   return (
-    <div className="market-container" id="market">
+    <div className="market-container mx-2" id="market">
       <Switch>
         <Route exact path="/home" component={MarketCategoryList} />
         <Route exact path="/home/:cat" component={MarketList} />
