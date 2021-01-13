@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import { BrixelIcon } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { diff } from 'deep-object-diff';
+import MarkerComponent from './MarkerComponent';
 import markerImg from '../../images/location/icon_location.svg';
 import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
 import { mapStyles } from '../../constants/map';
@@ -214,13 +215,10 @@ export const MarketMapComponent = (props) => {
         >
           {
             properties.map((item, i) => (
-              <Marker
+              <MarkerComponent
                 key={i.toString()}
-                position={{
-                  lat: get(item, 'location.latitude', 200),
-                  lng: get(item, 'location.longitude', 200),
-                }}
-                icon={activeProperty === item.id ? markerImg : markerSimilarProperties}
+                item={item}
+                icon={activeProperty === item.id ? 'active' : 'inactive'}
                 onClick={() => onSelProperty('click', item.id)}
                 // onMouseover={() => onSelProperty('enter', item.id)}
                 // onMouseout={() => onSelProperty('leave', item.id)}
@@ -299,4 +297,4 @@ export default compose(
     libraries: ['geometry', 'drawing', 'places'],
   }),
   withRouter,
-)(MapComponent);
+)(MarketMapComponent);

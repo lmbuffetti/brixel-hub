@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Route, Switch } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -15,8 +15,8 @@ const MarketList = Loadable({
   loading: () => null,
 });
 
-const MarketMap = Loadable({
-  loader: () => import('./MarketMap' /* webpackChunkName: "MarketMap" */),
+const MarketCategoryList = Loadable({
+  loader: () => import('./MarketCategoryList' /* webpackChunkName: "MarketCategoryList" */),
   loading: () => null,
 });
 
@@ -27,9 +27,6 @@ const Market = (props) => {
     loggedInUser,
     windowDimensions,
   } = props;
-  // STATE
-  const [isMapActive, setIsMapActive] = useState(true);
-  const [activeProperty, setActiveProperty] = useState(null);
 
   useEffect(() => {
     if (loggedInUser.id) {
@@ -46,28 +43,10 @@ const Market = (props) => {
 
   return (
     <div className="market-container" id="market">
-      <div className="dis-f a-t jc-c pos-r-md">
-        <div className="firstLevel mx-md-2 w-perc-100">
-          <MarketList
-            activeProperty={activeProperty}
-            onActiveProperty={(val) => setActiveProperty(val)}
-            onActiveMap={(val) => setIsMapActive(val)}
-            isMapActive={isMapActive}
-          />
-        </div>
-        <Sticker>
-          {
-            isMapActive && (
-              <div className="secondLevel w-perc-100 dis-fl-col ml-md">
-                <MarketMap
-                  activeProperty={activeProperty}
-                  onActiveProperty={(val) => setActiveProperty(val)}
-                />
-              </div>
-            )
-          }
-        </Sticker>
-      </div>
+      <Switch>
+        <Route exact path="/home" component={MarketCategoryList} />
+        <Route exact path="/home/:cat" component={MarketList} />
+      </Switch>
     </div>
   );
 };
