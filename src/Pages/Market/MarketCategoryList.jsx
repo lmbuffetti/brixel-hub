@@ -19,7 +19,7 @@ const MarketList = (props) => {
   // PROPS
   const {
     windowDimensions, match, history, favoritesMarketProperties,
-    sellerMarketPropertiesExample,
+    sellerMarketPropertiesExample, userSearchProfiles,
   } = props;
 
   return (
@@ -150,6 +150,7 @@ MarketList.propTypes = {
   history: PropTypes.object.isRequired,
   sellerMarketPropertiesExample: PropTypes.arrayOf(PropTypes.object).isRequired,
   favoritesMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 MarketList.defaultProps = {
@@ -160,6 +161,7 @@ const mapStateToProps = (state) => ({
   sellerMarketPropertiesExample: get(state, 'market.sellerProperties', []),
   favoritesMarketProperties: get(state, 'market.favoritesProperties', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
+  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -9,6 +9,7 @@ import Loadable from 'react-loadable';
 import { getSellerProperties, getFavoritesProperties } from '../../actions/MarketActions';
 import '../../styles/SCSS/pages/market.scss';
 import { spinnerOff } from '../../actions/CommonActions';
+import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
 
 const MarketList = Loadable({
   loader: () => import('./MarketList' /* webpackChunkName: "MarketList" */),
@@ -28,6 +29,7 @@ const Market = (props) => {
     loggedInUser,
     windowDimensions,
     handleGetFavoritesProperties,
+    handleGetUserSearchProfiles,
   } = props;
 
   useEffect(() => {
@@ -45,6 +47,7 @@ const Market = (props) => {
       };
       handleGetSellerProperties(data);
       handleGetFavoritesProperties(data);
+      handleGetUserSearchProfiles(loggedInUser.id);
     }
   }, [loggedInUser]);
 
@@ -61,6 +64,7 @@ const Market = (props) => {
 Market.propTypes = {
   handleGetSellerProperties: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
+  handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
@@ -78,6 +82,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetSellerProperties: bindActionCreators(getSellerProperties, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
 });
 
 export default compose(
