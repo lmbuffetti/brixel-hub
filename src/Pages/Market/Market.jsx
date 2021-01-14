@@ -5,9 +5,8 @@ import { withRouter, Route, Switch } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import Sticker from 'react-stickyfill';
 import Loadable from 'react-loadable';
-import { getSellerProperties } from '../../actions/MarketActions';
+import { getSellerProperties, getFavoritesProperties } from '../../actions/MarketActions';
 import '../../styles/SCSS/pages/market.scss';
 import { spinnerOff } from '../../actions/CommonActions';
 
@@ -28,6 +27,7 @@ const Market = (props) => {
     handleSpinnerOff,
     loggedInUser,
     windowDimensions,
+    handleGetFavoritesProperties,
   } = props;
 
   useEffect(() => {
@@ -37,13 +37,14 @@ const Market = (props) => {
   useEffect(() => {
     if (loggedInUser.id) {
       const data = {
-        limit: 50,
+        limit: 10,
         offset: `0/?owner=${loggedInUser.id}`,
         userId: loggedInUser.id,
         setAsSingle: true,
         multiLoader: true,
       };
       handleGetSellerProperties(data);
+      handleGetFavoritesProperties(data);
     }
   }, [loggedInUser]);
 
@@ -59,6 +60,7 @@ const Market = (props) => {
 
 Market.propTypes = {
   handleGetSellerProperties: PropTypes.func.isRequired,
+  handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
@@ -73,6 +75,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetSellerProperties: bindActionCreators(getSellerProperties, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });

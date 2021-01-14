@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  BrixelButtonSecondary, BrixelButtonPrimary, MultiFileldsReduxForm, reset, initializeForm,
+  BrixelButtonSecondary,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -18,7 +18,7 @@ const CarouselWrapper = Loadable({
 const MarketList = (props) => {
   // PROPS
   const {
-    windowDimensions, match, history,
+    windowDimensions, match, history, favoritesMarketProperties,
     sellerMarketPropertiesExample,
   } = props;
 
@@ -29,6 +29,7 @@ const MarketList = (props) => {
         {
           sellerMarketPropertiesExample.length > 0 && (
             <CarouselWrapper
+              type="own"
               items={sellerMarketPropertiesExample}
             />
           )
@@ -112,7 +113,14 @@ const MarketList = (props) => {
 
       <div className="mb-4">
         <h3>Your favorites</h3>
-        <div className="bgPrimary400 h-fix-400" />
+        {
+          favoritesMarketProperties.length > 0 && (
+            <CarouselWrapper
+              type="favorite"
+              items={favoritesMarketProperties}
+            />
+          )
+        }
       </div>
 
       <div className="mb-4">
@@ -139,6 +147,7 @@ MarketList.propTypes = {
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   sellerMarketPropertiesExample: PropTypes.arrayOf(PropTypes.object).isRequired,
+  favoritesMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 MarketList.defaultProps = {
@@ -147,6 +156,7 @@ MarketList.defaultProps = {
 const mapStateToProps = (state) => ({
   // As an example for now. Later we should get a sample for every category
   sellerMarketPropertiesExample: get(state, 'market.sellerProperties', []),
+  favoritesMarketProperties: get(state, 'market.favoritesProperties', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

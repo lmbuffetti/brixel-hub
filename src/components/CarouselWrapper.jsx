@@ -12,6 +12,7 @@ const CarouselWrapper = (props) => {
   const {
     isLoading,
     items,
+    type,
   } = props;
 
   const carouselSettings = {
@@ -37,11 +38,13 @@ const CarouselWrapper = (props) => {
 
 CarouselWrapper.propTypes = {
   isLoading: PropTypes.bool,
+  type: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 CarouselWrapper.defaultProps = {
   isLoading: false,
+  type: '',
 };
 
 const mapStateToProps = (state) => ({
