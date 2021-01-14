@@ -40,76 +40,77 @@ const MarketList = (props) => {
       <div className="dis-fl-col mb-6">
         <div className="dis-fl-row a-c jc-b mb-4">
           <div className="dis-fl-col">
-            <h3>Discover our market</h3>
-            <span>There are 251 properties that match your criteria</span>
+            <h4 className="fweight-700">Discover our market</h4>
+            <span className="fsize-200 pt-1">There are <span className="txtDark700">251 properties</span> that match your criteria</span>
           </div>
           <div className="brdRadius shadow-1dp">
             <span>search profile</span>
           </div>
         </div>
-        <div className="dis-fl-row a-c jc-b property-category">
+        <div className="dis-fl-row a-c property-category">
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/all`)}
             label="All"
             rounded
-            ghost
-            theme="dark"
-            className="as-fs mr-2"
+            theme="light"
+            className="as-fs txtDark200 fsize-300 mr-1"
           />
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/own`)}
             label="Your properties"
             rounded
-            ghost
-            theme="dark"
-            className="as-fs mr-2"
+            theme="light"
+            className="as-fs txtDark200 fsize-300 mr-1"
           />
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/lastViewed`)}
             label="Last viewed"
             rounded
-            ghost
-            theme="dark"
-            className="as-fs mr-2"
+            theme="light"
+            className="as-fs txtDark200 fsize-300 mr-1"
           />
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/favorites`)}
             label="Your favorites"
             rounded
-            ghost
-            theme="dark"
-            className="as-fs mr-2"
+            theme="light"
+            className="as-fs txtDark200 fsize-300 mr-1"
           />
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/radar`)}
             label="New in your radar"
             rounded
-            ghost
-            theme="dark"
-            className="as-fs mr-2"
+            theme="light"
+            className="as-fs txtDark200 fsize-300 mr-1"
           />
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/premium`)}
             label="Premium properties"
             rounded
-            ghost
-            theme="dark"
-            className="as-fs mr-2"
+            theme="light"
+            className="as-fs txtDark200 fsize-300 mr-1"
           />
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/preMarket`)}
             label="Pre-Market properties"
             rounded
-            ghost
-            theme="dark"
-            className="as-fs"
+            theme="light"
+            className="as-fs txtDark200 fsize-300"
           />
         </div>
       </div>
 
       <div className="mb-4">
-        <h3>Last viewed</h3>
-        <div className="bgPrimary400 h-fix-400" />
+        {
+          favoritesMarketProperties.length > 0 && (
+            <CarouselWrapper
+              title="Last viewed"
+              className="market-category-carousel"
+              type="favorite"
+              items={favoritesMarketProperties}
+            />
+          )
+        }
       </div>
 
       <div className="mb-4">
@@ -127,17 +128,17 @@ const MarketList = (props) => {
 
       <div className="mb-4">
         <h3>New in your radar</h3>
-        <div className="bgPrimary400 h-fix-400" />
+        <div className="bgLight200 h-fix-400" />
       </div>
 
       <div className="mb-4">
         <h3>Premium properties</h3>
-        <div className="bgPrimary400 h-fix-400" />
+        <div className="bgLight200 h-fix-400" />
       </div>
 
       <div className="mb-4">
         <h3>Pre-Market properties</h3>
-        <div className="bgPrimary400 h-fix-400" />
+        <div className="bgLight200 h-fix-400" />
       </div>
 
     </>

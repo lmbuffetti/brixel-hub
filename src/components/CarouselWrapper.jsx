@@ -24,7 +24,7 @@ const CarouselWrapper = (props) => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: type === 'own' ? 2 : 4,
     slidesToScroll: 1,
     className,
     nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="dark" />,
@@ -33,11 +33,11 @@ const CarouselWrapper = (props) => {
 
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
-      <h3 className="mb-3">{title}</h3>
+      <h4 className={`mb-2 fweight-700 ${type === 'own' ? '' : 'fsize-500'}`}>{title}</h4>
       <Slider {...carouselSettings}>
         {
           items.length > 0 && items.map((item, i) => (
-            <MarketCard key={i.toString()} item={item} />
+            <MarketCard type={type} key={i.toString()} item={item} />
           ))
         }
       </Slider>

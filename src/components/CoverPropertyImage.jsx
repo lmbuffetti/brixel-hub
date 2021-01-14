@@ -40,14 +40,14 @@ CoverPropertyImage.propTypes = {
   className: PropTypes.string,
   coverPhoto: PropTypes.string,
   propertyType: PropTypes.string,
-  size: PropTypes.number,
+  size: PropTypes.string,
 };
 
 CoverPropertyImage.defaultProps = {
   className: '',
   coverPhoto: null,
   propertyType: null,
-  size: 56,
+  size: '',
 };
 
 export default CoverPropertyImage;

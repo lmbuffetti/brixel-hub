@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
-  Helpers,
+  Helpers, BrixelIcon,
 } from '@brixel/brixel-components';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 import CoverPropertyImage from './CoverPropertyImage';
 
 const MarketCard = (props) => {
@@ -15,32 +16,69 @@ const MarketCard = (props) => {
   const {
     isLoading,
     item,
+    type,
   } = props;
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
 
   return (
-    <div className="market-card h-perc-100 dis-fl-col brdRadius px-1">
-      <CoverPropertyImage
-        className="cover brdRadius mb-1 w-perc-100 h-perc-100 max-h-fix-200"
-        coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
-        propertyType={get(item, 'properties.propertyType', undefined)}
-      />
-      <div className="info dis-fl-col jc-b">
-        <div className="top dis-fl-col">
-          <span className="fsize-300">{get(item, 'title', '')}</span>
-          <span className="fsize-300">{get(item, 'location.address', '')}</span>
-        </div>
-        <div className="mid dis-fl-row a-c">
-          <span className="fsize-300 mr-1">{get(item, 'properties.propertyType', '')}</span>
-          <p className="fsize-300 mr-1"><span>{get(item, 'properties.typology.bedrooms', 0)}</span><span>bedrooms</span></p>
-          <p className="fsize-300 mr-1"><span>{get(item, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></p>
-        </div>
-        <div className="bottom dis-fl-row a-c">
-          <span className="fsize-100 pb-small-2">{get(item, 'price.currency', '')}&nbsp;</span>
-          <span>{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
-        </div>
-      </div>
+    <div className={`market-card h-perc-100 ${type === 'own' ? 'dis-f' : 'dis-fl-col'} brdRadius px-1`}>
+      {
+        type === 'own' ? (
+          <>
+            <CoverPropertyImage
+              className="cover brdRadius mb-1 h-fix-200 w-fix-200"
+              coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+              propertyType={get(item, 'properties.propertyType', undefined)}
+            />
+            <div className="info dis-fl-col pl-2">
+              <div className="top dis-fl-col">
+                <h6 className="fweight-700 txtDark700 ellipsis one w-perc-100 max-w-fix-400">{get(item, 'title', '')}</h6>
+                <span className="fsize-300 txtDark700">{get(item, 'location.address', '')}</span>
+              </div>
+              <div className="mid dis-fl-row a-c fsize-300 txtDark400">
+                <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
+                <span><span>{get(item, 'properties.typology.bedrooms', 0)}</span> <span>bedrooms</span></span> <span className="px-1"> &middot; </span>
+                <span><span>{get(item, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></span>
+              </div>
+              <div className="dis-f py-1">
+                <BrixelIcon className="fsize-200 txtDark700" icon="favorite-fill" /> <span className="fsize-200 txtDark700">&nbsp;  17</span>
+              </div>
+              <div className="bottom dis-f a-c fsize-300 py-1">
+                <div className="p-2 mr-1 brdRadius bgGreen100">
+                  <span className="fweight-500 txtDark200">Your bestimate</span>
+                </div>
+                <div className="p-2 brdRadius bgLight100">
+                  <span className="fweight-500 txtDark200">Facts</span>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <CoverPropertyImage
+              className="cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-200"
+              coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+              propertyType={get(item, 'properties.propertyType', undefined)}
+            />
+            <div className="info dis-fl-col jc-b">
+              <div className="top dis-fl-col">
+                <span className="fweight-600 fsize-300 txtDark700 ellipsis one">{get(item, 'title', '')}</span>
+                <span className="fsize-300 txtDark700">{get(item, 'location.address', '')}</span>
+              </div>
+              <div className="mid dis-fl-row a-c fsize-300 txtDark400">
+                <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
+                <span><span>{get(item, 'properties.typology.bedrooms', 0)}</span> <span>bedrooms</span></span> <span className="px-1"> &middot; </span>
+                <span><span>{get(item, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></span>
+              </div>
+              <div className="bottom dis-fl-row a-c txtDark700 pt-1">
+                <span className="fsize-300 fweight-600">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
+                <span className="fsize-300 fweight-600"> &nbsp; {get(item, 'price.currency', '')}</span>
+              </div>
+            </div>
+          </>
+        )
+      }
     </div>
   );
 };
@@ -48,10 +86,12 @@ const MarketCard = (props) => {
 MarketCard.propTypes = {
   isLoading: PropTypes.bool,
   item: PropTypes.object.isRequired,
+  type: PropTypes.string,
 };
 
 MarketCard.defaultProps = {
   isLoading: false,
+  type: '',
 };
 
 const mapStateToProps = (state) => ({
