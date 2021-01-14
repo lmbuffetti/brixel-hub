@@ -25,10 +25,11 @@ const MarketList = (props) => {
   return (
     <>
       <div className="mb-6 mt-7">
-        <h3 className="mb-3">Your properties</h3>
         {
           sellerMarketPropertiesExample.length > 0 && (
             <CarouselWrapper
+              title="Your properties"
+              className="market-category-carousel"
               type="own"
               items={sellerMarketPropertiesExample}
             />
@@ -112,10 +113,11 @@ const MarketList = (props) => {
       </div>
 
       <div className="mb-4">
-        <h3>Your favorites</h3>
         {
           favoritesMarketProperties.length > 0 && (
             <CarouselWrapper
+              title="Your favorites"
+              className="market-category-carousel"
               type="favorite"
               items={favoritesMarketProperties}
             />

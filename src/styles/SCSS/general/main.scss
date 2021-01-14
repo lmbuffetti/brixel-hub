@@ -66,7 +66,8 @@ map-get($blueColor, 300);
 "../components/property-list",
 "../components/teaser-banner",
 "../components/progress-bar",
-"../components/splash-screen";
+"../components/splash-screen",
+"../components/carousel-wrapper";
 
 // PAGES
 @import "../pages/getStarted",
@@ -104,7 +105,7 @@ body {
 
   main {
     width: 100%;
-
+    
     .content {
       width: 100%;
       left: unset;
