@@ -318,6 +318,7 @@ function PageHeaderDashboard(props) {
                   >
                     <CoverPropertyImage
                       className="cover"
+                      size={56}
                       coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
                       propertyType={get(formValue, 'properties.propertyType', undefined)}
                     />

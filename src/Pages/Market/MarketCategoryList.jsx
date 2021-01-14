@@ -24,7 +24,7 @@ const MarketList = (props) => {
 
   return (
     <>
-      <div className="mb-6 mt-7">
+      <div className="mb-4">
         {
           sellerMarketPropertiesExample.length > 0 && (
             <CarouselWrapper

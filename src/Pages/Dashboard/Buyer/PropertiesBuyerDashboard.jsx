@@ -162,6 +162,7 @@ const PropertiesBuyerDashboard = (props) => {
                       }}
                     >
                       <CoverPropertyImage
+                        size={96}
                         coverPhoto={get(property, 'coverPhoto.galleryThumbnailPath', null)}
                         className="avatar w-fix-96 h-fix-96 pos-r brdRadius"
                       />
