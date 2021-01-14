@@ -17,6 +17,8 @@ const MarketCard = (props) => {
     item,
   } = props;
 
+  // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
+
   return (
     <div className="market-card h-perc-100 dis-fl-col brdRadius px-1">
       <CoverPropertyImage
