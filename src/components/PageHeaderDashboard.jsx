@@ -305,7 +305,7 @@ function PageHeaderDashboard(props) {
     <>
       <header className="hubDasHeader">
         <div className="dasHeaderContainer">
-          <div className="wrapperHeader dis-f a-c px-2 px-md-3 h-fix-64 jc-b pos-r bgWhite">
+          <div className={`wrapperHeader dis-f a-c ${history.location.pathname.includes('/home') ? 'px-3 h-fix-80' : 'h-fix-64 px-2 px-md-3'}  jc-b pos-r bgWhite`}>
 
             {
               activeSingleProperty.id ? (
@@ -339,6 +339,15 @@ function PageHeaderDashboard(props) {
                 </div>
               ) : (
                 <div className="header-section dis-fl-row a-c jc-b">
+                  {
+                    history.location.pathname.includes('/home') && (
+                      <>
+                        <div className="dis-f a-c logoWrapper">
+                          <img className="pos-r h-fix-32" src={logo} alt="Brixel Logo" id="logo" />
+                        </div>
+                      </>
+                    )
+                  }
                   {
                     getCurrentRoute().title === 'Property' ? (
                       <>

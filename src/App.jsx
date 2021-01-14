@@ -274,6 +274,8 @@ const App = (props) => {
         setClassMain('w-perc-100 pos-r hubContainer listingsTop withTopBar');
       } else if (history.location.pathname.includes('deals')) {
         setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar');
+      } else if (history.location.pathname.includes('/home')) {
+        setClassMain('w-perc-100 pos-r hubContainer ov-h marketHome');
       } else {
         setClassMain('w-perc-100 pos-r hubContainer ov-h');
       }
