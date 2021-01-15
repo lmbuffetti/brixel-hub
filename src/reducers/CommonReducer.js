@@ -145,9 +145,9 @@ export default handleActions(
       ...state,
       skeleton: action.payload,
     }),
-    [SKELETON_OFF]: (state) => ({
+    [SKELETON_OFF]: (state, action) => ({
       ...state,
-      skeleton: { },
+      skeleton: action.payload,
     }),
   },
   defaultState,

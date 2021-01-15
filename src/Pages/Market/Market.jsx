@@ -13,7 +13,7 @@ import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
 
 const MarketList = Loadable({
   loader: () => import('./MarketList' /* webpackChunkName: "MarketList" */),
-  loading: () => null,
+  loading: () => 'Loading...',
 });
 
 const MarketCategoryList = Loadable({
