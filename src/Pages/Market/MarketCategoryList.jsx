@@ -41,36 +41,43 @@ const MarketList = (props) => {
         <div className="dis-fl-row a-c jc-b mb-4">
           <div className="dis-fl-col">
             <h4 className="fweight-700">Discover our market</h4>
-            <span className="fsize-200 pt-1">There are <span className="txtDark700">251</span><span className="txtDark700"> properties</span> that match your criteria</span>
+            <p className="fsize-300 pt-1">There are <span className="fweight-500 innerLineHeight">251 properties</span> that match your criteria.</p>
           </div>
-          <div className="brdRadius py-1 px-2 shadow-1dp dis-fl-row a-c jc-c">
+          <div className="brdRadius py-1 px-2 shadow-1dp dis-fl-row a-c jc-c fweight-500 txtDark500 fsize-300">
             {
               get(userSearchProfiles[0], 'characteristics.propertyType', []).map((item, i) => (
                 <React.Fragment key={i.toString()}>
-                  <p className="txtDark700" key={i.toString()}>{item}</p>  <span className="px-1"> &middot; </span>
+                  <span className="" key={i.toString()}>{item}</span>
+                  <span className="px-1"> &middot; </span>
                 </React.Fragment>
               ))
             }
             {
               get(userSearchProfiles[0], 'location', []).map((item, i) => (
                 <React.Fragment key={i.toString()}>
-                  <p className="txtDark700">{item.name}, </p>
+                  <span className="">{item.name}</span>
                 </React.Fragment>
               ))
             }
             <span className="px-1"> &middot; </span>
-            <div className="dis-fl-row a-c">
-              <p className="txtDark700">{get(userSearchProfiles[0], 'characteristics.bedrooms.min', 0)} - {get(userSearchProfiles[0], 'characteristics.bedrooms.max', 0)}</p>
-              <span className="txtDark500 body2">Rooms</span>
+            <div className="dis-fl-row a-c ">
+              <span>
+                {get(userSearchProfiles[0], 'characteristics.bedrooms.min', 0)} - {get(userSearchProfiles[0], 'characteristics.bedrooms.max', 0)}
+              </span>
+              <span>&nbsp;Rooms</span>
             </div>
             <span className="px-1"> &middot; </span>
-            <div className="dis-fl-row a-c mr-2">
-              <p className="txtDark700">{get(userSearchProfiles[0], 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles[0], 'characteristics.livingArea.max', 0)}</p>
-              <span className="txtDark500 body2">m2</span>
+            <div className="dis-fl-row a-c mr-2 ">
+              <span>
+                {get(userSearchProfiles[0], 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles[0], 'characteristics.livingArea.max', 0)}
+              </span>
+              <span>&nbsp;m2</span>
             </div>
             <BrixelButtonIcon
               icon="edit"
               rounded
+              theme="light"
+              small
               onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
             />
           </div>
