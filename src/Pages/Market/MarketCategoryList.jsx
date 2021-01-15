@@ -47,55 +47,62 @@ const MarketList = (props) => {
             <span>search profile</span>
           </div>
         </div>
-        <div className="dis-fl-row a-c property-category">
+        <div className="dis-fl-row a-c flex-wrap property-category">
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/all`)}
             label="All"
             rounded
             theme="light"
-            className="as-fs txtDark200 fsize-300 mr-1"
+            themeSat="500"
+            className="fsize-300 mb-1 mr-1"
           />
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/own`)}
             label="Your properties"
             rounded
             theme="light"
-            className="as-fs txtDark200 fsize-300 mr-1"
+            themeSat="500"
+            className="fsize-300 mb-1 mr-1"
           />
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/lastViewed`)}
             label="Last viewed"
             rounded
             theme="light"
-            className="as-fs txtDark200 fsize-300 mr-1"
+            themeSat="500"
+            className="fsize-300 mb-1 mr-1"
           />
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/favorites`)}
             label="Your favorites"
             rounded
             theme="light"
-            className="as-fs txtDark200 fsize-300 mr-1"
+            themeSat="500"
+            className="fsize-300 mb-1 mr-1"
           />
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/radar`)}
             label="New in your radar"
             rounded
             theme="light"
-            className="as-fs txtDark200 fsize-300 mr-1"
+            themeSat="500"
+            className="fsize-300 mb-1 mr-1"
           />
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/premium`)}
             label="Premium properties"
             rounded
             theme="light"
-            className="as-fs txtDark200 fsize-300 mr-1"
+            themeSat="500"
+            className="fsize-300 mb-1 mr-1"
           />
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/preMarket`)}
             label="Pre-Market properties"
             rounded
             theme="light"
-            className="as-fs txtDark200 fsize-300"
+            themeSat="500"
+            className="fsize-300 mb-1"
           />
         </div>
       </div>
