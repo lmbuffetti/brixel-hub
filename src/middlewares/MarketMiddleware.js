@@ -22,7 +22,6 @@ const checkLead = (store) => (next) => (action) => {
       next(action);
       let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
       loadSkeleton.own = 'CardImageText';
-      console.log(loadSkeleton);
       store.dispatch({
         type: SKELETON_ON,
         payload: {
@@ -47,7 +46,6 @@ const checkLead = (store) => (next) => (action) => {
       next(action);
       let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
       loadSkeleton.favorite = 'CardImageTextVertical';
-      console.log(loadSkeleton);
       store.dispatch({
         type: SKELETON_ON,
         payload: {
