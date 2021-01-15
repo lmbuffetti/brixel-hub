@@ -119,7 +119,6 @@ MarketList.propTypes = {
   match: PropTypes.object.isRequired,
   sellerMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   favoritesMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  windowDimensions: PropTypes.object.isRequired,
 };
 
 MarketList.defaultProps = {

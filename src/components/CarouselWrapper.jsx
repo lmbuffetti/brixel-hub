@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import get from 'lodash/get';
 import { withRouter } from 'react-router-dom';
 import Slider from 'react-slick';
 import {
