@@ -6,8 +6,8 @@ import {
 } from '../actions/types/MarketTypes';
 
 import {
-  SPINNER_ON,
-  SPINNER_OFF,
+  SKELETON_ON,
+  SKELETON_OFF,
   SPINNER_SMALL_ON,
   SPINNER_SMALL_OFF,
 } from '../actions/types/CommonTypes';
@@ -33,16 +33,22 @@ const checkLead = (store) => (next) => (action) => {
     }
     case GET_FAVORITES_PROPERTIES: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON, payload: 'usrProperties' });
+      store.dispatch({
+        type: SKELETON_ON,
+        payload: {
+          section: 'favorite',
+          template: 'CardImageText',
+        },
+      });
       api.user.getFavoritesPages()
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_FAVORITES_PROPERTIES, payload: res.data });
           }
-          store.dispatch({ type: SPINNER_SMALL_OFF });
+          store.dispatch({ type: SKELETON_OFF });
         })
         .catch(() => {
-          store.dispatch({ type: SPINNER_SMALL_OFF });
+          store.dispatch({ type: SKELETON_OFF });
         });
       break;
     }

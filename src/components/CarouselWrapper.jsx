@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
 import { withRouter } from 'react-router-dom';
 import Slider from 'react-slick';
 import {
@@ -25,6 +26,7 @@ const CarouselWrapper = (props) => {
     infinite: true,
     speed: 500,
     slidesToShow: type === 'own' ? 2 : 4,
+    centerPadding: '8px',
     slidesToScroll: 1,
     className,
     nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="dark" />,

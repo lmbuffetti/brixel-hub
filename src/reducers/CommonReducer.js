@@ -22,6 +22,8 @@ import {
   SET_UPLOADING_PERCENTAGE,
   SET_COUNTRY_LIST,
   SET_FORM_ERROR,
+  SKELETON_ON,
+  SKELETON_OFF,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies();
@@ -58,6 +60,7 @@ export const defaultState = {
     state: false, link: '',
   },
   percentage: 0,
+  skeleton: { },
 };
 
 export default handleActions(
@@ -137,6 +140,14 @@ export default handleActions(
     [SET_FORM_ERROR]: (state, action) => ({
       ...state,
       formError: action.payload,
+    }),
+    [SKELETON_ON]: (state, action) => ({
+      ...state,
+      skeleton: action.payload,
+    }),
+    [SKELETON_OFF]: (state) => ({
+      ...state,
+      skeleton: { },
     }),
   },
   defaultState,

@@ -12,6 +12,9 @@ export const SPINNER_OFF = 'SPINNER_OFF';
 export const SPINNER_SMALL_ON = 'SPINNER_SMALL_ON';
 export const SPINNER_SMALL_OFF = 'SPINNER_SMALL_OFF';
 
+export const SKELETON_ON = 'SKELETON_ON';
+export const SKELETON_OFF = 'SKELETON_OFF';
+
 export const ERROR_MESSAGE = 'ERROR_MESSAGE';
 
 export const SET_LANGUAGES = 'SET_LANGUAGES';

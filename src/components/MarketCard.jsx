@@ -10,6 +10,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 import CoverPropertyImage from './CoverPropertyImage';
+import CardImageText from './Skeleton/CardImageText';
 
 const MarketCard = (props) => {
   // PROPS
@@ -17,9 +18,16 @@ const MarketCard = (props) => {
     isLoading,
     item,
     type,
+    skeleton,
   } = props;
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
+
+  if (skeleton.section === type) {
+    return (
+      <CardImageText />
+    );
+  }
 
   return (
     <div className={`market-card h-perc-100 ${type === 'own' ? 'dis-f' : 'dis-fl-col'} brdRadius px-1`}>
@@ -87,15 +95,16 @@ MarketCard.propTypes = {
   isLoading: PropTypes.bool,
   item: PropTypes.object.isRequired,
   type: PropTypes.string,
+  skeleton: PropTypes.object.isRequired,
 };
 
 MarketCard.defaultProps = {
-  isLoading: false,
+  isLoading: true,
   type: '',
 };
 
 const mapStateToProps = (state) => ({
-
+  skeleton: get(state, 'common.skeleton', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

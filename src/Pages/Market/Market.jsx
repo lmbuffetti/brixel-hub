@@ -33,10 +33,6 @@ const Market = (props) => {
   } = props;
 
   useEffect(() => {
-    handleSpinnerOff();
-  }, []);
-
-  useEffect(() => {
     if (loggedInUser.id) {
       const data = {
         limit: 10,
@@ -48,6 +44,7 @@ const Market = (props) => {
       handleGetSellerProperties(data);
       handleGetFavoritesProperties(data);
       handleGetUserSearchProfiles(loggedInUser.id);
+      handleSpinnerOff();
     }
   }, [loggedInUser]);
 
