@@ -43,10 +43,7 @@ const MarketCard = (props) => {
           type === 'own' ? (
             <>
               <CoverPropertyImage
-                loadedImg={(val) => {
-                  console.log(val);
-                  setCoverImgLoaded(val);
-                }}
+                loadedImg={(val) => setCoverImgLoaded(val)}
                 className="cover brdRadius mb-1 h-fix-200 w-fix-200"
                 coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                 propertyType={get(item, 'properties.propertyType', undefined)}
@@ -77,10 +74,7 @@ const MarketCard = (props) => {
           ) : (
             <>
               <CoverPropertyImage
-                loadedImg={(val) => {
-                  console.log(val);
-                  setCoverImgLoaded(val);
-                }}
+                loadedImg={(val) => setCoverImgLoaded(val)}
                 className="cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-200"
                 coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                 propertyType={get(item, 'properties.propertyType', undefined)}
