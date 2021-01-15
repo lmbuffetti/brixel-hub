@@ -26,11 +26,12 @@ const MarketList = (props) => {
     match,
     sellerMarketProperties,
   } = props;
-  // STATE
-  const [activeProperty, setActiveProperty] = useState(null);
-  const [propertyListings, setPropertyListings] = useState([]);
   // URL PARAMS
   const catName = get(match, 'params.cat', null);
+  const propID = get(match, 'params.id', null);
+  // STATE
+  const [activeProperty, setActiveProperty] = useState(propID);
+  const [propertyListings, setPropertyListings] = useState([]);
 
   useEffect(() => {
     if (loggedInUser.id) {

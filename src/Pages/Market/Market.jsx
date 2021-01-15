@@ -55,7 +55,7 @@ const Market = (props) => {
     <div className="market-container container" id="market">
       <Switch>
         <Route exact path="/home" component={MarketCategoryList} />
-        <Route exact path="/home/:cat" component={MarketList} />
+        <Route exact path="/home/:cat/:id?" component={MarketList} />
       </Switch>
     </div>
   );
