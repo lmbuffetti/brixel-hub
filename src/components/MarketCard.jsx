@@ -8,7 +8,7 @@ import {
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
+import ProgressRing from './ProgressRing';
 import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
 
@@ -44,7 +44,7 @@ const MarketCard = (props) => {
             <>
               <CoverPropertyImage
                 loadedImg={(val) => setCoverImgLoaded(val)}
-                className="cover brdRadius mb-1 h-fix-200 w-fix-200"
+                className="cover brdRadius mb-1 h-fix-200 w-perc-100 w-fix-sm-200"
                 coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                 propertyType={get(item, 'properties.propertyType', undefined)}
               />
@@ -62,11 +62,29 @@ const MarketCard = (props) => {
                   <BrixelIcon className="fsize-200 txtDark700" icon="favorite-fill" /> <span className="fsize-200 txtDark700">&nbsp;  17</span>
                 </div>
                 <div className="bottom dis-f a-c fsize-300 py-1">
-                  <div className="p-2 mr-1 brdRadius bgGreen100">
-                    <span className="fweight-500 txtDark200">Your bestimate</span>
+                  <div className="p-2 mr-1 brdRadius bgBlue100">
+                    <span className="fweight-500 txtDark100">Your bestimate&reg;</span>
+                    <span className="dis-b fweight-600 txtPrimary400 ">
+
+                      {get(item, 'estimation.bestimate.currency', '')} {' '}
+                      {get(item, 'estimation.bestimate.higherValue', 0)}
+                      - {get(item, 'estimation.bestimate.lowerValue', 0)}
+                    </span>
                   </div>
-                  <div className="p-2 brdRadius bgLight100">
-                    <span className="fweight-500 txtDark200">Facts</span>
+                  <div className="p-2 mr-1 brdRadius bgBlue100 dis-f a-c">
+                    <ProgressRing
+                      progress={get(item, 'inputSheet.totalComplete', 0)}
+                      size={45}
+                      strokeWidth={3}
+                      circleOneStroke="#DCDDDE"
+                      circleTwoStroke="#387AFF"
+                    />
+                    <div className="pl-2">
+                      <span className="fweight-500 txtDark100">Facts</span>
+                      <span className="dis-b fweight-600 txtDark400">
+                        {get(item, 'inputSheet.totalComplete', 0)}% completed
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
