@@ -6,11 +6,15 @@
     #market {
       margin-top: $step * 4;
       margin-bottom: $step * 4;
+
       .firstLevel {
         max-width: 100%;
       }
       .innerLineHeight {
         line-height: 1.5;
+      }
+      .market-card {
+        overflow: hidden;
       }
     }
   }

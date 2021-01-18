@@ -25,6 +25,20 @@ const CarouselWrapper = (props) => {
     infinite: true,
     speed: 500,
     slidesToShow: type === 'own' ? 2 : 4,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: type === 'own' ? 1 : 2,
+        },
+      },
+      {
+        breakpoint: 590,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
     centerPadding: '8px',
     slidesToScroll: 1,
     className,

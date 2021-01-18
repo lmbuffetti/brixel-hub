@@ -38,7 +38,7 @@ const MarketCard = (props) => {
           <CardImageText type={skeleton[type]} />
         )
       }
-      <div className={`market-card h-perc-100 ${type === 'own' ? 'dis-f' : 'dis-fl-col'} brdRadius px-1 pos-r ${removeSkeleton ? '' : 'pos-a opacity0'}`}>
+      <div className={`market-card ov-h h-perc-100 ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius px-1 pos-r ${removeSkeleton ? '' : 'pos-a opacity0'}`}>
         {
           type === 'own' ? (
             <>
@@ -48,7 +48,7 @@ const MarketCard = (props) => {
                 coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                 propertyType={get(item, 'properties.propertyType', undefined)}
               />
-              <div className="info dis-fl-col pl-2">
+              <div className="info dis-fl-col pl-sm-2 pl-0">
                 <div className="top dis-fl-col">
                   <h6 className="fweight-700 txtDark700 ellipsis one w-perc-100 max-w-fix-400">{get(item, 'title', '')}</h6>
                   <span className="fsize-300 txtDark700">{get(item, 'location.address', '')}</span>
