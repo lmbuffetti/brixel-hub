@@ -38,9 +38,9 @@ function SuccessBestimate(props) {
   const propID = get(match, 'params.propId', null);
   const getDoneFirstTime = () => last(history.location.pathname.split('/'));
 
-  useEffect(() => {
-    handleGetGamegroup();
-  }, [propID]);
+  // useEffect(() => {
+  // handleGetGamegroup();
+  // }, [propID]);
 
   // LOAD MARKET DATA
   useEffect(() => {
