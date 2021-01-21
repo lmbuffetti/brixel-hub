@@ -93,7 +93,7 @@ const MarketList = (props) => {
             label="All"
             rounded
             theme="light"
-            themeSat="500"
+            themeSat={500}
             className="fsize-300 mb-1 mr-1"
           />
           <BrixelButtonSecondary
@@ -101,7 +101,7 @@ const MarketList = (props) => {
             label="Your properties"
             rounded
             theme="light"
-            themeSat="500"
+            themeSat={500}
             className="fsize-300 mb-1 mr-1"
           />
           <BrixelButtonSecondary
@@ -109,7 +109,7 @@ const MarketList = (props) => {
             label="Last viewed"
             rounded
             theme="light"
-            themeSat="500"
+            themeSat={500}
             className="fsize-300 mb-1 mr-1"
           />
           <BrixelButtonSecondary
@@ -117,7 +117,7 @@ const MarketList = (props) => {
             label="Your favorites"
             rounded
             theme="light"
-            themeSat="500"
+            themeSat={500}
             className="fsize-300 mb-1 mr-1"
           />
           <BrixelButtonSecondary
@@ -125,7 +125,7 @@ const MarketList = (props) => {
             label="New in your radar"
             rounded
             theme="light"
-            themeSat="500"
+            themeSat={500}
             className="fsize-300 mb-1 mr-1"
           />
           <BrixelButtonSecondary
@@ -133,7 +133,7 @@ const MarketList = (props) => {
             label="Premium properties"
             rounded
             theme="light"
-            themeSat="500"
+            themeSat={500}
             className="fsize-300 mb-1 mr-1"
           />
           <BrixelButtonSecondary
@@ -141,7 +141,7 @@ const MarketList = (props) => {
             label="Pre-Market properties"
             rounded
             theme="light"
-            themeSat="500"
+            themeSat={500}
             className="fsize-300 mb-1"
           />
         </div>

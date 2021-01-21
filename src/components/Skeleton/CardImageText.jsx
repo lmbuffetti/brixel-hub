@@ -10,7 +10,6 @@ const CardImageText = (props) => {
 
   return (
     <img
-
       alt="Sckeleton Card Loading"
       id="cartello"
       src={type === 'CardImageTextVertical' ? SkeletonCard : SkeletonHorizontalCard}

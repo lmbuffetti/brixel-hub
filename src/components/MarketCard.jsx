@@ -35,7 +35,7 @@ const MarketCard = (props) => {
     <>
       {
         !removeSkeleton && (
-          <CardImageText type={skeleton[type]} />
+          <CardImageText type={get(skeleton, '[type]', '')} />
         )
       }
       <div className={`market-card ov-h h-perc-100 ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius px-1 pos-r ${removeSkeleton ? '' : 'pos-a opacity0'}`}>
