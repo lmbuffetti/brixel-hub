@@ -305,8 +305,7 @@ function PageHeaderDashboard(props) {
     <>
       <header className="hubDasHeader">
         <div className="dasHeaderContainer">
-          <div className={`wrapperHeader dis-f a-c ${history.location.pathname.includes('/home') ? 'px-3 h-fix-80' : 'h-fix-64 px-2 px-md-3'}  jc-b pos-r bgWhite`}>
-
+          <div className={`wrapperHeader dis-f a-c ${history.location.pathname.includes('/home') ? 'px-3 py-1' : 'h-fix-64 px-2 px-md-3'}  jc-b pos-r bgWhite`}>
             {
               activeSingleProperty.id ? (
                 <div className="propertyPanel dis-f a-c">
@@ -669,7 +668,7 @@ function PageHeaderDashboard(props) {
           }
         </div>
         {
-          windowDimensions.width <= 1024 && getCurrentRoute().name !== 'deals' && (
+          windowDimensions.width <= 1024 && getCurrentRoute().name !== 'deals' && !history.location.pathname.includes('home') && (
             <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
               <div className="header-section dis-fl-row a-c jc-b">
                 {/* <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} /> */}

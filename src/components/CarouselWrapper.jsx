@@ -22,8 +22,9 @@ const CarouselWrapper = (props) => {
 
   const carouselSettings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
+    // eslint-disable-next-line no-nested-ternary
     slidesToShow: type === 'own' ? 2 : 4,
     responsive: [
       {

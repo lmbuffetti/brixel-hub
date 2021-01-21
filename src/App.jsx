@@ -356,7 +356,11 @@ const App = (props) => {
     let contentHeight;
     if (!isFlow) {
       if (windowDimensions.width <= 1024) {
-        contentHeight = windowDimensions.height - extraHeight;
+        if (history.location.pathname.includes('home')) {
+          contentHeight = '';
+        } else {
+          contentHeight = windowDimensions.height - extraHeight;
+        }
       } else {
         contentHeight = `calc(100vh - ${calcHeaderHeight()}px)`;
       }
