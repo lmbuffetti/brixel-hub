@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { BrixelInputText, change } from '@brixel/brixel-components';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import useOutsideAlerter from '../OutsideElement';
 import Map from './Map';
@@ -187,6 +188,8 @@ export const ComponentMap = (props) => {
           formattedPlace.cityZip = formattedPlace.city;
           if (formattedPlace.zip) formattedPlace.cityZip = `${formattedPlace.zip} ${formattedPlace.city}`;
         }
+
+        if (has(formattedPlace, 'countryName')) formattedPlace.countryName = formattedPlace.country;
         // if (!formattedPlace.zip && isShowZip) setShowZipCode(true);
         if (input) input.onChange(formattedPlace.latitude);
         changeFieldValue(formName, 'changeCountry', formattedPlace.countryCode);
