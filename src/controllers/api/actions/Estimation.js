@@ -5,7 +5,7 @@ import ep from '../../endPoints.constant';
 class Estimation extends Base {
   generateEstimation(id) {
     const url = ep.estimation.generateEstimation(id);
-    return this.apiClient.put(url, {});
+    return this.apiClient.post(url, {});
   }
 
   getEstimationList(paginationLimit, paginationSkip, data) {
