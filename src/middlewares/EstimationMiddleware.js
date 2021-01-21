@@ -6,7 +6,7 @@ import {
 } from '../actions/types/EstimationTypes';
 
 import {
-  SET_ACTIVE_SINGLE_PROPERTY_ESTIMATION,
+  SET_ESTIMATION,
 } from '../actions/types/PropertyTypes';
 
 import {
@@ -28,7 +28,7 @@ const checkEstimation = (store) => (next) => (action) => {
         .then((response) => {
           if (response.meta.normalizedStatus === 200) {
             store.dispatch({
-              type: SET_ACTIVE_SINGLE_PROPERTY_ESTIMATION,
+              type: SET_ESTIMATION,
               payload: response.data,
             });
             store.dispatch({
@@ -59,7 +59,7 @@ const checkEstimation = (store) => (next) => (action) => {
         .then((response) => {
           if (response.meta.normalizedStatus === 200) {
             store.dispatch({
-              type: SET_ACTIVE_SINGLE_PROPERTY_ESTIMATION,
+              type: SET_ESTIMATION,
               payload: response.data,
             });
             store.dispatch({

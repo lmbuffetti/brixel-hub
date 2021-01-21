@@ -35,7 +35,7 @@ class Property extends Base {
 
   getEstimation(id) {
     const url = ep.property.estimation(id);
-    return this.apiClient.put(url, {});
+    return this.apiClient.get(url, {});
   }
 
   // Endpoints for time slots available in order to book a visit to a property
