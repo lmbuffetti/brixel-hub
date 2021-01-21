@@ -28,8 +28,8 @@ const checkEstimation = (store) => (next) => (action) => {
         .then((response) => {
           if (response.meta.normalizedStatus === 200) {
             store.dispatch({
-              type: SET_ESTIMATION,
-              payload: response.data,
+              type: GENERATE_ESTIMATION,
+              payload: response.data.id,
             });
             store.dispatch({
               type: SPINNER_OFF,
