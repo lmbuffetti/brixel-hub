@@ -12,6 +12,7 @@ import Property from '../actions/Property';
 import Upload from '../actions/Upload';
 import User from '../actions/User';
 import SearchProfile from '../actions/SearchProfile';
+import Estimation from '../actions/Estimation';
 
 function apiFactory(
   {
@@ -32,6 +33,7 @@ function apiFactory(
     property: new Property({ apiClient: api }),
     user: new User({ apiClient: api }),
     searchProfile: new SearchProfile({ apiClient: api }),
+    estimation: new Estimation({ apiClient: api }),
   };
 }
 

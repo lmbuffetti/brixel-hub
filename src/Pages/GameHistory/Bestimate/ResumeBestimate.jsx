@@ -54,7 +54,7 @@ function ResumeBestimate(props) {
       };
       handleGetMarketCheck(data);
     }
-    if (get(activeSingleProperty, 'location.countryCode', null) === 'PT' && !get(activeSingleProperty, 'estimation.bestimate.value', null)) {
+    if (get(activeSingleProperty, 'location.countryCode', null) === 'PT' && !get(estimation, 'result.value', null)) {
       history.push(`/${activeSingleProperty.id}/rewards/bestimate`);
     }
     if (get(activeSingleProperty, 'location.countryCode', null) === 'CH') handleGetEstimation(propID);
@@ -71,7 +71,7 @@ function ResumeBestimate(props) {
           },
         },
       };
-      if (get(activeSingleProperty, 'property.estimation.bestimate', null)) data.estimation.bestimate.updatedAt = new Date();
+      if (get(estimation, 'result.value', null)) data.estimation.bestimate.updatedAt = new Date();
       else data.estimation.bestimate.createdAt = new Date();
       if (estimation && !saved) {
         handleSaveActiveSingleProperty(data);
@@ -86,7 +86,7 @@ function ResumeBestimate(props) {
         has(marketData, 'priceDistribution.chartRangePrice') ? (
           <>
             {
-              get(activeSingleProperty, 'estimation.bestimate.value', null) ? (
+              get(estimation, 'result.value', null) ? (
                 <>
                   <h5 className="ta-c mb-5">We proudly present you your Bestimate&reg;.</h5>
                   {
@@ -120,12 +120,12 @@ function ResumeBestimate(props) {
                     )
                   }
                   {
-                    has(activeSingleProperty, 'estimation.bestimate') && (
+                    Object.keys(get(estimation, 'result', {})).length > 0 && (
                       <div className="dis-f jc-c">
                         <RangePriceChart
                           properties={marketData.priceDistribution.chartRangePrice}
                           type="bestimate"
-                          bestimate={activeSingleProperty.estimation.bestimate}
+                          bestimate={estimation.result}
                           showTopLabel={false}
                         />
                       </div>
