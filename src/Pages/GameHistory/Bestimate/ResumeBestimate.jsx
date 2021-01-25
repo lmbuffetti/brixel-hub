@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 import { Helpers } from '@brixel/brixel-components';
 import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
+import { createEstimation } from '../../../actions/EstimationActions';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../../images/emptyHub.svg';
 
@@ -22,6 +23,7 @@ function ResumeBestimate(props) {
     handleGetEstimation,
     handleGetMarketCheck,
     handleSaveActiveSingleProperty,
+    handleCreateEstimation,
     history,
     marketData,
     match,
@@ -55,6 +57,11 @@ function ResumeBestimate(props) {
       handleGetMarketCheck(data);
     }
     if (get(activeSingleProperty, 'location.countryCode', null) === 'PT' && !get(estimation, 'result.value', null)) {
+      const data = {
+        owner: activeSingleProperty.owner.id,
+        page: activeSingleProperty.id,
+      };
+      handleCreateEstimation(data);
       history.push(`/${activeSingleProperty.id}/rewards/bestimate`);
     }
     if (get(activeSingleProperty, 'location.countryCode', null) === 'CH') handleGetEstimation(propID);
@@ -168,6 +175,7 @@ ResumeBestimate.propTypes = {
   estimation: PropTypes.object.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetMarketCheck: PropTypes.func.isRequired,
+  handleCreateEstimation: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
@@ -190,6 +198,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetMarketCheck: bindActionCreators(getMarketCheck, dispatch),
+  handleCreateEstimation: bindActionCreators(createEstimation, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 

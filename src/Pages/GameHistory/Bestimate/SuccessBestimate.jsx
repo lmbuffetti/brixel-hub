@@ -108,7 +108,7 @@ function SuccessBestimate(props) {
                           get(marketData, 'priceDistribution.chartRangePrice', null) !== null ? (
                             <>
                               {
-                                get(activeSingleProperty, 'estimation.bestimate.lowerValue', null) ? (
+                                get(bestimate, 'lowerValue', null) ? (
                                   <>
                                     <div className="dis-fl-col jc-c a-c">
                                       <h5 className="ta-c max-w-fix-376 mb-2">Your estimated value</h5>
@@ -117,12 +117,12 @@ function SuccessBestimate(props) {
                                       </p>
                                       <div className="ta-c mb-5 mt-2 pos-r">
                                         {
-                                          get(marketData, 'priceDistribution.chartRangePrice', null) && get(activeSingleProperty, 'estimation.bestimate', null) && (
+                                          get(marketData, 'priceDistribution.chartRangePrice', null) && get(bestimate, 'value', null) && (
                                             <div className="dis-f jc-c">
                                               <RangePriceChart
                                                 properties={marketData.priceDistribution.chartRangePrice}
                                                 type="bestimate"
-                                                bestimate={activeSingleProperty.estimation.bestimate}
+                                                bestimate={bestimate}
                                                 showTopLabel={false}
                                               />
                                             </div>
@@ -249,7 +249,7 @@ SuccessBestimate.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
-  bestimate: get(state, 'property.activeSingleProperty.estimation.bestimate', {}),
+  bestimate: get(state, 'property.estimation.result', {}),
   marketData: get(state, 'property.marketCheck', {}),
 });
 

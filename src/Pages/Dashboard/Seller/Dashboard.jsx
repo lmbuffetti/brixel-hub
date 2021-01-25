@@ -25,6 +25,7 @@ import {
   savePropertyVisitSchedule,
   createPropertyVisitSchedule,
   savePropertyVisitBooking,
+  getEstimation,
 } from '../../../actions/PropertyActions';
 import { deleteDocument, uploadDocument, getImageType } from '../../../actions/UploadActions';
 import {
@@ -103,6 +104,7 @@ const Dashboard = (props) => {
     handleGetImageType,
     handleGetPropertyListings,
     handleSaveActiveSingleProperty,
+    handleGetActiveSinglePropertyEstimation,
     handleSaveData,
     handleSavePropertyVisitSchedule,
     handleSetScreenNotification,
@@ -168,6 +170,7 @@ const Dashboard = (props) => {
     if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
       if (propID && !get(activeSingleProperty, 'id', null)) {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
+        handleGetActiveSinglePropertyEstimation(propID);
       } else if (!propID) {
         loadDefaultProperty();
       }
@@ -431,6 +434,7 @@ Dashboard.propTypes = {
   handleGetAchievement: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetActiveSinglePropertyEstimation: PropTypes.func.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleGetGameGroup: PropTypes.func.isRequired,
   handleGetGameHistory: PropTypes.func.isRequired,
@@ -555,6 +559,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetAchievement: bindActionCreators(getAchievement, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleGetActiveSinglePropertyEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
   handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
   handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
