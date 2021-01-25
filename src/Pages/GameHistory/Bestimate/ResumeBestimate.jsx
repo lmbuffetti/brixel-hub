@@ -60,6 +60,7 @@ function ResumeBestimate(props) {
       const data = {
         owner: activeSingleProperty.owner.id,
         page: activeSingleProperty.id,
+        generate: false,
       };
       handleCreateEstimation(data);
       history.push(`/${activeSingleProperty.id}/rewards/bestimate`);

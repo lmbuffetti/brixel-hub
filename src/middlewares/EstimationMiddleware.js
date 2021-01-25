@@ -24,13 +24,17 @@ const checkEstimation = (store) => (next) => (action) => {
       store.dispatch({
         type: SPINNER_ON,
       });
+      const { generate } = action.payload;
+      delete action.payload.generate;
       api.estimation.createEstimation(action.payload)
         .then((response) => {
           if (response.meta.normalizedStatus === 200) {
-            store.dispatch({
-              type: GENERATE_ESTIMATION,
-              payload: response.data.id,
-            });
+            if (generate === true) {
+              store.dispatch({
+                type: GENERATE_ESTIMATION,
+                payload: response.data.id,
+              });
+            }
             store.dispatch({
               type: SPINNER_OFF,
             });
