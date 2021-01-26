@@ -13,6 +13,7 @@ import Upload from '../actions/Upload';
 import User from '../actions/User';
 import SearchProfile from '../actions/SearchProfile';
 import Estimation from '../actions/Estimation';
+import Market from '../actions/Market';
 
 function apiFactory(
   {
@@ -34,6 +35,7 @@ function apiFactory(
     user: new User({ apiClient: api }),
     searchProfile: new SearchProfile({ apiClient: api }),
     estimation: new Estimation({ apiClient: api }),
+    market: new Market({ apiClient: api }),
   };
 }
 

@@ -2,26 +2,40 @@ import {
   handleActions,
 } from 'redux-actions';
 import {
-  SET_SELLER_PROPERTIES,
+  SET_ALL_PROPERTIES,
+  SET_OWNED_PROPERTIES,
+  SET_OWNED_ESTIMATIONS,
   SET_FAVORITES_PROPERTIES,
   SET_NEW_PROPERTIES,
+  SET_LAST_VIEWED_PROPERTIES,
   SET_PREMIUM_PROPERTIES,
   SET_PREMARKET_PROPERTIES,
 } from '../actions/types/MarketTypes';
 
 export const defaultState = {
-  sellerProperties: [],
+  allProperties: [],
+  ownerProperties: [],
+  ownerEstimations: [],
   favoritesProperties: [],
   newProperties: [],
+  lastViewedProperties: [],
   premiumProperties: [],
   preMarketProperties: [],
 };
 
 export default handleActions(
   {
-    [SET_SELLER_PROPERTIES]: (state, action) => ({
+    [SET_ALL_PROPERTIES]: (state, action) => ({
       ...state,
-      sellerProperties: action.payload,
+      allProperties: action.payload,
+    }),
+    [SET_OWNED_PROPERTIES]: (state, action) => ({
+      ...state,
+      ownerProperties: action.payload,
+    }),
+    [SET_OWNED_ESTIMATIONS]: (state, action) => ({
+      ...state,
+      ownerEstimations: action.payload,
     }),
     [SET_FAVORITES_PROPERTIES]: (state, action) => ({
       ...state,
@@ -30,6 +44,10 @@ export default handleActions(
     [SET_NEW_PROPERTIES]: (state, action) => ({
       ...state,
       newProperties: action.payload,
+    }),
+    [SET_LAST_VIEWED_PROPERTIES]: (state, action) => ({
+      ...state,
+      lastViewedProperties: action.payload,
     }),
     [SET_PREMIUM_PROPERTIES]: (state, action) => ({
       ...state,
