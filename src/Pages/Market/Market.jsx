@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
-import { getSellerProperties, getFavoritesProperties } from '../../actions/MarketActions';
+import { getOwnedProperties, getFavoritesProperties } from '../../actions/MarketActions';
 import '../../styles/SCSS/pages/market.scss';
 import { spinnerOff } from '../../actions/CommonActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
@@ -35,9 +35,10 @@ const Market = (props) => {
   useEffect(() => {
     if (loggedInUser.id) {
       const data = {
-        limit: 10,
-        offset: `0/?owner=${loggedInUser.id}`,
-        userId: loggedInUser.id,
+        resultsPerPage: 10,
+        offset: 0,
+        order: 'updatedAt',
+        direction: 'DESC',
         setAsSingle: true,
         multiLoader: true,
       };
@@ -77,7 +78,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
-  handleGetSellerProperties: bindActionCreators(getSellerProperties, dispatch),
+  handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
 });

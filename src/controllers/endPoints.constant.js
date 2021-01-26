@@ -109,7 +109,7 @@ export default {
     lastViewed: () => '/market/list/lastViewed/',
     newInRadar: () => '/market/list/newInRadar/',
     ownedEstimations: (paginationLimit, paginationSkip, data) => `/market/list/ownedEstimations/${paginationLimit}/${paginationSkip}${data}`,
-    ownedProperties: (paginationLimit, paginationSkip, data) => `/market/list/ownedProperties/${paginationLimit}/${paginationSkip}${data}`,
+    ownedProperties: (paginationLimit, paginationSkip, data) => `/market/list/ownedPages/${paginationLimit}/${paginationSkip}${data}`,
     preMarket: (paginationLimit, paginationSkip, data) => `/market/list/preMarket/${paginationLimit}/${paginationSkip}${data}`,
     premium: (paginationLimit, paginationSkip, data) => `/market/list/premium/${paginationLimit}/${paginationSkip}${data}`,
     favorites: (paginationLimit, paginationSkip, data) => `/market/list/favorites/${paginationLimit}/${paginationSkip}${data}`,

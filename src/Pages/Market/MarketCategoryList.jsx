@@ -19,19 +19,19 @@ const MarketList = (props) => {
   // PROPS
   const {
     windowDimensions, match, history, favoritesMarketProperties,
-    sellerMarketPropertiesExample, userSearchProfiles, loggedInUser,
+    ownerMarketProperties, userSearchProfiles, loggedInUser,
   } = props;
 
   return (
     <>
       <div className="mb-4">
         {
-          sellerMarketPropertiesExample.length > 0 && (
+          ownerMarketProperties.length > 0 && (
             <CarouselWrapper
               title="Your properties"
               className="market-category-carousel"
               type="own"
-              items={sellerMarketPropertiesExample}
+              items={ownerMarketProperties}
             />
           )
         }
@@ -197,7 +197,7 @@ MarketList.propTypes = {
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  sellerMarketPropertiesExample: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ownerMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   favoritesMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
@@ -207,7 +207,7 @@ MarketList.defaultProps = {
 
 const mapStateToProps = (state) => ({
   // As an example for now. Later we should get a sample for every category
-  sellerMarketPropertiesExample: get(state, 'market.sellerProperties', []),
+  ownerMarketProperties: get(state, 'market.ownerProperties', []),
   favoritesMarketProperties: get(state, 'market.favoritesProperties', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),

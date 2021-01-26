@@ -1,8 +1,20 @@
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import {
-  GET_SELLER_PROPERTIES,
-  SET_SELLER_PROPERTIES,
+  GET_ALL_PROPERTIES,
+  SET_ALL_PROPERTIES,
+  GET_NEW_PROPERTIES,
+  SET_NEW_PROPERTIES,
+  GET_OWNED_PROPERTIES,
+  SET_OWNED_PROPERTIES,
+  GET_OWNED_ESTIMATIONS,
+  SET_OWNED_ESTIMATIONS,
+  GET_LAST_VIEWED_PROPERTIES,
+  SET_LAST_VIEWED_PROPERTIES,
+  GET_PREMARKET_PROPERTIES,
+  SET_PREMARKET_PROPERTIES,
+  GET_PREMIUM_PROPERTIES,
+  SET_PREMIUM_PROPERTIES,
   GET_FAVORITES_PROPERTIES,
   SET_FAVORITES_PROPERTIES,
 } from '../actions/types/MarketTypes';
@@ -18,7 +30,7 @@ import api from '../controllers/api/config';
 
 const checkLead = (store) => (next) => (action) => {
   switch (action.type) {
-    case GET_SELLER_PROPERTIES: {
+    case GET_OWNED_PROPERTIES: {
       next(action);
       let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
       loadSkeleton.own = 'CardImageText';
@@ -28,10 +40,11 @@ const checkLead = (store) => (next) => (action) => {
           ...loadSkeleton,
         },
       });
-      api.user.getPropertiesOfUser(action.payload.userId, action.payload.limit)
+      const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
+      api.market.getOwnedProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
-            store.dispatch({ type: SET_SELLER_PROPERTIES, payload: res.data });
+            store.dispatch({ type: SET_OWNED_PROPERTIES, payload: res.data });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
           loadSkeleton.own = false;
@@ -52,7 +65,8 @@ const checkLead = (store) => (next) => (action) => {
           ...loadSkeleton,
         },
       });
-      api.user.getFavoritesPages()
+      const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
+      api.market.getFavoriteProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_FAVORITES_PROPERTIES, payload: res.data });
