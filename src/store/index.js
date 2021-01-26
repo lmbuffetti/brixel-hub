@@ -16,6 +16,7 @@ import NoteMiddleware from '../middlewares/NoteMiddleware';
 import PropertyMiddleware from '../middlewares/PropertyMiddleware';
 import UserMiddleware from '../middlewares/UserMiddleware';
 import SearchProfile from '../middlewares/SearchProfileMiddleware';
+import EstimationMiddleware from '../middlewares/EstimationMiddleware';
 
 const enhancers = [];
 const middlewares = [thunkMiddleware];
@@ -41,6 +42,7 @@ const composedEnhancers = compose(
     PropertyMiddleware,
     UserMiddleware,
     SearchProfile,
+    EstimationMiddleware,
   ),
   ...enhancers,
 );

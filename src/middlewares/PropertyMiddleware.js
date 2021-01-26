@@ -37,6 +37,10 @@ import {
   GET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
 } from '../actions/types/PropertyTypes';
 
+import {
+  CREATE_ESTIMATION,
+} from '../actions/types/EstimationTypes';
+
 import api from '../controllers/api/config';
 import {
   SPINNER_ON,
@@ -230,10 +234,22 @@ const checkCommon = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       api.property.getEstimation(action.payload)
         .then((res) => {
-          store.dispatch({ type: SPINNER_OFF });
-          store.dispatch({ type: SET_ESTIMATION, payload: res.data });
-          if (typeof res.data.statusCode === 'undefined') {
+          if (res.meta.normalizedStatus === 200) {
+            store.dispatch({ type: SPINNER_OFF });
+            store.dispatch({ type: SET_ESTIMATION, payload: res.data });
+            if (typeof res.data.statusCode === 'undefined') {
             // window.location.href = `/packageFlow/${action.payload}/rewards`;
+            }
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+            const data = {
+              owner: store.getState().user.loggedInUser.user.id,
+              page: store.getState().brixelForm.Property.values.id,
+              generate: true,
+            };
+            store.dispatch({ type: CREATE_ESTIMATION, payload: data });
           }
         })
         .catch(() => {

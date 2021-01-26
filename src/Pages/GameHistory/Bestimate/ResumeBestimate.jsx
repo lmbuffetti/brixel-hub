@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 import { Helpers } from '@brixel/brixel-components';
 import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
+import { createEstimation } from '../../../actions/EstimationActions';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../../images/emptyHub.svg';
 
@@ -22,6 +23,7 @@ function ResumeBestimate(props) {
     handleGetEstimation,
     handleGetMarketCheck,
     handleSaveActiveSingleProperty,
+    handleCreateEstimation,
     history,
     marketData,
     match,
@@ -54,7 +56,13 @@ function ResumeBestimate(props) {
       };
       handleGetMarketCheck(data);
     }
-    if (get(activeSingleProperty, 'location.countryCode', null) === 'PT' && !get(activeSingleProperty, 'estimation.bestimate.value', null)) {
+    if (get(activeSingleProperty, 'location.countryCode', null) === 'PT' && !get(estimation, 'result.value', null)) {
+      const data = {
+        owner: activeSingleProperty.owner.id,
+        page: activeSingleProperty.id,
+        generate: false,
+      };
+      handleCreateEstimation(data);
       history.push(`/${activeSingleProperty.id}/rewards/bestimate`);
     }
     if (get(activeSingleProperty, 'location.countryCode', null) === 'CH') handleGetEstimation(propID);
@@ -71,7 +79,7 @@ function ResumeBestimate(props) {
           },
         },
       };
-      if (get(activeSingleProperty, 'property.estimation.bestimate', null)) data.estimation.bestimate.updatedAt = new Date();
+      if (get(estimation, 'result.value', null)) data.estimation.bestimate.updatedAt = new Date();
       else data.estimation.bestimate.createdAt = new Date();
       if (estimation && !saved) {
         handleSaveActiveSingleProperty(data);
@@ -86,7 +94,7 @@ function ResumeBestimate(props) {
         has(marketData, 'priceDistribution.chartRangePrice') ? (
           <>
             {
-              get(activeSingleProperty, 'estimation.bestimate.value', null) ? (
+              get(estimation, 'result.value', null) ? (
                 <>
                   <h5 className="ta-c mb-5">We proudly present you your Bestimate&reg;.</h5>
                   {
@@ -120,12 +128,12 @@ function ResumeBestimate(props) {
                     )
                   }
                   {
-                    has(activeSingleProperty, 'estimation.bestimate') && (
+                    Object.keys(get(estimation, 'result', {})).length > 0 && (
                       <div className="dis-f jc-c">
                         <RangePriceChart
                           properties={marketData.priceDistribution.chartRangePrice}
                           type="bestimate"
-                          bestimate={activeSingleProperty.estimation.bestimate}
+                          bestimate={estimation.result}
                           showTopLabel={false}
                         />
                       </div>
@@ -168,6 +176,7 @@ ResumeBestimate.propTypes = {
   estimation: PropTypes.object.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetMarketCheck: PropTypes.func.isRequired,
+  handleCreateEstimation: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
@@ -190,6 +199,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetMarketCheck: bindActionCreators(getMarketCheck, dispatch),
+  handleCreateEstimation: bindActionCreators(createEstimation, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 

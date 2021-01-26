@@ -98,4 +98,10 @@ export default {
     searchProfileByUserID: (id) => `/user/${id}/searchProfile`,
     singleSearchProfile: () => '/searchProfile/',
   },
+  estimation: {
+    estimationById: (id) => `/estimation/${id}`,
+    getEstimationList: (paginationLimit, paginationSkip, data) => `/estimation/${paginationLimit}/${paginationSkip}${data}`,
+    createEstimation: () => '/estimation/',
+    generateEstimation: (id) => `/estimation/${id}/generate`,
+  },
 };
