@@ -18,20 +18,22 @@ const CarouselWrapper = Loadable({
 const MarketList = (props) => {
   // PROPS
   const {
-    windowDimensions, match, history, favoritesMarketProperties,
-    ownerMarketProperties, userSearchProfiles, loggedInUser,
+    windowDimensions, match, history, favoritesProperties,
+    ownerProperties, userSearchProfiles, loggedInUser, ownerEstimations,
+    allProperties, newProperties, premiumProperties, lastViewedProperties,
+    preMarketProperties,
   } = props;
 
   return (
     <>
       <div className="mb-4">
         {
-          ownerMarketProperties.length > 0 && (
+          ownerProperties.length > 0 && (
             <CarouselWrapper
               title="Your properties"
               className="market-category-carousel"
               type="own"
-              items={ownerMarketProperties}
+              items={ownerProperties}
             />
           )
         }
@@ -149,12 +151,12 @@ const MarketList = (props) => {
 
       <div className="mb-4">
         {
-          favoritesMarketProperties.length > 0 && (
+          lastViewedProperties.length > 0 && (
             <CarouselWrapper
               title="Last viewed"
               className="market-category-carousel"
               type="favorite"
-              items={favoritesMarketProperties}
+              items={lastViewedProperties}
             />
           )
         }
@@ -162,30 +164,54 @@ const MarketList = (props) => {
 
       <div className="mb-4">
         {
-          favoritesMarketProperties.length > 0 && (
+          favoritesProperties.length > 0 && (
             <CarouselWrapper
               title="Your favorites"
               className="market-category-carousel"
               type="favorite"
-              items={favoritesMarketProperties}
+              items={favoritesProperties}
             />
           )
         }
       </div>
 
       <div className="mb-4">
-        <h3>New in your radar</h3>
-        <div className="bgLight200 h-fix-400" />
+        {
+          newProperties.length > 0 && (
+            <CarouselWrapper
+              title="New in your radar"
+              className="market-category-carousel"
+              type="favorite"
+              items={newProperties}
+            />
+          )
+        }
       </div>
 
       <div className="mb-4">
-        <h3>Premium properties</h3>
-        <div className="bgLight200 h-fix-400" />
+        {
+          premiumProperties.length > 0 && (
+            <CarouselWrapper
+              title="Premium properties"
+              className="market-category-carousel"
+              type="favorite"
+              items={premiumProperties}
+            />
+          )
+        }
       </div>
 
       <div className="mb-4">
-        <h3>Pre-Market properties</h3>
-        <div className="bgLight200 h-fix-400" />
+        {
+          preMarketProperties.length > 0 && (
+            <CarouselWrapper
+              title="Pre-Market properties"
+              className="market-category-carousel"
+              type="favorite"
+              items={preMarketProperties}
+            />
+          )
+        }
       </div>
 
     </>
@@ -197,8 +223,14 @@ MarketList.propTypes = {
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  ownerMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  favoritesMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ownerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ownerEstimations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  allProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  newProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  lastViewedProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  premiumProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
@@ -207,8 +239,14 @@ MarketList.defaultProps = {
 
 const mapStateToProps = (state) => ({
   // As an example for now. Later we should get a sample for every category
-  ownerMarketProperties: get(state, 'market.ownerProperties', []),
-  favoritesMarketProperties: get(state, 'market.favoritesProperties', []),
+  ownerProperties: get(state, 'market.ownerProperties', []),
+  allProperties: get(state, 'market.allProperties', []),
+  ownerEstimations: get(state, 'market.ownerEstimations', []),
+  newProperties: get(state, 'market.newProperties', []),
+  lastViewedProperties: get(state, 'market.lastViewedProperties', []),
+  premiumProperties: get(state, 'market.premiumProperties', []),
+  preMarketProperties: get(state, 'market.preMarketProperties', []),
+  favoritesProperties: get(state, 'market.favoritesProperties', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
