@@ -6,7 +6,10 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
-import { getOwnedProperties, getFavoritesProperties } from '../../actions/MarketActions';
+import {
+  getOwnedProperties, getFavoritesProperties, getNewProperties,
+  getPremiumProperties, getPremarketProperties, getLastViewedProperties,
+} from '../../actions/MarketActions';
 import '../../styles/SCSS/pages/market.scss';
 import { spinnerOff } from '../../actions/CommonActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
@@ -30,6 +33,10 @@ const Market = (props) => {
     windowDimensions,
     handleGetFavoritesProperties,
     handleGetUserSearchProfiles,
+    handleGetNewProperties,
+    handleGetPremiumProperties,
+    handleGetPreMarketProperties,
+    handleGetLastViewedProperties,
   } = props;
 
   useEffect(() => {
@@ -44,6 +51,10 @@ const Market = (props) => {
       };
       handleGetSellerProperties(data);
       handleGetFavoritesProperties(data);
+      handleGetNewProperties();
+      handleGetPremiumProperties(data);
+      handleGetPreMarketProperties(data);
+      handleGetLastViewedProperties();
       handleGetUserSearchProfiles(loggedInUser.id);
       handleSpinnerOff();
     }
@@ -66,6 +77,10 @@ Market.propTypes = {
   handleSpinnerOff: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
+  handleGetNewProperties: PropTypes.func.isRequired,
+  handleGetPremiumProperties: PropTypes.func.isRequired,
+  handleGetPreMarketProperties: PropTypes.func.isRequired,
+  handleGetLastViewedProperties: PropTypes.func.isRequired,
 };
 
 Market.defaultProps = {
@@ -79,6 +94,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
+  handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
+  handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
+  handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
+  handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
 });
