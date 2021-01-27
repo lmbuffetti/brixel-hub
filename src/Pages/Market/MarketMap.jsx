@@ -18,8 +18,7 @@ const MarketMap = (props) => {
   } = props;
 
   return (
-    <div>
-      <h3>MapLevel</h3>
+    <div className="map-inner">
       {
         properties.length > 0 && (
           <MarketMapComponent
@@ -27,6 +26,7 @@ const MarketMap = (props) => {
             onActiveProperty={(val) => onActiveProperty(val)}
             properties={properties}
             visible
+            subMinHeight="min-100v"
           />
         )
       }

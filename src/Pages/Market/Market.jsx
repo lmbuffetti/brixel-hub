@@ -62,7 +62,7 @@ const Market = (props) => {
   }, [loggedInUser]);
 
   return (
-    <div className={`market-container container ${!history.location.pathname.includes('home/own') ? 'market-listings' : ''}`} id="market">
+    <div className={`market-container container ${!history.location.pathname.includes('home/') ? 'market-listings' : 'dis-f'}`} id="market">
       <Switch>
         <Route exact path="/home" component={MarketCategoryList} />
         <Route exact path="/home/:cat/:id?" component={MarketList} />

@@ -5,12 +5,12 @@
     padding-top: 0;
 
     #market {
-      min-height: inherit;
-      margin-bottom: $step * 4;
       margin-top: 0;
       padding-top: 0;
+      padding-bottom: 0;
 
       &.market-listings {
+        margin-bottom: $step * 4;
         margin-top: $step * 4;
         padding-top: 24px;
       }
@@ -24,6 +24,23 @@
         }
         .property-list {
 
+        }
+        .map-wrapper {
+          margin-bottom: 0;
+          position: fixed;
+          right: 0;
+          width: 50%;
+
+          .map-inner {
+            height: 100%;
+            box-shadow: none;
+            border-radius: 0;
+            padding: 0;
+
+            .min-100v {
+              min-height: calc(100vh - 64px);
+            }
+          }
         }
       }
       .innerLineHeight {

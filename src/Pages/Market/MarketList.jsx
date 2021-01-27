@@ -135,15 +135,15 @@ const MarketList = (props) => {
 
   return (
     <>
-      <div className="firstLevel mx-md-2 w-perc-100 dis-f">
-        <div className="property-list py-5">
+      <div className="firstLevel dis-f">
+        <div className="property-list py-6">
           <div className="mb-3 dis-fl-col">
             <div className="mb-3">
-              <h3 className="ml-2 dis-b">All in your rader</h3>
+              <h3 className="dis-b">All in your rader</h3>
               <span>There are <strong>303 properties</strong> in your rader </span>
             </div>
             <div className="dis-f jc-b">
-              <div className="dis-f">
+              <div className="dis-f a-t">
                 <BrixelButtonSecondary
                   label="All"
                   rounded
@@ -165,7 +165,7 @@ const MarketList = (props) => {
                   rounded
                   theme="light"
                   themeSat={500}
-                  className="fsize-300 mb-1 mr-1"
+                  className="fsize-300 mr-1"
                 />
               </div>
             </div>
@@ -183,20 +183,21 @@ const MarketList = (props) => {
             ))
           }
         </div>
-        <Sticker>
-          <div className="secondLevel map-wrapper">
-            <BrixelButtonIcon
-              ghost
-              onClick={() => history.push('/home')}
-              icon="close-small"
-            />
-            <MarketMap
-              activeProperty={activeProperty}
-              onActiveProperty={(val) => setActiveProperty(val)}
-              properties={propertyListings}
-            />
-          </div>
-        </Sticker>
+
+        <div className="secondLevel p-0 map-wrapper">
+          <BrixelButtonIcon
+            ghost
+            theme="dark"
+            onClick={() => history.push('/home')}
+            icon="close-small"
+            className="pos-a-fix x-l mt-1 ml-1 zIndex2"
+          />
+          <MarketMap
+            activeProperty={activeProperty}
+            onActiveProperty={(val) => setActiveProperty(val)}
+            properties={propertyListings}
+          />
+        </div>
       </div>
     </>
   );
