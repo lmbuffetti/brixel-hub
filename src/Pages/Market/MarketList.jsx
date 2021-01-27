@@ -24,7 +24,7 @@ const MarketList = (props) => {
   const {
     history,
     loggedInUser,
-    favoritesMarketProperties,
+    favoritesProperties,
     handleGetFavoritesProperties,
     handleGetSellerProperties,
     handleGetNewProperties,
@@ -33,7 +33,12 @@ const MarketList = (props) => {
     handleGetLastViewedProperties,
     handleGetAllProperties,
     match,
-    sellerMarketProperties,
+    ownerProperties,
+    newProperties,
+    lastViewedProperties,
+    premiumProperties,
+    preMarketProperties,
+    allProperties,
   } = props;
   // URL PARAMS
   const catName = get(match, 'params.cat', null);
@@ -90,17 +95,43 @@ const MarketList = (props) => {
   useEffect(() => {
     switch (catName) {
       case 'own': {
-        setPropertyListings(sellerMarketProperties);
+        setPropertyListings(ownerProperties);
         break;
       }
       case 'favorites': {
-        setPropertyListings(favoritesMarketProperties);
+        setPropertyListings(favoritesProperties);
+        break;
+      }
+      case 'lastViewed': {
+        setPropertyListings(lastViewedProperties);
+        break;
+      }
+      case 'radar': {
+        setPropertyListings(newProperties);
+        break;
+      }
+      case 'premium': {
+        setPropertyListings(premiumProperties);
+        break;
+      }
+      case 'preMarket': {
+        setPropertyListings(preMarketProperties);
+        break;
+      }
+      case 'all': {
+        setPropertyListings(allProperties);
         break;
       }
       default:
         setPropertyListings([]);
     }
-  }, [sellerMarketProperties, favoritesMarketProperties]);
+  }, [ownerProperties,
+    favoritesProperties,
+    lastViewedProperties,
+    premiumProperties,
+    preMarketProperties,
+    newProperties,
+    allProperties]);
 
   return (
     <>
@@ -152,8 +183,13 @@ MarketList.propTypes = {
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  sellerMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  favoritesMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ownerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  newProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  lastViewedProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  premiumProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  allProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 MarketList.defaultProps = {
@@ -162,8 +198,13 @@ MarketList.defaultProps = {
 
 const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
-  favoritesMarketProperties: get(state, 'market.favoritesProperties', []),
-  sellerMarketProperties: get(state, 'market.sellerProperties', []),
+  favoritesProperties: get(state, 'market.favoritesProperties', []),
+  ownerProperties: get(state, 'market.sellerProperties', []),
+  newProperties: get(state, 'market.newProperties', []),
+  lastViewedProperties: get(state, 'market.lastViewedProperties', []),
+  premiumProperties: get(state, 'market.premiumProperties', []),
+  preMarketProperties: get(state, 'market.preMarketProperties', []),
+  allProperties: get(state, 'market.allProperties', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
