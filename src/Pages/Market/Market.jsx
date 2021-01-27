@@ -27,6 +27,7 @@ const MarketCategoryList = Loadable({
 const Market = (props) => {
   // PROPS
   const {
+    history,
     handleGetSellerProperties,
     handleSpinnerOff,
     loggedInUser,
@@ -61,7 +62,7 @@ const Market = (props) => {
   }, [loggedInUser]);
 
   return (
-    <div className="market-container container" id="market">
+    <div className={`market-container container ${!history.location.pathname.includes('home/own') ? 'market-listings' : ''}`} id="market">
       <Switch>
         <Route exact path="/home" component={MarketCategoryList} />
         <Route exact path="/home/:cat/:id?" component={MarketList} />
@@ -76,6 +77,7 @@ Market.propTypes = {
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
   handleGetNewProperties: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,

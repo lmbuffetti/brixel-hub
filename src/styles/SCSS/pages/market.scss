@@ -2,13 +2,29 @@
 
 .marketHome {
   .hubDasContent {
-    top: 80px;
+    padding-top: 0;
+
     #market {
-      margin-top: $step * 4;
+      min-height: inherit;
       margin-bottom: $step * 4;
+      margin-top: 0;
+      padding-top: 0;
+
+      &.market-listings {
+        margin-top: $step * 4;
+        padding-top: 24px;
+      }
 
       .firstLevel {
         max-width: 100%;
+        display: flex;
+
+        > div {
+          flex-basis: 50%;
+        }
+        .property-list {
+
+        }
       }
       .innerLineHeight {
         line-height: 1.5;

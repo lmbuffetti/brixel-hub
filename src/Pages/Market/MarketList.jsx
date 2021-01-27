@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import Loadable from 'react-loadable';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonSecondary } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Sticker from 'react-stickyfill';
@@ -136,14 +136,39 @@ const MarketList = (props) => {
   return (
     <>
       <div className="firstLevel mx-md-2 w-perc-100 dis-f">
-        <div>
-          <div className="dis-f jc-fs a-c mb-3">
-            <BrixelButtonIcon
-              ghost
-              onClick={() => history.push('/home')}
-              icon="arrow-simple-left"
-            />
-            <h3 className="ml-2">{catName}</h3>
+        <div className="property-list py-5">
+          <div className="mb-3 dis-fl-col">
+            <div className="mb-3">
+              <h3 className="ml-2 dis-b">All in your rader</h3>
+              <span>There are <strong>303 properties</strong> in your rader </span>
+            </div>
+            <div className="dis-f jc-b">
+              <div className="dis-f">
+                <BrixelButtonSecondary
+                  label="All"
+                  rounded
+                  theme="light"
+                  themeSat={500}
+                  className="fsize-300 mr-1"
+                />
+                <BrixelButtonSecondary
+                  label="More Filter"
+                  rounded
+                  theme="light"
+                  themeSat={500}
+                  className="fsize-300 mr-1"
+                />
+              </div>
+              <div className="div">
+                <BrixelButtonSecondary
+                  label="Sort by relevance"
+                  rounded
+                  theme="light"
+                  themeSat={500}
+                  className="fsize-300 mb-1 mr-1"
+                />
+              </div>
+            </div>
           </div>
           {
             propertyListings.map((page, i) => (
@@ -159,7 +184,12 @@ const MarketList = (props) => {
           }
         </div>
         <Sticker>
-          <div className="secondLevel w-perc-100 dis-fl-col ml-md">
+          <div className="secondLevel map-wrapper">
+            <BrixelButtonIcon
+              ghost
+              onClick={() => history.push('/home')}
+              icon="close-small"
+            />
             <MarketMap
               activeProperty={activeProperty}
               onActiveProperty={(val) => setActiveProperty(val)}
