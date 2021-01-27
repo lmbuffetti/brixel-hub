@@ -8,7 +8,11 @@ import { BrixelButtonIcon } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Sticker from 'react-stickyfill';
-import { getFavoritesProperties, getSellerProperties } from '../../actions/MarketActions';
+import {
+  getAllProperties, getFavoritesProperties, getLastViewedProperties,
+  getNewProperties, getOwnedProperties, getPremarketProperties,
+  getPremiumProperties,
+} from '../../actions/MarketActions';
 
 const MarketMap = Loadable({
   loader: () => import('./MarketMap' /* webpackChunkName: "MarketMap" */),
@@ -23,6 +27,11 @@ const MarketList = (props) => {
     favoritesMarketProperties,
     handleGetFavoritesProperties,
     handleGetSellerProperties,
+    handleGetNewProperties,
+    handleGetPremiumProperties,
+    handleGetPreMarketProperties,
+    handleGetLastViewedProperties,
+    handleGetAllProperties,
     match,
     sellerMarketProperties,
   } = props;
@@ -35,20 +44,41 @@ const MarketList = (props) => {
 
   useEffect(() => {
     if (loggedInUser.id) {
+      const data = {
+        resultsPerPage: 50,
+        offset: 0,
+        order: 'updatedAt',
+        direction: 'DESC',
+        setAsSingle: true,
+        multiLoader: true,
+      };
       switch (catName) {
         case 'own': {
-          const data = {
-            limit: 50,
-            offset: `0/?owner=${loggedInUser.id}`,
-            userId: loggedInUser.id,
-            setAsSingle: true,
-            multiLoader: true,
-          };
           handleGetSellerProperties(data);
           break;
         }
+        case 'all': {
+          handleGetAllProperties(data);
+          break;
+        }
         case 'favorites': {
-          handleGetFavoritesProperties();
+          handleGetFavoritesProperties(data);
+          break;
+        }
+        case 'lastViewed': {
+          handleGetLastViewedProperties();
+          break;
+        }
+        case 'radar': {
+          handleGetNewProperties();
+          break;
+        }
+        case 'premium': {
+          handleGetPremiumProperties(data);
+          break;
+        }
+        case 'preMarket': {
+          handleGetPreMarketProperties(data);
           break;
         }
         default:
@@ -113,6 +143,11 @@ const MarketList = (props) => {
 
 MarketList.propTypes = {
   handleGetFavoritesProperties: PropTypes.func.isRequired,
+  handleGetNewProperties: PropTypes.func.isRequired,
+  handleGetPremiumProperties: PropTypes.func.isRequired,
+  handleGetPreMarketProperties: PropTypes.func.isRequired,
+  handleGetLastViewedProperties: PropTypes.func.isRequired,
+  handleGetAllProperties: PropTypes.func.isRequired,
   handleGetSellerProperties: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -134,7 +169,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
-  handleGetSellerProperties: bindActionCreators(getSellerProperties, dispatch),
+  handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
+  handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
+  handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
+  handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
+  handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
+  handleGetAllProperties: bindActionCreators(getAllProperties, dispatch),
 });
 
 export default compose(

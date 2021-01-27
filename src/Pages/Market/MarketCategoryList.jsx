@@ -20,8 +20,7 @@ const MarketList = (props) => {
   const {
     windowDimensions, match, history, favoritesProperties,
     ownerProperties, userSearchProfiles, loggedInUser, ownerEstimations,
-    allProperties, newProperties, premiumProperties, lastViewedProperties,
-    preMarketProperties,
+    newProperties, premiumProperties, lastViewedProperties, preMarketProperties,
   } = props;
 
   return (
@@ -225,7 +224,6 @@ MarketList.propTypes = {
   loggedInUser: PropTypes.object.isRequired,
   ownerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   ownerEstimations: PropTypes.arrayOf(PropTypes.object).isRequired,
-  allProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   newProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   lastViewedProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -240,7 +238,6 @@ MarketList.defaultProps = {
 const mapStateToProps = (state) => ({
   // As an example for now. Later we should get a sample for every category
   ownerProperties: get(state, 'market.ownerProperties', []),
-  allProperties: get(state, 'market.allProperties', []),
   ownerEstimations: get(state, 'market.ownerEstimations', []),
   newProperties: get(state, 'market.newProperties', []),
   lastViewedProperties: get(state, 'market.lastViewedProperties', []),
