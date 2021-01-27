@@ -154,7 +154,7 @@ const MarketList = (props) => {
             <CarouselWrapper
               title="Last viewed"
               className="market-category-carousel"
-              type="favorite"
+              type="lastViewed"
               items={lastViewedProperties}
             />
           )
@@ -180,7 +180,7 @@ const MarketList = (props) => {
             <CarouselWrapper
               title="New in your radar"
               className="market-category-carousel"
-              type="favorite"
+              type="new"
               items={newProperties}
             />
           )
@@ -193,7 +193,7 @@ const MarketList = (props) => {
             <CarouselWrapper
               title="Premium properties"
               className="market-category-carousel"
-              type="favorite"
+              type="premium"
               items={premiumProperties}
             />
           )
@@ -206,7 +206,7 @@ const MarketList = (props) => {
             <CarouselWrapper
               title="Pre-Market properties"
               className="market-category-carousel"
-              type="favorite"
+              type="preMarket"
               items={preMarketProperties}
             />
           )

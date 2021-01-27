@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import {
   Helpers, BrixelIcon,
 } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -19,6 +20,7 @@ const MarketCard = (props) => {
     item,
     type,
     skeleton,
+    history,
   } = props;
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
@@ -31,6 +33,15 @@ const MarketCard = (props) => {
     }
   }, [skeleton, coverImgLoaded]);
 
+  const openCard = (e) => {
+    if (e) e.preventDefault();
+    if (type === 'own') history.push(`/${item.id}/rewards`);
+    if (type === 'favorite') history.push(`/buyer/property/${item.id}`);
+    // TODO: Estimation opens overlay
+    // TODO: Pre-Market opens overlay
+    else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
+  };
+
   return (
     <>
       {
@@ -38,7 +49,10 @@ const MarketCard = (props) => {
           <CardImageText type={get(skeleton, '[type]', '')} />
         )
       }
-      <div className={`market-card ov-h h-perc-100 ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius px-1 pos-r ${removeSkeleton ? '' : 'pos-a opacity0'}`}>
+      <div
+        className={`market-card ov-h cur-poi h-perc-100 ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius px-1 pos-r ${removeSkeleton ? '' : 'pos-a opacity0'}`}
+        onClick={(e) => openCard(e)}
+      >
         {
           type === 'own' ? (
             <>
@@ -123,6 +137,7 @@ const MarketCard = (props) => {
 MarketCard.propTypes = {
   isLoading: PropTypes.bool,
   item: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   type: PropTypes.string,
   skeleton: PropTypes.object.isRequired,
 };
