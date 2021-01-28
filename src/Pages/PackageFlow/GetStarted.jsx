@@ -467,6 +467,9 @@ const GetStarted = (props) => {
           }
           if (input.name === 'register.ownerType') {
             if (!has(formValue, 'register.ownerType') || get(formValue, 'register.ownerType', '') === null) isValid = false;
+          }
+          if (input.name === 'register.whenToSell') {
+            if (!has(formValue, 'register.whenToSell') || get(formValue, 'register.whenToSell', '') === null) isValid = false;
           } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
         }
       });
