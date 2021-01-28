@@ -13,6 +13,7 @@ import BrixelIcon from '@brixel/brixel-components/dist/components/BrixelIcon';
 import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
+import startBestimate from '../../images/Bestimate/startBestimate.svg';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -31,6 +32,7 @@ const MarketList = (props) => {
 
   return (
     <>
+      {/* buyer welcome message  */}
       {
         !welcomeMessage && loggedInUser.buyer && (
           <SplashScreen
@@ -50,8 +52,8 @@ const MarketList = (props) => {
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
               <h3>Welcome 🖐 </h3>
-              <span className="txtDark400 pt-2 pb-3"> This is our Brixel market. A place where you can do great things. </span>
-              <div className="mb-4">
+              <span className="txtDark200 pt-2 pb-5"> This is our Brixel market. A place where you can do great things. </span>
+              <div className="mb-5">
                 <div className="dis-f mb-2">
                   <div className="dis-f a-c w-fix-64 jc-fe">
                     <BrixelIcon
@@ -63,7 +65,7 @@ const MarketList = (props) => {
                 </div>
                 <div className="dis-f mb-2">
                   <div className="dis-f a-c w-fix-64 jc-fe">
-                    <span className="category-tag bgPrimary400">
+                    <span className="category-tag bgPrimary300">
                       Pre
                     </span>
                   </div>
@@ -87,7 +89,88 @@ const MarketList = (props) => {
                 }}
               />
             </div>
+          </SplashScreen>
+        )
+      }
 
+      {/* bestimate result */}
+      {
+        false && welcomeMessage && loggedInUser.buyer && (
+          <SplashScreen
+            className="result-popup"
+            closeOutside={false}
+          >
+            <div className="dis-f jc-fe">
+              <BrixelButtonIcon
+                ghost
+                theme="dark"
+                icon="close-small"
+                onClick={() => {
+                  setCookie('brixelMarektWelcome', true);
+                  setWelcomeMessage(true);
+                }}
+              />
+            </div>
+            <div className="dis-fl-col jc-c a-c pb-2">
+              <h3>This is your Bestimate&reg; </h3>
+              <span className="txtDark700 py-2"> This property is worth up to. </span>
+              <span className="txtPrimary700 ff-mono fweight-700 fsize-600"> CHF 1,200,000 </span>
+              <span className="txtDark700 pt-3"> Similar transactions were sold within this price range. </span>
+              <div className="py-2">
+                number range
+              </div>
+              <span className="txtDark200 max-w-fix-448 mb-5"> Bestimate&reg; is calculated based on similar transactions. This is a first price indication calculated with few inputs.</span>
+              <BrixelButtonPrimary
+                label="ok, got it!"
+                rounded
+                className="w-perc-100 max-w-fix-192"
+                onClick={() => {
+                  setCookie('brixelMarektWelcome', true);
+                  setWelcomeMessage(true);
+                }}
+              />
+            </div>
+          </SplashScreen>
+        )
+      }
+
+      {/* free price indication */}
+      {
+        false && welcomeMessage && loggedInUser.buyer && (
+          <SplashScreen
+            className="result-popup"
+            closeOutside={false}
+          >
+            <div className="dis-f jc-fe">
+              <BrixelButtonIcon
+                ghost
+                theme="dark"
+                icon="close-small"
+                onClick={() => {
+                  setCookie('brixelMarektWelcome', true);
+                  setWelcomeMessage(true);
+                }}
+              />
+            </div>
+            <div className="dis-fl-col jc-c a-c pb-2">
+              <h3>Get a free price indication. </h3>
+              <span className="max-w-fix-448 ta-c txtDark700 py-2"> Compare your property to real transaction data to better define the pricing. </span>
+
+              <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
+
+              <div className="dis-f jc-c a-c pos-r w-perc-100">
+                <span className="pos-a-fix x-l-0 txtPrimary400 fweight-500 cur-poi">Thanks, not now </span>
+                <BrixelButtonPrimary
+                  label="ok, got it!"
+                  rounded
+                  className="w-perc-100 max-w-fix-192"
+                  onClick={() => {
+                    setCookie('brixelMarektWelcome', true);
+                    setWelcomeMessage(true);
+                  }}
+                />
+              </div>
+            </div>
           </SplashScreen>
         )
       }
