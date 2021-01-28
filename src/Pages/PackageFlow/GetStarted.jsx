@@ -77,6 +77,16 @@ const GetStarted = (props) => {
     return () => destroyForm();
   }, []);
 
+  const getSplashType = () => {
+    const dataForm = cloneDeep(formValue);
+    let type;
+
+    if (get(dataForm, 'location.countryCode', null) === 'PT') type = 'bestimateTeaser';
+    if (get(dataForm, 'location.countryCode', null) === 'CH') type = 'bestimateResult';
+
+    return type;
+  };
+
   // FUNCTION TO SAVE DATA
   const saveData = async (action) => {
     const dataForm = cloneDeep(formValue);
@@ -90,6 +100,7 @@ const GetStarted = (props) => {
         id: get(dataForm, 'pageID', null),
         ownerType: get(dataForm, 'register.ownerType', null),
         redirectTo: '/home',
+        splashType: getSplashType(),
       };
       const packageFlowProcess = get(dataForm, 'pageAnswer', {});
       packageFlowProcess.answers.userType = get(dataForm, 'register.ownerType', 'seller');
