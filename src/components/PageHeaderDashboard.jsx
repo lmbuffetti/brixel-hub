@@ -625,7 +625,7 @@ function PageHeaderDashboard(props) {
         </div>
         <div className="tabWrapper">
           {
-            has(activeSingleProperty, 'id') && (
+            !history.location.pathname.includes('home') && has(activeSingleProperty, 'id') && (
               <>
                 {
                   userType === 'seller' ? (

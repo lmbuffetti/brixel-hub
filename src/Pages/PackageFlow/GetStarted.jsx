@@ -89,7 +89,7 @@ const GetStarted = (props) => {
       const dataProperty = {
         id: get(dataForm, 'pageID', null),
         ownerType: get(dataForm, 'register.ownerType', null),
-        redirectTo: `/${get(dataForm, 'pageID', null)}/rewards`,
+        redirectTo: '/home',
       };
       const packageFlowProcess = get(dataForm, 'pageAnswer', {});
       packageFlowProcess.answers.userType = get(dataForm, 'register.ownerType', 'seller');
