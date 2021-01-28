@@ -27,7 +27,7 @@ const MarketList = (props) => {
     newProperties, premiumProperties, lastViewedProperties, preMarketProperties,
   } = props;
 
-  const [welcomeMessage, setWelcomeMessage] = useState(getCookie('brixelMarektWelcome') === 'true');
+  const [welcomeMessage, setWelcomeMessage] = useState(getCookie('brixelMarektWelcome'));
 
   return (
     <>
