@@ -101,6 +101,7 @@ const checkCommon = (store) => (next) => (action) => {
       const obj = cloneDeep(action.payload);
       const {
         id, redirectTo, redirectToHome, smallLoader, setSuccessNotification, getEstimation,
+        splashType,
       } = action.payload;
       delete obj.id;
       delete obj.redirectTo;
