@@ -7,7 +7,7 @@ import {
   BrixelButtonSecondary, BrixelButtonIcon, useOutsideAlerter,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import Loadable from 'react-loadable';
 import BrixelIcon from '@brixel/brixel-components/dist/components/BrixelIcon';
 import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
@@ -32,7 +32,7 @@ const MarketList = (props) => {
   return (
     <>
       {
-        !welcomeMessage && (
+        !welcomeMessage && loggedInUser.buyer && (
           <SplashScreen
             className="result-popup"
             closeOutside={false}
