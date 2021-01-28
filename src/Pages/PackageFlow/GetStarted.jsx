@@ -12,6 +12,7 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import last from 'lodash/last';
 import queryString from 'query-string';
@@ -463,6 +464,9 @@ const GetStarted = (props) => {
               const err = get(errorValue, item, true);
               if (err !== true && err !== false && isValid) isValid = false;
             });
+          }
+          if (input.name === 'register.ownerType') {
+            if (!has(formValue, 'register.ownerType') || get(formValue, 'register.ownerType', '') === null) isValid = false;
           } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
         }
       });
