@@ -309,7 +309,7 @@ header {
 .packageFlow {
   #multiStepForm:not(.signUp) {
     .multiStepSlides {
-      overflow-y: inherit !important;
+      overflow-y: auto !important;
     }
     .brixel-checkbox-icon.radioBtnImg,
     .brixel-radio-button-icon.radioBtnImg {
