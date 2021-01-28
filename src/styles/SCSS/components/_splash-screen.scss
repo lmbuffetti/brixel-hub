@@ -30,6 +30,7 @@
     height: calc(100% - 120px);
     width: 100%;
     max-width: 930px;
+    padding: 0;
 
     @media (max-width: $responsive-medium) {
       height: 100%;

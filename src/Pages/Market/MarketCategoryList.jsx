@@ -1,14 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  BrixelButtonSecondary, BrixelButtonIcon,
+  BrixelButtonSecondary, BrixelButtonIcon, useOutsideAlerter,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
+import BrixelIcon from '@brixel/brixel-components/dist/components/BrixelIcon';
+import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
+import { setCookie, getCookie } from '../../utils/helpers';
+import SplashScreen from '../../components/SplashScreen';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -23,8 +27,71 @@ const MarketList = (props) => {
     newProperties, premiumProperties, lastViewedProperties, preMarketProperties,
   } = props;
 
+  const [welcomeMessage, setWelcomeMessage] = useState(getCookie('brixelMarektWelcome') === 'true');
+
   return (
     <>
+      {
+        !welcomeMessage && (
+          <SplashScreen
+            className="result-popup"
+            closeOutside={false}
+          >
+            <div className="dis-f jc-fe">
+              <BrixelButtonIcon
+                ghost
+                theme="dark"
+                icon="close-small"
+                onClick={() => {
+                  setCookie('brixelMarektWelcome', true);
+                  setWelcomeMessage(true);
+                }}
+              />
+            </div>
+            <div className="dis-fl-col jc-c a-c pb-2">
+              <h3>Welcome 🖐 </h3>
+              <span className="txtDark400 pt-2 pb-3"> This is our Brixel market. A place where you can do great things. </span>
+              <div className="mb-4">
+                <div className="dis-f mb-2">
+                  <div className="dis-f a-c w-fix-64 jc-fe">
+                    <BrixelIcon
+                      icon="favorite-fill"
+                      color="red"
+                    />
+                  </div>
+                  <span className="max-w-fix-424 txtDark700 pl-2"> Manage your favorites and buy your new home directly on Brixel.</span>
+                </div>
+                <div className="dis-f mb-2">
+                  <div className="dis-f a-c w-fix-64 jc-fe">
+                    <span className="category-tag bgPrimary400">
+                      Pre
+                    </span>
+                  </div>
+                  <span className="max-w-fix-424 txtDark700 pl-2"> Discover exclusive properties which are not on the market yet, but waiting for your first move.</span>
+                </div>
+                <div className="dis-f">
+                  <div className="dis-f a-c w-fix-64 jc-fe">
+                    <span className="category-tag bgRed400">
+                      Premium
+                    </span>
+                  </div>
+                  <span className="max-w-fix-424 txtDark700 pl-2"> Explore our Premium properties with 3D tour, detailed documentation and verified informations.</span>
+                </div>
+              </div>
+              <BrixelButtonPrimary
+                label="ok, got it!"
+                rounded
+                onClick={() => {
+                  setCookie('brixelMarektWelcome', true);
+                  setWelcomeMessage(true);
+                }}
+              />
+            </div>
+
+          </SplashScreen>
+        )
+      }
+
       <div className="mb-4">
         {
           ownerProperties.length > 0 && (
