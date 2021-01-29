@@ -38,6 +38,7 @@ const Market = (props) => {
     handleGetPremiumProperties,
     handleGetPreMarketProperties,
     handleGetLastViewedProperties,
+    userSearchProfiles,
   } = props;
 
   useEffect(() => {
@@ -52,7 +53,6 @@ const Market = (props) => {
       };
       handleGetSellerProperties(data);
       handleGetFavoritesProperties(data);
-      handleGetNewProperties();
       handleGetPremiumProperties(data);
       handleGetPreMarketProperties(data);
       handleGetLastViewedProperties();
@@ -60,6 +60,23 @@ const Market = (props) => {
       handleSpinnerOff();
     }
   }, [loggedInUser]);
+
+  useEffect(() => {
+    const profile = userSearchProfiles[0];
+    if (get(profile, 'id', '')) {
+      const data = {
+        resultsPerPage: 10,
+        offset: 0,
+        order: 'updatedAt',
+        direction: 'DESC',
+        setAsSingle: true,
+        multiLoader: true,
+        searchProfileId: userSearchProfiles[0].id,
+      };
+      handleGetNewProperties(data);
+      handleSpinnerOff();
+    }
+  }, [userSearchProfiles]);
 
   return (
     <div className={`market-container container ${!history.location.pathname.includes('home/') ? 'market-listings' : 'dis-f'}`} id="market">
@@ -83,6 +100,7 @@ Market.propTypes = {
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetPreMarketProperties: PropTypes.func.isRequired,
   handleGetLastViewedProperties: PropTypes.func.isRequired,
+  userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 Market.defaultProps = {
@@ -91,6 +109,7 @@ Market.defaultProps = {
 const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   windowDimensions: get(state, 'common.windowDimensions', {}),
+  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({

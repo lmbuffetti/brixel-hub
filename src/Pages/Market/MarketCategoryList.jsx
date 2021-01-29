@@ -354,7 +354,7 @@ const MarketList = (props) => {
 
       <div className="mb-4">
         {
-          newProperties.length > 0 && (
+          newProperties.data.length > 0 && (
             <CarouselWrapper
               title="New in your radar"
               className="market-category-carousel"
@@ -403,7 +403,7 @@ MarketList.propTypes = {
   loggedInUser: PropTypes.object.isRequired,
   ownerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   ownerEstimations: PropTypes.arrayOf(PropTypes.object).isRequired,
-  newProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  newProperties: PropTypes.object.isRequired,
   lastViewedProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   premiumProperties: PropTypes.arrayOf(PropTypes.object).isRequired,

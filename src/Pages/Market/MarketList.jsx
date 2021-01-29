@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
+import set from 'lodash/set';
 import Loadable from 'react-loadable';
 import { BrixelButtonIcon, BrixelButtonSecondary } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import Sticker from 'react-stickyfill';
 import {
   getAllProperties, getFavoritesProperties, getLastViewedProperties,
   getNewProperties, getOwnedProperties, getPremarketProperties,
@@ -39,6 +39,7 @@ const MarketList = (props) => {
     premiumProperties,
     preMarketProperties,
     allProperties,
+    userSearchProfiles,
   } = props;
   // URL PARAMS
   const catName = get(match, 'params.cat', null);
@@ -48,7 +49,8 @@ const MarketList = (props) => {
   const [propertyListings, setPropertyListings] = useState([]);
 
   useEffect(() => {
-    if (loggedInUser.id) {
+    const profile = userSearchProfiles[0];
+    if (loggedInUser.id && get(profile, 'id', '')) {
       const data = {
         resultsPerPage: 50,
         offset: 0,
@@ -75,7 +77,8 @@ const MarketList = (props) => {
           break;
         }
         case 'radar': {
-          handleGetNewProperties();
+          set(data, 'searchProfileId', userSearchProfiles[0].id);
+          handleGetNewProperties(data);
           break;
         }
         case 'premium': {
@@ -90,7 +93,7 @@ const MarketList = (props) => {
           history.push('/home');
       }
     }
-  }, [loggedInUser]);
+  }, [loggedInUser, userSearchProfiles]);
 
   useEffect(() => {
     switch (catName) {
@@ -221,6 +224,7 @@ MarketList.propTypes = {
   premiumProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   allProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 MarketList.defaultProps = {
@@ -231,12 +235,13 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   favoritesProperties: get(state, 'market.favoritesProperties', []),
   ownerProperties: get(state, 'market.sellerProperties', []),
-  newProperties: get(state, 'market.newProperties', []),
+  newProperties: get(state, 'market.newProperties.data', []),
   lastViewedProperties: get(state, 'market.lastViewedProperties', []),
   premiumProperties: get(state, 'market.premiumProperties', []),
   preMarketProperties: get(state, 'market.preMarketProperties', []),
   allProperties: get(state, 'market.allProperties', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
+  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({

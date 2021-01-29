@@ -107,7 +107,7 @@ export default {
   market: {
     allProperties: (paginationLimit, paginationSkip, data) => `/market/list/all/${paginationLimit}/${paginationSkip}${data}`,
     lastViewed: () => '/market/list/lastViewed/',
-    newInRadar: () => '/market/list/newInRadar/',
+    newInRadar: (paginationLimit, paginationSkip, data) => `/market/list/newInRadar/${paginationLimit}/${paginationSkip}${data}`,
     ownedEstimations: (paginationLimit, paginationSkip, data) => `/market/list/ownedEstimations/${paginationLimit}/${paginationSkip}${data}`,
     ownedProperties: (paginationLimit, paginationSkip, data) => `/market/list/ownedPages/${paginationLimit}/${paginationSkip}${data}`,
     preMarket: (paginationLimit, paginationSkip, data) => `/market/list/preMarket/${paginationLimit}/${paginationSkip}${data}`,

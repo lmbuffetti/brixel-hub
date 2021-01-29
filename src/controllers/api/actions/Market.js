@@ -13,9 +13,9 @@ class Market extends Base {
     return this.apiClient.get(url, {});
   }
 
-  getNewInRadar() {
-    const url = ep.market.newInRadar();
-    return this.apiClient.get(url, {});
+  getNewInRadar(paginationLimit, paginationSkip, data) {
+    const url = ep.market.newInRadar(paginationLimit, paginationSkip, data);
+    return this.apiClient.get(url);
   }
 
   getOwnedEstimations(paginationLimit, paginationSkip, data) {

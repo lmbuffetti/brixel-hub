@@ -115,7 +115,8 @@ const checkLead = (store) => (next) => (action) => {
           ...loadSkeleton,
         },
       });
-      api.market.getNewInRadar()
+      const queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
+      api.market.getNewInRadar(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_NEW_PROPERTIES, payload: res.data });
