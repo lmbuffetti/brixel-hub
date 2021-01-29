@@ -17,7 +17,7 @@ export const defaultState = {
   ownerProperties: [],
   ownerEstimations: [],
   favoritesProperties: [],
-  newProperties: {},
+  newProperties: [],
   lastViewedProperties: [],
   premiumProperties: [],
   preMarketProperties: [],

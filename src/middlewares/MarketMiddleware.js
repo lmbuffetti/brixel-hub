@@ -119,7 +119,7 @@ const checkLead = (store) => (next) => (action) => {
       api.market.getNewInRadar(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
-            store.dispatch({ type: SET_NEW_PROPERTIES, payload: res.data });
+            store.dispatch({ type: SET_NEW_PROPERTIES, payload: res.data.data });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
           loadSkeleton.favorite = false;
