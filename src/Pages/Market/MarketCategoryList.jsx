@@ -99,9 +99,8 @@ const MarketList = (props) => {
       }
 
       {/* bestimate result */}
-      {/* !bestimateMessage && splashScreenType === 'bestimateResult' */}
       {
-        bestimateMessage || (
+        !bestimateMessage && splashScreenType === 'bestimateResult' && (
           <SplashScreen
             className="result-popup"
             closeOutside={false}
