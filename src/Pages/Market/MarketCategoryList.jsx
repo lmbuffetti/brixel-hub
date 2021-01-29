@@ -9,11 +9,14 @@ import {
 import { bindActionCreators, compose } from 'redux';
 import { connect, useSelector } from 'react-redux';
 import Loadable from 'react-loadable';
+// eslint-disable-next-line import/no-duplicates
+import { Helpers } from '@brixel/brixel-components';
 import BrixelIcon from '@brixel/brixel-components/dist/components/BrixelIcon';
 import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
+import RangePriceChart from '../../components/Charts/RangePriceChart';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -26,7 +29,7 @@ const MarketList = (props) => {
     windowDimensions, match, history, favoritesProperties,
     ownerProperties, userSearchProfiles, loggedInUser, ownerEstimations,
     newProperties, premiumProperties, lastViewedProperties, preMarketProperties,
-    splashScreenType, activeSingleProperty,
+    splashScreenType, activeSingleProperty, bestimate, activeSingleCompany,
   } = props;
 
   const [welcomeMessage, setWelcomeMessage] = useState(getCookie('brixelMarketWelcome') === 'true');
@@ -115,13 +118,25 @@ const MarketList = (props) => {
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
               <h3>This is your Bestimate&reg; </h3>
-              <span className="txtDark700 py-2"> This property is worth up to. </span>
-              <span className="txtPrimary700 ff-mono fweight-700 fsize-600"> CHF 1,200,000 </span>
+              {
+                bestimate.higherValue && (
+                  <>
+                    <p className="ta-c mb-1 txtDark700"> Your property is worth up to </p>
+                    <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
+                  </>
+                )
+              }
               <span className="txtDark700 pt-3"> Similar transactions were sold within this price range. </span>
               <div className="py-2">
-                number range
+                {
+                  bestimate.higherValue && (
+                    <p className="ff-mono txtPrimary700 fweight-600 ta-c">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.lowerValue, get(activeSingleCompany, 'country.currency', 'CHF'))} - {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
+                  )
+                }
               </div>
-              <span className="txtDark200 max-w-fix-448 mb-5"> Bestimate&reg; is calculated based on similar transactions. This is a first price indication calculated with few inputs.</span>
+              <span className="txtDark200 max-w-fix-448 mb-5">
+                Bestimate&reg; is calculated based on similar transactions. This is a first price indication calculated with few inputs. To have a more accurate estimation we suggest to book our free on-site estimation.
+              </span>
               <BrixelButtonPrimary
                 label="ok, got it!"
                 rounded
@@ -390,13 +405,15 @@ MarketList.propTypes = {
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
+  bestimate: PropTypes.object.isRequired,
+  activeSingleCompany: PropTypes.object.isRequired,
 };
 
 MarketList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  // As an example for now. Later we should get a sample for every category
+  bestimate: get(state, 'property.estimation.result', {}),
   ownerProperties: get(state, 'market.ownerProperties', []),
   ownerEstimations: get(state, 'market.ownerEstimations', []),
   newProperties: get(state, 'market.newProperties', []),
@@ -409,6 +426,7 @@ const mapStateToProps = (state) => ({
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
   splashScreenType: get(state, 'common.splashScreenType', ''),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

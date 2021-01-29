@@ -121,13 +121,17 @@ const checkCommon = (store) => (next) => (action) => {
         .then((res) => {
           if (splashType === 'bestimateTeaser') {
             store.dispatch({ type: SET_SPLASH_TYPE, payload: 'bestimateTeaser' });
-            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           }
           if (splashType === 'bestimateResult') {
-
-          } else {
-            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
+            store.dispatch({ type: SET_SPLASH_TYPE, payload: 'bestimateResult' });
+            const estimationPayload = {
+              owner: store.getState().user.loggedInUser.user.id,
+              page: id,
+              generate: true,
+            };
+            store.dispatch({ type: CREATE_ESTIMATION, payload: estimationPayload });
           }
+          store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           if (setSuccessNotification) {
             store.dispatch({ type: SET_SAVED_SCREEN });
           }
