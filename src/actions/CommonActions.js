@@ -23,6 +23,7 @@ import {
   SET_FORM_ERROR,
   SKELETON_ON,
   SKELETON_OFF,
+  SET_SPLASH_TYPE,
 } from './types/CommonTypes';
 
 export const {
@@ -49,6 +50,7 @@ export const {
   setFormError,
   skeletonOn,
   skeletonOff,
+  setSplashType,
 } = createActions({
   [ERROR_MESSAGE]: (payload) => payload,
   [REDIRECT_TO]: (payload) => payload,
@@ -73,4 +75,5 @@ export const {
   [SET_FORM_ERROR]: (payload) => payload,
   [SKELETON_ON]: (payload) => payload,
   [SKELETON_OFF]: (payload) => payload,
+  [SET_SPLASH_TYPE]: (payload) => payload,
 });
