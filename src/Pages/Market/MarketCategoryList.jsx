@@ -99,8 +99,9 @@ const MarketList = (props) => {
       }
 
       {/* bestimate result */}
+      {/* !bestimateMessage && splashScreenType === 'bestimateResult' */}
       {
-        !bestimateMessage && splashScreenType === 'bestimateResult' && (
+        bestimateMessage || (
           <SplashScreen
             className="result-popup"
             closeOutside={false}
@@ -121,20 +122,25 @@ const MarketList = (props) => {
               {
                 bestimate.higherValue && (
                   <>
-                    <p className="ta-c mb-1 txtDark700"> Your property is worth up to </p>
-                    <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
+                    <p className="ta-c mt-2 txtDark700"> Your property is worth up to </p>
+                    <p className="fsize-600 ff-mono txtPrimary700 fweight-600 mb-3 mt-2">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
                   </>
                 )
               }
-              <span className="txtDark700 pt-3"> Similar transactions were sold within this price range. </span>
-              <div className="py-2">
+              <span className="txtDark700"> Similar transactions were sold within this price range. </span>
+              <div className="pt-2 pb-3 max-w-fix-480 w-perc-100">
                 {
                   bestimate.higherValue && (
-                    <p className="ff-mono txtPrimary700 fweight-600 ta-c">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.lowerValue, get(activeSingleCompany, 'country.currency', 'CHF'))} - {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
+                    <div className="ff-mono txtPrimary700 fsize-300 ta-c besitmate-range dis-f jc-c">
+                      <span> {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.lowerValue, get(activeSingleCompany, 'country.currency', 'CHF'))} </span>
+                      <span className="w-fix-120" />
+                      <span> {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</span>
+                    </div>
                   )
                 }
+                <span className="besitmate-bar"> </span>
               </div>
-              <span className="txtDark200 max-w-fix-448 mb-5">
+              <span className="txtDark200 max-w-fix-480 mb-5">
                 Bestimate&reg; is calculated based on similar transactions. This is a first price indication calculated with few inputs. To have a more accurate estimation we suggest to book our free on-site estimation.
               </span>
               <BrixelButtonPrimary

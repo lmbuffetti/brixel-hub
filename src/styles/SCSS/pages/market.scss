@@ -74,3 +74,23 @@
   color: white;
   border-radius: 4px;
 }
+.besitmate-bar {
+  display: flex;
+  height: 10px;
+  position: relative;
+  margin-top: $step * 2;
+  width: 100%;
+  background-color: map-get($lightColor, 200);
+  border-radius: $step;
+
+  &::after {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 50%;
+    left: 50%;
+    border-radius: $step;
+    transform: translateX(-50%);
+    background-color: map-get($primaryColor, 700);
+  }
+}
