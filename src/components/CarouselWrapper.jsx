@@ -28,7 +28,7 @@ const CarouselWrapper = (props) => {
     slidesToShow: type === 'own' ? 2 : 4,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1025,
         settings: {
           slidesToShow: type === 'own' ? 1 : 2,
         },
@@ -37,6 +37,9 @@ const CarouselWrapper = (props) => {
         breakpoint: 590,
         settings: {
           slidesToShow: 1,
+          slidesToScroll: 1,
+          centerMode: true,
+          centerPadding: '10%',
         },
       },
     ],

@@ -12,7 +12,34 @@
       &.market-listings {
         margin-bottom: $step * 4;
         margin-top: $step * 4;
-        padding-top: 24px;
+        padding-top: $step * 3;
+      }
+      .carousel-wrapper  {
+        .slick-list {
+          padding:0 10% 0 0 !important;
+          &::before {
+            @media (max-width: $responsive-small) {
+              content: '';
+              position: absolute;
+              height: 100%;width: 17%;z-index: 2;
+              right: -1px;
+              background: #fff;
+              background: linear-gradient(90deg, rgba(#fff, 0), rgba(#fff, 1) 100%);
+            }
+          }
+        }
+        .bottom {
+          @media (max-width: $responsive-small) {
+            flex-direction: column;
+            align-items: baseline;
+            > div {
+              padding: $step;
+              &:first-child {
+                margin-bottom: $step;
+              }
+            }
+          }
+        }
       }
 
       .firstLevel {
