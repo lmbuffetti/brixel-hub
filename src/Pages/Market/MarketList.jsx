@@ -149,6 +149,62 @@ const MarketList = (props) => {
     }
   };
 
+  // eslint-disable-next-line consistent-return
+  const getTitle = () => {
+    switch (catName) {
+      case 'own': {
+        return 'Your properties';
+      }
+      case 'all': {
+        return 'All properties';
+      }
+      case 'favorites': {
+        return 'Your favorites';
+      }
+      case 'lastViewed': {
+        return 'Last viewed properties';
+      }
+      case 'radar': {
+        return 'Properties in your radar';
+      }
+      case 'premium': {
+        return 'Premium properties';
+      }
+      case 'preMarket': {
+        return 'Pre-Market properties';
+      }
+      default:
+    }
+  };
+
+  // eslint-disable-next-line consistent-return
+  const getTotal = () => {
+    switch (catName) {
+      case 'own': {
+        return 7;
+      }
+      case 'all': {
+        return 6;
+      }
+      case 'favorites': {
+        return 5;
+      }
+      case 'lastViewed': {
+        return 4;
+      }
+      case 'radar': {
+        return 3;
+      }
+      case 'premium': {
+        return 2;
+      }
+      case 'preMarket': {
+        return 1;
+      }
+      default:
+    }
+  };
+
   return (
     <>
       <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
@@ -162,11 +218,18 @@ const MarketList = (props) => {
         />
       </div>
       <div className="firstLevel dis-f">
-        <div className="property-list py-6">
+        <div className="property-list">
           <div className="mb-3 dis-fl-col">
+            <BrixelButtonIcon
+              ghost
+              theme="dark"
+              onClick={() => handleMapClose()}
+              icon="arrow-simple-left"
+              className="my-3"
+            />
             <div className="mb-3">
-              <h3 className="dis-b">All in your rader</h3>
-              <span>There are <strong>303 properties</strong> in your rader </span>
+              <h3 className="dis-b">{getTitle()}</h3>
+              <span>There are <strong>{getTotal()}</strong> <strong>properties</strong> available</span>
             </div>
             <div className="dis-f jc-b">
               <div className="dis-f a-t">
@@ -209,13 +272,6 @@ const MarketList = (props) => {
         </div>
 
         <div className={`secondLevel p-0 map-wrapper ${openMap ? 'map-on' : ''}`}>
-          <BrixelButtonIcon
-            ghost
-            theme="dark"
-            onClick={() => handleMapClose()}
-            icon="close-small"
-            className="pos-a-fix x-l mt-1 ml-1 zIndex2"
-          />
           <MarketMap
             activeProperty={activeProperty}
             onActiveProperty={(val) => setActiveProperty(val)}
