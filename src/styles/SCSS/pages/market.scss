@@ -88,10 +88,10 @@
   .map-wrapper {
     @media (max-width: $responsive-large) {
       top: 0;
-    }
-    .map-inner {
-      .min-100v {
-        height: 100vh;
+      .map-inner {
+        .min-100v {
+          height: 100vh;
+        }
       }
     }
   }
