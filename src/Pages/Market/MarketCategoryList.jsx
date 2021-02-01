@@ -16,7 +16,8 @@ import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/Brixe
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
-import RangePriceChart from '../../components/Charts/RangePriceChart';
+import { setSplashType } from '../../actions/CommonActions';
+import { setEstimation } from '../../actions/PropertyActions';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -30,6 +31,7 @@ const MarketList = (props) => {
     ownerProperties, userSearchProfiles, loggedInUser, ownerEstimations,
     newProperties, premiumProperties, lastViewedProperties, preMarketProperties,
     splashScreenType, activeSingleProperty, bestimate, activeSingleCompany,
+    setSplashScreen, setPropertyEstimation,
   } = props;
 
   const [welcomeMessage, setWelcomeMessage] = useState(getCookie('brixelMarketWelcome') === 'true');
@@ -52,6 +54,7 @@ const MarketList = (props) => {
                 onClick={() => {
                   setCookie('brixelMarketWelcome', true);
                   setWelcomeMessage(true);
+                  setSplashScreen('');
                 }}
               />
             </div>
@@ -91,6 +94,7 @@ const MarketList = (props) => {
                 onClick={() => {
                   setCookie('brixelMarketWelcome', true);
                   setWelcomeMessage(true);
+                  setSplashScreen('');
                 }}
               />
             </div>
@@ -113,6 +117,8 @@ const MarketList = (props) => {
                 onClick={() => {
                   setCookie('brixelMarketBestimate', true);
                   setBestimateMessage(true);
+                  setSplashScreen('');
+                  setPropertyEstimation({});
                 }}
               />
             </div>
@@ -149,6 +155,8 @@ const MarketList = (props) => {
                 onClick={() => {
                   setCookie('brixelMarketBestimate', true);
                   setBestimateMessage(true);
+                  setSplashScreen('');
+                  setPropertyEstimation({});
                 }}
               />
             </div>
@@ -171,6 +179,7 @@ const MarketList = (props) => {
                 onClick={() => {
                   setCookie('brixelMarketBestimate', true);
                   setBestimateMessage(true);
+                  setSplashScreen('');
                 }}
               />
             </div>
@@ -194,7 +203,10 @@ const MarketList = (props) => {
                   rounded
                   label="Get free Bestimate®"
                   className="m-a"
-                  onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/rewards/achievement/bestimate`)}
+                  onClick={() => {
+                    setSplashScreen('');
+                    history.push(`/${get(activeSingleProperty, 'id', '')}/rewards/achievement/bestimate`);
+                  }}
                   rightIcon="arrow-right"
                 />
               </div>
@@ -433,6 +445,8 @@ MarketList.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
+  setSplashScreen: PropTypes.func.isRequired,
+  setPropertyEstimation: PropTypes.func.isRequired,
 };
 
 MarketList.defaultProps = {
@@ -456,7 +470,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+  setSplashScreen: bindActionCreators(setSplashType, dispatch),
+  setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
 });
 
 export default compose(

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import {
   Helpers, BrixelIcon,
 } from '@brixel/brixel-components';
@@ -12,6 +13,9 @@ import { connect } from 'react-redux';
 import ProgressRing from './ProgressRing';
 import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
+import { setCookie, getCookie } from '../utils/helpers';
+import { setSplashType } from '../actions/CommonActions';
+import { setEstimation } from '../actions/PropertyActions';
 
 const MarketCard = (props) => {
   // PROPS
@@ -22,6 +26,8 @@ const MarketCard = (props) => {
     preventClick,
     skeleton,
     type,
+    setSplashScreen,
+    setPropertyEstimation,
   } = props;
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
@@ -42,6 +48,19 @@ const MarketCard = (props) => {
       // TODO: Estimation opens overlay
       // TODO: Pre-Market opens overlay
       else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
+    }
+  };
+
+  const openBestimateOverlay = (e, location, estimation) => {
+    if (e) e.preventDefault();
+    if (location.countryCode === 'PT') {
+      setCookie('brixelMarketBestimate', false);
+      setSplashScreen('bestimateTeaser');
+    }
+    if (location.countryCode === 'CH') {
+      setCookie('brixelMarketBestimate', false);
+      setSplashScreen('bestimateResult');
+      setPropertyEstimation(estimation);
     }
   };
 
@@ -79,13 +98,20 @@ const MarketCard = (props) => {
                 <div className="dis-f py-1" onClick={(e) => openCard(e)}>
                   <BrixelIcon className="fsize-200 txtDark700" icon="favorite-fill" /> <span className="fsize-200 txtDark700">&nbsp;  17</span>
                 </div>
-                <div className="bottom dis-f a-c fsize-300 py-1">
+                <div className="bottom dis-f a-c fsize-300 py-1" onClick={(e) => openBestimateOverlay(e, item.location, item.estimation)}>
                   <div className="p-2 mr-1 brdRadius bgBlue100">
-                    <span className="fweight-500 txtDark100">Your bestimate&reg;</span>
+                    <span className="fweight-500 txtDark100">Your Bestimate&reg;</span>
                     <span className="dis-b fweight-600 txtPrimary400 ">
-
-                      {get(item, 'estimation.result.currency', '')} {' '}
-                      {get(item, 'estimation.result.higherValue', 0)} - {get(item, 'estimation.result.lowerValue', 0)}
+                      {
+                        has(item, 'estimation.result.value') ? (
+                          <>
+                            {get(item, 'estimation.result.currency', '')} {' '}
+                            {get(item, 'estimation.result.higherValue', 0)} - {get(item, 'estimation.result.lowerValue', 0)}
+                          </>
+                        ) : (
+                          <span>Pending</span>
+                        )
+                      }
                     </span>
                   </div>
                   <div
@@ -152,6 +178,8 @@ MarketCard.propTypes = {
   preventClick: PropTypes.bool,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
+  setSplashScreen: PropTypes.func.isRequired,
+  setPropertyEstimation: PropTypes.func.isRequired,
 };
 
 MarketCard.defaultProps = {
@@ -165,6 +193,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  setSplashScreen: bindActionCreators(setSplashType, dispatch),
+  setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
 });
 
 export default compose(
