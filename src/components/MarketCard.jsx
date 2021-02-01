@@ -56,7 +56,6 @@ const MarketCard = (props) => {
         {
           type === 'own' ? (
             <>
-              {type}
               <CoverPropertyImage
                 loadedImg={(val) => setCoverImgLoaded(val)}
                 className="cover brdRadius mb-1 h-fix-200 w-perc-100 w-fix-sm-200"
