@@ -13,6 +13,7 @@ import {
   getNewProperties, getOwnedProperties, getPremarketProperties,
   getPremiumProperties,
 } from '../../actions/MarketActions';
+import MarketCardMap from '../../components/MarketCardMap';
 import { setWindowDimensions } from '../../actions/CommonActions';
 
 const MarketMap = Loadable({
@@ -23,23 +24,23 @@ const MarketMap = Loadable({
 const MarketList = (props) => {
   // PROPS
   const {
-    history,
-    loggedInUser,
-    favoritesProperties,
-    handleGetFavoritesProperties,
-    handleGetSellerProperties,
-    handleGetNewProperties,
-    handleGetPremiumProperties,
-    handleGetPreMarketProperties,
-    handleGetLastViewedProperties,
-    handleGetAllProperties,
-    match,
-    ownerProperties,
-    newProperties,
-    lastViewedProperties,
-    premiumProperties,
-    preMarketProperties,
     allProperties,
+    favoritesProperties,
+    handleGetAllProperties,
+    handleGetFavoritesProperties,
+    handleGetLastViewedProperties,
+    handleGetNewProperties,
+    handleGetPreMarketProperties,
+    handleGetPremiumProperties,
+    handleGetSellerProperties,
+    history,
+    lastViewedProperties,
+    loggedInUser,
+    match,
+    newProperties,
+    ownerProperties,
+    preMarketProperties,
+    premiumProperties,
     userSearchProfiles,
     windowDimensions,
   } = props;
@@ -196,14 +197,7 @@ const MarketList = (props) => {
           </div>
           {
             propertyListings.map((page, i) => (
-              <div
-                className={`${activeProperty === page.id ? 'bgGreen400' : 'bgRed100'} mb-3`}
-                key={i.toString()}
-                onClick={() => setActiveProperty(page.id)}
-              >
-                <p>{i + 1} - {page.id}</p>
-                <p>{get(page, 'location.longitude', 0)} - {get(page, 'location.latitude', 0)}</p>
-              </div>
+              <MarketCardMap type="own" key={i.toString()} item={page} />
             ))
           }
         </div>
@@ -228,24 +222,25 @@ const MarketList = (props) => {
 };
 
 MarketList.propTypes = {
-  handleGetFavoritesProperties: PropTypes.func.isRequired,
-  handleGetNewProperties: PropTypes.func.isRequired,
-  handleGetPremiumProperties: PropTypes.func.isRequired,
-  handleGetPreMarketProperties: PropTypes.func.isRequired,
-  handleGetLastViewedProperties: PropTypes.func.isRequired,
+  allProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetAllProperties: PropTypes.func.isRequired,
+  handleGetFavoritesProperties: PropTypes.func.isRequired,
+  handleGetLastViewedProperties: PropTypes.func.isRequired,
+  handleGetNewProperties: PropTypes.func.isRequired,
+  handleGetPreMarketProperties: PropTypes.func.isRequired,
+  handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetSellerProperties: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  lastViewedProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  ownerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   newProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  lastViewedProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  premiumProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ownerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  allProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  premiumProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 MarketList.defaultProps = {
@@ -253,26 +248,26 @@ MarketList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  loggedInUser: get(state, 'user.loggedInUser.user', { }),
-  favoritesProperties: get(state, 'market.favoritesProperties', []),
-  ownerProperties: get(state, 'market.sellerProperties', []),
-  newProperties: get(state, 'market.newProperties.data', []),
-  lastViewedProperties: get(state, 'market.lastViewedProperties', []),
-  premiumProperties: get(state, 'market.premiumProperties', []),
-  preMarketProperties: get(state, 'market.preMarketProperties', []),
   allProperties: get(state, 'market.allProperties', []),
-  windowDimensions: get(state, 'common.windowDimensions', {}),
+  favoritesProperties: get(state, 'market.favoritesProperties', []),
+  lastViewedProperties: get(state, 'market.lastViewedProperties', []),
+  loggedInUser: get(state, 'user.loggedInUser.user', { }),
+  newProperties: get(state, 'market.newProperties.data', []),
+  ownerProperties: get(state, 'market.ownerProperties', []),
+  preMarketProperties: get(state, 'market.preMarketProperties', []),
+  premiumProperties: get(state, 'market.premiumProperties', []),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
-  handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
-  handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
-  handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
-  handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
-  handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
   handleGetAllProperties: bindActionCreators(getAllProperties, dispatch),
+  handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
+  handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
+  handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
+  handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
+  handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
+  handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 
