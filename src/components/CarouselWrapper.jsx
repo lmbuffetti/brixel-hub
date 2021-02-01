@@ -20,6 +20,8 @@ const CarouselWrapper = (props) => {
     className,
   } = props;
 
+  const [preventClick, setPreventClick] = useState(false);
+
   const carouselSettings = {
     dots: false,
     infinite: false,
@@ -43,6 +45,8 @@ const CarouselWrapper = (props) => {
     centerPadding: '8px',
     slidesToScroll: 1,
     className,
+    onSwipe: () => setPreventClick(true),
+    afterChange: () => setPreventClick(false),
     nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="dark" />,
     prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small ghost theme="dark" />,
   };
@@ -53,7 +57,12 @@ const CarouselWrapper = (props) => {
       <Slider {...carouselSettings}>
         {
           items.length > 0 && items.map((item, i) => (
-            <MarketCard type={type} key={i.toString()} item={item} />
+            <MarketCard
+              type={type}
+              key={i.toString()}
+              item={item}
+              preventClick={preventClick}
+            />
           ))
         }
       </Slider>

@@ -16,11 +16,12 @@ import CardImageText from './Skeleton/CardImageText';
 const MarketCard = (props) => {
   // PROPS
   const {
+    history,
     isLoading,
     item,
-    type,
+    preventClick,
     skeleton,
-    history,
+    type,
   } = props;
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
@@ -35,11 +36,13 @@ const MarketCard = (props) => {
 
   const openCard = (e) => {
     if (e) e.preventDefault();
-    if (type === 'own') history.push(`/${item.id}/rewards`);
-    else if (type === 'favorite') history.push(`/buyer/property/${item.id}`);
-    // TODO: Estimation opens overlay
-    // TODO: Pre-Market opens overlay
-    else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
+    if (!preventClick) {
+      if (type === 'own') history.push(`/${item.id}/rewards`);
+      else if (type === 'favorite') history.push(`/buyer/property/${item.id}`);
+      // TODO: Estimation opens overlay
+      // TODO: Pre-Market opens overlay
+      else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
+    }
   };
 
   return (
@@ -135,15 +138,17 @@ const MarketCard = (props) => {
 };
 
 MarketCard.propTypes = {
+  history: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
   item: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  type: PropTypes.string,
+  preventClick: PropTypes.bool,
   skeleton: PropTypes.object.isRequired,
+  type: PropTypes.string,
 };
 
 MarketCard.defaultProps = {
   isLoading: true,
+  preventClick: false,
   type: '',
 };
 
