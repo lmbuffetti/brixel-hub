@@ -220,7 +220,7 @@ const MarketList = (props) => {
         <div className="dis-fl-row a-c jc-b mb-4 flex-wrap">
           <div className="dis-fl-col mb-2">
             <h4 className="fweight-700">Discover our market</h4>
-            <p className="fsize-300 pt-1">There are <span className="fweight-500 innerLineHeight">251 properties</span> that match your criteria.</p>
+            <p className="fsize-300 pt-1">These are properties that match your criteria.</p>
           </div>
           <div className="brdRadius py-1 px-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r">
             <div className="dis-f">
@@ -236,6 +236,11 @@ const MarketList = (props) => {
                 get(userSearchProfiles[0], 'location', []).map((item, i) => (
                   <React.Fragment key={i.toString()}>
                     <span className="">{item.name}</span>
+                    {
+                      i !== userSearchProfiles[0].location.length - 1 && (
+                        <span>,&nbsp;</span>
+                      )
+                    }
                   </React.Fragment>
                 ))
               }
@@ -291,38 +296,54 @@ const MarketList = (props) => {
             themeSat={500}
             className="fsize-300 mb-1 mr-1"
           /> */}
-          <BrixelButtonSecondary
-            onClick={() => history.push(`${match.url}/favorites`)}
-            label="Your favorites"
-            rounded
-            theme="light"
-            themeSat={500}
-            className="fsize-300 mb-1 mr-1"
-          />
-          <BrixelButtonSecondary
-            onClick={() => history.push(`${match.url}/radar`)}
-            label="New in your radar"
-            rounded
-            theme="light"
-            themeSat={500}
-            className="fsize-300 mb-1 mr-1"
-          />
-          <BrixelButtonSecondary
-            onClick={() => history.push(`${match.url}/premium`)}
-            label="Premium properties"
-            rounded
-            theme="light"
-            themeSat={500}
-            className="fsize-300 mb-1 mr-1"
-          />
-          <BrixelButtonSecondary
-            onClick={() => history.push(`${match.url}/preMarket`)}
-            label="Pre-Market properties"
-            rounded
-            theme="light"
-            themeSat={500}
-            className="fsize-300 mb-1"
-          />
+          {
+            favoritesProperties.length > 0 && (
+              <BrixelButtonSecondary
+                onClick={() => history.push(`${match.url}/favorites`)}
+                label="Your favorites"
+                rounded
+                theme="light"
+                themeSat={500}
+                className="fsize-300 mb-1 mr-1"
+              />
+            )
+          }
+          {
+            newProperties.length > 0 && (
+              <BrixelButtonSecondary
+                onClick={() => history.push(`${match.url}/radar`)}
+                label="New in your radar"
+                rounded
+                theme="light"
+                themeSat={500}
+                className="fsize-300 mb-1 mr-1"
+              />
+            )
+          }
+          {
+            premiumProperties.length > 0 && (
+              <BrixelButtonSecondary
+                onClick={() => history.push(`${match.url}/premium`)}
+                label="Premium properties"
+                rounded
+                theme="light"
+                themeSat={500}
+                className="fsize-300 mb-1 mr-1"
+              />
+            )
+          }
+          {
+            preMarketProperties.length > 0 && (
+              <BrixelButtonSecondary
+                onClick={() => history.push(`${match.url}/preMarket`)}
+                label="Pre-Market properties"
+                rounded
+                theme="light"
+                themeSat={500}
+                className="fsize-300 mb-1"
+              />
+            )
+          }
         </div>
       </div>
 

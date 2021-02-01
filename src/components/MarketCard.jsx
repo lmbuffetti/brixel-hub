@@ -54,7 +54,7 @@ const MarketCard = (props) => {
       }
       <div
         className={`market-card ov-h cur-poi h-perc-100 ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius px-1 pos-r ${removeSkeleton ? '' : 'pos-a opacity0'}`}
-        onClick={(e) => openCard(e)}
+        onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         {
           type === 'own' ? (
@@ -64,18 +64,19 @@ const MarketCard = (props) => {
                 className="cover brdRadius mb-1 h-fix-200 w-perc-100 w-fix-sm-200"
                 coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                 propertyType={get(item, 'properties.propertyType', undefined)}
+                onClick={(e) => openCard(e)}
               />
               <div className="info dis-fl-col pl-sm-2 pl-0">
-                <div className="top dis-fl-col">
+                <div className="top dis-fl-col" onClick={(e) => openCard(e)}>
                   <h6 className="fweight-700 txtDark700 ellipsis one w-perc-100 max-w-fix-400">{get(item, 'title', '')}</h6>
                   <span className="fsize-300 txtDark700">{get(item, 'location.address', '')}</span>
                 </div>
-                <div className="mid dis-fl-row a-c fsize-300 txtDark400">
+                <div className="mid dis-fl-row a-c fsize-300 txtDark400" onClick={(e) => openCard(e)}>
                   <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
                   <span><span>{get(item, 'properties.typology.bedrooms', 0)}</span> <span>bedrooms</span></span> <span className="px-1"> &middot; </span>
                   <span><span>{get(item, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></span>
                 </div>
-                <div className="dis-f py-1">
+                <div className="dis-f py-1" onClick={(e) => openCard(e)}>
                   <BrixelIcon className="fsize-200 txtDark700" icon="favorite-fill" /> <span className="fsize-200 txtDark700">&nbsp;  17</span>
                 </div>
                 <div className="bottom dis-f a-c fsize-300 py-1">
@@ -84,11 +85,18 @@ const MarketCard = (props) => {
                     <span className="dis-b fweight-600 txtPrimary400 ">
 
                       {get(item, 'estimation.bestimate.currency', '')} {' '}
-                      {get(item, 'estimation.bestimate.higherValue', 0)}
-                      - {get(item, 'estimation.bestimate.lowerValue', 0)}
+                      {get(item, 'estimation.bestimate.higherValue', 0)} - {get(item, 'estimation.bestimate.lowerValue', 0)}
                     </span>
                   </div>
-                  <div className="p-2 mr-1 brdRadius bgBlue100 dis-f a-c">
+                  <div
+                    className="p-2 mr-1 brdRadius bgBlue100 dis-f a-c"
+                    onClick={(e) => {
+                      if (e) {
+                        e.preventDefault();
+                      }
+                      history.push(`/${item.id}/rewards/achievement/facts`);
+                    }}
+                  >
                     <ProgressRing
                       progress={get(item, 'inputSheet.totalComplete', 0)}
                       size={45}
