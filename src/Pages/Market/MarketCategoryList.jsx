@@ -16,7 +16,8 @@ import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/Brixe
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
-import RangePriceChart from '../../components/Charts/RangePriceChart';
+import { setSplashType } from '../../actions/CommonActions';
+import { setEstimation } from '../../actions/PropertyActions';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -30,6 +31,7 @@ const MarketList = (props) => {
     ownerProperties, userSearchProfiles, loggedInUser, ownerEstimations,
     newProperties, premiumProperties, lastViewedProperties, preMarketProperties,
     splashScreenType, activeSingleProperty, bestimate, activeSingleCompany,
+    setSplashScreen, setPropertyEstimation,
   } = props;
 
   const [welcomeMessage, setWelcomeMessage] = useState(getCookie('brixelMarketWelcome') === 'true');
@@ -52,6 +54,7 @@ const MarketList = (props) => {
                 onClick={() => {
                   setCookie('brixelMarketWelcome', true);
                   setWelcomeMessage(true);
+                  setSplashScreen('');
                 }}
               />
             </div>
@@ -91,6 +94,7 @@ const MarketList = (props) => {
                 onClick={() => {
                   setCookie('brixelMarketWelcome', true);
                   setWelcomeMessage(true);
+                  setSplashScreen('');
                 }}
               />
             </div>
@@ -113,6 +117,8 @@ const MarketList = (props) => {
                 onClick={() => {
                   setCookie('brixelMarketBestimate', true);
                   setBestimateMessage(true);
+                  setSplashScreen('');
+                  setPropertyEstimation({});
                 }}
               />
             </div>
@@ -149,6 +155,8 @@ const MarketList = (props) => {
                 onClick={() => {
                   setCookie('brixelMarketBestimate', true);
                   setBestimateMessage(true);
+                  setSplashScreen('');
+                  setPropertyEstimation({});
                 }}
               />
             </div>
@@ -171,6 +179,7 @@ const MarketList = (props) => {
                 onClick={() => {
                   setCookie('brixelMarketBestimate', true);
                   setBestimateMessage(true);
+                  setSplashScreen('');
                 }}
               />
             </div>
@@ -194,7 +203,10 @@ const MarketList = (props) => {
                   rounded
                   label="Get free Bestimate®"
                   className="m-a"
-                  onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/rewards/achievement/bestimate`)}
+                  onClick={() => {
+                    setSplashScreen('');
+                    history.push(`/${get(activeSingleProperty, 'id', '')}/rewards/achievement/bestimate`);
+                  }}
                   rightIcon="arrow-right"
                 />
               </div>
@@ -220,7 +232,7 @@ const MarketList = (props) => {
         <div className="dis-fl-row a-c jc-b mb-4 flex-wrap">
           <div className="dis-fl-col mb-2">
             <h4 className="fweight-700">Discover our market</h4>
-            <p className="fsize-300 pt-1">There are <span className="fweight-500 innerLineHeight">251 properties</span> that match your criteria.</p>
+            <p className="fsize-300 pt-1">These are properties that match your criteria.</p>
           </div>
           <div className="brdRadius py-1 px-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r">
             <div className="dis-f">
@@ -236,6 +248,11 @@ const MarketList = (props) => {
                 get(userSearchProfiles[0], 'location', []).map((item, i) => (
                   <React.Fragment key={i.toString()}>
                     <span className="">{item.name}</span>
+                    {
+                      i !== userSearchProfiles[0].location.length - 1 && (
+                        <span>,&nbsp;</span>
+                      )
+                    }
                   </React.Fragment>
                 ))
               }
@@ -291,38 +308,54 @@ const MarketList = (props) => {
             themeSat={500}
             className="fsize-300 mb-1 mr-1"
           /> */}
-          <BrixelButtonSecondary
-            onClick={() => history.push(`${match.url}/favorites`)}
-            label="Your favorites"
-            rounded
-            theme="light"
-            themeSat={500}
-            className="fsize-300 mb-1 mr-1"
-          />
-          <BrixelButtonSecondary
-            onClick={() => history.push(`${match.url}/radar`)}
-            label="New in your radar"
-            rounded
-            theme="light"
-            themeSat={500}
-            className="fsize-300 mb-1 mr-1"
-          />
-          <BrixelButtonSecondary
-            onClick={() => history.push(`${match.url}/premium`)}
-            label="Premium properties"
-            rounded
-            theme="light"
-            themeSat={500}
-            className="fsize-300 mb-1 mr-1"
-          />
-          <BrixelButtonSecondary
-            onClick={() => history.push(`${match.url}/preMarket`)}
-            label="Pre-Market properties"
-            rounded
-            theme="light"
-            themeSat={500}
-            className="fsize-300 mb-1"
-          />
+          {
+            favoritesProperties.length > 0 && (
+              <BrixelButtonSecondary
+                onClick={() => history.push(`${match.url}/favorites`)}
+                label="Your favorites"
+                rounded
+                theme="light"
+                themeSat={500}
+                className="fsize-300 mb-1 mr-1"
+              />
+            )
+          }
+          {
+            newProperties.length > 0 && (
+              <BrixelButtonSecondary
+                onClick={() => history.push(`${match.url}/radar`)}
+                label="New in your radar"
+                rounded
+                theme="light"
+                themeSat={500}
+                className="fsize-300 mb-1 mr-1"
+              />
+            )
+          }
+          {
+            premiumProperties.length > 0 && (
+              <BrixelButtonSecondary
+                onClick={() => history.push(`${match.url}/premium`)}
+                label="Premium properties"
+                rounded
+                theme="light"
+                themeSat={500}
+                className="fsize-300 mb-1 mr-1"
+              />
+            )
+          }
+          {
+            preMarketProperties.length > 0 && (
+              <BrixelButtonSecondary
+                onClick={() => history.push(`${match.url}/preMarket`)}
+                label="Pre-Market properties"
+                rounded
+                theme="light"
+                themeSat={500}
+                className="fsize-300 mb-1"
+              />
+            )
+          }
         </div>
       </div>
 
@@ -412,6 +445,8 @@ MarketList.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
+  setSplashScreen: PropTypes.func.isRequired,
+  setPropertyEstimation: PropTypes.func.isRequired,
 };
 
 MarketList.defaultProps = {
@@ -435,7 +470,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+  setSplashScreen: bindActionCreators(setSplashType, dispatch),
+  setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
 });
 
 export default compose(
