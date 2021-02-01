@@ -49,8 +49,10 @@ const MarkerComponent = (props) => {
     if (props.optMap.zoom && data.length > 0 && markerList.length > 0) {
       const curMarkerList = markerList;
       const loadedMarkers = cloneDeep(markerList);
+
       curMarkerList.forEach((marker, i) => {
         loadedMarkers[i].icon = activeProperty === marker.id ? markerImg : markerSimilarProperties;
+
         if (loadedMarkers[i].icon !== curMarkerList[i].icon || firstLoad) {
           curMarkerList[i].icon = activeProperty === marker.id ? markerImg : markerSimilarProperties;
           curMarkerList[i].setAnimation(google.maps.Animation.DROP);
@@ -58,6 +60,7 @@ const MarkerComponent = (props) => {
           curMarkerList[i].setMap(optMap);
         }
       });
+
       if (curMarkerList.length > 0) setFirstLoad(false);
       setMarkerList(curMarkerList);
     }

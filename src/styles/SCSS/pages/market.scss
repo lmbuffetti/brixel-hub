@@ -21,6 +21,10 @@
 
         > div {
           flex-basis: 50%;
+
+          @media (max-width: $responsive-large) {
+            flex-basis: 100%;
+          }
         }
         .property-list {
 
@@ -31,6 +35,17 @@
           right: 0;
           width: 50%;
 
+          @media (max-width: $responsive-large) {
+            width: 100%;
+            top: 56px;
+            display: none;
+
+            &.map-on {
+              opacity: 0;
+              display: block;
+              animation: slideDown 0.5s $default-easing forwards;
+            }
+          }
           .map-inner {
             height: 100%;
             box-shadow: none;
@@ -39,6 +54,10 @@
 
             .min-100v {
               min-height: calc(100vh - 64px);
+
+              @media (max-width: $responsive-large) {
+                min-height: calc(100vh - 56px);
+              }
             }
           }
         }
@@ -62,6 +81,18 @@
       min-height: 50%;
       height: auto;
       max-width: 800px;
+    }
+  }
+}
+.scrollingHeader  .marketHome .hubDasContent #market .firstLevel {
+  .map-wrapper {
+    @media (max-width: $responsive-large) {
+      top: 0;
+    }
+    .map-inner {
+      .min-100v {
+        height: 100vh;
+      }
     }
   }
 }
