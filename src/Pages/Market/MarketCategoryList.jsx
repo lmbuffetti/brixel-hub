@@ -283,14 +283,14 @@ const MarketList = (props) => {
             themeSat={500}
             className="fsize-300 mb-1 mr-1"
           />
-          <BrixelButtonSecondary
+          {/* <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/lastViewed`)}
             label="Last viewed"
             rounded
             theme="light"
             themeSat={500}
             className="fsize-300 mb-1 mr-1"
-          />
+          /> */}
           <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/favorites`)}
             label="Your favorites"
@@ -326,7 +326,7 @@ const MarketList = (props) => {
         </div>
       </div>
 
-      <div className="mb-4">
+      {/* <div className="mb-4">
         {
           lastViewedProperties.length > 0 && (
             <CarouselWrapper
@@ -337,7 +337,7 @@ const MarketList = (props) => {
             />
           )
         }
-      </div>
+      </div> */}
 
       <div className="mb-4">
         {
