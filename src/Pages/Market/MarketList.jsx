@@ -14,6 +14,7 @@ import {
   getPremiumProperties,
 } from '../../actions/MarketActions';
 import MarketCardMap from '../../components/MarketCardMap';
+import { setWindowDimensions } from '../../actions/CommonActions';
 
 const MarketMap = Loadable({
   loader: () => import('./MarketMap' /* webpackChunkName: "MarketMap" */),
@@ -41,6 +42,7 @@ const MarketList = (props) => {
     preMarketProperties,
     allProperties,
     userSearchProfiles,
+    windowDimensions,
   } = props;
   // URL PARAMS
   const catName = get(match, 'params.cat', null);
@@ -48,6 +50,7 @@ const MarketList = (props) => {
   // STATE
   const [activeProperty, setActiveProperty] = useState(propID);
   const [propertyListings, setPropertyListings] = useState([]);
+  const [openMap, setOpenMap] = useState(false);
 
   useEffect(() => {
     const profile = userSearchProfiles[0];
@@ -97,7 +100,6 @@ const MarketList = (props) => {
   }, [loggedInUser, userSearchProfiles]);
 
   useEffect(() => {
-    console.log(ownerProperties);
     switch (catName) {
       case 'own': {
         setPropertyListings(ownerProperties);
@@ -138,8 +140,26 @@ const MarketList = (props) => {
     newProperties,
     allProperties]);
 
+  const handleMapClose = () => {
+    // eslint-disable-next-line react/prop-types
+    if (windowDimensions.width <= 1024) {
+      setOpenMap(false);
+    } else {
+      history.push('/home');
+    }
+  };
+
   return (
     <>
+      <div className="maplink hide-lg pos-a x-c bt mb-3">
+        <BrixelButtonSecondary
+          label="Map View"
+          rounded
+          theme="light"
+          themeSat={500}
+          onClick={() => { setOpenMap(true); }}
+        />
+      </div>
       <div className="firstLevel dis-f">
         <div className="property-list py-6">
           <div className="mb-3 dis-fl-col">
@@ -182,11 +202,11 @@ const MarketList = (props) => {
           }
         </div>
 
-        <div className="secondLevel p-0 map-wrapper">
+        <div className={`secondLevel p-0 map-wrapper ${openMap ? 'map-on' : ''}`}>
           <BrixelButtonIcon
             ghost
             theme="dark"
-            onClick={() => history.push('/home')}
+            onClick={() => handleMapClose()}
             icon="close-small"
             className="pos-a-fix x-l mt-1 ml-1 zIndex2"
           />
@@ -247,6 +267,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
   handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
   handleGetAllProperties: bindActionCreators(getAllProperties, dispatch),
+  handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 
 export default compose(
