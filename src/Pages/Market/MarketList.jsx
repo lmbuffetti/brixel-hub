@@ -13,6 +13,7 @@ import {
   getNewProperties, getOwnedProperties, getPremarketProperties,
   getPremiumProperties,
 } from '../../actions/MarketActions';
+import MarketCardMap from '../../components/MarketCardMap';
 
 const MarketMap = Loadable({
   loader: () => import('./MarketMap' /* webpackChunkName: "MarketMap" */),
@@ -96,6 +97,7 @@ const MarketList = (props) => {
   }, [loggedInUser, userSearchProfiles]);
 
   useEffect(() => {
+    console.log(ownerProperties);
     switch (catName) {
       case 'own': {
         setPropertyListings(ownerProperties);
@@ -175,14 +177,7 @@ const MarketList = (props) => {
           </div>
           {
             propertyListings.map((page, i) => (
-              <div
-                className={`${activeProperty === page.id ? 'bgGreen400' : 'bgRed100'} mb-3`}
-                key={i.toString()}
-                onClick={() => setActiveProperty(page.id)}
-              >
-                <p>{i + 1} - {page.id}</p>
-                <p>{get(page, 'location.longitude', 0)} - {get(page, 'location.latitude', 0)}</p>
-              </div>
+              <MarketCardMap type="own" key={i.toString()} item={page} />
             ))
           }
         </div>
@@ -234,7 +229,7 @@ MarketList.defaultProps = {
 const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   favoritesProperties: get(state, 'market.favoritesProperties', []),
-  ownerProperties: get(state, 'market.sellerProperties', []),
+  ownerProperties: get(state, 'market.ownerProperties', []),
   newProperties: get(state, 'market.newProperties.data', []),
   lastViewedProperties: get(state, 'market.lastViewedProperties', []),
   premiumProperties: get(state, 'market.premiumProperties', []),
