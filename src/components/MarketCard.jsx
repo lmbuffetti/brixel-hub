@@ -36,7 +36,7 @@ const MarketCard = (props) => {
   const openCard = (e) => {
     if (e) e.preventDefault();
     if (type === 'own') history.push(`/${item.id}/rewards`);
-    if (type === 'favorite') history.push(`/buyer/property/${item.id}`);
+    else if (type === 'favorite') history.push(`/buyer/property/${item.id}`);
     // TODO: Estimation opens overlay
     // TODO: Pre-Market opens overlay
     else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
@@ -56,6 +56,7 @@ const MarketCard = (props) => {
         {
           type === 'own' ? (
             <>
+              {type}
               <CoverPropertyImage
                 loadedImg={(val) => setCoverImgLoaded(val)}
                 className="cover brdRadius mb-1 h-fix-200 w-perc-100 w-fix-sm-200"
