@@ -151,12 +151,13 @@ const MarketList = (props) => {
 
   return (
     <>
-      <div className="maplink hide-lg pos-a x-c bt mb-3">
+      <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
         <BrixelButtonSecondary
           label="Map View"
           rounded
           theme="light"
           themeSat={500}
+          className={openMap ? 'slideOut' : ''}
           onClick={() => { setOpenMap(true); }}
         />
       </div>
