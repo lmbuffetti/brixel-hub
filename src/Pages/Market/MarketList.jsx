@@ -197,7 +197,12 @@ const MarketList = (props) => {
           </div>
           {
             propertyListings.map((page, i) => (
-              <MarketCardMap type="own" key={i.toString()} item={page} />
+              <MarketCardMap
+                type="own"
+                key={i.toString()}
+                item={page}
+                onClick={() => setActiveProperty(page.id)}
+              />
             ))
           }
         </div>
