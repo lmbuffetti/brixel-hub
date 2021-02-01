@@ -16,11 +16,11 @@ import CardImageText from './Skeleton/CardImageText';
 const MarketCardMap = (props) => {
   // PROPS
   const {
+    history,
     isLoading,
     item,
-    type,
     skeleton,
-    history,
+    type,
   } = props;
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
@@ -81,11 +81,11 @@ const MarketCardMap = (props) => {
 };
 
 MarketCardMap.propTypes = {
+  history: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
   item: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  type: PropTypes.string,
   skeleton: PropTypes.object.isRequired,
+  type: PropTypes.string,
 };
 
 MarketCardMap.defaultProps = {
