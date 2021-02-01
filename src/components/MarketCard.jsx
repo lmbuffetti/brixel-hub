@@ -84,8 +84,8 @@ const MarketCard = (props) => {
                     <span className="fweight-500 txtDark100">Your bestimate&reg;</span>
                     <span className="dis-b fweight-600 txtPrimary400 ">
 
-                      {get(item, 'estimation.bestimate.currency', '')} {' '}
-                      {get(item, 'estimation.bestimate.higherValue', 0)} - {get(item, 'estimation.bestimate.lowerValue', 0)}
+                      {get(item, 'estimation.result.currency', '')} {' '}
+                      {get(item, 'estimation.result.higherValue', 0)} - {get(item, 'estimation.result.lowerValue', 0)}
                     </span>
                   </div>
                   <div
