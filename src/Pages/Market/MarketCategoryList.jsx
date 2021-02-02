@@ -43,6 +43,30 @@ const MarketList = (props) => {
     setBestimateMessage(marketCookie === 'true');
   }, [marketCookie]);
 
+  const onCloseWelcome = () => {
+    setCookie('brixelMarketWelcome', true);
+    setWelcomeMessage(true);
+    setSplashScreen('');
+  };
+
+  const onCloseBestimateResult = () => {
+    setCookie('brixelMarketBestimate', true);
+    setBestimateMessage(true);
+    setSplashScreen('');
+    setPropertyEstimation({});
+  };
+
+  const onCloseBestimateTeaser = () => {
+    setCookie('brixelMarketBestimate', true);
+    setBestimateMessage(true);
+    setSplashScreen('');
+  };
+
+  const onClickBestimate = () => {
+    setSplashScreen('');
+    history.push(`/${get(activeSingleProperty, 'id', '')}/rewards/achievement/bestimate`);
+  };
+
   return (
     <>
       {/* buyer welcome message  */}
@@ -57,11 +81,7 @@ const MarketList = (props) => {
                 ghost
                 theme="dark"
                 icon="close-small"
-                onClick={() => {
-                  setCookie('brixelMarketWelcome', true);
-                  setWelcomeMessage(true);
-                  setSplashScreen('');
-                }}
+                onClick={() => onCloseWelcome()}
               />
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
@@ -97,11 +117,7 @@ const MarketList = (props) => {
               <BrixelButtonPrimary
                 label="ok, got it!"
                 rounded
-                onClick={() => {
-                  setCookie('brixelMarketWelcome', true);
-                  setWelcomeMessage(true);
-                  setSplashScreen('');
-                }}
+                onClick={() => onCloseWelcome()}
               />
             </div>
           </SplashScreen>
@@ -120,12 +136,7 @@ const MarketList = (props) => {
                 ghost
                 theme="dark"
                 icon="close-small"
-                onClick={() => {
-                  setCookie('brixelMarketBestimate', true);
-                  setBestimateMessage(true);
-                  setSplashScreen('');
-                  setPropertyEstimation({});
-                }}
+                onClick={() => onCloseBestimateResult()}
               />
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
@@ -158,12 +169,7 @@ const MarketList = (props) => {
                 label="ok, got it!"
                 rounded
                 className="w-perc-100 max-w-fix-192"
-                onClick={() => {
-                  setCookie('brixelMarketBestimate', true);
-                  setBestimateMessage(true);
-                  setSplashScreen('');
-                  setPropertyEstimation({});
-                }}
+                onClick={() => onCloseBestimateResult()}
               />
             </div>
           </SplashScreen>
@@ -182,11 +188,7 @@ const MarketList = (props) => {
                 ghost
                 theme="dark"
                 icon="close-small"
-                onClick={() => {
-                  setCookie('brixelMarketBestimate', true);
-                  setBestimateMessage(true);
-                  setSplashScreen('');
-                }}
+                onClick={() => onCloseBestimateTeaser()}
               />
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
@@ -209,10 +211,7 @@ const MarketList = (props) => {
                   rounded
                   label="Get free Bestimate®"
                   className="m-a"
-                  onClick={() => {
-                    setSplashScreen('');
-                    history.push(`/${get(activeSingleProperty, 'id', '')}/rewards/achievement/bestimate`);
-                  }}
+                  onClick={() => onClickBestimate()}
                   rightIcon="arrow-right"
                 />
               </div>
