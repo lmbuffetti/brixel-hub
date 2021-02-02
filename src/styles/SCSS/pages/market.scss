@@ -21,7 +21,9 @@
             @media (max-width: $responsive-small) {
               content: '';
               position: absolute;
-              height: 100%;width: 17%;z-index: 2;
+              height: 100%;
+              width: 17%;
+              z-index: 1;
               right: -1px;
               background: #fff;
               background: linear-gradient(90deg, rgba(#fff, 0), rgba(#fff, 1) 100%);
@@ -71,6 +73,7 @@
               opacity: 0;
               display: block;
               animation: slideDown 0.5s $default-easing forwards;
+              z-index: 1;
             }
           }
           .map-inner {

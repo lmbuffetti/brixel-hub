@@ -143,7 +143,11 @@ const MarketList = (props) => {
   const handleMapClose = () => {
     // eslint-disable-next-line react/prop-types
     if (windowDimensions.width <= 1024) {
-      setOpenMap(false);
+      if (openMap) {
+        setOpenMap(false);
+      } else {
+        history.push('/home');
+      }
     } else {
       history.push('/home');
     }
@@ -220,16 +224,18 @@ const MarketList = (props) => {
       <div className="firstLevel dis-f">
         <div className="property-list">
           <div className="mb-3 dis-fl-col">
-            <BrixelButtonIcon
-              ghost
-              theme="dark"
-              onClick={() => handleMapClose()}
-              icon="arrow-simple-left"
-              className="my-3"
-            />
-            <div className="mb-3">
-              <h3 className="dis-b">{getTitle()}</h3>
-              <span>There are <strong>{getTotal()}</strong> <strong>properties</strong> available</span>
+            <div className="dis-f my-3 pos-r">
+              <BrixelButtonIcon
+                ghost
+                theme="dark"
+                onClick={() => handleMapClose()}
+                icon="arrow-simple-left"
+                className="pos-r"
+              />
+              <div className="ml-2">
+                <h3 className="dis-b">{getTitle()}</h3>
+                <span>There are <strong>{getTotal()}</strong> <strong>properties</strong> available</span>
+              </div>
             </div>
             <div className="dis-f jc-b">
               <div className="dis-f a-t">
@@ -272,6 +278,17 @@ const MarketList = (props) => {
         </div>
 
         <div className={`secondLevel p-0 map-wrapper ${openMap ? 'map-on' : ''}`}>
+          {
+            windowDimensions.width <= 1024 && (
+              <BrixelButtonIcon
+                ghost
+                theme="dark"
+                onClick={() => handleMapClose()}
+                icon="close-small"
+                className="pos-a-fix x-r-0 zIndex1 mt-3 mr-2"
+              />
+            )
+          }
           <MarketMap
             activeProperty={activeProperty}
             onActiveProperty={(val) => setActiveProperty(val)}
