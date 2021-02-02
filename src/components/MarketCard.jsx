@@ -106,7 +106,7 @@ const MarketCard = (props) => {
                         has(item, 'estimation.result.value') ? (
                           <>
                             {get(item, 'estimation.result.currency', '')} {' '}
-                            {get(item, 'estimation.result.higherValue', 0)} - {get(item, 'estimation.result.lowerValue', 0)}
+                            {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))} - {Helpers.formatNumberValue(get(item, 'estimation.result.lowerValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}
                           </>
                         ) : (
                           <span>Pending</span>

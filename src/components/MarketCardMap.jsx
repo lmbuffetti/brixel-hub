@@ -16,6 +16,7 @@ import CardImageText from './Skeleton/CardImageText';
 const MarketCardMap = (props) => {
   // PROPS
   const {
+    favoritesProperties,
     history,
     isLoading,
     item,
@@ -42,6 +43,11 @@ const MarketCardMap = (props) => {
     // TODO: Estimation opens overlay
     // TODO: Pre-Market opens overlay
     else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
+  };
+
+  const checkFavorite = () => {
+    const findIndex = favoritesProperties.findIndex((prop) => prop.id === item.id);
+    return findIndex > -1;
   };
 
   return (
@@ -76,8 +82,10 @@ const MarketCardMap = (props) => {
               <div className="dis-f">
                 <BrixelButtonIcon
                   ghost
-                  icon="favorite"
+                  theme="red"
+                  icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
                 />
+                {/*
                 <BrixelButtonIcon
                   icon="options-vertical"
                   className="ml-a"
@@ -87,7 +95,7 @@ const MarketCardMap = (props) => {
                     setOptionsOpen(!optionsOpen);
                   }}
                 />
-                {
+                {/*
                   optionsOpen && (
                     <BrixelDropdownMini
                       rightAligned
@@ -113,7 +121,7 @@ const MarketCardMap = (props) => {
                       }
                     />
                   )
-                }
+                */}
               </div>
             </div>
             <div className="mid dis-fl-row a-c fsize-300 txtDark400 mb-3">
@@ -133,6 +141,7 @@ const MarketCardMap = (props) => {
 };
 
 MarketCardMap.propTypes = {
+  favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
   item: PropTypes.object.isRequired,
@@ -147,6 +156,7 @@ MarketCardMap.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  favoritesProperties: get(state, 'market.favoritesProperties', []),
   skeleton: get(state, 'common.skeleton', {}),
 });
 
