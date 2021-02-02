@@ -98,7 +98,10 @@ const MarketCard = (props) => {
                 <div className="dis-f py-1" onClick={(e) => openCard(e)}>
                   <BrixelIcon className="fsize-200 txtDark700" icon="favorite-fill" /> <span className="fsize-200 txtDark700">&nbsp;  17</span>
                 </div>
-                <div className="bottom dis-f a-c fsize-300 py-1" onClick={(e) => openBestimateOverlay(e, item.location, item.estimation)}>
+                <div
+                  className="bottom dis-f a-c fsize-300 py-1"
+                  onClick={(e) => openBestimateOverlay(e, item.location, item.estimation)}
+                >
                   <div className="p-2 mr-1 brdRadius bgBlue100">
                     <span className="fweight-500 txtDark100">Your Bestimate&reg;</span>
                     <span className="dis-b fweight-600 txtPrimary400 ">
