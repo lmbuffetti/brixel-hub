@@ -48,13 +48,13 @@ const checkLead = (store) => (next) => (action) => {
             const calls = [];
             // Means it is the category list page, we need to get the bestimate
             if (action.payload.resultsPerPage === 10) {
-              res.data.forEach((prop) => {
+              res.data.data.forEach((prop) => {
                 calls.push(api.property.getEstimation(prop.id));
               });
               Promise.all(calls).then((response) => {
                 response.forEach((resEst, key) => {
-                  if (resEst.meta.normalizedStatus === 400) set(res.data[key], 'estimation', {});
-                  if (resEst.meta.normalizedStatus === 200) set(res.data[key], 'estimation', resEst.data);
+                  if (resEst.meta.normalizedStatus === 400) set(res.data.data[key], 'estimation', {});
+                  if (resEst.meta.normalizedStatus === 200) set(res.data.data[key], 'estimation', resEst.data);
                 });
                 store.dispatch({ type: SET_OWNED_PROPERTIES, payload: res.data });
               });
@@ -133,7 +133,7 @@ const checkLead = (store) => (next) => (action) => {
       api.market.getNewInRadar(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
-            store.dispatch({ type: SET_NEW_PROPERTIES, payload: res.data.data });
+            store.dispatch({ type: SET_NEW_PROPERTIES, payload: res.data });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
           loadSkeleton.favorite = false;

@@ -301,8 +301,8 @@ const MarketList = (props) => {
 };
 
 MarketList.propTypes = {
-  allProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  allProperties: PropTypes.object.isRequired,
+  favoritesProperties: PropTypes.object.isRequired,
   handleGetAllProperties: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleGetLastViewedProperties: PropTypes.func.isRequired,
@@ -311,13 +311,13 @@ MarketList.propTypes = {
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetSellerProperties: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  lastViewedProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  lastViewedProperties: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  newProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  ownerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  premiumProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  newProperties: PropTypes.object.isRequired,
+  ownerProperties: PropTypes.object.isRequired,
+  preMarketProperties: PropTypes.object.isRequired,
+  premiumProperties: PropTypes.object.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -327,15 +327,15 @@ MarketList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  allProperties: get(state, 'market.allProperties', []),
-  favoritesProperties: get(state, 'market.favoritesProperties', []),
-  lastViewedProperties: get(state, 'market.lastViewedProperties', []),
-  loggedInUser: get(state, 'user.loggedInUser.user', { }),
-  newProperties: get(state, 'market.newProperties.data', []),
-  ownerProperties: get(state, 'market.ownerProperties', []),
-  preMarketProperties: get(state, 'market.preMarketProperties', []),
-  premiumProperties: get(state, 'market.premiumProperties', []),
-  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
+  allProperties: get(state, 'market.allProperties', {}),
+  favoritesProperties: get(state, 'market.favoritesProperties', {}),
+  lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
+  newProperties: get(state, 'market.newProperties.data', {}),
+  ownerProperties: get(state, 'market.ownerProperties', {}),
+  preMarketProperties: get(state, 'market.preMarketProperties', {}),
+  premiumProperties: get(state, 'market.premiumProperties', {}),
+  userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

@@ -13,14 +13,14 @@ import {
 } from '../actions/types/MarketTypes';
 
 export const defaultState = {
-  allProperties: [],
-  ownerProperties: [],
-  ownerEstimations: [],
-  favoritesProperties: [],
-  newProperties: [],
-  lastViewedProperties: [],
-  premiumProperties: [],
-  preMarketProperties: [],
+  allProperties: {},
+  ownerProperties: {},
+  ownerEstimations: {},
+  favoritesProperties: {},
+  newProperties: {},
+  lastViewedProperties: {},
+  premiumProperties: {},
+  preMarketProperties: {},
 };
 
 export default handleActions(

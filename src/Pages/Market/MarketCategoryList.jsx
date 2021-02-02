@@ -217,12 +217,12 @@ const MarketList = (props) => {
 
       <div className="mb-4">
         {
-          ownerProperties.length > 0 && (
+          ownerProperties.total > 0 && (
             <CarouselWrapper
               title="Your properties"
               className="market-category-carousel"
               type="own"
-              items={ownerProperties}
+              items={ownerProperties.data}
             />
           )
         }
@@ -374,12 +374,12 @@ const MarketList = (props) => {
 
       <div className="mb-4">
         {
-          favoritesProperties.length > 0 && (
+          favoritesProperties.total > 0 && (
             <CarouselWrapper
               title="Your favorites"
               className="market-category-carousel"
               type="favorite"
-              items={favoritesProperties}
+              items={favoritesProperties.data}
             />
           )
         }
@@ -387,12 +387,12 @@ const MarketList = (props) => {
 
       <div className="mb-4">
         {
-          newProperties.length > 0 && (
+          newProperties.total > 0 && (
             <CarouselWrapper
               title="New in your radar"
               className="market-category-carousel"
               type="new"
-              items={newProperties}
+              items={newProperties.data}
             />
           )
         }
@@ -400,12 +400,12 @@ const MarketList = (props) => {
 
       <div className="mb-4">
         {
-          premiumProperties.length > 0 && (
+          premiumProperties.total > 0 && (
             <CarouselWrapper
               title="Premium properties"
               className="market-category-carousel"
               type="premium"
-              items={premiumProperties}
+              items={premiumProperties.data}
             />
           )
         }
@@ -413,12 +413,12 @@ const MarketList = (props) => {
 
       <div className="mb-4">
         {
-          preMarketProperties.length > 0 && (
+          preMarketProperties.total > 0 && (
             <CarouselWrapper
               title="Pre-Market properties"
               className="market-category-carousel"
               type="preMarket"
-              items={preMarketProperties}
+              items={preMarketProperties.data}
             />
           )
         }
@@ -434,13 +434,13 @@ MarketList.propTypes = {
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  ownerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  ownerEstimations: PropTypes.arrayOf(PropTypes.object).isRequired,
-  newProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  lastViewedProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  premiumProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  ownerProperties: PropTypes.object.isRequired,
+  ownerEstimations: PropTypes.object.isRequired,
+  newProperties: PropTypes.object.isRequired,
+  lastViewedProperties: PropTypes.object.isRequired,
+  preMarketProperties: PropTypes.object.isRequired,
+  premiumProperties: PropTypes.object.isRequired,
+  favoritesProperties: PropTypes.object.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
@@ -454,13 +454,13 @@ MarketList.defaultProps = {
 
 const mapStateToProps = (state) => ({
   bestimate: get(state, 'property.estimation.result', {}),
-  ownerProperties: get(state, 'market.ownerProperties', []),
-  ownerEstimations: get(state, 'market.ownerEstimations', []),
-  newProperties: get(state, 'market.newProperties', []),
-  lastViewedProperties: get(state, 'market.lastViewedProperties', []),
-  premiumProperties: get(state, 'market.premiumProperties', []),
-  preMarketProperties: get(state, 'market.preMarketProperties', []),
-  favoritesProperties: get(state, 'market.favoritesProperties', []),
+  ownerProperties: get(state, 'market.ownerProperties', {}),
+  ownerEstimations: get(state, 'market.ownerEstimations', {}),
+  newProperties: get(state, 'market.newProperties', {}),
+  lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
+  premiumProperties: get(state, 'market.premiumProperties', {}),
+  preMarketProperties: get(state, 'market.preMarketProperties', {}),
+  favoritesProperties: get(state, 'market.favoritesProperties', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
