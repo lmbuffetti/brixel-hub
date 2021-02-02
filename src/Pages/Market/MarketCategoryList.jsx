@@ -34,8 +34,14 @@ const MarketList = (props) => {
     setSplashScreen, setPropertyEstimation,
   } = props;
 
+  const marketCookie = getCookie('brixelMarketBestimate');
+
   const [welcomeMessage, setWelcomeMessage] = useState(getCookie('brixelMarketWelcome') === 'true');
   const [bestimateMessage, setBestimateMessage] = useState(getCookie('brixelMarketBestimate') === 'true');
+
+  useEffect(() => {
+    setBestimateMessage(getCookie('brixelMarketBestimate') === 'true');
+  }, [marketCookie]);
 
   return (
     <>
