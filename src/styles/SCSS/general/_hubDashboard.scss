@@ -23,7 +23,7 @@
 
   .hubDasContent {
     @media (min-width: $responsive-medium) {
-      padding-left: $sidebarWidth;
+      // padding-left: $sidebarWidth;
       top: 64px;
       padding-top: $step * 2;
       position: relative;

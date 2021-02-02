@@ -40,7 +40,7 @@ const checkSearchProfile = (store) => (next) => (action) => {
       api.searchProfile.updateSearchProfile(action.payload.dataSearchProfile, token)
         .then(() => {
           if (addSearchProfile) {
-            window.location.href = '/buyer/propertyLists';
+            window.location.href = '/home';
           }
         });
       break;

@@ -9,6 +9,8 @@ const CoverPropertyImage = (props) => {
   const {
     className,
     coverPhoto,
+    loadedImg,
+    onClick,
     propertyType,
     size,
   } = props;
@@ -18,6 +20,8 @@ const CoverPropertyImage = (props) => {
       {
         coverPhoto ? (
           <img
+            onClick={() => onClick()}
+            onLoad={() => setTimeout(() => loadedImg(true), 100)}
             className={className}
             src={`${baseByData.shortPath}${coverPhoto}`}
             alt={`Cover ${propertyType}`}
@@ -25,6 +29,8 @@ const CoverPropertyImage = (props) => {
           />
         ) : (
           <img
+            onClick={() => onClick()}
+            onLoad={() => setTimeout(() => loadedImg(true), 100)}
             className={className}
             src={propertyType === 'Apartment' ? resumeApartment : resumeHouse}
             alt={propertyType || 'Apartment'}
@@ -39,15 +45,19 @@ const CoverPropertyImage = (props) => {
 CoverPropertyImage.propTypes = {
   className: PropTypes.string,
   coverPhoto: PropTypes.string,
+  loadedImg: PropTypes.func,
+  onClick: PropTypes.func,
   propertyType: PropTypes.string,
-  size: PropTypes.number,
+  size: PropTypes.string,
 };
 
 CoverPropertyImage.defaultProps = {
   className: '',
   coverPhoto: null,
+  loadedImg: () => '',
+  onClick: () => '',
   propertyType: null,
-  size: 56,
+  size: '',
 };
 
 export default CoverPropertyImage;

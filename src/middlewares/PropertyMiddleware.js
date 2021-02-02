@@ -49,6 +49,7 @@ import {
   SPINNER_SMALL_OFF,
   REDIRECT_TO,
   SET_SAVED_SCREEN,
+  SET_SPLASH_TYPE,
 } from '../actions/types/CommonTypes';
 import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
 import { properties } from '../resources/localData/properties';
@@ -101,9 +102,11 @@ const checkCommon = (store) => (next) => (action) => {
       const obj = cloneDeep(action.payload);
       const {
         id, redirectTo, redirectToHome, smallLoader, setSuccessNotification, getEstimation,
+        splashType,
       } = action.payload;
       delete obj.id;
       delete obj.redirectTo;
+      delete obj.splashType;
       delete obj.smallLoader;
       delete obj.redirectToHome;
       delete obj.setSuccessNotification;
@@ -116,12 +119,24 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.property.updateProperty(id, obj)
         .then((res) => {
+          if (splashType === 'bestimateTeaser') {
+            store.dispatch({ type: SET_SPLASH_TYPE, payload: 'bestimateTeaser' });
+          }
+          if (splashType === 'bestimateResult') {
+            store.dispatch({ type: SET_SPLASH_TYPE, payload: 'bestimateResult' });
+            const estimationPayload = {
+              owner: store.getState().user.loggedInUser.user.id,
+              page: id,
+              generate: true,
+            };
+            store.dispatch({ type: CREATE_ESTIMATION, payload: estimationPayload });
+          }
+          store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           if (setSuccessNotification) {
             store.dispatch({ type: SET_SAVED_SCREEN });
           }
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
-          store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           if (getEstimation) {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
           }

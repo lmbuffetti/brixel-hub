@@ -305,8 +305,7 @@ function PageHeaderDashboard(props) {
     <>
       <header className="hubDasHeader">
         <div className="dasHeaderContainer">
-          <div className="wrapperHeader dis-f a-c px-2 px-md-3 h-fix-64 jc-b pos-r bgWhite">
-
+          <div className={`wrapperHeader dis-f a-c ${history.location.pathname.includes('/home') ? 'px-3 py-1' : 'h-fix-64 px-2 px-md-3'}  jc-b pos-r bgWhite`}>
             {
               activeSingleProperty.id ? (
                 <div className="propertyPanel dis-f a-c">
@@ -318,6 +317,7 @@ function PageHeaderDashboard(props) {
                   >
                     <CoverPropertyImage
                       className="cover"
+                      size={56}
                       coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
                       propertyType={get(formValue, 'properties.propertyType', undefined)}
                     />
@@ -340,6 +340,15 @@ function PageHeaderDashboard(props) {
               ) : (
                 <div className="header-section dis-fl-row a-c jc-b">
                   {
+                    history.location.pathname.includes('/home') && (
+                      <>
+                        <div className="dis-f a-c logoWrapper">
+                          <img className="pos-r h-fix-32" src={logo} alt="Brixel Logo" id="logo" />
+                        </div>
+                      </>
+                    )
+                  }
+                  {
                     getCurrentRoute().title === 'Property' ? (
                       <>
                         <BrixelIcon
@@ -357,14 +366,18 @@ function PageHeaderDashboard(props) {
                       </>
                     ) : (
                       <>
-                        <BrixelIcon
-                          icon={getCurrentRoute().icon}
-                          color="dark"
-                          saturationTxt={400}
-                          background="primary"
-                          saturation={100}
-                          className="noRadius w-fix-40 h-fix-40 dis-f jc-c a-c"
-                        />
+                        {
+                          getCurrentRoute().icon && (
+                            <BrixelIcon
+                              icon={getCurrentRoute().icon}
+                              color="dark"
+                              saturationTxt={400}
+                              background="primary"
+                              saturation={100}
+                              className="noRadius w-fix-40 h-fix-40 dis-f jc-c a-c"
+                            />
+                          )
+                        }
                         <div className="ml-2">
                           <h5>{getCurrentRoute().title}</h5>
                         </div>
@@ -612,7 +625,7 @@ function PageHeaderDashboard(props) {
         </div>
         <div className="tabWrapper">
           {
-            has(activeSingleProperty, 'id') && (
+            !history.location.pathname.includes('home') && has(activeSingleProperty, 'id') && (
               <>
                 {
                   userType === 'seller' ? (
@@ -655,7 +668,7 @@ function PageHeaderDashboard(props) {
           }
         </div>
         {
-          windowDimensions.width <= 1024 && getCurrentRoute().name !== 'deals' && (
+          windowDimensions.width <= 1024 && getCurrentRoute().name !== 'deals' && !history.location.pathname.includes('home') && (
             <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
               <div className="header-section dis-fl-row a-c jc-b">
                 {/* <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} /> */}

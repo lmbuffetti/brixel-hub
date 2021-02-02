@@ -132,6 +132,11 @@ const SingleDeal = Loadable({
   loading: Loading,
 });
 
+const Market = Loadable({
+  loader: () => import('./Pages/Market/Market' /* webpackChunkName: "Market" */),
+  loading: Loading,
+});
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -269,6 +274,8 @@ const App = (props) => {
         setClassMain('w-perc-100 pos-r hubContainer listingsTop withTopBar');
       } else if (history.location.pathname.includes('deals')) {
         setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar');
+      } else if (history.location.pathname.includes('/home')) {
+        setClassMain('w-perc-100 pos-r hubContainer ov-h marketHome');
       } else {
         setClassMain('w-perc-100 pos-r hubContainer ov-h');
       }
@@ -349,7 +356,11 @@ const App = (props) => {
     let contentHeight;
     if (!isFlow) {
       if (windowDimensions.width <= 1024) {
-        contentHeight = windowDimensions.height - extraHeight;
+        if (history.location.pathname.includes('home')) {
+          contentHeight = '';
+        } else {
+          contentHeight = windowDimensions.height - extraHeight;
+        }
       } else {
         contentHeight = `calc(100vh - ${calcHeaderHeight()}px)`;
       }
@@ -427,7 +438,7 @@ const App = (props) => {
 
       <div className={`${classMain} ${isSecLevel ? 'fixedLayout' : ''}`}>
         <div className="dis-f">
-          {
+          {/* {
             !history.location.pathname.includes('packageFlow') &&
             !history.location.pathname.includes('onBoarding') &&
             !history.location.pathname.includes('upgrade') &&
@@ -437,7 +448,7 @@ const App = (props) => {
              (
                <MenuSidebar />
              )
-          }
+          } */}
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : ''}`}
             style={contentLayout()}
@@ -486,9 +497,9 @@ const App = (props) => {
                   !history.location.pathname.includes('onBoarding') &&
                   !history.location.pathname.includes('buyer') && (
                     <>
+                      <ProtectedRoute path="/home" component={Market} />
                       <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
                       <ProtectedRoute path="/" exact component={DashboardSeller} />
-                      <ProtectedRoute path="/:propId?" exact component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/rewards" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
                       <ProtectedRoute path="/:propId?/listings" component={DashboardSeller} />

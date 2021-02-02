@@ -1,0 +1,157 @@
+@import '~@brixel/brixel-components/src/styles/SCSS/general/variables';
+
+.marketHome {
+  .hubDasContent {
+    padding-top: 0;
+
+    #market {
+      margin-top: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+
+      &.market-listings {
+        margin-bottom: $step * 4;
+        margin-top: $step * 4;
+        padding-top: $step * 3;
+      }
+      .carousel-wrapper  {
+        .slick-list {
+          padding:0 10% 0 0 !important;
+          &::before {
+            @media (max-width: $responsive-small) {
+              content: '';
+              position: absolute;
+              height: 100%;
+              width: 17%;
+              z-index: 1;
+              right: -1px;
+              background: #fff;
+              background: linear-gradient(90deg, rgba(#fff, 0), rgba(#fff, 1) 100%);
+            }
+          }
+        }
+        .bottom {
+          @media (max-width: $responsive-small) {
+            flex-direction: column;
+            align-items: baseline;
+            > div {
+              padding: $step;
+              &:first-child {
+                margin-bottom: $step;
+              }
+            }
+          }
+        }
+      }
+
+      .firstLevel {
+        max-width: 100%;
+        display: flex;
+
+        > div {
+          flex-basis: 50%;
+
+          @media (max-width: $responsive-large) {
+            flex-basis: 100%;
+          }
+        }
+        .property-list {
+
+        }
+        .map-wrapper {
+          margin-bottom: 0;
+          position: fixed;
+          right: 0;
+          width: 50%;
+
+          @media (max-width: $responsive-large) {
+            width: 100%;
+            top: 56px;
+            display: none;
+
+            &.map-on {
+              opacity: 0;
+              display: block;
+              animation: slideDown 0.5s $default-easing forwards;
+              z-index: 1;
+            }
+          }
+          .map-inner {
+            height: 100%;
+            box-shadow: none;
+            border-radius: 0;
+            padding: 0;
+
+            .min-100v {
+              min-height: calc(100vh - 64px);
+
+              @media (max-width: $responsive-large) {
+                min-height: calc(100vh - 56px);
+              }
+            }
+          }
+        }
+      }
+      .innerLineHeight {
+        line-height: 1.5;
+      }
+      .market-card {
+        overflow: hidden;
+      }
+      // slick carousel custom css
+      .slick-slider .slick-track {
+        margin-left: 0;
+      }
+    }
+  }
+  .result-popup {
+    .container {
+      top: 50%;
+      transform: translateY(-50%);
+      min-height: 50%;
+      height: auto;
+      max-width: 800px;
+    }
+  }
+}
+.scrollingHeader  .marketHome .hubDasContent #market .firstLevel {
+  .map-wrapper {
+    @media (max-width: $responsive-large) {
+      top: 0;
+      .map-inner {
+        .min-100v {
+          height: 100vh;
+        }
+      }
+    }
+  }
+}
+
+.category-tag {
+  padding: 4px;
+  padding-left: $step;
+  padding-right: $step;
+  font-size: 12px;
+  color: white;
+  border-radius: 4px;
+}
+.besitmate-bar {
+  display: flex;
+  height: 10px;
+  position: relative;
+  margin-top: $step * 2;
+  width: 100%;
+  background-color: map-get($lightColor, 200);
+  border-radius: $step;
+
+  &::after {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 50%;
+    left: 50%;
+    border-radius: $step;
+    transform: translateX(-50%);
+    background-color: map-get($primaryColor, 700);
+  }
+}

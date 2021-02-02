@@ -28,7 +28,7 @@
 .hubDasHeader {
   @media (min-width: $responsive-medium) {
     background-color: map-get($lightColor, 100);
-    padding-left: $sidebarWidth;
+    // padding-left: $sidebarWidth;
     position: fixed;
     width: 100%;
     top: 0;

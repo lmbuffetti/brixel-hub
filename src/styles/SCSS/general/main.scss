@@ -7,6 +7,9 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 $imgpath: "~@brixel/brixel-components/dist/styles/";
 @import '~@brixel/brixel-configuration-partner/src/Variables';
 
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
 $grid-breakpoints: (
   xxs: 0,
   xs: 420,
@@ -63,7 +66,8 @@ map-get($blueColor, 300);
 "../components/property-list",
 "../components/teaser-banner",
 "../components/progress-bar",
-"../components/splash-screen";
+"../components/splash-screen",
+"../components/carousel-wrapper";
 
 // PAGES
 @import "../pages/getStarted",
@@ -299,6 +303,22 @@ header {
   }
   width: 100%;
   height: 100%;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  &.one {
+    -webkit-line-clamp: 1; /* number of lines to show */
+  }
+}
+
+img {
+  &.cover {
+    object-fit: cover;
+  }
 }
 
 .lh-in{
