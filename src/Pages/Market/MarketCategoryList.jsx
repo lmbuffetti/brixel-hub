@@ -37,10 +37,10 @@ const MarketList = (props) => {
   const marketCookie = getCookie('brixelMarketBestimate');
 
   const [welcomeMessage, setWelcomeMessage] = useState(getCookie('brixelMarketWelcome') === 'true');
-  const [bestimateMessage, setBestimateMessage] = useState(getCookie('brixelMarketBestimate') === 'true');
+  const [bestimateMessage, setBestimateMessage] = useState(marketCookie === 'true');
 
   useEffect(() => {
-    setBestimateMessage(getCookie('brixelMarketBestimate') === 'true');
+    setBestimateMessage(marketCookie === 'true');
   }, [marketCookie]);
 
   return (
