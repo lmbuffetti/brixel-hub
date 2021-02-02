@@ -178,7 +178,7 @@ MarketCardMap.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  favoritesProperties: get(state, 'market.favoritesProperties', []),
+  favoritesProperties: get(state, 'market.favoritesProperties.data', []),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   skeleton: get(state, 'common.skeleton', {}),

@@ -102,31 +102,31 @@ const MarketList = (props) => {
   useEffect(() => {
     switch (catName) {
       case 'own': {
-        setPropertyListings(ownerProperties);
+        setPropertyListings(ownerProperties.data || []);
         break;
       }
       case 'favorites': {
-        setPropertyListings(favoritesProperties);
+        setPropertyListings(favoritesProperties.data || []);
         break;
       }
       case 'lastViewed': {
-        setPropertyListings(lastViewedProperties);
+        setPropertyListings(lastViewedProperties.data || []);
         break;
       }
       case 'radar': {
-        setPropertyListings(newProperties);
+        setPropertyListings(newProperties.data || []);
         break;
       }
       case 'premium': {
-        setPropertyListings(premiumProperties);
+        setPropertyListings(premiumProperties.data || []);
         break;
       }
       case 'preMarket': {
-        setPropertyListings(preMarketProperties);
+        setPropertyListings(preMarketProperties.data || []);
         break;
       }
       case 'all': {
-        setPropertyListings(allProperties);
+        setPropertyListings(allProperties.data || []);
         break;
       }
       default:
@@ -208,7 +208,7 @@ const MarketList = (props) => {
       default:
     }
   };
-
+  console.log(propertyListings);
   return (
     <>
       <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
