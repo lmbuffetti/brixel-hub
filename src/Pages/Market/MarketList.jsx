@@ -185,30 +185,30 @@ const MarketList = (props) => {
   const getTotal = () => {
     switch (catName) {
       case 'own': {
-        return 7;
+        return ownerProperties.total;
       }
       case 'all': {
-        return 6;
+        return allProperties.total;
       }
       case 'favorites': {
-        return 5;
+        return favoritesProperties.total;
       }
       case 'lastViewed': {
-        return 4;
+        return lastViewedProperties.total;
       }
       case 'radar': {
-        return 3;
+        return newProperties.total;
       }
       case 'premium': {
-        return 2;
+        return premiumProperties.total;
       }
       case 'preMarket': {
-        return 1;
+        return preMarketProperties.total;
       }
       default:
     }
   };
-  console.log(propertyListings);
+
   return (
     <>
       <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
@@ -234,7 +234,7 @@ const MarketList = (props) => {
               />
               <div className="ml-2">
                 <h3 className="dis-b">{getTitle()}</h3>
-                <span>There are <strong>{getTotal()}</strong> <strong>properties</strong> available</span>
+                <span>There are <strong>{getTotal() ? getTotal() : '-'}</strong> <strong>properties</strong> available</span>
               </div>
             </div>
             <div className="dis-f jc-b">
