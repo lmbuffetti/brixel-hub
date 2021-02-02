@@ -10,6 +10,7 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import ProgressRing from './ProgressRing';
+import { updateFavorite } from '../actions/UserActions';
 import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
 
@@ -17,9 +18,12 @@ const MarketCardMap = (props) => {
   // PROPS
   const {
     favoritesProperties,
+    handleUpdateFavorites,
     history,
     isLoading,
+    isSmallLoading,
     item,
+    loggedInUser,
     onClick,
     skeleton,
     type,
@@ -50,6 +54,18 @@ const MarketCardMap = (props) => {
     return findIndex > -1;
   };
 
+  const onChangeFavorite = () => {
+    const data = {
+      act: checkFavorite() ? 'remove' : 'add',
+      id: item.id,
+      data: {
+        email: get(loggedInUser, 'email', ''),
+        language: loggedInUser.lang,
+      },
+    };
+    handleUpdateFavorites(data);
+  };
+
   return (
     <>
       {
@@ -64,7 +80,7 @@ const MarketCardMap = (props) => {
           <CoverPropertyImage
             onClick={(e) => onClick(e)}
             loadedImg={(val) => setCoverImgLoaded(val)}
-            className="cover brdRadius mb-1 h-fix-200 w-perc-100 w-fix-sm-320 cur-poi"
+            className="cover brdRadius mb-1 h-fix-200 w-perc-100 w-fix-flex-sm-320 cur-poi"
             coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
             propertyType={get(item, 'properties.propertyType', undefined)}
           />
@@ -84,6 +100,8 @@ const MarketCardMap = (props) => {
                   ghost
                   theme="red"
                   icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
+                  onClick={() => onChangeFavorite()}
+                  isLoading={isSmallLoading === `favorite-${item.id}`}
                 />
                 {/*
                 <BrixelButtonIcon
@@ -143,24 +161,31 @@ const MarketCardMap = (props) => {
 MarketCardMap.propTypes = {
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.string,
+  loggedInUser: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
   item: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
+  handleUpdateFavorites: PropTypes.func.isRequired,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
 };
 
 MarketCardMap.defaultProps = {
   isLoading: true,
+  isSmallLoading: null,
   type: '',
 };
 
 const mapStateToProps = (state) => ({
   favoritesProperties: get(state, 'market.favoritesProperties', []),
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  loggedInUser: get(state, 'user.loggedInUser.user', { }),
   skeleton: get(state, 'common.skeleton', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
 });
 
 export default compose(

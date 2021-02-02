@@ -16,6 +16,7 @@ import {
   SET_USER_PROPERTIES,
   GET_USER_PAGES_DEALS,
   SET_USER_PAGES_DEALS,
+  UPDATE_FAVORITE,
 } from '../actions/types/UserTypes';
 
 import {
@@ -30,6 +31,7 @@ import {
 import { UPDATE_USER_SEARCH_PROFILE } from '../actions/types/SearchProfileTypes';
 
 import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
+import { GET_FAVORITES_PROPERTIES } from '../actions/types/MarketTypes';
 
 import api from '../controllers/api/config';
 
@@ -255,6 +257,7 @@ const checkUser = (store) => (next) => (action) => {
     case GET_FAVORITES: {
       next(action);
       store.dispatch({ type: SPINNER_SMALL_ON, payload: 'favorite' });
+      store.dispatch({ type: GET_FAVORITES_PROPERTIES });
       api.user.getFavoritesPages()
         .then((res) => {
           store.dispatch({ type: SET_FAVORITES, payload: res.data });
@@ -265,7 +268,34 @@ const checkUser = (store) => (next) => (action) => {
         });
       break;
     }
-    // DISPATCH TO SAVE SEARCH PROFILE
+    // DISPATCH TO UPDATE USER FAVORITE
+    case UPDATE_FAVORITE: {
+      next(action);
+      const { id, data, act } = action.payload;
+      store.dispatch({ type: SPINNER_SMALL_ON, payload: `favorite-${id}` });
+      const favParams = {
+        resultsPerPage: 10,
+        offset: 0,
+        order: 'updatedAt',
+        direction: 'DESC',
+        setAsSingle: true,
+        multiLoader: true,
+      };
+      if (act === 'add') {
+        api.user.addFavorite(id, data)
+          .then(() => {
+            store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
+            store.dispatch({ type: SPINNER_SMALL_OFF });
+          });
+      } else {
+        api.user.removeFavorite(id, data)
+          .then(() => {
+            store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
+            store.dispatch({ type: SPINNER_SMALL_OFF });
+          });
+      }
+      break;
+    }
     default:
       next(action);
   }
