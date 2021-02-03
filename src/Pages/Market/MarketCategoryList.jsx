@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  BrixelButtonSecondary, BrixelButtonIcon, useOutsideAlerter,
+  BrixelIcon,
+  BrixelButtonPrimary,
+  BrixelButtonSecondary,
+  BrixelButtonIcon,
+  Helpers,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
-// eslint-disable-next-line import/no-duplicates
-import { Helpers } from '@brixel/brixel-components';
-import BrixelIcon from '@brixel/brixel-components/dist/components/BrixelIcon';
-import BrixelButtonPrimary from '@brixel/brixel-components/dist/components/BrixelButtonPrimary';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
@@ -27,11 +27,21 @@ const CarouselWrapper = Loadable({
 const MarketList = (props) => {
   // PROPS
   const {
-    windowDimensions, match, history, favoritesProperties,
-    ownerProperties, userSearchProfiles, loggedInUser, ownerEstimations,
-    newProperties, premiumProperties, lastViewedProperties, preMarketProperties,
-    splashScreenType, activeSingleProperty, bestimate, activeSingleCompany,
-    setSplashScreen, setPropertyEstimation,
+    activeSingleCompany,
+    activeSingleProperty,
+    bestimate,
+    favoritesProperties,
+    history,
+    loggedInUser,
+    match,
+    newProperties,
+    ownerProperties,
+    preMarketProperties,
+    premiumProperties,
+    setPropertyEstimation,
+    setSplashScreen,
+    splashScreenType,
+    userSearchProfiles,
   } = props;
 
   const marketCookie = getCookie('brixelMarketBestimate');
@@ -434,49 +444,46 @@ const MarketList = (props) => {
 };
 
 MarketList.propTypes = {
-  windowDimensions: PropTypes.object.isRequired,
-  splashScreenType: PropTypes.string.isRequired,
-  match: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
-  ownerProperties: PropTypes.object.isRequired,
-  ownerEstimations: PropTypes.object.isRequired,
-  newProperties: PropTypes.object.isRequired,
-  lastViewedProperties: PropTypes.object.isRequired,
-  preMarketProperties: PropTypes.object.isRequired,
-  premiumProperties: PropTypes.object.isRequired,
-  favoritesProperties: PropTypes.object.isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
-  activeSingleCompany: PropTypes.object.isRequired,
-  setSplashScreen: PropTypes.func.isRequired,
+  favoritesProperties: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  newProperties: PropTypes.object.isRequired,
+  ownerProperties: PropTypes.object.isRequired,
+  preMarketProperties: PropTypes.object.isRequired,
+  premiumProperties: PropTypes.object.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
+  setSplashScreen: PropTypes.func.isRequired,
+  splashScreenType: PropTypes.string.isRequired,
+  userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 MarketList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  bestimate: get(state, 'property.estimation.result', {}),
-  ownerProperties: get(state, 'market.ownerProperties', {}),
-  ownerEstimations: get(state, 'market.ownerEstimations', {}),
-  newProperties: get(state, 'market.newProperties', {}),
-  lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
-  premiumProperties: get(state, 'market.premiumProperties', {}),
-  preMarketProperties: get(state, 'market.preMarketProperties', {}),
-  favoritesProperties: get(state, 'market.favoritesProperties', {}),
-  windowDimensions: get(state, 'common.windowDimensions', {}),
-  loggedInUser: get(state, 'user.loggedInUser.user', {}),
-  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
-  splashScreenType: get(state, 'common.splashScreenType', ''),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  bestimate: get(state, 'property.estimation.result', {}),
+  favoritesProperties: get(state, 'market.favoritesProperties', {}),
+  lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
+  newProperties: get(state, 'market.newProperties', {}),
+  ownerEstimations: get(state, 'market.ownerEstimations', {}),
+  ownerProperties: get(state, 'market.ownerProperties', {}),
+  preMarketProperties: get(state, 'market.preMarketProperties', {}),
+  premiumProperties: get(state, 'market.premiumProperties', {}),
+  splashScreenType: get(state, 'common.splashScreenType', ''),
+  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setSplashScreen: bindActionCreators(setSplashType, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
+  setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
 export default compose(

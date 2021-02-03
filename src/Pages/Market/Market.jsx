@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import get from 'lodash/get';
@@ -27,17 +27,16 @@ const MarketCategoryList = Loadable({
 const Market = (props) => {
   // PROPS
   const {
-    history,
-    handleGetSellerProperties,
-    handleSpinnerOff,
-    loggedInUser,
-    windowDimensions,
     handleGetFavoritesProperties,
-    handleGetUserSearchProfiles,
-    handleGetNewProperties,
-    handleGetPremiumProperties,
-    handleGetPreMarketProperties,
     handleGetLastViewedProperties,
+    handleGetNewProperties,
+    handleGetPreMarketProperties,
+    handleGetPremiumProperties,
+    handleGetSellerProperties,
+    handleGetUserSearchProfiles,
+    handleSpinnerOff,
+    history,
+    loggedInUser,
     userSearchProfiles,
   } = props;
 
@@ -89,17 +88,16 @@ const Market = (props) => {
 };
 
 Market.propTypes = {
-  handleGetSellerProperties: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
+  handleGetLastViewedProperties: PropTypes.func.isRequired,
+  handleGetNewProperties: PropTypes.func.isRequired,
+  handleGetPreMarketProperties: PropTypes.func.isRequired,
+  handleGetPremiumProperties: PropTypes.func.isRequired,
+  handleGetSellerProperties: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  windowDimensions: PropTypes.object.isRequired,
-  handleGetNewProperties: PropTypes.func.isRequired,
-  handleGetPremiumProperties: PropTypes.func.isRequired,
-  handleGetPreMarketProperties: PropTypes.func.isRequired,
-  handleGetLastViewedProperties: PropTypes.func.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
@@ -108,19 +106,19 @@ Market.defaultProps = {
 
 const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
-  windowDimensions: get(state, 'common.windowDimensions', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
-  handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
-  handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
-  handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
-  handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
   handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
-  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
+  handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
+  handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
+  handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
 export default compose(

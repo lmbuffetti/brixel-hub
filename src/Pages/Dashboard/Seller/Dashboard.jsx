@@ -102,7 +102,6 @@ const Dashboard = (props) => {
     handleGetGameGroup,
     handleGetGameHistory,
     handleGetImageType,
-    handleGetPropertyListings,
     handleSaveActiveSingleProperty,
     handleGetActiveSinglePropertyEstimation,
     handleSaveData,
@@ -201,8 +200,6 @@ const Dashboard = (props) => {
         if (get(activeSingleProperty, 'owner', null) === loggedInUser.user.id) {
           // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
           handleGetActiveSinglePropertyBookings({ id: propID });
-        } else if (get(activeSingleProperty, 'statusCode', null)) {
-          loadDefaultProperty();
         }
         if (imageType.length === 0) handleGetImageType();
       } else {
@@ -429,7 +426,6 @@ Dashboard.propTypes = {
   handleGetGameGroup: PropTypes.func.isRequired,
   handleGetGameHistory: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
-  handleGetPropertyListings: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSaveData: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,

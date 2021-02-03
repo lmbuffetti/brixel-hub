@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import ProgressRing from './ProgressRing';
 import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
-import { setCookie, getCookie } from '../utils/helpers';
+import { setCookie } from '../utils/helpers';
 import { setSplashType } from '../actions/CommonActions';
 import { setEstimation } from '../actions/PropertyActions';
 
@@ -21,7 +21,6 @@ const MarketCard = (props) => {
   // PROPS
   const {
     history,
-    isLoading,
     item,
     preventClick,
     skeleton,
@@ -176,7 +175,6 @@ const MarketCard = (props) => {
 
 MarketCard.propTypes = {
   history: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool,
   item: PropTypes.object.isRequired,
   preventClick: PropTypes.bool,
   skeleton: PropTypes.object.isRequired,
@@ -186,7 +184,6 @@ MarketCard.propTypes = {
 };
 
 MarketCard.defaultProps = {
-  isLoading: true,
   preventClick: false,
   type: '',
 };
