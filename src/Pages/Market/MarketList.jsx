@@ -331,7 +331,7 @@ const mapStateToProps = (state) => ({
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
-  newProperties: get(state, 'market.newProperties.data', {}),
+  newProperties: get(state, 'market.newProperties', {}),
   ownerProperties: get(state, 'market.ownerProperties', {}),
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),

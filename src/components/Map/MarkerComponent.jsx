@@ -69,13 +69,17 @@ const MarkerComponent = (props) => {
 };
 
 MarkerComponent.propTypes = {
-  activeProperty: PropTypes.string.isRequired,
+  activeProperty: PropTypes.string,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   google: PropTypes.object.isRequired,
   optMap: PropTypes.object.isRequired,
   // item: PropTypes.object.isRequired,
   // icon: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+};
+
+MarkerComponent.defaultProps = {
+  activeProperty: null,
 };
 
 /* export const MarkerMapComponent = React.memo(MarkerComponent, (prevProps, nextProps) =>

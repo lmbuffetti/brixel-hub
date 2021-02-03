@@ -13,11 +13,7 @@ import {
 import '../../styles/SCSS/pages/market.scss';
 import { spinnerOff } from '../../actions/CommonActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
-
-const MarketList = Loadable({
-  loader: () => import('./MarketList' /* webpackChunkName: "MarketList" */),
-  loading: () => 'Loading...',
-});
+import MarketList from './MarketList';
 
 const MarketCategoryList = Loadable({
   loader: () => import('./MarketCategoryList' /* webpackChunkName: "MarketCategoryList" */),
