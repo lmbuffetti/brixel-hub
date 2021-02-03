@@ -63,6 +63,38 @@ const MarketCard = (props) => {
     }
   };
 
+  // eslint-disable-next-line consistent-return
+  const getTypeText = () => {
+    switch (type) {
+      case 'new': {
+        return 'New';
+      }
+      case 'premium': {
+        return 'Premium';
+      }
+      case 'preMarket': {
+        return 'Pre-market';
+      }
+      default:
+    }
+  };
+
+  // eslint-disable-next-line consistent-return
+  const getColor = () => {
+    switch (type) {
+      case 'new': {
+        return 'Green';
+      }
+      case 'premium': {
+        return 'Red';
+      }
+      case 'preMarket': {
+        return 'Primary';
+      }
+      default:
+    }
+  };
+
   return (
     <>
       {
@@ -147,12 +179,29 @@ const MarketCard = (props) => {
             </>
           ) : (
             <>
-              <CoverPropertyImage
-                loadedImg={(val) => setCoverImgLoaded(val)}
-                className="cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-200"
-                coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
-                propertyType={get(item, 'properties.propertyType', undefined)}
-              />
+              <>
+                <CoverPropertyImage
+                  loadedImg={(val) => setCoverImgLoaded(val)}
+                  className="cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-200 pos-r"
+                  coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                  propertyType={get(item, 'properties.propertyType', undefined)}
+                />
+                {
+                  type === 'favorite' ? (
+                    <BrixelIcon
+                      icon="favorite-fill"
+                      color="red"
+                      className="type-tag favorite pos-a"
+                    />
+                  ) : (
+                    <p
+                      className={`type-tag pos-a non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor()}400`}
+                    >
+                      <span className="type">{getTypeText()}</span>
+                    </p>
+                  )
+                }
+              </>
               <div className="info dis-fl-col jc-b">
                 <div className="top dis-fl-col">
                   <span className="fweight-600 fsize-300 txtDark700 ellipsis one">{get(item, 'title', '')}</span>
