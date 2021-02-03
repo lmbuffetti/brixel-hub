@@ -27,25 +27,26 @@ const CarouselWrapper = (props) => {
     speed: 500,
     // eslint-disable-next-line no-nested-ternary
     slidesToShow: type === 'own' ? 2 : 4,
+    slidesToScroll: type === 'own' ? 2 : 4,
     responsive: [
       {
         breakpoint: 1025,
         settings: {
           slidesToShow: type === 'own' ? 1 : 2,
+          swipeToSlide: true,
         },
       },
       {
         breakpoint: 590,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1,
+          swipeToSlide: true,
           centerMode: true,
           centerPadding: '10%',
         },
       },
     ],
     centerPadding: '8px',
-    slidesToScroll: 1,
     className,
     onSwipe: () => setPreventClick(true),
     afterChange: () => setPreventClick(false),
