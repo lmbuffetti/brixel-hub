@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon, BrixelDropdownMini,
+  BrixelButtonIcon, BrixelDropdownMini, BrixelIcon,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { withRouter } from 'react-router-dom';
@@ -73,19 +73,22 @@ const MarketCardMap = (props) => {
           <CardImageText type={get(skeleton, '[type]', '')} />
         )
       }
+      <div className={`w-perc-100 pb-3 pr-lg-3 ${removeSkeleton ? '' : 'pos-a opacity0'}`}>
+        <hr className="lighter" />
+      </div>
       <div
-        className={`market-card ov-h ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius px-1 pos-r ${removeSkeleton ? '' : 'pos-a opacity0'}`}
+        className={`market-card ov-h ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius pos-r ${removeSkeleton ? '' : 'pos-a opacity0'} pr-lg-3 pb-3`}
       >
         <>
           <CoverPropertyImage
             onClick={(e) => onClick(e)}
             loadedImg={(val) => setCoverImgLoaded(val)}
-            className="cover brdRadius mb-1 h-fix-200 w-perc-100 w-fix-flex-sm-320 cur-poi"
+            className="cover brdRadius h-fix-204 w-perc-100 w-fix-flex-sm-296 cur-poi"
             coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
             propertyType={get(item, 'properties.propertyType', undefined)}
           />
-          <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100">
-            <div className="top dis-f a-t jc-b mb-3">
+          <div className="info dis-fl-col jc-b pl-sm-2 pl-0 w-perc-100">
+            <div className="top dis-f a-t jc-b pt-3 pt-md-0">
               <div className=" dis-fl-col">
                 <h6
                   className="fweight-700 txtDark700 ellipsis one w-perc-100 max-w-fix-400 cur-poi"
@@ -96,9 +99,8 @@ const MarketCardMap = (props) => {
                 <span className="fsize-300 txtDark700">{get(item, 'location.address', '')}</span>
               </div>
               <div className="dis-f">
-                <BrixelButtonIcon
-                  ghost
-                  theme="red"
+                <BrixelIcon
+                  color="red"
                   icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
                   onClick={() => onChangeFavorite()}
                   isLoading={isSmallLoading === `favorite-${item.id}`}
@@ -142,12 +144,12 @@ const MarketCardMap = (props) => {
                 */}
               </div>
             </div>
-            <div className="mid dis-fl-row a-c fsize-300 txtDark400 mb-3">
+            <div className="mid dis-fl-row a-c fsize-300 txtDark400 py-2 py-md-0">
               <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
               <span><span>{get(item, 'properties.typology.bedrooms', 0)}</span> <span>bedrooms</span></span> <span className="px-1"> &middot; </span>
               <span><span>{get(item, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></span>
             </div>
-            <div className="bottom dis-f a-c fsize-300 py-1">
+            <div className="bottom dis-f a-c fsize-300">
               <p className="fweight-700 fsize-500">{get(item, 'price.total', 0)}</p>
               <span className="fsize-200 ml-1">{get(item, 'price.currency', 'CHF')}</span>
             </div>

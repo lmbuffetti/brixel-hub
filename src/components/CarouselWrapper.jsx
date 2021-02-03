@@ -2,12 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import get from 'lodash/get';
 import Slider from 'react-slick';
 import {
   BrixelButtonIcon,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import { setWindowDimensions } from '../actions/CommonActions';
 import MarketCard from './MarketCard';
 
 const CarouselWrapper = (props) => {
@@ -18,15 +20,78 @@ const CarouselWrapper = (props) => {
     type,
     title,
     className,
+    windowDimensions,
   } = props;
 
   const [preventClick, setPreventClick] = useState(false);
+
+  const settingsSlick = () => {
+    let carouselSettings = {};
+    if (windowDimensions.width <= 1024) {
+      carouselSettings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: type === 'own' ? 2 : 4,
+        slidesToScroll: type === 'own' ? 2 : 4,
+        swipeToSlide: true,
+        responsive: [
+          {
+            breakpoint: 1025,
+            settings: {
+              slidesToShow: type === 'own' ? 1 : 2,
+            },
+          },
+          {
+            breakpoint: 590,
+            settings: {
+              slidesToShow: 1,
+              swipeToSlide: true,
+              centerMode: true,
+              centerPadding: '10%',
+            },
+          },
+        ],
+        centerPadding: '8px',
+        className,
+        onSwipe: () => setPreventClick(true),
+        afterChange: () => setPreventClick(false),
+        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="dark" />,
+        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small ghost theme="dark" />,
+      };
+    } else if (windowDimensions.width > 1024) {
+      carouselSettings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: type === 'own' ? 2 : 4,
+        swipeToSlide: true,
+        responsive: [
+          {
+            breakpoint: 590,
+            settings: {
+              slidesToShow: 1,
+              swipeToSlide: true,
+              centerMode: true,
+              centerPadding: '10%',
+            },
+          },
+        ],
+        centerPadding: '8px',
+        className,
+        onSwipe: () => setPreventClick(true),
+        afterChange: () => setPreventClick(false),
+        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="dark" />,
+        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small ghost theme="dark" />,
+      };
+    }
+    return carouselSettings;
+  };
 
   const carouselSettings = {
     dots: false,
     infinite: false,
     speed: 500,
-    // eslint-disable-next-line no-nested-ternary
     slidesToShow: type === 'own' ? 2 : 4,
     slidesToScroll: type === 'own' ? 2 : 4,
     responsive: [
@@ -34,7 +99,7 @@ const CarouselWrapper = (props) => {
         breakpoint: 1025,
         settings: {
           slidesToShow: type === 'own' ? 1 : 2,
-          swipeToSlide: true,
+          slidesToScroll: type === 'own' ? 1 : 2,
         },
       },
       {
@@ -80,6 +145,7 @@ CarouselWrapper.propTypes = {
   title: PropTypes.string,
   className: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 CarouselWrapper.defaultProps = {
@@ -90,10 +156,11 @@ CarouselWrapper.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 
 export default compose(

@@ -13,7 +13,7 @@ const CardImageText = (props) => {
       alt="Sckeleton Card Loading"
       id="cartello"
       src={type === 'CardImageTextVertical' ? SkeletonCard : SkeletonHorizontalCard}
-      className="w-perc-90"
+      className="w-perc-90 mb-3"
     />
   );
 };
