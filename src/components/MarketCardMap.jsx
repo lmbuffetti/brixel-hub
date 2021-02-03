@@ -3,13 +3,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon, BrixelDropdownMini, BrixelIcon,
+  BrixelIcon, // BrixelDropdownMini,
 } from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import ProgressRing from './ProgressRing';
 import { updateFavorite } from '../actions/UserActions';
 import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
@@ -19,8 +17,6 @@ const MarketCardMap = (props) => {
   const {
     favoritesProperties,
     handleUpdateFavorites,
-    history,
-    isLoading,
     isSmallLoading,
     item,
     loggedInUser,
@@ -31,7 +27,7 @@ const MarketCardMap = (props) => {
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
-  const [optionsOpen, setOptionsOpen] = useState(false);
+  // const [optionsOpen, setOptionsOpen] = useState(false);
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
@@ -39,15 +35,6 @@ const MarketCardMap = (props) => {
       setRemoveSkeleton(true);
     }
   }, [skeleton, coverImgLoaded]);
-
-  const openCard = (e) => {
-    if (e) e.preventDefault();
-    if (type === 'own') history.push(`/${item.id}/rewards`);
-    if (type === 'favorite') history.push(`/buyer/property/${item.id}`);
-    // TODO: Estimation opens overlay
-    // TODO: Pre-Market opens overlay
-    else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
-  };
 
   const checkFavorite = () => {
     const findIndex = favoritesProperties.findIndex((prop) => prop.id === item.id);
@@ -162,10 +149,8 @@ const MarketCardMap = (props) => {
 
 MarketCardMap.propTypes = {
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool,
   item: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
   handleUpdateFavorites: PropTypes.func.isRequired,
@@ -174,7 +159,6 @@ MarketCardMap.propTypes = {
 };
 
 MarketCardMap.defaultProps = {
-  isLoading: true,
   isSmallLoading: null,
   type: '',
 };

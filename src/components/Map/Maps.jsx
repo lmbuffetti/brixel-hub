@@ -481,6 +481,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   GoogleApiWrapper({
     apiKey: (baseByData.googleMaps),
+    language: 'en',
     libraries: ['geometry', 'drawing', 'places'],
   }),
   withRouter,

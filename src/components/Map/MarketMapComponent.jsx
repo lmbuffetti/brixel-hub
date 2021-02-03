@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  Map, InfoWindow, GoogleApiWrapper, Marker,
+  Map, InfoWindow, GoogleApiWrapper,
 } from 'google-maps-react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
@@ -35,7 +35,6 @@ export const MarketMapComponent = (props) => {
   const [showInfoWindow, setShowInfoWindow] = useState(false);
   const [modalInfo] = useState({});
   const [mapTypeId, setMapTypeId] = useState('roadmap');
-  const [streetViewAvailable, setStretViewAvailable] = useState(false);
   const [optMap, setOptMap] = useState({});
 
   // FUNCTION TO INITIALIZE THE MAP
@@ -153,36 +152,6 @@ export const MarketMapComponent = (props) => {
       {
         (externalControls && showMap) && (
           <div className="actionMaps">
-            {
-              streetViewAvailable && (
-                <div className="switchBtn shadow-4dp mr-1">
-                  <div
-                    className={`btn-action ${mapTypeId === 'streetview' ? 'active' : ''}`}
-                    onClick={() => btnActions('streetview')}
-                  >
-                    <BrixelIcon
-                      icon="streetview"
-                    />
-                  </div>
-                  <div
-                    className={`btn-action ${mapTypeId === 'roadmap' ? 'active' : ''}`}
-                    onClick={() => btnActions('roadmap')}
-                  >
-                    <BrixelIcon
-                      icon="roadmap"
-                    />
-                  </div>
-                  <div
-                    className={`btn-action ${mapTypeId === 'satellite' ? 'active' : ''}`}
-                    onClick={() => btnActions('satellite')}
-                  >
-                    <BrixelIcon
-                      icon="satellite"
-                    />
-                  </div>
-                </div>
-              )
-            }
             <div className="switchBtn shadow-4dp">
               <div
                 className="btn-action"

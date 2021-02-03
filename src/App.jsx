@@ -53,11 +53,6 @@ const PageHeader = Loadable({
   loading: Loading,
 });
 
-const MenuSidebar = Loadable({
-  loader: () => import('./components/MenuSidebar' /* webpackChunkName: "MenuSidebar" */),
-  loading: Loading,
-});
-
 // ADMIN ROUTES
 const ProtectedRoute = Loadable({
   loader: () => import('./components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),

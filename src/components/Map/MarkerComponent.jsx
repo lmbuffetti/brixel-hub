@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Marker } from 'google-maps-react';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
-import { diff } from 'deep-object-diff';
 import markerImg from '../../images/location/icon_location.svg';
 import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
-import { MarketMapComponent } from './MarketMapComponent';
 
 const MarkerComponent = (props) => {
   const {
@@ -66,15 +63,23 @@ const MarkerComponent = (props) => {
     }
   }, [optMap, activeProperty, markerList.length]);
 
-  return null;
+  return (
+    <></>
+  );
 };
 
 MarkerComponent.propTypes = {
+  activeProperty: PropTypes.string,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
   google: PropTypes.object.isRequired,
   optMap: PropTypes.object.isRequired,
   // item: PropTypes.object.isRequired,
   // icon: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+};
+
+MarkerComponent.defaultProps = {
+  activeProperty: null,
 };
 
 /* export const MarkerMapComponent = React.memo(MarkerComponent, (prevProps, nextProps) =>

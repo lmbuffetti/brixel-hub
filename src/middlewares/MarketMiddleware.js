@@ -23,8 +23,6 @@ import {
 import {
   SKELETON_ON,
   SKELETON_OFF,
-  SPINNER_SMALL_ON,
-  SPINNER_SMALL_OFF,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';

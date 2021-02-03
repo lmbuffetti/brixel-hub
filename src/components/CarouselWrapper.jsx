@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -15,7 +15,6 @@ import MarketCard from './MarketCard';
 const CarouselWrapper = (props) => {
   // PROPS
   const {
-    isLoading,
     items,
     type,
     title,
@@ -140,7 +139,6 @@ const CarouselWrapper = (props) => {
 };
 
 CarouselWrapper.propTypes = {
-  isLoading: PropTypes.bool,
   type: PropTypes.string,
   title: PropTypes.string,
   className: PropTypes.string,
@@ -149,7 +147,6 @@ CarouselWrapper.propTypes = {
 };
 
 CarouselWrapper.defaultProps = {
-  isLoading: false,
   type: '',
   title: '',
   className: '',

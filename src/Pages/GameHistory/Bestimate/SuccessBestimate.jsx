@@ -23,13 +23,12 @@ function SuccessBestimate(props) {
     activeSingleProperty,
     bestimate,
     gameGroup,
-    handleGetGamegroup,
-    history,
     gameStub,
     groupdAchievement,
     handleGetMarketCheck,
-    match,
+    history,
     marketData,
+    match,
   } = props;
   // STATE
   const [achievement, setAchievement] = useState(null);
@@ -231,14 +230,13 @@ function SuccessBestimate(props) {
 SuccessBestimate.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
-  groupdAchievement: PropTypes.object,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameStub: PropTypes.string,
-  history: PropTypes.object.isRequired,
+  groupdAchievement: PropTypes.object,
   handleGetMarketCheck: PropTypes.func.isRequired,
-  handleGetGamegroup: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 SuccessBestimate.defaultProps = {
@@ -248,8 +246,8 @@ SuccessBestimate.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  gameGroup: get(state, 'gamification.gameGroup', []),
   bestimate: get(state, 'property.estimation.result', {}),
+  gameGroup: get(state, 'gamification.gameGroup', []),
   marketData: get(state, 'property.marketCheck', {}),
 });
 

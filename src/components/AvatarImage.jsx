@@ -29,11 +29,11 @@ const AvatarImage = (props) => {
             src={avatarImg}
             alt={`Profile ${name}`}
             width={`${size}px`}
-            className={`brdCircle cur-poi w-fix-${size} h-fix-${size}`}
+            className={`brdCircle cur-poi w-fix-${size} h-fix-${size} notranslate`}
             onClick={() => onClick()}
           />
         ) : (
-          <div className={`defaultAvt flex-${size} w-fix-${size} h-fix-${size} ${isIcon ? 'withIcon' : ''}`} onClick={() => onClick()}>
+          <div className={`notranslate defaultAvt flex-${size} w-fix-${size} h-fix-${size} ${isIcon ? 'withIcon' : ''}`} onClick={() => onClick()}>
             {
               isIcon ? (
                 <BrixelIcon iconSize={`fSizePx${size / 2 + 2}`} saturationTxt={700} icon="user-solid" color="primary" />
