@@ -324,7 +324,7 @@ const MarketList = (props) => {
             className="fsize-300 mb-1 mr-1"
           /> */}
           {
-            favoritesProperties.length > 0 && (
+            get(favoritesProperties, 'total', 0) > 0 && (
               <BrixelButtonSecondary
                 onClick={() => history.push(`${match.url}/favorites`)}
                 label="Your favorites"
@@ -336,7 +336,7 @@ const MarketList = (props) => {
             )
           }
           {
-            newProperties.length > 0 && (
+            get(newProperties, 'total', 0) > 0 && (
               <BrixelButtonSecondary
                 onClick={() => history.push(`${match.url}/radar`)}
                 label="New in your radar"
@@ -348,7 +348,7 @@ const MarketList = (props) => {
             )
           }
           {
-            premiumProperties.length > 0 && (
+            get(premiumProperties, 'total', 0) > 0 && (
               <BrixelButtonSecondary
                 onClick={() => history.push(`${match.url}/premium`)}
                 label="Premium properties"
@@ -360,7 +360,7 @@ const MarketList = (props) => {
             )
           }
           {
-            preMarketProperties.length > 0 && (
+            get(preMarketProperties, 'total', 0) > 0 && (
               <BrixelButtonSecondary
                 onClick={() => history.push(`${match.url}/preMarket`)}
                 label="Pre-Market properties"
