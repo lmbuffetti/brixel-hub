@@ -108,7 +108,8 @@ const MarketCard = (props) => {
                         has(item, 'estimation.result.value') ? (
                           <>
                             {get(item, 'estimation.result.currency', '')} {' '}
-                            {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))} - {Helpers.formatNumberValue(get(item, 'estimation.result.lowerValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}
+                            {Helpers.formatNumberValue(get(item, 'estimation.result.lowerValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))} -
+                            {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}
                           </>
                         ) : (
                           <span>Pending</span>
@@ -163,8 +164,18 @@ const MarketCard = (props) => {
                   <span><span>{get(item, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></span>
                 </div>
                 <div className="bottom dis-fl-row a-c txtDark700 pt-1">
-                  <span className="fsize-300 fweight-600">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
-                  <span className="fsize-300 fweight-600"> &nbsp; {get(item, 'price.currency', '')}</span>
+
+                  {
+                    get(item, 'price.total', 0) !== 0 ? (
+                      <>
+                        <span className="fsize-300 fweight-600">{get(item, 'price.currency', '')} &nbsp; </span>
+                        <span className="fsize-300 fweight-600">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
+                      </>
+                    ) : (
+                      <span className="txtGreen400 fsize-300 fweight-500">On Request</span>
+                    )
+                  }
+
                 </div>
               </div>
             </>

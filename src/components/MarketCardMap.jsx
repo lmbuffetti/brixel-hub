@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
-  BrixelIcon, // BrixelDropdownMini,
+  BrixelIcon, Helpers, // BrixelDropdownMini,
 } from '@brixel/brixel-components';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
@@ -137,8 +137,16 @@ const MarketCardMap = (props) => {
               <span><span>{get(item, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></span>
             </div>
             <div className="bottom dis-f a-c fsize-300">
-              <p className="fweight-700 fsize-500">{get(item, 'price.total', 0)}</p>
-              <span className="fsize-200 ml-1">{get(item, 'price.currency', 'CHF')}</span>
+              {
+                get(item, 'price.total', 0) !== 0 ? (
+                  <>
+                    <span className="fsize-300 fweight-600">{get(item, 'price.currency', '')} &nbsp; </span>
+                    <span className="fsize-300 fweight-600">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
+                  </>
+                ) : (
+                  <span className="txtGreen400 fsize-300 fweight-500">On Request</span>
+                )
+              }
             </div>
           </div>
         </>
