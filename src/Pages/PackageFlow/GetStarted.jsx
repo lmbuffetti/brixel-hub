@@ -21,11 +21,12 @@ import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodeP
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
-import { setCookie } from '../../utils/helpers';
+import { calcPercentageFacts, setCookie } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoarding';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
+import { InputSheets } from '../../resources/inputSheets';
 
 const cookie = new Cookies();
 
@@ -86,6 +87,15 @@ const GetStarted = (props) => {
 
     return type;
   };
+
+  // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
+  useEffect(() => {
+    const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+    if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
+      inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
+      changeFieldValue('inputSheet', inputSheet);
+    }
+  }, [formValue]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async (action) => {
