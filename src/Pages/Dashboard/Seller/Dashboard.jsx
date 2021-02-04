@@ -390,8 +390,11 @@ const Dashboard = (props) => {
       // initializeForm('inputSheet', inputSheet);
     }
   }, [formValue, errorValue]);
+
   if (!userTypes && !userType) return (<div />);
+
   const sectionClass = get(history, 'location.pathname', '/').split('/');
+
   return (
     <div className={`container dashboardContainer ${sectionClass[2]}`} id="dashboard">
       {/* teaserScreens && isEligible(activeSingleProperty) && () */}
