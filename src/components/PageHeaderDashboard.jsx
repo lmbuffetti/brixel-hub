@@ -18,6 +18,7 @@ import {
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_full_v2.svg';
+import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import useOutsideAlerter from './OutsideElement';
 import { setCookie, sortObject } from '../utils/helpers';
 import { setLanguage, setModal } from '../actions/CommonActions';
@@ -305,8 +306,92 @@ function PageHeaderDashboard(props) {
     <>
       <header className="hubDasHeader">
         <div className="dasHeaderContainer">
-          <div className={`wrapperHeader dis-f a-c ${history.location.pathname.includes('/home') ? 'px-3 py-1' : 'h-fix-64 px-2 px-md-3'}  jc-b pos-r bgWhite`}>
-            {
+          <div className={`wrapperHeader dis-f a-c ${history.location.pathname.includes('/home') ? '' : ''} h-fix-64 px-2 px-md-3 jc-b pos-r bgWhite`}>
+            <div className="header-section py-1 dis-fl-row a-c jc-b">
+              <div className="dis-f a-c logoWrapper">
+                {
+                  windowDimensions.width <= 590 ? (
+                    <img
+                      onClick={() => {
+                        handleSetUserTypes('seller');
+                        handleSetActiveSingleProperty({});
+                        history.push('/home');
+                      }}
+                      className="pos-r cur-poi"
+                      src={logoMobile}
+                      alt="Brixel Logo"
+                      id="logo"
+                    />
+                  ) : (
+                    <img
+                      onClick={() => {
+                        handleSetUserTypes('seller');
+                        handleSetActiveSingleProperty({});
+                        history.push('/home');
+                      }}
+                      className="pos-r cur-poi"
+                      src={logo}
+                      alt="Brixel Logo"
+                      id="logo"
+                    />
+                  )
+                }
+              </div>
+              <div className="quickNav dis-f ml-3 pl-3 fsize-300">
+                {
+                  !activeSingleProperty.id && (
+                    <span
+                      className={`pr-3 cur-poi ${history.location.pathname.includes('/home') ? 'fweight-600 txtDark600' : ''}`}
+                      onClick={() => history.push('/home')}
+                    >
+                      Market
+                    </span>
+                  )
+                }
+                {
+                  !(activeSingleProperty.id && history.location.pathname.includes('/buyer')) && (
+                    <>
+                      <span
+                        className={`${activeSingleProperty.id ? '' : 'pr-3'} hideOnMobile cur-poi ${history.location.pathname.includes('/seller') ? 'fweight-600 txtDark600' : ''}`}
+                        onClick={() => {
+                          handleSetUserTypes('seller');
+                          handleSetActiveSingleProperty({});
+                          history.push('/seller/pageLists');
+                        }}
+                      >
+                        Sell
+                      </span>
+                      { activeSingleProperty.id && (<span className="px-1 hideOnMobile"> &gt; </span>)}
+                    </>
+                  )
+                }
+
+                {
+                  (!activeSingleProperty.id || history.location.pathname.includes('/buyer/property')) && (
+                    <>
+                      <span
+                        className={`hideOnMobile cur-poi ${history.location.pathname.includes('/buyer') ? 'fweight-600 txtDark600' : ''}`}
+                        onClick={() => {
+                          destroyForm();
+                          handleSetUserTypes('buyer');
+                          handleSetActiveSingleProperty({});
+                          history.push('/buyer/propertyLists');
+                        }}
+                      >
+                        Buy
+                      </span>
+                      { activeSingleProperty.id && (<span className="px-1 hideOnMobile"> &gt; </span>)}
+                    </>
+                  )
+                }
+                {
+                  activeSingleProperty.id && (
+                    <span className="propertyTitle txtDark700">{get(formValue, 'title', '')}</span>
+                  )
+                }
+              </div>
+            </div>
+            {/* {
               activeSingleProperty.id ? (
                 <div className="propertyPanel dis-f a-c">
                   <div
@@ -386,59 +471,8 @@ function PageHeaderDashboard(props) {
                   }
                 </div>
               )
-            }
-
-            {/*
-              windowDimensions.width > 1024 && (
-                <div className="header-section dis-fl-row a-c jc-b">
-                  <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} />
-                  <h5 className="ml-2">{getCurrentRoute().title}</h5>
-                </div>
-              )
-            }
-            {
-              windowDimensions.width <= 1024 && (
-                <div
-                  className="propertyPanel dis-f a-c"
-                  onClick={() => {
-                    if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
-                  }}
-                >
-                  <div className="image-ratio flex-48 squared shadow-2dp w-fix-48 h-fix-48 brdRadius ov-h">
-                    <CoverPropertyImage
-                      className="cover"
-                      coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
-                      propertyType={get(formValue, 'properties.propertyType', undefined)}
-                    />
-                  </div>
-                  <h4 ref={proTitleRef} className="ml-2 fsize-400 fweight-600"> {get(formValue, 'title', '')}</h4>
-                </div>
-              )
-            */}
-
+            } */}
             <div className="dis-f a-c">
-              {/*
-                windowDimensions.width > 1024 && (
-                  <div className="dis-f a-c" onClick={() => brixelsAchievementDetail()}>
-                    {
-                      awards >= 0 && (
-                        <div className="cur-poi dis-f a-c">
-                          <BrixelIcon iconSize="fsize-600" icon="cup-awards" color="green" />
-                          <span className="ff-mono fsize-300 pl-1 txtDark700">{awards}</span>
-                        </div>
-                      )
-                    }
-                    {
-                      brixelPoints >= 0 && (
-                        <div className="cur-poi dis-f a-c ml-2">
-                          <img className="max-w-fix-24" src={brixels} alt="icon awards" />
-                          <span className="ff-mono fsize-300 pl-1 txtDark700">{brixelPoints}</span>
-                        </div>
-                      )
-                    }
-                  </div>
-                )
-              */}
               {
                 propID && windowDimensions.width > 1024 && userType === 'seller' && (
                   <BrixelButtonText
@@ -470,7 +504,7 @@ function PageHeaderDashboard(props) {
                     />
                     {
                       showMobileMenu && (
-                        <div className="mobile-menu bgWhite w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-3 pb-2 zIndex5" style={{ height: windowDimensions.height }}>
+                        <div className="mobile-menu bgWhite w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-2 pb-2 zIndex5" style={{ height: windowDimensions.height }}>
                           <div className="dis-f jc-b a-c w-perc-100">
                             <img className="pos-r w-fix-80" src={logo} alt="Brixel Logo" id="logo" />
                             <BrixelButtonIcon
@@ -519,37 +553,6 @@ function PageHeaderDashboard(props) {
                                   Buy
                                 </li>
                               </ul>
-                              {/* <BrixelButtonPrimary
-                                label="Sell"
-                                labelClass="fsize-300"
-                                leftIcon="property-house"
-                                className={`${userType === 'seller' ? 'active' : ''}`}
-                                onClick={() => {
-                                  handleSetUserTypes('seller');
-                                  handleSetActiveSingleProperty({});
-                                  history.push('/seller/pageLists');
-                                  toggleMobileMenu();
-                                }}
-                              />
-                              <BrixelButtonPrimary
-                                label="Buy"
-                                labelClass="fsize-300"
-                                leftIcon="favorite"
-                                className={`${userType === 'buyer' ? 'active' : ''}`}
-                                onClick={() => {
-                                  destroyForm();
-                                  handleSetUserTypes('buyer');
-                                  handleSetActiveSingleProperty({});
-                                  history.push('/buyer/propertyLists');
-                                  toggleMobileMenu();
-                                }}
-                              /> */}
-                              {/* <BrixelButtonText
-                                className="fsize-300 txtLight700 px-1 td-n"
-                                label="Support"
-                                leftIcon="conversation"
-                                onClick={() => onTabClick('support')}
-                              /> */}
                               <span
                                 onClick={() => onTabClick('support')}
                                 className="cur-poi txtDark400 fsize-300 fweight-500 px-2 py-1"

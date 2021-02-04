@@ -258,17 +258,17 @@ const App = (props) => {
       setZIndex(6);
     } else {
       if (history.location.pathname.includes('rewards')) {
-        setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar');
+        setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('property')) {
         if (history.location.pathname.includes('buyer')) {
           setClassMain('w-perc-100 pos-r hubContainer propertyTop');
         } else {
-          setClassMain('w-perc-100 pos-r hubContainer propertyTop withTopBar');
+          setClassMain('w-perc-100 pos-r hubContainer propertyTop withTopBar sellerHub');
         }
       } else if (history.location.pathname.includes('listings')) {
-        setClassMain('w-perc-100 pos-r hubContainer listingsTop withTopBar');
+        setClassMain('w-perc-100 pos-r hubContainer listingsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('deals')) {
-        setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar');
+        setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('/home')) {
         setClassMain('w-perc-100 pos-r hubContainer ov-h marketHome');
       } else {
@@ -431,7 +431,7 @@ const App = (props) => {
 
       <Loading isLoading={isLoading} />
 
-      <div className={`${classMain} ${isSecLevel ? 'fixedLayout' : ''}`}>
+      <div className={`${classMain} ${history.location.pathname.includes('buyer/property/') ? 'buyerHub' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
         <div className="dis-f">
           {/* {
             !history.location.pathname.includes('packageFlow') &&
