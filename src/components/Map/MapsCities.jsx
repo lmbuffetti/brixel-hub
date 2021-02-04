@@ -8,6 +8,7 @@ import {
   GoogleApiWrapper,
 } from 'google-maps-react';
 import PropTypes from 'prop-types';
+import Geocode from 'react-geocode';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { BrixelInputText, BrixelIcon, change } from '@brixel/brixel-components';
@@ -96,12 +97,11 @@ export const MapsCities = (props) => {
 
   // FUNCTION TO EXTRACT DATA FROM SELECTED ADDRESS
   const geoCode = (adr) => {
-    const geocoder = new google.maps.Geocoder();
     const defAdr = adr.split(',');
-    geocoder.geocode({
-      address: adr,
-    }, (result, status) => {
-      if (status === 'OK') {
+    Geocode.setApiKey('AIzaSyDHqV6i45MbGQVKOr2Md-8IzWeO7J1zGmg');
+    if (selCountry.toLowerCase() !== 'ch') Geocode.setLanguage(selCountry.toLowerCase());
+    Geocode.fromAddress(adr)
+      .then((result) => {
         const formattedPlace = get(formValue, 'location', {});
         formattedPlace.country = null;
         formattedPlace.countryCode = null;
@@ -116,11 +116,11 @@ export const MapsCities = (props) => {
         formattedPlace.zip = null;
         formattedPlace.city = null;
 
-        const location = result[0];
+        const location = result.results[0];
         if (location.geometry) {
           formattedPlace.geometry = location.geometry;
-          formattedPlace.latitude = location.geometry.location.lat();
-          formattedPlace.longitude = location.geometry.location.lng();
+          formattedPlace.latitude = location.geometry.location.lat;
+          formattedPlace.longitude = location.geometry.location.lng;
         }
 
         if (location.name) {
@@ -194,8 +194,7 @@ export const MapsCities = (props) => {
         // changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
         setLoclist([]);
         // setZiplist([]);
-      }
-    });
+      });
   };
 
   // FUNCTION TO LOAD AUTOCOMPLETE FUNCTION ON CHANGE searchAddress
