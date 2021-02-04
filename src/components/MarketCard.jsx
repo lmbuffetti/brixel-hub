@@ -169,7 +169,7 @@ const MarketCard = (props) => {
                     </div>
                     <div className="pl-2 dis-fl-col">
                       <span className="fweight-500 txtDark100">Facts</span>
-                      <span className="fweight-500 txtDark400"><span>10{get(item, 'inputSheet.totalComplete', 0)}% completed</span> </span>
+                      <span className="fweight-500 txtDark400"><span>{get(item, 'inputSheet.totalComplete', 0)}% completed</span> </span>
                     </div>
                   </div>
                 </div>

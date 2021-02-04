@@ -49,8 +49,8 @@ const CarouselWrapper = (props) => {
         className,
         onSwipe: () => setPreventClick(true),
         afterChange: () => setPreventClick(false),
-        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="red" />,
-        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small ghost theme="red" />,
+        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="dark" />,
+        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small ghost theme="dark" />,
       };
     } else if (windowDimensions.width > 1024) {
       carouselSettings = {
