@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/SCSS/components/progress-ring.scss';
+import factIcon from '../images/fact-percentage-icon.svg';
 
 const ProgressRing = (props) => {
   const [offset, setOffset] = useState(0);
@@ -25,12 +26,14 @@ const ProgressRing = (props) => {
   }, [setOffset, progress, circumference, offset]);
 
   return (
-    <>
+    <div className="pos-r">
+      <img width={size / 2.5} height={size / 2.5} className="factIcon pos-a xy-c" alt="factIcon" src={factIcon} />
       <svg
         className="progressRing"
         width={size}
         height={size}
       >
+
         <circle
           className="svg-circle-bg"
           stroke={circleOneStroke}
@@ -51,7 +54,7 @@ const ProgressRing = (props) => {
           strokeDashoffset={offset}
         />
       </svg>
-    </>
+    </div>
   );
 };
 

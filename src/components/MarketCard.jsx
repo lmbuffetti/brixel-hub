@@ -158,7 +158,7 @@ const MarketCard = (props) => {
                       history.push(`/${item.id}/rewards/achievement/facts`);
                     }}
                   >
-                    <div className="w-fix-56">
+                    <div className="max-w-fix-48 w-perc-100">
                       <ProgressRing
                         progress={get(item, 'inputSheet.totalComplete', 0)}
                         size={45}
@@ -167,11 +167,9 @@ const MarketCard = (props) => {
                         circleTwoStroke="#387AFF"
                       />
                     </div>
-                    <div className="pl-1">
-                      <span className="fweight-500 txtDark100">Facts</span>
-                      <span className="dis-b fweight-600 txtDark400">
-                        {get(item, 'inputSheet.totalComplete', 0)}% completed
-                      </span>
+                    <div className="pl-2 dis-fl-col">
+                      <span className="fweight-500 txtDark100 w-perc-100">Facts</span>
+                      <span className="fweight-500 txtDark400 w-perc-100"><span> {get(item, 'inputSheet.totalComplete', 0)}% completed</span> </span>
                     </div>
                   </div>
                 </div>
