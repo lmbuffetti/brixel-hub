@@ -1,19 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import {
   destroy,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import logo from '@brixel/brixel-configuration-partner/src/images/logo_full_v2.svg';
 import { CSSTransition } from 'react-transition-group';
-import BrixelIcon from '@brixel/brixel-components/dist/components/BrixelIcon';
 import useOutsideAlerter from './OutsideElement';
 import { setUserTypes } from '../actions/UserActions';
 import { setActiveSingleProperty } from '../actions/PropertyActions';
+import { sidebarNavigationSeller, sidebarNavigationBuyer } from '../resources/navigationRoutes';
 
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 
@@ -29,7 +28,7 @@ const MenuSidebar = (props) => {
   // STATE
   const [activeMenu, setActiveMenu] = useState(null);
   const [slideIn, setSlideIn] = useState(false);
-  const [isBuyer, setIsBuyer] = useState(false);
+  const [navigationMenu, setNavigationMenu] = useState([]);
   // REF
   const wrapperRef = useRef(null);
   // URL PARAMS
@@ -41,16 +40,13 @@ const MenuSidebar = (props) => {
     if (act === 'state' || val === 'support' || val === '/support') {
       setActiveMenu(val.replace('/', ''));
       setSlideIn(true);
-    } else {
-      if (userType === 'seller') {
-        const url = val.replace(':propID', propID);
-        history.push(url);
-      } else {
-        const url = val.replace(':propID', propID);
-        history.push(url);
-      }
-      setActiveMenu(null);
     }
+  };
+
+  // FUNCTION TO MAANGE THE TAB CLICK
+  const linkMenu = (val, act = 'url') => {
+    const url = val.replace(':propID', propID);
+    return url;
   };
 
   // FUNCTION TO SHOW/HIDE THE SUPPORT MENU (history.push({state: {showSupport: true}}))
@@ -69,9 +65,9 @@ const MenuSidebar = (props) => {
 
   useEffect(() => {
     if (history.location.pathname.includes('buyer')) {
-      setIsBuyer(true);
+      setNavigationMenu(sidebarNavigationBuyer);
     } else {
-      setIsBuyer(false);
+      setNavigationMenu(sidebarNavigationSeller);
     }
   });
 
@@ -90,57 +86,34 @@ const MenuSidebar = (props) => {
           { /* SECTION SIDEBAR MENU DESKTOP */ }
           <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite shadow-2dp ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
             <div className="hide dis-b-md">
-              <div className="h-fix-64 dis-f a-c logoWrapper px-2">
-                <img className="pos-r w-fix-64" src={logo} alt="Brixel Logo" id="logo" />
-              </div>
-              <div className="sidebarNav mt-5 px-2">
-                <ul className="navigation">
-                  <li
-                    onClick={() => {
-                      handleSetUserTypes('seller');
-                      handleSetActiveSingleProperty({});
-                      history.push('/seller/pageLists');
-                    }}
-                    className={`${isBuyer ? '' : 'active'} fweight-500 fsize-300 dis-f a-c brdRadius px-2 h-fix-40 txtLight400 cur-poi`}
-                  >
-                    <BrixelIcon
-                      icon="property-house"
-                      className="mr-small-12"
-                    />
-                    <span>Sell</span>
-                  </li>
-                  <li
-                    onClick={() => {
-                      destroyForm();
-                      handleSetUserTypes('buyer');
-                      handleSetActiveSingleProperty({});
-                      history.push('/buyer/propertyLists');
-                    }}
-                    className={`${isBuyer ? 'active' : ''} fweight-500 fsize-300 dis-f a-c brdRadius px-2 h-fix-40 txtLight400 cur-poi`}
-                  >
-                    <BrixelIcon
-                      icon="favorite"
-                      className="mr-small-12"
-                    />
-                    <span>Buy</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="pos-a-fix x-b-2 w-perc-100">
-              <hr className="lighter mb-2" />
-              <div className="px-2 dis-f jc-c">
-                <span
-                  onClick={() => onTabClick('support')}
-                  className="cur-poi txtDark400 fsize-300 fweight-500"
-                >
-                  <BrixelIcon
-                    icon="conversation"
-                    className="mr-2"
-                  />
-                  Support
-                </span>
-              </div>
+              <ul className="sidebarNav">
+                {
+                  navigationMenu.map((nav, i) => (
+                    <li
+                      key={i.toString()}
+                      className={`${history.location.pathname.includes(nav.name) ? 'active' : ''} mainNav`}
+                    >
+                      <Link to={linkMenu(nav.path)}>{nav.title}</Link>
+                      {
+                        nav.submenu && (
+                          <ul className="submenu">
+                            {
+                              nav.submenu.map((submenu, f) => (
+                                <li
+                                  key={f.toString()}
+                                  className={`${history.location.pathname.includes(submenu.name) ? 'submenuActive' : ''} subNav`}
+                                >
+                                  <Link to={linkMenu(submenu.path)}>{submenu.title}</Link>
+                                </li>
+                              ))
+                            }
+                          </ul>
+                        )
+                      }
+                    </li>
+                  ))
+                }
+              </ul>
             </div>
           </div>
           <CSSTransition

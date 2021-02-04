@@ -53,6 +53,11 @@ const PageHeader = Loadable({
   loading: Loading,
 });
 
+const MenuSidebar = Loadable({
+  loader: () => import('./components/MenuSidebar' /* webpackChunkName: "MenuSidebar" */),
+  loading: Loading,
+});
+
 // ADMIN ROUTES
 const ProtectedRoute = Loadable({
   loader: () => import('./components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
@@ -433,17 +438,6 @@ const App = (props) => {
 
       <div className={`${classMain} ${isSecLevel ? 'fixedLayout' : ''}`}>
         <div className="dis-f">
-          {/* {
-            !history.location.pathname.includes('packageFlow') &&
-            !history.location.pathname.includes('onBoarding') &&
-            !history.location.pathname.includes('upgrade') &&
-            !history.location.pathname.includes('trialRequest') &&
-            !history.location.pathname.includes('achievement') &&
-            loggedInUser &&
-             (
-               <MenuSidebar />
-             )
-          } */}
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : ''}`}
             style={contentLayout()}
@@ -469,53 +463,69 @@ const App = (props) => {
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? `hubDasContent ${overflowClass()} bgLight100` : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
+              className={`${!isFlow ? `hubDasContent ${overflowClass()} bgLight100` : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''} dis-f`}
               style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
               ref={dashContentRef}
             >
               {
                 !history.location.pathname.includes('packageFlow') &&
+                !history.location.pathname.includes('home') &&
                 !history.location.pathname.includes('onBoarding') &&
-                !history.location.pathname.includes('buyer') && (<TeaserBanner />)
+                !history.location.pathname.includes('upgrade') &&
+                !history.location.pathname.includes('trialRequest') &&
+                !history.location.pathname.includes('achievement') &&
+                !history.location.pathname.includes('propertyLists') &&
+                !history.location.pathname.includes('pageLists') &&
+                loggedInUser &&
+                (
+                  <MenuSidebar />
+                )
               }
-              <Switch>
-                { /* SECTION: ONBOARDING */ }
-                <Route path="/packageFlow/getstarted/" component={GetStarted} />
-                <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
-
-                { /* SECTION: INSERT TOKEN */ }
-                <Route path="/tokeninput" component={InsertToken} />
-
-                { /* SECTION: HUB DASHBOARD */ }
+              <div className="w-perc-100 pt-3">
                 {
                   !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') &&
-                  !history.location.pathname.includes('buyer') && (
-                    <>
-                      <ProtectedRoute path="/home" component={Market} />
-                      <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
-                      <ProtectedRoute path="/" exact component={DashboardSeller} />
-                      <ProtectedRoute path="/:propId?/rewards" component={DashboardSeller} />
-                      <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
-                      <ProtectedRoute path="/:propId?/listings" component={DashboardSeller} />
-                      <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
-                      <ProtectedRoute path="/:propId?/deals" component={DashboardSeller} />
-                      <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
-                      <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
-                    </>
-                  )
+                  !history.location.pathname.includes('buyer') && (<TeaserBanner />)
                 }
-                {
-                  !history.location.pathname.includes('packageFlow') &&
-                  !history.location.pathname.includes('onBoarding') && (
-                    <>
-                      <ProtectedRoute path="/buyer" exact component={DashboardBuyer} />
-                      <ProtectedRoute path="/buyer/propertyLists" exact component={DashboardBuyer} />
-                      <ProtectedRoute path="/buyer/:act/:propID" component={DashboardBuyer} />
-                    </>
-                  )
-                }
-              </Switch>
+                <Switch>
+                  { /* SECTION: ONBOARDING */ }
+                  <Route path="/packageFlow/getstarted/" component={GetStarted} />
+                  <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
+
+                  { /* SECTION: INSERT TOKEN */ }
+                  <Route path="/tokeninput" component={InsertToken} />
+
+                  { /* SECTION: HUB DASHBOARD */ }
+                  {
+                    !history.location.pathname.includes('packageFlow') &&
+                    !history.location.pathname.includes('onBoarding') &&
+                    !history.location.pathname.includes('buyer') && (
+                      <>
+                        <ProtectedRoute path="/home" component={Market} />
+                        <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
+                        <ProtectedRoute path="/" exact component={DashboardSeller} />
+                        <ProtectedRoute path="/:propId?/rewards" component={DashboardSeller} />
+                        <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
+                        <ProtectedRoute path="/:propId?/listings" component={DashboardSeller} />
+                        <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
+                        <ProtectedRoute path="/:propId?/deals" component={DashboardSeller} />
+                        <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
+                        <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
+                      </>
+                    )
+                  }
+                  {
+                    !history.location.pathname.includes('packageFlow') &&
+                    !history.location.pathname.includes('onBoarding') && (
+                      <>
+                        <ProtectedRoute path="/buyer" exact component={DashboardBuyer} />
+                        <ProtectedRoute path="/buyer/propertyLists" exact component={DashboardBuyer} />
+                        <ProtectedRoute path="/buyer/:act/:propID" component={DashboardBuyer} />
+                      </>
+                    )
+                  }
+                </Switch>
+              </div>
             </div>
           </div>
 

@@ -220,10 +220,15 @@ const checkUser = (store) => (next) => (action) => {
         .then((res) => {
           const pageList = [];
           // eslint-disable-next-line no-return-assign
+          console.log(res.data);
           res.data.forEach((item) => {
             pageList.push({ ...item.page, dealID: item.id, archivedByBuyer: item.archivedByBuyer || false });
           });
           store.dispatch({ type: SET_USER_PAGES_DEALS, payload: pageList });
+          store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_OFF });
+        })
+        .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
           store.dispatch({ type: SPINNER_OFF });
         });

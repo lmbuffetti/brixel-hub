@@ -24,7 +24,7 @@
   .hubDasContent {
     @media (min-width: $responsive-medium) {
       // padding-left: $sidebarWidth;
-      top: 64px;
+      top: 49px;
       padding-top: $step * 2;
       position: relative;
     }
@@ -61,7 +61,7 @@
   .withTopBar {
     .hubDasContent {
       @media (min-width: $responsive-medium) {
-        top: 106px;
+        top: 49px;
       }
     }
   }
