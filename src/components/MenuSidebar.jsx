@@ -18,9 +18,6 @@ import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 
 const MenuSidebar = (props) => {
   const {
-    handleSetUserTypes,
-    handleSetActiveSingleProperty,
-    destroyForm,
     history,
     userType,
     windowDimensions,
@@ -44,7 +41,7 @@ const MenuSidebar = (props) => {
   };
 
   // FUNCTION TO MAANGE THE TAB CLICK
-  const linkMenu = (val, act = 'url') => {
+  const linkMenu = (val) => {
     const url = val.replace(':propID', propID);
     return url;
   };
@@ -137,9 +134,6 @@ const MenuSidebar = (props) => {
 };
 
 MenuSidebar.propTypes = {
-  handleSetUserTypes: PropTypes.func.isRequired,
-  handleSetActiveSingleProperty: PropTypes.func.isRequired,
-  destroyForm: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   userType: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
