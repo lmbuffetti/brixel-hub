@@ -555,7 +555,7 @@ function PageHeaderDashboard(props) {
                               </ul>
                               <span
                                 onClick={() => onTabClick('support')}
-                                className="cur-poi txtDark400 fsize-300 fweight-500 px-2 py-1"
+                                className="cur-poi txtDark400 fsize-300 fweight-500 px-2 py-1 hide dis-b-md"
                               >
                                 <BrixelIcon
                                   icon="conversation"
@@ -626,7 +626,7 @@ function PageHeaderDashboard(props) {
             </div>
           </div>
         </div>
-        <div className="tabWrapper">
+        <div className="tabWrapper hide-md">
           {
             !history.location.pathname.includes('home') && has(activeSingleProperty, 'id') && (
               <>

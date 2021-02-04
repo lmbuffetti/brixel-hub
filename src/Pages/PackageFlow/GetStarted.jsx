@@ -26,7 +26,6 @@ import { QuestionsList } from '../../resources/onBoarding';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
-import { InputSheets } from '../../resources/inputSheets';
 
 const cookie = new Cookies();
 

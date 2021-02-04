@@ -87,7 +87,7 @@ const RewardsDashboard = (props) => {
     if (windowDimensions && windowDimensions.width > 1024 && rewardType === 'rewards' && usrGroups) {
       if (!getNameGroup && gameHistory && gameHistory.data) {
         usrGroups.forEach((groups) => {
-          if (groups.stub.includes(userTypes)) {
+          if (groups.stub.includes('seller')) {
             groups.achievements.forEach((group) => {
               const selElTodo = gameHistory.data.find((game) => game.achievement.stub === group.stub && game.page === propID);
               if (typeof selElTodo === 'undefined' && !getNameGroup && !isDisabledFlow(group.stub)) {
