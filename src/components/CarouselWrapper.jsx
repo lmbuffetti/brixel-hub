@@ -31,16 +31,10 @@ const CarouselWrapper = (props) => {
         dots: false,
         infinite: false,
         speed: 500,
-        slidesToShow: type === 'own' ? 2 : 4,
-        slidesToScroll: type === 'own' ? 2 : 4,
         swipeToSlide: true,
+        slidesToShow: type === 'own' ? 1 : 2,
+        // slidesToScroll: type === 'own' ? 2 : 4,
         responsive: [
-          {
-            breakpoint: 1025,
-            settings: {
-              slidesToShow: type === 'own' ? 1 : 2,
-            },
-          },
           {
             breakpoint: 590,
             settings: {
@@ -55,8 +49,8 @@ const CarouselWrapper = (props) => {
         className,
         onSwipe: () => setPreventClick(true),
         afterChange: () => setPreventClick(false),
-        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="dark" />,
-        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small ghost theme="dark" />,
+        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="red" />,
+        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small ghost theme="red" />,
       };
     } else if (windowDimensions.width > 1024) {
       carouselSettings = {
@@ -64,18 +58,8 @@ const CarouselWrapper = (props) => {
         infinite: false,
         speed: 500,
         slidesToShow: type === 'own' ? 2 : 4,
-        swipeToSlide: true,
-        responsive: [
-          {
-            breakpoint: 590,
-            settings: {
-              slidesToShow: 1,
-              swipeToSlide: true,
-              centerMode: true,
-              centerPadding: '10%',
-            },
-          },
-        ],
+        slidesToScroll: type === 'own' ? 2 : 4,
+        draggable: false,
         centerPadding: '8px',
         className,
         onSwipe: () => setPreventClick(true),
@@ -87,7 +71,7 @@ const CarouselWrapper = (props) => {
     return carouselSettings;
   };
 
-  const carouselSettings = {
+  /* const carouselSettings = {
     dots: false,
     infinite: false,
     speed: 500,
@@ -118,11 +102,11 @@ const CarouselWrapper = (props) => {
     nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="dark" />,
     prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small ghost theme="dark" />,
   };
-
+*/
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
       <h4 className={`mb-2 fweight-700 ${type === 'own' ? '' : 'fsize-500'}`}>{title}</h4>
-      <Slider {...carouselSettings}>
+      <Slider {...settingsSlick()}>
         {
           items.length > 0 && items.map((item, i) => (
             <MarketCard
