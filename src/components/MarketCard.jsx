@@ -116,9 +116,9 @@ const MarketCard = (props) => {
                 propertyType={get(item, 'properties.propertyType', undefined)}
                 onClick={(e) => openCard(e)}
               />
-              <div className="info dis-fl-col pl-sm-2 pl-0">
+              <div className="info dis-fl-col jc-b a-t pl-sm-2 pl-0">
                 <div className="top dis-fl-col" onClick={(e) => openCard(e)}>
-                  <h6 className="fweight-700 txtDark700 ellipsis one w-perc-100 max-w-fix-400">{get(item, 'title', '')}</h6>
+                  <h6 className="fweight-700 txtDark700 ellipsis one w-perc-100 max-w-fix-496">{get(item, 'title', '')}</h6>
                   <span className="fsize-300 txtDark700">{get(item, 'location.address', '')}</span>
                 </div>
                 <div className="mid dis-fl-row a-c fsize-300 txtDark400" onClick={(e) => openCard(e)}>
@@ -130,10 +130,10 @@ const MarketCard = (props) => {
                   <BrixelIcon className="fsize-200 txtDark700" icon="favorite-fill" /> <span className="fsize-200 txtDark700">&nbsp;  17</span>
                 </div>
                 <div
-                  className="bottom dis-f a-c fsize-300 py-1"
+                  className="bottom dis-f fsize-300 flex-wrap"
                   onClick={(e) => openBestimateOverlay(e, item.location, item.estimation)}
                 >
-                  <div className="p-2 mr-1 brdRadius bgBlue100">
+                  <div className="p-2 mb-1 mr-1 brdRadius bgBlue100">
                     <span className="fweight-500 txtDark100">Your Bestimate&reg;</span>
                     <span className="dis-b fweight-600 txtPrimary400 ">
                       {
@@ -150,7 +150,7 @@ const MarketCard = (props) => {
                     </span>
                   </div>
                   <div
-                    className="p-2 mr-1 brdRadius bgBlue100 dis-f a-c"
+                    className="p-2 mb-1 mr-1 brdRadius bgBlue100 dis-f a-c"
                     onClick={(e) => {
                       if (e) {
                         e.preventDefault();
@@ -158,7 +158,7 @@ const MarketCard = (props) => {
                       history.push(`/${item.id}/rewards/achievement/facts`);
                     }}
                   >
-                    <div className="max-w-fix-48 w-perc-100">
+                    <div className="w-fix-48">
                       <ProgressRing
                         progress={get(item, 'inputSheet.totalComplete', 0)}
                         size={45}
@@ -168,8 +168,8 @@ const MarketCard = (props) => {
                       />
                     </div>
                     <div className="pl-2 dis-fl-col">
-                      <span className="fweight-500 txtDark100 w-perc-100">Facts</span>
-                      <span className="fweight-500 txtDark400 w-fix-104"><span> {get(item, 'inputSheet.totalComplete', 0)}% completed</span> </span>
+                      <span className="fweight-500 txtDark100">Facts</span>
+                      <span className="fweight-500 txtDark400"><span>10{get(item, 'inputSheet.totalComplete', 0)}% completed</span> </span>
                     </div>
                   </div>
                 </div>
