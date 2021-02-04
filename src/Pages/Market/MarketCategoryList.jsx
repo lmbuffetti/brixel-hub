@@ -77,6 +77,10 @@ const MarketList = (props) => {
     history.push(`/${get(activeSingleProperty, 'id', '')}/rewards/achievement/bestimate`);
   };
 
+  const saveFavorite = () => {
+    console.log('save favorite');
+  };
+
   return (
     <>
       {/* buyer welcome message  */}
@@ -223,6 +227,43 @@ const MarketList = (props) => {
                   className="m-a"
                   onClick={() => onClickBestimate()}
                   rightIcon="arrow-right"
+                />
+              </div>
+            </div>
+          </SplashScreen>
+        )
+      }
+
+      {/* premarket overlay */}
+      {
+        splashScreenType === 'preMarket' && (
+          <SplashScreen
+            className="result-popup"
+            closeOutside={false}
+          >
+            <div className="dis-f jc-fe">
+              <BrixelButtonIcon
+                ghost
+                theme="dark"
+                icon="close-small"
+                onClick={() => setSplashScreen('')}
+              />
+            </div>
+            <div className="dis-fl-col jc-c a-c pb-2">
+              <h3>This is a pre-market property. </h3>
+
+              <div className="prop-box dis-fl-row a-c" />
+
+              <span className="max-w-fix-448 ta-c txtDark700 py-2"> This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner. </span>
+
+              <div className="dis-f jc-c a-c pos-r w-perc-100">
+                <BrixelButtonPrimary
+                  rounded
+                  label="Save as favorite"
+                  className="m-a"
+                  theme="red"
+                  onClick={() => saveFavorite()}
+                  leftIcon="favorite"
                 />
               </div>
             </div>
