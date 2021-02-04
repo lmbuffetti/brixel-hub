@@ -1,7 +1,7 @@
 export const sidebarNavigationSeller = [
   {
     title: 'Home',
-    name: 'home',
+    name: 'rewards',
     path: '/:propID/rewards',
   },
   {
