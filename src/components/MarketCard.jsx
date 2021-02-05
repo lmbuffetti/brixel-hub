@@ -193,13 +193,13 @@ const MarketCard = (props) => {
                       <BrixelIcon
                         icon="favorite-fill"
                         color="red"
-                        className="type-tag favorite pos-a"
+                        className="type-tag pos-a favorite"
                       />
-                      <p
+                      {/* <p
                         className={`type-tag pos-a non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor()}400`}
                       >
                         <span className="type">{getTypeText()}</span>
-                      </p>
+                      </p> */}
                     </div>
                   ) : (
                     <p

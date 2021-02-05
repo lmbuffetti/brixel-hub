@@ -270,22 +270,29 @@ const MarketList = (props) => {
                 }}
               />
             </div>
-            <div className="dis-fl-col jc-c a-c pb-2">
+            <div className="dis-fl-col a-c jc-c">
               <h3>This is a pre-market property. </h3>
 
-              <div className="prop-box dis-fl-row a-c">
+              <div className="prop-box max-w-fix-352 m-a dis-f py-4">
                 {
                   activePreMarketProperty.id && (
                     <>
-                      <CoverPropertyImage
-                        className="cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-200 pos-r"
-                        coverPhoto={get(activePreMarketProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
-                        propertyType={get(activePreMarketProperty, 'properties.propertyType', undefined)}
-                      />
-                      <div className="dis-fl-col">
-                        <h6 className="fweight-700 txtDark700 ellipsis one w-perc-100 max-w-fix-496">{get(activePreMarketProperty, 'title', '')}</h6>
-                        <span className="fsize-300 txtDark700">{get(activePreMarketProperty, 'location.address', '')}</span>
-                        <div className="mid dis-fl-row a-c fsize-300 txtDark400">
+                      <div className="pos-r">
+                        <span className="type-tag pos-a non-favorite fsize-200 fweight-500 txtWhite bgPrimary400 zIndex1">
+                          <span className="type">Pre</span>
+                        </span>
+                        <CoverPropertyImage
+                          className="cover brdRadius w-fix-80 h-fix-80 pos-r"
+                          coverPhoto={get(activePreMarketProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
+                          propertyType={get(activePreMarketProperty, 'properties.propertyType', undefined)}
+                        />
+                      </div>
+                      <div className="dis-fl-col pl-2 jc-b">
+                        <h6 className="fweight-500 txtDark700 ellipsis one">{get(activePreMarketProperty, 'title', '')}</h6>
+
+                        <span className="fsize-300 txtDark700">{get(activePreMarketProperty, 'location.zip', '')} {get(activePreMarketProperty, 'location.city', '')}</span>
+
+                        <div className="dis-fl-row a-c fsize-300 txtDark200">
                           <span>{get(activePreMarketProperty, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
                           <span><span>{get(activePreMarketProperty, 'properties.typology.bedrooms', 0)}</span> <span>bedrooms</span></span> <span className="px-1"> &middot; </span>
                           <span><span>{get(activePreMarketProperty, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></span>
@@ -296,9 +303,9 @@ const MarketList = (props) => {
                 }
               </div>
 
-              <span className="max-w-fix-448 ta-c txtDark700 py-2"> This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner. </span>
+              <span className="max-w-fix-536 fsize-300 ta-c txtDark200 py-2"> This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner. </span>
 
-              <div className="dis-f jc-c a-c pos-r w-perc-100">
+              <div className="dis-f jc-c a-c pos-r w-perc-100 pt-3 pb-2">
                 <BrixelButtonPrimary
                   rounded
                   label={checkFavorite() ? 'Remove from favorite' : 'Save as favorite'}
