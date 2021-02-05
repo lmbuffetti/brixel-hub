@@ -397,14 +397,14 @@ const MarketList = (props) => {
             themeSat={500}
             className="fsize-300 mb-1 mr-1"
           />
-          <BrixelButtonSecondary
+          {/* <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/own`)}
             label="Your properties"
             rounded
             theme="light"
             themeSat={500}
             className="fsize-300 mb-1 mr-1"
-          />
+          /> */}
           {/* <BrixelButtonSecondary
             onClick={() => history.push(`${match.url}/lastViewed`)}
             label="Last viewed"

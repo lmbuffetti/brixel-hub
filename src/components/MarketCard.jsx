@@ -129,9 +129,9 @@ const MarketCard = (props) => {
                   <span><span>{get(item, 'properties.typology.bedrooms', 0)}</span> <span>bedrooms</span></span> <span className="px-1"> &middot; </span>
                   <span><span>{get(item, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></span>
                 </div>
-                <div className="dis-f py-1" onClick={(e) => openCard(e)}>
+                {/* <div className="dis-f py-1 " onClick={(e) => openCard(e)}>
                   <BrixelIcon className="fsize-200 txtDark700" icon="favorite-fill" /> <span className="fsize-200 txtDark700">&nbsp;  17</span>
-                </div>
+                </div> */}
                 <div
                   className="bottom dis-f fsize-300 flex-wrap"
                   onClick={(e) => openBestimateOverlay(e, item.location, item.estimation)}
