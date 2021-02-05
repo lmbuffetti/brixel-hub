@@ -19,6 +19,7 @@ import CoverPropertyImage from '../../components/CoverPropertyImage';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType } from '../../actions/CommonActions';
 import { setEstimation, setActivePremarketProperty } from '../../actions/PropertyActions';
+import { updateFavorite } from '../../actions/UserActions';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -45,6 +46,7 @@ const MarketList = (props) => {
     userSearchProfiles,
     activePreMarketProperty,
     setPreMarketProperty,
+    handleUpdateFavorites,
   } = props;
 
   const marketCookie = getCookie('brixelMarketBestimate');
@@ -80,8 +82,21 @@ const MarketList = (props) => {
     history.push(`/${get(activeSingleProperty, 'id', '')}/rewards/achievement/bestimate`);
   };
 
+  const checkFavorite = () => {
+    const findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activePreMarketProperty.id);
+    return findIndex > -1;
+  };
+
   const saveFavorite = () => {
-    console.log('save favorite');
+    const data = {
+      act: checkFavorite() ? 'remove' : 'add',
+      id: activePreMarketProperty.id,
+      data: {
+        email: get(loggedInUser, 'email', ''),
+        language: loggedInUser.lang,
+      },
+    };
+    handleUpdateFavorites(data);
   };
 
   return (
@@ -249,7 +264,10 @@ const MarketList = (props) => {
                 ghost
                 theme="dark"
                 icon="close-small"
-                onClick={() => setSplashScreen('')}
+                onClick={() => {
+                  setSplashScreen('');
+                  setPreMarketProperty({});
+                }}
               />
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
@@ -283,7 +301,7 @@ const MarketList = (props) => {
               <div className="dis-f jc-c a-c pos-r w-perc-100">
                 <BrixelButtonPrimary
                   rounded
-                  label="Save as favorite"
+                  label={checkFavorite() ? 'Remove from favorite' : 'Save as favorite'}
                   className="m-a"
                   theme="red"
                   onClick={() => saveFavorite()}
@@ -526,6 +544,7 @@ MarketList.propTypes = {
   splashScreenType: PropTypes.string.isRequired,
   setPreMarketProperty: PropTypes.func.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleUpdateFavorites: PropTypes.func.isRequired,
 };
 
 MarketList.defaultProps = {
@@ -553,6 +572,7 @@ const mapDispatchToProps = (dispatch) => ({
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
   setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
+  handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
 });
 
 export default compose(
