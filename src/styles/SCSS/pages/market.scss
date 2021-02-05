@@ -182,5 +182,10 @@
 }
 
 .slick-disabled {
-
+  cursor: default;
+  &:focus ,
+  &:active ,
+  &:hover {
+    background: white;
+  }
 }
