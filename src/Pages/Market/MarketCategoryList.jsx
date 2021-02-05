@@ -15,9 +15,10 @@ import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
+import CoverPropertyImage from '../../components/CoverPropertyImage';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType } from '../../actions/CommonActions';
-import { setEstimation } from '../../actions/PropertyActions';
+import { setEstimation, setActivePremarketProperty } from '../../actions/PropertyActions';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -42,6 +43,8 @@ const MarketList = (props) => {
     setSplashScreen,
     splashScreenType,
     userSearchProfiles,
+    activePreMarketProperty,
+    setPreMarketProperty,
   } = props;
 
   const marketCookie = getCookie('brixelMarketBestimate');
@@ -252,7 +255,28 @@ const MarketList = (props) => {
             <div className="dis-fl-col jc-c a-c pb-2">
               <h3>This is a pre-market property. </h3>
 
-              <div className="prop-box dis-fl-row a-c" />
+              <div className="prop-box dis-fl-row a-c">
+                {
+                  activePreMarketProperty.id && (
+                    <>
+                      <CoverPropertyImage
+                        className="cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-200 pos-r"
+                        coverPhoto={get(activePreMarketProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
+                        propertyType={get(activePreMarketProperty, 'properties.propertyType', undefined)}
+                      />
+                      <div className="dis-fl-col">
+                        <h6 className="fweight-700 txtDark700 ellipsis one w-perc-100 max-w-fix-496">{get(activePreMarketProperty, 'title', '')}</h6>
+                        <span className="fsize-300 txtDark700">{get(activePreMarketProperty, 'location.address', '')}</span>
+                        <div className="mid dis-fl-row a-c fsize-300 txtDark400">
+                          <span>{get(activePreMarketProperty, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
+                          <span><span>{get(activePreMarketProperty, 'properties.typology.bedrooms', 0)}</span> <span>bedrooms</span></span> <span className="px-1"> &middot; </span>
+                          <span><span>{get(activePreMarketProperty, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></span>
+                        </div>
+                      </div>
+                    </>
+                  )
+                }
+              </div>
 
               <span className="max-w-fix-448 ta-c txtDark700 py-2"> This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner. </span>
 
@@ -496,9 +520,11 @@ MarketList.propTypes = {
   ownerProperties: PropTypes.object.isRequired,
   preMarketProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,
+  activePreMarketProperty: PropTypes.object.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
+  setPreMarketProperty: PropTypes.func.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
@@ -508,6 +534,7 @@ MarketList.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  activePreMarketProperty: get(state, 'property.activePreMarketProperty', {}),
   bestimate: get(state, 'property.estimation.result', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
@@ -525,6 +552,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
+  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
 });
 
 export default compose(

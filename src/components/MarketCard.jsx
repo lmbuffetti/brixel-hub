@@ -15,7 +15,7 @@ import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
 import { setCookie } from '../utils/helpers';
 import { setSplashType } from '../actions/CommonActions';
-import { setEstimation } from '../actions/PropertyActions';
+import { setEstimation, setActivePremarketProperty } from '../actions/PropertyActions';
 
 const MarketCard = (props) => {
   // PROPS
@@ -27,6 +27,7 @@ const MarketCard = (props) => {
     type,
     setSplashScreen,
     setPropertyEstimation,
+    setPreMarketProperty,
   } = props;
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
@@ -45,8 +46,10 @@ const MarketCard = (props) => {
       if (type === 'own') history.push(`/${item.id}/rewards`);
       else if (type === 'favorite') history.push(`/buyer/property/${item.id}`);
       // TODO: Estimation opens overlay
-      else if (type === 'preMarket') setSplashScreen('preMarket');
-      else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
+      else if (type === 'preMarket') {
+        setSplashScreen('preMarket');
+        setPreMarketProperty(item);
+      } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
     }
   };
 
@@ -248,6 +251,7 @@ MarketCard.propTypes = {
   type: PropTypes.string,
   setSplashScreen: PropTypes.func.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
+  setPreMarketProperty: PropTypes.func.isRequired,
 };
 
 MarketCard.defaultProps = {
@@ -262,6 +266,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
+  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
 });
 
 export default compose(
