@@ -15,6 +15,11 @@
         padding-top: $step * 3;
       }
       .carousel-wrapper  {
+
+        .show-all {
+          right: 98px;
+        }
+        
         .slick-list {
           padding:0 10% 0 0 !important;
           &::before {

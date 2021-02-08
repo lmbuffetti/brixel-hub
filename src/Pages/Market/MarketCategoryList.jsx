@@ -328,6 +328,7 @@ const MarketList = (props) => {
               className="market-category-carousel"
               type="own"
               items={ownerProperties.data}
+              total={ownerProperties.total}
             />
           )
         }
@@ -485,6 +486,7 @@ const MarketList = (props) => {
               className="market-category-carousel"
               type="favorite"
               items={favoritesProperties.data}
+              total={favoritesProperties.total}
             />
           )
         }
@@ -498,6 +500,7 @@ const MarketList = (props) => {
               className="market-category-carousel"
               type="new"
               items={newProperties.data}
+              total={newProperties.total}
             />
           )
         }
@@ -511,6 +514,7 @@ const MarketList = (props) => {
               className="market-category-carousel"
               type="premium"
               items={premiumProperties.data}
+              total={premiumProperties.total}
             />
           )
         }
@@ -524,6 +528,7 @@ const MarketList = (props) => {
               className="market-category-carousel"
               type="preMarket"
               items={preMarketProperties.data}
+              total={preMarketProperties.total}
             />
           )
         }

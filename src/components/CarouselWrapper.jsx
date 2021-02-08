@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import Slider from 'react-slick';
 import {
-  BrixelButtonIcon,
+  BrixelButtonIcon, BrixelButtonText,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -20,6 +20,9 @@ const CarouselWrapper = (props) => {
     title,
     className,
     windowDimensions,
+    total,
+    history,
+    match,
   } = props;
 
   const [preventClick, setPreventClick] = useState(false);
@@ -71,6 +74,34 @@ const CarouselWrapper = (props) => {
     return carouselSettings;
   };
 
+  // eslint-disable-next-line consistent-return
+  const showAll = () => {
+    switch (type) {
+      case 'own': {
+        history.push(`${match.url}/own`);
+        break;
+      }
+      case 'favorite': {
+        history.push(`${match.url}/favorites`);
+        break;
+      }
+      case 'new': {
+        history.push(`${match.url}/radar`);
+        break;
+      }
+      case 'premium': {
+        history.push(`${match.url}/premium`);
+        break;
+      }
+      case 'preMarket': {
+        history.push(`${match.url}/preMarket`);
+        break;
+      }
+      default:
+        // history.push('/home');
+    }
+  };
+
   /* const carouselSettings = {
     dots: false,
     infinite: false,
@@ -105,7 +136,14 @@ const CarouselWrapper = (props) => {
 */
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
-      <h4 className={`mb-2 fweight-700 ${type === 'own' ? '' : 'fsize-500'}`}>{title}</h4>
+      <div className="mb-2 dis-fl-row a-c jc-b">
+        <h4 className={`fweight-700 ${type === 'own' ? '' : 'fsize-500'}`}>{title}</h4>
+        <BrixelButtonText
+          className="fsize-300 show-all pos-r"
+          label={`Show all (${total})`}
+          onClick={() => showAll()}
+        />
+      </div>
       <Slider {...settingsSlick()}>
         {
           items.length > 0 && items.map((item, i) => (
@@ -124,14 +162,18 @@ const CarouselWrapper = (props) => {
 
 CarouselWrapper.propTypes = {
   type: PropTypes.string,
+  total: PropTypes.number,
   title: PropTypes.string,
   className: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   windowDimensions: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 CarouselWrapper.defaultProps = {
   type: '',
+  total: 0,
   title: '',
   className: '',
 };
