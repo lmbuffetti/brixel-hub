@@ -15,7 +15,7 @@ import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
 import { setCookie } from '../utils/helpers';
 import { setSplashType } from '../actions/CommonActions';
-import { setEstimation, setActivePremarketProperty } from '../actions/PropertyActions';
+import { setEstimation, setActivePremarketProperty, getEstimation } from '../actions/PropertyActions';
 
 const MarketCard = (props) => {
   // PROPS
@@ -28,6 +28,7 @@ const MarketCard = (props) => {
     setSplashScreen,
     setPropertyEstimation,
     setPreMarketProperty,
+    handleGetEstimation,
   } = props;
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
@@ -60,6 +61,13 @@ const MarketCard = (props) => {
       setSplashScreen('bestimateTeaser');
     }
     if (location.countryCode === 'CH') {
+      if (!has(estimation, 'result')) {
+        const payload = {
+          type: 'market',
+          id: item.id,
+        };
+        handleGetEstimation(payload);
+      }
       setCookie('brixelMarketBestimate', false);
       setSplashScreen('bestimateResult');
       setPropertyEstimation(estimation);
@@ -248,10 +256,12 @@ MarketCard.propTypes = {
   item: PropTypes.object.isRequired,
   preventClick: PropTypes.bool,
   skeleton: PropTypes.object.isRequired,
+  estimation: PropTypes.object.isRequired,
   type: PropTypes.string,
   setSplashScreen: PropTypes.func.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setPreMarketProperty: PropTypes.func.isRequired,
+  handleGetEstimation: PropTypes.func.isRequired,
 };
 
 MarketCard.defaultProps = {
@@ -261,12 +271,14 @@ MarketCard.defaultProps = {
 
 const mapStateToProps = (state) => ({
   skeleton: get(state, 'common.skeleton', {}),
+  estimation: get(state, 'property.estimation', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
+  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
 });
 
 export default compose(

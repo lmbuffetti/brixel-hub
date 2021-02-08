@@ -246,8 +246,18 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO GET USER PROPERTIES LIST - by PROPERTY ID
     case GET_ESTIMATION:
       next(action);
+      let type;
+      let id;
       store.dispatch({ type: SPINNER_ON });
-      api.property.getEstimation(action.payload)
+      if (has(action.payload, 'type') && action.payload.type === 'market') {
+        type = true;
+        // eslint-disable-next-line prefer-destructuring
+        id = action.payload.id;
+      } else {
+        type = false;
+        id = action.payload;
+      }
+      api.property.getEstimation(id)
         .then((res) => {
           if (res.meta.normalizedStatus === 200) {
             store.dispatch({ type: SPINNER_OFF });
@@ -259,9 +269,10 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_OFF,
             });
+            console.log('here');
             const data = {
               owner: store.getState().user.loggedInUser.user.id,
-              page: store.getState().brixelForm.Property.values.id,
+              page: type === true ? id : store.getState().brixelForm.Property.values.id,
               generate: true,
             };
             store.dispatch({ type: CREATE_ESTIMATION, payload: data });
