@@ -13,6 +13,7 @@ const Pagination = (props) => {
     itemsPerPage,
     paginate,
     totalItems,
+    className,
   } = props;
   const pageNumbers = [];
 
@@ -56,8 +57,8 @@ const Pagination = (props) => {
 
   return (
     <>
-      <div className="px-3 pb-2">{ processResults() } of <strong>{totalItems}</strong> total results</div>
-      <nav className={`pagination w-perc-100 dis-f px-3 mb-5 ${totalItems > 10 ? 'jc-b' : 'jc-fe'}`}>
+      <div className="">{ processResults() } of <strong>{totalItems}</strong> total results</div>
+      <nav className={`pagination ${className} w-perc-100 dis-f ${totalItems > 10 ? 'jc-b' : 'jc-fe'}`}>
         {
           totalItems > 10 && (
             <BrixelDropdown
@@ -179,10 +180,15 @@ const Pagination = (props) => {
 };
 
 Pagination.propTypes = {
+  className: PropTypes.string,
   activePage: PropTypes.any.isRequired,
   itemsPerPage: PropTypes.any.isRequired,
   paginate: PropTypes.func.isRequired,
   totalItems: PropTypes.number.isRequired,
+};
+
+Pagination.defaultProps = {
+  className: '',
 };
 
 export default Pagination;

@@ -291,6 +291,7 @@ const MarketList = (props) => {
           {
             propertyListings.length > 0 && (
               <Pagination
+                className="pr-2"
                 totalItems={getTotal()}
                 itemsPerPage={itemsPerPage}
                 activePage={currentPage}
