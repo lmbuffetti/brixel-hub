@@ -590,6 +590,7 @@ sub, sup {
   /* Zero out the line-height so that it doesn't
      interfere with the positioning that follows */
   line-height: 0;
+  font-size: 75%;
 
   /* Where the magic happens: makes all browsers position
      the sup/sup properly, relative to the surrounding text */
