@@ -463,7 +463,7 @@ const App = (props) => {
             }
             <div
               id="bodyScroll"
-              className={`${!isFlow ? `hubDasContent ${overflowClass()} bgLight100` : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''} dis-f`}
+              className={`content ${!isFlow ? `hubDasContent ${overflowClass()} bgLight100` : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''} dis-f`}
               style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
               ref={dashContentRef}
             >

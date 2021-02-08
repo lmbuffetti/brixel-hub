@@ -14,6 +14,7 @@ import {
   getPremiumProperties,
 } from '../../actions/MarketActions';
 import MarketCardMap from '../../components/MarketCardMap';
+import Pagination from '../../components/Pagination';
 import { setWindowDimensions } from '../../actions/CommonActions';
 
 const MarketMap = Loadable({
@@ -48,6 +49,10 @@ const MarketList = (props) => {
   const catName = get(match, 'params.cat', null);
   const propID = get(match, 'params.id', null);
   // STATE
+  const [itemsPerPage, setItemsPerPage] = useState(50);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [sortOrderType, setSortOrderType] = useState('updatedAt');
+  const [sortDirection, setSortDirection] = useState('DESC');
   const [activeProperty, setActiveProperty] = useState(propID);
   const [propertyListings, setPropertyListings] = useState([]);
   const [openMap, setOpenMap] = useState(false);
@@ -56,10 +61,10 @@ const MarketList = (props) => {
     const profile = userSearchProfiles[0];
     if (loggedInUser.id && get(profile, 'id', '')) {
       const data = {
-        resultsPerPage: 50,
-        offset: 0,
-        order: 'updatedAt',
-        direction: 'DESC',
+        resultsPerPage: itemsPerPage,
+        offset: currentPage,
+        order: sortOrderType,
+        direction: sortDirection,
         setAsSingle: true,
         multiLoader: true,
       };
@@ -97,7 +102,15 @@ const MarketList = (props) => {
           history.push('/home');
       }
     }
-  }, [loggedInUser, userSearchProfiles]);
+  }, [itemsPerPage, currentPage, sortOrderType, sortDirection, loggedInUser, userSearchProfiles]);
+
+  // eslint-disable-next-line max-params
+  const updatePagination = (resultsPerPage, pageNumber, type, direction) => {
+    setItemsPerPage(resultsPerPage);
+    setCurrentPage(pageNumber);
+    setSortOrderType(type);
+    setSortDirection(direction);
+  };
 
   useEffect(() => {
     switch (catName) {
@@ -274,6 +287,17 @@ const MarketList = (props) => {
                 onClick={() => setActiveProperty(page.id)}
               />
             ))
+          }
+          {
+            propertyListings.length > 0 && (
+              <Pagination
+                totalItems={getTotal()}
+                itemsPerPage={itemsPerPage}
+                activePage={currentPage}
+                paginate={(resultsPerPage, pageNumber) => updatePagination(resultsPerPage, pageNumber, sortOrderType, sortDirection)}
+                // we use the current values for the filters (stored in currentSearch, sortOrderType and sortDirection) in the moment the pagination is applied
+              />
+            )
           }
         </div>
 
