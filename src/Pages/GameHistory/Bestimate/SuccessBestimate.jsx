@@ -112,7 +112,7 @@ function SuccessBestimate(props) {
                                     <div className="dis-fl-col jc-c a-c">
                                       <h5 className="ta-c max-w-fix-376 mb-2">Your estimated value</h5>
                                       <p className="body2 max-w-fix-376 txtDark200 m-a ta-c">
-                                        Bestimate® is calculated based on similar transaction.
+                                        Bestimate<sup>&reg;</sup> is calculated based on similar transaction.
                                       </p>
                                       <div className="ta-c mb-5 mt-2 pos-r">
                                         {
@@ -213,7 +213,7 @@ function SuccessBestimate(props) {
             <div className="w-perc-100">
               <BrixelButtonPrimary
                 rounded
-                label="Get free Bestimate®"
+                label="Get free Bestimate&reg;"
                 className="m-a"
                 onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                 rightIcon="arrow-right"

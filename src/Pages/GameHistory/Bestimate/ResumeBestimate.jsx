@@ -96,7 +96,7 @@ function ResumeBestimate(props) {
             {
               get(estimation, 'result.value', null) ? (
                 <>
-                  <h5 className="ta-c mb-5">We proudly present you your Bestimate&reg;.</h5>
+                  <h5 className="ta-c mb-5">We proudly present you your Bestimate<sup>&reg;</sup>.</h5>
                   {
                     condition.higherValue && (
                       <>
@@ -123,7 +123,7 @@ function ResumeBestimate(props) {
                             )
                           }
                         </div>
-                        <p className="fweight-400 ta-c txtDark700">Your Bestimate&reg; compared to local market data</p>
+                        <p className="fweight-400 ta-c txtDark700">Your Bestimate<sup>&reg;</sup> compared to local market data</p>
                       </>
                     )
                   }
@@ -142,12 +142,12 @@ function ResumeBestimate(props) {
                 </>
               ) : (
                 <>
-                  <h5 className="ta-c mb-5">We proudly present you your Bestimate&reg;.</h5>
+                  <h5 className="ta-c mb-5">We proudly present you your Bestimate<sup>&reg;</sup>.</h5>
                   <p>We Will contact you</p>
                 </>
               )
             }
-            <p className="body2 mt-5 txtDark700">The Bestimate&reg; is your free price indication. <br /> It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.</p>
+            <p className="body2 mt-5 txtDark700">The Bestimate<sup>&reg;</sup> is your free price indication. <br /> It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.</p>
           </>
         ) : (
           <>

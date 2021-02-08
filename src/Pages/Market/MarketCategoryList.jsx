@@ -172,7 +172,7 @@ const MarketList = (props) => {
               />
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
-              <h3>This is your Bestimate&reg; </h3>
+              <h3>This is your Bestimate<sup>&reg;</sup>  </h3>
               {
                 bestimate.higherValue && (
                   <>
@@ -195,7 +195,7 @@ const MarketList = (props) => {
                 <span className="besitmate-bar"> </span>
               </div>
               <span className="txtDark200 max-w-fix-480 mb-5">
-                Bestimate&reg; is calculated based on similar transactions. This is a first price indication calculated with few inputs. To have a more accurate estimation we suggest to book our free on-site estimation.
+                Bestimate<sup>&reg;</sup> is calculated based on similar transactions. This is a first price indication calculated with few inputs. To have a more accurate estimation we suggest to book our free on-site estimation.
               </span>
               <BrixelButtonPrimary
                 label="ok, got it!"
@@ -241,7 +241,7 @@ const MarketList = (props) => {
                 </span>
                 <BrixelButtonPrimary
                   rounded
-                  label="Get free Bestimate®"
+                  label="Get free Bestimate&reg;"
                   className="m-a"
                   onClick={() => onClickBestimate()}
                   rightIcon="arrow-right"
