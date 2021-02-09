@@ -252,7 +252,7 @@ const MarketCard = (props) => {
               <div className="info dis-fl-col jc-b">
                 <div className="top dis-fl-col">
                   <span className="fweight-600 fsize-300 txtDark700 ellipsis one">{get(item, 'title', '')}</span>
-                  <span className="fsize-300 txtDark700">{get(item, 'location.cityZip', '')} </span>
+                  <span className="fsize-300 txtDark700">{`${get(item, 'location.cityZip', '')} (${get(item, 'location.stateCode', '')})`} </span>
                 </div>
                 <div className="mid dis-fl-row a-c fsize-300 txtDark400">
                   <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>

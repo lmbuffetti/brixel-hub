@@ -226,7 +226,7 @@ const checkLead = (store) => (next) => (action) => {
           ...loadSkeleton,
         },
       });
-      const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
+      const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}&country=${action.payload.country}`;
       api.market.getPremiumProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {

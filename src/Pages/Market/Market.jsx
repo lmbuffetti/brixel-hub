@@ -6,6 +6,7 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
+import { destroy } from '@brixel/brixel-components';
 import {
   getOwnedProperties, getFavoritesProperties, getNewProperties,
   getPremiumProperties, getPremarketProperties, getLastViewedProperties,
@@ -23,6 +24,7 @@ const MarketCategoryList = Loadable({
 const Market = (props) => {
   // PROPS
   const {
+    destroyForm,
     handleGetFavoritesProperties,
     handleGetLastViewedProperties,
     handleGetNewProperties,
@@ -36,6 +38,17 @@ const Market = (props) => {
     userSearchProfiles,
   } = props;
 
+  useEffect(() => { destroyForm(); }, [history.location.pathname]);
+
+  const getProfileCountry = () => {
+    let country = '';
+    userSearchProfiles[0].location.forEach((loc, i) => {
+      if (i === userSearchProfiles[0].location.length - 1) country += `${loc.countryCode}`;
+      else country += `${loc.countryCode},`;
+    });
+    return country;
+  };
+
   useEffect(() => {
     if (loggedInUser.id) {
       const data = {
@@ -48,7 +61,6 @@ const Market = (props) => {
       };
       handleGetSellerProperties(data);
       handleGetFavoritesProperties(data);
-      handleGetPremiumProperties(data);
       handleGetPreMarketProperties(data);
       handleGetLastViewedProperties();
       handleGetUserSearchProfiles(loggedInUser.id);
@@ -68,7 +80,17 @@ const Market = (props) => {
         multiLoader: true,
         searchProfileId: userSearchProfiles[0].id,
       };
+      const payload = {
+        resultsPerPage: 10,
+        offset: 0,
+        order: 'updatedAt',
+        direction: 'DESC',
+        setAsSingle: true,
+        multiLoader: true,
+        country: getProfileCountry(),
+      };
       handleGetNewProperties(data);
+      handleGetPremiumProperties(payload);
       handleSpinnerOff();
     }
   }, [userSearchProfiles]);
@@ -84,6 +106,7 @@ const Market = (props) => {
 };
 
 Market.propTypes = {
+  destroyForm: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleGetLastViewedProperties: PropTypes.func.isRequired,
   handleGetNewProperties: PropTypes.func.isRequired,
@@ -107,6 +130,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  destroyForm() {
+    dispatch(destroy('Property'));
+  },
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
   handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
