@@ -155,7 +155,7 @@ const Dashboard = (props) => {
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
     if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
-      if (propID && propID !== 'home' && !get(activeSingleProperty, 'id', null)) {
+      if (propID && propID !== 'home') {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
         handleGetActiveSinglePropertyEstimation(propID);
       } else if (!propID) {
@@ -179,6 +179,7 @@ const Dashboard = (props) => {
   // INITIALIZE FORM
   useEffect(() => {
     const changeInitialValue = diff(initialValues, initValues);
+    console.log(changeInitialValue, propID, formValue.id);
     if (
       typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null) && (
         Object.keys(changeInitialValue).length > 1 ||
@@ -186,7 +187,7 @@ const Dashboard = (props) => {
         propID !== formValue.id
       )
     ) {
-      if (propID !== 'seller' && propID !== 'buyer' && propID) initForm(cloneDeep(initialValues));
+      if (propID !== 'seller' && propID !== 'buyer' && propID && activeSingleProperty.id === propID) initForm(cloneDeep(initialValues));
     }
   }, [initialValues, propID]);
 
