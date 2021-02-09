@@ -60,8 +60,7 @@ const MarketCheck = (props) => {
       if (typeof checkGameExist !== 'undefined' && activeSingleProperty.ownerType) {
         setFinishedFlow(true);
         if (lastID) {
-          setCurrentIndex(lastID);
-          setQuest(questions[lastID]);
+          history.push(`/${propID}/property/facts`);
         }
       } else {
         setFinishedFlow(false);

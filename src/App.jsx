@@ -485,7 +485,9 @@ const App = (props) => {
                 {
                   !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') &&
-                  !history.location.pathname.includes('buyer') && (<TeaserBanner />)
+                  !history.location.pathname.includes('buyer') && (
+                    <TeaserBanner />
+                  )
                 }
                 <Switch>
                   { /* SECTION: ONBOARDING */ }
@@ -612,7 +614,11 @@ const App = (props) => {
 
       {/* Splash screens for single deal, create new deal and edit document */}
       <Switch>
-        <Route exact path="/:propID/property/documents/:docID/editDocument" component={SingleDocument} />
+        <Route
+          exact
+          path="/:propID/property/documents/:docID/editDocument"
+          component={SingleDocument}
+        />
         <Route exact path="/:propID/deals/newDeal" component={CreateDeal} />
       </Switch>
     </main>

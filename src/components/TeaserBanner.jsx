@@ -6,6 +6,7 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
 } from '@brixel/brixel-components';
+import get from 'lodash/get';
 import { setCookie, getCookie, isEligible } from '../utils/helpers';
 import TeaserImg from '../images/scanTrial/TeaserBanner.png';
 import TeaserImg2x from '../images/scanTrial/TeaserBanner@2x.png';
@@ -57,9 +58,9 @@ const TeaserBanner = (props) => {
   ) {
     return <span />;
   }
-
+  const classToHide = get(history, 'location.state.hideBackPage', false);
   return (
-    <div className={`teaserWrapper container ${isClosed ? 'smallOn' : 'bigOn'}`}>
+    <div className={`teaserWrapper container ${isClosed ? 'smallOn' : 'bigOn'} ${classToHide ? 'hide' : ''}`}>
       <div>
         <div
           ref={teaserRef}

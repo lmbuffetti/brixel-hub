@@ -237,9 +237,12 @@ const RewardsDashboard = (props) => {
   if ((!activeSingleProperty.id && !userTypes) || isSmallLoading) {
     return <Loading />;
   }
-
+  const classToHide = get(history, 'location.state.hideBackPage', false);
   return (
-    <div className="rewards-container" id="rewardsDashboard">
+    <div
+      className={`rewards-container ${classToHide ? 'hide' : ''}`}
+      id="rewardsDashboard"
+    >
       <div className="dis-f a-t jc-c pos-r-md">
         {
           usrGroups && (

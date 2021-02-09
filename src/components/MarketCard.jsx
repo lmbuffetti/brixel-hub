@@ -164,7 +164,11 @@ const MarketCard = (props) => {
                   </div>
                   <div
                     className="p-2 mb-1 mr-1 brdRadius bgBlue100 dis-f a-c"
-                    onClick={() => history.push(`/${item.id}/rewards/achievement/facts`)}
+                    onClick={() => history.push({
+                      pathname: `/${item.id}/rewards/achievement/facts`,
+                      search: '',
+                      state: { hideBackPage: true },
+                    })}
                   >
                     <div className="w-fix-48">
                       <ProgressRing
