@@ -142,9 +142,11 @@ const MarketCard = (props) => {
                 </div> */}
                 <div
                   className="bottom dis-f fsize-300 flex-wrap"
-                  onClick={(e) => openBestimateOverlay(e, item.location, item.estimation)}
                 >
-                  <div className="p-2 mb-1 mr-1 brdRadius bgBlue100">
+                  <div
+                    className="p-2 mb-1 mr-1 brdRadius bgBlue100"
+                    onClick={(e) => openBestimateOverlay(e, item.location, item.estimation)}
+                  >
                     <span className="fweight-500 txtDark100">Your Bestimate<sup>&reg;</sup></span>
                     <span className="dis-b fweight-600 txtPrimary400 ">
                       {
@@ -162,12 +164,7 @@ const MarketCard = (props) => {
                   </div>
                   <div
                     className="p-2 mb-1 mr-1 brdRadius bgBlue100 dis-f a-c"
-                    onClick={(e) => {
-                      if (e) {
-                        e.preventDefault();
-                      }
-                      history.push(`/${item.id}/rewards/achievement/facts`);
-                    }}
+                    onClick={() => history.push(`/${item.id}/rewards/achievement/facts`)}
                   >
                     <div className="w-fix-48">
                       <ProgressRing

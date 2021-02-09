@@ -246,6 +246,7 @@ const Dashboard = (props) => {
         if (changeObj.photos) {
           objToSave.coverPhoto = changeObj.photos[0];
         }
+        objToSave.inputSheet = get(formValue, 'inputSheet', {});
         const data = {
           id: propID,
           smallLoader: true,

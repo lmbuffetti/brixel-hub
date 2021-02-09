@@ -157,6 +157,7 @@ const MarketList = (props) => {
       }
 
       {/* bestimate result */}
+      {splashScreenType}
       {
         !bestimateMessage && splashScreenType === 'bestimateResult' && (
           <SplashScreen

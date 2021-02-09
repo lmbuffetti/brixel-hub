@@ -73,13 +73,6 @@ const Market = (props) => {
     }
   }, [userSearchProfiles]);
 
-  useEffect(() => {
-    // https://maps.googleapis.com/maps/api/geocode/json?address=turin&language=ES&key=AIzaSyBnoc_7KMBePhoqGnIIN-YtTA6PCgjM968
-    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=turin&language=ES&key=AIzaSyD4tV7awt_UqVqk0vhyk3_zKi_RN--br5w')
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-  }, []);
-
   return (
     <div className={`market-container container ${!history.location.pathname.includes('home/') ? 'market-listings' : 'dis-f'}`} id="market">
       <Switch>
