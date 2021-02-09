@@ -374,7 +374,7 @@ const MarketList = (props) => {
             <h4 className="fweight-700">Discover our market</h4>
             <p className="fsize-300 pt-1">These are properties that match your criteria.</p>
           </div>
-          <div className="brdRadius py-1 px-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r">
+          <div className="brdRadius py-1 px-sm-2 pr-5 pl-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r">
             <div className="dis-f">
               {
                 get(userSearchProfiles[0], 'characteristics.propertyType', []).map((item, i) => (
@@ -419,7 +419,7 @@ const MarketList = (props) => {
               rounded
               theme="light"
               small
-              className="pos-a pos-r-sm x-r mt-2 mt-sm-0 mr-2 mr-sm-0"
+              className="pos-a pos-r-sm x-r mt-small-4 mr-1 mt-sm-0 mr-sm-0"
               onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
             />
           </div>
