@@ -101,6 +101,10 @@ const MarketList = (props) => {
     handleUpdateFavorites(data);
   };
 
+  useEffect(() => {
+    if (splashScreenType === 'preMarket') console.log(checkFavorite());
+  });
+
   return (
     <>
       {/* buyer welcome message  */}
