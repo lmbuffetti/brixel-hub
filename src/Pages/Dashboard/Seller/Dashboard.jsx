@@ -179,7 +179,6 @@ const Dashboard = (props) => {
   // INITIALIZE FORM
   useEffect(() => {
     const changeInitialValue = diff(initialValues, initValues);
-    console.log(changeInitialValue, propID, formValue.id);
     if (
       typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null) && (
         Object.keys(changeInitialValue).length > 1 ||
