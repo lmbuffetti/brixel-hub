@@ -273,7 +273,7 @@ const MarketList = (props) => {
                 <BrixelButtonSecondary
                   label="Sort by relevance"
                   rounded
-                  theme="light"
+                  theme="light"#
                   themeSat={500}
                   className="fsize-300 mr-1"
                 />

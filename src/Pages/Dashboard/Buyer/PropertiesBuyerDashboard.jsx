@@ -159,6 +159,7 @@ const PropertiesBuyerDashboard = (props) => {
                       className="cur-po"
                       to={{
                         pathname: `/buyer/property/${property.id}`,
+                        state: { section: 'Buy' },
                       }}
                     >
                       <CoverPropertyImage

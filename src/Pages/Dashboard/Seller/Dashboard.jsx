@@ -186,7 +186,7 @@ const Dashboard = (props) => {
         propID !== formValue.id
       )
     ) {
-      initForm(cloneDeep(initialValues));
+      if (propID !== 'seller' && propID !== 'buyer' && propID) initForm(cloneDeep(initialValues));
     }
   }, [initialValues, propID]);
 
