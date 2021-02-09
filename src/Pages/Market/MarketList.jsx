@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import Loadable from 'react-loadable';
-import { BrixelButtonIcon, BrixelButtonSecondary } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -225,11 +225,11 @@ const MarketList = (props) => {
   return (
     <>
       <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
-        <BrixelButtonSecondary
+        <BrixelButtonPrimary
           label="Map View"
           rounded
-          theme="light"
-          themeSat={500}
+          theme="dark"
+          leftIcon="roadmap"
           className={openMap ? 'slideOut' : ''}
           onClick={() => { setOpenMap(true); }}
         />
