@@ -19,7 +19,7 @@
         .show-all {
           right: 98px;
         }
-        
+
         .slick-list {
           padding:0 10% 0 0 !important;
           &::before {
@@ -67,6 +67,7 @@
         .map-wrapper {
           margin-bottom: 0;
           position: fixed;
+          top: 64px;
           right: 0;
           width: 50%;
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
-  Helpers, BrixelIcon,
+  Helpers, BrixelIcon, FormatValue,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { withRouter } from 'react-router-dom';
@@ -139,12 +139,33 @@ const MarketCard = (props) => {
               <div className="info dis-fl-col jc-b a-t pl-sm-2 pl-0">
                 <div className="top dis-fl-col" onClick={(e) => openCard(e)}>
                   <h6 className="fweight-700 txtDark700 ellipsis one w-perc-100 max-w-fix-496">{get(item, 'title', '')}</h6>
-                  <span className="fsize-300 txtDark700">{get(item, 'location.address', '')}</span>
+                  <span className="fsize-300 txtDark700">{get(item, 'location.cityZip', '')}</span>
                 </div>
                 <div className="mid dis-fl-row a-c fsize-300 txtDark400" onClick={(e) => openCard(e)}>
                   <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
-                  <span><span>{get(item, 'properties.typology.bedrooms', 0)}</span> <span>bedrooms</span></span> <span className="px-1"> &middot; </span>
-                  <span><span>{get(item, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></span>
+                  <span>
+                    <span>
+                      {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+                    </span>
+                    <span>
+                      {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                    </span>
+                  </span>
+                  {
+                    get(item, 'properties.typology.bedrooms', 0) && (
+                      <span className="px-1"> &middot; </span>
+                    )
+                  }
+                  {
+                    get(item, 'properties.typology.livingArea.value', 0) && (
+                      <span>
+                        <span>
+                          {get(item, 'properties.typology.livingArea.value', 0)}
+                        </span>
+                        <span> m2</span>
+                      </span>
+                    )
+                  }
                 </div>
                 {/* <div className="dis-f py-1 " onClick={(e) => openCard(e)}>
                   <BrixelIcon className="fsize-200 txtDark700" icon="favorite-fill" /> <span className="fsize-200 txtDark700">&nbsp;  17</span>
@@ -153,7 +174,7 @@ const MarketCard = (props) => {
                   className="bottom dis-f fsize-300 flex-wrap"
                 >
                   <div
-                    className="p-2 mb-1 mr-1 brdRadius bgBlue100"
+                    className="p-2 mb-1 mr-1 brdRadius bgLight100"
                     onClick={(e) => openBestimateOverlay(e, item.location, item.estimation)}
                   >
                     <span className="fweight-500 txtDark100">Your Bestimate<sup>&reg;</sup></span>
@@ -172,7 +193,7 @@ const MarketCard = (props) => {
                     </span>
                   </div>
                   <div
-                    className="p-2 mb-1 mr-1 brdRadius bgBlue100 dis-f a-c"
+                    className="p-2 mb-1 mr-1 brdRadius bgLight100 dis-f a-c"
                     onClick={() => history.push({
                       pathname: `/${item.id}/rewards/achievement/facts`,
                       search: '',
@@ -231,12 +252,33 @@ const MarketCard = (props) => {
               <div className="info dis-fl-col jc-b">
                 <div className="top dis-fl-col">
                   <span className="fweight-600 fsize-300 txtDark700 ellipsis one">{get(item, 'title', '')}</span>
-                  <span className="fsize-300 txtDark700">{get(item, 'location.address', '')}</span>
+                  <span className="fsize-300 txtDark700">{get(item, 'location.cityZip', '')} </span>
                 </div>
                 <div className="mid dis-fl-row a-c fsize-300 txtDark400">
                   <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
-                  <span><span>{get(item, 'properties.typology.bedrooms', 0)}</span> <span>bedrooms</span></span> <span className="px-1"> &middot; </span>
-                  <span><span>{get(item, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></span>
+                  <span>
+                    <span>
+                      {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+                    </span>
+                    <span>
+                      {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                    </span>
+                  </span>
+                  {
+                    get(item, 'properties.typology.bedrooms', 0) && (
+                      <span className="px-1"> &middot; </span>
+                    )
+                  }
+                  {
+                    get(item, 'properties.typology.livingArea.value', 0) && (
+                      <span>
+                        <span>
+                          {get(item, 'properties.typology.livingArea.value', 0)}
+                        </span>
+                        <span> m2</span>
+                      </span>
+                    )
+                  }
                 </div>
                 <div className="bottom dis-fl-row a-c txtDark700 pt-1">
 

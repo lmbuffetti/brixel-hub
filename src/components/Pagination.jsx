@@ -58,7 +58,7 @@ const Pagination = (props) => {
   return (
     <>
       <div className="">{ processResults() } of <strong>{totalItems}</strong> total results</div>
-      <nav className={`pagination ${className} w-perc-100 dis-f ${totalItems > 10 ? 'jc-b' : 'jc-fe'}`}>
+      <nav className={`pagination ${className} w-perc-100 dis-f ${totalItems > 10 ? 'jc-b pt-2' : 'jc-fe'}`}>
         {
           totalItems > 10 && (
             <BrixelDropdown

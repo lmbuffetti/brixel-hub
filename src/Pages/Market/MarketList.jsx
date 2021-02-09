@@ -188,7 +188,7 @@ const MarketList = (props) => {
         return 'Premium properties';
       }
       case 'preMarket': {
-        return 'Pre-Market properties';
+        return 'Pre-market properties';
       }
       default:
     }
@@ -295,7 +295,7 @@ const MarketList = (props) => {
           {
             propertyListings.length > 0 && (
               <Pagination
-                className="pr-2"
+                className="pr-3"
                 totalItems={getTotal()}
                 itemsPerPage={itemsPerPage}
                 activePage={currentPage}
