@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -26,6 +26,8 @@ const CarouselWrapper = (props) => {
   } = props;
 
   const [preventClick, setPreventClick] = useState(false);
+
+  const sliderInstance = useRef(null);
 
   const settingsSlick = () => {
     let carouselSettings = {};
@@ -102,49 +104,25 @@ const CarouselWrapper = (props) => {
     }
   };
 
-  /* const carouselSettings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: type === 'own' ? 2 : 4,
-    slidesToScroll: type === 'own' ? 2 : 4,
-    responsive: [
-      {
-        breakpoint: 1025,
-        settings: {
-          slidesToShow: type === 'own' ? 1 : 2,
-          slidesToScroll: type === 'own' ? 1 : 2,
-        },
-      },
-      {
-        breakpoint: 590,
-        settings: {
-          slidesToShow: 1,
-          swipeToSlide: true,
-          centerMode: true,
-          centerPadding: '10%',
-        },
-      },
-    ],
-    centerPadding: '8px',
-    className,
-    onSwipe: () => setPreventClick(true),
-    afterChange: () => setPreventClick(false),
-    nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="dark" />,
-    prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small ghost theme="dark" />,
-  };
-*/
+  const showAllbutton = (items.length > 1 && type !== 'own' && windowDimensions.width <= 600) || (items.length > 4 && type !== 'own' && windowDimensions.width > 1024) ||
+  (items.length > 2 && type !== 'own' && windowDimensions.width <= 1024) || (items.length > 1 && type === 'own' && windowDimensions.width <= 1024) || (items.length > 2 && type === 'own' && windowDimensions.width > 1024);
+
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
       <div className="mb-2 dis-fl-row a-c jc-b">
         <h4 className={`fweight-700 ${type === 'own' ? '' : 'fsize-500'}`}>{title}</h4>
-        <BrixelButtonText
-          className="fsize-300 show-all pos-r"
-          label={`Show all (${total})`}
-          onClick={() => showAll()}
-        />
+        {
+          showAllbutton && (
+            <BrixelButtonText
+              className="fsize-300 show-all pos-r"
+              label={`Show all (${total})`}
+              onClick={() => showAll()}
+            />
+          )
+        }
+
       </div>
-      <Slider {...settingsSlick()}>
+      <Slider ref={sliderInstance} {...settingsSlick()}>
         {
           items.length > 0 && items.map((item, i) => (
             <MarketCard
