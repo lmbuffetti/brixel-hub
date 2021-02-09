@@ -57,6 +57,15 @@ const MarketList = (props) => {
   const [propertyListings, setPropertyListings] = useState([]);
   const [openMap, setOpenMap] = useState(false);
 
+  const getProfileCountry = () => {
+    let country = '';
+    userSearchProfiles[0].location.forEach((loc, i) => {
+      if (i === userSearchProfiles[0].location.length - 1) country += `${loc.countryCode}`;
+      else country += `${loc.countryCode},`;
+    });
+    return country;
+  };
+
   useEffect(() => {
     const profile = userSearchProfiles[0];
     if (loggedInUser.id && get(profile, 'id', '')) {
@@ -91,6 +100,7 @@ const MarketList = (props) => {
           break;
         }
         case 'premium': {
+          set(data, 'country', getProfileCountry());
           handleGetPremiumProperties(data);
           break;
         }

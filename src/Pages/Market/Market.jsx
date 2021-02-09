@@ -36,6 +36,15 @@ const Market = (props) => {
     userSearchProfiles,
   } = props;
 
+  const getProfileCountry = () => {
+    let country = '';
+    userSearchProfiles[0].location.forEach((loc, i) => {
+      if (i === userSearchProfiles[0].location.length - 1) country += `${loc.countryCode}`;
+      else country += `${loc.countryCode},`;
+    });
+    return country;
+  };
+
   useEffect(() => {
     if (loggedInUser.id) {
       const data = {
@@ -48,7 +57,6 @@ const Market = (props) => {
       };
       handleGetSellerProperties(data);
       handleGetFavoritesProperties(data);
-      handleGetPremiumProperties(data);
       handleGetPreMarketProperties(data);
       handleGetLastViewedProperties();
       handleGetUserSearchProfiles(loggedInUser.id);
@@ -68,7 +76,17 @@ const Market = (props) => {
         multiLoader: true,
         searchProfileId: userSearchProfiles[0].id,
       };
+      const payload = {
+        resultsPerPage: 10,
+        offset: 0,
+        order: 'updatedAt',
+        direction: 'DESC',
+        setAsSingle: true,
+        multiLoader: true,
+        country: getProfileCountry(),
+      };
       handleGetNewProperties(data);
+      handleGetPremiumProperties(payload);
       handleSpinnerOff();
     }
   }, [userSearchProfiles]);
