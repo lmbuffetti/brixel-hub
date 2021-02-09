@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
+  BrixelButtonIcon,
   BrixelIcon, Helpers, // BrixelDropdownMini,
 } from '@brixel/brixel-components';
 import { withRouter } from 'react-router-dom';
@@ -88,8 +89,10 @@ const MarketCardMap = (props) => {
                 <span className="fsize-300 txtDark700">{get(item, 'location.address', '')}</span>
               </div>
               <div className="dis-f">
-                <BrixelIcon
-                  color="red"
+                <BrixelButtonIcon
+                  theme="red"
+                  small
+                  ghost
                   icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
                   onClick={() => onChangeFavorite()}
                   isLoading={isSmallLoading === `favorite-${item.id}`}
