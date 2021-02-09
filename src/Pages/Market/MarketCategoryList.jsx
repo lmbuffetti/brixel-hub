@@ -352,6 +352,7 @@ const MarketList = (props) => {
                 ))
               }
               {
+                get(userSearchProfiles[0], 'location', []) &&
                 get(userSearchProfiles[0], 'location', []).map((item, i) => (
                   <React.Fragment key={i.toString()}>
                     <span className="">{item.name}</span>

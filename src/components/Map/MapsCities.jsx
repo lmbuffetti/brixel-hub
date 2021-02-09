@@ -301,7 +301,6 @@ export const MapsCities = (props) => {
         script.src = script.src.replace('language=pt', 'language=en');
       }
     });
-    console.log(testScript);
   }, [selCountry]);
 
   return (
@@ -484,13 +483,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  GoogleApiWrapper((props) => {
-    console.log(props);
-    return ({
-      apiKey: (baseByData.googleMaps),
-      libraries: ['geometry', 'drawing', 'places'],
-    });
-  }),
+  GoogleApiWrapper(() => ({
+    apiKey: (baseByData.googleMaps),
+    libraries: ['geometry', 'drawing', 'places'],
+  })),
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MapsCities);
