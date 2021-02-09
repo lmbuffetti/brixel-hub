@@ -188,7 +188,7 @@ const MarketList = (props) => {
         return 'Premium properties';
       }
       case 'preMarket': {
-        return 'Pre-Market properties';
+        return 'Pre-market properties';
       }
       default:
     }

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
-  Helpers, BrixelIcon,
+  Helpers, BrixelIcon, FormatValue,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { withRouter } from 'react-router-dom';
@@ -134,8 +134,29 @@ const MarketCard = (props) => {
                 </div>
                 <div className="mid dis-fl-row a-c fsize-300 txtDark400" onClick={(e) => openCard(e)}>
                   <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
-                  <span><span>{get(item, 'properties.typology.bedrooms', 0)}</span> <span>rooms</span></span> <span className="px-1"> &middot; </span>
-                  <span><span>{get(item, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></span>
+                  <span>
+                    <span>
+                      {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+                    </span>
+                    <span>
+                      {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                    </span>
+                  </span>
+                  {
+                    get(item, 'properties.typology.bedrooms', 0) && (
+                      <span className="px-1"> &middot; </span>
+                    )
+                  }
+                  {
+                    get(item, 'properties.typology.livingArea.value', 0) && (
+                      <span>
+                        <span>
+                          {get(item, 'properties.typology.livingArea.value', 0)}
+                        </span>
+                        <span> m2</span>
+                      </span>
+                    )
+                  }
                 </div>
                 {/* <div className="dis-f py-1 " onClick={(e) => openCard(e)}>
                   <BrixelIcon className="fsize-200 txtDark700" icon="favorite-fill" /> <span className="fsize-200 txtDark700">&nbsp;  17</span>
@@ -226,8 +247,29 @@ const MarketCard = (props) => {
                 </div>
                 <div className="mid dis-fl-row a-c fsize-300 txtDark400">
                   <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
-                  <span><span>{get(item, 'properties.typology.bedrooms', 0)}</span> <span>bedrooms</span></span> <span className="px-1"> &middot; </span>
-                  <span><span>{get(item, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></span>
+                  <span>
+                    <span>
+                      {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+                    </span>
+                    <span>
+                      {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                    </span>
+                  </span>
+                  {
+                    get(item, 'properties.typology.bedrooms', 0) && (
+                      <span className="px-1"> &middot; </span>
+                    )
+                  }
+                  {
+                    get(item, 'properties.typology.livingArea.value', 0) && (
+                      <span>
+                        <span>
+                          {get(item, 'properties.typology.livingArea.value', 0)}
+                        </span>
+                        <span> m2</span>
+                      </span>
+                    )
+                  }
                 </div>
                 <div className="bottom dis-fl-row a-c txtDark700 pt-1">
 
