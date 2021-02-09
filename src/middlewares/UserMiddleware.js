@@ -220,7 +220,6 @@ const checkUser = (store) => (next) => (action) => {
         .then((res) => {
           const pageList = [];
           // eslint-disable-next-line no-return-assign
-          console.log(res.data);
           res.data.forEach((item) => {
             pageList.push({ ...item.page, dealID: item.id, archivedByBuyer: item.archivedByBuyer || false });
           });

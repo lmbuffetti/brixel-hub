@@ -33,7 +33,7 @@ import {
 import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
 import { setActiveSingleProperty, getActiveSinglePropertyDealsCount, setActiveSinglePropertyDealsCount } from '../actions/PropertyActions';
 // import brixels from '../images/BrxielComingTown/brixels.svg';
-import CoverPropertyImage from './CoverPropertyImage';
+// import CoverPropertyImage from './CoverPropertyImage';
 import AccountDropdown from './AccountDropdown';
 
 function PageHeaderDashboard(props) {
@@ -58,7 +58,6 @@ function PageHeaderDashboard(props) {
     history,
     lang,
     loggedInUser,
-    setDealsCount,
     userType,
     windowDimensions,
   } = props;
@@ -71,10 +70,11 @@ function PageHeaderDashboard(props) {
   const [activeMenu, setActiveMenu] = useState(null);
   const [langMenu, setLangMenu] = useState([]);
   const [langSel, setSelLang] = useState(lang);
+  const [section, setSection] = useState('Sell');
+  const [linkSection, setLinkSection] = useState('Sell');
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   // REF
   const profileMenu = useRef(null);
-  const proTitleRef = useRef(null);
 
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
@@ -274,14 +274,6 @@ function PageHeaderDashboard(props) {
     }
   };
 
-  // FUNCTION TO GO TO SELLERS/BUYERS PROPERTIES
-  const onBackProperties = () => {
-    handleSetActiveSingleProperty({});
-    setDealsCount({});
-    if (userType === 'seller') history.push('/seller/pageLists');
-    else history.push('/buyer/propertyLists');
-  };
-
   // CHECK TAB BY URL
   const checkActiveTab = () => {
     let curTab = '';
@@ -301,6 +293,27 @@ function PageHeaderDashboard(props) {
     }
     return [];
   };
+
+  useEffect(() => {
+    if (get(history, 'location.state.section', null)) {
+      setSection(get(history, 'location.state.section', null));
+    } else if (userType === 'seller' && section !== 'Market') setSection('Sell');
+    else if (section !== 'Market') setSection('Buy');
+  }, [get(history, 'location.state', null), userType]);
+
+  useEffect(() => {
+    switch (section) {
+      case 'Market':
+        setLinkSection('/home');
+        break;
+      case 'Buy':
+        setLinkSection('/buyer/propertyLists');
+        break;
+      default:
+        setLinkSection('/seller/pageLists');
+        break;
+    }
+  }, [section]);
 
   return (
     <>
@@ -339,20 +352,27 @@ function PageHeaderDashboard(props) {
               </div>
               <div className="quickNav dis-f ml-3 pl-3 fsize-300">
                 {
-                  !activeSingleProperty.id && (
-                    <span
-                      className={`pr-3 cur-poi ${history.location.pathname.includes('/home') ? 'fweight-600 txtDark600' : ''}`}
-                      onClick={() => history.push('/home')}
-                    >
-                      Market
-                    </span>
-                  )
-                }
-                {
-                  !(activeSingleProperty.id && history.location.pathname.includes('/buyer')) && (
+                  activeSingleProperty.id && propID && propID !== 'home' && propID !== 'buyer' && propID !== 'seller' ? (
                     <>
                       <span
-                        className={`${activeSingleProperty.id ? '' : 'pr-3'} hideOnMobile cur-poi ${history.location.pathname.includes('/seller') ? 'fweight-600 txtDark600' : ''}`}
+                        className="cur-poi"
+                        onClick={() => history.push(linkSection)}
+                      >
+                        {section}
+                      </span>
+                      <span className="px-1 hideOnMobile"> &gt; </span>
+                      <span className="propertyTitle txtDark700">{get(formValue, 'title', '')}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span
+                        className={`pr-3 cur-poi ${history.location.pathname.includes('/home') ? 'fweight-600 txtDark600' : ''}`}
+                        onClick={() => history.push('/home')}
+                      >
+                        Market
+                      </span>
+                      <span
+                        className={`pr-3 hideOnMobile cur-poi ${history.location.pathname.includes('/seller') ? 'fweight-600 txtDark600' : ''}`}
                         onClick={() => {
                           handleSetUserTypes('seller');
                           handleSetActiveSingleProperty({});
@@ -361,14 +381,6 @@ function PageHeaderDashboard(props) {
                       >
                         Sell
                       </span>
-                      { activeSingleProperty.id && (<span className="px-1 hideOnMobile"> &gt; </span>)}
-                    </>
-                  )
-                }
-
-                {
-                  (!activeSingleProperty.id || history.location.pathname.includes('/buyer/property')) && (
-                    <>
                       <span
                         className={`hideOnMobile cur-poi ${history.location.pathname.includes('/buyer') ? 'fweight-600 txtDark600' : ''}`}
                         onClick={() => {
@@ -380,13 +392,7 @@ function PageHeaderDashboard(props) {
                       >
                         Buy
                       </span>
-                      { activeSingleProperty.id && (<span className="px-1 hideOnMobile"> &gt; </span>)}
                     </>
-                  )
-                }
-                {
-                  activeSingleProperty.id && (
-                    <span className="propertyTitle txtDark700">{get(formValue, 'title', '')}</span>
                   )
                 }
               </div>
@@ -727,7 +733,6 @@ PageHeaderDashboard.propTypes = {
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
   getPropertyDealsCount: PropTypes.func.isRequired,
-  setDealsCount: PropTypes.func.isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {

@@ -44,8 +44,17 @@ const MarketCard = (props) => {
   const openCard = (e) => {
     if (e) e.preventDefault();
     if (!preventClick) {
-      if (type === 'own') history.push(`/${item.id}/rewards`);
-      else if (type === 'favorite') history.push(`/buyer/property/${item.id}`);
+      if (type === 'own') {
+        history.push({
+          pathname: `/${item.id}/rewards`,
+          state: { section: 'Market' },
+        });
+      } else if (type === 'favorite') {
+        history.push({
+          pathname: `/buyer/property/${item.id}`,
+          state: { section: 'Market' },
+        });
+      }
       // TODO: Estimation opens overlay
       else if (type === 'preMarket') {
         setSplashScreen('preMarket');

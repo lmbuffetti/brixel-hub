@@ -269,7 +269,6 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_OFF,
             });
-            console.log('here');
             const data = {
               owner: store.getState().user.loggedInUser.user.id,
               page: type === true ? id : store.getState().brixelForm.Property.values.id,
