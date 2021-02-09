@@ -65,7 +65,7 @@ const MarketCardMap = (props) => {
         <hr className="lighter" />
       </div>
       <div
-        className={`market-card ov-h ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius pos-r ${removeSkeleton ? '' : 'pos-a opacity0'} pr-lg-3 pb-3`}
+        className={`market-card ov-h dis-fl-col dis-fl-row-sm brdRadius pos-r ${removeSkeleton ? '' : 'pos-a opacity0'} pr-lg-3 pb-3`}
       >
         <>
           <div className="image-ratio w-fix-flex-sm-296">
