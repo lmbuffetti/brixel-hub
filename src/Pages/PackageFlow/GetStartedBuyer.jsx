@@ -367,7 +367,7 @@ const GetStartedBuyer = (props) => {
       const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
       changeFieldValue('register.phone.prefix', countryPhoneCode.dial_code);
     }
-    initForm(initialValues);
+    if (get(formValue, 'locations', []).length === 0) initForm(initialValues);
   }, [company]);
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON

@@ -250,7 +250,9 @@ const MarketList = (props) => {
                 <span>There are <strong>{getTotal() ? getTotal() : '-'}</strong> <strong>properties</strong> available</span>
               </div>
             </div>
-            <div className="dis-f jc-b">
+            {
+              /*
+             <div className="dis-f jc-b">
               <div className="dis-f a-t">
                 <BrixelButtonSecondary
                   label="All"
@@ -277,6 +279,8 @@ const MarketList = (props) => {
                 />
               </div>
             </div>
+               */
+            }
           </div>
           {
             propertyListings.map((page, i) => (
