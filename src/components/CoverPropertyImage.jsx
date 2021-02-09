@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
@@ -15,14 +15,21 @@ const CoverPropertyImage = (props) => {
     size,
   } = props;
 
+  const [loadDefImg, setLoadDefImg] = useState(false);
+
+  const onErrorLoadImg = () => {
+    setTimeout(() => loadedImg(true), 100);
+    setLoadDefImg(true);
+  };
+
   return (
     <>
       {
-        coverPhoto ? (
+        coverPhoto && !loadDefImg ? (
           <img
             onClick={() => onClick()}
             onLoad={() => setTimeout(() => loadedImg(true), 100)}
-            onError={() => setTimeout(() => loadedImg(true), 100)}
+            onError={() => onErrorLoadImg()}
             className={className}
             src={`${baseByData.shortPath}${coverPhoto}`}
             alt={`Cover ${propertyType}`}
@@ -32,7 +39,7 @@ const CoverPropertyImage = (props) => {
           <img
             onClick={() => onClick()}
             onLoad={() => setTimeout(() => loadedImg(true), 100)}
-            onError={() => setTimeout(() => loadedImg(true), 100)}
+            onError={() => onErrorLoadImg()}
             className={className}
             src={propertyType === 'Apartment' ? resumeApartment : resumeHouse}
             alt={propertyType || 'Apartment'}
