@@ -70,7 +70,7 @@ const MarketCardMap = (props) => {
           <CoverPropertyImage
             onClick={(e) => onClick(e)}
             loadedImg={(val) => setCoverImgLoaded(val)}
-            className="cover brdRadius h-fix-204 w-perc-100 w-fix-flex-sm-296 cur-poi"
+            className="cover brdRadius h-fix-184 w-perc-100 w-fix-flex-sm-296 cur-poi"
             coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
             propertyType={get(item, 'properties.propertyType', undefined)}
           />
