@@ -428,6 +428,12 @@ const App = (props) => {
     );
   }
 
+  const bodyPadding = () => {
+    let classPadding = 'pt-3';
+    if (history.location.pathname.includes('home') && !history.location.pathname.includes('homebase')) classPadding = '';
+    return classPadding;
+  };
+
   return (
     <main
       className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b`}
@@ -481,7 +487,7 @@ const App = (props) => {
                   <MenuSidebar />
                 )
               }
-              <div className="w-perc-100 pt-3">
+              <div className={`w-perc-100 ${bodyPadding()}`}>
                 {
                   !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') &&
