@@ -67,13 +67,15 @@ const MarketCardMap = (props) => {
         className={`market-card ov-h ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius pos-r ${removeSkeleton ? '' : 'pos-a opacity0'} pr-lg-3 pb-3`}
       >
         <>
-          <CoverPropertyImage
-            onClick={(e) => onClick(e)}
-            loadedImg={(val) => setCoverImgLoaded(val)}
-            className="cover brdRadius h-fix-204 w-perc-100 w-fix-flex-sm-296 cur-poi"
-            coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
-            propertyType={get(item, 'properties.propertyType', undefined)}
-          />
+          <div className="image-ratio w-fix-flex-sm-296">
+            <CoverPropertyImage
+              onClick={(e) => onClick(e)}
+              loadedImg={(val) => setCoverImgLoaded(val)}
+              className="cover brdRadius h-fix-204 w-perc-100 w-fix-flex-sm-296 cur-poi"
+              coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+              propertyType={get(item, 'properties.propertyType', undefined)}
+            />
+          </div>
           <div className="info dis-fl-col jc-b pl-sm-2 pl-0 w-perc-100">
             <div className="top dis-f a-t jc-b pt-3 pt-md-0">
               <div className=" dis-fl-col">
