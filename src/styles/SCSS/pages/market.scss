@@ -18,6 +18,13 @@
           right: 8px;
         }
       }
+
+      .mobile-market-filter {
+        .dropdown-list {
+          width: 250px;
+        }
+      }
+
       .carousel-wrapper  {
         .show-all {
           @media (min-width: $responsive-small) {
