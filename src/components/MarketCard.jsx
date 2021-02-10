@@ -139,10 +139,22 @@ const MarketCard = (props) => {
               <div className="info dis-fl-col jc-b a-t pl-sm-2 pl-0">
                 <div className="top dis-fl-col" onClick={(e) => openCard(e)}>
                   <h6 className="fweight-700 txtDark700 ellipsis one w-perc-100 max-w-fix-496">{get(item, 'title', '')}</h6>
-                  <span className="fsize-300 txtDark700">{get(item, 'location.cityZip', '')}</span>
+                  <span className="fsize-300 txtDark700">
+                    {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
+                    {
+                      get(item, 'location.countryCode', 'CH') === 'CH' && (
+                        <>
+                          {` (${get(item, 'location.stateCode', '')})`}
+                        </>
+                      )
+                    }
+                  </span>
                 </div>
                 <div className="mid dis-fl-row a-c fsize-300 txtDark400" onClick={(e) => openCard(e)}>
-                  <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
+                  <span>
+                    {get(item, 'properties.propertyType', '')}
+                  </span>
+                  <span className="px-1"> &middot; </span>
                   <span>
                     <span>
                       {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
@@ -211,7 +223,7 @@ const MarketCard = (props) => {
                     </div>
                     <div className="pl-2 dis-fl-col">
                       <span className="fweight-500 txtDark100">Facts</span>
-                      <span className="fweight-500 txtDark400"><span>{get(item, 'inputSheet.totalComplete', 0)}% completed</span> </span>
+                      <span className="dis-fl-row a-c fweight-500 txtDark400"><span>{get(item, 'inputSheet.totalComplete', 0)}%&nbsp;</span><span> completed</span></span>
                     </div>
                   </div>
                 </div>
@@ -252,7 +264,16 @@ const MarketCard = (props) => {
               <div className="info dis-fl-col jc-b">
                 <div className="top dis-fl-col">
                   <span className="fweight-600 fsize-300 txtDark700 ellipsis one">{get(item, 'title', '')}</span>
-                  <span className="fsize-300 txtDark700">{`${get(item, 'location.cityZip', '')} (${get(item, 'location.stateCode', '')})`} </span>
+                  <span className="fsize-300 txtDark700">
+                    {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
+                    {
+                      get(item, 'location.countryCode', 'CH') === 'CH' && (
+                        <>
+                          {` (${get(item, 'location.stateCode', '')})`}
+                        </>
+                      )
+                    }
+                  </span>
                 </div>
                 <div className="mid dis-fl-row a-c fsize-300 txtDark400">
                   <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>

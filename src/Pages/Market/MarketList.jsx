@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import Loadable from 'react-loadable';
-import { BrixelButtonIcon, BrixelButtonSecondary } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -235,11 +235,11 @@ const MarketList = (props) => {
   return (
     <>
       <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
-        <BrixelButtonSecondary
+        <BrixelButtonPrimary
           label="Map View"
           rounded
-          theme="light"
-          themeSat={500}
+          theme="dark"
+          leftIcon="roadmap"
           className={openMap ? 'slideOut' : ''}
           onClick={() => { setOpenMap(true); }}
         />
@@ -247,7 +247,7 @@ const MarketList = (props) => {
       <div className="firstLevel dis-f">
         <div className="property-list">
           <div className="mb-3 dis-fl-col">
-            <div className="dis-f my-3 pos-r">
+            <div className="dis-f mt-4 mt-lg-8 pos-r">
               <BrixelButtonIcon
                 ghost
                 theme="dark"
@@ -257,7 +257,7 @@ const MarketList = (props) => {
               />
               <div className="ml-2">
                 <h3 className="dis-b">{getTitle()}</h3>
-                <span>There are <strong>{getTotal() ? getTotal() : '-'}</strong> <strong>properties</strong> available</span>
+                <p><span>There are </span><strong>{getTotal() ? getTotal() : '-'}</strong> <strong><span>properties</span></strong> <span>available</span></p>
               </div>
             </div>
             {

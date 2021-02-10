@@ -360,38 +360,55 @@ function PageHeaderDashboard(props) {
                       >
                         {section}
                       </span>
-                      <span className="px-1 hideOnMobile"> &gt; </span>
+                      <span className="px-1"> &gt; </span>
                       <span className="propertyTitle txtDark700">{get(formValue, 'title', '')}</span>
                     </>
                   ) : (
                     <>
-                      <span
-                        className={`pr-3 cur-poi ${history.location.pathname.includes('/home') ? 'fweight-600 txtDark600' : ''}`}
-                        onClick={() => history.push('/home')}
-                      >
-                        Market
-                      </span>
-                      <span
-                        className={`pr-3 hideOnMobile cur-poi ${history.location.pathname.includes('/seller') ? 'fweight-600 txtDark600' : ''}`}
-                        onClick={() => {
-                          handleSetUserTypes('seller');
-                          handleSetActiveSingleProperty({});
-                          history.push('/seller/pageLists');
-                        }}
-                      >
-                        Sell
-                      </span>
-                      <span
-                        className={`hideOnMobile cur-poi ${history.location.pathname.includes('/buyer') ? 'fweight-600 txtDark600' : ''}`}
-                        onClick={() => {
-                          destroyForm();
-                          handleSetUserTypes('buyer');
-                          handleSetActiveSingleProperty({});
-                          history.push('/buyer/propertyLists');
-                        }}
-                      >
-                        Buy
-                      </span>
+                      {
+                        activeSingleProperty.id && userType === 'buyer' && history.location.pathname.includes('/buyer/property/') ? (
+                          <>
+                            <span
+                              className="cur-poi"
+                              onClick={() => history.push('/buyer/propertyLists')}
+                            >
+                              Buy
+                            </span>
+                            <span className="px-1"> &gt; </span>
+                            <span className="propertyTitle txtDark700">{get(formValue, 'title', '')}</span>
+                          </>
+                        ) : (
+                          <>
+                            <span
+                              className={`pr-3 cur-poi ${history.location.pathname.includes('/home') ? 'fweight-600 txtDark600' : ''}`}
+                              onClick={() => history.push('/home')}
+                            >
+                              Market
+                            </span>
+                            <span
+                              className={`pr-3 cur-poi ${history.location.pathname.includes('/seller') ? 'fweight-600 txtDark600' : ''}`}
+                              onClick={() => {
+                                handleSetUserTypes('seller');
+                                handleSetActiveSingleProperty({});
+                                history.push('/seller/pageLists');
+                              }}
+                            >
+                              Sell
+                            </span>
+                            <span
+                              className={`cur-poi ${history.location.pathname.includes('/buyer') ? 'fweight-600 txtDark600' : ''}`}
+                              onClick={() => {
+                                destroyForm();
+                                handleSetUserTypes('buyer');
+                                handleSetActiveSingleProperty({});
+                                history.push('/buyer/propertyLists');
+                              }}
+                            >
+                              Buy
+                            </span>
+                          </>
+                        )
+                      }
                     </>
                   )
                 }

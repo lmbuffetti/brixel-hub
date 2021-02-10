@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
+  BrixelButtonIcon, FormatValue,
   BrixelIcon, Helpers, // BrixelDropdownMini,
 } from '@brixel/brixel-components';
 import { withRouter } from 'react-router-dom';
@@ -64,7 +65,7 @@ const MarketCardMap = (props) => {
         <hr className="lighter" />
       </div>
       <div
-        className={`market-card ov-h ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius pos-r ${removeSkeleton ? '' : 'pos-a opacity0'} pr-lg-3 pb-3`}
+        className={`market-card ov-h dis-fl-col dis-fl-row-sm brdRadius pos-r ${removeSkeleton ? '' : 'pos-a opacity0'} pr-lg-3 pb-3`}
       >
         <>
           <div className="image-ratio w-fix-flex-sm-296">
@@ -89,11 +90,22 @@ const MarketCardMap = (props) => {
                 >
                   {get(item, 'title', '')}
                 </h6>
-                <span className="fsize-300 txtDark700">{get(item, 'location.address', '')}</span>
+                <span className="fsize-300 txtDark700">
+                  {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
+                  {
+                    get(item, 'location.countryCode', 'CH') === 'CH' && (
+                      <>
+                        {` (${get(item, 'location.stateCode', '')})`}
+                      </>
+                    )
+                  }
+                </span>
               </div>
               <div className="dis-f">
-                <BrixelIcon
-                  color="red"
+                <BrixelButtonIcon
+                  theme="red"
+                  small
+                  ghost
                   icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
                   onClick={() => onChangeFavorite()}
                   isLoading={isSmallLoading === `favorite-${item.id}`}
@@ -138,9 +150,33 @@ const MarketCardMap = (props) => {
               </div>
             </div>
             <div className="mid dis-fl-row a-c fsize-300 txtDark400 py-2 py-md-0">
-              <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
-              <span><span>{get(item, 'properties.typology.bedrooms', 0)}</span> <span>bedrooms</span></span> <span className="px-1"> &middot; </span>
-              <span><span>{get(item, 'properties.typology.livingArea.value', 0)}</span><span>m2</span></span>
+              <span>
+                {get(item, 'properties.propertyType', '')}
+              </span>
+              <span className="px-1"> &middot; </span>
+              <span>
+                <span>
+                  {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+                </span>
+                <span>
+                  {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                </span>
+              </span>
+              {
+                get(item, 'properties.typology.bedrooms', 0) && (
+                  <span className="px-1"> &middot; </span>
+                )
+              }
+              {
+                get(item, 'properties.typology.livingArea.value', 0) && (
+                  <span>
+                    <span>
+                      {get(item, 'properties.typology.livingArea.value', 0)}
+                    </span>
+                    <span> m2</span>
+                  </span>
+                )
+              }
             </div>
             <div className="bottom dis-f a-c fsize-300">
               {
