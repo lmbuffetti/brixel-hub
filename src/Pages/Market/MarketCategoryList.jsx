@@ -10,18 +10,15 @@ import {
   BrixelButtonSecondary,
   BrixelButtonIcon,
   Helpers,
-  FormatValue,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
-import CoverPropertyImage from '../../components/CoverPropertyImage';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType } from '../../actions/CommonActions';
 import { setEstimation, setActivePremarketProperty } from '../../actions/PropertyActions';
-import { updateFavorite } from '../../actions/UserActions';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -47,9 +44,6 @@ const MarketList = (props) => {
     splashScreenType,
     userSearchProfiles,
     activePreMarketProperty,
-    setPreMarketProperty,
-    handleUpdateFavorites,
-    isSmallLoading,
   } = props;
 
   const marketCookie = getCookie('brixelMarketBestimate');
@@ -88,23 +82,6 @@ const MarketList = (props) => {
   const checkFavorite = () => {
     const findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activePreMarketProperty.id);
     return findIndex > -1;
-  };
-
-  const saveFavorite = () => {
-    const data = {
-      act: checkFavorite() ? 'remove' : 'add',
-      id: activePreMarketProperty.id,
-      data: {
-        email: get(loggedInUser, 'email', ''),
-        language: loggedInUser.lang,
-      },
-    };
-    handleUpdateFavorites(data);
-  };
-
-  const scrollToTopEdit = () => {
-    const scrollEl = document.getElementById('bodyScroll');
-    if (scrollEl) scrollEl.scrollTop = 0;
   };
 
   useEffect(() => {
@@ -185,25 +162,17 @@ const MarketList = (props) => {
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
               <h3>This is your Bestimate<sup>&reg;</sup>  </h3>
-              {
-                bestimate.higherValue && (
-                  <>
-                    <p className="ta-c mt-2 txtDark700"> Your property is worth up to </p>
-                    <p className="fsize-600 ff-mono txtPrimary700 fweight-600 mb-3 mt-2">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
-                  </>
-                )
-              }
+              <>
+                <p className="ta-c mt-2 txtDark700"> Your property is worth up to </p>
+                <p className="fsize-600 ff-mono txtPrimary700 fweight-600 mb-3 mt-2">{get(activeSingleCompany, 'country.currency', '')} {bestimate.higherValue ? Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF')) : '-'}</p>
+              </>
               <span className="txtDark700"> Similar transactions were sold within this price range. </span>
               <div className="pt-2 pb-3 max-w-fix-480 w-perc-100">
-                {
-                  bestimate.higherValue && (
-                    <div className="ff-mono txtPrimary700 fsize-300 ta-c besitmate-range dis-f jc-c">
-                      <span> {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.lowerValue, get(activeSingleCompany, 'country.currency', 'CHF'))} </span>
-                      <span className="w-fix-120" />
-                      <span> {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</span>
-                    </div>
-                  )
-                }
+                <div className="ff-mono txtPrimary700 fsize-300 ta-c besitmate-range dis-f jc-c">
+                  <span> {get(activeSingleCompany, 'country.currency', '')} {bestimate.lowerValue ? Helpers.formatNumberValue(bestimate.lowerValue, get(activeSingleCompany, 'country.currency', 'CHF')) : '-'} </span>
+                  <span className="w-fix-120" />
+                  <span> {get(activeSingleCompany, 'country.currency', '')} {bestimate.higherValue ? Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF')) : '-'}</span>
+                </div>
                 <span className="besitmate-bar"> </span>
               </div>
               <span className="txtDark200 max-w-fix-480 mb-5">
@@ -260,101 +229,6 @@ const MarketList = (props) => {
                 />
               </div>
             </div>
-          </SplashScreen>
-        )
-      }
-
-      {/* premarket overlay */}
-      {
-        splashScreenType === 'preMarket' && (
-          <SplashScreen
-            className="result-popup"
-            closeOutside={false}
-          >
-            <>
-              <div className="dis-f jc-fe">
-                <BrixelButtonIcon
-                  ghost
-                  theme="dark"
-                  icon="close-small"
-                  onClick={() => {
-                    setSplashScreen('');
-                    setPreMarketProperty({});
-                  }}
-                />
-              </div>
-              <div className="dis-fl-col a-c jc-c">
-                <h3>This is a pre-market property. </h3>
-
-                <div className="prop-box min-w-fix-352 jc-c m-a dis-f py-4">
-                  {
-                    activePreMarketProperty.id && (
-                      <>
-                        <div className="pos-r min-w-fix-80">
-                          <span className="type-tag pos-a non-favorite fsize-200 fweight-500 txtWhite bgPrimary400 zIndex1">
-                            <span className="type">Pre</span>
-                          </span>
-                          <CoverPropertyImage
-                            className="cover brdRadius w-fix-80 h-fix-80 pos-r"
-                            coverPhoto={get(activePreMarketProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
-                            propertyType={get(activePreMarketProperty, 'properties.propertyType', undefined)}
-                          />
-                        </div>
-                        <div className="dis-fl-col pl-2 jc-b">
-                          <h6 className="fweight-500 txtDark700 ellipsis one">{get(activePreMarketProperty, 'title', '')}</h6>
-
-                          <span className="fsize-300 txtDark700">{get(activePreMarketProperty, 'location.zip', '')} {get(activePreMarketProperty, 'location.city', '')}</span>
-
-                          <div className="dis-fl-row flex-wrap a-c fsize-300 txtDark200">
-                            <span>
-                              {get(activePreMarketProperty, 'properties.propertyType', '')}
-                            </span>
-                            <span className="px-1"> &middot; </span>
-                            <span>
-                              <span>
-                                {FormatValue.formatRooms(get(activePreMarketProperty, 'properties.typology.bedrooms', 0), get(activePreMarketProperty, 'location.countryCode', 'CH'))}
-                              </span>
-                              <span>
-                                {get(activePreMarketProperty, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(activePreMarketProperty, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
-                              </span>
-                            </span>
-                            {
-                              get(activePreMarketProperty, 'properties.typology.bedrooms', 0) && (
-                                <span className="px-1"> &middot; </span>
-                              )
-                            }
-                            {
-                              get(activePreMarketProperty, 'properties.typology.livingArea.value', 0) && (
-                                <span>
-                                  <span>
-                                    {get(activePreMarketProperty, 'properties.typology.livingArea.value', 0)}
-                                  </span>
-                                  <span> m2</span>
-                                </span>
-                              )
-                            }
-                          </div>
-                        </div>
-                      </>
-                    )
-                  }
-                </div>
-
-                <span className="max-w-fix-536 fsize-300 ta-c txtDark200 py-2"> This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner. </span>
-
-                <div className="dis-f jc-c a-c pos-r w-perc-100 pt-3 pb-2">
-                  <BrixelButtonPrimary
-                    rounded
-                    label={checkFavorite() ? 'Remove from favorite' : 'Save as favorite'}
-                    className="m-a"
-                    theme={checkFavorite() ? 'red' : 'light'}
-                    onClick={() => saveFavorite()}
-                    leftIcon="favorite"
-                    isLoading={isSmallLoading === `favorite-${activePreMarketProperty.id}`}
-                  />
-                </div>
-              </div>
-            </>
           </SplashScreen>
         )
       }
@@ -520,6 +394,21 @@ const MarketList = (props) => {
                 )
               }
               {
+                get(preMarketProperties, 'total', 0) > 0 && (
+                  <BrixelButtonSecondary
+                    onClick={() => {
+                      history.push(`${match.url}/preMarket`);
+                      scrollToTopEdit();
+                  }}
+                    label="Pre-market properties"
+                    rounded
+                    theme="light"
+                    themeSat={500}
+                    className="fsize-300 mb-1 txtDark400 mr-1"
+                  />
+                )
+              }
+              {
                 get(premiumProperties, 'total', 0) > 0 && (
                   <BrixelButtonSecondary
                     onClick={() => {
@@ -531,21 +420,6 @@ const MarketList = (props) => {
                     theme="light"
                     themeSat={300}
                     className="fsize-300 mb-1 txtDark400 mr-1"
-                  />
-                )
-              }
-              {
-                get(preMarketProperties, 'total', 0) > 0 && (
-                  <BrixelButtonSecondary
-                    onClick={() => {
-                      history.push(`${match.url}/preMarket`);
-                      scrollToTopEdit();
-                    }}
-                    label="Pre-market properties"
-                    rounded
-                    theme="light"
-                    themeSat={300}
-                    className="fsize-300 mb-1 txtDark400"
                   />
                 )
               }
@@ -599,20 +473,6 @@ const MarketList = (props) => {
 
       <div className="mb-8">
         {
-          premiumProperties.total > 0 && (
-            <CarouselWrapper
-              title="Premium properties"
-              className="market-category-carousel"
-              type="premium"
-              items={premiumProperties.data}
-              total={premiumProperties.total}
-            />
-          )
-        }
-      </div>
-
-      <div className="mb-8">
-        {
           preMarketProperties.total > 0 && (
             <CarouselWrapper
               title="Pre-market properties"
@@ -625,6 +485,19 @@ const MarketList = (props) => {
         }
       </div>
 
+      <div className="mb-8">
+        {
+          premiumProperties.total > 0 && (
+            <CarouselWrapper
+              title="Premium properties"
+              className="market-category-carousel"
+              type="premium"
+              items={premiumProperties.data}
+              total={premiumProperties.total}
+            />
+          )
+        }
+      </div>
     </>
   );
 };
@@ -645,14 +518,10 @@ MarketList.propTypes = {
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
-  setPreMarketProperty: PropTypes.func.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleUpdateFavorites: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
 };
 
 MarketList.defaultProps = {
-  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
@@ -671,14 +540,12 @@ const mapStateToProps = (state) => ({
   splashScreenType: get(state, 'common.splashScreenType', ''),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
   setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
-  handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
 });
 
 export default compose(

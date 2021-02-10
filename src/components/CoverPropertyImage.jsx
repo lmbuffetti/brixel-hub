@@ -11,6 +11,8 @@ const CoverPropertyImage = (props) => {
     coverPhoto,
     loadedImg,
     onClick,
+    onMouseLeave,
+    onMouseEnter,
     propertyType,
     size,
   } = props;
@@ -28,6 +30,8 @@ const CoverPropertyImage = (props) => {
         coverPhoto && !loadDefImg ? (
           <img
             onClick={() => onClick()}
+            onMouseEnter={(e) => onMouseEnter(e)}
+            onMouseLeave={(e) => onMouseLeave(e)}
             onLoad={() => setTimeout(() => loadedImg(true), 100)}
             onError={() => onErrorLoadImg()}
             className={className}
@@ -38,6 +42,8 @@ const CoverPropertyImage = (props) => {
         ) : (
           <img
             onClick={() => onClick()}
+            onMouseEnter={(e) => onMouseEnter(e)}
+            onMouseLeave={(e) => onMouseLeave(e)}
             onLoad={() => setTimeout(() => loadedImg(true), 100)}
             onError={() => onErrorLoadImg()}
             className={className}
@@ -56,6 +62,8 @@ CoverPropertyImage.propTypes = {
   coverPhoto: PropTypes.string,
   loadedImg: PropTypes.func,
   onClick: PropTypes.func,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
   propertyType: PropTypes.string,
   size: PropTypes.string,
 };
@@ -65,6 +73,8 @@ CoverPropertyImage.defaultProps = {
   coverPhoto: null,
   loadedImg: () => '',
   onClick: () => '',
+  onMouseEnter: () => '',
+  onMouseLeave: () => '',
   propertyType: null,
   size: '',
 };

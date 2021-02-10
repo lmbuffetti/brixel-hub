@@ -8,6 +8,7 @@ import Loadable from 'react-loadable';
 import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import {
   getAllProperties, getFavoritesProperties, getLastViewedProperties,
   getNewProperties, getOwnedProperties, getPremarketProperties,
@@ -15,7 +16,8 @@ import {
 } from '../../actions/MarketActions';
 import MarketCardMap from '../../components/MarketCardMap';
 import Pagination from '../../components/Pagination';
-import { setWindowDimensions } from '../../actions/CommonActions';
+import { setSplashType, setWindowDimensions } from '../../actions/CommonActions';
+import { setActivePremarketProperty } from '../../actions/PropertyActions';
 
 const MarketMap = Loadable({
   loader: () => import('./MarketMap' /* webpackChunkName: "MarketMap" */),
@@ -42,6 +44,8 @@ const MarketList = (props) => {
     ownerProperties,
     preMarketProperties,
     premiumProperties,
+    setPreMarketProperty,
+    setSplashScreen,
     userSearchProfiles,
     windowDimensions,
   } = props;
@@ -232,6 +236,25 @@ const MarketList = (props) => {
     }
   };
 
+  const openCard = (item) => {
+    if (catName === 'own') {
+      history.push({
+        pathname: `/${item.id}/rewards`,
+        state: { section: 'Market' },
+      });
+    } else if (catName === 'favorites') {
+      history.push({
+        pathname: `/buyer/property/${item.id}`,
+        state: { section: 'Market' },
+      });
+    }
+    // TODO: Estimation opens overlay
+    else if (catName === 'preMarket') {
+      setSplashScreen('preMarket');
+      setPreMarketProperty(item);
+    } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
+  };
+
   return (
     <>
       <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
@@ -299,7 +322,8 @@ const MarketList = (props) => {
                 type="own"
                 key={i.toString()}
                 item={page}
-                onClick={() => setActiveProperty(page.id)}
+                onClick={() => openCard(page)}
+                onHover={(val) => setActiveProperty(val !== null ? page.id : null)}
               />
             ))
           }
@@ -358,6 +382,8 @@ MarketList.propTypes = {
   ownerProperties: PropTypes.object.isRequired,
   preMarketProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,
+  setPreMarketProperty: PropTypes.func.isRequired,
+  setSplashScreen: PropTypes.func.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -388,6 +414,8 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
   handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
+  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
+  setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
 export default compose(

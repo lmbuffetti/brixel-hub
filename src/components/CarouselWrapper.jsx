@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -114,8 +114,8 @@ const CarouselWrapper = (props) => {
         {
           showAllbutton && (
             <BrixelButtonText
-              className="fSizePx13 show-all pos-r"
-              label={`Show all (${total})`}
+              className="fsize-300 show-all pos-r"
+              label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
               onClick={() => showAll()}
             />
           )
