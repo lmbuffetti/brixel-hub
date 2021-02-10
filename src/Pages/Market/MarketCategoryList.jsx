@@ -488,18 +488,6 @@ const MarketList = (props) => {
                 )
               }
               {
-                get(premiumProperties, 'total', 0) > 0 && (
-                  <BrixelButtonSecondary
-                    onClick={() => history.push(`${match.url}/premium`)}
-                    label="Premium properties"
-                    rounded
-                    theme="light"
-                    themeSat={500}
-                    className="fsize-300 mb-1 mr-1"
-                  />
-                )
-              }
-              {
                 get(preMarketProperties, 'total', 0) > 0 && (
                   <BrixelButtonSecondary
                     onClick={() => history.push(`${match.url}/preMarket`)}
@@ -508,6 +496,18 @@ const MarketList = (props) => {
                     theme="light"
                     themeSat={500}
                     className="fsize-300 mb-1"
+                  />
+                )
+              }
+              {
+                get(premiumProperties, 'total', 0) > 0 && (
+                  <BrixelButtonSecondary
+                    onClick={() => history.push(`${match.url}/premium`)}
+                    label="Premium properties"
+                    rounded
+                    theme="light"
+                    themeSat={500}
+                    className="fsize-300 mb-1 mr-1"
                   />
                 )
               }
@@ -572,20 +572,6 @@ const MarketList = (props) => {
 
       <div className="mb-4">
         {
-          premiumProperties.total > 0 && (
-            <CarouselWrapper
-              title="Premium properties"
-              className="market-category-carousel"
-              type="premium"
-              items={premiumProperties.data}
-              total={premiumProperties.total}
-            />
-          )
-        }
-      </div>
-
-      <div className="mb-4">
-        {
           preMarketProperties.total > 0 && (
             <CarouselWrapper
               title="Pre-market properties"
@@ -598,6 +584,19 @@ const MarketList = (props) => {
         }
       </div>
 
+      <div className="mb-4">
+        {
+          premiumProperties.total > 0 && (
+            <CarouselWrapper
+              title="Premium properties"
+              className="market-category-carousel"
+              type="premium"
+              items={premiumProperties.data}
+              total={premiumProperties.total}
+            />
+          )
+        }
+      </div>
     </>
   );
 };
