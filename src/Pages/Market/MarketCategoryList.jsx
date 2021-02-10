@@ -269,10 +269,10 @@ const MarketList = (props) => {
       <div className="dis-fl-col mb-8">
         <div className="dis-fl-row jc-b flex-wrap">
           <div className="dis-fl-col mb-3">
-            <h4 className="fweight-500">Discover our market</h4>
+            <h4 className="fweight-700">Discover our market</h4>
             {
               has(userSearchProfiles[0], 'id') && (
-                <p className="fSizePx13">These are <span> {get(newProperties, 'total', '')} </span> properties that match your criteria.</p>
+                <span className="fsize-300"><span>There are </span> <span className="fweight-600">{get(newProperties, 'total', '')} properties</span> <span>that match your criteria.</span></span>
               )
             }
           </div>
