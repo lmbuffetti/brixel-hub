@@ -109,12 +109,12 @@ const CarouselWrapper = (props) => {
 
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
-      <div className="mb-2 dis-fl-row a-c jc-b">
-        <h4 className={`fweight-700 ${type === 'own' ? '' : 'fsize-500'}`}>{title}</h4>
+      <div className="mb-3 dis-fl-row a-c jc-b">
+        <h4 className={`fweight-700 ${type === 'own' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
         {
           showAllbutton && (
             <BrixelButtonText
-              className="fsize-300 show-all pos-r"
+              className="fSizePx13 show-all pos-r"
               label={`Show all (${total})`}
               onClick={() => showAll()}
             />

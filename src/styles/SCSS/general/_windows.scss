@@ -1,3 +1,8 @@
+.hubContainer {
+  .hubInner {
+    padding-top: $step * 3;
+  }
+}
 .hubDasContent {
   .container {
     margin: auto;
@@ -117,5 +122,3 @@
     z-index: 1;
   }
 }
-
-

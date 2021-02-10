@@ -136,10 +136,10 @@ const MarketCard = (props) => {
                 propertyType={get(item, 'properties.propertyType', undefined)}
                 onClick={(e) => openCard(e)}
               />
-              <div className="info dis-fl-col jc-b a-t pl-sm-2 pl-0">
+              <div className="info dis-fl-col pl-sm-2 pl-0">
                 <div className="top dis-fl-col" onClick={(e) => openCard(e)}>
-                  <h6 className="fweight-700 txtDark700 ellipsis one w-perc-100 max-w-fix-496">{get(item, 'title', '')}</h6>
-                  <span className="fsize-300 txtDark700">
+                  <h6 className="fweight-700 fsize-400 mb-small-4 txtDark700 ellipsis one w-perc-100 max-w-fix-496">{get(item, 'title', '')}</h6>
+                  <span className="fsize-300 txtDark700 mb-1">
                     {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                     {
                       get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -150,7 +150,7 @@ const MarketCard = (props) => {
                     }
                   </span>
                 </div>
-                <div className="mid dis-fl-row a-c fsize-300 txtDark400" onClick={(e) => openCard(e)}>
+                <div className="mid dis-fl-row fsize-300 txtDark400 mb-2" onClick={(e) => openCard(e)}>
                   <span>
                     {get(item, 'properties.propertyType', '')}
                   </span>
@@ -216,7 +216,7 @@ const MarketCard = (props) => {
                       <ProgressRing
                         progress={get(item, 'inputSheet.totalComplete', 0)}
                         size={45}
-                        strokeWidth={3}
+                        strokeWidth={2}
                         circleOneStroke="#DCDDDE"
                         circleTwoStroke="#387AFF"
                       />
@@ -275,7 +275,7 @@ const MarketCard = (props) => {
                     }
                   </span>
                 </div>
-                <div className="mid dis-fl-row a-c fsize-300 txtDark400">
+                <div className="mid dis-fl-row a-c fsize-300 pt-1 txtDark400">
                   <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
                   <span>
                     <span>

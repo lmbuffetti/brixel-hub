@@ -249,6 +249,7 @@ const MarketList = (props) => {
           <div className="mb-3 dis-fl-col">
             <div className="dis-f pos-r">
               <BrixelButtonIcon
+                small
                 ghost
                 theme="dark"
                 onClick={() => handleMapClose()}
@@ -256,8 +257,8 @@ const MarketList = (props) => {
                 className="pos-r"
               />
               <div className="ml-2">
-                <h3 className="dis-b">{getTitle()}</h3>
-                <p><span>There are </span><strong>{getTotal() ? getTotal() : '-'}</strong> <strong><span>properties</span></strong> <span>available</span></p>
+                <h4 className="dis-b fweight-700">{getTitle()}</h4>
+                <span className="fsize-300 pt-small-4"><span>There are </span><strong>{getTotal() ? getTotal() : '-'}</strong> <strong><span>properties</span></strong> <span>available</span></span>
               </div>
             </div>
             {

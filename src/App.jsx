@@ -275,7 +275,7 @@ const App = (props) => {
       } else if (history.location.pathname.includes('deals')) {
         setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('/home')) {
-        setClassMain('w-perc-100 pos-r hubContainer ov-h marketHome');
+        setClassMain('w-perc-100 pos-r ov-h marketHome');
       } else {
         setClassMain('w-perc-100 pos-r hubContainer ov-h');
       }
@@ -430,7 +430,7 @@ const App = (props) => {
 
   const bodyPadding = () => {
     let classPadding = 'pt-3';
-    if (history.location.pathname.includes('home') && !history.location.pathname.includes('homebase')) classPadding = '';
+    if ((history.location.pathname.includes('home') && !history.location.pathname.includes('homebase')) || history.location.pathname.includes('packageFlow')) classPadding = '';
     return classPadding;
   };
 
@@ -487,8 +487,9 @@ const App = (props) => {
                   <MenuSidebar />
                 )
               }
-              <div className={`w-perc-100 ${bodyPadding()}`}>
+              <div className="w-perc-100 hubInner">
                 {
+                  !history.location.pathname.includes('home') &&
                   !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') &&
                   !history.location.pathname.includes('buyer') && (

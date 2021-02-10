@@ -102,6 +102,11 @@ const MarketList = (props) => {
     handleUpdateFavorites(data);
   };
 
+  const scrollToTopEdit = () => {
+    const scrollEl = document.getElementById('bodyScroll');
+    if (scrollEl) scrollEl.scrollTop = 0;
+  };
+
   useEffect(() => {
     if (splashScreenType === 'preMarket') console.log(checkFavorite());
   });
@@ -354,7 +359,7 @@ const MarketList = (props) => {
         )
       }
 
-      <div className="mb-4">
+      <div className="mb-8">
         {
           ownerProperties.total > 0 && (
             <CarouselWrapper
@@ -368,15 +373,33 @@ const MarketList = (props) => {
         }
       </div>
 
-      <div className="dis-fl-col mb-6">
-        <div className="dis-fl-row a-c jc-b mb-4 flex-wrap">
-          <div className="dis-fl-col mb-2">
-            <h4 className="fweight-700">Discover our market</h4>
-            <p className="fsize-300 pt-1">These are properties that match your criteria.</p>
+      <div className="mb-8">
+        {
+          favoritesProperties.total > 0 && (
+            <CarouselWrapper
+              title="Your favorites"
+              className="market-category-carousel"
+              type="favorite"
+              items={favoritesProperties.data}
+              total={favoritesProperties.total}
+            />
+          )
+        }
+      </div>
+
+      <div className="dis-fl-col mb-8">
+        <div className="dis-fl-row jc-b flex-wrap">
+          <div className="dis-fl-col mb-3">
+            <h4 className="fweight-500">Discover our market</h4>
+            {
+              has(userSearchProfiles[0], 'id') && (
+                <p className="fSizePx13">These are <span> {get(newProperties, 'total', '')} </span> properties that match your criteria.</p>
+              )
+            }
           </div>
           {
             has(userSearchProfiles[0], 'id') ? (
-              <div className="brdRadius py-1 px-sm-2 pr-5 pl-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r">
+              <div className="brdRadius py-1 px-sm-2 pr-5 pl-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r as-b mb-3">
                 <div className="dis-f">
                   {
                     get(userSearchProfiles[0], 'characteristics.propertyType', []).map((item, i) => (
@@ -440,74 +463,89 @@ const MarketList = (props) => {
           <div className="dis-fl-row flex-wrap a-c jc-b w-perc-100">
             <div className="dis-fl-row flex-wrap">
               <BrixelButtonSecondary
-                onClick={() => history.push(`${match.url}/all`)}
+                onClick={() => {
+                  history.push(`${match.url}/all`);
+                  scrollToTopEdit();
+                }}
                 label="All"
                 rounded
                 theme="light"
-                themeSat={500}
-                className="fsize-300 mb-1 mr-1"
+                themeSat={300}
+                className="fsize-300 mb-1 txtDark400 mr-1"
               />
               {/* <BrixelButtonSecondary
                 onClick={() => history.push(`${match.url}/own`)}
                 label="Your properties"
                 rounded
                 theme="light"
-                themeSat={500}
-                className="fsize-300 mb-1 mr-1"
+                themeSat={300}
+                className="fsize-300 mb-1 txtDark400 mr-1"
               /> */}
               {/* <BrixelButtonSecondary
                 onClick={() => history.push(`${match.url}/lastViewed`)}
                 label="Last viewed"
                 rounded
                 theme="light"
-                themeSat={500}
-                className="fsize-300 mb-1 mr-1"
+                themeSat={300}
+                className="fsize-300 mb-1 txtDark400 mr-1"
               /> */}
               {
                 get(favoritesProperties, 'total', 0) > 0 && (
                   <BrixelButtonSecondary
-                    onClick={() => history.push(`${match.url}/favorites`)}
+                    onClick={() => {
+                      history.push(`${match.url}/favorites`);
+                      scrollToTopEdit();
+                    }}
                     label="Your favorites"
                     rounded
                     theme="light"
-                    themeSat={500}
-                    className="fsize-300 mb-1 mr-1"
+                    themeSat={300}
+                    className="fsize-300 mb-1 txtDark400 mr-1"
                   />
                 )
               }
               {
                 get(newProperties, 'total', 0) > 0 && (
                   <BrixelButtonSecondary
-                    onClick={() => history.push(`${match.url}/radar`)}
+                    onClick={() => {
+                      history.push(`${match.url}/radar`);
+                      scrollToTopEdit();
+                    }}
                     label="New in your radar"
                     rounded
                     theme="light"
-                    themeSat={500}
-                    className="fsize-300 mb-1 mr-1"
+                    themeSat={300}
+                    className="fsize-300 mb-1 txtDark400 mr-1"
                   />
                 )
               }
               {
                 get(premiumProperties, 'total', 0) > 0 && (
                   <BrixelButtonSecondary
-                    onClick={() => history.push(`${match.url}/premium`)}
+                    onClick={() => {
+                      history.push(`${match.url}/premium`);
+                      scrollToTopEdit();
+                    }}
                     label="Premium properties"
                     rounded
                     theme="light"
-                    themeSat={500}
-                    className="fsize-300 mb-1 mr-1"
+                    themeSat={300}
+                    className="fsize-300 mb-1 txtDark400 mr-1"
                   />
                 )
               }
               {
                 get(preMarketProperties, 'total', 0) > 0 && (
                   <BrixelButtonSecondary
-                    onClick={() => history.push(`${match.url}/preMarket`)}
+                    onClick={() => {
+                      history.push(`${match.url}/preMarket`);
+                      scrollToTopEdit();
+                    }}
                     label="Pre-market properties"
                     rounded
                     theme="light"
-                    themeSat={500}
-                    className="fsize-300 mb-1"
+                    themeSat={300}
+                    className="fsize-300 mb-1 txtDark400"
                   />
                 )
               }
@@ -515,13 +553,16 @@ const MarketList = (props) => {
             {
               get(preMarketProperties, 'total', 0) > 0 && (
                 <BrixelButtonSecondary
-                  onClick={() => history.push(`${match.url}/all`)}
+                  onClick={() => {
+                    history.push(`${match.url}/all`);
+                    scrollToTopEdit();
+                  }}
                   label="Show map"
                   rounded
                   theme="light"
-                  themeSat={500}
                   leftIcon="roadmap"
-                  className="fsize-300 mb-1"
+                  themeSat={300}
+                  className="fsize-300 mb-1 txtDark400"
                 />
               )
             }
@@ -542,21 +583,7 @@ const MarketList = (props) => {
         }
       </div> */}
 
-      <div className="mb-4">
-        {
-          favoritesProperties.total > 0 && (
-            <CarouselWrapper
-              title="Your favorites"
-              className="market-category-carousel"
-              type="favorite"
-              items={favoritesProperties.data}
-              total={favoritesProperties.total}
-            />
-          )
-        }
-      </div>
-
-      <div className="mb-4">
+      <div className="mb-8">
         {
           newProperties.total > 0 && (
             <CarouselWrapper
@@ -570,7 +597,7 @@ const MarketList = (props) => {
         }
       </div>
 
-      <div className="mb-4">
+      <div className="mb-8">
         {
           premiumProperties.total > 0 && (
             <CarouselWrapper
@@ -584,7 +611,7 @@ const MarketList = (props) => {
         }
       </div>
 
-      <div className="mb-4">
+      <div className="mb-8">
         {
           preMarketProperties.total > 0 && (
             <CarouselWrapper
