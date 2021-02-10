@@ -299,6 +299,7 @@ const MarketList = (props) => {
                 key={i.toString()}
                 item={page}
                 onClick={() => setActiveProperty(page.id)}
+                onHover={(val) => setActiveProperty(val !== null ? page.id : null)}
               />
             ))
           }

@@ -45,15 +45,38 @@
 
 .labelMarker {
   text-align: center;
-  &.active {
-    background: blue;
-  }
   width: 150px;
 
   p {
-    background: red;
+    background: white;
     width: fit-content;
     margin: auto;
+    padding: 4px;
+    font-size: 12px;
+    border-radius: 8px;
+    position: relative;
+    &:after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 13.0px 7.5px 0 7.5px;
+      border-color: #FFF transparent transparent transparent;
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  &.active {
+    p {
+      background: map_get($primaryColor, 200);
+      &:after {
+        border-color: map_get($primaryColor, 200) transparent transparent transparent;
+      }
+    }
   }
 
 }

@@ -5,6 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import MarkerWithLabel from '@googlemaps/markerwithlabel';
 import markerImg from '../../images/location/icon_location.svg';
 import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
+import { cutValue } from '../../utils/helpers';
 
 const MarkerComponent = (props) => {
   const {
@@ -26,17 +27,20 @@ const MarkerComponent = (props) => {
     if (optMap.zoom && data.length > 0) {
       const markers = [];
       data.forEach((item) => {
+        let price = get(item, 'price.total', 0);
+        if (price > 0) price = cutValue(get(item, 'price.total', 0));
+        else price = 'On request';
         const marker = new MarkerWithLabel({
           id: item.id,
           map: optMap,
           icon: {
             url: '',
           },
-          labelContent: `<p>${get(item, 'price.total', 'On request').toString()}</p>`,
+          labelContent: `<p>${price.toString()}</p>`,
           // the CSS class for the label
           labelClass: activeProperty === item.id ? 'labelMarker active' : 'labelMarker',
           labelInBackground: true,
-          labelAnchor: new google.maps.Point(-75, 3),
+          labelAnchor: new google.maps.Point(-75, -45),
           position: {
             lat: get(item, 'location.latitude', 200),
             lng: get(item, 'location.longitude', 200),
