@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
+import MarkerWithLabel from '@googlemaps/markerwithlabel';
 import markerImg from '../../images/location/icon_location.svg';
 import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
 
@@ -25,43 +26,28 @@ const MarkerComponent = (props) => {
     if (optMap.zoom && data.length > 0) {
       const markers = [];
       data.forEach((item) => {
-        const marker = new google.maps.Marker({
+        const marker = new MarkerWithLabel({
           id: item.id,
-          icon: markerSimilarProperties,
-          title: item.id,
+          map: optMap,
+          icon: {
+            url: '',
+          },
+          labelContent: `<p>${get(item, 'price.total', 'On request').toString()}</p>`,
+          // the CSS class for the label
+          labelClass: activeProperty === item.id ? 'labelMarker active' : 'labelMarker',
+          labelInBackground: true,
+          labelAnchor: new google.maps.Point(-75, 3),
           position: {
             lat: get(item, 'location.latitude', 200),
             lng: get(item, 'location.longitude', 200),
           },
         });
-        marker.setAnimation(google.maps.Animation.DROP);
         marker.addListener('click', () => toggleBounce(item.id));
         markers.push(marker);
       });
       setMarkerList(markers);
     }
-  }, [optMap, data]);
-
-  useEffect(() => {
-    if (props.optMap.zoom && data.length > 0 && markerList.length > 0) {
-      const curMarkerList = markerList;
-      const loadedMarkers = cloneDeep(markerList);
-
-      curMarkerList.forEach((marker, i) => {
-        loadedMarkers[i].icon = activeProperty === marker.id ? markerImg : markerSimilarProperties;
-
-        if (loadedMarkers[i].icon !== curMarkerList[i].icon || firstLoad) {
-          curMarkerList[i].icon = activeProperty === marker.id ? markerImg : markerSimilarProperties;
-          curMarkerList[i].setAnimation(google.maps.Animation.DROP);
-          curMarkerList[i].setMap(null);
-          curMarkerList[i].setMap(optMap);
-        }
-      });
-
-      if (curMarkerList.length > 0) setFirstLoad(false);
-      setMarkerList(curMarkerList);
-    }
-  }, [optMap, activeProperty, markerList.length]);
+  }, [optMap, data, activeProperty]);
 
   return (
     <></>

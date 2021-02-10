@@ -42,3 +42,18 @@
 .searchMapFields {
   width: calc(100% - 85px);
 }
+
+.labelMarker {
+  text-align: center;
+  &.active {
+    background: blue;
+  }
+  width: 150px;
+
+  p {
+    background: red;
+    width: fit-content;
+    margin: auto;
+  }
+
+}
