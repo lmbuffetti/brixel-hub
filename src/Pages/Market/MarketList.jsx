@@ -280,8 +280,8 @@ const MarketList = (props) => {
                 className="pos-r"
               />
               <div className="ml-2">
-                <h4 className="dis-b fweight-700">{getTitle()}</h4>
-                <span className="fsize-300 pt-small-4"><span>There are </span><strong>{getTotal() ? getTotal() : '-'}</strong> <strong><span>properties</span></strong> <span>available</span></span>
+                <h4 className="dis-b fweight-700 pb-small-4">{getTitle()}</h4>
+                <span className="fsize-300"><span>There are </span> <span className="fweight-600"> {getTotal() ? getTotal() : '-'} properties</span> <span>available</span></span>
               </div>
             </div>
             {
