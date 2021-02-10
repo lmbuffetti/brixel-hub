@@ -6,6 +6,7 @@ import MarkerWithLabel from '@googlemaps/markerwithlabel';
 import markerImg from '../../images/location/icon_location.svg';
 import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
 import { cutValue } from '../../utils/helpers';
+import MarketCard from '../MarketCard';
 
 const MarkerComponent = (props) => {
   const {
@@ -18,10 +19,9 @@ const MarkerComponent = (props) => {
   // STATE
   const [markerList, setMarkerList] = useState([]);
   const [firstLoad, setFirstLoad] = useState(true);
+  const [infowindow, setInfowindow] = useState({});
 
-  const toggleBounce = (e) => {
-    onClick(e);
-  };
+  const MarkerInfoWindow = (page) => React.createElement(MarketCard, { item: page });
 
   useEffect(() => {
     if (optMap.zoom && data.length > 0) {
@@ -31,6 +31,7 @@ const MarkerComponent = (props) => {
         if (price > 0) price = cutValue(get(item, 'price.total', 0));
         else price = 'On request';
         const marker = new MarkerWithLabel({
+          page: item,
           id: item.id,
           map: optMap,
           icon: {
@@ -46,7 +47,19 @@ const MarkerComponent = (props) => {
             lng: get(item, 'location.longitude', 200),
           },
         });
-        marker.addListener('click', () => toggleBounce(item.id));
+        const window = infowindow;
+        marker.addListener('click', () => {
+          Object.keys(window).forEach((key) => {
+            window[key].close();
+          });
+          window[item.id] = new google.maps.InfoWindow({
+            content: MarkerInfoWindow(item),
+            class: 'test',
+            pixelOffset: new google.maps.Size(0, -45),
+          });
+          window[item.id].open(optMap, marker);
+          setInfowindow(window);
+        });
         markers.push(marker);
       });
       setMarkerList(markers);

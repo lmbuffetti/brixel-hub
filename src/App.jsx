@@ -203,7 +203,7 @@ const App = (props) => {
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
-    if ((activeSingleProperty && activeSingleProperty.id && loggedInUser.user && (activeSingleProperty.owner === loggedInUser.user.id || activeSingleProperty.owner.id === loggedInUser.user.id) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
+    if ((activeSingleProperty && activeSingleProperty.id && loggedInUser.user && (activeSingleProperty.owner === loggedInUser.user.id || get(activeSingleProperty, 'owner.id', '') === loggedInUser.user.id) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
       handleSetUserTypes('seller');
     } else {
       handleSetUserTypes('buyer');

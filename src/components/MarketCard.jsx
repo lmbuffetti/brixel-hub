@@ -15,7 +15,9 @@ import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
 import { setCookie } from '../utils/helpers';
 import { setSplashType } from '../actions/CommonActions';
-import { setEstimation, setActivePremarketProperty, getEstimation } from '../actions/PropertyActions';
+import {
+  setActiveSingleProperty, setEstimation, setActivePremarketProperty, getEstimation,
+} from '../actions/PropertyActions';
 
 const MarketCard = (props) => {
   // PROPS
@@ -23,6 +25,7 @@ const MarketCard = (props) => {
     history,
     item,
     preventClick,
+    handleSetActiveSingleProperty,
     skeleton,
     type,
     setSplashScreen,
@@ -63,8 +66,9 @@ const MarketCard = (props) => {
     }
   };
 
-  const openBestimateOverlay = (e, location, estimation) => {
+  const openBestimateOverlay = (e, location, estimation, page) => {
     if (e) e.preventDefault();
+    handleSetActiveSingleProperty(page);
     if (location.countryCode === 'PT') {
       setCookie('brixelMarketBestimate', false);
       setSplashScreen('bestimateTeaser');
@@ -187,7 +191,7 @@ const MarketCard = (props) => {
                 >
                   <div
                     className="p-2 mb-1 mr-1 brdRadius bgLight100"
-                    onClick={(e) => openBestimateOverlay(e, item.location, item.estimation)}
+                    onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item)}
                   >
                     <span className="fweight-500 txtDark100">Your Bestimate<sup>&reg;</sup></span>
                     <span className="dis-b fweight-600 txtPrimary400 ">
@@ -335,6 +339,7 @@ MarketCard.propTypes = {
   setPropertyEstimation: PropTypes.func.isRequired,
   setPreMarketProperty: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
+  handleSetActiveSingleProperty: PropTypes.func.isRequired,
 };
 
 MarketCard.defaultProps = {
@@ -352,6 +357,7 @@ const mapDispatchToProps = (dispatch) => ({
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
+  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
 });
 
 export default compose(
