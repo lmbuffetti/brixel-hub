@@ -10,6 +10,7 @@ import {
   BrixelButtonSecondary,
   BrixelButtonIcon,
   Helpers,
+  BrixelDropdown,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -44,6 +45,7 @@ const MarketList = (props) => {
     splashScreenType,
     userSearchProfiles,
     activePreMarketProperty,
+    windowDimensions,
   } = props;
 
   const marketCookie = getCookie('brixelMarketBestimate');
@@ -92,6 +94,11 @@ const MarketList = (props) => {
   useEffect(() => {
     if (splashScreenType === 'preMarket') console.log(checkFavorite());
   });
+
+  const selectMobileFilter = (e, value) => {
+    if (e) e.preventDefault();
+    history.push(`${match.url}/${value}`);
+  };
 
   return (
     <>
@@ -340,95 +347,132 @@ const MarketList = (props) => {
         </div>
         <div className="dis-fl-row a-c flex-wrap property-category">
           <div className="dis-fl-row flex-wrap a-c jc-b w-perc-100">
-            <div className="dis-fl-row flex-wrap">
-              <BrixelButtonSecondary
-                onClick={() => {
-                  history.push(`${match.url}/all`);
-                  scrollToTopEdit();
-                }}
-                label="All"
-                rounded
-                theme="light"
-                themeSat={300}
-                className="fsize-300 mb-1 txtDark400 mr-1"
-              />
-              {/* <BrixelButtonSecondary
-                onClick={() => history.push(`${match.url}/own`)}
-                label="Your properties"
-                rounded
-                theme="light"
-                themeSat={300}
-                className="fsize-300 mb-1 txtDark400 mr-1"
-              /> */}
-              {/* <BrixelButtonSecondary
-                onClick={() => history.push(`${match.url}/lastViewed`)}
-                label="Last viewed"
-                rounded
-                theme="light"
-                themeSat={300}
-                className="fsize-300 mb-1 txtDark400 mr-1"
-              /> */}
-              {
-                get(favoritesProperties, 'total', 0) > 0 && (
-                  <BrixelButtonSecondary
-                    onClick={() => {
-                      history.push(`${match.url}/favorites`);
-                      scrollToTopEdit();
-                    }}
-                    label="Your favorites"
-                    rounded
-                    theme="light"
-                    themeSat={300}
-                    className="fsize-300 mb-1 txtDark400 mr-1"
-                  />
-                )
-              }
-              {
-                get(newProperties, 'total', 0) > 0 && (
-                  <BrixelButtonSecondary
-                    onClick={() => {
-                      history.push(`${match.url}/radar`);
-                      scrollToTopEdit();
-                    }}
-                    label="New in your radar"
-                    rounded
-                    theme="light"
-                    themeSat={300}
-                    className="fsize-300 mb-1 txtDark400 mr-1"
-                  />
-                )
-              }
-              {
-                get(preMarketProperties, 'total', 0) > 0 && (
-                  <BrixelButtonSecondary
-                    onClick={() => {
-                      history.push(`${match.url}/preMarket`);
-                      scrollToTopEdit();
-                    }}
-                    label="Pre-market properties"
-                    rounded
-                    theme="light"
-                    themeSat={500}
-                    className="fsize-300 mb-1 txtDark400 mr-1"
-                  />
-                )
-              }
-              {
-                get(premiumProperties, 'total', 0) > 0 && (
-                  <BrixelButtonSecondary
-                    onClick={() => {
-                      history.push(`${match.url}/premium`);
-                      scrollToTopEdit();
-                    }}
-                    label="Premium properties"
-                    rounded
-                    theme="light"
-                    themeSat={300}
-                    className="fsize-300 mb-1 txtDark400 mr-1"
-                  />
-                )
-              }
-            </div>
+
+            {
+              windowDimensions.width <= 590 ? (
+                <BrixelDropdown
+                  compact
+                  className="mobile-market-filter"
+                  bgTransparent
+                  borderColor="light"
+                  bodyScrollclass="content"
+                  selected="All"
+                  options={[{
+                    label: 'All',
+                    value: 'all',
+                  },
+                  {
+                    label: 'Your favorites',
+                    value: 'favorites',
+                  },
+                  {
+                    label: 'New in your radar',
+                    value: 'radar',
+                  },
+                  {
+                    label: 'Pre-market properties',
+                    value: 'preMarket',
+                  },
+                  {
+                    label: 'Premium properties',
+                    value: 'premium',
+                  }]}
+                  onSelect={(e, value) => selectMobileFilter(e, value.value)}
+                />
+              ) : (
+                <>
+                  <div className="dis-fl-row flex-wrap">
+                    <BrixelButtonSecondary
+                      onClick={() => {
+                        history.push(`${match.url}/all`);
+                        scrollToTopEdit();
+                      }}
+                      label="All"
+                      rounded
+                      theme="light"
+                      themeSat={300}
+                      className="fsize-300 mb-1 txtDark400 mr-1"
+                    />
+                    {/* <BrixelButtonSecondary
+                      onClick={() => history.push(`${match.url}/own`)}
+                      label="Your properties"
+                      rounded
+                      theme="light"
+                      themeSat={300}
+                      className="fsize-300 mb-1 txtDark400 mr-1"
+                    /> */}
+                    {/* <BrixelButtonSecondary
+                      onClick={() => history.push(`${match.url}/lastViewed`)}
+                      label="Last viewed"
+                      rounded
+                      theme="light"
+                      themeSat={300}
+                      className="fsize-300 mb-1 txtDark400 mr-1"
+                    /> */}
+                    {
+                      get(favoritesProperties, 'total', 0) > 0 && (
+                        <BrixelButtonSecondary
+                          onClick={() => {
+                            history.push(`${match.url}/favorites`);
+                            scrollToTopEdit();
+                          }}
+                          label="Your favorites"
+                          rounded
+                          theme="light"
+                          themeSat={300}
+                          className="fsize-300 mb-1 txtDark400 mr-1"
+                        />
+                      )
+                    }
+                    {
+                      get(newProperties, 'total', 0) > 0 && (
+                        <BrixelButtonSecondary
+                          onClick={() => {
+                            history.push(`${match.url}/radar`);
+                            scrollToTopEdit();
+                          }}
+                          label="New in your radar"
+                          rounded
+                          theme="light"
+                          themeSat={300}
+                          className="fsize-300 mb-1 txtDark400 mr-1"
+                        />
+                      )
+                    }
+                    {
+                      get(preMarketProperties, 'total', 0) > 0 && (
+                        <BrixelButtonSecondary
+                          onClick={() => {
+                            history.push(`${match.url}/preMarket`);
+                            scrollToTopEdit();
+                          }}
+                          label="Pre-market properties"
+                          rounded
+                          theme="light"
+                          themeSat={500}
+                          className="fsize-300 mb-1 txtDark400 mr-1"
+                        />
+                      )
+                    }
+                    {
+                      get(premiumProperties, 'total', 0) > 0 && (
+                        <BrixelButtonSecondary
+                          onClick={() => {
+                            history.push(`${match.url}/premium`);
+                            scrollToTopEdit();
+                          }}
+                          label="Premium properties"
+                          rounded
+                          theme="light"
+                          themeSat={300}
+                          className="fsize-300 mb-1 txtDark400 mr-1"
+                        />
+                      )
+                    }
+                  </div>
+                </>
+              )
+            }
             {
               get(preMarketProperties, 'total', 0) > 0 && (
                 <BrixelButtonSecondary
@@ -524,6 +568,7 @@ MarketList.propTypes = {
   setSplashScreen: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 MarketList.defaultProps = {
