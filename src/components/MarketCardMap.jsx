@@ -71,9 +71,9 @@ const MarketCardMap = (props) => {
         <>
           <div className="image-ratio w-fix-flex-sm-296">
             <CoverPropertyImage
-              // onClick={(e) => onClick(e)}
+              onClick={(e) => onClick(e)}
               onMouseEnter={(e) => onHover(e)}
-              onMouseLeave={(e) => onHover(null)}
+              onMouseLeave={() => onHover(null)}
               loadedImg={(val) => setCoverImgLoaded(val)}
               className="cover brdRadius h-fix-204 w-perc-100 w-fix-flex-sm-296 cur-poi"
               coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
@@ -85,7 +85,7 @@ const MarketCardMap = (props) => {
               <div className=" dis-fl-col">
                 <h6
                   className="fweight-700 txtDark700 ellipsis one w-perc-100 max-w-fix-400 cur-poi"
-                  // onClick={(e) => onClick(e)}
+                  onClick={(e) => onClick(e)}
                   onMouseEnter={(e) => onHover(e)}
                   onMouseLeave={() => onHover(null)}
                 >
