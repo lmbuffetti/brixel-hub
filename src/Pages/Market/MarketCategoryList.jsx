@@ -278,7 +278,7 @@ const MarketList = (props) => {
           </div>
           {
             has(userSearchProfiles[0], 'id') ? (
-              <div className="brdRadius py-1 px-sm-2 pr-5 pl-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r as-b mb-3">
+              <div className="searchProfileArea brdRadius py-1 px-sm-2 pr-5 pl-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r as-b mb-3">
                 <div className="dis-f">
                   {
                     get(userSearchProfiles[0], 'characteristics.propertyType', []).map((item, i) => (
@@ -323,7 +323,7 @@ const MarketList = (props) => {
                   rounded
                   theme="light"
                   small
-                  className="pos-a pos-r-sm x-r mt-small-4 mr-1 mt-sm-0 mr-sm-0"
+                  className="editSearchProfile"
                   onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
                 />
               </div>

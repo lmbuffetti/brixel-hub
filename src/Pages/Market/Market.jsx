@@ -147,7 +147,7 @@ const Market = (props) => {
                 />
               </div>
               <div className="dis-fl-col a-c jc-c">
-                <h3>This is a pre-market property. </h3>
+                <h3 className="ta-c">This is a pre-market property. </h3>
 
                 <div className="prop-box min-w-fix-352 jc-c m-a dis-f py-4">
                   {
