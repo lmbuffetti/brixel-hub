@@ -47,13 +47,16 @@
             }
           }
         }
-        .bottom {
+        .bestimateFact {
+            > div {
+              min-width: calc(50% - 8px);
+            }
           @media (max-width: $responsive-small) {
-            flex-direction: column;
-            align-items: baseline;
+           // flex-direction: column;
+            //align-items: baseline;
             > div {
               padding: $step;
-              flex: 1;
+
               &:first-child {
                 margin-bottom: $step;
               }
@@ -178,6 +181,15 @@
     padding-bottom: $step / 2;
     padding-left: $step;
     padding-right: $step;
+  }
+  &.bgGreen {
+    background-color: rgba(map-get($greenColor, 400), 0.8);
+  }
+  &.bgPrimary {
+    background-color: rgba(map-get($primaryColor, 400), 0.8);
+  }
+  &.bgRed {
+    background-color: rgba(map-get($redColor, 400), 0.8);
   }
 }
 .prop-box .type-tag {

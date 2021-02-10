@@ -136,7 +136,7 @@ const MarketCard = (props) => {
                 propertyType={get(item, 'properties.propertyType', undefined)}
                 onClick={(e) => openCard(e)}
               />
-              <div className="info dis-fl-col pl-sm-2 pl-0">
+              <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100">
                 <div className="top dis-fl-col" onClick={(e) => openCard(e)}>
                   <h6 className="fweight-700 fsize-400 mb-small-4 txtDark700 ellipsis one w-perc-100 max-w-fix-496">{get(item, 'title', '')}</h6>
                   <span className="fsize-300 txtDark700 mb-1">
@@ -183,7 +183,7 @@ const MarketCard = (props) => {
                   <BrixelIcon className="fsize-200 txtDark700" icon="favorite-fill" /> <span className="fsize-200 txtDark700">&nbsp;  17</span>
                 </div> */}
                 <div
-                  className="bottom dis-f fsize-300 flex-wrap"
+                  className="bottom bestimateFact dis-f fsize-300 w-perc-100"
                 >
                   <div
                     className="p-2 mb-1 mr-1 brdRadius bgLight100"
@@ -194,9 +194,11 @@ const MarketCard = (props) => {
                       {
                         has(item, 'estimation.result.value') ? (
                           <>
-                            {get(item, 'estimation.result.currency', '')} {' '}
-                            {Helpers.formatNumberValue(get(item, 'estimation.result.lowerValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))} -
-                            {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}
+                            <span>&le; {' '}
+                              {get(item, 'estimation.result.currency', '')}
+                              {/* {Helpers.formatNumberValue(get(item, 'estimation.result.lowerValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}  */}
+                              {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}
+                            </span>
                           </>
                         ) : (
                           <span>Pending</span>
@@ -212,7 +214,7 @@ const MarketCard = (props) => {
                       state: { hideBackPage: true },
                     })}
                   >
-                    <div className="w-fix-48">
+                    <div className="w-fix-48 hide dis-b-sm">
                       <ProgressRing
                         progress={get(item, 'inputSheet.totalComplete', 0)}
                         size={45}
@@ -254,7 +256,7 @@ const MarketCard = (props) => {
                     </div>
                   ) : (
                     <p
-                      className={`type-tag pos-a non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor()}400`}
+                      className={`type-tag pos-a non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor()}`}
                     >
                       <span className="type">{getTypeText()}</span>
                     </p>

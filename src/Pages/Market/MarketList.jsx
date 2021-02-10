@@ -53,7 +53,7 @@ const MarketList = (props) => {
   const catName = get(match, 'params.cat', null);
   const propID = get(match, 'params.id', null);
   // STATE
-  const [itemsPerPage, setItemsPerPage] = useState(50);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(0);
   const [sortOrderType, setSortOrderType] = useState('updatedAt');
   const [sortDirection, setSortDirection] = useState('DESC');
