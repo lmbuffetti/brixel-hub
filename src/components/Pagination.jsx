@@ -57,7 +57,7 @@ const Pagination = (props) => {
 
   return (
     <>
-      <span className="">{ processResults() } <span>of</span> <strong>{totalItems}</strong> <span>total results</span></span>
+      <p className=""><span>{ processResults() }</span> <span>of</span> <strong>{totalItems}</strong> <span>total results</span></p>
       <nav className={`pagination ${className} w-perc-100 dis-f ${totalItems > 10 ? 'jc-b pt-2' : 'jc-fe'}`}>
         {
           totalItems > 10 && (
