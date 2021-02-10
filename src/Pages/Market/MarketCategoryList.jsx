@@ -75,8 +75,8 @@ const MarketList = (props) => {
   };
 
   const onClickBestimate = () => {
-    setSplashScreen('');
     history.push(`/${get(activeSingleProperty, 'id', '')}/rewards/achievement/bestimate`);
+    // setSplashScreen('');
   };
 
   const checkFavorite = () => {
@@ -215,9 +215,9 @@ const MarketList = (props) => {
 
               <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
 
-              <div className="dis-f jc-c a-c pos-r w-perc-100">
+              <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                 <span
-                  className="pos-a-fix x-l-0 txtPrimary400 fweight-500 cur-poi"
+                  className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
                   onClick={() => {
                     setCookie('brixelMarketBestimate', true);
                     setBestimateMessage(true);

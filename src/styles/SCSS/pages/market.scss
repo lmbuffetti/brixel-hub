@@ -8,7 +8,7 @@
       padding-bottom: $step * 4;
       padding-top: $step * 8;
       @media (max-width: $responsive-small) {
-        padding-top: 60px;
+        padding-top: $step * 4;
       }
       &.market-listings {
       }
@@ -19,9 +19,10 @@
         }
       }
       .carousel-wrapper  {
-
         .show-all {
-          right: 98px;
+          @media (min-width: $responsive-small) {
+            right: 98px;
+          }
         }
 
         .slick-list {

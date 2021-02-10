@@ -270,16 +270,15 @@ const MarketList = (props) => {
       <div className="firstLevel dis-f">
         <div className="property-list">
           <div className="mb-3 dis-fl-col">
-            <div className="dis-f pos-r">
+            <div className="dis-fl-col pos-r">
               <BrixelButtonIcon
-                small
                 ghost
                 theme="dark"
                 onClick={() => handleMapClose()}
                 icon="arrow-simple-left"
                 className="pos-r"
               />
-              <div className="ml-2">
+              <div className="mt-1">
                 <h4 className="dis-b fweight-700 pb-small-4">{getTitle()}</h4>
                 <span className="fsize-300"><span>There are </span> <span className="fweight-600"> {getTotal() ? getTotal() : '-'} properties</span> <span>available</span></span>
               </div>
