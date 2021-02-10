@@ -84,6 +84,11 @@ const MarketList = (props) => {
     return findIndex > -1;
   };
 
+  const scrollToTopEdit = () => {
+    const scrollEl = document.getElementsByClassName('hubDasContent')[0];
+    if (scrollEl) scrollEl.scrolltop = 0;
+  };
+
   useEffect(() => {
     if (splashScreenType === 'preMarket') console.log(checkFavorite());
   });
@@ -399,7 +404,7 @@ const MarketList = (props) => {
                     onClick={() => {
                       history.push(`${match.url}/preMarket`);
                       scrollToTopEdit();
-                  }}
+                    }}
                     label="Pre-market properties"
                     rounded
                     theme="light"
