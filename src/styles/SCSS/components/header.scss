@@ -113,15 +113,17 @@
 }
 
 .scrollingHeader {
-  .hubDasHeader {
-    .dasHeaderContainer {
-      @media (max-width: $responsive-medium) {
-        margin-top: -64px;
-        position: relative;
+  .hubContainer {
+    .hubDasHeader {
+      .dasHeaderContainer {
+        @media (max-width: $responsive-medium) {
+          margin-top: -64px;
+          position: relative;
+        }
       }
-    }
-    .mobileTitle {
-      background: $brx-white;
+      .mobileTitle {
+        background: $brx-white;
+      }
     }
   }
 }

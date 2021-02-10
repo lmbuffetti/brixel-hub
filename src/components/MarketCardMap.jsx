@@ -80,11 +80,11 @@ const MarketCardMap = (props) => {
               propertyType={get(item, 'properties.propertyType', undefined)}
             />
           </div>
-          <div className="info dis-fl-col jc-b pl-sm-2 pl-0 w-perc-100">
-            <div className="top dis-f a-t jc-b pt-3 pt-md-0">
-              <div className=" dis-fl-col">
+          <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100">
+            <div className="top dis-f pt-3 jc-b pt-md-0">
+              <div className="dis-fl-col">
                 <h6
-                  className="fweight-700 txtDark700 ellipsis one w-perc-100 max-w-fix-400 cur-poi"
+                  className="fweight-700 mb-small-4 fsize-400 txtDark700 w-perc-100 max-w-fix-400 cur-poi"
                   onClick={(e) => onClick(e)}
                   onMouseEnter={(e) => onHover(e)}
                   onMouseLeave={() => onHover(null)}
@@ -150,7 +150,7 @@ const MarketCardMap = (props) => {
                 */}
               </div>
             </div>
-            <div className="mid dis-fl-row a-c fsize-300 txtDark400 py-2 py-md-0">
+            <div className="mid dis-fl-row a-c fsize-300 txtDark400 py-2">
               <span>
                 {get(item, 'properties.propertyType', '')}
               </span>
@@ -179,12 +179,12 @@ const MarketCardMap = (props) => {
                 )
               }
             </div>
-            <div className="bottom dis-f a-c fsize-300">
+            <div className="bottom m-a ml-0 mb-0 dis-f a-c fsize-400">
               {
                 get(item, 'price.total', 0) !== 0 ? (
                   <>
-                    <span className="fsize-300 fweight-600">{get(item, 'price.currency', '')} &nbsp; </span>
-                    <span className="fsize-300 fweight-600">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
+                    <span className="fsize-400 txtDark700 fweight-600">{get(item, 'price.currency', '')} &nbsp; </span>
+                    <span className="fsize-400 txtDark700 fweight-600">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
                   </>
                 ) : (
                   <span className="txtGreen400 fsize-300 fweight-500">On Request</span>

@@ -54,8 +54,8 @@ const CarouselWrapper = (props) => {
         className,
         onSwipe: () => setPreventClick(true),
         afterChange: () => setPreventClick(false),
-        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="dark" />,
-        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small ghost theme="dark" />,
+        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small secondary theme="light" themeSat="500" />,
+        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small secondary theme="light" themeSat="500" />,
       };
     } else if (windowDimensions.width > 1024) {
       carouselSettings = {
@@ -69,8 +69,8 @@ const CarouselWrapper = (props) => {
         className,
         onSwipe: () => setPreventClick(true),
         afterChange: () => setPreventClick(false),
-        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="dark" />,
-        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small ghost theme="dark" />,
+        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small secondary theme="light" themeSat="500" />,
+        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small secondary theme="light" themeSat="500" />,
       };
     }
     return carouselSettings;
@@ -109,17 +109,19 @@ const CarouselWrapper = (props) => {
 
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
-      <div className="mb-2 dis-fl-row a-c jc-b">
-        <h4 className={`fweight-700 ${type === 'own' ? '' : 'fsize-500'}`}>{title}</h4>
-        {
-          showAllbutton && (
-            <BrixelButtonText
-              className="fsize-300 show-all pos-r"
-              label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
-              onClick={() => showAll()}
-            />
-          )
-        }
+      <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
+        <h4 className={`fweight-700 ${type === 'own' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
+        <div className="mt-1 mt-sm-0">
+          {
+            showAllbutton && (
+              <BrixelButtonText
+                className="fsize-300 show-all pos-r"
+                label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
+                onClick={() => showAll()}
+              />
+            )
+          }
+        </div>
 
       </div>
       <Slider ref={sliderInstance} {...settingsSlick()}>

@@ -22,16 +22,23 @@
     .last-link {
       cursor: pointer;
     }
-    
+
     .page-item {
       color: map_get($darkColor, 400);
       cursor: pointer;
       transition: all $default-time-long;
       @include fontStyle(300,'regular',left);
+      width: 24px;
+      height: 24px;
+      // background: map_get($lightColor, 400);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       &:hover,
       &.active {
-        color: map_get($darkColor, 700);
+        background: map_get($lightColor, 100);
       }
 
       &:last-child {

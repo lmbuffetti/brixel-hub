@@ -10,6 +10,7 @@ import {
   BrixelButtonSecondary,
   BrixelButtonIcon,
   Helpers,
+  BrixelDropdown,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -44,6 +45,7 @@ const MarketList = (props) => {
     splashScreenType,
     userSearchProfiles,
     activePreMarketProperty,
+    windowDimensions,
   } = props;
 
   const marketCookie = getCookie('brixelMarketBestimate');
@@ -75,8 +77,8 @@ const MarketList = (props) => {
   };
 
   const onClickBestimate = () => {
-    setSplashScreen('');
     history.push(`/${get(activeSingleProperty, 'id', '')}/rewards/achievement/bestimate`);
+    // setSplashScreen('');
   };
 
   const checkFavorite = () => {
@@ -84,9 +86,19 @@ const MarketList = (props) => {
     return findIndex > -1;
   };
 
+  const scrollToTopEdit = () => {
+    const scrollEl = document.getElementsByClassName('hubDasContent')[0];
+    if (scrollEl) scrollEl.scrolltop = 0;
+  };
+
   useEffect(() => {
     if (splashScreenType === 'preMarket') console.log(checkFavorite());
   });
+
+  const selectMobileFilter = (e, value) => {
+    if (e) e.preventDefault();
+    history.push(`${match.url}/${value}`);
+  };
 
   return (
     <>
@@ -97,7 +109,7 @@ const MarketList = (props) => {
             className="result-popup"
             closeOutside={false}
           >
-            <div className="dis-f jc-fe">
+            <div className="dis-f jc-fe mb-2 mb-sm-1 my-1">
               <BrixelButtonIcon
                 ghost
                 theme="dark"
@@ -152,7 +164,7 @@ const MarketList = (props) => {
             className="result-popup"
             closeOutside={false}
           >
-            <div className="dis-f jc-fe">
+            <div className="dis-f jc-fe mb-2 mb-sm-1 my-1">
               <BrixelButtonIcon
                 ghost
                 theme="dark"
@@ -196,7 +208,7 @@ const MarketList = (props) => {
             className="result-popup"
             closeOutside={false}
           >
-            <div className="dis-f jc-fe">
+            <div className="dis-f jc-fe mb-2 mb-sm-1 my-1">
               <BrixelButtonIcon
                 ghost
                 theme="dark"
@@ -210,9 +222,9 @@ const MarketList = (props) => {
 
               <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
 
-              <div className="dis-f jc-c a-c pos-r w-perc-100">
+              <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                 <span
-                  className="pos-a-fix x-l-0 txtPrimary400 fweight-500 cur-poi"
+                  className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
                   onClick={() => {
                     setCookie('brixelMarketBestimate', true);
                     setBestimateMessage(true);
@@ -233,7 +245,7 @@ const MarketList = (props) => {
         )
       }
 
-      <div className="mb-4">
+      <div className="mb-8">
         {
           ownerProperties.total > 0 && (
             <CarouselWrapper
@@ -247,15 +259,33 @@ const MarketList = (props) => {
         }
       </div>
 
-      <div className="dis-fl-col mb-6">
-        <div className="dis-fl-row a-c jc-b mb-4 flex-wrap">
-          <div className="dis-fl-col mb-2">
+      <div className="mb-8">
+        {
+          favoritesProperties.total > 0 && (
+            <CarouselWrapper
+              title="Your favorites"
+              className="market-category-carousel"
+              type="favorite"
+              items={favoritesProperties.data}
+              total={favoritesProperties.total}
+            />
+          )
+        }
+      </div>
+
+      <div className="dis-fl-col mb-8">
+        <div className="dis-fl-row jc-b flex-wrap">
+          <div className="dis-fl-col mb-3">
             <h4 className="fweight-700">Discover our market</h4>
-            <p className="fsize-300 pt-1">These are properties that match your criteria.</p>
+            {
+              has(userSearchProfiles[0], 'id') && (
+                <span className="fsize-300"><span>There are </span> <span className="fweight-600">{get(newProperties, 'total', '')} properties</span> <span>that match your criteria.</span></span>
+              )
+            }
           </div>
           {
             has(userSearchProfiles[0], 'id') ? (
-              <div className="brdRadius py-1 px-sm-2 pr-5 pl-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r">
+              <div className="searchProfileArea brdRadius py-1 px-sm-2 pr-5 pl-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r as-b mb-3">
                 <div className="dis-f">
                   {
                     get(userSearchProfiles[0], 'characteristics.propertyType', []).map((item, i) => (
@@ -300,7 +330,7 @@ const MarketList = (props) => {
                   rounded
                   theme="light"
                   small
-                  className="pos-a pos-r-sm x-r mt-small-4 mr-1 mt-sm-0 mr-sm-0"
+                  className="editSearchProfile"
                   onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
                 />
               </div>
@@ -317,90 +347,145 @@ const MarketList = (props) => {
         </div>
         <div className="dis-fl-row a-c flex-wrap property-category">
           <div className="dis-fl-row flex-wrap a-c jc-b w-perc-100">
-            <div className="dis-fl-row flex-wrap">
-              <BrixelButtonSecondary
-                onClick={() => history.push(`${match.url}/all`)}
-                label="All"
-                rounded
-                theme="light"
-                themeSat={500}
-                className="fsize-300 mb-1 mr-1"
-              />
-              {/* <BrixelButtonSecondary
-                onClick={() => history.push(`${match.url}/own`)}
-                label="Your properties"
-                rounded
-                theme="light"
-                themeSat={500}
-                className="fsize-300 mb-1 mr-1"
-              /> */}
-              {/* <BrixelButtonSecondary
-                onClick={() => history.push(`${match.url}/lastViewed`)}
-                label="Last viewed"
-                rounded
-                theme="light"
-                themeSat={500}
-                className="fsize-300 mb-1 mr-1"
-              /> */}
-              {
-                get(favoritesProperties, 'total', 0) > 0 && (
-                  <BrixelButtonSecondary
-                    onClick={() => history.push(`${match.url}/favorites`)}
-                    label="Your favorites"
-                    rounded
-                    theme="light"
-                    themeSat={500}
-                    className="fsize-300 mb-1 mr-1"
-                  />
-                )
-              }
-              {
-                get(newProperties, 'total', 0) > 0 && (
-                  <BrixelButtonSecondary
-                    onClick={() => history.push(`${match.url}/radar`)}
-                    label="New in your radar"
-                    rounded
-                    theme="light"
-                    themeSat={500}
-                    className="fsize-300 mb-1 mr-1"
-                  />
-                )
-              }
-              {
-                get(preMarketProperties, 'total', 0) > 0 && (
-                  <BrixelButtonSecondary
-                    onClick={() => history.push(`${match.url}/preMarket`)}
-                    label="Pre-market properties"
-                    rounded
-                    theme="light"
-                    themeSat={500}
-                    className="fsize-300 mb-1"
-                  />
-                )
-              }
-              {
-                get(premiumProperties, 'total', 0) > 0 && (
-                  <BrixelButtonSecondary
-                    onClick={() => history.push(`${match.url}/premium`)}
-                    label="Premium properties"
-                    rounded
-                    theme="light"
-                    themeSat={500}
-                    className="fsize-300 mb-1 mr-1"
-                  />
-                )
-              }
-            </div>
+
+            {
+              windowDimensions.width <= 590 ? (
+                <BrixelDropdown
+                  compact
+                  className="mobile-market-filter"
+                  bgTransparent
+                  borderColor="light"
+                  bodyScrollclass="content"
+                  selected="All"
+                  options={[{
+                    label: 'All',
+                    value: 'all',
+                  },
+                  {
+                    label: 'Your favorites',
+                    value: 'favorites',
+                  },
+                  {
+                    label: 'New in your radar',
+                    value: 'radar',
+                  },
+                  {
+                    label: 'Pre-market properties',
+                    value: 'preMarket',
+                  },
+                  {
+                    label: 'Premium properties',
+                    value: 'premium',
+                  }]}
+                  onSelect={(e, value) => selectMobileFilter(e, value.value)}
+                />
+              ) : (
+                <>
+                  <div className="dis-fl-row flex-wrap">
+                    <BrixelButtonSecondary
+                      onClick={() => {
+                        history.push(`${match.url}/all`);
+                        scrollToTopEdit();
+                      }}
+                      label="All"
+                      rounded
+                      theme="light"
+                      themeSat={300}
+                      className="fsize-300 mb-1 txtDark400 mr-1"
+                    />
+                    {/* <BrixelButtonSecondary
+                      onClick={() => history.push(`${match.url}/own`)}
+                      label="Your properties"
+                      rounded
+                      theme="light"
+                      themeSat={300}
+                      className="fsize-300 mb-1 txtDark400 mr-1"
+                    /> */}
+                    {/* <BrixelButtonSecondary
+                      onClick={() => history.push(`${match.url}/lastViewed`)}
+                      label="Last viewed"
+                      rounded
+                      theme="light"
+                      themeSat={300}
+                      className="fsize-300 mb-1 txtDark400 mr-1"
+                    /> */}
+                    {
+                      get(favoritesProperties, 'total', 0) > 0 && (
+                        <BrixelButtonSecondary
+                          onClick={() => {
+                            history.push(`${match.url}/favorites`);
+                            scrollToTopEdit();
+                          }}
+                          label="Your favorites"
+                          rounded
+                          theme="light"
+                          themeSat={300}
+                          className="fsize-300 mb-1 txtDark400 mr-1"
+                        />
+                      )
+                    }
+                    {
+                      get(newProperties, 'total', 0) > 0 && (
+                        <BrixelButtonSecondary
+                          onClick={() => {
+                            history.push(`${match.url}/radar`);
+                            scrollToTopEdit();
+                          }}
+                          label="New in your radar"
+                          rounded
+                          theme="light"
+                          themeSat={300}
+                          className="fsize-300 mb-1 txtDark400 mr-1"
+                        />
+                      )
+                    }
+                    {
+                      get(preMarketProperties, 'total', 0) > 0 && (
+                        <BrixelButtonSecondary
+                          onClick={() => {
+                            history.push(`${match.url}/preMarket`);
+                            scrollToTopEdit();
+                          }}
+                          label="Pre-market properties"
+                          rounded
+                          theme="light"
+                          themeSat={500}
+                          className="fsize-300 mb-1 txtDark400 mr-1"
+                        />
+                      )
+                    }
+                    {
+                      get(premiumProperties, 'total', 0) > 0 && (
+                        <BrixelButtonSecondary
+                          onClick={() => {
+                            history.push(`${match.url}/premium`);
+                            scrollToTopEdit();
+                          }}
+                          label="Premium properties"
+                          rounded
+                          theme="light"
+                          themeSat={300}
+                          className="fsize-300 mb-1 txtDark400 mr-1"
+                        />
+                      )
+                    }
+                  </div>
+                </>
+              )
+            }
             {
               get(preMarketProperties, 'total', 0) > 0 && (
                 <BrixelButtonSecondary
-                  onClick={() => history.push(`${match.url}/all`)}
+                  onClick={() => {
+                    history.push(`${match.url}/all`);
+                    scrollToTopEdit();
+                  }}
                   label="Show map"
                   rounded
                   theme="light"
-                  themeSat={500}
                   leftIcon="roadmap"
-                  className="fsize-300 mb-1"
+                  themeSat={300}
+                  className="fsize-300 mb-1 txtDark400"
                 />
               )
             }
@@ -421,21 +506,7 @@ const MarketList = (props) => {
         }
       </div> */}
 
-      <div className="mb-4">
-        {
-          favoritesProperties.total > 0 && (
-            <CarouselWrapper
-              title="Your favorites"
-              className="market-category-carousel"
-              type="favorite"
-              items={favoritesProperties.data}
-              total={favoritesProperties.total}
-            />
-          )
-        }
-      </div>
-
-      <div className="mb-4">
+      <div className="mb-8">
         {
           newProperties.total > 0 && (
             <CarouselWrapper
@@ -449,7 +520,7 @@ const MarketList = (props) => {
         }
       </div>
 
-      <div className="mb-4">
+      <div className="mb-8">
         {
           preMarketProperties.total > 0 && (
             <CarouselWrapper
@@ -463,7 +534,7 @@ const MarketList = (props) => {
         }
       </div>
 
-      <div className="mb-4">
+      <div className="mb-8">
         {
           premiumProperties.total > 0 && (
             <CarouselWrapper
@@ -497,6 +568,7 @@ MarketList.propTypes = {
   setSplashScreen: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 MarketList.defaultProps = {

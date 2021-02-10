@@ -5,19 +5,31 @@
     padding-top: 0;
 
     #market {
-      margin-top: 0;
-      padding-top: 0;
-      // padding-bottom: 0;
-
-      &.market-listings {
-        margin-bottom: $step * 4;
-        margin-top: $step * 4;
-        padding-top: $step * 3;
+      padding-bottom: $step * 4;
+      padding-top: $step * 8;
+      @media (max-width: $responsive-small) {
+        padding-top: $step * 4;
       }
-      .carousel-wrapper  {
+      &.market-listings {
+      }
+      .editSearchProfile {
+        @media (max-width: $responsive-small) {
+          position: absolute;
+          right: 8px;
+        }
+      }
 
+      .mobile-market-filter {
+        .dropdown-list {
+          width: 250px;
+        }
+      }
+
+      .carousel-wrapper  {
         .show-all {
-          right: 98px;
+          @media (min-width: $responsive-small) {
+            right: 98px;
+          }
         }
 
         .slick-list {
@@ -35,13 +47,16 @@
             }
           }
         }
-        .bottom {
+        .bestimateFact {
+            > div {
+              min-width: calc(50% - 8px);
+            }
           @media (max-width: $responsive-small) {
-            flex-direction: column;
-            align-items: baseline;
+           // flex-direction: column;
+            //align-items: baseline;
             > div {
               padding: $step;
-              flex: 1;
+
               &:first-child {
                 margin-bottom: $step;
               }
@@ -56,7 +71,9 @@
 
         > div {
           flex-basis: 50%;
-
+          &:last-child {
+            flex-basis: calc(50% - 8px);
+          }
           @media (max-width: $responsive-large) {
             flex-basis: 100%;
           }
@@ -68,8 +85,8 @@
           margin-bottom: 0;
           position: fixed;
           top: 64px;
-          right: 0;
-          width: 50%;
+          right: $step;
+          width: calc(50% - 8px);
 
           @media (max-width: $responsive-large) {
             width: 100%;
@@ -118,6 +135,11 @@
       min-height: 50%;
       height: auto;
       max-width: 800px;
+      @media (max-width: $responsive-large) {
+        height: 100%;
+        top: 0;
+        transform: translateY(0);
+      }
     }
   }
 }
@@ -145,8 +167,8 @@
 // for market card
 
 .type-tag {
-  top: 16px;
-  left: $step * 2;
+  top: 12px;
+  left: 20px;
 
   &.favorite {
     left: auto;
@@ -159,6 +181,15 @@
     padding-bottom: $step / 2;
     padding-left: $step;
     padding-right: $step;
+  }
+  &.bgGreen {
+    background-color: rgba(map-get($greenColor, 400), 0.8);
+  }
+  &.bgPrimary {
+    background-color: rgba(map-get($primaryColor, 400), 0.8);
+  }
+  &.bgRed {
+    background-color: rgba(map-get($redColor, 400), 0.8);
   }
 }
 .prop-box .type-tag {
@@ -186,12 +217,21 @@
     background-color: map-get($primaryColor, 700);
   }
 }
-
+// slick customize
+.slick-prev:hover,
+.slick-prev:focus,
+.slick-next:hover,
+.slick-next:focus
+{
+  color: inherit;
+  outline: inherit;
+  background: inherit;
+}
 .slick-disabled {
-  cursor: default;
-  &:focus ,
-  &:active ,
+  //cursor: default;
+  &:focus,
+  &:active,
   &:hover {
-    background: white;
+    // background: white;
   }
 }
