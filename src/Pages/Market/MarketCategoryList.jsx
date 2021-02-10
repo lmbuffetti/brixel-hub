@@ -10,18 +10,15 @@ import {
   BrixelButtonSecondary,
   BrixelButtonIcon,
   Helpers,
-  FormatValue,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
-import CoverPropertyImage from '../../components/CoverPropertyImage';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType } from '../../actions/CommonActions';
 import { setEstimation, setActivePremarketProperty } from '../../actions/PropertyActions';
-import { updateFavorite } from '../../actions/UserActions';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -47,9 +44,6 @@ const MarketList = (props) => {
     splashScreenType,
     userSearchProfiles,
     activePreMarketProperty,
-    setPreMarketProperty,
-    handleUpdateFavorites,
-    isSmallLoading,
   } = props;
 
   const marketCookie = getCookie('brixelMarketBestimate');
@@ -168,25 +162,17 @@ const MarketList = (props) => {
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
               <h3>This is your Bestimate<sup>&reg;</sup>  </h3>
-              {
-                bestimate.higherValue && (
-                  <>
-                    <p className="ta-c mt-2 txtDark700"> Your property is worth up to </p>
-                    <p className="fsize-600 ff-mono txtPrimary700 fweight-600 mb-3 mt-2">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
-                  </>
-                )
-              }
+              <>
+                <p className="ta-c mt-2 txtDark700"> Your property is worth up to </p>
+                <p className="fsize-600 ff-mono txtPrimary700 fweight-600 mb-3 mt-2">{get(activeSingleCompany, 'country.currency', '')} {bestimate.higherValue ? Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF')) : '-'}</p>
+              </>
               <span className="txtDark700"> Similar transactions were sold within this price range. </span>
               <div className="pt-2 pb-3 max-w-fix-480 w-perc-100">
-                {
-                  bestimate.higherValue && (
-                    <div className="ff-mono txtPrimary700 fsize-300 ta-c besitmate-range dis-f jc-c">
-                      <span> {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.lowerValue, get(activeSingleCompany, 'country.currency', 'CHF'))} </span>
-                      <span className="w-fix-120" />
-                      <span> {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</span>
-                    </div>
-                  )
-                }
+                <div className="ff-mono txtPrimary700 fsize-300 ta-c besitmate-range dis-f jc-c">
+                  <span> {get(activeSingleCompany, 'country.currency', '')} {bestimate.lowerValue ? Helpers.formatNumberValue(bestimate.lowerValue, get(activeSingleCompany, 'country.currency', 'CHF')) : '-'} </span>
+                  <span className="w-fix-120" />
+                  <span> {get(activeSingleCompany, 'country.currency', '')} {bestimate.higherValue ? Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF')) : '-'}</span>
+                </div>
                 <span className="besitmate-bar"> </span>
               </div>
               <span className="txtDark200 max-w-fix-480 mb-5">
@@ -510,14 +496,10 @@ MarketList.propTypes = {
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
-  setPreMarketProperty: PropTypes.func.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleUpdateFavorites: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
 };
 
 MarketList.defaultProps = {
-  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
@@ -536,14 +518,12 @@ const mapStateToProps = (state) => ({
   splashScreenType: get(state, 'common.splashScreenType', ''),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
   setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
-  handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
 });
 
 export default compose(
