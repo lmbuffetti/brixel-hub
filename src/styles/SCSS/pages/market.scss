@@ -5,14 +5,10 @@
     padding-top: 0;
 
     #market {
-      margin-top: 0;
-      padding-top: 0;
-      // padding-bottom: 0;
-
+      margin-bottom: $step * 4;
+      margin-top: $step * 4;
+      padding-top: $step * 4;
       &.market-listings {
-        margin-bottom: $step * 4;
-        margin-top: $step * 4;
-        padding-top: $step * 3;
       }
       .carousel-wrapper  {
 
@@ -186,12 +182,21 @@
     background-color: map-get($primaryColor, 700);
   }
 }
-
+// slick customize
+.slick-prev:hover,
+.slick-prev:focus,
+.slick-next:hover,
+.slick-next:focus
+{
+  color: inherit;
+  outline: inherit;
+  background: inherit;
+}
 .slick-disabled {
-  cursor: default;
-  &:focus ,
-  &:active ,
+  //cursor: default;
+  &:focus,
+  &:active,
   &:hover {
-    background: white;
+    // background: white;
   }
 }

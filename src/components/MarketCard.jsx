@@ -301,7 +301,7 @@ const MarketCard = (props) => {
                     )
                   }
                 </div>
-                <div className="bottom dis-fl-row a-c txtDark700 pt-1">
+                <div className="bottom a-c txtDark700 pt-1">
 
                   {
                     get(item, 'price.total', 0) !== 0 ? (

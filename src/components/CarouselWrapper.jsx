@@ -54,8 +54,8 @@ const CarouselWrapper = (props) => {
         className,
         onSwipe: () => setPreventClick(true),
         afterChange: () => setPreventClick(false),
-        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="dark" />,
-        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small ghost theme="dark" />,
+        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small secondary theme="light" />,
+        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small secondary theme="light" />,
       };
     } else if (windowDimensions.width > 1024) {
       carouselSettings = {
@@ -69,8 +69,8 @@ const CarouselWrapper = (props) => {
         className,
         onSwipe: () => setPreventClick(true),
         afterChange: () => setPreventClick(false),
-        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small ghost theme="dark" />,
-        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small ghost theme="dark" />,
+        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small secondary theme="light" />,
+        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small secondary theme="light" />,
       };
     }
     return carouselSettings;
