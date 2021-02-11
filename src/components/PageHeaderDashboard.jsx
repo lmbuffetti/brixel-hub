@@ -77,7 +77,8 @@ function PageHeaderDashboard(props) {
   const profileMenu = useRef(null);
 
   // URL PARAMS
-  const propID = history.location.pathname.split('/')[1];
+  let propID = history.location.pathname.split('/')[1];
+  if (propID === 'buyer') propID = history.location.pathname.split('/')[3];
 
   // ON CHANGE HISTORY THE MOBILE MENU IS CLOSED
   useEffect(() => {
@@ -295,6 +296,7 @@ function PageHeaderDashboard(props) {
   };
 
   useEffect(() => {
+    console.log(get(history, 'location.state.section', null));
     if (get(history, 'location.state.section', null)) {
       setSection(get(history, 'location.state.section', null));
     } else if (userType === 'seller' && section !== 'Market') setSection('Sell');
@@ -365,50 +367,33 @@ function PageHeaderDashboard(props) {
                     </>
                   ) : (
                     <>
-                      {
-                        activeSingleProperty.id && userType === 'buyer' && history.location.pathname.includes('/buyer/property/') ? (
-                          <>
-                            <span
-                              className="cur-poi"
-                              onClick={() => history.push('/buyer/propertyLists')}
-                            >
-                              Buy
-                            </span>
-                            <span className="px-1"> &gt; </span>
-                            <span className="propertyTitle txtDark700">{get(formValue, 'title', '')}</span>
-                          </>
-                        ) : (
-                          <>
-                            <span
-                              className={`pr-3 cur-poi ${history.location.pathname.includes('/home') ? 'fweight-600 txtDark600' : ''}`}
-                              onClick={() => history.push('/home')}
-                            >
-                              Market
-                            </span>
-                            <span
-                              className={`pr-3 cur-poi ${history.location.pathname.includes('/seller') ? 'fweight-600 txtDark600' : ''}`}
-                              onClick={() => {
-                                handleSetUserTypes('seller');
-                                handleSetActiveSingleProperty({});
-                                history.push('/seller/pageLists');
-                              }}
-                            >
-                              Sell
-                            </span>
-                            <span
-                              className={`cur-poi ${history.location.pathname.includes('/buyer') ? 'fweight-600 txtDark600' : ''}`}
-                              onClick={() => {
-                                destroyForm();
-                                handleSetUserTypes('buyer');
-                                handleSetActiveSingleProperty({});
-                                history.push('/buyer/propertyLists');
-                              }}
-                            >
-                              Buy
-                            </span>
-                          </>
-                        )
-                      }
+                      <span
+                        className={`pr-3 cur-poi ${history.location.pathname.includes('/home') ? 'fweight-600 txtDark600' : ''}`}
+                        onClick={() => history.push('/home')}
+                      >
+                        Market
+                      </span>
+                      <span
+                        className={`pr-3 cur-poi ${history.location.pathname.includes('/seller') ? 'fweight-600 txtDark600' : ''}`}
+                        onClick={() => {
+                          handleSetUserTypes('seller');
+                          handleSetActiveSingleProperty({});
+                          history.push('/seller/pageLists');
+                        }}
+                      >
+                        Sell
+                      </span>
+                      <span
+                        className={`cur-poi ${history.location.pathname.includes('/buyer') ? 'fweight-600 txtDark600' : ''}`}
+                        onClick={() => {
+                          destroyForm();
+                          handleSetUserTypes('buyer');
+                          handleSetActiveSingleProperty({});
+                          history.push('/buyer/propertyLists');
+                        }}
+                      >
+                        Buy
+                      </span>
                     </>
                   )
                 }

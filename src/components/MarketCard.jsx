@@ -54,7 +54,7 @@ const MarketCard = (props) => {
         });
       } else if (type === 'favorite') {
         history.push({
-          pathname: `/buyer/property/${item.id}`,
+          pathname: `/buyer/property/${item.id}/page`,
           state: { section: 'Market' },
         });
       }
