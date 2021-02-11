@@ -28,6 +28,7 @@ export const MarketMapComponent = (props) => {
     scrollZoom,
     showMap,
     subMinHeight,
+    type,
     visible,
     zoom,
   } = props;
@@ -195,7 +196,9 @@ export const MarketMapComponent = (props) => {
             optMap={optMap}
             google={google}
             data={properties}
+            type={type}
             onClick={(val) => onSelProperty('click', val)}
+
             // onMouseover={() => onSelProperty('enter', item.id)}
             // onMouseout={() => onSelProperty('leave', item.id)}
           />
@@ -239,6 +242,7 @@ MarketMapComponent.propTypes = {
   showMap: PropTypes.bool,
   subMinHeight: PropTypes.string,
   visible: PropTypes.bool,
+  type: PropTypes.string,
   zoom: PropTypes.number,
 };
 
@@ -253,6 +257,7 @@ MarketMapComponent.defaultProps = {
   subMinHeight: '',
   visible: true,
   zoom: 10,
+  type: null,
 };
 
 export const MapComponent = React.memo(MarketMapComponent, (prevProps, nextProps) => {

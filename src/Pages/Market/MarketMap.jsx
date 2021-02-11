@@ -13,6 +13,7 @@ const MarketMap = (props) => {
     activeProperty,
     onActiveProperty,
     properties,
+    type,
   } = props;
 
   return (
@@ -23,6 +24,7 @@ const MarketMap = (props) => {
             activeProperty={activeProperty}
             onActiveProperty={(val) => onActiveProperty(val)}
             properties={properties}
+            type={type}
             visible
             subMinHeight="min-100v"
           />
@@ -36,10 +38,12 @@ MarketMap.propTypes = {
   activeProperty: PropTypes.string,
   onActiveProperty: PropTypes.func.isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  type: PropTypes.string,
 };
 
 MarketMap.defaultProps = {
   activeProperty: null,
+  type: null,
 };
 
 const mapStateToProps = (state) => ({

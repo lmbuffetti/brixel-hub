@@ -356,6 +356,7 @@ const MarketList = (props) => {
             )
           }
           <MarketMap
+            type={catName}
             activeProperty={activeProperty}
             onActiveProperty={(val) => setActiveProperty(val)}
             properties={propertyListings}

@@ -1,27 +1,135 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import { withRouter, Link } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import MarkerWithLabel from '@googlemaps/markerwithlabel';
+import { FormatValue, Helpers } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import markerImg from '../../images/location/icon_location.svg';
 import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
 import { cutValue } from '../../utils/helpers';
 import MarketCard from '../MarketCard';
+import CoverPropertyImage from '../CoverPropertyImage';
+import {
+  getEstimation,
+  setActivePremarketProperty,
+  setActiveSingleProperty,
+  setEstimation,
+} from '../../actions/PropertyActions';
+import { setSplashType } from '../../actions/CommonActions';
 
 const MarkerComponent = (props) => {
   const {
     activeProperty,
     data,
     google,
+    history,
     onClick,
     optMap,
+    type,
+    setSplashScreen,
+    setPreMarketProperty,
   } = props;
   // STATE
   const [markerList, setMarkerList] = useState([]);
   const [firstLoad, setFirstLoad] = useState(true);
   const [infowindow, setInfowindow] = useState({});
 
-  const MarkerInfoWindow = (page) => React.createElement(MarketCard, { item: page });
+  const InfoWindowContent = (page, history) => {
+    const openCard = (e) => {
+      if (type === 'own') {
+        history.push({
+          pathname: `/${page.id}/rewards`,
+          state: { section: 'Market' },
+        });
+      } else if (type === 'favorites') {
+        history.push({
+          pathname: `/buyer/property/${page.id}/page`,
+          state: { section: 'Market' },
+        });
+      }
+      // TODO: Estimation opens overlay
+      else if (type === 'preMarket') {
+        setSplashScreen('preMarket');
+        setPreMarketProperty(page);
+      } else window.open(`${baseByData.pageUrl}${page.stub}`, '_blank');
+    };
+    return (
+      <div>
+        <CoverPropertyImage
+          // loadedImg={(val) => setCoverImgLoaded(val)}
+          onClick={() => openCard()}
+          className="cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-200 pos-r cur-poi"
+          coverPhoto={get(page, 'coverPhoto.galleryThumbnailPath', undefined)}
+          propertyType={get(page, 'properties.propertyType', undefined)}
+        />
+        <div className="info dis-fl-col jc-b">
+          <div className="top dis-fl-col">
+            <span
+              className="fweight-600 fsize-300 txtDark700 ellipsis one cur-poi"
+              onClick={() => openCard()}
+            >
+              {get(page, 'title', '')}
+            </span>
+            <span className="fsize-300 txtDark700">
+              {get(page, 'location.zip', '')} {get(page, 'location.city', '')}
+              {
+                get(page, 'location.countryCode', 'CH') === 'CH' && (
+                  <>
+                    {` (${get(page, 'location.stateCode', '')})`}
+                  </>
+                )
+              }
+            </span>
+          </div>
+          <div className="mid dis-fl-row a-c fsize-300 pt-1 txtDark400">
+            <span>{get(page, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
+            <span>
+              <span>
+                {FormatValue.formatRooms(get(page, 'properties.typology.bedrooms', 0), get(page, 'location.countryCode', 'CH'))}
+              </span>
+              <span>
+                {get(page, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(page, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+              </span>
+            </span>
+            {
+              get(page, 'properties.typology.bedrooms', 0) && (
+                <span className="px-1"> &middot; </span>
+              )
+            }
+            {
+              get(page, 'properties.typology.livingArea.value', 0) && (
+                <span>
+                  <span>
+                    {get(page, 'properties.typology.livingArea.value', 0)}
+                  </span>
+                  <span> m2</span>
+                </span>
+              )
+            }
+          </div>
+          <div className="bottom a-c txtDark700 pt-1">
+
+            {
+              get(page, 'price.total', 0) !== 0 ? (
+                <>
+                  <span className="fsize-300 fweight-600">{get(page, 'price.currency', '')} &nbsp; </span>
+                  <span className="fsize-300 fweight-600">{Helpers.formatNumberValue(get(page, 'price.total', 0), get(page, 'price.currency', ''))}</span>
+                </>
+              ) : (
+                <span className="txtGreen400 fsize-300 fweight-500">On Request</span>
+              )
+            }
+
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   useEffect(() => {
     if (optMap.zoom && data.length > 0) {
@@ -52,11 +160,17 @@ const MarkerComponent = (props) => {
           Object.keys(window).forEach((key) => {
             window[key].close();
           });
+          const contentWrapper = document.createElement('div');
+          ReactDOM.render(
+            React.Children.only(InfoWindowContent(item, history)),
+            contentWrapper,
+          );
           window[item.id] = new google.maps.InfoWindow({
-            content: MarkerInfoWindow(item),
             class: 'test',
             pixelOffset: new google.maps.Size(0, -45),
+            maxWidth: 300,
           });
+          window[item.id].setContent(contentWrapper);
           window[item.id].open(optMap, marker);
           setInfowindow(window);
         });
@@ -79,18 +193,22 @@ MarkerComponent.propTypes = {
   // item: PropTypes.object.isRequired,
   // icon: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  setPreMarketProperty: PropTypes.func.isRequired,
+  setSplashScreen: PropTypes.func.isRequired,
+  type: PropTypes.string,
 };
 
 MarkerComponent.defaultProps = {
   activeProperty: null,
+  type: null,
 };
 
-/* export const MarkerMapComponent = React.memo(MarkerComponent, (prevProps, nextProps) =>
-  // const prevLat = get(prevProps, 'properties', null);
-  // const nextLat = get(nextProps, 'properties', null);
-  // const propDiff = diff(prevLat, nextLat);
-  (
-    prevProps.icon === nextProps.icon
-  )); */
+const mapDispatchToProps = (dispatch) => ({
+  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
+  setSplashScreen: bindActionCreators(setSplashType, dispatch),
+});
 
-export default MarkerComponent;
+export default compose(
+  withRouter,
+  connect(null, mapDispatchToProps),
+)(MarkerComponent);

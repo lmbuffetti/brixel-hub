@@ -80,3 +80,54 @@
   }
 
 }
+
+.map-wrapper {
+  .gm-style-iw,
+  .gm-style-iw-d {
+    padding: 0;
+    overflow: visible !important;
+    > button {
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      height: 30px !important;
+      width: 30px !important;
+      border-width: 2px;
+      border-style: solid;
+      border-color: transparent;
+      transition: all 400ms;
+      background: $brx-white !important;
+      top: -15px !important;
+      right: -15px !important;
+      img {
+        display: none !important;
+      }
+      &:after {
+        content: $icon-close-small;
+        font-family: "icomoon" !important;
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-size: 16px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+  .gm-style .gm-style-iw-t::after {
+    display: none !important;
+  }
+  .info {
+    padding: $step;
+  }
+}
