@@ -155,9 +155,11 @@ const Market = (props) => {
                     activePreMarketProperty.id && (
                       <>
                         <div className="pos-r min-w-fix-80">
-                          <span className="type-tag pos-a non-favorite fsize-200 fweight-500 txtWhite bgPrimary400 zIndex1">
-                            <span className="type">Pre</span>
-                          </span>
+                          <div className="tag-container">
+                            <span className="type-tag pos-a non-favorite fsize-200 fweight-500 txtWhite bgPrimary zIndex1">
+                              <span className="type">Pre</span>
+                            </span>
+                          </div>
                           <CoverPropertyImage
                             className="cover brdRadius w-fix-80 h-fix-80 pos-r"
                             coverPhoto={get(activePreMarketProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
