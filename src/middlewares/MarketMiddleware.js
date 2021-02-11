@@ -102,7 +102,7 @@ const checkLead = (store) => (next) => (action) => {
           ...loadSkeleton,
         },
       });
-      const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
+      const queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getAllProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
@@ -201,7 +201,7 @@ const checkLead = (store) => (next) => (action) => {
           ...loadSkeleton,
         },
       });
-      const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
+      const queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getPreMarketProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {

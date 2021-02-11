@@ -87,6 +87,7 @@ const MarketList = (props) => {
           break;
         }
         case 'all': {
+          set(data, 'searchProfileId', userSearchProfiles[0].id);
           handleGetAllProperties(data);
           break;
         }
@@ -109,6 +110,7 @@ const MarketList = (props) => {
           break;
         }
         case 'preMarket': {
+          set(data, 'searchProfileId', userSearchProfiles[0].id);
           handleGetPreMarketProperties(data);
           break;
         }
