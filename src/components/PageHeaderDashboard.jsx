@@ -521,7 +521,7 @@ function PageHeaderDashboard(props) {
                   <div className="ml-2">
                     <BrixelButtonIcon
                       className="btnMainMenu"
-                      icon={showMobileMenu ? 'close-small' : 'menu'}
+                      icon="account"
                       onClick={() => toggleMobileMenu()}
                       ghost
                     />
@@ -542,8 +542,8 @@ function PageHeaderDashboard(props) {
                             />
                           </div>
                           <div className="links dis-fl-col as-b w-perc-100">
-                            <div className="sidebarNav mt-5">
-                              <ul className="navigation max-w-fix-240">
+                            <div className="sidebarNav mt-0">
+                              {/* <ul className="navigation max-w-fix-240">
                                 <li
                                   onClick={() => {
                                     handleSetUserTypes('seller');
@@ -575,22 +575,18 @@ function PageHeaderDashboard(props) {
                                   />
                                   Buy
                                 </li>
-                              </ul>
-                              <span
-                                onClick={() => onTabClick('support')}
-                                className="cur-poi txtDark400 fsize-300 fweight-500 px-2 py-1 hide dis-b-md"
-                              >
-                                <BrixelIcon
-                                  icon="conversation"
-                                  className="mr-2 fsize-400"
-                                />
-                                Support
-                              </span>
+                              </ul> */}
                             </div>
 
-                            <hr className="my-3" />
+                            <div className="mini-menu dis-fl-col jc-e ta-r">
+                              <span
+                                className="px-2 cur-poi link txtDark700 fweight-500 fsize-300"
+                                onClick={() => onTabClick('support')}
+                              >
+                                Support
+                              </span>
 
-                            <div className="mini-menu dis-fl-col">
+                              <hr className="my-2 lighter" />
                               {
                                 userType === 'seller' && (
                                   <div className="mb-2">
@@ -599,36 +595,38 @@ function PageHeaderDashboard(props) {
                                         e.preventDefault();
                                         onUpgrade();
                                       }}
-                                      className="cur-poi px-2 link txtRed400 fweight-500 fsize-300 ta-l"
+                                      className="cur-poi px-2 link txtRed400 fweight-500 fsize-300 ta-r"
                                     >
                                       Upgrade
                                     </a>
                                   </div>
                                 )
                               }
-                              <BrixelSelect
-                                options={langMenu}
-                                className="mb-2"
-                                input={{
-                                  value: langSel,
-                                  name: 'lang',
-                                  onChange: (val) => newLang(val),
-                                }}
-                              />
+                              <div className="dis-f jc-fe">
+                                <BrixelSelect
+                                  options={langMenu}
+                                  className="mb-2 mr-1 brdRadius shadow-1dp px-1"
+                                  input={{
+                                    value: langSel,
+                                    name: 'lang',
+                                    onChange: (val) => newLang(val),
+                                  }}
+                                />
+                              </div>
                               <a
-                                className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-l"
+                                className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-r"
                                 href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}
                               >
                                 Password
                               </a>
                               <a
-                                className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-l"
+                                className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-r"
                                 href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}
                               >
                                 Preferences
                               </a>
                               <a
-                                className="px-2 link txtDark700 fweight-500 fsize-300 ta-l"
+                                className="px-2 link txtDark700 fweight-500 fsize-300 ta-r"
                                 href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}
                               >
                                 Logout
