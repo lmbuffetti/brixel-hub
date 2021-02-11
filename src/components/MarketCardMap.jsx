@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import set from 'lodash/set';
+import compact from 'lodash/compact';
 import {
   BrixelButtonIcon, FormatValue,
   BrixelIcon, Helpers, // BrixelDropdownMini,
@@ -43,6 +45,58 @@ const MarketCardMap = (props) => {
     return findIndex > -1;
   };
 
+  // Process tags
+  useEffect(() => {
+    const result = [];
+    if (item.tags.length > 1) {
+      item.tags.forEach((tag) => {
+        if (tag === 'updated') result.splice(0, 0, tag);
+        if (tag === 'new') result.splice(1, 0, tag);
+        if (tag === 'premium') result.splice(2, 0, tag);
+        if (tag === 'pre-market') result.splice(3, 0, tag);
+      });
+      set(item, 'tags', compact(result));
+    }
+  }, [item.tags]);
+
+  // eslint-disable-next-line consistent-return
+  const getTypeText = (text) => {
+    switch (text) {
+      case 'new': {
+        return 'New';
+      }
+      case 'updated': {
+        return 'Updated';
+      }
+      case 'premium': {
+        return 'Premium';
+      }
+      case 'pre-market': {
+        return 'Pre-market';
+      }
+      default:
+    }
+  };
+
+  // eslint-disable-next-line consistent-return
+  const getColor = (text) => {
+    switch (text) {
+      case 'new': {
+        return 'Green';
+      }
+      case 'updated': {
+        return 'Yellow';
+      }
+      case 'premium': {
+        return 'Red';
+      }
+      case 'pre-market': {
+        return 'Primary';
+      }
+      default:
+    }
+  };
+
   const onChangeFavorite = () => {
     const data = {
       act: checkFavorite() ? 'remove' : 'add',
@@ -70,15 +124,33 @@ const MarketCardMap = (props) => {
       >
         <>
           <div className="image-ratio w-fix-flex-sm-296">
-            <CoverPropertyImage
-              onClick={(e) => onClick(e)}
-              onMouseEnter={(e) => onHover(e)}
-              onMouseLeave={() => onHover(null)}
-              loadedImg={(val) => setCoverImgLoaded(val)}
-              className="cover brdRadius h-fix-204 w-perc-100 w-fix-flex-sm-296 cur-poi"
-              coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
-              propertyType={get(item, 'properties.propertyType', undefined)}
-            />
+            <>
+              <CoverPropertyImage
+                onClick={(e) => onClick(e)}
+                onMouseEnter={(e) => onHover(e)}
+                onMouseLeave={() => onHover(null)}
+                loadedImg={(val) => setCoverImgLoaded(val)}
+                className="cover brdRadius h-fix-204 w-perc-100 w-fix-flex-sm-296 cur-poi"
+                coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                propertyType={get(item, 'properties.propertyType', undefined)}
+              />
+              {
+                item.tags.length > 0 && (
+                  <div className="tag-container pos-a dis-fl-row a-c jc-b">
+                    {
+                      item.tags.map((tag, i) => (
+                        <p
+                          key={i.toString()}
+                          className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
+                        >
+                          <span className="type">{getTypeText(tag)}</span>
+                        </p>
+                      ))
+                    }
+                  </div>
+                )
+              }
+            </>
           </div>
           <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100">
             <div className="top dis-f jc-b pt-md-0">

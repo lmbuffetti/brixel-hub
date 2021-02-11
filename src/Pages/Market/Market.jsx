@@ -109,6 +109,7 @@ const Market = (props) => {
   }, [userSearchProfiles]);
 
   const checkFavorite = () => {
+    console.log(activePreMarketProperty.id, favoritesProperties);
     const findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activePreMarketProperty.id);
     return findIndex > -1;
   };
