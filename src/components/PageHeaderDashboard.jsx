@@ -590,7 +590,7 @@ function PageHeaderDashboard(props) {
                               <div className="dis-f jc-fe">
                                 <BrixelSelect
                                   options={langMenu}
-                                  className="mb-2 mr-1 brdRadius shadow-1dp px-1"
+                                  className="mr-1 mb-1"
                                   input={{
                                     value: langSel,
                                     name: 'lang',

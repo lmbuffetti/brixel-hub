@@ -57,10 +57,10 @@ const Pagination = (props) => {
 
   return (
     <>
-      <p className={totalItems <= 10 ? 'pb-5' : ''}><span>{ processResults() }</span> <span>of</span> <strong>{totalItems}</strong> <span>total results</span></p>
+      <p className={totalItems <= 10 ? 'pb-5 pb-md-0' : ''}><span>{ processResults() }</span> <span>of</span> <strong>{totalItems}</strong> <span>total results</span></p>
       {
         totalItems > 10 && (
-          <nav className={`pagination ${className} w-perc-100 dis-f ${totalItems > 10 ? 'jc-b pt-2 pb-6' : 'jc-fe'}`}>
+          <nav className={`pagination ${className} w-perc-100 dis-f ${totalItems > 10 ? 'jc-b pt-2 pb-6 pb-md-0' : 'jc-fe'}`}>
             {
               totalItems > 10 && (
                 <BrixelDropdown

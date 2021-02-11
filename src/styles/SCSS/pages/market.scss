@@ -177,7 +177,12 @@
   border-radius: 4px;
 }
 // for market card
-
+.cardMap {
+  .tag-container {
+    top: $step;
+    left: $step;
+  }
+}
 .tag-container {
   top: 12px;
   left: 20px;

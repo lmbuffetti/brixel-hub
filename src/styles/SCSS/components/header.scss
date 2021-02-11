@@ -111,6 +111,15 @@
     }
   }
 }
+.mini-menu {
+  .brixel-select {
+    @media (max-width: 767px) {
+      padding-right: 8px;
+        border: 1px solid map-get($lightColor, 300) !important;
+        border-radius: $step / 2;
+    }
+  }
+}
 
 .scrollingHeader {
   .hubContainer {
