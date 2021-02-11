@@ -29,8 +29,8 @@ const CarouselWrapper = Loadable({
 const MarketList = (props) => {
   // PROPS
   const {
+    activePreMarketProperty,
     activeSingleCompany,
-    activeSingleProperty,
     bestimate,
     favoritesProperties,
     history,
@@ -44,7 +44,6 @@ const MarketList = (props) => {
     setSplashScreen,
     splashScreenType,
     userSearchProfiles,
-    activePreMarketProperty,
     windowDimensions,
   } = props;
 
@@ -52,6 +51,7 @@ const MarketList = (props) => {
 
   const [welcomeMessage, setWelcomeMessage] = useState(getCookie('brixelMarketWelcome') === 'true');
   const [bestimateMessage, setBestimateMessage] = useState(marketCookie === 'true');
+  const [activeProperty, setActiveProperty] = useState(null);
 
   useEffect(() => {
     setBestimateMessage(marketCookie === 'true');
@@ -77,7 +77,7 @@ const MarketList = (props) => {
   };
 
   const onClickBestimate = () => {
-    history.push(`/${get(activeSingleProperty, 'id', '')}/rewards/achievement/bestimate`);
+    history.push(`/${activeProperty}/rewards/achievement/bestimate`);
     // setSplashScreen('');
   };
 
@@ -254,6 +254,7 @@ const MarketList = (props) => {
               type="own"
               items={ownerProperties.data}
               total={ownerProperties.total}
+              onSetActiveProperty={(id) => setActiveProperty(id)}
             />
           )
         }
@@ -552,8 +553,8 @@ const MarketList = (props) => {
 };
 
 MarketList.propTypes = {
+  activePreMarketProperty: PropTypes.object.isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
-  activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
@@ -563,7 +564,6 @@ MarketList.propTypes = {
   ownerProperties: PropTypes.object.isRequired,
   preMarketProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,
-  activePreMarketProperty: PropTypes.object.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
@@ -575,9 +575,8 @@ MarketList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activePreMarketProperty: get(state, 'property.activePreMarketProperty', {}),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   bestimate: get(state, 'property.estimation.result', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
@@ -593,9 +592,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
-  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
 });
 
 export default compose(

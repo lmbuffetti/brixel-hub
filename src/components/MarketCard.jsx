@@ -22,16 +22,16 @@ import {
 const MarketCard = (props) => {
   // PROPS
   const {
+    handleGetEstimation,
     history,
     item,
+    onSetActiveProperty,
     preventClick,
-    handleSetActiveSingleProperty,
+    setPreMarketProperty,
+    setPropertyEstimation,
+    setSplashScreen,
     skeleton,
     type,
-    setSplashScreen,
-    setPropertyEstimation,
-    setPreMarketProperty,
-    handleGetEstimation,
   } = props;
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
@@ -68,7 +68,7 @@ const MarketCard = (props) => {
 
   const openBestimateOverlay = (e, location, estimation, page) => {
     if (e) e.preventDefault();
-    handleSetActiveSingleProperty(page);
+    onSetActiveProperty(page.id);
     if (location.countryCode === 'PT') {
       setCookie('brixelMarketBestimate', false);
       setSplashScreen('bestimateTeaser');
@@ -331,35 +331,36 @@ const MarketCard = (props) => {
 };
 
 MarketCard.propTypes = {
+  estimation: PropTypes.object.isRequired,
+  handleGetEstimation: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
+  onSetActiveProperty: PropTypes.func,
   preventClick: PropTypes.bool,
-  skeleton: PropTypes.object.isRequired,
-  estimation: PropTypes.object.isRequired,
-  type: PropTypes.string,
-  setSplashScreen: PropTypes.func.isRequired,
-  setPropertyEstimation: PropTypes.func.isRequired,
   setPreMarketProperty: PropTypes.func.isRequired,
-  handleGetEstimation: PropTypes.func.isRequired,
-  handleSetActiveSingleProperty: PropTypes.func.isRequired,
+  setPropertyEstimation: PropTypes.func.isRequired,
+  setSplashScreen: PropTypes.func.isRequired,
+  skeleton: PropTypes.object.isRequired,
+  type: PropTypes.string,
 };
 
 MarketCard.defaultProps = {
+  onSetActiveProperty: () => '',
   preventClick: false,
   type: '',
 };
 
 const mapStateToProps = (state) => ({
-  skeleton: get(state, 'common.skeleton', {}),
   estimation: get(state, 'property.estimation', {}),
+  skeleton: get(state, 'common.skeleton', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setSplashScreen: bindActionCreators(setSplashType, dispatch),
-  setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
-  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
+  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
+  setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
+  setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
 export default compose(

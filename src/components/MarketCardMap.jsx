@@ -200,12 +200,12 @@ const MarketCardMap = (props) => {
 
 MarketCardMap.propTypes = {
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleUpdateFavorites: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.string,
-  loggedInUser: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
   onHover: PropTypes.func.isRequired,
-  handleUpdateFavorites: PropTypes.func.isRequired,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
 };

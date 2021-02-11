@@ -15,14 +15,15 @@ import MarketCard from './MarketCard';
 const CarouselWrapper = (props) => {
   // PROPS
   const {
-    items,
-    type,
-    title,
     className,
-    windowDimensions,
-    total,
     history,
+    items,
     match,
+    onSetActiveProperty,
+    title,
+    total,
+    type,
+    windowDimensions,
   } = props;
 
   const [preventClick, setPreventClick] = useState(false);
@@ -54,8 +55,8 @@ const CarouselWrapper = (props) => {
         className,
         onSwipe: () => setPreventClick(true),
         afterChange: () => setPreventClick(false),
-        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small secondary theme="light" themeSat="500" />,
-        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small secondary theme="light" themeSat="500" />,
+        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small secondary theme="light" themeSat={500} />,
+        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small secondary theme="light" themeSat={500} />,
       };
     } else if (windowDimensions.width > 1024) {
       carouselSettings = {
@@ -69,8 +70,8 @@ const CarouselWrapper = (props) => {
         className,
         onSwipe: () => setPreventClick(true),
         afterChange: () => setPreventClick(false),
-        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small secondary theme="light" themeSat="500" />,
-        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small secondary theme="light" themeSat="500" />,
+        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small secondary theme="light" themeSat={500} />,
+        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small secondary theme="light" themeSat={500} />,
       };
     }
     return carouselSettings;
@@ -132,6 +133,7 @@ const CarouselWrapper = (props) => {
               key={i.toString()}
               item={item}
               preventClick={preventClick}
+              onSetActiveProperty={(id) => onSetActiveProperty(id)}
             />
           ))
         }
@@ -141,21 +143,23 @@ const CarouselWrapper = (props) => {
 };
 
 CarouselWrapper.propTypes = {
-  type: PropTypes.string,
-  total: PropTypes.number,
-  title: PropTypes.string,
   className: PropTypes.string,
-  items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  windowDimensions: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
   match: PropTypes.object.isRequired,
+  onSetActiveProperty: PropTypes.func,
+  title: PropTypes.string,
+  total: PropTypes.number,
+  type: PropTypes.string,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 CarouselWrapper.defaultProps = {
-  type: '',
-  total: 0,
-  title: '',
   className: '',
+  onSetActiveProperty: () => '',
+  title: '',
+  total: 0,
+  type: '',
 };
 
 const mapStateToProps = (state) => ({
