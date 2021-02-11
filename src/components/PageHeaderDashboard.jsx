@@ -266,6 +266,7 @@ function PageHeaderDashboard(props) {
 
   // FUNCTION TO MAANGE THE TAB CLICK
   const onTabClick = (val, act = 'url') => {
+    setShowMobileMenu(false);
     if (act === 'state' || val === 'support' || val === '/support') {
       setActiveMenu(val.replace('/', ''));
     } else {
