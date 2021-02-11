@@ -81,14 +81,14 @@ const MenuSidebar = (props) => {
       <header className="sideHeader dis-fl-col a-c jc-fs h-perc-100" id="menu-sidebar">
         <div className="w-perc-100 h-perc-100 pos-r">
           { /* SECTION SIDEBAR MENU DESKTOP */ }
-          <div className={`pos-r sidebar w-perc-100 h-perc-100 bgWhite shadow-2dp ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
+          <div className={`pos-r sidebar w-perc-100 h-perc-100 bgLight100 ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
             <div className="hide dis-b-md">
               <ul className="sidebarNav">
                 {
                   navigationMenu.map((nav, i) => (
                     <li
                       key={i.toString()}
-                      className={`${history.location.pathname.includes(nav.name) ? 'active' : ''} mainNav`}
+                      className={`${history.location.pathname.includes(nav.name) ? 'active' : ''} mainNav fsize-300`}
                     >
                       <Link to={linkMenu(nav.path)}>{nav.title}</Link>
                       {

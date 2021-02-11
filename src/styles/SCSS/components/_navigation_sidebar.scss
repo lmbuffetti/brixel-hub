@@ -23,7 +23,7 @@
     .submenu {
       padding-left: $step * 3;
       li {
-        padding: 6px 12px;
+        padding: 4px 12px;
         border-left: 1px solid map_get($lightColor, 200);
         a {
           color: map_get($darkColor, 200);

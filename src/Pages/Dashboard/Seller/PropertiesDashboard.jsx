@@ -108,7 +108,7 @@ const HomeDashboard = (props) => {
             />
           </div>
           <div className="properties listings-wrapper w-perc-100 px-1">
-            <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
+            <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12 pt-1">
               {
                 userProperties.map((property, i) => (
                   <div

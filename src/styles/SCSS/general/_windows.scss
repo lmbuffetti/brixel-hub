@@ -1,6 +1,19 @@
 .hubContainer {
   .hubInner {
     padding-top: $step * 3;
+    background: white;
+
+    @media (max-width: $responsive-medium) {
+      background-color: map-get($lightColor, 100);
+    }
+    .dashboardContainer {
+      background-color: white;
+      padding-bottom: 24px;
+
+      @media (max-width: $responsive-medium) {
+        background-color: map-get($lightColor, 100);
+      }
+    }
   }
 }
 .hubDasContent {
@@ -9,6 +22,7 @@
     @media (min-width: $responsive-medium) {
       min-height: 100%;
       padding: $step * 3;
+
       &.dashboardContainer {
         padding: 0px $step * 3 $step * 3;
       }
