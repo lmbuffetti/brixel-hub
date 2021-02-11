@@ -49,7 +49,7 @@ const MarketCard = (props) => {
     if (!preventClick) {
       if (type === 'own') {
         history.push({
-          pathname: `/${item.id}/rewards`,
+          pathname: `/${item.id}/rewards/market-checker`,
           state: { section: 'Market' },
         });
       } else if (type === 'favorite') {
