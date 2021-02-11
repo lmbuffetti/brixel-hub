@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
+import set from 'lodash/set';
+import compact from 'lodash/compact';
 import {
   Helpers, BrixelIcon, FormatValue,
 } from '@brixel/brixel-components';
@@ -43,6 +45,20 @@ const MarketCard = (props) => {
       setRemoveSkeleton(true);
     }
   }, [skeleton, coverImgLoaded]);
+
+  // Process tags
+  useEffect(() => {
+    const result = [];
+    if (item.tags.length > 1) {
+      item.tags.forEach((tag) => {
+        if (tag === 'updated') result.splice(0, 0, tag);
+        if (tag === 'new') result.splice(1, 0, tag);
+        if (tag === 'premium') result.splice(2, 0, tag);
+        if (tag === 'pre-market') result.splice(3, 0, tag);
+      });
+      set(item, 'tags', compact(result));
+    }
+  }, [item.tags]);
 
   const openCard = (e) => {
     if (e) e.preventDefault();
@@ -88,15 +104,18 @@ const MarketCard = (props) => {
   };
 
   // eslint-disable-next-line consistent-return
-  const getTypeText = () => {
-    switch (type) {
+  const getTypeText = (text) => {
+    switch (text) {
       case 'new': {
         return 'New';
+      }
+      case 'updated': {
+        return 'Updated';
       }
       case 'premium': {
         return 'Premium';
       }
-      case 'preMarket': {
+      case 'pre-market': {
         return 'Pre-market';
       }
       default:
@@ -104,15 +123,18 @@ const MarketCard = (props) => {
   };
 
   // eslint-disable-next-line consistent-return
-  const getColor = () => {
-    switch (type) {
+  const getColor = (text) => {
+    switch (text) {
       case 'new': {
         return 'Green';
+      }
+      case 'updated': {
+        return 'Yellow';
       }
       case 'premium': {
         return 'Red';
       }
-      case 'preMarket': {
+      case 'pre-market': {
         return 'Primary';
       }
       default:
@@ -133,13 +155,31 @@ const MarketCard = (props) => {
         {
           type === 'own' ? (
             <>
-              <CoverPropertyImage
-                loadedImg={(val) => setCoverImgLoaded(val)}
-                className="cover brdRadius mb-1 h-fix-200 w-perc-100 w-fix-sm-200"
-                coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
-                propertyType={get(item, 'properties.propertyType', undefined)}
-                onClick={(e) => openCard(e)}
-              />
+              <>
+                <CoverPropertyImage
+                  loadedImg={(val) => setCoverImgLoaded(val)}
+                  className="cover brdRadius mb-1 h-fix-200 w-perc-100 w-fix-sm-200"
+                  coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                  propertyType={get(item, 'properties.propertyType', undefined)}
+                  onClick={(e) => openCard(e)}
+                />
+                {
+                  item.tags.length > 0 && (
+                    <div className="tag-container pos-a dis-fl-row a-c jc-b">
+                      {
+                        item.tags.map((tag, i) => (
+                          <p
+                            key={i.toString()}
+                            className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
+                          >
+                            <span className="type">{getTypeText(tag)}</span>
+                          </p>
+                        ))
+                      }
+                    </div>
+                  )
+                }
+              </>
               <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100">
                 <div className="top dis-fl-col" onClick={(e) => openCard(e)}>
                   <h6 className="fweight-700 fsize-400 mb-small-4 txtDark700 ellipsis one w-perc-100 max-w-fix-496">{get(item, 'title', '')}</h6>
@@ -245,25 +285,30 @@ const MarketCard = (props) => {
                   propertyType={get(item, 'properties.propertyType', undefined)}
                 />
                 {
-                  type === 'favorite' ? (
-                    <div className="dis-fl-row a-c">
+                  type === 'favorite' && (
+                    <div className="tag-container dis-fl-row a-c">
                       <BrixelIcon
                         icon="favorite-fill"
                         color="red"
                         className="type-tag pos-a favorite"
                       />
-                      {/* <p
-                        className={`type-tag pos-a non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor()}400`}
-                      >
-                        <span className="type">{getTypeText()}</span>
-                      </p> */}
                     </div>
-                  ) : (
-                    <p
-                      className={`type-tag pos-a non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor()}`}
-                    >
-                      <span className="type">{getTypeText()}</span>
-                    </p>
+                  )
+                }
+                {
+                  item.tags.length > 0 && (
+                    <div className="tag-container pos-a dis-fl-row a-c jc-b">
+                      {
+                        item.tags.map((tag, i) => (
+                          <p
+                            key={i.toString()}
+                            className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
+                          >
+                            <span className="type">{getTypeText(tag)}</span>
+                          </p>
+                        ))
+                      }
+                    </div>
                   )
                 }
               </>
