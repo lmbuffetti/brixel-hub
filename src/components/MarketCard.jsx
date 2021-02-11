@@ -211,7 +211,7 @@ const MarketCard = (props) => {
                     </span>
                   </div>
                   <div
-                    className="p-2 mb-1 mr-1 brdRadius bgLight100 dis-f a-c"
+                    className="p-2 brdRadius bgLight100 dis-f a-c"
                     onClick={() => history.push({
                       pathname: `/${item.id}/rewards/achievement/facts`,
                       search: '',

@@ -12,6 +12,11 @@
       }
       &.market-listings {
       }
+      .searchProfileArea {
+        &:hover {
+          background: map-get($lightColor, 100);
+        }
+      }
       .editSearchProfile {
         @media (max-width: $responsive-small) {
           position: absolute;
@@ -33,9 +38,15 @@
         }
 
         .slick-list {
-          padding:0 10% 0 0 !important;
-          &::before {
-            @media (max-width: $responsive-small) {
+          margin-left: -8px;
+          @media (max-width: $responsive-small) {
+          }
+        }
+        &:not(.type-own) .slick-list {
+          @media (max-width: $responsive-small) {
+            padding:0 10% 0 0 !important;
+
+            &::before {
               content: '';
               position: absolute;
               height: 100%;
