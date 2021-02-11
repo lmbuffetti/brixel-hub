@@ -489,7 +489,6 @@ const App = (props) => {
               }
               <div className="w-perc-100 hubInner">
                 {
-                  !history.location.pathname.includes('home') &&
                   !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') &&
                   !history.location.pathname.includes('buyer') && (
