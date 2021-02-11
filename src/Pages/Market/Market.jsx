@@ -74,7 +74,6 @@ const Market = (props) => {
       };
       handleGetSellerProperties(data);
       handleGetFavoritesProperties(data);
-      handleGetPreMarketProperties(data);
       handleGetLastViewedProperties();
       handleGetUserSearchProfiles(loggedInUser.id);
       handleSpinnerOff();
@@ -103,6 +102,7 @@ const Market = (props) => {
         country: getProfileCountry(),
       };
       handleGetNewProperties(data);
+      handleGetPreMarketProperties(data);
       handleGetPremiumProperties(payload);
       handleSpinnerOff();
     }
