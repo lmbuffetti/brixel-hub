@@ -46,8 +46,8 @@ const CarouselWrapper = (props) => {
             settings: {
               slidesToShow: 1,
               swipeToSlide: true,
-              centerMode: true,
-              centerPadding: '10%',
+              centerMode: type !== 'own',
+              centerPadding: type === 'own' ? '8px' : '10%',
             },
           },
         ],

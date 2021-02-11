@@ -250,7 +250,7 @@ const MarketList = (props) => {
           ownerProperties.total > 0 && (
             <CarouselWrapper
               title="Your properties"
-              className="market-category-carousel"
+              className="market-category-carousel type-own"
               type="own"
               items={ownerProperties.data}
               total={ownerProperties.total}
@@ -286,7 +286,10 @@ const MarketList = (props) => {
           </div>
           {
             has(userSearchProfiles[0], 'id') ? (
-              <div className="searchProfileArea brdRadius py-1 px-sm-2 pr-5 pl-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r as-b mb-3">
+              <div
+                className="searchProfileArea brdRadius py-1 px-sm-2 pr-5 pl-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r as-b mb-3 cur-poi"
+                onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
+              >
                 <div className="dis-f">
                   {
                     get(userSearchProfiles[0], 'characteristics.propertyType', []).map((item, i) => (
@@ -332,7 +335,6 @@ const MarketList = (props) => {
                   theme="light"
                   small
                   className="editSearchProfile"
-                  onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
                 />
               </div>
             ) : (
