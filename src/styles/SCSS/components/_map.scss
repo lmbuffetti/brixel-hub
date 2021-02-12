@@ -45,26 +45,32 @@
 
 .labelMarker {
   text-align: center;
-  width: 150px;
+  min-width: 150px;
 
   p {
     background: white;
     width: fit-content;
     margin: auto;
-    padding: 4px;
     font-size: 12px;
     border-radius: 8px;
     position: relative;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    box-shadow: 0px 8px 10px rgba(#000, 0.02);
+
     &:after {
       content: '';
       display: block;
       width: 0;
       height: 0;
       border-style: solid;
-      border-width: 13.0px 7.5px 0 7.5px;
+      border-width: 8px 6px 0 6px;
       border-color: #FFF transparent transparent transparent;
       position: absolute;
       left: 50%;
+      box-shadow: 0px 8px 10px rgba(#000, 0.02);
       top: 100%;
       transform: translate(-50%, 0);
     }
@@ -87,6 +93,7 @@
     padding: 0;
     overflow: visible !important;
     > button {
+      opacity: 1;
       position: relative;
       cursor: pointer;
       display: flex;
@@ -128,6 +135,6 @@
     display: none !important;
   }
   .info {
-    padding: $step;
+    padding: $step * 2;
   }
 }

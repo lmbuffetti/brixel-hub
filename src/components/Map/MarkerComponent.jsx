@@ -63,7 +63,7 @@ const MarkerComponent = (props) => {
         <CoverPropertyImage
           // loadedImg={(val) => setCoverImgLoaded(val)}
           onClick={() => openCard()}
-          className="cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-200 pos-r cur-poi"
+          className="cover brdRadius w-perc-100 h-perc-100 h-fix-200 pos-r cur-poi"
           coverPhoto={get(page, 'coverPhoto.galleryThumbnailPath', undefined)}
           propertyType={get(page, 'properties.propertyType', undefined)}
         />
@@ -168,7 +168,7 @@ const MarkerComponent = (props) => {
           window[item.id] = new google.maps.InfoWindow({
             class: 'test',
             pixelOffset: new google.maps.Size(0, -45),
-            maxWidth: 300,
+            maxWidth: 308,
           });
           window[item.id].setContent(contentWrapper);
           window[item.id].open(optMap, marker);
