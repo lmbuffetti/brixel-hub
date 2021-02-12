@@ -134,6 +134,9 @@
   .gm-style .gm-style-iw-t::after {
     display: none !important;
   }
+  .gm-style .gm-style-iw-c {
+    box-shadow: $shadow-3dp;
+  }
   .info {
     padding: $step * 2;
   }

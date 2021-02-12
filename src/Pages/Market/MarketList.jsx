@@ -357,7 +357,7 @@ const MarketList = (props) => {
                 theme="dark"
                 onClick={() => handleMapClose()}
                 icon="close-small"
-                className="pos-a-fix x-r-0 zIndex1 mt-3 mr-3"
+                className="pos-a-fix x-r-0 zIndex1 mt-2 mr-2"
               />
             )
           }
