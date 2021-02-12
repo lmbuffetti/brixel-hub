@@ -118,7 +118,7 @@ const MarketCardMap = (props) => {
           <CardImageText type={get(skeleton, '[type]', '')} />
         )
       }
-      <div className={`w-perc-100 pb-3 pr-lg-3 ${removeSkeleton ? '' : 'pos-a opacity0'}`}>
+      <div className={`w-perc-100 notranslate pb-3 pr-lg-3 ${removeSkeleton ? '' : 'pos-a opacity0'}`}>
         <hr className="lighter" />
       </div>
       <div
@@ -132,7 +132,7 @@ const MarketCardMap = (props) => {
                 onMouseEnter={(e) => onHover(e)}
                 onMouseLeave={() => onHover(null)}
                 loadedImg={(val) => setCoverImgLoaded(val)}
-                className="cover brdRadius h-fix-204 w-perc-100 w-fix-flex-sm-296 cur-poi"
+                className="cover notranslate brdRadius h-fix-204 w-perc-100 w-fix-flex-sm-296 cur-poi"
                 coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                 propertyType={get(item, 'properties.propertyType', undefined)}
               />
@@ -228,9 +228,9 @@ const MarketCardMap = (props) => {
               <span>
                 {get(item, 'properties.propertyType', '')}
               </span>
-              <span className="px-1"> &middot; </span>
+              <span className="px-1 notranslate"> &middot; </span>
               <span>
-                <span>
+                <span className="notranslate">
                   {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                 </span>
                 <span>
@@ -238,17 +238,17 @@ const MarketCardMap = (props) => {
                 </span>
               </span>
               {
-                get(item, 'properties.typology.bedrooms', 0) && (
-                  <span className="px-1"> &middot; </span>
+                get(item, 'properties.typology.bedrooms') > 0 && (
+                  <span className="px-1 notranslate"> &middot; </span>
                 )
               }
               {
                 get(item, 'properties.typology.livingArea.value', 0) && (
-                  <span>
-                    <span>
+                  <span className="notranslate">
+                    <span className="notranslate">
                       {get(item, 'properties.typology.livingArea.value', 0)}
                     </span>
-                    <span> m2</span>
+                    <span className="notranslate"> m2</span>
                   </span>
                 )
               }
@@ -257,8 +257,8 @@ const MarketCardMap = (props) => {
               {
                 get(item, 'price.total', 0) !== 0 ? (
                   <>
-                    <span className="fsize-400 txtDark700 fweight-600">{get(item, 'price.currency', '')} &nbsp; </span>
-                    <span className="fsize-400 txtDark700 fweight-600">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
+                    <span className="notranslate fsize-400 txtDark700 fweight-600">{get(item, 'price.currency', '')} &nbsp; </span>
+                    <span className="notranslate fsize-400 txtDark700 fweight-600">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
                   </>
                 ) : (
                   <span className="txtGreen400 fsize-300 fweight-500">On Request</span>

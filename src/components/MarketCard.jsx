@@ -199,9 +199,9 @@ const MarketCard = (props) => {
                   <span>
                     {get(item, 'properties.propertyType', '')}
                   </span>
-                  <span className="px-1"> &middot; </span>
+                  <span className="px-1 notranslate"> &middot; </span>
                   <span>
-                    <span>
+                    <span className="notranslate">
                       {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                     </span>
                     <span>
@@ -209,17 +209,17 @@ const MarketCard = (props) => {
                     </span>
                   </span>
                   {
-                    get(item, 'properties.typology.bedrooms', 0) && (
-                      <span className="px-1"> &middot; </span>
+                    get(item, 'properties.typology.bedrooms') > 0 && (
+                      <span className="px-1 notranslate"> &middot; </span>
                     )
                   }
                   {
                     get(item, 'properties.typology.livingArea.value', 0) && (
-                      <span>
-                        <span>
+                      <span className="notranslate">
+                        <span className="notranslate">
                           {get(item, 'properties.typology.livingArea.value', 0)}
                         </span>
-                        <span> m2</span>
+                        <span className="notranslate"> m2</span>
                       </span>
                     )
                   }
@@ -239,7 +239,7 @@ const MarketCard = (props) => {
                       {
                         has(item, 'estimation.result.value') ? (
                           <>
-                            <span>&le; {' '}
+                            <span className="notranslate">&le; {' '}
                               {get(item, 'estimation.result.currency', '')}
                               {/* {Helpers.formatNumberValue(get(item, 'estimation.result.lowerValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}  */}
                               {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}
@@ -270,7 +270,7 @@ const MarketCard = (props) => {
                     </div>
                     <div className="pl-2 dis-fl-col">
                       <span className="fweight-500 txtDark100">Facts</span>
-                      <span className="notranslate dis-fl-row a-c fweight-500 txtDark400"><span>{get(item, 'inputSheet.totalComplete', 0)}%&nbsp;</span><span> completed</span></span>
+                      <span className="notranslate dis-fl-row a-c fweight-500 txtDark400"><span className="notranslate">{get(item, 'inputSheet.totalComplete', 0)}%&nbsp;</span><span> completed</span></span>
                     </div>
                   </div>
                 </div>
@@ -330,7 +330,7 @@ const MarketCard = (props) => {
                 <div className="mid dis-fl-row a-c fsize-300 pt-1 txtDark400">
                   <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
                   <span>
-                    <span>
+                    <span className="notranslate">
                       {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                     </span>
                     <span>
@@ -338,17 +338,17 @@ const MarketCard = (props) => {
                     </span>
                   </span>
                   {
-                    get(item, 'properties.typology.bedrooms', 0) && (
+                    get(item, 'properties.typology.bedrooms') > 0 && (
                       <span className="px-1"> &middot; </span>
                     )
                   }
                   {
                     get(item, 'properties.typology.livingArea.value', 0) && (
-                      <span>
-                        <span>
+                      <span className="notranslate">
+                        <span className="notranslate">
                           {get(item, 'properties.typology.livingArea.value', 0)}
                         </span>
-                        <span> m2</span>
+                        <span className="notranslate"> m2</span>
                       </span>
                     )
                   }
@@ -358,8 +358,8 @@ const MarketCard = (props) => {
                   {
                     get(item, 'price.total', 0) !== 0 ? (
                       <>
-                        <span className="fsize-300 fweight-600">{get(item, 'price.currency', '')} &nbsp; </span>
-                        <span className="fsize-300 fweight-600">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
+                        <span className="fsize-300 fweight-600 notranslate">{get(item, 'price.currency', '')} &nbsp; </span>
+                        <span className="fsize-300 fweight-600 notranslate">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
                       </>
                     ) : (
                       <span className="txtGreen400 fsize-300 fweight-500">On Request</span>
