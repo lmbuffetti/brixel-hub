@@ -241,7 +241,7 @@ const MarketList = (props) => {
         )
       }
 
-      <div className="mb-8">
+      <div className="mb-8 min-h-fix-488 min-h-fix-sm-272">
         {
           ownerProperties.total > 0 && (
             <CarouselWrapper
