@@ -71,6 +71,12 @@ const MarketList = (props) => {
   };
 
   useEffect(() => {
+    if (windowDimensions.width <= 1024) {
+      if (history.location.state === 'showMap') setOpenMap(true);
+    }
+  }, [windowDimensions]);
+
+  useEffect(() => {
     const profile = userSearchProfiles[0];
     if (loggedInUser.id && get(profile, 'id', '')) {
       const data = {
