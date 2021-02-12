@@ -158,14 +158,14 @@ const MarketCardMap = (props) => {
             <div className="top dis-f jc-b pt-md-0">
               <div className="dis-fl-col">
                 <h6
-                  className="fweight-700 mb-small-4 fsize-400 txtDark700 w-perc-100 max-w-fix-400 cur-poi"
+                  className="notranslate fweight-700 mb-small-4 fsize-400 txtDark700 w-perc-100 max-w-fix-400 cur-poi"
                   onClick={(e) => onClick(e)}
                   onMouseEnter={(e) => onHover(e)}
                   onMouseLeave={() => onHover(null)}
                 >
                   {get(item, 'title', '')}
                 </h6>
-                <span className="fsize-300 txtDark700">
+                <span className="notranslate fsize-300 txtDark700">
                   {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                   {
                     get(item, 'location.countryCode', 'CH') === 'CH' && (
