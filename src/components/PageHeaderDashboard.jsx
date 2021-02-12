@@ -482,14 +482,26 @@ function PageHeaderDashboard(props) {
             } */}
             <div className="dis-f a-c">
               {
-                propID && windowDimensions.width > 1024 && userType === 'seller' && (
+                windowDimensions.width > 1024 && (
                   <BrixelButtonText
-                    className="hide dis-f-md mx-3"
-                    label="Upgrade"
-                    theme="red"
+                    className=""
+                    label="Support"
                     rounded
-                    onClick={() => onUpgrade()}
+                    onClick={() => onTabClick('support')}
                   />
+                )
+              }
+              {
+                propID && windowDimensions.width > 1024 && userType === 'seller' && (
+                  <>
+                    <BrixelButtonText
+                      className="hide dis-f-md mx-3"
+                      label="Upgrade"
+                      theme="red"
+                      rounded
+                      onClick={() => onUpgrade()}
+                    />
+                  </>
                 )
               }
 
