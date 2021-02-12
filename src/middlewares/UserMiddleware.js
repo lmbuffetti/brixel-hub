@@ -304,7 +304,7 @@ const checkUser = (store) => (next) => (action) => {
           .then(() => {
             if (favoritesList && property) {
               const findIndex = favoritesList.findIndex((fav) => fav.id === property.id);
-              favoritesList.unshift(findIndex, 1);
+              favoritesList.splice(findIndex, 1);
               store.dispatch({ type: SET_FAVORITES_PROPERTIES, payload: favoritesData });
             }
             store.dispatch({ type: SPINNER_SMALL_OFF });

@@ -50,7 +50,7 @@ const MarketCard = (props) => {
   // Process tags
   useEffect(() => {
     const result = [];
-    if (item.tags.length > 1) {
+    if (get(item, 'tags', []).length > 1) {
       item.tags.forEach((tag) => {
         if (tag === 'updated') result.splice(0, 0, tag);
         if (tag === 'new') result.splice(1, 0, tag);
@@ -297,7 +297,7 @@ const MarketCard = (props) => {
                   )
                 }
                 {
-                  item.tags.length > 0 && (
+                  get(item, 'tags', []).length > 0 && (
                     <div className="tag-container pos-a dis-fl-row a-c jc-b">
                       {
                         item.tags.map((tag, i) => (
