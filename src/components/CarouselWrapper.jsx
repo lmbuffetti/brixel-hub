@@ -111,7 +111,7 @@ const CarouselWrapper = (props) => {
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
       <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
-        <h4 className={`fweight-700 ${type === 'own' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
+        <h4 className={`fweight-700 ${type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
         <div className="mt-1 mt-sm-0">
           {
             showAllbutton && (

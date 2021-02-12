@@ -132,6 +132,11 @@
       }
       .market-card {
         overflow: hidden;
+        .cover {
+          &.pre-market {
+            filter: grayscale(100%);
+          }
+        }
       }
       // slick carousel custom css
       .slick-slider .slick-track {

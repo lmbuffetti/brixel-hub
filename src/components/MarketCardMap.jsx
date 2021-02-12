@@ -32,6 +32,7 @@ const MarketCardMap = (props) => {
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
+  const [isPreMarket, setIsPreMarket] = useState(false);
   // const [optionsOpen, setOptionsOpen] = useState(false);
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
@@ -59,6 +60,16 @@ const MarketCardMap = (props) => {
       set(item, 'tags', pullAt(compact(result), [0, 1]));
     }
   }, [item.tags]);
+
+  useEffect(() => {
+    if (get(item, 'tags', []).length > 0) {
+      item.tags.forEach((tag) => {
+        if (tag === 'pre-market') {
+          setIsPreMarket(true);
+        }
+      });
+    }
+  }, []);
 
   // eslint-disable-next-line consistent-return
   const getTypeText = (text) => {
@@ -132,7 +143,7 @@ const MarketCardMap = (props) => {
                 onMouseEnter={(e) => onHover(e)}
                 onMouseLeave={() => onHover(null)}
                 loadedImg={(val) => setCoverImgLoaded(val)}
-                className="cover notranslate brdRadius h-fix-204 w-perc-100 w-fix-flex-sm-296 cur-poi"
+                className={`${isPreMarket ? 'pre-market' : ''} cover notranslate brdRadius h-fix-204 w-perc-100 w-fix-flex-sm-296 cur-poi`}
                 coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                 propertyType={get(item, 'properties.propertyType', undefined)}
               />

@@ -39,6 +39,7 @@ const MarketCard = (props) => {
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
+  const [isPreMarket, setIsPreMarket] = useState(false);
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
@@ -46,6 +47,16 @@ const MarketCard = (props) => {
       setRemoveSkeleton(true);
     }
   }, [skeleton, coverImgLoaded]);
+
+  useEffect(() => {
+    if (get(item, 'tags', []).length > 0) {
+      item.tags.forEach((tag) => {
+        if (tag === 'pre-market') {
+          setIsPreMarket(true);
+        }
+      });
+    }
+  }, []);
 
   // Process tags
   useEffect(() => {
@@ -159,7 +170,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className="cover brdRadius mb-1 h-fix-200 w-perc-100 w-fix-sm-200"
+                  className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-1 h-fix-200 w-perc-100 w-fix-sm-200`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                   onClick={(e) => openCard(e)}
@@ -281,7 +292,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className="cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-200 pos-r"
+                  className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-200 pos-r`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                 />
