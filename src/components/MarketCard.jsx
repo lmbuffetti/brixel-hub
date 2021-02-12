@@ -184,7 +184,7 @@ const MarketCard = (props) => {
               <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100">
                 <div className="top dis-fl-col" onClick={(e) => openCard(e)}>
                   <h6 className="fweight-700 fsize-400 mb-small-4 txtDark700 ellipsis one w-perc-100 max-w-fix-496">{get(item, 'title', '')}</h6>
-                  <span className="fsize-300 txtDark700 mb-1">
+                  <span className="notranslate fsize-300 txtDark700 mb-1">
                     {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                     {
                       get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -270,7 +270,7 @@ const MarketCard = (props) => {
                     </div>
                     <div className="pl-2 dis-fl-col">
                       <span className="fweight-500 txtDark100">Facts</span>
-                      <span className="dis-fl-row a-c fweight-500 txtDark400"><span>{get(item, 'inputSheet.totalComplete', 0)}%&nbsp;</span><span> completed</span></span>
+                      <span className="notranslate dis-fl-row a-c fweight-500 txtDark400"><span>{get(item, 'inputSheet.totalComplete', 0)}%&nbsp;</span><span> completed</span></span>
                     </div>
                   </div>
                 </div>
@@ -315,8 +315,8 @@ const MarketCard = (props) => {
               </>
               <div className="info dis-fl-col jc-b">
                 <div className="top dis-fl-col">
-                  <span className="fweight-600 fsize-300 txtDark700 ellipsis one">{get(item, 'title', '')}</span>
-                  <span className="fsize-300 txtDark700">
+                  <span className="fweight-600 fsize-300 txtDark700 ellipsis one notranslate">{get(item, 'title', '')}</span>
+                  <span className="fsize-300 txtDark700 notranslate">
                     {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                     {
                       get(item, 'location.countryCode', 'CH') === 'CH' && (
