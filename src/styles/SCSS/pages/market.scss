@@ -67,10 +67,6 @@
             //align-items: baseline;
             > div {
               padding: $step;
-
-              &:first-child {
-                margin-bottom: $step;
-              }
             }
           }
         }

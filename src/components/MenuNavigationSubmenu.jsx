@@ -36,7 +36,7 @@ const MenuNavigationSubmenu = (props) => {
         // WHEN THE MENU IS ACTIVE
         activeMenu && (
           <div className="sidebarSubmenu zIndex2" style={{ height: windowDimensions.height }}>
-            <div className="sidebarSubmenuContent shadow-1dp dis-fl-col h-perc-100 pos-r" ref={wrapperRef}>
+            <div className="sidebarSubmenuContent shadow-2dp dis-fl-col h-perc-100 pos-r" ref={wrapperRef}>
               <Loading isSmall isLoading={isSmallLoading !== null} />
               {
                 activeMenu === 'propertyList' && (

@@ -231,10 +231,10 @@ const MarketCard = (props) => {
                   className="bottom bestimateFact dis-f fsize-300 w-perc-100"
                 >
                   <div
-                    className="p-2 mb-1 mr-1 brdRadius bgLight100"
+                    className="p-2 mr-1 brdRadius bgLight100"
                     onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item)}
                   >
-                    <span className="fweight-500 txtDark100">Your Bestimate<sup>&reg;</sup></span>
+                    <span className="fweight-500 txtDark100">Bestimate<sup>&reg;</sup></span>
                     <span className="dis-b fweight-600 txtPrimary400 ">
                       {
                         has(item, 'estimation.result.value') ? (

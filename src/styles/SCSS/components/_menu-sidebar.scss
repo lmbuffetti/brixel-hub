@@ -115,6 +115,13 @@
   max-width: 100%;
   z-index: 4;
 
+  @media (min-width: $responsive-medium) {
+    z-index: -1;
+  }
+  @media (max-width: $responsive-medium) {
+    top: 0;
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -140,14 +147,25 @@
   #menu-sidebar {
     width: $sidebarWidth;
     flex: 0 0 $sidebarWidth;
-    // height: 100vh;
     z-index: 2;
-    //position: fixed;
     left: 0;
   }
   .sidebarSubmenu {
     .sidebarSubmenuContent {
       max-width: 448px;
+      margin-left: auto;
+      animation: slideRight $default-time $default-easing forwards;
+      opacity: 0;
+
+      @keyframes slideRight {
+        0% {
+          opacity: 0;
+          transform: translateX(-100px);
+        } 100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
     }
   }
 }

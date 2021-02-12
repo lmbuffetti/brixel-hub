@@ -495,7 +495,7 @@ function PageHeaderDashboard(props) {
                 propID && windowDimensions.width > 1024 && userType === 'seller' && (
                   <>
                     <BrixelButtonText
-                      className="hide dis-f-md mx-3"
+                      className="hide dis-f-md ml-2 mr-2"
                       label="Upgrade"
                       theme="red"
                       rounded
