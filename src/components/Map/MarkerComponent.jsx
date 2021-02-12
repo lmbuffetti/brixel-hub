@@ -38,6 +38,7 @@ const MarkerComponent = (props) => {
   const [markerList, setMarkerList] = useState([]);
   const [firstLoad, setFirstLoad] = useState(true);
   const [infowindow, setInfowindow] = useState({});
+  const [selMarker, setSelMarker] = useState(null);
 
   const InfoWindowContent = (page, history) => {
     const openCard = (e) => {
@@ -147,7 +148,7 @@ const MarkerComponent = (props) => {
           },
           labelContent: `<p>${price.toString()}</p>`,
           // the CSS class for the label
-          labelClass: activeProperty === item.id ? 'labelMarker active' : 'labelMarker',
+          labelClass: activeProperty === item.id || selMarker === item.id ? 'labelMarker active' : 'labelMarker',
           labelInBackground: true,
           labelAnchor: new google.maps.Point(-75, -45),
           position: {
@@ -157,8 +158,10 @@ const MarkerComponent = (props) => {
         });
         const window = infowindow;
         marker.addListener('click', () => {
+          if (selMarker !== item.id) setSelMarker(item.id);
           Object.keys(window).forEach((key) => {
-            window[key].close();
+            console.log('close', key);
+            infowindow[key].close();
           });
           const contentWrapper = document.createElement('div');
           ReactDOM.render(
@@ -178,7 +181,7 @@ const MarkerComponent = (props) => {
       });
       setMarkerList(markers);
     }
-  }, [optMap, data, activeProperty]);
+  }, [optMap, data, activeProperty, selMarker]);
 
   return (
     <></>
