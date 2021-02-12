@@ -94,6 +94,7 @@ const MarketList = (props) => {
   const selectMobileFilter = (e, value) => {
     if (e) e.preventDefault();
     history.push(`${match.url}/${value}`);
+    scrollToTopEdit();
   };
 
   return (
