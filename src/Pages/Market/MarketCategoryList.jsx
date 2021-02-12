@@ -276,7 +276,7 @@ const MarketList = (props) => {
             <h4 className="fweight-700">Discover our market</h4>
             {
               has(userSearchProfiles[0], 'id') && (
-                <span className="fsize-300"><span>There are </span> <span className="fweight-600">{get(newProperties, 'total', '')} properties</span> <span>that match your criteria.</span></span>
+                <span className="fsize-300"><span>There are </span> <span className="fweight-600">{get(newProperties, 'total', '')}</span><span className="fweight-600"> properties</span> <span>that match your criteria.</span></span>
               )
             }
           </div>
