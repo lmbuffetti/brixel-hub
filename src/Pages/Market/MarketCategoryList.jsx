@@ -119,7 +119,7 @@ const MarketList = (props) => {
               <span className="txtDark200 pt-2 pb-5"> This is our Brixel market. A place where you can do great things. </span>
               <div className="mb-5">
                 <div className="dis-f mb-2">
-                  <div className="dis-f a-c w-fix-64 jc-fe">
+                  <div className="dis-f a-c min-w-fix-64 jc-fe">
                     <BrixelIcon
                       icon="favorite-fill"
                       color="red"
@@ -128,7 +128,7 @@ const MarketList = (props) => {
                   <span className="max-w-fix-424 txtDark700 pl-2"> Manage your favorites and buy your new home directly on Brixel.</span>
                 </div>
                 <div className="dis-f mb-2">
-                  <div className="dis-f a-c w-fix-64 jc-fe">
+                  <div className="dis-f a-c min-w-fix-64 jc-fe">
                     <span className="category-tag bgPrimary300">
                       Pre
                     </span>
@@ -136,7 +136,7 @@ const MarketList = (props) => {
                   <span className="max-w-fix-424 txtDark700 pl-2"> Discover exclusive properties which are not on the market yet, but waiting for your first move.</span>
                 </div>
                 <div className="dis-f">
-                  <div className="dis-f a-c w-fix-64 jc-fe">
+                  <div className="dis-f a-c min-w-fix-64 jc-fe">
                     <span className="category-tag bgRed400">
                       Premium
                     </span>

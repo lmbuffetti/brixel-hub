@@ -61,13 +61,15 @@ const MarkerComponent = (props) => {
     };
     return (
       <div>
-        <CoverPropertyImage
-          // loadedImg={(val) => setCoverImgLoaded(val)}
-          onClick={() => openCard()}
-          className="cover brdRadius w-perc-100 h-perc-100 h-fix-200 pos-r cur-poi"
-          coverPhoto={get(page, 'coverPhoto.galleryThumbnailPath', undefined)}
-          propertyType={get(page, 'properties.propertyType', undefined)}
-        />
+        <div className="coverWrapper brdRadius ov-h h-fix-200">
+          <CoverPropertyImage
+            // loadedImg={(val) => setCoverImgLoaded(val)}
+            onClick={() => openCard()}
+            className="cover w-perc-100 h-perc-100 h-fix-200 pos-r cur-poi"
+            coverPhoto={get(page, 'coverPhoto.galleryThumbnailPath', undefined)}
+            propertyType={get(page, 'properties.propertyType', undefined)}
+          />
+        </div>
         <div className="info dis-fl-col jc-b">
           <div className="top dis-fl-col">
             <span

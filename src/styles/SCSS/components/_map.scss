@@ -92,6 +92,15 @@
   .gm-style-iw-d {
     padding: 0;
     overflow: visible !important;
+
+    .coverWrapper {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      .cover {
+        position: relative;
+        top: -2px;
+      }
+    }
     > button {
       opacity: 1;
       position: relative;
