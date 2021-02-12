@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import compact from 'lodash/compact';
+import pullAt from 'lodash/pullAt';
 import {
   BrixelButtonIcon, FormatValue,
   BrixelIcon, Helpers, // BrixelDropdownMini,
@@ -55,7 +56,7 @@ const MarketCardMap = (props) => {
         if (tag === 'premium') result.splice(2, 0, tag);
         if (tag === 'pre-market') result.splice(3, 0, tag);
       });
-      set(item, 'tags', compact(result));
+      set(item, 'tags', pullAt(compact(result), [0, 1]));
     }
   }, [item.tags]);
 
