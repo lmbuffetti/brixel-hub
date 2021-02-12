@@ -109,7 +109,6 @@ const Market = (props) => {
   }, [userSearchProfiles]);
 
   const checkFavorite = () => {
-    console.log(activePreMarketProperty.id, favoritesProperties);
     const findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activePreMarketProperty.id);
     return findIndex > -1;
   };
@@ -118,6 +117,7 @@ const Market = (props) => {
     const data = {
       act: checkFavorite() ? 'remove' : 'add',
       id: activePreMarketProperty.id,
+      property: activePreMarketProperty,
       data: {
         email: get(loggedInUser, 'email', ''),
         language: loggedInUser.lang,

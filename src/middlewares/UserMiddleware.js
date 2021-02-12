@@ -31,7 +31,7 @@ import {
 import { UPDATE_USER_SEARCH_PROFILE } from '../actions/types/SearchProfileTypes';
 
 import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
-import { GET_FAVORITES_PROPERTIES } from '../actions/types/MarketTypes';
+import { GET_FAVORITES_PROPERTIES, SET_FAVORITES_PROPERTIES } from '../actions/types/MarketTypes';
 
 import api from '../controllers/api/config';
 
@@ -275,7 +275,9 @@ const checkUser = (store) => (next) => (action) => {
     // DISPATCH TO UPDATE USER FAVORITE
     case UPDATE_FAVORITE: {
       next(action);
-      const { id, data, act } = action.payload;
+      const {
+        id, data, act, property,
+      } = action.payload;
       store.dispatch({ type: SPINNER_SMALL_ON, payload: `favorite-${id}` });
       const favParams = {
         resultsPerPage: 10,
@@ -285,16 +287,26 @@ const checkUser = (store) => (next) => (action) => {
         setAsSingle: true,
         multiLoader: true,
       };
+      const favoritesData = cloneDeep(get(store.getState(), 'market.favoritesProperties', {}));
+      const favoritesList = favoritesData.data;
       if (act === 'add') {
         api.user.addFavorite(id, data)
           .then(() => {
-            store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
+            if (favoritesList && property) {
+              favoritesList.unshift(property);
+              store.dispatch({ type: SET_FAVORITES_PROPERTIES, payload: favoritesData });
+            }
+            // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
             store.dispatch({ type: SPINNER_SMALL_OFF });
           });
       } else {
         api.user.removeFavorite(id, data)
           .then(() => {
-            store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
+            if (favoritesList && property) {
+              const findIndex = favoritesList.findIndex((fav) => fav.id === property.id);
+              favoritesList.unshift(findIndex, 1);
+              store.dispatch({ type: SET_FAVORITES_PROPERTIES, payload: favoritesData });
+            }
             store.dispatch({ type: SPINNER_SMALL_OFF });
           });
       }

@@ -91,10 +91,6 @@ const MarketList = (props) => {
     if (scrollEl) scrollEl.scrolltop = 0;
   };
 
-  useEffect(() => {
-    if (splashScreenType === 'preMarket') console.log(checkFavorite());
-  });
-
   const selectMobileFilter = (e, value) => {
     if (e) e.preventDefault();
     history.push(`${match.url}/${value}`);

@@ -29,7 +29,7 @@ const MenuNavigationSubmenu = (props) => {
       onClose();
     },
   });
-  console.log(activeMenu);
+
   return (
     <>
       {

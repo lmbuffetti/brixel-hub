@@ -297,7 +297,6 @@ function PageHeaderDashboard(props) {
   };
 
   useEffect(() => {
-    console.log(get(history, 'location.state.section', null));
     if (get(history, 'location.state.section', null)) {
       setSection(get(history, 'location.state.section', null));
     } else if (userType === 'seller' && section !== 'Market') setSection('Sell');

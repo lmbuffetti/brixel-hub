@@ -101,6 +101,7 @@ const MarketCardMap = (props) => {
     const data = {
       act: checkFavorite() ? 'remove' : 'add',
       id: item.id,
+      property: item,
       data: {
         email: get(loggedInUser, 'email', ''),
         language: loggedInUser.lang,
