@@ -95,9 +95,6 @@ const MarkerComponent = (props) => {
               <span>
                 {FormatValue.formatRooms(get(page, 'properties.typology.bedrooms', 0), get(page, 'location.countryCode', 'CH'))}
               </span>
-              <span>
-                {get(page, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(page, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
-              </span>
             </span>
             {
               get(page, 'properties.typology.bedrooms', 0) && (
@@ -164,6 +161,8 @@ const MarkerComponent = (props) => {
           Object.keys(window).forEach((key) => {
             console.log('close', key);
             infowindow[key].close();
+            const menu = document.querySelector('body');
+            menu.classList.toggle('hidden-phone');
           });
           const contentWrapper = document.createElement('div');
           ReactDOM.render(
@@ -184,6 +183,10 @@ const MarkerComponent = (props) => {
       setMarkerList(markers);
     }
   }, [optMap, data, activeProperty, selMarker]);
+
+  useEffect(() => {
+    console.log(activeProperty);
+  });
 
   return (
     <></>
