@@ -476,7 +476,7 @@ const MarketList = (props) => {
               get(preMarketProperties, 'total', 0) > 0 && (
                 <BrixelButtonSecondary
                   onClick={() => {
-                    history.push(`${match.url}/all`);
+                    history.push({ pathname: `${match.url}/all`, state: 'showMap' });
                     scrollToTopEdit();
                   }}
                   label="Show map"
