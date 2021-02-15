@@ -59,9 +59,14 @@
           }
         }
         .bestimateFact {
-            > div {
-              min-width: calc(50% - 8px);
-            }
+          > div {
+            min-width: calc(50% - 8px);
+          }
+
+          .total-completed {
+            width: calc(100% - 16px - 48px);
+          }
+
           @media (max-width: $responsive-small) {
            // flex-direction: column;
             //align-items: baseline;
@@ -165,8 +170,8 @@
     @media (max-width: $responsive-large) {
       top: 0;
       .map-inner {
-        .min-100v {
-          height: 100vh;
+        .full-h-map-wrapper {
+          //height: calc(100vh - 6);
         }
       }
     }
