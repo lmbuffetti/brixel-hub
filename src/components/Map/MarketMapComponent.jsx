@@ -45,13 +45,13 @@ export const MarketMapComponent = (props) => {
       styles: mapStyles,
       disableDefaultUI: true,
       clickableIcons: true,
-      zoomControl: externalControls ? false : !disableZoom,
+      zoomControl: true,
       mapTypeControl: false,
       scaleControl: true,
       streetViewControl: false,
       rotateControl: true,
       fullscreenControl: false,
-      scrollwheel: scrollZoom,
+      scrollwheel: true,
       gestureHandling: 'cooperative',
       mapTypeId: mapType,
       linksControl: false,
@@ -85,63 +85,6 @@ export const MarketMapComponent = (props) => {
     }
   }, [properties, optMap.zoom, rad, activeProperty]);
 
-  // FUNCTION IF ENABLED EXTERNAL CONTROLS
-  const btnActions = (action) => {
-    const center = {
-      lat: properties[0].location.latitude,
-      lng: properties[0].location.longitude,
-    };
-    const panorama = optMap.getStreetView();
-
-    switch (action) {
-      case 'zoomIn':
-        if (mapTypeId === 'streetview') {
-          panorama.setZoom(panorama.zoom + 1);
-        } else {
-          optMap.setZoom(optMap.zoom + 1);
-        }
-        break;
-      case 'zoomOut':
-        if (mapTypeId === 'streetview') {
-          panorama.setZoom(panorama.zoom - 1);
-        } else {
-          optMap.setZoom(optMap.zoom - 1);
-        }
-        break;
-      case 'roadmap':
-        setMapTypeId('roadmap');
-        optMap.setMapTypeId('roadmap');
-        panorama.setVisible(false);
-        break;
-      case 'satellite':
-        setMapTypeId('satellite');
-        optMap.setMapTypeId('satellite');
-        panorama.setVisible(false);
-        break;
-      case 'streetview':
-        panorama.setPosition(center);
-        panorama.setOptions({
-          linksControl: false,
-          panControl: false,
-          enableCloseButton: false,
-          addressControl: false,
-          zoomControl: false,
-          addressControlOptions: {
-            position: google.maps.ControlPosition.BOTTOM_CENTER,
-          },
-        });
-        panorama.setPov(({
-          heading: 0,
-          pitch: 0,
-        }));
-        setMapTypeId('streetview');
-        panorama.setVisible(true);
-        break;
-      default:
-      // do nothing
-    }
-  };
-
   // FUNCTION FORM MARKERS MAP
   const onSelProperty = (type, id) => {
     onActiveProperty(id);
@@ -150,31 +93,7 @@ export const MarketMapComponent = (props) => {
   return (
     // Important! Always set the container height explicitly
     <>
-      {
-        (externalControls && showMap) && (
-          <div className="actionMaps">
-            <div className="switchBtn shadow-4dp">
-              <div
-                className="btn-action"
-                onClick={() => btnActions('zoomIn')}
-              >
-                <BrixelIcon
-                  icon="plus"
-                />
-              </div>
-              <div
-                className="btn-action"
-                onClick={() => btnActions('zoomOut')}
-              >
-                <BrixelIcon
-                  icon="min"
-                />
-              </div>
-            </div>
-          </div>
-        )
-      }
-      <div className={`h-perc-100 min-h-fix-400 pos-r ${subMinHeight}`}>
+      <div className={`min-h-fix-400 pos-r ${subMinHeight}`}>
         <Map
           google={google}
           onReady={(mapProps, map) => fetchPlaces(mapProps, map)}
