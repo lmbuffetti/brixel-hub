@@ -83,11 +83,6 @@ const MarketList = (props) => {
     // setSplashScreen('');
   };
 
-  const checkFavorite = () => {
-    const findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activePreMarketProperty.id);
-    return findIndex > -1;
-  };
-
   const scrollToTopEdit = () => {
     const scrollEl = document.getElementsByClassName('hubDasContent')[0];
     if (scrollEl) scrollEl.scrollEl.scrollTo(0, 0);
@@ -96,7 +91,6 @@ const MarketList = (props) => {
   const selectMobileFilter = (e, value) => {
     if (e) e.preventDefault();
     history.push(`${match.url}/${value}`);
-    scrollToTopEdit();
   };
 
   return (
@@ -383,7 +377,10 @@ const MarketList = (props) => {
                     label: 'Premium properties',
                     value: 'premium',
                   }]}
-                  onSelect={(e, value) => selectMobileFilter(e, value.value)}
+                  onSelect={(e, value) => {
+                    scrollToTopEdit();
+                    selectMobileFilter(e, value.value);
+                  }}
                 />
               ) : (
                 <>
