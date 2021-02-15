@@ -242,22 +242,26 @@ const MarketList = (props) => {
         )
       }
 
-      <div className="mb-8 min-h-fix-488 min-h-fix-sm-272">
-        {
-          ownerProperties.total > 0 && (
-            <CarouselWrapper
-              title="Your properties"
-              className="market-category-carousel type-own"
-              type="own"
-              items={ownerProperties.data}
-              total={ownerProperties.total}
-              onSetActiveProperty={(id) => setActiveProperty(id)}
-            />
-          )
-        }
-      </div>
+      {
+        (loggedInUser.seller || ownerProperties.total > 0) && (
+          <div className="mb-8 min-h-fix-488 min-h-fix-sm-272">
+            {
+              ownerProperties.total > 0 && (
+                <CarouselWrapper
+                  title="Your properties"
+                  className="market-category-carousel type-own"
+                  type="own"
+                  items={ownerProperties.data}
+                  total={ownerProperties.total}
+                  onSetActiveProperty={(id) => setActiveProperty(id)}
+                />
+              )
+            }
+          </div>
+        )
+      }
 
-      <div className="mb-8">
+      <div className={favoritesProperties.total === 0 ? '' : 'mb-8'}>
         {
           favoritesProperties.total > 0 && (
             <CarouselWrapper
