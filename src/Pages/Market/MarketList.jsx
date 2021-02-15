@@ -265,7 +265,7 @@ const MarketList = (props) => {
 
   useEffect(() => {
     const scrollEl = document.getElementsByClassName('hubDasContent')[0];
-    if (scrollEl) scrollEl.scrollTo(0, 0);
+    if (scrollEl) scrollEl.scrollTo = 0;
   }, []);
 
   return (

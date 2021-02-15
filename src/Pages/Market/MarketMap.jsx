@@ -18,12 +18,6 @@ const MarketMap = (props) => {
     windowDimensions,
   } = props;
 
-  /*  useEffect(() => {
-    const mapEl = document.getElementsByClassName('full-h-map-wrapper')[0];
-    if (mapEl) mapEl.height = windowDimensions.height;
-    console.log(mapEl);
-  }); */
-
   return (
     <div className="map-inner">
       {

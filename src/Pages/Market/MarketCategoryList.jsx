@@ -90,7 +90,7 @@ const MarketList = (props) => {
 
   const scrollToTopEdit = () => {
     const scrollEl = document.getElementsByClassName('hubDasContent')[0];
-    if (scrollEl) scrollEl.scrollEl.scrollTo(0, 0);
+    if (scrollEl) scrollEl.scrollTop = 0;
   };
 
   const selectMobileFilter = (e, value) => {
