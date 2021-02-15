@@ -149,7 +149,7 @@ function PageHeader(props) {
             />
             {
               supportPhone && (
-                <div className="support dis-f a-c ml-2 ml-sm-4">
+                <div className="support dis-f a-c ml-2 ml-sm-4 notranslate">
                   <a className="fweight-500 dis-f a-c ff-mono" href={`tel:${Helpers.telephoneFormat(supportPhone)}`}>
                     <img className="w-fix-24 w-fix-sm-32 mr-1" src={CallUsImg} alt="Call Us" />
                     <span className="body2 txtPrimary600 fweight-500">{Helpers.telephoneFormat(supportPhone)}</span>

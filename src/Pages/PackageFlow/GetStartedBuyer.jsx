@@ -291,7 +291,7 @@ const GetStartedBuyer = (props) => {
   useEffect(() => {
     setIsEnter(true);
     if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
-      const countryCodeLocation = get(formValue, 'location.countryCode', '');
+      const countryCodeLocation = get(formValue, 'locations[0].countryCode', '');
       const countryCodeCompany = get(company, 'country.code', '');
       if (countryCodeCompany !== countryCodeLocation) {
         let newCountryStub = '';
