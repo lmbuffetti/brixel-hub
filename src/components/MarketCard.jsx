@@ -76,14 +76,14 @@ const MarketCard = (props) => {
   const openCard = (e) => {
     if (e) e.preventDefault();
     if (!preventClick) {
-      if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market')) {
-        setSplashScreen('preMarket');
-        setPreMarketProperty(item);
-      } else if (type === 'own') {
+      if (type === 'own') {
         history.push({
           pathname: `/${item.id}/rewards/market-checker`,
           state: { section: 'Market' },
         });
+      } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market')) {
+        setSplashScreen('preMarket');
+        setPreMarketProperty(item);
       } else if (type === 'favorite') {
         history.push({
           pathname: `/buyer/property/${item.id}/page`,
