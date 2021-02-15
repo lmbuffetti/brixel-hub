@@ -8,12 +8,12 @@ import {
   GoogleApiWrapper,
 } from 'google-maps-react';
 import PropTypes from 'prop-types';
+import Geocode from 'react-geocode';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { BrixelInputText, BrixelIcon, change } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import Geocode from 'react-geocode';
 import useOutsideAlerter from '../OutsideElement';
 import Map from './Map';
 import { setCountryList } from '../../actions/CommonActions';
@@ -100,8 +100,8 @@ export const MapsCities = (props) => {
     const defAdr = adr.split(',');
     Geocode.setApiKey('AIzaSyDHqV6i45MbGQVKOr2Md-8IzWeO7J1zGmg');
     if (selCountry.toLowerCase() !== 'ch') Geocode.setLanguage(selCountry.toLowerCase());
-    Geocode.fromAddress(adr).then(
-      (result) => {
+    Geocode.fromAddress(adr)
+      .then((result) => {
         const formattedPlace = get(formValue, 'location', {});
         formattedPlace.country = null;
         formattedPlace.countryCode = null;
@@ -190,11 +190,7 @@ export const MapsCities = (props) => {
         // changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
         setLoclist([]);
         // setZiplist([]);
-      },
-      (error) => {
-        console.error(error);
-      },
-    );
+      });
   };
 
   // FUNCTION TO LOAD AUTOCOMPLETE FUNCTION ON CHANGE searchAddress
@@ -292,16 +288,6 @@ export const MapsCities = (props) => {
       }
     }
   });
-
-  useEffect(() => {
-    const scriptList = document.querySelectorAll("script[type='text/javascript']");
-    const convertedNodeList = Array.from(scriptList);
-    const testScript = convertedNodeList.map((script) => {
-      if (script.src.includes('maps.googleapis.com/maps/api')) {
-        script.src = script.src.replace('language=pt', 'language=en');
-      }
-    });
-  }, [selCountry]);
 
   return (
     // Important! Always set the container height explicitly
@@ -453,7 +439,7 @@ MapsCities.defaultProps = {
   showMessageToChangeAddress: false,
   showSearchLocation: false,
   similarProperties: [],
-  showMap: true,
+  showMap: false,
   zoom: 14,
   minHeight: 0,
   subMinHeight: '',
@@ -483,10 +469,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  GoogleApiWrapper(() => ({
+  GoogleApiWrapper({
     apiKey: (baseByData.googleMaps),
     libraries: ['geometry', 'drawing', 'places'],
-  })),
+  }),
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MapsCities);
