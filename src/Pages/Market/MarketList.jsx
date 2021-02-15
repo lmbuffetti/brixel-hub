@@ -351,7 +351,7 @@ const MarketList = (props) => {
 
         <div className={`secondLevel p-0 map-wrapper ${openMap ? 'map-on' : ''}`}>
           {
-            windowDimensions.width <= 1024 && (
+            windowDimensions.width <= 1024 && !activeProperty && (
               <BrixelButtonIcon
                 ghost
                 theme="dark"

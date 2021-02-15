@@ -159,7 +159,6 @@ const MarkerComponent = (props) => {
         marker.addListener('click', () => {
           if (selMarker !== item.id) setSelMarker(item.id);
           Object.keys(window).forEach((key) => {
-            console.log('close', key);
             infowindow[key].close();
             const menu = document.querySelector('body');
             menu.classList.toggle('hidden-phone');
@@ -174,19 +173,20 @@ const MarkerComponent = (props) => {
             pixelOffset: new google.maps.Size(0, -45),
             maxWidth: 308,
           });
+          google.maps.event.addListener(window[item.id], 'closeclick', () => {
+            onClick(null);
+            setSelMarker(null);
+          });
           window[item.id].setContent(contentWrapper);
           window[item.id].open(optMap, marker);
           setInfowindow(window);
+          onClick(item.id);
         });
         markers.push(marker);
       });
       setMarkerList(markers);
     }
   }, [optMap, data, activeProperty, selMarker]);
-
-  useEffect(() => {
-    console.log(activeProperty);
-  });
 
   return (
     <></>
