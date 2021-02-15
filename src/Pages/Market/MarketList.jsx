@@ -263,6 +263,11 @@ const MarketList = (props) => {
     } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
   };
 
+  useEffect(() => {
+    const scrollEl = document.getElementsByClassName('hubDasContent')[0];
+    if (scrollEl) scrollEl.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
