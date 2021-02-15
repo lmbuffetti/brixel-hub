@@ -1,0 +1,49 @@
+.pagination {
+  color: map_get($darkColor, 700);
+
+  ul {
+    list-style-type: none;
+  }
+
+  .pagination-dropdown {
+    border-radius: $brd-radius-small / 2;
+
+    ul {
+      margin-bottom: 24px;
+    }
+
+    i {
+      color: map_get($lightColor, 400);
+    }
+  }
+
+  .page-number {
+    .first-link,
+    .last-link {
+      cursor: pointer;
+    }
+
+    .page-item {
+      color: map_get($darkColor, 400);
+      cursor: pointer;
+      transition: all $default-time-long;
+      @include fontStyle(300,'regular',left);
+      width: 24px;
+      height: 24px;
+      // background: map_get($lightColor, 400);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover,
+      &.active {
+        background: map_get($lightColor, 100);
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

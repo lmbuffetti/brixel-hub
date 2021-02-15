@@ -133,8 +133,8 @@ const PropertiesBuyerDashboard = (props) => {
 
   return (
     <>
-      <div className="property-container buyer-properties h-perc-md-100 pos-r mt-2" id="propertyDashboard">
-        <h5 className="mb-2">
+      <div className="property-container buyer-properties h-perc-md-100 pos-r" id="propertyDashboard">
+        <h5 className="py-2">
           {
             activeBuyerProperties.length > 0 ? (
               <>
@@ -147,7 +147,7 @@ const PropertiesBuyerDashboard = (props) => {
           }
         </h5>
         <div className="properties listings-wrapper mb-5 w-perc-100 px-1">
-          <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
+          <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12 pt-1">
             {
               activeBuyerProperties.map((property, i) => (
                 <div
@@ -159,9 +159,11 @@ const PropertiesBuyerDashboard = (props) => {
                       className="cur-po"
                       to={{
                         pathname: `/buyer/property/${property.id}`,
+                        state: { section: 'Buy' },
                       }}
                     >
                       <CoverPropertyImage
+                        size={96}
                         coverPhoto={get(property, 'coverPhoto.galleryThumbnailPath', null)}
                         className="avatar w-fix-96 h-fix-96 pos-r brdRadius"
                       />
@@ -230,7 +232,7 @@ const PropertiesBuyerDashboard = (props) => {
         </div>
 
         <div className="profile-market-container dis-fl-col dis-fl-row-sm">
-          <div className="search-profile w-perc-100 mb-4 mb-sm-0 max-w-fix-sm-368 mr-5">
+          <div className="search-profile w-perc-100 mb-4 mb-sm-0 max-w-fix-sm-368 m-a">
             <h6>Your search profile</h6>
             {
               has(userSearchProfiles[0], 'id') ? (
@@ -302,7 +304,7 @@ const PropertiesBuyerDashboard = (props) => {
               )
             }
           </div>
-          <div className="brixel-market">
+          {/* <div className="brixel-market">
             <div className="market-teaser dis-fl-col h-perc-100">
               <div className="dis-f">
                 <h6 className="mr-2">Brixel Market</h6>
@@ -315,7 +317,7 @@ const PropertiesBuyerDashboard = (props) => {
                 <p className="txtDark700 pt-5">Soon we will release the Brixel Market and match your search profile with our properties and sellers.  </p>
               </section>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

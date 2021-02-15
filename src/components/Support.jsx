@@ -55,7 +55,6 @@ const Support = (props) => {
                 // HIDE CLOSE BUTTON IF PROPS isFixed OR hideClose
                 !isFixed && !hideClose && (
                   <BrixelButtonIcon
-                    className="hide dis-b-md"
                     icon="close-small"
                     ghost
                     onClick={() => onClose()}

@@ -11,10 +11,12 @@ import GamificationMiddleware from '../middlewares/GamificationMiddleware';
 import HistoryMiddleware from '../middlewares/HistoryMiddleware';
 import ImageMiddleware from '../middlewares/UploadMiddleware';
 import LeadMiddleware from '../middlewares/LeadMiddleware';
+import MarketMiddleware from '../middlewares/MarketMiddleware';
 import NoteMiddleware from '../middlewares/NoteMiddleware';
 import PropertyMiddleware from '../middlewares/PropertyMiddleware';
 import UserMiddleware from '../middlewares/UserMiddleware';
 import SearchProfile from '../middlewares/SearchProfileMiddleware';
+import EstimationMiddleware from '../middlewares/EstimationMiddleware';
 
 const enhancers = [];
 const middlewares = [thunkMiddleware];
@@ -35,10 +37,12 @@ const composedEnhancers = compose(
     HistoryMiddleware,
     ImageMiddleware,
     LeadMiddleware,
+    MarketMiddleware,
     NoteMiddleware,
     PropertyMiddleware,
     UserMiddleware,
     SearchProfile,
+    EstimationMiddleware,
   ),
   ...enhancers,
 );

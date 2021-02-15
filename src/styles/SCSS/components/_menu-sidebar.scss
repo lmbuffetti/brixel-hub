@@ -1,56 +1,61 @@
+.sidebar {
+  overflow-y: auto;
+}
+
 #menu-sidebar {
-    left: 0;
-    top: 0;
-    background-color: white;
-    width: 0;
+  left: 0;
+  top: 0;
+  background-color: white;
+  width: 0;
+  position: sticky;
 
-    .admin-info {
-      // border-bottom: 1px solid map_get($lightColor, 400);
-      cursor: pointer;
+  .admin-info {
+    // border-bottom: 1px solid map_get($lightColor, 400);
+    cursor: pointer;
 
-      img {
-        &.avatar {
-          border-radius: $brd-radius-small;
-          z-index: 10;
-        }
+    img {
+      &.avatar {
+        border-radius: $brd-radius-small;
+        z-index: 10;
       }
     }
+  }
 
-    .routes {
-      button {
-        transition: color $default-time $default-easing;
-        &:hover:not(.active) {
+  .routes {
+    button {
+      transition: color $default-time $default-easing;
+      &:hover:not(.active) {
+        color: map_get($primaryColor, 400);
+      }
+      &.noRadius {
+        border-radius: 0;
+      }
+      &.active {
+        i {
           color: map_get($primaryColor, 400);
         }
-        &.noRadius {
-          border-radius: 0;
-        }
-        &.active {
-          i {
-            color: map_get($primaryColor, 400);
-          }
-        }
-      }
-
-      .clicked {
-        button {
-          // background-color: map-get($primaryColor, 100);
-          &::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 2px;
-            height: 48px;
-            background-color: map-get($primaryColor, 400);
-          }
-        }
       }
     }
 
-    .logout {
-      align-self: center;
+    .clicked {
+      button {
+        // background-color: map-get($primaryColor, 100);
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 2px;
+          height: 48px;
+          background-color: map-get($primaryColor, 400);
+        }
+      }
     }
+  }
+
+  .logout {
+    align-self: center;
+  }
 
   .btnMainMenu {
     position: absolute;
@@ -106,9 +111,16 @@
   position: fixed;
   left: 0;
   width: 100%;
-  top: 0;
+  top: 64px;
   max-width: 100%;
   z-index: 4;
+
+  @media (min-width: $responsive-medium) {
+    z-index: -1;
+  }
+  @media (max-width: $responsive-medium) {
+    top: 0;
+  }
 
   &::before {
     content: '';
@@ -135,15 +147,25 @@
   #menu-sidebar {
     width: $sidebarWidth;
     flex: 0 0 $sidebarWidth;
-    height: 100vh;
-    z-index: 5;
-    position: fixed;
+    z-index: 2;
     left: 0;
   }
   .sidebarSubmenu {
-    left: $sidebarWidth;
     .sidebarSubmenuContent {
       max-width: 448px;
+      margin-left: auto;
+      animation: slideRight $default-time $default-easing forwards;
+      opacity: 0;
+
+      @keyframes slideRight {
+        0% {
+          opacity: 0;
+          transform: translateX(-100px);
+        } 100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
     }
   }
 }
@@ -162,9 +184,9 @@
           opacity: 0;
           left: 40px;
         } 100% {
-          opacity: 1;
-          left: 30px;
-        }
+            opacity: 1;
+            left: 30px;
+          }
       }
     }
   }

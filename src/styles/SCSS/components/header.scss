@@ -1,3 +1,37 @@
+.logoWrapper {
+  img {
+    max-width: 80px;
+    @media (max-width: $responsive-small) {
+      max-width: 32px;
+      width: 100%;
+    }
+  }
+}
+.buyerHub,
+.sellerHub {
+  .quickNav .hideOnMobile {
+    @media (max-width: $responsive-small) {
+      display: none;
+    }
+  }
+}
+.quickNav {
+  border-left: 1px solid map-get($lightColor, 200);
+  align-self: stretch;
+  align-items: center;
+
+  @media (max-width: $responsive-small) {
+    padding-left: $step * 2;
+    margin-left: $step * 2;
+
+    .propertyTitle {
+      line-height: $step * 2;
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+}
+
 .brixelNavMenu {
   position: fixed;
   left: 0;
@@ -28,7 +62,7 @@
 .hubDasHeader {
   @media (min-width: $responsive-medium) {
     background-color: map-get($lightColor, 100);
-    padding-left: $sidebarWidth;
+    // padding-left: $sidebarWidth;
     position: fixed;
     width: 100%;
     top: 0;
@@ -39,6 +73,9 @@
     transition: margin-top $default-time-long $default-easing;
     .wrapperHeader {
       box-shadow: $shadow-1dp;
+      .header-section {
+        align-self: stretch;
+      }
     }
   }
   .mobileTitle {
@@ -74,17 +111,28 @@
     }
   }
 }
+.mini-menu {
+  .brixel-select {
+    @media (max-width: 767px) {
+      padding-right: 8px;
+        border: 1px solid map-get($lightColor, 300) !important;
+        border-radius: $step / 2;
+    }
+  }
+}
 
 .scrollingHeader {
-  .hubDasHeader {
-    .dasHeaderContainer {
-      @media (max-width: $responsive-medium) {
-        margin-top: -64px;
-        position: relative;
+  .hubContainer {
+    .hubDasHeader {
+      .dasHeaderContainer {
+        @media (max-width: $responsive-medium) {
+          margin-top: -64px;
+          position: relative;
+        }
       }
-    }
-    .mobileTitle {
-      background: $brx-white;
+      .mobileTitle {
+        background: $brx-white;
+      }
     }
   }
 }

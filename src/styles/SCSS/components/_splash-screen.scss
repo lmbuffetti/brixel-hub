@@ -30,10 +30,12 @@
     height: calc(100% - 120px);
     width: 100%;
     max-width: 930px;
+    padding: 0;
 
     @media (max-width: $responsive-medium) {
       height: 100%;
       top: 0;
+      border-radius: 0;
     }
 
     // Media edit styles

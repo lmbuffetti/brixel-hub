@@ -23,13 +23,12 @@ function SuccessBestimate(props) {
     activeSingleProperty,
     bestimate,
     gameGroup,
-    handleGetGamegroup,
-    history,
     gameStub,
     groupdAchievement,
     handleGetMarketCheck,
-    match,
+    history,
     marketData,
+    match,
   } = props;
   // STATE
   const [achievement, setAchievement] = useState(null);
@@ -38,9 +37,9 @@ function SuccessBestimate(props) {
   const propID = get(match, 'params.propId', null);
   const getDoneFirstTime = () => last(history.location.pathname.split('/'));
 
-  useEffect(() => {
-    handleGetGamegroup();
-  }, [propID]);
+  // useEffect(() => {
+  // handleGetGamegroup();
+  // }, [propID]);
 
   // LOAD MARKET DATA
   useEffect(() => {
@@ -108,21 +107,21 @@ function SuccessBestimate(props) {
                           get(marketData, 'priceDistribution.chartRangePrice', null) !== null ? (
                             <>
                               {
-                                get(activeSingleProperty, 'estimation.bestimate.lowerValue', null) ? (
+                                get(bestimate, 'lowerValue', null) ? (
                                   <>
                                     <div className="dis-fl-col jc-c a-c">
                                       <h5 className="ta-c max-w-fix-376 mb-2">Your estimated value</h5>
                                       <p className="body2 max-w-fix-376 txtDark200 m-a ta-c">
-                                        Bestimate® is calculated based on similar transaction.
+                                        Bestimate<sup>&reg;</sup> is calculated based on similar transaction.
                                       </p>
                                       <div className="ta-c mb-5 mt-2 pos-r">
                                         {
-                                          get(marketData, 'priceDistribution.chartRangePrice', null) && get(activeSingleProperty, 'estimation.bestimate', null) && (
+                                          get(marketData, 'priceDistribution.chartRangePrice', null) && get(bestimate, 'value', null) && (
                                             <div className="dis-f jc-c">
                                               <RangePriceChart
                                                 properties={marketData.priceDistribution.chartRangePrice}
                                                 type="bestimate"
-                                                bestimate={activeSingleProperty.estimation.bestimate}
+                                                bestimate={bestimate}
                                                 showTopLabel={false}
                                               />
                                             </div>
@@ -214,7 +213,7 @@ function SuccessBestimate(props) {
             <div className="w-perc-100">
               <BrixelButtonPrimary
                 rounded
-                label="Get free Bestimate®"
+                label="Get free Bestimate&reg;"
                 className="m-a"
                 onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
                 rightIcon="arrow-right"
@@ -231,14 +230,13 @@ function SuccessBestimate(props) {
 SuccessBestimate.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
-  groupdAchievement: PropTypes.object,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameStub: PropTypes.string,
-  history: PropTypes.object.isRequired,
+  groupdAchievement: PropTypes.object,
   handleGetMarketCheck: PropTypes.func.isRequired,
-  handleGetGamegroup: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 SuccessBestimate.defaultProps = {
@@ -248,8 +246,8 @@ SuccessBestimate.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  bestimate: get(state, 'property.estimation.result', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
-  bestimate: get(state, 'property.activeSingleProperty.estimation.bestimate', {}),
   marketData: get(state, 'property.marketCheck', {}),
 });
 

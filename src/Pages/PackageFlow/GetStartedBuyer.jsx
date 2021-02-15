@@ -319,7 +319,7 @@ const GetStartedBuyer = (props) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
-    history.push('/buyer/propertyLists');
+    history.push('/home');
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
@@ -367,7 +367,7 @@ const GetStartedBuyer = (props) => {
       const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
       changeFieldValue('register.phone.prefix', countryPhoneCode.dial_code);
     }
-    initForm(initialValues);
+    if (get(formValue, 'locations', []).length === 0) initForm(initialValues);
   }, [company]);
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON

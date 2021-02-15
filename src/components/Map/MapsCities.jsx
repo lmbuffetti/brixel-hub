@@ -122,15 +122,12 @@ export const MapsCities = (props) => {
           formattedPlace.latitude = location.geometry.location.lat;
           formattedPlace.longitude = location.geometry.location.lng;
         }
-
         if (location.name) {
           formattedPlace.name = location.name;
         }
-
         if (location.vicinity) {
           formattedPlace.vicinity = location.vicinity;
         }
-
         if (location.formatted_address) {
           setNewLocation(location.formatted_address);
           if (location.formatted_address.split(',').length === 2) {
@@ -139,7 +136,6 @@ export const MapsCities = (props) => {
             formattedPlace.address = location.formatted_address;
           }
         }
-
         if (location.address_components) {
           location.address_components.map((el) => {
             if (!el.types) {
@@ -451,8 +447,8 @@ MapsCities.defaultProps = {
 
 const mapStateToProps = (state, props) => {
   const formName = get(props, 'formName', Object.keys(get(state, 'brixelForm'))[0]);
-  const lat = get(state, 'property.activeSingleProperty.location.latitude', 0);
-  const lng = get(state, 'property.activeSingleProperty.location.longitude', 0);
+  const lat = get(state, 'property.activeSingleProperty.location.latitude', 10);
+  const lng = get(state, 'property.activeSingleProperty.location.longitude', 10);
   return ({
     country: get(state, 'common.country', {}),
     formValue: get(state, `brixelForm[${formName}].values`, {}),

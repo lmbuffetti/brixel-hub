@@ -29,6 +29,8 @@ import {
   SET_PAGE_DEALS,
   SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
   GET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
+  GET_ACTIVE_PREMARKET_PROPERTY,
+  SET_ACTIVE_PREMARKET_PROPERTY,
 } from './types/PropertyTypes';
 
 export const {
@@ -61,6 +63,8 @@ export const {
   setPageDeals,
   setActiveSinglePropertyDealsCount,
   getActiveSinglePropertyDealsCount,
+  getActivePremarketProperty,
+  setActivePremarketProperty,
 } = createActions({
   [CREATE_ACTIVE_SINGLE_PROPERTY]: (payload) => payload,
   [CREATE_PROPERTY_VISIT_BOOKING]: (payload) => payload,
@@ -91,4 +95,6 @@ export const {
   [SET_PAGE_DEALS]: (payload) => payload,
   [SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT]: (payload) => payload,
   [GET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT]: (payload) => payload,
+  [GET_ACTIVE_PREMARKET_PROPERTY]: (payload) => payload,
+  [SET_ACTIVE_PREMARKET_PROPERTY]: (payload) => payload,
 });
