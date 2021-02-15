@@ -165,8 +165,8 @@
     @media (max-width: $responsive-large) {
       top: 0;
       .map-inner {
-        .min-100v {
-          height: 100vh;
+        .full-h-map-wrapper {
+          //height: calc(100vh - 6);
         }
       }
     }
