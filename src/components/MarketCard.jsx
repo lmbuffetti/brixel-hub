@@ -25,6 +25,7 @@ import {
 const MarketCard = (props) => {
   // PROPS
   const {
+    favoritesProperties,
     handleGetEstimation,
     history,
     item,
@@ -75,7 +76,10 @@ const MarketCard = (props) => {
   const openCard = (e) => {
     if (e) e.preventDefault();
     if (!preventClick) {
-      if (type === 'own') {
+      if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market')) {
+        setSplashScreen('preMarket');
+        setPreMarketProperty(item);
+      } else if (type === 'own') {
         history.push({
           pathname: `/${item.id}/rewards/market-checker`,
           state: { section: 'Market' },
@@ -87,10 +91,7 @@ const MarketCard = (props) => {
         });
       }
       // TODO: Estimation opens overlay
-      else if (type === 'preMarket') {
-        setSplashScreen('preMarket');
-        setPreMarketProperty(item);
-      } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
+      else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
     }
   };
 
@@ -113,6 +114,11 @@ const MarketCard = (props) => {
       setSplashScreen('bestimateResult');
       setPropertyEstimation(estimation);
     }
+  };
+
+  const checkFavorite = () => {
+    const findIndex = favoritesProperties.findIndex((prop) => prop.id === item.id);
+    return findIndex > -1;
   };
 
   // eslint-disable-next-line consistent-return
@@ -297,7 +303,7 @@ const MarketCard = (props) => {
                   propertyType={get(item, 'properties.propertyType', undefined)}
                 />
                 {
-                  type === 'favorite' && (
+                  checkFavorite() && (
                     <div className="tag-container dis-fl-row a-c">
                       <BrixelIcon
                         icon="favorite-fill"
@@ -389,6 +395,7 @@ const MarketCard = (props) => {
 
 MarketCard.propTypes = {
   estimation: PropTypes.object.isRequired,
+  favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
@@ -409,6 +416,7 @@ MarketCard.defaultProps = {
 
 const mapStateToProps = (state) => ({
   estimation: get(state, 'property.estimation', {}),
+  favoritesProperties: get(state, 'market.favoritesProperties.data', []),
   skeleton: get(state, 'common.skeleton', {}),
 });
 

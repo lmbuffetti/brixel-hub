@@ -7,7 +7,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary, destroy, FormatValue,
+  BrixelButtonIcon, BrixelButtonPrimary, destroy, FormatValue, BrixelButtonSecondary,
 } from '@brixel/brixel-components';
 import {
   getOwnedProperties, getFavoritesProperties, getNewProperties,
@@ -209,13 +209,13 @@ const Market = (props) => {
                 <span className="max-w-fix-536 fsize-300 ta-c txtDark200 py-2"> This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner. </span>
 
                 <div className="dis-f jc-c a-c pos-r w-perc-100 pt-3 pb-2">
-                  <BrixelButtonPrimary
+                  <BrixelButtonSecondary
                     rounded
                     label={checkFavorite() ? 'Remove from favorite' : 'Save as favorite'}
                     className="m-a"
-                    theme={checkFavorite() ? 'red' : 'light'}
+                    theme="red"
                     onClick={() => saveFavorite()}
-                    leftIcon="favorite"
+                    leftIcon={checkFavorite() ? 'favorite-fill' : 'favorite'}
                     isLoading={isSmallLoading === `favorite-${activePreMarketProperty.id}`}
                   />
                 </div>
