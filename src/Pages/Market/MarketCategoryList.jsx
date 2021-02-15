@@ -77,7 +77,9 @@ const MarketList = (props) => {
   };
 
   const onClickBestimate = () => {
-    history.push(`/${activeProperty}/rewards/achievement/bestimate`);
+    let idProperty = activeProperty;
+    if (!activeProperty) idProperty = ownerProperties.data[0].id;
+    history.push(`/${idProperty}/rewards/achievement/bestimate`);
     // setSplashScreen('');
   };
 
