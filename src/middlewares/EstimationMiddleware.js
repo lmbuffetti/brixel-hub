@@ -1,3 +1,5 @@
+import set from 'lodash/set';
+
 import {
   CREATE_ESTIMATION,
   GENERATE_ESTIMATION,
@@ -66,6 +68,7 @@ const checkEstimation = (store) => (next) => (action) => {
               type: SET_ESTIMATION,
               payload: response.data,
             });
+            set(store.getState().property.activeSingleProperty, 'estimation', response.data);
             store.dispatch({
               type: SPINNER_OFF,
             });

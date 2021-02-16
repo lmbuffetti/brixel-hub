@@ -28,6 +28,7 @@ const MarketCard = (props) => {
     favoritesProperties,
     handleGetEstimation,
     history,
+    estimation,
     item,
     onSetActiveProperty,
     preventClick,
@@ -73,6 +74,13 @@ const MarketCard = (props) => {
     }
   }, [item.tags]);
 
+  // Update market card when bestimate changes
+  useEffect(() => {
+    if (has(estimation, 'id')) {
+      if (has(estimation, 'result.value')) set(item, 'estimation', estimation);
+    }
+  }, [estimation]);
+
   const openCard = (e) => {
     if (e) e.preventDefault();
     if (!preventClick) {
@@ -95,7 +103,7 @@ const MarketCard = (props) => {
     }
   };
 
-  const openBestimateOverlay = (e, location, estimation, page) => {
+  const openBestimateOverlay = (e, location, estim, page) => {
     if (e) e.preventDefault();
     onSetActiveProperty(page.id);
     if (location.countryCode === 'PT') {
@@ -103,7 +111,7 @@ const MarketCard = (props) => {
       setSplashScreen('bestimateTeaser');
     }
     if (location.countryCode === 'CH') {
-      if (!has(estimation, 'result')) {
+      if (!has(estim, 'result')) {
         const payload = {
           type: 'market',
           id: item.id,
@@ -112,7 +120,7 @@ const MarketCard = (props) => {
       }
       setCookie('brixelMarketBestimate', false);
       setSplashScreen('bestimateResult');
-      setPropertyEstimation(estimation);
+      setPropertyEstimation(estim);
     }
   };
 
