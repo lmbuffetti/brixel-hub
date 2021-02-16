@@ -94,11 +94,6 @@ const MarketList = (props) => {
     history.push(`${match.url}/${value}`);
   };
 
-  useEffect(() => {
-    console.log(loggedInUser.seller);
-    console.log(ownerProperties.total);
-  });
-
   return (
     <div className="notranslate">
       {/* buyer welcome message  */}
@@ -258,14 +253,14 @@ const MarketList = (props) => {
           )
         }
         {/* // fake loader */}
-        {
+        {/* {
           loggedInUser.seller && ownerProperties.total === undefined && (
             <div className="mb-8">
               <h4 className="fweight-700 fsize-600 mb-3">Your properties</h4>
               <CardImageText type="own" />
             </div>
           )
-        }
+        } */}
       </div>
 
       {
