@@ -126,7 +126,7 @@ const MarketCardMap = (props) => {
     <>
       {
         !removeSkeleton && (
-          <CardImageText type={get(skeleton, '[type]', '')} />
+          <CardImageText type="map-view" />
         )
       }
       <div className={`w-perc-100 notranslate pb-3 pr-lg-3 ${removeSkeleton ? '' : 'pos-a opacity0'}`}>
@@ -136,14 +136,14 @@ const MarketCardMap = (props) => {
         className={`market-card cardMap ov-h dis-fl-col dis-fl-row-sm brdRadius pos-r ${removeSkeleton ? '' : 'pos-a opacity0'} pr-lg-3 pb-3`}
       >
         <>
-          <div className="image-ratio w-fix-flex-sm-296">
+          <div className="">
             <>
               <CoverPropertyImage
                 onClick={(e) => onClick(e)}
                 onMouseEnter={(e) => onHover(e)}
                 onMouseLeave={() => onHover(null)}
                 loadedImg={(val) => setCoverImgLoaded(val)}
-                className={`${isPreMarket ? 'pre-market' : ''} cover notranslate brdRadius h-fix-204 w-perc-100 w-fix-flex-sm-296 cur-poi`}
+                className={`${isPreMarket ? 'pre-market' : ''} cover notranslate brdRadius min-w-perc-100 min-w-fix-sm-304 h-fix-208 cur-poi`}
                 coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                 propertyType={get(item, 'properties.propertyType', undefined)}
               />
@@ -165,7 +165,7 @@ const MarketCardMap = (props) => {
               }
             </>
           </div>
-          <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100">
+          <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100 mt-2 mt-sm-0">
             <div className="top dis-f jc-b pt-md-0">
               <div className="dis-fl-col">
                 <h6

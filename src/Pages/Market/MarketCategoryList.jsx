@@ -20,6 +20,7 @@ import SplashScreen from '../../components/SplashScreen';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType } from '../../actions/CommonActions';
 import { setEstimation, setActivePremarketProperty } from '../../actions/PropertyActions';
+import CardImageText from '../../components/Skeleton/CardImageText';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -93,8 +94,13 @@ const MarketList = (props) => {
     history.push(`${match.url}/${value}`);
   };
 
+  useEffect(() => {
+    console.log(loggedInUser.seller);
+    console.log(ownerProperties.total);
+  });
+
   return (
-    <>
+    <div className="notranslate">
       {/* buyer welcome message  */}
       {
         !welcomeMessage && loggedInUser.buyer && (
@@ -237,31 +243,44 @@ const MarketList = (props) => {
           </SplashScreen>
         )
       }
+      <div className="min-h-fix-272 min-h-fix-sm-336">
 
-      {
-        (loggedInUser.seller || ownerProperties.total > 0) && (
-          <div className="mb-8 min-h-fix-488 min-h-fix-sm-272">
+        {
+          (loggedInUser.seller || ownerProperties.total > 0) && (
             <CarouselWrapper
               title="Your properties"
-              className="market-category-carousel type-own"
+              className="market-category-carousel type-own mb-8"
               type="own"
               items={ownerProperties.data}
               total={ownerProperties.total}
               onSetActiveProperty={(id) => setActiveProperty(id)}
             />
+          )
+        }
+        {/* // fake loader */}
+        {
+          loggedInUser.seller && ownerProperties.total === undefined && (
+            <div className="mb-8">
+              <h4 className="fweight-700 fsize-600 mb-3">Your properties</h4>
+              <CardImageText type="own" />
+            </div>
+          )
+        }
+      </div>
+
+      {
+        favoritesProperties.total > 0 && (
+          <div className={favoritesProperties.total === 0 ? '' : 'mb-8'}>
+            <CarouselWrapper
+              title="Your favorites"
+              className="market-category-carousel"
+              type="favorite"
+              items={favoritesProperties.data}
+              total={favoritesProperties.total}
+            />
           </div>
         )
       }
-
-      <div className={favoritesProperties.total === 0 ? '' : 'mb-8'}>
-        <CarouselWrapper
-          title="Your favorites"
-          className="market-category-carousel"
-          type="favorite"
-          items={favoritesProperties.data}
-          total={favoritesProperties.total}
-        />
-      </div>
 
       <div className="dis-fl-col mb-8">
         <div className="dis-fl-row jc-b flex-wrap">
@@ -542,7 +561,7 @@ const MarketList = (props) => {
           )
         }
       </div>
-    </>
+    </div>
   );
 };
 
