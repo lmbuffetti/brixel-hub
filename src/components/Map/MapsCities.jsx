@@ -274,20 +274,9 @@ export const MapsCities = (props) => {
   };
 
   useEffect(() => {
-    const flowWrapper = document.getElementsByClassName('singleStep')[0];
     const resultBox = addressRef.current;
-
-    if (resultBox) {
-      const resultBoxRect = resultBox.getBoundingClientRect();
-
-      if (!selectedAddress && locList.length > 0 && !disabled && flowWrapper) {
-        flowWrapper.scrollTo({
-          top: resultBoxRect.bottom,
-          behavior: 'smooth',
-        });
-      }
-    }
-  });
+    if (resultBox) resultBox.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, [locList.length]);
 
   return (
     // Important! Always set the container height explicitly

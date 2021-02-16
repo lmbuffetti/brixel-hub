@@ -27,6 +27,12 @@ export default {
     updateMultipleDeals: () => '/deal/updateGroup',
     getListOfDeals: (paginationLimit, paginationSkip, data) => `/deal/${paginationLimit}/${paginationSkip}${data}`,
   },
+  estimation: {
+    estimationById: (id) => `/estimation/${id}`,
+    getEstimationList: (paginationLimit, paginationSkip, data) => `/estimation/${paginationLimit}/${paginationSkip}${data}`,
+    createEstimation: () => '/estimation/',
+    generateEstimation: (id) => `/estimation/${id}/generate`,
+  },
   gamification: {
     gameAchievement: () => '/gameAchievement',
     gameAchievementById: (id) => `/gameAchievement/${id}`,
@@ -42,6 +48,20 @@ export default {
     historyById: (id) => `/history/${id}`,
     createHistory: () => '/history/',
     getHistoryListOfParent: (paginationLimit, paginationSkip, data) => `/history/${paginationLimit}/${paginationSkip}${data}`,
+  },
+  lead: {
+    getLeadList: (leadType, paginationLimit, paginationSkip, data) => `/lead/${leadType}/${paginationLimit}/${paginationSkip}${data}`,
+    singleUserLead: () => '/lead',
+  },
+  market: {
+    allProperties: (paginationLimit, paginationSkip, data) => `/market/list/all/${paginationLimit}/${paginationSkip}${data}`,
+    lastViewed: () => '/market/list/lastViewed/',
+    newInRadar: (paginationLimit, paginationSkip, data) => `/market/list/newInRadar/${paginationLimit}/${paginationSkip}${data}`,
+    ownedEstimations: (paginationLimit, paginationSkip, data) => `/market/list/ownedEstimations/${paginationLimit}/${paginationSkip}${data}`,
+    ownedProperties: (paginationLimit, paginationSkip, data) => `/market/list/ownedPages/${paginationLimit}/${paginationSkip}${data}`,
+    preMarket: (paginationLimit, paginationSkip, data) => `/market/list/preMarket/${paginationLimit}/${paginationSkip}${data}`,
+    premium: (paginationLimit, paginationSkip, data) => `/market/list/premium/${paginationLimit}/${paginationSkip}${data}`,
+    favorites: (paginationLimit, paginationSkip, data) => `/market/list/favorites/${paginationLimit}/${paginationSkip}${data}`,
   },
   note: {
     singleNote: (id) => `/note/${id}`,
@@ -69,6 +89,10 @@ export default {
     scanTrial: (id) => `/page/${id}/scanTrial`,
     upgradePlan: (id) => `/page/${id}/upgradePlan`,
   },
+  searchProfile: {
+    searchProfileByUserID: (id) => `/user/${id}/searchProfile`,
+    singleSearchProfile: () => '/searchProfile/',
+  },
   upload: {
     addImage: () => '/image/',
     document: () => '/document/',
@@ -76,10 +100,6 @@ export default {
     rotate: (id, rotation) => `/image/${id}/rotate/${rotation}`,
     singleDocument: (id) => `/document/${id}`,
     singleImage: (id) => `/image/${id}`,
-  },
-  lead: {
-    getLeadList: (leadType, paginationLimit, paginationSkip, data) => `/lead/${leadType}/${paginationLimit}/${paginationSkip}${data}`,
-    singleUserLead: () => '/lead',
   },
   user: {
     addFavorite: (id) => `/user/favorite/page/${id}/add`,
@@ -95,25 +115,5 @@ export default {
     tokenValidationWithUser: () => '/authentication/getTokenWithUser',
     userById: (userId) => `/user/${userId}`,
     validateUser: (email) => `/user/validate/${email}`,
-  },
-  searchProfile: {
-    searchProfileByUserID: (id) => `/user/${id}/searchProfile`,
-    singleSearchProfile: () => '/searchProfile/',
-  },
-  estimation: {
-    estimationById: (id) => `/estimation/${id}`,
-    getEstimationList: (paginationLimit, paginationSkip, data) => `/estimation/${paginationLimit}/${paginationSkip}${data}`,
-    createEstimation: () => '/estimation/',
-    generateEstimation: (id) => `/estimation/${id}/generate`,
-  },
-  market: {
-    allProperties: (paginationLimit, paginationSkip, data) => `/market/list/all/${paginationLimit}/${paginationSkip}${data}`,
-    lastViewed: () => '/market/list/lastViewed/',
-    newInRadar: (paginationLimit, paginationSkip, data) => `/market/list/newInRadar/${paginationLimit}/${paginationSkip}${data}`,
-    ownedEstimations: (paginationLimit, paginationSkip, data) => `/market/list/ownedEstimations/${paginationLimit}/${paginationSkip}${data}`,
-    ownedProperties: (paginationLimit, paginationSkip, data) => `/market/list/ownedPages/${paginationLimit}/${paginationSkip}${data}`,
-    preMarket: (paginationLimit, paginationSkip, data) => `/market/list/preMarket/${paginationLimit}/${paginationSkip}${data}`,
-    premium: (paginationLimit, paginationSkip, data) => `/market/list/premium/${paginationLimit}/${paginationSkip}${data}`,
-    favorites: (paginationLimit, paginationSkip, data) => `/market/list/favorites/${paginationLimit}/${paginationSkip}${data}`,
   },
 };

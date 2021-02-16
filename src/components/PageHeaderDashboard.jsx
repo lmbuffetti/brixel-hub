@@ -585,7 +585,7 @@ function PageHeaderDashboard(props) {
 
                               <hr className="my-2 lighter" />
                               {
-                                userType === 'seller' && (
+                                propID && userType === 'seller' && (
                                   <div className="mb-2">
                                     <a
                                       onClick={(e) => {

@@ -55,7 +55,7 @@ const Market = (props) => {
 
   const getProfileCountry = () => {
     let country = '';
-    userSearchProfiles[0].location.forEach((loc, i) => {
+    get(userSearchProfiles[0], 'location', []).forEach((loc, i) => {
       if (i === userSearchProfiles[0].location.length - 1) country += `${loc.countryCode}`;
       else country += `${loc.countryCode},`;
     });
@@ -92,20 +92,21 @@ const Market = (props) => {
         multiLoader: true,
         searchProfileId: userSearchProfiles[0].id,
       };
-      const payload = {
-        resultsPerPage: 10,
-        offset: 0,
-        order: 'updatedAt',
-        direction: 'DESC',
-        setAsSingle: true,
-        multiLoader: true,
-        country: getProfileCountry(),
-      };
+
       handleGetNewProperties(data);
       handleGetPreMarketProperties(data);
-      handleGetPremiumProperties(payload);
       handleSpinnerOff();
     }
+    const payload = {
+      resultsPerPage: 10,
+      offset: 0,
+      order: 'updatedAt',
+      direction: 'DESC',
+      setAsSingle: true,
+      multiLoader: true,
+      country: getProfileCountry(),
+    };
+    handleGetPremiumProperties(payload);
   }, [userSearchProfiles]);
 
   const checkFavorite = () => {

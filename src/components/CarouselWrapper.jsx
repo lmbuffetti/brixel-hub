@@ -29,6 +29,9 @@ const CarouselWrapper = (props) => {
   const [preventClick, setPreventClick] = useState(false);
 
   const sliderInstance = useRef(null);
+  let slideToShow = type === 'own' ? 1 : 2;
+  if (windowDimensions.width > 1024) slideToShow = type === 'own' ? 2 : 4;
+  const numCard = [...Array(slideToShow)];
 
   const settingsSlick = () => {
     let carouselSettings = {};
@@ -38,7 +41,7 @@ const CarouselWrapper = (props) => {
         infinite: false,
         speed: 500,
         swipeToSlide: true,
-        slidesToShow: type === 'own' ? 1 : 2,
+        slidesToShow: slideToShow,
         // slidesToScroll: type === 'own' ? 2 : 4,
         responsive: [
           {
@@ -63,7 +66,7 @@ const CarouselWrapper = (props) => {
         dots: false,
         infinite: false,
         speed: 500,
-        slidesToShow: type === 'own' ? 2 : 4,
+        slidesToShow: slideToShow,
         slidesToScroll: type === 'own' ? 2 : 4,
         draggable: false,
         centerPadding: '8px',
@@ -105,8 +108,8 @@ const CarouselWrapper = (props) => {
     }
   };
 
-  const showAllbutton = (items.length > 0 && type !== 'own' && windowDimensions.width <= 600) || (items.length > 0 && type !== 'own' && windowDimensions.width > 1024) ||
-  (items.length > 0 && type !== 'own' && windowDimensions.width <= 1024) || (items.length > 0 && type === 'own' && windowDimensions.width <= 1024) || (items.length > 0 && type === 'own' && windowDimensions.width > 1024);
+  const showAllbutton = items && ((items.length > 0 && type !== 'own' && windowDimensions.width <= 600) || (items.length > 0 && type !== 'own' && windowDimensions.width > 1024) ||
+  (items.length > 0 && type !== 'own' && windowDimensions.width <= 1024) || (items.length > 0 && type === 'own' && windowDimensions.width <= 1024) || (items.length > 0 && type === 'own' && windowDimensions.width > 1024));
 
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
@@ -127,7 +130,18 @@ const CarouselWrapper = (props) => {
       </div>
       <Slider ref={sliderInstance} {...settingsSlick()}>
         {
-          items.length > 0 && items.map((item, i) => (
+          !items && numCard.map((card, i) => (
+            <MarketCard
+              type={type}
+              key={i.toString()}
+              item={card}
+              preventClick={preventClick}
+              onSetActiveProperty={(id) => onSetActiveProperty(id)}
+            />
+          ))
+        }
+        {
+          items && items.length > 0 && items.map((item, i) => (
             <MarketCard
               type={type}
               key={i.toString()}
@@ -145,7 +159,7 @@ const CarouselWrapper = (props) => {
 CarouselWrapper.propTypes = {
   className: PropTypes.string,
   history: PropTypes.object.isRequired,
-  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  items: PropTypes.arrayOf(PropTypes.object),
   match: PropTypes.object.isRequired,
   onSetActiveProperty: PropTypes.func,
   title: PropTypes.string,
@@ -156,6 +170,7 @@ CarouselWrapper.propTypes = {
 
 CarouselWrapper.defaultProps = {
   className: '',
+  items: null,
   onSetActiveProperty: () => '',
   title: '',
   total: 0,

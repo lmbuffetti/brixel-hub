@@ -308,6 +308,11 @@ export const ComponentMap = (props) => {
     };
   });
 
+  useEffect(() => {
+    const dropdownEl = addressRef.current;
+    if (dropdownEl) dropdownEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, [locList.length]);
+
   return (
     // Important! Always set the container height explicitly
     <div
