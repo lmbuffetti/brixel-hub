@@ -71,7 +71,7 @@ const MarketCard = (props) => {
       });
       set(item, 'tags', pullAt(compact(result), [0, 1]));
     }
-  }, [item.tags]);
+  }, [get(item, 'tags', [])]);
 
   const openCard = (e) => {
     if (e) e.preventDefault();
@@ -162,12 +162,12 @@ const MarketCard = (props) => {
   return (
     <>
       {
-        !removeSkeleton && (
+        (!removeSkeleton || !item) && (
           <CardImageText type={get(skeleton, '[type]', '')} />
         )
       }
       <div
-        className={`market-card ov-h cur-poi h-perc-100 ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius px-1 pos-r ${removeSkeleton ? '' : 'pos-a opacity0'}`}
+        className={`market-card ov-h cur-poi h-perc-100 ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius px-1 pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'}`}
         onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         {
@@ -182,7 +182,7 @@ const MarketCard = (props) => {
                   onClick={(e) => openCard(e)}
                 />
                 {
-                  item.tags.length > 0 && (
+                  get(item, 'tags', []).length > 0 && (
                     <div className="tag-container pos-a dis-fl-row a-c jc-b">
                       {
                         item.tags.map((tag, i) => (
@@ -398,7 +398,7 @@ MarketCard.propTypes = {
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  item: PropTypes.object.isRequired,
+  item: PropTypes.object,
   onSetActiveProperty: PropTypes.func,
   preventClick: PropTypes.bool,
   setPreMarketProperty: PropTypes.func.isRequired,
@@ -409,6 +409,7 @@ MarketCard.propTypes = {
 };
 
 MarketCard.defaultProps = {
+  item: null,
   onSetActiveProperty: () => '',
   preventClick: false,
   type: '',
