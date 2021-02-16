@@ -105,8 +105,8 @@ const CarouselWrapper = (props) => {
     }
   };
 
-  const showAllbutton = (items.length > 1 && type !== 'own' && windowDimensions.width <= 600) || (items.length > 4 && type !== 'own' && windowDimensions.width > 1024) ||
-  (items.length > 2 && type !== 'own' && windowDimensions.width <= 1024) || (items.length > 1 && type === 'own' && windowDimensions.width <= 1024) || (items.length > 2 && type === 'own' && windowDimensions.width > 1024);
+  const showAllbutton = (items.length > 0 && type !== 'own' && windowDimensions.width <= 600) || (items.length > 0 && type !== 'own' && windowDimensions.width > 1024) ||
+  (items.length > 0 && type !== 'own' && windowDimensions.width <= 1024) || (items.length > 0 && type === 'own' && windowDimensions.width <= 1024) || (items.length > 0 && type === 'own' && windowDimensions.width > 1024);
 
   return (
     <div className={`${className} carousel-wrapper pos-r`}>

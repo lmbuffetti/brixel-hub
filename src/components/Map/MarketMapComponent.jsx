@@ -1,16 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import {
   Map, InfoWindow, GoogleApiWrapper,
 } from 'google-maps-react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
+import { connect } from 'react-redux';
 import { BrixelIcon } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { diff } from 'deep-object-diff';
+import { setWindowDimensions } from '../../actions/CommonActions';
 import MarkerComponent from './MarkerComponent';
 import { mapStyles } from '../../constants/map';
 
@@ -30,13 +32,16 @@ export const MarketMapComponent = (props) => {
     subMinHeight,
     type,
     visible,
+    windowDimensions,
     zoom,
   } = props;
   // STATE
   const [showInfoWindow, setShowInfoWindow] = useState(false);
   const [modalInfo] = useState({});
+  const mapRef = useRef(null);
   const [mapTypeId, setMapTypeId] = useState('roadmap');
   const [optMap, setOptMap] = useState({});
+  const [mapHeight, setMapHeight] = useState(0);
 
   // FUNCTION TO INITIALIZE THE MAP
   const fetchPlaces = (mapProps, map) => {
@@ -92,10 +97,22 @@ export const MarketMapComponent = (props) => {
     onActiveProperty(id);
   };
 
+  useEffect(() => {
+    if (windowDimensions.width <= 1024) {
+      setMapHeight(windowDimensions.height);
+    } else {
+      setMapHeight(windowDimensions.height - 64);
+    }
+  });
+
   return (
     // Important! Always set the container height explicitly
     <>
-      <div className={`min-h-fix-400 pos-r ${subMinHeight}`}>
+      <div
+        ref={mapRef}
+        className={`min-h-fix-400 pos-r ${subMinHeight}`}
+        style={{ height: mapHeight }}
+      >
         <Map
           google={google}
           onReady={(mapProps, map) => fetchPlaces(mapProps, map)}
@@ -181,6 +198,14 @@ MarketMapComponent.defaultProps = {
   type: null,
 };
 
+const mapStateToProps = (state) => ({
+  windowDimensions: get(state, 'common.windowDimensions', {}),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
+});
+
 export const MapComponent = React.memo(MarketMapComponent, (prevProps, nextProps) => {
   const prevLat = get(prevProps, 'properties', null);
   const nextLat = get(nextProps, 'properties', null);
@@ -197,4 +222,5 @@ export default compose(
     libraries: ['geometry', 'drawing', 'places'],
   }),
   withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
 )(MarketMapComponent);

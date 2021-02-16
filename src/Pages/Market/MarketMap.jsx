@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import { setWindowDimensions } from '../../actions/CommonActions';
 import MarketMapComponent from '../../components/Map/MarketMapComponent';
 
 const MarketMap = (props) => {
@@ -14,6 +15,7 @@ const MarketMap = (props) => {
     onActiveProperty,
     properties,
     type,
+    windowDimensions,
   } = props;
 
   return (
@@ -26,7 +28,7 @@ const MarketMap = (props) => {
             properties={properties}
             type={type}
             visible
-            subMinHeight="min-100v"
+            subMinHeight="full-h-map-wrapper"
           />
         )
       }
@@ -39,6 +41,7 @@ MarketMap.propTypes = {
   onActiveProperty: PropTypes.func.isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   type: PropTypes.string,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 MarketMap.defaultProps = {
@@ -50,8 +53,8 @@ const mapStateToProps = (state) => ({
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
-const mapDispatchToProps = () => ({
-
+const mapDispatchToProps = (dispatch) => ({
+  handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 
 export default compose(
