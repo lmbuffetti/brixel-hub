@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -15,7 +15,6 @@ const MarketMap = (props) => {
     onActiveProperty,
     properties,
     type,
-    windowDimensions,
   } = props;
 
   return (
@@ -41,7 +40,6 @@ MarketMap.propTypes = {
   onActiveProperty: PropTypes.func.isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   type: PropTypes.string,
-  windowDimensions: PropTypes.object.isRequired,
 };
 
 MarketMap.defaultProps = {

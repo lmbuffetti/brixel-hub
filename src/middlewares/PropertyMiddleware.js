@@ -244,7 +244,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       break;
     // DISPATCH TO GET USER PROPERTIES LIST - by PROPERTY ID
-    case GET_ESTIMATION:
+    case GET_ESTIMATION: {
       next(action);
       let type;
       let id;
@@ -263,7 +263,7 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({ type: SPINNER_OFF });
             store.dispatch({ type: SET_ESTIMATION, payload: res.data });
             if (typeof res.data.statusCode === 'undefined') {
-            // window.location.href = `/packageFlow/${action.payload}/rewards`;
+              // window.location.href = `/packageFlow/${action.payload}/rewards`;
             }
           } else {
             store.dispatch({
@@ -281,6 +281,7 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SPINNER_OFF });
         });
       break;
+    }
     // DISPATCH TO GET MARKET CHECK PROPERTY - by PROPERTY ID
     case GET_MARKET_CHECK: {
       next(action);

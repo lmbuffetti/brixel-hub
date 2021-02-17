@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   withRouter,
@@ -14,7 +14,9 @@ import {
   reset,
 } from '@brixel/brixel-components';
 import { setUserTypes, getUserPagesDeals } from '../../../actions/UserActions';
-import { setActiveSingleProperty } from '../../../actions/PropertyActions';
+import { getActiveSingleProperty } from '../../../actions/PropertyActions';
+import { spinnerOff } from '../../../actions/CommonActions';
+import { getFavoritesProperties } from '../../../actions/MarketActions';
 
 const ProtectedRoute = Loadable({
   loader: () => import('../../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
@@ -39,28 +41,47 @@ const PropertyBuyerDashboard = Loadable({
 const Dashboard = (props) => {
   // PROPS
   const {
-    handleGetUserPagesDeals,
-    handleSetActiveSingleProperty,
+    handleGetFavoritesProperties,
+    handleGetActiveSingleProperty,
+    handleSpinnerOff,
     handleSetUserTypes,
-    loggedInUser,
     match,
-    userBuyerProperties,
+    favoritesProperties,
   } = props;
 
   // GET URL PARAMS
   const propID = get(match, 'params.propID', null);
+  // STATE
+  const [itemsPerPage] = useState(20);
+  const [currentPage] = useState(0);
+  const [sortOrderType] = useState('updatedAt');
+  const [sortDirection] = useState('DESC');
+
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
-    handleGetUserPagesDeals(loggedInUser.user.id);
+    const data = {
+      resultsPerPage: itemsPerPage,
+      offset: currentPage,
+      order: sortOrderType,
+      direction: sortDirection,
+      setAsSingle: true,
+      multiLoader: true,
+    };
+    handleGetFavoritesProperties(data);
     handleSetUserTypes('buyer');
+    handleSpinnerOff();
   }, []);
 
   useEffect(() => {
-    if (propID && userBuyerProperties.length > 0) {
-      const selectProperty = userBuyerProperties.find((item) => item.id === propID);
-      if (selectProperty) handleSetActiveSingleProperty(selectProperty);
+    if (propID && favoritesProperties.total > 0) {
+      const data = {
+        fullVersion: false,
+        smallLoader: 'property',
+        id: propID,
+      };
+      handleGetActiveSingleProperty(data);
     }
-  }, [propID, userBuyerProperties]);
+  }, [propID, favoritesProperties]);
 
   return (
     <div className="container dashboardContainer" id="dashboard">
@@ -73,12 +94,12 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
-  handleGetUserPagesDeals: PropTypes.func.isRequired,
-  handleSetActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetFavoritesProperties: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
+  handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  userBuyerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  favoritesProperties: PropTypes.object.isRequired,
 };
 
 Dashboard.defaultProps = {
@@ -86,7 +107,7 @@ Dashboard.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  userBuyerProperties: get(state, 'user.userBuyerProperties', undefined),
+  favoritesProperties: get(state, 'market.favoritesProperties', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),
 });
 const mapDispatchToProps = (dispatch) => ({
@@ -99,8 +120,10 @@ const mapDispatchToProps = (dispatch) => ({
   resetForm(data) {
     (dispatch(reset('Property', data)));
   },
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetUserPagesDeals: bindActionCreators(getUserPagesDeals, dispatch),
-  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
 });
 

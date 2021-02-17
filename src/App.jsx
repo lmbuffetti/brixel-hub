@@ -428,12 +428,6 @@ const App = (props) => {
     );
   }
 
-  const bodyPadding = () => {
-    let classPadding = 'pt-3';
-    if ((history.location.pathname.includes('home') && !history.location.pathname.includes('homebase')) || history.location.pathname.includes('packageFlow')) classPadding = '';
-    return classPadding;
-  };
-
   return (
     <main
       className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b`}

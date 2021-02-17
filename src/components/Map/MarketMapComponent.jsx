@@ -9,7 +9,6 @@ import {
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelIcon } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { diff } from 'deep-object-diff';
 import { setWindowDimensions } from '../../actions/CommonActions';
@@ -20,14 +19,11 @@ export const MarketMapComponent = (props) => {
   // PROPS
   const {
     activeProperty,
-    disableZoom,
-    externalControls,
     google,
     properties,
     mapType,
     onActiveProperty,
     rad,
-    scrollZoom,
     showMap,
     subMinHeight,
     type,
@@ -39,7 +35,6 @@ export const MarketMapComponent = (props) => {
   const [showInfoWindow, setShowInfoWindow] = useState(false);
   const [modalInfo] = useState({});
   const mapRef = useRef(null);
-  const [mapTypeId, setMapTypeId] = useState('roadmap');
   const [optMap, setOptMap] = useState({});
   const [mapHeight, setMapHeight] = useState(0);
 
@@ -93,7 +88,7 @@ export const MarketMapComponent = (props) => {
   }, [properties, optMap.zoom, rad, activeProperty]);
 
   // FUNCTION FORM MARKERS MAP
-  const onSelProperty = (type, id) => {
+  const onSelProperty = (typology, id) => {
     onActiveProperty(id);
   };
 
@@ -169,33 +164,28 @@ export const MarketMapComponent = (props) => {
 
 MarketMapComponent.propTypes = {
   activeProperty: PropTypes.string,
-  disableZoom: PropTypes.bool,
-  externalControls: PropTypes.bool,
   google: PropTypes.object.isRequired,
-  properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   mapType: PropTypes.string,
   onActiveProperty: PropTypes.func.isRequired,
+  properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   rad: PropTypes.number,
-  scrollZoom: PropTypes.bool,
   showMap: PropTypes.bool,
   subMinHeight: PropTypes.string,
-  visible: PropTypes.bool,
   type: PropTypes.string,
+  visible: PropTypes.bool,
+  windowDimensions: PropTypes.object.isRequired,
   zoom: PropTypes.number,
 };
 
 MarketMapComponent.defaultProps = {
   activeProperty: null,
-  disableZoom: false,
-  externalControls: false,
   mapType: 'roadmap',
   rad: null,
-  scrollZoom: false,
   showMap: true,
   subMinHeight: '',
+  type: null,
   visible: true,
   zoom: 10,
-  type: null,
 };
 
 const mapStateToProps = (state) => ({

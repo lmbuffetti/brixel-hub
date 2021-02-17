@@ -9,7 +9,6 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import {
-  BrixelIcon,
   BrixelButtonText,
   BrixelButtonIcon,
   BrixelTabs,
