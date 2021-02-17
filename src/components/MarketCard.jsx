@@ -171,7 +171,7 @@ const MarketCard = (props) => {
     <>
       {
         (!removeSkeleton || !item) && (
-          <CardImageText type={get(skeleton, '[type]', '')} />
+          <CardImageText type={type} />
         )
       }
       <div
@@ -184,7 +184,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-1 h-fix-200 w-perc-100 w-fix-sm-200`}
+                  className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-1 h-fix-208 w-perc-100 w-fix-sm-208`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                   onClick={(e) => openCard(e)}
@@ -302,7 +302,7 @@ const MarketCard = (props) => {
                     </div>
                     <div className="ml-2 total-completed dis-fl-col">
                       <span className="fweight-500 txtDark100">Facts</span>
-                      <span className="notranslate dis-fl-row a-c fweight-500 txtDark400"><span className="notranslate">{get(item, 'inputSheet.totalComplete', 0)}%&nbsp;</span><span className="ellipsis"> completed</span></span>
+                      <span className="notranslate dis-fl-row a-c fweight-500 txtDark400"><span className="notranslate">{get(item, 'inputSheet.totalComplete', 0)}%&nbsp;</span><span className=""> completed</span></span>
                     </div>
                   </div>
                 </div>
@@ -313,7 +313,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-200 pos-r`}
+                  className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                 />

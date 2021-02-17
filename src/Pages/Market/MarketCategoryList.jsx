@@ -20,6 +20,7 @@ import SplashScreen from '../../components/SplashScreen';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType } from '../../actions/CommonActions';
 import { setEstimation, setActivePremarketProperty } from '../../actions/PropertyActions';
+import CardImageText from '../../components/Skeleton/CardImageText';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -92,9 +93,11 @@ const MarketList = (props) => {
     if (e) e.preventDefault();
     history.push(`${match.url}/${value}`);
   };
-
+  useEffect(() => {
+    console.log(ownerProperties.total);
+  });
   return (
-    <>
+    <div className="notranslate">
       {/* buyer welcome message  */}
       {
         !welcomeMessage && loggedInUser.buyer && (
@@ -237,31 +240,47 @@ const MarketList = (props) => {
           </SplashScreen>
         )
       }
-
+      {/* // fake loader */}
       {
-        (loggedInUser.seller || ownerProperties.total > 0) && (
-          <div className="mb-8 min-h-fix-488 min-h-fix-sm-272">
-            <CarouselWrapper
-              title="Your properties"
-              className="market-category-carousel type-own"
-              type="own"
-              items={ownerProperties.data}
-              total={ownerProperties.total}
-              onSetActiveProperty={(id) => setActiveProperty(id)}
-            />
+        ownerProperties.total === undefined && (
+          <div className="mb-8">
+            <h4 className="fweight-700 fsize-600 mb-3">Your properties</h4>
+            <CardImageText type="own" />
+          </div>
+        )
+      }
+      {
+        loggedInUser.seller && (
+          <div className="min-h-fix-552 min-h-fix-344-sm">
+            {
+              ownerProperties.total > 0 && (
+                <CarouselWrapper
+                  title="Your properties"
+                  className="market-category-carousel type-own mb-8"
+                  type="own"
+                  items={ownerProperties.data}
+                  total={ownerProperties.total}
+                  onSetActiveProperty={(id) => setActiveProperty(id)}
+                />
+              )
+            }
           </div>
         )
       }
 
-      <div className={favoritesProperties.total === 0 ? '' : 'mb-8'}>
-        <CarouselWrapper
-          title="Your favorites"
-          className="market-category-carousel"
-          type="favorite"
-          items={favoritesProperties.data}
-          total={favoritesProperties.total}
-        />
-      </div>
+      {
+        favoritesProperties.total > 0 && (
+          <div className={favoritesProperties.total === 0 ? '' : 'mb-8'}>
+            <CarouselWrapper
+              title="Your favorites"
+              className="market-category-carousel"
+              type="favorite"
+              items={favoritesProperties.data}
+              total={favoritesProperties.total}
+            />
+          </div>
+        )
+      }
 
       <div className="dis-fl-col mb-8">
         <div className="dis-fl-row jc-b flex-wrap">
@@ -327,13 +346,15 @@ const MarketList = (props) => {
                 />
               </div>
             ) : (
-              <BrixelButtonPrimary
-                rounded
-                leftIcon="edit"
-                className="fsize-300"
-                label="Add search profile"
-                onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
-              />
+              <div className="pb-2">
+                <BrixelButtonPrimary
+                  rounded
+                  leftIcon="edit"
+                  className="fsize-300"
+                  label="Add search profile"
+                  onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
+                />
+              </div>
             )
           }
         </div>
@@ -542,7 +563,7 @@ const MarketList = (props) => {
           )
         }
       </div>
-    </>
+    </div>
   );
 };
 
@@ -569,19 +590,19 @@ MarketList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  ownerProperties: get(state, 'market.ownerProperties', {}),
+  favoritesProperties: get(state, 'market.favoritesProperties', {}),
+  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
   activePreMarketProperty: get(state, 'property.activePreMarketProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   bestimate: get(state, 'property.estimation.result', {}),
-  favoritesProperties: get(state, 'market.favoritesProperties', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   newProperties: get(state, 'market.newProperties', {}),
   ownerEstimations: get(state, 'market.ownerEstimations', {}),
-  ownerProperties: get(state, 'market.ownerProperties', {}),
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),
   splashScreenType: get(state, 'common.splashScreenType', ''),
-  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

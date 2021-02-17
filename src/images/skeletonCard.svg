@@ -1,26 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="332px" height="316px" viewBox="0 0 332 316" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
-    <title>Artboard</title>
-    <desc>Created with Sketch.</desc>
-    <defs>
-        <linearGradient id="colorEffect">
-            <stop offset="0" stop-color="#F0F0F0">
-                <animate dur="2s" attributeName="offset" fill="freeze" from="0" to="1" repeatCount="indefinite" />
-            </stop>
-            <stop offset="0" stop-color="#fff">
-                <animate
-                        dur="2s" attributeName="offset" fill="freeze" from="0" to="1" repeatCount="indefinite"
-                />
-            </stop>
-
-        </linearGradient>
-    </defs>
-    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect id="Rectangle" fill="url(#colorEffect)" x="0" y="0" width="332" height="201" rx="8"></rect>
-        <rect id="Rectangle" fill="url(#colorEffect)" x="0" y="214" width="268" height="17"></rect>
-        <rect id="Rectangle" fill="url(#colorEffect)" x="0" y="244" width="268" height="12"></rect>
-        <rect id="Rectangle" fill="url(#colorEffect)" x="0" y="269" width="268" height="12"></rect>
-        <rect id="Rectangle" fill="url(#colorEffect)" x="0" y="298" width="268" height="12"></rect>
-    </g>
+<svg width="304" height="307" viewBox="0 0 304 307" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M291.84 0H12.16C5.44422 0 0 3.70646 0 8.27861V199.721C0 204.294 5.44422 208 12.16 208H291.84C298.556 208 304 204.294 304 199.721V8.27861C304 3.70646 298.556 0 291.84 0Z" fill="#D8D8D8"/>
+<path d="M301 217H0V237H301V217Z" fill="#D8D8D8"/>
+<path d="M301 248H0V259H301V248Z" fill="#D8D8D8"/>
+<path d="M301 267H0V278H301V267Z" fill="#D8D8D8"/>
+<path d="M301 296H0V307H301V296Z" fill="#D8D8D8"/>
 </svg>
