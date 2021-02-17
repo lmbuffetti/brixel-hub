@@ -19,7 +19,7 @@ export const defaultState = {
   brixelPoints: 0,
   favorites: [],
   loggedInUser: {},
-  userSearchProfiles: [],
+  userSearchProfiles: null,
   userProperties: [],
   userBuyerProperties: [],
 };
