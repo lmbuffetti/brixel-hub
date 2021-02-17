@@ -152,7 +152,7 @@ const Market = (props) => {
                           />
                         </div>
                         <div className="dis-fl-col pl-2 jc-b">
-                          <h6 className="fweight-500 txtDark700 ellipsis one">{get(activePreMarketProperty, 'title', '')}</h6>
+                          <h6 className="fweight-500 txtDark700 ellipsis one max-w-fix-304">{get(activePreMarketProperty, 'title', '')}</h6>
 
                           <span className="fsize-300 txtDark700">{get(activePreMarketProperty, 'location.zip', '')} {get(activePreMarketProperty, 'location.city', '')}</span>
 
