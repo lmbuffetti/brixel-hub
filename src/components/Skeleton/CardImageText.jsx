@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
@@ -12,7 +11,6 @@ import SkeletonMapCard from '../../images/skeletonMapCard.svg';
 const CardImageText = (props) => {
   const {
     type,
-    history,
     windowDimensions,
   } = props;
 
@@ -21,7 +19,7 @@ const CardImageText = (props) => {
       <img
         alt="Sckeleton Card Loading"
         id="cartello"
-        src={type === 'own' ? windowDimensions.width < 590 ? SkeletonCard : SkeletonHorizontalCard : history.location.pathname.includes('/home/') ? windowDimensions.width < 590 ? SkeletonCard : SkeletonMapCard : SkeletonCard}
+        src={type === 'own' ? windowDimensions.width < 590 ? SkeletonCard : SkeletonHorizontalCard : type === 'map-view' ? windowDimensions.width < 590 ? SkeletonCard : SkeletonMapCard : SkeletonCard}
         className={`notranslate ${type === 'map-view' ? '' : 'ml-1'} ${type === 'own' || type === 'map-view' ? windowDimensions.width < 590 ? 'w-perc-100 pr-2' : 'h-fix-208' : 'w-perc-100 pr-2'}`}
       />
       {
@@ -35,7 +33,6 @@ const CardImageText = (props) => {
 
 CardImageText.propTypes = {
   type: PropTypes.string.isRequired,
-  history: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
@@ -43,6 +40,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps),
 )(CardImageText);
