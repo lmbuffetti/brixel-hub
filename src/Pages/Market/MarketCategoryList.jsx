@@ -97,7 +97,7 @@ const MarketList = (props) => {
     console.log(ownerProperties.total);
   });
   return (
-    <div className="notranslate">
+    <>
       {/* buyer welcome message  */}
       {
         !welcomeMessage && loggedInUser.buyer && (
@@ -251,7 +251,7 @@ const MarketList = (props) => {
       }
       {
         loggedInUser.seller && (
-          <div className="min-h-fix-552 min-h-fix-344-sm">
+          <div className="min-h-fix-552 min-h-fix-sm-344">
             {
               ownerProperties.total > 0 && (
                 <CarouselWrapper
@@ -563,7 +563,7 @@ const MarketList = (props) => {
           )
         }
       </div>
-    </div>
+    </>
   );
 };
 
