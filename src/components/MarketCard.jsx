@@ -224,7 +224,7 @@ const MarketCard = (props) => {
                   className="mid dis-fl-row fsize-300 txtDark400 mb-2"
                   onClick={(e) => openCard(e)}
                 >
-                  <div className="dis-f a-c">
+                  <div className="dis-f a-c flex-wrap">
                     <span>
                       {get(item, 'properties.propertyType', '')}
                     </span>
@@ -360,7 +360,7 @@ const MarketCard = (props) => {
                   </span>
                 </div>
                 <div className="mid dis-fl-row a-c fsize-300 pt-1 txtDark400">
-                  <div className="dis-f a-c">
+                  <div className="dis-f a-c flex-wrap">
                     <span>
                       {get(item, 'properties.propertyType', '')}
                     </span>
