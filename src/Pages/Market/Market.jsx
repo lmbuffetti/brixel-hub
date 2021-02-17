@@ -162,7 +162,7 @@ const Market = (props) => {
                             </span>
                           </div>
                           <CoverPropertyImage
-                            className="cover brdRadius w-fix-80 h-fix-80 pos-r"
+                            className="cover pre-market brdRadius w-fix-80 h-fix-80 pos-r"
                             coverPhoto={get(activePreMarketProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
                             propertyType={get(activePreMarketProperty, 'properties.propertyType', undefined)}
                           />
