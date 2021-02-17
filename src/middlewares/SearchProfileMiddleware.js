@@ -25,10 +25,17 @@ const checkSearchProfile = (store) => (next) => (action) => {
               type: SPINNER_OFF,
             });
           } else {
+            store.dispatch({ type: SET_USER_SEARCH_PROFILES, payload: [] });
             store.dispatch({
               type: SPINNER_OFF,
             });
           }
+        })
+        .catch(() => {
+          store.dispatch({ type: SET_USER_SEARCH_PROFILES, payload: [] });
+          store.dispatch({
+            type: SPINNER_OFF,
+          });
         });
       break;
     }

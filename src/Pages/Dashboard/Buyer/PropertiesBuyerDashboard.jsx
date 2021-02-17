@@ -18,30 +18,30 @@ import {
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
-import { saveActiveSingleDeal } from '../../../actions/DealsActions';
 import { getUserSearchProfiles } from '../../../actions/SearchProfileActions';
 import searchImg from '../../../images/searchProfile/search.svg';
-import mapImg from '../../../images/searchProfile/map.svg';
+import { updateFavorite } from '../../../actions/UserActions';
 
 const { factsOptions } = FactsOptions;
 
 const PropertiesBuyerDashboard = (props) => {
   // PROPS
   const {
-    handleSaveActiveSingleDeal,
-    history,
-    loggedInUser,
-    userBuyerProperties,
+    favoritesProperties,
     handleGetUserSearchProfiles,
+    handleUpdateFavorites,
+    history,
+    isSmallLoading,
+    loggedInUser,
     userSearchProfiles,
   } = props;
   // STATE
   const [activeBuyerProperties, setSctiveBuyerProperties] = useState([]);
 
   useEffect(() => {
-    const properties = userBuyerProperties.filter((item) => item.archivedByBuyer !== true);
-    setSctiveBuyerProperties(properties);
-  }, [userBuyerProperties]);
+    // const properties = favoritesProperties.filter((item) => item.archivedByBuyer !== true);
+    if (favoritesProperties.data) setSctiveBuyerProperties(favoritesProperties.data);
+  }, [favoritesProperties]);
 
   useEffect(() => {
     handleGetUserSearchProfiles(loggedInUser.user.id);
@@ -86,16 +86,17 @@ const PropertiesBuyerDashboard = (props) => {
     );
   };
 
-  const archOnClick = (e, dealsID, isArchived) => {
-    if (e) e.preventDefault();
+  const removeFavorite = (property) => {
     const data = {
-      id: dealsID,
-      userID: loggedInUser.user.id,
+      act: 'remove',
+      id: property.id,
+      property,
       data: {
-        archivedByBuyer: !isArchived,
+        email: get(loggedInUser, 'email', ''),
+        language: loggedInUser.lang,
       },
     };
-    handleSaveActiveSingleDeal(data);
+    handleUpdateFavorites(data);
   };
 
   const extraFeaturesList = () => {
@@ -139,7 +140,7 @@ const PropertiesBuyerDashboard = (props) => {
             activeBuyerProperties.length > 0 ? (
               <>
                 <span>Properties you are interested in </span>
-                <span className="notranslate">({activeBuyerProperties.length})</span>
+                <span className="notranslate">({favoritesProperties.total})</span>
               </>
             ) : (
               <span>No favorite property found</span>
@@ -163,7 +164,7 @@ const PropertiesBuyerDashboard = (props) => {
                       }}
                     >
                       <CoverPropertyImage
-                        size={96}
+                        size="96"
                         coverPhoto={get(property, 'coverPhoto.galleryThumbnailPath', null)}
                         className="avatar w-fix-96 h-fix-96 pos-r brdRadius"
                       />
@@ -214,13 +215,14 @@ const PropertiesBuyerDashboard = (props) => {
 
                     <div className="row-section status p-1 dis-f jc-fe">
                       <BrixelButtonIcon
-                        theme="dark"
-                        icon="archive"
+                        theme="red"
+                        icon="favorite-fill"
                         className="zIndex1"
                         ghost
                         small
-                        onClick={(e) => archOnClick(e, property.dealID, property.archivedByBuyer)}
-                        label={property.archivedByBuyer ? 'Unarchive' : 'Archive'}
+                        onClick={() => removeFavorite(property)}
+                        label="Remove as favorite"
+                        isLoading={isSmallLoading === `favorite-${property.id}`}
                       />
                     </div>
                   </div>
@@ -325,29 +327,32 @@ const PropertiesBuyerDashboard = (props) => {
 };
 
 PropertiesBuyerDashboard.propTypes = {
-  handleSaveActiveSingleDeal: PropTypes.func.isRequired,
+  favoritesProperties: PropTypes.object.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
+  handleUpdateFavorites: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  userBuyerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 PropertiesBuyerDashboard.defaultProps = {
+  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
-  userBuyerProperties: get(state, 'user.userBuyerProperties', []),
-  windowDimensions: get(state, 'common.windowDimensions', {}),
+  favoritesProperties: get(state, 'market.favoritesProperties', []),
   formValue: get(state, 'brixelForm.Property.values', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleSaveActiveSingleDeal: bindActionCreators(saveActiveSingleDeal, dispatch),
+  handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
 });
 

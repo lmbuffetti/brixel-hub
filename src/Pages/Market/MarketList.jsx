@@ -255,9 +255,8 @@ const MarketList = (props) => {
         pathname: `/buyer/property/${item.id}`,
         state: { section: 'Market' },
       });
-    }
-    // TODO: Estimation opens overlay
-    else if (catName === 'preMarket') {
+    } else if (catName === 'preMarket') {
+      // TODO: Estimation opens overlay
       setSplashScreen('preMarket');
       setPreMarketProperty(item);
     } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');

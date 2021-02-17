@@ -97,9 +97,8 @@ const MarketCard = (props) => {
           pathname: `/buyer/property/${item.id}/page`,
           state: { section: 'Market' },
         });
-      }
+      } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
       // TODO: Estimation opens overlay
-      else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
     }
   };
 

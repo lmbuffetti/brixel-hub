@@ -326,7 +326,7 @@ export const ComponentMap = (props) => {
       {
         // IF multipleFieldSearch SHOW THE FIELDS STREET NAME AND STREET NUMBER
         multipleFieldSearch && (
-          <div className="fieldMapSearch mb-5">
+          <div className="fieldMapSearch mb-1">
             <div className="dis-f jc-b flex-wrap">
               <div className="w-perc-75 pos-r">
                 <BrixelInputText
@@ -349,7 +349,7 @@ export const ComponentMap = (props) => {
                 />
                 {
                   !selectedAddress && locList.length > 0 && !disabled && (
-                    <ul className="resultAutoComplete" ref={addressRef}>
+                    <ul className="resultAutoComplete notranslate" ref={addressRef}>
                       {
                         locList.map((loc, i) => (
                           <li

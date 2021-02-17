@@ -30,7 +30,7 @@ const CarouselWrapper = Loadable({
 const MarketList = (props) => {
   // PROPS
   const {
-    activePreMarketProperty,
+    // activePreMarketProperty,
     activeSingleCompany,
     bestimate,
     favoritesProperties,
@@ -93,11 +93,9 @@ const MarketList = (props) => {
     if (e) e.preventDefault();
     history.push(`${match.url}/${value}`);
   };
-  useEffect(() => {
-    console.log(ownerProperties.total);
-  });
+
   return (
-    <div className="notranslate">
+    <>
       {/* buyer welcome message  */}
       {
         !welcomeMessage && loggedInUser.buyer && (
@@ -240,18 +238,9 @@ const MarketList = (props) => {
           </SplashScreen>
         )
       }
-      {/* // fake loader */}
-      {
-        ownerProperties.total === undefined && (
-          <div className="mb-8">
-            <h4 className="fweight-700 fsize-600 mb-3">Your properties</h4>
-            <CardImageText type="own" />
-          </div>
-        )
-      }
       {
         loggedInUser.seller && (
-          <div className="min-h-fix-552 min-h-fix-344-sm">
+          <div className={` ${ownerProperties.total === 0 ? '' : 'min-h-fix-552 min-h-fix-sm-344'}`}>
             {
               ownerProperties.total > 0 && (
                 <CarouselWrapper
@@ -264,13 +253,24 @@ const MarketList = (props) => {
                 />
               )
             }
+            {
+              (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
+                <div className="mb-8">
+                  <h4 className="fweight-700 fsize-600 mb-3">Your properties</h4>
+                  <div className="ml-1-neg">
+                    <CardImageText type="own" />
+                  </div>
+                </div>
+              )
+            }
+
           </div>
         )
       }
 
       {
         favoritesProperties.total > 0 && (
-          <div className={favoritesProperties.total === 0 ? '' : 'mb-8'}>
+          <div className={`min-h-fix-448 ${favoritesProperties.total === 0 ? '' : 'mb-8'}`}>
             <CarouselWrapper
               title="Your favorites"
               className="market-category-carousel"
@@ -281,19 +281,29 @@ const MarketList = (props) => {
           </div>
         )
       }
+      {
+        (favoritesProperties.total !== 0 && favoritesProperties.total === undefined) && (
+          <div className="min-h-fix-448">
+            <h4 className="fweight-700 fsize-600 mb-3">Your favorite</h4>
+            <div className="ml-1-neg max-w-fix-304">
+              <CardImageText />
+            </div>
+          </div>
+        )
+      }
 
       <div className="dis-fl-col mb-8">
         <div className="dis-fl-row jc-b flex-wrap">
           <div className="dis-fl-col mb-3">
             <h4 className="fweight-700">Discover our market</h4>
             {
-              has(userSearchProfiles[0], 'id') && (
+              has(userSearchProfiles, '[0].id') && (
                 <span className="fsize-300"><span>There are </span> <span className="fweight-600">{get(newProperties, 'total', '')}</span><span className="fweight-600"> properties</span> <span>that match your criteria.</span></span>
               )
             }
           </div>
           {
-            has(userSearchProfiles[0], 'id') ? (
+            has(userSearchProfiles, '[0].id') ? (
               <div
                 className="searchProfileArea brdRadius py-1 px-sm-2 pr-5 pl-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r as-b mb-3 cur-poi"
                 onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
@@ -374,19 +384,19 @@ const MarketList = (props) => {
                     label: 'All',
                     value: 'all',
                   },
-                  {
+                  favoritesProperties.total > 0 && {
                     label: 'Your favorites',
                     value: 'favorites',
                   },
-                  {
+                  newProperties.total > 0 && {
                     label: 'New in your radar',
                     value: 'radar',
                   },
-                  {
+                  preMarketProperties.total > 0 && {
                     label: 'Pre-market properties',
                     value: 'preMarket',
                   },
-                  {
+                  premiumProperties.total > 0 && {
                     label: 'Premium properties',
                     value: 'premium',
                   }]}
@@ -563,12 +573,12 @@ const MarketList = (props) => {
           )
         }
       </div>
-    </div>
+    </>
   );
 };
 
 MarketList.propTypes = {
-  activePreMarketProperty: PropTypes.object.isRequired,
+  // activePreMarketProperty: PropTypes.object.isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.object.isRequired,

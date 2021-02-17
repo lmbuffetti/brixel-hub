@@ -6,8 +6,9 @@ import set from 'lodash/set';
 import compact from 'lodash/compact';
 import pullAt from 'lodash/pullAt';
 import {
-  BrixelButtonIcon, FormatValue,
-  BrixelIcon, Helpers, // BrixelDropdownMini,
+  BrixelButtonIcon,
+  FormatValue,
+  Helpers,
 } from '@brixel/brixel-components';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
