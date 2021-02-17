@@ -97,17 +97,8 @@ const Market = (props) => {
 
       handleGetNewProperties(data);
       handleGetPreMarketProperties(data);
+      handleGetPremiumProperties(data);
       handleSpinnerOff();
-      const payload = {
-        resultsPerPage: 10,
-        offset: 0,
-        order: 'updatedAt',
-        direction: 'DESC',
-        setAsSingle: true,
-        multiLoader: true,
-        country: getProfileCountry(),
-      };
-      handleGetPremiumProperties(payload);
     }
   }, [userSearchProfiles]);
 
