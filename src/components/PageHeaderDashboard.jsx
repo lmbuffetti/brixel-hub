@@ -68,6 +68,7 @@ function PageHeaderDashboard(props) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
+  const [supportMenu, setSupportMenu] = useState(false);
   const [langMenu, setLangMenu] = useState([]);
   const [langSel, setSelLang] = useState(lang);
   const [section, setSection] = useState('Sell');
@@ -266,7 +267,6 @@ function PageHeaderDashboard(props) {
 
   // FUNCTION TO MAANGE THE TAB CLICK
   const onTabClick = (val, act = 'url') => {
-    setShowMobileMenu(false);
     if (act === 'state' || val === 'support' || val === '/support') {
       setActiveMenu(val.replace('/', ''));
     } else {
@@ -524,7 +524,7 @@ function PageHeaderDashboard(props) {
                     />
                     {
                       showMobileMenu && (
-                        <div className="mobile-menu bgWhite w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-2 pb-2 zIndex5" style={{ height: windowDimensions.height }}>
+                        <div className={`mobile-menu scaleUp bgWhite w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-2 pb-2 ${supportMenu ? 'zIndex1' : 'zIndex5'}`} style={{ height: windowDimensions.height }}>
                           <div className="dis-f jc-b a-c w-perc-100">
                             <img className="pos-r w-fix-80" src={logo} alt="Brixel Logo" id="logo" />
                             <BrixelButtonIcon
@@ -578,7 +578,10 @@ function PageHeaderDashboard(props) {
                             <div className="mini-menu dis-fl-col jc-e ta-r">
                               <span
                                 className="px-2 cur-poi link txtDark700 fweight-500 fsize-300"
-                                onClick={() => onTabClick('support')}
+                                onClick={() => {
+                                  setSupportMenu(true);
+                                  onTabClick('support');
+                                }}
                               >
                                 Support
                               </span>
