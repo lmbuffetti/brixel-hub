@@ -77,8 +77,8 @@ const MarketList = (props) => {
   }, [windowDimensions]);
 
   useEffect(() => {
-    const profile = userSearchProfiles[0];
-    if (loggedInUser.id && get(profile, 'id', '')) {
+    if (loggedInUser.id && userSearchProfiles) {
+      const profileID = get(userSearchProfiles, '[0].id', null);
       const data = {
         resultsPerPage: itemsPerPage,
         offset: currentPage,
@@ -93,7 +93,7 @@ const MarketList = (props) => {
           break;
         }
         case 'all': {
-          set(data, 'searchProfileId', userSearchProfiles[0].id);
+          if (profileID) set(data, 'searchProfileId', profileID);
           handleGetAllProperties(data);
           break;
         }
@@ -106,7 +106,7 @@ const MarketList = (props) => {
           break;
         }
         case 'radar': {
-          set(data, 'searchProfileId', userSearchProfiles[0].id);
+          set(data, 'searchProfileId', profileID);
           handleGetNewProperties(data);
           break;
         }
@@ -116,7 +116,7 @@ const MarketList = (props) => {
           break;
         }
         case 'preMarket': {
-          set(data, 'searchProfileId', userSearchProfiles[0].id);
+          set(data, 'searchProfileId', profileID);
           handleGetPreMarketProperties(data);
           break;
         }

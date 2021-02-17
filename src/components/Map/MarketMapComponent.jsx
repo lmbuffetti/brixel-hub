@@ -79,7 +79,7 @@ export const MarketMapComponent = (props) => {
             lat: filtProp.location.latitude,
             lng: filtProp.location.longitude,
           };
-          if (!optMap.getBounds().contains(new google.maps.LatLng(filtProp.location.latitude, filtProp.location.longitude))) {
+          if (optMap.getBounds() && !optMap.getBounds().contains(new google.maps.LatLng(filtProp.location.latitude, filtProp.location.longitude))) {
             optMap.panTo(center);
           }
         }

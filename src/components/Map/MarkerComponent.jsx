@@ -28,7 +28,7 @@ const MarkerComponent = (props) => {
     setPreMarketProperty,
   } = props;
   // STATE
-  const [, setMarkerList] = useState([]);
+  const [markerList, setMarkerList] = useState([]);
   const [infowindow, setInfowindow] = useState({});
   const [selMarker, setSelMarker] = useState(null);
 
@@ -128,7 +128,11 @@ const MarkerComponent = (props) => {
         let price = get(item, 'price.total', 0);
         if (price > 0) price = cutValue(get(item, 'price.total', 0));
         else price = 'On request';
-        const marker = new MarkerWithLabel({
+        const paras = document.getElementsByClassName('labelMarker');
+        while (paras[0]) {
+          paras[0].parentNode.removeChild(paras[0]);
+        }
+        markers[item.id] = new MarkerWithLabel({
           page: item,
           id: item.id,
           map: optMap,
@@ -137,7 +141,7 @@ const MarkerComponent = (props) => {
           },
           labelContent: `<p>${price.toString()}</p>`,
           // the CSS class for the label
-          labelClass: activeProperty === item.id || selMarker === item.id ? 'labelMarker active' : 'labelMarker',
+          labelClass: `${activeProperty === item.id || selMarker === item.id ? 'labelMarker active' : 'labelMarker'} ${item.id}`,
           labelInBackground: true,
           labelAnchor: new google.maps.Point(-75, -45),
           position: {
@@ -146,7 +150,7 @@ const MarkerComponent = (props) => {
           },
         });
         const window = infowindow;
-        marker.addListener('click', () => {
+        markers[item.id].addListener('click', () => {
           if (selMarker !== item.id) setSelMarker(item.id);
           Object.keys(window).forEach((key) => {
             infowindow[key].close();
@@ -172,11 +176,10 @@ const MarkerComponent = (props) => {
           setInfowindow(window);
           onClick(item.id);
         });
-        markers.push(marker);
       });
       setMarkerList(markers);
     }
-  }, [optMap, data, activeProperty, selMarker]);
+  }, [optMap, data, activeProperty]);
 
   return (
     <></>
