@@ -30,7 +30,7 @@ const CarouselWrapper = Loadable({
 const MarketList = (props) => {
   // PROPS
   const {
-    activePreMarketProperty,
+    // activePreMarketProperty,
     activeSingleCompany,
     bestimate,
     favoritesProperties,
@@ -568,7 +568,7 @@ const MarketList = (props) => {
 };
 
 MarketList.propTypes = {
-  activePreMarketProperty: PropTypes.object.isRequired,
+  // activePreMarketProperty: PropTypes.object.isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.object.isRequired,

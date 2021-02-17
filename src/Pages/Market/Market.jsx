@@ -7,7 +7,10 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary, destroy, FormatValue, BrixelButtonSecondary,
+  BrixelButtonIcon,
+  destroy,
+  FormatValue,
+  BrixelButtonSecondary,
 } from '@brixel/brixel-components';
 import {
   getOwnedProperties, getFavoritesProperties, getNewProperties,

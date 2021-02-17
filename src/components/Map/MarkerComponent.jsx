@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
 import MarkerWithLabel from '@googlemaps/markerwithlabel';
 import { FormatValue, Helpers } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import markerImg from '../../images/location/icon_location.svg';
-import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
 import { cutValue } from '../../utils/helpers';
-import MarketCard from '../MarketCard';
 import CoverPropertyImage from '../CoverPropertyImage';
 import {
-  getEstimation,
   setActivePremarketProperty,
-  setActiveSingleProperty,
-  setEstimation,
 } from '../../actions/PropertyActions';
 import { setSplashType } from '../../actions/CommonActions';
 
@@ -35,26 +28,23 @@ const MarkerComponent = (props) => {
     setPreMarketProperty,
   } = props;
   // STATE
-  const [markerList, setMarkerList] = useState([]);
-  const [firstLoad, setFirstLoad] = useState(true);
+  const [, setMarkerList] = useState([]);
   const [infowindow, setInfowindow] = useState({});
   const [selMarker, setSelMarker] = useState(null);
 
-  const InfoWindowContent = (page, history) => {
-    const openCard = (e) => {
+  const InfoWindowContent = (page, historyLocal) => {
+    const openCard = () => {
       if (type === 'own') {
-        history.push({
+        historyLocal.push({
           pathname: `/${page.id}/rewards`,
           state: { section: 'Market' },
         });
       } else if (type === 'favorites') {
-        history.push({
+        historyLocal.push({
           pathname: `/buyer/property/${page.id}/page`,
           state: { section: 'Market' },
         });
-      }
-      // TODO: Estimation opens overlay
-      else if (type === 'preMarket') {
+      } else if (type === 'preMarket') {
         setSplashScreen('preMarket');
         setPreMarketProperty(page);
       } else window.open(`${baseByData.pageUrl}${page.stub}`, '_blank');
@@ -198,7 +188,7 @@ MarkerComponent.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   google: PropTypes.object.isRequired,
   optMap: PropTypes.object.isRequired,
-  // item: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   // icon: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   setPreMarketProperty: PropTypes.func.isRequired,

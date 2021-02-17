@@ -279,14 +279,6 @@ const checkUser = (store) => (next) => (action) => {
         id, data, act, property,
       } = action.payload;
       store.dispatch({ type: SPINNER_SMALL_ON, payload: `favorite-${id}` });
-      const favParams = {
-        resultsPerPage: 10,
-        offset: 0,
-        order: 'updatedAt',
-        direction: 'DESC',
-        setAsSingle: true,
-        multiLoader: true,
-      };
       const favoritesData = cloneDeep(get(store.getState(), 'market.favoritesProperties', {}));
       const favoritesList = favoritesData.data;
       if (act === 'add') {
