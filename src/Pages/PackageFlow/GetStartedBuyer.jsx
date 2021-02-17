@@ -319,7 +319,8 @@ const GetStartedBuyer = (props) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
-    history.push('/home');
+    // history.push('/home');
+    history.push('/buyer/propertyLists');
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
