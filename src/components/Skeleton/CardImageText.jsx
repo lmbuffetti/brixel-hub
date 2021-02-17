@@ -1,12 +1,11 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SkeletonCard from '../../images/skeletonCard.svg';
-import SkeletonHorizontalCard from '../../images/SkeletonHorizontalCard.svg';
+import SkeletonOwnCard from '../../images/skeletonOwnCard.svg';
 import SkeletonMapCard from '../../images/skeletonMapCard.svg';
 
 const CardImageText = (props) => {
