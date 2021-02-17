@@ -374,19 +374,19 @@ const MarketList = (props) => {
                     label: 'All',
                     value: 'all',
                   },
-                  {
+                  favoritesProperties.total > 0 && {
                     label: 'Your favorites',
                     value: 'favorites',
                   },
-                  {
+                  newProperties.total > 0 && {
                     label: 'New in your radar',
                     value: 'radar',
                   },
-                  {
+                  preMarketProperties.total > 0 && {
                     label: 'Pre-market properties',
                     value: 'preMarket',
                   },
-                  {
+                  premiumProperties.total > 0 && {
                     label: 'Premium properties',
                     value: 'premium',
                   }]}
