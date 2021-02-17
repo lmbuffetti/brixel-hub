@@ -394,7 +394,7 @@ const MarketCard = (props) => {
                 <div className="bottom a-c txtDark700 pt-1">
 
                   {
-                    get(item, 'price.total', 0) !== 0 ? (
+                    get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
                       <>
                         <span className="fsize-300 fweight-600 notranslate">{get(item, 'price.currency', '')} &nbsp; </span>
                         <span className="fsize-300 fweight-600 notranslate">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
