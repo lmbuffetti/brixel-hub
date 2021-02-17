@@ -56,15 +56,6 @@ const Market = (props) => {
 
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
 
-  const getProfileCountry = () => {
-    let country = '';
-    get(userSearchProfiles[0], 'location', []).forEach((loc, i) => {
-      if (i === userSearchProfiles[0].location.length - 1) country += `${loc.countryCode}`;
-      else country += `${loc.countryCode},`;
-    });
-    return country;
-  };
-
   useEffect(() => {
     if (loggedInUser.id) {
       const data = {
@@ -84,8 +75,7 @@ const Market = (props) => {
   }, [loggedInUser]);
 
   useEffect(() => {
-    const profile = userSearchProfiles[0];
-    if (get(profile, 'id', '')) {
+    if (userSearchProfiles) {
       const data = {
         resultsPerPage: 10,
         offset: 0,
@@ -93,23 +83,14 @@ const Market = (props) => {
         direction: 'DESC',
         setAsSingle: true,
         multiLoader: true,
-        searchProfileId: userSearchProfiles[0].id,
+        searchProfileId: get(userSearchProfiles[0], 'id', null),
       };
 
       handleGetNewProperties(data);
       handleGetPreMarketProperties(data);
+      handleGetPremiumProperties(data);
       handleSpinnerOff();
     }
-    const payload = {
-      resultsPerPage: 10,
-      offset: 0,
-      order: 'updatedAt',
-      direction: 'DESC',
-      setAsSingle: true,
-      multiLoader: true,
-      country: getProfileCountry(),
-    };
-    handleGetPremiumProperties(payload);
   }, [userSearchProfiles]);
 
   const checkFavorite = () => {
@@ -255,11 +236,12 @@ Market.propTypes = {
   setPreMarketProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
 
 Market.defaultProps = {
   isSmallLoading: null,
+  userSearchProfiles: null,
 };
 
 const mapStateToProps = (state) => ({

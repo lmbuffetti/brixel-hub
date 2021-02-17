@@ -103,6 +103,7 @@ const Dashboard = (props) => {
     handleGetGameHistory,
     handleGetImageType,
     handleSaveActiveSingleProperty,
+    handleGetPropertyListings,
     handleGetActiveSinglePropertyEstimation,
     handleSaveData,
     handleSavePropertyVisitSchedule,
@@ -152,6 +153,19 @@ const Dashboard = (props) => {
     }
   }, [loggedInUser]);
 
+  // FUNCTION TO LOAD DEFAULT USER PROPERTY IF NO ID
+  const loadDefaultProperty = () => {
+    if (!get(formValue, 'id', null)) {
+      const data = {
+        limit: 1,
+        offset: `0/?owner=${loggedInUser.user.id}`,
+        setAsSingle: true,
+        multiLoader: true,
+      };
+      handleGetPropertyListings(data);
+    }
+  };
+
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
     if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
@@ -159,7 +173,8 @@ const Dashboard = (props) => {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
         handleGetActiveSinglePropertyEstimation(propID);
       } else if (!propID) {
-        history.push('/home');
+        // history.push('/home');
+        loadDefaultProperty();
       } else {
         handleSpinnerOff();
       }
@@ -433,6 +448,7 @@ Dashboard.propTypes = {
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSaveData: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
+  handleGetPropertyListings: PropTypes.func.isRequired,
   handleSetScreenNotification: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,

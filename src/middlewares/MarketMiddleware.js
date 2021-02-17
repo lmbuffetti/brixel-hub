@@ -11,7 +11,7 @@ import {
   GET_OWNED_ESTIMATIONS,
   SET_OWNED_ESTIMATIONS,
   GET_LAST_VIEWED_PROPERTIES,
-  SET_LAST_VIEWED_PROPERTIES,
+  // SET_LAST_VIEWED_PROPERTIES,
   GET_PREMARKET_PROPERTIES,
   SET_PREMARKET_PROPERTIES,
   GET_PREMIUM_PROPERTIES,
@@ -102,7 +102,8 @@ const checkLead = (store) => (next) => (action) => {
           ...loadSkeleton,
         },
       });
-      const queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
+      let queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
+      if (action.payload.searchProfileId) queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getAllProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
@@ -127,7 +128,8 @@ const checkLead = (store) => (next) => (action) => {
           ...loadSkeleton,
         },
       });
-      const queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
+      let queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
+      if (action.payload.searchProfileId) queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getNewInRadar(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
@@ -169,8 +171,9 @@ const checkLead = (store) => (next) => (action) => {
     }
     case GET_LAST_VIEWED_PROPERTIES: {
       next(action);
-      let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
+      const loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
       loadSkeleton.favorite = 'CardImageTextVertical';
+      /*
       store.dispatch({
         type: SKELETON_ON,
         payload: {
@@ -189,6 +192,7 @@ const checkLead = (store) => (next) => (action) => {
         .catch(() => {
           store.dispatch({ type: SKELETON_OFF });
         });
+       */
       break;
     }
     case GET_PREMARKET_PROPERTIES: {
@@ -201,7 +205,8 @@ const checkLead = (store) => (next) => (action) => {
           ...loadSkeleton,
         },
       });
-      const queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
+      let queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
+      if (action.payload.searchProfileId) queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getPreMarketProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
@@ -226,7 +231,8 @@ const checkLead = (store) => (next) => (action) => {
           ...loadSkeleton,
         },
       });
-      const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}&country=${action.payload.country}`;
+      let queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
+      if (action.payload.searchProfileId) queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getPremiumProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {

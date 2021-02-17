@@ -93,6 +93,7 @@ const MarketList = (props) => {
     if (e) e.preventDefault();
     history.push(`${match.url}/${value}`);
   };
+
   return (
     <>
       {/* buyer welcome message  */}
@@ -296,13 +297,13 @@ const MarketList = (props) => {
           <div className="dis-fl-col mb-3">
             <h4 className="fweight-700">Discover our market</h4>
             {
-              has(userSearchProfiles[0], 'id') && (
+              has(userSearchProfiles, '[0].id') && (
                 <span className="fsize-300"><span>There are </span> <span className="fweight-600">{get(newProperties, 'total', '')}</span><span className="fweight-600"> properties</span> <span>that match your criteria.</span></span>
               )
             }
           </div>
           {
-            has(userSearchProfiles[0], 'id') ? (
+            has(userSearchProfiles, '[0].id') ? (
               <div
                 className="searchProfileArea brdRadius py-1 px-sm-2 pr-5 pl-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r as-b mb-3 cur-poi"
                 onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
