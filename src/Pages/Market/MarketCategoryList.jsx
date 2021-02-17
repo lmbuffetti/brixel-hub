@@ -240,30 +240,33 @@ const MarketList = (props) => {
           </SplashScreen>
         )
       }
-      <div className="min-h-fix-376">
-
-        {
-          (loggedInUser.seller || ownerProperties.total > 0) && (
-            <CarouselWrapper
-              title="Your properties"
-              className="market-category-carousel type-own mb-8"
-              type="own"
-              items={ownerProperties.data}
-              total={ownerProperties.total}
-              onSetActiveProperty={(id) => setActiveProperty(id)}
-            />
-          )
-        }
-        {/* // fake loader */}
-        {
-          loggedInUser.seller && ownerProperties.total === undefined && (
-            <div className="mb-8">
-              <h4 className="fweight-700 fsize-600 mb-3">Your properties (test)</h4>
-              <CardImageText type="own" />
-            </div>
-          )
-        }
-      </div>
+      {
+        loggedInUser.seller && (
+          <div className="min-h-fix-552 min-h-fix-344-sm">
+            {
+              ownerProperties.total > 0 && (
+                <CarouselWrapper
+                  title="Your properties"
+                  className="market-category-carousel type-own mb-8"
+                  type="own"
+                  items={ownerProperties.data}
+                  total={ownerProperties.total}
+                  onSetActiveProperty={(id) => setActiveProperty(id)}
+                />
+              )
+            }
+            {/* // fake loader */}
+            {
+              loggedInUser.seller && ownerProperties.total === undefined && (
+                <div className="mb-8">
+                  <h4 className="fweight-700 fsize-600 mb-3">Your properties</h4>
+                  <CardImageText type="own" />
+                </div>
+              )
+            }
+          </div>
+        )
+      }
 
       {
         favoritesProperties.total > 0 && (
