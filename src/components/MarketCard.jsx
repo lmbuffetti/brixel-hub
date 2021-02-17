@@ -295,7 +295,7 @@ const MarketCard = (props) => {
                     </div>
                     <div className="ml-2 total-completed dis-fl-col">
                       <span className="fweight-500 txtDark100">Facts</span>
-                      <span className="notranslate dis-fl-row a-c fweight-500 txtDark400"><span className="notranslate">{get(item, 'inputSheet.totalComplete', 0)}%&nbsp;</span><span className="ellipsis"> completed</span></span>
+                      <span className="notranslate dis-fl-row a-c fweight-500 txtDark400"><span className="notranslate">{get(item, 'inputSheet.totalComplete', 0)}%&nbsp;</span><span className=""> completed</span></span>
                     </div>
                   </div>
                 </div>

@@ -93,7 +93,9 @@ const MarketList = (props) => {
     if (e) e.preventDefault();
     history.push(`${match.url}/${value}`);
   };
-
+  useEffect(() => {
+    console.log(ownerProperties.total);
+  });
   return (
     <div className="notranslate">
       {/* buyer welcome message  */}
@@ -238,7 +240,7 @@ const MarketList = (props) => {
           </SplashScreen>
         )
       }
-      <div className="min-h-fix-272 min-h-fix-sm-336">
+      <div className="min-h-fix-376">
 
         {
           (loggedInUser.seller || ownerProperties.total > 0) && (
@@ -253,14 +255,14 @@ const MarketList = (props) => {
           )
         }
         {/* // fake loader */}
-        {/* {
+        {
           loggedInUser.seller && ownerProperties.total === undefined && (
             <div className="mb-8">
-              <h4 className="fweight-700 fsize-600 mb-3">Your properties</h4>
+              <h4 className="fweight-700 fsize-600 mb-3">Your properties (test)</h4>
               <CardImageText type="own" />
             </div>
           )
-        } */}
+        }
       </div>
 
       {
@@ -341,13 +343,15 @@ const MarketList = (props) => {
                 />
               </div>
             ) : (
-              <BrixelButtonPrimary
-                rounded
-                leftIcon="edit"
-                className="fsize-300"
-                label="Add search profile"
-                onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
-              />
+              <div className="pb-2">
+                <BrixelButtonPrimary
+                  rounded
+                  leftIcon="edit"
+                  className="fsize-300"
+                  label="Add search profile"
+                  onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
+                />
+              </div>
             )
           }
         </div>
@@ -583,19 +587,19 @@ MarketList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  ownerProperties: get(state, 'market.ownerProperties', {}),
+  favoritesProperties: get(state, 'market.favoritesProperties', {}),
+  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
   activePreMarketProperty: get(state, 'property.activePreMarketProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   bestimate: get(state, 'property.estimation.result', {}),
-  favoritesProperties: get(state, 'market.favoritesProperties', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   newProperties: get(state, 'market.newProperties', {}),
   ownerEstimations: get(state, 'market.ownerEstimations', {}),
-  ownerProperties: get(state, 'market.ownerProperties', {}),
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),
   splashScreenType: get(state, 'common.splashScreenType', ''),
-  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
