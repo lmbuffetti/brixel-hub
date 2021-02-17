@@ -349,7 +349,7 @@ export const ComponentMap = (props) => {
                 />
                 {
                   !selectedAddress && locList.length > 0 && !disabled && (
-                    <ul className="resultAutoComplete" ref={addressRef}>
+                    <ul className="resultAutoComplete notranslate" ref={addressRef}>
                       {
                         locList.map((loc, i) => (
                           <li

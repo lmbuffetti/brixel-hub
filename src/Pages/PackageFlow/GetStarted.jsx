@@ -135,9 +135,11 @@ const GetStarted = (props) => {
       ];
       if (sellerType.includes(get(dataForm, 'register.ownerType', ''))) {
         dataUser.seller = true;
+        dataUser.buyer = false;
       }
       if (buyerType.includes(get(dataForm, 'register.ownerType', ''))) {
         dataUser.buyer = true;
+        dataUser.seller = false;
       }
       dataProperty.packageFlowProcess = packageFlowProcess;
       await handleSaveActiveSingleUser(dataUser);
@@ -209,6 +211,7 @@ const GetStarted = (props) => {
           createUser: true,
           company,
           ignoreEmail: false,
+          seller: true,
           redirectTo: {
             pathname: '/packageFlow/getStarted/success',
             state: { hideClose: true },

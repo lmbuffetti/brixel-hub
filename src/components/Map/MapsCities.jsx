@@ -315,7 +315,7 @@ export const MapsCities = (props) => {
                 {
                   !selectedAddress && locList.length > 0 && !disabled && (
                     <ul
-                      className="resultAutoComplete"
+                      className="resultAutoComplete notranslate"
                       ref={addressRef}
                       // style={{ maxHeight: `calc(100vh - ${resultBoxHeight}px)` }}
                     >
