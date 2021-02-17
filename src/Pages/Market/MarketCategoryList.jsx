@@ -103,7 +103,7 @@ const MarketList = (props) => {
             className="result-popup"
             closeOutside={false}
           >
-            <div className="dis-f jc-fe mb-2 mb-sm-1 my-1">
+            <div className="dis-f jc-fe mb-2">
               <BrixelButtonIcon
                 ghost
                 theme="dark"
@@ -158,7 +158,7 @@ const MarketList = (props) => {
             className="result-popup"
             closeOutside={false}
           >
-            <div className="dis-f jc-fe mb-2 mb-sm-1 my-1">
+            <div className="dis-f jc-fe mb-2">
               <BrixelButtonIcon
                 ghost
                 theme="dark"
@@ -202,7 +202,7 @@ const MarketList = (props) => {
             className="result-popup"
             closeOutside={false}
           >
-            <div className="dis-f jc-fe mb-2 mb-sm-1 my-1">
+            <div className="dis-f jc-fe mb-2">
               <BrixelButtonIcon
                 ghost
                 theme="dark"
