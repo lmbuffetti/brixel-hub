@@ -76,6 +76,8 @@
   }
 
   &.active {
+    z-index: 1000 !important;
+    opacity: 1 !important;
     p {
       background: map_get($primaryColor, 200);
       &:after {
