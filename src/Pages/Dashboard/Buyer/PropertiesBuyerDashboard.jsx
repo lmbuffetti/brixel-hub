@@ -101,7 +101,7 @@ const PropertiesBuyerDashboard = (props) => {
 
   const extraFeaturesList = () => {
     const extraFeatures = [];
-    const defaultExtraFeatures = get(userSearchProfiles[0], 'characteristics.extraFeatures', {});
+    const defaultExtraFeatures = get(userSearchProfiles, '[0].characteristics.extraFeatures', {});
     Object.keys(defaultExtraFeatures).forEach((key) => {
       if (key !== 'none' && defaultExtraFeatures[key]) {
         const objExtra = factsOptions.extraFeatureShort.find((val) => val.value === key);
@@ -237,13 +237,13 @@ const PropertiesBuyerDashboard = (props) => {
           <div className="search-profile w-perc-100 mb-4 mb-sm-0 max-w-fix-sm-368 m-a">
             <h6>Your search profile</h6>
             {
-              has(userSearchProfiles[0], 'id') ? (
+              has(userSearchProfiles, '[0].id') ? (
                 <div className="bgWhite brdRadius shadow-3dp p-2 mt-3">
                   <div className="dis-f jc-b">
                     <div>
                       <h6 className="txtDark500 body2">Type</h6>
                       {
-                        get(userSearchProfiles[0], 'characteristics.propertyType', []).map((item, i) => (
+                        get(userSearchProfiles, '[0].characteristics.propertyType', []).map((item, i) => (
                           <p className="txtDark700" key={i.toString()}>{item}</p>
                         ))
                       }
@@ -258,7 +258,7 @@ const PropertiesBuyerDashboard = (props) => {
                   </div>
                   <h6 className="txtDark500 body2 mt-3">Location</h6>
                   {
-                    get(userSearchProfiles[0], 'location', []).map((item, i) => (
+                    get(userSearchProfiles, '[0].location', []).map((item, i) => (
                       <p className="txtDark700" key={i.toString()}>{item.address}</p>
                     ))
                   }
