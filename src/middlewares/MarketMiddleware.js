@@ -11,7 +11,7 @@ import {
   GET_OWNED_ESTIMATIONS,
   SET_OWNED_ESTIMATIONS,
   GET_LAST_VIEWED_PROPERTIES,
-  SET_LAST_VIEWED_PROPERTIES,
+  // SET_LAST_VIEWED_PROPERTIES,
   GET_PREMARKET_PROPERTIES,
   SET_PREMARKET_PROPERTIES,
   GET_PREMIUM_PROPERTIES,
@@ -171,8 +171,9 @@ const checkLead = (store) => (next) => (action) => {
     }
     case GET_LAST_VIEWED_PROPERTIES: {
       next(action);
-      let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
+      const loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
       loadSkeleton.favorite = 'CardImageTextVertical';
+      /*
       store.dispatch({
         type: SKELETON_ON,
         payload: {
@@ -191,6 +192,7 @@ const checkLead = (store) => (next) => (action) => {
         .catch(() => {
           store.dispatch({ type: SKELETON_OFF });
         });
+       */
       break;
     }
     case GET_PREMARKET_PROPERTIES: {

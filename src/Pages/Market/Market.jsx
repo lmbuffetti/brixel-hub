@@ -56,15 +56,6 @@ const Market = (props) => {
 
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
 
-  const getProfileCountry = () => {
-    let country = '';
-    get(userSearchProfiles[0], 'location', []).forEach((loc, i) => {
-      if (i === userSearchProfiles[0].location.length - 1) country += `${loc.countryCode}`;
-      else country += `${loc.countryCode},`;
-    });
-    return country;
-  };
-
   useEffect(() => {
     if (loggedInUser.id) {
       const data = {
