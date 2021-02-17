@@ -119,11 +119,39 @@ const CarouselWrapper = (props) => {
   const showAllbutton = () => {
     let applyBtn;
     if (type === 'own') {
-      if (windowDimensions.width > 1024) {
-        if (items.length <= 2) {
+      if (windowDimensions.width > 1200) {
+        if (items.length > 2) {
+          applyBtn = true;
+        } else {
           applyBtn = false;
         }
+      } else if (windowDimensions.width <= 1200) {
+        if (items.length > 1) {
+          applyBtn = true;
+        } else {
+          applyBtn = true;
+        }
       }
+    } else if (windowDimensions.width > 1024) {
+      if (items.length <= 4) {
+        applyBtn = false;
+      } else {
+        applyBtn = true;
+      }
+    } else if (windowDimensions.width <= 1024) {
+      if (windowDimensions.width <= 590) {
+        if (items.length > 1) {
+          applyBtn = true;
+        } else {
+          applyBtn = false;
+        }
+      } else if (items.length <= 2) {
+        applyBtn = false;
+      } else {
+        applyBtn = true;
+      }
+    } else {
+      applyBtn = true;
     }
     return applyBtn;
   };
@@ -133,10 +161,6 @@ const CarouselWrapper = (props) => {
      return true;
    }
    return false; */
-
-  useEffect(() => {
-    console.log(type, showAllbutton(), items.length);
-  });
 
   return (
     <div className={`${className} carousel-wrapper pos-r`}>

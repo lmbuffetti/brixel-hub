@@ -93,6 +93,10 @@ const MarketList = (props) => {
     if (e) e.preventDefault();
     history.push(`${match.url}/${value}`);
   };
+
+  useEffect(() => {
+    console.log(favoritesProperties.total !== 0, favoritesProperties.total);
+  });
   return (
     <>
       {/* buyer welcome message  */}
@@ -239,9 +243,9 @@ const MarketList = (props) => {
       }
       {
         loggedInUser.seller && (
-          <div className="min-h-fix-552 min-h-fix-sm-344">
+          <div className={` ${ownerProperties.total === 0 ? '' : 'min-h-fix-552 min-h-fix-sm-344'}`}>
             {
-              ownerProperties.total > 0 ? (
+              ownerProperties.total > 0 && (
                 <CarouselWrapper
                   title="Your properties"
                   className="market-category-carousel type-own mb-8"
@@ -250,7 +254,10 @@ const MarketList = (props) => {
                   total={ownerProperties.total}
                   onSetActiveProperty={(id) => setActiveProperty(id)}
                 />
-              ) : (
+              )
+            }
+            {
+              (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
                 <div className="mb-8">
                   <h4 className="fweight-700 fsize-600 mb-3">Your properties</h4>
                   <div className="ml-1-neg">
@@ -266,7 +273,7 @@ const MarketList = (props) => {
 
       {
         favoritesProperties.total > 0 && (
-          <div className={favoritesProperties.total === 0 ? '' : 'mb-8'}>
+          <div className={`min-h-fix-448 ${favoritesProperties.total === 0 ? '' : 'mb-8'}`}>
             <CarouselWrapper
               title="Your favorites"
               className="market-category-carousel"
@@ -274,6 +281,16 @@ const MarketList = (props) => {
               items={favoritesProperties.data}
               total={favoritesProperties.total}
             />
+          </div>
+        )
+      }
+      {
+        (favoritesProperties.total !== 0 && favoritesProperties.total === undefined) && (
+          <div className="min-h-fix-448">
+            <h4 className="fweight-700 fsize-600 mb-3">Your favorite</h4>
+            <div className="ml-1-neg max-w-fix-304">
+              <CardImageText />
+            </div>
           </div>
         )
       }
