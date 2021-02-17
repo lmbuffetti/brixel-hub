@@ -171,11 +171,11 @@ const MarketCard = (props) => {
     <>
       {
         (!removeSkeleton || !item) && (
-          <CardImageText type={get(skeleton, '[type]', '')} />
+          <CardImageText type={type} />
         )
       }
       <div
-        className={`market-card ov-h cur-poi h-perc-100 ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius px-1 pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'}`}
+        className={`market-card ov-h cur-poi h-perc-100 ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius px-1 pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
         onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         {
@@ -184,7 +184,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-1 h-fix-200 w-perc-100 w-fix-sm-200`}
+                  className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-1 h-fix-208 w-perc-100 w-fix-sm-208`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                   onClick={(e) => openCard(e)}
@@ -207,9 +207,9 @@ const MarketCard = (props) => {
                 }
               </>
               <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100">
-                <div className="top dis-fl-col" onClick={(e) => openCard(e)}>
+                <div className="top dis-fl-col notranslate" onClick={(e) => openCard(e)}>
                   <h6 className="fweight-700 fsize-400 mb-small-4 txtDark700 ellipsis one w-perc-100 max-w-fix-496">{get(item, 'title', '')}</h6>
-                  <span className="notranslate fsize-300 txtDark700 mb-1">
+                  <span className="fsize-300 txtDark700 mb-1">
                     {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                     {
                       get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -220,34 +220,41 @@ const MarketCard = (props) => {
                     }
                   </span>
                 </div>
-                <div className="mid dis-fl-row fsize-300 txtDark400 mb-2" onClick={(e) => openCard(e)}>
-                  <span>
-                    {get(item, 'properties.propertyType', '')}
-                  </span>
-                  <span className="px-1 notranslate"> &middot; </span>
-                  <span>
-                    <span className="notranslate">
-                      {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
-                    </span>
+                <div
+                  className="mid dis-fl-row fsize-300 txtDark400 mb-2"
+                  onClick={(e) => openCard(e)}
+                >
+                  <div className="dis-f a-c flex-wrap">
                     <span>
-                      {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                      {get(item, 'properties.propertyType', '')}
                     </span>
-                  </span>
-                  {
-                    get(item, 'properties.typology.bedrooms') > 0 && (
+                    <div className="notranslate">
                       <span className="px-1 notranslate"> &middot; </span>
-                    )
-                  }
-                  {
-                    get(item, 'properties.typology.livingArea.value', 0) && (
-                      <span className="notranslate">
+                      <span>
                         <span className="notranslate">
-                          {get(item, 'properties.typology.livingArea.value', 0)}
+                          {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                         </span>
-                        <span className="notranslate"> m2</span>
+                        <span className="notranslate">
+                          {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                        </span>
                       </span>
-                    )
-                  }
+                      {
+                        get(item, 'properties.typology.bedrooms') > 0 && (
+                          <span className="px-1 notranslate"> &middot; </span>
+                        )
+                      }
+                      {
+                        get(item, 'properties.typology.livingArea.value', 0) && (
+                          <span className="notranslate">
+                            <span className="notranslate">
+                              {get(item, 'properties.typology.livingArea.value', 0)}
+                            </span>
+                            <span className="notranslate"> m2</span>
+                          </span>
+                        )
+                      }
+                    </div>
+                  </div>
                 </div>
                 {/* <div className="dis-f py-1 " onClick={(e) => openCard(e)}>
                   <BrixelIcon className="fsize-200 txtDark700" icon="favorite-fill" /> <span className="fsize-200 txtDark700">&nbsp;  17</span>
@@ -295,7 +302,7 @@ const MarketCard = (props) => {
                     </div>
                     <div className="ml-2 total-completed dis-fl-col">
                       <span className="fweight-500 txtDark100">Facts</span>
-                      <span className="notranslate dis-fl-row a-c fweight-500 txtDark400"><span className="notranslate">{get(item, 'inputSheet.totalComplete', 0)}%&nbsp;</span><span className="ellipsis"> completed</span></span>
+                      <span className="notranslate dis-fl-row a-c fweight-500 txtDark400"><span className="notranslate">{get(item, 'inputSheet.totalComplete', 0)}%&nbsp;</span><span className=""> completed</span></span>
                     </div>
                   </div>
                 </div>
@@ -306,7 +313,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-200 pos-r`}
+                  className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                 />
@@ -339,7 +346,7 @@ const MarketCard = (props) => {
                 }
               </>
               <div className="info dis-fl-col jc-b">
-                <div className="top dis-fl-col">
+                <div className="top dis-fl-col notranslate">
                   <span className="fweight-600 fsize-300 txtDark700 ellipsis one notranslate">{get(item, 'title', '')}</span>
                   <span className="fsize-300 txtDark700 notranslate">
                     {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
@@ -353,30 +360,37 @@ const MarketCard = (props) => {
                   </span>
                 </div>
                 <div className="mid dis-fl-row a-c fsize-300 pt-1 txtDark400">
-                  <span>{get(item, 'properties.propertyType', '')} </span> <span className="px-1"> &middot; </span>
-                  <span>
-                    <span className="notranslate">
-                      {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
-                    </span>
+                  <div className="dis-f a-c flex-wrap">
                     <span>
-                      {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                      {get(item, 'properties.propertyType', '')}
                     </span>
-                  </span>
-                  {
-                    get(item, 'properties.typology.bedrooms') > 0 && (
-                      <span className="px-1"> &middot; </span>
-                    )
-                  }
-                  {
-                    get(item, 'properties.typology.livingArea.value', 0) && (
-                      <span className="notranslate">
+                    <div className="notranslate">
+                      <span className="px-1 notranslate"> &middot; </span>
+                      <span>
                         <span className="notranslate">
-                          {get(item, 'properties.typology.livingArea.value', 0)}
+                          {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                         </span>
-                        <span className="notranslate"> m2</span>
+                        <span className="notranslate">
+                          {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                        </span>
                       </span>
-                    )
-                  }
+                      {
+                        get(item, 'properties.typology.bedrooms') > 0 && (
+                          <span className="px-1 notranslate"> &middot; </span>
+                        )
+                      }
+                      {
+                        get(item, 'properties.typology.livingArea.value', 0) && (
+                          <span className="notranslate">
+                            <span className="notranslate">
+                              {get(item, 'properties.typology.livingArea.value', 0)}
+                            </span>
+                            <span className="notranslate"> m2</span>
+                          </span>
+                        )
+                      }
+                    </div>
+                  </div>
                 </div>
                 <div className="bottom a-c txtDark700 pt-1">
 
