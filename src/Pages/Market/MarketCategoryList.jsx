@@ -240,6 +240,15 @@ const MarketList = (props) => {
           </SplashScreen>
         )
       }
+      {/* // fake loader */}
+      {
+        ownerProperties.total === undefined && (
+          <div className="mb-8">
+            <h4 className="fweight-700 fsize-600 mb-3">Your properties</h4>
+            <CardImageText type="own" />
+          </div>
+        )
+      }
       {
         loggedInUser.seller && (
           <div className="min-h-fix-552 min-h-fix-344-sm">
@@ -253,15 +262,6 @@ const MarketList = (props) => {
                   total={ownerProperties.total}
                   onSetActiveProperty={(id) => setActiveProperty(id)}
                 />
-              )
-            }
-            {/* // fake loader */}
-            {
-              loggedInUser.seller && ownerProperties.total === undefined && (
-                <div className="mb-8">
-                  <h4 className="fweight-700 fsize-600 mb-3">Your properties</h4>
-                  <CardImageText type="own" />
-                </div>
               )
             }
           </div>
