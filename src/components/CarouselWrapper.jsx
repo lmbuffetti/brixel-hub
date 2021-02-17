@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -88,6 +88,12 @@ const CarouselWrapper = (props) => {
     return carouselSettings;
   };
 
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      settingsSlick();
+    });
+  }, []);
+
   // eslint-disable-next-line consistent-return
   const showAll = () => {
     switch (type) {
@@ -129,29 +135,29 @@ const CarouselWrapper = (props) => {
         if (items.length > 1) {
           applyBtn = true;
         } else {
-          applyBtn = true;
-        }
-      }
-    } else if (windowDimensions.width > 1024) {
-      if (items.length <= 4) {
-        applyBtn = false;
-      } else {
-        applyBtn = true;
-      }
-    } else if (windowDimensions.width <= 1024) {
-      if (windowDimensions.width <= 590) {
-        if (items.length > 1) {
-          applyBtn = true;
-        } else {
           applyBtn = false;
         }
-      } else if (items.length <= 2) {
-        applyBtn = false;
-      } else {
-        applyBtn = true;
       }
-    } else {
-      applyBtn = true;
+    } else if (type !== 'own') {
+      if (windowDimensions.width > 1024) {
+        if (items.length <= 4) {
+          applyBtn = false;
+        } else {
+          applyBtn = true;
+        }
+      } else if (windowDimensions.width <= 1024) {
+        if (windowDimensions.width <= 590) {
+          if (items.length > 1) {
+            applyBtn = true;
+          } else {
+            applyBtn = false;
+          }
+        } else if (items.length <= 2) {
+          applyBtn = false;
+        } else {
+          applyBtn = true;
+        }
+      }
     }
     return applyBtn;
   };

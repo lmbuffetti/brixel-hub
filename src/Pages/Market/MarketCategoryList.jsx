@@ -285,7 +285,7 @@ const MarketList = (props) => {
           <div className="min-h-fix-448">
             <h4 className="fweight-700 fsize-600 mb-3">Your favorite</h4>
             <div className="ml-1-neg max-w-fix-304">
-              <CardImageText />
+              <CardImageText type="favorite" />
             </div>
           </div>
         )
