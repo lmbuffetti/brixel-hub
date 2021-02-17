@@ -93,10 +93,6 @@ const MarketList = (props) => {
     if (e) e.preventDefault();
     history.push(`${match.url}/${value}`);
   };
-
-  useEffect(() => {
-    console.log(favoritesProperties.total !== 0, favoritesProperties.total);
-  });
   return (
     <>
       {/* buyer welcome message  */}
