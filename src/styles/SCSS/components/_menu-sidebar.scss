@@ -140,6 +140,13 @@
     position: relative;
     background-color: $brx-white;
     max-width: 100%;
+    @media (max-width: $responsive-medium) {
+      animation: scaleUp $default-time $default-easing forwards;
+      > div {
+        opacity: 0;
+        animation: scaleUp $default-time $default-time $default-easing forwards;
+      }
+    }
   }
 }
 
@@ -154,18 +161,8 @@
     .sidebarSubmenuContent {
       max-width: 448px;
       margin-left: auto;
-      animation: slideRight $default-time $default-easing forwards;
       opacity: 0;
-
-      @keyframes slideRight {
-        0% {
-          opacity: 0;
-          transform: translateX(-100px);
-        } 100% {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
+      animation: slidetoLeft $default-time $default-easing forwards;
     }
   }
 }

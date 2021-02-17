@@ -137,10 +137,10 @@
       }
       .market-card {
         overflow: hidden;
-        .cover {
-          &.pre-market {
-            filter: grayscale(100%);
-          }
+      }
+      .cover {
+        &.pre-market {
+          filter: grayscale(100%);
         }
       }
       // slick carousel custom css

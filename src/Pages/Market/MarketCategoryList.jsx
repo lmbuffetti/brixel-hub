@@ -93,9 +93,6 @@ const MarketList = (props) => {
     if (e) e.preventDefault();
     history.push(`${match.url}/${value}`);
   };
-  useEffect(() => {
-    console.log(ownerProperties.total);
-  });
   return (
     <>
       {/* buyer welcome message  */}
@@ -240,20 +237,11 @@ const MarketList = (props) => {
           </SplashScreen>
         )
       }
-      {/* // fake loader */}
-      {
-        ownerProperties.total === undefined && (
-          <div className="mb-8">
-            <h4 className="fweight-700 fsize-600 mb-3">Your properties</h4>
-            <CardImageText type="own" />
-          </div>
-        )
-      }
       {
         loggedInUser.seller && (
           <div className="min-h-fix-552 min-h-fix-sm-344">
             {
-              ownerProperties.total > 0 && (
+              ownerProperties.total > 0 ? (
                 <CarouselWrapper
                   title="Your properties"
                   className="market-category-carousel type-own mb-8"
@@ -262,8 +250,16 @@ const MarketList = (props) => {
                   total={ownerProperties.total}
                   onSetActiveProperty={(id) => setActiveProperty(id)}
                 />
+              ) : (
+                <div className="mb-8">
+                  <h4 className="fweight-700 fsize-600 mb-3">Your properties</h4>
+                  <div className="ml-1-neg">
+                    <CardImageText type="own" />
+                  </div>
+                </div>
               )
             }
+
           </div>
         )
       }

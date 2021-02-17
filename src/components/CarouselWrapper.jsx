@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -68,6 +68,14 @@ const CarouselWrapper = (props) => {
         speed: 500,
         slidesToShow: slideToShow,
         slidesToScroll: type === 'own' ? 2 : 4,
+        responsive: [
+          {
+            breakpoint: 1200,
+            settings: {
+              slidesToShow: type === 'own' ? 1 : slideToShow,
+            },
+          },
+        ],
         draggable: false,
         centerPadding: '8px',
         className,
@@ -108,8 +116,27 @@ const CarouselWrapper = (props) => {
     }
   };
 
-  const showAllbutton = items && ((items.length > 0 && type !== 'own' && windowDimensions.width <= 600) || (items.length > 0 && type !== 'own' && windowDimensions.width > 1024) ||
-  (items.length > 0 && type !== 'own' && windowDimensions.width <= 1024) || (items.length > 0 && type === 'own' && windowDimensions.width <= 1024) || (items.length > 0 && type === 'own' && windowDimensions.width > 1024));
+  const showAllbutton = () => {
+    let applyBtn;
+    if (type === 'own') {
+      if (windowDimensions.width > 1024) {
+        if (items.length <= 2) {
+          applyBtn = false;
+        }
+      }
+    }
+    return applyBtn;
+  };
+
+  /* if (items && ((items.length > 0 && type !== 'own' && windowDimensions.width <= 600) || (items.length > 0 && type !== 'own' && windowDimensions.width > 1024) ||
+   (items.length > 0 && type !== 'own' && windowDimensions.width <= 1024) || (items.length > 0 && type === 'own' && windowDimensions.width <= 1024) || (items.length > 0 && type === 'own' && windowDimensions.width > 1024))) {
+     return true;
+   }
+   return false; */
+
+  useEffect(() => {
+    console.log(type, showAllbutton(), items.length);
+  });
 
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
@@ -117,7 +144,7 @@ const CarouselWrapper = (props) => {
         <h4 className={`fweight-700 ${type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
         <div className="mt-1 mt-sm-0">
           {
-            showAllbutton && (
+            showAllbutton() && (
               <BrixelButtonText
                 className="fsize-300 show-all pos-r"
                 label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
