@@ -397,12 +397,12 @@ MarketList.propTypes = {
   premiumProperties: PropTypes.object.isRequired,
   setPreMarketProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
   windowDimensions: PropTypes.object.isRequired,
 };
 
 MarketList.defaultProps = {
-
+  userSearchProfiles: null,
 };
 
 const mapStateToProps = (state) => ({

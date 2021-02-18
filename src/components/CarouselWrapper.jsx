@@ -87,12 +87,17 @@ const CarouselWrapper = (props) => {
     }
     return carouselSettings;
   };
+  const [settingSlider, setSettingSlider] = useState(settingsSlick());
 
   useEffect(() => {
     window.addEventListener('resize', () => {
       settingsSlick();
     });
   }, []);
+
+  useEffect(() => {
+    setSettingSlider(settingsSlick);
+  }, [windowDimensions.width]);
 
   // eslint-disable-next-line consistent-return
   const showAll = () => {
@@ -122,46 +127,6 @@ const CarouselWrapper = (props) => {
     }
   };
 
-  const showAllbutton = () => {
-    let applyBtn;
-    if (type === 'own') {
-      if (windowDimensions.width > 1200) {
-        if (items.length > 2) {
-          applyBtn = true;
-        } else {
-          applyBtn = false;
-        }
-      } else if (windowDimensions.width <= 1200) {
-        if (items.length > 1) {
-          applyBtn = true;
-        } else {
-          applyBtn = false;
-        }
-      }
-    } else if (type !== 'own') {
-      if (windowDimensions.width > 1024) {
-        if (items.length <= 4) {
-          applyBtn = false;
-        } else {
-          applyBtn = true;
-        }
-      } else if (windowDimensions.width <= 1024) {
-        if (windowDimensions.width <= 590) {
-          if (items.length > 1) {
-            applyBtn = true;
-          } else {
-            applyBtn = false;
-          }
-        } else if (items.length <= 2) {
-          applyBtn = false;
-        } else {
-          applyBtn = true;
-        }
-      }
-    }
-    return applyBtn;
-  };
-
   /* if (items && ((items.length > 0 && type !== 'own' && windowDimensions.width <= 600) || (items.length > 0 && type !== 'own' && windowDimensions.width > 1024) ||
    (items.length > 0 && type !== 'own' && windowDimensions.width <= 1024) || (items.length > 0 && type === 'own' && windowDimensions.width <= 1024) || (items.length > 0 && type === 'own' && windowDimensions.width > 1024))) {
      return true;
@@ -173,19 +138,15 @@ const CarouselWrapper = (props) => {
       <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
         <h4 className={`fweight-700 ${type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
         <div className="mt-1 mt-sm-0">
-          {
-            showAllbutton() && (
-              <BrixelButtonText
-                className="fsize-300 show-all pos-r"
-                label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
-                onClick={() => showAll()}
-              />
-            )
-          }
+          <BrixelButtonText
+            className="fsize-300 show-all pos-r"
+            label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
+            onClick={() => showAll()}
+          />
         </div>
 
       </div>
-      <Slider ref={sliderInstance} {...settingsSlick()}>
+      <Slider ref={sliderInstance} {...settingSlider}>
         {
           !items && numCard.map((card, i) => (
             <MarketCard

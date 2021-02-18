@@ -333,11 +333,12 @@ PropertiesBuyerDashboard.propTypes = {
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
 
 PropertiesBuyerDashboard.defaultProps = {
   isSmallLoading: null,
+  userSearchProfiles: null,
 };
 
 const mapStateToProps = (state) => ({
