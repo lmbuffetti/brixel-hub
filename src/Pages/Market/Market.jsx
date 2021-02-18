@@ -86,7 +86,7 @@ const Market = (props) => {
   }, [userSearchProfiles]);
 
   return (
-    <div className={`market-container container ${!history.location.pathname.includes('home/') ? 'market-listings' : 'dis-f'}`} id="market">
+    <div className="market-container container" id="market">
       {/* premarket overlay */}
       <Switch>
         <Route exact path="/home" component={MarketCategoryList} />

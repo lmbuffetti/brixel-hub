@@ -254,8 +254,15 @@ const MarketList = (props) => {
   };
 
   useEffect(() => {
+    const catList = document.getElementsByClassName('market-container')[0];
     const scrollEl = document.getElementsByClassName('hubDasContent')[0];
+
     if (scrollEl) scrollEl.scrollTo = 0;
+
+    if (catList) catList.classList.add('dis-f');
+    return () => {
+      if (catList) catList.classList.remove('dis-f');
+    };
   }, []);
 
   return (

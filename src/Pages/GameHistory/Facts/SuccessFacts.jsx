@@ -136,7 +136,7 @@ const FactsRewards = (props) => {
         <hr className="mb-3 lighter" />
         <div className="dis-f a-t">
           <img src={infoImg} alt="Info Lamp" />
-          <p className="ml-2">
+          <p className="ml-2 mb-3 mb-lg-0">
             <span className="fweight-500 txtDark700 fsize-300 dis-b">Note</span>
             <span className="txtDark700 fsize-300">It is proven that more information and higher transparency increase the selling price. Try to complete as much as possible to get the best result.</span>
           </p>

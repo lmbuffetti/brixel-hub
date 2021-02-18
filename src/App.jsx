@@ -489,7 +489,7 @@ const App = (props) => {
                   <MenuSidebar />
                 )
               }
-              <div className="w-perc-100 hubInner">
+              <div className="w-perc-100 innerWrap">
                 {
                   !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') &&
