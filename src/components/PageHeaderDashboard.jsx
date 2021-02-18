@@ -79,6 +79,7 @@ function PageHeaderDashboard(props) {
   // URL PARAMS
   let propID = history.location.pathname.split('/')[1];
   if (propID === 'buyer') propID = history.location.pathname.split('/')[3];
+  if (propID === 'home' || propID === 'seller') propID = null;
 
   // ON CHANGE HISTORY THE MOBILE MENU IS CLOSED
   useEffect(() => {
