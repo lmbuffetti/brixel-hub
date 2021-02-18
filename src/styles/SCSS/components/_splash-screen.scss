@@ -24,14 +24,13 @@
     }
   }
 
-  &.fixed {
+  &.result-premarket {
     .container {
       height: auto;
       position: fixed;
       top: 50%;
       left: 50%;
       animation: scaleUpCustomFull .35s ease-in-out forwards;
-      transform: translate(-50%,-50%);
     }
   }
 
