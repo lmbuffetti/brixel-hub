@@ -46,7 +46,7 @@ const SplashScreen = (props) => {
   });
 
   return (
-    <div className={`wrapSplash fixed ${className}`}>
+    <div className={`wrapSplash ${type === 'preMarket' ? 'fixed' : ''} ${className}`}>
       <div className="container brdRadius m-a bgWhite p-small-4" ref={drawerRef}>
         <div className="h-perc-100 ov-a p-md-3 p-2 px-2">
           {

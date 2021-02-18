@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -33,71 +33,42 @@ const CarouselWrapper = (props) => {
   if (windowDimensions.width > 1024) slideToShow = type === 'own' ? 2 : 4;
   const numCard = [...Array(slideToShow)];
 
-  const settingsSlick = () => {
-    let carouselSettings = {};
-    if (windowDimensions.width <= 1024) {
-      carouselSettings = {
-        dots: false,
-        infinite: false,
-        speed: 500,
-        swipeToSlide: true,
-        slidesToShow: slideToShow,
-        // slidesToScroll: type === 'own' ? 2 : 4,
-        responsive: [
-          {
-            breakpoint: 590,
-            settings: {
-              slidesToShow: 1,
-              swipeToSlide: true,
-              centerMode: type !== 'own',
-              centerPadding: type === 'own' ? '8px' : '10%',
-            },
-          },
-        ],
-        centerPadding: '8px',
-        className,
-        onSwipe: () => setPreventClick(true),
-        afterChange: () => setPreventClick(false),
-        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small secondary theme="light" themeSat={500} />,
-        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small secondary theme="light" themeSat={500} />,
-      };
-    } else if (windowDimensions.width > 1024) {
-      carouselSettings = {
-        dots: false,
-        infinite: false,
-        speed: 500,
-        slidesToShow: slideToShow,
-        slidesToScroll: type === 'own' ? 2 : 4,
-        responsive: [
-          {
-            breakpoint: 1200,
-            settings: {
-              slidesToShow: type === 'own' ? 1 : slideToShow,
-            },
-          },
-        ],
-        draggable: false,
-        centerPadding: '8px',
-        className,
-        onSwipe: () => setPreventClick(true),
-        afterChange: () => setPreventClick(false),
-        nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small secondary theme="light" themeSat={500} />,
-        prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small secondary theme="light" themeSat={500} />,
-      };
-    }
-    return carouselSettings;
+  const settingSlider = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: type === 'own' ? 2 : 4,
+    slidesToScroll: type === 'own' ? 2 : 4,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: type === 'own' ? 1 : 2,
+          slidesToScroll: 1,
+          swipeToSlide: true,
+          draggable: true,
+        },
+      },
+      {
+        breakpoint: 590,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          swipeToSlide: true,
+          centerMode: type !== 'own',
+          centerPadding: type === 'own' ? '8px' : '10%',
+          draggable: true,
+        },
+      },
+    ],
+    draggable: false,
+    centerPadding: '8px',
+    className,
+    onSwipe: () => setPreventClick(true),
+    afterChange: () => setPreventClick(false),
+    nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small secondary theme="light" themeSat={500} />,
+    prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small secondary theme="light" themeSat={500} />,
   };
-  const [settingSlider, setSettingSlider] = useState(settingsSlick());
-
-  useEffect(() => {
-    window.addEventListener('resize', () => {
-      settingsSlick();
-    });
-  }, []);
-
-  useEffect(() => {
-    setSettingSlider(settingsSlick);
-  }, [windowDimensions.width]);
 
   // eslint-disable-next-line consistent-return
   const showAll = () => {
@@ -126,12 +97,6 @@ const CarouselWrapper = (props) => {
         // history.push('/home');
     }
   };
-
-  /* if (items && ((items.length > 0 && type !== 'own' && windowDimensions.width <= 600) || (items.length > 0 && type !== 'own' && windowDimensions.width > 1024) ||
-   (items.length > 0 && type !== 'own' && windowDimensions.width <= 1024) || (items.length > 0 && type === 'own' && windowDimensions.width <= 1024) || (items.length > 0 && type === 'own' && windowDimensions.width > 1024))) {
-     return true;
-   }
-   return false; */
 
   return (
     <div className={`${className} carousel-wrapper pos-r`}>

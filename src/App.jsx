@@ -580,6 +580,7 @@ const App = (props) => {
           <SplashScreen
             className="result-popup"
             closeOutside={false}
+            type="preMarket"
           />
         )
       }
