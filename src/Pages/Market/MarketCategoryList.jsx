@@ -94,6 +94,14 @@ const MarketCategoryList = (props) => {
     history.push(`${match.url}/${value}`);
   };
 
+  useEffect(() => {
+    const catList = document.getElementsByClassName('market-container')[0];
+    if (catList) catList.classList.add('market-listings');
+    return () => {
+      if (catList) catList.classList.remove('market-listings');
+    };
+  }, []);
+
   return (
     <>
       {/* buyer welcome message  */}

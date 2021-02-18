@@ -4,13 +4,13 @@
     @media (max-width: $responsive-medium) {
       overflow-y: hidden;
     }
-    .hubInner {
+    .innerWrap {
       @media (min-width: $responsive-medium) {
         padding-left: 256px;
       }
     }
   }
-  .hubInner {
+  .innerWrap {
     padding-top: $step * 3;
     background: white;
     z-index: 1;
