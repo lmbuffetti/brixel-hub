@@ -87,12 +87,17 @@ const CarouselWrapper = (props) => {
     }
     return carouselSettings;
   };
+  const [settingSlider, setSettingSlider] = useState(settingsSlick());
 
   useEffect(() => {
     window.addEventListener('resize', () => {
       settingsSlick();
     });
   }, []);
+
+  useEffect(() => {
+    setSettingSlider(settingsSlick);
+  }, [windowDimensions.width]);
 
   // eslint-disable-next-line consistent-return
   const showAll = () => {
@@ -185,7 +190,7 @@ const CarouselWrapper = (props) => {
         </div>
 
       </div>
-      <Slider ref={sliderInstance} {...settingsSlick()}>
+      <Slider ref={sliderInstance} {...settingSlider}>
         {
           !items && numCard.map((card, i) => (
             <MarketCard

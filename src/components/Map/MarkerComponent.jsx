@@ -28,7 +28,6 @@ const MarkerComponent = (props) => {
     setPreMarketProperty,
   } = props;
   // STATE
-  const [markerList, setMarkerList] = useState([]);
   const [infowindow, setInfowindow] = useState({});
   const [selMarker, setSelMarker] = useState(null);
 
@@ -172,12 +171,11 @@ const MarkerComponent = (props) => {
             setSelMarker(null);
           });
           window[item.id].setContent(contentWrapper);
-          window[item.id].open(optMap, marker);
+          window[item.id].open(optMap, markers[item.id]);
           setInfowindow(window);
           onClick(item.id);
         });
       });
-      setMarkerList(markers);
     }
   }, [optMap, data, activeProperty]);
 

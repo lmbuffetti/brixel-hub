@@ -19,7 +19,6 @@ import {
 import '../../styles/SCSS/pages/market.scss';
 import { setSplashType, spinnerOff } from '../../actions/CommonActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
-import MarketList from './MarketList';
 import SplashScreen from '../../components/SplashScreen';
 import CoverPropertyImage from '../../components/CoverPropertyImage';
 import { setActivePremarketProperty } from '../../actions/PropertyActions';
@@ -27,6 +26,11 @@ import { updateFavorite } from '../../actions/UserActions';
 
 const MarketCategoryList = Loadable({
   loader: () => import('./MarketCategoryList' /* webpackChunkName: "MarketCategoryList" */),
+  loading: () => null,
+});
+
+const MarketList = Loadable({
+  loader: () => import('./MarketList' /* webpackChunkName: "MarketList" */),
   loading: () => null,
 });
 

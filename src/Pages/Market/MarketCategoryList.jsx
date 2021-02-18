@@ -27,7 +27,7 @@ const CarouselWrapper = Loadable({
   loading: () => null,
 });
 
-const MarketList = (props) => {
+const MarketCategoryList = (props) => {
   // PROPS
   const {
     // activePreMarketProperty,
@@ -577,7 +577,7 @@ const MarketList = (props) => {
   );
 };
 
-MarketList.propTypes = {
+MarketCategoryList.propTypes = {
   // activePreMarketProperty: PropTypes.object.isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
@@ -592,11 +592,12 @@ MarketList.propTypes = {
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
   windowDimensions: PropTypes.object.isRequired,
 };
 
-MarketList.defaultProps = {
+MarketCategoryList.defaultProps = {
+  userSearchProfiles: null,
 };
 
 const mapStateToProps = (state) => ({
@@ -625,4 +626,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(MarketList);
+)(MarketCategoryList);
