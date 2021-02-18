@@ -223,7 +223,7 @@ const AddShowingsBuyer = (props) => {
                                     minDate={subDays(new Date(), 0)}
                                     locale={lang.value || lang}
                                   />
-                                  <div className="bgWhite dis-f a-c jc-c my-1 mt-md-2 mb-md-3">
+                                  <div className="bgWhite dis-f a-c jc-c my-1 mt-lg-2 mb-lg-3">
                                     <BrixelButtonPrimary
                                       disabled={!date}
                                       label="Choose time"
@@ -245,7 +245,7 @@ const AddShowingsBuyer = (props) => {
                               <div className="overlay">
                                 <div id="rzSlider" className="modalWindow" ref={hoursRef}>
                                   <h5>Choose the time </h5>
-                                  <p className="mt-4 mb-2 mb-md-0 mt-md-0x">{hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}</p>
+                                  <p className="mt-4 mb-2 mb-lg-0 mt-lg-0x">{hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}</p>
                                   <InputRange
                                     maxValue={20}
                                     minValue={8}
@@ -255,7 +255,7 @@ const AddShowingsBuyer = (props) => {
                                     onChange={(value) => setHours(value)}
                                     disabled={allDay}
                                   />
-                                  <div className="dis-f a-c mb-1 mb-md-0">
+                                  <div className="dis-f a-c mb-1 mb-lg-0">
                                     <BrixelSwitchButton
                                       label="All day"
                                       input={{

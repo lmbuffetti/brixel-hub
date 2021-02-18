@@ -71,7 +71,7 @@ const Showings = (props) => {
 
   // URL PARAMS
   return (
-    <div className="thirdLevel dis-fl-col w-perc-100 ml-md-2">
+    <div className="thirdLevel dis-fl-col w-perc-100 ml-lg-2">
       <div className="">
         <div className="dis-f jc-b a-t pb-3">
           <div>

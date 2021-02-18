@@ -162,28 +162,6 @@
       @media (min-width: $responsive-large) {
         animation: scaleUpCustom $default-time-long $default-easing forwards;
       }
-      @keyframes scaleUpCustom {
-        0% {
-          opacity: 0;
-          transform: scale(0.5) translateY(-50%);
-        } 100% {
-          transform: scale(1) translateY(-50%);
-          opacity: 1;
-        }
-      }
-
-      @keyframes scaleUpCustomFull {
-        0% {
-          transform-origin: left;
-          opacity: 0;
-          transform: scale(0.5) translate(-50%, -50%);
-        }
-        100% {
-          transform-origin: left;
-          transform: scale(1) translate(-50%, -50%);
-          opacity: 1;
-        }
-      }
 
       @media (max-width: $responsive-large) {
         height: 100%;
@@ -191,6 +169,7 @@
         transform: translateY(0);
         opacity: 0;
         animation: scaleUp $default-time-long $default-easing forwards;
+        max-width: 100%;
       }
     }
   }

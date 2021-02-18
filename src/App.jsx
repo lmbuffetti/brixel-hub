@@ -293,7 +293,8 @@ const App = (props) => {
     // add class to container when secondlevel visible on mobile
     if (
       (history.location.pathname.includes('property/') ||
-      history.location.pathname.includes('listings/')) &&
+      history.location.pathname.includes('listings/') ||
+      history.location.pathname.includes('rewards/')) &&
       windowDimensions.width <= 1024 &&
       !history.location.pathname.includes('buyer')
     ) {
@@ -599,7 +600,7 @@ const App = (props) => {
             type={notification.type}
             icon={notification.icon}
             actions={notification.actions}
-            className={`zIndex6 jc-fe pr-2 pr-md-4 ${notification.className ? notification.className : ''} ${notification.state ? 'open' : 'close'}`}
+            className={`zIndex6 jc-fe pr-2 pr-lg-4 ${notification.className ? notification.className : ''} ${notification.state ? 'open' : 'close'}`}
           />
         )
       }
@@ -610,7 +611,7 @@ const App = (props) => {
             type={notification.type}
             icon={notification.icon}
             actions={notification.actions}
-            className={`zIndex6 jc-fe pr-2 pr-md-4 ${notification.className ? notification.className : ''} ${notification.state ? 'open' : 'close'}`}
+            className={`zIndex6 jc-fe pr-2 pr-lg-4 ${notification.className ? notification.className : ''} ${notification.state ? 'open' : 'close'}`}
           />
         )
       }

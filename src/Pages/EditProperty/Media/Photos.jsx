@@ -159,7 +159,7 @@ const Photos = (props) => {
               ghost
               onClick={() => history.push(`/${propID}/property`)}
             />
-            <h5 className="m-a m-md-0 sectionTitle">
+            <h5 className="m-a m-lg-0 sectionTitle">
               Photos
             </h5>
           </div>
@@ -171,7 +171,7 @@ const Photos = (props) => {
                     scroll
                     bubbleScroll
                     tag="ul"
-                    className="image-list row-cols-2-gut-1 row-cols-md-3-gut-1"
+                    className="image-list row-cols-2-gut-1 row-cols-lg-3-gut-1"
                     list={cloneDeep(fixPhotos).concat(newImages)}
                     setList={(order) => {
                       changeOrder(order);
@@ -270,7 +270,7 @@ const Photos = (props) => {
             }
             <>
               <div
-                className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-2 ta-c`}
+                className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-lg-3'} upload-container dis-fl-col a-c mt-2 ta-c`}
                 {...getRootProps()}
               >
                 <input {...getInputProps()} />

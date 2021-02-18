@@ -132,7 +132,7 @@ const FactsRewards = (props) => {
         }
       </div>
 
-      <div className="dis-fl-col px-2 px-md-4 pt-8">
+      <div className="dis-fl-col px-2 px-lg-4 pt-8">
         <hr className="mb-3 lighter" />
         <div className="dis-f a-t">
           <img src={infoImg} alt="Info Lamp" />

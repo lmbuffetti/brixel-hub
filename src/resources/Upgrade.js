@@ -61,7 +61,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
       inputs: [
         {
           component: BrixelCheckboxWithDetail,
-          pdClass: 'py-2 py-md-3 px-1',
+          pdClass: 'py-2 py-lg-3 px-1',
           label: '',
           name: 'packageUpgrade.servicePackage',
           validation: [Validation.required],
@@ -77,7 +77,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
       inputs: [
         {
           component: BrixelRadioButton,
-          pdClass: 'py-2 py-md-3 px-1',
+          pdClass: 'py-2 py-lg-3 px-1',
           icons: true,
           label: '',
           name: 'packageUpgrade.whenToStart',
@@ -111,7 +111,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
       inputs: [
         {
           component: BrixelRadioButton,
-          pdClass: 'py-2 py-md-3 px-1',
+          pdClass: 'py-2 py-lg-3 px-1',
           label: '',
           icons: true,
           name: 'packageUpgrade.propertyInhabited',
@@ -133,7 +133,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
             value: true,
           }],
           component: BrixelRadioButton,
-          pdClass: 'py-2 py-md-3 px-1',
+          pdClass: 'py-2 py-lg-3 px-1',
           icons: true,
           title: 'Are you currently living there?',
           name: 'packageUpgrade.livingThere',
@@ -159,7 +159,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
       inputs: [
         {
           component: BrixelCheckbox,
-          pdClass: 'py-2 py-md-3 px-1',
+          pdClass: 'py-2 py-lg-3 px-1',
           icons: true,
           label: '',
           name: 'contactPreference',
@@ -200,7 +200,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
         {
           title: 'When is the best time to contact you?',
           component: BrixelCheckbox,
-          pdClass: 'py-2 py-md-3 px-1',
+          pdClass: 'py-2 py-lg-3 px-1',
           icons: true,
           label: '',
           name: 'packageUpgrade.contactTime',

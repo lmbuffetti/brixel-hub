@@ -161,7 +161,7 @@ const Upgrade = (props) => {
     <div id="bodyModalWrapper" className="modalFlow">
       <div className={`bodyModal dis-fl-col upgradeModal stepNo${currentIndex}`}>
         <header className="max-w-fix-760 ml-a mr-a dis-f w-perc-100 jc-fe">
-          <div className="dis-f a-c p-1 p-md-2">
+          <div className="dis-f a-c p-1 p-lg-2">
             <BrixelButtonIcon
               ghost
               icon="close-small"
@@ -228,7 +228,7 @@ const Upgrade = (props) => {
             </div>
           </div>
           <div
-            className={`footerAction p-1 p-md-2 shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'}`}
+            className={`footerAction p-1 p-lg-2 shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'}`}
           >
             <div className="container pos-r">
               <div className={`w-perc-100 a-c ${currentIndex === 0 ? 'dis-fl-col dis-fl-row-md jc-c-md' : 'dis-fl-row jc-b'} m-a ${currentIndex === questions.length - 1 ? 'jc-c' : 'jc-b'}`}>
@@ -237,10 +237,10 @@ const Upgrade = (props) => {
                     <div className="dis-fl-col dis-fl-row-md a-c w-perc-100">
                       {
                         InfoImg && (
-                          <img src={InfoImg} alt="Info" className="mb-1 mb-md-0" />
+                          <img src={InfoImg} alt="Info" className="mb-1 mb-lg-0" />
                         )
                       }
-                      <p className="body2 ml-1 mb-1 mb-md-0 ta-c ta-l-md  max-w-fix-384">
+                      <p className="body2 ml-1 mb-1 mb-lg-0 ta-c ta-l-md  max-w-fix-384">
                         Don&apos;t worry. You will not be charged for now. Get the result first. Pay later.
                       </p>
                     </div>

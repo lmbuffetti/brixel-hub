@@ -553,7 +553,7 @@ const GetStartedBuyer = (props) => {
           <div
             className={`footerAction shadow-1dp-top ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
-            <div className="pos-r p-1 p-md-2">
+            <div className="pos-r p-1 p-lg-2">
               <div className={`w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>
                 {
                   get(questions, `[${currentIndex - 1}].inputs`, null) && (
@@ -587,7 +587,7 @@ const GetStartedBuyer = (props) => {
                     />
                   ) : (
                     <BrixelButtonPrimary
-                      className={`mr-0 ml-0 noWrap ${get(quest, 'history', null)} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-md-0'}` : ''} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                      className={`mr-0 ml-0 noWrap ${get(quest, 'history', null)} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-lg-0'}` : ''} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                       disabled={!checkValidateField()}
                       rounded
                       theme="green"

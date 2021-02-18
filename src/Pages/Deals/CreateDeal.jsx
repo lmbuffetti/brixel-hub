@@ -97,7 +97,7 @@ const CreateDeal = (props) => {
       className="create-deal"
       closeOutside={false}
     >
-      <div className="add-deal-container w-perc-100 h-perc-100 dis-fl-col p-2 p-md-0">
+      <div className="add-deal-container w-perc-100 h-perc-100 dis-fl-col p-2 p-lg-0">
         <div className="dis-f jc-b a-c mb-4">
           <h5>Create new deal</h5>
           <div>

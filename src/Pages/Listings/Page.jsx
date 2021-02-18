@@ -61,7 +61,7 @@ const Page = (props) => {
 
   return (
     <div className="dis-f">
-      <div className="secondLevel dis-fl-col ml-md-1">
+      <div className="secondLevel dis-fl-col ml-lg-1">
         <div>
           <div className="brixelPageWrapper dis-fl-col cardInfoBox">
             <div className="pos-r">

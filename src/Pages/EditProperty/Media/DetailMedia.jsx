@@ -153,7 +153,7 @@ const DetailMedia = (props) => {
               {
                 formValue && formValue[mediaType][idImg] && (
                   // <div
-                  //   className="square max-w-fix-400 img-cov img-cen px-md-3"
+                  //   className="square max-w-fix-400 img-cov img-cen px-lg-3"
                   //   style={{ transform: `rotate(${rotation}deg)`, backgroundImage: `url(${getConfigEnv().shortPath}${formValue[mediaType][idImg].thumbnailPath})` }}
                   // />
                   <img
@@ -220,7 +220,7 @@ const DetailMedia = (props) => {
               }}
               component={BrixelTextArea}
               design={{
-                className: 'p-md-0 mb-2 txtDark300 fweight-400',
+                className: 'p-lg-0 mb-2 txtDark300 fweight-400',
               }}
             />
           </div>
