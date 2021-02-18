@@ -24,7 +24,7 @@ const BrixelModalFullScreen = (props) => {
     <div id="bodyModalWrapper" className="modalFlow">
       <div className="bodyModal">
         <header className="max-w-fix-760 w-perc-100 m-a">
-          <div className="container p-1 p-md-2 dis-f jc-fe a-c">
+          <div className="container p-1 p-lg-2 dis-f jc-fe a-c">
             <div className="dis-f a-c">
               <BrixelButtonIcon
                 icon="close-small"
@@ -57,7 +57,7 @@ const BrixelModalFullScreen = (props) => {
             </div>
           </div>
           <div
-            className="footerAction max-w-fix-760 m-a p-1 p-md-2 shadow-1dp-top normStep staticFooter"
+            className="footerAction max-w-fix-760 m-a p-1 p-lg-2 shadow-1dp-top normStep staticFooter"
           >
             <div className="pos-r">
               <div className="w-perc-100 a-c dis-fl-row jc-b m-a jc-c">

@@ -193,7 +193,7 @@ const ScanTrialFlow = (props) => {
     <div id="bodyModalWrapper" className="modalFlow">
       <div className={`bodyModal dis-fl-col upgradeModal stepNo${currentIndex}`}>
         <header className="max-w-fix-760 ml-a mr-a dis-f w-perc-100 jc-fe">
-          <div className="dis-f a-c p-1 p-md-2">
+          <div className="dis-f a-c p-1 p-lg-2">
             <BrixelButtonIcon
               ghost
               theme="dark"
@@ -310,7 +310,7 @@ const ScanTrialFlow = (props) => {
             </div>
           </div>
           <div
-            className={`footerAction p-1 p-md-2 shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'}`}
+            className={`footerAction p-1 p-lg-2 shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'}`}
           >
             <div className="container pos-r">
               <div className={`w-perc-100 a-c ${currentIndex === 0 ? 'dis-f jc-c a-c' : 'dis-fl-row jc-b'} m-a ${currentIndex === questions.length - 1 ? 'jc-c' : 'jc-b'}`}>

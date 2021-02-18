@@ -246,10 +246,10 @@ const RewardsDashboard = (props) => {
       <div className="dis-f a-t jc-c pos-r-md">
         {
           usrGroups && (
-            <div className="firstLevel mr-md-2">
+            <div className="firstLevel mr-lg-2">
               {
                 usrGroups.map((group, i) => (
-                  <div className={`level-${group.stub.replace(/^\D+/g, '')} pr-md-8`} key={i.toString()}>
+                  <div className={`level-${group.stub.replace(/^\D+/g, '')} pr-lg-8`} key={i.toString()}>
                     {
                       GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`] && (
                         <>
@@ -325,10 +325,10 @@ const RewardsDashboard = (props) => {
           activeGameGroup && rewardType !== 'rewards' && (
             <Sticker>
               <div className="secondLevel w-perc-100 dis-fl-col ml-md">
-                <div className="rewardsSplash h-perc-100 dis-fl-col p-2 p-md-3 pb-md-8 cardSecondLevel">
+                <div className="rewardsSplash h-perc-100 dis-fl-col p-2 p-lg-3 pb-lg-8 cardSecondLevel">
                   {
                     activeAchievement && (
-                      <div className="dis-f a-c jc-b mb-5 mb-md-2">
+                      <div className="dis-f a-c jc-b mb-5 mb-lg-2">
                         <div className="dis-f a-c">
                           <BrixelButtonIcon
                             className="mr-2 hide-md"

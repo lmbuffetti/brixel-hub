@@ -105,7 +105,7 @@ function MediaExplanation(props) {
             }
           </div>
           <div
-            className="footerAction p-1 p-md-2 shadow-1dp-top"
+            className="footerAction p-1 p-lg-2 shadow-1dp-top"
           >
             <div className="container pos-r">
               <div className="subcontainer">

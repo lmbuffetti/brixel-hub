@@ -103,7 +103,7 @@ const ShowingsBuyer = (props) => {
   }
 
   return (
-    <div className="secondLevel h-perc-md-100">
+    <div className="secondLevel h-perc-lg-100">
       <div className="cardSecondLevel">
         <div className="dis-f jc-b a-c mb-3">
           <BrixelButtonIcon
@@ -112,7 +112,7 @@ const ShowingsBuyer = (props) => {
             ghost
             onClick={() => history.push('../page')}
           />
-          <h5 className="m-a m-md-0 sectionTitle">
+          <h5 className="m-a m-lg-0 sectionTitle">
             Showings
           </h5>
         </div>

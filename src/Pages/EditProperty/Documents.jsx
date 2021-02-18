@@ -173,7 +173,7 @@ const Documents = (props) => {
   });
 
   return (
-    <div className="secondLevel h-perc-md-100">
+    <div className="secondLevel h-perc-lg-100">
       <div className={`${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel`}>
         <div className="dis-f jc-b a-c mb-3">
           <BrixelButtonIcon
@@ -188,7 +188,7 @@ const Documents = (props) => {
               }
             }}
           />
-          <h5 className="m-a m-md-0 sectionTitle">
+          <h5 className="m-a m-lg-0 sectionTitle">
             Docubox
           </h5>
         </div>
@@ -248,7 +248,7 @@ const Documents = (props) => {
                                   key={k.toString()}
                                   className="single-document pl-5 dis-fl-row a-c jc-b pb-1 mb-1"
                                 >
-                                  <div className="name w-fix-184 w-fix-md-352 dis-fl-row a-c pr-1 pr-sm-0">
+                                  <div className="name w-fix-184 w-fix-lg-352 dis-fl-row a-c pr-1 pr-sm-0">
                                     <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
                                       <BrixelIcon
                                         icon="document"
@@ -259,7 +259,7 @@ const Documents = (props) => {
                                       />
                                     </div>
                                     <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
-                                      <span className="document-title max-w-fix-168 max-w-perc-md-100 txtDark700">{doc.name}</span>
+                                      <span className="document-title max-w-fix-168 max-w-perc-lg-100 txtDark700">{doc.name}</span>
                                       <span className="date body2 txtDark200">{moment(doc.createdAt).format('D MMM YYYY, H:mm')}</span>
                                     </div>
                                   </div>
@@ -336,7 +336,7 @@ const Documents = (props) => {
                               className="single-document-folder dis-fl-row a-c jc-b p-1 mb-2 brdRadius shadow-1dp"
                             >
 
-                              <div className="name w-fix-184 w-fix-md-352 dis-fl-row a-c pr-1 pr-sm-0">
+                              <div className="name w-fix-184 w-fix-lg-352 dis-fl-row a-c pr-1 pr-sm-0">
                                 <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
                                   <BrixelIcon
                                     icon="document"
@@ -347,7 +347,7 @@ const Documents = (props) => {
                                   />
                                 </div>
                                 <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
-                                  <span className="document-title max-w-fix-168 max-w-perc-md-100 txtDark700">{doc.name}</span>
+                                  <span className="document-title max-w-fix-168 max-w-perc-lg-100 txtDark700">{doc.name}</span>
                                   <span className="date body2 txtDark200">{moment(doc.createdAt).format('D MMM YYYY, H:mm')}</span>
                                 </div>
                               </div>
@@ -431,7 +431,7 @@ const Documents = (props) => {
             userType === 'seller' && (
               <>
                 <div
-                  className={`${(!documentLists || (documentLists.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-md-3'} upload-container dis-fl-col a-c mt-2 ta-c w-perc-100`}
+                  className={`${(!documentLists || (documentLists.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-lg-3'} upload-container dis-fl-col a-c mt-2 ta-c w-perc-100`}
                   {...getRootProps()}
                 >
                   <input {...getInputProps()} />

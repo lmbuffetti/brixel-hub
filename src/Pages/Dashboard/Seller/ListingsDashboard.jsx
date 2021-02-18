@@ -120,9 +120,9 @@ const ListingsDashboard = (props) => {
   const statusPageColor = statusPage().colorIcon.charAt(0).toUpperCase() + statusPage().colorIcon.slice(1);
 
   return (
-    <div className="listings-container dis-f jc-c h-perc-md-100 a-t" id="listingsDashaboard">
+    <div className="listings-container dis-f jc-c h-perc-lg-100 a-t" id="listingsDashaboard">
       <Sticker>
-        <div className={`firstLevel mr-md-2 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
+        <div className={`firstLevel mr-lg-2 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
 
           <div className="dis-f">
             <BrixelButtonBox
@@ -232,7 +232,7 @@ const ListingsDashboard = (props) => {
       </div>
       {
         getFact() !== 'listings' && (
-          <div className={`levelsWrapper zIndex2 w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed' : 'opened'}`}>
+          <div className={`levelsWrapper zIndex2 w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
             {
               (
                 getFact() === 'showings' ||

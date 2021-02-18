@@ -139,7 +139,7 @@ function PageHeader(props) {
   return (
     <>
       <header className="flowHeader">
-        <div className={`dis-f a-c dis-f a-c p-2 py-small-md-21 px-small-md-29 jc-b pos-r jc-b pos-r ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
+        <div className={`dis-f a-c dis-f a-c p-2 py-small-lg-21 px-small-lg-29 jc-b pos-r jc-b pos-r ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
           <div className="dis-f jc-c a-c">
             <img
               className={`logo dis-b w-fix-86  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}

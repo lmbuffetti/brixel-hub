@@ -21,7 +21,7 @@ export const AssessorQuestions = (lang = 'en') => [
     inputs: [
       {
         component: BrixelRadioButton,
-        pdClass: 'py-2 py-md-3 px-1',
+        pdClass: 'py-2 py-lg-3 px-1',
         className: '',
         label: '',
         name: 'properties.building.constructionMaterials',
@@ -38,7 +38,7 @@ export const AssessorQuestions = (lang = 'en') => [
     inputs: [
       {
         component: BrixelRadioButton,
-        pdClass: 'py-2 py-md-3 px-1',
+        pdClass: 'py-2 py-lg-3 px-1',
         className: '',
         label: '',
         name: 'properties.building.roofType',
@@ -55,7 +55,7 @@ export const AssessorQuestions = (lang = 'en') => [
     inputs: [
       {
         component: BrixelRadioButton,
-        pdClass: 'py-2 py-md-3 px-1',
+        pdClass: 'py-2 py-lg-3 px-1',
         className: '',
         label: '',
         name: 'properties.building.facade',
@@ -94,7 +94,7 @@ export const AssessorQuestions = (lang = 'en') => [
         type: 'number',
         name: 'properties.building.renovated',
         validation: [Validation.maxLengthNumYear, Validation.minLengthNumYear],
-        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-md-232',
+        classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-lg-232',
         placeholder: translateTo(lang, 'e.g. 1990'),
         minLenghtNum: 999,
         maxLenghtNum: 9999,

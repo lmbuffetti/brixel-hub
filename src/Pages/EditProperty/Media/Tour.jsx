@@ -24,7 +24,7 @@ const Tour = (props) => {
   const propID = get(match, 'params.propId', null);
 
   return (
-    <div className="tourWrapper h-perc-md-100">
+    <div className="tourWrapper h-perc-lg-100">
       <div className="secondLevel dis-fl-col">
         {
           get(formValue, 'virtual.matterport', null) ? (
@@ -36,7 +36,7 @@ const Tour = (props) => {
                   icon="arrow-simple-left"
                   onClick={() => history.push(`/${propID}/property`)}
                 />
-                <h5 className="m-a m-md-0 sectionTitle">
+                <h5 className="m-a m-lg-0 sectionTitle">
                   3D tour
                 </h5>
               </div>

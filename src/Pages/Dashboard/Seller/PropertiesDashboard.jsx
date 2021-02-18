@@ -97,7 +97,7 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-container seller-properties jc-c h-perc-md-100 pos-r a-t" id="propertyDashboard">
+      <div className="property-container seller-properties jc-c h-perc-lg-100 pos-r a-t" id="propertyDashboard">
         <div>
           <div className={`dis-f jc-fe mb-3 ${userProperties.length === 0 ? 'mt-3' : ''}`}>
             <BrixelButtonPrimary
@@ -191,7 +191,7 @@ const HomeDashboard = (props) => {
         </div>
         {
           getFact() !== 'property' && (
-            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed' : 'opened'}`} />
+            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`} />
           )
         }
       </div>
