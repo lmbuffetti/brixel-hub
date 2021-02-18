@@ -116,7 +116,7 @@
   z-index: 4;
 
   @media (min-width: $responsive-medium) {
-    z-index: -1;
+    //z-index: -1;
   }
   @media (max-width: $responsive-medium) {
     top: 0;
@@ -141,6 +141,7 @@
     background-color: $brx-white;
     max-width: 100%;
     @media (max-width: $responsive-medium) {
+      opacity: 0;
       animation: scaleUp $default-time $default-easing forwards;
       > div {
         opacity: 0;
@@ -156,6 +157,8 @@
     flex: 0 0 $sidebarWidth;
     z-index: 2;
     left: 0;
+    position: fixed;
+    top: 64px;
   }
   .sidebarSubmenu {
     .sidebarSubmenuContent {

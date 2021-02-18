@@ -67,7 +67,6 @@ function PageHeaderDashboard(props) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
-  const [supportMenu, setSupportMenu] = useState(false);
   const [langMenu, setLangMenu] = useState([]);
   const [langSel, setSelLang] = useState(lang);
   const [section, setSection] = useState('Sell');
@@ -234,7 +233,6 @@ function PageHeaderDashboard(props) {
       setShowProfileMenu(false);
     },
   });
-
   // add shadow header on body scroll
   useEffect(() => {
     const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
@@ -319,6 +317,11 @@ function PageHeaderDashboard(props) {
 
   return (
     <>
+      <MenuNavigationSubmenu
+        windowDimensions={windowDimensions}
+        activeMenu={activeMenu}
+        onClose={() => setActiveMenu(null)}
+      />
       <header className="hubDasHeader">
         <div className="dasHeaderContainer">
           <div className={`wrapperHeader dis-f a-c ${history.location.pathname.includes('/home') ? '' : ''} h-fix-64 px-2 px-md-3 jc-b pos-r bgWhite`}>
@@ -524,7 +527,7 @@ function PageHeaderDashboard(props) {
                     />
                     {
                       showMobileMenu && (
-                        <div className={`mobile-menu scaleUp bgWhite w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-2 pb-2 ${supportMenu ? 'zIndex1' : 'zIndex5'}`} style={{ height: windowDimensions.height }}>
+                        <div className="mobile-menu scaleUp bgWhite w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-2 pb-2 zIndex3" style={{ height: windowDimensions.height }}>
                           <div className="dis-f jc-b a-c w-perc-100">
                             <img className="pos-r w-fix-80" src={logo} alt="Brixel Logo" id="logo" />
                             <BrixelButtonIcon
@@ -579,7 +582,6 @@ function PageHeaderDashboard(props) {
                               <span
                                 className="px-2 cur-poi link txtDark700 fweight-500 fsize-300"
                                 onClick={() => {
-                                  setSupportMenu(true);
                                   onTabClick('support');
                                 }}
                               >
@@ -639,11 +641,6 @@ function PageHeaderDashboard(props) {
                   </div>
                 )
               }
-              <MenuNavigationSubmenu
-                windowDimensions={windowDimensions}
-                activeMenu={activeMenu}
-                onClose={() => setActiveMenu(null)}
-              />
             </div>
           </div>
         </div>

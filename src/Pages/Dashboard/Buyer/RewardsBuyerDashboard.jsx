@@ -56,8 +56,8 @@ const RewardsBuyerDashboard = (props) => {
   return (
     <div className="rewards-container" id="rewardsDashboard">
       <div className="dis-f a-t jc-c pos-r-md">
-        <div className="firstLevel mr-md-2">
-          <div className="level-1 pr-md-8">
+        <div className="firstLevel mr-lg-2">
+          <div className="level-1 pr-lg-8">
             <div className="pos-r">
               <BrixelButtonAchievement
                 level="level-1"

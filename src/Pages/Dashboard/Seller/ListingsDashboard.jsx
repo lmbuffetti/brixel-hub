@@ -122,7 +122,7 @@ const ListingsDashboard = (props) => {
   return (
     <div className="listings-container dis-f jc-c h-perc-md-100 a-t" id="listingsDashaboard">
       <Sticker>
-        <div className={`firstLevel mr-md-2 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
+        <div className={`firstLevel mr-lg-2 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
 
           <div className="dis-f">
             <BrixelButtonBox

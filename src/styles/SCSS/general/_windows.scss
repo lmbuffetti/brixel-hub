@@ -1,7 +1,17 @@
 .hubContainer {
+  &.sellerHub,
+  &.buyerHub {
+    .hubInner {
+      @media (min-width: $responsive-medium) {
+        padding-left: 256px;
+      }
+    }
+  }
   .hubInner {
     padding-top: $step * 3;
     background: white;
+    z-index: 1;
+
 
     @media (max-width: $responsive-medium) {
       background-color: map-get($lightColor, 100);
@@ -19,8 +29,9 @@
 .hubDasContent {
   .container {
     margin: auto;
+
     @media (min-width: $responsive-medium) {
-      min-height: 100%;
+      //min-height: 100%;
       padding: $step * 3;
 
       &.dashboardContainer {

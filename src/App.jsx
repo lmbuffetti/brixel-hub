@@ -293,7 +293,8 @@ const App = (props) => {
     // add class to container when secondlevel visible on mobile
     if (
       (history.location.pathname.includes('property/') ||
-      history.location.pathname.includes('listings/')) &&
+      history.location.pathname.includes('listings/') ||
+      history.location.pathname.includes('rewards/')) &&
       windowDimensions.width <= 1024 &&
       !history.location.pathname.includes('buyer')
     ) {

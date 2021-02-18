@@ -130,7 +130,7 @@ const Showings = (props) => {
 
   return (
     <div className="dis-f">
-      <div className="showings secondLevel dis-fl-col ml-md-1">
+      <div className="showings secondLevel dis-fl-col ml-lg-1">
         <div className="showingsWrapper dis-fl-col">
           <div className="pos-r">
             <div className={`dis-f jc-b a-c ${!manageAvailability ? 'mb-3' : ''}`}>
