@@ -57,8 +57,7 @@ const LoginSignup = (props) => {
   // FUNCTION TO SAVE THE DATA, IF NOT VALID SHOW THE ERROR
   const onSubmitForm = () => {
     let isValid = true;
-    // console.log(errorValue, loginPage);
-    Object.keys(errorValue[loginPage]).forEach((subKey) => {
+    Object.keys(get(errorValue, loginPage, {})).forEach((subKey) => {
       const curErr = get(errorValue[loginPage], subKey, true);
       if (curErr !== true && curErr !== null) {
         setShowErrors(true);
