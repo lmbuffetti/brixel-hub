@@ -17,10 +17,13 @@ import {
 } from '@brixel/brixel-components';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 import { getUserSearchProfiles } from '../../../actions/SearchProfileActions';
 import searchImg from '../../../images/searchProfile/search.svg';
 import { updateFavorite } from '../../../actions/UserActions';
+import { setSplashType } from '../../../actions/CommonActions';
+import { setActivePremarketProperty } from '../../../actions/PropertyActions';
 
 const { factsOptions } = FactsOptions;
 
@@ -33,6 +36,8 @@ const PropertiesBuyerDashboard = (props) => {
     history,
     isSmallLoading,
     loggedInUser,
+    setSplashScreen,
+    setPreMarketProperty,
     userSearchProfiles,
   } = props;
   // STATE
@@ -132,6 +137,20 @@ const PropertiesBuyerDashboard = (props) => {
     );
   };
 
+  const openCard = (e, item) => {
+    if (e) e.preventDefault();
+    const tag = get(item, 'tags', []);
+    if (tag.includes('pre-market')) {
+      setSplashScreen('preMarket');
+      setPreMarketProperty(item);
+    } else {
+      history.push({
+        pathname: `/buyer/property/${item.id}/page`,
+        state: { section: 'Buy' },
+      });
+    }
+  };
+
   return (
     <>
       <div className="property-container buyer-properties h-perc-md-100 pos-r" id="propertyDashboard">
@@ -156,31 +175,26 @@ const PropertiesBuyerDashboard = (props) => {
                   className="results dis-f shadow-3dp mb-3 a-c bgWhite brdRadius"
                 >
                   <div className="row-section p-1 avatar-container dis-f a-c ov-h flex-112">
-                    <Link
-                      className="cur-po"
-                      to={{
-                        pathname: `/buyer/property/${property.id}`,
-                        state: { section: 'Buy' },
-                      }}
+                    <div
+                      className="cur-poi"
+                      onClick={(e) => openCard(e, property)}
                     >
                       <CoverPropertyImage
                         size="96"
                         coverPhoto={get(property, 'coverPhoto.galleryThumbnailPath', null)}
                         className="avatar w-fix-96 h-fix-96 pos-r brdRadius"
                       />
-                    </Link>
+                    </div>
                   </div>
 
                   <div className="row-section name p-1 notranslate w-perc-100 max-w-fix-304">
                     <div className="wrapper dis-fl-col a-bl">
-                      <Link
-                        className="link fsize-300 fweight-500 txtDark700 body2"
-                        to={{
-                          pathname: `/buyer/property/${property.id}`,
-                        }}
+                      <div
+                        className="link fsize-300 fweight-500 txtDark700 body2 cur-poi"
+                        onClick={(e) => openCard(e, property)}
                       >
                         {property.title}
-                      </Link>
+                      </div>
                     </div>
                   </div>
 
@@ -333,6 +347,8 @@ PropertiesBuyerDashboard.propTypes = {
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
+  setSplashScreen: PropTypes.func,
+  setPreMarketProperty: PropTypes.func,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
 
@@ -355,6 +371,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
+  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
+  setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
 export default compose(
