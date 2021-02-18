@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Link, withRouter,
+  withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -17,7 +17,6 @@ import {
 } from '@brixel/brixel-components';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 import { getUserSearchProfiles } from '../../../actions/SearchProfileActions';
 import searchImg from '../../../images/searchProfile/search.svg';
@@ -36,8 +35,8 @@ const PropertiesBuyerDashboard = (props) => {
     history,
     isSmallLoading,
     loggedInUser,
-    setSplashScreen,
     setPreMarketProperty,
+    setSplashScreen,
     userSearchProfiles,
   } = props;
   // STATE
@@ -347,8 +346,8 @@ PropertiesBuyerDashboard.propTypes = {
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  setSplashScreen: PropTypes.func,
-  setPreMarketProperty: PropTypes.func,
+  setPreMarketProperty: PropTypes.func.isRequired,
+  setSplashScreen: PropTypes.func.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
 
@@ -369,8 +368,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
+  handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
   setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
