@@ -78,9 +78,9 @@ const PropertyBuyerDashboard = (props) => {
 
   return (
     <>
-      <div className="property-container dis-f jc-c h-perc-md-100 pos-r a-t" id="propertyDashboard">
+      <div className="property-container dis-f jc-c h-perc-lg-100 pos-r a-t" id="propertyDashboard">
         <Sticker>
-          <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
+          <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
 
             <div className="dis-f">
               <BrixelButtonBox
@@ -176,7 +176,7 @@ const PropertyBuyerDashboard = (props) => {
         </div>
         {
           getFact() !== 'property' && (
-            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed' : 'opened'}`}>
+            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Route path="/buyer/property/:propId/page" component={PageBuyer} />
               <Route path="/buyer/property/:propId/documents" exact component={Documents} />
               <Route path="/buyer/property/:propId/showings" component={ShowingsBuyer} />

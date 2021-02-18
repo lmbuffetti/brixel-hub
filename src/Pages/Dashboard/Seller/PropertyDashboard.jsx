@@ -97,9 +97,9 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-container dis-f jc-c h-perc-md-100 pos-r a-t" id="propertyDashboard">
+      <div className="property-container dis-f jc-c h-perc-lg-100 pos-r a-t" id="propertyDashboard">
         <Sticker>
-          <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
+          <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
             <div
               className={`cur-poi showHover brdRadius shadow-1dp brdMedium ${getFact() === 'facts' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
               onClick={() => history.push(`/${propID}/property/facts`)}
@@ -218,7 +218,7 @@ const HomeDashboard = (props) => {
         </div>
         {
           getFact() !== 'property' && (
-            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-md-1 closed' : 'opened'}`}>
+            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Route path="/:propId?/property/facts" component={Facts} />
               <Route path="/:propId?/property/photos" component={Photos} />
               <Route path="/:propId?/property/floorPlans" component={Plans} />

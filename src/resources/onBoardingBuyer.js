@@ -61,8 +61,8 @@ export const QuestionsList = (lang) => {
       inputs: [
         {
           component: BrixelCheckbox,
-          className: 'radioBtnImg max-w-fix-md-464',
-          pdClass: 'py-2 py-md-3 px-1',
+          className: 'radioBtnImg max-w-fix-lg-464',
+          pdClass: 'py-2 py-lg-3 px-1',
           label: '',
           name: 'characteristics.propertyType',
           validation: [Validation.required],
@@ -202,7 +202,7 @@ export const QuestionsList = (lang) => {
         {
           component: BrixelRadioButton,
           classNameBox: 'familySituation',
-          pdClass: 'py-2 py-md-3 px-1',
+          pdClass: 'py-2 py-lg-3 px-1',
           icons: true,
           label: '',
           className: 'test3',
@@ -221,7 +221,7 @@ export const QuestionsList = (lang) => {
       inputs: [
         {
           component: BrixelRadioButton,
-          pdClass: 'py-2 py-md-3 px-1',
+          pdClass: 'py-2 py-lg-3 px-1',
           icons: true,
           label: '',
           name: 'profile.knowledge',
@@ -239,7 +239,7 @@ export const QuestionsList = (lang) => {
       inputs: [
         {
           component: BrixelRadioButton,
-          pdClass: 'py-2 py-md-3 px-1',
+          pdClass: 'py-2 py-lg-3 px-1',
           icons: true,
           label: '',
           name: 'profile.livingSituation',

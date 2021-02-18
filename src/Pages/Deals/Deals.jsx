@@ -323,7 +323,7 @@ const Deals = (props) => {
     <>
       <div className="listings-header bg-white">
         <div className="dis-fl-row jc-b a-c">
-          <h3 className="pt-md-2 pb-md-3 pl-md-0 p-1">Deals</h3>
+          <h3 className="pt-lg-2 pb-lg-3 pl-lg-0 p-1">Deals</h3>
           <div className="dis-fl-row a-c zIndex3">
             {
               !emptyDeals && (

@@ -167,7 +167,7 @@ const MarketCardMap = (props) => {
             </>
           </div>
           <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100 mt-2 mt-sm-0">
-            <div className="top dis-f jc-b pt-md-0">
+            <div className="top dis-f jc-b pt-lg-0">
               <div className="dis-fl-col">
                 <h6
                   className="notranslate fweight-700 mb-small-4 fsize-400 txtDark700 w-perc-100 max-w-fix-400 cur-poi"

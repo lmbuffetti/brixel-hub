@@ -68,8 +68,8 @@ export const QuestionsList = (lang, country = 'CH') => {
       bgImg: homesSvg,
       inputs: [{
         component: BrixelRadioButton,
-        className: 'radioBtnImg max-w-fix-md-464',
-        pdClass: 'py-2 py-md-3 px-1',
+        className: 'radioBtnImg max-w-fix-lg-464',
+        pdClass: 'py-2 py-lg-3 px-1',
         label: '',
         name: 'properties.propertyType',
         validation: [Validation.required],
@@ -102,7 +102,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       inputs: [
         {
           component: BrixelInputStepNumber,
-          classNameBox: 'max-w-fix-md-232',
+          classNameBox: 'max-w-fix-lg-232',
           label: '',
           name: 'properties.typology.bedrooms',
           validation: [maxLengthNumRooms, Validation.required],
@@ -129,13 +129,13 @@ export const QuestionsList = (lang, country = 'CH') => {
             noValue: 'Commercial',
           }],
           component: BrixelInputText,
-          className: 'max-w-fix-md-232',
+          className: 'max-w-fix-lg-232',
           label: country === 'PT' ? 'Gross area' : 'Net living space',
           name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
           type: 'number',
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
           unit: 'm2',
-          classNameBox: 'brdRadius max-w-fix-md-288',
+          classNameBox: 'brdRadius max-w-fix-lg-288',
           placeholder: translateTo(lang, 'e.g. 120'),
           maxLenghtNum: 9999,
         },
@@ -145,13 +145,13 @@ export const QuestionsList = (lang, country = 'CH') => {
             value: 'Commercial',
           }],
           component: BrixelInputText,
-          className: 'max-w-fix-md-232',
+          className: 'max-w-fix-lg-232',
           label: 'Floor space',
           name: 'properties.typology.floorSpace.value',
           type: 'number',
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
           unit: 'm2',
-          classNameBox: 'brdRadius max-w-fix-md-288',
+          classNameBox: 'brdRadius max-w-fix-lg-288',
           placeholder: translateTo(lang, 'e.g. 120'),
           maxLenghtNum: 9999,
         },
@@ -169,7 +169,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           label: 'Construction year',
           name: 'properties.building.built',
           type: 'number',
-          classNameBox: 'brdRadius max-w-fix-md-232',
+          classNameBox: 'brdRadius max-w-fix-lg-232',
           placeholder: translateTo(lang, 'e.g. 1990'),
           validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
           maxLenghtNum: 9999,
@@ -269,7 +269,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       inputs: [
         {
           component: BrixelRadioButton,
-          pdClass: 'py-2 py-md-3 px-1',
+          pdClass: 'py-2 py-lg-3 px-1',
           label: '',
           name: 'register.ownerType',
           validation: [Validation.required],
@@ -290,7 +290,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       inputs: [
         {
           component: BrixelRadioButton,
-          pdClass: 'py-2 py-md-3 px-1',
+          pdClass: 'py-2 py-lg-3 px-1',
           label: '',
           name: 'register.whenToSell',
           validation: [Validation.required],
@@ -310,7 +310,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       inputs: [
         {
           component: BrixelRadioButton,
-          pdClass: 'py-2 py-md-3 px-1',
+          pdClass: 'py-2 py-lg-3 px-1',
           icons: true,
           label: '',
           name: 'register.typeOfBuyer',

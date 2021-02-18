@@ -152,7 +152,7 @@ const PropertiesBuyerDashboard = (props) => {
 
   return (
     <>
-      <div className="property-container buyer-properties h-perc-md-100 pos-r" id="propertyDashboard">
+      <div className="property-container buyer-properties h-perc-lg-100 pos-r" id="propertyDashboard">
         <h5 className="py-2">
           {
             activeBuyerProperties.length > 0 ? (

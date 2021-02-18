@@ -233,8 +233,8 @@ const SingleDeal = (props) => {
           >
             <div className="single-deal dis-fl-col">
               {/* top panel */}
-              <div className="top dis-fl-row jc-b mb-0 mb-md-4">
-                <div className="user dis-fl-row col-7 p-2 p-md-0">
+              <div className="top dis-fl-row jc-b mb-0 mb-lg-4">
+                <div className="user dis-fl-row col-7 p-2 p-lg-0">
                   <BrixelAvatar
                     avatarImg={get(activeSingleDeal.user, 'avatar[0]', '') ? getConfigEnv.shortPath + activeSingleDeal.user.avatar[0].thumbnailPath : null}
                     name={Helpers.userNameVal(activeSingleDeal.user.firstName, activeSingleDeal.user.lastName, activeSingleDeal.user.name) === 'No Name' ? get(activeSingleDeal.user, 'email', '') : Helpers.userNameVal(activeSingleDeal.user.firstName, activeSingleDeal.user.lastName, activeSingleDeal.user.name)}
@@ -274,7 +274,7 @@ const SingleDeal = (props) => {
                 </div>
                 <div className="actions dis-fl-row jc-fe col-5 p-0">
                   <OptionsDropdown showDesktop />
-                  <div className="pt-2 pr-1 pr-md-0 pt-md-0">
+                  <div className="pt-2 pr-1 pr-lg-0 pt-lg-0">
                     <BrixelButtonIcon
                       icon="close-small"
                       ghost
@@ -286,8 +286,8 @@ const SingleDeal = (props) => {
               </div>
 
               {/* middle panel */}
-              <div className="mid p-2 dis-fl-row flex-wrap mb-md-2 pos-r">
-                <div className="left dis-fl-col col-7 p-0 min-w-perc-100 min-w-perc-md-0">
+              <div className="mid p-2 dis-fl-row flex-wrap mb-lg-2 pos-r">
+                <div className="left dis-fl-col col-7 p-0 min-w-perc-100 min-w-perc-lg-0">
                   <span className="fsize-200 overline tt-up mb-2">Information</span>
 
                   <div className="detail-part dis-fl-row">
@@ -315,7 +315,7 @@ const SingleDeal = (props) => {
                   </div>
 
                 </div>
-                <div className="right dis-fl-col col-5 p-0 min-w-perc-100 min-w-perc-md-0">
+                <div className="right dis-fl-col col-5 p-0 min-w-perc-100 min-w-perc-lg-0">
                   {
                     activeSingleDeal.id && (
                       <ProgressBar
@@ -367,7 +367,7 @@ const SingleDeal = (props) => {
                 <Timeline
                   countryLang={userLang}
                   isDeal
-                  className="w-perc-100 col-7 p-0 min-w-perc-100 min-w-perc-md-0"
+                  className="w-perc-100 col-7 p-0 min-w-perc-100 min-w-perc-lg-0"
                 />
                 <div className="dis-fl-col-md col-5 pl-4 pr-0 right-container hide">
                   {/* <div className="showings">

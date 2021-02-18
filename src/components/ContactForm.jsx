@@ -97,7 +97,7 @@ function ContactForm(props) {
       {
         step === 'form' && (
           <div className="dis-fl-col">
-            <section className="bodySection mt-2 pb-8 pb-md-0">
+            <section className="bodySection mt-2 pb-8 pb-lg-0">
               <form onSubmit={(e) => submitContactForm(e)} name="form" className="contactForm" id="formAsk">
                 <div className="">
                   <div>

@@ -140,7 +140,7 @@ const Showings = (props) => {
                 ghost
                 onClick={() => history.push(`/${propID}/listings`)}
               />
-              <h5 className="m-a m-md-0 sectionTitle">Showings</h5>
+              <h5 className="m-a m-lg-0 sectionTitle">Showings</h5>
               <BrixelButtonIcon
                 icon={manageAvailability ? 'close-small' : 'calendar-edit'}
                 ghost

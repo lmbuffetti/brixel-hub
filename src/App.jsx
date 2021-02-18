@@ -600,7 +600,7 @@ const App = (props) => {
             type={notification.type}
             icon={notification.icon}
             actions={notification.actions}
-            className={`zIndex6 jc-fe pr-2 pr-md-4 ${notification.className ? notification.className : ''} ${notification.state ? 'open' : 'close'}`}
+            className={`zIndex6 jc-fe pr-2 pr-lg-4 ${notification.className ? notification.className : ''} ${notification.state ? 'open' : 'close'}`}
           />
         )
       }
@@ -611,7 +611,7 @@ const App = (props) => {
             type={notification.type}
             icon={notification.icon}
             actions={notification.actions}
-            className={`zIndex6 jc-fe pr-2 pr-md-4 ${notification.className ? notification.className : ''} ${notification.state ? 'open' : 'close'}`}
+            className={`zIndex6 jc-fe pr-2 pr-lg-4 ${notification.className ? notification.className : ''} ${notification.state ? 'open' : 'close'}`}
           />
         )
       }

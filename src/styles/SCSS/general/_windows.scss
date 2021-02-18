@@ -1,6 +1,9 @@
 .hubContainer {
   &.sellerHub,
   &.buyerHub {
+    @media (max-width: $responsive-medium) {
+      overflow-y: hidden;
+    }
     .hubInner {
       @media (min-width: $responsive-medium) {
         padding-left: 256px;

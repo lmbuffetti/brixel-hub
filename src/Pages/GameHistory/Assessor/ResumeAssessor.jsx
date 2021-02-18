@@ -141,7 +141,7 @@ function ResumeAssessor(props) {
         }
       </div>
 
-      <div className="p-md-2 py-2 mb-3 ta-c max-w-fix-360 m-a">
+      <div className="p-lg-2 py-2 mb-3 ta-c max-w-fix-360 m-a">
         <ChartDonuts
           assessor={get(condition, `[${selBaseRenovation}]`, '')}
           smallPie
@@ -156,7 +156,7 @@ function ResumeAssessor(props) {
         has(condition, selBaseRenovation) && (
           <>
             <div className="jc-b my-3 hide dis-f-md">
-              <div className="max-w-fix-md-176 fsize-100 w-perc-100">Elements</div>
+              <div className="max-w-fix-lg-176 fsize-100 w-perc-100">Elements</div>
               <div className="dis-f jc-b w-perc-100">
                 <div className="dis-f jc-b w-perc-100 ml-3">
                   <div className="fsize-100 w-perc-33 ta-l">
@@ -172,8 +172,8 @@ function ResumeAssessor(props) {
                 <React.Fragment key={i.toString()}>
                   {
                     has(condition, `[${selBaseRenovation}][${key}]`) && getEvaluationScale(key).label && (
-                      <div className="dis-f-md jc-b mb-3 mb-md-4">
-                        <div className="max-w-fix-md-176 w-perc-100 mb-1 mb-md-0">
+                      <div className="dis-f-md jc-b mb-3 mb-lg-4">
+                        <div className="max-w-fix-lg-176 w-perc-100 mb-1 mb-lg-0">
                           <p className="fweight-500 txtDark700">{AssessorLabel[key]}</p>
                           <p
                             className="body2"
@@ -181,7 +181,7 @@ function ResumeAssessor(props) {
                           />
                         </div>
                         <div className="dis-f jc-b w-perc-100">
-                          <div className="w-perc-100 ml-md-3">
+                          <div className="w-perc-100 ml-lg-3">
                             <div className="barAssessor pos-r bgLight200 mt-1">
                               <div
                                 className={`w-perc-${startEndYear(key).lineValue} ${getEvaluationScale(key).color} h-perc-100 pos-a-fix x-l-0 x-t-0`}

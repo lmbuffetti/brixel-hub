@@ -324,7 +324,7 @@ function PageHeaderDashboard(props) {
       />
       <header className="hubDasHeader">
         <div className="dasHeaderContainer">
-          <div className={`wrapperHeader dis-f a-c ${history.location.pathname.includes('/home') ? '' : ''} h-fix-64 px-2 px-md-3 jc-b pos-r bgWhite`}>
+          <div className={`wrapperHeader dis-f a-c ${history.location.pathname.includes('/home') ? '' : ''} h-fix-64 px-2 px-lg-3 jc-b pos-r bgWhite`}>
             <div className="header-section py-1 dis-fl-row a-c jc-b">
               <div className="dis-f a-c logoWrapper">
                 {
@@ -651,34 +651,34 @@ function PageHeaderDashboard(props) {
                 {
                   userType === 'seller' ? (
                     <BrixelTabs
-                      classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
+                      classNameLi="dis-fl-col dis-fl-row-md py-1 py-lg-0 pos-r"
                       classNameUl="zIndex4"
                       labels={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.title) : []}
                       labelsIcons={labelIcons()}
                       clicksList={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.path) : []}
                       clicksListName={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.name) : []}
-                      classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
+                      classNameArray={['order-lg-2 homeTab mt-1 mt-lg-0 px-lg-2', 'order-lg-1 propertyTab mt-1 mt-lg-0 px-lg-2', 'order-lg-3 supportTab  mt-1 mt-lg-0 px-lg-2']}
                       activeTab={activeMenu || checkActiveTab()}
                       onClick={(val) => onTabClick(val)}
                       showFull={false}
                       fullWidth={windowDimensions.width <= 1024}
-                      classNameIcon="fsize-md-400 txtLight600"
+                      classNameIcon="fsize-lg-400 txtLight600"
                       classNameLabel={`${windowDimensions.width <= 1024 ? 'fsize-300' : 'fsize-400'} txtLight600 dis-f a-c ml-1`}
                     />
                   ) : (
                     <>
                       {/* <BrixelTabs
-                      classNameLi="dis-fl-col dis-fl-row-md py-1 py-md-0 pos-r"
+                      classNameLi="dis-fl-col dis-fl-row-md py-1 py-lg-0 pos-r"
                       classNameUl="zIndex4"
                       labels={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.title) : []}
                       labelsIcons={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.icon) : []}
                       clicksList={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.path) : []}
                       clicksListName={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.name) : []}
-                      classNameArray={['order-md-2 homeTab mt-1 mt-md-0 px-md-2', 'order-md-1 propertyTab mt-1 mt-md-0 px-md-2', 'order-md-3 supportTab  mt-1 mt-md-0 px-md-2']}
+                      classNameArray={['order-lg-2 homeTab mt-1 mt-lg-0 px-lg-2', 'order-lg-1 propertyTab mt-1 mt-lg-0 px-lg-2', 'order-lg-3 supportTab  mt-1 mt-lg-0 px-lg-2']}
                       activeTab={activeMenu || checkActiveTab()}
                       onClick={(val) => onTabClick(val)}
                       showFull={false}
-                      classNameIcon="fsize-md-400 txtLight600"
+                      classNameIcon="fsize-lg-400 txtLight600"
                       classNameLabel="fsize-300 txtLight600 dis-f a-c ml-1"
                     /> */}
                     </>

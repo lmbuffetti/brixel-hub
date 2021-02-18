@@ -20,7 +20,7 @@ function PageHeaderAchievement(props) {
 
   return (
     <header className="max-w-fix-760 w-perc-100 m-a pageHeaderAchievement">
-      <div className="container p-1 p-md-2 dis-f jc-b a-c">
+      <div className="container p-1 p-lg-2 dis-f jc-b a-c">
         <div className="dis-f a-c">
           <BrixelIcon
             rounded
