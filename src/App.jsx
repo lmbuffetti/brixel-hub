@@ -22,14 +22,20 @@ import 'moment/locale/fr';
 import 'moment/locale/de-at';
 import 'moment/locale/en-gb';
 // COMPONENTS
-import { BrixelIcon, BrixelNotification } from '@brixel/brixel-components';
+import {
+  BrixelIcon,
+  BrixelNotification,
+} from '@brixel/brixel-components';
 import Loading from './components/Loading';
 import { checkToken, setUserTypes } from './actions/UserActions';
-import { setLanguage, setModal, setWindowDimensions } from './actions/CommonActions';
+import {
+  setLanguage, setModal, setWindowDimensions,
+} from './actions/CommonActions';
 
 import BrixelModalAwards from './components/BrixelModalAwards';
 import { getImageType } from './actions/UploadActions';
 import TeaserBanner from './components/TeaserBanner';
+import SplashScreen from './components/SplashScreen';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = Loadable({
@@ -156,6 +162,7 @@ const App = (props) => {
     notification,
     activeSingleProperty,
     redirectTo,
+    splashScreenType,
     windowDimensions,
   } = props;
   // STATE
@@ -567,6 +574,16 @@ const App = (props) => {
         )
       }
 
+      { /* SPLASH SCREEN */ }
+      {
+        splashScreenType === 'preMarket' && (
+          <SplashScreen
+            className="result-popup"
+            closeOutside={false}
+          />
+        )
+      }
+
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
         notification &&
@@ -639,6 +656,7 @@ App.propTypes = {
   modal: PropTypes.object.isRequired,
   notification: PropTypes.object,
   redirectTo: PropTypes.object,
+  splashScreenType: PropTypes.string.isRequired,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -659,6 +677,7 @@ const mapStateToProps = (state) => ({
   modal: get(state, 'common.modal', {}),
   notification: get(state, 'common.notification', null),
   redirectTo: get(state, 'common.redirectTo', null),
+  splashScreenType: get(state, 'common.splashScreenType', ''),
   userTypes: get(state, 'user.userTypes', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
