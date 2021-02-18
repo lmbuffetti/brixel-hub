@@ -106,17 +106,17 @@ const MarketList = (props) => {
           break;
         }
         case 'radar': {
-          set(data, 'searchProfileId', profileID);
+          if (profileID) set(data, 'searchProfileId', profileID);
           handleGetNewProperties(data);
           break;
         }
         case 'premium': {
-          set(data, 'country', getProfileCountry());
+          if (profileID) set(data, 'searchProfileId', profileID);
           handleGetPremiumProperties(data);
           break;
         }
         case 'preMarket': {
-          set(data, 'searchProfileId', profileID);
+          if (profileID) set(data, 'searchProfileId', profileID);
           handleGetPreMarketProperties(data);
           break;
         }
