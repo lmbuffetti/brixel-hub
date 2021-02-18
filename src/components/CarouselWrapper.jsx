@@ -27,7 +27,6 @@ const CarouselWrapper = (props) => {
   } = props;
 
   const [preventClick, setPreventClick] = useState(false);
-  const [btnAlignment, setBtnAlignment] = useState(false);
 
   const sliderInstance = useRef(null);
   let slideToShow = type === 'own' ? 1 : 2;
