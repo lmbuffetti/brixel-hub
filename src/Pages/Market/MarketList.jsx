@@ -61,15 +61,6 @@ const MarketList = (props) => {
   const [propertyListings, setPropertyListings] = useState([]);
   const [openMap, setOpenMap] = useState(false);
 
-  const getProfileCountry = () => {
-    let country = '';
-    userSearchProfiles[0].location.forEach((loc, i) => {
-      if (i === userSearchProfiles[0].location.length - 1) country += `${loc.countryCode}`;
-      else country += `${loc.countryCode},`;
-    });
-    return country;
-  };
-
   useEffect(() => {
     if (windowDimensions.width <= 1024) {
       if (history.location.state === 'showMap') setOpenMap(true);
@@ -106,17 +97,17 @@ const MarketList = (props) => {
           break;
         }
         case 'radar': {
-          set(data, 'searchProfileId', profileID);
+          if (profileID) set(data, 'searchProfileId', profileID);
           handleGetNewProperties(data);
           break;
         }
         case 'premium': {
-          set(data, 'country', getProfileCountry());
+          if (profileID) set(data, 'searchProfileId', profileID);
           handleGetPremiumProperties(data);
           break;
         }
         case 'preMarket': {
-          set(data, 'searchProfileId', profileID);
+          if (profileID) set(data, 'searchProfileId', profileID);
           handleGetPreMarketProperties(data);
           break;
         }
@@ -293,7 +284,7 @@ const MarketList = (props) => {
               />
               <div className="mt-2">
                 <h4 className="dis-b fweight-700 pb-small-4">{getTitle()}</h4>
-                <span className="fsize-300"><span>There are </span> <span className="fweight-600"> {getTotal() ? getTotal() : '-'} properties</span> <span>available</span></span>
+                <span className="fsize-300"><span>There are </span> <span className="fweight-600 notranslate"> {getTotal() ? getTotal() : '-'}</span> <span className="fweight-600">properties</span> <span>available</span></span>
               </div>
             </div>
             {
