@@ -578,7 +578,7 @@ const App = (props) => {
       {
         splashScreenType === 'preMarket' && (
           <SplashScreen
-            className="result-popup"
+            className="result-premarket"
             closeOutside={false}
             type="preMarket"
           />
