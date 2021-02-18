@@ -9,7 +9,6 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import {
-  BrixelIcon,
   BrixelButtonText,
   BrixelButtonIcon,
   BrixelTabs,
@@ -18,6 +17,7 @@ import {
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_full_v2.svg';
+import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import useOutsideAlerter from './OutsideElement';
 import { setCookie, sortObject } from '../utils/helpers';
 import { setLanguage, setModal } from '../actions/CommonActions';
@@ -32,7 +32,7 @@ import {
 import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
 import { setActiveSingleProperty, getActiveSinglePropertyDealsCount, setActiveSinglePropertyDealsCount } from '../actions/PropertyActions';
 // import brixels from '../images/BrxielComingTown/brixels.svg';
-import CoverPropertyImage from './CoverPropertyImage';
+// import CoverPropertyImage from './CoverPropertyImage';
 import AccountDropdown from './AccountDropdown';
 
 function PageHeaderDashboard(props) {
@@ -57,7 +57,6 @@ function PageHeaderDashboard(props) {
     history,
     lang,
     loggedInUser,
-    setDealsCount,
     userType,
     windowDimensions,
   } = props;
@@ -68,15 +67,18 @@ function PageHeaderDashboard(props) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
+  const [supportMenu, setSupportMenu] = useState(false);
   const [langMenu, setLangMenu] = useState([]);
   const [langSel, setSelLang] = useState(lang);
+  const [section, setSection] = useState('Sell');
+  const [linkSection, setLinkSection] = useState('Sell');
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   // REF
   const profileMenu = useRef(null);
-  const proTitleRef = useRef(null);
 
   // URL PARAMS
-  const propID = history.location.pathname.split('/')[1];
+  let propID = history.location.pathname.split('/')[1];
+  if (propID === 'buyer') propID = history.location.pathname.split('/')[3];
 
   // ON CHANGE HISTORY THE MOBILE MENU IS CLOSED
   useEffect(() => {
@@ -273,14 +275,6 @@ function PageHeaderDashboard(props) {
     }
   };
 
-  // FUNCTION TO GO TO SELLERS/BUYERS PROPERTIES
-  const onBackProperties = () => {
-    handleSetActiveSingleProperty({});
-    setDealsCount({});
-    if (userType === 'seller') history.push('/seller/pageLists');
-    else history.push('/buyer/propertyLists');
-  };
-
   // CHECK TAB BY URL
   const checkActiveTab = () => {
     let curTab = '';
@@ -301,13 +295,110 @@ function PageHeaderDashboard(props) {
     return [];
   };
 
+  useEffect(() => {
+    if (get(history, 'location.state.section', null)) {
+      setSection(get(history, 'location.state.section', null));
+    } else if (userType === 'seller' && section !== 'Market') setSection('Sell');
+    else if (section !== 'Market') setSection('Buy');
+  }, [get(history, 'location.state', null), userType]);
+
+  useEffect(() => {
+    switch (section) {
+      case 'Market':
+        setLinkSection('/home');
+        break;
+      case 'Buy':
+        setLinkSection('/buyer/propertyLists');
+        break;
+      default:
+        setLinkSection('/seller/pageLists');
+        break;
+    }
+  }, [section]);
+
   return (
     <>
       <header className="hubDasHeader">
         <div className="dasHeaderContainer">
-          <div className="wrapperHeader dis-f a-c px-2 px-md-3 h-fix-64 jc-b pos-r bgWhite">
-
-            {
+          <div className={`wrapperHeader dis-f a-c ${history.location.pathname.includes('/home') ? '' : ''} h-fix-64 px-2 px-md-3 jc-b pos-r bgWhite`}>
+            <div className="header-section py-1 dis-fl-row a-c jc-b">
+              <div className="dis-f a-c logoWrapper">
+                {
+                  windowDimensions.width <= 590 ? (
+                    <img
+                      onClick={() => {
+                        handleSetUserTypes('seller');
+                        handleSetActiveSingleProperty({});
+                        history.push('/home');
+                      }}
+                      className="pos-r cur-poi"
+                      src={logoMobile}
+                      alt="Brixel Logo"
+                      id="logo"
+                    />
+                  ) : (
+                    <img
+                      onClick={() => {
+                        handleSetUserTypes('seller');
+                        handleSetActiveSingleProperty({});
+                        history.push('/home');
+                      }}
+                      className="pos-r cur-poi"
+                      src={logo}
+                      alt="Brixel Logo"
+                      id="logo"
+                    />
+                  )
+                }
+              </div>
+              <div className="quickNav dis-f ml-3 pl-3 fsize-300">
+                {
+                  activeSingleProperty.id && propID && propID !== 'home' && propID !== 'buyer' && propID !== 'seller' ? (
+                    <>
+                      <span
+                        className="cur-poi"
+                        onClick={() => history.push(linkSection)}
+                      >
+                        {section}
+                      </span>
+                      <span className="px-1"> &gt; </span>
+                      <span className="propertyTitle txtDark700">{get(formValue, 'title', '')}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span
+                        className={`pr-3 cur-poi ${history.location.pathname.includes('/home') ? 'fweight-600 txtDark600' : ''}`}
+                        onClick={() => history.push('/home')}
+                      >
+                        Market
+                      </span>
+                      <span
+                        className={`pr-3 cur-poi ${history.location.pathname.includes('/seller') ? 'fweight-600 txtDark600' : ''}`}
+                        onClick={() => {
+                          handleSetUserTypes('seller');
+                          handleSetActiveSingleProperty({});
+                          history.push('/seller/pageLists');
+                        }}
+                      >
+                        Sell
+                      </span>
+                      <span
+                        className={`cur-poi ${history.location.pathname.includes('/buyer') ? 'fweight-600 txtDark600' : ''}`}
+                        onClick={() => {
+                          destroyForm();
+                          handleSetUserTypes('buyer');
+                          handleSetActiveSingleProperty({});
+                          history.push('/buyer/propertyLists');
+                        }}
+                      >
+                        Buy
+                      </span>
+                    </>
+                  )
+                }
+              </div>
+            </div>
+            {/* {
               activeSingleProperty.id ? (
                 <div className="propertyPanel dis-f a-c">
                   <div
@@ -318,6 +409,7 @@ function PageHeaderDashboard(props) {
                   >
                     <CoverPropertyImage
                       className="cover"
+                      size={56}
                       coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
                       propertyType={get(formValue, 'properties.propertyType', undefined)}
                     />
@@ -340,6 +432,15 @@ function PageHeaderDashboard(props) {
               ) : (
                 <div className="header-section dis-fl-row a-c jc-b">
                   {
+                    history.location.pathname.includes('/home') && (
+                      <>
+                        <div className="dis-f a-c logoWrapper">
+                          <img className="pos-r h-fix-32" src={logo} alt="Brixel Logo" id="logo" />
+                        </div>
+                      </>
+                    )
+                  }
+                  {
                     getCurrentRoute().title === 'Property' ? (
                       <>
                         <BrixelIcon
@@ -357,14 +458,18 @@ function PageHeaderDashboard(props) {
                       </>
                     ) : (
                       <>
-                        <BrixelIcon
-                          icon={getCurrentRoute().icon}
-                          color="dark"
-                          saturationTxt={400}
-                          background="primary"
-                          saturation={100}
-                          className="noRadius w-fix-40 h-fix-40 dis-f jc-c a-c"
-                        />
+                        {
+                          getCurrentRoute().icon && (
+                            <BrixelIcon
+                              icon={getCurrentRoute().icon}
+                              color="dark"
+                              saturationTxt={400}
+                              background="primary"
+                              saturation={100}
+                              className="noRadius w-fix-40 h-fix-40 dis-f jc-c a-c"
+                            />
+                          )
+                        }
                         <div className="ml-2">
                           <h5>{getCurrentRoute().title}</h5>
                         </div>
@@ -373,68 +478,29 @@ function PageHeaderDashboard(props) {
                   }
                 </div>
               )
-            }
-
-            {/*
-              windowDimensions.width > 1024 && (
-                <div className="header-section dis-fl-row a-c jc-b">
-                  <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} />
-                  <h5 className="ml-2">{getCurrentRoute().title}</h5>
-                </div>
-              )
-            }
-            {
-              windowDimensions.width <= 1024 && (
-                <div
-                  className="propertyPanel dis-f a-c"
-                  onClick={() => {
-                    if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
-                  }}
-                >
-                  <div className="image-ratio flex-48 squared shadow-2dp w-fix-48 h-fix-48 brdRadius ov-h">
-                    <CoverPropertyImage
-                      className="cover"
-                      coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
-                      propertyType={get(formValue, 'properties.propertyType', undefined)}
-                    />
-                  </div>
-                  <h4 ref={proTitleRef} className="ml-2 fsize-400 fweight-600"> {get(formValue, 'title', '')}</h4>
-                </div>
-              )
-            */}
-
+            } */}
             <div className="dis-f a-c">
-              {/*
+              {
                 windowDimensions.width > 1024 && (
-                  <div className="dis-f a-c" onClick={() => brixelsAchievementDetail()}>
-                    {
-                      awards >= 0 && (
-                        <div className="cur-poi dis-f a-c">
-                          <BrixelIcon iconSize="fsize-600" icon="cup-awards" color="green" />
-                          <span className="ff-mono fsize-300 pl-1 txtDark700">{awards}</span>
-                        </div>
-                      )
-                    }
-                    {
-                      brixelPoints >= 0 && (
-                        <div className="cur-poi dis-f a-c ml-2">
-                          <img className="max-w-fix-24" src={brixels} alt="icon awards" />
-                          <span className="ff-mono fsize-300 pl-1 txtDark700">{brixelPoints}</span>
-                        </div>
-                      )
-                    }
-                  </div>
+                  <BrixelButtonText
+                    className=""
+                    label="Support"
+                    rounded
+                    onClick={() => onTabClick('support')}
+                  />
                 )
-              */}
+              }
               {
                 propID && windowDimensions.width > 1024 && userType === 'seller' && (
-                  <BrixelButtonText
-                    className="hide dis-f-md mx-3"
-                    label="Upgrade"
-                    theme="red"
-                    rounded
-                    onClick={() => onUpgrade()}
-                  />
+                  <>
+                    <BrixelButtonText
+                      className="hide dis-f-md ml-2 mr-2"
+                      label="Upgrade"
+                      theme="red"
+                      rounded
+                      onClick={() => onUpgrade()}
+                    />
+                  </>
                 )
               }
 
@@ -451,13 +517,13 @@ function PageHeaderDashboard(props) {
                   <div className="ml-2">
                     <BrixelButtonIcon
                       className="btnMainMenu"
-                      icon={showMobileMenu ? 'close-small' : 'menu'}
+                      icon="account"
                       onClick={() => toggleMobileMenu()}
                       ghost
                     />
                     {
                       showMobileMenu && (
-                        <div className="mobile-menu bgWhite w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-3 pb-2 zIndex5" style={{ height: windowDimensions.height }}>
+                        <div className={`mobile-menu scaleUp bgWhite w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-2 pb-2 ${supportMenu ? 'zIndex1' : 'zIndex5'}`} style={{ height: windowDimensions.height }}>
                           <div className="dis-f jc-b a-c w-perc-100">
                             <img className="pos-r w-fix-80" src={logo} alt="Brixel Logo" id="logo" />
                             <BrixelButtonIcon
@@ -472,8 +538,8 @@ function PageHeaderDashboard(props) {
                             />
                           </div>
                           <div className="links dis-fl-col as-b w-perc-100">
-                            <div className="sidebarNav mt-5">
-                              <ul className="navigation max-w-fix-240">
+                            <div className="sidebarNav mt-0">
+                              {/* <ul className="navigation max-w-fix-240">
                                 <li
                                   onClick={() => {
                                     handleSetUserTypes('seller');
@@ -505,91 +571,61 @@ function PageHeaderDashboard(props) {
                                   />
                                   Buy
                                 </li>
-                              </ul>
-                              {/* <BrixelButtonPrimary
-                                label="Sell"
-                                labelClass="fsize-300"
-                                leftIcon="property-house"
-                                className={`${userType === 'seller' ? 'active' : ''}`}
-                                onClick={() => {
-                                  handleSetUserTypes('seller');
-                                  handleSetActiveSingleProperty({});
-                                  history.push('/seller/pageLists');
-                                  toggleMobileMenu();
-                                }}
-                              />
-                              <BrixelButtonPrimary
-                                label="Buy"
-                                labelClass="fsize-300"
-                                leftIcon="favorite"
-                                className={`${userType === 'buyer' ? 'active' : ''}`}
-                                onClick={() => {
-                                  destroyForm();
-                                  handleSetUserTypes('buyer');
-                                  handleSetActiveSingleProperty({});
-                                  history.push('/buyer/propertyLists');
-                                  toggleMobileMenu();
-                                }}
-                              /> */}
-                              {/* <BrixelButtonText
-                                className="fsize-300 txtLight700 px-1 td-n"
-                                label="Support"
-                                leftIcon="conversation"
-                                onClick={() => onTabClick('support')}
-                              /> */}
-                              <span
-                                onClick={() => onTabClick('support')}
-                                className="cur-poi txtDark400 fsize-300 fweight-500 px-2 py-1"
-                              >
-                                <BrixelIcon
-                                  icon="conversation"
-                                  className="mr-2 fsize-400"
-                                />
-                                Support
-                              </span>
+                              </ul> */}
                             </div>
 
-                            <hr className="my-3" />
+                            <div className="mini-menu dis-fl-col jc-e ta-r">
+                              <span
+                                className="px-2 cur-poi link txtDark700 fweight-500 fsize-300"
+                                onClick={() => {
+                                  setSupportMenu(true);
+                                  onTabClick('support');
+                                }}
+                              >
+                                Support
+                              </span>
 
-                            <div className="mini-menu dis-fl-col">
+                              <hr className="my-2 lighter" />
                               {
-                                userType === 'seller' && (
+                                propID && userType === 'seller' && (
                                   <div className="mb-2">
                                     <a
                                       onClick={(e) => {
                                         e.preventDefault();
                                         onUpgrade();
                                       }}
-                                      className="cur-poi px-2 link txtRed400 fweight-500 fsize-300 ta-l"
+                                      className="cur-poi px-2 link txtRed400 fweight-500 fsize-300 ta-r"
                                     >
                                       Upgrade
                                     </a>
                                   </div>
                                 )
                               }
-                              <BrixelSelect
-                                options={langMenu}
-                                className="mb-2"
-                                input={{
-                                  value: langSel,
-                                  name: 'lang',
-                                  onChange: (val) => newLang(val),
-                                }}
-                              />
+                              <div className="dis-f jc-fe">
+                                <BrixelSelect
+                                  options={langMenu}
+                                  className="mr-1 mb-1"
+                                  input={{
+                                    value: langSel,
+                                    name: 'lang',
+                                    onChange: (val) => newLang(val),
+                                  }}
+                                />
+                              </div>
                               <a
-                                className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-l"
+                                className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-r"
                                 href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}
                               >
                                 Password
                               </a>
                               <a
-                                className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-l"
+                                className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-r"
                                 href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}
                               >
                                 Preferences
                               </a>
                               <a
-                                className="px-2 link txtDark700 fweight-500 fsize-300 ta-l"
+                                className="px-2 link txtDark700 fweight-500 fsize-300 ta-r"
                                 href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}
                               >
                                 Logout
@@ -610,9 +646,9 @@ function PageHeaderDashboard(props) {
             </div>
           </div>
         </div>
-        <div className="tabWrapper">
+        <div className="tabWrapper hide-lg">
           {
-            has(activeSingleProperty, 'id') && (
+            !history.location.pathname.includes('home') && has(activeSingleProperty, 'id') && (
               <>
                 {
                   userType === 'seller' ? (
@@ -655,7 +691,7 @@ function PageHeaderDashboard(props) {
           }
         </div>
         {
-          windowDimensions.width <= 1024 && getCurrentRoute().name !== 'deals' && (
+          windowDimensions.width <= 1024 && getCurrentRoute().name !== 'deals' && !history.location.pathname.includes('home') && (
             <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
               <div className="header-section dis-fl-row a-c jc-b">
                 {/* <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} /> */}
@@ -711,7 +747,6 @@ PageHeaderDashboard.propTypes = {
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
   getPropertyDealsCount: PropTypes.func.isRequired,
-  setDealsCount: PropTypes.func.isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {

@@ -12,6 +12,7 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import last from 'lodash/last';
 import queryString from 'query-string';
@@ -20,7 +21,7 @@ import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodeP
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
-import { setCookie } from '../../utils/helpers';
+import { calcPercentageFacts, setCookie } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoarding';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff } from '../../actions/CommonActions';
@@ -76,6 +77,25 @@ const GetStarted = (props) => {
     return () => destroyForm();
   }, []);
 
+  const getSplashType = () => {
+    const dataForm = cloneDeep(formValue);
+    let type;
+
+    if (get(dataForm, 'location.countryCode', null) === 'PT') type = 'bestimateTeaser';
+    if (get(dataForm, 'location.countryCode', null) === 'CH') type = 'bestimateResult';
+
+    return type;
+  };
+
+  // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
+  useEffect(() => {
+    const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+    if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
+      inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
+      changeFieldValue('inputSheet', inputSheet);
+    }
+  }, [formValue]);
+
   // FUNCTION TO SAVE DATA
   const saveData = async (action) => {
     const dataForm = cloneDeep(formValue);
@@ -88,7 +108,8 @@ const GetStarted = (props) => {
       const dataProperty = {
         id: get(dataForm, 'pageID', null),
         ownerType: get(dataForm, 'register.ownerType', null),
-        redirectTo: `/${get(dataForm, 'pageID', null)}/rewards`,
+        redirectTo: '/home',
+        splashType: getSplashType(),
       };
       const packageFlowProcess = get(dataForm, 'pageAnswer', {});
       packageFlowProcess.answers.userType = get(dataForm, 'register.ownerType', 'seller');
@@ -114,9 +135,11 @@ const GetStarted = (props) => {
       ];
       if (sellerType.includes(get(dataForm, 'register.ownerType', ''))) {
         dataUser.seller = true;
+        dataUser.buyer = false;
       }
       if (buyerType.includes(get(dataForm, 'register.ownerType', ''))) {
         dataUser.buyer = true;
+        dataUser.seller = false;
       }
       dataProperty.packageFlowProcess = packageFlowProcess;
       await handleSaveActiveSingleUser(dataUser);
@@ -188,6 +211,7 @@ const GetStarted = (props) => {
           createUser: true,
           company,
           ignoreEmail: false,
+          seller: true,
           redirectTo: {
             pathname: '/packageFlow/getStarted/success',
             state: { hideClose: true },
@@ -463,6 +487,12 @@ const GetStarted = (props) => {
               const err = get(errorValue, item, true);
               if (err !== true && err !== false && isValid) isValid = false;
             });
+          }
+          if (input.name === 'register.ownerType') {
+            if (!has(formValue, 'register.ownerType') || get(formValue, 'register.ownerType', '') === null) isValid = false;
+          }
+          if (input.name === 'register.whenToSell') {
+            if (!has(formValue, 'register.whenToSell') || get(formValue, 'register.whenToSell', '') === null) isValid = false;
           } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
         }
       });

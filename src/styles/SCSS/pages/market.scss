@@ -1,0 +1,300 @@
+@import '~@brixel/brixel-components/src/styles/SCSS/general/variables';
+
+.marketHome {
+  .hubDasContent {
+    padding-top: 0;
+
+    #market {
+      padding-bottom: $step * 4;
+      padding-top: $step * 8;
+      @media (max-width: $responsive-small) {
+        padding-top: $step * 4;
+      }
+      &.market-listings {
+      }
+      .searchProfileArea {
+        &:hover {
+          background: map-get($lightColor, 100);
+        }
+      }
+      .editSearchProfile {
+        @media (max-width: $responsive-small) {
+          position: absolute;
+          right: 8px;
+        }
+      }
+
+      .mobile-market-filter {
+        .dropdown-list {
+          width: 250px;
+        }
+      }
+
+      .carousel-wrapper  {
+        .show-all {
+          @media (min-width: $responsive-small) {
+            right: 98px;
+          }
+        }
+
+        .slick-list {
+          margin-left: -8px;
+          @media (max-width: $responsive-small) {
+          }
+        }
+        &:not(.type-own) .slick-list {
+          @media (max-width: $responsive-small) {
+            padding:0 10% 0 0 !important;
+
+            &::before {
+              content: '';
+              position: absolute;
+              height: 100%;
+              width: 17%;
+              z-index: 1;
+              right: -1px;
+              background: #fff;
+              background: linear-gradient(90deg, rgba(#fff, 0), rgba(#fff, 1) 100%);
+            }
+          }
+        }
+        .bestimateFact {
+          > div {
+            min-width: calc(50% - 8px);
+          }
+
+          .total-completed {
+            width: calc(100% - 16px - 48px);
+          }
+
+          @media (max-width: $responsive-small) {
+           // flex-direction: column;
+            //align-items: baseline;
+            > div {
+              padding: $step;
+            }
+          }
+        }
+      }
+
+      .firstLevel {
+        max-width: 100%;
+        display: flex;
+
+        > div {
+          flex-basis: 50%;
+          &:last-child {
+            flex-basis: calc(50% - 8px);
+          }
+          @media (max-width: $responsive-large) {
+            flex-basis: 100%;
+          }
+        }
+        .property-list {
+
+        }
+        .map-wrapper {
+          margin-bottom: 0;
+          position: fixed;
+          top: 64px;
+          right: $step;
+          width: calc(50% - 8px);
+
+          @media (max-width: $responsive-large) {
+            width: 100%;
+            top: 0;
+            display: none;
+
+            &.map-on {
+              opacity: 0;
+              display: block;
+              animation: slideDown 0.5s $default-easing forwards;
+              z-index: 1;
+            }
+          }
+          .map-inner {
+            height: 100%;
+            box-shadow: none;
+            border-radius: 0;
+            padding: 0;
+
+            > div {
+              height: 100%;
+            }
+
+            .min-100v {
+              min-height: calc(100vh - 64px);
+
+              @media (max-width: $responsive-large) {
+                min-height: calc(100vh - 56px);
+              }
+            }
+          }
+        }
+      }
+      .innerLineHeight {
+        line-height: 1.5;
+      }
+      .market-card {
+        overflow: hidden;
+      }
+      .cover {
+        &.pre-market {
+          filter: grayscale(100%);
+        }
+      }
+      // slick carousel custom css
+      .slick-slider .slick-track {
+        margin-left: 0;
+      }
+    }
+  }
+  .result-popup {
+    .container {
+      top: 50%;
+      transform: translateY(-50%);
+      min-height: auto;
+      height: auto;
+      max-width: 800px;
+      opacity: 0;
+      will-change: opacity;
+
+      @media (min-width: $responsive-large) {
+        animation: scaleUpCustom $default-time-long $default-easing forwards;
+      }
+      @keyframes scaleUpCustom {
+        0% {
+          opacity: 0;
+          transform: scale(0.5) translateY(-50%);
+        } 100% {
+          transform: scale(1) translateY(-50%);
+          opacity: 1;
+        }
+      }
+
+      @keyframes scaleUpCustomFull {
+        0% {
+          opacity: 0;
+          transform: scale(0.5) translate(-50%, -50%);
+        } 100% {
+            transform: scale(1) translate(-50%, -50%);
+            opacity: 1;
+          }
+      }
+
+      @media (max-width: $responsive-large) {
+        height: 100%;
+        top: 0;
+        transform: translateY(0);
+        opacity: 0;
+        animation: scaleUp $default-time-long $default-easing forwards;
+      }
+    }
+  }
+}
+.scrollingHeader  .marketHome .hubDasContent #market .firstLevel {
+  .map-wrapper {
+    @media (max-width: $responsive-large) {
+      top: 0;
+      .map-inner {
+        .full-h-map-wrapper {
+          //height: calc(100vh - 6);
+        }
+      }
+    }
+  }
+}
+// for welcome screen
+.category-tag {
+  padding: 4px;
+  padding-left: $step;
+  padding-right: $step;
+  font-size: 12px;
+  color: white;
+  border-radius: 4px;
+}
+// for market card
+.cardMap {
+  .tag-container {
+    top: $step;
+    left: $step;
+  }
+}
+.tag-container {
+  top: 12px;
+  left: 20px;
+
+  .type-tag {
+    &.favorite {
+      left: auto;
+      right: $step * 2;
+      top: 12px;
+    }
+
+    &.non-favorite {
+      border-radius: $step / 2;
+      padding-top: $step / 2;
+      padding-bottom: $step / 2;
+      padding-left: $step;
+      padding-right: $step;
+    }
+    &.bgGreen {
+      background-color: rgba(map-get($greenColor, 400), 0.8);
+    }
+    &.bgPrimary {
+      background-color: rgba(map-get($primaryColor, 400), 0.8);
+    }
+    &.bgRed {
+      background-color: rgba(map-get($redColor, 400), 0.8);
+    }
+  }
+}
+.prop-box .tag-container .type-tag {
+  top: $step / 2;
+  left: $step / 2;
+  padding-left: $step / 2;
+  padding-right: $step / 2;
+  padding-top: $step / 3;
+  padding-bottom: $step / 3;
+}
+
+
+
+.besitmate-bar {
+  display: flex;
+  height: 10px;
+  position: relative;
+  margin-top: $step * 2;
+  width: 100%;
+  background-color: map-get($lightColor, 200);
+  border-radius: $step;
+
+  &::after {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 50%;
+    left: 50%;
+    border-radius: $step;
+    transform: translateX(-50%);
+    background-color: map-get($primaryColor, 700);
+  }
+}
+// slick customize
+.slick-prev:hover,
+.slick-prev:focus,
+.slick-next:hover,
+.slick-next:focus
+{
+  color: inherit;
+  outline: inherit;
+  background: inherit;
+}
+.slick-disabled {
+  //cursor: default;
+  &:focus,
+  &:active,
+  &:hover {
+    // background: white;
+  }
+}

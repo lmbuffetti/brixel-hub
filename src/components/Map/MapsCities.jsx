@@ -8,6 +8,7 @@ import {
   GoogleApiWrapper,
 } from 'google-maps-react';
 import PropTypes from 'prop-types';
+import Geocode from 'react-geocode';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { BrixelInputText, BrixelIcon, change } from '@brixel/brixel-components';
@@ -96,12 +97,11 @@ export const MapsCities = (props) => {
 
   // FUNCTION TO EXTRACT DATA FROM SELECTED ADDRESS
   const geoCode = (adr) => {
-    const geocoder = new google.maps.Geocoder();
     const defAdr = adr.split(',');
-    geocoder.geocode({
-      address: adr,
-    }, (result, status) => {
-      if (status === 'OK') {
+    Geocode.setApiKey('AIzaSyDHqV6i45MbGQVKOr2Md-8IzWeO7J1zGmg');
+    if (selCountry.toLowerCase() !== 'ch') Geocode.setLanguage(selCountry.toLowerCase());
+    Geocode.fromAddress(adr)
+      .then((result) => {
         const formattedPlace = get(formValue, 'location', {});
         formattedPlace.country = null;
         formattedPlace.countryCode = null;
@@ -116,21 +116,18 @@ export const MapsCities = (props) => {
         formattedPlace.zip = null;
         formattedPlace.city = null;
 
-        const location = result[0];
+        const location = result.results[0];
         if (location.geometry) {
           formattedPlace.geometry = location.geometry;
-          formattedPlace.latitude = location.geometry.location.lat();
-          formattedPlace.longitude = location.geometry.location.lng();
+          formattedPlace.latitude = location.geometry.location.lat;
+          formattedPlace.longitude = location.geometry.location.lng;
         }
-
         if (location.name) {
           formattedPlace.name = location.name;
         }
-
         if (location.vicinity) {
           formattedPlace.vicinity = location.vicinity;
         }
-
         if (location.formatted_address) {
           setNewLocation(location.formatted_address);
           if (location.formatted_address.split(',').length === 2) {
@@ -139,7 +136,6 @@ export const MapsCities = (props) => {
             formattedPlace.address = location.formatted_address;
           }
         }
-
         if (location.address_components) {
           location.address_components.map((el) => {
             if (!el.types) {
@@ -194,8 +190,7 @@ export const MapsCities = (props) => {
         // changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
         setLoclist([]);
         // setZiplist([]);
-      }
-    });
+      });
   };
 
   // FUNCTION TO LOAD AUTOCOMPLETE FUNCTION ON CHANGE searchAddress
@@ -279,20 +274,9 @@ export const MapsCities = (props) => {
   };
 
   useEffect(() => {
-    const flowWrapper = document.getElementsByClassName('singleStep')[0];
     const resultBox = addressRef.current;
-
-    if (resultBox) {
-      const resultBoxRect = resultBox.getBoundingClientRect();
-
-      if (!selectedAddress && locList.length > 0 && !disabled && flowWrapper) {
-        flowWrapper.scrollTo({
-          top: resultBoxRect.bottom,
-          behavior: 'smooth',
-        });
-      }
-    }
-  });
+    if (resultBox) resultBox.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, [locList.length]);
 
   return (
     // Important! Always set the container height explicitly
@@ -331,7 +315,7 @@ export const MapsCities = (props) => {
                 {
                   !selectedAddress && locList.length > 0 && !disabled && (
                     <ul
-                      className="resultAutoComplete"
+                      className="resultAutoComplete notranslate"
                       ref={addressRef}
                       // style={{ maxHeight: `calc(100vh - ${resultBoxHeight}px)` }}
                     >
@@ -452,8 +436,8 @@ MapsCities.defaultProps = {
 
 const mapStateToProps = (state, props) => {
   const formName = get(props, 'formName', Object.keys(get(state, 'brixelForm'))[0]);
-  const lat = get(state, 'property.activeSingleProperty.location.latitude', 0);
-  const lng = get(state, 'property.activeSingleProperty.location.longitude', 0);
+  const lat = get(state, 'property.activeSingleProperty.location.latitude', 10);
+  const lng = get(state, 'property.activeSingleProperty.location.longitude', 10);
   return ({
     country: get(state, 'common.country', {}),
     formValue: get(state, `brixelForm[${formName}].values`, {}),

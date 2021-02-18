@@ -73,7 +73,7 @@ const PropertyList = (props) => {
                   <li className="single-property a-c dis-fl-row cur-poi shadow-1dp brdRadius p-1 my-2">
                     <div className="image-ratio w-fix-48 h-fix-48 flex-48 a-c jc-c pos-r brdRadius ov-h">
                       <CoverPropertyImage
-                        size={48}
+                        size="48"
                         className="cover"
                         coverPhoto={get(property, 'coverPhoto.path', undefined)}
                         propertyType={get(property, 'properties.propertyType', undefined)}

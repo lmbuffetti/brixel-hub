@@ -25,13 +25,14 @@ import {
   savePropertyVisitSchedule,
   createPropertyVisitSchedule,
   savePropertyVisitBooking,
+  getEstimation,
 } from '../../../actions/PropertyActions';
 import { deleteDocument, uploadDocument, getImageType } from '../../../actions/UploadActions';
 import {
   addGameHistory, getAchievement, getGamegroup, getGameHistory,
 } from '../../../actions/GamificationActions';
 import {
-  setModal, setPageData, setScreenNotification, spinnerOn,
+  setModal, setPageData, setScreenNotification, spinnerOff, spinnerOn,
 } from '../../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { calcPercentageFacts } from '../../../utils/helpers';
@@ -101,8 +102,9 @@ const Dashboard = (props) => {
     handleGetGameGroup,
     handleGetGameHistory,
     handleGetImageType,
-    handleGetPropertyListings,
     handleSaveActiveSingleProperty,
+    handleGetPropertyListings,
+    handleGetActiveSinglePropertyEstimation,
     handleSaveData,
     handleSavePropertyVisitSchedule,
     handleSetScreenNotification,
@@ -120,6 +122,7 @@ const Dashboard = (props) => {
     savePageData,
     userTypes,
     handleSpinnerOn,
+    handleSpinnerOff,
   } = props;
   const [isDiscardChanges, setIsDiscardChanges] = useState(false);
   const [userType, setUserType] = useState(null);
@@ -166,10 +169,14 @@ const Dashboard = (props) => {
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
     if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
-      if (propID && !get(activeSingleProperty, 'id', null)) {
+      if (propID && propID !== 'home') {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
+        handleGetActiveSinglePropertyEstimation(propID);
       } else if (!propID) {
+        // history.push('/home');
         loadDefaultProperty();
+      } else {
+        handleSpinnerOff();
       }
     }
     if (gameAchievement.length === 0) handleGetAchievement();
@@ -194,7 +201,7 @@ const Dashboard = (props) => {
         propID !== formValue.id
       )
     ) {
-      initForm(cloneDeep(initialValues));
+      if (propID !== 'seller' && propID !== 'buyer' && propID && activeSingleProperty.id === propID) initForm(cloneDeep(initialValues));
     }
   }, [initialValues, propID]);
 
@@ -208,8 +215,6 @@ const Dashboard = (props) => {
         if (get(activeSingleProperty, 'owner', null) === loggedInUser.user.id) {
           // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
           handleGetActiveSinglePropertyBookings({ id: propID });
-        } else if (get(activeSingleProperty, 'statusCode', null)) {
-          loadDefaultProperty();
         }
         if (imageType.length === 0) handleGetImageType();
       } else {
@@ -256,6 +261,7 @@ const Dashboard = (props) => {
         if (changeObj.photos) {
           objToSave.coverPhoto = changeObj.photos[0];
         }
+        objToSave.inputSheet = get(formValue, 'inputSheet', {});
         const data = {
           id: propID,
           smallLoader: true,
@@ -400,8 +406,11 @@ const Dashboard = (props) => {
       // initializeForm('inputSheet', inputSheet);
     }
   }, [formValue, errorValue]);
+
   if (!userTypes && !userType) return (<div />);
+
   const sectionClass = get(history, 'location.pathname', '/').split('/');
+
   return (
     <div className={`container dashboardContainer ${sectionClass[2]}`} id="dashboard">
       {/* teaserScreens && isEligible(activeSingleProperty) && () */}
@@ -431,14 +440,15 @@ Dashboard.propTypes = {
   handleGetAchievement: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetActiveSinglePropertyEstimation: PropTypes.func.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleGetGameGroup: PropTypes.func.isRequired,
   handleGetGameHistory: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
-  handleGetPropertyListings: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSaveData: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
+  handleGetPropertyListings: PropTypes.func.isRequired,
   handleSetScreenNotification: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -454,6 +464,7 @@ Dashboard.propTypes = {
   savePageData: PropTypes.string,
   userTypes: PropTypes.string,
   handleSpinnerOn: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
 };
 
 Dashboard.defaultProps = {
@@ -549,12 +560,14 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset('Property', data)));
   },
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   handleGetAchievement: bindActionCreators(getAchievement, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleGetActiveSinglePropertyEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
   handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
   handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),

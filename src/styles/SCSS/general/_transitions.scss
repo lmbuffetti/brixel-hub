@@ -127,6 +127,28 @@
   }
 }
 
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px);
+  } 100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slideOut {
+  0% {
+    opacity: 1;
+    margin-top: translateY(0);
+  } 100% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+}
+.slideOut {
+  animation: slideOut $default-time $default-easing forwards;
+}
+
 @keyframes slideInLong {
   0% {
     opacity: 0;
@@ -166,6 +188,20 @@
   } 100% {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+.slidetoLeft {
+  animation: slidetoLeft $default-time-long $default-easing;
+}
+
+@keyframes slidetoLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  } 100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 

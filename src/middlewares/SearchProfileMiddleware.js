@@ -25,10 +25,17 @@ const checkSearchProfile = (store) => (next) => (action) => {
               type: SPINNER_OFF,
             });
           } else {
+            store.dispatch({ type: SET_USER_SEARCH_PROFILES, payload: [] });
             store.dispatch({
               type: SPINNER_OFF,
             });
           }
+        })
+        .catch(() => {
+          store.dispatch({ type: SET_USER_SEARCH_PROFILES, payload: [] });
+          store.dispatch({
+            type: SPINNER_OFF,
+          });
         });
       break;
     }
@@ -40,6 +47,7 @@ const checkSearchProfile = (store) => (next) => (action) => {
       api.searchProfile.updateSearchProfile(action.payload.dataSearchProfile, token)
         .then(() => {
           if (addSearchProfile) {
+            // window.location.href = '/home';
             window.location.href = '/buyer/propertyLists';
           }
         });

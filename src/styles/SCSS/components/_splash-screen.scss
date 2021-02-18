@@ -24,16 +24,29 @@
     }
   }
 
+  &.fixed {
+    .container {
+      height: auto;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      animation: scaleUpCustomFull .35s ease-in-out forwards;
+      transform: translate(-50%,-50%);
+    }
+  }
+
   .container {
     position: relative;
     top: 120px;
     height: calc(100% - 120px);
     width: 100%;
     max-width: 930px;
+    padding: 0;
 
     @media (max-width: $responsive-medium) {
       height: 100%;
       top: 0;
+      border-radius: 0;
     }
 
     // Media edit styles

@@ -42,3 +42,112 @@
 .searchMapFields {
   width: calc(100% - 85px);
 }
+
+.labelMarker {
+  text-align: center;
+  min-width: 150px;
+
+  p {
+    background: white;
+    width: fit-content;
+    margin: auto;
+    font-size: 12px;
+    border-radius: 8px;
+    position: relative;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+
+    &:after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 8px 6px 0 6px;
+      border-color: #FFF transparent transparent transparent;
+      position: absolute;
+      left: 50%;
+      box-shadow: 0px 8px 10px rgba(#000, 0.02);
+      top: 100%;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  &.active {
+    z-index: 1000 !important;
+    opacity: 1 !important;
+    p {
+      background: map_get($primaryColor, 200);
+      &:after {
+        border-color: map_get($primaryColor, 200) transparent transparent transparent;
+      }
+    }
+  }
+
+}
+
+.map-wrapper {
+  .gm-style-iw,
+  .gm-style-iw-d {
+    padding: 0;
+    overflow: visible !important;
+
+    .coverWrapper {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      .cover {
+        position: relative;
+        top: -2px;
+      }
+    }
+    > button {
+      opacity: 1;
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      height: 40px !important;
+      width: 40px !important;
+      border-width: 2px;
+      border-style: solid;
+      border-color: transparent;
+      transition: all 400ms;
+      background: $brx-white !important;
+      top: -15px !important;
+      right: -15px !important;
+      img {
+        display: none !important;
+      }
+      &:after {
+        content: $icon-close-small;
+        font-family: "icomoon" !important;
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-size: 16px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+  .gm-style .gm-style-iw-t::after {
+    display: none !important;
+  }
+  .gm-style .gm-style-iw-c {
+    box-shadow: $shadow-3dp;
+  }
+  .info {
+    padding: $step * 2;
+  }
+}

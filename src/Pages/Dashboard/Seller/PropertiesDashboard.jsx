@@ -108,13 +108,14 @@ const HomeDashboard = (props) => {
             />
           </div>
           <div className="properties listings-wrapper w-perc-100 px-1">
-            <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
+            <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12 pt-1">
+
               {
                 userProperties.map((property, i) => (
                   <div
                     key={i.toString()}
                     className="results dis-f shadow-3dp mb-3 a-c bgWhite brdRadius cur-poi"
-                    onClick={() => history.push(`/${property.id}/rewards`)}
+                    onClick={() => history.push({ pathname: `/${property.id}/rewards`, state: { section: 'Sell' } })}
                   >
                     <div className="row-section p-1 avatar-container dis-f a-c ov-h flex-112">
                       <Link
@@ -124,6 +125,7 @@ const HomeDashboard = (props) => {
                         }}
                       >
                         <CoverPropertyImage
+                          size="96"
                           coverPhoto={get(property, 'coverPhoto.galleryThumbnailPath', null)}
                           className="avatar w-fix-96 h-fix-96 pos-r brdRadius"
                         />

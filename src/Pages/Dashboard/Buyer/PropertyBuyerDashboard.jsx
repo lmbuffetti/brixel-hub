@@ -80,7 +80,7 @@ const PropertyBuyerDashboard = (props) => {
     <>
       <div className="property-container dis-f jc-c h-perc-md-100 pos-r a-t" id="propertyDashboard">
         <Sticker>
-          <div className={`firstLevel bgLight100 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
+          <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-md-2' : 'collapsed'}`}>
 
             <div className="dis-f">
               <BrixelButtonBox

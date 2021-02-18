@@ -291,7 +291,7 @@ const GetStartedBuyer = (props) => {
   useEffect(() => {
     setIsEnter(true);
     if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
-      const countryCodeLocation = get(formValue, 'location.countryCode', '');
+      const countryCodeLocation = get(formValue, 'locations[0].countryCode', '');
       const countryCodeCompany = get(company, 'country.code', '');
       if (countryCodeCompany !== countryCodeLocation) {
         let newCountryStub = '';
@@ -319,6 +319,7 @@ const GetStartedBuyer = (props) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
+    // history.push('/home');
     history.push('/buyer/propertyLists');
   };
 
@@ -367,7 +368,7 @@ const GetStartedBuyer = (props) => {
       const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
       changeFieldValue('register.phone.prefix', countryPhoneCode.dial_code);
     }
-    initForm(initialValues);
+    if (get(formValue, 'locations', []).length === 0) initForm(initialValues);
   }, [company]);
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
@@ -9,15 +9,31 @@ const CoverPropertyImage = (props) => {
   const {
     className,
     coverPhoto,
+    loadedImg,
+    onClick,
+    onMouseLeave,
+    onMouseEnter,
     propertyType,
     size,
   } = props;
 
+  const [loadDefImg, setLoadDefImg] = useState(false);
+
+  const onErrorLoadImg = () => {
+    setTimeout(() => loadedImg(true), 100);
+    setLoadDefImg(true);
+  };
+
   return (
     <>
       {
-        coverPhoto ? (
+        coverPhoto && !loadDefImg ? (
           <img
+            onClick={() => onClick()}
+            onMouseEnter={(e) => onMouseEnter(e)}
+            onMouseLeave={(e) => onMouseLeave(e)}
+            onLoad={() => setTimeout(() => loadedImg(true), 100)}
+            onError={() => onErrorLoadImg()}
             className={className}
             src={`${baseByData.shortPath}${coverPhoto}`}
             alt={`Cover ${propertyType}`}
@@ -25,6 +41,11 @@ const CoverPropertyImage = (props) => {
           />
         ) : (
           <img
+            onClick={() => onClick()}
+            onMouseEnter={(e) => onMouseEnter(e)}
+            onMouseLeave={(e) => onMouseLeave(e)}
+            onLoad={() => setTimeout(() => loadedImg(true), 100)}
+            onError={() => onErrorLoadImg()}
             className={className}
             src={propertyType === 'Apartment' ? resumeApartment : resumeHouse}
             alt={propertyType || 'Apartment'}
@@ -39,15 +60,23 @@ const CoverPropertyImage = (props) => {
 CoverPropertyImage.propTypes = {
   className: PropTypes.string,
   coverPhoto: PropTypes.string,
+  loadedImg: PropTypes.func,
+  onClick: PropTypes.func,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
   propertyType: PropTypes.string,
-  size: PropTypes.number,
+  size: PropTypes.string,
 };
 
 CoverPropertyImage.defaultProps = {
   className: '',
   coverPhoto: null,
+  loadedImg: () => '',
+  onClick: () => '',
+  onMouseEnter: () => '',
+  onMouseLeave: () => '',
   propertyType: null,
-  size: 56,
+  size: '',
 };
 
 export default CoverPropertyImage;

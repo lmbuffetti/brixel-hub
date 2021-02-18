@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Link, withRouter,
+  withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -18,30 +18,34 @@ import {
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
-import { saveActiveSingleDeal } from '../../../actions/DealsActions';
 import { getUserSearchProfiles } from '../../../actions/SearchProfileActions';
 import searchImg from '../../../images/searchProfile/search.svg';
-import mapImg from '../../../images/searchProfile/map.svg';
+import { updateFavorite } from '../../../actions/UserActions';
+import { setSplashType } from '../../../actions/CommonActions';
+import { setActivePremarketProperty } from '../../../actions/PropertyActions';
 
 const { factsOptions } = FactsOptions;
 
 const PropertiesBuyerDashboard = (props) => {
   // PROPS
   const {
-    handleSaveActiveSingleDeal,
-    history,
-    loggedInUser,
-    userBuyerProperties,
+    favoritesProperties,
     handleGetUserSearchProfiles,
+    handleUpdateFavorites,
+    history,
+    isSmallLoading,
+    loggedInUser,
+    setPreMarketProperty,
+    setSplashScreen,
     userSearchProfiles,
   } = props;
   // STATE
   const [activeBuyerProperties, setSctiveBuyerProperties] = useState([]);
 
   useEffect(() => {
-    const properties = userBuyerProperties.filter((item) => item.archivedByBuyer !== true);
-    setSctiveBuyerProperties(properties);
-  }, [userBuyerProperties]);
+    // const properties = favoritesProperties.filter((item) => item.archivedByBuyer !== true);
+    if (favoritesProperties.data) setSctiveBuyerProperties(favoritesProperties.data);
+  }, [favoritesProperties]);
 
   useEffect(() => {
     handleGetUserSearchProfiles(loggedInUser.user.id);
@@ -86,21 +90,22 @@ const PropertiesBuyerDashboard = (props) => {
     );
   };
 
-  const archOnClick = (e, dealsID, isArchived) => {
-    if (e) e.preventDefault();
+  const removeFavorite = (property) => {
     const data = {
-      id: dealsID,
-      userID: loggedInUser.user.id,
+      act: 'remove',
+      id: property.id,
+      property,
       data: {
-        archivedByBuyer: !isArchived,
+        email: get(loggedInUser, 'email', ''),
+        language: loggedInUser.lang,
       },
     };
-    handleSaveActiveSingleDeal(data);
+    handleUpdateFavorites(data);
   };
 
   const extraFeaturesList = () => {
     const extraFeatures = [];
-    const defaultExtraFeatures = get(userSearchProfiles[0], 'characteristics.extraFeatures', {});
+    const defaultExtraFeatures = get(userSearchProfiles, '[0].characteristics.extraFeatures', {});
     Object.keys(defaultExtraFeatures).forEach((key) => {
       if (key !== 'none' && defaultExtraFeatures[key]) {
         const objExtra = factsOptions.extraFeatureShort.find((val) => val.value === key);
@@ -131,15 +136,29 @@ const PropertiesBuyerDashboard = (props) => {
     );
   };
 
+  const openCard = (e, item) => {
+    if (e) e.preventDefault();
+    const tag = get(item, 'tags', []);
+    if (tag.includes('pre-market')) {
+      setSplashScreen('preMarket');
+      setPreMarketProperty(item);
+    } else {
+      history.push({
+        pathname: `/buyer/property/${item.id}/page`,
+        state: { section: 'Buy' },
+      });
+    }
+  };
+
   return (
     <>
-      <div className="property-container buyer-properties h-perc-md-100 pos-r mt-2" id="propertyDashboard">
-        <h5 className="mb-2">
+      <div className="property-container buyer-properties h-perc-md-100 pos-r" id="propertyDashboard">
+        <h5 className="py-2">
           {
             activeBuyerProperties.length > 0 ? (
               <>
                 <span>Properties you are interested in </span>
-                <span className="notranslate">({activeBuyerProperties.length})</span>
+                <span className="notranslate">({favoritesProperties.total})</span>
               </>
             ) : (
               <span>No favorite property found</span>
@@ -147,7 +166,7 @@ const PropertiesBuyerDashboard = (props) => {
           }
         </h5>
         <div className="properties listings-wrapper mb-5 w-perc-100 px-1">
-          <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12">
+          <div className="listings-section p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12 pt-1">
             {
               activeBuyerProperties.map((property, i) => (
                 <div
@@ -155,29 +174,26 @@ const PropertiesBuyerDashboard = (props) => {
                   className="results dis-f shadow-3dp mb-3 a-c bgWhite brdRadius"
                 >
                   <div className="row-section p-1 avatar-container dis-f a-c ov-h flex-112">
-                    <Link
-                      className="cur-po"
-                      to={{
-                        pathname: `/buyer/property/${property.id}`,
-                      }}
+                    <div
+                      className="cur-poi"
+                      onClick={(e) => openCard(e, property)}
                     >
                       <CoverPropertyImage
+                        size="96"
                         coverPhoto={get(property, 'coverPhoto.galleryThumbnailPath', null)}
                         className="avatar w-fix-96 h-fix-96 pos-r brdRadius"
                       />
-                    </Link>
+                    </div>
                   </div>
 
                   <div className="row-section name p-1 notranslate w-perc-100 max-w-fix-304">
                     <div className="wrapper dis-fl-col a-bl">
-                      <Link
-                        className="link fsize-300 fweight-500 txtDark700 body2"
-                        to={{
-                          pathname: `/buyer/property/${property.id}`,
-                        }}
+                      <div
+                        className="link fsize-300 fweight-500 txtDark700 body2 cur-poi"
+                        onClick={(e) => openCard(e, property)}
                       >
                         {property.title}
-                      </Link>
+                      </div>
                     </div>
                   </div>
 
@@ -212,13 +228,14 @@ const PropertiesBuyerDashboard = (props) => {
 
                     <div className="row-section status p-1 dis-f jc-fe">
                       <BrixelButtonIcon
-                        theme="dark"
-                        icon="archive"
+                        theme="red"
+                        icon="favorite-fill"
                         className="zIndex1"
                         ghost
                         small
-                        onClick={(e) => archOnClick(e, property.dealID, property.archivedByBuyer)}
-                        label={property.archivedByBuyer ? 'Unarchive' : 'Archive'}
+                        onClick={() => removeFavorite(property)}
+                        label="Remove as favorite"
+                        isLoading={isSmallLoading === `favorite-${property.id}`}
                       />
                     </div>
                   </div>
@@ -230,16 +247,16 @@ const PropertiesBuyerDashboard = (props) => {
         </div>
 
         <div className="profile-market-container dis-fl-col dis-fl-row-sm">
-          <div className="search-profile w-perc-100 mb-4 mb-sm-0 max-w-fix-sm-368 mr-5">
+          <div className="search-profile w-perc-100 mb-4 mb-sm-0 max-w-fix-sm-368 m-a">
             <h6>Your search profile</h6>
             {
-              has(userSearchProfiles[0], 'id') ? (
+              has(userSearchProfiles, '[0].id') ? (
                 <div className="bgWhite brdRadius shadow-3dp p-2 mt-3">
                   <div className="dis-f jc-b">
                     <div>
                       <h6 className="txtDark500 body2">Type</h6>
                       {
-                        get(userSearchProfiles[0], 'characteristics.propertyType', []).map((item, i) => (
+                        get(userSearchProfiles, '[0].characteristics.propertyType', []).map((item, i) => (
                           <p className="txtDark700" key={i.toString()}>{item}</p>
                         ))
                       }
@@ -254,7 +271,7 @@ const PropertiesBuyerDashboard = (props) => {
                   </div>
                   <h6 className="txtDark500 body2 mt-3">Location</h6>
                   {
-                    get(userSearchProfiles[0], 'location', []).map((item, i) => (
+                    get(userSearchProfiles, '[0].location', []).map((item, i) => (
                       <p className="txtDark700" key={i.toString()}>{item.address}</p>
                     ))
                   }
@@ -302,7 +319,7 @@ const PropertiesBuyerDashboard = (props) => {
               )
             }
           </div>
-          <div className="brixel-market">
+          {/* <div className="brixel-market">
             <div className="market-teaser dis-fl-col h-perc-100">
               <div className="dis-f">
                 <h6 className="mr-2">Brixel Market</h6>
@@ -315,7 +332,7 @@ const PropertiesBuyerDashboard = (props) => {
                 <p className="txtDark700 pt-5">Soon we will release the Brixel Market and match your search profile with our properties and sellers.  </p>
               </section>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
@@ -323,30 +340,38 @@ const PropertiesBuyerDashboard = (props) => {
 };
 
 PropertiesBuyerDashboard.propTypes = {
-  handleSaveActiveSingleDeal: PropTypes.func.isRequired,
+  favoritesProperties: PropTypes.object.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
+  handleUpdateFavorites: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  userBuyerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setPreMarketProperty: PropTypes.func.isRequired,
+  setSplashScreen: PropTypes.func.isRequired,
+  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
 
 PropertiesBuyerDashboard.defaultProps = {
+  isSmallLoading: null,
+  userSearchProfiles: null,
 };
 
 const mapStateToProps = (state) => ({
-  userBuyerProperties: get(state, 'user.userBuyerProperties', []),
-  windowDimensions: get(state, 'common.windowDimensions', {}),
+  favoritesProperties: get(state, 'market.favoritesProperties', []),
   formValue: get(state, 'brixelForm.Property.values', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleSaveActiveSingleDeal: bindActionCreators(saveActiveSingleDeal, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
+  handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
+  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
+  setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
 export default compose(

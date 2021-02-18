@@ -1,0 +1,24 @@
+ // Carousel overwrite
+ .carousel-wrapper {
+  .slick-slider {
+    .slick-prev {
+      position: absolute;
+      top: -44px;
+      left: calc(100% - 32px - 32px - 8px);
+
+      &:before {
+        content: '';
+      }
+    }
+
+    .slick-next {
+      position: absolute;
+      top: -44px;
+      left: calc(100% - 32px);
+
+      &:before {
+        content: '';
+      }
+    }
+  }
+ }

@@ -18,6 +18,7 @@ import {
   SET_USER_PAGES_DEALS,
   SET_USER_PROPERTIES,
   SET_USER_TYPES,
+  UPDATE_FAVORITE,
   VALIDATE_USER,
 } from './types/UserTypes';
 
@@ -40,6 +41,7 @@ export const {
   setUserPagesDeals,
   setUserProperties,
   setUserTypes,
+  updateFavorite,
   validateUser,
 } = createActions({
   [CHECK_TOKEN]: (payload) => payload,
@@ -60,5 +62,6 @@ export const {
   [SET_USER_PAGES_DEALS]: (payload) => payload,
   [SET_USER_PROPERTIES]: (payload) => payload,
   [SET_USER_TYPES]: (payload) => payload,
+  [UPDATE_FAVORITE]: (payload) => payload,
   [VALIDATE_USER]: (payload) => payload,
 });
