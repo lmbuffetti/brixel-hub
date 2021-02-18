@@ -174,12 +174,15 @@
 
       @keyframes scaleUpCustomFull {
         0% {
+          transform-origin: left;
           opacity: 0;
           transform: scale(0.5) translate(-50%, -50%);
-        } 100% {
-            transform: scale(1) translate(-50%, -50%);
-            opacity: 1;
-          }
+        }
+        100% {
+          transform-origin: left;
+          transform: scale(1) translate(-50%, -50%);
+          opacity: 1;
+        }
       }
 
       @media (max-width: $responsive-large) {
