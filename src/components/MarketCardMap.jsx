@@ -130,7 +130,7 @@ const MarketCardMap = (props) => {
           <CardImageText type="map-view" />
         )
       }
-      <div className={`w-perc-100 notranslate pb-3 pr-lg-3 ${removeSkeleton ? '' : 'pos-a opacity0'}`}>
+      <div className={`w-perc-100 pb-3 pr-lg-3 ${removeSkeleton ? '' : 'pos-a opacity0'}`}>
         <hr className="lighter" />
       </div>
       <div
@@ -188,7 +188,7 @@ const MarketCardMap = (props) => {
                   }
                 </span>
               </div>
-              <div className="dis-f">
+              <div className="dis-f notranslate">
                 <BrixelButtonIcon
                   theme="red"
                   small
@@ -237,33 +237,35 @@ const MarketCardMap = (props) => {
               </div>
             </div>
             <div className="mid dis-fl-row a-c fsize-300 txtDark400 py-2">
-              <span>
-                {get(item, 'properties.propertyType', '')}
-              </span>
-              <span className="px-1 notranslate"> &middot; </span>
-              <span>
-                <span className="notranslate">
-                  {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
-                </span>
+              <div>
                 <span>
-                  {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                  {get(item, 'properties.propertyType', '')}
                 </span>
-              </span>
-              {
-                get(item, 'properties.typology.bedrooms') > 0 && (
-                  <span className="px-1 notranslate"> &middot; </span>
-                )
-              }
-              {
-                get(item, 'properties.typology.livingArea.value', 0) && (
+                <span className="px-1 notranslate"> &middot; </span>
+                <span>
                   <span className="notranslate">
-                    <span className="notranslate">
-                      {get(item, 'properties.typology.livingArea.value', 0)}
-                    </span>
-                    <span className="notranslate"> m2</span>
+                    {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                   </span>
-                )
-              }
+                  <span>
+                    {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                  </span>
+                </span>
+                {
+                  get(item, 'properties.typology.bedrooms') > 0 && (
+                    <span className="px-1 notranslate"> &middot; </span>
+                  )
+                }
+                {
+                  get(item, 'properties.typology.livingArea.value', 0) && (
+                    <span className="notranslate">
+                      <span className="notranslate">
+                        {get(item, 'properties.typology.livingArea.value', 0)}
+                      </span>
+                      <span className="notranslate"> m2</span>
+                    </span>
+                  )
+                }
+              </div>
             </div>
             <div className="bottom m-a ml-0 mb-0 dis-f a-c fsize-400">
               {

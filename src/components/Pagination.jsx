@@ -50,14 +50,17 @@ const Pagination = (props) => {
         if (itemsPerPage > totalItems) return `1 - ${totalItems}`;
         return `1 - ${itemsPerPage}`;
       }
-      return `${((pageNumbers[(activePage / itemsPerPage)] - 1) * itemsPerPage) + 1} - ${pageNumbers[(activePage / itemsPerPage)] * itemsPerPage}`;
+      const itemsNum = itemsPerPage > totalItems ? totalItems : itemsPerPage;
+      return `${((pageNumbers[(activePage / itemsNum)] - 1) * itemsNum) + 1} - ${pageNumbers[(activePage / itemsNum)] * itemsNum}`;
     }
     return totalItems;
   };
-
+  console.log(totalItems, itemsPerPage, totalItems > itemsPerPage);
   return (
     <>
-      <p className={totalItems <= 10 ? 'pb-5 pb-lg-0' : ''}><span>{ processResults() }</span> <span>of</span> <strong>{totalItems}</strong> <span>total results</span></p>
+      <p className={totalItems <= 10 ? 'pb-5 pb-lg-0' : ''}>
+        <span>{ processResults() }</span> <span>of</span> <strong className="notranslate">{totalItems}</strong> <span>total results</span>
+      </p>
       {
         totalItems > 10 && (
           <nav className={`pagination ${className} w-perc-100 dis-f ${totalItems > 10 ? 'jc-b pt-2 pb-6 pb-lg-0' : 'jc-fe'}`}>
