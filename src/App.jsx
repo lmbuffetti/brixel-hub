@@ -245,6 +245,7 @@ const App = (props) => {
           state: get(redirectTo, 'history.state', {}),
         });
       } else {
+        if (redirectTo.history.includes('rewards')) handleCheckToken({});
         history.push(redirectTo.history);
       }
     }
