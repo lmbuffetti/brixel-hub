@@ -238,18 +238,17 @@ const MarketList = (props) => {
   const openCard = (item) => {
     if (catName === 'own') {
       history.push({
-        pathname: `/${item.id}/rewards`,
+        pathname: `/${item.id}/rewards/market-checker`,
         state: { section: 'Market' },
       });
-    } else if (catName === 'favorites') {
-      history.push({
-        pathname: `/buyer/property/${item.id}`,
-        state: { section: 'Market' },
-      });
-    } else if (catName === 'preMarket') {
-      // TODO: Estimation opens overlay
+    } else if (catName === 'preMarket' || get(item, 'tags', []).includes('pre-market')) {
       setSplashScreen('preMarket');
       setPreMarketProperty(item);
+    } else if (catName === 'favorite') {
+      history.push({
+        pathname: `/buyer/property/${item.id}/page`,
+        state: { section: 'Market' },
+      });
     } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
   };
 

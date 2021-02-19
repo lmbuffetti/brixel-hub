@@ -227,13 +227,13 @@ const MarketCard = (props) => {
                     <span>
                       {get(item, 'properties.propertyType', '')}
                     </span>
-                    <div className="notranslate">
+                    <div>
                       <span className="px-1 notranslate"> &middot; </span>
                       <span>
                         <span className="notranslate">
                           {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                         </span>
-                        <span className="notranslate">
+                        <span>
                           {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
                         </span>
                       </span>
@@ -243,12 +243,12 @@ const MarketCard = (props) => {
                         )
                       }
                       {
-                        get(item, 'properties.typology.livingArea.value', 0) && (
-                          <span className="notranslate">
-                            <span className="notranslate">
+                        get(item, 'properties.typology.livingArea.value', 0) > 0 && (
+                          <span>
+                            <span>
                               {get(item, 'properties.typology.livingArea.value', 0)}
                             </span>
-                            <span className="notranslate"> m2</span>
+                            <span> m2</span>
                           </span>
                         )
                       }
@@ -301,7 +301,10 @@ const MarketCard = (props) => {
                     </div>
                     <div className="ml-2 total-completed dis-fl-col">
                       <span className="fweight-500 txtDark100">Facts</span>
-                      <span className="notranslate dis-fl-row a-c fweight-500 txtDark400"><span className="notranslate">{get(item, 'inputSheet.totalComplete', 0)}%&nbsp;</span><span className=""> completed</span></span>
+                      <span className="dis-fl-row a-c fweight-500 txtDark400">
+                        <span className="notranslate">{get(item, 'inputSheet.totalComplete', 0)}%&nbsp;</span>
+                        <span className=""> completed</span>
+                      </span>
                     </div>
                   </div>
                 </div>
