@@ -244,8 +244,9 @@ const App = (props) => {
           pathname: get(redirectTo, 'history.pathname', ''),
           state: get(redirectTo, 'history.state', {}),
         });
+      } else if (redirectTo.history.includes('rewards')) {
+        window.location.href = redirectTo.history;
       } else {
-        if (redirectTo.history.includes('rewards')) handleCheckToken({});
         history.push(redirectTo.history);
       }
     }
