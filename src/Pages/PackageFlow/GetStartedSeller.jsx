@@ -22,7 +22,7 @@ import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
 import { calcPercentageFacts, setCookie } from '../../utils/helpers';
-import { QuestionsList } from '../../resources/onBoarding';
+import { QuestionsList } from '../../resources/onBoardingSeller';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
@@ -100,127 +100,81 @@ const GetStartedSeller = (props) => {
   const saveData = async (action) => {
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
-    if (action === 'updateUser') {
-      const dataUser = {
-        id: dataForm.owner,
-        userType: get(dataForm, 'register.ownerType', null),
+
+    const { login, register, company } = dataForm;
+    // delete dataForm.login;
+    // changeFieldValue('register.password', '');
+    delete dataFormAnswer.register.password;
+    // delete dataForm.company;
+    // BROWSER AND META USER DATA
+    const metaUserData = {};
+    // eslint-disable-next-line guard-for-in,no-restricted-syntax
+    for (const key in navigator) {
+      metaUserData[key] = navigator[key];
+    }
+    // PROPERTY DATA
+    delete dataFormAnswer.login;
+    const data = {
+      ...dataFormAnswer,
+      packageFlowProcess: {
+        answers: dataFormAnswer,
+        rewardScreenData: {},
+        metaUser: metaUserData,
+      },
+      language: lang || 'en',
+      title: formValue.pageTitle,
+      status: 'on-request',
+      listed: false,
+      active: true,
+      published: false,
+      addProperty: true,
+      redirectToRewards: true,
+      company,
+    };
+    const page = get(formValue, 'signupScreen', null);
+    // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
+    if (formValue.owner) {
+      data.owner = loggedInUser.user.id;
+      // DISPATCH TO SAVE THE PROPERTY
+      data.redirectToRewards = true;
+      await handleCreateActiveSingleProperty(data);
+    } else if (page === 'login') {
+      changeFieldValue('register.email', login.email);
+      // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
+      // USER DATA
+      data.user = {
+        username: login.email,
+        password: login.password,
       };
-      const dataProperty = {
-        id: get(dataForm, 'pageID', null),
-        ownerType: get(dataForm, 'register.ownerType', null),
-        // redirectTo: '/home',
-        redirectTo: `/${get(dataForm, 'pageID', null)}/rewards`,
-        splashType: getSplashType(),
-      };
-      const packageFlowProcess = get(dataForm, 'pageAnswer', {});
-      packageFlowProcess.answers.userType = get(dataForm, 'register.ownerType', 'seller');
-      packageFlowProcess.answers.owner = dataForm.owner;
-      if (get(dataForm, 'register.ownerType', null) === 'buyer') {
-        dataUser.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
-        dataProperty.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
-        packageFlowProcess.answers.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
-      }
-      if (get(dataForm, 'register.ownerType', null) === 'seller') {
-        dataUser.whenToSell = get(dataForm, 'register.whenToSell', null);
-        dataProperty.whenToSell = get(dataForm, 'register.whenToSell', null);
-        packageFlowProcess.answers.whenToSell = get(dataForm, 'register.whenToSell', null);
-      }
-      const sellerType = [
-        'seller',
-        'inheritance',
-        'price-development',
-        'mortgage',
-      ];
-      const buyerType = [
-        'buyer',
-      ];
-      if (sellerType.includes(get(dataForm, 'register.ownerType', ''))) {
-        dataUser.seller = true;
-        dataUser.buyer = false;
-      }
-      if (buyerType.includes(get(dataForm, 'register.ownerType', ''))) {
-        dataUser.buyer = true;
-        dataUser.seller = false;
-      }
-      dataProperty.packageFlowProcess = packageFlowProcess;
-      await handleSaveActiveSingleUser(dataUser);
-      await handleSaveActiveSingleProperty(dataProperty);
+      // DISPATCH TO DO LOGIN
+      data.redirectToHome = true;
+      await handleDoLogin(data);
     } else {
-      const { login, register, company } = dataForm;
-      // delete dataForm.login;
-      // changeFieldValue('register.password', '');
-      // delete dataFormAnswer.register.password;
-      // delete dataForm.company;
-      // BROWSER AND META USER DATA
-      const metaUserData = {};
-      // eslint-disable-next-line guard-for-in,no-restricted-syntax
-      for (const key in navigator) {
-        metaUserData[key] = navigator[key];
-      }
-      // PROPERTY DATA
-      delete dataFormAnswer.login;
-      const data = {
-        ...dataFormAnswer,
-        packageFlowProcess: {
-          answers: dataFormAnswer,
-          rewardScreenData: {},
-          metaUser: metaUserData,
-        },
+      changeFieldValue('login.email', register.email);
+      // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
+      // USER DATA
+      data.redirectToRewards = false;
+      data.user = {
+        ...register,
+        acceptTerms: get(register, 'privacy[0]', true),
+        acceptMarketing: get(register, 'acceptMarketing[0]', false),
+        name: get(formValue, 'register.name', ''),
+        userType: 'seller',
+        signupAccept: true,
+        signupChannel: get(formValue, 'channel', 'default'),
+        signupProduct: null,
         language: lang || 'en',
-        title: formValue.pageTitle,
-        status: 'on-request',
-        listed: false,
-        active: true,
-        published: false,
-        addProperty: true,
-        redirectToUserFlow: false,
+        createUser: true,
         company,
+        ignoreEmail: false,
+        seller: true,
+        redirectTo: {
+          pathname: '/packageFlow/getStarted/success',
+          state: { hideClose: true },
+        },
       };
-      const page = get(formValue, 'signupScreen', null);
-      // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
-      if (formValue.owner) {
-        data.owner = loggedInUser.user.id;
-        // DISPATCH TO SAVE THE PROPERTY
-        data.redirectToRewards = true;
-        await handleCreateActiveSingleProperty(data);
-      } else if (page === 'login') {
-        changeFieldValue('register.email', login.email);
-        // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
-        // USER DATA
-        data.user = {
-          username: login.email,
-          password: login.password,
-        };
-        // DISPATCH TO DO LOGIN
-        data.redirectToHome = true;
-        await handleDoLogin(data);
-      } else {
-        changeFieldValue('login.email', register.email);
-        // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
-        // USER DATA
-        data.redirectToRewards = false;
-        data.user = {
-          ...register,
-          acceptTerms: get(register, 'privacy[0]', true),
-          acceptMarketing: get(register, 'acceptMarketing[0]', false),
-          name: get(formValue, 'register.name', ''),
-          userType: 'seller',
-          signupAccept: true,
-          signupChannel: get(formValue, 'channel', 'default'),
-          signupProduct: null,
-          language: lang || 'en',
-          createUser: true,
-          company,
-          ignoreEmail: false,
-          seller: true,
-          redirectTo: {
-            pathname: '/packageFlow/getStarted/success',
-            state: { hideClose: true },
-          },
-        };
-        // DISPATCH TO DO REGISTRATION USER
-        await handleValidateUser(data);
-      }
+      // DISPATCH TO DO REGISTRATION USER
+      await handleValidateUser(data);
     }
   };
 

@@ -1,0 +1,691 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-shadow */
+import React, {
+  useState, useEffect, useRef, Fragment,
+} from 'react';
+import PropTypes from 'prop-types';
+import {
+  BrixelButtonPrimary,
+  BrixelButtonIcon,
+  BrixelIcon,
+  BrixelProgressBar,
+  MultiFileldsReduxForm,
+  initializeForm,
+  change,
+  reset,
+  destroy,
+  BrixelButtonText,
+} from '@brixel/brixel-components';
+import { bindActionCreators, compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
+import last from 'lodash/last';
+import queryString from 'query-string';
+import Cookies from 'universal-cookie';
+import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
+import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
+import { setCookie } from '../../utils/helpers';
+import { QuestionsList } from '../../resources/onBoarding';
+import { getGamegroup } from '../../actions/GamificationActions';
+import { setLanguage, spinnerOff } from '../../actions/CommonActions';
+import { doLogin, validateUser } from '../../actions/UserActions';
+import { updateUserSearchProfile } from '../../actions/SearchProfileActions';
+
+const cookie = new Cookies();
+
+const GetStarted = (props) => {
+  // PROPS
+  const {
+    changeFieldValue,
+    company,
+    destroyForm,
+    errorValue,
+    formValue,
+    handleDoLogin,
+    handleGetActiveSingleCompany,
+    handleGetGamegroup,
+    handleUpdateSearchProfile,
+    handleSetLanguage,
+    handleSpinnerOff,
+    handleValidateUser,
+    history,
+    initForm,
+    initialValues,
+    lang,
+    loggedInUser,
+    reset,
+  } = props;
+  // STATE
+  // SET THE QUESTIONS IN BASE OF THE COUNTRY
+  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+  const [progressBar, setProgressBar] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  // SET QUEST TO FIRST QUESTION OF QuestionsList()
+  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [isEnter, setIsEnter] = useState(true);
+  const [lastID, setLastID] = useState(0);
+  // const [roomValue, setRoomValue] = useState('');
+
+  const singleStepRef = useRef(null);
+  const multiStepSlidesRef = useRef(null);
+
+  console.log(questions, quest);
+
+  // DESTROY FORM ON EXIT
+  useEffect(() => {
+    handleSpinnerOff();
+    // return () => destroyForm();
+  }, []);
+
+  // FUNCTION TO SAVE DATA
+  const saveData = async () => {
+    const dataForm = cloneDeep(formValue);
+    const userType = get(dataForm, 'userType', null);
+    switch (userType) {
+      case 'buyer':
+        history.push('/packageFlow/getStartedBuyer');
+        break;
+      case 'estimation':
+        history.push('/packageFlow/getStartedEstimation');
+        break;
+      default:
+        history.push('/packageFlow/getStarted');
+    }
+  };
+
+  useEffect(() => {
+    if (get(loggedInUser, 'user.id', null)) changeFieldValue('owner', get(loggedInUser, 'user.id', null));
+  }, [get(loggedInUser, 'user.id', null)]);
+
+  // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
+  const checkCondition = (id, act) => {
+    let newIndex = id;
+    if (get(questions, `[${newIndex}].conditions`, null)) {
+      let checkCond = true;
+      questions[newIndex].conditions.map((cond) => {
+        const val = get(formValue, cond.name, null);
+        if (val !== cond.value && checkCond) {
+          if (act === 'back') newIndex -= 1;
+          else newIndex += 1;
+          checkCond = false;
+        }
+        return null;
+      });
+    }
+    return newIndex;
+  };
+
+  const singleStepEl = singleStepRef.current;
+  const multiStepSlidesEl = multiStepSlidesRef.current;
+
+  // FUNCTION TO GO TO NEXT STEP
+  const changeStep = (act, e, step = 1) => {
+    if (e) e.preventDefault();
+    const reloadQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
+    let newIndex = currentIndex;
+    if (act === 'back') {
+      newIndex -= step;
+    } else {
+      newIndex += step;
+    }
+
+    let defId = checkCondition(newIndex, act);
+    if (defId !== newIndex) defId = checkCondition(defId, act);
+
+    // setPosition(newIndex);
+    if (reloadQuestions[defId].toSave) saveData(get(reloadQuestions[defId], 'action', null));
+    else {
+      setIsEnter(false);
+      let newQuest = {
+        ...reloadQuestions[defId],
+      };
+      if (reloadQuestions[defId].effect === 'slideUp') {
+        newQuest = {
+          ...reloadQuestions[defId - 1],
+        };
+      }
+      if (act === 'back' && reloadQuestions[defId + 1].effect === 'slideUp') {
+        setQuest(newQuest);
+        setCurrentIndex(defId);
+      } else {
+        setQuest(newQuest);
+        setCurrentIndex(defId);
+      }
+      setTimeout(() => {
+        const getCurStep = document.getElementById(`step-${defId}`);
+        if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+          getCurStep.querySelector('input[type="number"]').focus();
+        } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+          getCurStep.querySelector('input[type="text"]').focus();
+        }
+      }, 100);
+      if (reloadQuestions[defId].history) {
+        history.push({
+          pathname: `/packageFlow/${reloadQuestions[defId].history}`,
+          state: get(history, 'location.state', {}),
+        });
+      }
+      const getOnlyQuest = reloadQuestions.filter((item) => item.inputs);
+      setQuestions(reloadQuestions);
+      setProgressBar((defId * 100) / getOnlyQuest.length);
+      if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+      if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
+  useEffect(() => {
+    if (get(history, 'location.pathname', '').includes('success') && questions[currentIndex + 1]) {
+      setTimeout(() => {
+        changeStep('next', null, 2);
+      }, 500);
+    }
+  }, [get(history, 'location', null)]);
+
+  // ON DID MOUNT I GET THE COMPANY DATA
+  useEffect(() => {
+    // GET THE COMPANY BY URL OR COOKIE
+    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
+    const companyCookie = cookie.get('brixelStubCompany') || null;
+    if (get(companyByUrl, 'company', companyCookie)) {
+      const defComp = get(companyByUrl, 'company', companyCookie);
+      handleGetActiveSingleCompany({ stub: defComp });
+      setCookie('brixelStubCompany', defComp);
+    } else {
+      handleGetActiveSingleCompany({ stub: 'default' });
+      // changeFieldValue('location.countryCode', 'all');`
+    }
+    const getCurrentUrl = last(history.location.pathname.split('/'));
+    if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
+      history.push({
+        pathname: `/packageFlow/${questions[0].history}`,
+        state: {},
+      });
+    }
+  }, []);
+
+  // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
+  useEffect(() => {
+    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
+    if (currentQuest.effect === 'slideUp') {
+      // setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+      // setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex - 1]);
+    } else {
+      // setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+      // setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+    }
+  }, [lang]);
+
+  // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
+  useEffect(() => {
+    if (get(initialValues, 'properties.propertyType', null)) {
+      // changeStep();
+    }
+  }, [initialValues]);
+
+  // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
+  useEffect(() => {
+    setIsEnter(true);
+    if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
+      const countryCodeLocation = get(formValue, 'locations[0].countryCode', '');
+      const countryCodeCompany = get(company, 'country.code', '');
+      if (countryCodeCompany !== countryCodeLocation) {
+        let newCountryStub = '';
+        if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
+        else if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
+        else if (countryCodeLocation === 'DE') newCountryStub = 'brixel_germany';
+        else {
+          changeFieldValue('finance.currency', 'EUR');
+        }
+        handleGetActiveSingleCompany({ stub: newCountryStub });
+      }
+    }
+  }, [currentIndex]);
+
+  // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
+  /* useEffect(() => {
+    let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
+    let bgSize = 500
+    bgSize = bgSize / roomValue;
+
+    setRoomValue(bgSize+ 'vw');
+
+  }, [get(formValue, 'properties.typology.bedrooms', 2)]); */
+
+  // FUNCTION TO CLOSE
+  const closeWindow = () => {
+    reset('Property');
+    // history.push('/home');
+    history.push('/buyer/propertyLists');
+  };
+
+  // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
+  useEffect(() => {
+    if (formValue) {
+      const newQuest = [];
+      QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
+        if (quest.condition) {
+          let isValid = true;
+          quest.condition.map((item) => {
+            if (get(formValue, item.name, null) !== item.value) {
+              isValid = false;
+            }
+            return null;
+          });
+          if (isValid) newQuest.push(quest);
+        } else {
+          newQuest.push(quest);
+        }
+        return null;
+      });
+      setLastID(newQuest.length - 1);
+      setQuestions(newQuest);
+    }
+  }, [formValue]);
+
+  // SET DATA BY COMPANY
+  useEffect(() => {
+    if (get(company, 'stub', null)) {
+      let getLang = cookie.get('brixelLang');
+      if (get(company, 'language.code', null) && !getLang && currentIndex < 2) {
+        const companyLang = get(company, 'language.code', 'en');
+        handleSetLanguage(companyLang.toLowerCase());
+        getLang = companyLang.toLowerCase();
+      }
+      const companyCountry = get(company, 'country.code', 'CH');
+      changeFieldValue('location.countryCode', companyCountry);
+      setCookie('brixelStubCompany', company.stub);
+      changeFieldValue('company', company.stub);
+      changeFieldValue('finance.currency', get(company, 'country.currency', 'CHF'));
+      changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
+      setQuestions(QuestionsList(getLang, companyCountry));
+      setQuest(QuestionsList(getLang, companyCountry)[currentIndex]);
+      const companyCountryCode = get(company, 'country.code', 'CH');
+      const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
+      changeFieldValue('register.phone.prefix', countryPhoneCode.dial_code);
+    }
+    if (get(formValue, 'locations', []).length === 0) initForm(initialValues);
+  }, [company]);
+
+  // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
+  const checkValidateField = (act) => {
+    let isValid = true;
+    let isNotEmpty = false;
+    if (get(quest, 'inputs', null)) {
+      quest.inputs.forEach((input) => {
+        const err = get(errorValue, input.name, null);
+        const noEmpty = get(formValue, input.name, 'ayc');
+        if (noEmpty !== 'ayc') isNotEmpty = true;
+        if (input.condition) {
+          input.condition.forEach((item) => {
+            if (get(formValue, item.name, null) === item.value) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+          });
+        } else if (input.validation) {
+          // const getRegField = get(registeredFields
+          let field;
+          if (input.name === 'profileUaer') {
+            const page = get(formValue, 'signupScreen', null);
+            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
+            if (page === 'login') {
+              field = ['login.email', 'login.password'];
+            }
+            field.forEach((item) => {
+              const err = get(errorValue, item, true);
+              if (err !== true && err !== false && isValid) isValid = false;
+            });
+          } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
+        }
+      });
+    }
+    if (act === 'value') return isValid && isNotEmpty;
+    return isValid;
+  };
+
+  // DYNAMIC LABEL NEXT BUTTON
+  const buttonLabel = () => {
+    let label;
+    const inputName = get(quest, 'inputs[0].name', null);
+    if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
+    else if (currentIndex === 0) label = 'Next';
+    else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
+    else label = 'Next';
+    return label;
+  };
+
+  const tansitionBg = (i, act = 'next') => {
+    if (act === 'next') {
+      if (i === currentIndex) return 'active';
+      if (i === currentIndex + 1 && get(questions, `[${currentIndex + 1}].effect`, null) === 'slideUp') return 'active';
+    }
+    if (i < currentIndex) return 'prev';
+    return '';
+  };
+
+  console.log(questions, quest);
+
+  return (
+    <div id="bodyModalWrapper" className="withHeader getStarted buyerHub">
+      {
+        get(quest, 'inputs', null) && (
+          <BrixelProgressBar
+            large
+            saturation={400}
+            barBackground="Light"
+            backgroundSaturation={300}
+            progressValue={progressBar}
+          />
+        )
+      }
+
+      <div
+        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : 'ov-h'} ${get(quest, 'history', '')}`}
+        // style={{ backgroundImage: `url(${quest.bgImg})` }}
+      >
+        {/* preload all background images */}
+        {
+          questions.map((questStep, i) => (
+            <Fragment key={i.toString()}>
+              <div className="slideBg" key={i.toString()}>
+                <div
+                  // eslint-disable-next-line no-nested-ternary
+                  className={` ${tansitionBg(i)} ${i < currentIndex && i <= 4 ? 'prev' : ''}`}
+                  style={{ backgroundImage: `url(${questStep.bgImg})` }}
+                />
+              </div>
+            </Fragment>
+          ))
+        }
+        <form
+          id="multiStepForm"
+          autoComplete="off"
+          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : 'ov-h'}`}
+          onSubmit={(e) => changeStep(null, e)}
+        >
+          <div ref={multiStepSlidesRef} className="multiStepSlides">
+            <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${get(quest, 'vCentered', null) ? 'vertCentered' : ''} ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
+              <div className="subcontainer m-a">
+                {
+                  get(quest, 'inputs', null) && (
+                    <div id={`step-${currentIndex}`} className={`dis-f flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
+                      {
+                        quest.titleGreen && (
+                          <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
+                        )
+                      }
+                      {
+                        quest.title && (
+                          <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100 max-w-fix-456`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                        )
+                      }
+                      {
+                        quest.subtitle && (
+                          <p className="mb-5 txtDark700 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                      }
+                      <MultiFileldsReduxForm
+                        form="GetStarted"
+                        disableNextBtn={false}
+                        formValue={formValue}
+                        inputs={quest.inputs}
+                        onClick={() => changeStep()}
+                        onCloseGoBack={() => changeStep('back')}
+                        onClickDisabled={!checkValidateField()}
+                        onSubmit={() => changeStep()}
+                        showSendButton
+                        disableDelay
+                      />
+
+                    </div>
+                  )
+                }
+                {
+                  get(quest, 'cardType', null) === 'loadComponent' && (
+                    React.createElement(
+                      quest.component,
+                      {
+                        formName: 'GetStarted',
+                        initialValue: formValue,
+                        ...quest,
+                      },
+                    )
+                  )
+                }
+                {
+                  (get(quest, 'cardType', null) === 'card') && (
+                    <div className="scaleAnim ta-c">
+                      <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
+                      <h5
+                        className="fadeAnim mt-2 ta-c"
+                        dangerouslySetInnerHTML={{ __html: quest.title }}
+                      />
+                      {
+                        quest.subtitle && (
+                          <h6
+                            className="fadeAnim mt-2 ta-c"
+                            dangerouslySetInnerHTML={{ __html: quest.subtitle }}
+                          />
+                        )
+                      }
+                    </div>
+                  )
+                }
+                {
+                  get(quest, 'history', null) === 'resume' && (
+                    <div className="max-w-fix-344 m-a">
+                      <BrixelButtonPrimary
+                        className={`mt-3 m-a noWrap ${quest.history}`}
+                        rounded
+                        theme="green"
+                        label={buttonLabel()}
+                        disabled={!checkValidateField()}
+                        rightIcon="arrow-right-small"
+                        onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                      />
+                    </div>
+                  )
+                }
+              </div>
+            </div>
+          </div>
+          <div
+            className={`footerAction shadow-1dp-top ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+          >
+            <div className="pos-r p-1 p-lg-2">
+              <div className={`w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>
+                {
+                  get(questions, `[${currentIndex - 1}].inputs`, null) && (
+                    <BrixelButtonIcon
+                      className={`backBtn ml-0 mr-a ${currentIndex === 0 ? 'hide' : ''}`}
+                      icon="arrow-simple-left"
+                      onClick={() => changeStep('back')}
+                      theme="green"
+                      ghost
+                    />
+                  )
+                }
+                {
+                  checkValidateField() && get(quest, 'successMessage', null) && (
+                    <div className="txtWhite pr-1 textSuccess ml-a mr-0">
+                      {/* {quest.successMessage}  */} Ok! <BrixelIcon icon="check" className="ml-1" />
+                    </div>
+                  )
+                }
+
+                {
+                  buttonLabel().toLowerCase() === 'skip' ? (
+                    <BrixelButtonText
+                      className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                      disabled={!checkValidateField()}
+                      saturation={400}
+                      color="light"
+                      label={buttonLabel()}
+                      rightIcon="arrow-right-small"
+                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                    />
+                  ) : (
+                    <BrixelButtonPrimary
+                      className={`mr-0 ml-0 noWrap ${get(quest, 'history', null)} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-lg-0'}` : ''} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                      disabled={!checkValidateField()}
+                      rounded
+                      theme="green"
+                      label={buttonLabel()}
+                      rightIcon="arrow-right-small"
+                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                    />
+                  )
+                }
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      {/* signup flow */}
+      {
+        questions[currentIndex].effect === 'slideUp' && (
+          <div className="signUpContainer">
+            {
+              questions[currentIndex] && questions[currentIndex].inputs && (
+                <div id={`step-${currentIndex}slideUp`} className={`dis-f flex-wrap slideUp ${isEnter ? 'slide-enter-down' : ''}`}>
+                  {
+                    questions[currentIndex].titleGreen && (
+                      <h3 className="txtGreen400 w-perc-100">{questions[currentIndex].titleGreen}</h3>
+                    )
+                  }
+                  {
+                    questions[currentIndex].title && (
+                      <h3 className={`${questions[currentIndex].subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{questions[currentIndex].title}</h3>
+                    )
+                  }
+                  {
+                    questions[currentIndex].subtitle && (
+                      <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }} />)
+                  }
+                  <MultiFileldsReduxForm
+                    className="h-perc-100"
+                    form="GetStarted"
+                    disableNextBtn={false}
+                    formValue={formValue}
+                    inputs={questions[currentIndex].inputs}
+                    onSubmit={() => changeStep()}
+                    onCloseGoBack={() => changeStep('back')}
+                    onClickDisabled={!checkValidateField()}
+                    showSendButton
+                    showErrors
+                  />
+                </div>
+              )
+            }
+          </div>
+        )
+      }
+    </div>
+  );
+};
+
+GetStarted.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
+  company: PropTypes.object.isRequired,
+  destroyForm: PropTypes.func.isRequired,
+  errorValue: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
+  handleDoLogin: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleGetGamegroup: PropTypes.func.isRequired,
+  handleUpdateSearchProfile: PropTypes.func.isRequired,
+  handleSetLanguage: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
+  handleValidateUser: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  initForm: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired,
+  lang: PropTypes.string,
+  loggedInUser: PropTypes.object.isRequired,
+  reset: PropTypes.func.isRequired,
+};
+
+GetStarted.defaultProps = {
+  lang: 'en',
+};
+
+const mapStateToProps = (state, props) => {
+  const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
+  const channel = get(urlSearch, 'channel', 'default');
+  const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
+  const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
+  return ({
+    activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+    company: get(state, 'companies.activeSingleCompany', {}),
+    errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
+    formValue: get(state, 'brixelForm.GetStarted.values', {}),
+    gameGroup: get(state, 'gamification.gameGroup', []),
+    gameHistory: get(state, 'gamification.gameHistory', {}),
+    initialValues: {
+      channel,
+      changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
+      company: get(state, 'companies.activeSingleCompany.stub', null),
+      location: {
+        countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
+      },
+      characteristics: {
+        livingArea: {
+          unit: 'm2',
+        },
+      },
+      owner: get(state, 'user.loggedInUser.id', null),
+      user: get(state, 'user.loggedInUser.id', null),
+      login: {},
+      finance: {
+        currency: get(state, 'companies.activeSingleCompany.country.currency', {}),
+      },
+      price: {
+        currency: get(state, 'companies.activeSingleCompany.country.currency', {}),
+      },
+      profile: {},
+      register: {
+        phone: {
+          prefix: countryPhoneCode.dial_code,
+          number: '',
+        },
+      },
+      signup: get(state, 'user.loggedInUser.id', null) !== null,
+    },
+    lang: get(state, 'common.language', 'en'),
+    loggedInUser: get(state, 'user.loggedInUser', {}),
+    packagesProperty: get(state, 'property.packagesProperty', []),
+    startForm: get(state, 'brixelForm.GetStarted', null),
+  });
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('GetStarted', field, value));
+  },
+  destroyForm() {
+    dispatch(destroy('GetStarted'));
+  },
+  initForm(value) {
+    dispatch(initializeForm('GetStarted', value));
+  },
+  reset(form) {
+    (dispatch(reset(form)));
+  },
+  handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
+  handleDoLogin: bindActionCreators(doLogin, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
+  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleValidateUser: bindActionCreators(validateUser, dispatch),
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(GetStarted);
