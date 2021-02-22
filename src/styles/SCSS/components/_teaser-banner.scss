@@ -3,6 +3,7 @@
     min-height: 0;
     padding-top: 0;
     padding-bottom: 0;
+
     @media (min-width: 1400px) {
       max-width: 1312px;
       padding-left: 24px;
@@ -26,6 +27,7 @@
       text-align: center;
       padding: $step;
       margin-bottom: $step * 2;
+
       .teaserTag {
         margin-bottom: $step;
       }
@@ -39,7 +41,8 @@
   }
   &.smallOn {
     .smallBanner {
-      transition: opacity 450ms ease;
+      top: 0;
+      //transition: opacity 450ms ease;
       opacity: 1;
       margin-bottom: 24px;
       position: relative;
