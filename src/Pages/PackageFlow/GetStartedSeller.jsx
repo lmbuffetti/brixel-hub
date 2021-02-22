@@ -81,8 +81,8 @@ const GetStartedSeller = (props) => {
     const dataForm = cloneDeep(formValue);
     let type;
 
-    if (get(dataForm, 'location.countryCode', null) === 'PT') type = 'bestimateTeaser';
-    if (get(dataForm, 'location.countryCode', null) === 'CH') type = 'bestimateResult';
+    if (get(dataForm, 'location.countryCode', null) !== 'PT' && get(dataForm, 'location.countryCode', null) !== 'CH') type = 'bestimateTeaser';
+    if (get(dataForm, 'location.countryCode', null) === 'CH' || get(dataForm, 'location.countryCode', null) === 'PT') type = 'bestimateResult';
 
     return type;
   };
