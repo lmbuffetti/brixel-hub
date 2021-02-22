@@ -63,7 +63,7 @@ const SplashScreen = (props) => {
 };
 
 SplashScreen.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   className: PropTypes.string,
   closeLink: PropTypes.string,
   closeOutside: PropTypes.bool,
