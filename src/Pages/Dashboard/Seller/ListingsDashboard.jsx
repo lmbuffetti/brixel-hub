@@ -120,7 +120,7 @@ const ListingsDashboard = (props) => {
   const statusPageColor = statusPage().colorIcon.charAt(0).toUpperCase() + statusPage().colorIcon.slice(1);
 
   return (
-    <div className="listings-container dis-f jc-c h-perc-lg-100 a-t" id="listingsDashaboard">
+    <div className="listings-container dis-f jc-fs h-perc-lg-100 a-t" id="listingsDashaboard">
       <Sticker>
         <div className={`firstLevel mr-lg-2 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
 

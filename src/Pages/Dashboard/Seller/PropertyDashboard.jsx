@@ -97,7 +97,7 @@ const HomeDashboard = (props) => {
 
   return (
     <>
-      <div className="property-container dis-f jc-c h-perc-lg-100 pos-r a-t" id="propertyDashboard">
+      <div className="property-container dis-f jc-fs h-perc-lg-100 pos-r a-t" id="propertyDashboard">
         <Sticker>
           <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
             <div
