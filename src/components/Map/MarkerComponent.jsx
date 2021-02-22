@@ -124,57 +124,59 @@ const MarkerComponent = (props) => {
     if (optMap.zoom && data.length > 0) {
       const markers = [];
       data.forEach((item) => {
-        let price = get(item, 'price.total', 0);
-        if (price > 0) price = cutValue(get(item, 'price.total', 0));
-        else price = 'On request';
-        const paras = document.getElementsByClassName('labelMarker');
-        while (paras[0]) {
-          paras[0].parentNode.removeChild(paras[0]);
+        if (get(item, 'location.latitude', null) && get(item, 'location.longitude', null)) {
+          let price = get(item, 'price.total', 0);
+          if (price > 0) price = cutValue(get(item, 'price.total', 0));
+          else price = 'On request';
+          const paras = document.getElementsByClassName('labelMarker');
+          while (paras[0]) {
+            paras[0].parentNode.removeChild(paras[0]);
+          }
+          markers[item.id] = new MarkerWithLabel({
+            page: item,
+            id: item.id,
+            map: optMap,
+            icon: {
+              url: '',
+            },
+            labelContent: `<p>${price.toString()}</p>`,
+            // the CSS class for the label
+            labelClass: `${activeProperty === item.id || selMarker === item.id ? 'labelMarker active' : 'labelMarker'} ${item.id}`,
+            labelInBackground: true,
+            labelAnchor: new google.maps.Point(-75, -45),
+            position: {
+              lat: get(item, 'location.latitude', 200),
+              lng: get(item, 'location.longitude', 200),
+            },
+          });
+          const window = infowindow;
+          markers[item.id].addListener('click', () => {
+            if (selMarker !== item.id) setSelMarker(item.id);
+            Object.keys(window).forEach((key) => {
+              infowindow[key].close();
+              const menu = document.querySelector('body');
+              menu.classList.toggle('hidden-phone');
+            });
+            const contentWrapper = document.createElement('div');
+            ReactDOM.render(
+              React.Children.only(InfoWindowContent(item, history)),
+              contentWrapper,
+            );
+            window[item.id] = new google.maps.InfoWindow({
+              class: 'test',
+              pixelOffset: new google.maps.Size(0, -45),
+              maxWidth: 308,
+            });
+            google.maps.event.addListener(window[item.id], 'closeclick', () => {
+              onClick(null);
+              setSelMarker(null);
+            });
+            window[item.id].setContent(contentWrapper);
+            window[item.id].open(optMap, markers[item.id]);
+            setInfowindow(window);
+            onClick(item.id);
+          });
         }
-        markers[item.id] = new MarkerWithLabel({
-          page: item,
-          id: item.id,
-          map: optMap,
-          icon: {
-            url: '',
-          },
-          labelContent: `<p>${price.toString()}</p>`,
-          // the CSS class for the label
-          labelClass: `${activeProperty === item.id || selMarker === item.id ? 'labelMarker active' : 'labelMarker'} ${item.id}`,
-          labelInBackground: true,
-          labelAnchor: new google.maps.Point(-75, -45),
-          position: {
-            lat: get(item, 'location.latitude', 200),
-            lng: get(item, 'location.longitude', 200),
-          },
-        });
-        const window = infowindow;
-        markers[item.id].addListener('click', () => {
-          if (selMarker !== item.id) setSelMarker(item.id);
-          Object.keys(window).forEach((key) => {
-            infowindow[key].close();
-            const menu = document.querySelector('body');
-            menu.classList.toggle('hidden-phone');
-          });
-          const contentWrapper = document.createElement('div');
-          ReactDOM.render(
-            React.Children.only(InfoWindowContent(item, history)),
-            contentWrapper,
-          );
-          window[item.id] = new google.maps.InfoWindow({
-            class: 'test',
-            pixelOffset: new google.maps.Size(0, -45),
-            maxWidth: 308,
-          });
-          google.maps.event.addListener(window[item.id], 'closeclick', () => {
-            onClick(null);
-            setSelMarker(null);
-          });
-          window[item.id].setContent(contentWrapper);
-          window[item.id].open(optMap, markers[item.id]);
-          setInfowindow(window);
-          onClick(item.id);
-        });
       });
     }
   }, [optMap, data, activeProperty]);
