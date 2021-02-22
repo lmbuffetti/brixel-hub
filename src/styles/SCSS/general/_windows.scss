@@ -1,3 +1,6 @@
+div#dashboard {
+  max-width: 1248px;
+}
 .hubContainer {
   &.sellerHub,
   &.buyerHub {
@@ -84,14 +87,14 @@
   @media (min-width: $responsive-medium) {
     .levelsWrapper {
       &.closed {
-        max-width: 768px;
+        //max-width: 768px;
         // width: calc(100% - 320px);
         // min-width: 60%;
       }
     }
     .secondLevel,
     .thirdLevel {
-      max-width: 768px;
+      //max-width: 768px;
       margin-bottom: $step * 3;
 
       &.inputSheet {

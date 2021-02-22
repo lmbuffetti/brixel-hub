@@ -59,59 +59,67 @@ const TeaserBanner = (props) => {
     return <span />;
   }
   const classToHide = get(history, 'location.state.hideBackPage', false);
+
   return (
     <div className={`teaserWrapper container ${isClosed ? 'smallOn' : 'bigOn'} ${classToHide ? 'hide' : ''}`}>
       <div>
-        <div
-          ref={teaserRef}
-          className={`teaserBanner bigBanner dis-f bgWhite brdRadius w-perc-100 ${className}`}
-          style={{ marginTop: `${isClosed ? `-${bannerHeight()}` : '0'}px` }}
-        >
-          <div className="teaserImage pos-r">
-            <span className="teaserTag pos-a-fix x-b-1 x-l-2"> Free </span>
-            <picture>
-              <source srcSet={`${TeaserImg} 1x, ${TeaserImg2x} 2x`} />
-              <img className="h-perc-100" src={TeaserImg} alt="" />
-            </picture>
-          </div>
-          <div className="bannerContent dis-fl-col w-perc-100 max-w-fix-600">
-            <h5 className="">Request your free photo scan and estimation. </h5>
-            <p className="body txtDark700">Do you want to capture your property in its best possible light? Request a free on-site appointment by one of our experts.</p>
-            <BrixelButtonPrimary
-              label="Tell me more"
-              rounded
-              className="as-fs"
-              onClick={() => openTrialRequestFlow()}
-            />
-          </div>
-          <div className="ml-a closeBtn">
-            <BrixelButtonIcon
-              theme="dark"
-              small
-              bgTransparent
-              ghost
-              className="as-c"
-              icon="close-small"
-              onClick={() => setIsClosed(!isClosed)}
-            />
-          </div>
-        </div>
-        <div
-          ref={smallBannerRef}
-          className="teaserBanner brdRadius smallBanner dis-f"
-          style={{ marginTop: `${isClosed ? '0' : `-${bannerHeightSmall()}`}px` }}
-        >
-          <span className="teaserTag as-c">Free</span>
-          <p className="pl-2 body2 txtDark700">
-            <span>Request your free scan and estimation now.</span>
-            <span
-              onClick={() => setIsClosed(!isClosed)}
-              className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
+        { isClosed ? (
+          <>
+            <div
+              ref={smallBannerRef}
+              className="teaserBanner brdRadius smallBanner dis-f"
+              // style={{ marginTop: `${isClosed ? '0' : `-${bannerHeightSmall()}`}px` }}
             >
-              Read more
-            </span>
-          </p>
-        </div>
+              <span className="teaserTag as-c">Free</span>
+              <p className="pl-2 body2 txtDark700">
+                <span>Request your free scan and estimation now.</span>
+                <span
+                  onClick={() => setIsClosed(!isClosed)}
+                  className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
+                >
+                  Read more
+                </span>
+              </p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div
+              ref={teaserRef}
+              className={`teaserBanner bigBanner dis-f bgWhite brdRadius w-perc-100 ${className}`}
+              // style={{ marginTop: `${isClosed ? `-${bannerHeight()}` : '0'}px` }}
+            >
+              <div className="teaserImage pos-r">
+                <span className="teaserTag pos-a-fix x-b-1 x-l-2"> Free </span>
+                <picture>
+                  <source srcSet={`${TeaserImg} 1x, ${TeaserImg2x} 2x`} />
+                  <img className="h-perc-100" src={TeaserImg} alt="" />
+                </picture>
+              </div>
+              <div className="bannerContent dis-fl-col w-perc-100 max-w-fix-600">
+                <h5 className="">Request your free photo scan and estimation. </h5>
+                <p className="body txtDark700">Do you want to capture your property in its best possible light? Request a free on-site appointment by one of our experts.</p>
+                <BrixelButtonPrimary
+                  label="Tell me more"
+                  rounded
+                  className="as-fs"
+                  onClick={() => openTrialRequestFlow()}
+                />
+              </div>
+              <div className="ml-a closeBtn">
+                <BrixelButtonIcon
+                  theme="dark"
+                  small
+                  bgTransparent
+                  ghost
+                  className="as-c"
+                  icon="close-small"
+                  onClick={() => setIsClosed(!isClosed)}
+                />
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
