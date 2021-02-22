@@ -29,7 +29,7 @@ import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserA
 
 const cookie = new Cookies();
 
-const GetStarted = (props) => {
+const GetStartedSeller = (props) => {
   // PROPS
   const {
     changeFieldValue,
@@ -725,7 +725,7 @@ const GetStarted = (props) => {
   );
 };
 
-GetStarted.propTypes = {
+GetStartedSeller.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   company: PropTypes.object.isRequired,
   destroyForm: PropTypes.func.isRequired,
@@ -749,7 +749,7 @@ GetStarted.propTypes = {
   reset: PropTypes.func.isRequired,
 };
 
-GetStarted.defaultProps = {
+GetStartedSeller.defaultProps = {
   lang: 'en',
 };
 
@@ -835,4 +835,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(GetStarted);
+)(GetStartedSeller);

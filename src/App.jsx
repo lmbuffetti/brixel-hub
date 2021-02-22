@@ -38,8 +38,8 @@ import TeaserBanner from './components/TeaserBanner';
 import SplashScreen from './components/SplashScreen';
 
 // GET STARTED ADD ADD PROPERTY
-const GetStarted = Loadable({
-  loader: () => import('./Pages/PackageFlow/GetStarted' /* webpackChunkName: "GetStarted" */),
+const GetStartedSeller = Loadable({
+  loader: () => import('./Pages/PackageFlow/GetStartedSeller' /* webpackChunkName: "GetStartedSeller" */),
   loading: Loading,
 });
 
@@ -501,7 +501,7 @@ const App = (props) => {
                 }
                 <Switch>
                   { /* SECTION: ONBOARDING */ }
-                  <Route path="/packageFlow/getstarted/" component={GetStarted} />
+                  <Route path="/packageFlow/getstarted/" component={GetStartedSeller} />
                   <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
 
                   { /* SECTION: INSERT TOKEN */ }
