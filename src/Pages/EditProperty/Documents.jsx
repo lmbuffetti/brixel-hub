@@ -58,7 +58,8 @@ const Documents = (props) => {
   }, [documents, userType]);
 
   useEffect(() => {
-    const docs = documents || [];
+    let docs = documents || [];
+    if (userType === 'buyer') docs = docs.filter((item) => !item.isPrivate);
     if (docs.length > 0) {
       const finalObj = {
         NoFolder: [],
@@ -73,12 +74,12 @@ const Documents = (props) => {
       array.forEach((value) => {
         set(finalObj, `${value}`, []);
       });
-      documents.forEach((doc) => {
+      docs.forEach((doc) => {
         if (!doc.folder) {
           doc.folder = '';
           finalObj.NoFolder.push(doc);
-        } else if (has(doc, 'folder') && doc.folder.length > 0) finalObj[`${doc.folder}`].push(doc);
-        else if (has(doc, 'folder') && doc.folder.length === 0) finalObj.NoFolder.push(doc);
+        } else if (has(doc, 'folder') && doc.folder.length > 0 && finalObj[`${doc.folder}`]) finalObj[`${doc.folder}`].push(doc);
+        else if (has(doc, 'folder') && doc.folder.length === 0 && finalObj[`${doc.folder}`]) finalObj.NoFolder.push(doc);
       });
       setProcessedDocuments(finalObj);
     }
