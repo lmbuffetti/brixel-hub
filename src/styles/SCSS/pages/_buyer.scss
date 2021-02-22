@@ -15,7 +15,7 @@
 
   .profile-market-container {
     opacity: 0;
-    animation: scaleUpSmall 500ms 500ms cubic-bezier(.39,.575,.565,1) forwards;
+    animation: scaleUpSmall 500ms 100ms cubic-bezier(.39,.575,.565,1) forwards;
 
     .brixel-market {
       .market-teaser {

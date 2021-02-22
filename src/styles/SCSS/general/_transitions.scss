@@ -1,3 +1,19 @@
+
+.seller-properties,
+.buyer-properties {
+  .results {
+    opacity: 0;
+    animation: slidefromtop 300ms cubic-bezier(.39,.575,.565,1) forwards;
+
+    @for $x from 2 through $n {
+      &:nth-child(#{$x}) {
+        animation-delay: 150ms * ($x - 1);
+      }
+    }
+  }
+}
+
+
 .hubDasContent {
   // tab sections
   .listings-container,
