@@ -48,8 +48,8 @@ const PropertiesBuyerDashboard = (props) => {
   }, [favoritesProperties]);
 
   useEffect(() => {
-    handleGetUserSearchProfiles(loggedInUser.user.id);
-  }, [loggedInUser.user.id]);
+    handleGetUserSearchProfiles(loggedInUser.id);
+  }, [loggedInUser.id]);
 
   const showPrice = (property) => {
     const currency = get(property, 'price.currency', '');
@@ -361,7 +361,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   langConfig: get(state, 'common.language', ''),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
   property: get(state, 'property.activeSingleProperty', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
