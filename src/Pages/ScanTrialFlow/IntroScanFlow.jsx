@@ -16,7 +16,7 @@ const IntroScanFlow = () => (
     <div className="row">
       <div className="col-12 col-sm-4 mb-2 mb-sm-0">
         <div className="brdRadius ov-h">
-          <img src={FirstImpression} alt="text-1" />
+          <img className="w-perc-100" src={FirstImpression} alt="text-1" />
           <h5 className="mt-2 mb-1">First impressions matter.</h5>
           <p>Our experts will capture your property in its best possible light to stand out in the market. You can use these photos also <b>for free</b> in the Basic package.</p>
         </div>
