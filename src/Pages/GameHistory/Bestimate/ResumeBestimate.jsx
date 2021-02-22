@@ -56,7 +56,11 @@ function ResumeBestimate(props) {
       };
       handleGetMarketCheck(data);
     }
-    if (get(activeSingleProperty, 'location.countryCode', null) === 'PT' && !get(estimation, 'result.value', null)) {
+    if (get(activeSingleProperty, 'location.countryCode', null) === 'CH' ||
+        get(activeSingleProperty, 'location.countryCode', null) === 'PT') handleGetEstimation(propID);
+    else if (get(activeSingleProperty, 'location.countryCode', null) !== 'CH' &&
+            get(activeSingleProperty, 'location.countryCode', null) !== 'PT' &&
+            !get(estimation, 'result.value', null)) {
       const data = {
         owner: activeSingleProperty.owner.id,
         page: activeSingleProperty.id,
@@ -65,7 +69,6 @@ function ResumeBestimate(props) {
       handleCreateEstimation(data);
       history.push(`/${activeSingleProperty.id}/rewards/bestimate`);
     }
-    if (get(activeSingleProperty, 'location.countryCode', null) === 'CH') handleGetEstimation(propID);
   }, [activeSingleProperty, marketData]);
 
   // LOAD THE ESTIMATION

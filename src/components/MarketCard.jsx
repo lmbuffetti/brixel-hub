@@ -105,11 +105,11 @@ const MarketCard = (props) => {
   const openBestimateOverlay = (e, location, estim, page) => {
     if (e) e.preventDefault();
     onSetActiveProperty(page.id);
-    if (location.countryCode === 'PT') {
+    if (location.countryCode !== 'PT' && location.countryCode !== 'CH') {
       setCookie('brixelMarketBestimate', false);
       setSplashScreen('bestimateTeaser');
     }
-    if (location.countryCode === 'CH') {
+    if (location.countryCode === 'CH' || location.countryCode === 'PT') {
       if (!has(estim, 'result')) {
         const payload = {
           type: 'market',
