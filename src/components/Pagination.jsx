@@ -55,7 +55,7 @@ const Pagination = (props) => {
     }
     return totalItems;
   };
-  console.log(totalItems, itemsPerPage, totalItems > itemsPerPage);
+
   return (
     <>
       <p className={totalItems <= 10 ? 'pb-5 pb-lg-0' : ''}>

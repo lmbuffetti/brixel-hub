@@ -85,6 +85,7 @@
           flex-basis: 50%;
           &:last-child {
             flex-basis: calc(50% - 8px);
+            max-width: inherit;
           }
           @media (max-width: $responsive-large) {
             flex-basis: 100%;
