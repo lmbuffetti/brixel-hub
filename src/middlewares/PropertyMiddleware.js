@@ -63,7 +63,7 @@ const checkCommon = (store) => (next) => (action) => {
       const objData = cloneDeep(action.payload);
       const {
         getEstimation, token, redirectToUserFlow, redirectToRewards,
-        redirectToHome, smallLoader,
+        redirectToHome, smallLoader, createEstimation, redirectToUrl,
       } = objData;
       delete objData.getEstimation;
       delete objData.token;
@@ -71,14 +71,24 @@ const checkCommon = (store) => (next) => (action) => {
       delete objData.redirectToRewards;
       delete objData.redirectToHome;
       delete objData.smallLoader;
+      delete objData.createEstimation;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
+      console.log(action.payload);
       api.property.addProperty(objData, token)
         .then((res) => {
           // store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           store.dispatch(change('GetStarted', 'pageID', res.data.id));
           store.dispatch(change('GetStarted', 'pageAnswer', res.data.packageFlowProcess));
-          if (getEstimation) {
+          if (createEstimation) {
+            const data = {
+              owner: res.data.owner.id,
+              page: res.data.id,
+              generate: true,
+              redirectTo: redirectToUrl,
+            };
+            store.dispatch({ type: CREATE_ESTIMATION, payload: data });
+          } else if (getEstimation) {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
           } else if (redirectToHome) {
             window.location.href = `/${res.data.id}/home`;

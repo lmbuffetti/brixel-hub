@@ -41,8 +41,8 @@ const GetStartedEstimation = (props) => {
     handleDoLogin,
     handleGetActiveSingleCompany,
     handleGetGamegroup,
-    handleSaveActiveSingleProperty,
-    handleSaveActiveSingleUser,
+    // handleSaveActiveSingleProperty,
+    // handleSaveActiveSingleUser,
     handleSetLanguage,
     handleSpinnerOff,
     handleValidateUser,
@@ -77,15 +77,38 @@ const GetStartedEstimation = (props) => {
     return () => destroyForm();
   }, []);
 
-  const getSplashType = () => {
-    const dataForm = cloneDeep(formValue);
-    let type;
-
-    if (get(dataForm, 'location.countryCode', null) === 'PT') type = 'bestimateTeaser';
-    if (get(dataForm, 'location.countryCode', null) === 'CH') type = 'bestimateResult';
-
-    return type;
-  };
+  useEffect(() => {
+    if (get(formValue, 'properties.extraFeaturesBestimatePT', null)) {
+      changeFieldValue('properties.extraFeatures.equippedKitchen', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('equippedKitchen'));
+      changeFieldValue('properties.building.blinds.blindsElectric', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('electricBlinds'));
+      let windowsMaterials = [];
+      if (get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('doubleGlazedWindows')) {
+        windowsMaterials = ['doubleGlazed'];
+      }
+      if (windowsMaterials[0] !== get(formValue, 'properties.building.windows.materials', [])[0]) changeFieldValue('properties.building.windows.materials', windowsMaterials);
+      changeFieldValue('properties.extraFeatures.suite', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('masterBedroom'));
+      changeFieldValue('properties.extraFeatures.wardrobe', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('wardrobe'));
+      changeFieldValue('properties.energy.ac', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('airConditioning'));
+      let centralHeating = [];
+      if (get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('heatingSystem')) {
+        centralHeating = ['centralHeating'];
+      }
+      if (centralHeating[0] !== get(formValue, 'properties.energy.heatingSystem', [])[0]) changeFieldValue('properties.energy.heatingSystem', centralHeating);
+      changeFieldValue('properties.extraFeatures.fireplace', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('fireplace'));
+      changeFieldValue('properties.extraFeatures.swimmingPool', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('pool'));
+      changeFieldValue('properties.extraFeatures.gym', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('gym'));
+      changeFieldValue('properties.extraFeatures.elevator', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('elevator'));
+      changeFieldValue('properties.typology.storeroom', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('storageRoom'));
+      changeFieldValue('properties.typology.basement', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('basement'));
+      changeFieldValue('properties.extraFeatures.seaView', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('seaView'));
+      changeFieldValue('properties.extraFeatures.cityView', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('cityView'));
+      changeFieldValue('properties.typology.pantry', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('pantry'));
+      changeFieldValue('properties.extraFeatures.videoSecurity', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('dorbellVideo'));
+      changeFieldValue('properties.extraFeatures.alarm', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('alarm'));
+      const efficiencyCertified = get(formValue, 'properties.energy.efficiency', null) !== null ? 'yes' : null;
+      changeFieldValue('properties.energy.efficiencyCertified', efficiencyCertified);
+    }
+  }, [get(formValue, 'properties.extraFeaturesBestimatePT', null)]);
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
@@ -97,34 +120,83 @@ const GetStartedEstimation = (props) => {
   }, [formValue]);
 
   // FUNCTION TO SAVE DATA
-  const saveData = async (action) => {
+  const saveData = async () => {
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
-    if (action === 'updateUser') {
-      const dataUser = {
-        id: dataForm.owner,
-        userType: get(dataForm, 'register.ownerType', null),
+    const { login, register, company } = dataForm;
+    // delete dataForm.login;
+    // changeFieldValue('register.password', '');
+    // delete dataFormAnswer.register.password;
+    // delete dataForm.company;
+    // BROWSER AND META USER DATA
+    const metaUserData = {};
+    // eslint-disable-next-line guard-for-in,no-restricted-syntax
+    for (const key in navigator) {
+      metaUserData[key] = navigator[key];
+    }
+    // PROPERTY DATA
+    delete dataFormAnswer.login;
+    const data = {
+      ...dataFormAnswer,
+      packageFlowProcess: {
+        answers: dataFormAnswer,
+        rewardScreenData: {},
+        metaUser: metaUserData,
+      },
+      language: lang || 'en',
+      title: formValue.pageTitle,
+      status: 'on-request',
+      listed: false,
+      active: true,
+      published: false,
+      addProperty: true,
+      redirectToUserFlow: false,
+      createEstimation: true,
+      company,
+      redirectToUrl: '/home',
+    };
+    const page = get(formValue, 'signupScreen', null);
+    // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
+    if (formValue.owner) {
+      data.owner = loggedInUser.user.id;
+      // DISPATCH TO SAVE THE PROPERTY
+      data.redirectToRewards = true;
+      await handleCreateActiveSingleProperty(data);
+    } else if (page === 'login') {
+      changeFieldValue('register.email', login.email);
+      // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
+      // USER DATA
+      data.user = {
+        username: login.email,
+        password: login.password,
       };
-      const dataProperty = {
-        id: get(dataForm, 'pageID', null),
-        ownerType: get(dataForm, 'register.ownerType', null),
-        // redirectTo: '/home',
-        redirectTo: `/${get(dataForm, 'pageID', null)}/rewards`,
-        splashType: getSplashType(),
+      // DISPATCH TO DO LOGIN
+      data.redirectToHome = true;
+      await handleDoLogin(data);
+    } else {
+      changeFieldValue('login.email', register.email);
+      // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
+      // USER DATA
+      data.redirectToRewards = true;
+      data.user = {
+        ...register,
+        acceptTerms: get(register, 'privacy[0]', true),
+        acceptMarketing: get(register, 'acceptMarketing[0]', false),
+        name: get(formValue, 'register.name', ''),
+        userType: 'seller',
+        signupAccept: true,
+        signupChannel: get(formValue, 'channel', 'default'),
+        signupProduct: null,
+        language: lang || 'en',
+        createUser: true,
+        company,
+        ignoreEmail: false,
+        seller: true,
+        redirectTo: {
+          pathname: '/packageFlow/getStartedEstimation/success',
+          state: { hideClose: true },
+        },
       };
-      const packageFlowProcess = get(dataForm, 'pageAnswer', {});
-      packageFlowProcess.answers.userType = get(dataForm, 'register.ownerType', 'seller');
-      packageFlowProcess.answers.owner = dataForm.owner;
-      if (get(dataForm, 'register.ownerType', null) === 'buyer') {
-        dataUser.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
-        dataProperty.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
-        packageFlowProcess.answers.typeOfBuyer = get(dataForm, 'register.typeOfBuyer', null);
-      }
-      if (get(dataForm, 'register.ownerType', null) === 'seller') {
-        dataUser.whenToSell = get(dataForm, 'register.whenToSell', null);
-        dataProperty.whenToSell = get(dataForm, 'register.whenToSell', null);
-        packageFlowProcess.answers.whenToSell = get(dataForm, 'register.whenToSell', null);
-      }
       const sellerType = [
         'seller',
         'inheritance',
@@ -134,93 +206,16 @@ const GetStartedEstimation = (props) => {
       const buyerType = [
         'buyer',
       ];
-      if (sellerType.includes(get(dataForm, 'register.ownerType', ''))) {
-        dataUser.seller = true;
-        dataUser.buyer = false;
+      if (sellerType.includes(get(dataForm, 'estimationType', ''))) {
+        data.user.seller = true;
+        data.user.buyer = false;
       }
-      if (buyerType.includes(get(dataForm, 'register.ownerType', ''))) {
-        dataUser.buyer = true;
-        dataUser.seller = false;
+      if (buyerType.includes(get(dataForm, 'estimationType', ''))) {
+        data.user.buyer = true;
+        data.user.seller = false;
       }
-      dataProperty.packageFlowProcess = packageFlowProcess;
-      await handleSaveActiveSingleUser(dataUser);
-      await handleSaveActiveSingleProperty(dataProperty);
-    } else {
-      const { login, register, company } = dataForm;
-      // delete dataForm.login;
-      // changeFieldValue('register.password', '');
-      // delete dataFormAnswer.register.password;
-      // delete dataForm.company;
-      // BROWSER AND META USER DATA
-      const metaUserData = {};
-      // eslint-disable-next-line guard-for-in,no-restricted-syntax
-      for (const key in navigator) {
-        metaUserData[key] = navigator[key];
-      }
-      // PROPERTY DATA
-      delete dataFormAnswer.login;
-      const data = {
-        ...dataFormAnswer,
-        packageFlowProcess: {
-          answers: dataFormAnswer,
-          rewardScreenData: {},
-          metaUser: metaUserData,
-        },
-        language: lang || 'en',
-        title: formValue.pageTitle,
-        status: 'on-request',
-        listed: false,
-        active: true,
-        published: false,
-        addProperty: true,
-        redirectToUserFlow: false,
-        company,
-      };
-      const page = get(formValue, 'signupScreen', null);
-      // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
-      if (formValue.owner) {
-        data.owner = loggedInUser.user.id;
-        // DISPATCH TO SAVE THE PROPERTY
-        data.redirectToRewards = true;
-        await handleCreateActiveSingleProperty(data);
-      } else if (page === 'login') {
-        changeFieldValue('register.email', login.email);
-        // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
-        // USER DATA
-        data.user = {
-          username: login.email,
-          password: login.password,
-        };
-        // DISPATCH TO DO LOGIN
-        data.redirectToHome = true;
-        await handleDoLogin(data);
-      } else {
-        changeFieldValue('login.email', register.email);
-        // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
-        // USER DATA
-        data.redirectToRewards = false;
-        data.user = {
-          ...register,
-          acceptTerms: get(register, 'privacy[0]', true),
-          acceptMarketing: get(register, 'acceptMarketing[0]', false),
-          name: get(formValue, 'register.name', ''),
-          userType: 'seller',
-          signupAccept: true,
-          signupChannel: get(formValue, 'channel', 'default'),
-          signupProduct: null,
-          language: lang || 'en',
-          createUser: true,
-          company,
-          ignoreEmail: false,
-          seller: true,
-          redirectTo: {
-            pathname: '/packageFlow/getStartedEstimation/success',
-            state: { hideClose: true },
-          },
-        };
-        // DISPATCH TO DO REGISTRATION USER
-        await handleValidateUser(data);
-      }
+      // DISPATCH TO DO REGISTRATION USER
+      await handleValidateUser(data);
     }
   };
 
@@ -735,8 +730,8 @@ GetStartedEstimation.propTypes = {
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
-  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  handleSaveActiveSingleUser: PropTypes.func.isRequired,
+  // handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  // handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
