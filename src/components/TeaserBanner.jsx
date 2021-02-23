@@ -20,26 +20,26 @@ const TeaserBanner = (props) => {
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
 
-  const [isClosed, setIsClosed] = useState(getCookie('brixelBannerClosed') === 'true');
+  const [isCollapsed, setIsCollapsed] = useState(getCookie('brixelBannerClosed') === 'true');
   // const [animClass, setAnimClass] = useState(false);
 
   const smallBannerRef = useRef(null);
-  const smallBannerEl = smallBannerRef.current;
   const teaserRef = useRef(null);
-  const teaserEl = teaserRef.current;
+  // const smallBannerEl = smallBannerRef.current;
+  // const teaserEl = teaserRef.current;
 
   useEffect(() => {
-    setCookie('brixelBannerClosed', isClosed);
-  }, [isClosed]);
+    setCookie('brixelBannerClosed', isCollapsed);
+  }, [isCollapsed]);
 
   const openTrialRequestFlow = () => {
-    setIsClosed(!isClosed);
+    setIsCollapsed(!isCollapsed);
     setCookie('brixelBannerClosed', true);
     localStorage.setItem('backUrl', history.location.pathname);
     history.push(`/${propID}/trialRequest`);
   };
 
-  const bannerHeight = () => {
+  /*  const bannerHeight = () => {
     let height;
     if (teaserEl) height = teaserEl.offsetHeight;
     return height;
@@ -48,7 +48,7 @@ const TeaserBanner = (props) => {
     let height;
     if (smallBannerEl) height = smallBannerEl.offsetHeight;
     return height;
-  };
+  }; */
 
   if (
     !history.location.pathname.includes('rewards') &&
@@ -61,20 +61,20 @@ const TeaserBanner = (props) => {
   const classToHide = get(history, 'location.state.hideBackPage', false);
 
   return (
-    <div className={`teaserWrapper container ${isClosed ? 'smallOn' : 'bigOn'} ${classToHide ? 'hide' : ''}`}>
+    <div className={`teaserWrapper container ${isCollapsed ? 'smallOn' : 'bigOn'} ${classToHide ? 'hide' : ''}`}>
       <div>
-        { isClosed ? (
+        { isCollapsed ? (
           <>
             <div
               ref={smallBannerRef}
               className="teaserBanner brdRadius smallBanner dis-f"
-              // style={{ marginTop: `${isClosed ? '0' : `-${bannerHeightSmall()}`}px` }}
+              // style={{ marginTop: `${isCollapsed ? '0' : `-${bannerHeightSmall()}`}px` }}
             >
               <span className="teaserTag as-c">Free</span>
               <p className="pl-2 body2 txtDark700">
                 <span>Request your free scan and estimation now.</span>
                 <span
-                  onClick={() => setIsClosed(!isClosed)}
+                  onClick={() => setIsCollapsed(!isCollapsed)}
                   className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
                 >
                   Read more
@@ -87,7 +87,7 @@ const TeaserBanner = (props) => {
             <div
               ref={teaserRef}
               className={`teaserBanner bigBanner dis-f bgWhite brdRadius w-perc-100 ${className}`}
-              // style={{ marginTop: `${isClosed ? `-${bannerHeight()}` : '0'}px` }}
+              // style={{ marginTop: `${isCollapsed ? `-${bannerHeight()}` : '0'}px` }}
             >
               <div className="teaserImage pos-r">
                 <span className="teaserTag pos-a-fix x-b-1 x-l-2"> Free </span>
@@ -114,7 +114,7 @@ const TeaserBanner = (props) => {
                   ghost
                   className="as-c"
                   icon="close-small"
-                  onClick={() => setIsClosed(!isClosed)}
+                  onClick={() => setIsCollapsed(!isCollapsed)}
                 />
               </div>
             </div>
