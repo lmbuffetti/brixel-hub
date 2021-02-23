@@ -76,9 +76,10 @@ const MarketCard = (props) => {
 
   // Update market card when bestimate changes
   useEffect(() => {
-    if (has(estimation, 'id')) {
-      if (has(estimation, 'result.value')) set(item, 'estimation', estimation);
-    }
+    // console.log(estimation, item);
+    // if (has(estimation, 'id')) {
+    //   if (has(estimation, 'result.value')) set(item, 'estimation', estimation);
+    // }
   }, [estimation]);
 
   const openCard = (e) => {
