@@ -35,8 +35,8 @@
     > div {
       @media (min-width: $responsive-medium) {
         .secondLevel {
+          // margin-left: $step * 3;
           margin-right: $step * 1.5;
-          margin-left: $step * 3;
         }
         .thirdLevel {
           margin-left: $step * 1.5;

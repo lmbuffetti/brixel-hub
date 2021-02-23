@@ -121,7 +121,7 @@ const ListingsDashboard = (props) => {
 
   return (
     <div className="listings-container dis-f jc-fs h-perc-lg-100 a-t" id="listingsDashaboard">
-      <Sticker>
+      {/* <Sticker>
         <div className={`firstLevel mr-lg-2 expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
 
           <div className="dis-f">
@@ -155,21 +155,7 @@ const ListingsDashboard = (props) => {
               selected
             />
           </div>
-          {/* <div className="mt-2">
-          <BrixelButtonBox
-            bgTransparent
-            icon="gallery"
-            label="Showings"
-            labelClass="fweight-400 pb-small-6"
-            subtitle={`No showings`}
-            subtitleClass={'fsize-200 txtDark200'}
-            className={`w-perc-100 shadow-1dp brdMedium p-2 ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
-            colorIcon="primary700"
-            backIcon="primary100"
-            onClick={() => history.push(`/${propID}/listings/showings`)}
-            selected
-          />
-        </div> */}
+
           <div className="brdRadius shadow-1dp brdPrimary400 mt-1 hide">
             <div className="transparency-container">
               <div className="dis-fl-col ta-l">
@@ -222,17 +208,17 @@ const ListingsDashboard = (props) => {
           </div>
 
         </div>
-      </Sticker>
-      <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
+      </Sticker> */}
+      {/* <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
         <BrixelButtonIcon
           ghost
           icon="arrow-simple-left"
           onClick={() => history.push(`${propID}/listings/showings`)}
         />
-      </div>
+      </div> */}
       {
         getFact() !== 'listings' && (
-          <div className={`levelsWrapper zIndex2 w-perc-100 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
+          <div className={`levelsWrapper zIndex2 w-perc-100 ${openCloseColumn() === 'opened' ? 'closed' : 'opened'}`}>
             {
               (
                 getFact() === 'showings' ||

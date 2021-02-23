@@ -1,13 +1,13 @@
 div#dashboard {
   max-width: 1248px;
 }
-.factsWrapper .secondLevel{
+/* .factsWrapper .secondLevel{
   max-width: 768px;
 
   @media (min-width: $responsive-medium) {
     min-width: 480px;
   }
-}
+} */
 .hubContainer {
   &.sellerHub,
   &.buyerHub {
@@ -74,6 +74,7 @@ div#dashboard {
   .thirdLevel {
     width: 100%;
     height: 100%;
+    max-width: 768px;
 
     @media (max-width: $responsive-medium) {
       background: $brx-white;

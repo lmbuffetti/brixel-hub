@@ -98,7 +98,7 @@ const HomeDashboard = (props) => {
   return (
     <>
       <div className="property-container dis-f jc-fs h-perc-lg-100 pos-r a-t" id="propertyDashboard">
-        <Sticker>
+        {/* <Sticker>
           <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
             <div
               className={`cur-poi showHover brdRadius shadow-1dp brdMedium ${getFact() === 'facts' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
@@ -208,14 +208,14 @@ const HomeDashboard = (props) => {
             </div>
 
           </div>
-        </Sticker>
-        <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
+        </Sticker> */}
+        {/* <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
           <BrixelButtonIcon
             ghost
             icon="arrow-simple-left"
             onClick={() => history.push('../facts')}
           />
-        </div>
+        </div> */}
         {
           getFact() !== 'property' && (
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
