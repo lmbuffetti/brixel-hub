@@ -41,8 +41,6 @@ const GetStartedSeller = (props) => {
     handleDoLogin,
     handleGetActiveSingleCompany,
     handleGetGamegroup,
-    handleSaveActiveSingleProperty,
-    handleSaveActiveSingleUser,
     handleSetLanguage,
     handleSpinnerOff,
     handleValidateUser,
@@ -77,16 +75,6 @@ const GetStartedSeller = (props) => {
     return () => destroyForm();
   }, []);
 
-  const getSplashType = () => {
-    const dataForm = cloneDeep(formValue);
-    let type;
-
-    if (get(dataForm, 'location.countryCode', null) !== 'PT' && get(dataForm, 'location.countryCode', null) !== 'CH') type = 'bestimateTeaser';
-    if (get(dataForm, 'location.countryCode', null) === 'CH' || get(dataForm, 'location.countryCode', null) === 'PT') type = 'bestimateResult';
-
-    return type;
-  };
-
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
     const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
@@ -97,7 +85,7 @@ const GetStartedSeller = (props) => {
   }, [formValue]);
 
   // FUNCTION TO SAVE DATA
-  const saveData = async (action) => {
+  const saveData = async () => {
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
 
@@ -689,8 +677,6 @@ GetStartedSeller.propTypes = {
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
-  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,

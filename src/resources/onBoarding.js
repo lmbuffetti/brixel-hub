@@ -4,10 +4,6 @@ import {
 } from '@brixel/brixel-components';
 import { translateTo } from '../utils/translation';
 
-import apartment from '../images/BrxielComingTown/apartment.svg';
-import house from '../images/BrxielComingTown/house.svg';
-import commercial from '../images/BrxielComingTown/commercial.svg';
-
 import homesSvg from '../images/getstarted/svgs/homes.svg';
 // QUESTION LISTS
 export const QuestionsList = (lang) => [

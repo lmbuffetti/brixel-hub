@@ -45,13 +45,13 @@ const GetStarted = (props) => {
     destroyForm,
     errorValue,
     formValue,
-    handleDoLogin,
+    // handleDoLogin,
     handleGetActiveSingleCompany,
-    handleGetGamegroup,
-    handleUpdateSearchProfile,
+    // handleGetGamegroup,
+    // handleUpdateSearchProfile,
     handleSetLanguage,
     handleSpinnerOff,
-    handleValidateUser,
+    // handleValidateUser,
     history,
     initForm,
     initialValues,
@@ -78,7 +78,7 @@ const GetStarted = (props) => {
   // DESTROY FORM ON EXIT
   useEffect(() => {
     handleSpinnerOff();
-    // return () => destroyForm();
+    return () => destroyForm();
   }, []);
 
   // FUNCTION TO SAVE DATA
@@ -593,13 +593,13 @@ GetStarted.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleDoLogin: PropTypes.func.isRequired,
+  // handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleGetGamegroup: PropTypes.func.isRequired,
-  handleUpdateSearchProfile: PropTypes.func.isRequired,
+  // handleGetGamegroup: PropTypes.func.isRequired,
+  // handleUpdateSearchProfile: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  handleValidateUser: PropTypes.func.isRequired,
+  // handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
