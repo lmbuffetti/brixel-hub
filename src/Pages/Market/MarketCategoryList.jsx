@@ -11,13 +11,14 @@ import {
   BrixelButtonIcon,
   Helpers,
   BrixelDropdown,
+  BrixelButtonText,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
-import startBestimate from '../../images/Bestimate/startBestimate.svg';
+import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
 import { setSplashType } from '../../actions/CommonActions';
 import { setEstimation, setActivePremarketProperty } from '../../actions/PropertyActions';
 import CardImageText from '../../components/Skeleton/CardImageText';
@@ -82,6 +83,11 @@ const MarketCategoryList = (props) => {
     if (!activeProperty) idProperty = ownerProperties.data[0].id;
     history.push(`/${idProperty}/rewards/achievement/bestimate`);
     // setSplashScreen('');
+  };
+
+  const openSupport = (e) => {
+    e.preventDefault();
+    history.push({ state: { showSupport: true } });
   };
 
   const scrollToTopEdit = () => {
@@ -230,28 +236,21 @@ const MarketCategoryList = (props) => {
               />
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
-              <h3>Get a free price indication. </h3>
-              <span className="max-w-fix-448 ta-c txtDark700 py-2"> Compare your property to real transaction data to better define the pricing. </span>
+              <h3>Generating your estimation... </h3>
+              <span className="max-w-fix-448 ta-c txtDark700 py-2"> Our experts are validating the data and generating an estimation report just for you. </span>
 
-              <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
+              <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
 
               <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
+                <span>If you have any questions please contact our </span>
                 <span
-                  className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
-                  onClick={() => {
-                    setCookie('brixelMarketBestimate', true);
-                    setBestimateMessage(true);
+                  className="cur-poi link txtPrimary400"
+                  onClick={(e) => {
+                    openSupport(e);
                   }}
                 >
-                  Thanks, not now
+                  &nbsp;support
                 </span>
-                <BrixelButtonPrimary
-                  rounded
-                  label="Get free Bestimate&reg;"
-                  className="m-a"
-                  onClick={() => onClickBestimate()}
-                  rightIcon="arrow-right"
-                />
               </div>
             </div>
           </SplashScreen>
