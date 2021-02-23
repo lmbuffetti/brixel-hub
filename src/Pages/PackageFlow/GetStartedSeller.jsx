@@ -153,7 +153,7 @@ const GetStartedSeller = (props) => {
       changeFieldValue('login.email', register.email);
       // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
-      data.redirectToRewards = false;
+      data.redirectToRewards = true;
       data.user = {
         ...register,
         acceptTerms: get(register, 'privacy[0]', true),
