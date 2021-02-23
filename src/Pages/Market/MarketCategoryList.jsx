@@ -246,6 +246,7 @@ const MarketCategoryList = (props) => {
           </SplashScreen>
         )
       }
+
       {
         loggedInUser.seller && (
           <div className={` ${ownerProperties.total === 0 ? '' : 'min-h-fix-552 min-h-fix-sm-344'}`}>
