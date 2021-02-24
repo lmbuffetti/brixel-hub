@@ -241,7 +241,9 @@ const MarketList = (props) => {
         pathname: `/${item.id}/rewards/market-checker`,
         state: { section: 'Market' },
       });
-    } else if (catName === 'preMarket' || get(item, 'tags', []).includes('pre-market')) {
+    } else if (catName === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
+                catName === 'premium' || get(item, 'tags', []).includes('premium') ||
+                catName === 'new' || get(item, 'tags', []).includes('new')) {
       setSplashScreen('preMarket');
       setPreMarketProperty(item);
     } else if (catName === 'favorite') {

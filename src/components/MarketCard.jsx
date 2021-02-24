@@ -81,7 +81,9 @@ const MarketCard = (props) => {
           pathname: `/${item.id}/rewards/market-checker`,
           state: { section: 'Market' },
         });
-      } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market')) {
+      } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
+                  type === 'premium' || get(item, 'tags', []).includes('premium') ||
+                  type === 'new' || get(item, 'tags', []).includes('new')) {
         setSplashScreen('preMarket');
         setPreMarketProperty(item);
       } else if (type === 'favorite') {
