@@ -17,9 +17,9 @@ import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
-import startBestimate from '../../images/Bestimate/startBestimate.svg';
+import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
 import { setSplashType } from '../../actions/CommonActions';
-import { setEstimation, setActivePremarketProperty } from '../../actions/PropertyActions';
+import { setEstimation, setActivePremarketProperty, getEstimation } from '../../actions/PropertyActions';
 import CardImageText from '../../components/Skeleton/CardImageText';
 
 const CarouselWrapper = Loadable({
@@ -34,6 +34,7 @@ const MarketCategoryList = (props) => {
     activeSingleCompany,
     bestimate,
     favoritesProperties,
+    handleGetEstimation,
     history,
     loggedInUser,
     match,
@@ -52,11 +53,33 @@ const MarketCategoryList = (props) => {
 
   const [welcomeMessage, setWelcomeMessage] = useState(getCookie('brixelMarketWelcome') === 'true');
   const [bestimateMessage, setBestimateMessage] = useState(marketCookie === 'true');
-  const [activeProperty, setActiveProperty] = useState(null);
 
   useEffect(() => {
     setBestimateMessage(marketCookie === 'true');
   }, [marketCookie]);
+
+  // Update market card when bestimate changes
+  useEffect(() => {
+    if (getCookie('brixelSplashHome') === 'bestimateResult' && get(ownerProperties, 'data', []).length > 0) {
+      if (ownerProperties.data[0].location.countryCode === 'CH' || ownerProperties.data[0].location.countryCode === 'PT') {
+        if (!has(ownerProperties.data[0], 'estimation.result')) {
+          const payload = {
+            type: 'market',
+            id: ownerProperties.data[0].id,
+          };
+          handleGetEstimation(payload);
+        }
+        setCookie('brixelMarketBestimate', false);
+        setCookie('brixelSplashHome', null);
+        setSplashScreen('bestimateResult');
+        setPropertyEstimation(get(ownerProperties.data[0], 'estimation', {}));
+      } else {
+        setCookie('brixelMarketBestimate', false);
+        setCookie('brixelSplashHome', null);
+        setSplashScreen('bestimateTeaser');
+      }
+    }
+  }, [getCookie('brixelSplashHome'), ownerProperties]);
 
   const onCloseWelcome = () => {
     setCookie('brixelMarketWelcome', true);
@@ -77,11 +100,9 @@ const MarketCategoryList = (props) => {
     setSplashScreen('');
   };
 
-  const onClickBestimate = () => {
-    let idProperty = activeProperty;
-    if (!activeProperty) idProperty = ownerProperties.data[0].id;
-    history.push(`/${idProperty}/rewards/achievement/bestimate`);
-    // setSplashScreen('');
+  const openSupport = (e) => {
+    e.preventDefault();
+    history.push({ state: { showSupport: true } });
   };
 
   const scrollToTopEdit = () => {
@@ -189,9 +210,20 @@ const MarketCategoryList = (props) => {
                 </div>
                 <span className="besitmate-bar"> </span>
               </div>
-              <span className="txtDark200 max-w-fix-480 mb-5">
-                Bestimate<sup>&reg;</sup> is calculated based on similar transactions. This is a first price indication calculated with few inputs. To have a more accurate estimation we suggest to book our free on-site estimation.
-              </span>
+              {
+                get(bestimate, 'alfredo', false) === true && (
+                  <span className="txtDark200 max-w-fix-480 mb-5">
+                    Bestimate<sup>&reg;</sup> is a first price indication calculated with a few inputs. It is based on real property transactions, as well as an average of current market values. For a more accurate and complete estimation, we suggest booking an on-site appointment with one of our experts (limited to specific areas).
+                  </span>
+                )
+              }
+              {
+                get(bestimate, 'iazi', false) === true && (
+                  <span className="txtDark200 max-w-fix-480 mb-5">
+                    Bestimate<sup>&reg;</sup> is calculated based on similar transactions. This is a first price indication calculated with few inputs. To have a more accurate estimation we suggest to book our free on-site estimation.
+                  </span>
+                )
+              }
               <BrixelButtonPrimary
                 label="ok, got it!"
                 rounded
@@ -219,33 +251,27 @@ const MarketCategoryList = (props) => {
               />
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
-              <h3>Get a free price indication. </h3>
-              <span className="max-w-fix-448 ta-c txtDark700 py-2"> Compare your property to real transaction data to better define the pricing. </span>
+              <h3>Generating your estimation... </h3>
+              <span className="max-w-fix-448 ta-c txtDark700 py-2"> Our experts are validating the data and generating an estimation report just for you. </span>
 
-              <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
+              <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
 
               <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
+                <span>If you have any questions please contact our </span>
                 <span
-                  className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
-                  onClick={() => {
-                    setCookie('brixelMarketBestimate', true);
-                    setBestimateMessage(true);
+                  className="cur-poi link txtPrimary400"
+                  onClick={(e) => {
+                    openSupport(e);
                   }}
                 >
-                  Thanks, not now
+                  &nbsp;support
                 </span>
-                <BrixelButtonPrimary
-                  rounded
-                  label="Get free Bestimate&reg;"
-                  className="m-a"
-                  onClick={() => onClickBestimate()}
-                  rightIcon="arrow-right"
-                />
               </div>
             </div>
           </SplashScreen>
         )
       }
+
       {
         loggedInUser.seller && (
           <div className={` ${ownerProperties.total === 0 ? '' : 'min-h-fix-552 min-h-fix-sm-344'}`}>
@@ -257,7 +283,6 @@ const MarketCategoryList = (props) => {
                   type="own"
                   items={ownerProperties.data}
                   total={ownerProperties.total}
-                  onSetActiveProperty={(id) => setActiveProperty(id)}
                 />
               )
             }
@@ -599,6 +624,7 @@ MarketCategoryList.propTypes = {
   premiumProperties: PropTypes.object.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
+  handleGetEstimation: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
   windowDimensions: PropTypes.object.isRequired,
@@ -626,6 +652,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),

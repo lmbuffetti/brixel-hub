@@ -116,6 +116,7 @@ const checkUser = (store) => (next) => (action) => {
       const { redirectTo, setOwner } = action.payload.user;
       delete action.payload.user;
       delete action.payload.addProperty;
+      delete data.redirectTo;
       api.user.createUser(data)
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {

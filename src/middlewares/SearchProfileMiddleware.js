@@ -44,9 +44,12 @@ const checkSearchProfile = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       const token = action.payload.token || null;
       const addSearchProfile = action.payload.addSearchProfile || false;
+      const { redirectToUrl } = action.payload;
       api.searchProfile.updateSearchProfile(action.payload.dataSearchProfile, token)
         .then(() => {
-          if (addSearchProfile) {
+          if (redirectToUrl) {
+            window.location.href = redirectToUrl;
+          } else if (addSearchProfile) {
             // window.location.href = '/home';
             window.location.href = '/buyer/propertyLists';
           }

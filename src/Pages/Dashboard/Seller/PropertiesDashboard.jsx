@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary, FormatValue,
+  BrixelButtonPrimary, FormatValue,
   Helpers,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';

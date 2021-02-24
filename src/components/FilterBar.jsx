@@ -98,8 +98,6 @@ const FilterBar = (props) => {
         {
           dealsFilter && (
             <div className="deals-filter pos-r as-fe dis-f" ref={propertyFilterRef}>
-              {/* {console.log(activeData.value)} */}
-
               <BrixelButtonText
                 className="ml-2"
                 theme="Dark"
