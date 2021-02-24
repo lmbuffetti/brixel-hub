@@ -97,7 +97,7 @@ const Photos = (props) => {
       handleMultiUploadImg({
         allImgs: res,
         actions: 'photos',
-        pageID: activeSingleProperty.id,
+        pageID: activeSingleProperty.id || propID,
         smallLoader: 'upload',
       });
     });
@@ -330,12 +330,12 @@ Photos.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'brixelForm.Property.values', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  formValue: get(state, 'brixelForm.Property.values', {}),
   imageType: get(state, 'images.imageType', []),
-  percentage: get(state, 'common.percentage', 0),
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', null),
+  percentage: get(state, 'common.percentage', 0),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

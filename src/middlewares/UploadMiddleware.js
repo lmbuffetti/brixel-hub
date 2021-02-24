@@ -80,15 +80,29 @@ const checkCommon = (store) => (next) => (action) => {
       Promise.all(calls).then((res) => {
         const data = {};
         const filesArray = get(store.getState(), `brixelForm.Property.values[${actions}]`, []);
+        console.log(filesArray, pageID);
         res.forEach((resImg) => {
-          const selOriginalImg = allImgs.find((img) => img.name.toString() === resImg.data.name.toString());
-          filesArray.push({
-            width: get(selOriginalImg, 'width', null),
-            height: get(selOriginalImg, 'height', null),
-            ...resImg.data,
-          });
+          console.log(resImg);
+          if (get(resImg, 'data.name', null)) {
+            const selOriginalImg = allImgs.find((img) => get(img, 'name', 'a').toString() === get(resImg, 'data.name', 'b').toString());
+            filesArray.push({
+              width: get(selOriginalImg, 'width', null),
+              height: get(selOriginalImg, 'height', null),
+              ...resImg.data,
+            });
+          } else if (resImg.data.length > 0) {
+            resImg.data.forEach((item) => {
+              const selOriginalImg = allImgs.find((img) => get(img, 'name', 'a').toString() === get(item, 'name', 'b').toString());
+              filesArray.push({
+                width: get(selOriginalImg, 'width', null),
+                height: get(selOriginalImg, 'height', null),
+                ...item,
+              });
+            });
+          }
         });
         set(data, actions, filesArray);
+        console.log(data, actions, filesArray);
         data.id = pageID;
         data.smallLoader = smallLoader;
         store.dispatch({
