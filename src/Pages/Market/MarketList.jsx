@@ -17,7 +17,7 @@ import {
 import MarketCardMap from '../../components/MarketCardMap';
 import Pagination from '../../components/Pagination';
 import { setSplashType, setWindowDimensions } from '../../actions/CommonActions';
-import { setActivePremarketProperty } from '../../actions/PropertyActions';
+import { setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
 
 const MarketMap = Loadable({
   loader: () => import('./MarketMap' /* webpackChunkName: "MarketMap" */),
@@ -44,7 +44,7 @@ const MarketList = (props) => {
     ownerProperties,
     preMarketProperties,
     premiumProperties,
-    setPreMarketProperty,
+    setMarketOverlayProperty,
     setSplashScreen,
     userSearchProfiles,
     windowDimensions,
@@ -245,7 +245,7 @@ const MarketList = (props) => {
                 catName === 'premium' || get(item, 'tags', []).includes('premium') ||
                 catName === 'new' || get(item, 'tags', []).includes('new')) {
       setSplashScreen('preMarket');
-      setPreMarketProperty(item);
+      setMarketOverlayProperty(item);
     } else if (catName === 'favorite') {
       history.push({
         pathname: `/buyer/property/${item.id}/page`,
@@ -394,7 +394,7 @@ MarketList.propTypes = {
   ownerProperties: PropTypes.object.isRequired,
   preMarketProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,
-  setPreMarketProperty: PropTypes.func.isRequired,
+  setMarketOverlayProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
   windowDimensions: PropTypes.object.isRequired,
@@ -426,7 +426,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
   handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
-  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
+  setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 

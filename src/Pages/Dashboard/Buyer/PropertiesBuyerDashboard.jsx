@@ -22,7 +22,7 @@ import { getUserSearchProfiles } from '../../../actions/SearchProfileActions';
 import searchImg from '../../../images/searchProfile/search.svg';
 import { updateFavorite } from '../../../actions/UserActions';
 import { setSplashType } from '../../../actions/CommonActions';
-import { setActivePremarketProperty } from '../../../actions/PropertyActions';
+import { setActiveMarketOverlayProperty } from '../../../actions/PropertyActions';
 
 const { factsOptions } = FactsOptions;
 
@@ -35,7 +35,7 @@ const PropertiesBuyerDashboard = (props) => {
     history,
     isSmallLoading,
     loggedInUser,
-    setPreMarketProperty,
+    setMarketOverlayProperty,
     setSplashScreen,
     userSearchProfiles,
   } = props;
@@ -139,9 +139,9 @@ const PropertiesBuyerDashboard = (props) => {
   const openCard = (e, item) => {
     if (e) e.preventDefault();
     const tag = get(item, 'tags', []);
-    if (tag.includes('pre-market')) {
+    if (tag.includes('pre-market') || tag.includes('premium') || tag.includes('new')) {
       setSplashScreen('preMarket');
-      setPreMarketProperty(item);
+      setMarketOverlayProperty(item);
     } else {
       history.push({
         pathname: `/buyer/property/${item.id}/page`,
@@ -346,7 +346,7 @@ PropertiesBuyerDashboard.propTypes = {
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  setPreMarketProperty: PropTypes.func.isRequired,
+  setMarketOverlayProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
@@ -370,7 +370,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
   handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
-  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
+  setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 

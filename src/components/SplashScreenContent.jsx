@@ -19,12 +19,12 @@ import {
 import get from 'lodash/get';
 import { setSplashType } from '../actions/CommonActions';
 import CoverPropertyImage from './CoverPropertyImage';
-import { setActivePremarketProperty } from '../actions/PropertyActions';
+import { setActiveMarketOverlayProperty } from '../actions/PropertyActions';
 import { updateFavorite } from '../actions/UserActions';
 
 const SplashScreen = (props) => {
   const {
-    activePreMarketProperty,
+    activeMarketOverlayProperty,
     closeLink,
     favoritesProperties,
     history,
@@ -32,7 +32,7 @@ const SplashScreen = (props) => {
     loggedInUser,
     isSmallLoading,
     setSplashScreen,
-    setPreMarketProperty,
+    setMarketOverlayProperty,
     handleUpdateFavorites,
   } = props;
 
@@ -50,15 +50,15 @@ const SplashScreen = (props) => {
   });
 
   const checkFavorite = () => {
-    const findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activePreMarketProperty.id);
+    const findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayProperty.id);
     return findIndex > -1;
   };
 
   const saveFavorite = () => {
     const data = {
       act: checkFavorite() ? 'remove' : 'add',
-      id: activePreMarketProperty.id,
-      property: activePreMarketProperty,
+      id: activeMarketOverlayProperty.id,
+      property: activeMarketOverlayProperty,
       data: {
         email: get(loggedInUser, 'email', ''),
         language: loggedInUser.lang,
@@ -76,7 +76,7 @@ const SplashScreen = (props) => {
           icon="close-small"
           onClick={() => {
             setSplashScreen('');
-            setPreMarketProperty({});
+            setMarketOverlayProperty({});
           }}
         />
       </div>
@@ -85,7 +85,7 @@ const SplashScreen = (props) => {
 
         <div className="prop-box min-w-fix-352 jc-c m-a dis-f py-4">
           {
-            activePreMarketProperty.id && (
+            activeMarketOverlayProperty.id && (
               <>
                 <div className="pos-r min-w-fix-80">
                   <div className="tag-container">
@@ -95,38 +95,38 @@ const SplashScreen = (props) => {
                   </div>
                   <CoverPropertyImage
                     className="cover pre-market brdRadius w-fix-80 h-fix-80 pos-r"
-                    coverPhoto={get(activePreMarketProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
-                    propertyType={get(activePreMarketProperty, 'properties.propertyType', undefined)}
+                    coverPhoto={get(activeMarketOverlayProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
+                    propertyType={get(activeMarketOverlayProperty, 'properties.propertyType', undefined)}
                   />
                 </div>
                 <div className="dis-fl-col pl-2 jc-b">
-                  <h6 className="fweight-500 txtDark700 ellipsis one max-w-fix-304">{get(activePreMarketProperty, 'title', '')}</h6>
+                  <h6 className="fweight-500 txtDark700 ellipsis one max-w-fix-304">{get(activeMarketOverlayProperty, 'title', '')}</h6>
 
-                  <span className="fsize-300 txtDark700">{get(activePreMarketProperty, 'location.zip', '')} {get(activePreMarketProperty, 'location.city', '')}</span>
+                  <span className="fsize-300 txtDark700">{get(activeMarketOverlayProperty, 'location.zip', '')} {get(activeMarketOverlayProperty, 'location.city', '')}</span>
 
                   <div className="dis-fl-row flex-wrap a-c fsize-300 txtDark200">
                     <span>
-                      {get(activePreMarketProperty, 'properties.propertyType', '')}
+                      {get(activeMarketOverlayProperty, 'properties.propertyType', '')}
                     </span>
                     <span className="px-1"> &middot; </span>
                     <span>
                       <span>
-                        {FormatValue.formatRooms(get(activePreMarketProperty, 'properties.typology.bedrooms', 0), get(activePreMarketProperty, 'location.countryCode', 'CH'))}
+                        {FormatValue.formatRooms(get(activeMarketOverlayProperty, 'properties.typology.bedrooms', 0), get(activeMarketOverlayProperty, 'location.countryCode', 'CH'))}
                       </span>
                       <span>
-                        {get(activePreMarketProperty, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(activePreMarketProperty, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                        {get(activeMarketOverlayProperty, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(activeMarketOverlayProperty, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
                       </span>
                     </span>
                     {
-                      get(activePreMarketProperty, 'properties.typology.bedrooms', 0) && (
+                      get(activeMarketOverlayProperty, 'properties.typology.bedrooms', 0) && (
                         <span className="px-1"> &middot; </span>
                       )
                     }
                     {
-                      get(activePreMarketProperty, 'properties.typology.livingArea.value', 0) && (
+                      get(activeMarketOverlayProperty, 'properties.typology.livingArea.value', 0) && (
                         <span>
                           <span>
-                            {get(activePreMarketProperty, 'properties.typology.livingArea.value', 0)}
+                            {get(activeMarketOverlayProperty, 'properties.typology.livingArea.value', 0)}
                           </span>
                           <span> m2</span>
                         </span>
@@ -149,7 +149,7 @@ const SplashScreen = (props) => {
             theme="red"
             onClick={() => saveFavorite()}
             leftIcon={checkFavorite() ? 'favorite-fill' : 'favorite'}
-            isLoading={isSmallLoading === `favorite-${activePreMarketProperty.id}`}
+            isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
           />
         </div>
       </div>
@@ -162,7 +162,7 @@ const SplashScreen = (props) => {
 };
 
 SplashScreen.propTypes = {
-  activePreMarketProperty: PropTypes.object,
+  activeMarketOverlayProperty: PropTypes.object,
   closeLink: PropTypes.string,
   closeOutside: PropTypes.bool,
   favoritesProperties: PropTypes.object,
@@ -170,24 +170,24 @@ SplashScreen.propTypes = {
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.string,
   setSplashScreen: PropTypes.func,
-  setPreMarketProperty: PropTypes.func,
+  setMarketOverlayProperty: PropTypes.func,
   handleUpdateFavorites: PropTypes.func,
 };
 
 SplashScreen.defaultProps = {
-  activePreMarketProperty: {},
+  activeMarketOverlayProperty: {},
   closeLink: null,
   closeOutside: false,
   favoritesProperties: {},
   loggedInUser: {},
   isSmallLoading: null,
   setSplashScreen: () => '',
-  setPreMarketProperty: () => '',
+  setMarketOverlayProperty: () => '',
   handleUpdateFavorites: () => '',
 };
 
 const mapStateToProps = (state) => ({
-  activePreMarketProperty: get(state, 'property.activePreMarketProperty', {}),
+  activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
@@ -196,7 +196,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
-  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
+  setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
 });
 
 export default compose(

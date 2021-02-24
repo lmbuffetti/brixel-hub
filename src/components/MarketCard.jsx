@@ -19,7 +19,7 @@ import CardImageText from './Skeleton/CardImageText';
 import { setCookie } from '../utils/helpers';
 import { setSplashType } from '../actions/CommonActions';
 import {
-  setActiveSingleProperty, setEstimation, setActivePremarketProperty, getEstimation,
+  setActiveSingleProperty, setEstimation, setActiveMarketOverlayProperty, getEstimation,
 } from '../actions/PropertyActions';
 
 const MarketCard = (props) => {
@@ -31,7 +31,7 @@ const MarketCard = (props) => {
     item,
     onSetActiveProperty,
     preventClick,
-    setPreMarketProperty,
+    setMarketOverlayProperty,
     setPropertyEstimation,
     setSplashScreen,
     skeleton,
@@ -85,7 +85,7 @@ const MarketCard = (props) => {
                   type === 'premium' || get(item, 'tags', []).includes('premium') ||
                   type === 'new' || get(item, 'tags', []).includes('new')) {
         setSplashScreen('preMarket');
-        setPreMarketProperty(item);
+        setMarketOverlayProperty(item);
       } else if (type === 'favorite') {
         history.push({
           pathname: `/buyer/property/${item.id}/page`,
@@ -419,7 +419,7 @@ MarketCard.propTypes = {
   item: PropTypes.object,
   onSetActiveProperty: PropTypes.func,
   preventClick: PropTypes.bool,
-  setPreMarketProperty: PropTypes.func.isRequired,
+  setMarketOverlayProperty: PropTypes.func.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   skeleton: PropTypes.object.isRequired,
@@ -442,7 +442,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
-  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
+  setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
