@@ -28,7 +28,6 @@ const MarketCard = (props) => {
     favoritesProperties,
     handleGetEstimation,
     history,
-    estimation,
     item,
     onSetActiveProperty,
     preventClick,
@@ -73,14 +72,6 @@ const MarketCard = (props) => {
       set(item, 'tags', pullAt(compact(result), [0, 1]));
     }
   }, [get(item, 'tags', [])]);
-
-  // Update market card when bestimate changes
-  useEffect(() => {
-    // console.log(estimation, item);
-    // if (has(estimation, 'id')) {
-    //   if (has(estimation, 'result.value')) set(item, 'estimation', estimation);
-    // }
-  }, [estimation]);
 
   const openCard = (e) => {
     if (e) e.preventDefault();

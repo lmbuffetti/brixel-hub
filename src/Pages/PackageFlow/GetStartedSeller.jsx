@@ -88,7 +88,7 @@ const GetStartedSeller = (props) => {
   const saveData = async () => {
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
-
+    setCookie('brixelMarketWelcome', false);
     const { login, register, company } = dataForm;
     // delete dataForm.login;
     // changeFieldValue('register.password', '');
@@ -116,7 +116,7 @@ const GetStartedSeller = (props) => {
       active: true,
       published: false,
       addProperty: true,
-      redirectToRewards: true,
+      redirectToUrl: '/home',
       company,
     };
     const page = get(formValue, 'signupScreen', null);
@@ -124,7 +124,6 @@ const GetStartedSeller = (props) => {
     if (formValue.owner) {
       data.owner = loggedInUser.user.id;
       // DISPATCH TO SAVE THE PROPERTY
-      data.redirectToRewards = true;
       await handleCreateActiveSingleProperty(data);
     } else if (page === 'login') {
       changeFieldValue('register.email', login.email);
@@ -135,13 +134,11 @@ const GetStartedSeller = (props) => {
         password: login.password,
       };
       // DISPATCH TO DO LOGIN
-      data.redirectToHome = true;
       await handleDoLogin(data);
     } else {
       changeFieldValue('login.email', register.email);
       // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
-      data.redirectToRewards = true;
       data.user = {
         ...register,
         acceptTerms: get(register, 'privacy[0]', true),

@@ -93,6 +93,9 @@ const checkEstimation = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_OFF,
             });
+            if (redirectTo) {
+              window.location.href = redirectTo;
+            }
           }
         });
       break;

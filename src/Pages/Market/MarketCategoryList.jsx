@@ -11,7 +11,6 @@ import {
   BrixelButtonIcon,
   Helpers,
   BrixelDropdown,
-  BrixelButtonText,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -20,7 +19,7 @@ import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
 import { setSplashType } from '../../actions/CommonActions';
-import { setEstimation, setActivePremarketProperty } from '../../actions/PropertyActions';
+import { setEstimation, setActivePremarketProperty, getEstimation } from '../../actions/PropertyActions';
 import CardImageText from '../../components/Skeleton/CardImageText';
 
 const CarouselWrapper = Loadable({
@@ -35,6 +34,7 @@ const MarketCategoryList = (props) => {
     activeSingleCompany,
     bestimate,
     favoritesProperties,
+    handleGetEstimation,
     history,
     loggedInUser,
     match,
@@ -53,11 +53,33 @@ const MarketCategoryList = (props) => {
 
   const [welcomeMessage, setWelcomeMessage] = useState(getCookie('brixelMarketWelcome') === 'true');
   const [bestimateMessage, setBestimateMessage] = useState(marketCookie === 'true');
-  const [activeProperty, setActiveProperty] = useState(null);
 
   useEffect(() => {
     setBestimateMessage(marketCookie === 'true');
   }, [marketCookie]);
+
+  // Update market card when bestimate changes
+  useEffect(() => {
+    if (getCookie('brixelSplashHome') === 'bestimateResult' && get(ownerProperties, 'data', []).length > 0) {
+      if (ownerProperties.data[0].location.countryCode === 'CH' || ownerProperties.data[0].location.countryCode === 'PT') {
+        if (!has(ownerProperties.data[0], 'estimation.result')) {
+          const payload = {
+            type: 'market',
+            id: ownerProperties.data[0].id,
+          };
+          handleGetEstimation(payload);
+        }
+        setCookie('brixelMarketBestimate', false);
+        setCookie('brixelSplashHome', null);
+        setSplashScreen('bestimateResult');
+        setPropertyEstimation(get(ownerProperties.data[0], 'estimation', {}));
+      } else {
+        setCookie('brixelMarketBestimate', false);
+        setCookie('brixelSplashHome', null);
+        setSplashScreen('bestimateTeaser');
+      }
+    }
+  }, [getCookie('brixelSplashHome'), ownerProperties]);
 
   const onCloseWelcome = () => {
     setCookie('brixelMarketWelcome', true);
@@ -76,13 +98,6 @@ const MarketCategoryList = (props) => {
     setCookie('brixelMarketBestimate', true);
     setBestimateMessage(true);
     setSplashScreen('');
-  };
-
-  const onClickBestimate = () => {
-    let idProperty = activeProperty;
-    if (!activeProperty) idProperty = ownerProperties.data[0].id;
-    history.push(`/${idProperty}/rewards/achievement/bestimate`);
-    // setSplashScreen('');
   };
 
   const openSupport = (e) => {
@@ -268,7 +283,6 @@ const MarketCategoryList = (props) => {
                   type="own"
                   items={ownerProperties.data}
                   total={ownerProperties.total}
-                  onSetActiveProperty={(id) => setActiveProperty(id)}
                 />
               )
             }
@@ -610,6 +624,7 @@ MarketCategoryList.propTypes = {
   premiumProperties: PropTypes.object.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
+  handleGetEstimation: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
   windowDimensions: PropTypes.object.isRequired,
@@ -637,6 +652,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),

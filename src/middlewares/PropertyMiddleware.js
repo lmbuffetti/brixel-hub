@@ -74,7 +74,6 @@ const checkCommon = (store) => (next) => (action) => {
       delete objData.createEstimation;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
-      console.log(action.payload);
       api.property.addProperty(objData, token)
         .then((res) => {
           // store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
@@ -90,6 +89,8 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({ type: CREATE_ESTIMATION, payload: data });
           } else if (getEstimation) {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
+          } else if (redirectToUrl) {
+            window.location.href = redirectToUrl;
           } else if (redirectToHome) {
             window.location.href = `/${res.data.id}/home`;
           } else if (redirectToRewards) {
@@ -566,8 +567,6 @@ const checkCommon = (store) => (next) => (action) => {
         .then(() => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
-          // store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
-          // console.log(res.data);
         });
       break;
     }

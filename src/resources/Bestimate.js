@@ -6,7 +6,7 @@ import { configureStore } from '../store';
 
 export const BestimateQuestions = (type, country = '') => {
   const countryCode = get(configureStore.getState(), 'property.activeSingleProperty.location.countryCode', country);
-  let bestimate = BestimateCH(type);
-  if (countryCode === 'PT') bestimate = BestimatePT(type);
+  let bestimate = BestimatePT(type);
+  if (countryCode === 'CH') bestimate = BestimateCH(type);
   return bestimate;
 };

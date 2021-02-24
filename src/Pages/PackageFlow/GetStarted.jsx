@@ -73,8 +73,6 @@ const GetStarted = (props) => {
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
 
-  console.log(questions, quest);
-
   // DESTROY FORM ON EXIT
   useEffect(() => {
     handleSpinnerOff();
@@ -366,8 +364,6 @@ const GetStarted = (props) => {
     if (i < currentIndex) return 'prev';
     return '';
   };
-
-  console.log(questions, quest);
 
   return (
     <div id="bodyModalWrapper" className="withHeader getStarted buyerHub">

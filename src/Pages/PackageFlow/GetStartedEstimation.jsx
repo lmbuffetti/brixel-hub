@@ -124,6 +124,7 @@ const GetStartedEstimation = (props) => {
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
     const { login, register, company } = dataForm;
+    setCookie.set('brixelSplashHome', 'bestimateResult');
     // delete dataForm.login;
     // changeFieldValue('register.password', '');
     // delete dataFormAnswer.register.password;
