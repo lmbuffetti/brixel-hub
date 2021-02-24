@@ -80,9 +80,7 @@ const checkCommon = (store) => (next) => (action) => {
       Promise.all(calls).then((res) => {
         const data = {};
         const filesArray = get(store.getState(), `brixelForm.Property.values[${actions}]`, []);
-        console.log(filesArray, pageID);
         res.forEach((resImg) => {
-          console.log(resImg);
           if (get(resImg, 'data.name', null)) {
             const selOriginalImg = allImgs.find((img) => get(img, 'name', 'a').toString() === get(resImg, 'data.name', 'b').toString());
             filesArray.push({
@@ -102,7 +100,6 @@ const checkCommon = (store) => (next) => (action) => {
           }
         });
         set(data, actions, filesArray);
-        console.log(data, actions, filesArray);
         data.id = pageID;
         data.smallLoader = smallLoader;
         store.dispatch({

@@ -53,7 +53,6 @@ const Photos = (props) => {
 
   // COMPARE FLOOR PLANS AND fixPhotos TO ADD THE PREVIEW FLOOR PLANS ON UPLOADING
   useEffect(() => {
-    console.log(floorPlans, fixPhotos);
     if (Object.keys(diff(floorPlans, fixPhotos)).length > 0 && !isSmallLoading) {
       setNewImages([]);
       setConfirmDelete(null);
@@ -152,7 +151,6 @@ const Photos = (props) => {
           </div>
 
           <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel dis-fl-col' : 'empty-state dis-fl-col a-c'}`}>
-            {console.log(fixPhotos)}
             {
               (fixPhotos && fixPhotos.length > 0) && (
                 <>
