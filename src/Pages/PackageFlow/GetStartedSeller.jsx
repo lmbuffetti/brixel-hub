@@ -88,7 +88,7 @@ const GetStartedSeller = (props) => {
   const saveData = async () => {
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
-    setCookie('brixelMarketWelcome', false);
+    setCookie('brixelSplashHome', 'sellerWelcome');
     const { login, register, company } = dataForm;
     // delete dataForm.login;
     // changeFieldValue('register.password', '');

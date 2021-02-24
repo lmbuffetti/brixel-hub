@@ -50,8 +50,6 @@ const MarketCategoryList = (props) => {
   } = props;
 
   const marketCookie = getCookie('brixelMarketBestimate');
-
-  const [welcomeMessage, setWelcomeMessage] = useState(getCookie('brixelMarketWelcome') === 'true');
   const [bestimateMessage, setBestimateMessage] = useState(marketCookie === 'true');
 
   useEffect(() => {
@@ -79,11 +77,17 @@ const MarketCategoryList = (props) => {
         setSplashScreen('bestimateTeaser');
       }
     }
+    if (getCookie('brixelSplashHome') === 'buyerWelcome') {
+      setSplashScreen('buyerWelcome');
+    }
+    if (getCookie('brixelSplashHome') === 'sellerWelcome' && ownerProperties.data.length === 1) {
+      setSplashScreen('sellerWelcome');
+    }
   }, [getCookie('brixelSplashHome'), ownerProperties]);
 
   const onCloseWelcome = () => {
     setCookie('brixelMarketWelcome', true);
-    setWelcomeMessage(true);
+    setCookie('brixelSplashHome', null);
     setSplashScreen('');
   };
 
@@ -127,7 +131,61 @@ const MarketCategoryList = (props) => {
     <>
       {/* buyer welcome message  */}
       {
-        !welcomeMessage && loggedInUser.buyer && (
+        splashScreenType === 'buyerWelcome' && (
+          <SplashScreen
+            className="result-popup"
+            closeOutside={false}
+          >
+            <div className="dis-f jc-fe mb-2">
+              <BrixelButtonIcon
+                ghost
+                theme="dark"
+                icon="close-small"
+                onClick={() => onCloseWelcome()}
+              />
+            </div>
+            <div className="dis-fl-col jc-c a-c pb-2">
+              <h3>Welcome 🖐 </h3>
+              <span className="txtDark200 pt-2 pb-5"> This is our Brixel market. A place where you can do great things. </span>
+              <div className="mb-5">
+                <div className="dis-f mb-2">
+                  <div className="dis-f a-c min-w-fix-64 jc-fe">
+                    <BrixelIcon
+                      icon="favorite-fill"
+                      color="red"
+                    />
+                  </div>
+                  <span className="max-w-fix-424 txtDark700 pl-2"> Manage your favorites and buy your new home directly on Brixel.</span>
+                </div>
+                <div className="dis-f mb-2">
+                  <div className="dis-f a-c min-w-fix-64 jc-fe">
+                    <span className="category-tag bgPrimary300">
+                      Pre
+                    </span>
+                  </div>
+                  <span className="max-w-fix-424 txtDark700 pl-2"> Discover exclusive properties which are not on the market yet, but waiting for your first move.</span>
+                </div>
+                <div className="dis-f">
+                  <div className="dis-f a-c min-w-fix-64 jc-fe">
+                    <span className="category-tag bgRed400">
+                      Premium
+                    </span>
+                  </div>
+                  <span className="max-w-fix-424 txtDark700 pl-2"> Explore our Premium properties with 3D tour, detailed documentation and verified informations.</span>
+                </div>
+              </div>
+              <BrixelButtonPrimary
+                label="ok, got it!"
+                rounded
+                onClick={() => onCloseWelcome()}
+              />
+            </div>
+          </SplashScreen>
+        )
+      }
+
+      {
+        splashScreenType === 'sellerWelcome' && (
           <SplashScreen
             className="result-popup"
             closeOutside={false}
