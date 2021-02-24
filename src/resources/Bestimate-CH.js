@@ -14,7 +14,7 @@ const { factsOptions } = FactsOptions;
 export const BestimateCH = (type = null) => {
   const bestimate = [
     {
-      title: 'Step 1',
+      title: type === 'getStarted' ? null : 'Step 1',
       extraInfo: 'We need some extra information about your property.',
       history: 'step1',
       cardType: 'step1',
