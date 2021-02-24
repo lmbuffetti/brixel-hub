@@ -73,12 +73,11 @@
   }
 
   .property-container .levelsWrapper {
+    .thirdLevel {
+      opacity: 0;
+      animation: scaleUpSmall $default-time-long cubic-bezier(.39,.575,.565,1) forwards;
+    }
     &.opened {
-      .thirdLevel {
-        opacity: 0;
-        transform: translateX(100%);
-        animation: slideInLong $default-time-long $default-easing forwards;
-      }
     }
   }
 }
