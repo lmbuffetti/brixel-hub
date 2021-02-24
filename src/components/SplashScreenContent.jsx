@@ -67,7 +67,7 @@ const SplashScreen = (props) => {
     handleUpdateFavorites(data);
   };
 
-  const SplashScreenPreMarket = () => (
+  const SplashScreenMarketOverlay = () => (
     <>
       <div className="dis-f jc-fe">
         <BrixelButtonIcon
@@ -157,7 +157,7 @@ const SplashScreen = (props) => {
   );
 
   return (
-    <SplashScreenPreMarket />
+    <SplashScreenMarketOverlay />
   );
 };
 

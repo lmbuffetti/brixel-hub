@@ -244,7 +244,7 @@ const MarketList = (props) => {
     } else if (catName === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
                 catName === 'premium' || get(item, 'tags', []).includes('premium') ||
                 catName === 'new' || get(item, 'tags', []).includes('new')) {
-      setSplashScreen('preMarket');
+      setSplashScreen('marketOverlay');
       setMarketOverlayProperty(item);
     } else if (catName === 'favorite') {
       history.push({

@@ -44,7 +44,7 @@ const MarkerComponent = (props) => {
           state: { section: 'Market' },
         });
       } else if (type === 'preMarket' || type === 'premium' || type === 'new') {
-        setSplashScreen('preMarket');
+        setSplashScreen('marketOverlay');
         setMarketOverlayProperty(page);
       } else window.open(`${baseByData.pageUrl}${page.stub}`, '_blank');
     };

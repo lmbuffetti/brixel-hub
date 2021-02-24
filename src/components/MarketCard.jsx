@@ -84,7 +84,7 @@ const MarketCard = (props) => {
       } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
                   type === 'premium' || get(item, 'tags', []).includes('premium') ||
                   type === 'new' || get(item, 'tags', []).includes('new')) {
-        setSplashScreen('preMarket');
+        setSplashScreen('marketOverlay');
         setMarketOverlayProperty(item);
       } else if (type === 'favorite') {
         history.push({
