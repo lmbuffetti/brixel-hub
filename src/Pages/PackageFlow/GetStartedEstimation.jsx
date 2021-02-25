@@ -254,47 +254,50 @@ const GetStartedEstimation = (props) => {
     } else {
       newIndex += step;
     }
+    if (newIndex === -1) {
+      history.push('/packageFlow');
+    } else {
+      let defId = checkCondition(newIndex, act);
+      if (defId !== newIndex) defId = checkCondition(defId, act);
 
-    let defId = checkCondition(newIndex, act);
-    if (defId !== newIndex) defId = checkCondition(defId, act);
-
-    // setPosition(newIndex);
-    if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
-    else {
-      setIsEnter(false);
-      let newQuest = {
-        ...questions[defId],
-      };
-      if (questions[defId].effect === 'slideUp') {
-        newQuest = {
-          ...questions[defId - 1],
+      // setPosition(newIndex);
+      if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
+      else {
+        setIsEnter(false);
+        let newQuest = {
+          ...questions[defId],
         };
-      }
-      if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
-        setQuest(newQuest);
-        setCurrentIndex(defId);
-      } else {
-        setQuest(newQuest);
-        setCurrentIndex(defId);
-      }
-      setTimeout(() => {
-        const getCurStep = document.getElementById(`step-${defId}`);
-        if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-          getCurStep.querySelector('input[type="number"]').focus();
-        } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-          getCurStep.querySelector('input[type="text"]').focus();
+        if (questions[defId].effect === 'slideUp') {
+          newQuest = {
+            ...questions[defId - 1],
+          };
         }
-      }, 100);
-      if (questions[defId].history) {
-        history.push({
-          pathname: `/packageFlow/getStartedEstimation/${questions[defId].history}`,
-          state: get(history, 'location.state', {}),
-        });
+        if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
+          setQuest(newQuest);
+          setCurrentIndex(defId);
+        } else {
+          setQuest(newQuest);
+          setCurrentIndex(defId);
+        }
+        setTimeout(() => {
+          const getCurStep = document.getElementById(`step-${defId}`);
+          if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+            getCurStep.querySelector('input[type="number"]').focus();
+          } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+            getCurStep.querySelector('input[type="text"]').focus();
+          }
+        }, 100);
+        if (questions[defId].history) {
+          history.push({
+            pathname: `/packageFlow/getStartedEstimation/${questions[defId].history}`,
+            state: get(history, 'location.state', {}),
+          });
+        }
+        const getOnlyQuest = questions.filter((item) => item.inputs);
+        setProgressBar((defId * 100) / getOnlyQuest.length);
+        if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+        if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
       }
-      const getOnlyQuest = questions.filter((item) => item.inputs);
-      setProgressBar((defId * 100) / getOnlyQuest.length);
-      if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-      if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -646,9 +649,9 @@ const GetStartedEstimation = (props) => {
             <div className="pos-r p-1 p-lg-2">
               <div className={`w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>
                 {
-                  get(questions, `[${currentIndex - 1}].inputs`, null) && (
+                  (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
                     <BrixelButtonIcon
-                      className={`backBtn ml-0 mr-a ${currentIndex === 0 ? 'hide' : ''}`}
+                      className="backBtn ml-0 mr-a"
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
                       theme="green"
