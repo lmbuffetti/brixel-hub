@@ -17,6 +17,8 @@ import {
   GET_USER_PAGES_DEALS,
   SET_USER_PAGES_DEALS,
   UPDATE_FAVORITE,
+  ADD_NOT_INTERESTED,
+  REMOVE_NOT_INTERESTED,
 } from '../actions/types/UserTypes';
 
 import {
@@ -303,6 +305,26 @@ const checkUser = (store) => (next) => (action) => {
             store.dispatch({ type: SPINNER_SMALL_OFF });
           });
       }
+      break;
+    }
+    case ADD_NOT_INTERESTED: {
+      next(action);
+      api.user.addAsNotInterested(action.payload)
+        .then((res) => {
+          console.log(res);
+          // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
+        });
+      break;
+    }
+    case REMOVE_NOT_INTERESTED: {
+      next(action);
+      api.user.removeAsNotInterested(action.payload)
+        .then((res) => {
+          console.log(res);
+          // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
+        });
       break;
     }
     default:

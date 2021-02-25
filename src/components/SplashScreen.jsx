@@ -48,7 +48,7 @@ const SplashScreen = (props) => {
   return (
     <div className={`wrapSplash ${type === 'marketOverlay' ? 'fixed' : ''} ${className}`}>
       <div className="container brdRadius m-a bgWhite p-small-4" ref={drawerRef}>
-        <div className="h-perc-100 ov-a p-lg-3 p-2 px-2">
+        <div className={`h-perc-100 ov-a ${type === 'marketOverlay' ? '' : 'p-lg-3 p-2 px-2'}`}>
           {
             children || (
               <SplashScreenContent

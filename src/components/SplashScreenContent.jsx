@@ -13,14 +13,14 @@ import {
   connect,
 } from 'react-redux';
 import {
-  BrixelButtonIcon, BrixelButtonSecondary, FormatValue,
+  BrixelButtonIcon,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { setSplashType } from '../actions/CommonActions';
-import CoverPropertyImage from './CoverPropertyImage';
 import { setActiveMarketOverlayProperty } from '../actions/PropertyActions';
-import { updateFavorite } from '../actions/UserActions';
+import { updateFavorite, addNotInterested } from '../actions/UserActions';
+import MarketCardOverlay from './MarketCardOverlay';
 
 const SplashScreen = (props) => {
   const {
@@ -34,6 +34,7 @@ const SplashScreen = (props) => {
     setSplashScreen,
     setMarketOverlayProperty,
     handleUpdateFavorites,
+    handleMarkNotInterested,
   } = props;
 
   const drawerRef = useRef(null);
@@ -67,6 +68,10 @@ const SplashScreen = (props) => {
     handleUpdateFavorites(data);
   };
 
+  const notInterested = () => {
+    handleMarkNotInterested(activeMarketOverlayProperty.id);
+  };
+
   const SplashScreenMarketOverlay = () => (
     <>
       <div className="dis-f jc-fe">
@@ -81,75 +86,42 @@ const SplashScreen = (props) => {
         />
       </div>
       <div className="dis-fl-col a-c jc-c">
-        <h3 className="ta-c">This is a pre-market property. </h3>
 
-        <div className="prop-box min-w-fix-352 jc-c m-a dis-f py-4">
-          {
-            activeMarketOverlayProperty.id && (
-              <>
-                <div className="pos-r min-w-fix-80">
-                  <div className="tag-container">
-                    <span className="type-tag pos-a non-favorite fsize-200 fweight-500 txtWhite bgPrimary zIndex1">
-                      <span className="type">Pre</span>
-                    </span>
-                  </div>
-                  <CoverPropertyImage
-                    className="cover pre-market brdRadius w-fix-80 h-fix-80 pos-r"
-                    coverPhoto={get(activeMarketOverlayProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
-                    propertyType={get(activeMarketOverlayProperty, 'properties.propertyType', undefined)}
-                  />
-                </div>
-                <div className="dis-fl-col pl-2 jc-b">
-                  <h6 className="fweight-500 txtDark700 ellipsis one max-w-fix-304">{get(activeMarketOverlayProperty, 'title', '')}</h6>
+        <MarketCardOverlay
+          item={activeMarketOverlayProperty}
+        />
 
-                  <span className="fsize-300 txtDark700">{get(activeMarketOverlayProperty, 'location.zip', '')} {get(activeMarketOverlayProperty, 'location.city', '')}</span>
-
-                  <div className="dis-fl-row flex-wrap a-c fsize-300 txtDark200">
-                    <span>
-                      {get(activeMarketOverlayProperty, 'properties.propertyType', '')}
-                    </span>
-                    <span className="px-1"> &middot; </span>
-                    <span>
-                      <span>
-                        {FormatValue.formatRooms(get(activeMarketOverlayProperty, 'properties.typology.bedrooms', 0), get(activeMarketOverlayProperty, 'location.countryCode', 'CH'))}
-                      </span>
-                      <span>
-                        {get(activeMarketOverlayProperty, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(activeMarketOverlayProperty, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
-                      </span>
-                    </span>
-                    {
-                      get(activeMarketOverlayProperty, 'properties.typology.bedrooms', 0) && (
-                        <span className="px-1"> &middot; </span>
-                      )
-                    }
-                    {
-                      get(activeMarketOverlayProperty, 'properties.typology.livingArea.value', 0) && (
-                        <span>
-                          <span>
-                            {get(activeMarketOverlayProperty, 'properties.typology.livingArea.value', 0)}
-                          </span>
-                          <span> m2</span>
-                        </span>
-                      )
-                    }
-                  </div>
-                </div>
-              </>
-            )
-          }
-        </div>
-
-        <span className="max-w-fix-536 fsize-300 ta-c txtDark200 py-2"> This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner. </span>
-
-        <div className="dis-f jc-c a-c pos-r w-perc-100 pt-3 pb-2">
-          <BrixelButtonSecondary
+        <div className="dis-fl-row jc-b a-c pos-r w-perc-100 p-3 shadow-1dp">
+          <BrixelButtonIcon
             rounded
-            label={checkFavorite() ? 'Remove from favorite' : 'Save as favorite'}
-            className="m-a"
-            theme="red"
-            onClick={() => saveFavorite()}
-            leftIcon={checkFavorite() ? 'favorite-fill' : 'favorite'}
-            isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
+            ghost
+            theme="dark"
+            onClick={() => changeProperty('back')}
+            icon="arrow-left-small"
+          />
+          <div className="dis-fl-row jc-c a-c">
+            <BrixelButtonIcon
+              rounded
+              className="mr-4"
+              theme="red"
+              onClick={() => notInterested()}
+              icon="close-small"
+              isLoading={isSmallLoading === `notInterested-${activeMarketOverlayProperty.id}`}
+            />
+            <BrixelButtonIcon
+              rounded
+              theme="green"
+              onClick={() => saveFavorite()}
+              icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
+              isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
+            />
+          </div>
+          <BrixelButtonIcon
+            rounded
+            ghost
+            theme="dark"
+            onClick={() => changeProperty('forward')}
+            icon="arrow-right-small"
           />
         </div>
       </div>
@@ -172,6 +144,7 @@ SplashScreen.propTypes = {
   setSplashScreen: PropTypes.func,
   setMarketOverlayProperty: PropTypes.func,
   handleUpdateFavorites: PropTypes.func,
+  handleMarkNotInterested: PropTypes.func,
 };
 
 SplashScreen.defaultProps = {
@@ -184,6 +157,7 @@ SplashScreen.defaultProps = {
   setSplashScreen: () => '',
   setMarketOverlayProperty: () => '',
   handleUpdateFavorites: () => '',
+  handleMarkNotInterested: () => '',
 };
 
 const mapStateToProps = (state) => ({
@@ -195,6 +169,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
+  handleMarkNotInterested: bindActionCreators(addNotInterested, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
 });
