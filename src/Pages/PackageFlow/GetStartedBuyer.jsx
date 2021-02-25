@@ -189,48 +189,51 @@ const GetStartedBuyer = (props) => {
     } else {
       newIndex += step;
     }
+    if (newIndex === -1) {
+      history.push('/packageFlow');
+    } else {
+      let defId = checkCondition(newIndex, act);
+      if (defId !== newIndex) defId = checkCondition(defId, act);
 
-    let defId = checkCondition(newIndex, act);
-    if (defId !== newIndex) defId = checkCondition(defId, act);
-
-    // setPosition(newIndex);
-    if (reloadQuestions[defId].toSave) saveData(get(reloadQuestions[defId], 'action', null));
-    else {
-      setIsEnter(false);
-      let newQuest = {
-        ...reloadQuestions[defId],
-      };
-      if (reloadQuestions[defId].effect === 'slideUp') {
-        newQuest = {
-          ...reloadQuestions[defId - 1],
+      // setPosition(newIndex);
+      if (reloadQuestions[defId].toSave) saveData(get(reloadQuestions[defId], 'action', null));
+      else {
+        setIsEnter(false);
+        let newQuest = {
+          ...reloadQuestions[defId],
         };
-      }
-      if (act === 'back' && reloadQuestions[defId + 1].effect === 'slideUp') {
-        setQuest(newQuest);
-        setCurrentIndex(defId);
-      } else {
-        setQuest(newQuest);
-        setCurrentIndex(defId);
-      }
-      setTimeout(() => {
-        const getCurStep = document.getElementById(`step-${defId}`);
-        if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-          getCurStep.querySelector('input[type="number"]').focus();
-        } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-          getCurStep.querySelector('input[type="text"]').focus();
+        if (reloadQuestions[defId].effect === 'slideUp') {
+          newQuest = {
+            ...reloadQuestions[defId - 1],
+          };
         }
-      }, 100);
-      if (reloadQuestions[defId].history) {
-        history.push({
-          pathname: `/packageFlow/getstartedBuyer/${reloadQuestions[defId].history}`,
-          state: get(history, 'location.state', {}),
-        });
+        if (act === 'back' && reloadQuestions[defId + 1].effect === 'slideUp') {
+          setQuest(newQuest);
+          setCurrentIndex(defId);
+        } else {
+          setQuest(newQuest);
+          setCurrentIndex(defId);
+        }
+        setTimeout(() => {
+          const getCurStep = document.getElementById(`step-${defId}`);
+          if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+            getCurStep.querySelector('input[type="number"]').focus();
+          } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+            getCurStep.querySelector('input[type="text"]').focus();
+          }
+        }, 100);
+        if (reloadQuestions[defId].history) {
+          history.push({
+            pathname: `/packageFlow/getstartedBuyer/${reloadQuestions[defId].history}`,
+            state: get(history, 'location.state', {}),
+          });
+        }
+        const getOnlyQuest = reloadQuestions.filter((item) => item.inputs);
+        setQuestions(reloadQuestions);
+        setProgressBar((defId * 100) / getOnlyQuest.length);
+        if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+        if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
       }
-      const getOnlyQuest = reloadQuestions.filter((item) => item.inputs);
-      setQuestions(reloadQuestions);
-      setProgressBar((defId * 100) / getOnlyQuest.length);
-      if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-      if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -554,9 +557,9 @@ const GetStartedBuyer = (props) => {
             <div className="pos-r p-1 p-lg-2">
               <div className={`w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>
                 {
-                  get(questions, `[${currentIndex - 1}].inputs`, null) && (
+                  (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
                     <BrixelButtonIcon
-                      className={`backBtn ml-0 mr-a ${currentIndex === 0 ? 'hide' : ''}`}
+                      className="backBtn ml-0 mr-a"
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
                       theme="green"
