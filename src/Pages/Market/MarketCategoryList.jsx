@@ -80,7 +80,7 @@ const MarketCategoryList = (props) => {
     if (getCookie('brixelSplashHome') === 'buyerWelcome') {
       setSplashScreen('buyerWelcome');
     }
-    if (getCookie('brixelSplashHome') === 'sellerWelcome' && ownerProperties.data.length === 1) {
+    if (getCookie('brixelSplashHome') === 'sellerWelcome' && get(ownerProperties, 'data', []).length === 1) {
       setSplashScreen('sellerWelcome');
     }
   }, [getCookie('brixelSplashHome'), ownerProperties]);
@@ -209,7 +209,7 @@ const MarketCategoryList = (props) => {
                       color="red"
                     />
                   </div>
-                  <span className="max-w-fix-424 txtDark700 pl-2"> Manage your favorites and buy your new home directly on Brixel.</span>
+                  <span className="max-w-fix-424 txtDark700 pl-2"> Are you thinking about selling? Get in touch with us and get a free consultation by our experts.</span>
                 </div>
                 <div className="dis-f mb-2">
                   <div className="dis-f a-c min-w-fix-64 jc-fe">
@@ -217,7 +217,7 @@ const MarketCategoryList = (props) => {
                       Pre
                     </span>
                   </div>
-                  <span className="max-w-fix-424 txtDark700 pl-2"> Discover exclusive properties which are not on the market yet, but waiting for your first move.</span>
+                  <span className="max-w-fix-424 txtDark700 pl-2"> Do you want to know how much your home is worth? Get a free price indication with our Bestimate®.</span>
                 </div>
                 <div className="dis-f">
                   <div className="dis-f a-c min-w-fix-64 jc-fe">
@@ -225,7 +225,7 @@ const MarketCategoryList = (props) => {
                       Premium
                     </span>
                   </div>
-                  <span className="max-w-fix-424 txtDark700 pl-2"> Explore our Premium properties with 3D tour, detailed documentation and verified informations.</span>
+                  <span className="max-w-fix-424 txtDark700 pl-2"> Are you looking for a property to buy? Define your search profile and get exclusive access to hundreds of properties that are not yet on market.</span>
                 </div>
               </div>
               <BrixelButtonPrimary
