@@ -240,6 +240,7 @@ const checkUser = (store) => (next) => (action) => {
       // store.dispatch({ type: SPINNER_ON });
       const newUser = action.payload.user.createUser || false;
       delete action.payload.user.createUser;
+      store.dispatch({ type: SPINNER_ON });
       api.user.validateUser(action.payload.user.email)
         .then((res) => {
           if (newUser && typeof res.data.statusCode === 'undefined') {
@@ -251,7 +252,7 @@ const checkUser = (store) => (next) => (action) => {
           } else if (newUser) {
             store.dispatch({ type: CREATE_USER, payload: action.payload });
           }
-          // store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           store.dispatch({ type: SPINNER_OFF });

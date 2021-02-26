@@ -349,7 +349,7 @@ const GetStarted = (props) => {
   const buttonLabel = () => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
-    if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
+    if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Next';
     else if (currentIndex === 0) label = 'Next';
     else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else label = 'Next';
