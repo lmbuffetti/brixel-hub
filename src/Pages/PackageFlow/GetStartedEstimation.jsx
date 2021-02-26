@@ -144,6 +144,7 @@ const GetStartedEstimation = (props) => {
         rewardScreenData: {},
         metaUser: metaUserData,
       },
+      preMarketVisible: get(dataFormAnswer, 'estimationType', '') === 'seller',
       language: lang || 'en',
       title: formValue.pageTitle,
       status: 'on-request',

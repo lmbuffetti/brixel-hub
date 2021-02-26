@@ -196,7 +196,7 @@ const GetStartedBuyer = (props) => {
       if (defId !== newIndex) defId = checkCondition(defId, act);
 
       // setPosition(newIndex);
-      if (reloadQuestions[defId].toSave) saveData(get(reloadQuestions[defId], 'action', null));
+      if (reloadQuestions[defId] && reloadQuestions[defId].toSave) saveData(get(reloadQuestions[defId], 'action', null));
       else {
         setIsEnter(false);
         let newQuest = {
