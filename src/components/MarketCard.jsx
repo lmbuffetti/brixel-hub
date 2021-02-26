@@ -19,17 +19,28 @@ import CardImageText from './Skeleton/CardImageText';
 import { setCookie } from '../utils/helpers';
 import { setSplashType } from '../actions/CommonActions';
 import {
-  setActiveSingleProperty, setEstimation, setActiveMarketOverlayProperty, getEstimation,
+  setActiveSingleProperty,
+  setEstimation,
+  setActiveMarketOverlayProperty,
+  setActiveMarketOverlayPropertyLists,
+  getEstimation,
 } from '../actions/PropertyActions';
 
 const MarketCard = (props) => {
   // PROPS
   const {
+    allProperties,
     favoritesProperties,
     handleGetEstimation,
+    handleSetActiveMarketOverlayPropertyLists,
     history,
     item,
+    lastViewedProperties,
+    newProperties,
     onSetActiveProperty,
+    ownerProperties,
+    preMarketProperties,
+    premiumProperties,
     preventClick,
     setMarketOverlayProperty,
     setPropertyEstimation,
@@ -86,6 +97,13 @@ const MarketCard = (props) => {
                   type === 'new' || get(item, 'tags', []).includes('new')) {
         setSplashScreen('marketOverlay');
         setMarketOverlayProperty(item);
+        if (type === 'own') handleSetActiveMarketOverlayPropertyLists(ownerProperties);
+        if (type === 'favorite')handleSetActiveMarketOverlayPropertyLists(favoritesProperties);
+        if (type === 'lastViewed')handleSetActiveMarketOverlayPropertyLists(lastViewedProperties);
+        if (type === 'radar')handleSetActiveMarketOverlayPropertyLists(newProperties);
+        if (type === 'premium')handleSetActiveMarketOverlayPropertyLists(premiumProperties);
+        if (type === 'preMarket')handleSetActiveMarketOverlayPropertyLists(preMarketProperties);
+        if (type === 'all')handleSetActiveMarketOverlayPropertyLists(allProperties);
       } else if (type === 'favorite') {
         history.push({
           pathname: `/buyer/property/${item.id}/page`,
@@ -412,12 +430,19 @@ const MarketCard = (props) => {
 };
 
 MarketCard.propTypes = {
+  allProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
+  handleSetActiveMarketOverlayPropertyLists: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   item: PropTypes.object,
+  lastViewedProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  newProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSetActiveProperty: PropTypes.func,
+  ownerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  premiumProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   preventClick: PropTypes.bool,
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
@@ -434,13 +459,20 @@ MarketCard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  allProperties: get(state, 'market.allProperties.data', []),
   estimation: get(state, 'property.estimation', {}),
   favoritesProperties: get(state, 'market.favoritesProperties.data', []),
+  lastViewedProperties: get(state, 'market.lastViewedProperties.data', []),
+  newProperties: get(state, 'market.newProperties.data', []),
+  ownerProperties: get(state, 'market.ownerProperties.data', []),
+  preMarketProperties: get(state, 'market.preMarketProperties.data', []),
+  premiumProperties: get(state, 'market.premiumProperties.data', []),
   skeleton: get(state, 'common.skeleton', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
+  handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),

@@ -3,6 +3,7 @@ import {
   SET_ACTIVE_SINGLE_PROPERTY,
   SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
   SET_ACTIVE_MARKET_OVERLAY_PROPERTY,
+  SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS,
   SET_ESTIMATION,
   SET_MARKET_CHECK,
   SET_PACKAGES_PROPERTY,
@@ -14,6 +15,7 @@ import {
 export const defaultState = {
   activeSingleProperty: {},
   activeMarketOverlayProperty: {},
+  activeMarketOverlayPropertyLists: {},
   activeSinglePropertyBooking: [],
   activeSinglePropertyDeals: [],
   activeSinglePropertyDealsCount: {},
@@ -40,6 +42,10 @@ export default handleActions(
     [SET_ACTIVE_MARKET_OVERLAY_PROPERTY]: (state, action) => ({
       ...state,
       activeMarketOverlayProperty: action.payload,
+    }),
+    [SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS]: (state, action) => ({
+      ...state,
+      activeMarketOverlayPropertyLists: action.payload,
     }),
     [SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS]: (state, action) => ({
       ...state,

@@ -22,3 +22,32 @@
     }
   }
  }
+
+ .carousel3d {
+   max-width: 100%;
+   margin: 0 auto;
+
+   .slick-track {
+     padding-top: 53px;
+     padding-bottom: 53px;
+   }
+
+   .slick-slide {
+     text-align: center;
+     transition: transform 0.3s ease-in-out;
+   }
+
+   .slick-slide:not(.slick-current) {
+     filter: brightness(0.5);
+   }
+
+   .slick-slide.slick-current {
+     transform: scale(1.35);
+     position: relative;
+     z-index: 1;
+   }
+
+   .slick-slide img {
+     width: 100%;
+   }
+ }

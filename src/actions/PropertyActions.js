@@ -31,6 +31,8 @@ import {
   GET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
   GET_ACTIVE_MARKET_OVERLAY_PROPERTY,
   SET_ACTIVE_MARKET_OVERLAY_PROPERTY,
+  GET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS,
+  SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS,
 } from './types/PropertyTypes';
 
 export const {
@@ -65,6 +67,8 @@ export const {
   getActiveSinglePropertyDealsCount,
   getActiveMarketOverlayProperty,
   setActiveMarketOverlayProperty,
+  getActiveMarketOverlayPropertyLists,
+  setActiveMarketOverlayPropertyLists,
 } = createActions({
   [CREATE_ACTIVE_SINGLE_PROPERTY]: (payload) => payload,
   [CREATE_PROPERTY_VISIT_BOOKING]: (payload) => payload,
@@ -97,4 +101,6 @@ export const {
   [GET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT]: (payload) => payload,
   [GET_ACTIVE_MARKET_OVERLAY_PROPERTY]: (payload) => payload,
   [SET_ACTIVE_MARKET_OVERLAY_PROPERTY]: (payload) => payload,
+  [GET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS]: (payload) => payload,
+  [SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS]: (payload) => payload,
 });

@@ -138,13 +138,13 @@ const MarketCard = (props) => {
         )
       }
       <div
-        className={`market-card ov-h cur-poi h-perc-100 w-fix-376 dis-fl-col brdRadius shadow-1dp pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
+        className={`market-card ov-h cur-poi h-perc-100 dis-fl-col brdRadius shadow-1dp pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} bgWhite`}
         onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         <>
           <CoverPropertyImage
             loadedImg={(val) => setCoverImgLoaded(val)}
-            className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 h-perc-100 h-fix-208 pos-r`}
+            className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 h-perc-100 h-fix-160 pos-r`}
             coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
             propertyType={get(item, 'properties.propertyType', undefined)}
           />
@@ -169,23 +169,25 @@ const MarketCard = (props) => {
           <h5 className="txtDark700 ellipsis one notranslate mb-2">{get(item, 'title', '')}</h5>
 
           <div className="mid dis-fl-col fsize-300 pt-1 txtDark400">
-            {
-              get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
-                <>
+            <div className="dis-f a-c jc-b">
+              {
+                get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
                   <>
-                    <span className="fsize-300 fweight-600 notranslate">{get(item, 'price.currency', '')} &nbsp; </span>
-                    <span className="fsize-300 fweight-600 notranslate">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
+                    <>
+                      <span className="fsize-300 fweight-600 notranslate">{get(item, 'price.currency', '')} &nbsp; </span>
+                      <span className="fsize-300 fweight-600 notranslate">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
+                    </>
+                    <>
+                      <span className="fsize-100 pr-1 txtDark700"> {get(item, 'price.currency', '')} </span>
+                      <span className="ff-mono txtDark700"> {Helpers.formatNumberValue(get(item, 'price.pricePerM2', 0).toFixed(), get(item, 'price.currency', ''))} </span>
+                      <span className="fsize-100 txtDark700 ff-mono">/m2</span>
+                    </>
                   </>
-                  <>
-                    <span className="fsize-100 pr-1 txtDark700"> {get(item, 'price.currency', '')} </span>
-                    <span className="ff-mono txtDark700"> {Helpers.formatNumberValue(get(item, 'price.pricePerM2', 0).toFixed(), get(item, 'price.currency', ''))} </span>
-                    <span className="fsize-100 txtDark700 ff-mono">/m2</span>
-                  </>
-                </>
-              ) : (
-                <span className="txtGreen400 fsize-300 fweight-500">On Request</span>
-              )
-            }
+                ) : (
+                  <span className="txtGreen400 fsize-300 fweight-500">On Request</span>
+                )
+              }
+            </div>
             <div className="dis-f a-c flex-wrap">
               <span>
                 {get(item, 'properties.propertyType', '')}

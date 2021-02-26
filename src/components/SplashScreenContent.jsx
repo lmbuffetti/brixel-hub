@@ -16,6 +16,7 @@ import {
   BrixelButtonIcon,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
+import Slider from 'react-slick';
 import get from 'lodash/get';
 import { setSplashType } from '../actions/CommonActions';
 import { setActiveMarketOverlayProperty } from '../actions/PropertyActions';
@@ -25,6 +26,7 @@ import MarketCardOverlay from './MarketCardOverlay';
 const SplashScreen = (props) => {
   const {
     activeMarketOverlayProperty,
+    activeMarketOverlayPropertyLists,
     closeLink,
     favoritesProperties,
     history,
@@ -38,6 +40,17 @@ const SplashScreen = (props) => {
   } = props;
 
   const drawerRef = useRef(null);
+  const sliderInstance = useRef(null);
+
+  const settingSlider = {
+    centerMode: true,
+    centerPadding: '0px',
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    dots: false,
+    focusOnSelect: true,
+    infinite: false,
+  };
 
   // Function to close the drawer menus when we click outside
   useOutsideAlerter(drawerRef, {
@@ -72,6 +85,15 @@ const SplashScreen = (props) => {
     handleMarkNotInterested(activeMarketOverlayProperty.id);
   };
 
+  const changeProperty = (act) => {
+    console.log(sliderInstance);
+    if (sliderInstance.current) {
+      const slider = sliderInstance.current;
+      if (act === 'back') slider.slickPrev();
+      if (act === 'forward') slider.slickNext();
+    }
+  };
+
   const SplashScreenMarketOverlay = () => (
     <>
       <div className="dis-f jc-fe">
@@ -85,11 +107,23 @@ const SplashScreen = (props) => {
           }}
         />
       </div>
+
       <div className="dis-fl-col a-c jc-c">
 
-        <MarketCardOverlay
-          item={activeMarketOverlayProperty}
-        />
+        <div className="carousel3d">
+          <Slider ref={sliderInstance} {...settingSlider}>
+            {
+              activeMarketOverlayPropertyLists.map((item, i) => (
+                <MarketCardOverlay
+                  key={i.toString()}
+                  item={item}
+                />
+              ))
+            }
+            <div />
+            <div />
+          </Slider>
+        </div>
 
         <div className="dis-fl-row jc-b a-c pos-r w-perc-100 p-3 shadow-1dp">
           <BrixelButtonIcon
@@ -135,6 +169,7 @@ const SplashScreen = (props) => {
 
 SplashScreen.propTypes = {
   activeMarketOverlayProperty: PropTypes.object,
+  activeMarketOverlayPropertyLists: PropTypes.arrayOf(PropTypes.object),
   closeLink: PropTypes.string,
   closeOutside: PropTypes.bool,
   favoritesProperties: PropTypes.object,
@@ -149,6 +184,7 @@ SplashScreen.propTypes = {
 
 SplashScreen.defaultProps = {
   activeMarketOverlayProperty: {},
+  activeMarketOverlayPropertyLists: [],
   closeLink: null,
   closeOutside: false,
   favoritesProperties: {},
@@ -162,6 +198,7 @@ SplashScreen.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
+  activeMarketOverlayPropertyLists: get(state, 'property.activeMarketOverlayPropertyLists', []),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
