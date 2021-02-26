@@ -156,6 +156,7 @@ const GetStartedEstimation = (props) => {
       company,
       redirectToUrl: '/home',
     };
+    data.packageFlowProcess.answers.userType = get(dataFormAnswer, 'estimationType', '');
     const page = get(formValue, 'signupScreen', null);
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
     if (formValue.owner) {

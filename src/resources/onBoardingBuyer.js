@@ -207,7 +207,6 @@ export const QuestionsList = (lang) => {
           label: '',
           className: 'test3',
           name: 'profile.familySituation',
-          validation: [Validation.required],
           options: factsOptions.buyerFamilySituation,
         },
       ],
