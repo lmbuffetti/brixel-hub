@@ -25,9 +25,10 @@
     }
   }
 
-  &.result-premarket {
+  &.result-market-overlay {
     .container {
       height: auto;
+      max-width: 680px;
       position: fixed;
       top: 50%;
       left: 50%;

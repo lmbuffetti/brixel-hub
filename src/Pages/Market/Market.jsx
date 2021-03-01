@@ -16,7 +16,6 @@ import {
 import '../../styles/SCSS/pages/market.scss';
 import { setSplashType, spinnerOff } from '../../actions/CommonActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
-import { setActivePremarketProperty } from '../../actions/PropertyActions';
 import { updateFavorite } from '../../actions/UserActions';
 
 const MarketCategoryList = Loadable({
@@ -116,7 +115,6 @@ Market.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  activePreMarketProperty: get(state, 'property.activePreMarketProperty', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
@@ -138,7 +136,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
-  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 

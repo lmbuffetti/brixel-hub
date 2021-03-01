@@ -11,7 +11,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { cutValue } from '../../utils/helpers';
 import CoverPropertyImage from '../CoverPropertyImage';
 import {
-  setActivePremarketProperty,
+  setActiveMarketOverlayProperty,
 } from '../../actions/PropertyActions';
 import { setSplashType } from '../../actions/CommonActions';
 
@@ -25,7 +25,7 @@ const MarkerComponent = (props) => {
     optMap,
     type,
     setSplashScreen,
-    setPreMarketProperty,
+    setMarketOverlayProperty,
   } = props;
   // STATE
   const [infowindow, setInfowindow] = useState({});
@@ -43,9 +43,9 @@ const MarkerComponent = (props) => {
           pathname: `/buyer/property/${page.id}/page`,
           state: { section: 'Market' },
         });
-      } else if (type === 'preMarket') {
-        setSplashScreen('preMarket');
-        setPreMarketProperty(page);
+      } else if (type === 'preMarket' || type === 'premium' || type === 'new') {
+        setSplashScreen('marketOverlay');
+        setMarketOverlayProperty(page);
       } else window.open(`${baseByData.pageUrl}${page.stub}`, '_blank');
     };
     return (
@@ -194,7 +194,7 @@ MarkerComponent.propTypes = {
   history: PropTypes.object.isRequired,
   // icon: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
-  setPreMarketProperty: PropTypes.func.isRequired,
+  setMarketOverlayProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   type: PropTypes.string,
 };
@@ -205,7 +205,7 @@ MarkerComponent.defaultProps = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
+  setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 

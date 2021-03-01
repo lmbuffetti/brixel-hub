@@ -19,7 +19,11 @@ import CardImageText from './Skeleton/CardImageText';
 import { setCookie } from '../utils/helpers';
 import { setSplashType } from '../actions/CommonActions';
 import {
-  setActiveSingleProperty, setEstimation, setActivePremarketProperty, getEstimation,
+  setActiveSingleProperty,
+  setEstimation,
+  setActiveMarketOverlayProperty,
+  setActiveMarketOverlayPropertyLists,
+  getEstimation,
 } from '../actions/PropertyActions';
 
 const MarketCard = (props) => {
@@ -27,11 +31,13 @@ const MarketCard = (props) => {
   const {
     favoritesProperties,
     handleGetEstimation,
+    handleSetActiveMarketOverlayPropertyLists,
     history,
     item,
+    newProperties,
     onSetActiveProperty,
     preventClick,
-    setPreMarketProperty,
+    setMarketOverlayProperty,
     setPropertyEstimation,
     setSplashScreen,
     skeleton,
@@ -81,9 +87,21 @@ const MarketCard = (props) => {
           pathname: `/${item.id}/rewards/market-checker`,
           state: { section: 'Market' },
         });
-      } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market')) {
-        setSplashScreen('preMarket');
-        setPreMarketProperty(item);
+      } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
+                  type === 'premium' || get(item, 'tags', []).includes('premium') ||
+                  type === 'new' || get(item, 'tags', []).includes('new')) {
+        setSplashScreen('marketOverlay');
+        setMarketOverlayProperty(item);
+        let property = [];
+        console.log(type);
+        if (type === 'new') {
+          property = newProperties;
+          const indexCurrentProperty = property.findIndex((prop) => prop.id === item.id);
+          const element = property[indexCurrentProperty];
+          property.splice(indexCurrentProperty, 1);
+          property.splice(0, 0, element);
+        }
+        handleSetActiveMarketOverlayPropertyLists(property);
       } else if (type === 'favorite') {
         history.push({
           pathname: `/buyer/property/${item.id}/page`,
@@ -413,11 +431,13 @@ MarketCard.propTypes = {
   estimation: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
+  handleSetActiveMarketOverlayPropertyLists: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   item: PropTypes.object,
+  newProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSetActiveProperty: PropTypes.func,
   preventClick: PropTypes.bool,
-  setPreMarketProperty: PropTypes.func.isRequired,
+  setMarketOverlayProperty: PropTypes.func.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   skeleton: PropTypes.object.isRequired,
@@ -432,15 +452,22 @@ MarketCard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  allProperties: get(state, 'market.allProperties.data', []),
   estimation: get(state, 'property.estimation', {}),
   favoritesProperties: get(state, 'market.favoritesProperties.data', []),
+  lastViewedProperties: get(state, 'market.lastViewedProperties.data', []),
+  newProperties: get(state, 'market.newProperties.data', []),
+  ownerProperties: get(state, 'market.ownerProperties.data', []),
+  preMarketProperties: get(state, 'market.preMarketProperties.data', []),
+  premiumProperties: get(state, 'market.premiumProperties.data', []),
   skeleton: get(state, 'common.skeleton', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
+  handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
-  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
+  setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });

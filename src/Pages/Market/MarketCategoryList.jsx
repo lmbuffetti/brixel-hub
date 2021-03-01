@@ -19,7 +19,7 @@ import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
 import { setSplashType } from '../../actions/CommonActions';
-import { setEstimation, setActivePremarketProperty, getEstimation } from '../../actions/PropertyActions';
+import { setEstimation, getEstimation } from '../../actions/PropertyActions';
 import CardImageText from '../../components/Skeleton/CardImageText';
 
 const CarouselWrapper = Loadable({
@@ -30,7 +30,6 @@ const CarouselWrapper = Loadable({
 const MarketCategoryList = (props) => {
   // PROPS
   const {
-    // activePreMarketProperty,
     activeSingleCompany,
     bestimate,
     favoritesProperties,
@@ -669,7 +668,6 @@ const MarketCategoryList = (props) => {
 };
 
 MarketCategoryList.propTypes = {
-  // activePreMarketProperty: PropTypes.object.isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.object.isRequired,
@@ -696,7 +694,6 @@ const mapStateToProps = (state) => ({
   ownerProperties: get(state, 'market.ownerProperties', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
-  activePreMarketProperty: get(state, 'property.activePreMarketProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   bestimate: get(state, 'property.estimation.result', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
@@ -711,7 +708,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
-  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
