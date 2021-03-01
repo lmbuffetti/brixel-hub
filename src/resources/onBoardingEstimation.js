@@ -69,9 +69,10 @@ export const QuestionsList = (lang, country = 'CH') => {
       bgImg: userType,
       inputs: [{
         component: BrixelRadioButton,
-        className: 'radioBtnImg max-w-fix-lg-464',
+        className: 'radioBtnImg',
         pdClass: 'py-2 py-lg-3 px-1',
         label: '',
+        ReduxFieldClass: 'max-w-fix-lg-464',
         name: 'estimationType',
         validation: [Validation.required],
         icons: true,
