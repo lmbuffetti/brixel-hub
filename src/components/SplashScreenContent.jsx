@@ -1,5 +1,5 @@
 import React, {
-  useRef, useState,
+  useRef, useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -38,6 +38,7 @@ const SplashScreen = (props) => {
     handleSetActiveMarketOverlayPropertyLists,
     handleUpdateFavorites,
     history,
+    newProperties,
     isSmallLoading,
     loggedInUser,
     setMarketOverlayProperty,
@@ -71,9 +72,7 @@ const SplashScreen = (props) => {
   };
 
   const settingSlider = {
-    centerMode: true,
-    centerPadding: '0px',
-    slidesToShow: 3,
+    fade: true,
     slidesToScroll: 1,
     dots: false,
     focusOnSelect: true,
@@ -85,7 +84,7 @@ const SplashScreen = (props) => {
       setActiveNum(id);
     },
   };
-
+  console.log(activeSlide);
   // Function to close the drawer menus when we click outside
   useOutsideAlerter(drawerRef, {
     action: 'function',
@@ -96,6 +95,10 @@ const SplashScreen = (props) => {
       }
     },
   });
+
+  useEffect(() => {
+    updateData();
+  }, [activeSlide]);
 
   const checkFavorite = () => {
     const findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayProperty.id);
@@ -114,7 +117,7 @@ const SplashScreen = (props) => {
         language: loggedInUser.lang,
       },
     };
-    handleUpdateFavorites(data);
+    // handleUpdateFavorites(data);
     if (sliderInstance.current && activeMarketOverlayPropertyLists.length > 0) {
       // const slider = sliderInstance.current;
       // slider.slickNext();
@@ -125,8 +128,8 @@ const SplashScreen = (props) => {
       console.log(itm);
       const listProp = cloneDeep(activeMarketOverlayPropertyLists);
       listProp.splice(activeSlide, 1);
-      // slider.slickGoTo((activeSlide - 1), true);
       handleSetActiveMarketOverlayPropertyLists(listProp);
+      setActiveSlide(activeSlide + 1);
       setTimeout(() => {
         const removeEl = document.getElementsByClassName('cloneElement');
         while (removeEl[0]) {
@@ -151,6 +154,7 @@ const SplashScreen = (props) => {
       listProp.splice(activeSlide, 1);
       listProp[activeSlide].hide = true;
       handleSetActiveMarketOverlayPropertyLists(listProp);
+      setActiveSlide(activeSlide + 1);
       setTimeout(() => {
         const removeEl = document.getElementsByClassName('cloneElement');
         while (removeEl[0]) {
@@ -163,10 +167,9 @@ const SplashScreen = (props) => {
   const changeProperty = (act) => {
     if (sliderInstance.current) {
       const slider = sliderInstance.current;
-      if (act === 'back') slider.slickPrev();
-      if (act === 'forward') {
+      if (act === 'back' && activeSlide > 0) slider.slickPrev();
+      if (act === 'forward' && activeSlide < newProperties.total - 1) {
         slider.slickNext();
-        updateData();
       }
     }
   };
@@ -222,6 +225,7 @@ const SplashScreen = (props) => {
                 theme="dark"
                 onClick={() => changeProperty('back')}
                 icon="arrow-left-small"
+                disabled={activeSlide <= 0}
               />
             )
           }
@@ -250,6 +254,7 @@ const SplashScreen = (props) => {
                 theme="dark"
                 onClick={() => changeProperty('forward')}
                 icon="arrow-right-small"
+                disabled={activeSlide >= newProperties.total}
               />
             )
           }
@@ -270,6 +275,7 @@ SplashScreen.propTypes = {
   handleSetActiveMarketOverlayPropertyLists: PropTypes.func,
   handleUpdateFavorites: PropTypes.func,
   history: PropTypes.object.isRequired,
+  newProperties: PropTypes.object,
   isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object,
   setMarketOverlayProperty: PropTypes.func,
@@ -289,6 +295,7 @@ SplashScreen.defaultProps = {
   handleUpdateFavorites: () => '',
   isSmallLoading: null,
   loggedInUser: {},
+  newProperties: {},
   setMarketOverlayProperty: () => '',
   setSplashScreen: () => '',
   userSearchProfiles: null,
@@ -300,6 +307,7 @@ const mapStateToProps = (state) => ({
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
+  newProperties: get(state, 'market.newProperties', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
 });
 

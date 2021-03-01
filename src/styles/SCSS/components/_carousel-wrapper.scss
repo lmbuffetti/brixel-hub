@@ -29,30 +29,6 @@
    position: relative;
    overflow: hidden;
 
-   .slick-track {
-     padding-top: 53px;
-     padding-bottom: 53px;
-   }
-
-   .slick-slide {
-     text-align: center;
-     transition: transform 0.3s ease-in-out;
-   }
-
-   .slick-slide:not(.slick-current) {
-     filter: brightness(0.5);
-   }
-
-   .slick-slide.slick-current {
-     transform: scale(1.35);
-     position: relative;
-     z-index: 1;
-   }
-
-   .slick-slide img {
-     width: 100%;
-   }
-
    .cloneElement {
      outline: none;
      width: 227px;
@@ -60,8 +36,7 @@
      z-index: 10000;
      top: 0;
      display: block !important;
-     left: 50%;
-     transform: translate(-50%, 71px) scale(1.35) !important;
+     left: 0 !important;
      &.favorite > div {
        -webkit-animation: yay 1s ease-out;
        animation: yay 1s ease-out;

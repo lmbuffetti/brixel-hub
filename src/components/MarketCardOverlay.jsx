@@ -136,7 +136,7 @@ const MarketCard = (props) => {
         )
       }
       <div
-        className={`market-card ov-h h-perc-100 dis-fl-col brdRadius shadow-1dp pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} bgWhite`}
+        className={`market-card w-fix-376 ov-h h-perc-100 dis-fl-col brdRadius shadow-1dp pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} bgWhite m-a`}
         // onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         <>
