@@ -29,18 +29,13 @@ import {
 const MarketCard = (props) => {
   // PROPS
   const {
-    allProperties,
     favoritesProperties,
     handleGetEstimation,
     handleSetActiveMarketOverlayPropertyLists,
     history,
     item,
-    lastViewedProperties,
     newProperties,
     onSetActiveProperty,
-    ownerProperties,
-    preMarketProperties,
-    premiumProperties,
     preventClick,
     setMarketOverlayProperty,
     setPropertyEstimation,
@@ -97,13 +92,16 @@ const MarketCard = (props) => {
                   type === 'new' || get(item, 'tags', []).includes('new')) {
         setSplashScreen('marketOverlay');
         setMarketOverlayProperty(item);
-        if (type === 'own') handleSetActiveMarketOverlayPropertyLists(ownerProperties);
-        if (type === 'favorite')handleSetActiveMarketOverlayPropertyLists(favoritesProperties);
-        if (type === 'lastViewed')handleSetActiveMarketOverlayPropertyLists(lastViewedProperties);
-        if (type === 'radar')handleSetActiveMarketOverlayPropertyLists(newProperties);
-        if (type === 'premium')handleSetActiveMarketOverlayPropertyLists(premiumProperties);
-        if (type === 'preMarket')handleSetActiveMarketOverlayPropertyLists(preMarketProperties);
-        if (type === 'all')handleSetActiveMarketOverlayPropertyLists(allProperties);
+        let property = [];
+        console.log(type);
+        if (type === 'new') {
+          property = newProperties;
+          const indexCurrentProperty = property.findIndex((prop) => prop.id === item.id);
+          const element = property[indexCurrentProperty];
+          property.splice(indexCurrentProperty, 1);
+          property.splice(0, 0, element);
+        }
+        handleSetActiveMarketOverlayPropertyLists(property);
       } else if (type === 'favorite') {
         history.push({
           pathname: `/buyer/property/${item.id}/page`,
@@ -430,19 +428,14 @@ const MarketCard = (props) => {
 };
 
 MarketCard.propTypes = {
-  allProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleSetActiveMarketOverlayPropertyLists: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   item: PropTypes.object,
-  lastViewedProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   newProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSetActiveProperty: PropTypes.func,
-  ownerProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  premiumProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   preventClick: PropTypes.bool,
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,

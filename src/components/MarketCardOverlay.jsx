@@ -2,21 +2,19 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import has from 'lodash/has';
 import set from 'lodash/set';
 import pullAt from 'lodash/pullAt';
 import compact from 'lodash/compact';
 import {
-  Helpers, BrixelIcon, FormatValue,
+  Helpers,
+  FormatValue,
 } from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+// import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import ProgressRing from './ProgressRing';
 import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
-import { setCookie } from '../utils/helpers';
 import { setSplashType } from '../actions/CommonActions';
 import {
   setActiveSingleProperty, setEstimation, setActiveMarketOverlayProperty, getEstimation,
@@ -25,11 +23,11 @@ import {
 const MarketCard = (props) => {
   // PROPS
   const {
-    history,
+    // history,
     item,
-    preventClick,
-    setMarketOverlayProperty,
-    setSplashScreen,
+    // preventClick,
+    // setMarketOverlayProperty,
+    // setSplashScreen,
     skeleton,
     type,
   } = props;
@@ -69,7 +67,7 @@ const MarketCard = (props) => {
     }
   }, [get(item, 'tags', [])]);
 
-  const openCard = (e) => {
+  /* const openCard = (e) => {
     if (e) e.preventDefault();
     if (!preventClick) {
       if (type === 'own') {
@@ -90,7 +88,7 @@ const MarketCard = (props) => {
       } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
       // TODO: Estimation opens overlay
     }
-  };
+  }; */
 
   // eslint-disable-next-line consistent-return
   const getTypeText = (text) => {
@@ -138,8 +136,8 @@ const MarketCard = (props) => {
         )
       }
       <div
-        className={`market-card ov-h cur-poi h-perc-100 dis-fl-col brdRadius shadow-1dp pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} bgWhite`}
-        onClick={(e) => (type !== 'own' ? openCard(e) : '')}
+        className={`market-card ov-h h-perc-100 dis-fl-col brdRadius shadow-1dp pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} bgWhite`}
+        // onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         <>
           <CoverPropertyImage
@@ -238,18 +236,17 @@ const MarketCard = (props) => {
 //               }
 
 MarketCard.propTypes = {
-  history: PropTypes.object.isRequired,
+  // history: PropTypes.object.isRequired,
   item: PropTypes.object,
-  preventClick: PropTypes.bool,
-  setMarketOverlayProperty: PropTypes.func.isRequired,
-  setSplashScreen: PropTypes.func.isRequired,
+  // preventClick: PropTypes.bool,
+  // setMarketOverlayProperty: PropTypes.func.isRequired,
+  // setSplashScreen: PropTypes.func.isRequired,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
 };
 
 MarketCard.defaultProps = {
   item: null,
-  preventClick: false,
   type: '',
 };
 
