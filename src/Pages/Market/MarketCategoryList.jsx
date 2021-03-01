@@ -80,7 +80,7 @@ const MarketCategoryList = (props) => {
     if (getCookie('brixelSplashHome') === 'buyerWelcome') {
       setSplashScreen('buyerWelcome');
     }
-    if (getCookie('brixelSplashHome') === 'sellerWelcome' && get(ownerProperties, 'data', []).length === 1) {
+    if (getCookie('brixelSplashHome') === 'sellerWelcome' && get(ownerProperties, 'data', []).length >= 1) {
       setSplashScreen('sellerWelcome');
     }
   }, [getCookie('brixelSplashHome'), ownerProperties]);
@@ -107,6 +107,8 @@ const MarketCategoryList = (props) => {
   const openSupport = (e) => {
     e.preventDefault();
     history.push({ state: { showSupport: true } });
+    setSplashScreen('');
+    setCookie('brixelSplashHome', null);
   };
 
   const scrollToTopEdit = () => {
@@ -206,8 +208,9 @@ const MarketCategoryList = (props) => {
                 <div className="dis-f mb-2">
                   <p className="max-w-fix-440 txtDark700 pl-2"> Are you thinking about selling? Get in touch with
                     <a
-                      className="link"
                       href="#"
+                      className="link"
+                      onClick={(e) => openSupport(e)}
                     >
                       &nbsp;support
                     </a> and get a free consultation by our experts.

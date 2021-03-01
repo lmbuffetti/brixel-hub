@@ -274,6 +274,14 @@ function PageHeaderDashboard(props) {
     }
   };
 
+  // FUNCTION TO SHOW/HIDE THE SUPPORT MENU (history.push({state: {showSupport: true}}))
+  useEffect(() => {
+    if (get(history, 'location.state.showSupport', null) === true) {
+      onTabClick('support');
+      history.push({ state: { showSupport: false } });
+    }
+  }, [get(history, 'location.state', null)]);
+
   // CHECK TAB BY URL
   const checkActiveTab = () => {
     let curTab = '';
