@@ -31,6 +31,7 @@ const MarketCategoryList = (props) => {
   // PROPS
   const {
     activeSingleCompany,
+    activeSingleProperty,
     bestimate,
     favoritesProperties,
     handleGetEstimation,
@@ -183,6 +184,7 @@ const MarketCategoryList = (props) => {
         )
       }
 
+      {/* seller welcome message  */}
       {
         splashScreenType === 'sellerWelcome' && (
           <SplashScreen
@@ -202,29 +204,34 @@ const MarketCategoryList = (props) => {
               <span className="txtDark200 pt-2 pb-5"> This is our Brixel market. A place where you can do great things. </span>
               <div className="mb-5">
                 <div className="dis-f mb-2">
-                  <div className="dis-f a-c min-w-fix-64 jc-fe">
-                    <BrixelIcon
-                      icon="favorite-fill"
-                      color="red"
-                    />
-                  </div>
-                  <span className="max-w-fix-424 txtDark700 pl-2"> Are you thinking about selling? Get in touch with us and get a free consultation by our experts.</span>
+                  <p className="max-w-fix-440 txtDark700 pl-2"> Are you thinking about selling? Get in touch with
+                    <a
+                      className="link"
+                      href="#"
+                    >
+                      &nbsp;support
+                    </a> and get a free consultation by our experts.
+                  </p>
                 </div>
                 <div className="dis-f mb-2">
-                  <div className="dis-f a-c min-w-fix-64 jc-fe">
-                    <span className="category-tag bgPrimary300">
-                      Pre
-                    </span>
-                  </div>
-                  <span className="max-w-fix-424 txtDark700 pl-2"> Do you want to know how much your home is worth? Get a free price indication with our Bestimate®.</span>
+                  <p className="max-w-fix-440 txtDark700 pl-2"> Do you want to know how much your home is worth? Get a free price indication with our
+                    <a
+                      className="link"
+                      href={`/${activeSingleProperty.id}/rewards/bestimate`}
+                    >
+                      &nbsp;Bestimate®
+                    </a>
+                  </p>
                 </div>
                 <div className="dis-f">
-                  <div className="dis-f a-c min-w-fix-64 jc-fe">
-                    <span className="category-tag bgRed400">
-                      Premium
-                    </span>
-                  </div>
-                  <span className="max-w-fix-424 txtDark700 pl-2"> Are you looking for a property to buy? Define your search profile and get exclusive access to hundreds of properties that are not yet on market.</span>
+                  <p className="max-w-fix-440 txtDark700 pl-2"> Are you looking for a property to buy? Define your
+                    <a
+                      className="link"
+                      href="/packageFlow/getStartedBuyer"
+                    >
+                      &nbsp;search profile
+                    </a> and get exclusive access to hundreds of properties that are not yet on market.
+                  </p>
                 </div>
               </div>
               <BrixelButtonPrimary
@@ -684,6 +691,7 @@ MarketCategoryList.propTypes = {
   splashScreenType: PropTypes.string.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
   windowDimensions: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
 };
 
 MarketCategoryList.defaultProps = {
@@ -691,6 +699,7 @@ MarketCategoryList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   ownerProperties: get(state, 'market.ownerProperties', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
