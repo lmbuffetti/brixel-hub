@@ -281,3 +281,10 @@
     // background: white;
   }
 }
+
+.overlayCard {
+  .market-card {
+    height: 545px;
+    overflow-y: auto;
+  }
+}

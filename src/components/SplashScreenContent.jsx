@@ -254,11 +254,12 @@ const SplashScreen = (props) => {
           ) : (
             <MarketCardOverlay
               item={activeMarketOverlayProperty}
+              className="overlayCard"
             />
           )
         }
 
-        <div className="dis-fl-row jc-b a-c pos-r w-perc-100 p-3 shadow-1dp">
+        <div className={`dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${activeMarketOverlayPropertyLists.length > 0 ? 'jc-b' : 'jc-c'}`}>
           {
             activeMarketOverlayPropertyLists.length > 0 && (
               <BrixelButtonIcon
