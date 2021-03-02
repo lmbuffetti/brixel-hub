@@ -220,7 +220,7 @@ const SplashScreen = (props) => {
 
   return (
     <>
-      <div className="dis-f jc-fe">
+      <div className="dis-f jc-fe p-2">
         <BrixelButtonIcon
           className="pos-r zIndex10"
           ghost
@@ -230,11 +230,11 @@ const SplashScreen = (props) => {
         />
       </div>
 
-      <div className={`dis-fl-col a-c jc- ${showContent ? 'opacity10' : 'opacity0'}`}>
-
+      <div className={`middle-part ${activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'}`}>
         {
           activeMarketOverlayPropertyLists.length > 0 ? (
             <div className="carousel3d" id="overlayCarousel">
+              <h4 className="ta-c mb-3"> Pick your favorites </h4>
               <Slider ref={sliderInstance} {...settingSlider}>
                 {
                   activeMarketOverlayPropertyLists.map((item, i) => (
@@ -251,54 +251,54 @@ const SplashScreen = (props) => {
           ) : (
             <MarketCardOverlay
               item={activeMarketOverlayProperty}
-              className="overlayCard"
+              className="overlayCard h-perc-100"
             />
           )
         }
 
-        <div className={`dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${activeMarketOverlayPropertyLists.length > 0 ? 'jc-b' : 'jc-c'}`}>
-          {
-            activeMarketOverlayPropertyLists.length > 0 && (
-              <BrixelButtonIcon
-                rounded
-                ghost
-                theme="dark"
-                onClick={() => changeProperty('back')}
-                icon="arrow-left-small"
-                disabled={activeSlide <= 0}
-              />
-            )
-          }
-          <div className="dis-fl-row jc-c a-c">
+      </div>
+      <div className={`fixed-footer dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${activeMarketOverlayPropertyLists.length > 0 ? 'jc-b' : 'jc-c'}`}>
+        {
+          activeMarketOverlayPropertyLists.length > 0 && (
             <BrixelButtonIcon
               rounded
-              className="mr-4"
-              theme="red"
-              onClick={() => notInterested()}
-              icon="close-small"
-              isLoading={isSmallLoading === `notInterested-${activeMarketOverlayProperty.id}`}
+              ghost
+              theme="dark"
+              onClick={() => changeProperty('back')}
+              icon="arrow-left-small"
+              disabled={activeSlide <= 0}
             />
-            <BrixelButtonIcon
-              rounded
-              theme="green"
-              onClick={() => saveFavorite()}
-              icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
-              isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
-            />
-          </div>
-          {
-            activeMarketOverlayPropertyLists.length > 0 && (
-              <BrixelButtonIcon
-                rounded
-                ghost
-                theme="dark"
-                onClick={() => changeProperty('forward')}
-                icon="arrow-right-small"
-                disabled={activeSlide >= newProperties.total}
-              />
-            )
-          }
+          )
+        }
+        <div className="dis-fl-row jc-c a-c">
+          <BrixelButtonIcon
+            rounded
+            className="mr-4"
+            theme="red"
+            onClick={() => notInterested()}
+            icon="close-small"
+            isLoading={isSmallLoading === `notInterested-${activeMarketOverlayProperty.id}`}
+          />
+          <BrixelButtonIcon
+            rounded
+            theme="green"
+            onClick={() => saveFavorite()}
+            icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
+            isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
+          />
         </div>
+        {
+          activeMarketOverlayPropertyLists.length > 0 && (
+            <BrixelButtonIcon
+              rounded
+              ghost
+              theme="dark"
+              onClick={() => changeProperty('forward')}
+              icon="arrow-right-small"
+              disabled={activeSlide >= newProperties.total}
+            />
+          )
+        }
       </div>
     </>
   );

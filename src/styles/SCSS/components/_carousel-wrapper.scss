@@ -30,8 +30,7 @@
    overflow-x: hidden;
 
    .slick-list {
-     padding-top: 80px;
-     padding-bottom: 24px;
+     padding-top: 30px;
    }
 
    .slick-slide {
@@ -45,14 +44,16 @@
 
    .toDo {
      z-index: 5;
+
      .info {
        opacity: 0;
      }
    }
 
    .market-card {
-     height: 545px;
+     max-height: 405px;
      overflow: hidden;
+     padding-bottom: 40px;
    }
 
    .slick-active.slick-current {
@@ -72,8 +73,8 @@
        z-index: -#{($i + 1)};
        transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateY(-#{percentage((($i + 1) / 2) / 10)});
        opacity: 1 !important;
-       filter: blur(3px);
-       -webkit-filter: blur(3px);
+       filter: blur(1px);
+       -webkit-filter: blur(1px);
      }
    }
 
