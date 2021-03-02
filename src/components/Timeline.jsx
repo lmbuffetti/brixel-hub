@@ -292,7 +292,7 @@ const Timeline = (props) => {
     <div className={`timeline dis-fl-col ${className}`}>
       <span className="title overline tt-up mb-3">History</span>
       <div className="events-container w-perc-100 dis-fl-col a-c">
-        <div ref={noteWrapperRef} className="add-note-container w-perc-100 dis-fl-col p-2 mb-1 md-lg-4">
+        {/* <div ref={noteWrapperRef} className="add-note-container w-perc-100 dis-fl-col p-2 mb-1 md-lg-4">
           <div className="text-container dis-fl-row">
             <BrixelAvatar
               avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? getConfigEnv.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
@@ -324,7 +324,7 @@ const Timeline = (props) => {
               onClick={() => addNewNote(newNote)}
             />
           </div>
-        </div>
+        </div> */}
         {
           chronologicalData && chronologicalData.map((event, i) => (
             <div
@@ -333,7 +333,233 @@ const Timeline = (props) => {
               key={i.toString()}
             >
               {
-                !has(event, 'parent') ? (
+                // !has(event, 'parent') ? (
+                //   <>
+                //     <BrixelIcon
+                //       icon={event.icon}
+                //       noBorder
+                //       background={getEventColor(event.icon)}
+                //       saturation={100}
+                //       color={event.icon === 'mail' ? 'Dark' : getEventColor(event.icon)}
+                //       saturationTxt={700}
+                //       className="mr-2 historyIcons"
+                //     />
+                //     <div className="dis-fl-col">
+                //       <p
+                //         className="description fsize-300"
+                //         onClick={(e) => contentClickHandler(e)}
+                //         dangerouslySetInnerHTML={{
+                //           __html: event.description,
+                //         }}
+                //       />
+                //       <div className="dis-fl-row">
+                //         {
+                //           has(event, 'user') && (
+                //             <>
+                //               <span className="fsize-100 txtDark200">{event.user}</span>&nbsp;
+                //             </>
+                //           )
+                //         }
+                //         <span className="fsize-100 txtDark200">{event.formattedDate}</span>
+                //       </div>
+                //     </div>
+                //   </>
+                // ) : (
+                //   <div className={`w-perc-100 jc-b ${editNote.id === event.id && editNote.active ? 'dis-fl-col' : 'dis-fl-row'}`}>
+                //     <div className="dis-fl-col jc-b w-perc-100">
+                //       {
+                //         (editNote.id === event.id && editNote.active) ? (
+                //           <div className="dis-f">
+                //             <BrixelAvatar
+                //               name={get(find(event.history, (el) => (el.type === 'create')), 'author.name', '')}
+                //               profileId={get(find(event.history, (el) => (el.type === 'create')), 'author.user_id', '')}
+                //               /* avatarImg={get(find(event.history, (el) => (el.type === 'create')), 'author.avatar[0]', '') ? getConfigEnv.shortPath + get(find(event.history, (el) => (el.type === 'create')), 'author.avatar[0]', '').thumbnailPath : null} */
+                //             />
+                //             <BrixelTextArea
+                //               className="zIndex1 ml-2 w-perc-100"
+                //               input={{
+                //                 onChange: (val) => setEditNoteText(val),
+                //                 onFocus: () => '',
+                //                 value: editNoteText,
+                //               }}
+                //               type="text"
+                //               placeholder="Edit this note"
+                //             />
+                //           </div>
+                //         ) :
+                //           (
+                //             <span
+                //               className="description"
+                //               dangerouslySetInnerHTML={{
+                //                 __html: (Truncate(event.content, 62, (showFullNote.id === i && showFullNote.active)).replace(/(?:\r\n|\r|\n)/g, '<br>')),
+                //               }}
+                //             />
+                //           )
+                //       }
+                //       {
+                //         (editNote.id !== event.id) && (
+                //           <div className="dis-fl-row mt-1">
+                //             <span className="fsize-100 txtDark700 mr-2">
+                //               { get(find(event.history, (el) => (el.type === 'create')), 'author.name', 'BOT') }
+                //             </span>
+                //             <span className="fsize-100 txtDark200">
+                //               {moment(event.createdAt).format('D MMM YYYY, H:mm')}
+                //             </span>
+                //           </div>
+                //         )
+                //       }
+                //     </div>
+                //     <div className={`actions dis-fl-col jc-b pos-r ${editNote.id === event.id && editNote.active ? '' : ''}`}>
+                //       {
+                //         get(event, 'content', '') && event.content.length > 62 && !editNote.active && (
+                //           <BrixelButtonIcon
+                //             className="as-fe"
+                //             ghost
+                //             theme="dark"
+                //             icon={`${showFullNote.id === i && showFullNote.active ? 'arrow-simple-up' : 'arrow-simple-down'}`}
+                //             onClick={(e) => {
+                //               if (showFullNote.id !== i && !showFullNote.active) {
+                //                 openTruncatedText(e, i);
+                //               } else if (showFullNote.id === i && !showFullNote.active) {
+                //                 openTruncatedText(e, i);
+                //               } else if (showFullNote.id === i && showFullNote.active) {
+                //                 truncateText(e, i);
+                //               } else {
+                //                 openTruncatedText(e, i);
+                //               }
+                //             }}
+                //           />
+                //         )
+                //       }
+                //       <div className="dis-fl-row h-perc-100 jc-b a-c">
+                //         {
+                //           (editNote.id === event.id && editNote.active) ? (
+                //             <div className="dis-fl-row w-perc-100 jc-fe pt-2">
+                //               <BrixelButtonSecondary
+                //                 saturationTxt={400}
+                //                 rounded
+                //                 small
+                //                 label="Cancel"
+                //                 onClick={() => {
+                //                   setEditNoteText();
+                //                   setEditNote({
+                //                     id: null,
+                //                     active: false,
+                //                   });
+                //                 }}
+                //                 className="mr-1"
+                //               />
+                //               <BrixelButtonPrimary
+                //                 label="Save"
+                //                 rounded
+                //                 small
+                //                 onClick={(e) => {
+                //                   updateNote(e, event.id);
+                //                   // set(event, 'content', editNoteText);
+                //                   setEditNote({
+                //                     id: null,
+                //                     active: false,
+                //                   });
+                //                 }}
+                //               />
+                //             </div>
+                //           ) : (
+                //             <>
+                //               <div className="as-fe dis-f a-c pos-r">
+                //                 {
+                //                   event.pinned && (
+                //                     <BrixelButtonIcon
+                //                       small
+                //                       ghost
+                //                       icon="pin-filled"
+                //                       theme="red"
+                //                       className="mr-1"
+                //                       onClick={(e) => {
+                //                         handlePinNote(e, event);
+                //                         setNoteOptionsOpen({
+                //                           id: null,
+                //                           active: false,
+                //                         });
+                //                       }}
+                //                     />
+                //                   )
+                //                 }
+                //                 <BrixelButtonIcon
+                //                   small
+                //                   theme="dark"
+                //                   ghost
+                //                   icon="options-vertical"
+                //                   onClick={() => {
+                //                     setEditNote({
+                //                       id: null,
+                //                       active: false,
+                //                     });
+                //                     setNoteOptionsOpen({
+                //                       id: event.id,
+                //                       active: !noteOptionsOpen.active,
+                //                     });
+                //                   }}
+                //                 />
+                //                 {
+                //                   (noteOptionsOpen.id === event.id && noteOptionsOpen.active) && (
+                //                     <>
+                //                       <BrixelDropdownMini
+                //                         topOffset={40}
+                //                         rightAligned
+                //                         ref={noteRef}
+                //                         links={
+                //                           [
+                //                             {
+                //                               label: `${event.pinned ? 'Remove pin' : 'Pin to top'}`,
+                //                               clickFunc: (e) => {
+                //                                 handlePinNote(e, event);
+                //                                 setNoteOptionsOpen({
+                //                                   id: null,
+                //                                   active: false,
+                //                                 });
+                //                               },
+                //                             },
+                //                             {
+                //                               label: 'Edit',
+                //                               clickFunc: () => {
+                //                                 setEditNoteText(event.content);
+                //                                 setEditNote({
+                //                                   id: event.id,
+                //                                   active: !editNote.active,
+                //                                 });
+                //                                 setNoteOptionsOpen({
+                //                                   id: null,
+                //                                   active: false,
+                //                                 });
+                //                               },
+                //                             },
+                //                             {
+                //                               label: 'Delete',
+                //                               className: 'txtRed400',
+                //                               clickFunc: (e) => {
+                //                                 deleteNote(e, event);
+                //                                 setNoteOptionsOpen({
+                //                                   id: null,
+                //                                   active: false,
+                //                                 });
+                //                               },
+                //                             },
+                //                           ]
+                //                         }
+                //                       />
+                //                     </>
+                //                   )
+                //                 }
+                //               </div>
+                //             </>
+                //           )
+                //         }
+                //       </div>
+                //     </div>
+                //   </div>
+                // )
+
+                !has(event, 'parent') && (
                   <>
                     <BrixelIcon
                       icon={event.icon}
@@ -364,199 +590,6 @@ const Timeline = (props) => {
                       </div>
                     </div>
                   </>
-                ) : (
-                  <div className={`w-perc-100 jc-b ${editNote.id === event.id && editNote.active ? 'dis-fl-col' : 'dis-fl-row'}`}>
-                    <div className="dis-fl-col jc-b w-perc-100">
-                      {
-                        (editNote.id === event.id && editNote.active) ? (
-                          <div className="dis-f">
-                            <BrixelAvatar
-                              name={get(find(event.history, (el) => (el.type === 'create')), 'author.name', '')}
-                              profileId={get(find(event.history, (el) => (el.type === 'create')), 'author.user_id', '')}
-                              /* avatarImg={get(find(event.history, (el) => (el.type === 'create')), 'author.avatar[0]', '') ? getConfigEnv.shortPath + get(find(event.history, (el) => (el.type === 'create')), 'author.avatar[0]', '').thumbnailPath : null} */
-                            />
-                            <BrixelTextArea
-                              className="zIndex1 ml-2 w-perc-100"
-                              input={{
-                                onChange: (val) => setEditNoteText(val),
-                                onFocus: () => '',
-                                value: editNoteText,
-                              }}
-                              type="text"
-                              placeholder="Edit this note"
-                            />
-                          </div>
-                        ) :
-                          (
-                            <span
-                              className="description"
-                              dangerouslySetInnerHTML={{
-                                __html: (Truncate(event.content, 62, (showFullNote.id === i && showFullNote.active)).replace(/(?:\r\n|\r|\n)/g, '<br>')),
-                              }}
-                            />
-                          )
-                      }
-                      {
-                        (editNote.id !== event.id) && (
-                          <div className="dis-fl-row mt-1">
-                            <span className="fsize-100 txtDark700 mr-2">
-                              { get(find(event.history, (el) => (el.type === 'create')), 'author.name', 'BOT') }
-                            </span>
-                            <span className="fsize-100 txtDark200">
-                              {moment(event.createdAt).format('D MMM YYYY, H:mm')}
-                            </span>
-                          </div>
-                        )
-                      }
-                    </div>
-                    <div className={`actions dis-fl-col jc-b pos-r ${editNote.id === event.id && editNote.active ? '' : ''}`}>
-                      {
-                        get(event, 'content', '') && event.content.length > 62 && !editNote.active && (
-                          <BrixelButtonIcon
-                            className="as-fe"
-                            ghost
-                            theme="dark"
-                            icon={`${showFullNote.id === i && showFullNote.active ? 'arrow-simple-up' : 'arrow-simple-down'}`}
-                            onClick={(e) => {
-                              if (showFullNote.id !== i && !showFullNote.active) {
-                                openTruncatedText(e, i);
-                              } else if (showFullNote.id === i && !showFullNote.active) {
-                                openTruncatedText(e, i);
-                              } else if (showFullNote.id === i && showFullNote.active) {
-                                truncateText(e, i);
-                              } else {
-                                openTruncatedText(e, i);
-                              }
-                            }}
-                          />
-                        )
-                      }
-                      <div className="dis-fl-row h-perc-100 jc-b a-c">
-                        {
-                          (editNote.id === event.id && editNote.active) ? (
-                            <div className="dis-fl-row w-perc-100 jc-fe pt-2">
-                              <BrixelButtonSecondary
-                                saturationTxt={400}
-                                rounded
-                                small
-                                label="Cancel"
-                                onClick={() => {
-                                  setEditNoteText();
-                                  setEditNote({
-                                    id: null,
-                                    active: false,
-                                  });
-                                }}
-                                className="mr-1"
-                              />
-                              <BrixelButtonPrimary
-                                label="Save"
-                                rounded
-                                small
-                                onClick={(e) => {
-                                  updateNote(e, event.id);
-                                  // set(event, 'content', editNoteText);
-                                  setEditNote({
-                                    id: null,
-                                    active: false,
-                                  });
-                                }}
-                              />
-                            </div>
-                          ) : (
-                            <>
-                              <div className="as-fe dis-f a-c pos-r">
-                                {
-                                  event.pinned && (
-                                    <BrixelButtonIcon
-                                      small
-                                      ghost
-                                      icon="pin-filled"
-                                      theme="red"
-                                      className="mr-1"
-                                      onClick={(e) => {
-                                        handlePinNote(e, event);
-                                        setNoteOptionsOpen({
-                                          id: null,
-                                          active: false,
-                                        });
-                                      }}
-                                    />
-                                  )
-                                }
-                                <BrixelButtonIcon
-                                  small
-                                  theme="dark"
-                                  ghost
-                                  icon="options-vertical"
-                                  onClick={() => {
-                                    setEditNote({
-                                      id: null,
-                                      active: false,
-                                    });
-                                    setNoteOptionsOpen({
-                                      id: event.id,
-                                      active: !noteOptionsOpen.active,
-                                    });
-                                  }}
-                                />
-                                {
-                                  (noteOptionsOpen.id === event.id && noteOptionsOpen.active) && (
-                                    <>
-                                      <BrixelDropdownMini
-                                        topOffset={40}
-                                        rightAligned
-                                        ref={noteRef}
-                                        links={
-                                          [
-                                            {
-                                              label: `${event.pinned ? 'Remove pin' : 'Pin to top'}`,
-                                              clickFunc: (e) => {
-                                                handlePinNote(e, event);
-                                                setNoteOptionsOpen({
-                                                  id: null,
-                                                  active: false,
-                                                });
-                                              },
-                                            },
-                                            {
-                                              label: 'Edit',
-                                              clickFunc: () => {
-                                                setEditNoteText(event.content);
-                                                setEditNote({
-                                                  id: event.id,
-                                                  active: !editNote.active,
-                                                });
-                                                setNoteOptionsOpen({
-                                                  id: null,
-                                                  active: false,
-                                                });
-                                              },
-                                            },
-                                            {
-                                              label: 'Delete',
-                                              className: 'txtRed400',
-                                              clickFunc: (e) => {
-                                                deleteNote(e, event);
-                                                setNoteOptionsOpen({
-                                                  id: null,
-                                                  active: false,
-                                                });
-                                              },
-                                            },
-                                          ]
-                                        }
-                                      />
-                                    </>
-                                  )
-                                }
-                              </div>
-                            </>
-                          )
-                        }
-                      </div>
-                    </div>
-                  </div>
                 )
               }
             </div>
