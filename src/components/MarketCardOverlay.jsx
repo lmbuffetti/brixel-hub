@@ -73,29 +73,6 @@ const MarketCard = (props) => {
     }
   }, [get(item, 'tags', [])]);
 
-  /* const openCard = (e) => {
-    if (e) e.preventDefault();
-    if (!preventClick) {
-      if (type === 'own') {
-        history.push({
-          pathname: `/${item.id}/rewards/market-checker`,
-          state: { section: 'Market' },
-        });
-      } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
-                  type === 'premium' || get(item, 'tags', []).includes('premium') ||
-                  type === 'new' || get(item, 'tags', []).includes('new')) {
-        setSplashScreen('marketOverlay');
-        setMarketOverlayProperty(item);
-      } else if (type === 'favorite') {
-        history.push({
-          pathname: `/buyer/property/${item.id}/page`,
-          state: { section: 'Market' },
-        });
-      } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
-      // TODO: Estimation opens overlay
-    }
-  }; */
-
   // eslint-disable-next-line consistent-return
   const getTypeText = (text) => {
     switch (text) {
@@ -246,14 +223,14 @@ const MarketCard = (props) => {
 
             {
               get(item, 'tags', []).includes('pre-market') ? (
-                <p>{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} - ` : ''}{get(item, 'location.city', '')}</p>
+                <p className="mb-2">{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}</p>
               ) : (
-                <p>{}</p>
+                <p className="mb-2">{`${get(item, 'location.name', null) ? `${get(item, 'location.name', '')} ` : ''}`}{`${get(item, 'location.streetNumber', null) ? `${get(item, 'location.streetNumber', '')} ` : ''}`}{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}</p>
               )
             }
 
             <Map
-              className="h-fix-160"
+              className="h-fix-160 mb-5"
               minHeight={160}
               latitude={get(item, 'location.latitude')}
               longitude={get(item, 'location.longitude')}
@@ -267,7 +244,7 @@ const MarketCard = (props) => {
             { /* SECTION: EXTRA FEATURE */}
             {
               !get(item, 'tags', []).includes('pre-market') && fullExtraFeatures(item).length > 0 && (
-                <div className="mt-3" id="extra-feature">
+                <div>
                   <div className="row">
                     {
                       fullExtraFeatures(item).map((key, i) => (
@@ -303,7 +280,7 @@ const MarketCard = (props) => {
                   <p>This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner.</p>
                 </div>
               ) : (
-                <div>
+                <div className="mt-2">
                   <h6 className="fsize-100 txtDark200">There is more</h6>
                   <ul className="darkCheckList">
                     <li>See all photos</li>

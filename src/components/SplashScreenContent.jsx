@@ -104,6 +104,7 @@ const SplashScreen = (props) => {
         setActiveSlide(activeIndex);
       }
     }
+    return null;
   };
 
   const settingSlider = {
@@ -158,7 +159,7 @@ const SplashScreen = (props) => {
         language: loggedInUser.lang,
       },
     };
-    // handleUpdateFavorites(data);
+    handleUpdateFavorites(data);
     if (sliderInstance.current && activeMarketOverlayPropertyLists.length > 0) {
       // const slider = sliderInstance.current;
       // slider.slickNext();

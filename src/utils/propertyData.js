@@ -1,12 +1,6 @@
 // import React from 'react';
-import { FactsOptions, BrixelQualityScale, Helpers } from '@brixel/brixel-components';
+import { FactsOptions } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import { FormatValue } from '@brixel/brixel-components';
-import { configLang } from '../constants/global';
-import {
-  maxLivingSpaceRatio, maxPriceM2Ratio, maxPriceRatio, getDevMode, formatNumberValue,
-} from './helpers';
-import { configureStore } from '../store';
 
 const { factsOptions } = FactsOptions;
 
@@ -73,7 +67,7 @@ export const fullExtraFeatures = (property) => {
     });
   }
 
-  Object.keys(defaultExtraFeatures).forEach((key, i) => {
+  Object.keys(defaultExtraFeatures).forEach((key) => {
     if (key !== 'none' && defaultExtraFeatures[key]) {
       const objExtra = factsOptions.extraFeature.find((val) => val.value === key);
       if (get(objExtra, 'icon', null) && objExtra.value !== 'loggia') {
