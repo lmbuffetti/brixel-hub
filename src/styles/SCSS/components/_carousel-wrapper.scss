@@ -66,11 +66,11 @@
      opacity: 1 !important;
    }
 
-   @for $i from 0 through 3 {
+   @for $i from 0 through 1 {
      .space-#{$i} {
        // margin-top: -#{($i + 1) * 5}px;
        z-index: -#{($i + 1)};
-       transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateY(-#{percentage(($i + 1) / 10)});
+       transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateY(-#{percentage((($i + 1) / 2) / 10)});
        opacity: 1 !important;
        filter: blur(3px);
        -webkit-filter: blur(3px);
