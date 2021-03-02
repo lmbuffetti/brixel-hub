@@ -18,6 +18,7 @@ import Loadable from 'react-loadable';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
+import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType } from '../../actions/CommonActions';
 import { setEstimation, getEstimation } from '../../actions/PropertyActions';
 import CardImageText from '../../components/Skeleton/CardImageText';
@@ -249,7 +250,7 @@ const MarketCategoryList = (props) => {
 
       {/* bestimate result */}
       {
-        !bestimateMessage && splashScreenType === 'bestimateResult' && (
+        !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue !== 0 && (
           <SplashScreen
             className="result-popup"
             closeOutside={false}
@@ -333,6 +334,49 @@ const MarketCategoryList = (props) => {
                 >
                   &nbsp;support
                 </span>
+              </div>
+            </div>
+          </SplashScreen>
+        )
+      }
+
+      {/* bestimate missing */}
+      {
+        !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue === 0 && (
+          <SplashScreen
+            className="result-popup"
+            closeOutside={false}
+          >
+            <div className="dis-f jc-fe mb-2">
+              <BrixelButtonIcon
+                ghost
+                theme="dark"
+                icon="close-small"
+                onClick={() => onCloseBestimateResult()}
+              />
+            </div>
+            <div className="dis-fl-col jc-c a-c pb-2">
+              <h3>Bestimate&reg; is missing 🙁 </h3>
+              <span className="max-w-fix-448 ta-c txtDark700 py-2"> We could not calculate your Bestimate&reg;. No problem. Our support team will do it for you manually. </span>
+
+              <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
+
+              <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
+                <span
+                  className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
+                  onClick={() => {
+                    onCloseBestimateResult();
+                  }}
+                >
+                  Thanks, not now
+                </span>
+                <BrixelButtonPrimary
+                  rounded
+                  label="Contact support"
+                  className="m-a"
+                  onClick={(e) => openSupport(e)}
+                  rightIcon="arrow-right"
+                />
               </div>
             </div>
           </SplashScreen>
