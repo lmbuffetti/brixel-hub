@@ -48,26 +48,62 @@ const SplashScreen = (props) => {
 
   const drawerRef = useRef(null);
   const sliderInstance = useRef(null);
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(-1);
   const [activeNum, setActiveNum] = useState(0);
 
   const updateData = () => {
-    const id = activeSlide;
-    const page = (id / 10).toFixed();
-    const relativeNumber = id - (10 * page);
-    if (relativeNumber === 4) {
-      const profileID = get(userSearchProfiles, '[0].id', null);
-      const data = {
-        overlayCard: true,
-        resultsPerPage: 10,
-        offset: (page + 1) * 10,
-        order: 'updatedAt',
-        direction: 'DESC',
-        setAsSingle: true,
-        multiLoader: true,
-      };
-      if (profileID) set(data, 'searchProfileId', profileID);
-      handleGetNewProperties(data);
+    const wrapCarousel = document.getElementById('overlayCarousel');
+    if (wrapCarousel) {
+      const getAllslides = wrapCarousel.getElementsByClassName('slick-slide');
+      let activeIndex;
+      for (let numSlide = 0; numSlide < getAllslides.length; numSlide += 1) {
+        if (getAllslides[numSlide] && getAllslides[numSlide].classList.contains('slick-active')) {
+          activeIndex = numSlide;
+        }
+      }
+      console.log(activeIndex, activeSlide);
+      if (activeIndex !== activeSlide) {
+        const id = activeIndex;
+        const page = (id / 10).toFixed();
+        const relativeNumber = id - (10 * page);
+        if (relativeNumber < 4 && getAllslides.length < newProperties.total) {
+          const profileID = get(userSearchProfiles, '[0].id', null);
+          const data = {
+            overlayCard: true,
+            resultsPerPage: 10,
+            offset: (page + 1) * 10,
+            order: 'updatedAt',
+            direction: 'DESC',
+            setAsSingle: true,
+            multiLoader: true,
+          };
+          if (profileID) set(data, 'searchProfileId', profileID);
+          handleGetNewProperties(data);
+        }
+        let num = 0;
+        let inactiveNum = 0;
+        while (getAllslides) {
+          if (getAllslides[num]) {
+            getAllslides[num].className = 'slick-slide';
+            if (activeIndex === num) {
+              getAllslides[num].classList.add('active', 'slick-active', 'slick-current');
+            } else if (activeIndex - 1 === num) {
+              getAllslides[num].classList.add('done', 'fadeOut');
+            } else if (activeIndex > num) {
+              getAllslides[num].classList.add('done');
+            } else {
+              getAllslides[num].classList.remove(`mt-${inactiveNum}`);
+              getAllslides[num].classList.add('toDo');
+              getAllslides[num].classList.add(`space-${inactiveNum}`);
+              inactiveNum += 1;
+            }
+          } else {
+            return false;
+          }
+          num += 1;
+        }
+        setActiveSlide(activeIndex);
+      }
     }
   };
 
@@ -78,13 +114,20 @@ const SplashScreen = (props) => {
     focusOnSelect: true,
     infinite: false,
     draggable: false,
-    afterChange: (id) => {
-      if (id > activeNum) setActiveSlide(activeSlide + 1);
-      else setActiveSlide(activeSlide - 1);
-      setActiveNum(id);
+    swipeToSlide: false,
+    verticalSwiping: false,
+    swipe: false,
+    arrows: false,
+    afterChange: () => {
+      updateData();
     },
   };
-  console.log(activeSlide);
+
+  useEffect(() => {
+    updateData();
+  }, []);
+
+  // console.log(activeSlide);
   // Function to close the drawer menus when we click outside
   useOutsideAlerter(drawerRef, {
     action: 'function',
@@ -95,10 +138,6 @@ const SplashScreen = (props) => {
       }
     },
   });
-
-  useEffect(() => {
-    updateData();
-  }, [activeSlide]);
 
   const checkFavorite = () => {
     const findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayProperty.id);
@@ -117,19 +156,21 @@ const SplashScreen = (props) => {
         language: loggedInUser.lang,
       },
     };
-    handleUpdateFavorites(data);
+    // handleUpdateFavorites(data);
     if (sliderInstance.current && activeMarketOverlayPropertyLists.length > 0) {
       // const slider = sliderInstance.current;
       // slider.slickNext();
       const wrapCarousel = document.getElementById('overlayCarousel');
       const itm = wrapCarousel.getElementsByClassName('slick-current')[0];
       const cln = itm.cloneNode(true);
-      wrapCarousel.appendChild(cln).classList.add('cloneElement', 'favorite');
+      wrapCarousel.appendChild(cln).className = 'cloneElement favorite';
       console.log(itm);
       const listProp = cloneDeep(activeMarketOverlayPropertyLists);
       listProp.splice(activeSlide, 1);
+      console.log(listProp);
       handleSetActiveMarketOverlayPropertyLists(listProp);
-      setActiveSlide(activeSlide + 1);
+      // setActiveSlide(activeSlide + 1);
+      updateData();
       setTimeout(() => {
         const removeEl = document.getElementsByClassName('cloneElement');
         while (removeEl[0]) {
@@ -149,12 +190,12 @@ const SplashScreen = (props) => {
       const wrapCarousel = document.getElementById('overlayCarousel');
       const itm = wrapCarousel.getElementsByClassName('slick-current')[0];
       const cln = itm.cloneNode(true);
-      wrapCarousel.appendChild(cln).classList.add('cloneElement', 'discard');
+      wrapCarousel.appendChild(cln).className = 'cloneElement discard';
       const listProp = cloneDeep(activeMarketOverlayPropertyLists);
       listProp.splice(activeSlide, 1);
-      listProp[activeSlide].hide = true;
       handleSetActiveMarketOverlayPropertyLists(listProp);
-      setActiveSlide(activeSlide + 1);
+      // setActiveSlide(activeSlide + 1);
+      updateData();
       setTimeout(() => {
         const removeEl = document.getElementsByClassName('cloneElement');
         while (removeEl[0]) {
@@ -165,6 +206,7 @@ const SplashScreen = (props) => {
   };
 
   const changeProperty = (act) => {
+    console.log('ej');
     if (sliderInstance.current) {
       const slider = sliderInstance.current;
       if (act === 'back' && activeSlide > 0) slider.slickPrev();
@@ -184,6 +226,7 @@ const SplashScreen = (props) => {
     <>
       <div className="dis-f jc-fe">
         <BrixelButtonIcon
+          className="pos-r zIndex10"
           ghost
           theme="dark"
           icon="close-small"

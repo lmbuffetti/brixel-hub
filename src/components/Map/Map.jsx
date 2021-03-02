@@ -37,6 +37,7 @@ export const ComponentMap = (props) => {
     rad,
     scrollZoom,
     showMap,
+    showRadar,
     similarProperties,
     subMinHeight,
     visible,
@@ -286,7 +287,7 @@ export const ComponentMap = (props) => {
           onClick={() => setShowInfoWindow(false)}
         >
           {
-            !isDefView && (
+            !isDefView && !showRadar && (
               <Marker
                 position={{
                   lat: latitude,
@@ -310,7 +311,7 @@ export const ComponentMap = (props) => {
                 strokeOpacity={0}
                 strokeWeight={5}
                 fillColor="#FF0000"
-                fillOpacity={0.2}
+                fillOpacity={0.5}
               />
             )
           }
@@ -399,6 +400,7 @@ ComponentMap.propTypes = {
   rad: PropTypes.number,
   scrollZoom: PropTypes.bool,
   showMap: PropTypes.bool,
+  showRadar: PropTypes.bool,
   similarProperties: PropTypes.arrayOf(PropTypes.object),
   subMinHeight: PropTypes.string,
   visible: PropTypes.bool,
@@ -419,6 +421,7 @@ ComponentMap.defaultProps = {
   rad: null,
   scrollZoom: false,
   showMap: false,
+  showRadar: false,
   similarProperties: [],
   subMinHeight: '',
   visible: true,

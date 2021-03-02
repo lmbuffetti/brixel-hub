@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import set from 'lodash/set';
+import cloneDeep from 'lodash/cloneDeep';
 import pullAt from 'lodash/pullAt';
 import compact from 'lodash/compact';
 import {
@@ -95,7 +96,7 @@ const MarketCard = (props) => {
         let property = [];
         console.log(type);
         if (type === 'new') {
-          property = newProperties;
+          property = cloneDeep(newProperties);
           const indexCurrentProperty = property.findIndex((prop) => prop.id === item.id);
           const element = property[indexCurrentProperty];
           property.splice(indexCurrentProperty, 1);

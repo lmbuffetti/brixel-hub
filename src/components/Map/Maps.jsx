@@ -388,6 +388,7 @@ export const ComponentMap = (props) => {
       }
       <div className={`${showMap ? `${multipleFieldSearch ? 'pos-r' : ''} ${subMinHeight}` : 'hide'} wrapMap ${mapSize}`}>
         <Map
+          {...props}
           draggable={draggable}
           google={google}
           zoom={zoom}
@@ -461,8 +462,10 @@ ComponentMap.defaultProps = {
 
 const mapStateToProps = (state, props) => {
   const formName = get(props, 'formName', Object.keys(get(state, 'brixelForm'))[0]);
-  const lat = get(state, 'property.activeSingleProperty.location.latitude', 0);
-  const lng = get(state, 'property.activeSingleProperty.location.longitude', 0);
+  const propsLat = get(props, 'latitude', 0);
+  const propsLng = get(props, 'longitude', 0);
+  const lat = get(state, 'property.activeSingleProperty.location.latitude', propsLat);
+  const lng = get(state, 'property.activeSingleProperty.location.longitude', propsLng);
   return ({
     country: get(state, 'common.country', {}),
     formValue: get(state, `brixelForm[${formName}].values`, {}),
