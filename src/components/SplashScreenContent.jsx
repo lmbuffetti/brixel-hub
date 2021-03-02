@@ -79,9 +79,8 @@ const SplashScreen = (props) => {
           if (profileID) set(data, 'searchProfileId', profileID);
           handleGetNewProperties(data);
         }
-        let num = 0;
         let inactiveNum = 0;
-        while (getAllslides) {
+        for (let num = 0; num < getAllslides.length; num += 1) {
           if (getAllslides[num]) {
             getAllslides[num].className = 'slick-slide';
             if (activeIndex === num) {
@@ -96,11 +95,9 @@ const SplashScreen = (props) => {
               getAllslides[num].classList.add(`space-${inactiveNum}`);
               inactiveNum += 1;
             }
-          } else {
-            return false;
           }
-          num += 1;
         }
+        console.log(activeIndex);
         setActiveSlide(activeIndex);
       }
     }
@@ -150,6 +147,7 @@ const SplashScreen = (props) => {
   const saveFavorite = () => {
     let property = activeMarketOverlayProperty;
     if (activeMarketOverlayPropertyLists.length > 0) property = activeMarketOverlayPropertyLists[activeSlide];
+    console.log(activeSlide);
     const data = {
       act: checkFavorite() ? 'remove' : 'add',
       id: property.id,
