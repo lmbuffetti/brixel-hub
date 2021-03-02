@@ -85,6 +85,5 @@ export const fullExtraFeatures = (property) => {
       }
     }
   });
-  console.log(property.title, extraFeatures);
   return extraFeatures;
 };

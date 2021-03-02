@@ -49,7 +49,7 @@ const SplashScreen = (props) => {
   const drawerRef = useRef(null);
   const sliderInstance = useRef(null);
   const [activeSlide, setActiveSlide] = useState(-1);
-  const [activeNum, setActiveNum] = useState(0);
+  const [showContent, setShowContent] = useState(false);
 
   const updateData = () => {
     const wrapCarousel = document.getElementById('overlayCarousel');
@@ -61,7 +61,6 @@ const SplashScreen = (props) => {
           activeIndex = numSlide;
         }
       }
-      console.log(activeIndex, activeSlide);
       if (activeIndex !== activeSlide) {
         const id = activeIndex;
         const page = (id / 10).toFixed();
@@ -125,6 +124,9 @@ const SplashScreen = (props) => {
 
   useEffect(() => {
     updateData();
+    setTimeout(() => {
+      setShowContent(true);
+    }, 500);
   }, []);
 
   // console.log(activeSlide);
@@ -164,10 +166,8 @@ const SplashScreen = (props) => {
       const itm = wrapCarousel.getElementsByClassName('slick-current')[0];
       const cln = itm.cloneNode(true);
       wrapCarousel.appendChild(cln).className = 'cloneElement favorite';
-      console.log(itm);
       const listProp = cloneDeep(activeMarketOverlayPropertyLists);
       listProp.splice(activeSlide, 1);
-      console.log(listProp);
       handleSetActiveMarketOverlayPropertyLists(listProp);
       // setActiveSlide(activeSlide + 1);
       updateData();
@@ -206,7 +206,6 @@ const SplashScreen = (props) => {
   };
 
   const changeProperty = (act) => {
-    console.log('ej');
     if (sliderInstance.current) {
       const slider = sliderInstance.current;
       if (act === 'back' && activeSlide > 0) slider.slickPrev();
@@ -234,7 +233,7 @@ const SplashScreen = (props) => {
         />
       </div>
 
-      <div className="dis-fl-col a-c jc-c">
+      <div className={`dis-fl-col a-c jc- ${showContent ? 'opacity10' : 'opacity0'}`}>
 
         {
           activeMarketOverlayPropertyLists.length > 0 ? (

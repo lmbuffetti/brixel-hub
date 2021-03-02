@@ -94,7 +94,6 @@ const MarketCard = (props) => {
         setSplashScreen('marketOverlay');
         setMarketOverlayProperty(item);
         let property = [];
-        console.log(type);
         if (type === 'new') {
           property = cloneDeep(newProperties);
           const indexCurrentProperty = property.findIndex((prop) => prop.id === item.id);
