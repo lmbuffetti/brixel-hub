@@ -97,7 +97,6 @@ const SplashScreen = (props) => {
             }
           }
         }
-        console.log(activeIndex);
         setActiveSlide(activeIndex);
       }
     }
@@ -147,7 +146,6 @@ const SplashScreen = (props) => {
   const saveFavorite = () => {
     let property = activeMarketOverlayProperty;
     if (activeMarketOverlayPropertyLists.length > 0) property = activeMarketOverlayPropertyLists[activeSlide];
-    console.log(activeSlide);
     const data = {
       act: checkFavorite() ? 'remove' : 'add',
       id: property.id,

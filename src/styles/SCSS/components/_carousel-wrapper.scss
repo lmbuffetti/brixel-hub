@@ -66,7 +66,7 @@
      opacity: 1 !important;
    }
 
-   @for $i from 0 through 5 {
+   @for $i from 0 through 3 {
      .space-#{$i} {
        // margin-top: -#{($i + 1) * 5}px;
        z-index: -#{($i + 1)};
