@@ -34,6 +34,7 @@ const MarketCard = (props) => {
     // preventClick,
     // setMarketOverlayProperty,
     // setSplashScreen,
+    onToggleCard,
     skeleton,
     type,
   } = props;
@@ -41,6 +42,7 @@ const MarketCard = (props) => {
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
   const [isPreMarket, setIsPreMarket] = useState(false);
+  const [fullScreenCard, setFullScreenCard] = useState(false);
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
@@ -111,6 +113,13 @@ const MarketCard = (props) => {
     }
   };
 
+  const openDetailCard = () => {
+    if (!fullScreenCard) {
+      onToggleCard(true);
+      setFullScreenCard(true);
+    }
+  };
+
   return (
     <div className={`${className} h-perc-100`}>
       {
@@ -119,7 +128,7 @@ const MarketCard = (props) => {
         )
       }
       <div
-        className={`market-card w-fix-376 ov-h h-perc-100 dis-fl-col brdRadius shadow-1dp pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} bgWhite m-a`}
+        className={`market-card w-fix-376 ov-h h-perc-100 dis-fl-col brdRadius shadow-1dp pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} bgWhite m-a ${fullScreenCard ? 'market-card-fullscreen' : ''}`}
         // onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         <>
@@ -129,6 +138,7 @@ const MarketCard = (props) => {
               className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 h-perc-100 h-fix-160 pos-r`}
               coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
               propertyType={get(item, 'properties.propertyType', undefined)}
+              onClick={() => openDetailCard()}
             />
             {
               !get(item, 'tags', []).includes('pre-market') && (
@@ -217,77 +227,80 @@ const MarketCard = (props) => {
                 }
               </div>
             </div>
-
-            { /* SECTION: LOCATION */ }
-            <h6 className="fsize-100 txtDark200">Location</h6>
-
             {
-              get(item, 'tags', []).includes('pre-market') ? (
-                <p className="mb-2">{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}</p>
-              ) : (
-                <p className="mb-2">{`${get(item, 'location.name', null) ? `${get(item, 'location.name', '')} ` : ''}`}{`${get(item, 'location.streetNumber', null) ? `${get(item, 'location.streetNumber', '')} ` : ''}`}{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}</p>
-              )
-            }
-
-            <Map
-              className="h-fix-160 mb-5"
-              minHeight={160}
-              latitude={get(item, 'location.latitude')}
-              longitude={get(item, 'location.longitude')}
-              showMap
-              showRadar={get(item, 'tags', []).includes('pre-market')}
-              rad={get(item, 'tags', []).includes('pre-market') ? 0.5 : null}
-              zoom={12}
-              mapType="satellite"
-            />
-
-            { /* SECTION: EXTRA FEATURE */}
-            {
-              !get(item, 'tags', []).includes('pre-market') && fullExtraFeatures(item).length > 0 && (
+              fullScreenCard && (
                 <div>
-                  <div className="row">
-                    {
-                      fullExtraFeatures(item).map((key, i) => (
-                        <div key={i.toString()} className="singleItem col-md-6 mb-3">
-                          <BrixelIcon
-                            icon={get(key, 'icon', '')}
-                            color="green"
-                            background="white"
-                            saturation={0}
-                            saturationTxt={700}
-                          />
-                          <div>
-                            <span className="dis-b">{get(key, 'label', '')}</span>
-                            {
-                              get(key, 'subtitle', null) && (
-                                <span className="body2">{get(key, 'subtitle', '')}</span>
-                              )
-                            }
-                          </div>
+                  { /* SECTION: LOCATION */ }
+                  <h6 className="fsize-100 txtDark200">Location</h6>
+                  {
+                    get(item, 'tags', []).includes('pre-market') ? (
+                      <p className="mb-2">{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}</p>
+                    ) : (
+                      <p className="mb-2">{`${get(item, 'location.name', null) ? `${get(item, 'location.name', '')} ` : ''}`}{`${get(item, 'location.streetNumber', null) ? `${get(item, 'location.streetNumber', '')} ` : ''}`}{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}</p>
+                    )
+                  }
+                  <Map
+                    className="h-fix-160 mb-5"
+                    minHeight={160}
+                    latitude={get(item, 'location.latitude')}
+                    longitude={get(item, 'location.longitude')}
+                    showMap
+                    showRadar={get(item, 'tags', []).includes('pre-market')}
+                    rad={get(item, 'tags', []).includes('pre-market') ? 0.5 : null}
+                    zoom={12}
+                    mapType="satellite"
+                  />
+
+                  { /* SECTION: EXTRA FEATURE */}
+                  {
+                    !get(item, 'tags', []).includes('pre-market') && fullExtraFeatures(item).length > 0 && (
+                      <div>
+                        <div className="row">
+                          {
+                            fullExtraFeatures(item).map((key, i) => (
+                              <div key={i.toString()} className="singleItem col-md-6 mb-3">
+                                <BrixelIcon
+                                  icon={get(key, 'icon', '')}
+                                  color="green"
+                                  background="white"
+                                  saturation={0}
+                                  saturationTxt={700}
+                                />
+                                <div>
+                                  <span className="dis-b">{get(key, 'label', '')}</span>
+                                  {
+                                    get(key, 'subtitle', null) && (
+                                      <span className="body2">{get(key, 'subtitle', '')}</span>
+                                    )
+                                  }
+                                </div>
+                              </div>
+                            ))
+                          }
                         </div>
-                      ))
-                    }
-                  </div>
-                </div>
-              )
-            }
+                      </div>
+                    )
+                  }
 
-            { /* SECTION TEXT DETAILS */ }
-            {
-              get(item, 'tags', []).includes('pre-market') ? (
-                <div>
-                  <h6 className="fsize-100 txtDark200">About Pre-Market</h6>
-                  <p>This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner.</p>
-                </div>
-              ) : (
-                <div className="mt-2">
-                  <h6 className="fsize-100 txtDark200">There is more</h6>
-                  <ul className="darkCheckList">
-                    <li>See all photos</li>
-                    <li>Take virtual visit</li>
-                    <li>Access documents</li>
-                    <li>Schedule visit & contact buyer</li>
-                  </ul>
+                  { /* SECTION TEXT DETAILS */ }
+                  {
+                    get(item, 'tags', []).includes('pre-market') ? (
+                      <div>
+                        <h6 className="fsize-100 txtDark200">About Pre-Market</h6>
+                        <p>This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner.</p>
+                      </div>
+                    ) : (
+                      <div className="mt-2">
+                        <h6 className="fsize-100 txtDark200">There is more</h6>
+                        <ul className="darkCheckList">
+                          <li>See all photos</li>
+                          <li>Take virtual visit</li>
+                          <li>Access documents</li>
+                          <li>Schedule visit & contact buyer</li>
+                        </ul>
+                      </div>
+                    )
+                  }
                 </div>
               )
             }
@@ -317,6 +330,7 @@ MarketCard.propTypes = {
   // preventClick: PropTypes.bool,
   // setMarketOverlayProperty: PropTypes.func.isRequired,
   // setSplashScreen: PropTypes.func.isRequired,
+  onToggleCard: PropTypes.func,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
 };
@@ -324,6 +338,7 @@ MarketCard.propTypes = {
 MarketCard.defaultProps = {
   className: '',
   item: null,
+  onToggleCard: () => '',
   type: '',
 };
 

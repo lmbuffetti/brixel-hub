@@ -50,6 +50,7 @@ const SplashScreen = (props) => {
   const sliderInstance = useRef(null);
   const [activeSlide, setActiveSlide] = useState(-1);
   const [showContent, setShowContent] = useState(false);
+  const [fullScreenCard, setFullScreenCard] = useState(false);
 
   const updateData = () => {
     const wrapCarousel = document.getElementById('overlayCarousel');
@@ -232,7 +233,7 @@ const SplashScreen = (props) => {
       <div className={`middle-part ${activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'}`}>
         {
           activeMarketOverlayPropertyLists.length > 0 ? (
-            <div className="carousel3d" id="overlayCarousel">
+            <div className={`carousel3d ${fullScreenCard ? 'open' : 'close'}`} id="overlayCarousel">
               <h4 className="ta-c mb-3"> Pick your favorites </h4>
               <Slider ref={sliderInstance} {...settingSlider}>
                 {
@@ -240,6 +241,7 @@ const SplashScreen = (props) => {
                     <MarketCardOverlay
                       key={i.toString()}
                       item={item}
+                      onToggleCard={(val) => setFullScreenCard(val)}
                     />
                   ))
                 }
@@ -254,9 +256,9 @@ const SplashScreen = (props) => {
         }
 
       </div>
-      <div className={`fixed-footer dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${activeMarketOverlayPropertyLists.length > 0 ? 'jc-b' : 'jc-c'}`}>
+      <div className={`fixed-footer dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard ? 'jc-b' : 'jc-c'}`}>
         {
-          activeMarketOverlayPropertyLists.length > 0 && (
+          activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
             <BrixelButtonIcon
               rounded
               ghost
@@ -285,7 +287,7 @@ const SplashScreen = (props) => {
           />
         </div>
         {
-          activeMarketOverlayPropertyLists.length > 0 && (
+          activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
             <BrixelButtonIcon
               rounded
               ghost

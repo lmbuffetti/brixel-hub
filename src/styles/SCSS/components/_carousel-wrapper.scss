@@ -31,6 +31,15 @@
    height: 100%;
    display: flex;
    flex-direction: column;
+   &.open {
+     position: static;
+
+     [class^="slick"] {
+       position: static !important;
+       transform: none !important;
+     }
+
+   }
 
    .slick-slider {
      height: calc(100% - 56px);
@@ -42,6 +51,14 @@
 
    .slick-list {
      padding-top: 30px;
+     height: 100%;
+   }
+
+   .market-card-fullscreen {
+     position: absolute;
+     left: 0;
+     top: 0;
+     width: 100%;
      height: 100%;
    }
 
@@ -66,10 +83,27 @@
      }
    }
 
+   &.open {
+     .market-card {
+       max-height: 1000px;
+     }
+     .slick-slide {
+       display: none !important;
+     }
+     .slick-active.slick-current {
+       display: block !important;
+     }
+   }
+
    .market-card {
-     max-height: 100%;
      overflow: hidden;
      padding-bottom: 40px;
+     left: 50%;
+     top: 50%;
+     max-height: 320px;
+     transform: translate(-50%, -50%);
+     transition: all 1s;
+     position: absolute;
    }
 
    .slick-active.slick-current {
