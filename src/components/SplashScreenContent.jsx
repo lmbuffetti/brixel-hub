@@ -64,7 +64,6 @@ const SplashScreen = (props) => {
       if (activeIndex !== activeSlide) {
         const id = activeIndex;
         const page = Math.floor(id / 10);
-        console.log(page, getAllslides.length, newProperties.total, activeIndex);
         if (activeIndex >= getAllslides.length - 3 && getAllslides.length < newProperties.total) {
           const profileID = get(userSearchProfiles, '[0].id', null);
           const data = {
