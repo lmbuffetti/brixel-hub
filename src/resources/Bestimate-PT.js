@@ -16,7 +16,7 @@ const { factsOptions } = FactsOptions;
 export const BestimatePT = (type = null) => {
   const bestimate = [
     {
-      title: type === 'getStarted' ? null : 'Step 1',
+      title: 'Step 1',
       extraInfo: 'We need some extra information about your property.',
       history: 'step1',
       cardType: 'step1',
@@ -24,7 +24,7 @@ export const BestimatePT = (type = null) => {
       inputs: [
         {
           component: BrixelRadioButton,
-          label: 'Property condition',
+          label: type === 'getStarted' ? null : 'Property condition',
           name: 'properties.building.conditionStatus',
           options: factsOptions.conditionStatus,
           validation: [Validation.markRequired],
@@ -32,7 +32,7 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputText,
           className: '',
-          label: 'What\'s the gross area of the property?',
+          label: type === 'getStarted' ? null : 'What\'s the gross area of the property?',
           labelLeft: 'Gross area',
           placeholder: '120',
           unit: 'm2',
@@ -49,7 +49,7 @@ export const BestimatePT = (type = null) => {
             noValue: 'Apartment',
           }],
           className: '',
-          label: 'What\'s the lot size?',
+          label: type === 'getStarted' ? null : 'What\'s the lot size?',
           name: 'properties.typology.lotArea.value',
           type: 'number',
           unit: 'm2',
@@ -62,7 +62,7 @@ export const BestimatePT = (type = null) => {
       ],
     },
     {
-      title: type === 'getStarted' ? null : 'Step 2',
+      title: 'Step 2',
       bgImg: homesSvg,
       vCentered: true,
       history: 'step2',
@@ -71,7 +71,7 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputStepNumber,
           className: '',
-          label: 'How many bathrooms does the property have?',
+          label: type === 'getStarted' ? null : 'How many bathrooms does the property have?',
           name: 'properties.typology.bathrooms',
           labelLeft: 'Bathrooms',
           step: 1,
@@ -83,7 +83,7 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputText,
           className: '',
-          label: 'What\'s the surface of the balcony?',
+          label: type === 'getStarted' ? null : 'What\'s the surface of the balcony?',
           name: 'properties.typology.balconyArea.value',
           type: 'number',
           unit: 'm2',
@@ -95,7 +95,7 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputText,
           className: '',
-          label: 'What\'s the surface of the terrace?',
+          label: type === 'getStarted' ? null : 'What\'s the surface of the terrace?',
           name: 'properties.typology.terraceArea.value',
           type: 'number',
           unit: 'm2',
@@ -107,7 +107,7 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputText,
           className: '',
-          label: 'What\'s the size of the garden?',
+          label: type === 'getStarted' ? null : 'What\'s the size of the garden?',
           name: 'properties.typology.gardenArea.value',
           type: 'number',
           unit: 'm2',
@@ -119,7 +119,7 @@ export const BestimatePT = (type = null) => {
       ],
     },
     {
-      title: type === 'getStarted' ? null : 'Step 3',
+      title: 'Step 3',
       bgImg: homesSvg,
       vCentered: true,
       history: 'step3',
@@ -128,7 +128,7 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputStepNumber,
           className: '',
-          label: 'How many garage parking lots belong to the property?',
+          label: type === 'getStarted' ? null : 'How many garage parking lots belong to the property?',
           name: 'properties.parking.garage',
           labelLeft: 'Garage parking',
           step: 1,
@@ -141,7 +141,7 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputStepNumber,
           className: '',
-          label: 'How many external parking lots belong to the property?',
+          label: type === 'getStarted' ? null : 'How many external parking lots belong to the property?',
           name: 'properties.parking.outside',
           labelLeft: 'External parking',
           step: 1,
@@ -153,14 +153,14 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputQuality,
           className: '',
-          label: 'What\'s the energy efficiency of the property?',
+          label: type === 'getStarted' ? null : 'What\'s the energy efficiency of the property?',
           name: 'properties.energy.efficiency',
           options: factsOptions.energyEfficiencyOptions,
         },
         {
           component: BrixelCheckbox,
           className: '',
-          label: 'What is the solar orientation?',
+          label: type === 'getStarted' ? null : 'What is the solar orientation?',
           name: 'properties.building.solarOrientarion',
           options: factsOptions.solarOrientation,
         },
@@ -176,7 +176,7 @@ export const BestimatePT = (type = null) => {
         {
           classNameParent: 'extraCols',
           component: BrixelCheckbox,
-          label: '',
+          label: type === 'getStarted' ? null : '',
           name: 'properties.extraFeaturesBestimatePT',
           pdClass: 'p-1',
           iconClass: 'p-small-17 fSizePx22 bgPrimary400 txtWhite brdRadius mr-1',
