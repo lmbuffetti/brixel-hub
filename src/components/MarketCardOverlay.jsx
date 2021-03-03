@@ -81,10 +81,13 @@ const MarketCard = (props) => {
       });
       return null;
     });
-    const imgLocation = 'https://generator.brixel.io/images/iconlocation_new.png';
+    let imgLocation = 'https://generator.brixel.io/images/icon_location.png';
+    if (get(item, 'tags', []).includes('pre-market')) {
+      imgLocation = 'https://generator.brixel.io/images/circle_map.png';
+    }
     setMapFormatStyle({
       style,
-      markers: `&markers=icon:${imgLocation}|${item.location.latitude},${item.location.longitude}`,
+      markers: `&markers=icon:${imgLocation}|${item.location.latitude},${item.location.longitude}|scale:4`,
       // merged: res.data,
     });
   }, []);
