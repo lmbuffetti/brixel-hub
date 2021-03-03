@@ -63,9 +63,9 @@ const SplashScreen = (props) => {
       }
       if (activeIndex !== activeSlide) {
         const id = activeIndex;
-        const page = (id / 10).toFixed();
-        const relativeNumber = id - (10 * page);
-        if (relativeNumber < 4 && getAllslides.length < newProperties.total) {
+        const page = Math.floor(id / 10);
+        console.log(page, getAllslides.length, newProperties.total, activeIndex);
+        if (activeIndex >= getAllslides.length - 3 && getAllslides.length < newProperties.total) {
           const profileID = get(userSearchProfiles, '[0].id', null);
           const data = {
             overlayCard: true,
