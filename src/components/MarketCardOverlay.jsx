@@ -79,12 +79,14 @@ const MarketCard = (props) => {
       return null;
     });
     let imgLocation = 'https://generator.brixel.io/images/icon_location.png';
+    let marker = `&markers=icon:${imgLocation}|${item.location.latitude},${item.location.longitude}`;
     if (get(item, 'tags', []).includes('pre-market')) {
       imgLocation = 'https://generator.brixel.io/images/circle_map.png';
+      marker = '';
     }
     setMapFormatStyle({
       style,
-      markers: `&markers=icon:${imgLocation}|${item.location.latitude},${item.location.longitude}|scale:4`,
+      markers: marker,
       // merged: res.data,
     });
   }, []);
@@ -270,16 +272,18 @@ const MarketCard = (props) => {
                   {
                     get(item, 'tags', []).includes('pre-market') ? (
                       <div
-                        className="mapsImage w-perc-100 h-fix-320"
+                        className="mapsImage w-perc-100 h-fix-320 pos-r mb-5"
                         style={{
-                          backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=14&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
+                          backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=15&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
                         }}
-                      />
+                      >
+                        <div className="redCircleMap" />
+                      </div>
                     ) : (
                       <div
-                        className="mapsImage w-perc-100 h-fix-320"
+                        className="mapsImage w-perc-100 h-fix-320 mb-5"
                         style={{
-                          backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=14&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
+                          backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=16&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
                         }}
                       />
                     )
