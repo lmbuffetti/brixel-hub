@@ -90,7 +90,8 @@
 
    &.open {
      .market-card {
-       max-height: 1000px;
+       max-height: 100%;
+       padding-bottom: 87px;
      }
      .slick-slide {
        display: none !important;
@@ -102,13 +103,12 @@
 
    .market-card {
      overflow: hidden;
-     padding-bottom: 40px;
      left: 50%;
      top: 50%;
-     max-height: 320px;
+     max-height: 424px;
      transform: translate(-50%, -50%);
-     transition: all 1s;
      position: absolute;
+     //transition: all 1s;
    }
 
    .slick-active.slick-current {

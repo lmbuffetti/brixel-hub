@@ -27,12 +27,12 @@
 
   &.result-market-overlay {
     .container {
-      height: calc(100% - 100px);
+      max-height: 720px;
       max-width: 680px;
       position: fixed;
       top: 50%;
       left: 50%;
-      animation: scaleUpCustomFull .35s ease-in-out forwards;
+      animation: scaleUpCustomFull 0.35s ease-in-out forwards;
       overflow: hidden;
     }
     .slider-card {
@@ -64,7 +64,7 @@
       height: calc(100% - 30px);
     }
     .fixed-footer {
-      background-color: aliceblue;
+      background-color: white;
       z-index: 20;
     }
   }
@@ -82,6 +82,7 @@
     }
     @media (max-width: $responsive-medium) {
       height: 100% !important;
+      max-height: 100% !important;
       max-width: 100% !important;
       border-radius: 0 !important;
     }

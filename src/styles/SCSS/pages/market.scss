@@ -286,5 +286,12 @@
   .market-card {
     height: 100%;
     overflow-y: auto;
+    max-height: 460px;
+  }
+}
+.result-market-overlay .market-card {
+  img.brdRadius {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }

@@ -156,14 +156,14 @@ const MarketCard = (props) => {
         )
       }
       <div
-        className={`market-card w-fix-376 ov-h h-perc-100 dis-fl-col brdRadius shadow-1dp pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} bgWhite m-a ${fullScreenCard ? 'market-card-fullscreen' : ''}`}
+        className={`market-card w-fix-376 ov-h h-perc-100 dis-fl-col brdRadius shadow-5dp pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} bgWhite m-a ${fullScreenCard ? 'market-card-fullscreen' : ''}`}
         // onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         <>
           <div className="pos-r">
             <CoverPropertyImage
               loadedImg={(val) => setCoverImgLoaded(val)}
-              className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 h-perc-100 pos-r ${fullScreenCard ? 'h-fix-320' : 'h-fix-160 cur-poi'}`}
+              className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 h-perc-100 pos-r ${fullScreenCard ? 'h-fix-320' : 'h-fix-224 cur-poi'}`}
               coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
               propertyType={get(item, 'properties.propertyType', undefined)}
               onClick={() => openDetailCard()}
@@ -196,14 +196,14 @@ const MarketCard = (props) => {
             )
           }
         </>
-        <div className="info dis-fl-col jc-b px-3">
+        <div className="info dis-fl-col jc-b px-3 pb-2">
           <h5 className="txtDark700 ellipsis one notranslate mb-2">
             {get(item, 'title', '')}
           </h5>
 
           <div className="mid dis-fl-col fsize-300 pt-1 txtDark400">
             { /* SECTION: PRICE */ }
-            <h6 className="fsize-100 txtDark200">Price</h6>
+            <span className="fsize-100 txtLight400 pb-small-4">Price</span>
             <div className="dis-f a-c jc-b">
               {
                 get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
@@ -215,34 +215,27 @@ const MarketCard = (props) => {
                     <div className="dis-f a-c">
                       <span className="fsize-100 pr-1 txtDark700"> {get(item, 'price.currency', '')} </span>
                       <span className="ff-mono txtDark700"> {Helpers.formatNumberValue(get(item, 'price.pricePerM2', 0).toFixed(), get(item, 'price.currency', ''))} </span>
-                      <span className="fsize-100 txtDark700 ff-mono">/m2</span>
+                      <span className="fsize-300 txtDark700 ff-mono">/m2</span>
                     </div>
                   </>
                 ) : (
-                  <span className="txtGreen400 fsize-300 fweight-500">On Request</span>
+                  <span className="txtGreen400 fsize-400 fweight-500 ff-mono">On Request</span>
                 )
               }
             </div>
+            <hr className="lighter my-1" />
             { /* SECTION: PROPERTY TYPE - ROOMS - LIVING AREA */ }
-            <div className="dis-f a-c flex-wrap">
-              <span>
-                {get(item, 'properties.propertyType', '')}
-              </span>
-              <div className="notranslate">
-                <span className="px-1 notranslate"> &middot; </span>
-                <span>
-                  <span className="notranslate">
-                    {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
-                  </span>
-                  <span className="notranslate">
-                    {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
-                  </span>
+            <div className="dis-f a-c jc-b flex-wrap">
+              <div className="dis-fl-col">
+                <span className="fsize-100 txtLight400 pb-small-4">
+                  {get(item, 'location.countryCode', 'CH') === 'PT' ? 'Typology' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
                 </span>
-                {
-                  get(item, 'properties.typology.bedrooms') > 0 && (
-                    <span className="px-1 notranslate"> &middot; </span>
-                  )
-                }
+                <span className="notranslate">
+                  {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+                </span>
+              </div>
+              <div className="dis-fl-col">
+                <span className="fsize-100 txtLight400 pb-small-4"> Living space</span>
                 {
                   get(item, 'properties.typology.livingArea.value', 0) && (
                     <span className="notranslate">
@@ -254,6 +247,11 @@ const MarketCard = (props) => {
                   )
                 }
               </div>
+              <div className="dis-fl-col">
+                <span className="fsize-100 txtLight400 pb-small-4"> Year</span>
+                <span className="notranslate"> {get(item, 'properties.building.built', '0000')} </span>
+              </div>
+
             </div>
             {
               fullScreenCard && (
