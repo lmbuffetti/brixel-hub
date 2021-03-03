@@ -244,8 +244,6 @@ const SplashScreen = (props) => {
                     />
                   ))
                 }
-                <div />
-                <div />
               </Slider>
             </div>
           ) : (

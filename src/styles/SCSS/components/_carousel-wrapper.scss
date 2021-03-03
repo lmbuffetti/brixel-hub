@@ -28,13 +28,29 @@
    margin: 0 auto;
    position: relative;
    overflow-x: hidden;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+
+   .slick-slider {
+     height: calc(100% - 56px);
+   }
+
+   .slick-track {
+     height: 100%;
+   }
 
    .slick-list {
      padding-top: 30px;
+     height: 100%;
    }
 
    .slick-slide {
      transition: all 0.5s ease !important;
+     height: 100%;
+     > div {
+       height: 100%;
+     }
    }
 
    .done {
@@ -51,7 +67,7 @@
    }
 
    .market-card {
-     max-height: 405px;
+     max-height: 100%;
      overflow: hidden;
      padding-bottom: 40px;
    }
@@ -61,10 +77,6 @@
      .market-card {
        overflow-y: auto;
      }
-   }
-
-   &[class^="mt"] {
-     opacity: 1 !important;
    }
 
    @for $i from 0 through 1 {

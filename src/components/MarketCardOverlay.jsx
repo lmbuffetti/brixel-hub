@@ -112,7 +112,7 @@ const MarketCard = (props) => {
   };
 
   return (
-    <div className={className}>
+    <div className={`${className} h-perc-100`}>
       {
         (!removeSkeleton || !item) && (
           <CardImageText type={type} />
