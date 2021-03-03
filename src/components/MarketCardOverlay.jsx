@@ -19,15 +19,12 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
 import { setSplashType } from '../actions/CommonActions';
-import Map from './Map/Maps';
+// import Map from './Map/Maps';
 import { fullExtraFeatures } from '../utils/propertyData';
 import {
   setActiveSingleProperty, setEstimation, setActiveMarketOverlayProperty, getEstimation,
 } from '../actions/PropertyActions';
 import { mapStyles } from '../constants/map';
-import {
-  cutValue, roundFifty, roundFiveThousand, convertColorToHue,
-} from '../utils/helpers';
 
 const MarketCard = (props) => {
   // PROPS
@@ -65,16 +62,16 @@ const MarketCard = (props) => {
       });
     }
     let style = '';
-    mapStyles.map((item) => {
-      Object.keys(item).map((subitem) => {
+    mapStyles.map((mapitem) => {
+      Object.keys(mapitem).map((subitem) => {
         // console.log(item, subitem);
-        if (item.featureType) {
+        if (mapitem.featureType) {
           if (subitem === 'featureType') {
-            style += `&style=feature:${item[subitem]}`;
+            style += `&style=feature:${mapitem[subitem]}`;
           }
           if (subitem === 'elementType') {
-            console.log(item[subitem]);
-            style += `|element:${item[subitem]}`;
+            console.log(mapitem[subitem]);
+            style += `|element:${mapitem[subitem]}`;
           }
         }
         return null;
