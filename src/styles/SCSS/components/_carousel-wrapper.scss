@@ -108,7 +108,7 @@
      max-height: 424px;
      transform: translate(-50%, -50%);
      position: absolute;
-     //transition: all 1s;
+     transition: opacity 0.5s ease;
    }
 
    .slick-active.slick-current {
