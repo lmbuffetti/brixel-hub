@@ -199,8 +199,10 @@ const clientConfig = {
     new CopyPlugin({
       patterns: [
         { from: './public/favicon.png', to: './' },
-      ],
-    }),
+        { from: './src/images/getstarted/prop_marker_new.png', to: './images' },
+        { from: './src/images/location/icon_location.png', to: './images' }
+      ]},
+    ),
     // new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       chunksSortMode: 'none',
