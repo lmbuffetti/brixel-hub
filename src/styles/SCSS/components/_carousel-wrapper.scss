@@ -71,7 +71,7 @@
    }
 
    .done {
-     animation: fadeOut 1s ease-out;
+     animation: fadeOut 0.4s ease-out;
      z-index: 0;
    }
 
@@ -81,6 +81,11 @@
      .info {
        opacity: 0;
      }
+   }
+
+   .mapsImage {
+     background-size: cover;
+     background-position: center;
    }
 
    &.open {

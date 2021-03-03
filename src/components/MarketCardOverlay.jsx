@@ -24,6 +24,10 @@ import { fullExtraFeatures } from '../utils/propertyData';
 import {
   setActiveSingleProperty, setEstimation, setActiveMarketOverlayProperty, getEstimation,
 } from '../actions/PropertyActions';
+import { mapStyles } from '../constants/map';
+import {
+  cutValue, roundFifty, roundFiveThousand, convertColorToHue,
+} from '../utils/helpers';
 
 const MarketCard = (props) => {
   // PROPS
@@ -43,6 +47,7 @@ const MarketCard = (props) => {
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
   const [isPreMarket, setIsPreMarket] = useState(false);
   const [fullScreenCard, setFullScreenCard] = useState(false);
+  const [mapFormatStyle, setMapFormatStyle] = useState({ });
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
@@ -59,6 +64,29 @@ const MarketCard = (props) => {
         }
       });
     }
+    let style = '';
+    mapStyles.map((item) => {
+      Object.keys(item).map((subitem) => {
+        // console.log(item, subitem);
+        if (item.featureType) {
+          if (subitem === 'featureType') {
+            style += `&style=feature:${item[subitem]}`;
+          }
+          if (subitem === 'elementType') {
+            console.log(item[subitem]);
+            style += `|element:${item[subitem]}`;
+          }
+        }
+        return null;
+      });
+      return null;
+    });
+    const imgLocation = 'https://generator.brixel.io/images/iconlocation_new.png';
+    setMapFormatStyle({
+      style,
+      markers: `&markers=icon:${imgLocation}|${item.location.latitude},${item.location.longitude}`,
+      // merged: res.data,
+    });
   }, []);
 
   // Process tags
@@ -135,13 +163,13 @@ const MarketCard = (props) => {
           <div className="pos-r">
             <CoverPropertyImage
               loadedImg={(val) => setCoverImgLoaded(val)}
-              className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 h-perc-100 h-fix-160 pos-r`}
+              className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 h-perc-100 pos-r ${fullScreenCard ? 'h-fix-320' : 'h-fix-160 cur-poi'}`}
               coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
               propertyType={get(item, 'properties.propertyType', undefined)}
               onClick={() => openDetailCard()}
             />
             {
-              !get(item, 'tags', []).includes('pre-market') && (
+              !get(item, 'tags', []).includes('pre-market') && fullScreenCard && (
                 <BrixelButtonPrimary
                   onClick={() => window.open(`${baseByData.pageUrl}${item.stub}`, '_blank')}
                   className="pos-a x-c bt mb-3"
@@ -239,17 +267,23 @@ const MarketCard = (props) => {
                       <p className="mb-2">{`${get(item, 'location.name', null) ? `${get(item, 'location.name', '')} ` : ''}`}{`${get(item, 'location.streetNumber', null) ? `${get(item, 'location.streetNumber', '')} ` : ''}`}{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}</p>
                     )
                   }
-                  <Map
-                    className="h-fix-160 mb-5"
-                    minHeight={160}
-                    latitude={get(item, 'location.latitude')}
-                    longitude={get(item, 'location.longitude')}
-                    showMap
-                    showRadar={get(item, 'tags', []).includes('pre-market')}
-                    rad={get(item, 'tags', []).includes('pre-market') ? 0.5 : null}
-                    zoom={12}
-                    mapType="satellite"
-                  />
+                  {
+                    get(item, 'tags', []).includes('pre-market') ? (
+                      <div
+                        className="mapsImage w-perc-100 h-fix-320"
+                        style={{
+                          backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=14&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
+                        }}
+                      />
+                    ) : (
+                      <div
+                        className="mapsImage w-perc-100 h-fix-320"
+                        style={{
+                          backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=14&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
+                        }}
+                      />
+                    )
+                  }
 
                   { /* SECTION: EXTRA FEATURE */}
                   {
