@@ -7,6 +7,8 @@ import pullAt from 'lodash/pullAt';
 import compact from 'lodash/compact';
 import {
   BrixelButtonPrimary,
+  BrixelButtonSecondary,
+  BrixelButtonIcon,
   BrixelIcon,
   Helpers,
   FormatValue,
@@ -70,7 +72,6 @@ const MarketCard = (props) => {
             style += `&style=feature:${mapitem[subitem]}`;
           }
           if (subitem === 'elementType') {
-            console.log(mapitem[subitem]);
             style += `|element:${mapitem[subitem]}`;
           }
         }
@@ -144,10 +145,8 @@ const MarketCard = (props) => {
   };
 
   const openDetailCard = () => {
-    if (!fullScreenCard) {
-      onToggleCard(true);
-      setFullScreenCard(true);
-    }
+    onToggleCard(!fullScreenCard);
+    setFullScreenCard(!fullScreenCard);
   };
 
   return (
@@ -172,11 +171,11 @@ const MarketCard = (props) => {
             />
             {
               !get(item, 'tags', []).includes('pre-market') && fullScreenCard && (
-                <BrixelButtonPrimary
-                  onClick={() => window.open(`${baseByData.pageUrl}${item.stub}`, '_blank')}
-                  className="pos-a x-c bt mb-3"
-                  rounded
-                  label="open"
+                <BrixelButtonIcon
+                  onClick={() => openDetailCard()}
+                  className="pos-a x-c bt mb-neg-4 shadow-1dp"
+                  theme="white"
+                  icon="arrow-simple-up"
                 />
               )
             }
@@ -199,147 +198,193 @@ const MarketCard = (props) => {
           }
         </>
         <div className="info dis-fl-col jc-b px-3 pb-2">
-          <h5 className="txtDark700 ellipsis one notranslate mb-2">
-            {get(item, 'title', '')}
-          </h5>
+          <div className="dis-f jc-b a-c">
+            <h5 className="txtDark700 ellipsis one notranslate mb-2">
+              {get(item, 'title', '')}
+            </h5>
+            {/*
+              fullScreenCard && (
+                <BrixelButtonPrimary
+                  onClick={() => window.open(`${baseByData.pageUrl}${item.stub}`, '_blank')}
+                  rounded
+                  label="Go to hub"
+                  rightIcon="arrow-right-small"
+                />
+              )
+            */}
+          </div>
 
           <div className="mid dis-fl-col fsize-300 pt-1 txtDark400">
-            { /* SECTION: PRICE */ }
-            <span className="fsize-100 txtLight400 pb-small-4">Price</span>
-            <div className="dis-f a-c jc-b">
-              {
-                get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
-                  <>
-                    <div>
-                      <span className="fsize-400 notranslate txtGreen400">{get(item, 'price.currency', '')} &nbsp; </span>
-                      <span className="fsize-500 notranslate ff-mono txtGreen400">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
-                    </div>
-                    <div className="dis-f a-c">
-                      <span className="fsize-100 pr-1 txtDark700"> {get(item, 'price.currency', '')} </span>
-                      <span className="ff-mono txtDark700"> {Helpers.formatNumberValue(get(item, 'price.pricePerM2', 0).toFixed(), get(item, 'price.currency', ''))} </span>
-                      <span className="fsize-300 txtDark700 ff-mono">/m2</span>
-                    </div>
-                  </>
-                ) : (
-                  <span className="txtGreen400 fsize-400 fweight-500 ff-mono">On Request</span>
-                )
-              }
-            </div>
-            <hr className="lighter my-1" />
-            { /* SECTION: PROPERTY TYPE - ROOMS - LIVING AREA */ }
-            <div className="dis-f a-c jc-b flex-wrap">
-              <div className="dis-fl-col">
-                <span className="fsize-100 txtLight400 pb-small-4">
-                  {get(item, 'location.countryCode', 'CH') === 'PT' ? 'Typology' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
-                </span>
-                <span className="notranslate">
-                  {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
-                </span>
-              </div>
-              <div className="dis-fl-col">
-                <span className="fsize-100 txtLight400 pb-small-4"> Living space</span>
-                {
-                  get(item, 'properties.typology.livingArea.value', 0) && (
-                    <span className="notranslate">
-                      <span className="notranslate">
-                        {get(item, 'properties.typology.livingArea.value', 0)}
+            <div>
+              <div className="row">
+                <div className={fullScreenCard ? 'col-md-6' : 'w-perc-100'}>
+                  { /* SECTION: PRICE */ }
+                  <span className="fsize-100 txtLight400 pb-small-4">Price</span>
+                  <div className="dis-f a-c jc-b">
+                    {
+                      get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
+                        <>
+                          <div>
+                            <span className="fsize-400 notranslate txtGreen400">{get(item, 'price.currency', '')} &nbsp; </span>
+                            <span className="fsize-500 notranslate ff-mono txtGreen400">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
+                          </div>
+                          <div className="dis-f a-c">
+                            <span className="fsize-100 pr-1 txtDark700"> {get(item, 'price.currency', '')} </span>
+                            <span className="ff-mono txtDark700"> {Helpers.formatNumberValue(get(item, 'price.pricePerM2', 0).toFixed(), get(item, 'price.currency', ''))} </span>
+                            <span className="fsize-300 txtDark700 ff-mono">/m2</span>
+                          </div>
+                        </>
+                      ) : (
+                        <span className="txtGreen400 fsize-400 fweight-500 ff-mono">On Request</span>
+                      )
+                    }
+                  </div>
+                  <hr className="lighter my-1" />
+                  { /* SECTION: PROPERTY TYPE - ROOMS - LIVING AREA */ }
+                  <div className="dis-f a-c jc-b flex-wrap">
+                    <div className="dis-fl-col">
+                      <span className="fsize-100 txtLight400 pb-small-4">
+                        {get(item, 'location.countryCode', 'CH') === 'PT' ? 'Typology' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
                       </span>
-                      <span className="notranslate"> m2</span>
-                    </span>
-                  )
-                }
-              </div>
-              <div className="dis-fl-col">
-                <span className="fsize-100 txtLight400 pb-small-4"> Year</span>
-                <span className="notranslate"> {get(item, 'properties.building.built', '0000')} </span>
-              </div>
+                      <span className="notranslate">
+                        {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+                      </span>
+                    </div>
+                    <div className="dis-fl-col">
+                      <span className="fsize-100 txtLight400 pb-small-4"> Living space</span>
+                      {
+                        get(item, 'properties.typology.livingArea.value', 0) && (
+                          <span className="notranslate">
+                            <span className="notranslate">
+                              {get(item, 'properties.typology.livingArea.value', 0)}
+                            </span>
+                            <span className="notranslate"> m2</span>
+                          </span>
+                        )
+                      }
+                    </div>
+                    <div className="dis-fl-col">
+                      <span className="fsize-100 txtLight400 pb-small-4"> Year</span>
+                      <span className="notranslate"> {get(item, 'properties.building.built', '0000')} </span>
+                    </div>
 
-            </div>
-            {
-              fullScreenCard && (
-                <div>
-                  { /* SECTION: LOCATION */ }
-                  <h6 className="fsize-100 txtDark200">Location</h6>
+                  </div>
                   {
-                    get(item, 'tags', []).includes('pre-market') ? (
-                      <p className="mb-2">{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}</p>
-                    ) : (
-                      <p className="mb-2">{`${get(item, 'location.name', null) ? `${get(item, 'location.name', '')} ` : ''}`}{`${get(item, 'location.streetNumber', null) ? `${get(item, 'location.streetNumber', '')} ` : ''}`}{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}</p>
-                    )
-                  }
-                  {
-                    get(item, 'tags', []).includes('pre-market') ? (
-                      <div
-                        className="mapsImage w-perc-100 h-fix-320 pos-r mb-5"
-                        style={{
-                          backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=15&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
-                        }}
-                      >
-                        <div className="redCircleMap" />
-                      </div>
-                    ) : (
-                      <div
-                        className="mapsImage w-perc-100 h-fix-320 mb-5"
-                        style={{
-                          backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=16&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
-                        }}
-                      />
-                    )
-                  }
-
-                  { /* SECTION: EXTRA FEATURE */}
-                  {
-                    !get(item, 'tags', []).includes('pre-market') && fullExtraFeatures(item).length > 0 && (
-                      <div>
-                        <div className="row">
-                          {
-                            fullExtraFeatures(item).map((key, i) => (
-                              <div key={i.toString()} className="singleItem col-md-6 mb-3">
-                                <BrixelIcon
-                                  icon={get(key, 'icon', '')}
-                                  color="green"
-                                  background="white"
-                                  saturation={0}
-                                  saturationTxt={700}
-                                />
-                                <div>
-                                  <span className="dis-b">{get(key, 'label', '')}</span>
-                                  {
-                                    get(key, 'subtitle', null) && (
-                                      <span className="body2">{get(key, 'subtitle', '')}</span>
-                                    )
-                                  }
-                                </div>
+                    fullScreenCard && (
+                      <>
+                        { /* SECTION: EXTRA FEATURE */}
+                        {
+                          !get(item, 'tags', []).includes('pre-market') && fullExtraFeatures(item).length > 0 && (
+                            <div>
+                              <div className="row">
+                                {
+                                  fullExtraFeatures(item).map((key, i) => (
+                                    <div key={i.toString()} className="singleItem col-md-6 mb-3">
+                                      <BrixelIcon
+                                        icon={get(key, 'icon', '')}
+                                        color="green"
+                                        background="white"
+                                        saturation={0}
+                                        saturationTxt={700}
+                                      />
+                                      <div>
+                                        <span className="dis-b">{get(key, 'label', '')}</span>
+                                        {
+                                          get(key, 'subtitle', null) && (
+                                            <span className="body2">{get(key, 'subtitle', '')}</span>
+                                          )
+                                        }
+                                      </div>
+                                    </div>
+                                  ))
+                                }
                               </div>
-                            ))
-                          }
-                        </div>
-                      </div>
-                    )
-                  }
-
-                  { /* SECTION TEXT DETAILS */ }
-                  {
-                    get(item, 'tags', []).includes('pre-market') ? (
-                      <div>
-                        <h6 className="fsize-100 txtDark200">About Pre-Market</h6>
-                        <p>This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner.</p>
-                      </div>
-                    ) : (
-                      <div className="mt-2">
-                        <h6 className="fsize-100 txtDark200">There is more</h6>
-                        <ul className="darkCheckList">
-                          <li>See all photos</li>
-                          <li>Take virtual visit</li>
-                          <li>Access documents</li>
-                          <li>Schedule visit & contact buyer</li>
-                        </ul>
-                      </div>
+                            </div>
+                          )
+                        }
+                      </>
                     )
                   }
                 </div>
-              )
-            }
+                {
+                  fullScreenCard && (
+                    <div className="col-md-6">
+                      { /* SECTION: LOCATION */}
+                      <h6 className="fsize-100 txtDark200">Location</h6>
+                      {
+                        get(item, 'tags', []).includes('pre-market') ? (
+                          <p
+                            className="mb-2"
+                          >{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}
+                          </p>
+                        ) : (
+                          <p
+                            className="mb-2"
+                          >{`${get(item, 'location.name', null) ? `${get(item, 'location.name', '')} ` : ''}`}{`${get(item, 'location.streetNumber', null) ? `${get(item, 'location.streetNumber', '')} ` : ''}`}{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}
+                          </p>
+                        )
+                      }
+                      {
+                        get(item, 'tags', []).includes('pre-market') ? (
+                          <div
+                            className="mapsImage w-perc-100 h-fix-320 pos-r mb-5"
+                            style={{
+                              backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=15&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
+                            }}
+                          >
+                            <div className="redCircleMap" />
+                          </div>
+                        ) : (
+                          <div
+                            className="mapsImage w-perc-100 h-fix-320 mb-5"
+                            style={{
+                              backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=16&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
+                            }}
+                          />
+                        )
+                      }
+                    </div>
+                  )
+                }
+              </div>
+              {
+                fullScreenCard && (
+                  <div>
+                    { /* SECTION TEXT DETAILS */ }
+                    {
+                      get(item, 'tags', []).includes('pre-market') ? (
+                        <div>
+                          <h6 className="fsize-100 txtDark200">About Pre-Market</h6>
+                          <p>This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner.</p>
+                        </div>
+                      ) : (
+                        <div className="mt-2">
+                          <h6 className="fsize-100 txtDark200">There is more</h6>
+                          <ul className="darkCheckList dis-in">
+                            <li>See all photos</li>
+                            <li>Take virtual visit</li>
+                            <li>Access documents</li>
+                            <li>Schedule visit & contact buyer</li>
+                          </ul>
+                        </div>
+                      )
+                    }
+                    {
+                      !get(item, 'tags', []).includes('pre-market') && (
+                        <div className="dis-f jc-c mt-3">
+                          <BrixelButtonSecondary
+                            onClick={() => window.open(`${baseByData.pageUrl}${item.stub}`, '_blank')}
+                            rounded
+                            label="Open full page"
+                            leftIcon="link-open"
+                          />
+                        </div>
+                      )
+                    }
+                  </div>
+                )
+              }
+            </div>
 
           </div>
 

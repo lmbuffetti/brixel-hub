@@ -197,4 +197,13 @@
        margin-bottom: 0;
      }
    }
+   &.dis-in {
+     li {
+       display: inline-block;
+       margin-right: $step * 2;
+       &:last-child {
+         margin-right: 0;
+       }
+     }
+   }
  }
