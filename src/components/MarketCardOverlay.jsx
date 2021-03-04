@@ -164,7 +164,7 @@ const MarketCard = (props) => {
           <div className="pos-r">
             <CoverPropertyImage
               loadedImg={(val) => setCoverImgLoaded(val)}
-              className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 h-perc-100 pos-r ${fullScreenCard ? 'h-fix-320' : 'h-fix-224 cur-poi'}`}
+              className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 pos-r ${fullScreenCard ? 'h-fix-488' : 'h-fix-224 cur-poi'}`}
               coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
               propertyType={get(item, 'properties.propertyType', undefined)}
               onClick={() => openDetailCard()}
@@ -216,7 +216,7 @@ const MarketCard = (props) => {
 
           <div className="mid dis-fl-col fsize-300 pt-1 txtDark400">
             <div>
-              <div className="row">
+              <div className={fullScreenCard ? 'row' : ''}>
                 <div className={fullScreenCard ? 'col-md-6' : 'w-perc-100'}>
                   { /* SECTION: PRICE */ }
                   <span className="fsize-100 txtLight400 pb-small-4">Price</span>
@@ -275,23 +275,24 @@ const MarketCard = (props) => {
                         { /* SECTION: EXTRA FEATURE */}
                         {
                           !get(item, 'tags', []).includes('pre-market') && fullExtraFeatures(item).length > 0 && (
-                            <div>
-                              <div className="row">
+                            <div className="mt-5">
+                              <span className="fsize-100 txtLight400 pb-small-4 mt-5">Highlights</span>
+                              <div className="row pt-1">
                                 {
                                   fullExtraFeatures(item).map((key, i) => (
-                                    <div key={i.toString()} className="singleItem col-md-6 mb-3">
+                                    <div key={i.toString()} className="dis-f col-md-6 a-c mb-2">
                                       <BrixelIcon
                                         icon={get(key, 'icon', '')}
                                         color="green"
-                                        background="white"
-                                        saturation={0}
+                                        background="light"
+                                        saturation={100}
                                         saturationTxt={700}
                                       />
-                                      <div>
+                                      <div className="fsize-300 pl-2">
                                         <span className="dis-b">{get(key, 'label', '')}</span>
                                         {
                                           get(key, 'subtitle', null) && (
-                                            <span className="body2">{get(key, 'subtitle', '')}</span>
+                                            <span className="">{get(key, 'subtitle', '')}</span>
                                           )
                                         }
                                       </div>
@@ -299,6 +300,14 @@ const MarketCard = (props) => {
                                   ))
                                 }
                               </div>
+                            </div>
+                          )
+                        }
+                        {
+                          get(item, 'tags', []).includes('pre-market') && (
+                            <div className="mt-5">
+                              <h6 className="fsize-100 txtLight400 pb-small-4">About Pre-Market</h6>
+                              <p className="fweight-500 txtDark700">This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner.</p>
                             </div>
                           )
                         }
@@ -349,36 +358,29 @@ const MarketCard = (props) => {
               </div>
               {
                 fullScreenCard && (
-                  <div>
+                  <div className="">
                     { /* SECTION TEXT DETAILS */ }
                     {
-                      get(item, 'tags', []).includes('pre-market') ? (
-                        <div>
-                          <h6 className="fsize-100 txtDark200">About Pre-Market</h6>
-                          <p>This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner.</p>
-                        </div>
-                      ) : (
-                        <div className="mt-2">
-                          <h6 className="fsize-100 txtDark200">There is more</h6>
-                          <ul className="darkCheckList dis-in">
-                            <li>See all photos</li>
-                            <li>Take virtual visit</li>
-                            <li>Access documents</li>
-                            <li>Schedule visit & contact buyer</li>
-                          </ul>
-                        </div>
-                      )
-                    }
-                    {
                       !get(item, 'tags', []).includes('pre-market') && (
-                        <div className="dis-f jc-c mt-3">
-                          <BrixelButtonSecondary
-                            onClick={() => window.open(`${baseByData.pageUrl}${item.stub}`, '_blank')}
-                            rounded
-                            label="Open full page"
-                            leftIcon="link-open"
-                          />
-                        </div>
+                        <>
+                          <div className="mt-5 max-w-fix-536">
+                            <h6 className="fsize-100 txtLight400 pb-small-4">There is more</h6>
+                            <ul className="darkCheckList dis-in">
+                              <li>See all photos</li>
+                              <li>Take virtual visit</li>
+                              <li>Access documents</li>
+                              <li>Schedule visit & contact buyer</li>
+                            </ul>
+                          </div>
+                          <div className="dis-f jc-c mt-5">
+                            <BrixelButtonSecondary
+                              onClick={() => window.open(`${baseByData.pageUrl}${item.stub}`, '_blank')}
+                              rounded
+                              label="Open full page"
+                              leftIcon="link-open"
+                            />
+                          </div>
+                        </>
                       )
                     }
                   </div>

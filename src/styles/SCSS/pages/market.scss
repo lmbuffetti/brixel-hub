@@ -290,8 +290,10 @@
   }
 }
 .result-market-overlay .market-card {
-  img.brdRadius {
+  img.cover {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    transform: scale(1.005);
+    transition: all 0.4s ease;
   }
 }

@@ -27,8 +27,8 @@
 
   &.result-market-overlay {
     .container {
-      max-height: 720px;
-      max-width: 680px;
+      max-height: calc(100% - 120px);
+      max-width: 808px;
       position: fixed;
       top: 50%;
       left: 50%;
@@ -61,7 +61,7 @@
       }
     }
     .slick-slide {
-      height: calc(100% - 30px);
+      height: calc(100% - 40px);
     }
     .fixed-footer {
       background-color: white;

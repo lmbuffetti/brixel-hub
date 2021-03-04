@@ -107,13 +107,13 @@ const SplashScreen = (props) => {
     fade: true,
     slidesToScroll: 1,
     dots: false,
-    focusOnSelect: true,
     infinite: false,
     draggable: false,
     swipeToSlide: false,
     verticalSwiping: false,
     swipe: false,
     arrows: false,
+    focusOnSelect: false,
     afterChange: () => {
       updateData();
     },
