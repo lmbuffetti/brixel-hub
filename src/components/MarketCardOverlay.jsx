@@ -170,7 +170,7 @@ const MarketCard = (props) => {
               onClick={() => openDetailCard()}
             />
             {
-              !get(item, 'tags', []).includes('pre-market') && fullScreenCard && (
+              fullScreenCard && !fullCard && (
                 <BrixelButtonIcon
                   onClick={() => openDetailCard()}
                   className="pos-a x-c bt mb-neg-4 shadow-1dp"
