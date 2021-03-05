@@ -146,7 +146,7 @@ const SplashScreen = (props) => {
 
   const saveFavorite = () => {
     let property = activeMarketOverlayProperty;
-    if (activeMarketOverlayPropertyLists.length > 0) property = activeMarketOverlayPropertyLists[activeSlide];
+    if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) property = activeMarketOverlayPropertyLists[activeSlide];
     const data = {
       act: checkFavorite() ? 'remove' : 'add',
       id: property.id,
@@ -157,7 +157,7 @@ const SplashScreen = (props) => {
       },
     };
     handleUpdateFavorites(data);
-    if (sliderInstance.current && activeMarketOverlayPropertyLists.length > 0) {
+    if (sliderInstance.current && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) {
       // const slider = sliderInstance.current;
       // slider.slickNext();
       const wrapCarousel = document.getElementById('overlayCarousel');
@@ -180,9 +180,9 @@ const SplashScreen = (props) => {
 
   const notInterested = () => {
     let propID = activeMarketOverlayProperty.id;
-    if (activeMarketOverlayPropertyLists.length > 0) propID = activeMarketOverlayPropertyLists[activeSlide].id;
+    if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) propID = activeMarketOverlayPropertyLists[activeSlide].id;
     handleMarkNotInterested(propID);
-    if (activeMarketOverlayPropertyLists.length > 0) {
+    if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) {
       // const slider = sliderInstance.current;
       // slider.slickNext();
       const wrapCarousel = document.getElementById('overlayCarousel');
