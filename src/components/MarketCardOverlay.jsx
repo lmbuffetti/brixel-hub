@@ -164,7 +164,7 @@ const MarketCard = (props) => {
           <div className="pos-r">
             <CoverPropertyImage
               loadedImg={(val) => setCoverImgLoaded(val)}
-              className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 pos-r ${fullScreenCard ? 'h-fix-488' : 'h-fix-224 cur-poi'}`}
+              className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 pos-r ${fullScreenCard ? 'h-fix-224 h-fix-sm-344 h-fix-md-488' : 'h-fix-224 cur-poi'}`}
               coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
               propertyType={get(item, 'properties.propertyType', undefined)}
               onClick={() => openDetailCard()}
@@ -197,7 +197,7 @@ const MarketCard = (props) => {
             )
           }
         </>
-        <div className="info dis-fl-col jc-b px-3 pb-2">
+        <div className="info dis-fl-col jc-b p-2 p-sm-3">
           <div className="dis-f jc-b a-c">
             <h5 className="txtDark700 ellipsis one notranslate mb-2">
               {get(item, 'title', '')}
@@ -214,39 +214,45 @@ const MarketCard = (props) => {
             */}
           </div>
 
-          <div className="mid dis-fl-col fsize-300 pt-1 txtDark400">
+          <div className="mid dis-fl-col fsize-300 pt-1 pb-5 txtDark400">
             <div>
-              <div className={fullScreenCard ? 'row' : ''}>
-                <div className={fullScreenCard ? 'col-md-6' : 'w-perc-100'}>
+              <div className={fullScreenCard ? 'dis-f flex-wrap' : ''}>
+                <div className={fullScreenCard ? 'flex-50 pr-0 pr-sm-3' : 'w-perc-100'}>
                   { /* SECTION: PRICE */ }
-                  <span className="fsize-100 txtLight400 pb-small-4">Price</span>
-                  <div className="dis-f a-c jc-b">
-                    {
-                      get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
-                        <>
-                          <div>
-                            <span className="fsize-400 notranslate txtGreen400">{get(item, 'price.currency', '')} &nbsp; </span>
-                            <span className="fsize-500 notranslate ff-mono txtGreen400">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
-                          </div>
-                          <div className="dis-f a-c">
-                            <span className="fsize-100 pr-1 txtDark700"> {get(item, 'price.currency', '')} </span>
-                            <span className="ff-mono txtDark700"> {Helpers.formatNumberValue(get(item, 'price.pricePerM2', 0).toFixed(), get(item, 'price.currency', ''))} </span>
-                            <span className="fsize-300 txtDark700 ff-mono">/m2</span>
-                          </div>
-                        </>
-                      ) : (
-                        <span className="txtGreen400 fsize-400 fweight-500 ff-mono">On Request</span>
-                      )
-                    }
-                  </div>
-                  <hr className="lighter my-1" />
+                  {
+                    ((fullScreenCard && !get(item, 'tags', []).includes('pre-market')) || !fullScreenCard) && (
+                      <>
+                        <span className="fsize-100 txtLight400 pb-small-4">Price</span>
+                        <div className="dis-f a-c jc-b">
+                          {
+                            get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
+                              <>
+                                <div>
+                                  <span className="fsize-100 notranslate txtGreen400">{get(item, 'price.currency', '')} &nbsp; </span>
+                                  <span className="fsize-300 notranslate ff-mono txtGreen400">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
+                                </div>
+                                <div className="dis-f a-c txtDark700">
+                                  <span className="fsize-100 pr-1"> {get(item, 'price.currency', '')} </span>
+                                  <span className="ff-mono"> {Helpers.formatNumberValue(get(item, 'price.pricePerM2', 0).toFixed(), get(item, 'price.currency', ''))} </span>
+                                  <span className="fsize-300 ff-mono"><sub>/m2 </sub></span>
+                                </div>
+                              </>
+                            ) : (
+                              <span className="txtGreen400 fweight-500 ff-mono">On Request</span>
+                            )
+                          }
+                        </div>
+                        <hr className="lighter my-1" />
+                      </>
+                    )
+                  }
                   { /* SECTION: PROPERTY TYPE - ROOMS - LIVING AREA */ }
                   <div className="dis-f a-c jc-b flex-wrap">
                     <div className="dis-fl-col">
                       <span className="fsize-100 txtLight400 pb-small-4">
                         {get(item, 'location.countryCode', 'CH') === 'PT' ? 'Typology' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
                       </span>
-                      <span className="notranslate">
+                      <span className="notranslate txtDark700 ff-mono">
                         {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                       </span>
                     </div>
@@ -255,17 +261,17 @@ const MarketCard = (props) => {
                       {
                         get(item, 'properties.typology.livingArea.value', 0) && (
                           <span className="notranslate">
-                            <span className="notranslate">
+                            <span className="notranslate txtDark700 ff-mono">
                               {get(item, 'properties.typology.livingArea.value', 0)}
                             </span>
-                            <span className="notranslate"> m2</span>
+                            <span className="notranslate fsize-200"> <sub>m2 </sub></span>
                           </span>
                         )
                       }
                     </div>
                     <div className="dis-fl-col">
                       <span className="fsize-100 txtLight400 pb-small-4"> Year</span>
-                      <span className="notranslate"> {get(item, 'properties.building.built', '0000')} </span>
+                      <span className="notranslate txtDark700 ff-mono"> {get(item, 'properties.building.built', '0000')} </span>
                     </div>
 
                   </div>
@@ -277,10 +283,10 @@ const MarketCard = (props) => {
                           !get(item, 'tags', []).includes('pre-market') && fullExtraFeatures(item).length > 0 && (
                             <div className="mt-5">
                               <span className="fsize-100 txtLight400 pb-small-4 mt-5">Highlights</span>
-                              <div className="row pt-1">
+                              <div className="dis-f pt-1">
                                 {
                                   fullExtraFeatures(item).map((key, i) => (
-                                    <div key={i.toString()} className="dis-f col-md-6 a-c mb-2">
+                                    <div key={i.toString()} className="dis-f flex-50 a-c mb-2">
                                       <BrixelIcon
                                         icon={get(key, 'icon', '')}
                                         color="green"
@@ -288,7 +294,7 @@ const MarketCard = (props) => {
                                         saturation={100}
                                         saturationTxt={700}
                                       />
-                                      <div className="fsize-300 pl-2">
+                                      <div className="fsize-300 pl-2 txtDark700">
                                         <span className="dis-b">{get(key, 'label', '')}</span>
                                         {
                                           get(key, 'subtitle', null) && (
@@ -317,18 +323,18 @@ const MarketCard = (props) => {
                 </div>
                 {
                   fullScreenCard && (
-                    <div className="col-md-6">
+                    <div className="flex-50 pl-0 pl-sm-3">
                       { /* SECTION: LOCATION */}
                       <h6 className="fsize-100 txtDark200">Location</h6>
                       {
                         get(item, 'tags', []).includes('pre-market') ? (
                           <p
-                            className="mb-2"
+                            className="mb-2 txtDark700"
                           >{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}
                           </p>
                         ) : (
                           <p
-                            className="mb-2"
+                            className="mb-2 txtDark700"
                           >{`${get(item, 'location.name', null) ? `${get(item, 'location.name', '')} ` : ''}`}{`${get(item, 'location.streetNumber', null) ? `${get(item, 'location.streetNumber', '')} ` : ''}`}{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}
                           </p>
                         )
@@ -336,7 +342,7 @@ const MarketCard = (props) => {
                       {
                         get(item, 'tags', []).includes('pre-market') ? (
                           <div
-                            className="mapsImage w-perc-100 h-fix-320 pos-r mb-5"
+                            className="mapsImage w-perc-100 brdRadius h-fix-224 pos-r"
                             style={{
                               backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=15&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
                             }}
@@ -345,7 +351,7 @@ const MarketCard = (props) => {
                           </div>
                         ) : (
                           <div
-                            className="mapsImage w-perc-100 h-fix-320 mb-5"
+                            className="mapsImage w-perc-100 brdRadius  h-fix-224"
                             style={{
                               backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=16&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
                             }}
@@ -364,12 +370,12 @@ const MarketCard = (props) => {
                       !get(item, 'tags', []).includes('pre-market') && (
                         <>
                           <div className="mt-5 max-w-fix-536">
-                            <h6 className="fsize-100 txtLight400 pb-small-4">There is more</h6>
+                            <h6 className="fsize-100 txtLight400 pb-small-4">Learn more</h6>
                             <ul className="darkCheckList dis-in">
                               <li>See all photos</li>
                               <li>Take virtual visit</li>
                               <li>Access documents</li>
-                              <li>Schedule visit & contact buyer</li>
+                              <li>Schedule visit &amp; contact buyer</li>
                             </ul>
                           </div>
                           <div className="dis-f jc-c mt-5">

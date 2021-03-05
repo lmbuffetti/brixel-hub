@@ -54,7 +54,7 @@
 
    .slick-list {
      padding-top: 40px;
-     height: 480px;
+     height: 520px;
    }
 
    .market-card-fullscreen {
@@ -109,7 +109,7 @@
      overflow: hidden;
      left: 50%;
      top: 50%;
-     height: 424px;
+     height: 444px;
      transform: translate(-50%, -50%);
      position: absolute;
      transition: all 0.5s ease;
@@ -191,6 +191,8 @@
      list-style: none;
      margin-bottom: $step;
 
+
+
      &:before {
        @include icomoon();
        content: $icon-check;
@@ -207,6 +209,9 @@
      li {
        display: inline-block;
        margin-right: $step * 2;
+       @media (max-width: $responsive-small) {
+        display: block;
+      }
        &:last-child {
          margin-right: 0;
        }
