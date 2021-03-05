@@ -167,7 +167,7 @@ const MarketCard = (props) => {
               className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 pos-r ${fullScreenCard ? 'h-fix-488' : 'h-fix-224 cur-poi'}`}
               coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
               propertyType={get(item, 'properties.propertyType', undefined)}
-              onClick={() => openDetailCard()}
+              onClick={() => (!fullScreenCard ? openDetailCard() : '')}
             />
             {
               fullScreenCard && !fullCard && (
