@@ -121,11 +121,12 @@ const MarketCard = (props) => {
       setSplashScreen('bestimateTeaser');
     }
     if (location.countryCode === 'CH' || location.countryCode === 'PT') {
-      if (!has(estim, 'result.value')) {
+      if (!has(estim, 'result') || !has(estim, 'result.value')) {
         const payload = {
           type: 'market',
           id: item.id,
         };
+        console.log('get');
         handleGetEstimation(payload);
       }
       setCookie('brixelMarketBestimate', false);
