@@ -121,7 +121,7 @@ const MarketCard = (props) => {
       setSplashScreen('bestimateTeaser');
     }
     if (location.countryCode === 'CH' || location.countryCode === 'PT') {
-      if (!has(estim, 'result')) {
+      if (!has(estim, 'result.value')) {
         const payload = {
           type: 'market',
           id: item.id,
