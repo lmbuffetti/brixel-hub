@@ -102,7 +102,6 @@ const MarketCard = (props) => {
           property.splice(indexCurrentProperty, 1);
           property.splice(0, 0, element);
         }
-        console.log(property);
         handleSetActiveMarketOverlayPropertyLists(property);
       } else if (type === 'favorite') {
         history.push({
