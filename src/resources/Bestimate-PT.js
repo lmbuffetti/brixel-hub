@@ -16,7 +16,7 @@ const { factsOptions } = FactsOptions;
 export const BestimatePT = (type = null) => {
   const bestimate = [
     {
-      title: 'Step 1',
+      title: type === 'getStarted' ? null : 'Step 1',
       extraInfo: 'We need some extra information about your property.',
       history: 'step1',
       cardType: 'step1',
@@ -62,7 +62,7 @@ export const BestimatePT = (type = null) => {
       ],
     },
     {
-      title: 'Step 2',
+      title: type === 'getStarted' ? null : 'Step 2',
       bgImg: homesSvg,
       vCentered: true,
       history: 'step2',
@@ -119,7 +119,7 @@ export const BestimatePT = (type = null) => {
       ],
     },
     {
-      title: 'Step 3',
+      title: type === 'getStarted' ? null : 'Step 3',
       bgImg: homesSvg,
       vCentered: true,
       history: 'step3',
