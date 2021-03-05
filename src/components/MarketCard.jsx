@@ -123,9 +123,6 @@ const MarketCard = (props) => {
       setSplashScreen('bestimateTeaser');
     }
     if (location.countryCode === 'CH' || location.countryCode === 'PT') {
-      console.log(has(estim, 'result'));
-      console.log(!has(estim, 'result.value'));
-      console.log(estim);
       if (!has(estim, 'result')) {
         console.log('should not be here');
         const payload = {
@@ -134,7 +131,6 @@ const MarketCard = (props) => {
         };
         handleGetEstimation(payload);
       } else if (has(estim, 'result') && !has(estim, 'result.value')) {
-        console.log('GENERATE');
         handleGenerateBestimate(estim.id);
       }
       setCookie('brixelMarketBestimate', false);
