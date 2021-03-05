@@ -1,4 +1,5 @@
- // Carousel overwrite
+$trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
+// Carousel overwrite
  .carousel-wrapper {
   .slick-slider {
     .slick-prev {
@@ -61,11 +62,11 @@
      position: absolute;
      width: 100%;
      height: 100%;
-     transition: all 0.4s ease !important;
+     transition: all 0.4s $trans_func !important;
    }
 
    .slick-slide {
-     transition: all 0.4s ease !important;
+     transition: all 0.4s $trans_func !important;
      height: 100%;
 
      > div {
@@ -74,7 +75,7 @@
    }
 
    .done {
-     animation: fadeOut 0.4s ease-out;
+     animation: fadeOut 0.4s $trans_func;
      z-index: 0;
    }
 
@@ -112,7 +113,7 @@
      height: 444px;
      transform: translate(-50%, -50%);
      position: absolute;
-     transition: all 0.5s ease;
+     transition: all 0.5s $trans_func;
    }
 
    .slick-active.slick-current {
@@ -136,19 +137,26 @@
    .cloneElement {
      outline: none;
      width: 227px;
-     position: absolute !important;
+     position: fixed !important;
      z-index: 10000;
      top: 0;
      display: block !important;
      left: 0 !important;
+     bottom: 0 !important;
+     margin-top: 65px;
 
-     &.favorite > div {
-       animation: yay 1s ease-out;
-       transform-origin: bottom right;
+
+     &.favorite {
+
+        animation: yay 650ms $trans_func forwards;
+       //transform-origin: bottom left;
+       //position: relative;
+       //left: -20px;
      }
-     &.discard > div {
-       animation: nope 1s ease-out;
-       transform-origin: bottom left;
+     &.discard {
+        animation: nope 650ms $trans_func forwards;
+       //transform-origin: bottom right;
+       //right: -20px;
      }
    }
  }
@@ -166,22 +174,20 @@
 
  @keyframes yay {
    from {
-     transform: rotate(0deg);
      opacity: 1;
    }
    to {
-     transform: rotate(40deg);
-     opacity: 0;
+    transform: rotate(45deg) translateX(50%);
+    opacity: 0;
    }
  }
 
  @keyframes nope {
    from {
-     transform: rotate(0deg);
      opacity: 1;
    }
    to {
-     transform: rotate(-40deg);
+      transform: rotate(-45deg) translateX(-50%);
      opacity: 0;
    }
  }

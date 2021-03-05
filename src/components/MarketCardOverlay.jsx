@@ -228,13 +228,13 @@ const MarketCard = (props) => {
                             get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
                               <>
                                 <div>
-                                  <span className="fsize-100 notranslate txtGreen400">{get(item, 'price.currency', '')} &nbsp; </span>
+                                  <span className="fsize-200 notranslate txtGreen400"><sub>{get(item, 'price.currency', '')} &nbsp;</sub> </span>
                                   <span className="fsize-300 notranslate ff-mono txtGreen400">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
                                 </div>
-                                <div className="dis-f a-c txtDark700">
-                                  <span className="fsize-100 pr-1"> {get(item, 'price.currency', '')} </span>
-                                  <span className="ff-mono"> {Helpers.formatNumberValue(get(item, 'price.pricePerM2', 0).toFixed(), get(item, 'price.currency', ''))} </span>
-                                  <span className="fsize-300 ff-mono"><sub>/m2 </sub></span>
+                                <div className="dis-f a-c txtDark700 notranslate">
+                                  <span className="fsize-100 pr-1 notranslate"> {get(item, 'price.currency', '')}  </span>
+                                  <span className="ff-mono notranslate"> {Helpers.formatNumberValue(get(item, 'price.pricePerM2', 0).toFixed(), get(item, 'price.currency', ''))} </span>
+                                  <span className="fsize-200 notranslate">/m2 </span>
                                 </div>
                               </>
                             ) : (
