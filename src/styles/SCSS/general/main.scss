@@ -284,6 +284,9 @@ header {
   &.one {
     -webkit-line-clamp: 1; /* number of lines to show */
   }
+  &.two {
+    -webkit-line-clamp: 2; /* number of lines to show */
+  }
 }
 
 img {

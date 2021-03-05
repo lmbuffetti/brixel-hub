@@ -115,5 +115,7 @@ export default {
     tokenValidationWithUser: () => '/authentication/getTokenWithUser',
     userById: (userId) => `/user/${userId}`,
     validateUser: (email) => `/user/validate/${email}`,
+    addAsNotInterested: (pageId) => `/user/notInterested/page/${pageId}/add`,
+    removeAsNotInterested: (pageId) => `/user/notInterested/page/${pageId}/remove`,
   },
 };

@@ -80,7 +80,7 @@ const Portals = (props) => {
 
   return (
     <div className="dis-f">
-      <div className="secondLevel dis-fl-col ml-lg-1">
+      <div className="secondLevel dis-fl-col">
         <div>
           <div className="portalsWrapper dis-fl-col cardInfoBox">
             <div className="pos-r">

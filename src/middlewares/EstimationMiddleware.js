@@ -26,7 +26,7 @@ const checkEstimation = (store) => (next) => (action) => {
       store.dispatch({
         type: SPINNER_ON,
       });
-      const { generate } = action.payload;
+      const { generate, redirectTo } = action.payload;
       delete action.payload.generate;
       api.estimation.createEstimation(action.payload)
         .then((response) => {
@@ -34,8 +34,13 @@ const checkEstimation = (store) => (next) => (action) => {
             if (generate === true) {
               store.dispatch({
                 type: GENERATE_ESTIMATION,
-                payload: response.data.id,
+                payload: {
+                  id: response.data.id,
+                  redirectTo,
+                },
               });
+            } else if (redirectTo) {
+              window.location.href = redirectTo;
             }
             store.dispatch({
               type: SPINNER_OFF,
@@ -61,7 +66,8 @@ const checkEstimation = (store) => (next) => (action) => {
       store.dispatch({
         type: SPINNER_ON,
       });
-      api.estimation.generateEstimation(action.payload)
+      const { redirectTo } = action.payload;
+      api.estimation.generateEstimation(action.payload.id || action.payload)
         .then((response) => {
           if (response.meta.normalizedStatus === 200) {
             store.dispatch({
@@ -72,6 +78,9 @@ const checkEstimation = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_OFF,
             });
+            if (redirectTo) {
+              window.location.href = redirectTo;
+            }
           } else {
             store.dispatch({
               type: SET_SCREEN_NOTIFICATION,
@@ -84,6 +93,9 @@ const checkEstimation = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_OFF,
             });
+            if (redirectTo) {
+              window.location.href = redirectTo;
+            }
           }
         });
       break;

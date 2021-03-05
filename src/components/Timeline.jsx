@@ -33,7 +33,6 @@ import 'moment/locale/da';
 import 'moment/locale/de';
 import 'moment/locale/de-at';
 import 'moment/locale/en-gb';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import {
   createNote, saveActiveSingleNote,
@@ -48,7 +47,6 @@ import {
 
 const Timeline = (props) => {
   const [chronologicalData, setChronologicalData] = useState([]);
-  const [newNote, setNewNote] = useState('');
   const [noteOptionsOpen, setNoteOptionsOpen] = useState({
     id: null,
     active: false,
@@ -64,12 +62,21 @@ const Timeline = (props) => {
   const [editNoteText, setEditNoteText] = useState();
 
   const {
-    className, activeProperty, activePropertyGameHistory,
-    history, match, isDeal, activePropertyNotes,
-    loggedInUser, handleCreateNote, handleSaveNote,
-    activeDealNotes, activeDeal, activePropertyHistoryList,
-    activePropertyOwnerHistoryList, activeDealHistoryList,
+    activeDeal,
+    activeDealHistoryList,
+    activeDealNotes,
     activeDealOwnerHistoryList,
+    activeProperty,
+    activePropertyGameHistory,
+    activePropertyHistoryList,
+    activePropertyNotes,
+    activePropertyOwnerHistoryList,
+    className,
+    // handleCreateNote,
+    handleSaveNote,
+    history,
+    isDeal,
+    match,
   } = props;
 
   const noteRef = useRef(null);
@@ -120,11 +127,13 @@ const Timeline = (props) => {
       }
 
       forEach(activeDealNotes, (note) => {
-        set(note, 'timestamp', moment(note.createdAt).valueOf());
-        if (note.type === 'page') set(note, 'parent', note.page);
-        if (note.type === 'user') set(note, 'parent', note.user);
-        if (note.type === 'deal') set(note, 'parent', note.deal);
-        array.push(note);
+        if (get(note, 'private', true) === false) {
+          set(note, 'timestamp', moment(note.createdAt).valueOf());
+          if (note.type === 'page') set(note, 'parent', note.page);
+          if (note.type === 'user') set(note, 'parent', note.user);
+          if (note.type === 'deal') set(note, 'parent', note.deal);
+          array.push(note);
+        }
       });
     } else {
       if (activePropertyHistoryList.total > 0 && activePropertyHistoryList.data.length > 0) {
@@ -182,7 +191,7 @@ const Timeline = (props) => {
     activePropertyNotes, activePropertyHistoryList, activePropertyOwnerHistoryList,
     activePropertyGameHistory]);
 
-  const addNewNote = (content) => {
+  /* const addNewNote = (content) => {
     const data = {
       type: isDeal === true ? 'deal' : 'page',
       content: {
@@ -190,10 +199,9 @@ const Timeline = (props) => {
         content,
       },
     };
-    setNewNote('');
     handleCreateNote(data);
     if (notBtnEl) notBtnEl.classList.remove('clicked');
-  };
+  }; */
 
   const deleteNote = (e, event) => {
     if (e) e.preventDefault();
@@ -261,9 +269,9 @@ const Timeline = (props) => {
     },
   });
 
-  const collapseNote = () => {
+  /* const collapseNote = () => {
     if (notBtnEl) notBtnEl.classList.add('clicked');
-  };
+  }; */
 
   const getEventColor = (icon) => {
     if (icon === 'question') return 'red';
@@ -292,7 +300,7 @@ const Timeline = (props) => {
     <div className={`timeline dis-fl-col ${className}`}>
       <span className="title overline tt-up mb-3">History</span>
       <div className="events-container w-perc-100 dis-fl-col a-c">
-        <div ref={noteWrapperRef} className="add-note-container w-perc-100 dis-fl-col p-2 mb-1 md-lg-4">
+        {/* <div ref={noteWrapperRef} className="add-note-container w-perc-100 dis-fl-col p-2 mb-1 md-lg-4">
           <div className="text-container dis-fl-row">
             <BrixelAvatar
               avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? getConfigEnv.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
@@ -324,7 +332,7 @@ const Timeline = (props) => {
               onClick={() => addNewNote(newNote)}
             />
           </div>
-        </div>
+        </div> */}
         {
           chronologicalData && chronologicalData.map((event, i) => (
             <div
@@ -484,22 +492,26 @@ const Timeline = (props) => {
                                     />
                                   )
                                 }
-                                <BrixelButtonIcon
-                                  small
-                                  theme="dark"
-                                  ghost
-                                  icon="options-vertical"
-                                  onClick={() => {
-                                    setEditNote({
-                                      id: null,
-                                      active: false,
-                                    });
-                                    setNoteOptionsOpen({
-                                      id: event.id,
-                                      active: !noteOptionsOpen.active,
-                                    });
-                                  }}
-                                />
+                                {
+                                  !isDeal && (
+                                    <BrixelButtonIcon
+                                      small
+                                      theme="dark"
+                                      ghost
+                                      icon="options-vertical"
+                                      onClick={() => {
+                                        setEditNote({
+                                          id: null,
+                                          active: false,
+                                        });
+                                        setNoteOptionsOpen({
+                                          id: event.id,
+                                          active: !noteOptionsOpen.active,
+                                        });
+                                      }}
+                                    />
+                                  )
+                                }
                                 {
                                   (noteOptionsOpen.id === event.id && noteOptionsOpen.active) && (
                                     <>
@@ -568,22 +580,22 @@ const Timeline = (props) => {
 };
 
 Timeline.propTypes = {
-  activeProperty: PropTypes.object.isRequired,
   activeDeal: PropTypes.object.isRequired,
-  activePropertyGameHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
-  className: PropTypes.string,
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  isDeal: PropTypes.bool,
-  loggedInUser: PropTypes.object.isRequired,
-  activePropertyNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  activeDealNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleCreateNote: PropTypes.func.isRequired,
-  handleSaveNote: PropTypes.func.isRequired,
-  activePropertyHistoryList: PropTypes.object.isRequired,
   activeDealHistoryList: PropTypes.object.isRequired,
-  activePropertyOwnerHistoryList: PropTypes.object.isRequired,
+  activeDealNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeDealOwnerHistoryList: PropTypes.object.isRequired,
+  activeProperty: PropTypes.object.isRequired,
+  activePropertyGameHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activePropertyHistoryList: PropTypes.object.isRequired,
+  activePropertyNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activePropertyOwnerHistoryList: PropTypes.object.isRequired,
+  className: PropTypes.string,
+  // handleCreateNote: PropTypes.func.isRequired,
+  handleSaveNote: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  isDeal: PropTypes.bool,
+  // loggedInUser: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 Timeline.defaultProps = {

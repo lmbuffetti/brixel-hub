@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary, FormatValue,
+  BrixelButtonPrimary, FormatValue,
   Helpers,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
@@ -181,14 +181,14 @@ const HomeDashboard = (props) => {
             </div>
           </div>
         </div>
-        <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
+        {/* <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
           <BrixelButtonIcon
             ghost
             icon="arrow-simple-left"
             noBorder
             onClick={() => history.push('../facts')}
           />
-        </div>
+        </div> */}
         {
           getFact() !== 'property' && (
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`} />

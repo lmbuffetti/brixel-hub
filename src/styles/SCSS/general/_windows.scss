@@ -1,3 +1,13 @@
+div#dashboard {
+  max-width: 1248px;
+}
+/* .factsWrapper .secondLevel{
+  max-width: 768px;
+
+  @media (min-width: $responsive-medium) {
+    min-width: 480px;
+  }
+} */
 .hubContainer {
   &.sellerHub,
   &.buyerHub {
@@ -64,6 +74,7 @@
   .thirdLevel {
     width: 100%;
     height: 100%;
+    max-width: 768px;
 
     @media (max-width: $responsive-medium) {
       background: $brx-white;
@@ -84,14 +95,14 @@
   @media (min-width: $responsive-medium) {
     .levelsWrapper {
       &.closed {
-        max-width: 768px;
+        //max-width: 768px;
         // width: calc(100% - 320px);
         // min-width: 60%;
       }
     }
     .secondLevel,
     .thirdLevel {
-      max-width: 768px;
+      //max-width: 768px;
       margin-bottom: $step * 3;
 
       &.inputSheet {

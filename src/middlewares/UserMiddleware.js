@@ -17,6 +17,8 @@ import {
   GET_USER_PAGES_DEALS,
   SET_USER_PAGES_DEALS,
   UPDATE_FAVORITE,
+  ADD_NOT_INTERESTED,
+  REMOVE_NOT_INTERESTED,
 } from '../actions/types/UserTypes';
 
 import {
@@ -116,6 +118,7 @@ const checkUser = (store) => (next) => (action) => {
       const { redirectTo, setOwner } = action.payload.user;
       delete action.payload.user;
       delete action.payload.addProperty;
+      delete data.redirectTo;
       api.user.createUser(data)
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
@@ -239,6 +242,7 @@ const checkUser = (store) => (next) => (action) => {
       // store.dispatch({ type: SPINNER_ON });
       const newUser = action.payload.user.createUser || false;
       delete action.payload.user.createUser;
+      store.dispatch({ type: SPINNER_ON });
       api.user.validateUser(action.payload.user.email)
         .then((res) => {
           if (newUser && typeof res.data.statusCode === 'undefined') {
@@ -250,7 +254,7 @@ const checkUser = (store) => (next) => (action) => {
           } else if (newUser) {
             store.dispatch({ type: CREATE_USER, payload: action.payload });
           }
-          // store.dispatch({ type: SPINNER_OFF });
+          store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
@@ -302,6 +306,26 @@ const checkUser = (store) => (next) => (action) => {
             store.dispatch({ type: SPINNER_SMALL_OFF });
           });
       }
+      break;
+    }
+    case ADD_NOT_INTERESTED: {
+      next(action);
+      api.user.addAsNotInterested(action.payload)
+        .then((res) => {
+          console.log(res);
+          // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
+        });
+      break;
+    }
+    case REMOVE_NOT_INTERESTED: {
+      next(action);
+      api.user.removeAsNotInterested(action.payload)
+        .then((res) => {
+          console.log(res);
+          // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
+          store.dispatch({ type: SPINNER_SMALL_OFF });
+        });
       break;
     }
     default:

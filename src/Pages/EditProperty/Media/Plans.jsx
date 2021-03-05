@@ -86,7 +86,10 @@ const Photos = (props) => {
     const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'floorPlans', formValue.id, imgType.id);
     imgList.then((res) => {
       handleMultiUploadImg({
-        allImgs: res, actions: 'floorPlans', pageID: formValue.id || propID, smallLoader: 'upload',
+        allImgs: res,
+        actions: 'floorPlans',
+        pageID: formValue.id || propID,
+        smallLoader: 'upload',
       });
     });
   }, []);
