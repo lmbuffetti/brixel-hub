@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="135px" height="87px" viewBox="0 0 135 87" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Empty-State-07</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Market" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="market-home" transform="translate(-661.000000, -1630.000000)" fill-rule="nonzero">
+            <g id="Group-3" transform="translate(80.000000, 1549.000000)">
+                <g id="Group-2" transform="translate(494.000000, 88.000000)">
+                    <g id="Empty-State-07" transform="translate(94.000000, 0.000000)">
+                        <g id="Group">
+                            <path d="M61.8896842,48.1312676 C66.7621053,41.4366197 69.018386,32.8259155 66.6543158,22.9633803 C56.1246316,-20.9740845 -15.7361404,4.79661972 3.36336842,45.8022535 C14.8407018,70.4433803 48.4586667,66.6011268 61.8896842,48.1312676 Z" id="Path" stroke="#6A6E7D" stroke-width="13.9999" fill="#F0EFED"></path>
+                            <line x1="64.2576842" y1="46.3994366" x2="112.104421" y2="66.9149296" id="Path" stroke="#6A6E7D" stroke-width="15.4248" fill="#F0EFED"></line>
+                            <polygon id="Path" fill="#F03C50" points="120.679298 79.4698592 74.9473684 61.7971831 83.1842807 45.783662 127.502596 65.4450704"></polygon>
+                        </g>
+                        <g id="Group" transform="translate(16.650407, 13.506494)">
+                            <polygon id="Path" fill="#82D2FA" points="26.6625841 4.95681818 15.1350594 15.4386364 14.8571257 35.9869318 35.9845704 34.0198864 36.2311245 15.73125"></polygon>
+                            <polygon id="Path" fill="#F03C50" points="15.1367405 15.4392045 26.6625841 4.95681818 8.90956848 0.478977273 0.275692308 12.0835227"></polygon>
+                            <polygon id="Path" fill="#1E1491" points="0.275692308 12.0835227 15.1367405 15.4392045 14.8588068 35.9875 0.0106466542 33.6710227"></polygon>
+                            <polygon id="Path" stroke="#32373C" fill="#32373C" points="23.0819462 35.2215909 22.8309093 27.0892045 28.7313971 26.2443182 28.958339 34.6744318"></polygon>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

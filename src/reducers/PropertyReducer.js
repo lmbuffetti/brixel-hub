@@ -15,7 +15,7 @@ import {
 export const defaultState = {
   activeSingleProperty: {},
   activeMarketOverlayProperty: {},
-  activeMarketOverlayPropertyLists: {},
+  activeMarketOverlayPropertyLists: null,
   activeSinglePropertyBooking: [],
   activeSinglePropertyDeals: [],
   activeSinglePropertyDealsCount: {},

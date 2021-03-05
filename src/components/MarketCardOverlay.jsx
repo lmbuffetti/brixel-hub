@@ -6,7 +6,6 @@ import set from 'lodash/set';
 import pullAt from 'lodash/pullAt';
 import compact from 'lodash/compact';
 import {
-  BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelButtonIcon,
   BrixelIcon,
@@ -33,6 +32,7 @@ const MarketCard = (props) => {
   const {
     // history,
     className,
+    fullCard,
     item,
     // preventClick,
     // setMarketOverlayProperty,
@@ -45,7 +45,7 @@ const MarketCard = (props) => {
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
   const [isPreMarket, setIsPreMarket] = useState(false);
-  const [fullScreenCard, setFullScreenCard] = useState(false);
+  const [fullScreenCard, setFullScreenCard] = useState(fullCard);
   const [mapFormatStyle, setMapFormatStyle] = useState({ });
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
@@ -409,6 +409,7 @@ const MarketCard = (props) => {
 MarketCard.propTypes = {
   // history: PropTypes.object.isRequired,
   className: PropTypes.string,
+  fullCard: PropTypes.bool,
   item: PropTypes.object,
   // preventClick: PropTypes.bool,
   // setMarketOverlayProperty: PropTypes.func.isRequired,
@@ -420,6 +421,7 @@ MarketCard.propTypes = {
 
 MarketCard.defaultProps = {
   className: '',
+  fullCard: false,
   item: null,
   onToggleCard: () => '',
   type: '',

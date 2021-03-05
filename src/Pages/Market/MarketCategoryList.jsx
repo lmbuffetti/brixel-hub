@@ -22,6 +22,7 @@ import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType } from '../../actions/CommonActions';
 import { setEstimation, getEstimation } from '../../actions/PropertyActions';
 import CardImageText from '../../components/Skeleton/CardImageText';
+import NoPropertiesImg from '../../images/searchProfile/no-found-properties.svg';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -678,7 +679,7 @@ const MarketCategoryList = (props) => {
 
       <div className="mb-8">
         {
-          newProperties.total > 0 && (
+          newProperties.total !== 0 ? (
             <CarouselWrapper
               title="New in your radar"
               className="market-category-carousel"
@@ -686,6 +687,12 @@ const MarketCategoryList = (props) => {
               items={newProperties.data}
               total={newProperties.total}
             />
+          ) : (
+            <div className="h-fix-320 bgLight100 brdRadius dis-fl-col jc-c a-c">
+              <img src={NoPropertiesImg} alt="No Properties on your New Radar" />
+              <p className="fweight-700 mb-1 mt-3">No matching properties right now.</p>
+              <p>Check again later for new properties.</p>
+            </div>
           )
         }
       </div>

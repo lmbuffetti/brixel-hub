@@ -25,6 +25,7 @@ import { setActiveMarketOverlayProperty, setActiveMarketOverlayPropertyLists } f
 import { updateFavorite, addNotInterested } from '../actions/UserActions';
 import MarketCardOverlay from './MarketCardOverlay';
 import { getNewProperties } from '../actions/MarketActions';
+import NoMorePropertiesImg from '../images/searchProfile/no-more-properties.svg';
 
 const SplashScreen = (props) => {
   const {
@@ -215,7 +216,7 @@ const SplashScreen = (props) => {
   const closeOverlay = () => {
     setSplashScreen('');
     setMarketOverlayProperty({});
-    handleSetActiveMarketOverlayPropertyLists([]);
+    handleSetActiveMarketOverlayPropertyLists(null);
   };
 
   return (
@@ -230,11 +231,11 @@ const SplashScreen = (props) => {
         />
       </div>
 
-      <div className={`middle-part ${activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'}`}>
+      <div className={`middle-part ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'}`}>
         {
-          activeMarketOverlayPropertyLists.length > 0 ? (
+          activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && (
             <div className={`carousel3d ${fullScreenCard ? 'open' : 'close'}`} id="overlayCarousel">
-              <h4 className="ta-c mb-3"> Pick your favorites </h4>
+              <h4 className="ta-c mb-3">Pick your favorites</h4>
               <Slider ref={sliderInstance} {...settingSlider}>
                 {
                   activeMarketOverlayPropertyLists.map((item, i) => (
@@ -247,18 +248,40 @@ const SplashScreen = (props) => {
                 }
               </Slider>
             </div>
-          ) : (
-            <MarketCardOverlay
-              item={activeMarketOverlayProperty}
-              className="overlayCard h-perc-100"
-            />
+          )
+        }
+        {
+          activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length === 0 && (
+            <div className="carousel3d close" id="overlayCarousel">
+              <h4 className="ta-c mb-3">Pick your favorites</h4>
+              <div className="w-fix-320 brdRadius dis-fl-col jc-c a-c noMatchProperty m-a">
+                <div className="bgLight100 pt-12 w-perc-100 ta-c pt-10 pb-2">
+                  <img src={NoMorePropertiesImg} alt="No Properties on your New Radar" />
+                </div>
+                <div className="p-2">
+                  <p className="fweight-700 mb-1 mt-3 ta-c">That’s it.</p>
+                  <p className="ta-c">There are no more properties right now. Come back later to find new ones.</p>
+                </div>
+              </div>
+            </div>
+          )
+        }
+        {
+          !activeMarketOverlayPropertyLists && (
+            <div className="carousel3d open" id="overlayCarousel">
+              <MarketCardOverlay
+                item={activeMarketOverlayProperty}
+                onToggleCard={(val) => setFullScreenCard(val)}
+                fullCard
+              />
+            </div>
           )
         }
 
       </div>
-      <div className={`fixed-footer dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard ? 'jc-b' : 'jc-c'}`}>
+      <div className={`fixed-footer dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard ? 'jc-b' : 'jc-c'}`}>
         {
-          activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
+          activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
             <BrixelButtonIcon
               rounded
               ghost
@@ -287,7 +310,7 @@ const SplashScreen = (props) => {
           />
         </div>
         {
-          activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
+          activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
             <BrixelButtonIcon
               rounded
               ghost
@@ -342,7 +365,7 @@ SplashScreen.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
-  activeMarketOverlayPropertyLists: get(state, 'property.activeMarketOverlayPropertyLists', []),
+  activeMarketOverlayPropertyLists: get(state, 'property.activeMarketOverlayPropertyLists', null),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),

@@ -93,7 +93,8 @@ const MarketCard = (props) => {
                   type === 'new' || get(item, 'tags', []).includes('new')) {
         setSplashScreen('marketOverlay');
         setMarketOverlayProperty(item);
-        let property = [];
+        let property = null;
+
         if (type === 'new') {
           property = cloneDeep(newProperties);
           const indexCurrentProperty = property.findIndex((prop) => prop.id === item.id);
@@ -101,6 +102,7 @@ const MarketCard = (props) => {
           property.splice(indexCurrentProperty, 1);
           property.splice(0, 0, element);
         }
+        console.log(property);
         handleSetActiveMarketOverlayPropertyLists(property);
       } else if (type === 'favorite') {
         history.push({
@@ -134,7 +136,7 @@ const MarketCard = (props) => {
   };
 
   const checkFavorite = () => {
-    const findIndex = favoritesProperties.findIndex((prop) => prop.id === item.id);
+    const findIndex = favoritesProperties.findIndex((prop) => prop.id === get(item, 'id', null));
     return findIndex > -1;
   };
 
