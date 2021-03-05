@@ -81,7 +81,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       successMessage: translateTo(lang, 'Ok. Got it.'),
     },
     {
-      title: translateTo(lang, 'What type of property do you have?'),
+      title: translateTo(lang, 'What type of property do you want to estimate?'),
       history: 'propertyType',
       vCentered: true,
       bgImg: homesSvg,

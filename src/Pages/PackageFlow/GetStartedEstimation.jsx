@@ -508,7 +508,7 @@ const GetStartedEstimation = (props) => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
     if (get(questions, `[${currentIndex + 2}].toSave`, null)) label = 'Save';
-    else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
+    else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Next';
     else label = 'Next';
     return label;
   };
