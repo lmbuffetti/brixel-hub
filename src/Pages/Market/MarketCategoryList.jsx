@@ -133,7 +133,7 @@ const MarketCategoryList = (props) => {
 
   return (
     <>
-      {/* buyer welcome message  */}
+      {/* SECTION: buyer welcome message  */}
       {
         splashScreenType === 'buyerWelcome' && (
           <SplashScreen
@@ -188,7 +188,7 @@ const MarketCategoryList = (props) => {
         )
       }
 
-      {/* seller welcome message  */}
+      {/* SECTION: seller welcome message  */}
       {
         splashScreenType === 'sellerWelcome' && (
           <SplashScreen
@@ -249,7 +249,7 @@ const MarketCategoryList = (props) => {
         )
       }
 
-      {/* bestimate result */}
+      {/* SECTION: bestimate result */}
       {
         !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue !== 0 && (
           <SplashScreen
@@ -304,7 +304,7 @@ const MarketCategoryList = (props) => {
         )
       }
 
-      {/* bestimate teaser */}
+      {/* SECTION: bestimate teaser */}
       {
         !bestimateMessage && splashScreenType === 'bestimateTeaser' && (
           <SplashScreen
@@ -341,7 +341,7 @@ const MarketCategoryList = (props) => {
         )
       }
 
-      {/* bestimate missing */}
+      {/* SECTION: bestimate missing */}
       {
         !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue === 0 && (
           <SplashScreen
@@ -385,7 +385,7 @@ const MarketCategoryList = (props) => {
       }
 
       {
-        loggedInUser.seller && (
+        ownerProperties.total !== 0 && (
           <div className={` ${ownerProperties.total === 0 ? '' : 'min-h-fix-552 min-h-fix-sm-344'}`}>
             {
               ownerProperties.total > 0 && (

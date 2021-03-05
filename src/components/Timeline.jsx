@@ -492,22 +492,26 @@ const Timeline = (props) => {
                                     />
                                   )
                                 }
-                                <BrixelButtonIcon
-                                  small
-                                  theme="dark"
-                                  ghost
-                                  icon="options-vertical"
-                                  onClick={() => {
-                                    setEditNote({
-                                      id: null,
-                                      active: false,
-                                    });
-                                    setNoteOptionsOpen({
-                                      id: event.id,
-                                      active: !noteOptionsOpen.active,
-                                    });
-                                  }}
-                                />
+                                {
+                                  !isDeal && (
+                                    <BrixelButtonIcon
+                                      small
+                                      theme="dark"
+                                      ghost
+                                      icon="options-vertical"
+                                      onClick={() => {
+                                        setEditNote({
+                                          id: null,
+                                          active: false,
+                                        });
+                                        setNoteOptionsOpen({
+                                          id: event.id,
+                                          active: !noteOptionsOpen.active,
+                                        });
+                                      }}
+                                    />
+                                  )
+                                }
                                 {
                                   (noteOptionsOpen.id === event.id && noteOptionsOpen.active) && (
                                     <>
