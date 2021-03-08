@@ -86,7 +86,6 @@ const checkEstimation = (store) => (next) => (action) => {
               const proList = get(store.getState(), 'market.ownerProperties', {});
               const findProp = proList.data.findIndex((prop) => prop.id === page);
               set(proList.data[findProp], 'estimation', response.data);
-              console.log(proList, findProp, action.payload.id);
               store.dispatch({ type: SET_OWNED_PROPERTIES, payload: proList });
             }
             store.dispatch({
