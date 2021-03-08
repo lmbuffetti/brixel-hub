@@ -152,6 +152,25 @@ const SplashScreen = (props) => {
     },
   });
 
+  const closeOverlay = () => {
+    setSplashScreen('');
+    setMarketOverlayProperty({});
+    handleSetActiveMarketOverlayPropertyLists(null);
+    const data = {
+      resultsPerPage: 10,
+      offset: 0,
+      order: 'updatedAt',
+      direction: 'DESC',
+      setAsSingle: true,
+      multiLoader: true,
+      searchProfileId: get(userSearchProfiles[0], 'id', null),
+    };
+    handleGetNewProperties(data);
+    handleGetPreMarketProperties(data);
+    handleGetPremiumProperties(data);
+    handleGetFavoritesProperties(data);
+  };
+
   const checkFavorite = () => {
     const findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayProperty.id);
     return findIndex > -1;
@@ -226,25 +245,6 @@ const SplashScreen = (props) => {
         slider.slickNext();
       }
     }
-  };
-
-  const closeOverlay = () => {
-    setSplashScreen('');
-    setMarketOverlayProperty({});
-    handleSetActiveMarketOverlayPropertyLists(null);
-    const data = {
-      resultsPerPage: 10,
-      offset: 0,
-      order: 'updatedAt',
-      direction: 'DESC',
-      setAsSingle: true,
-      multiLoader: true,
-      searchProfileId: get(userSearchProfiles[0], 'id', null),
-    };
-    handleGetNewProperties(data);
-    handleGetPreMarketProperties(data);
-    handleGetPremiumProperties(data);
-    handleGetFavoritesProperties(data);
   };
 
   return (
