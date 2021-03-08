@@ -40,7 +40,7 @@ export const BestimateCH = (type = null) => {
         {
           component: BrixelInputStepNumber,
           className: '',
-          label: 'How many bathrooms does the property have?',
+          label: type === 'getStarted' ? null : 'How many bathrooms does the property have?',
           name: 'properties.typology.bathrooms',
           labelLeft: 'Bathrooms',
           step: 1,
