@@ -278,14 +278,14 @@ const MarketCategoryList = (props) => {
               <h3>This is your Bestimate<sup>&reg;</sup>  </h3>
               <>
                 <p className="ta-c mt-2 txtDark700"> Your property is worth up to </p>
-                <p className="fsize-600 ff-mono txtPrimary700 fweight-600 mb-3 mt-2">{get(bestimate, 'currency', '')} {bestimate.higherValue ? Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF')) : '-'}</p>
+                <p className="fsize-600 ff-mono txtPrimary700 fweight-600 mb-3 mt-2">{get(bestimate, 'currency', '')} {bestimate.higherValue ? Helpers.formatNumberValue(get(bestimate, 'higherValue', 0).toFixed(0), get(bestimate, 'currency', '')) : '-'}</p>
               </>
               <span className="txtDark700"> Similar transactions were sold within this price range. </span>
               <div className="pt-2 pb-3 max-w-fix-480 w-perc-100">
                 <div className="ff-mono txtPrimary700 fsize-300 ta-c besitmate-range dis-f jc-c">
-                  <span> {get(bestimate, 'currency', '')} {bestimate.lowerValue ? Helpers.formatNumberValue(bestimate.lowerValue, get(activeSingleCompany, 'country.currency', 'CHF')) : '-'} </span>
+                  <span> {get(bestimate, 'currency', '')} {bestimate.lowerValue ? Helpers.formatNumberValue(get(bestimate, 'lowerValue', 0).toFixed(0), get(bestimate, 'currency', '')) : '-'} </span>
                   <span className="w-fix-120" />
-                  <span> {get(bestimate, 'currency', '')} {bestimate.higherValue ? Helpers.formatNumberValue(bestimate.higherValue, get(activeSingleCompany, 'country.currency', 'CHF')) : '-'}</span>
+                  <span> {get(bestimate, 'currency', '')} {bestimate.higherValue ? Helpers.formatNumberValue(get(bestimate, 'higherValue', 0).toFixed(0), get(bestimate, 'currency', '')) : '-'}</span>
                 </div>
                 <span className="besitmate-bar"> </span>
               </div>
