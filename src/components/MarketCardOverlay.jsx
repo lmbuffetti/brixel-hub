@@ -283,7 +283,7 @@ const MarketCard = (props) => {
                           !get(item, 'tags', []).includes('pre-market') && fullExtraFeatures(item).length > 0 && (
                             <div className="mt-5">
                               <span className="fsize-100 txtLight400 pb-small-4 mt-5">Highlights</span>
-                              <div className="dis-f pt-1">
+                              <div className="row mx-0 pt-1">
                                 {
                                   fullExtraFeatures(item).map((key, i) => (
                                     <div key={i.toString()} className="dis-f flex-50 a-c mb-2">
