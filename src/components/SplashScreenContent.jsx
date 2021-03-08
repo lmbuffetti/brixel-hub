@@ -63,6 +63,7 @@ const SplashScreen = (props) => {
 
   const updateData = () => {
     const wrapCarousel = document.getElementById('overlayCarousel');
+    wrapCarousel.classList.remove('animate');
     if (wrapCarousel) {
       const getAllslides = wrapCarousel.getElementsByClassName('slick-slide');
       let activeIndex;
@@ -99,7 +100,7 @@ const SplashScreen = (props) => {
             } else if (activeIndex > num) {
               getAllslides[num].classList.add('done');
             } else {
-              getAllslides[num].classList.remove(`mt-${inactiveNum}`);
+              getAllslides[num].classList.remove(`space-${inactiveNum}`);
               getAllslides[num].classList.add('toDo');
               getAllslides[num].classList.add(`space-${inactiveNum}`);
               inactiveNum += 1;
@@ -123,6 +124,10 @@ const SplashScreen = (props) => {
     swipe: false,
     arrows: false,
     focusOnSelect: false,
+    beforeChange: () => {
+      const wrapCarousel = document.getElementById('overlayCarousel');
+      wrapCarousel.classList.add('animate');
+    },
     afterChange: () => {
       updateData();
     },
@@ -208,6 +213,8 @@ const SplashScreen = (props) => {
           removeEl[0].parentNode.removeChild(removeEl[0]);
         }
       }, 1000);
+    } else {
+      closeOverlay();
     }
   };
 
