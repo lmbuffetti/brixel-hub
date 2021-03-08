@@ -226,7 +226,7 @@ const MarketCard = (props) => {
                   {
                     ((fullScreenCard && !get(item, 'tags', []).includes('pre-market')) || !fullScreenCard) && (
                       <>
-                        <span className="fsize-100 txtLight400 pb-small-4">Price</span>
+                        <span className="fsize-100 txtDark500 pb-small-4">Price</span>
                         <div className="dis-f a-c jc-b">
                           {
                             get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
@@ -235,7 +235,7 @@ const MarketCard = (props) => {
                                   <span className="fsize-200 notranslate txtGreen400"><sub>{get(item, 'price.currency', '')} &nbsp;</sub> </span>
                                   <span className="fsize-300 notranslate ff-mono txtGreen400">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
                                 </div>
-                                <div className="dis-f a-c txtDark700 notranslate">
+                                <div className="dis-f a-c txtDark500 notranslate">
                                   <span className="fsize-100 pr-1 notranslate"> {get(item, 'price.currency', '')}  </span>
                                   <span className="ff-mono notranslate"> {Helpers.formatNumberValue(get(item, 'price.pricePerM2', 0).toFixed(), get(item, 'price.currency', ''))} </span>
                                   <span className="fsize-200 notranslate">/m2 </span>
@@ -253,19 +253,19 @@ const MarketCard = (props) => {
                   { /* SECTION: PROPERTY TYPE - ROOMS - LIVING AREA */ }
                   <div className="dis-f a-c jc-b flex-wrap">
                     <div className="dis-fl-col">
-                      <span className="fsize-100 txtLight400 pb-small-4">
+                      <span className="fsize-100 txtDark500 pb-small-4">
                         {get(item, 'location.countryCode', 'CH') === 'PT' ? 'Typology' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
                       </span>
-                      <span className="notranslate txtDark700 ff-mono">
+                      <span className="notranslate txtDark500 ff-mono">
                         {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                       </span>
                     </div>
                     <div className="dis-fl-col">
-                      <span className="fsize-100 txtLight400 pb-small-4"> Living space</span>
+                      <span className="fsize-100 txtDark500 pb-small-4"> Living space</span>
                       {
                         get(item, 'properties.typology.livingArea.value', 0) && (
                           <span className="notranslate">
-                            <span className="notranslate txtDark700 ff-mono">
+                            <span className="notranslate txtDark500 ff-mono">
                               {get(item, 'properties.typology.livingArea.value', 0)}
                             </span>
                             <span className="notranslate fsize-200"> <sub>m2 </sub></span>
@@ -274,8 +274,8 @@ const MarketCard = (props) => {
                       }
                     </div>
                     <div className="dis-fl-col">
-                      <span className="fsize-100 txtLight400 pb-small-4"> Year</span>
-                      <span className="notranslate txtDark700 ff-mono"> {get(item, 'properties.building.built', '0000')} </span>
+                      <span className="fsize-100 txtDark500 pb-small-4"> Year</span>
+                      <span className="notranslate txtDark500 ff-mono"> {get(item, 'properties.building.built', '0000')} </span>
                     </div>
 
                   </div>
@@ -286,7 +286,7 @@ const MarketCard = (props) => {
                         {
                           !get(item, 'tags', []).includes('pre-market') && fullExtraFeatures(item).length > 0 && (
                             <div className="mt-5">
-                              <span className="fsize-100 txtLight400 pb-small-4 mt-5">Highlights</span>
+                              <span className="fsize-100 txtDark500 pb-small-4 mt-5">Highlights</span>
                               <div className="row mx-0 pt-1">
                                 {
                                   fullExtraFeatures(item).map((key, i) => (
@@ -298,7 +298,7 @@ const MarketCard = (props) => {
                                         saturation={100}
                                         saturationTxt={700}
                                       />
-                                      <div className="fsize-300 pl-2 txtDark700">
+                                      <div className="fsize-300 pl-2 txtDark500">
                                         <span className="dis-b">{get(key, 'label', '')}</span>
                                         {
                                           get(key, 'subtitle', null) && (
@@ -316,8 +316,8 @@ const MarketCard = (props) => {
                         {
                           get(item, 'tags', []).includes('pre-market') && (
                             <div className="mt-5">
-                              <h6 className="fsize-100 txtLight400 pb-small-4">About Pre-Market</h6>
-                              <p className="fweight-500 txtDark700">This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner.</p>
+                              <h6 className="fsize-100 fweight-400 txtDark500 pb-small-4">About Pre-Market</h6>
+                              <p className="txtDark700">This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner.</p>
                             </div>
                           )
                         }
@@ -329,16 +329,16 @@ const MarketCard = (props) => {
                   fullScreenCard && (
                     <div className="flex-50 pl-0 pl-sm-3">
                       { /* SECTION: LOCATION */}
-                      <h6 className="fsize-100 txtDark200">Location</h6>
+                      <h6 className="fsize-100 txtDark500 pb-small-4">Location</h6>
                       {
                         get(item, 'tags', []).includes('pre-market') ? (
                           <p
-                            className="mb-2 txtDark700"
+                            className="mb-2 fsize-300 txtDark500"
                           >{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}
                           </p>
                         ) : (
                           <p
-                            className="mb-2 txtDark700"
+                            className="mb-2 fsize-300 txtDark500"
                           >{`${get(item, 'location.name', null) ? `${get(item, 'location.name', '')} ` : ''}`}{`${get(item, 'location.streetNumber', null) ? `${get(item, 'location.streetNumber', '')} ` : ''}`}{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}
                           </p>
                         )
@@ -374,8 +374,9 @@ const MarketCard = (props) => {
                       !get(item, 'tags', []).includes('pre-market') && (
                         <>
                           <div className="mt-5 max-w-fix-536">
-                            <h6 className="fsize-100 txtLight400 pb-small-4">Learn more</h6>
-                            <ul className="darkCheckList dis-in">
+                            <h6 className="fsize-100 fweight-400 txtDark500 pb-small-4">Learn more</h6>
+                            <ul className="darkCheckList dis-in txtDark500">
+
                               <li>See all photos.</li>
                               <li>Take virtual visit.</li>
                               <li>Access documents.</li>
