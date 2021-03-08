@@ -242,6 +242,8 @@ const SplashScreen = (props) => {
                     <MarketCardOverlay
                       key={i.toString()}
                       item={item}
+                      activeIndex={activeSlide}
+                      propertyList={activeMarketOverlayPropertyLists}
                       onToggleCard={(val) => setFullScreenCard(val)}
                     />
                   ))
@@ -289,6 +291,7 @@ const SplashScreen = (props) => {
               onClick={() => changeProperty('back')}
               icon="arrow-left-small"
               disabled={activeSlide <= 0}
+              className={activeMarketOverlayPropertyLists.length <= 1 ? 'opacity0' : ''}
             />
           )
         }
@@ -320,6 +323,7 @@ const SplashScreen = (props) => {
               onClick={() => changeProperty('forward')}
               icon="arrow-right-small"
               disabled={activeSlide >= newProperties.total}
+              className={activeMarketOverlayPropertyLists.length <= 1 ? 'opacity0' : ''}
             />
           )
         }
