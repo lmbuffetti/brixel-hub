@@ -376,10 +376,10 @@ const MarketCard = (props) => {
                           <div className="mt-5 max-w-fix-536">
                             <h6 className="fsize-100 txtLight400 pb-small-4">Learn more</h6>
                             <ul className="darkCheckList dis-in">
-                              <li>See all photos</li>
-                              <li>Take virtual visit</li>
-                              <li>Access documents</li>
-                              <li>Schedule visit &amp; contact buyer</li>
+                              <li>See all photos.</li>
+                              <li>Take virtual visit.</li>
+                              <li>Access documents.</li>
+                              <li>Schedule visit &amp; contact seller.</li>
                             </ul>
                           </div>
                           <div className="dis-f jc-c mt-5">
