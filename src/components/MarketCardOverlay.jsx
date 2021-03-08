@@ -31,12 +31,14 @@ const MarketCard = (props) => {
   // PROPS
   const {
     // history,
+    activeIndex,
     className,
     fullCard,
     item,
     // preventClick,
     // setMarketOverlayProperty,
     // setSplashScreen,
+    propertyList,
     onToggleCard,
     skeleton,
     type,
@@ -145,8 +147,10 @@ const MarketCard = (props) => {
   };
 
   const openDetailCard = () => {
-    onToggleCard(!fullScreenCard);
-    setFullScreenCard(!fullScreenCard);
+    if (item.id === get(propertyList, `[${activeIndex}].id`, null)) {
+      onToggleCard(!fullScreenCard);
+      setFullScreenCard(!fullScreenCard);
+    }
   };
 
   return (
@@ -164,7 +168,7 @@ const MarketCard = (props) => {
           <div className="pos-r">
             <CoverPropertyImage
               loadedImg={(val) => setCoverImgLoaded(val)}
-              className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 pos-r ${fullScreenCard ? 'h-fix-224 h-fix-sm-344 h-fix-md-488' : 'h-fix-224 cur-poi'}`}
+              className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 pos-r ${fullScreenCard ? 'h-fix-224 h-fix-sm-344 h-fix-md-488' : 'h-fix-224'} ${!fullScreenCard && item.id === get(propertyList, `[${activeIndex}].id`, null) ? 'cur-poi' : ''}`}
               coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
               propertyType={get(item, 'properties.propertyType', undefined)}
               onClick={() => (!fullScreenCard ? openDetailCard() : '')}
@@ -414,9 +418,11 @@ const MarketCard = (props) => {
 
 MarketCard.propTypes = {
   // history: PropTypes.object.isRequired,
+  activeIndex: PropTypes.number,
   className: PropTypes.string,
   fullCard: PropTypes.bool,
   item: PropTypes.object,
+  propertyList: PropTypes.arrayOf(PropTypes.object),
   // preventClick: PropTypes.bool,
   // setMarketOverlayProperty: PropTypes.func.isRequired,
   // setSplashScreen: PropTypes.func.isRequired,
@@ -426,10 +432,12 @@ MarketCard.propTypes = {
 };
 
 MarketCard.defaultProps = {
+  activeIndex: 0,
   className: '',
   fullCard: false,
   item: null,
   onToggleCard: () => '',
+  propertyList: [],
   type: '',
 };
 
