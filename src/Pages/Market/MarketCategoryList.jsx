@@ -33,7 +33,7 @@ const MarketCategoryList = (props) => {
   // PROPS
   const {
     activeMarketOverlayProperty,
-    activeSingleCompany,
+    // activeSingleCompany,
     activeSingleProperty,
     bestimate,
     favoritesProperties,
@@ -782,7 +782,6 @@ const MarketCategoryList = (props) => {
 
 MarketCategoryList.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
-  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.object.isRequired,

@@ -301,7 +301,7 @@ const MarketCard = (props) => {
                               <>
                                 {
                                   get(item, 'location.countryCode', null) === 'PT' && !has(item, 'properties.parking') && !has(item, 'properties.building.conditionStatus') ? (
-                                    <span>Do Estimation flow</span>
+                                    <span>Get Estimation</span>
                                   ) : (
                                     <span>Pending</span>
                                   )
