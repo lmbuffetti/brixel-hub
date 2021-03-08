@@ -54,6 +54,7 @@
           @media (max-width: $responsive-small) {
             height: 100%;
           }
+
           &:before,
           .footerAction {
             max-width: 640px;
@@ -113,6 +114,10 @@
       }
 
       .footerAction {
+
+      }
+
+      .footerAction {
         border-bottom-left-radius: $brd-radius-small;
         border-bottom-right-radius: $brd-radius-small;
 
@@ -128,7 +133,7 @@
         }
 
         position: relative;
-        overflow: hidden;
+        //overflow: hidden;
 
         /* @media screen and (-webkit-min-device-pixel-ratio:0)
           and (min-resolution:.001dpcm) {
@@ -141,26 +146,34 @@
             padding-bottom: 12px;
           }
         } */
+        > div {
+          position: relative;
+          overflow: hidden;
+          border-bottom-left-radius: $brd-radius-small;
+          border-bottom-right-radius: $brd-radius-small;
+          z-index: 1;
 
-        &::before {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          content: '';
-          top: 0;
-          left: 0;
-          opacity: 0;
-          transform: translateX(-100%);
-          background-color: map_get($primaryColor, 700);
-          transition: all $default-time-long $default-easing;
+          &::before {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            content: '';
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transform: translateX(-100%);
+            background-color: map_get($primaryColor, 700);
+            transition: background-color, opacity, transform $default-time-long $default-easing;
+          }
         }
 
         &.successNext {
-          &::before {
+          > div::before {
             opacity: 1;
             transform: translateX(0);
           }
           .textSuccess {
+            z-index: 1;
             animation: popsUp2 $default-loader-time $default-easing;
           }
           .backBtn {

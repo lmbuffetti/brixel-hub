@@ -19,6 +19,7 @@ import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
 import { setCookie } from '../utils/helpers';
 import { setSplashType } from '../actions/CommonActions';
+import { generateEstimation } from '../actions/EstimationActions';
 import {
   setActiveSingleProperty,
   setEstimation,
@@ -43,6 +44,7 @@ const MarketCard = (props) => {
     setSplashScreen,
     skeleton,
     type,
+    handleGenerateBestimate,
   } = props;
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
@@ -122,11 +124,14 @@ const MarketCard = (props) => {
     }
     if (location.countryCode === 'CH' || location.countryCode === 'PT') {
       if (!has(estim, 'result')) {
+        console.log('should not be here');
         const payload = {
           type: 'market',
           id: item.id,
         };
         handleGetEstimation(payload);
+      } else if (has(estim, 'result') && !has(estim, 'result.value')) {
+        handleGenerateBestimate(estim.id);
       }
       setCookie('brixelMarketBestimate', false);
       setSplashScreen('bestimateResult');
@@ -441,6 +446,7 @@ MarketCard.propTypes = {
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
+  handleGenerateBestimate: PropTypes.func.isRequired,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
 };
@@ -466,6 +472,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
+  handleGenerateBestimate: bindActionCreators(generateEstimation, dispatch),
   handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
