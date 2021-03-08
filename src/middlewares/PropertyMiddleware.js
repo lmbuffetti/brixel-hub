@@ -284,6 +284,7 @@ const checkCommon = (store) => (next) => (action) => {
               owner: store.getState().user.loggedInUser.user.id,
               page: type === true ? id : store.getState().brixelForm.Property.values.id,
               generate: true,
+              reloadOnwProperties: get(action.payload, 'reloadOnwProperties', false),
             };
             store.dispatch({ type: CREATE_ESTIMATION, payload: data });
           }

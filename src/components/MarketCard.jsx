@@ -130,6 +130,7 @@ const MarketCard = (props) => {
       } else {
         if (!has(estim, 'result')) {
           const payload = {
+            reloadOnwProperties: true,
             type: 'market',
             id: item.id,
           };
