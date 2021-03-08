@@ -25,6 +25,7 @@ import {
   SKELETON_ON,
   SKELETON_OFF,
   SET_SPLASH_TYPE,
+  SET_HISTORY,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies();
@@ -41,6 +42,7 @@ export const defaultState = {
   redirectTo: null,
   configUrl: getConfigEnv,
   errorMsg: {},
+  history: {},
   languages: [
     { value: 'de', label: 'de' },
     { value: 'dk', label: 'dk' },
@@ -154,6 +156,10 @@ export default handleActions(
     [SET_SPLASH_TYPE]: (state, action) => ({
       ...state,
       splashScreenType: action.payload,
+    }),
+    [SET_HISTORY]: (state, action) => ({
+      ...state,
+      history: action.payload,
     }),
   },
   defaultState,

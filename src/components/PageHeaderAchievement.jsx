@@ -4,11 +4,16 @@ import { withRouter } from 'react-router-dom';
 import { BrixelButtonIcon, BrixelIcon } from '@brixel/brixel-components';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import { bindActionCreators, compose } from 'redux';
+import { connect } from 'react-redux';
+import { setHistory } from '../actions/CommonActions';
 
 function PageHeaderAchievement(props) {
   // PROPS
   const {
+    handleSetHistory,
     history,
+    navHistory,
     icon,
     match,
     onClick,
@@ -17,6 +22,14 @@ function PageHeaderAchievement(props) {
 
   const pageId = get(match, 'params.propId', '');
   const rewardType = get(history, 'location.pathname', '').split('/')[4];
+
+  const onClose = () => {
+    if (navHistory.source) {
+      handleSetHistory({});
+      history.push(navHistory.source);
+    } else if (onClick) onClick();
+    else history.push(`/${pageId}/rewards/${rewardType}`);
+  };
 
   return (
     <header className="max-w-fix-760 w-perc-100 m-a pageHeaderAchievement">
@@ -39,7 +52,7 @@ function PageHeaderAchievement(props) {
           icon="close-small"
           ghost
           theme="dark"
-          onClick={onClick ? () => onClick() : () => history.push(`/${pageId}/rewards/${rewardType}`)}
+          onClick={() => onClose()}
         />
       </div>
 
@@ -48,17 +61,31 @@ function PageHeaderAchievement(props) {
 }
 
 PageHeaderAchievement.propTypes = {
+  handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   icon: PropTypes.string,
-  title: PropTypes.string,
   match: PropTypes.object.isRequired,
+  navHistory: PropTypes.object,
   onClick: PropTypes.func,
+  title: PropTypes.string,
 };
 
 PageHeaderAchievement.defaultProps = {
   icon: '',
+  navHistory: {},
   onClick: null,
   title: null,
 };
 
-export default withRouter(PageHeaderAchievement);
+const mapStateToProps = (state) => ({
+  navHistory: get(state, 'common.history', {}),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handleSetHistory: bindActionCreators(setHistory, dispatch),
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(PageHeaderAchievement);

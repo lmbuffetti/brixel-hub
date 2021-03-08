@@ -37,7 +37,6 @@ const MarketCard = (props) => {
     history,
     item,
     newProperties,
-    onSetActiveProperty,
     preventClick,
     setMarketOverlayProperty,
     setPropertyEstimation,
@@ -115,26 +114,31 @@ const MarketCard = (props) => {
     }
   };
 
-  const openBestimateOverlay = (e, location, estim, page) => {
+  const openBestimateOverlay = (e, location, estim, page, action) => {
     if (e) e.preventDefault();
-    onSetActiveProperty(page.id);
+    setMarketOverlayProperty(page);
     if (location.countryCode !== 'PT' && location.countryCode !== 'CH') {
       setCookie('brixelMarketBestimate', false);
       setSplashScreen('bestimateTeaser');
     }
     if (location.countryCode === 'CH' || location.countryCode === 'PT') {
-      if (!has(estim, 'result')) {
-        const payload = {
-          type: 'market',
-          id: item.id,
-        };
-        handleGetEstimation(payload);
-      } else if (has(estim, 'result') && !has(estim, 'result.value')) {
-        handleGenerateBestimate(estim.id);
+      if (action === 'new') {
+        setCookie('brixelMarketBestimate', false);
+        setSplashScreen('bestimateTeaser');
+      } else {
+        if (!has(estim, 'result')) {
+          const payload = {
+            type: 'market',
+            id: item.id,
+          };
+          handleGetEstimation(payload);
+        } else if (has(estim, 'result') && !has(estim, 'result.value')) {
+          handleGenerateBestimate(estim.id);
+        }
+        setCookie('brixelMarketBestimate', false);
+        setSplashScreen('bestimateResult');
+        setPropertyEstimation(estim);
       }
-      setCookie('brixelMarketBestimate', false);
-      setSplashScreen('bestimateResult');
-      setPropertyEstimation(estim);
     }
   };
 
@@ -276,27 +280,63 @@ const MarketCard = (props) => {
                 <div
                   className="bottom bestimateFact dis-f fsize-300 w-perc-100"
                 >
-                  <div
-                    className="p-2 mr-1 brdRadius bgLight100"
-                    onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item)}
-                  >
-                    <span className="fweight-500 txtDark100">Bestimate<sup>&reg;</sup></span>
-                    <span className="dis-b fweight-600 txtPrimary400 ">
-                      {
-                        has(item, 'estimation.result.value') ? (
-                          <>
-                            <span className="notranslate">&le; {' '}
-                              {get(item, 'estimation.result.currency', '')}
-                              {' '}
-                              {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}
-                            </span>
-                          </>
-                        ) : (
-                          <span>Pending</span>
-                        )
-                      }
-                    </span>
-                  </div>
+                  {
+                    get(item, 'location.countryCode', null) === 'PT' && !has(item, 'properties.parking') && !has(item, 'properties.building.conditionStatus') && !has(item, 'estimation.result.value') ? (
+                      <div
+                        className="p-2 mr-1 brdRadius bgLight100"
+                        onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item, 'new')}
+                      >
+                        <span className="fweight-500 txtDark100">Bestimate<sup>&reg;</sup></span>
+                        <span className="dis-b fweight-600 txtPrimary400 ">
+                          {
+                            has(item, 'estimation.result.value') ? (
+                              <>
+                                <span className="notranslate">&le; {' '}
+                                  {get(item, 'estimation.result.currency', '')}
+                                  {' '}
+                                  {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                {
+                                  get(item, 'location.countryCode', null) === 'PT' && !has(item, 'properties.parking') && !has(item, 'properties.building.conditionStatus') ? (
+                                    <span>Do Estimation flow</span>
+                                  ) : (
+                                    <span>Pending</span>
+                                  )
+                                }
+                              </>
+                            )
+                          }
+                        </span>
+                      </div>
+                    ) : (
+                      <div
+                        className="p-2 mr-1 brdRadius bgLight100"
+                        onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item, 'exists')}
+                      >
+                        <span className="fweight-500 txtDark100">Bestimate<sup>&reg;</sup></span>
+                        <span className="dis-b fweight-600 txtPrimary400 ">
+                          {
+                            has(item, 'estimation.result.value') ? (
+                              <>
+                                <span className="notranslate">&le; {' '}
+                                  {get(item, 'estimation.result.currency', '')}
+                                  {' '}
+                                  {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                <span>Pending</span>
+                              </>
+                            )
+                          }
+                        </span>
+                      </div>
+                    )
+                  }
                   <div
                     className="p-2 brdRadius bgLight100 dis-f a-c"
                     onClick={() => history.push({
@@ -440,7 +480,6 @@ MarketCard.propTypes = {
   history: PropTypes.object.isRequired,
   item: PropTypes.object,
   newProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onSetActiveProperty: PropTypes.func,
   preventClick: PropTypes.bool,
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
@@ -452,7 +491,6 @@ MarketCard.propTypes = {
 
 MarketCard.defaultProps = {
   item: null,
-  onSetActiveProperty: () => '',
   preventClick: false,
   type: '',
 };

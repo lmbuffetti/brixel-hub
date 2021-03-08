@@ -16,7 +16,7 @@ const { factsOptions } = FactsOptions;
 export const BestimatePT = (type = null) => {
   const bestimate = [
     {
-      title: type === 'getStarted' ? null : 'Step 1',
+      title: type === 'getStarted' ? 'Please tell us some more details' : 'Step 1',
       extraInfo: 'We need some extra information about your property.',
       history: 'step1',
       cardType: 'step1',
@@ -24,7 +24,7 @@ export const BestimatePT = (type = null) => {
       inputs: [
         {
           component: BrixelRadioButton,
-          label: type === 'getStarted' ? null : 'Property condition',
+          label: type === 'getStarted' ? 'Condition' : 'Property condition',
           name: 'properties.building.conditionStatus',
           options: factsOptions.conditionStatus,
           validation: [Validation.markRequired],
@@ -62,7 +62,7 @@ export const BestimatePT = (type = null) => {
       ],
     },
     {
-      title: type === 'getStarted' ? null : 'Step 2',
+      title: type === 'getStarted' ? 'Any secondary room?' : 'Step 2',
       bgImg: homesSvg,
       vCentered: true,
       history: 'step2',
@@ -119,7 +119,7 @@ export const BestimatePT = (type = null) => {
       ],
     },
     {
-      title: type === 'getStarted' ? null : 'Step 3',
+      title: type === 'getStarted' ? 'Only a few inputs left.' : 'Step 3',
       bgImg: homesSvg,
       vCentered: true,
       history: 'step3',
@@ -153,14 +153,14 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputQuality,
           className: '',
-          label: type === 'getStarted' ? null : 'What\'s the energy efficiency of the property?',
+          label: type === 'getStarted' ? 'Energy efficiency' : 'What\'s the energy efficiency of the property?',
           name: 'properties.energy.efficiency',
           options: factsOptions.energyEfficiencyOptions,
         },
         {
           component: BrixelCheckbox,
           className: '',
-          label: type === 'getStarted' ? null : 'What is the solar orientation?',
+          label: type === 'getStarted' ? 'Solar orientation' : 'What is the solar orientation?',
           name: 'properties.building.solarOrientarion',
           options: factsOptions.solarOrientation,
         },
