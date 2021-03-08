@@ -115,7 +115,7 @@ const MarketCard = (props) => {
     }
   };
 
-  const openBestimateOverlay = (e, location, estim, page) => {
+  const openBestimateOverlay = (e, location, estim, page, action) => {
     if (e) e.preventDefault();
     onSetActiveProperty(page.id);
     setMarketOverlayProperty(page);
