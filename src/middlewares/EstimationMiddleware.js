@@ -1,5 +1,6 @@
 import set from 'lodash/set';
 
+import get from 'lodash/get';
 import {
   CREATE_ESTIMATION,
   GENERATE_ESTIMATION,
@@ -10,6 +11,10 @@ import {
 import {
   SET_ESTIMATION,
 } from '../actions/types/PropertyTypes';
+
+import {
+  SET_OWNED_PROPERTIES,
+} from '../actions/types/MarketTypes';
 
 import {
   SPINNER_ON,
@@ -36,7 +41,9 @@ const checkEstimation = (store) => (next) => (action) => {
                 type: GENERATE_ESTIMATION,
                 payload: {
                   id: response.data.id,
+                  page: action.payload.page,
                   redirectTo,
+                  reloadOnwProperties: get(action.payload, 'reloadOnwProperties', false),
                 },
               });
             } else if (redirectTo) {
@@ -66,7 +73,7 @@ const checkEstimation = (store) => (next) => (action) => {
       store.dispatch({
         type: SPINNER_ON,
       });
-      const { redirectTo } = action.payload;
+      const { page, redirectTo } = action.payload;
       api.estimation.generateEstimation(action.payload.id || action.payload)
         .then((response) => {
           if (response.meta.normalizedStatus === 200) {
@@ -75,6 +82,13 @@ const checkEstimation = (store) => (next) => (action) => {
               payload: response.data,
             });
             set(store.getState().property.activeSingleProperty, 'estimation', response.data);
+            if (get(action.payload, 'reloadOnwProperties', false)) {
+              const proList = get(store.getState(), 'market.ownerProperties', {});
+              const findProp = proList.data.findIndex((prop) => prop.id === page);
+              set(proList.data[findProp], 'estimation', response.data);
+              console.log(proList, findProp, action.payload.id);
+              store.dispatch({ type: SET_OWNED_PROPERTIES, payload: proList });
+            }
             store.dispatch({
               type: SPINNER_OFF,
             });
