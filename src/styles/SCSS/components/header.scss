@@ -1,4 +1,7 @@
 .logoWrapper {
+  @media (max-width: $responsive-small) {
+    width: 32px;
+  }
   img {
     max-width: 80px;
     @media (max-width: $responsive-small) {
