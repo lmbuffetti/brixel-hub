@@ -40,3 +40,6 @@ export const SET_COUNTRY_LIST = 'SET_COUNTRY_LIST';
 export const SET_FORM_ERROR = 'SET_FORM_ERROR';
 
 export const SET_SPLASH_TYPE = 'SET_SPLASH_TYPE';
+
+export const GET_HISTORY = 'GET_HISTORY';
+export const SET_HISTORY = 'SET_HISTORY';

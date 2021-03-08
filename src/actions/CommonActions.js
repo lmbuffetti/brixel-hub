@@ -24,6 +24,8 @@ import {
   SKELETON_ON,
   SKELETON_OFF,
   SET_SPLASH_TYPE,
+  GET_HISTORY,
+  SET_HISTORY,
 } from './types/CommonTypes';
 
 export const {
@@ -51,6 +53,8 @@ export const {
   skeletonOn,
   skeletonOff,
   setSplashType,
+  getHistory,
+  setHistory,
 } = createActions({
   [ERROR_MESSAGE]: (payload) => payload,
   [REDIRECT_TO]: (payload) => payload,
@@ -76,4 +80,6 @@ export const {
   [SKELETON_ON]: (payload) => payload,
   [SKELETON_OFF]: (payload) => payload,
   [SET_SPLASH_TYPE]: (payload) => payload,
+  [GET_HISTORY]: (payload) => payload,
+  [SET_HISTORY]: (payload) => payload,
 });

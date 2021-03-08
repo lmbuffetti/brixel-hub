@@ -63,7 +63,7 @@ export const QuestionsList = (lang, country = 'CH') => {
   const countryCode = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', '');
   return [
     {
-      title: translateTo(lang, 'What is estimation for?'),
+      title: translateTo(lang, 'What is the estimation for?'),
       history: 'estimationType',
       vCentered: true,
       bgImg: userType,
