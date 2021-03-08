@@ -24,7 +24,12 @@ import { setSplashType } from '../actions/CommonActions';
 import { setActiveMarketOverlayProperty, setActiveMarketOverlayPropertyLists } from '../actions/PropertyActions';
 import { updateFavorite, addNotInterested } from '../actions/UserActions';
 import MarketCardOverlay from './MarketCardOverlay';
-import { getNewProperties } from '../actions/MarketActions';
+import {
+  getFavoritesProperties,
+  getLastViewedProperties,
+  getNewProperties,
+  getPremarketProperties,
+} from '../actions/MarketActions';
 import NoMorePropertiesImg from '../images/searchProfile/no-more-properties.svg';
 
 const SplashScreen = (props) => {
@@ -38,6 +43,9 @@ const SplashScreen = (props) => {
     handleMarkNotInterested,
     handleSetActiveMarketOverlayPropertyLists,
     handleUpdateFavorites,
+    handleGetFavoritesProperties,
+    handleGetPreMarketProperties,
+    handleGetPremiumProperties,
     history,
     newProperties,
     isSmallLoading,
@@ -217,6 +225,19 @@ const SplashScreen = (props) => {
     setSplashScreen('');
     setMarketOverlayProperty({});
     handleSetActiveMarketOverlayPropertyLists(null);
+    const data = {
+      resultsPerPage: 10,
+      offset: 0,
+      order: 'updatedAt',
+      direction: 'DESC',
+      setAsSingle: true,
+      multiLoader: true,
+      searchProfileId: get(userSearchProfiles[0], 'id', null),
+    };
+    handleGetNewProperties(data);
+    handleGetPreMarketProperties(data);
+    handleGetPremiumProperties(data);
+    handleGetFavoritesProperties(data);
   };
 
   return (
@@ -349,6 +370,9 @@ SplashScreen.propTypes = {
   setMarketOverlayProperty: PropTypes.func,
   setSplashScreen: PropTypes.func,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
+  handleGetFavoritesProperties: PropTypes.func,
+  handleGetPremiumProperties: PropTypes.func,
+  handleGetPreMarketProperties: PropTypes.func,
 };
 
 SplashScreen.defaultProps = {
@@ -367,6 +391,9 @@ SplashScreen.defaultProps = {
   setMarketOverlayProperty: () => '',
   setSplashScreen: () => '',
   userSearchProfiles: null,
+  handleGetFavoritesProperties: () => '',
+  handleGetPremiumProperties: () => '',
+  handleGetPreMarketProperties: () => '',
 };
 
 const mapStateToProps = (state) => ({
@@ -380,7 +407,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
+  handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
   handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
+  handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
+
   handleMarkNotInterested: bindActionCreators(addNotInterested, dispatch),
   handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
   handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
