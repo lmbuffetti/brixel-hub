@@ -101,7 +101,7 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
      .slick-slide {
        display: none !important;
      }
-     .slick-active.slick-current {
+     .active.slick-current {
        display: block !important;
      }
    }
@@ -116,21 +116,32 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
      transition: all 0.5s $trans_func;
    }
 
-   .slick-active.slick-current {
+   .active.slick-current {
      z-index: 10;
      .market-card {
        //overflow-y: auto;
      }
    }
 
-   @for $i from 0 through 1 {
+   @for $i from 0 through 5 {
      .space-#{$i} {
        // margin-top: -#{($i + 1) * 5}px;
        z-index: -#{($i + 1)};
        transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateY(-#{percentage((($i + 1) / 2) / 10)});
-       opacity: 1 !important;
        filter: blur(1px);
        -webkit-filter: blur(1px);
+     }
+   }
+
+   @for $i from 0 through 1 {
+     .space-#{$i} {
+       opacity: 1 !important;
+     }
+   }
+
+   &.animate {
+     .space-2 {
+       opacity: 1 !important;
      }
    }
 

@@ -497,11 +497,21 @@ h4.longTitle {
 
 
 // custom input label style for hub
+.interactive .brixel-label,
+.interactive .labelLeft {
+  margin-bottom: 8px;
+  display: inline-block;
+  @include fontStyle(300);
+  font-weight: 500;
+  text-align: left;
+  color: map-get($darkColor, 400);
+}
 label.brixel-label {
   display: inline-block;
   //margin-bottom: $step * 2;
   color: map-get($darkColor, 200);
   @include fontStyle(400);
+  font-weight: 500;
 }
 .brixel-radio-button {
   &[class*="mb-"]{

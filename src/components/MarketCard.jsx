@@ -61,12 +61,12 @@ const MarketCard = (props) => {
   useEffect(() => {
     if (get(item, 'tags', []).length > 0) {
       item.tags.forEach((tag) => {
-        if (tag === 'pre-market') {
+        if (tag.toLowerCase() === 'pre-market') {
           setIsPreMarket(true);
         }
       });
     }
-  }, []);
+  }, [get(item, 'tags', [])]);
 
   // Process tags
   useEffect(() => {

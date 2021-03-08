@@ -63,6 +63,7 @@ const SplashScreen = (props) => {
 
   const updateData = () => {
     const wrapCarousel = document.getElementById('overlayCarousel');
+    wrapCarousel.classList.remove('animate');
     if (wrapCarousel) {
       const getAllslides = wrapCarousel.getElementsByClassName('slick-slide');
       let activeIndex;
@@ -99,7 +100,7 @@ const SplashScreen = (props) => {
             } else if (activeIndex > num) {
               getAllslides[num].classList.add('done');
             } else {
-              getAllslides[num].classList.remove(`mt-${inactiveNum}`);
+              getAllslides[num].classList.remove(`space-${inactiveNum}`);
               getAllslides[num].classList.add('toDo');
               getAllslides[num].classList.add(`space-${inactiveNum}`);
               inactiveNum += 1;
@@ -123,6 +124,10 @@ const SplashScreen = (props) => {
     swipe: false,
     arrows: false,
     focusOnSelect: false,
+    beforeChange: () => {
+      const wrapCarousel = document.getElementById('overlayCarousel');
+      wrapCarousel.classList.add('animate');
+    },
     afterChange: () => {
       updateData();
     },
@@ -146,6 +151,25 @@ const SplashScreen = (props) => {
       }
     },
   });
+
+  const closeOverlay = () => {
+    setSplashScreen('');
+    setMarketOverlayProperty({});
+    handleSetActiveMarketOverlayPropertyLists(null);
+    const data = {
+      resultsPerPage: 10,
+      offset: 0,
+      order: 'updatedAt',
+      direction: 'DESC',
+      setAsSingle: true,
+      multiLoader: true,
+      searchProfileId: get(userSearchProfiles[0], 'id', null),
+    };
+    handleGetNewProperties(data);
+    handleGetPreMarketProperties(data);
+    handleGetPremiumProperties(data);
+    handleGetFavoritesProperties(data);
+  };
 
   const checkFavorite = () => {
     const findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayProperty.id);
@@ -208,6 +232,8 @@ const SplashScreen = (props) => {
           removeEl[0].parentNode.removeChild(removeEl[0]);
         }
       }, 1000);
+    } else {
+      closeOverlay();
     }
   };
 
@@ -219,25 +245,6 @@ const SplashScreen = (props) => {
         slider.slickNext();
       }
     }
-  };
-
-  const closeOverlay = () => {
-    setSplashScreen('');
-    setMarketOverlayProperty({});
-    handleSetActiveMarketOverlayPropertyLists(null);
-    const data = {
-      resultsPerPage: 10,
-      offset: 0,
-      order: 'updatedAt',
-      direction: 'DESC',
-      setAsSingle: true,
-      multiLoader: true,
-      searchProfileId: get(userSearchProfiles[0], 'id', null),
-    };
-    handleGetNewProperties(data);
-    handleGetPreMarketProperties(data);
-    handleGetPremiumProperties(data);
-    handleGetFavoritesProperties(data);
   };
 
   return (
