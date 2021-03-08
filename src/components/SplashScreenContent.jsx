@@ -295,6 +295,7 @@ const SplashScreen = (props) => {
         <div className="dis-fl-row jc-c a-c">
           <BrixelButtonIcon
             rounded
+            secondary
             className="mr-4"
             theme="red"
             onClick={() => notInterested()}
@@ -303,6 +304,7 @@ const SplashScreen = (props) => {
           />
           <BrixelButtonIcon
             rounded
+            secondary
             theme="green"
             onClick={() => saveFavorite()}
             icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
