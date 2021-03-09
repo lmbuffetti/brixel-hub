@@ -51,6 +51,7 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
 
    .slick-track {
      height: 100%;
+     width: 100% !important;
    }
 
    .slick-list {
@@ -67,8 +68,13 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    }
 
    .slick-slide {
-     transition: all 0.4s $trans_func !important;
-     height: 100%;
+     position: absolute !important;
+     transition: scale 0.4s, opacity 0.4s, margin 0.4s !important;
+     height: calc(100% - 40px);
+     left: 0 !important;
+     width: 100% !important;
+     transform: translateX(0) translateY(-50%);
+     top: 50%;
 
      > div {
        height: 100%;
@@ -76,10 +82,8 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    }
 
    .done {
-     //transform: scale(#{1 - (((0 + 1) * 4) / 100)}) translateY(-#{percentage(((0 + 1) / 2) / 10)});
-     //z-index: 12;
-     //opacity: 0;
-     transition: all 0s;
+     opacity: 0 !important;
+     transition: all 0s !important;
    }
 
    .toDo {
@@ -130,7 +134,13 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
      .space-#{$i} {
        // margin-top: -#{($i + 1) * 5}px;
        z-index: -#{($i + 1)};
-       transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateY(-#{percentage((($i + 1) / 2) / 10)});
+       @if $i == 0 {
+         transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateX(0) translateY(-50%);
+         margin-top: -40px;
+       } @else {
+         transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateX(0) translateY(-60%);
+         margin-top: -40px;
+       }
        filter: blur(1px);
        -webkit-filter: blur(1px);
      }
@@ -138,10 +148,13 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
 
    @for $i from 2 through 5 {
      $id: 2;
+     $calc: (($id + 1) / 4) * 10;
+     $def: (50 + $calc) / 100;
      .space-#{$i} {
        // margin-top: -#{($i + 1) * 5}px;
        z-index: -#{($id + 1)};
-       transform: scale(#{1 - ((($id + 1) * 4) / 100)}) translateY(-#{percentage((($id + 1) / 2) / 10)});
+       transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateX(0) translateY(-60%);
+       margin-top: -40px;
        filter: blur(1px);
        -webkit-filter: blur(1px);
      }
@@ -156,6 +169,7 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    &.animate {
      .active.slick-current {
        transition: 0s !important;
+       opacity: 0 !important;
      }
      .space-2 {
        opacity: 1 !important;
@@ -195,11 +209,11 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
      }
      &.fadeOut {
        animation: fadeDown 650ms $trans_func forwards;
-       margin-top: 40px;
+       margin-top: 78px;
      }
      &.fadeIn {
        animation: fadeUp 650ms $trans_func forwards;
-       margin-top: 40px;
+       margin-top: 78px;
      }
    }
  }
@@ -238,20 +252,21 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
 @keyframes fadeDown {
   from {
     opacity: 1;
+    transform: translateX(0) translateY(0%);
   }
   to {
-    transform: translateY(50%);
+    transform: translateX(0) translateY(50%);
     opacity: 0;
   }
 }
 
 @keyframes fadeUp {
   from {
-    transform: translateY(50%);
+    transform: translateX(0) translateY(50%);
     opacity: 0;
   }
   to {
-    transform: translateY(0%);
+    transform: translateX(0) translateY(0%);
     opacity: 1;
   }
 }

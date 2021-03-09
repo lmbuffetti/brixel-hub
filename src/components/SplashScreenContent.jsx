@@ -95,8 +95,6 @@ const SplashScreen = (props) => {
             getAllslides[num].className = 'slick-slide';
             if (activeIndex === num) {
               getAllslides[num].classList.add('active', 'slick-active', 'slick-current');
-            } else if (activeIndex - 1 === num) {
-              getAllslides[num].classList.add('done', 'fadeOut');
             } else if (activeIndex > num) {
               getAllslides[num].classList.add('done');
             } else {
@@ -115,7 +113,7 @@ const SplashScreen = (props) => {
           while (removeEl[0]) {
             removeEl[0].parentNode.removeChild(removeEl[0]);
           }
-        }, 1000);
+        }, 300);
         setActiveSlide(activeIndex);
       }
     }
@@ -348,7 +346,7 @@ const SplashScreen = (props) => {
         }
         <div className="dis-fl-row jc-c a-c">
           {
-            !activeMarketOverlayPropertyLists && !get(activeMarketOverlayProperty, 'tags', []).includes('premium') && (
+            (activeMarketOverlayPropertyLists || !get(activeMarketOverlayProperty, 'tags', []).includes('premium')) && (
               <BrixelButtonIcon
                 rounded
                 secondary
