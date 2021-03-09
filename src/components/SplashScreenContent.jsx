@@ -107,6 +107,15 @@ const SplashScreen = (props) => {
             }
           }
         }
+        setTimeout(() => {
+          wrapCarousel.classList.remove('animateCard');
+        }, 600);
+        setTimeout(() => {
+          const removeEl = document.getElementsByClassName('cloneElement');
+          while (removeEl[0]) {
+            removeEl[0].parentNode.removeChild(removeEl[0]);
+          }
+        }, 1000);
         setActiveSlide(activeIndex);
       }
     }
@@ -125,9 +134,22 @@ const SplashScreen = (props) => {
     arrows: false,
     focusOnSelect: false,
     speed: 100,
-    beforeChange: () => {
+    beforeChange: (prev, next) => {
       const wrapCarousel = document.getElementById('overlayCarousel');
       wrapCarousel.classList.add('animate');
+      const itm = wrapCarousel.getElementsByClassName('slick-current')[0];
+      const cln = itm.cloneNode(true);
+      console.log(prev, next);
+      if (next > prev) {
+        const itm = wrapCarousel.getElementsByClassName('slick-current')[0];
+        const cln = itm.cloneNode(true);
+        wrapCarousel.appendChild(cln).className = 'cloneElement fadeOut';
+      } else {
+        wrapCarousel.classList.add('animateCard');
+        const itm = wrapCarousel.getElementsByClassName('slick-slide')[activeSlide - 1];
+        const cln = itm.cloneNode(true);
+        wrapCarousel.appendChild(cln).className = 'cloneElement fadeIn';
+      }
     },
     afterChange: () => {
       updateData();
