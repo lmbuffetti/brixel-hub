@@ -64,6 +64,7 @@ const checkCommon = (store) => (next) => (action) => {
       const {
         getEstimation, token, redirectToUserFlow, redirectToRewards,
         redirectToHome, smallLoader, createEstimation, redirectToUrl,
+        extraLoading,
       } = objData;
       delete objData.getEstimation;
       delete objData.token;
@@ -71,6 +72,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete objData.redirectToRewards;
       delete objData.redirectToHome;
       delete objData.smallLoader;
+      delete objData.extraLoading;
       delete objData.createEstimation;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
@@ -87,8 +89,10 @@ const checkCommon = (store) => (next) => (action) => {
               redirectTo: redirectToUrl,
             };
             store.dispatch({ type: CREATE_ESTIMATION, payload: data });
+            if (extraLoading) store.dispatch({ type: SPINNER_OFF });
           } else if (getEstimation) {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
+            if (extraLoading) store.dispatch({ type: SPINNER_OFF });
           } else if (redirectToUrl) {
             window.location.href = redirectToUrl;
           } else if (redirectToHome) {

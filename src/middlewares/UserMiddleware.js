@@ -115,6 +115,7 @@ const checkUser = (store) => (next) => (action) => {
       const data = action.payload.user;
       const addProperty = action.payload.addProperty || false;
       const addSearchProfile = action.payload.addSearchProfile || false;
+      const extraLoading = action.payload.user.extraLoading || false;
       const { redirectTo, setOwner } = action.payload.user;
       delete action.payload.user;
       delete action.payload.addProperty;
@@ -158,10 +159,12 @@ const checkUser = (store) => (next) => (action) => {
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
             store.dispatch({ type: SPINNER_OFF });
+            if (extraLoading) store.dispatch({ type: SPINNER_OFF });
           }
         })
         .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
+          if (extraLoading) store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
@@ -241,6 +244,7 @@ const checkUser = (store) => (next) => (action) => {
       next(action);
       // store.dispatch({ type: SPINNER_ON });
       const newUser = action.payload.user.createUser || false;
+      const extraLoading = action.payload.user.extraLoading || false;
       delete action.payload.user.createUser;
       store.dispatch({ type: SPINNER_ON });
       api.user.validateUser(action.payload.user.email)
@@ -251,6 +255,7 @@ const checkUser = (store) => (next) => (action) => {
               state: true,
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
+            if (extraLoading) store.dispatch({ type: SPINNER_OFF });
           } else if (newUser) {
             store.dispatch({ type: CREATE_USER, payload: action.payload });
           }
@@ -258,6 +263,7 @@ const checkUser = (store) => (next) => (action) => {
         })
         .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
+          if (extraLoading) store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }
@@ -311,8 +317,8 @@ const checkUser = (store) => (next) => (action) => {
     case ADD_NOT_INTERESTED: {
       next(action);
       api.user.addAsNotInterested(action.payload)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          // console.log(res);
           // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
@@ -321,8 +327,8 @@ const checkUser = (store) => (next) => (action) => {
     case REMOVE_NOT_INTERESTED: {
       next(action);
       api.user.removeAsNotInterested(action.payload)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          // console.log(res);
           // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
           store.dispatch({ type: SPINNER_SMALL_OFF });
         });
