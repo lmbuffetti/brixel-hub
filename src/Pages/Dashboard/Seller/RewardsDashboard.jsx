@@ -243,7 +243,7 @@ const RewardsDashboard = (props) => {
       className={`rewards-container ${classToHide ? 'hide' : ''}`}
       id="rewardsDashboard"
     >
-      <div className="dis-f a-t jc-c pos-r-md">
+      <div className="dis-f a-t jc-fs pos-r-md">
         {
           usrGroups && (
             <div className="firstLevel mr-lg-2">

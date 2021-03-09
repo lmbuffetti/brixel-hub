@@ -21,6 +21,10 @@ import {
 } from '../actions/types/MarketTypes';
 
 import {
+  SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS,
+} from '../actions/types/PropertyTypes';
+
+import {
   SKELETON_ON,
   SKELETON_OFF,
 } from '../actions/types/CommonTypes';
@@ -122,6 +126,7 @@ const checkLead = (store) => (next) => (action) => {
       next(action);
       let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
       loadSkeleton.favorite = 'CardImageTextVertical';
+      const { overlayCard } = action.payload;
       store.dispatch({
         type: SKELETON_ON,
         payload: {
@@ -132,8 +137,13 @@ const checkLead = (store) => (next) => (action) => {
       if (action.payload.searchProfileId) queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getNewInRadar(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
-          if (res.meta.status === 200) {
+          if (res.meta.status === 200 && !overlayCard) {
             store.dispatch({ type: SET_NEW_PROPERTIES, payload: res.data });
+          }
+          if (res.meta.status === 200 && overlayCard) {
+            const propertyList = get(store.getState(), 'market.newProperties.data', []);
+            propertyList.push(...res.data.data);
+            store.dispatch({ type: SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS, payload: propertyList });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
           loadSkeleton.favorite = false;

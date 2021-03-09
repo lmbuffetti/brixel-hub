@@ -33,6 +33,16 @@ class Property extends Base {
     return this.apiClient.put(url, {}, data);
   }
 
+  addAsNotInterested(pageId) {
+    const url = ep.user.addAsNotInterested(pageId);
+    return this.apiClient.put(url, {});
+  }
+
+  removeAsNotInterested(pageId) {
+    const url = ep.user.removeAsNotInterested(pageId);
+    return this.apiClient.put(url, {});
+  }
+
   removeFavorite(id, data) {
     const url = ep.user.removeFavorite(id);
     return this.apiClient.put(url, {}, data);

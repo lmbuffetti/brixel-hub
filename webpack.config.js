@@ -83,6 +83,18 @@ const clientConfig = {
           },
           {
             loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    "autoprefixer",
+                    {
+                      // Options
+                    },
+                  ],
+                ],
+              },
+            },
           },
           {
             loader: 'sass-loader',
@@ -187,6 +199,7 @@ const clientConfig = {
     new CopyPlugin({
       patterns: [
         { from: './public/favicon.png', to: './' },
+        { from: './src/images/location/icon_location.png', to: './images' },
       ],
     }),
     // new webpack.HotModuleReplacementPlugin(),

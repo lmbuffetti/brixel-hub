@@ -7,12 +7,12 @@ export const sidebarNavigationSeller = [
   {
     title: 'Property',
     name: 'property',
-    path: '/:propID/property',
+    path: '/:propID/property/facts/propertyType',
     submenu: [
       {
         title: 'Facts',
         name: 'facts',
-        path: '/:propID/property/facts',
+        path: '/:propID/property/facts/propertyType',
       },
       {
         title: 'Photos',

@@ -166,8 +166,9 @@ const DetailMedia = (props) => {
               }
             </div>
             <div className="actions dis-fl-row jc-b a-c mt-2 mb-4 pos-r">
+
               {
-                mediaType === 'photos' && (get(formValue[mediaType][idImg], 'id') !== formValue.coverPhoto.id)
+                formValue.coverPhoto && mediaType === 'photos' && (get(formValue[mediaType][idImg], 'id') !== formValue.coverPhoto.id)
                 && (
                   <BrixelButtonText
                     rounded

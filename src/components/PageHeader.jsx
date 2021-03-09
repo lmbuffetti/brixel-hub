@@ -8,8 +8,9 @@ import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import { BrixelDropdown, BrixelModal, Helpers } from '@brixel/brixel-components';
-// import logoNorm from '@brixel/brixel-configuration-partner/src/images/logo.svg';
+// import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_color.svg';
+import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_color_icon.svg';
 import Loadable from 'react-loadable';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -142,8 +143,8 @@ function PageHeader(props) {
         <div className={`dis-f a-c dis-f a-c p-2 py-small-lg-21 px-small-lg-29 jc-b pos-r jc-b pos-r ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
           <div className="dis-f jc-c a-c">
             <img
-              className={`logo dis-b w-fix-86  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
-              src={logoColor}
+              className={`logo dis-b ${widthScreen <= 600 ? 'w-fix-32 mr-2' : 'w-fix-88'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
+              src={`${widthScreen <= 600 ? logoColorIcon : logoColor}`}
               alt="Brixel Logo"
               id="header-logo"
             />

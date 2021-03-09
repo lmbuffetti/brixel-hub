@@ -1,4 +1,5 @@
- // Carousel overwrite
+$trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
+// Carousel overwrite
  .carousel-wrapper {
   .slick-slider {
     .slick-prev {
@@ -21,4 +22,280 @@
       }
     }
   }
+ }
+
+ .carousel3d {
+   max-width: 100%;
+   margin: 0 auto;
+   position: relative;
+   overflow-x: hidden;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+
+   &.open {
+     position: static;
+
+     [class^="slick"] {
+       position: static !important;
+       transform: none !important;
+     }
+
+   }
+
+   .slick-slider {
+    height: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+   }
+
+   .slick-track {
+     height: 100%;
+     width: 100% !important;
+   }
+
+   .slick-list {
+     padding-top: 40px;
+     height: 515px;
+     overflow: hidden;
+   }
+
+   .market-card-fullscreen {
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     transition: all 0.4s $trans_func !important;
+   }
+
+   .slick-slide {
+     position: absolute !important;
+     transition: scale 0.4s, opacity 0.4s, margin 0.4s !important;
+     height: calc(100% - 40px);
+     left: 0 !important;
+     width: 100% !important;
+     transform: translateX(0) translateY(-50%);
+     top: 50%;
+
+     > div {
+       height: 100%;
+     }
+   }
+
+   .done {
+     opacity: 0 !important;
+     transition: all 0s !important;
+   }
+
+   .toDo {
+     z-index: 5;
+   }
+
+   .mapsImage {
+     background-size: cover;
+     background-position: center;
+   }
+
+   &.open {
+     .market-card {
+        height: 100%;
+        padding-bottom: 87px;
+        overflow-y: auto;
+     }
+     .slick-slide {
+       display: none !important;
+     }
+     .active.slick-current {
+       display: block !important;
+     }
+   }
+
+   .market-card {
+     overflow: hidden;
+     left: 50%;
+     top: 50%;
+     height: 444px;
+     transform: translate(-50%, -50%);
+     position: absolute;
+     transition: all 0.5s $trans_func;
+   }
+
+   .active.slick-current {
+     z-index: 10;
+     .market-card {
+       //overflow-y: auto;
+     }
+   }
+
+   @for $i from 0 through 1 {
+     .space-#{$i} {
+       // margin-top: -#{($i + 1) * 5}px;
+       z-index: -#{($i + 1)};
+       @if $i == 0 {
+         transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateX(0) translateY(-50%);
+         margin-top: -40px;
+       } @else {
+         transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateX(0) translateY(-60%);
+         margin-top: -40px;
+       }
+       filter: blur(1px);
+       -webkit-filter: blur(1px);
+     }
+   }
+
+   @for $i from 2 through 5 {
+     $id: 2;
+     $calc: (($id + 1) / 4) * 10;
+     $def: (50 + $calc) / 100;
+     .space-#{$i} {
+       // margin-top: -#{($i + 1) * 5}px;
+       z-index: -#{($id + 1)};
+       transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateX(0) translateY(-60%);
+       margin-top: -40px;
+       filter: blur(1px);
+       -webkit-filter: blur(1px);
+     }
+   }
+
+   @for $i from 0 through 1 {
+     .space-#{$i} {
+       opacity: 1 !important;
+     }
+   }
+
+   &.animate {
+     .active.slick-current {
+       transition: 0s !important;
+       opacity: 0 !important;
+     }
+     .space-2 {
+       opacity: 1 !important;
+     }
+   }
+
+   &.animateCard {
+     .active.slick-current {
+       opacity: 0 !important;
+       // transition: 0s !important;
+     }
+   }
+
+   .cloneElement {
+     outline: none;
+     width: 227px;
+     position: fixed !important;
+     z-index: 10000;
+     top: 0;
+     display: block !important;
+     left: 0 !important;
+     bottom: 0 !important;
+     margin-top: 65px;
+
+
+     &.favorite {
+
+        animation: yay 650ms $trans_func forwards;
+       //transform-origin: bottom left;
+       //position: relative;
+       //left: -20px;
+     }
+     &.discard {
+        animation: nope 650ms $trans_func forwards;
+       //transform-origin: bottom right;
+       //right: -20px;
+     }
+     &.fadeOut {
+       animation: fadeDown 650ms $trans_func forwards;
+       margin-top: 78px;
+     }
+     &.fadeIn {
+       animation: fadeUp 650ms $trans_func forwards;
+       margin-top: 78px;
+     }
+   }
+ }
+
+ @keyframes fadeOut {
+   from {
+     opacity: 1 !important;
+     z-index: 15;
+   }
+   to {
+     opacity: 0 !important;
+     z-index: 0;
+   }
+ }
+
+ @keyframes yay {
+   from {
+     opacity: 1;
+   }
+   to {
+    transform: rotate(45deg) translateX(50%);
+    opacity: 0;
+   }
+ }
+
+ @keyframes nope {
+   from {
+     opacity: 1;
+   }
+   to {
+      transform: rotate(-45deg) translateX(-50%);
+     opacity: 0;
+   }
+ }
+
+@keyframes fadeDown {
+  from {
+    opacity: 1;
+    transform: translateX(0) translateY(0%);
+  }
+  to {
+    transform: translateX(0) translateY(50%);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    transform: translateX(0) translateY(50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) translateY(0%);
+    opacity: 1;
+  }
+}
+
+ .darkCheckList {
+   li {
+     list-style: none;
+     margin-bottom: $step;
+
+
+
+     &:before {
+       @include icomoon();
+       content: $icon-check;
+       color: map_get($darkColor, 700);
+       margin-right: $step;
+       position: relative;
+       top: 3px;
+     }
+     &:last-child {
+       margin-bottom: 0;
+     }
+   }
+   &.dis-in {
+     li {
+       display: inline-block;
+       margin-right: $step * 2;
+       @media (max-width: $responsive-small) {
+        display: block;
+      }
+       &:last-child {
+         margin-right: 0;
+       }
+     }
+   }
  }

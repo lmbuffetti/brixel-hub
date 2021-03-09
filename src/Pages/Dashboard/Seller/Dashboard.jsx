@@ -210,7 +210,8 @@ const Dashboard = (props) => {
     if (!history.location.pathname.includes('pageLists') && loadedProp) {
       if ((typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null)) || propID === 'no-property') {
         if ((!propID || propID === 'no-property') && get(activeSingleProperty, 'id', null)) {
-          history.push(`/${activeSingleProperty.id}/rewards`);
+          // history.push(`/${activeSingleProperty.id}/rewards`);
+          history.push('/home');
         }
         if (get(activeSingleProperty, 'owner', null) === loggedInUser.user.id) {
           // handleGetActiveSingleProperty({ fullVersion: true, id: propID });

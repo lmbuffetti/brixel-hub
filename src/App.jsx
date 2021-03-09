@@ -43,8 +43,18 @@ const GetStarted = Loadable({
   loading: Loading,
 });
 
+const GetStartedSeller = Loadable({
+  loader: () => import('./Pages/PackageFlow/GetStartedSeller' /* webpackChunkName: "GetStartedSeller" */),
+  loading: Loading,
+});
+
 const GetStartedBuyer = Loadable({
   loader: () => import('./Pages/PackageFlow/GetStartedBuyer' /* webpackChunkName: "GetStartedBuyer" */),
+  loading: Loading,
+});
+
+const GetStartedEstimation = Loadable({
+  loader: () => import('./Pages/PackageFlow/GetStartedEstimation' /* webpackChunkName: "GetStartedEstimation" */),
   loading: Loading,
 });
 
@@ -501,8 +511,10 @@ const App = (props) => {
                 }
                 <Switch>
                   { /* SECTION: ONBOARDING */ }
-                  <Route path="/packageFlow/getstarted/" component={GetStarted} />
+                  <Route exact path="/packageFlow/" component={GetStarted} />
+                  <Route path="/packageFlow/getstarted/" component={GetStartedSeller} />
                   <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
+                  <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
 
                   { /* SECTION: INSERT TOKEN */ }
                   <Route path="/tokeninput" component={InsertToken} />
@@ -579,11 +591,11 @@ const App = (props) => {
 
       { /* SPLASH SCREEN */ }
       {
-        splashScreenType === 'preMarket' && (
+        splashScreenType === 'marketOverlay' && (
           <SplashScreen
-            className="result-premarket"
+            className="result-market-overlay"
             closeOutside={false}
-            type="preMarket"
+            type="marketOverlay"
           />
         )
       }

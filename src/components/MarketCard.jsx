@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import set from 'lodash/set';
+import cloneDeep from 'lodash/cloneDeep';
 import pullAt from 'lodash/pullAt';
 import compact from 'lodash/compact';
 import {
@@ -18,8 +19,13 @@ import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
 import { setCookie } from '../utils/helpers';
 import { setSplashType } from '../actions/CommonActions';
+import { generateEstimation } from '../actions/EstimationActions';
 import {
-  setActiveSingleProperty, setEstimation, setActivePremarketProperty, getEstimation,
+  setActiveSingleProperty,
+  setEstimation,
+  setActiveMarketOverlayProperty,
+  setActiveMarketOverlayPropertyLists,
+  getEstimation,
 } from '../actions/PropertyActions';
 
 const MarketCard = (props) => {
@@ -27,16 +33,18 @@ const MarketCard = (props) => {
   const {
     favoritesProperties,
     handleGetEstimation,
+    handleSetActiveMarketOverlayPropertyLists,
     history,
-    estimation,
     item,
+    newProperties,
     onSetActiveProperty,
     preventClick,
-    setPreMarketProperty,
+    setMarketOverlayProperty,
     setPropertyEstimation,
     setSplashScreen,
     skeleton,
     type,
+    handleGenerateBestimate,
   } = props;
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
@@ -53,12 +61,12 @@ const MarketCard = (props) => {
   useEffect(() => {
     if (get(item, 'tags', []).length > 0) {
       item.tags.forEach((tag) => {
-        if (tag === 'pre-market') {
+        if (tag.toLowerCase() === 'pre-market') {
           setIsPreMarket(true);
         }
       });
     }
-  }, []);
+  }, [get(item, 'tags', [])]);
 
   // Process tags
   useEffect(() => {
@@ -74,13 +82,6 @@ const MarketCard = (props) => {
     }
   }, [get(item, 'tags', [])]);
 
-  // Update market card when bestimate changes
-  useEffect(() => {
-    if (has(estimation, 'id')) {
-      if (has(estimation, 'result.value')) set(item, 'estimation', estimation);
-    }
-  }, [estimation]);
-
   const openCard = (e) => {
     if (e) e.preventDefault();
     if (!preventClick) {
@@ -89,9 +90,24 @@ const MarketCard = (props) => {
           pathname: `/${item.id}/rewards/market-checker`,
           state: { section: 'Market' },
         });
-      } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market')) {
-        setSplashScreen('preMarket');
-        setPreMarketProperty(item);
+      } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
+        ((
+          type === 'premium' || get(item, 'tags', []).includes('premium') ||
+          type === 'new' || get(item, 'tags', []).includes('new')
+        ) && type !== 'favorite')
+      ) {
+        setSplashScreen('marketOverlay');
+        setMarketOverlayProperty(item);
+        let property = null;
+
+        if (type === 'new') {
+          property = cloneDeep(newProperties);
+          const indexCurrentProperty = property.findIndex((prop) => prop.id === item.id);
+          const element = property[indexCurrentProperty];
+          property.splice(indexCurrentProperty, 1);
+          property.splice(0, 0, element);
+        }
+        handleSetActiveMarketOverlayPropertyLists(property);
       } else if (type === 'favorite') {
         history.push({
           pathname: `/buyer/property/${item.id}/page`,
@@ -102,29 +118,38 @@ const MarketCard = (props) => {
     }
   };
 
-  const openBestimateOverlay = (e, location, estim, page) => {
+  const openBestimateOverlay = (e, location, estim, page, action) => {
     if (e) e.preventDefault();
     onSetActiveProperty(page.id);
-    if (location.countryCode === 'PT') {
+    setMarketOverlayProperty(page);
+    if (location.countryCode !== 'PT' && location.countryCode !== 'CH') {
       setCookie('brixelMarketBestimate', false);
       setSplashScreen('bestimateTeaser');
     }
-    if (location.countryCode === 'CH') {
-      if (!has(estim, 'result')) {
-        const payload = {
-          type: 'market',
-          id: item.id,
-        };
-        handleGetEstimation(payload);
+    if (location.countryCode === 'CH' || location.countryCode === 'PT') {
+      if (action === 'new') {
+        setCookie('brixelMarketBestimate', false);
+        setSplashScreen('bestimateTeaser');
+      } else {
+        if (!has(estim, 'result')) {
+          const payload = {
+            reloadOnwProperties: true,
+            type: 'market',
+            id: item.id,
+          };
+          handleGetEstimation(payload);
+        } else if (has(estim, 'result') && !has(estim, 'result.value')) {
+          handleGenerateBestimate(estim.id);
+        }
+        setCookie('brixelMarketBestimate', false);
+        setSplashScreen('bestimateResult');
+        setPropertyEstimation(estim);
       }
-      setCookie('brixelMarketBestimate', false);
-      setSplashScreen('bestimateResult');
-      setPropertyEstimation(estim);
     }
   };
 
   const checkFavorite = () => {
-    const findIndex = favoritesProperties.findIndex((prop) => prop.id === item.id);
+    const findIndex = favoritesProperties.findIndex((prop) => prop.id === get(item, 'id', null));
     return findIndex > -1;
   };
 
@@ -261,27 +286,63 @@ const MarketCard = (props) => {
                 <div
                   className="bottom bestimateFact dis-f fsize-300 w-perc-100"
                 >
-                  <div
-                    className="p-2 mr-1 brdRadius bgLight100"
-                    onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item)}
-                  >
-                    <span className="fweight-500 txtDark100">Bestimate<sup>&reg;</sup></span>
-                    <span className="dis-b fweight-600 txtPrimary400 ">
-                      {
-                        has(item, 'estimation.result.value') ? (
-                          <>
-                            <span className="notranslate">&le; {' '}
-                              {get(item, 'estimation.result.currency', '')}
-                              {' '}
-                              {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}
-                            </span>
-                          </>
-                        ) : (
-                          <span>Pending</span>
-                        )
-                      }
-                    </span>
-                  </div>
+                  {
+                    get(item, 'location.countryCode', null) === 'PT' && !has(item, 'properties.parking') && !has(item, 'properties.building.conditionStatus') && !has(item, 'estimation.result.value') ? (
+                      <div
+                        className="p-2 mr-1 brdRadius bgLight100"
+                        onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item, 'new')}
+                      >
+                        <span className="fweight-500 txtDark100">Bestimate<sup>&reg;</sup></span>
+                        <span className="dis-b fweight-600 txtPrimary400 ">
+                          {
+                            has(item, 'estimation.result.value') ? (
+                              <>
+                                <span className="notranslate">&le; {' '}
+                                  {get(item, 'estimation.result.currency', '')}
+                                  {' '}
+                                  {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                {
+                                  get(item, 'location.countryCode', null) === 'PT' && !has(item, 'properties.parking') && !has(item, 'properties.building.conditionStatus') ? (
+                                    <span>Get Estimation</span>
+                                  ) : (
+                                    <span>Pending</span>
+                                  )
+                                }
+                              </>
+                            )
+                          }
+                        </span>
+                      </div>
+                    ) : (
+                      <div
+                        className="p-2 mr-1 brdRadius bgLight100"
+                        onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item, 'exists')}
+                      >
+                        <span className="fweight-500 txtDark100">Bestimate<sup>&reg;</sup></span>
+                        <span className="dis-b fweight-600 txtPrimary400 ">
+                          {
+                            has(item, 'estimation.result.value') ? (
+                              <>
+                                <span className="notranslate">&le; {' '}
+                                  {get(item, 'estimation.result.currency', '')}
+                                  {' '}
+                                  {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                <span>Pending</span>
+                              </>
+                            )
+                          }
+                        </span>
+                      </div>
+                    )
+                  }
                   <div
                     className="p-2 brdRadius bgLight100 dis-f a-c"
                     onClick={() => history.push({
@@ -421,13 +482,16 @@ MarketCard.propTypes = {
   estimation: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
+  handleSetActiveMarketOverlayPropertyLists: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   item: PropTypes.object,
+  newProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSetActiveProperty: PropTypes.func,
   preventClick: PropTypes.bool,
-  setPreMarketProperty: PropTypes.func.isRequired,
+  setMarketOverlayProperty: PropTypes.func.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
+  handleGenerateBestimate: PropTypes.func.isRequired,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
 };
@@ -440,15 +504,23 @@ MarketCard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  allProperties: get(state, 'market.allProperties.data', []),
   estimation: get(state, 'property.estimation', {}),
   favoritesProperties: get(state, 'market.favoritesProperties.data', []),
+  lastViewedProperties: get(state, 'market.lastViewedProperties.data', []),
+  newProperties: get(state, 'market.newProperties.data', []),
+  ownerProperties: get(state, 'market.ownerProperties.data', []),
+  preMarketProperties: get(state, 'market.preMarketProperties.data', []),
+  premiumProperties: get(state, 'market.premiumProperties.data', []),
   skeleton: get(state, 'common.skeleton', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
+  handleGenerateBestimate: bindActionCreators(generateEstimation, dispatch),
+  handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
-  setPreMarketProperty: bindActionCreators(setActivePremarketProperty, dispatch),
+  setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });

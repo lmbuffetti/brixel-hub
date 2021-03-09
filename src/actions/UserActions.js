@@ -20,6 +20,8 @@ import {
   SET_USER_TYPES,
   UPDATE_FAVORITE,
   VALIDATE_USER,
+  ADD_NOT_INTERESTED,
+  REMOVE_NOT_INTERESTED,
 } from './types/UserTypes';
 
 export const {
@@ -43,6 +45,8 @@ export const {
   setUserTypes,
   updateFavorite,
   validateUser,
+  addNotInterested,
+  removeNotInterested,
 } = createActions({
   [CHECK_TOKEN]: (payload) => payload,
   [CREATE_USER]: (payload) => payload,
@@ -64,4 +68,6 @@ export const {
   [SET_USER_TYPES]: (payload) => payload,
   [UPDATE_FAVORITE]: (payload) => payload,
   [VALIDATE_USER]: (payload) => payload,
+  [ADD_NOT_INTERESTED]: (payload) => payload,
+  [REMOVE_NOT_INTERESTED]: (payload) => payload,
 });

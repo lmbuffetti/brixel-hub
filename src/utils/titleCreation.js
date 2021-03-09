@@ -147,7 +147,7 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
       }
     }
   } else if (getCountry && propertyType) {
-    const randomNumber = Math.floor(Math.random() * adjective.en.length);
+    const randomNumber = Math.floor(Math.random() * adjective[lang].length);
     pageTitle = `${adjective.en[randomNumber]} ${translatedPropertyType}`;
     pageTitle = adjective[lang] ? `${adjective[lang][randomNumber]} ${translatedPropertyType}` : `${adjective.en[randomNumber]} ${translatedPropertyType}`;
     if (location.city) {

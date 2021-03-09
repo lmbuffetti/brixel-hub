@@ -151,3 +151,14 @@
     padding: $step * 2;
   }
 }
+
+.redCircleMap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  background-color: rgba(map_get($redColor, 400), 0.7);
+}
