@@ -96,7 +96,7 @@ const SplashScreen = (props) => {
             if (activeIndex === num) {
               getAllslides[num].classList.add('active', 'slick-active', 'slick-current');
             } else if (activeIndex - 1 === num) {
-              getAllslides[num].classList.add('done', 'fadeOut');
+              // getAllslides[num].classList.add('done', 'fadeOut');
             } else if (activeIndex > num) {
               getAllslides[num].classList.add('done');
             } else {
@@ -124,8 +124,13 @@ const SplashScreen = (props) => {
     swipe: false,
     arrows: false,
     focusOnSelect: false,
+    speed: 100,
     beforeChange: () => {
       const wrapCarousel = document.getElementById('overlayCarousel');
+      wrapCarousel.classList.add('animateCard');
+      setTimeout(() => {
+        wrapCarousel.classList.remove('animateCard');
+      }, 300);
       wrapCarousel.classList.add('animate');
     },
     afterChange: () => {
