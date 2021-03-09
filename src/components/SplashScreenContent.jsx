@@ -96,7 +96,7 @@ const SplashScreen = (props) => {
             if (activeIndex === num) {
               getAllslides[num].classList.add('active', 'slick-active', 'slick-current');
             } else if (activeIndex - 1 === num) {
-              // getAllslides[num].classList.add('done', 'fadeOut');
+              getAllslides[num].classList.add('done', 'fadeOut');
             } else if (activeIndex > num) {
               getAllslides[num].classList.add('done');
             } else {
@@ -107,6 +107,15 @@ const SplashScreen = (props) => {
             }
           }
         }
+        setTimeout(() => {
+          wrapCarousel.classList.remove('animateCard');
+        }, 600);
+        setTimeout(() => {
+          const removeEl = document.getElementsByClassName('cloneElement');
+          while (removeEl[0]) {
+            removeEl[0].parentNode.removeChild(removeEl[0]);
+          }
+        }, 1000);
         setActiveSlide(activeIndex);
       }
     }
@@ -125,13 +134,19 @@ const SplashScreen = (props) => {
     arrows: false,
     focusOnSelect: false,
     speed: 100,
-    beforeChange: () => {
+    beforeChange: (prev, next) => {
       const wrapCarousel = document.getElementById('overlayCarousel');
-      wrapCarousel.classList.add('animateCard');
-      setTimeout(() => {
-        wrapCarousel.classList.remove('animateCard');
-      }, 300);
       wrapCarousel.classList.add('animate');
+      if (next > prev) {
+        const itmFadeOut = wrapCarousel.getElementsByClassName('slick-current')[0];
+        const clnFadeOut = itmFadeOut.cloneNode(true);
+        wrapCarousel.appendChild(clnFadeOut).className = 'cloneElement fadeOut';
+      } else {
+        wrapCarousel.classList.add('animateCard');
+        const itmFadeIn = wrapCarousel.getElementsByClassName('slick-slide')[activeSlide - 1];
+        const clnFadeOut = itmFadeIn.cloneNode(true);
+        wrapCarousel.appendChild(clnFadeOut).className = 'cloneElement fadeIn';
+      }
     },
     afterChange: () => {
       updateData();
@@ -177,7 +192,10 @@ const SplashScreen = (props) => {
   };
 
   const checkFavorite = () => {
-    const findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayProperty.id);
+    let findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayProperty.id);
+    if (activeMarketOverlayPropertyLists && activeSlide >= 0) {
+      findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayPropertyLists[activeSlide].id);
+    }
     return findIndex > -1;
   };
 

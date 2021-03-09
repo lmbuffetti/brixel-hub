@@ -76,8 +76,10 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    }
 
    .done {
-     animation: fadeOut 0.4s $trans_func;
-     z-index: 0;
+     //transform: scale(#{1 - (((0 + 1) * 4) / 100)}) translateY(-#{percentage(((0 + 1) / 2) / 10)});
+     //z-index: 12;
+     //opacity: 0;
+     transition: all 0s;
    }
 
    .toDo {
@@ -151,17 +153,19 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
      }
    }
 
-   &.animateCard {
-     .fadeOut {
+   &.animate {
+     .active.slick-current {
+       transition: 0s !important;
+     }
+     .space-2 {
        opacity: 1 !important;
-       z-index: 12 !important;
-       animation: fadeDown 650ms $trans_func forwards;
      }
    }
 
-   &.animate {
-     .space-2 {
-       opacity: 1 !important;
+   &.animateCard {
+     .active.slick-current {
+       opacity: 0 !important;
+       transition: 0s !important;
      }
    }
 
@@ -188,6 +192,14 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
         animation: nope 650ms $trans_func forwards;
        //transform-origin: bottom right;
        //right: -20px;
+     }
+     &.fadeOut {
+       animation: fadeDown 650ms $trans_func forwards;
+       margin-top: 40px;
+     }
+     &.fadeIn {
+       animation: fadeUp 650ms $trans_func forwards;
+       margin-top: 40px;
      }
    }
  }
@@ -230,6 +242,17 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
   to {
     transform: translateY(50%);
     opacity: 0;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0%);
+    opacity: 1;
   }
 }
 
