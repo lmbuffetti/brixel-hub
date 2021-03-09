@@ -108,13 +108,13 @@ const SplashScreen = (props) => {
         setActiveSlide(activeIndex);
         setTimeout(() => {
           wrapCarousel.classList.remove('animateCard');
-        }, 1000);
+        }, 500);
         setTimeout(() => {
           const removeEl = document.getElementsByClassName('cloneElement');
           while (removeEl[0]) {
             removeEl[0].parentNode.removeChild(removeEl[0]);
           }
-        }, 1500);
+        }, 600);
       }
     }
     return null;
@@ -227,7 +227,7 @@ const SplashScreen = (props) => {
         while (removeEl[0]) {
           removeEl[0].parentNode.removeChild(removeEl[0]);
         }
-      }, 1000);
+      }, 500);
     }
   };
 
@@ -252,7 +252,7 @@ const SplashScreen = (props) => {
         while (removeEl[0]) {
           removeEl[0].parentNode.removeChild(removeEl[0]);
         }
-      }, 1000);
+      }, 500);
     } else {
       closeOverlay();
     }
