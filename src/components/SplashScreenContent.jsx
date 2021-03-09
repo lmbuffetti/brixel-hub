@@ -329,15 +329,19 @@ const SplashScreen = (props) => {
           )
         }
         <div className="dis-fl-row jc-c a-c">
-          <BrixelButtonIcon
-            rounded
-            secondary
-            className="mr-4"
-            theme="red"
-            onClick={() => notInterested()}
-            icon="close-small"
-            isLoading={isSmallLoading === `notInterested-${activeMarketOverlayProperty.id}`}
-          />
+          {
+            !activeMarketOverlayPropertyLists && !get(activeMarketOverlayProperty, 'tags', []).includes('premium') && (
+              <BrixelButtonIcon
+                rounded
+                secondary
+                className="mr-4"
+                theme="red"
+                onClick={() => notInterested()}
+                icon="close-small"
+                isLoading={isSmallLoading === `notInterested-${activeMarketOverlayProperty.id}`}
+              />
+            )
+          }
           <BrixelButtonIcon
             rounded
             secondary
