@@ -127,10 +127,6 @@ const SplashScreen = (props) => {
     speed: 100,
     beforeChange: () => {
       const wrapCarousel = document.getElementById('overlayCarousel');
-      wrapCarousel.classList.add('animateCard');
-      setTimeout(() => {
-        wrapCarousel.classList.remove('animateCard');
-      }, 300);
       wrapCarousel.classList.add('animate');
     },
     afterChange: () => {
