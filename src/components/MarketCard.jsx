@@ -91,8 +91,11 @@ const MarketCard = (props) => {
           state: { section: 'Market' },
         });
       } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
-                  type === 'premium' || get(item, 'tags', []).includes('premium') ||
-                  type === 'new' || get(item, 'tags', []).includes('new')) {
+        ((
+          type === 'premium' || get(item, 'tags', []).includes('premium') ||
+          type === 'new' || get(item, 'tags', []).includes('new')
+        ) && type !== 'favorite')
+      ) {
         setSplashScreen('marketOverlay');
         setMarketOverlayProperty(item);
         let property = null;

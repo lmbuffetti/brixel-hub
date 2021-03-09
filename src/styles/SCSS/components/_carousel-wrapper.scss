@@ -56,6 +56,7 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    .slick-list {
      padding-top: 40px;
      height: 520px;
+     overflow: hidden;
    }
 
    .market-card-fullscreen {
@@ -123,7 +124,7 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
      }
    }
 
-   @for $i from 0 through 5 {
+   @for $i from 0 through 1 {
      .space-#{$i} {
        // margin-top: -#{($i + 1) * 5}px;
        z-index: -#{($i + 1)};
@@ -133,9 +134,28 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
      }
    }
 
+   @for $i from 2 through 5 {
+     $id: 2;
+     .space-#{$i} {
+       // margin-top: -#{($i + 1) * 5}px;
+       z-index: -#{($id + 1)};
+       transform: scale(#{1 - ((($id + 1) * 4) / 100)}) translateY(-#{percentage((($id + 1) / 2) / 10)});
+       filter: blur(1px);
+       -webkit-filter: blur(1px);
+     }
+   }
+
    @for $i from 0 through 1 {
      .space-#{$i} {
        opacity: 1 !important;
+     }
+   }
+
+   &.animateCard {
+     .fadeOut {
+       opacity: 1 !important;
+       z-index: 12 !important;
+       animation: fadeDown 650ms $trans_func forwards;
      }
    }
 
@@ -202,6 +222,16 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
      opacity: 0;
    }
  }
+
+@keyframes fadeDown {
+  from {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+}
 
  .darkCheckList {
    li {
