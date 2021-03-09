@@ -88,10 +88,6 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
 
    .toDo {
      z-index: 5;
-
-     .info {
-       opacity: 0;
-     }
    }
 
    .mapsImage {
@@ -179,7 +175,7 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    &.animateCard {
      .active.slick-current {
        opacity: 0 !important;
-       transition: 0s !important;
+       // transition: 0s !important;
      }
    }
 

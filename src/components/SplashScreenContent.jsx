@@ -105,16 +105,16 @@ const SplashScreen = (props) => {
             }
           }
         }
+        setActiveSlide(activeIndex);
         setTimeout(() => {
           wrapCarousel.classList.remove('animateCard');
-        }, 600);
+        }, 1000);
         setTimeout(() => {
           const removeEl = document.getElementsByClassName('cloneElement');
           while (removeEl[0]) {
             removeEl[0].parentNode.removeChild(removeEl[0]);
           }
-        }, 300);
-        setActiveSlide(activeIndex);
+        }, 1500);
       }
     }
     return null;
