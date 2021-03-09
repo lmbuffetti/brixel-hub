@@ -44,6 +44,7 @@ const checkSearchProfile = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       const token = action.payload.token || null;
       const addSearchProfile = action.payload.addSearchProfile || false;
+      const extraLoading = action.payload.user.extraLoading || false;
       const { redirectToUrl } = action.payload;
       api.searchProfile.updateSearchProfile(action.payload.dataSearchProfile, token)
         .then(() => {
@@ -52,7 +53,7 @@ const checkSearchProfile = (store) => (next) => (action) => {
           } else if (addSearchProfile) {
             // window.location.href = '/home';
             window.location.href = '/buyer/propertyLists';
-          }
+          } else if (extraLoading) store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }

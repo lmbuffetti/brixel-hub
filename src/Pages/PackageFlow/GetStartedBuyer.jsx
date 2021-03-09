@@ -31,7 +31,7 @@ import { createActiveSingleProperty, saveActiveSingleProperty } from '../../acti
 import { setCookie } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingBuyer';
 import { getGamegroup } from '../../actions/GamificationActions';
-import { setLanguage, spinnerOff } from '../../actions/CommonActions';
+import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
 import { updateUserSearchProfile } from '../../actions/SearchProfileActions';
 
@@ -51,6 +51,7 @@ const GetStartedBuyer = (props) => {
     handleUpdateSearchProfile,
     handleSetLanguage,
     handleSpinnerOff,
+    handleSpinnerOn,
     handleValidateUser,
     history,
     initForm,
@@ -107,10 +108,12 @@ const GetStartedBuyer = (props) => {
       addSearchProfile: true,
       redirectToUserFlow: false,
       redirectToUrl: '/home',
+      extraLoading: true,
       company,
     };
     const page = get(formValue, 'signupScreen', null);
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
+    handleSpinnerOn();
     if (formValue.owner) {
       data.owner = loggedInUser.user.id;
       // DISPATCH TO SAVE THE PROPERTY
@@ -658,6 +661,7 @@ GetStartedBuyer.propTypes = {
   handleUpdateSearchProfile: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
+  handleSpinnerOn: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
@@ -740,6 +744,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
+  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
