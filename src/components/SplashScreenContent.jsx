@@ -137,18 +137,15 @@ const SplashScreen = (props) => {
     beforeChange: (prev, next) => {
       const wrapCarousel = document.getElementById('overlayCarousel');
       wrapCarousel.classList.add('animate');
-      const itm = wrapCarousel.getElementsByClassName('slick-current')[0];
-      const cln = itm.cloneNode(true);
-      console.log(prev, next);
       if (next > prev) {
-        const itm = wrapCarousel.getElementsByClassName('slick-current')[0];
-        const cln = itm.cloneNode(true);
-        wrapCarousel.appendChild(cln).className = 'cloneElement fadeOut';
+        const itmFadeOut = wrapCarousel.getElementsByClassName('slick-current')[0];
+        const clnFadeOut = itmFadeOut.cloneNode(true);
+        wrapCarousel.appendChild(clnFadeOut).className = 'cloneElement fadeOut';
       } else {
         wrapCarousel.classList.add('animateCard');
-        const itm = wrapCarousel.getElementsByClassName('slick-slide')[activeSlide - 1];
-        const cln = itm.cloneNode(true);
-        wrapCarousel.appendChild(cln).className = 'cloneElement fadeIn';
+        const itmFadeIn = wrapCarousel.getElementsByClassName('slick-slide')[activeSlide - 1];
+        const clnFadeOut = itmFadeIn.cloneNode(true);
+        wrapCarousel.appendChild(clnFadeOut).className = 'cloneElement fadeIn';
       }
     },
     afterChange: () => {
