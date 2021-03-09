@@ -96,7 +96,7 @@ const SplashScreen = (props) => {
             if (activeIndex === num) {
               getAllslides[num].classList.add('active', 'slick-active', 'slick-current');
             } else if (activeIndex - 1 === num) {
-              // getAllslides[num].classList.add('done', 'fadeOut');
+              getAllslides[num].classList.add('done', 'fadeOut');
             } else if (activeIndex > num) {
               getAllslides[num].classList.add('done');
             } else {
@@ -177,7 +177,10 @@ const SplashScreen = (props) => {
   };
 
   const checkFavorite = () => {
-    const findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayProperty.id);
+    let findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayProperty.id);
+    if (activeMarketOverlayPropertyLists && activeSlide >= 0) {
+      findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayPropertyLists[activeSlide].id);
+    }
     return findIndex > -1;
   };
 

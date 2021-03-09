@@ -76,8 +76,10 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    }
 
    .done {
-     animation: fadeOut 0.4s $trans_func;
-     z-index: 0;
+     //transform: scale(#{1 - (((0 + 1) * 4) / 100)}) translateY(-#{percentage(((0 + 1) / 2) / 10)});
+     //z-index: 12;
+     //opacity: 0;
+     transition: all 0s;
    }
 
    .toDo {
@@ -148,14 +150,6 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    @for $i from 0 through 1 {
      .space-#{$i} {
        opacity: 1 !important;
-     }
-   }
-
-   &.animateCard {
-     .fadeOut {
-       opacity: 1 !important;
-       z-index: 12 !important;
-       animation: fadeDown 650ms $trans_func forwards;
      }
    }
 

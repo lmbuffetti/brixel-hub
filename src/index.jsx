@@ -1,3 +1,4 @@
+/* global Transifex */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -17,6 +18,14 @@ const root = document.getElementById('root');
 const AppDOM = () => (
   <Provider store={store}>
     <BrowserRouter history={RouterHistory}>
+      {
+        typeof Transifex !== 'undefined' && (
+          <>
+            <input type="text" placeholder={Transifex.live.translateText('Write street names')} name="test" />
+            <textarea placeholder="Test" name="test" />
+          </>
+        )
+      }
       <App />
     </BrowserRouter>
   </Provider>
