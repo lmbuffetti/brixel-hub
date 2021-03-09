@@ -161,7 +161,7 @@ const MarketCard = (props) => {
         )
       }
       <div
-        className={`market-card w-fix-376 ov-h h-perc-100 dis-fl-col brdRadius shadow-5dp pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} bgWhite m-a ${fullScreenCard ? 'market-card-fullscreen' : ''}`}
+        className={`market-card w-fix-376 ov-h h-perc-100 dis-fl-col brdRadius shadow-3dp pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} bgWhite m-a ${fullScreenCard ? 'market-card-fullscreen' : ''}`}
         // onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         <>
