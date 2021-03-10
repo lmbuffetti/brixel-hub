@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import {
   GET_USER_SEARCH_PROFILES,
   SET_USER_SEARCH_PROFILES,
@@ -44,7 +45,7 @@ const checkSearchProfile = (store) => (next) => (action) => {
       store.dispatch({ type: SPINNER_ON });
       const token = action.payload.token || null;
       const addSearchProfile = action.payload.addSearchProfile || false;
-      const extraLoading = action.payload.user.extraLoading || false;
+      const extraLoading = get(action.payload, 'extraLoading', false);
       const { redirectToUrl } = action.payload;
       api.searchProfile.updateSearchProfile(action.payload.dataSearchProfile, token)
         .then(() => {
