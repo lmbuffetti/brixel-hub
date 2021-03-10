@@ -220,7 +220,7 @@ const Dashboard = (props) => {
         if (imageType.length === 0) handleGetImageType();
       } else {
         setUserType('emptyState');
-        history.push('/no-property');
+        history.push('/home');
       }
     }
     localStorage.removeItem('gameGroup');

@@ -232,7 +232,7 @@ const checkCommon = (store) => (next) => (action) => {
             if (res.data[0].id) {
               store.dispatch({ type: GET_ACTIVE_SINGLE_PROPERTY, payload: { id: res.data[0].id } });
             } else {
-              window.location.href = '/no-property';
+              window.location.href = '/home';
             }
           } else {
             store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: res.data || {} });
@@ -250,7 +250,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
           if (setAsSingle) {
             store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: { } });
-            window.location.href = '/no-property';
+            window.location.href = '/home';
           } else {
             store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: [] });
           }
