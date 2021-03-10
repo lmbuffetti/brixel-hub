@@ -66,6 +66,13 @@
     }
   }
 
+  &.manageOffer {
+    .container {
+      max-width: 392px;
+      max-height: 806px;
+    }
+  }
+
   .container {
     position: relative;
     height: calc(100% - 120px);

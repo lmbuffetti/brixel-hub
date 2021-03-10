@@ -36,6 +36,7 @@ import {
 } from '../../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { calcPercentageFacts } from '../../../utils/helpers';
+import Loading from '../../../components/Loading';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -81,6 +82,16 @@ const Deals = Loadable({
 const ProtectedRoute = Loadable({
   loader: () => import('../../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
   loading: () => null,
+});
+
+const OffersList = Loadable({
+  loader: () => import('../../Offers/OffersList' /* webpackChunkName: "OffersList" */),
+  loading: Loading,
+});
+
+const OfferDetail = Loadable({
+  loader: () => import('../../Offers/OfferDetail' /* webpackChunkName: "OfferDetail" */),
+  loading: Loading,
 });
 
 const Dashboard = (props) => {
@@ -424,6 +435,8 @@ const Dashboard = (props) => {
       <ProtectedRoute path="/:propId?/deals" component={Deals} />
       <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
       <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
+      <ProtectedRoute exact path="/:propId?/offers" component={OffersList} />
+      <ProtectedRoute exact path="/:propId?/offers/:offerID" component={OfferDetail} />
     </div>
   );
 };
