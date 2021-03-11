@@ -92,9 +92,13 @@ const AddNewOffer = (props) => {
                 get(formValue, 'file.name', null) && (
                   <>
                     <h6 className="fsize-100 txtDark500 pb-small-4 mt-3">Proof of financing from bank</h6>
-                    <div>
+                    <div className="dis-f a-c">
                       <BrixelIcon
                         icon="document"
+                        background="blue"
+                        saturation={100}
+                        color="blue"
+                        saturationTxt={700}
                       />
                       <p>{get(formValue, 'file.name', '')}</p>
                     </div>
