@@ -57,6 +57,18 @@ export const sidebarNavigationSeller = [
     title: 'Deals',
     name: 'deals',
     path: '/:propID/deals',
+    submenu: [
+      {
+        title: 'Buyers',
+        name: 'deals',
+        path: '/:propID/deals',
+      },
+      {
+        title: 'Offers',
+        name: 'offers',
+        path: '/:propID/offers',
+      },
+    ],
   },
 ];
 
