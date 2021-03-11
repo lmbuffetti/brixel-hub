@@ -70,6 +70,8 @@
     .container {
       max-width: 392px;
       max-height: 806px;
+      top: 50%;
+      transform: translateY(-50%);
     }
   }
 

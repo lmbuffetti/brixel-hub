@@ -42,7 +42,7 @@ const AddNewOffer = (props) => {
       return false;
     }
 
-    setSuccess(true);
+    return setSuccess(true);
   };
 
   return (
@@ -51,7 +51,7 @@ const AddNewOffer = (props) => {
       type="marketOverlay"
       className="manageOffer"
     >
-      <div className="dis-f jc-fe mb-2">
+      <div className="dis-f jc-fe p-3 pb-2">
         <BrixelButtonIcon
           ghost
           theme="dark"
@@ -65,33 +65,33 @@ const AddNewOffer = (props) => {
             <>
               <h3 className="ta-c">Offer sent ⏳</h3>
 
-              <h5 className=" ta-c fsize-400 fweight-400 txtDark100 mt-1">{moment(new Date()).format('DD MMM YYYY HH:mm')}</h5>
+              <h5 className="ta-c fsize-400 fweight-400 txtDark100">{moment(new Date()).format('DD MMM YYYY HH:mm')}</h5>
 
-              <p className="mt-5">Your offer was transmitted to the owner. You will get feedback via e-mail.</p>
+              <p className="mt-5 txtDark700">Your offer was transmitted to the owner. You will get feedback via e-mail.</p>
 
-              <h6 className="fsize-100 txtDark500 pb-small-4 mt-3">Asking Price</h6>
+              <h6 className="fsize-200 pb-1 mt-3">Asking Price</h6>
               {
                 get(activeSingleProperty, 'price.total', 0) > 0 ? (
-                  <p>
+                  <p className="txtDark700 fweight-400">
                     <span className="mr-small-4">{get(activeSingleProperty, 'price.currency', '')}</span>
                     <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
                   </p>
                 ) : (
-                  <p>On Request</p>
+                  <p className="txtDark700 fweight-400">On Request</p>
                 )
               }
 
-              <h6 className="fsize-100 txtDark500 pb-small-4 mt-3">Offer Price</h6>
+              <h6 className="fsize-200 pb-1 mt-3">Offer Price</h6>
 
-              <p>
-                <span className="mr-small-4 fweight-700 txtPrimary700">{get(activeSingleProperty, 'price.currency', '')}</span>
-                <span className="ff-mono fweight-700 fSizePx20 txtPrimary700">{Helpers.formatNumberValue(get(formValue, 'offerPrice', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
+              <p className="fweight-700 txtPrimary700">
+                <span className="pr-small-4">{get(activeSingleProperty, 'price.currency', '')}</span>
+                <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(formValue, 'offerPrice', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
               </p>
 
               {
                 get(formValue, 'file.name', null) && (
                   <>
-                    <h6 className="fsize-100 txtDark500 pb-small-4 mt-3">Proof of financing from bank</h6>
+                    <h6 className="fsize-200 pb-1 mt-3">Proof of financing from bank</h6>
                     <div className="dis-f a-c">
                       <BrixelIcon
                         icon="document"
@@ -100,26 +100,14 @@ const AddNewOffer = (props) => {
                         color="blue"
                         saturationTxt={700}
                       />
-                      <p>{get(formValue, 'file.name', '')}</p>
+                      <p className="txtDark700 pl-small-4">{get(formValue, 'file.name', '')}</p>
                     </div>
                   </>
                 )
               }
 
-              <h6 className="fsize-100 txtDark500 pb-small-4 mt-3">Message</h6>
-              <p><i>{get(formValue, 'message', '')}</i></p>
-
-              <div className="dis-f mt-3">
-                <BrixelIcon
-                  icon="info"
-                  theme="dark100"
-                />
-
-                <p className="pl-1 txtDark100">
-                  This is a non-binding offer. The seller will be notified and will give feedback to you as soon as possible.
-                </p>
-
-              </div>
+              <h6 className="fsize-200 pb-1 pt-3">Message</h6>
+              <p className="txtDark700">{get(formValue, 'message', '')}</p>
 
               <div className="dis-f jc-c a-c">
                 <BrixelButtonPrimary
@@ -132,21 +120,21 @@ const AddNewOffer = (props) => {
             </>
           ) : (
             <>
-              <h3>Add offer</h3>
+              <h3 className="ta-c">Add offer</h3>
               <div className="w-perc-100 mt-5">
-                <h6 className="fsize-100 txtDark500 pb-small-4">Asking Price</h6>
+                <h6 className="fsize-200 pb-1 mt-3">Asking Price</h6>
                 {
                   get(activeSingleProperty, 'price.total', 0) > 0 ? (
-                    <p>
+                    <p className="txtDark700 fweight-400">
                       <span className="mr-small-4">{get(activeSingleProperty, 'price.currency', '')}</span>
                       <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
                     </p>
                   ) : (
-                    <p>On Request</p>
+                    <p className="txtDark700 fweight-400">On Request</p>
                   )
                 }
               </div>
-              <form>
+              <form className="offer-inputs">
 
                 <ReduxField
                   component={BrixelInputText}
