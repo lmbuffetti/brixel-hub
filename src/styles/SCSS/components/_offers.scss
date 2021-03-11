@@ -1,0 +1,7 @@
+.offer-inputs {
+  .brixel-label {
+    @include fontStyle(200);
+    color: map-get($darkColor, 700);
+    font-weight: 500;
+  }
+}
