@@ -84,13 +84,8 @@ const ProtectedRoute = Loadable({
   loading: () => null,
 });
 
-const OffersList = Loadable({
-  loader: () => import('../../Offers/OffersList' /* webpackChunkName: "OffersList" */),
-  loading: Loading,
-});
-
-const OfferDetail = Loadable({
-  loader: () => import('../../Offers/OfferDetail' /* webpackChunkName: "OfferDetail" */),
+const DashboardOffer = Loadable({
+  loader: () => import('../../Offers/DashboardOffer' /* webpackChunkName: "DashboardOffer" */),
   loading: Loading,
 });
 
@@ -427,6 +422,8 @@ const Dashboard = (props) => {
     <div className={`container dashboardContainer ${sectionClass[2]}`} id="dashboard">
       {/* teaserScreens && isEligible(activeSingleProperty) && () */}
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
+      sdsad
+      <ProtectedRoute path="/:propId/offers/" component={DashboardOffer} />
       <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
@@ -435,8 +432,6 @@ const Dashboard = (props) => {
       <ProtectedRoute path="/:propId?/deals" component={Deals} />
       <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
       <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
-      <ProtectedRoute exact path="/:propId?/offers" component={OffersList} />
-      <ProtectedRoute exact path="/:propId?/offers/:offerID" component={OfferDetail} />
     </div>
   );
 };
