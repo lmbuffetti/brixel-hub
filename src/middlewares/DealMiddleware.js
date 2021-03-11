@@ -21,7 +21,7 @@ import {
   SET_USER_DEALS,
   UPDATE_DEALS_ORDER,
   UPDATE_MULTIPLE_DEALS,
-} from '../actions/types/DealsTypes';
+} from '../actions/types/DealTypes';
 
 import {
   SET_DEAL_OWNER_HISTORY_LISTINGS, GET_HISTORY_LISTINGS,
