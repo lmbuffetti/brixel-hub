@@ -14,7 +14,7 @@ const OfferDetail = (props) => {
 
   useEffect(() => {
     setSplashScreen({
-      component: AddNewOffer,
+      component: ReviewOffer,
     });
   }, []);
 

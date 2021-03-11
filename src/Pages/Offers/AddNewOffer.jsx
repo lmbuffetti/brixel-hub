@@ -83,8 +83,8 @@ const AddNewOffer = (props) => {
 
               <h6 className="fsize-200 pb-1 mt-3">Offer Price</h6>
 
-              <p className="fweight-700 txtPrimary700">
-                <span className="pr-small-4">{get(activeSingleProperty, 'price.currency', '')}</span>
+              <p className="txtPrimary700 fweight-600">
+                <span className="pr-small-4 fsize-400 dis-ib pt-small-2">{get(activeSingleProperty, 'price.currency', '')}</span>
                 <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(formValue, 'offerPrice', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
               </p>
 
@@ -195,18 +195,6 @@ const AddNewOffer = (props) => {
                     label: 'Message',
                   }}
                 />
-
-                <div className="dis-f mt-3">
-                  <BrixelIcon
-                    icon="info"
-                    theme="dark100"
-                  />
-
-                  <p className="pl-1 txtDark100">
-                    This is a non-binding offer. The seller will be notified and will give feedback to you as soon as possible.
-                  </p>
-
-                </div>
 
                 <div className="dis-f jc-c a-c">
                   <BrixelButtonPrimary
