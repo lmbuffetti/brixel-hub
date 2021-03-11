@@ -1,35 +1,76 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
-import { BrixelButtonPrimary, FormatValue } from '@brixel/brixel-components';
-import CoverPropertyImage from '../../components/CoverPropertyImage';
+/* eslint-disable array-callback-return */
+/* eslint-disable dot-notation */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {
+  useEffect, useState, Fragment,
+} from 'react';
+import {
+  withRouter, Link, Route,
+} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import get from 'lodash/get';
+import {
+  bindActionCreators, compose,
+} from 'redux';
+import {
+  connect,
+} from 'react-redux';
+import {
+  change, OfferListings,
+} from '@brixel/brixel-components';
+import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 
-const OffersList = (props) => {
+// COMPONENTS
+const OfferList = (props) => {
   const {
+    activeSingleProperty,
     history,
   } = props;
 
+  const data = [{
+    id: '1',
+    name: 'Anton Faguzi',
+    amount: 1000000,
+    date: new Date(),
+    status: 'declined',
+  },
+  {
+    id: '2',
+    name: 'Michael Wiedemann',
+    amount: 1000001,
+    date: new Date(),
+    status: 'pending',
+  }];
+
   return (
     <>
-      <div className="jc-c h-perc-lg-100 pos-r a-t" id="offersDashboard">
-        <div>
-          <div className="w-perc-100 px-1">
-            <div className="p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12 pt-1">
-              <h3>Offers List</h3>
-              <BrixelButtonPrimary
-                label="GO TO DETAIL"
-                onClick={() => history.push('./offers/15')}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <OfferListings
+        data={data}
+        activeSingleProperty={activeSingleProperty}
+        getConfigEnv={getConfigEnv}
+        onChangeLocation={(url) => history.push(url)}
+      />
     </>
   );
 };
 
+OfferList.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  langConfig: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+};
+
+OfferList.defaultProps = {};
+
+const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+});
+
+const mapDispatchToProps = (dispatch) => ({});
+
 export default compose(
   withRouter,
-  connect(null, null),
-)(OffersList);
+  connect(mapStateToProps, mapDispatchToProps),
+)(OfferList);
