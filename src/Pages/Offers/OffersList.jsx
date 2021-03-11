@@ -56,10 +56,7 @@ const OfferList = (props) => {
 
 OfferList.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  langConfig: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 OfferList.defaultProps = {};
