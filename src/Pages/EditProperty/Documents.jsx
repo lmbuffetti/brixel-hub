@@ -128,9 +128,6 @@ const Documents = (props) => {
         pageID: formValue.id || propID,
         smallLoader: 'upload',
       })
-        .catch((error) => {
-          console.err(error);
-        });
     });
   }, [formValue]);
 
