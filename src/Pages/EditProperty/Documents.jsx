@@ -84,7 +84,7 @@ const Documents = (props) => {
       setProcessedDocuments(finalObj);
     }
     if (documents && documents.length === 0) setProcessedDocuments({});
-  }, [documents]);
+  }, [documents && documents.length, documents]);
 
   const manageDocument = (e, id) => {
     if (e) e.preventDefault();
@@ -127,10 +127,7 @@ const Documents = (props) => {
         actions: 'documents',
         pageID: formValue.id || propID,
         smallLoader: 'upload',
-      })
-        .catch((error) => {
-          console.err(error);
-        });
+      });
     });
   }, [formValue]);
 
