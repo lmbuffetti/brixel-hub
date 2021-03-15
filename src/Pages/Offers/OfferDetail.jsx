@@ -11,7 +11,7 @@ import BrixelClosingTree from '../../components/BrixelClosingTree';
 
 const OfferDetail = (props) => {
   const {
-    setSplashScreen,
+    isBuyer,
   } = props;
 
   return (
@@ -31,6 +31,7 @@ const OfferDetail = (props) => {
           <span>00 123456789</span>
         </div>
         <BrixelClosingTree
+          isBuyer={isBuyer}
           offer={{}}
         />
       </div>
@@ -39,7 +40,12 @@ const OfferDetail = (props) => {
 };
 
 OfferDetail.propTypes = {
+  isBuyer: PropTypes.bool,
   setSplashScreen: PropTypes.func.isRequired,
+};
+
+OfferDetail.defaultProps = {
+  isBuyer: false,
 };
 
 const mapDispatchToProps = (dispatch) => ({

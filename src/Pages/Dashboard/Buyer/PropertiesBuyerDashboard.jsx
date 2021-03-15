@@ -144,7 +144,7 @@ const PropertiesBuyerDashboard = (props) => {
       setMarketOverlayProperty(item);
     } else {
       history.push({
-        pathname: `/buyer/property/${item.id}/page`,
+        pathname: `/buyer/${item.id}/property/page`,
         state: { section: 'Buy' },
       });
     }

@@ -37,6 +37,16 @@ class Deal extends Base {
     const url = ep.deal.updateMultipleDeals();
     return this.apiClient.put(url, {}, data);
   }
+
+  makeOffer(id) {
+    const url = ep.deal.makeOffer(id);
+    return this.apiClient.post(url, {}, data);
+  }
+
+  reviewOffer(id) {
+    const url = ep.deal.reviewOffer(id);
+    return this.apiClient.post(url, {}, data);
+  }
 }
 
 export default Deal;

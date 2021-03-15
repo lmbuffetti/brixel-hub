@@ -15,6 +15,7 @@ import {
   BrixelButtonPrimary, BrixelButtonSecondary, BrixelIcon,
 } from '@brixel/brixel-components';
 import ReviewOffer from '../Pages/Offers/ReviewOffer';
+import AddNewOffer from '../Pages/Offers/AddNewOffer';
 import { setSplashType } from '../actions/CommonActions';
 
 const BrixelClosingTree = (props) => {
@@ -22,15 +23,22 @@ const BrixelClosingTree = (props) => {
     activeSingleOffer,
     className,
     adminMode,
+    isBuyer,
     offer,
     setSplashScreen,
   } = props;
 
   // TODO: add active/inactive lock logic
-  const onClickOffer = () => {
-    setSplashScreen({
-      component: ReviewOffer,
-    });
+  const onClickOffer = (action) => {
+    if (action === 'add') {
+      setSplashScreen({
+        component: AddNewOffer,
+      });
+    } else {
+      setSplashScreen({
+        component: ReviewOffer,
+      });
+    }
   };
 
   return (
@@ -52,20 +60,46 @@ const BrixelClosingTree = (props) => {
                 <h5 className="mb-1">Offer</h5>
                 <span className="fsize-200 mb-3">CHF 1000001</span>
                 {
-                  activeSingleOffer.status === 'pending' ? (
-                    <BrixelButtonPrimary
-                      theme="primary"
-                      rounded
-                      label="Review"
-                      onClick={() => onClickOffer()}
-                    />
+                  isBuyer ? (
+                    <>
+                      {
+                        activeSingleOffer.status ? (
+                          <BrixelButtonPrimary
+                            theme="primary"
+                            rounded
+                            label="Add offer"
+                            onClick={() => onClickOffer('add')}
+                          />
+                        ) : (
+                          <BrixelButtonSecondary
+                            theme="primary"
+                            rounded
+                            label="Open"
+                            onClick={() => onClickOffer('review')}
+                          />
+                        )
+                      }
+                    </>
                   ) : (
-                    <BrixelButtonSecondary
-                      theme="primary"
-                      rounded
-                      label="Open"
-                      onClick={() => onClickOffer()}
-                    />
+                    <>
+                      {
+                        activeSingleOffer.status === 'pending' ? (
+                          <BrixelButtonPrimary
+                            theme="primary"
+                            rounded
+                            label="Review"
+                            onClick={() => onClickOffer('review')}
+                          />
+                        ) : (
+                          <BrixelButtonSecondary
+                            theme="primary"
+                            rounded
+                            label="Open"
+                            onClick={() => onClickOffer('review')}
+                          />
+                        )
+                      }
+                    </>
                   )
                 }
               </div>
@@ -169,6 +203,7 @@ BrixelClosingTree.propTypes = {
   activeSingleOffer: PropTypes.object.isRequired,
   adminMode: PropTypes.bool,
   className: PropTypes.string,
+  isBuyer: PropTypes.bool,
   offer: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
 };
@@ -176,6 +211,7 @@ BrixelClosingTree.propTypes = {
 BrixelClosingTree.defaultProps = {
   adminMode: false,
   className: '',
+  isBuyer: false,
 };
 
 const mapStateToProps = (state) => ({

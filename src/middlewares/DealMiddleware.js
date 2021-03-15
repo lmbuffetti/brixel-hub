@@ -15,7 +15,7 @@ import {
   GET_ACTIVE_SINGLE_DEAL,
   GET_DEAL_LISTINGS,
   GET_USER_DEALS,
-  SAVE_ACTIVE_SINGLE_DEAL,
+  SAVE_ACTIVE_SINGLE_DEAL, SAVE_MAKE_OFFER,
   SET_ACTIVE_SINGLE_DEAL,
   SET_DEAL_LISTINGS,
   SET_USER_DEALS,
@@ -422,6 +422,11 @@ const checkCommon = (store) => (next) => (action) => {
         });
       });
 
+      break;
+    }
+    case SAVE_MAKE_OFFER: {
+      next(action);
+      console.log(action.payload);
       break;
     }
     default:

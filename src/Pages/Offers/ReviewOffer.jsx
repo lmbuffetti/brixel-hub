@@ -99,7 +99,7 @@ const ReviewOffer = (props) => {
                             {get(activeSingleProperty, 'price.currency', '')}
                           </span>
                           <span className="ff-mono fSizePx20">
-                            {Helpers.formatNumberValue(get(activeSingleOffer, 'offerPrice', 0), get(activeSingleProperty, 'price.currency', ''))}
+                            {Helpers.formatNumberValue(get(activeSingleOffer, 'amount', 0), get(activeSingleProperty, 'price.currency', ''))}
                           </span>
                         </p>
                       ) : (
@@ -107,7 +107,7 @@ const ReviewOffer = (props) => {
                           <span className="mr-small-4">{get(activeSingleProperty, 'price.currency', '')}</span>
                           <span
                             className="ff-mono fSizePx20"
-                          >{Helpers.formatNumberValue(get(activeSingleOffer, 'offerPrice', 0), get(activeSingleProperty, 'price.currency', ''))}
+                          >{Helpers.formatNumberValue(get(activeSingleOffer, 'amount', 0), get(activeSingleProperty, 'price.currency', ''))}
                           </span>
                         </p>
                       )
@@ -120,7 +120,7 @@ const ReviewOffer = (props) => {
                         className: 'mt-3',
                       }}
                       input={{
-                        name: 'message',
+                        name: 'note',
                         placeholder: 'Add comment or note for buyer',
                       }}
                       labels={{
@@ -185,7 +185,7 @@ const ReviewOffer = (props) => {
 
                       <p className="txtDark700 fweight-400 txtGreen400">
                         <span className="mr-small-4">{get(activeSingleProperty, 'price.currency', '')}</span>
-                        <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleOffer, 'offerPrice', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
+                        <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleOffer, 'amount', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
                       </p>
 
                       {
@@ -260,11 +260,11 @@ const ReviewOffer = (props) => {
 
                 <p className={`txtDark700 fweight-400 ${activeSingleOffer.status === 'accepted' ? 'txtGreen400' : 'txtRed400'}`}>
                   <span className="mr-small-4">{get(activeSingleProperty, 'price.currency', '')}</span>
-                  <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleOffer, 'offerPrice', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
+                  <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleOffer, 'amount', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
                 </p>
 
                 <h6 className="fsize-200 pb-1 pt-3">Note</h6>
-                <p className="txtDark700">{get(activeSingleOffer, 'message', '')}</p>
+                <p className="txtDark700">{get(activeSingleOffer, 'note', '')}</p>
 
                 <div className="ta-r">
                   <h6 className="fsize-200 pb-1 pt-3">Answer</h6>

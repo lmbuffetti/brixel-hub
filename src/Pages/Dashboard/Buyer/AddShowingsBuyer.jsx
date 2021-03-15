@@ -134,7 +134,7 @@ const AddShowingsBuyer = (props) => {
   return (
     <BrixelModal
       multiActions={buttonActions()}
-      onClose={() => history.push(`/buyer/property/${activeSingleProperty.id}/showings/`)}
+      onClose={() => history.push(`/buyer/${activeSingleProperty.id}/property/showings/`)}
       id="contact-foreground"
       layout="large"
     >

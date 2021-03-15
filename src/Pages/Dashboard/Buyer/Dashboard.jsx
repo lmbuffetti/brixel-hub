@@ -38,6 +38,11 @@ const PropertyBuyerDashboard = Loadable({
   loading: () => null,
 });
 
+const OfferDetail = Loadable({
+  loader: () => import('../../Offers/OfferDetail' /* webpackChunkName: "OfferDetail" */),
+  loading: () => null,
+});
+
 const Dashboard = (props) => {
   // PROPS
   const {
@@ -51,6 +56,7 @@ const Dashboard = (props) => {
 
   // GET URL PARAMS
   const propID = get(match, 'params.propID', null);
+  const act = get(match, 'params.act', null);
   // STATE
   const [itemsPerPage] = useState(20);
   const [currentPage] = useState(0);
@@ -73,7 +79,7 @@ const Dashboard = (props) => {
   }, []);
 
   useEffect(() => {
-    if (propID && favoritesProperties.total > 0) {
+    if (propID && propID !== 'propertyLists' && favoritesProperties.total > 0) {
       const data = {
         fullVersion: false,
         smallLoader: 'property',
@@ -86,9 +92,10 @@ const Dashboard = (props) => {
   return (
     <div className="container dashboardContainer" id="dashboard">
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-      <ProtectedRoute path="/buyer/propertyLists" exact component={PropertiesBuyerDashboard} />
-      <ProtectedRoute path="/buyer/rewards/:propID" component={RewardsBuyerDashboard} />
-      <ProtectedRoute path="/buyer/property/:propID" component={PropertyBuyerDashboard} />
+      <ProtectedRoute exact path="/buyer/propertyLists" exact component={PropertiesBuyerDashboard} />
+      <ProtectedRoute path="/buyer/:propID/rewards" component={RewardsBuyerDashboard} />
+      <ProtectedRoute path="/buyer/:propID/property" component={PropertyBuyerDashboard} />
+      <ProtectedRoute path="/buyer/:propID/deal" render={<OfferDetail isBuyer />} />
     </div>
   );
 };

@@ -282,10 +282,12 @@ const App = (props) => {
       setIsFlow(true);
       setZIndex(6);
     } else {
+      console.log(history.location.pathname.includes('deal'));
       if (history.location.pathname.includes('rewards')) {
         setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
-      } else if (history.location.pathname.includes('property')) {
+      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('deal')) {
         if (history.location.pathname.includes('buyer')) {
+          console.log('HERE');
           setClassMain('w-perc-100 pos-r hubContainer propertyTop');
         } else {
           setClassMain('w-perc-100 pos-r hubContainer propertyTop withTopBar sellerHub');
@@ -309,6 +311,7 @@ const App = (props) => {
     if (
       (history.location.pathname.includes('property/') ||
       history.location.pathname.includes('listings/') ||
+      history.location.pathname.includes('deal') ||
         history.location.pathname.includes('offers') ||
       history.location.pathname.includes('rewards/')) &&
       windowDimensions.width <= 1024 &&
@@ -460,7 +463,7 @@ const App = (props) => {
 
       <Loading isLoading={isLoading} />
 
-      <div className={`${classMain} ${history.location.pathname.includes('buyer/property/') ? 'buyerHub' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
+      <div className={`${classMain} ${history.location.pathname.includes('property') || history.location.pathname.includes('deal') ? 'buyerHub' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
         <div className="dis-f">
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : ''}`}
@@ -549,7 +552,7 @@ const App = (props) => {
                       <>
                         <ProtectedRoute path="/buyer" exact component={DashboardBuyer} />
                         <ProtectedRoute path="/buyer/propertyLists" exact component={DashboardBuyer} />
-                        <ProtectedRoute path="/buyer/:act/:propID" component={DashboardBuyer} />
+                        <ProtectedRoute path="/buyer/:propID/:act" component={DashboardBuyer} />
                       </>
                     )
                   }

@@ -26,7 +26,7 @@ export const defaultState = {
   userDealListings: [],
   offerListings: [],
   activeSingleOffer: {
-    offerPrice: 150000,
+    amount: 150000,
     file: {
       name: 'financing_bank_mr…pdf',
     },

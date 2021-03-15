@@ -29,7 +29,7 @@ const MenuSidebar = (props) => {
   // REF
   const wrapperRef = useRef(null);
   // URL PARAMS
-  const propID = userType === 'seller' ? history.location.pathname.split('/')[1] : history.location.pathname.split('/')[3];
+  const propID = userType === 'seller' ? history.location.pathname.split('/')[1] : history.location.pathname.split('/')[2];
   const levelUrl = history.location.pathname.split('/');
 
   // FUNCTION TO MAANGE THE TAB CLICK

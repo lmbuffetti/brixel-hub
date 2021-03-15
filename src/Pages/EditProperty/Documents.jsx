@@ -183,7 +183,7 @@ const Documents = (props) => {
             ghost
             onClick={() => {
               if (history.location.pathname.includes('buyer')) {
-                history.push(`/buyer/property/${propID}`);
+                history.push(`/buyer/${propID}/property`);
               } else {
                 history.push(`/${propID}/property`);
               }

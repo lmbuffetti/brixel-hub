@@ -76,24 +76,29 @@ export const sidebarNavigationBuyer = [
   {
     title: 'Property',
     name: 'property',
-    path: '/buyer/property/:propID',
+    path: '/buyer/:propID/property',
     submenu: [
       {
         title: 'Page',
         name: 'page',
-        path: '/buyer/property/:propID/page',
+        path: '/buyer/:propID/property/page',
       },
       {
         title: 'Showings',
         name: 'showings',
-        path: '/buyer/property/:propID/showings',
+        path: '/buyer/:propID/property/showings',
       },
       {
         title: 'Docubox',
         name: 'documents',
-        path: '/buyer/property/:propID/documents',
+        path: '/buyer/:propID/property/documents',
       },
     ],
+  },
+  {
+    title: 'Deal',
+    name: 'deal',
+    path: '/buyer/:propID/deal',
   },
 ];
 
@@ -138,7 +143,7 @@ export const firstRoutesBuyer = [
     title: 'Property',
     name: 'property',
     icon: 'property-house',
-    path: '/buyer/property/:propID',
+    path: '/buyer/:propID/property',
   },
 ];
 

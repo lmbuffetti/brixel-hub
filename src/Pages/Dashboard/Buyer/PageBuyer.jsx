@@ -53,7 +53,7 @@ const PageBuyer = (props) => {
                   className="hide-md"
                   icon="arrow-simple-left"
                   ghost
-                  onClick={() => history.push(`/buyer/property/${propID}`)}
+                  onClick={() => history.push(`/buyer/${propID}/property`)}
                 />
                 <h5>Brixel Page</h5>
                 <BrixelButtonPrimary

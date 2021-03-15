@@ -4,6 +4,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import moment from 'moment';
 import {
   BrixelButtonIcon,
@@ -18,12 +19,14 @@ import {
 } from '@brixel/brixel-components';
 import SplashScreen from '../../components/SplashScreen';
 import { setSplashType } from '../../actions/CommonActions';
+import { saveMakeOffer } from '../../actions/DealActions';
+import { uploadDocument } from '../../actions/UploadActions';
 
 const AddNewOffer = (props) => {
   const {
     activeSingleProperty,
-    changeFieldValue,
-    errors,
+    handleSaveMakeOffer,
+    handleUploadDocument,
     formValue,
     initalValue,
     setSplashScreen,
@@ -37,12 +40,19 @@ const AddNewOffer = (props) => {
   };
 
   const saveData = () => {
-    if (get(formValue, 'offerPrice', 0) === 0) {
+    if (get(formValue, 'amount', 0) === 0) {
       setErrorMessagePrice('Please insert a value');
       return false;
     }
-
-    return setSuccess(true);
+    if (get(formValue, 'file', null)) {
+      const dataForm = cloneDeep(formValue);
+      dataForm.docs = dataForm.file;
+      delete dataForm.file;
+      handleUploadDocument(dataForm);
+    } else {
+      handleSaveMakeOffer(formValue);
+    }
+    // return setSuccess(true);
   };
 
   return (
@@ -85,7 +95,7 @@ const AddNewOffer = (props) => {
 
               <p className="txtPrimary700 fweight-600">
                 <span className="pr-small-4 fsize-400 dis-ib pt-small-2">{get(activeSingleProperty, 'price.currency', '')}</span>
-                <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(formValue, 'offerPrice', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
+                <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(formValue, 'amount', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
               </p>
 
               {
@@ -107,7 +117,7 @@ const AddNewOffer = (props) => {
               }
 
               <h6 className="fsize-200 pb-1 pt-3">Message</h6>
-              <p className="txtDark700">{get(formValue, 'message', '')}</p>
+              <p className="txtDark700">{get(formValue, 'note', '')}</p>
 
               <div className="dis-f jc-c a-c">
                 <BrixelButtonPrimary
@@ -145,7 +155,7 @@ const AddNewOffer = (props) => {
                   }}
                   forceToShowError={errorMessagePrice}
                   input={{
-                    name: 'offerPrice',
+                    name: 'amount',
                     placeholder: 'Input amount',
                     unit: get(activeSingleProperty, 'price.currency', ''),
                   }}
@@ -188,7 +198,7 @@ const AddNewOffer = (props) => {
                     className: 'mt-3',
                   }}
                   input={{
-                    name: 'message',
+                    name: 'note',
                     placeholder: 'Add comment or note for seller',
                   }}
                   labels={{
@@ -219,6 +229,8 @@ AddNewOffer.propTypes = {
   changeFieldValue: PropTypes.func,
   errors: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleUploadDocument: PropTypes.func.isRequired,
+  handleSaveMakeOffer: PropTypes.func.isRequired,
   initForm: PropTypes.func,
   initalValue: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
@@ -237,6 +249,8 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('Offer', value));
   },
+  handleSaveMakeOffer: bindActionCreators(saveMakeOffer, dispatch),
+  handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 

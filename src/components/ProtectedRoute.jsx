@@ -22,6 +22,7 @@ const ProtectedRoute = (props) => {
     history,
     loggedInUser,
     path,
+    render,
   } = props;
 
   useEffect(() => {
@@ -42,7 +43,15 @@ const ProtectedRoute = (props) => {
     <>
       {
         loggedInUser.token && (
-          <Route path={path} exact={exact} component={component} />
+          <>
+            {
+              render ? (
+                <Route path={path} exact={exact} render={() => render} />
+              ) : (
+                <Route path={path} exact={exact} component={component} />
+              )
+            }
+          </>
         )
       }
     </>
@@ -57,6 +66,7 @@ ProtectedRoute.propTypes = {
   exact: PropTypes.bool,
   history: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
+  render: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
 };
 
 ProtectedRoute.defaultProps = {
@@ -64,6 +74,7 @@ ProtectedRoute.defaultProps = {
   component: null,
   userTypes: null,
   exact: false,
+  render: null,
 };
 
 const mapStateToProps = (state) => ({

@@ -109,7 +109,7 @@ const MarketCard = (props) => {
         handleSetActiveMarketOverlayPropertyLists(property);
       } else if (type === 'favorite') {
         history.push({
-          pathname: `/buyer/property/${item.id}/page`,
+          pathname: `/buyer/${item.id}/property/page`,
           state: { section: 'Market' },
         });
       } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
