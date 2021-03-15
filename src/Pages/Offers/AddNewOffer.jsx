@@ -28,29 +28,39 @@ const AddNewOffer = (props) => {
     handleSaveMakeOffer,
     handleUploadDocument,
     formValue,
-    initalValue,
+    initForm,
+    initialValue,
+    match,
     setSplashScreen,
   } = props;
+  // PARAMS
+  const dealID = get(match, 'params.dealID', null);
   // STATE
   const [success, setSuccess] = useState(false);
   const [errorMessagePrice, setErrorMessagePrice] = useState(false);
+
+  useEffect(() => {
+    initForm(initialValue);
+  }, [activeSingleProperty]);
 
   const closeOverlay = () => {
     setSplashScreen('');
   };
 
   const saveData = () => {
+    console.log(match);
     if (get(formValue, 'amount', 0) === 0) {
       setErrorMessagePrice('Please insert a value');
       return false;
     }
+    const dataForm = cloneDeep(formValue);
+    dataForm.id = dealID;
     if (get(formValue, 'file', null)) {
-      const dataForm = cloneDeep(formValue);
       dataForm.docs = dataForm.file;
       delete dataForm.file;
       handleUploadDocument(dataForm);
     } else {
-      handleSaveMakeOffer(formValue);
+      handleSaveMakeOffer(dataForm);
     }
     // return setSuccess(true);
   };
@@ -157,7 +167,7 @@ const AddNewOffer = (props) => {
                   input={{
                     name: 'amount',
                     placeholder: 'Input amount',
-                    unit: get(activeSingleProperty, 'price.currency', ''),
+                    unit: get(initialValue, 'currency', ''),
                   }}
                   meta={{
                     showErrors: errorMessagePrice,
@@ -169,7 +179,7 @@ const AddNewOffer = (props) => {
                     label: 'Your offer',
                   }}
                   inputFormat={{
-                    currency: get(activeSingleProperty, 'price.currency', ''),
+                    currency: get(initialValue, 'currency', ''),
                     formatType: 'price',
                   }}
                 />
@@ -232,7 +242,8 @@ AddNewOffer.propTypes = {
   handleUploadDocument: PropTypes.func.isRequired,
   handleSaveMakeOffer: PropTypes.func.isRequired,
   initForm: PropTypes.func,
-  initalValue: PropTypes.object.isRequired,
+  initialValue: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
 };
 
@@ -240,6 +251,12 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   errors: get(state, 'brixelForm.Offer.syncErrors', {}),
   formValue: get(state, 'brixelForm.Offer.values', {}),
+  initialValue: {
+    currency: get(state, 'property.activeSingleProperty.price.currency', get(state, 'companies.activeSingleCompany.country.currency', 'CHF')),
+    documents: [],
+    amount: '',
+    note: '',
+  },
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -13,7 +13,7 @@ const OfferDetail = (props) => {
   const {
     isBuyer,
   } = props;
-
+  console.log(props.match);
   return (
     <>
       <div className="single-offer-container dis-fl-col py-4 px-2">

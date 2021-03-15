@@ -14,6 +14,7 @@ import {
   reset,
 } from '@brixel/brixel-components';
 import { setUserTypes, getUserPagesDeals } from '../../../actions/UserActions';
+import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { getActiveSingleProperty } from '../../../actions/PropertyActions';
 import { spinnerOff } from '../../../actions/CommonActions';
 import { getFavoritesProperties } from '../../../actions/MarketActions';
@@ -46,10 +47,14 @@ const OfferDetail = Loadable({
 const Dashboard = (props) => {
   // PROPS
   const {
+    activeSingleCompany,
+    activeSingleProperty,
     handleGetFavoritesProperties,
     handleGetActiveSingleProperty,
+    handleGetActiveSingleCompany,
     handleSpinnerOff,
     handleSetUserTypes,
+    loggedInUser,
     match,
     favoritesProperties,
   } = props;
@@ -79,6 +84,15 @@ const Dashboard = (props) => {
   }, []);
 
   useEffect(() => {
+    const activeLeads = get(activeSingleProperty, 'pageLeads[0]', { });
+    if (activeLeads && activeLeads.company !== activeSingleCompany.id) {
+      handleGetActiveSingleCompany({ id: activeLeads.company });
+    } else if (activeSingleProperty.id) {
+      handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
+    }
+  }, [activeSingleProperty]);
+
+  useEffect(() => {
     if (propID && propID !== 'propertyLists' && favoritesProperties.total > 0) {
       const data = {
         fullVersion: false,
@@ -95,16 +109,19 @@ const Dashboard = (props) => {
       <ProtectedRoute exact path="/buyer/propertyLists" exact component={PropertiesBuyerDashboard} />
       <ProtectedRoute path="/buyer/:propID/rewards" component={RewardsBuyerDashboard} />
       <ProtectedRoute path="/buyer/:propID/property" component={PropertyBuyerDashboard} />
-      <ProtectedRoute path="/buyer/:propID/deal" render={<OfferDetail isBuyer />} />
+      <ProtectedRoute path="/buyer/:propID/deal/:dealID" render={<OfferDetail isBuyer />} />
     </div>
   );
 };
 
 Dashboard.propTypes = {
+  activeSingleCompany: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.object.isRequired,
 };
@@ -113,6 +130,7 @@ Dashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany.id', { }),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),
@@ -127,6 +145,7 @@ const mapDispatchToProps = (dispatch) => ({
   resetForm(data) {
     (dispatch(reset('Property', data)));
   },
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetUserPagesDeals: bindActionCreators(getUserPagesDeals, dispatch),

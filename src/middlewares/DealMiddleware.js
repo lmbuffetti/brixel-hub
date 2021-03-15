@@ -427,6 +427,7 @@ const checkCommon = (store) => (next) => (action) => {
     case SAVE_MAKE_OFFER: {
       next(action);
       console.log(action.payload);
+      // api.deal.makeOffer();
       break;
     }
     default:
