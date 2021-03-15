@@ -16,9 +16,10 @@ import {
   connect,
 } from 'react-redux';
 import {
-  change, OfferListings,
+  change,
 } from '@brixel/brixel-components';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import OfferListings from '../../components/OfferListings';
 import { getOfferListings } from '../../actions/DealActions';
 
 // COMPONENTS
@@ -27,6 +28,7 @@ const OfferList = (props) => {
     activeSingleProperty,
     handleGetOfferListings,
     history,
+    offerListings,
   } = props;
 
   useEffect(() => {
@@ -37,12 +39,10 @@ const OfferList = (props) => {
     if (activeSingleProperty.id) handleGetOfferListings(data);
   }, [activeSingleProperty]);
 
-  const data = [];
-
   return (
     <>
       <OfferListings
-        data={data}
+        data={offerListings}
         activeSingleProperty={activeSingleProperty}
         getConfigEnv={getConfigEnv}
         onChangeLocation={(url) => history.push(url)}
@@ -55,12 +55,14 @@ OfferList.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   handleGetOfferListings: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  offerListings: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 OfferList.defaultProps = {};
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  offerListings: get(state, 'deal.offerListings', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
