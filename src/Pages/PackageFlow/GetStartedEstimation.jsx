@@ -24,7 +24,7 @@ import { titleProperty } from '../../utils/titleCreation';
 import { calcPercentageFacts, setCookie } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingEstimation';
 import { getGamegroup } from '../../actions/GamificationActions';
-import { setLanguage, spinnerOff } from '../../actions/CommonActions';
+import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
 
 const cookie = new Cookies();
@@ -44,6 +44,7 @@ const GetStartedEstimation = (props) => {
     // handleSaveActiveSingleProperty,
     // handleSaveActiveSingleUser,
     handleSetLanguage,
+    handleSpinnerOn,
     handleSpinnerOff,
     handleValidateUser,
     history,
@@ -156,9 +157,11 @@ const GetStartedEstimation = (props) => {
       createEstimation: true,
       company,
       redirectToUrl: '/home',
+      extraLoading: true,
     };
     data.packageFlowProcess.answers.userType = get(dataFormAnswer, 'estimationType', '');
     const page = get(formValue, 'signupScreen', null);
+    handleSpinnerOn();
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
     if (formValue.owner) {
       data.owner = loggedInUser.user.id;
@@ -740,6 +743,7 @@ GetStartedEstimation.propTypes = {
   // handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
+  handleSpinnerOn: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
@@ -829,6 +833,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
+  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
