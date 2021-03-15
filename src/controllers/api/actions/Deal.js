@@ -38,18 +38,23 @@ class Deal extends Base {
     return this.apiClient.put(url, {}, data);
   }
 
-  makeOffer(id) {
+  makeOffer(id, data) {
     const url = ep.deal.makeOffer(id);
     return this.apiClient.post(url, {}, data);
   }
 
-  reviewOffer(id) {
+  reviewOffer(id, data) {
     const url = ep.deal.reviewOffer(id);
     return this.apiClient.post(url, {}, data);
   }
 
   getBuyerDeal(id) {
     const url = ep.deal.buyerDeal(id);
+    return this.apiClient.get(url);
+  }
+
+  getOfferListings(id) {
+    const url = ep.deal.offerListings(id);
     return this.apiClient.get(url);
   }
 }

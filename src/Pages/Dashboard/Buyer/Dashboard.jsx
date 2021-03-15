@@ -50,6 +50,7 @@ const Dashboard = (props) => {
   const {
     activeSingleCompany,
     activeSingleProperty,
+    activeSingleDeal,
     handleGetFavoritesProperties,
     handleGetActiveSingleProperty,
     handleGetActiveSingleCompany,
@@ -63,7 +64,7 @@ const Dashboard = (props) => {
 
   // GET URL PARAMS
   const propID = get(match, 'params.propID', null);
-  const act = get(match, 'params.act', null);
+  const dealID = get(match, 'params.dealID', null);
   // STATE
   const [itemsPerPage] = useState(20);
   const [currentPage] = useState(0);
@@ -92,7 +93,7 @@ const Dashboard = (props) => {
     } else if (activeSingleProperty.id) {
       handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
     }
-    if (activeSingleProperty.id) {
+    if (activeSingleProperty.id && dealID !== activeSingleDeal.id) {
       handleGetBuyerDeal(activeSingleProperty.id);
     }
   }, [activeSingleProperty]);
@@ -120,6 +121,7 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
+  activeSingleDeal: PropTypes.object.isRequired,
   activeSingleCompany: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
@@ -136,6 +138,7 @@ Dashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany.id', { }),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', []),

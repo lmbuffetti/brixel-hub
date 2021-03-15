@@ -25,15 +25,7 @@ export const defaultState = {
   dealListings: {},
   userDealListings: [],
   offerListings: [],
-  activeSingleOffer: {
-    amount: 150000,
-    file: {
-      name: 'financing_bank_mr…pdf',
-    },
-    message: 'Lorem Ipsum',
-    messageSeller: 'Great looking forward to do business with you.',
-    status: 'declined',
-  },
+
 };
 
 export default handleActions(

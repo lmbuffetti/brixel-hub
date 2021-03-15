@@ -7,7 +7,7 @@ import {
   SPINNER_ON,
   SPINNER_OFF,
   REDIRECT_TO,
-  SET_SCREEN_NOTIFICATION,
+  SET_SCREEN_NOTIFICATION, SPINNER_SMALL_ON,
 } from '../actions/types/CommonTypes';
 
 import {
@@ -23,6 +23,9 @@ import {
   UPDATE_DEALS_ORDER,
   UPDATE_MULTIPLE_DEALS,
   GET_BUYER_DEAL,
+  SAVE_REVIEW_OFFER,
+  SET_OFFER_LISTINGS,
+  GET_OFFER_LISTINGS,
 } from '../actions/types/DealTypes';
 
 import {
@@ -448,7 +451,73 @@ const checkCommon = (store) => (next) => (action) => {
     case SAVE_MAKE_OFFER: {
       next(action);
       console.log(action.payload);
-      // api.deal.makeOffer();
+      const objData = cloneDeep(action.payload);
+      const {
+        smallLoader,
+        id,
+      } = objData;
+      delete objData.smallLoader;
+      delete objData.id;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
+      api.deal.makeOffer(id, objData)
+        .then((res) => {
+          if (!get(res.data, 'statusCode', null)) {
+            console.log(res.data);
+            if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: 'done' });
+            store.dispatch({ type: SET_ACTIVE_SINGLE_DEAL, payload: res.data });
+          } else if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: null });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      break;
+    }
+    case SAVE_REVIEW_OFFER: {
+      next(action);
+      console.log(action.payload);
+      const objData = cloneDeep(action.payload);
+      const {
+        smallLoader,
+        id,
+      } = objData;
+      delete objData.smallLoader;
+      delete objData.id;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
+      api.deal.reviewOffer(id, objData)
+        .then((res) => {
+          if (!get(res.data, 'statusCode', null)) {
+            console.log(res.data);
+            if (smallLoader === 'saveNoteOffer') store.dispatch({ type: SPINNER_SMALL_ON, payload: 'close' });
+            else if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: 'done' });
+            store.dispatch({ type: SET_ACTIVE_SINGLE_DEAL, payload: res.data });
+          } else if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: null });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      break;
+    }
+    case GET_OFFER_LISTINGS: {
+      next(action);
+      console.log(action.payload);
+      const objData = cloneDeep(action.payload);
+      const {
+        smallLoader,
+        id,
+      } = objData;
+      delete objData.smallLoader;
+      delete objData.id;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
+      api.deal.getOfferListings(id)
+        .then((res) => {
+          if (!get(res.data, 'statusCode', null)) {
+            if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+            store.dispatch({ type: SET_OFFER_LISTINGS, payload: res.data });
+          } else if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: null });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
       break;
     }
     default:

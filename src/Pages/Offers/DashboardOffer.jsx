@@ -20,7 +20,7 @@ const OfferDetail = Loadable({
 const DashboardOffer = (props) => (
   <>
     <ProtectedRoute exact path="/:propId?/offers" component={OffersList} />
-    <ProtectedRoute exact path="/:propId?/offers/:offerID" component={OfferDetail} />
+    <ProtectedRoute exact path="/:propId?/offers/:dealID" component={OfferDetail} />
   </>
 );
 

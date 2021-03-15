@@ -19,28 +19,25 @@ import {
   change, OfferListings,
 } from '@brixel/brixel-components';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import { getOfferListings } from '../../actions/DealActions';
 
 // COMPONENTS
 const OfferList = (props) => {
   const {
     activeSingleProperty,
+    handleGetOfferListings,
     history,
   } = props;
 
-  const data = [{
-    id: '1',
-    name: 'Anton Faguzi',
-    amount: 1000000,
-    date: new Date(),
-    status: 'declined',
-  },
-  {
-    id: '2',
-    name: 'Michael Wiedemann',
-    amount: 1000001,
-    date: new Date(),
-    status: 'pending',
-  }];
+  useEffect(() => {
+    console.log(activeSingleProperty);
+    const data = {
+      id: activeSingleProperty.id,
+    };
+    if (activeSingleProperty.id) handleGetOfferListings(data);
+  }, [activeSingleProperty]);
+
+  const data = [];
 
   return (
     <>
@@ -56,6 +53,7 @@ const OfferList = (props) => {
 
 OfferList.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  handleGetOfferListings: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
 };
 
@@ -65,7 +63,9 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  handleGetOfferListings: bindActionCreators(getOfferListings, dispatch),
+});
 
 export default compose(
   withRouter,

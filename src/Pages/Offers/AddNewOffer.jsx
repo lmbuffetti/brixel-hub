@@ -24,17 +24,19 @@ import { uploadDocument } from '../../actions/UploadActions';
 
 const AddNewOffer = (props) => {
   const {
+    activeSingleDeal,
+    activeSingleCompany,
     activeSingleProperty,
+    changeFieldValue,
     handleSaveMakeOffer,
     handleUploadDocument,
     formValue,
     initForm,
     initialValue,
+    isSmallLoading,
     match,
     setSplashScreen,
   } = props;
-  // PARAMS
-  const dealID = get(match, 'params.dealID', null);
   // STATE
   const [success, setSuccess] = useState(false);
   const [errorMessagePrice, setErrorMessagePrice] = useState(false);
@@ -42,6 +44,18 @@ const AddNewOffer = (props) => {
   useEffect(() => {
     initForm(initialValue);
   }, [activeSingleProperty]);
+
+  useEffect(() => {
+    if (activeSingleProperty.id && activeSingleCompany.id) {
+      changeFieldValue('currency', get(activeSingleProperty, 'price.currency', get(activeSingleCompany, 'country.currency', 'CHF')));
+    }
+  }, [activeSingleProperty, activeSingleCompany]);
+
+  useEffect(() => {
+    if (isSmallLoading === 'done') {
+      setSuccess(true);
+    }
+  }, [isSmallLoading]);
 
   const closeOverlay = () => {
     setSplashScreen('');
@@ -51,10 +65,11 @@ const AddNewOffer = (props) => {
     console.log(match);
     if (get(formValue, 'amount', 0) === 0) {
       setErrorMessagePrice('Please insert a value');
-      return false;
+      // return false;
     }
     const dataForm = cloneDeep(formValue);
-    dataForm.id = dealID;
+    dataForm.id = activeSingleDeal.id;
+    dataForm.smallLoader = 'saveMakeOffer';
     if (get(formValue, 'file', null)) {
       dataForm.docs = dataForm.file;
       delete dataForm.file;
@@ -167,7 +182,7 @@ const AddNewOffer = (props) => {
                   input={{
                     name: 'amount',
                     placeholder: 'Input amount',
-                    unit: get(initialValue, 'currency', ''),
+                    unit: get(formValue, 'currency', ''),
                   }}
                   meta={{
                     showErrors: errorMessagePrice,
@@ -179,7 +194,7 @@ const AddNewOffer = (props) => {
                     label: 'Your offer',
                   }}
                   inputFormat={{
-                    currency: get(initialValue, 'currency', ''),
+                    currency: get(formValue, 'currency', ''),
                     formatType: 'price',
                   }}
                 />
@@ -222,6 +237,7 @@ const AddNewOffer = (props) => {
                     rounded
                     label="Send offer"
                     onClick={() => saveData()}
+                    isLoading={isSmallLoading === 'saveMakeOffer'}
                   />
                 </div>
 
@@ -235,24 +251,33 @@ const AddNewOffer = (props) => {
 };
 
 AddNewOffer.propTypes = {
+  activeSingleDeal: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func,
+  changeFieldValue: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleUploadDocument: PropTypes.func.isRequired,
   handleSaveMakeOffer: PropTypes.func.isRequired,
   initForm: PropTypes.func,
+  isSmallLoading: PropTypes.string,
   initialValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
 };
 
+AddNewOffer.defaultProps = {
+  isSmallLoading: null,
+};
+
 const mapStateToProps = (state) => ({
+  activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   errors: get(state, 'brixelForm.Offer.syncErrors', {}),
   formValue: get(state, 'brixelForm.Offer.values', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
   initialValue: {
-    currency: get(state, 'property.activeSingleProperty.price.currency', get(state, 'companies.activeSingleCompany.country.currency', 'CHF')),
+    currency: 'CHF',
     documents: [],
     amount: '',
     note: '',

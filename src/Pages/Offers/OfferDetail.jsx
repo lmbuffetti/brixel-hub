@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelButtonIcon, Helpers } from '@brixel/brixel-components';
 import { setSplashType } from '../../actions/CommonActions';
 import BrixelClosingTree from '../../components/BrixelClosingTree';
 import { getActiveSingleDeal } from '../../actions/DealActions';
@@ -20,7 +20,7 @@ const OfferDetail = (props) => {
   const dealID = get(match, 'params.dealID', null);
 
   useEffect(() => {
-    if (activeSingleDeal.id !== dealID) {
+    if (activeSingleDeal.id !== dealID && !isBuyer) {
       const data = {
         id: dealID,
         smallLoader: true,
@@ -33,19 +33,27 @@ const OfferDetail = (props) => {
   return (
     <>
       <div className="single-offer-container dis-fl-col py-4 px-2">
-        <BrixelButtonIcon
-          icon="arrow-left-small"
-          theme="dark"
-          ghost
-          bgTransparent
-          className="mb-3"
-          onClick={() => history.push(`/${activeSingleProperty.id}/property/offers/list`)}
-        />
-        <h3 className="mb-1">Michael Wiedemann</h3>
-        <div className="offer-info dis-fl-row a-c mb-5">
-          <span className="mr-3">michael@brixel.io</span>
-          <span>00 123456789</span>
-        </div>
+        {
+          !isBuyer ? (
+            <>
+              <BrixelButtonIcon
+                icon="arrow-left-small"
+                theme="dark"
+                ghost
+                bgTransparent
+                className="mb-3"
+                onClick={() => history.push(`/${activeSingleProperty.id}/property/offers`)}
+              />
+              <h3 className="mb-1">{get(activeSingleDeal, 'user.name', 'No Name')}</h3>
+              <div className="offer-info dis-fl-row a-c mb-5">
+                <span className="mr-3">{get(activeSingleDeal, 'user.email', '')}</span>
+                <span>{Helpers.telephoneFormat(get(activeSingleDeal, 'user.phone', ''))}</span>
+              </div>
+            </>
+          ) : (
+            <h3 className="mb-1">Deal</h3>
+          )
+        }
         <BrixelClosingTree
           isBuyer={isBuyer}
           offer={{}}

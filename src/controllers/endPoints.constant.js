@@ -26,9 +26,10 @@ export default {
     singleDeal: (id) => `/deal/${id}`,
     updateMultipleDeals: () => '/deal/updateGroup',
     getListOfDeals: (paginationLimit, paginationSkip, data) => `/deal/${paginationLimit}/${paginationSkip}${data}`,
-    closingDeal: (id) => `/deal/${id}/closing/makeOffer`,
+    makeOffer: (id) => `/deal/${id}/closing/makeOffer`,
     reviewOffer: (id) => `/deal/${id}/closing/reviewOffer`,
     buyerDeal: (id) => `/page/${id}/deal/buyer`,
+    offerListings: (id) => `/page/${id}/offers`,
   },
   estimation: {
     estimationById: (id) => `/estimation/${id}`,

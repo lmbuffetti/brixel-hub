@@ -17,16 +17,20 @@ import {
   ReduxField,
   Validation,
 } from '@brixel/brixel-components';
+import cloneDeep from 'lodash/cloneDeep';
 import SplashScreen from '../../components/SplashScreen';
-import { setSplashType } from '../../actions/CommonActions';
+import { setSplashType, spinnerSmallOff } from '../../actions/CommonActions';
+import { saveReviewOffer } from '../../actions/DealActions';
 
 const ReviewOffer = (props) => {
   const {
+    activeSingleDeal,
     activeSingleOffer,
     activeSingleProperty,
-    errors,
+    handleReviewOffer,
+    handleSmallSpinnerOff,
+    isSmallLoading,
     formValue,
-    initalValue,
     setSplashScreen,
   } = props;
   // STATE
@@ -34,13 +38,31 @@ const ReviewOffer = (props) => {
 
   const closeOverlay = () => {
     setSplashScreen('');
+    handleSmallSpinnerOff();
   };
+
+  useEffect(() => {
+    if (isSmallLoading === 'done') {
+      setSuccess(true);
+    }
+    if (isSmallLoading === 'close') {
+      setSuccess(false);
+      closeOverlay();
+    }
+  }, [isSmallLoading]);
 
   const saveData = (action) => {
     if (action) {
-      setSuccess(action);
+      const dataForm = cloneDeep(formValue);
+      dataForm.status = action;
+      dataForm.id = activeSingleDeal.id;
+      if (action === 'saveNote') {
+        dataForm.smallLoader = 'saveNoteOffer';
+        dataForm.status = activeSingleOffer.offer.status;
+      } else if (action === 'accepted') dataForm.smallLoader = 'saveAcceptedOffer';
+      else dataForm.smallLoader = 'saveRejectedOffer';
+      handleReviewOffer(dataForm);
     } else {
-      console.log(formValue);
       closeOverlay();
     }
   };
@@ -61,13 +83,13 @@ const ReviewOffer = (props) => {
           />
         </div>
         {
-          activeSingleOffer.status === 'pending' ? (
+          get(activeSingleOffer, 'offer.status', null) === 'pending' || success ? (
             <div className="dis-fl-col jc-c pb-2 px-7">
               {
                 success ? (
                   <>
                     {
-                      success === 'accept' ? (
+                      success === 'accepted' ? (
                         <h3 className="ta-c">Accept offer 👍</h3>
                       ) : (
                         <h3 className="ta-c">Decline offer 👎</h3>
@@ -93,21 +115,21 @@ const ReviewOffer = (props) => {
                     <h6 className="fsize-200 pb-1 pt-3">Offer Price</h6>
 
                     {
-                      success === 'accept' ? (
+                      success === 'accepted' ? (
                         <p className="txtDark700 fweight-400 txtGreen400">
                           <span className="mr-small-4">
-                            {get(activeSingleProperty, 'price.currency', '')}
+                            {get(activeSingleOffer, 'offer.currency', '')}
                           </span>
                           <span className="ff-mono fSizePx20">
-                            {Helpers.formatNumberValue(get(activeSingleOffer, 'amount', 0), get(activeSingleProperty, 'price.currency', ''))}
+                            {Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', ''))}
                           </span>
                         </p>
                       ) : (
                         <p className="txtRed400 txtDark700 fweight-400">
-                          <span className="mr-small-4">{get(activeSingleProperty, 'price.currency', '')}</span>
+                          <span className="mr-small-4">{get(activeSingleOffer, 'offer.currency', '')}</span>
                           <span
                             className="ff-mono fSizePx20"
-                          >{Helpers.formatNumberValue(get(activeSingleOffer, 'amount', 0), get(activeSingleProperty, 'price.currency', ''))}
+                          >{Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', ''))}
                           </span>
                         </p>
                       )
@@ -136,7 +158,7 @@ const ReviewOffer = (props) => {
 
                       <p className="fsize-300 txtDark200">
                         {
-                          success === 'accept' ? (
+                          success === 'accepted' ? (
                             <>
                               You hearby accept this offer. Legally this is non-biding but needed for the process to be continued.
                             </>
@@ -161,7 +183,8 @@ const ReviewOffer = (props) => {
                       <BrixelButtonPrimary
                         rounded
                         label="Save"
-                        onClick={() => saveData()}
+                        isLoading={isSmallLoading === 'saveNoteOffer'}
+                        onClick={() => saveData('saveNote')}
                       />
                     </div>
                   </>
@@ -184,8 +207,8 @@ const ReviewOffer = (props) => {
                       <h6 className="fsize-200 pb-1 pt-3">Offer Price</h6>
 
                       <p className="txtDark700 fweight-400 txtGreen400">
-                        <span className="mr-small-4">{get(activeSingleProperty, 'price.currency', '')}</span>
-                        <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleOffer, 'amount', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
+                        <span className="mr-small-4">{get(activeSingleOffer, 'offer.currency', '')}</span>
+                        <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', ''))}</span>
                       </p>
 
                       {
@@ -208,7 +231,7 @@ const ReviewOffer = (props) => {
                       }
 
                       <h6 className="fsize-200 pb-1 pt-3">Message</h6>
-                      <p className="txtDark700">{get(activeSingleOffer, 'message', '')}</p>
+                      <p className="txtDark700">{get(activeSingleOffer, 'note', '')}</p>
 
                       {/* <div className="dis-f mt-3">
                      <BrixelIcon
@@ -229,14 +252,16 @@ const ReviewOffer = (props) => {
                         rounded
                         theme="red"
                         label="Decline 👎"
-                        onClick={() => saveData('decline')}
+                        onClick={() => saveData('rejected')}
+                        isLoading={isSmallLoading === 'saveRejectedOffer'}
                       />
                       <BrixelButtonSecondary
                         ghost
                         theme="green"
                         rounded
                         label="Accept 👍"
-                        onClick={() => saveData('accept')}
+                        onClick={() => saveData('accepted')}
+                        isLoading={isSmallLoading === 'saveAcceptedOffer'}
                       />
                     </div>
 
@@ -247,7 +272,7 @@ const ReviewOffer = (props) => {
           ) : (
             <div className="dis-fl-col jc-c pb-2 px-7">
               {
-                activeSingleOffer.status === 'accepted' ? (
+                get(activeSingleOffer, 'offer.status', null) === 'accepted' ? (
                   <h3 className="ta-c txtGreen400">Offer accepted 👍</h3>
                 ) : (
                   <h3 className="ta-c txtRed400">Offer declined</h3>
@@ -258,17 +283,17 @@ const ReviewOffer = (props) => {
 
                 <h6 className="fsize-200 pb-1 pt-3">Offer Price</h6>
 
-                <p className={`txtDark700 fweight-400 ${activeSingleOffer.status === 'accepted' ? 'txtGreen400' : 'txtRed400'}`}>
-                  <span className="mr-small-4">{get(activeSingleProperty, 'price.currency', '')}</span>
-                  <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleOffer, 'amount', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
+                <p className={`txtDark700 fweight-400 ${get(activeSingleOffer, 'offer.status', null) === 'accepted' ? 'txtGreen400' : 'txtRed400'}`}>
+                  <span className="mr-small-4">{get(activeSingleOffer, 'offer.currency', '')}</span>
+                  <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.amount', ''))}</span>
                 </p>
 
                 <h6 className="fsize-200 pb-1 pt-3">Note</h6>
-                <p className="txtDark700">{get(activeSingleOffer, 'note', '')}</p>
+                <p className="txtDark700">{get(activeSingleOffer, 'offer.noteByBuyer', '')}</p>
 
                 <div className="ta-r">
                   <h6 className="fsize-200 pb-1 pt-3">Answer</h6>
-                  <p className="txtDark700">{get(activeSingleOffer, 'messageSeller', '')}</p>
+                  <p className="txtDark700">{get(activeSingleOffer, 'offer.noteBySeller', '')}</p>
                 </div>
                 <div className="dis-f mt-5">
                   <BrixelIcon
@@ -301,20 +326,30 @@ const ReviewOffer = (props) => {
 };
 
 ReviewOffer.propTypes = {
+  activeSingleDeal: PropTypes.object.isRequired,
   activeSingleOffer: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func,
+  handleReviewOffer: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   initForm: PropTypes.func,
+  handleSmallSpinnerOff: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.string,
   setSplashScreen: PropTypes.func.isRequired,
 };
 
+ReviewOffer.defaultProps = {
+  isSmallLoading: null,
+};
+
 const mapStateToProps = (state) => ({
-  activeSingleOffer: get(state, 'deal.activeSingleOffer', {}),
+  activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
+  activeSingleOffer: get(state, 'deal.activeSingleDeal.closing.stageOffer', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   errors: get(state, 'brixelForm.Offer.syncErrors', {}),
   formValue: get(state, 'brixelForm.Offer.values', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', null),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -324,6 +359,8 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('Offer', value));
   },
+  handleSmallSpinnerOff: bindActionCreators(spinnerSmallOff, dispatch),
+  handleReviewOffer: bindActionCreators(saveReviewOffer, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 

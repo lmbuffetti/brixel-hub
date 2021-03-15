@@ -11,8 +11,9 @@ import get from 'lodash/get';
 import {
   connect,
 } from 'react-redux';
+import moment from 'moment';
 import {
-  BrixelButtonPrimary, BrixelButtonSecondary, BrixelIcon,
+  BrixelButtonPrimary, BrixelButtonSecondary, BrixelIcon, Helpers,
 } from '@brixel/brixel-components';
 import ReviewOffer from '../Pages/Offers/ReviewOffer';
 import AddNewOffer from '../Pages/Offers/AddNewOffer';
@@ -20,6 +21,7 @@ import { setSplashType } from '../actions/CommonActions';
 
 const BrixelClosingTree = (props) => {
   const {
+    activeSingleDeal,
     activeSingleOffer,
     className,
     adminMode,
@@ -40,7 +42,7 @@ const BrixelClosingTree = (props) => {
       });
     }
   };
-
+  console.log(activeSingleOffer);
   return (
     <>
       <div className={`closing-tree brdRadius shadow-1dp dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
@@ -54,28 +56,31 @@ const BrixelClosingTree = (props) => {
                   onClick={() => ''}
                 />
                 <span className="txtGreen400">Sent</span>
-                <span className="fsize-100">date</span>
+                {
+                  get(activeSingleOffer, 'createdAt', null) && (
+                    <span className="fsize-100">{moment(get(activeSingleOffer, 'createdAt', null)).format('D MMM YY, H:mm')}</span>
+                  )
+                }
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
                 <h5 className="mb-1">Offer</h5>
-                <span className="fsize-200 mb-3">CHF 1000001</span>
+                {
+                  !get(activeSingleOffer, 'offer.amount', null) && isBuyer ? (
+                    <span className="fsize-200 mb-3">Add your first offer to start.</span>
+                  ) : (
+                    <span className="fsize-200 mb-3">{get(activeSingleOffer, 'offer.currency', 0)} {Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>
+                  )
+                }
                 {
                   isBuyer ? (
                     <>
                       {
-                        activeSingleOffer.status ? (
+                        (!get(activeSingleOffer, 'offer.amount', null) || get(activeSingleOffer, 'offer.status', null) === 'rejected') && activeSingleDeal.id && (
                           <BrixelButtonPrimary
                             theme="primary"
                             rounded
                             label="Add offer"
                             onClick={() => onClickOffer('add')}
-                          />
-                        ) : (
-                          <BrixelButtonSecondary
-                            theme="primary"
-                            rounded
-                            label="Open"
-                            onClick={() => onClickOffer('review')}
                           />
                         )
                       }
@@ -104,12 +109,53 @@ const BrixelClosingTree = (props) => {
                 }
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
-                <BrixelIcon
-                  icon="check-small"
-                  color="dark"
-                  onClick={() => ''}
-                />
-                <span>{activeSingleOffer.status}</span>
+                {
+                  !get(activeSingleOffer, 'offer.status', null) && (
+                    <BrixelIcon
+                      icon="check-small"
+                      color="dark"
+                      onClick={() => ''}
+                    />
+                  )
+                }
+                {
+                  get(activeSingleOffer, 'offer.status', null) === 'pending' && (
+                    <>
+                      <BrixelIcon
+                        icon="check-small"
+                        color="dark"
+                        onClick={() => ''}
+                      />
+                      <span className="fSizePx14 txtYellow400">Pending</span>
+                    </>
+                  )
+                }
+                {
+                  get(activeSingleOffer, 'offer.status', null) === 'accepted' && (
+                    <>
+                      <BrixelIcon
+                        icon="check-small-fill"
+                        color="green"
+                        onClick={() => ''}
+                      />
+                      <span className="fSizePx14 txtGreen400">Accepted</span>
+                      <span className="fsize-100">{moment(get(activeSingleOffer, 'updatedAt', null)).format('D MMM YY, H:mm')}</span>
+                    </>
+                  )
+                }
+                {
+                  get(activeSingleOffer, 'offer.status', null) === 'rejected' && (
+                    <>
+                      <BrixelIcon
+                        icon="check-small-fill"
+                        color="red"
+                        onClick={() => ''}
+                      />
+                      <span className="fSizePx14 txtRed400">Rejected</span>
+                      <span className="fsize-100">{moment(get(activeSingleOffer, 'updatedAt', null)).format('D MMM YY, H:mm')}</span>
+                    </>
+                  )
+                }
               </div>
             </div>
             <div className="identification-container py-3 dis-fl-row a-c jc-b">
@@ -200,6 +246,7 @@ const BrixelClosingTree = (props) => {
 };
 
 BrixelClosingTree.propTypes = {
+  activeSingleDeal: PropTypes.object.isRequired,
   activeSingleOffer: PropTypes.object.isRequired,
   adminMode: PropTypes.bool,
   className: PropTypes.string,
@@ -215,7 +262,8 @@ BrixelClosingTree.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  activeSingleOffer: get(state, 'deal.activeSingleOffer', {}),
+  activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
+  activeSingleOffer: get(state, 'deal.activeSingleDeal.closing.stageOffer', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
