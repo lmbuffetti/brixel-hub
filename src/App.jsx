@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -281,10 +282,12 @@ const App = (props) => {
       setIsFlow(true);
       setZIndex(6);
     } else {
+      console.log(history.location.pathname.includes('deal'));
       if (history.location.pathname.includes('rewards')) {
         setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
-      } else if (history.location.pathname.includes('property')) {
+      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('deal')) {
         if (history.location.pathname.includes('buyer')) {
+          console.log('HERE');
           setClassMain('w-perc-100 pos-r hubContainer propertyTop');
         } else {
           setClassMain('w-perc-100 pos-r hubContainer propertyTop withTopBar sellerHub');
@@ -295,6 +298,8 @@ const App = (props) => {
         setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('/home')) {
         setClassMain('w-perc-100 pos-r ov-h marketHome');
+      } else if (history.location.pathname.includes('offers')) {
+        setClassMain('w-perc-100 pos-r hubContainer offersTop withTopBar sellerHub');
       } else {
         setClassMain('w-perc-100 pos-r hubContainer ov-h');
       }
@@ -306,6 +311,8 @@ const App = (props) => {
     if (
       (history.location.pathname.includes('property/') ||
       history.location.pathname.includes('listings/') ||
+      history.location.pathname.includes('deal') ||
+        history.location.pathname.includes('offers') ||
       history.location.pathname.includes('rewards/')) &&
       windowDimensions.width <= 1024 &&
       !history.location.pathname.includes('buyer')
@@ -456,7 +463,7 @@ const App = (props) => {
 
       <Loading isLoading={isLoading} />
 
-      <div className={`${classMain} ${history.location.pathname.includes('buyer/property/') ? 'buyerHub' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
+      <div className={`${classMain} ${history.location.pathname.includes('property') || history.location.pathname.includes('deal') ? 'buyerHub' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
         <div className="dis-f">
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : ''}`}
@@ -535,6 +542,7 @@ const App = (props) => {
                         <ProtectedRoute path="/:propId?/deals" component={DashboardSeller} />
                         <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
                         <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
+                        <ProtectedRoute exact path="/:propId/offers/:offerID?" component={DashboardSeller} />
                       </>
                     )
                   }
@@ -544,7 +552,7 @@ const App = (props) => {
                       <>
                         <ProtectedRoute path="/buyer" exact component={DashboardBuyer} />
                         <ProtectedRoute path="/buyer/propertyLists" exact component={DashboardBuyer} />
-                        <ProtectedRoute path="/buyer/:act/:propID" component={DashboardBuyer} />
+                        <ProtectedRoute path="/buyer/:propID/:act" component={DashboardBuyer} />
                       </>
                     )
                   }
@@ -597,6 +605,12 @@ const App = (props) => {
             closeOutside={false}
             type="marketOverlay"
           />
+        )
+      }
+
+      {
+        has(splashScreenType, 'component') && (
+          React.createElement(splashScreenType.component)
         )
       }
 
@@ -672,7 +686,7 @@ App.propTypes = {
   modal: PropTypes.object.isRequired,
   notification: PropTypes.object,
   redirectTo: PropTypes.object,
-  splashScreenType: PropTypes.string.isRequired,
+  splashScreenType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };

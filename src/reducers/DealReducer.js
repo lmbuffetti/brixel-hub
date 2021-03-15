@@ -4,7 +4,9 @@ import {
   SET_USER_DEALS,
   SET_DEAL_LISTINGS,
   SET_ACTIVE_SINGLE_DEAL,
-} from '../actions/types/DealsTypes';
+  SET_OFFER_LISTINGS,
+  SET_ACTIVE_SINGLE_OFFER,
+} from '../actions/types/DealTypes';
 
 import {
   SET_DEAL_NOTE_LISTINGS,
@@ -22,6 +24,8 @@ export const defaultState = {
   activeSingleDealOwnerHistory: {},
   dealListings: {},
   userDealListings: [],
+  offerListings: [],
+
 };
 
 export default handleActions(
@@ -49,6 +53,14 @@ export default handleActions(
     [SET_DEAL_OWNER_HISTORY_LISTINGS]: (state, action) => ({
       ...state,
       activeSingleDealOwnerHistory: action.payload,
+    }),
+    [SET_OFFER_LISTINGS]: (state, action) => ({
+      ...state,
+      offerListings: action.payload,
+    }),
+    [SET_ACTIVE_SINGLE_OFFER]: (state, action) => ({
+      ...state,
+      activeSingleOffer: action.payload,
     }),
   },
   defaultState,

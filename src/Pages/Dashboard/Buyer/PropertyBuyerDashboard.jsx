@@ -94,7 +94,7 @@ const PropertyBuyerDashboard = (props) => {
                 className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                 colorIcon="primary700"
                 backIcon="primary100"
-                onClick={() => history.push(`/buyer/property/${propID}/page`)}
+                onClick={() => history.push(`/buyer/${propID}/property/page`)}
               />
 
               <BrixelButtonBox
@@ -108,7 +108,7 @@ const PropertyBuyerDashboard = (props) => {
                 className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                 colorIcon="primary700"
                 backIcon="primary100"
-                onClick={() => history.push(`/buyer/property/${propID}/documents`)}
+                onClick={() => history.push(`/buyer/${propID}/property/documents`)}
               />
             </div>
 
@@ -177,9 +177,9 @@ const PropertyBuyerDashboard = (props) => {
         {
           getFact() !== 'property' && (
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
-              <Route path="/buyer/property/:propId/page" component={PageBuyer} />
-              <Route path="/buyer/property/:propId/documents" exact component={Documents} />
-              <Route path="/buyer/property/:propId/showings" component={ShowingsBuyer} />
+              <Route path="/buyer/:propId/property/page" component={PageBuyer} />
+              <Route path="/buyer/:propId/property/documents" exact component={Documents} />
+              <Route path="/buyer/:propId/property/showings" component={ShowingsBuyer} />
             </div>
           )
         }

@@ -66,6 +66,19 @@
     }
   }
 
+  &.manageOffer {
+    .container {
+      max-width: 396px;
+      max-height: 806px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: calc(100% - 100px);
+      > div {
+        padding-bottom: 48px;
+      }
+    }
+  }
+
   .container {
     position: relative;
     height: calc(100% - 120px);

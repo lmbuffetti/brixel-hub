@@ -18,6 +18,7 @@ import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 
 const MenuSidebar = (props) => {
   const {
+    activeSingleDeal,
     history,
     userType,
     windowDimensions,
@@ -29,7 +30,7 @@ const MenuSidebar = (props) => {
   // REF
   const wrapperRef = useRef(null);
   // URL PARAMS
-  const propID = userType === 'seller' ? history.location.pathname.split('/')[1] : history.location.pathname.split('/')[3];
+  const propID = userType === 'seller' ? history.location.pathname.split('/')[1] : history.location.pathname.split('/')[2];
   const levelUrl = history.location.pathname.split('/');
 
   // FUNCTION TO MAANGE THE TAB CLICK
@@ -42,7 +43,8 @@ const MenuSidebar = (props) => {
 
   // FUNCTION TO MAANGE THE TAB CLICK
   const linkMenu = (val) => {
-    const url = val.replace(':propID', propID);
+    let url = val.replace(':propID', propID);
+    url = url.replace(':dealID', activeSingleDeal.id);
     return url;
   };
 
@@ -134,6 +136,7 @@ const MenuSidebar = (props) => {
 };
 
 MenuSidebar.propTypes = {
+  activeSingleDeal: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   userType: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
@@ -144,6 +147,7 @@ MenuSidebar.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
   userType: get(state, 'user.userTypes', ''),
 });

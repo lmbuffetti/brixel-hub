@@ -248,7 +248,7 @@ const MarketList = (props) => {
       setMarketOverlayProperty(item);
     } else if (catName === 'favorite') {
       history.push({
-        pathname: `/buyer/property/${item.id}/page`,
+        pathname: `/buyer/${item.id}/property/page`,
         state: { section: 'Market' },
       });
     } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
