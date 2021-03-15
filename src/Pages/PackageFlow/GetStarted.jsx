@@ -99,6 +99,29 @@ const GetStarted = (props) => {
     if (get(loggedInUser, 'user.id', null)) changeFieldValue('owner', get(loggedInUser, 'user.id', null));
   }, [get(loggedInUser, 'user.id', null)]);
 
+  // ON DID MOUNT I GET THE COMPANY DATA
+  useEffect(() => {
+    // GET THE COMPANY BY URL OR COOKIE
+    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
+    const companyCookie = cookie.get('brixelStubCompany') || null;
+    const channelCookie = cookie.get('brixelChannelSignup') || null;
+    if (get(companyByUrl, 'company', companyCookie)) {
+      const defComp = get(companyByUrl, 'company', companyCookie);
+      handleGetActiveSingleCompany({ stub: defComp });
+      setCookie('brixelStubCompany', defComp);
+    } else {
+      handleGetActiveSingleCompany({ stub: 'default' });
+      // changeFieldValue('location.countryCode', 'all');`
+    }
+    if (get(companyByUrl, 'channel', channelCookie)) {
+      const defChan = get(companyByUrl, 'channel', channelCookie);
+      changeFieldValue('channel', defChan);
+      setCookie('brixelChannelSignup', defChan);
+    } else {
+      changeFieldValue('channel', channelCookie);
+    }
+  }, []);
+
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
