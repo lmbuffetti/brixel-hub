@@ -24,7 +24,7 @@ import { titleProperty } from '../../utils/titleCreation';
 import { calcPercentageFacts, setCookie } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingSeller';
 import { getGamegroup } from '../../actions/GamificationActions';
-import { setLanguage, spinnerOff } from '../../actions/CommonActions';
+import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
 
 const cookie = new Cookies();
@@ -44,6 +44,7 @@ const GetStartedSeller = (props) => {
     handleSetLanguage,
     handleSpinnerOff,
     handleValidateUser,
+    handleSpinnerOn,
     history,
     initForm,
     initialValues,
@@ -119,8 +120,10 @@ const GetStartedSeller = (props) => {
       addProperty: true,
       redirectToUrl: '/home',
       company,
+      extraLoading: true,
     };
     const page = get(formValue, 'signupScreen', null);
+    handleSpinnerOn();
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
     if (formValue.owner) {
       data.owner = loggedInUser.user.id;
@@ -680,6 +683,7 @@ GetStartedSeller.propTypes = {
   handleGetGamegroup: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
+  handleSpinnerOn: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
@@ -769,6 +773,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
+  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
