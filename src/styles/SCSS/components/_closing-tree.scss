@@ -1,0 +1,16 @@
+.closing-tree {
+  background-color: white;
+
+  .admin-container {
+    background-color: map-get($lightColor, 100);
+  }
+
+  .phases {
+    .offer-container,
+    .identification-container,
+    .lock-container,
+    .contract-container {
+      border-bottom: 1px solid map-get($lightColor, 200);
+    }
+  }
+}

@@ -3,31 +3,36 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { BrixelButtonIcon } from '@brixel/brixel-components';
 import AddNewOffer from './AddNewOffer';
 import ReviewOffer from './ReviewOffer';
 import { setSplashType } from '../../actions/CommonActions';
+import BrixelClosingTree from '../../components/BrixelClosingTree';
 
 const OfferDetail = (props) => {
   const {
     setSplashScreen,
   } = props;
 
-  useEffect(() => {
-    setSplashScreen({
-      component: ReviewOffer,
-    });
-  }, []);
-
   return (
     <>
-      <div className="jc-c h-perc-lg-100 pos-r a-t" id="offerDashboard">
-        <div>
-          <div className="w-perc-100 px-1">
-            <div className="p-0 w-perc-100 dis-fl-col jc-b row-a-b col-12 pt-1">
-              <h3>Offers Detail</h3>
-            </div>
-          </div>
+      <div className="single-offer-container dis-fl-col py-4 px-2">
+        <BrixelButtonIcon
+          icon="arrow-left-small"
+          theme="dark"
+          ghost
+          bgTransparent
+          className="mb-3"
+          onClick={() => history.push(`/${activeSingleProperty.id}/property/offers/list`)}
+        />
+        <h3 className="mb-1">Michael Wiedemann</h3>
+        <div className="offer-info dis-fl-row a-c mb-5">
+          <span className="mr-3">michael@brixel.io</span>
+          <span>00 123456789</span>
         </div>
+        <BrixelClosingTree
+          offer={{}}
+        />
       </div>
     </>
   );

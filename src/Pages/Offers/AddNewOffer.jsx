@@ -33,7 +33,7 @@ const AddNewOffer = (props) => {
   const [errorMessagePrice, setErrorMessagePrice] = useState(false);
 
   const closeOverlay = () => {
-    setSplashScreen(null);
+    setSplashScreen('');
   };
 
   const saveData = () => {

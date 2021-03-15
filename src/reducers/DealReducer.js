@@ -31,6 +31,8 @@ export const defaultState = {
       name: 'financing_bank_mr…pdf',
     },
     message: 'Lorem Ipsum',
+    messageSeller: 'Great looking forward to do business with you.',
+    status: 'declined',
   },
 };
 
