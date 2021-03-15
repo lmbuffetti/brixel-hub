@@ -17,6 +17,7 @@ import {
   SET_OFFER_LISTINGS,
   SET_ACTIVE_SINGLE_OFFER,
   SAVE_MAKE_OFFER,
+  GET_BUYER_DEAL,
 } from './types/DealTypes';
 
 export const {
@@ -35,6 +36,7 @@ export const {
   setOfferListings,
   setActiveSingleOffer,
   saveMakeOffer,
+  getBuyerDeal,
 } = createActions({
   [CREATE_DEAL]: (payload) => payload,
   [DELETE_ACTIVE_SINGLE_DEAL]: (payload) => payload,
@@ -51,4 +53,5 @@ export const {
   [SET_OFFER_LISTINGS]: (payload) => payload,
   [SET_ACTIVE_SINGLE_OFFER]: (payload) => payload,
   [SAVE_MAKE_OFFER]: (payload) => payload,
+  [GET_BUYER_DEAL]: (payload) => payload,
 });

@@ -3,16 +3,32 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
 import { BrixelButtonIcon } from '@brixel/brixel-components';
-import AddNewOffer from './AddNewOffer';
-import ReviewOffer from './ReviewOffer';
 import { setSplashType } from '../../actions/CommonActions';
 import BrixelClosingTree from '../../components/BrixelClosingTree';
+import { getActiveSingleDeal } from '../../actions/DealActions';
 
 const OfferDetail = (props) => {
   const {
+    activeSingleDeal,
+    handleGetActiveSingleDeal,
     isBuyer,
+    match,
   } = props;
+  // PARAMS
+  const dealID = get(match, 'params.dealID', null);
+
+  useEffect(() => {
+    if (activeSingleDeal.id !== dealID) {
+      const data = {
+        id: dealID,
+        smallLoader: true,
+      };
+      handleGetActiveSingleDeal(data);
+    }
+  }, [dealID]);
+
   console.log(props.match);
   return (
     <>
@@ -40,6 +56,8 @@ const OfferDetail = (props) => {
 };
 
 OfferDetail.propTypes = {
+  activeSingleDeal: PropTypes.object.isRequired,
+  handleGetActiveSingleDeal: PropTypes.func.isRequired,
   isBuyer: PropTypes.bool,
   setSplashScreen: PropTypes.func.isRequired,
 };
@@ -48,11 +66,16 @@ OfferDetail.defaultProps = {
   isBuyer: false,
 };
 
+const mapStateToProps = (state) => ({
+  activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
+});
+
 const mapDispatchToProps = (dispatch) => ({
+  handleGetActiveSingleDeal: bindActionCreators(getActiveSingleDeal, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
 export default compose(
   withRouter,
-  connect(null, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps),
 )(OfferDetail);

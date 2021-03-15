@@ -18,6 +18,7 @@ import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { getActiveSingleProperty } from '../../../actions/PropertyActions';
 import { spinnerOff } from '../../../actions/CommonActions';
 import { getFavoritesProperties } from '../../../actions/MarketActions';
+import { getBuyerDeal } from '../../../actions/DealActions';
 
 const ProtectedRoute = Loadable({
   loader: () => import('../../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
@@ -53,6 +54,7 @@ const Dashboard = (props) => {
     handleGetActiveSingleProperty,
     handleGetActiveSingleCompany,
     handleSpinnerOff,
+    handleGetBuyerDeal,
     handleSetUserTypes,
     loggedInUser,
     match,
@@ -90,6 +92,9 @@ const Dashboard = (props) => {
     } else if (activeSingleProperty.id) {
       handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
     }
+    if (activeSingleProperty.id) {
+      handleGetBuyerDeal(activeSingleProperty.id);
+    }
   }, [activeSingleProperty]);
 
   useEffect(() => {
@@ -120,6 +125,7 @@ Dashboard.propTypes = {
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetBuyerDeal: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -147,6 +153,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetUserPagesDeals: bindActionCreators(getUserPagesDeals, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),

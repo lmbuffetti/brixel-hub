@@ -47,6 +47,11 @@ class Deal extends Base {
     const url = ep.deal.reviewOffer(id);
     return this.apiClient.post(url, {}, data);
   }
+
+  getBuyerDeal(id) {
+    const url = ep.deal.buyerDeal(id);
+    return this.apiClient.get(url);
+  }
 }
 
 export default Deal;

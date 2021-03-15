@@ -1,5 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import omit from 'lodash/omit';
+import get from 'lodash/get';
 import set from 'lodash/set';
 import has from 'lodash/has';
 import {
@@ -21,6 +22,7 @@ import {
   SET_USER_DEALS,
   UPDATE_DEALS_ORDER,
   UPDATE_MULTIPLE_DEALS,
+  GET_BUYER_DEAL,
 } from '../actions/types/DealTypes';
 
 import {
@@ -232,10 +234,14 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case GET_ACTIVE_SINGLE_DEAL: {
       next(action);
-      store.dispatch({
-        type: SPINNER_ON,
-      });
-      api.deal.getSingleDeal(action.payload)
+      const smallLoader = get(action.payload, 'smallLoader', false);
+      if (!smallLoader) {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      const id = get(action.payload, 'id', action.payload);
+      api.deal.getSingleDeal(id)
         .then((response) => {
           if (response.meta.status === 200) {
             let dealUserHistory = {};
@@ -273,16 +279,31 @@ const checkCommon = (store) => (next) => (action) => {
                 type: SET_DEAL_OWNER_HISTORY_LISTINGS,
                 payload: dealUserHistory,
               });
-              store.dispatch({
-                type: SPINNER_OFF,
-              });
+              if (!smallLoader) {
+                store.dispatch({
+                  type: SPINNER_OFF,
+                });
+              }
             });
           } else {
             // TODO: Should dispatch error state
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
+            if (!smallLoader) {
+              store.dispatch({
+                type: SPINNER_OFF,
+              });
+            }
           }
+        });
+      break;
+    }
+    case GET_BUYER_DEAL: {
+      next(action);
+      api.deal.getBuyerDeal(action.payload)
+        .then((res) => {
+          store.dispatch({
+            type: SET_ACTIVE_SINGLE_DEAL,
+            payload: res.data,
+          });
         });
       break;
     }
