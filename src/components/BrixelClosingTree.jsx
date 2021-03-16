@@ -44,7 +44,7 @@ const BrixelClosingTree = (props) => {
       <div className={`closing-tree brdRadius shadow-1dp dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
         <div className="body dis-fl-row">
           <div className="phases dis-fl-col h-perc-100 w-perc-100 px-5 txtDark700">
-            <div className="offer-container py-3 dis-fl-row a-c jc-b">
+            <div className={`offer-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageOffer.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
                 {
                   get(activeSingleOffer, 'createdAt', null) ? (
