@@ -86,6 +86,13 @@ const OfferListings = (props) => {
                                   >
                                     {get(offer, 'user.name', 'No Name')}
                                   </div>
+                                  {
+                                    offer.deal === 'sample' && (
+                                      <div className="ml-2 brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200">
+                                        Example only
+                                      </div>
+                                    )
+                                  }
                                 </div>
                               </div>
 

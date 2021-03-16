@@ -48,7 +48,16 @@ const OfferDetail = (props) => {
                 className="mb-3"
                 onClick={() => history.push(`/${activeSingleProperty.id}/offers`)}
               />
-              <h3 className="mb-1">{get(activeSingleDeal, 'user.name', 'No Name')}</h3>
+              <div className="dis-f a-c mb-1">
+                <h3>{get(activeSingleDeal, 'user.name', 'No Name')}</h3>
+                {
+                  activeSingleDeal.id === 'sample' && (
+                    <div className="ml-2 brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200">
+                      Example only
+                    </div>
+                  )
+                }
+              </div>
               <div className="offer-info dis-fl-row a-c mb-5">
                 <span className="mr-3">{get(activeSingleDeal, 'user.email', '')}</span>
                 <span>{Helpers.telephoneFormat(get(activeSingleDeal, 'user.phone', ''))}</span>
