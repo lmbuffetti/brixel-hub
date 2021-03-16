@@ -153,7 +153,7 @@ const BrixelClosingTree = (props) => {
                   get(activeSingleOffer, 'offer.status', null) === 'rejected' && (
                     <>
                       <BrixelIcon
-                        icon="check-small-fill"
+                        icon="close-circle"
                         color="red"
                         onClick={() => ''}
                       />
