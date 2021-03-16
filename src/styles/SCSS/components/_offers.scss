@@ -17,6 +17,7 @@
 }
 
 .ex-tag {
+  display: flex;
   @media (max-width: $responsive-small) {
     display: flex;
     flex-direction: column;
