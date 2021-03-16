@@ -72,7 +72,7 @@ const OfferListings = (props) => {
                             <div className="results fsize-300 row-cols-4 dis-f brdRadius shadow-1dp mb-2 px-1 py-small-12">
 
                               <div className="row-section pl-1 dis-f a-c name">
-                                <div className="wrapper dis-f a-bl">
+                                <div className="wrapper dis-f a-c">
                                   <div onClick={() => onChangeLocation(`/${activeSingleProperty.id}/offers/${offer.deal}`)}>
                                     <BrixelAvatar
                                       baseURL={getConfigEnv.shortPath}
