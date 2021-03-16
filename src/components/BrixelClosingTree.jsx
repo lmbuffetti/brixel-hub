@@ -42,18 +42,19 @@ const BrixelClosingTree = (props) => {
     <>
       <div className={`closing-tree brdRadius shadow-1dp dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
         <div className="body dis-fl-row">
-          <div className="phases dis-fl-col h-perc-100 w-perc-100 p-3">
-            <div className="offer-container pb-3 dis-fl-row a-c jc-b">
+          <div className="phases dis-fl-col h-perc-100 w-perc-100 px-5 txtDark700">
+            <div className="offer-container py-3 dis-fl-row a-c jc-b">
               <div className="as-b w-fix-120 dis-fl-col">
                 <BrixelIcon
                   icon="check-small-fill"
                   color="green"
+                  className="mb-1"
                   onClick={() => ''}
                 />
-                <span className="txtGreen400">Sent</span>
+                <span className="fsize-200 txtGreen400">Sent</span>
                 {
                   get(activeSingleOffer, 'createdAt', null) && (
-                    <span className="fsize-100">{moment(get(activeSingleOffer, 'createdAt', null)).format('D MMM YY, H:mm')}</span>
+                    <span className="fsize-100 txtDark200">{moment(get(activeSingleOffer, 'createdAt', null)).format('D MMM YY, H:mm')}</span>
                   )
                 }
               </div>
@@ -63,7 +64,7 @@ const BrixelClosingTree = (props) => {
                   !get(activeSingleOffer, 'offer.amount', null) && isBuyer ? (
                     <span className="fsize-200 mb-3">Add your first offer to start.</span>
                   ) : (
-                    <span className="fsize-200 mb-3">{get(activeSingleOffer, 'offer.currency', 0)} {Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>
+                    <span className="ff-mono mb-3">{get(activeSingleOffer, 'offer.currency', 0)} {Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>
                   )
                 }
                 {
@@ -162,7 +163,7 @@ const BrixelClosingTree = (props) => {
                 />
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
-                <h5>Identification</h5>
+                <h5 className="mb-1">Identification</h5>
                 <span className="fsize-200">Submit ID and personal information.</span>
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
@@ -182,7 +183,7 @@ const BrixelClosingTree = (props) => {
                 />
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
-                <h5>Lock</h5>
+                <h5 className="mb-1">Lock</h5>
                 <span className="fsize-200">Reserve the property for closing.</span>
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
@@ -202,7 +203,7 @@ const BrixelClosingTree = (props) => {
                 />
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
-                <h5>Contract</h5>
+                <h5 className="mb-1">Contract</h5>
                 <span className="fsize-200">Approve the terms of the contract.</span>
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
@@ -222,7 +223,7 @@ const BrixelClosingTree = (props) => {
                 />
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
-                <h5>Notary</h5>
+                <h5 className="mb-1">Notary</h5>
                 <span className="fsize-200">Sign the contract at the notary.</span>
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
