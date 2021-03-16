@@ -518,23 +518,12 @@ const checkCommon = (store) => (next) => (action) => {
             let { data } = res;
             if (data.length === 0) {
               const country = get(store.getState(), 'property.activeSingleProperty.location.countryCode', 'CH');
+              const sampleData = exampleDeal(country);
               data = [
                 {
                   deal: 'sample',
-                  offer: {
-                    amount: 150000,
-                    createdAt: 1615824223247,
-                    currency: country === 'CH' ? 'CHF' : 'EUR',
-                    documents: [],
-                    noteByBuyer: '',
-                    noteBySeller: '',
-                    reviewedAt: null,
-                    status: 'pending',
-                  },
-                  user: {
-                    id: 'sample_user',
-                    name: 'Brixel Buyer',
-                  },
+                  offer: sampleData.closing.stageOffer.offer,
+                  user: sampleData.user,
                 },
               ];
             }

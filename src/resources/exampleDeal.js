@@ -14,7 +14,7 @@ export const exampleDeal = (country) => ({
     stageOffer: {
       active: true,
       offer: {
-        amount: 150000,
+        amount: country === 'CH' ? 970000 : 340000,
         currency: country === 'CH' ? 'CHF' : 'EUR',
         createdAt: 1615824223247,
         reviewedAt: null,
