@@ -15,7 +15,6 @@ import {
   BrixelUploadFile, change,
   Helpers, initializeForm,
   ReduxField,
-  Validation,
 } from '@brixel/brixel-components';
 import SplashScreen from '../../components/SplashScreen';
 import { setSplashType } from '../../actions/CommonActions';
@@ -34,7 +33,6 @@ const AddNewOffer = (props) => {
     initForm,
     initialValue,
     isSmallLoading,
-    match,
     setSplashScreen,
   } = props;
   // STATE
@@ -62,7 +60,6 @@ const AddNewOffer = (props) => {
   };
 
   const saveData = () => {
-    console.log(match);
     if (get(formValue, 'amount', 0) === 0) {
       setErrorMessagePrice('Please insert a value');
       // return false;
@@ -251,27 +248,27 @@ const AddNewOffer = (props) => {
 };
 
 AddNewOffer.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleDeal: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleUploadDocument: PropTypes.func.isRequired,
   handleSaveMakeOffer: PropTypes.func.isRequired,
+  handleUploadDocument: PropTypes.func.isRequired,
   initForm: PropTypes.func,
-  isSmallLoading: PropTypes.string,
   initialValue: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.string,
   setSplashScreen: PropTypes.func.isRequired,
 };
 
 AddNewOffer.defaultProps = {
   isSmallLoading: null,
+  initForm: () => '',
 };
 
 const mapStateToProps = (state) => ({
-  activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+  activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   errors: get(state, 'brixelForm.Offer.syncErrors', {}),
   formValue: get(state, 'brixelForm.Offer.values', {}),

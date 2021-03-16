@@ -258,7 +258,6 @@ const checkCommon = (store) => (next) => (action) => {
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       const docData = get(action.payload, 'docs', action.payload);
-      console.log(docData);
       api.image.uploadDocument(docData)
         .then((res) => {
           if (saveAction === 'makeOffer') {

@@ -64,15 +64,15 @@ const OfferListings = (props) => {
                                   <div onClick={() => onChangeLocation(`/${activeSingleProperty.id}/offers/${offer.deal}`)}>
                                     <BrixelAvatar
                                       avatarImg={get(offer, 'avatar[0]', '') ? getConfigEnv.shortPath + get(offer, 'avatar[0]', '').thumbnailPath : null}
-                                      name={Helpers.userNameVal(offer.firstName, offer.lastName, offer.name) ? Helpers.userNameVal(offer.firstName, offer.lastName, offer.name) : offer.email}
-                                      profileId={get(offer, 'id', '')}
+                                      name={get(offer, 'user.name', null) ? get(offer, 'user.name', '') : get(offer, 'user.email', '')}
+                                      profileId={get(offer, 'user.id', '')}
                                     />
                                   </div>
                                   <div
-                                    className={`link pl-2 ${Helpers.userNameVal(offer.firstName, offer.lastName, offer.name) === 'No Name' ? 'no-name' : ''} cur-poi`}
+                                    className={`link pl-2 ${!get(offer, 'user.name', null) ? 'no-name' : ''} cur-poi`}
                                     onClick={() => onChangeLocation(`/${activeSingleProperty.id}/offers/${offer.deal}`)}
                                   >
-                                    {Helpers.userNameVal(offer.firstName, offer.lastName, offer.name)}
+                                    {get(offer, 'user.name', 'No Name')}
                                   </div>
                                 </div>
                               </div>

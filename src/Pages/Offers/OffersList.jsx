@@ -2,10 +2,10 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useEffect, useState, Fragment,
+  useEffect,
 } from 'react';
 import {
-  withRouter, Link, Route,
+  withRouter,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -15,9 +15,6 @@ import {
 import {
   connect,
 } from 'react-redux';
-import {
-  change,
-} from '@brixel/brixel-components';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import OfferListings from '../../components/OfferListings';
 import { getOfferListings } from '../../actions/DealActions';
@@ -32,7 +29,6 @@ const OfferList = (props) => {
   } = props;
 
   useEffect(() => {
-    console.log(activeSingleProperty);
     const data = {
       id: activeSingleProperty.id,
     };

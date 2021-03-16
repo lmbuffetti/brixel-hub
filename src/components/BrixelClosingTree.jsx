@@ -1,7 +1,4 @@
-import React, {
-  useEffect,
-  useRef,
-} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   withRouter,
@@ -24,9 +21,7 @@ const BrixelClosingTree = (props) => {
     activeSingleDeal,
     activeSingleOffer,
     className,
-    adminMode,
     isBuyer,
-    offer,
     setSplashScreen,
   } = props;
 
@@ -42,7 +37,7 @@ const BrixelClosingTree = (props) => {
       });
     }
   };
-  console.log(activeSingleOffer);
+
   return (
     <>
       <div className={`closing-tree brdRadius shadow-1dp dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
@@ -248,15 +243,12 @@ const BrixelClosingTree = (props) => {
 BrixelClosingTree.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
   activeSingleOffer: PropTypes.object.isRequired,
-  adminMode: PropTypes.bool,
   className: PropTypes.string,
   isBuyer: PropTypes.bool,
-  offer: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
 };
 
 BrixelClosingTree.defaultProps = {
-  adminMode: false,
   className: '',
   isBuyer: false,
 };

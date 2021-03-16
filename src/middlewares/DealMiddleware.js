@@ -7,6 +7,7 @@ import {
   SPINNER_ON,
   SPINNER_OFF,
   REDIRECT_TO,
+  SPINNER_SMALL_OFF,
   SET_SCREEN_NOTIFICATION, SPINNER_SMALL_ON,
 } from '../actions/types/CommonTypes';
 
@@ -288,13 +289,10 @@ const checkCommon = (store) => (next) => (action) => {
                 });
               }
             });
-          } else {
-            // TODO: Should dispatch error state
-            if (!smallLoader) {
-              store.dispatch({
-                type: SPINNER_OFF,
-              });
-            }
+          } else if (!smallLoader) {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
           }
         });
       break;
@@ -450,7 +448,6 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case SAVE_MAKE_OFFER: {
       next(action);
-      console.log(action.payload);
       const objData = cloneDeep(action.payload);
       const {
         smallLoader,
@@ -462,7 +459,6 @@ const checkCommon = (store) => (next) => (action) => {
       api.deal.makeOffer(id, objData)
         .then((res) => {
           if (!get(res.data, 'statusCode', null)) {
-            console.log(res.data);
             if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: 'done' });
             store.dispatch({ type: SET_ACTIVE_SINGLE_DEAL, payload: res.data });
           } else if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: null });
@@ -474,7 +470,6 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case SAVE_REVIEW_OFFER: {
       next(action);
-      console.log(action.payload);
       const objData = cloneDeep(action.payload);
       const {
         smallLoader,
@@ -486,7 +481,6 @@ const checkCommon = (store) => (next) => (action) => {
       api.deal.reviewOffer(id, objData)
         .then((res) => {
           if (!get(res.data, 'statusCode', null)) {
-            console.log(res.data);
             if (smallLoader === 'saveNoteOffer') store.dispatch({ type: SPINNER_SMALL_ON, payload: 'close' });
             else if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: 'done' });
             store.dispatch({ type: SET_ACTIVE_SINGLE_DEAL, payload: res.data });
@@ -499,7 +493,6 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case GET_OFFER_LISTINGS: {
       next(action);
-      console.log(action.payload);
       const objData = cloneDeep(action.payload);
       const {
         smallLoader,

@@ -282,12 +282,10 @@ const App = (props) => {
       setIsFlow(true);
       setZIndex(6);
     } else {
-      console.log(history.location.pathname.includes('deal'));
       if (history.location.pathname.includes('rewards')) {
         setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('property') || history.location.pathname.includes('deal')) {
         if (history.location.pathname.includes('buyer')) {
-          console.log('HERE');
           setClassMain('w-perc-100 pos-r hubContainer propertyTop');
         } else {
           setClassMain('w-perc-100 pos-r hubContainer propertyTop withTopBar sellerHub');

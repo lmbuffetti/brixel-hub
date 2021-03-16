@@ -12,7 +12,9 @@ import { getActiveSingleDeal } from '../../actions/DealActions';
 const OfferDetail = (props) => {
   const {
     activeSingleDeal,
+    activeSingleProperty,
     handleGetActiveSingleDeal,
+    history,
     isBuyer,
     match,
   } = props;
@@ -29,7 +31,6 @@ const OfferDetail = (props) => {
     }
   }, [dealID]);
 
-  console.log(props.match);
   return (
     <>
       <div className="single-offer-container dis-fl-col py-4 px-2">
@@ -64,10 +65,12 @@ const OfferDetail = (props) => {
 };
 
 OfferDetail.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   activeSingleDeal: PropTypes.object.isRequired,
   handleGetActiveSingleDeal: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   isBuyer: PropTypes.bool,
-  setSplashScreen: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 OfferDetail.defaultProps = {
@@ -75,6 +78,7 @@ OfferDetail.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
 });
 

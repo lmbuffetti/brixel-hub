@@ -87,48 +87,56 @@ const Deals = (props) => {
 
   // GET THE BUYERS REQUEST FOR CURRENT PROPERTY
   useEffect(() => {
-    if (activeSingleProperty.id) handleGetPageDeals(activeSingleProperty.id);
+    if (activeSingleProperty.id) {
+      const data = {
+        id: activeSingleProperty.id,
+        smallLoader: 'loadDeal',
+      };
+      handleGetPageDeals(data);
+    }
   }, [activeSingleProperty]);
 
   const processDeals = (list) => {
-    const deals = {
-      interested: get(list, 'right.interested', []),
-      visits: get(list, 'right.visits', []),
-      offers: get(list, 'right.offers', []),
-    };
-    if (!get(list, 'right', null)) {
-      forEach(list, (deal) => {
-        if (deal.stage === 'Interested') {
-          deals.interested.push(deal);
-        }
-        if (deal.stage === 'Visit') {
-          deals.visits.push(deal);
-        }
-        if (deal.stage === 'Offer') {
-          deals.offers.push(deal);
-        }
-      });
-    }
-    deals.interested = orderBy(deals.interested, ['active', 'updatedAt'], ['desc', 'desc']);
-    deals.visits = orderBy(deals.visits, ['active', 'updatedAt'], ['desc', 'desc']);
-    deals.offers = orderBy(deals.offers, ['active', 'updatedAt'], ['desc', 'desc']);
-    // TODO remove right object
-    const listsDeal = {
-      right: {
-        interested: deals.interested,
-        visits: deals.visits,
-        offers: deals.offers,
-      },
-    };
-    if (listsDeal.right.interested.length === 0 &&
+    if (activeSinglePropertyDeals) {
+      const deals = {
+        interested: get(list, 'right.interested', []),
+        visits: get(list, 'right.visits', []),
+        offers: get(list, 'right.offers', []),
+      };
+      if (!get(list, 'right', null)) {
+        forEach(list, (deal) => {
+          if (deal.stage === 'Interested') {
+            deals.interested.push(deal);
+          }
+          if (deal.stage === 'Visit') {
+            deals.visits.push(deal);
+          }
+          if (deal.stage === 'Offer') {
+            deals.offers.push(deal);
+          }
+        });
+      }
+      deals.interested = orderBy(deals.interested, ['active', 'updatedAt'], ['desc', 'desc']);
+      deals.visits = orderBy(deals.visits, ['active', 'updatedAt'], ['desc', 'desc']);
+      deals.offers = orderBy(deals.offers, ['active', 'updatedAt'], ['desc', 'desc']);
+      // TODO remove right object
+      const listsDeal = {
+        right: {
+          interested: deals.interested,
+          visits: deals.visits,
+          offers: deals.offers,
+        },
+      };
+      if (listsDeal.right.interested.length === 0 &&
         listsDeal.right.visits.length === 0 &&
         listsDeal.right.offers.length === 0) {
-      setEmptyDeals(true);
-    } else {
-      setEmptyDeals(false);
+        setEmptyDeals(true);
+      } else {
+        setEmptyDeals(false);
+      }
+      setProcessedDeals(listsDeal);
+      setFilteredDeals(listsDeal);
     }
-    setProcessedDeals(listsDeal);
-    setFilteredDeals(listsDeal);
   };
 
   useEffect(() => {
@@ -401,7 +409,7 @@ const Deals = (props) => {
                     <div className={`${key === 'right' ? 'rightCol parentScroll' : ''} dis-fl-col w-perc-100 h-perc-100`}>
                       <div className="scrollContent">
                         {
-                          emptyDeals && (
+                          activeSinglePropertyDeals && emptyDeals && (
                             <div className="emptyMessage dis-f w-perc-100 jc-c">
                               <div className="max-w-fix-544 ta-c p-3 dis-fl-col a-c">
                                 <h5> No deals yet?</h5>
@@ -562,7 +570,7 @@ Deals.propTypes = {
   handleGetPageDeals: PropTypes.func.isRequired,
   handleSaveDeal: PropTypes.func.isRequired,
   resetSingleDeal: PropTypes.func.isRequired,
-  activeSinglePropertyDeals: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeSinglePropertyDeals: PropTypes.arrayOf(PropTypes.object),
   setPreventExit: PropTypes.func.isRequired,
   notification: PropTypes.object.isRequired,
   setNotification: PropTypes.func.isRequired,
@@ -571,12 +579,16 @@ Deals.propTypes = {
   windowDimensions: PropTypes.object.isRequired,
 };
 
+Deals.defaultProps = {
+  activeSinglePropertyDeals: null,
+};
+
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   initialValues: get(state, 'property.activeSingleProperty', {}),
   notification: get(state, 'common.notification', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
+  activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

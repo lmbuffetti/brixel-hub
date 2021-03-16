@@ -112,7 +112,7 @@ const Dashboard = (props) => {
   return (
     <div className="container dashboardContainer" id="dashboard">
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-      <ProtectedRoute exact path="/buyer/propertyLists" exact component={PropertiesBuyerDashboard} />
+      <ProtectedRoute exact path="/buyer/propertyLists" component={PropertiesBuyerDashboard} />
       <ProtectedRoute path="/buyer/:propID/rewards" component={RewardsBuyerDashboard} />
       <ProtectedRoute path="/buyer/:propID/property" component={PropertyBuyerDashboard} />
       <ProtectedRoute path="/buyer/:propID/deal/:dealID" render={<OfferDetail isBuyer />} />
@@ -122,6 +122,7 @@ const Dashboard = (props) => {
 
 Dashboard.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   activeSingleCompany: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,

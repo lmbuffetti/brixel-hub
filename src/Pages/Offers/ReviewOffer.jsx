@@ -4,18 +4,15 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import moment from 'moment';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelIcon,
-  BrixelInputText,
   BrixelTextArea,
-  BrixelUploadFile, change,
+  change,
   Helpers, initializeForm,
   ReduxField,
-  Validation,
 } from '@brixel/brixel-components';
 import cloneDeep from 'lodash/cloneDeep';
 import SplashScreen from '../../components/SplashScreen';
@@ -329,11 +326,8 @@ ReviewOffer.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
   activeSingleOffer: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func,
   handleReviewOffer: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  initForm: PropTypes.func,
   handleSmallSpinnerOff: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.string,
   setSplashScreen: PropTypes.func.isRequired,
