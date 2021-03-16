@@ -243,8 +243,14 @@ const ReviewOffer = (props) => {
                         )
                       }
 
-                      <h6 className="fsize-200 pb-1 pt-3">Message</h6>
-                      <p className="txtDark700">{get(activeSingleOffer, 'note', '')}</p>
+                      {
+                        get(activeSingleOffer, 'note', '') && (
+                          <>
+                            <h6 className="fsize-200 pb-1 pt-3">Message</h6>
+                            <p className="txtDark700">{get(activeSingleOffer, 'note', '')}</p>
+                          </>
+                        )
+                      }
 
                       {/* <div className="dis-f mt-3">
                      <BrixelIcon
@@ -302,11 +308,11 @@ const ReviewOffer = (props) => {
                 </p>
 
                 <h6 className="fsize-200 pb-1 pt-3">Note</h6>
-                <p className="txtDark700">{get(activeSingleOffer, 'offer.noteByBuyer', '')}</p>
+                <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteByBuyer', '')}</i></p>
 
-                <h6 className="fsize-200 pb-1 pt-3">Answer</h6>
                 <div className="ta-r">
-                  <p className="txtDark700">{get(activeSingleOffer, 'offer.noteBySeller', '')}</p>
+                  <h6 className="fsize-200 pb-1 pt-3">Answer</h6>
+                  <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteBySeller', '')}</i></p>
                 </div>
                 <div className="dis-f mt-5">
                   <BrixelIcon
@@ -315,7 +321,7 @@ const ReviewOffer = (props) => {
                     theme="dark100"
                   />
 
-                  <p className="txtDark700">
+                  <p className="txtDark100">
                     You accepted this non-binding offer. To proceed with the closing continue with identification.
                   </p>
 

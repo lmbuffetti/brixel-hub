@@ -71,6 +71,7 @@
       max-width: 396px;
       //max-height: 806px;
       height: auto;
+      overflow-y: auto;
       top: 50%;
       transform: translateY(-50%);
       max-height: calc(100% - 100px);

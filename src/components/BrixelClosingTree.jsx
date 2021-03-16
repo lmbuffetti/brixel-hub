@@ -178,7 +178,7 @@ const BrixelClosingTree = (props) => {
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
                 <BrixelIcon
-                  icon="check-small"
+                  icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
                   color="dark"
                   onClick={() => ''}
                 />
@@ -198,7 +198,7 @@ const BrixelClosingTree = (props) => {
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
                 <BrixelIcon
-                  icon="check-small"
+                  icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
                   color="dark"
                   onClick={() => ''}
                 />
@@ -218,7 +218,7 @@ const BrixelClosingTree = (props) => {
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
                 <BrixelIcon
-                  icon="check-small"
+                  icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
                   color="dark"
                   onClick={() => ''}
                 />
@@ -238,7 +238,7 @@ const BrixelClosingTree = (props) => {
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
                 <BrixelIcon
-                  icon="check-small"
+                  icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
                   color="dark"
                   onClick={() => ''}
                 />
