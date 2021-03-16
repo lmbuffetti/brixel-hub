@@ -1,4 +1,4 @@
-export const exampleDeal = {
+export const exampleDeal = (country) => ({
   createdAt: 1596621256672,
   updatedAt: 1596621256672,
   id: 'sample',
@@ -15,7 +15,7 @@ export const exampleDeal = {
       active: true,
       offer: {
         amount: 150000,
-        currency: 'EUR',
+        currency: country === 'CH' ? 'CHF' : 'EUR',
         createdAt: 1615824223247,
         reviewedAt: null,
         status: 'pending',
@@ -99,36 +99,11 @@ export const exampleDeal = {
     acceptMarketing: true,
     role: '5af3221f812afaef6a490070',
     phone: {
-      prefix: '+44',
+      prefix: country === 'CH' ? '+44' : '+351',
       number: '123456789',
     },
     language: 'en',
     createdAt: 1563866088897,
     updatedAt: 1615897120275,
-    avatar: [
-      {
-        createdAt: 1601032966187,
-        updatedAt: 1612284209020,
-        id: '5f6dd306d9fba6096cfb34a3',
-        name: 'Avatar1601032964.548',
-        description: null,
-        mimeType: 'image/png',
-        fileDescriptor: '/srv/development/brixel-api/.tmp/uploads/images/d7/39/a44fc7b7-2e7a-4ef0-b8d2-c20c177fa89d.png',
-        bigDescriptor: '/srv/development/brixel-api/.tmp/uploads/images/d7/39/a44fc7b7-2e7a-4ef0-b8d2-c20c177fa89d.png.big.png',
-        thumbnailDescriptor: '/srv/development/brixel-api/.tmp/uploads/images/d7/39/a44fc7b7-2e7a-4ef0-b8d2-c20c177fa89d.png.thumbnail.png',
-        galleryThumbnailDescriptor: '/srv/development/brixel-api/.tmp/uploads/images/d7/39/a44fc7b7-2e7a-4ef0-b8d2-c20c177fa89d.png.gallery.png',
-        loadingThumbnailDescriptor: '/srv/development/brixel-api/.tmp/uploads/images/d7/39/a44fc7b7-2e7a-4ef0-b8d2-c20c177fa89d.png.loading.png',
-        blurDescriptor: '',
-        path: '/image/5f6dd306d9fba6096cfb34a3',
-        bigPath: '/image/big/5f6dd306d9fba6096cfb34a3',
-        thumbnailPath: '/image/thumbnail/5f6dd306d9fba6096cfb34a3',
-        galleryThumbnailPath: '/image/galleryThumbnail/5f6dd306d9fba6096cfb34a3',
-        loadingThumbnailPath: '/image/loadingThumbnail/5f6dd306d9fba6096cfb34a3',
-        avatarUser: '5d36b3e92b6e647379b4f6c1',
-        imageType: '5af32211ab72d0ca6a85735e',
-        user: '5d36b3e92b6e647379b4f6c1',
-        logoCompany: null,
-      },
-    ],
   },
-};
+});
