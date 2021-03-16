@@ -5,3 +5,13 @@
     font-weight: 500;
   }
 }
+.offers.empty-state .row-section {
+  &:nth-child(1) {
+    flex: 0 0 40%;
+    max-width: 40%;
+  }
+  &:not(:nth-child(1)) {
+    flex: 0 0 22%;
+    max-width: 22%;
+  }
+}
