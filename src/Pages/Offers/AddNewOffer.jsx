@@ -137,9 +137,14 @@ const AddNewOffer = (props) => {
                   </>
                 )
               }
-
-              <h6 className="fsize-200 pb-1 pt-3">Message</h6>
-              <p className="txtDark700">{get(formValue, 'note', '')}</p>
+              {
+                get(formValue, 'note', '') && (
+                  <>
+                    <h6 className="fsize-200 pb-1 pt-3">Message</h6>
+                    <p className="txtDark700">{get(formValue, 'note', '')}</p>
+                  </>
+                )
+              }
 
               <div className="dis-f jc-c a-c">
                 <BrixelButtonPrimary
