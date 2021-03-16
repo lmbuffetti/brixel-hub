@@ -47,7 +47,7 @@ const DealsCard = (props) => {
       >
         <div className="leftPanel pr-2">
           <BrixelAvatar
-            avatarImg={avatarImg ? get(getConfigEnv, 'shortPath', '') + avatarImg : null}
+            baseURL={get(getConfigEnv, 'shortPath', '')}
             name={name}
             profileId={profileId}
             className="notranslate"

@@ -34,6 +34,7 @@ import 'moment/locale/de';
 import 'moment/locale/de-at';
 import 'moment/locale/en-gb';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
+import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import {
   createNote, saveActiveSingleNote,
 } from '../actions/NoteActions';
@@ -379,6 +380,7 @@ const Timeline = (props) => {
                         (editNote.id === event.id && editNote.active) ? (
                           <div className="dis-f">
                             <BrixelAvatar
+                              baseURL={get(getConfigEnv, 'shortPath', '')}
                               name={get(find(event.history, (el) => (el.type === 'create')), 'author.name', '')}
                               profileId={get(find(event.history, (el) => (el.type === 'create')), 'author.user_id', '')}
                               /* avatarImg={get(find(event.history, (el) => (el.type === 'create')), 'author.avatar[0]', '') ? getConfigEnv.shortPath + get(find(event.history, (el) => (el.type === 'create')), 'author.avatar[0]', '').thumbnailPath : null} */

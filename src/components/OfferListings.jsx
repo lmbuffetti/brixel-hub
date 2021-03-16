@@ -63,7 +63,7 @@ const OfferListings = (props) => {
                                 <div className="wrapper dis-f a-bl">
                                   <div onClick={() => onChangeLocation(`/${activeSingleProperty.id}/offers/${offer.deal}`)}>
                                     <BrixelAvatar
-                                      avatarImg={get(offer, 'avatar[0]', '') ? getConfigEnv.shortPath + get(offer, 'avatar[0]', '').thumbnailPath : null}
+                                      baseURL={getConfigEnv.shortPath}
                                       name={get(offer, 'user.name', null) ? get(offer, 'user.name', '') : get(offer, 'user.email', '')}
                                       profileId={get(offer, 'user.id', '')}
                                     />

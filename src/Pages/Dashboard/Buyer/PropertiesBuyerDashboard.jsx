@@ -139,7 +139,7 @@ const PropertiesBuyerDashboard = (props) => {
   const openCard = (e, item) => {
     if (e) e.preventDefault();
     const tag = get(item, 'tags', []);
-    if (tag.includes('pre-market') || tag.includes('premium') || tag.includes('new')) {
+    if (tag.includes('pre-market')) {
       setSplashScreen('marketOverlay');
       setMarketOverlayProperty(item);
     } else {

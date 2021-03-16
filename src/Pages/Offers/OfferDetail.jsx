@@ -7,19 +7,22 @@ import get from 'lodash/get';
 import { BrixelButtonIcon, Helpers } from '@brixel/brixel-components';
 import { setSplashType } from '../../actions/CommonActions';
 import BrixelClosingTree from '../../components/BrixelClosingTree';
-import { getActiveSingleDeal } from '../../actions/DealActions';
+import { getActiveSingleDeal, setActiveSingleDeal } from '../../actions/DealActions';
 
 const OfferDetail = (props) => {
   const {
     activeSingleDeal,
     activeSingleProperty,
     handleGetActiveSingleDeal,
+    handleSetActiveSingleDeal,
     history,
     isBuyer,
     match,
   } = props;
   // PARAMS
   const dealID = get(match, 'params.dealID', null);
+
+  useEffect(() => () => handleSetActiveSingleDeal({}), []);
 
   useEffect(() => {
     if (activeSingleDeal.id !== dealID && !isBuyer) {
@@ -43,7 +46,7 @@ const OfferDetail = (props) => {
                 ghost
                 bgTransparent
                 className="mb-3"
-                onClick={() => history.push(`/${activeSingleProperty.id}/property/offers`)}
+                onClick={() => history.push(`/${activeSingleProperty.id}/offers`)}
               />
               <h3 className="mb-1">{get(activeSingleDeal, 'user.name', 'No Name')}</h3>
               <div className="offer-info dis-fl-row a-c mb-5">
@@ -68,6 +71,7 @@ OfferDetail.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   activeSingleDeal: PropTypes.object.isRequired,
   handleGetActiveSingleDeal: PropTypes.func.isRequired,
+  handleSetActiveSingleDeal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isBuyer: PropTypes.bool,
   match: PropTypes.object.isRequired,
@@ -84,6 +88,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleDeal: bindActionCreators(getActiveSingleDeal, dispatch),
+  handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
