@@ -248,9 +248,10 @@ const checkCommon = (store) => (next) => (action) => {
       }
       const id = get(action.payload, 'id', action.payload);
       if (id === 'sample') {
+        const country = get(store.getState(), 'property.activeSingleProperty.location.countryCode', 'CH');
         store.dispatch({
           type: SET_ACTIVE_SINGLE_DEAL,
-          payload: exampleDeal,
+          payload: exampleDeal(country),
         });
       } else {
         api.deal.getSingleDeal(id)
@@ -516,13 +517,14 @@ const checkCommon = (store) => (next) => (action) => {
             if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
             let { data } = res;
             if (data.length === 0) {
+              const country = get(store.getState(), 'property.activeSingleProperty.location.countryCode', 'CH');
               data = [
                 {
                   deal: 'sample',
                   offer: {
                     amount: 150000,
                     createdAt: 1615824223247,
-                    currency: 'EUR',
+                    currency: country === 'CH' ? 'CHF' : 'EUR',
                     documents: [],
                     noteByBuyer: '',
                     noteBySeller: '',
