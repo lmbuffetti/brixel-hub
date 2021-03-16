@@ -80,7 +80,7 @@ class ApiClient {
     });
   }
 
-  patch(requestUrl, payload = {}, headers = {}) {
+  patch(requestUrl, options, payload = {}, headers = {}) {
     return this.request({
       url: requestUrl,
       method: 'patch',
