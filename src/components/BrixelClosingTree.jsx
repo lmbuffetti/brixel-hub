@@ -129,6 +129,7 @@ const BrixelClosingTree = (props) => {
                       <BrixelIcon
                         icon="check-small"
                         color="dark"
+                        className="mb-1"
                         onClick={() => ''}
                       />
                       <span className="fSizePx14 txtYellow400">Pending</span>
