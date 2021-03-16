@@ -25,14 +25,14 @@ const OfferDetail = (props) => {
   useEffect(() => () => handleSetActiveSingleDeal({}), []);
 
   useEffect(() => {
-    if (activeSingleDeal.id !== dealID && !isBuyer) {
+    if (activeSingleProperty.id && activeSingleDeal.id !== dealID && !isBuyer) {
       const data = {
         id: dealID,
         smallLoader: true,
       };
       handleGetActiveSingleDeal(data);
     }
-  }, [dealID]);
+  }, [dealID, activeSingleProperty]);
 
   return (
     <>

@@ -99,8 +99,8 @@ export const exampleDeal = (country) => ({
     acceptMarketing: true,
     role: '5af3221f812afaef6a490070',
     phone: {
-      prefix: country === 'CH' ? '+44' : '+351',
-      number: '123456789',
+      prefix: country === 'CH' ? '+41' : '+351',
+      number: country === 'CH' ? '440123456' : '910123456',
     },
     language: 'en',
     createdAt: 1563866088897,
