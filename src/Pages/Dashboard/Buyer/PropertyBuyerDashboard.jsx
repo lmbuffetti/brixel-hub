@@ -17,9 +17,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import last from 'lodash/last';
-import has from 'lodash/has';
 import Sticker from 'react-stickyfill';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import LoadingSimple from '../../../components/LoadingSimple';
 import Loading from '../../../components/Loading';
 
@@ -134,7 +132,7 @@ const PropertyBuyerDashboard = (props) => {
               <h6 className="overline mt-3 mb-2">Contact</h6>
               <div className="dis-f p-2 buttonBox">
                 <BrixelAvatar
-                  baseURL={get(getConfigEnv, 'shortPath', '')}
+                  baseURL={get(baseByData, 'shortPath', '')}
                   name={get(formValue, 'contacts[0].name', '')}
                   profileId={get(formValue, 'contacts[0].id', '')}
                 />
