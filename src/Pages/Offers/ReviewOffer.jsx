@@ -57,23 +57,19 @@ const ReviewOffer = (props) => {
       const newDealData = cloneDeep(activeSingleDeal);
       if (action === 'saveNote') {
         dataForm.smallLoader = 'saveNoteOffer';
-        dataForm.status = activeSingleOffer.offer.status;
+        dataForm.status = success;
         newDealData.closing.stageOffer.offer.noteBySeller = dataForm.note;
+        newDealData.closing.stageOffer.offer.status = success;
         handleSetActiveSingleDeal(newDealData);
         if (dataForm.id === 'sample') {
           setSuccess(false);
           closeOverlay();
           return false;
         }
+        handleReviewOffer(dataForm);
       } else if (action === 'accepted') dataForm.smallLoader = 'saveAcceptedOffer';
       else dataForm.smallLoader = 'saveRejectedOffer';
-      if (dataForm.id === 'sample') {
-        setSuccess(action);
-        newDealData.closing.stageOffer.offer.status = action;
-        handleSetActiveSingleDeal(newDealData);
-      } else {
-        handleReviewOffer(dataForm);
-      }
+      if (action !== 'saveNote') setSuccess(action);
     } else {
       closeOverlay();
     }
