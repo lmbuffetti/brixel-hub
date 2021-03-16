@@ -44,7 +44,7 @@ const BrixelClosingTree = (props) => {
       <div className={`closing-tree brdRadius shadow-1dp dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
         <div className="body dis-fl-row">
           <div className="phases dis-fl-col h-perc-100 w-perc-100 px-5 txtDark700">
-            <div className={`offer-container py-3 dis-fl-row a-c ${get(activeSingleClosing, 'stageOffer.active', null) ? '' : 'locked'} jc-b`}>
+            <div className={`offer-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageOffer.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
                 {
                   get(activeSingleOffer, 'createdAt', null) ? (
@@ -164,8 +164,7 @@ const BrixelClosingTree = (props) => {
                 }
               </div>
             </div>
-            {console.log(activeSingleClosing)}
-            <div className={`identification-container py-3 dis-fl-row a-c ${get(activeSingleClosing, 'stageOffer.active', null) ? '' : 'locked'} jc-b`}>
+            <div className={`identification-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageIdentification.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
@@ -185,7 +184,7 @@ const BrixelClosingTree = (props) => {
                 />
               </div>
             </div>
-            <div className={`lock-container py-3 dis-fl-row a-c ${get(activeSingleClosing, 'stageOffer.active', null) ? '' : 'locked'} jc-b`}>
+            <div className={`lock-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageLock.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageLock.active', null) ? 'check-small' : 'locked'}
@@ -205,7 +204,7 @@ const BrixelClosingTree = (props) => {
                 />
               </div>
             </div>
-            <div className={`contract-container py-3 dis-fl-row a-c ${get(activeSingleClosing, 'stageOffer.active', null) ? '' : 'locked'} jc-b`}>
+            <div className={`contract-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageContract.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageContract.active', null) ? 'check-small' : 'locked'}
@@ -225,7 +224,7 @@ const BrixelClosingTree = (props) => {
                 />
               </div>
             </div>
-            <div className={`notary-container py-3 dis-fl-row a-c ${get(activeSingleClosing, 'stageOffer.active', null) ? '' : 'locked'} jc-b`}>
+            <div className={`notary-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageNotary.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageNotary.active', null) ? 'check-small' : 'locked'}
