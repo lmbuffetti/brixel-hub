@@ -45,7 +45,6 @@ const ReviewOffer = (props) => {
     }
     if (isSmallLoading === 'close') {
       setSuccess(false);
-      closeOverlay();
     }
   }, [isSmallLoading]);
 
@@ -63,7 +62,6 @@ const ReviewOffer = (props) => {
         handleSetActiveSingleDeal(newDealData);
         if (dataForm.id === 'sample') {
           setSuccess(false);
-          closeOverlay();
           return false;
         }
         handleReviewOffer(dataForm);
@@ -249,7 +247,7 @@ const ReviewOffer = (props) => {
                         get(activeSingleOffer, 'noteByBuyer', '') && (
                           <>
                             <h6 className="fsize-200 pb-1 pt-3">Message</h6>
-                            <p className="txtDark700">{get(activeSingleOffer, 'noteByBuyer', '')}</p>
+                            <p className="txtDark700">{get(activeSingleOffer, 'noteByBuyer', '-')}</p>
                           </>
                         )
                       }
@@ -310,11 +308,11 @@ const ReviewOffer = (props) => {
                 </p>
 
                 <h6 className="fsize-200 pb-1 pt-3">Note</h6>
-                <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteByBuyer', '')}</i></p>
+                <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteByBuyer', '-')}</i></p>
 
                 <div className="ta-r">
                   <h6 className="fsize-200 pb-1 pt-3">Answer</h6>
-                  <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteBySeller', '')}</i></p>
+                  <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteBySeller', '-')}</i></p>
                 </div>
                 <div className="dis-f mt-5">
                   <BrixelIcon
