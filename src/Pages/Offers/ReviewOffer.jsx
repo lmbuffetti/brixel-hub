@@ -272,7 +272,7 @@ const ReviewOffer = (props) => {
                 get(activeSingleOffer, 'offer.status', null) === 'accepted' ? (
                   <h3 className="ta-c txtGreen400">Offer accepted 👍</h3>
                 ) : (
-                  <h3 className="ta-c txtRed400">Offer declined</h3>
+                  <h3 className="ta-c txtRed400">Offer declined 👎</h3>
                 )
               }
 
@@ -288,8 +288,8 @@ const ReviewOffer = (props) => {
                 <h6 className="fsize-200 pb-1 pt-3">Note</h6>
                 <p className="txtDark700">{get(activeSingleOffer, 'offer.noteByBuyer', '')}</p>
 
+                <h6 className="fsize-200 pb-1 pt-3">Answer</h6>
                 <div className="ta-r">
-                  <h6 className="fsize-200 pb-1 pt-3">Answer</h6>
                   <p className="txtDark700">{get(activeSingleOffer, 'offer.noteBySeller', '')}</p>
                 </div>
                 <div className="dis-f mt-5">

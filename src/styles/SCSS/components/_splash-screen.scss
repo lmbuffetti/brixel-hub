@@ -69,10 +69,11 @@
   &.manageOffer {
     .container {
       max-width: 396px;
-      max-height: 806px;
+      //max-height: 806px;
+      height: auto;
       top: 50%;
       transform: translateY(-50%);
-      height: calc(100% - 100px);
+      max-height: calc(100% - 100px);
       > div {
         padding-bottom: 48px;
       }

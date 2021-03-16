@@ -14,6 +14,9 @@
       &:not(:first-child) * {
         color: map-get($darkColor, 300);
       }
+      &.locked {
+        color: map-get($darkColor, 300);
+      }
     }
   }
 }
