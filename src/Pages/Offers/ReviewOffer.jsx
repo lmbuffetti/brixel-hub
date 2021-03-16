@@ -17,7 +17,7 @@ import {
 import cloneDeep from 'lodash/cloneDeep';
 import SplashScreen from '../../components/SplashScreen';
 import { setSplashType, spinnerSmallOff } from '../../actions/CommonActions';
-import { saveReviewOffer } from '../../actions/DealActions';
+import { saveReviewOffer, setActiveSingleDeal } from '../../actions/DealActions';
 
 const ReviewOffer = (props) => {
   const {
@@ -26,6 +26,7 @@ const ReviewOffer = (props) => {
     activeSingleProperty,
     handleReviewOffer,
     handleSmallSpinnerOff,
+    handleSetActiveSingleDeal,
     isSmallLoading,
     formValue,
     setSplashScreen,
@@ -53,12 +54,26 @@ const ReviewOffer = (props) => {
       const dataForm = cloneDeep(formValue);
       dataForm.status = action;
       dataForm.id = activeSingleDeal.id;
+      const newDealData = cloneDeep(activeSingleDeal);
       if (action === 'saveNote') {
         dataForm.smallLoader = 'saveNoteOffer';
         dataForm.status = activeSingleOffer.offer.status;
+        newDealData.closing.stageOffer.offer.noteBySeller = dataForm.note;
+        handleSetActiveSingleDeal(newDealData);
+        if (dataForm.id === 'sample') {
+          setSuccess(false);
+          closeOverlay();
+          return false;
+        }
       } else if (action === 'accepted') dataForm.smallLoader = 'saveAcceptedOffer';
       else dataForm.smallLoader = 'saveRejectedOffer';
-      handleReviewOffer(dataForm);
+      if (dataForm.id === 'sample') {
+        setSuccess(action);
+        newDealData.closing.stageOffer.offer.status = action;
+        handleSetActiveSingleDeal(newDealData);
+      } else {
+        handleReviewOffer(dataForm);
+      }
     } else {
       closeOverlay();
     }
@@ -327,6 +342,7 @@ ReviewOffer.propTypes = {
   activeSingleOffer: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   handleReviewOffer: PropTypes.func.isRequired,
+  handleSetActiveSingleDeal: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   handleSmallSpinnerOff: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.string,
@@ -353,6 +369,7 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('Offer', value));
   },
+  handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
   handleSmallSpinnerOff: bindActionCreators(spinnerSmallOff, dispatch),
   handleReviewOffer: bindActionCreators(saveReviewOffer, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),

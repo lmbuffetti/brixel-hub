@@ -37,6 +37,8 @@ import {
   GET_PAGE_DEALS,
 } from '../actions/types/PropertyTypes';
 
+import { exampleDeal } from '../resources/exampleDeal';
+
 import api from '../controllers/api/config';
 
 const checkCommon = (store) => (next) => (action) => {
@@ -245,56 +247,63 @@ const checkCommon = (store) => (next) => (action) => {
         });
       }
       const id = get(action.payload, 'id', action.payload);
-      api.deal.getSingleDeal(id)
-        .then((response) => {
-          if (response.meta.status === 200) {
-            let dealUserHistory = {};
-            let call3;
-            let updatedDeal;
-            const queryParams = `?parent=${response.data.user.id}&order=createdAt&direction=ASC`;
-            // eslint-disable-next-line no-return-assign
-            const call2 = api.history.getHistoryList(10, 0, queryParams)
-              .then((res) => {
-                if (res.meta.status === 200) dealUserHistory = res.data;
-              });
-
-            if (response.data.newSeller === true) {
-              const obj = cloneDeep(response.data);
-              delete obj.user;
-              set(obj, 'newSeller', false);
-              call3 = api.deal.updateSingleDeal(action.payload, obj)
-                .then((res2) => {
-                  if (res2.meta.status === 200) {
-                    updatedDeal = res2.data;
-                    store.dispatch({
-                      type: GET_PAGE_DEALS,
-                      payload: store.getState().property.activeSingleProperty.id,
-                    });
-                  } else console.error('Error updating "New" flag');
-                });
-            }
-
-            Promise.all([call2, call3]).then(() => {
-              store.dispatch({
-                type: SET_ACTIVE_SINGLE_DEAL,
-                payload: has(updatedDeal, 'id') ? updatedDeal : response.data,
-              });
-              store.dispatch({
-                type: SET_DEAL_OWNER_HISTORY_LISTINGS,
-                payload: dealUserHistory,
-              });
-              if (!smallLoader) {
-                store.dispatch({
-                  type: SPINNER_OFF,
-                });
-              }
-            });
-          } else if (!smallLoader) {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
+      if (id === 'sample') {
+        store.dispatch({
+          type: SET_ACTIVE_SINGLE_DEAL,
+          payload: exampleDeal,
         });
+      } else {
+        api.deal.getSingleDeal(id)
+          .then((response) => {
+            if (response.meta.status === 200) {
+              let dealUserHistory = {};
+              let call3;
+              let updatedDeal;
+              const queryParams = `?parent=${response.data.user.id}&order=createdAt&direction=ASC`;
+              // eslint-disable-next-line no-return-assign
+              const call2 = api.history.getHistoryList(10, 0, queryParams)
+                .then((res) => {
+                  if (res.meta.status === 200) dealUserHistory = res.data;
+                });
+
+              if (response.data.newSeller === true) {
+                const obj = cloneDeep(response.data);
+                delete obj.user;
+                set(obj, 'newSeller', false);
+                call3 = api.deal.updateSingleDeal(action.payload, obj)
+                  .then((res2) => {
+                    if (res2.meta.status === 200) {
+                      updatedDeal = res2.data;
+                      store.dispatch({
+                        type: GET_PAGE_DEALS,
+                        payload: store.getState().property.activeSingleProperty.id,
+                      });
+                    } else console.error('Error updating "New" flag');
+                  });
+              }
+
+              Promise.all([call2, call3]).then(() => {
+                store.dispatch({
+                  type: SET_ACTIVE_SINGLE_DEAL,
+                  payload: has(updatedDeal, 'id') ? updatedDeal : response.data,
+                });
+                store.dispatch({
+                  type: SET_DEAL_OWNER_HISTORY_LISTINGS,
+                  payload: dealUserHistory,
+                });
+                if (!smallLoader) {
+                  store.dispatch({
+                    type: SPINNER_OFF,
+                  });
+                }
+              });
+            } else if (!smallLoader) {
+              store.dispatch({
+                type: SPINNER_OFF,
+              });
+            }
+          });
+      }
       break;
     }
     case GET_BUYER_DEAL: {
@@ -505,7 +514,29 @@ const checkCommon = (store) => (next) => (action) => {
         .then((res) => {
           if (!get(res.data, 'statusCode', null)) {
             if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
-            store.dispatch({ type: SET_OFFER_LISTINGS, payload: res.data });
+            let { data } = res;
+            if (data.length === 0) {
+              data = [
+                {
+                  deal: 'sample',
+                  offer: {
+                    amount: 150000,
+                    createdAt: 1615824223247,
+                    currency: 'EUR',
+                    documents: [],
+                    noteByBuyer: '',
+                    noteBySeller: '',
+                    reviewedAt: null,
+                    status: 'pending',
+                  },
+                  user: {
+                    id: 'sample_user',
+                    name: 'Brixel Buyer',
+                  },
+                },
+              ];
+            }
+            store.dispatch({ type: SET_OFFER_LISTINGS, payload: data });
           } else if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: null });
         })
         .catch((err) => {

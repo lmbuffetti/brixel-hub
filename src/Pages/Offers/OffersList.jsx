@@ -17,13 +17,14 @@ import {
 } from 'react-redux';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import OfferListings from '../../components/OfferListings';
-import { getOfferListings } from '../../actions/DealActions';
+import { getOfferListings, setActiveSingleDeal } from '../../actions/DealActions';
 
 // COMPONENTS
 const OfferList = (props) => {
   const {
     activeSingleProperty,
     handleGetOfferListings,
+    handleSetActiveSingleDeal,
     history,
     offerListings,
   } = props;
@@ -35,13 +36,20 @@ const OfferList = (props) => {
     if (activeSingleProperty.id) handleGetOfferListings(data);
   }, [activeSingleProperty]);
 
+  const onClickOffer = (url) => {
+    if (url.includes('sample')) {
+      handleSetActiveSingleDeal(offerListings[0]);
+    }
+    history.push(url);
+  };
+
   return (
     <>
       <OfferListings
         data={offerListings}
         activeSingleProperty={activeSingleProperty}
         getConfigEnv={getConfigEnv}
-        onChangeLocation={(url) => history.push(url)}
+        onChangeLocation={(url) => onClickOffer(url)}
       />
     </>
   );
@@ -50,6 +58,7 @@ const OfferList = (props) => {
 OfferList.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   handleGetOfferListings: PropTypes.func.isRequired,
+  handleSetActiveSingleDeal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   offerListings: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
@@ -63,6 +72,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetOfferListings: bindActionCreators(getOfferListings, dispatch),
+  handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
 });
 
 export default compose(
