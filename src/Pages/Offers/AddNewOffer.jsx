@@ -141,7 +141,7 @@ const AddNewOffer = (props) => {
                 get(formValue, 'note', '') && (
                   <>
                     <h6 className="fsize-200 pb-1 pt-3">Message</h6>
-                    <p className="txtDark700">{get(formValue, 'note', '')}</p>
+                    <p className="txtDark700">{get(formValue, 'note', '-')}</p>
                   </>
                 )
               }

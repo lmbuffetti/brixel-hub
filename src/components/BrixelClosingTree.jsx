@@ -130,7 +130,6 @@ const BrixelClosingTree = (props) => {
                         icon="check-small"
                         color="dark"
                         className="mb-1"
-                        onClick={() => ''}
                       />
                       <span className="fSizePx14 txtYellow400">Pending</span>
                     </>
@@ -142,7 +141,6 @@ const BrixelClosingTree = (props) => {
                       <BrixelIcon
                         icon="check-small-fill"
                         color="green"
-                        onClick={() => ''}
                       />
                       <span className="fSizePx14 txtGreen400">Accepted</span>
                       <span className="fsize-100">{moment(get(activeSingleOffer, 'updatedAt', null)).format('D MMM YY, H:mm')}</span>
@@ -155,7 +153,6 @@ const BrixelClosingTree = (props) => {
                       <BrixelIcon
                         icon="close-circle"
                         color="red"
-                        onClick={() => ''}
                       />
                       <span className="fSizePx14 txtRed400">Rejected</span>
                       <span className="fsize-100">{moment(get(activeSingleOffer, 'updatedAt', null)).format('D MMM YY, H:mm')}</span>
@@ -169,7 +166,6 @@ const BrixelClosingTree = (props) => {
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
                   color="dark"
-                  onClick={() => ''}
                 />
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
@@ -180,7 +176,6 @@ const BrixelClosingTree = (props) => {
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
                   color="dark"
-                  onClick={() => ''}
                 />
               </div>
             </div>
@@ -189,7 +184,6 @@ const BrixelClosingTree = (props) => {
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageLock.active', null) ? 'check-small' : 'locked'}
                   color="dark"
-                  onClick={() => ''}
                 />
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
@@ -200,7 +194,6 @@ const BrixelClosingTree = (props) => {
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
                   color="dark"
-                  onClick={() => ''}
                 />
               </div>
             </div>
@@ -209,7 +202,6 @@ const BrixelClosingTree = (props) => {
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageContract.active', null) ? 'check-small' : 'locked'}
                   color="dark"
-                  onClick={() => ''}
                 />
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
@@ -220,7 +212,6 @@ const BrixelClosingTree = (props) => {
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
                   color="dark"
-                  onClick={() => ''}
                 />
               </div>
             </div>
@@ -229,7 +220,6 @@ const BrixelClosingTree = (props) => {
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageNotary.active', null) ? 'check-small' : 'locked'}
                   color="dark"
-                  onClick={() => ''}
                 />
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
@@ -240,7 +230,6 @@ const BrixelClosingTree = (props) => {
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
                   color="dark"
-                  onClick={() => ''}
                 />
               </div>
             </div>
