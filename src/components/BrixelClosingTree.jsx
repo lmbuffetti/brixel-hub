@@ -164,8 +164,7 @@ const BrixelClosingTree = (props) => {
                 }
               </div>
             </div>
-            {console.log(activeSingleClosing)}
-            <div className="identification-container py-3 dis-fl-row a-c jc-b">
+            <div className={`identification-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageIdentification.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
@@ -185,7 +184,7 @@ const BrixelClosingTree = (props) => {
                 />
               </div>
             </div>
-            <div className="lock-container py-3 dis-fl-row a-c jc-b">
+            <div className={`lock-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageLock.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageLock.active', null) ? 'check-small' : 'locked'}
@@ -205,7 +204,7 @@ const BrixelClosingTree = (props) => {
                 />
               </div>
             </div>
-            <div className="contract-container py-3 dis-fl-row a-c jc-b">
+            <div className={`contract-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageContract.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageContract.active', null) ? 'check-small' : 'locked'}
@@ -225,7 +224,7 @@ const BrixelClosingTree = (props) => {
                 />
               </div>
             </div>
-            <div className="notary-container py-3 dis-fl-row a-c jc-b">
+            <div className={`notary-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageNotary.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
                 <BrixelIcon
                   icon={get(activeSingleClosing, 'stageNotary.active', null) ? 'check-small' : 'locked'}
