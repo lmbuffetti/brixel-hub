@@ -87,7 +87,14 @@ const ReviewOffer = (props) => {
       className="manageOffer"
     >
       <>
-        <div className="dis-f jc-fe p-3 pb-2">
+        <div className={`dis-f p-3 pb-2 ${activeSingleDeal.id === 'sample' ? 'jc-b a-c' : 'jc-fe'}`}>
+          {
+            activeSingleDeal.id === 'sample' && (
+              <div className="ml-2 brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200">
+                Example only
+              </div>
+            )
+          }
           <BrixelButtonIcon
             ghost
             theme="dark"
@@ -242,12 +249,11 @@ const ReviewOffer = (props) => {
                           </>
                         )
                       }
-
                       {
-                        get(activeSingleOffer, 'note', '') && (
+                        get(activeSingleOffer, 'noteByBuyer', '') && (
                           <>
                             <h6 className="fsize-200 pb-1 pt-3">Message</h6>
-                            <p className="txtDark700">{get(activeSingleOffer, 'note', '')}</p>
+                            <p className="txtDark700">{get(activeSingleOffer, 'noteByBuyer', '')}</p>
                           </>
                         )
                       }
