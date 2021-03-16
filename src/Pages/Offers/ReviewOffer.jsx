@@ -77,6 +77,7 @@ const ReviewOffer = (props) => {
     } else {
       closeOverlay();
     }
+    return null;
   };
 
   return (
