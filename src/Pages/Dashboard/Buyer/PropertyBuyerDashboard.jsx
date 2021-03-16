@@ -17,7 +17,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import last from 'lodash/last';
-import has from 'lodash/has';
 import Sticker from 'react-stickyfill';
 import LoadingSimple from '../../../components/LoadingSimple';
 import Loading from '../../../components/Loading';
@@ -133,8 +132,9 @@ const PropertyBuyerDashboard = (props) => {
               <h6 className="overline mt-3 mb-2">Contact</h6>
               <div className="dis-f p-2 buttonBox">
                 <BrixelAvatar
-                  avatarImg={has(formValue, 'contacts[0].avatar.path') ? `${baseByData.shortPath}${get(formValue, 'contacts[0].avatar.path', '')}` : null}
+                  baseURL={get(baseByData, 'shortPath', '')}
                   name={get(formValue, 'contacts[0].name', '')}
+                  profileId={get(formValue, 'contacts[0].id', '')}
                 />
                 <div className="ml-2">
                   <h6>{get(formValue, 'contacts[0].name', '')}</h6>
