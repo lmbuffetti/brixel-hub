@@ -1,40 +1,17 @@
 .closing-tree {
   background-color: white;
 
-  .admin-container {
-    background-color: map-get($lightColor, 100);
-  }
-
   .phases {
     .offer-container,
     .identification-container,
     .lock-container,
+    .notary-container,
     .contract-container {
-      // border-bottom: 1px solid map-get($lightColor, 200);
+      &:not(:last-child) {
+        border-bottom: 1px solid map-get($lightColor, 200);
+      }
     }
   }
 }
 
-.admin-mode {
-  .offer-container,
-  .identification-container,
-  .lock-container,
-  .notary-container,
-  .contract-container {
-    > div:first-child {
-      align-self: stretch;
-      background-color: map-get($lightColor, 100);
-      margin-right: $step * 5;
-      justify-content: center;
-      align-items: center;
-    }
-    > div:not(:first-child) {
-      border-bottom: 1px solid map-get($lightColor, 200);
-      align-self: stretch;
-      justify-content: center;
-      padding-top: $step * 3;
-      padding-bottom: $step * 3;
-      flex: 1;
-    }
-  }
-}
+
