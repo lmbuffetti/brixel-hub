@@ -310,7 +310,6 @@ const App = (props) => {
       (history.location.pathname.includes('property/') ||
       history.location.pathname.includes('listings/') ||
       history.location.pathname.includes('deal') ||
-        history.location.pathname.includes('offers') ||
       history.location.pathname.includes('rewards/')) &&
       windowDimensions.width <= 1024 &&
       !history.location.pathname.includes('buyer')

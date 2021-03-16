@@ -15,3 +15,15 @@
     max-width: 22%;
   }
 }
+
+.ex-tag {
+  @media (max-width: $responsive-small) {
+    display: flex;
+    flex-direction: column;
+  }
+  @media (min-width: $responsive-small) {
+    .tagLabel {
+      margin-left: $step;
+    }
+  }
+}

@@ -82,18 +82,18 @@ const OfferListings = (props) => {
                                     />
                                   </div>
                                   <div
-                                    className={`link pl-2 ${!get(offer, 'user.name', null) ? 'no-name' : ''} cur-poi`}
+                                    className={`link pl-2 ${!get(offer, 'user.name', null) ? 'no-name' : ''} cur-poi ${offer.deal === 'sample' ? 'ex-tag' : ''}`}
                                     onClick={() => onChangeLocation(`/${activeSingleProperty.id}/offers/${offer.deal}`)}
                                   >
                                     {get(offer, 'user.name', 'No Name')}
+                                    {
+                                      offer.deal === 'sample' && (
+                                        <div className="tagLabel brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200">
+                                          Example only
+                                        </div>
+                                      )
+                                    }
                                   </div>
-                                  {
-                                    offer.deal === 'sample' && (
-                                      <div className="ml-2 brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200">
-                                        Example only
-                                      </div>
-                                    )
-                                  }
                                 </div>
                               </div>
 

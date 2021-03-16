@@ -36,7 +36,7 @@ const OfferDetail = (props) => {
 
   return (
     <>
-      <div className="single-offer-container dis-fl-col py-4 px-2">
+      <div className="single-offer-container dis-fl-col py-4 px-0 px-sm-2">
         {
           !isBuyer ? (
             <>
@@ -52,7 +52,7 @@ const OfferDetail = (props) => {
                 <h3>{get(activeSingleDeal, 'user.name', 'No Name')}</h3>
                 {
                   activeSingleDeal.id === 'sample' && (
-                    <div className="ml-2 brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200">
+                    <div className="ml-2 brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200 ex-tag">
                       Example only
                     </div>
                   )
