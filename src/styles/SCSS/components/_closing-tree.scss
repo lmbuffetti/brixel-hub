@@ -10,11 +10,7 @@
       &:not(:last-child) {
         border-bottom: 1px solid map-get($lightColor, 200);
       }
-      //temporary locaked state
-      &:not(:first-child) * {
-        color: map-get($darkColor, 300);
-      }
-      &.locked {
+      &.locked * {
         color: map-get($darkColor, 300);
       }
     }
