@@ -18,6 +18,7 @@ import { setSplashType } from '../actions/CommonActions';
 
 const BrixelClosingTree = (props) => {
   const {
+    activeSingleClosing,
     activeSingleDeal,
     activeSingleOffer,
     className,
@@ -45,16 +46,24 @@ const BrixelClosingTree = (props) => {
           <div className="phases dis-fl-col h-perc-100 w-perc-100 px-5 txtDark700">
             <div className="offer-container py-3 dis-fl-row a-c jc-b">
               <div className="as-b w-fix-120 dis-fl-col">
-                <BrixelIcon
-                  icon="check-small-fill"
-                  color="green"
-                  className="mb-1"
-                  onClick={() => ''}
-                />
-                <span className="fsize-200 txtGreen400">Sent</span>
                 {
-                  get(activeSingleOffer, 'createdAt', null) && (
-                    <span className="fsize-100 txtDark200">{moment(get(activeSingleOffer, 'createdAt', null)).format('D MMM YY, H:mm')}</span>
+                  get(activeSingleOffer, 'createdAt', null) ? (
+                    <>
+                      <BrixelIcon
+                        icon="check-small-fill"
+                        color="green"
+                        className="mb-1"
+                        onClick={() => ''}
+                      />
+                      <span className="fsize-200 txtGreen400">Sent</span>
+                      <span className="fsize-100 txtDark200">{moment(get(activeSingleOffer, 'createdAt', null)).format('D MMM YY, H:mm')}</span>
+                    </>
+                  ) : (
+                    <BrixelIcon
+                      icon={get(activeSingleClosing, 'stageOffer.active', null) ? 'check-small' : 'locked'}
+                      color="dark"
+                      onClick={() => ''}
+                    />
                   )
                 }
               </div>
@@ -154,10 +163,11 @@ const BrixelClosingTree = (props) => {
                 }
               </div>
             </div>
+            {console.log(activeSingleClosing)}
             <div className="identification-container py-3 dis-fl-row a-c jc-b">
               <div className="as-b w-fix-120 dis-fl-col">
                 <BrixelIcon
-                  icon="check-small"
+                  icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
                   color="dark"
                   onClick={() => ''}
                 />
@@ -177,7 +187,7 @@ const BrixelClosingTree = (props) => {
             <div className="lock-container py-3 dis-fl-row a-c jc-b">
               <div className="as-b w-fix-120 dis-fl-col">
                 <BrixelIcon
-                  icon="check-small"
+                  icon={get(activeSingleClosing, 'stageLock.active', null) ? 'check-small' : 'locked'}
                   color="dark"
                   onClick={() => ''}
                 />
@@ -197,7 +207,7 @@ const BrixelClosingTree = (props) => {
             <div className="contract-container py-3 dis-fl-row a-c jc-b">
               <div className="as-b w-fix-120 dis-fl-col">
                 <BrixelIcon
-                  icon="check-small"
+                  icon={get(activeSingleClosing, 'stageContract.active', null) ? 'check-small' : 'locked'}
                   color="dark"
                   onClick={() => ''}
                 />
@@ -217,7 +227,7 @@ const BrixelClosingTree = (props) => {
             <div className="notary-container py-3 dis-fl-row a-c jc-b">
               <div className="as-b w-fix-120 dis-fl-col">
                 <BrixelIcon
-                  icon="check-small"
+                  icon={get(activeSingleClosing, 'stageNotary.active', null) ? 'check-small' : 'locked'}
                   color="dark"
                   onClick={() => ''}
                 />
@@ -244,6 +254,7 @@ const BrixelClosingTree = (props) => {
 BrixelClosingTree.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
   activeSingleOffer: PropTypes.object.isRequired,
+  activeSingleClosing: PropTypes.object.isRequired,
   className: PropTypes.string,
   isBuyer: PropTypes.bool,
   setSplashScreen: PropTypes.func.isRequired,
@@ -257,6 +268,7 @@ BrixelClosingTree.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleOffer: get(state, 'deal.activeSingleDeal.closing.stageOffer', {}),
+  activeSingleClosing: get(state, 'deal.activeSingleDeal.closing', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
