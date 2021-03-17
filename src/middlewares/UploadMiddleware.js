@@ -260,6 +260,7 @@ const checkCommon = (store) => (next) => (action) => {
       const docData = get(action.payload, 'docs', action.payload);
       api.image.uploadDocument(docData)
         .then((res) => {
+          console.log(action.payload);
           if (saveAction === 'makeOffer') {
             const document = [];
             document.push(res.data);
@@ -267,6 +268,7 @@ const checkCommon = (store) => (next) => (action) => {
               ...action.payload,
               documents: document,
             };
+            data.smallLoader = smallLoader;
             store.dispatch({ type: SAVE_MAKE_OFFER, payload: data });
           } else {
             const docList = store.getState().brixelForm.Property.values.documents || [];
@@ -277,9 +279,9 @@ const checkCommon = (store) => (next) => (action) => {
               smallLoader: true,
             };
             store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
+            if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+            else store.dispatch({ type: SPINNER_OFF });
           }
-          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
-          else store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }

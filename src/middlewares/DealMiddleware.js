@@ -469,8 +469,11 @@ const checkCommon = (store) => (next) => (action) => {
       api.deal.makeOffer(id, objData)
         .then((res) => {
           if (!get(res.data, 'statusCode', null)) {
-            if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: 'done' });
-            store.dispatch({ type: SET_ACTIVE_SINGLE_DEAL, payload: res.data });
+            const { data } = res;
+            if (smallLoader) {
+              store.dispatch({ type: SPINNER_SMALL_ON, payload: 'done' });
+            }
+            store.dispatch({ type: SET_ACTIVE_SINGLE_DEAL, payload: data });
           } else if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: null });
         })
         .catch((err) => {

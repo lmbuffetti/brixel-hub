@@ -16,6 +16,7 @@ import {
   Helpers, initializeForm,
   ReduxField,
 } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import SplashScreen from '../../components/SplashScreen';
 import { setSplashType } from '../../actions/CommonActions';
 import { saveMakeOffer } from '../../actions/DealActions';
@@ -25,6 +26,7 @@ const AddNewOffer = (props) => {
   const {
     activeSingleDeal,
     activeSingleCompany,
+    activeSingleOffer,
     activeSingleProperty,
     changeFieldValue,
     handleSaveMakeOffer,
@@ -33,6 +35,7 @@ const AddNewOffer = (props) => {
     initForm,
     initialValue,
     isSmallLoading,
+    loggedInUser,
     setSplashScreen,
   } = props;
   // STATE
@@ -69,6 +72,8 @@ const AddNewOffer = (props) => {
     dataForm.smallLoader = 'saveMakeOffer';
     if (get(formValue, 'file', null)) {
       dataForm.docs = dataForm.file;
+      dataForm.docs.user = get(loggedInUser, 'id', null);
+      dataForm.saveAction = 'makeOffer';
       delete dataForm.file;
       handleUploadDocument(dataForm);
     } else {
@@ -121,20 +126,24 @@ const AddNewOffer = (props) => {
               </p>
 
               {
-                get(formValue, 'file.name', null) && (
-                  <>
-                    <h6 className="fsize-200 pb-1 mt-3">Proof of financing from bank</h6>
+                get(activeSingleOffer, 'offer.documents[0].name', null) && (
+                  <div
+                    onClick={() => window.open(`${baseByData.shortPath}${get(activeSingleOffer, 'offer.documents[0].path', '')}`, '_blank')}
+                    className="cur-poi"
+                  >
+                    <h6 className="fsize-200 pb-1 pt-3">Proof of financing from bank</h6>
                     <div className="dis-f a-c">
                       <BrixelIcon
+                        className="mr-1"
                         icon="document"
                         background="blue"
                         saturation={100}
                         color="blue"
                         saturationTxt={700}
                       />
-                      <p className="txtDark700 pl-small-4">{get(formValue, 'file.name', '')}</p>
+                      <p className="txtDark700 pl-small-4">{get(activeSingleOffer, 'offer.documents[0].name', '')}</p>
                     </div>
-                  </>
+                  </div>
                 )
               }
               {
@@ -255,6 +264,7 @@ const AddNewOffer = (props) => {
 AddNewOffer.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   activeSingleDeal: PropTypes.object.isRequired,
+  activeSingleOffer: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
@@ -263,6 +273,7 @@ AddNewOffer.propTypes = {
   initForm: PropTypes.func,
   initialValue: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.string,
+  loggedInUser: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
 };
 
@@ -274,10 +285,12 @@ AddNewOffer.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
+  activeSingleOffer: get(state, 'deal.activeSingleDeal.closing.stageOffer', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   errors: get(state, 'brixelForm.Offer.syncErrors', {}),
   formValue: get(state, 'brixelForm.Offer.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
   initialValue: {
     currency: 'CHF',
     documents: [],

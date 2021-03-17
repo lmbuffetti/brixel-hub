@@ -15,6 +15,7 @@ import {
   ReduxField,
 } from '@brixel/brixel-components';
 import cloneDeep from 'lodash/cloneDeep';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import SplashScreen from '../../components/SplashScreen';
 import { setSplashType, spinnerSmallOff } from '../../actions/CommonActions';
 import { saveReviewOffer, setActiveSingleDeal } from '../../actions/DealActions';
@@ -226,8 +227,11 @@ const ReviewOffer = (props) => {
                       </p>
 
                       {
-                        get(activeSingleOffer, 'file.name', null) && (
-                          <>
+                        get(activeSingleOffer, 'offer.documents[0].name', null) && (
+                          <div
+                            onClick={() => window.open(`${baseByData.shortPath}${get(activeSingleOffer, 'offer.documents[0].path', '')}`, '_blank')}
+                            className="cur-poi"
+                          >
                             <h6 className="fsize-200 pb-1 pt-3">Proof of financing from bank</h6>
                             <div className="dis-f a-c">
                               <BrixelIcon
@@ -238,9 +242,9 @@ const ReviewOffer = (props) => {
                                 color="blue"
                                 saturationTxt={700}
                               />
-                              <p className="txtDark700 pl-small-4">{get(activeSingleOffer, 'file.name', '')}</p>
+                              <p className="txtDark700 pl-small-4">{get(activeSingleOffer, 'offer.documents[0].name', '')}</p>
                             </div>
-                          </>
+                          </div>
                         )
                       }
                       {
@@ -306,6 +310,28 @@ const ReviewOffer = (props) => {
                   <span className="mr-small-4">{get(activeSingleOffer, 'offer.currency', '')}</span>
                   <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.amount', ''))}</span>
                 </p>
+
+                {
+                  get(activeSingleOffer, 'offer.documents[0].name', null) && (
+                    <div
+                      onClick={() => window.open(`${baseByData.shortPath}${get(activeSingleOffer, 'offer.documents[0].path', '')}`, '_blank')}
+                      className="cur-poi"
+                    >
+                      <h6 className="fsize-200 pb-1 pt-3">Proof of financing from bank</h6>
+                      <div className="dis-f a-c">
+                        <BrixelIcon
+                          className="mr-1"
+                          icon="document"
+                          background="blue"
+                          saturation={100}
+                          color="blue"
+                          saturationTxt={700}
+                        />
+                        <p className="txtDark700 pl-small-4">{get(activeSingleOffer, 'offer.documents[0].name', '')}</p>
+                      </div>
+                    </div>
+                  )
+                }
 
                 <h6 className="fsize-200 pb-1 pt-3">Note</h6>
                 <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteByBuyer', '-')}</i></p>
