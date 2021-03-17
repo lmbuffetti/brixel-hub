@@ -260,7 +260,6 @@ const checkCommon = (store) => (next) => (action) => {
       const docData = get(action.payload, 'docs', action.payload);
       api.image.uploadDocument(docData)
         .then((res) => {
-          console.log(action.payload);
           if (saveAction === 'makeOffer') {
             const document = [];
             document.push(res.data);
