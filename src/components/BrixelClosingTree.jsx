@@ -15,8 +15,11 @@ import {
 import ReviewOffer from '../Pages/Offers/ReviewOffer';
 import AddNewOffer from '../Pages/Offers/AddNewOffer';
 import { setSplashType } from '../actions/CommonActions';
+import ClosingTree from './Skeleton/ClosingTree';
 
 const BrixelClosingTree = (props) => {
+  const sectionNumber = new Array(5).fill('');
+
   const {
     activeSingleClosing,
     activeSingleDeal,
@@ -38,6 +41,27 @@ const BrixelClosingTree = (props) => {
       });
     }
   };
+
+  if (!activeSingleDeal.id) {
+    return (
+      <div className={`closing-tree brdRadius shadow-1dp dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
+        <div className="body dis-fl-row">
+          <div className="phases dis-fl-col h-perc-100 w-perc-100 px-sm-5 px-1 txtDark700">
+            {
+              sectionNumber.map((item, i) => (
+                <div
+                  key={i.toString()}
+                  className={`offer-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageOffer.active', null) ? 'active' : 'locked'}`}
+                >
+                  <ClosingTree />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
