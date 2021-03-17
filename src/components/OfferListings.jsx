@@ -10,6 +10,7 @@ import {
   BrixelAvatar, Helpers, BrixelStatus, ListingsHeaderFilter,
 } from '@brixel/brixel-components';
 import moment from 'moment';
+import emptyOffer from '../images/empty-offer.svg';
 
 const OfferListings = (props) => {
   const {
@@ -30,21 +31,21 @@ const OfferListings = (props) => {
     <>
       <div className="listings-header p-md-2 pl-md-0 p-1 w-perc-100 txtDark700">
         <div className="dis-fl-row jc-b a-c mb-3">
-          <h2 className="fsize-700 fweight-500">Offers</h2>
+          <h2 className="fsize-700 txtDark700 fweight-500">Offers</h2>
         </div>
 
         {
           get(data[0], 'deal', null) === 'sample' && (
-            <div className="ta-c">
+            <div className="ta-c txtDark700">
               <h5 className="ta-c">There are no offers yet.</h5>
-              <p className="ta-c max-w-fix-720 ml-a mr-a mt-3 mb-5">As soon as a buyer makes a first offer it will appear here.
+              <p className="ta-c max-w-fix-544 ml-a mr-a mt-3 mb-5">As soon as a buyer makes a first offer it will appear here.
                 You can manage the whole closing process directly here. Until the notary. <b>Feel free to explore our example offer.</b>
               </p>
             </div>
           )
         }
 
-        <div className="offers listings-wrapper w-perc-100">
+        <div className={`${get(data[0], 'deal', null) === 'sample' ? 'empty-state' : ''} offers listings-wrapper w-perc-100`}>
           <div className="content-wrapper pos-r w-perc-100">
             <div className="listings-container">
               <ListingsHeaderFilter
@@ -81,18 +82,18 @@ const OfferListings = (props) => {
                                     />
                                   </div>
                                   <div
-                                    className={`link pl-2 ${!get(offer, 'user.name', null) ? 'no-name' : ''} cur-poi`}
+                                    className={`link pl-2 ${!get(offer, 'user.name', null) ? 'no-name' : ''} cur-poi ${offer.deal === 'sample' ? 'ex-tag' : ''}`}
                                     onClick={() => onChangeLocation(`/${activeSingleProperty.id}/offers/${offer.deal}`)}
                                   >
                                     {get(offer, 'user.name', 'No Name')}
+                                    {
+                                      offer.deal === 'sample' && (
+                                        <div className="tagLabel brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200">
+                                          Example only
+                                        </div>
+                                      )
+                                    }
                                   </div>
-                                  {
-                                    offer.deal === 'sample' && (
-                                      <div className="ml-2 brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200">
-                                        Example only
-                                      </div>
-                                    )
-                                  }
                                 </div>
                               </div>
 
@@ -119,6 +120,13 @@ const OfferListings = (props) => {
                             </div>
                           </Fragment>
                         ))
+                      )
+                    }
+                    {
+                      get(data[0], 'deal', null) === 'sample' && (
+                        <>
+                          <img width="100%" alt="empty" src={emptyOffer} />
+                        </>
                       )
                     }
                   </div>

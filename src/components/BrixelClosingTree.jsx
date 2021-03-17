@@ -43,7 +43,7 @@ const BrixelClosingTree = (props) => {
     <>
       <div className={`closing-tree brdRadius shadow-1dp dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
         <div className="body dis-fl-row">
-          <div className="phases dis-fl-col h-perc-100 w-perc-100 px-5 txtDark700">
+          <div className="phases dis-fl-col h-perc-100 w-perc-100 px-sm-5 px-1 txtDark700">
             <div className={`offer-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageOffer.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
                 {
@@ -170,7 +170,7 @@ const BrixelClosingTree = (props) => {
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
                 <h5 className="mb-1">Identification</h5>
-                <span className="fsize-200">Submit ID and personal information.</span>
+                <span className="fsize-200 ta-c">Submit ID and personal information.</span>
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
                 <BrixelIcon
@@ -188,7 +188,7 @@ const BrixelClosingTree = (props) => {
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
                 <h5 className="mb-1">Lock</h5>
-                <span className="fsize-200">Reserve the property for closing.</span>
+                <span className="fsize-200 ta-c">Reserve the property for closing.</span>
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
                 <BrixelIcon
@@ -206,7 +206,7 @@ const BrixelClosingTree = (props) => {
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
                 <h5 className="mb-1">Contract</h5>
-                <span className="fsize-200">Approve the terms of the contract.</span>
+                <span className="fsize-200 ta-c">Approve the terms of the contract.</span>
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
                 <BrixelIcon
@@ -224,7 +224,7 @@ const BrixelClosingTree = (props) => {
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
                 <h5 className="mb-1">Notary</h5>
-                <span className="fsize-200">Sign the contract at the notary.</span>
+                <span className="fsize-200 ta-c">Sign the contract at the notary.</span>
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
                 <BrixelIcon
