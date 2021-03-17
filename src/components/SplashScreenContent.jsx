@@ -1,5 +1,5 @@
 import React, {
-  useRef, useState, useEffect,
+  useRef, useState, useEffect, useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -61,7 +61,7 @@ const SplashScreen = (props) => {
   const [showContent, setShowContent] = useState(false);
   const [fullScreenCard, setFullScreenCard] = useState(false);
 
-  const updateData = () => {
+  const updateData = useCallback(() => {
     const wrapCarousel = document.getElementById('overlayCarousel');
     wrapCarousel.classList.remove('animate');
     if (wrapCarousel) {
@@ -118,9 +118,9 @@ const SplashScreen = (props) => {
       }
     }
     return null;
-  };
+  }, [activeSlide]);
 
-  const settingSlider = {
+  const settingSlider = useCallback(() => ({
     fade: true,
     slidesToScroll: 1,
     dots: false,
@@ -149,7 +149,7 @@ const SplashScreen = (props) => {
     afterChange: () => {
       updateData();
     },
-  };
+  }), []);
 
   useEffect(() => {
     updateData();
@@ -170,7 +170,7 @@ const SplashScreen = (props) => {
     },
   });
 
-  const closeOverlay = () => {
+  const closeOverlay = useCallback(() => {
     setSplashScreen('');
     setMarketOverlayProperty({});
     handleSetActiveMarketOverlayPropertyLists(null);
@@ -187,17 +187,17 @@ const SplashScreen = (props) => {
     handleGetPreMarketProperties(data);
     handleGetPremiumProperties(data);
     handleGetFavoritesProperties(data);
-  };
+  }, []);
 
-  const checkFavorite = () => {
+  const checkFavorite = useCallback(() => {
     let findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayProperty.id);
     if (activeMarketOverlayPropertyLists && activeSlide >= 0) {
       findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayPropertyLists[activeSlide].id);
     }
     return findIndex > -1;
-  };
+  }, [favoritesProperties.data]);
 
-  const saveFavorite = () => {
+  const saveFavorite = useCallback(() => {
     let property = activeMarketOverlayProperty;
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) property = activeMarketOverlayPropertyLists[activeSlide];
     const data = {
@@ -229,9 +229,9 @@ const SplashScreen = (props) => {
         }
       }, 1000);
     }
-  };
+  }, [activeMarketOverlayProperty, activeMarketOverlayPropertyLists, activeSlide]);
 
-  const notInterested = () => {
+  const notInterested = useCallback(() => {
     let propID = activeMarketOverlayProperty.id;
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) propID = activeMarketOverlayPropertyLists[activeSlide].id;
     handleMarkNotInterested(propID);
@@ -256,9 +256,9 @@ const SplashScreen = (props) => {
     } else {
       closeOverlay();
     }
-  };
+  }, [activeMarketOverlayProperty, activeMarketOverlayPropertyLists, activeSlide]);
 
-  const changeProperty = (act) => {
+  const changeProperty = useCallback((act) => {
     if (sliderInstance.current) {
       const slider = sliderInstance.current;
       if (act === 'back' && activeSlide > 0) slider.slickPrev();
@@ -266,7 +266,7 @@ const SplashScreen = (props) => {
         slider.slickNext();
       }
     }
-  };
+  }, [sliderInstance]);
 
   return (
     <>
@@ -285,7 +285,7 @@ const SplashScreen = (props) => {
           activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && (
             <div className={`carousel3d ${fullScreenCard ? 'open' : 'close'}`} id="overlayCarousel">
               <h4 className="ta-c mb-3">Pick your favorites</h4>
-              <Slider ref={sliderInstance} {...settingSlider}>
+              <Slider ref={sliderInstance} {...settingSlider()}>
                 {
                   activeMarketOverlayPropertyLists.map((item, i) => (
                     <MarketCardOverlay

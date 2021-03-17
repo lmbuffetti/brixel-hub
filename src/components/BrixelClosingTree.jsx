@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   withRouter,
@@ -30,7 +30,7 @@ const BrixelClosingTree = (props) => {
   } = props;
 
   // TODO: add active/inactive lock logic
-  const onClickOffer = (action) => {
+  const onClickOffer = useCallback((action) => {
     if (action === 'add') {
       setSplashScreen({
         component: AddNewOffer,
@@ -40,7 +40,7 @@ const BrixelClosingTree = (props) => {
         component: ReviewOffer,
       });
     }
-  };
+  }, []);
 
   if (!activeSingleDeal.id) {
     return (

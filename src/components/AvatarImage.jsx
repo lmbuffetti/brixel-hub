@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { BrixelIcon } from '@brixel/brixel-components';
 import { imageExists } from '../utils/helpers';
@@ -13,13 +13,13 @@ const AvatarImage = (props) => {
   } = props;
 
   // FUNCTIONS TO CREATE THE AVATAR IMAGE FROM LOGGED USER NAME
-  const extractName = () => {
+  const extractName = useCallback(() => {
     const splitName = name ? name.split(' ') : null;
     if (splitName) {
       if (splitName.length > 1) return `${splitName[0].charAt(0).toUpperCase()}${splitName[1].charAt(0).toUpperCase()}`;
       return `${splitName[0].charAt(0).toUpperCase()}${splitName[0].charAt(1).toUpperCase()}`;
     } return '';
-  };
+  }, [name]);
 
   return (
     <>

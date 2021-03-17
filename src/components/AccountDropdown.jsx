@@ -1,6 +1,6 @@
 /* global Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
@@ -58,7 +58,7 @@ const AccountDropdown = (props) => {
   }, [localTransifex]);
 
   // FUNCTION TO CHANGE  THE LANGUAGE
-  const newLang = (langCode) => {
+  const newLang = useCallback((langCode) => {
     // handleChangeLanguage(lang);
     const defLangCode = get(langCode, 'value', null) ? langCode.value : langCode;
     if (typeof Transifex !== 'undefined') {
@@ -86,10 +86,10 @@ const AccountDropdown = (props) => {
       handleSaveActiveSingleUser(userData);
     }
     setCloseDropdown(true);
-  };
+  }, [Transifex]);
 
   // FUNCTIONS TO CREATE THE PROFILE DROPDOWN MENU
-  const dropdownAccount = () => (
+  const dropdownAccount = useCallback(() => (
     [
       {
         component: {
@@ -121,7 +121,7 @@ const AccountDropdown = (props) => {
         label: 'Logout',
       },
     ]
-  );
+  ), [langMenu, langSel]);
 
   return (
     <>

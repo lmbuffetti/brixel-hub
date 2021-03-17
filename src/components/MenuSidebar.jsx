@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useEffect } from 'react';
+import React, {
+  useState, useRef, useEffect, useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -34,19 +36,19 @@ const MenuSidebar = (props) => {
   const levelUrl = history.location.pathname.split('/');
 
   // FUNCTION TO MAANGE THE TAB CLICK
-  const onTabClick = (val, act = 'url') => {
+  const onTabClick = useCallback((val, act = 'url') => {
     if (act === 'state' || val === 'support' || val === '/support') {
       setActiveMenu(val.replace('/', ''));
       setSlideIn(true);
     }
-  };
+  }, []);
 
   // FUNCTION TO MAANGE THE TAB CLICK
-  const linkMenu = (val) => {
+  const linkMenu = useCallback((val) => {
     let url = val.replace(':propID', propID);
     url = url.replace(':dealID', activeSingleDeal.id);
     return url;
-  };
+  }, [userType]);
 
   // FUNCTION TO SHOW/HIDE THE SUPPORT MENU (history.push({state: {showSupport: true}}))
   useEffect(() => {
@@ -56,11 +58,11 @@ const MenuSidebar = (props) => {
   }, [get(history, 'location.state', null)]);
 
   // FUNCTION WHEN SUPPORT MENU IS CLOSED
-  const onCloseSupport = () => {
+  const onCloseSupport = useCallback(() => {
     setActiveMenu(null);
     setSlideIn(false);
     history.push({ state: null });
-  };
+  }, []);
 
   useEffect(() => {
     if (history.location.pathname.includes('buyer')) {
@@ -68,7 +70,7 @@ const MenuSidebar = (props) => {
     } else {
       setNavigationMenu(sidebarNavigationSeller);
     }
-  });
+  }, [get(history, 'location.pathname', null)]);
 
   // FUNCTION TO MANAGE CLICK OUTSIDE OF SUPPORT MENU
   useOutsideAlerter(wrapperRef, {

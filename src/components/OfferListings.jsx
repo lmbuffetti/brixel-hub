@@ -2,7 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  Fragment,
+  Fragment, useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -20,12 +20,12 @@ const OfferListings = (props) => {
     onChangeLocation,
   } = props;
 
-  const getStatusColor = (status) => {
+  const getStatusColor = useCallback((status) => {
     if (status === 'pending') return 'Yellow';
     if (status === 'accepted') return 'Green';
     if (status === 'declined') return 'Red';
     return 'Red';
-  };
+  }, []);
 
   return (
     <>

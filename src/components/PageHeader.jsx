@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* global Transifex */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -85,13 +85,13 @@ function PageHeader(props) {
   }, [lang]);
 
   // FUNCTION LOADED WHEN SCREEN IS RESIZED
-  const screenResize = () => {
+  const screenResize = useCallback(() => {
     setWidthScreen(window.innerWidth);
     if (window.innerWidth > 1024) {
       setShowMobileMenu(false);
       document.body.classList.remove('ov-h');
     }
-  };
+  }, [window]);
 
   // FUNCTION TO INITIALIZE THE EVENT LISTENER FOR SCREEN RESIZE
   useEffect(() => {
@@ -112,16 +112,16 @@ function PageHeader(props) {
   }, [get(history, 'location.pathname', null)]); */
 
   // FUNCTION TO SET THE LANGUAGE WHEN SELECTED
-  const newLang = (e, langCode) => {
+  const newLang = useCallback((e, langCode) => {
     e.stopPropagation();
     setCurrentLang(langCode.value);
     handleSetLanguage(langCode.value);
     if (typeof Transifex !== 'undefined') Transifex.live.translateTo(langCode.value);
     setCookie('brixelLang', langCode.value);
-  };
+  }, [Transifex]);
 
   // FUNCTION WHEN CLICKED ON AVATAR - DIFFERENT IF DESKTOP OR MOBILE
-  const avatarAction = () => {
+  const avatarAction = useCallback(() => {
     // Mobile actions for the avatar click
     if (widthScreen < 769) {
       setShowMobileMenu(true);
@@ -129,13 +129,13 @@ function PageHeader(props) {
     } else {
       window.open(baseByData(null, 'io').profileURL, '_blank');
     }
-  };
+  }, [widthScreen]);
 
   // FUNCTION WHEN MENU ELEMENT IS CLICKED
-  const onClickMenu = (link) => {
+  const onClickMenu = useCallback((link) => {
     history.push(link);
     setShowMobileMenu(false);
-  };
+  }, []);
 
   return (
     <>

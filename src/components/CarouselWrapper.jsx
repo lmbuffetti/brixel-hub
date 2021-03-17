@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -33,7 +33,7 @@ const CarouselWrapper = (props) => {
   if (windowDimensions.width > 1024) slideToShow = type === 'own' ? 2 : 4;
   const numCard = [...Array(slideToShow)];
 
-  const settingSlider = {
+  const settingSlider = useCallback(() => ({
     dots: false,
     infinite: false,
     speed: 500,
@@ -68,10 +68,10 @@ const CarouselWrapper = (props) => {
     afterChange: () => setPreventClick(false),
     nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small secondary theme="light" themeSat={500} />,
     prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small secondary theme="light" themeSat={500} />,
-  };
+  }), [type]);
 
   // eslint-disable-next-line consistent-return
-  const showAll = () => {
+  const showAll = useCallback(() => {
     switch (type) {
       case 'own': {
         history.push(`${match.url}/own`);
@@ -96,7 +96,7 @@ const CarouselWrapper = (props) => {
       default:
         // history.push('/home');
     }
-  };
+  }, [type]);
 
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
@@ -111,7 +111,7 @@ const CarouselWrapper = (props) => {
         </div>
 
       </div>
-      <Slider ref={sliderInstance} {...settingSlider}>
+      <Slider ref={sliderInstance} {...settingSlider()}>
         {
           !items && numCard.map((card, i) => (
             <MarketCard

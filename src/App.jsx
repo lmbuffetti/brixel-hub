@@ -1,6 +1,8 @@
 /* global ga, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from 'react';
+import React, {
+  useEffect, useState, useRef, useCallback,
+} from 'react';
 import {
   Switch, Route, withRouter,
 } from 'react-router-dom';
@@ -326,15 +328,15 @@ const App = (props) => {
     }
   }, [history.location.pathname]);
 
-  const calcHeaderHeight = () => {
+  const calcHeaderHeight = useCallback(() => {
     const head = document.getElementsByClassName('hubDasHeader');
     return head[0] ? head[0].offsetHeight : 0;
-  };
+  }, []);
 
-  const calcFlowHeaderHeight = () => {
+  const calcFlowHeaderHeight = useCallback(() => {
     const flowHead = document.getElementsByClassName('flowHeader');
     return flowHead[0] ? flowHead[0].offsetHeight : 0;
-  };
+  }, []);
 
   const headerHeight = document.getElementsByClassName('hubDasHeader')[0];
 
@@ -376,7 +378,7 @@ const App = (props) => {
     }
   }, [dashContentEl]);
 
-  const headerCalc = () => {
+  const headerCalc = useCallback(() => {
     let contentHeight;
     if (!isFlow) {
       if (windowDimensions.width <= 1024) {
@@ -392,7 +394,7 @@ const App = (props) => {
       contentHeight = windowDimensions.height - calcFlowHeaderHeight();
     }
     return contentHeight;
-  };
+  }, [isFlow, calcHeaderHeight, calcFlowHeaderHeight, windowDimensions]);
 
   // DID MOUNT TO CHECK THE USER TOKEN AND INITIALIZE THE WINDOW SIZE LISTENER
   useEffect(() => {
@@ -413,7 +415,7 @@ const App = (props) => {
     handleGetImageType();
   }, []);
 
-  const contentLayout = () => {
+  const contentLayout = useCallback(() => {
     if (!isFlow) {
       if (isSecLevel) {
         return { height: '100%' };
@@ -423,12 +425,12 @@ const App = (props) => {
       }
     }
     return null;
-  };
+  }, [isFlow]);
 
-  const overflowClass = () => {
+  const overflowClass = useCallback(() => {
     if (history.location.pathname.includes('deals')) return 'ov-y-h ov-x-h';
     return 'ov-y-a ov-x-h';
-  };
+  }, []);
 
   // add class to body when loading enabled
   useEffect(() => {
