@@ -81,7 +81,6 @@ const BrixelClosingTree = (props) => {
                         icon="check-small-fill"
                         color="green"
                         className="mb-1"
-                        onClick={() => ''}
                       />
                       <span className="fsize-200 txtGreen400">Sent</span>
                       <span className="fsize-100 txtDark200">{moment(get(activeSingleOffer, 'createdAt', null)).format('D MMM YY, H:mm')}</span>
@@ -191,74 +190,186 @@ const BrixelClosingTree = (props) => {
             </div>
             <div className={`identification-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageIdentification.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
-                <BrixelIcon
-                  icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
-                  color="dark"
-                />
+                {
+                  get(activeSingleClosing, 'stageIdentification.completedByBuyer.status', null) && get(activeSingleClosing, 'stageIdentification.active', null) ? (
+                    <>
+                      <BrixelIcon
+                        icon="check-small-fill"
+                        color="green"
+                        className="mb-1"
+                      />
+                      <span className="fsize-200 txtGreen400">Verified</span>
+                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageIdentification.completedByBuyer.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                    </>
+                  ) : (
+                    <BrixelIcon
+                      icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
+                      color="dark"
+                    />
+                  )
+                }
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
                 <h5 className="mb-1">Identification</h5>
                 <span className="fsize-200 ta-c">Submit ID and personal information.</span>
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
-                <BrixelIcon
-                  icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
-                  color="dark"
-                />
+                {
+                  get(activeSingleClosing, 'stageIdentification.completedBySeller.status', null) && get(activeSingleClosing, 'stageIdentification.active', null) ? (
+                    <>
+                      <BrixelIcon
+                        icon="check-small-fill"
+                        color="green"
+                        className="mb-1"
+                      />
+                      <span className="fsize-200 txtGreen400">Verified</span>
+                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageIdentification.completedBySeller.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                    </>
+                  ) : (
+                    <BrixelIcon
+                      icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
+                      color="dark"
+                    />
+                  )
+                }
               </div>
             </div>
             <div className={`lock-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageLock.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
-                <BrixelIcon
-                  icon={get(activeSingleClosing, 'stageLock.active', null) ? 'check-small' : 'locked'}
-                  color="dark"
-                />
+                {
+                  get(activeSingleClosing, 'stageLock.completedByBuyer.status', null) && get(activeSingleClosing, 'stageLock.active', null) ? (
+                    <>
+                      <BrixelIcon
+                        icon="check-small-fill"
+                        color="green"
+                        className="mb-1"
+                      />
+                      <span className="fsize-200 txtGreen400">Locked</span>
+                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageLock.completedByBuyer.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                    </>
+                  ) : (
+                    <BrixelIcon
+                      icon={get(activeSingleClosing, 'stageLock.active', null) ? 'check-small' : 'locked'}
+                      color="dark"
+                    />
+                  )
+                }
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
                 <h5 className="mb-1">Lock</h5>
                 <span className="fsize-200 ta-c">Reserve the property for closing.</span>
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
-                <BrixelIcon
-                  icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
-                  color="dark"
-                />
+                {
+                  get(activeSingleClosing, 'stageLock.completedBySeller.status', null) && get(activeSingleClosing, 'stageLock.active', null) ? (
+                    <>
+                      <BrixelIcon
+                        icon="check-small-fill"
+                        color="green"
+                        className="mb-1"
+                      />
+                      <span className="fsize-200 txtGreen400">Locked</span>
+                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageLock.completedBySeller.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                    </>
+                  ) : (
+                    <BrixelIcon
+                      icon={get(activeSingleClosing, 'stageLock.active', null) ? 'check-small' : 'locked'}
+                      color="dark"
+                    />
+                  )
+                }
               </div>
             </div>
             <div className={`contract-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageContract.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
-                <BrixelIcon
-                  icon={get(activeSingleClosing, 'stageContract.active', null) ? 'check-small' : 'locked'}
-                  color="dark"
-                />
+                {
+                  get(activeSingleClosing, 'stageContract.completedByBuyer.status', null) && get(activeSingleClosing, 'stageContract.active', null) ? (
+                    <>
+                      <BrixelIcon
+                        icon="check-small-fill"
+                        color="green"
+                        className="mb-1"
+                      />
+                      <span className="fsize-200 txtGreen400">Approved</span>
+                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageContract.completedByBuyer.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                    </>
+                  ) : (
+                    <BrixelIcon
+                      icon={get(activeSingleClosing, 'stageContract.active', null) ? 'check-small' : 'locked'}
+                      color="dark"
+                    />
+                  )
+                }
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
                 <h5 className="mb-1">Contract</h5>
                 <span className="fsize-200 ta-c">Approve the terms of the contract.</span>
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
-                <BrixelIcon
-                  icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
-                  color="dark"
-                />
+                {
+                  get(activeSingleClosing, 'stageContract.completedBySeller.status', null) && get(activeSingleClosing, 'stageLock.active', null) ? (
+                    <>
+                      <BrixelIcon
+                        icon="check-small-fill"
+                        color="green"
+                        className="mb-1"
+                      />
+                      <span className="fsize-200 txtGreen400">Approved</span>
+                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageContract.completedBySeller.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                    </>
+                  ) : (
+                    <BrixelIcon
+                      icon={get(activeSingleClosing, 'stageContract.active', null) ? 'check-small' : 'locked'}
+                      color="dark"
+                    />
+                  )
+                }
               </div>
             </div>
             <div className={`notary-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageNotary.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
-                <BrixelIcon
-                  icon={get(activeSingleClosing, 'stageNotary.active', null) ? 'check-small' : 'locked'}
-                  color="dark"
-                />
+                {
+                  get(activeSingleClosing, 'stageNotary.completedByBuyer.status', null) && get(activeSingleClosing, 'stageLock.active', null) ? (
+                    <>
+                      <BrixelIcon
+                        icon="check-small-fill"
+                        color="green"
+                        className="mb-1"
+                      />
+                      <span className="fsize-200 txtGreen400">Signed</span>
+                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageNotary.completedByBuyer.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                    </>
+                  ) : (
+                    <BrixelIcon
+                      icon={get(activeSingleClosing, 'stageNotary.active', null) ? 'check-small' : 'locked'}
+                      color="dark"
+                    />
+                  )
+                }
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
                 <h5 className="mb-1">Notary</h5>
                 <span className="fsize-200 ta-c">Sign the contract at the notary.</span>
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
-                <BrixelIcon
-                  icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
-                  color="dark"
-                />
+                {
+                  get(activeSingleClosing, 'stageNotary.completedBySeller.status', null) && get(activeSingleClosing, 'stageLock.active', null) ? (
+                    <>
+                      <BrixelIcon
+                        icon="check-small-fill"
+                        color="green"
+                        className="mb-1"
+                      />
+                      <span className="fsize-200 txtGreen400">Signed</span>
+                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageNotary.completedBySeller.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                    </>
+                  ) : (
+                    <BrixelIcon
+                      icon={get(activeSingleClosing, 'stageNotary.active', null) ? 'check-small' : 'locked'}
+                      color="dark"
+                    />
+                  )
+                }
               </div>
             </div>
           </div>
