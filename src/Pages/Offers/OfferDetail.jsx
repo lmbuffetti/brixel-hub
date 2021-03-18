@@ -59,8 +59,20 @@ const OfferDetail = (props) => {
                 }
               </div>
               <div className="offer-info dis-fl-row a-c mb-5">
-                <span className="mr-3">{get(activeSingleDeal, 'user.email', '')}</span>
-                <span>{Helpers.telephoneFormat(get(activeSingleDeal, 'user.phone', ''))}</span>
+                {
+                  get(activeSingleDeal, 'user.email', null) && (
+                    <a className="mr-3 txtDark700" href={`mailto:${get(activeSingleDeal, 'user.email', '')}`}>
+                      {get(activeSingleDeal, 'user.email', '')}
+                    </a>
+                  )
+                }
+                {
+                  get(activeSingleDeal, 'user.email', null) && (
+                    <a className="mr-3 txtDark700" href={'tel:get(activeSingleDeal, \'user.phone\', \'\')'}>
+                      {Helpers.telephoneFormat(get(activeSingleDeal, 'user.phone', ''))}
+                    </a>
+                  )
+                }
               </div>
             </>
           ) : (

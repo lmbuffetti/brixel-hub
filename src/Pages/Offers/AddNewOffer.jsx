@@ -146,14 +146,21 @@ const AddNewOffer = (props) => {
                   </div>
                 )
               }
-              {
-                get(formValue, 'note', '') && (
-                  <>
-                    <h6 className="fsize-200 pb-1 pt-3">Message</h6>
-                    <p className="txtDark700">{get(formValue, 'note', '-')}</p>
-                  </>
-                )
-              }
+
+              <h6 className="fsize-200 pb-1 pt-3">Message</h6>
+              <p className="txtDark700">{get(formValue, 'note', '-') || '-'}</p>
+
+              <div className="dis-f mt-3">
+                <BrixelIcon
+                  icon="info"
+                  theme="dark100"
+                />
+
+                <p className="txtDark700 ml-2">
+                  This is a non-binding offer. The seller will be notified and will give feedback to you as soon as possible.
+                </p>
+
+              </div>
 
               <div className="dis-f jc-c a-c">
                 <BrixelButtonPrimary
@@ -241,6 +248,18 @@ const AddNewOffer = (props) => {
                     label: 'Message',
                   }}
                 />
+
+                <div className="dis-f mt-3">
+                  <BrixelIcon
+                    icon="info"
+                    theme="dark100"
+                  />
+
+                  <p className="txtDark700 ml-2">
+                    This is a non-binding offer. The seller will be notified and will give feedback to you as soon as possible.
+                  </p>
+
+                </div>
 
                 <div className="dis-f jc-c a-c">
                   <BrixelButtonPrimary

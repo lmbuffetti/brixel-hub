@@ -166,12 +166,12 @@ const ReviewOffer = (props) => {
                     />
 
                     <div className="dis-f mt-3">
-                      {/* <BrixelIcon
-                    icon="info"
-                    theme="dark100"
-                  /> */}
+                      <BrixelIcon
+                        icon="info"
+                        theme="dark100"
+                      />
 
-                      <p className="fsize-300 txtDark200">
+                      <p className="fsize-300 txtDark200 ml-2">
                         {
                           success === 'accepted' ? (
                             <>
@@ -247,26 +247,21 @@ const ReviewOffer = (props) => {
                           </div>
                         )
                       }
-                      {
-                        get(activeSingleOffer, 'noteByBuyer', '') && (
-                          <>
-                            <h6 className="fsize-200 pb-1 pt-3">Message</h6>
-                            <p className="txtDark700">{get(activeSingleOffer, 'noteByBuyer', '-')}</p>
-                          </>
-                        )
-                      }
 
-                      {/* <div className="dis-f mt-3">
-                     <BrixelIcon
-                      icon="info"
-                      theme="dark100"
-                    />
+                      <h6 className="fsize-200 pb-1 pt-3">Message</h6>
+                      <p className="txtDark700">{get(activeSingleOffer, 'offer.noteByBuyer', '-') || '-'}</p>
 
-                    <p className="txtDark700">
-                      This is a non-binding offer. The buyer will be notified about your decision.
-                    </p>
+                      <div className="dis-f mt-3">
+                        <BrixelIcon
+                          icon="info"
+                          theme="dark100"
+                        />
 
-                  </div> */}
+                        <p className="txtDark700 ml-2">
+                          This is a non-binding offer. The buyer will be notified about your decision.
+                        </p>
+
+                      </div>
 
                     </div>
 
@@ -334,11 +329,11 @@ const ReviewOffer = (props) => {
                 }
 
                 <h6 className="fsize-200 pb-1 pt-3">Note</h6>
-                <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteByBuyer', '-')}</i></p>
+                <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteByBuyer', '-') || '-'}</i></p>
 
                 <div className="ta-r">
                   <h6 className="fsize-200 pb-1 pt-3">Answer</h6>
-                  <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteBySeller', '-')}</i></p>
+                  <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteBySeller', '-') || '-'}</i></p>
                 </div>
                 <div className="dis-f mt-5">
                   <BrixelIcon
@@ -346,11 +341,19 @@ const ReviewOffer = (props) => {
                     icon="info"
                     theme="dark100"
                   />
-
-                  <p className="txtDark100">
-                    You accepted this non-binding offer. To proceed with the closing continue with identification.
+                  <p className="fsize-300 txtDark200 ml-2">
+                    {
+                      get(activeSingleOffer, 'offer.status', null) === 'accepted' ? (
+                        <>
+                          You accepted this non-binding offer. To proceed with the closing continue with identification.
+                        </>
+                      ) : (
+                        <>
+                          You declined this non-binding offer. The buyer was informed about your decision.
+                        </>
+                      )
+                    }
                   </p>
-
                 </div>
 
               </div>
