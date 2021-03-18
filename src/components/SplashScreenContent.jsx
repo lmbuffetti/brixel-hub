@@ -284,7 +284,6 @@ const SplashScreen = (props) => {
         {
           activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && (
             <div className={`carousel3d ${fullScreenCard ? 'open' : 'close'}`} id="overlayCarousel">
-              <h4 className="ta-c mb-3">Pick your favorites</h4>
               <Slider ref={sliderInstance} {...settingSlider()}>
                 {
                   activeMarketOverlayPropertyLists.map((item, i) => (

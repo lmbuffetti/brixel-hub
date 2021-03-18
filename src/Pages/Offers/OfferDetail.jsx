@@ -76,7 +76,7 @@ const OfferDetail = (props) => {
               </div>
             </>
           ) : (
-            <h3 className="mb-1">Deal</h3>
+            <h3 className="mb-3">Deal</h3>
           )
         }
         <BrixelClosingTree
