@@ -146,7 +146,6 @@ const BrixelClosingTree = (props) => {
                     <BrixelIcon
                       icon="check-small"
                       color="dark"
-                      onClick={() => ''}
                     />
                   )
                 }
@@ -168,6 +167,7 @@ const BrixelClosingTree = (props) => {
                       <BrixelIcon
                         icon="check-small-fill"
                         color="green"
+                        className="mb-1"
                       />
                       <span className="fsize-200 txtGreen400">Accepted</span>
                       <span className="fsize-100">{moment(get(activeSingleOffer, 'updatedAt', null)).format('D MMM YY, H:mm')}</span>
@@ -180,6 +180,7 @@ const BrixelClosingTree = (props) => {
                       <BrixelIcon
                         icon="close-circle"
                         color="red"
+                        className="mb-1"
                       />
                       <span className="fsize-200 txtRed400">Rejected</span>
                       <span className="fsize-100">{moment(get(activeSingleOffer, 'updatedAt', null)).format('D MMM YY, H:mm')}</span>
