@@ -206,7 +206,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-1 h-fix-208 w-perc-100 w-fix-sm-208`}
+                  className={`${isPreMarket ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius mb-1 h-fix-208 w-perc-100 w-fix-sm-208`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                   onClick={(e) => openCard(e)}
@@ -374,7 +374,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
+                  className={`${isPreMarket ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                 />

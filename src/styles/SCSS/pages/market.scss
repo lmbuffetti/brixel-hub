@@ -319,3 +319,10 @@
     }
   }
 }
+.market-card {
+  .cover {
+    &.pre-market:not(.premium) {
+      filter: grayscale(100%);
+    }
+  }
+}
