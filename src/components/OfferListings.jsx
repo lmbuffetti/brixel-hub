@@ -11,6 +11,7 @@ import {
 } from '@brixel/brixel-components';
 import moment from 'moment';
 import emptyOffer from '../images/empty-offer.svg';
+import femaleAvatar from '../images/female-avatar.png';
 
 const OfferListings = (props) => {
   const {
@@ -74,12 +75,18 @@ const OfferListings = (props) => {
 
                               <div className="row-section pl-1 dis-f a-c name">
                                 <div className="wrapper dis-f a-c">
-                                  <div onClick={() => onChangeLocation(`/${activeSingleProperty.id}/offers/${offer.deal}`)}>
-                                    <BrixelAvatar
-                                      baseURL={getConfigEnv.shortPath}
-                                      name={get(offer, 'user.name', null) ? get(offer, 'user.name', '') : get(offer, 'user.email', '')}
-                                      profileId={get(offer, 'user.id', '')}
-                                    />
+                                  <div className="cur-poi" onClick={() => onChangeLocation(`/${activeSingleProperty.id}/offers/${offer.deal}`)}>
+                                    {
+                                      offer.deal === 'sample' ? (
+                                        <img width="40" alt="female avatar" src={femaleAvatar} />
+                                      ) : (
+                                        <BrixelAvatar
+                                          baseURL={getConfigEnv.shortPath}
+                                          name={get(offer, 'user.name', null) ? get(offer, 'user.name', '') : get(offer, 'user.email', '')}
+                                          profileId={get(offer, 'user.id', '')}
+                                        />
+                                      )
+                                    }
                                   </div>
                                   <div
                                     className={`link pl-2 ${!get(offer, 'user.name', null) ? 'no-name' : ''} cur-poi ${offer.deal === 'sample' ? 'ex-tag' : ''}`}
