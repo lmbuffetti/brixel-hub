@@ -158,7 +158,7 @@ const BrixelClosingTree = (props) => {
                         color="dark"
                         className="mb-1"
                       />
-                      <span className="fSizePx14 txtYellow400">Pending</span>
+                      <span className="fsize-200 txtYellow400">Pending</span>
                     </>
                   )
                 }
@@ -169,7 +169,7 @@ const BrixelClosingTree = (props) => {
                         icon="check-small-fill"
                         color="green"
                       />
-                      <span className="fSizePx14 txtGreen400">Accepted</span>
+                      <span className="fsize-200 txtGreen400">Accepted</span>
                       <span className="fsize-100">{moment(get(activeSingleOffer, 'updatedAt', null)).format('D MMM YY, H:mm')}</span>
                     </>
                   )
@@ -181,7 +181,7 @@ const BrixelClosingTree = (props) => {
                         icon="close-circle"
                         color="red"
                       />
-                      <span className="fSizePx14 txtRed400">Rejected</span>
+                      <span className="fsize-200 txtRed400">Rejected</span>
                       <span className="fsize-100">{moment(get(activeSingleOffer, 'updatedAt', null)).format('D MMM YY, H:mm')}</span>
                     </>
                   )
