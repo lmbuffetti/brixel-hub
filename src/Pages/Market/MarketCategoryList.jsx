@@ -22,6 +22,7 @@ import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
 import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
 import CardImageText from '../../components/Skeleton/CardImageText';
+import Loading from '../../components/Loading';
 import NoPropertiesImg from '../../images/searchProfile/no-found-properties.svg';
 
 const CarouselWrapper = Loadable({
@@ -274,7 +275,12 @@ const MarketCategoryList = (props) => {
                 onClick={() => onCloseBestimateResult()}
               />
             </div>
-            <div className="dis-fl-col jc-c a-c pb-2">
+            <div className="dis-fl-col jc-c a-c pb-2 pos-r">
+              {
+                !has(bestimate, 'higherValue') && (
+                  <Loading isLoading />
+                )
+              }
               <h3>This is your Bestimate<sup>&reg;</sup>  </h3>
               <>
                 <p className="ta-c mt-2 txtDark700"> Your property is worth up to </p>
