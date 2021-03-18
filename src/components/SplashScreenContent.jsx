@@ -280,7 +280,7 @@ const SplashScreen = (props) => {
         />
       </div>
 
-      <div className={`middle-part ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'}`}>
+      <div className={`middle-part ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} pos-r zIndex1`}>
         {
           activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && (
             <div className={`carousel3d ${fullScreenCard ? 'open' : 'close'}`} id="overlayCarousel">
@@ -330,7 +330,7 @@ const SplashScreen = (props) => {
         }
 
       </div>
-      <div className={`fixed-footer dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard ? 'jc-b' : 'jc-c'}`}>
+      <div className={`fixed-footer dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard ? 'jc-b' : 'jc-c'} pos-r zIndex2`}>
         {
           activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
             <BrixelButtonIcon
