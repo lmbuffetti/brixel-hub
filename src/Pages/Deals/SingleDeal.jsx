@@ -236,7 +236,7 @@ const SingleDeal = (props) => {
               <div className="top dis-fl-row jc-b mb-0 mb-lg-4">
                 <div className="user dis-fl-row col-7 p-2 p-lg-0">
                   <BrixelAvatar
-                    avatarImg={get(activeSingleDeal.user, 'avatar[0]', '') ? getConfigEnv.shortPath + activeSingleDeal.user.avatar[0].thumbnailPath : null}
+                    baseURL={get(getConfigEnv, 'shortPath', '')}
                     name={Helpers.userNameVal(activeSingleDeal.user.firstName, activeSingleDeal.user.lastName, activeSingleDeal.user.name) === 'No Name' ? get(activeSingleDeal.user, 'email', '') : Helpers.userNameVal(activeSingleDeal.user.firstName, activeSingleDeal.user.lastName, activeSingleDeal.user.name)}
                     profileId={get(activeSingleDeal.user, 'id', '')}
                   />

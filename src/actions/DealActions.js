@@ -13,7 +13,13 @@ import {
   UPDATE_MULTIPLE_DEALS,
   GET_USER_DEALS,
   SET_USER_DEALS,
-} from './types/DealsTypes';
+  GET_OFFER_LISTINGS,
+  SET_OFFER_LISTINGS,
+  SET_ACTIVE_SINGLE_OFFER,
+  SAVE_MAKE_OFFER,
+  SAVE_REVIEW_OFFER,
+  GET_BUYER_DEAL,
+} from './types/DealTypes';
 
 export const {
   createDeal,
@@ -27,6 +33,12 @@ export const {
   updateMultipleDeals,
   getUserDeals,
   setUserDeals,
+  getOfferListings,
+  setOfferListings,
+  setActiveSingleOffer,
+  saveMakeOffer,
+  saveReviewOffer,
+  getBuyerDeal,
 } = createActions({
   [CREATE_DEAL]: (payload) => payload,
   [DELETE_ACTIVE_SINGLE_DEAL]: (payload) => payload,
@@ -39,4 +51,10 @@ export const {
   [UPDATE_MULTIPLE_DEALS]: (payload) => payload,
   [GET_USER_DEALS]: (payload) => payload,
   [SET_USER_DEALS]: (payload) => payload,
+  [GET_OFFER_LISTINGS]: (payload) => payload,
+  [SET_OFFER_LISTINGS]: (payload) => payload,
+  [SET_ACTIVE_SINGLE_OFFER]: (payload) => payload,
+  [SAVE_MAKE_OFFER]: (payload) => payload,
+  [GET_BUYER_DEAL]: (payload) => payload,
+  [SAVE_REVIEW_OFFER]: (payload) => payload,
 });

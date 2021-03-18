@@ -589,10 +589,14 @@ const checkCommon = (store) => (next) => (action) => {
     // GET DEALS BY PAGE
     case GET_PAGE_DEALS: {
       next(action);
-      store.dispatch({
-        type: SPINNER_ON,
-      });
-      api.property.getPageDeals(action.payload)
+      const smallLoader = get(action.payload, 'smallLoader', false);
+      if (!smallLoader) {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      const id = get(action.payload, 'id', action.payload);
+      api.property.getPageDeals(id)
         .then((response) => {
           const calls = [];
           const deals = response.data;
@@ -611,8 +615,9 @@ const checkCommon = (store) => (next) => (action) => {
             type: SET_PAGE_DEALS,
             payload: deals,
           });
-          store.dispatch({ type: SPINNER_OFF });
-
+          if (!smallLoader) {
+            store.dispatch({ type: SPINNER_OFF });
+          }
           Promise.all(calls).then((res) => {
             // Process the user history for each deal
             res.forEach((userHistory) => {

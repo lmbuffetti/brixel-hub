@@ -29,6 +29,7 @@ import {
   SPINNER_SMALL_ON,
   SPINNER_SMALL_OFF,
 } from '../actions/types/CommonTypes';
+import { SAVE_MAKE_OFFER } from '../actions/types/DealTypes';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -250,23 +251,36 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO SINGLE UPLOAD DOCUMENTS - DOCUMENTS ARRAY
     case UPLOAD_DOCUMENT: {
       next(action);
-      const { pageID, smallLoader } = action.payload;
+      const { pageID, smallLoader, saveAction } = action.payload;
       delete action.payload.pageID;
-      delete action.payload.smallLaoder;
+      delete action.payload.smallLoader;
+      delete action.payload.saveAction;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
-      api.image.uploadDocument(action.payload)
+      const docData = get(action.payload, 'docs', action.payload);
+      api.image.uploadDocument(docData)
         .then((res) => {
-          const docList = store.getState().brixelForm.Property.values.documents || [];
-          docList.push(res.data);
-          const data = {
-            id: pageID,
-            documents: docList,
-            smallLoader: true,
-          };
-          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
-          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
-          else store.dispatch({ type: SPINNER_OFF });
+          if (saveAction === 'makeOffer') {
+            const document = [];
+            document.push(res.data);
+            const data = {
+              ...action.payload,
+              documents: document,
+            };
+            data.smallLoader = smallLoader;
+            store.dispatch({ type: SAVE_MAKE_OFFER, payload: data });
+          } else {
+            const docList = store.getState().brixelForm.Property.values.documents || [];
+            docList.push(res.data);
+            const data = {
+              id: pageID,
+              documents: docList,
+              smallLoader: true,
+            };
+            store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
+            if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+            else store.dispatch({ type: SPINNER_OFF });
+          }
         });
       break;
     }

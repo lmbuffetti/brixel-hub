@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import { BrixelButtonIcon, BrixelIcon } from '@brixel/brixel-components';
 import PropTypes from 'prop-types';
@@ -23,13 +23,13 @@ function PageHeaderAchievement(props) {
   const pageId = get(match, 'params.propId', '');
   const rewardType = get(history, 'location.pathname', '').split('/')[4];
 
-  const onClose = () => {
+  const onClose = useCallback(() => {
     if (navHistory.source) {
       handleSetHistory({});
       history.push(navHistory.source);
     } else if (onClick) onClick();
     else history.push(`/${pageId}/rewards/${rewardType}`);
-  };
+  }, [navHistory.source]);
 
   return (
     <header className="max-w-fix-760 w-perc-100 m-a pageHeaderAchievement">

@@ -1,6 +1,10 @@
-import { statuses } from './httpErrors.constant';
+import {
+  statuses,
+} from './httpErrors.constant';
 
-export const httpStatusNormalizer = ({ status = 0 }) => {
+export const httpStatusNormalizer = ({
+  status = 0,
+}) => {
   let normalizedStatus = status;
 
   if (status >= 200 && status < 300) {
@@ -26,7 +30,9 @@ export const httpStatusNormalizer = ({ status = 0 }) => {
   return normalizedStatus;
 };
 
-export const httpErrorHandler = ({ status = 0 }) => {
+export const httpErrorHandler = ({
+  status = 0,
+}) => {
   const unhandledStatus = 0;
   const normalizedStatus = status;
 
@@ -35,16 +41,21 @@ export const httpErrorHandler = ({ status = 0 }) => {
     : statuses[unhandledStatus];
 };
 
-export const successHandler = (response) => {
-  const { data, status } = response;
+export const successHandler = (response, id) => {
+  const {
+    data, status,
+  } = response;
   const meta = {
     status,
-    normalizedStatus: httpStatusNormalizer({ status }),
+    normalizedStatus: httpStatusNormalizer({
+      status,
+    }),
     statusText: response.statusText,
   };
 
   return Promise.resolve({
     data,
+    id,
     meta,
   });
 };

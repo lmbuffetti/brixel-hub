@@ -110,7 +110,7 @@ const MarketCard = (props) => {
         handleSetActiveMarketOverlayPropertyLists(property);
       } else if (type === 'favorite') {
         history.push({
-          pathname: `/buyer/property/${item.id}/page`,
+          pathname: `/buyer/${item.id}/property/page`,
           state: { section: 'Market' },
         });
       } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
@@ -208,7 +208,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-1 h-fix-208 w-perc-100 w-fix-sm-208`}
+                  className={`${isPreMarket ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius mb-1 h-fix-208 w-perc-100 w-fix-sm-208`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                   onClick={(e) => openCard(e)}
@@ -376,7 +376,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
+                  className={`${isPreMarket ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                 />

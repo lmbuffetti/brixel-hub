@@ -14,7 +14,6 @@ const DealsCard = (props) => {
     archOnClick,
     date,
     offer,
-    avatarImg,
     profileId,
     archived,
     isWinner,
@@ -47,7 +46,7 @@ const DealsCard = (props) => {
       >
         <div className="leftPanel pr-2">
           <BrixelAvatar
-            avatarImg={avatarImg ? get(getConfigEnv, 'shortPath', '') + avatarImg : null}
+            baseURL={get(getConfigEnv, 'shortPath', '')}
             name={name}
             profileId={profileId}
             className="notranslate"
@@ -106,35 +105,33 @@ const DealsCard = (props) => {
 };
 
 DealsCard.propTypes = {
-  className: PropTypes.string,
-  name: PropTypes.string,
-  parentOnClick: PropTypes.func,
   archOnClick: PropTypes.func,
-  date: PropTypes.string,
-  avatarImg: PropTypes.string,
-  profileId: PropTypes.string,
-  hasMessage: PropTypes.string,
-  offer: PropTypes.string,
   archived: PropTypes.bool,
-  isWinner: PropTypes.bool,
+  className: PropTypes.string,
+  date: PropTypes.string,
+  hasMessage: PropTypes.string,
   isNew: PropTypes.bool,
+  isWinner: PropTypes.bool,
   lastAction: PropTypes.object,
+  name: PropTypes.string,
+  offer: PropTypes.string,
+  parentOnClick: PropTypes.func,
+  profileId: PropTypes.string,
 };
 
 DealsCard.defaultProps = {
-  className: '',
-  name: '',
-  parentOnClick: () => '',
   archOnClick: () => '',
-  date: '',
-  avatarImg: '',
-  hasMessage: '',
-  profileId: '',
-  offer: null,
   archived: false,
-  isWinner: false,
+  className: '',
+  date: '',
+  hasMessage: '',
   isNew: false,
+  isWinner: false,
   lastAction: {},
+  name: '',
+  offer: null,
+  parentOnClick: () => '',
+  profileId: '',
 };
 
 export default DealsCard;

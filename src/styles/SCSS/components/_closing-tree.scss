@@ -1,0 +1,18 @@
+.closing-tree {
+  background-color: white;
+
+  .phases {
+    .offer-container,
+    .identification-container,
+    .lock-container,
+    .notary-container,
+    .contract-container {
+      &:not(:last-child) {
+        border-bottom: 1px solid map-get($lightColor, 200);
+      }
+      &.locked * {
+        color: map-get($darkColor, 300);
+      }
+    }
+  }
+}

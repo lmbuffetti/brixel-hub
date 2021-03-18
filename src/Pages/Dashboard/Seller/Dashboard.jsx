@@ -36,6 +36,7 @@ import {
 } from '../../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { calcPercentageFacts } from '../../../utils/helpers';
+import Loading from '../../../components/Loading';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -81,6 +82,11 @@ const Deals = Loadable({
 const ProtectedRoute = Loadable({
   loader: () => import('../../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
   loading: () => null,
+});
+
+const DashboardOffer = Loadable({
+  loader: () => import('../../Offers/DashboardOffer' /* webpackChunkName: "DashboardOffer" */),
+  loading: Loading,
 });
 
 const Dashboard = (props) => {
@@ -416,6 +422,7 @@ const Dashboard = (props) => {
     <div className={`container dashboardContainer ${sectionClass[2]}`} id="dashboard">
       {/* teaserScreens && isEligible(activeSingleProperty) && () */}
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
+      <ProtectedRoute path="/:propId/offers/" component={DashboardOffer} />
       <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />

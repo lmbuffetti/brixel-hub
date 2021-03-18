@@ -143,7 +143,7 @@ const ShowingsBuyer = (props) => {
                 rounded
                 label="Add dates"
                 rightIcon="calendar-add"
-                onClick={() => history.push(`/buyer/property/${propID}/showings/add`)}
+                onClick={() => history.push(`/buyer/${propID}/property/showings/add`)}
                 className="mb-3"
               />
             </div>

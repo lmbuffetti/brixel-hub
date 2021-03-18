@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { BrixelIcon, BrixelStatus } from '@brixel/brixel-components';
 
@@ -20,11 +20,11 @@ const BrixelButtonAchievement = (props) => {
   const defaultClass = 'brixel-button-achievement dis-f a-c jc-b w-perc-100 p-1 brdRadius';
 
   // FUNCTIONS TO MANAGE THE SUBTITLE OVER THE TITLE
-  const subTitleHover = () => {
+  const subTitleHover = useCallback(() => {
     if (isFree) return 'Free';
     if (isFree === null) return 'Coming soon';
     return `Unlock ${subtitle}`;
-  };
+  }, [subtitle, isFree]);
 
   return (
     <div className="pos-r">
