@@ -280,7 +280,7 @@ const SplashScreen = (props) => {
         />
       </div>
 
-      <div className={`middle-part ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} ${fullScreenCard ? '' : 'pos-r zIndex1'}`}>
+      <div className={`middle-part ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} ${fullScreenCard || !activeMarketOverlayPropertyLists ? '' : 'pos-r zIndex1'}`}>
         {
           activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && (
             <div className={`carousel3d ${fullScreenCard ? 'open' : 'close'}`} id="overlayCarousel">
