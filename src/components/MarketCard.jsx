@@ -230,7 +230,7 @@ const MarketCard = (props) => {
                   get(item, 'tags', []).length > 0 && (
                     <div className="tag-container pos-a dis-fl-row a-c jc-b">
                       {
-                        item.tags.map((tag, i) => (
+                        get(item, 'tags', []).filter((tag) => tag !== 'new').map((tag, i) => (
                           <p
                             key={i.toString()}
                             className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
