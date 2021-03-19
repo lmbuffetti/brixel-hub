@@ -249,15 +249,16 @@ const ReviewOffer = (props) => {
                       }
 
                       <h6 className="fsize-200 pb-1 pt-3">Message</h6>
-                      <p className="txtDark700">{get(activeSingleOffer, 'offer.noteByBuyer', '-') || '-'}</p>
+                      <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteByBuyer', '-') || '-'}</i></p>
 
-                      <div className="dis-f mt-3">
+                      <div className="dis-f mt-5">
                         <BrixelIcon
                           icon="info"
-                          theme="dark100"
+                          color="Light"
+                          saturationTxt="700"
                         />
 
-                        <p className="txtDark700 ml-2">
+                        <p className="txtLight700 ml-2">
                           This is a non-binding offer. The buyer will be notified about your decision.
                         </p>
 
