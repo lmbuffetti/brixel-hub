@@ -270,7 +270,6 @@ const App = (props) => {
 
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
-    console.log(history.location.pathname);
     if (
       history.location.pathname.includes('packageFlow') ||
       history.location.pathname.includes('onBoarding') ||
@@ -317,7 +316,6 @@ const App = (props) => {
       !history.location.pathname.includes('buyer')
     ) {
       setIsSecLevel(true);
-      console.log(dashWrapperEl);
       if (dashWrapperEl) {
         dashWrapperEl.classList.add('secondLevelActive');
       }
