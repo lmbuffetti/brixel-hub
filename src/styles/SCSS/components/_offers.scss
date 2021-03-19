@@ -16,6 +16,21 @@
   }
 }
 
+.offers {
+  .content-wrapper {
+    @media (max-width: $responsive-small) {
+      overflow-x: auto;
+      .listings-container {
+        width: 540px;
+        padding-left: 10px;
+        .date {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
 .ex-tag {
   display: flex;
   @media (max-width: $responsive-small) {
@@ -27,4 +42,8 @@
       margin-left: $step;
     }
   }
+}
+
+.brdRadiusSmall {
+  border-radius: 4px;
 }
