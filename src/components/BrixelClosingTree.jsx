@@ -66,8 +66,19 @@ const BrixelClosingTree = (props) => {
   return (
     <>
       <div className="header dis-fl-row jc-b a-c mb-2 w-perc-100 max-w-fix-1056 px-1">
-        <span className="tt-up fsize-200">Buyer</span>
-        <span className="tt-up fsize-200">Seller</span>
+        {
+          isBuyer ? (
+            <>
+              <span className="tt-up fsize-200">You</span>
+              <span className="tt-up fsize-200">Seller</span>
+            </>
+          ) : (
+            <>
+              <span className="tt-up fsize-200">Buyer</span>
+              <span className="tt-up fsize-200">You</span>
+            </>
+          )
+        }
       </div>
       <div className={`closing-tree brdRadius shadow-1dp dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
         <div className="body dis-fl-row">

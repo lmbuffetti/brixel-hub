@@ -32,6 +32,7 @@ const MarketCard = (props) => {
   // PROPS
   const {
     favoritesProperties,
+    handleGenerateBestimate,
     handleGetEstimation,
     handleSetActiveMarketOverlayPropertyLists,
     history,
@@ -44,7 +45,7 @@ const MarketCard = (props) => {
     setSplashScreen,
     skeleton,
     type,
-    handleGenerateBestimate,
+    windowDimensions,
   } = props;
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
@@ -86,10 +87,17 @@ const MarketCard = (props) => {
     if (e) e.preventDefault();
     if (!preventClick) {
       if (type === 'own') {
-        history.push({
-          pathname: `/${item.id}/rewards/market-checker`,
-          state: { section: 'Market' },
-        });
+        if (get(windowDimensions, 'width', 0) <= 1024) {
+          history.push({
+            pathname: `/${item.id}/rewards`,
+            state: { section: 'Market' },
+          });
+        } else {
+          history.push({
+            pathname: `/${item.id}/rewards/market-checker`,
+            state: { section: 'Market' },
+          });
+        }
       } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
         ((
           type === 'premium' || get(item, 'tags', []).includes('premium') ||
@@ -109,10 +117,17 @@ const MarketCard = (props) => {
         }
         handleSetActiveMarketOverlayPropertyLists(property);
       } else if (type === 'favorite') {
-        history.push({
-          pathname: `/buyer/${item.id}/property/page`,
-          state: { section: 'Market' },
-        });
+        if (get(windowDimensions, 'width', 0) <= 1024) {
+          history.push({
+            pathname: `/buyer/${item.id}/property`,
+            state: { section: 'Market' },
+          });
+        } else {
+          history.push({
+            pathname: `/buyer/${item.id}/property/page`,
+            state: { section: 'Market' },
+          });
+        }
       } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
       // TODO: Estimation opens overlay
     }
@@ -494,6 +509,7 @@ MarketCard.propTypes = {
   handleGenerateBestimate: PropTypes.func.isRequired,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 MarketCard.defaultProps = {
@@ -513,6 +529,7 @@ const mapStateToProps = (state) => ({
   preMarketProperties: get(state, 'market.preMarketProperties.data', []),
   premiumProperties: get(state, 'market.premiumProperties.data', []),
   skeleton: get(state, 'common.skeleton', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
