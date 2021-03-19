@@ -62,20 +62,20 @@ const DealsCard = (props) => {
               }}
             />
           </div>
-          <div className="dis-f a-c notranslate">
+          <div className="dis-f a-c">
             {
               isNew ? (
-                <div className="dis-fl-row a-c">
+                <div className="dis-fl-row a-c notranslate">
                   <BrixelStatus
                     className="mr-1 zIndex0"
                     color="primary"
                   />
-                  <span className="date fsize-200 fweight-600 txtDark700">
+                  <span className="date fsize-200 fweight-600 txtDark700 notranslate">
                     {date}
                   </span>
                 </div>
               ) : (
-                <span className="date fsize-100 txtDark200">
+                <span className="date fsize-100 txtDark200 notranslate">
                   {date}
                 </span>
               )
