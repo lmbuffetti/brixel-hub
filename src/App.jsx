@@ -270,6 +270,7 @@ const App = (props) => {
 
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
+    console.log(history.location.pathname);
     if (
       history.location.pathname.includes('packageFlow') ||
       history.location.pathname.includes('onBoarding') ||
@@ -311,12 +312,12 @@ const App = (props) => {
     if (
       (history.location.pathname.includes('property/') ||
       history.location.pathname.includes('listings/') ||
-      history.location.pathname.includes('deals/') ||
       history.location.pathname.includes('rewards/')) &&
       windowDimensions.width <= 1024 &&
       !history.location.pathname.includes('buyer')
     ) {
       setIsSecLevel(true);
+      console.log(dashWrapperEl);
       if (dashWrapperEl) {
         dashWrapperEl.classList.add('secondLevelActive');
       }
@@ -326,7 +327,7 @@ const App = (props) => {
         dashWrapperEl.classList.remove('secondLevelActive');
       }
     }
-  }, [history.location.pathname]);
+  }, [history.location.pathname, dashWrapperEl]);
 
   const calcHeaderHeight = useCallback(() => {
     const head = document.getElementsByClassName('hubDasHeader');

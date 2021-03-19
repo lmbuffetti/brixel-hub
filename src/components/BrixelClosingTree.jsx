@@ -106,7 +106,18 @@ const BrixelClosingTree = (props) => {
                 }
               </div>
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
-                <h5 className="mb-1">Offer</h5>
+                {
+                  !isBuyer ? (
+                    <h5
+                      onClick={() => onClickOffer('review')}
+                      className="mb-1 cur-poi"
+                    >
+                      Offer
+                    </h5>
+                  ) : (
+                    <h5 className="mb-1">Offer</h5>
+                  )
+                }
                 {
                   !get(activeSingleOffer, 'offer.amount', null) && isBuyer ? (
                     <span className="fsize-200 mb-3">Add your first offer to start.</span>
