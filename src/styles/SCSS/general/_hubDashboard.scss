@@ -110,6 +110,7 @@
 
   &.secondLevelActive {
     .hubDasHeader,
+    #menu-sidebar,
     .brixelNavMenu {
       @media (max-width: $responsive-medium) {
         display: none;

@@ -36,7 +36,7 @@ const OfferDetail = (props) => {
 
   return (
     <>
-      <div className="single-offer-container dis-fl-col py-4 px-0 px-sm-2">
+      <div className="single-offer-container dis-fl-col pb-8 py-md-4 px-0 px-sm-2">
         {
           !isBuyer ? (
             <>
