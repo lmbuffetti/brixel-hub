@@ -86,7 +86,7 @@ const BrixelClosingTree = (props) => {
             <div className={`offer-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageOffer.active', null) ? 'active' : 'locked'}`}>
               <div className="as-b w-fix-120 dis-fl-col">
                 {
-                  get(activeSingleOffer, 'createdAt', null) ? (
+                  get(activeSingleOffer, 'offer.amount', null) ? (
                     <>
                       <BrixelIcon
                         icon="check-small-fill"
