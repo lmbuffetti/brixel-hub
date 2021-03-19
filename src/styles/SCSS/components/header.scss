@@ -83,6 +83,9 @@
   }
   .mobileTitle {
     background: map-get($lightColor, 100);
+    &:empty {
+      display: none;
+    }
   }
   .smallIconLink .brixelIcon {
     top: -1px;
