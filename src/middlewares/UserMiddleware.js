@@ -55,7 +55,7 @@ const checkUser = (store) => (next) => (action) => {
             removeCookie('brixelToken');
             window.location.href = '/tokeninput';
           } else if (response.data && response.data.statusCode && response.data.statusCode === 401) {
-            window.location.href = `${baseByData.logout}?url=${window.location.href}`;
+            window.location.href = `${baseByData.logoutUrl}?url=${window.location.href}`;
           } else {
             store.dispatch({ type: SET_LOGGED_IN_USER, payload: response.data });
           }
