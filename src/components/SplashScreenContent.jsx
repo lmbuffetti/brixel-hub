@@ -109,16 +109,17 @@ const SplashScreen = (props) => {
         setTimeout(() => {
           wrapCarousel.classList.remove('animateCard');
         }, 1000);
+        const timeDelay = activeIndex > activeSlide ? 500 : 1500;
         setTimeout(() => {
           const removeEl = document.getElementsByClassName('cloneElement');
           while (removeEl[0]) {
             removeEl[0].parentNode.removeChild(removeEl[0]);
           }
-        }, 1500);
+        }, timeDelay);
       }
     }
     return null;
-  }, [activeSlide]);
+  }, [activeSlide, newProperties]);
 
   const settingSlider = useCallback(() => ({
     fade: true,
@@ -149,7 +150,7 @@ const SplashScreen = (props) => {
     afterChange: () => {
       updateData();
     },
-  }), []);
+  }), [activeSlide]);
 
   useEffect(() => {
     updateData();
@@ -266,7 +267,7 @@ const SplashScreen = (props) => {
         slider.slickNext();
       }
     }
-  }, [sliderInstance]);
+  }, [sliderInstance, newProperties, activeSlide]);
 
   return (
     <>
