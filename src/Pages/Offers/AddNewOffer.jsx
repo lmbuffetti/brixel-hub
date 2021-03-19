@@ -63,7 +63,6 @@ const AddNewOffer = (props) => {
   };
 
   const saveData = () => {
-    console.log(get(formValue, 'amount', 0));
     if (+get(formValue, 'amount', 0) <= 0 || !get(formValue, 'amount', 0)) {
       setErrorMessagePrice('Please insert a value');
       return false;

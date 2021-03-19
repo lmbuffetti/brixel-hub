@@ -190,6 +190,11 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
      bottom: 0 !important;
      margin-top: 65px;
 
+     img.cover {
+       position: relative;
+       top: -1px;
+     }
+
 
      &.favorite {
 
@@ -205,11 +210,12 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
      }
      &.fadeOut {
        animation: fadeDown 650ms $trans_func forwards;
-       margin-top: 78px;
+       margin-top: 25px;
+       transform: translateX(0) translateY(0%);
      }
      &.fadeIn {
        animation: fadeUp 650ms $trans_func forwards;
-       margin-top: 78px;
+       margin-top: 25px;
      }
    }
  }
