@@ -38,6 +38,7 @@ const PropertiesBuyerDashboard = (props) => {
     setMarketOverlayProperty,
     setSplashScreen,
     userSearchProfiles,
+    windowDimensions,
   } = props;
   // STATE
   const [activeBuyerProperties, setSctiveBuyerProperties] = useState([]);
@@ -142,10 +143,15 @@ const PropertiesBuyerDashboard = (props) => {
     if (tag.includes('pre-market')) {
       setSplashScreen('marketOverlay');
       setMarketOverlayProperty(item);
+    } else if (get(windowDimensions, 'width', 0) <= 1024) {
+      history.push({
+        pathname: `/buyer/${item.id}/property`,
+        state: { section: 'Market' },
+      });
     } else {
       history.push({
         pathname: `/buyer/${item.id}/property/page`,
-        state: { section: 'Buy' },
+        state: { section: 'Market' },
       });
     }
   };
@@ -349,6 +355,7 @@ PropertiesBuyerDashboard.propTypes = {
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 PropertiesBuyerDashboard.defaultProps = {
