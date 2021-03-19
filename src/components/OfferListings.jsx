@@ -113,7 +113,7 @@ const OfferListings = (props) => {
                               </div>
 
                               <div className="row-section pl-1 dis-f a-c status">
-                                <div className="dis-f a-c w-perc-100">
+                                <div className="dis-f a-c w-perc-100 pr-1">
                                   <BrixelStatus
                                     className="mr-1"
                                     color={getStatusColor(get(offer, 'offer.status', 0))}

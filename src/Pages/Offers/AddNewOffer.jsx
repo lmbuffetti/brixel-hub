@@ -63,10 +63,13 @@ const AddNewOffer = (props) => {
   };
 
   const saveData = () => {
-    if (get(formValue, 'amount', 0) === 0) {
+    console.log(get(formValue, 'amount', 0));
+    if (+get(formValue, 'amount', 0) <= 0 || !get(formValue, 'amount', 0)) {
       setErrorMessagePrice('Please insert a value');
-      // return false;
+      return false;
     }
+    setErrorMessagePrice(null);
+
     const dataForm = cloneDeep(formValue);
     dataForm.id = activeSingleDeal.id;
     dataForm.smallLoader = 'saveMakeOffer';
@@ -79,7 +82,7 @@ const AddNewOffer = (props) => {
     } else {
       handleSaveMakeOffer(dataForm);
     }
-    // return setSuccess(true);
+    return null;
   };
 
   return (
@@ -196,7 +199,7 @@ const AddNewOffer = (props) => {
                   design={{
                     className: 'mt-3',
                   }}
-                  forceToShowError={errorMessagePrice}
+                  forceToShowError={!Helpers.isEmpty(errorMessagePrice)}
                   input={{
                     name: 'amount',
                     placeholder: 'Input amount',
