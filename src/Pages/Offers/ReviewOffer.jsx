@@ -197,7 +197,7 @@ const ReviewOffer = (props) => {
                       />
                       <BrixelButtonPrimary
                         rounded
-                        label="Save"
+                        label="Send"
                         isLoading={isSmallLoading === 'saveNoteOffer'}
                         onClick={() => saveData('saveNote')}
                       />
