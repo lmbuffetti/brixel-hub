@@ -8,7 +8,7 @@ import {
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelButtonBox, BrixelProgressBar } from '@brixel/brixel-components';
+import { BrixelButtonBox } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import last from 'lodash/last';
 import isNumber from 'lodash/isNumber';
