@@ -72,6 +72,8 @@ const Deals = (props) => {
     setPreventExit,
     windowDimensions,
   } = props;
+  // URL PARAMS
+  const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
     if (windowDimensions.width <= 1024 && !activeTab) {
@@ -330,8 +332,14 @@ const Deals = (props) => {
   return (
     <div className="dealsListings">
       <div className="listings-header bg-white">
-        <div className="dis-fl-row jc-b a-c">
-          <h3 className="pt-lg-2 pb-lg-3 pl-lg-0 p-1">Deals</h3>
+        <div className="dis-f jc-b a-c mb-3">
+          <BrixelButtonIcon
+            className="hide-md"
+            icon="arrow-simple-left"
+            ghost
+            onClick={() => history.push(`/${propID}/deals`)}
+          />
+          <h5>Buyers</h5>
           <div className="dis-fl-row a-c zIndex3">
             {
               !emptyDeals && (

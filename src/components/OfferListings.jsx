@@ -1,15 +1,19 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  Fragment, useCallback,
-} from 'react';
+import React, { Fragment, useCallback } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
-  BrixelAvatar, Helpers, BrixelStatus, ListingsHeaderFilter,
+  BrixelAvatar,
+  Helpers,
+  BrixelStatus,
+  ListingsHeaderFilter,
+  BrixelButtonIcon,
 } from '@brixel/brixel-components';
 import moment from 'moment';
+import { compose } from 'redux';
 import emptyOffer from '../images/empty-offer.svg';
 import femaleAvatar from '../images/female-avatar.png';
 
@@ -18,8 +22,12 @@ const OfferListings = (props) => {
     activeSingleProperty,
     data,
     getConfigEnv,
+    history,
+    match,
     onChangeLocation,
   } = props;
+  // URL PARAMS
+  const propID = get(match, 'params.propId', null);
 
   const getStatusColor = useCallback((status) => {
     if (status === 'pending') return 'Yellow';
@@ -31,6 +39,16 @@ const OfferListings = (props) => {
   return (
     <>
       <div className="p-md-2 pl-md-0 p-1 w-perc-100 txtDark700 dealsListings">
+        <div className="dis-f jc-b a-c mb-3">
+          <BrixelButtonIcon
+            className="hide-md"
+            icon="arrow-simple-left"
+            ghost
+            onClick={() => history.push(`/${propID}/deals`)}
+          />
+          <h5>Offers</h5>
+          <span />
+        </div>
         <div className="dis-fl-row jc-b a-c mb-3">
           <h2 className="fsize-700 txtDark700 fweight-500">Offers</h2>
         </div>
@@ -152,9 +170,13 @@ OfferListings.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   getConfigEnv: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   onChangeLocation: PropTypes.func.isRequired,
 };
 
 OfferListings.defaultProps = {};
 
-export default OfferListings;
+export default compose(
+  withRouter,
+)(OfferListings);

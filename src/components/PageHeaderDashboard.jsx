@@ -156,7 +156,7 @@ function PageHeaderDashboard(props) {
         getPropertyDealsCount(activeSingleProperty.id);
       }
       // let numDone = 0;
-      let numTodo = 0;
+      /* let numTodo = 0;
       let newSellerCount = 0;
       const usrGroups = gameGroup.sort(sortObject('stub', 'asc'));
       usrGroups.forEach((groups) => {
@@ -188,7 +188,9 @@ function PageHeaderDashboard(props) {
       } else {
         if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
         setRouteNav([...nav]);
-      }
+      } */
+      const nav = cloneDeep(firstRoutes);
+      setRouteNav([...nav]);
     }
   }, [gameGroup, gameHistory, activeSingleProperty, userType, Object.keys(activeSinglePropertyDealsCount).length > 0]);
 
