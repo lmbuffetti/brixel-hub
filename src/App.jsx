@@ -427,7 +427,7 @@ const App = (props) => {
   }, [isFlow]);
 
   const overflowClass = useCallback(() => {
-    if (history.location.pathname.includes('deals')) return 'ov-y-h ov-x-h';
+    if (history.location.pathname.includes('deals') && !history.location.pathname.includes('offers')) return 'ov-y-h ov-x-h';
     return 'ov-y-a ov-x-h';
   }, []);
 
@@ -570,8 +570,8 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess="seller" />
           <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
-          <ProtectedRoute exact path="/:propID/deals/:dealID/deal" component={SingleDeal} />
-          <ProtectedRoute exact path="/:propID/deals/newDeal" component={CreateDeal} />
+          <ProtectedRoute exact path="/:propID/deals/list/:dealID/deal" component={SingleDeal} />
+          <ProtectedRoute exact path="/:propID/deals/list/newDeal" component={CreateDeal} />
         </Switch>
       }
 
