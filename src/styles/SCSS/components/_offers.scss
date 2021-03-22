@@ -1,0 +1,49 @@
+.offer-inputs {
+  .brixel-label {
+    @include fontStyle(200);
+    color: map-get($darkColor, 700);
+    font-weight: 500;
+  }
+}
+.offers.empty-state .row-section {
+  &:nth-child(1) {
+    flex: 0 0 40%;
+    max-width: 40%;
+  }
+  &:not(:nth-child(1)) {
+    flex: 0 0 22%;
+    max-width: 22%;
+  }
+}
+
+.offers {
+  .content-wrapper {
+    @media (max-width: $responsive-small) {
+      overflow-x: auto;
+      .listings-container {
+        width: 540px;
+        padding-left: 10px;
+        .date {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+.ex-tag {
+  display: flex;
+  @media (max-width: $responsive-small) {
+    display: flex;
+    flex-direction: column;
+  }
+  @media (min-width: $responsive-small) {
+    .tagLabel {
+      margin-left: $step;
+    }
+  }
+}
+
+.brdRadiusSmall {
+  border-radius: 4px;
+}

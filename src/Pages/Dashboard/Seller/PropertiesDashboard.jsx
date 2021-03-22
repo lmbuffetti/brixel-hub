@@ -121,7 +121,7 @@ const HomeDashboard = (props) => {
                       <Link
                         className="cur-po"
                         to={{
-                          pathname: `/buyer/property/${property.id}`,
+                          pathname: `/buyer/${property.id}/property`,
                         }}
                       >
                         <CoverPropertyImage
@@ -137,7 +137,7 @@ const HomeDashboard = (props) => {
                         <Link
                           className="link fsize-300 fweight-500 txtDark700 body2"
                           to={{
-                            pathname: `/buyer/property/${property.id}`,
+                            pathname: `/buyer/${property.id}/property`,
                           }}
                         >
                           {property.title}

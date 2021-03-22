@@ -321,7 +321,7 @@
 }
 .market-card {
   .cover {
-    &.pre-market {
+    &.pre-market:not(.premium) {
       filter: grayscale(100%);
     }
   }

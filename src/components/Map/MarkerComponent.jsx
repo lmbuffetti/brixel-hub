@@ -40,7 +40,7 @@ const MarkerComponent = (props) => {
         });
       } else if (type === 'favorites') {
         historyLocal.push({
-          pathname: `/buyer/property/${page.id}/page`,
+          pathname: `/buyer/${page.id}/property/page`,
           state: { section: 'Market' },
         });
       } else if (type === 'preMarket' || type === 'premium' || type === 'new') {

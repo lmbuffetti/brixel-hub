@@ -1,0 +1,72 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable dot-notation */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
+import {
+  withRouter,
+} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import get from 'lodash/get';
+import {
+  bindActionCreators, compose,
+} from 'redux';
+import {
+  connect,
+} from 'react-redux';
+import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import OfferListings from '../../components/OfferListings';
+import { getOfferListings, setActiveSingleDeal } from '../../actions/DealActions';
+
+// COMPONENTS
+const OfferList = (props) => {
+  const {
+    activeSingleProperty,
+    // handleGetOfferListings,
+    handleSetActiveSingleDeal,
+    history,
+    offerListings,
+  } = props;
+
+  const onClickOffer = (url) => {
+    if (url.includes('sample')) {
+      handleSetActiveSingleDeal(offerListings[0]);
+    }
+    history.push(url);
+  };
+
+  return (
+    <>
+      <OfferListings
+        data={offerListings}
+        activeSingleProperty={activeSingleProperty}
+        getConfigEnv={getConfigEnv}
+        onChangeLocation={(url) => onClickOffer(url)}
+      />
+    </>
+  );
+};
+
+OfferList.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
+  // handleGetOfferListings: PropTypes.func.isRequired,
+  handleSetActiveSingleDeal: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  offerListings: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+OfferList.defaultProps = {};
+
+const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  offerListings: get(state, 'deal.offerListings', []),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handleGetOfferListings: bindActionCreators(getOfferListings, dispatch),
+  handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(OfferList);

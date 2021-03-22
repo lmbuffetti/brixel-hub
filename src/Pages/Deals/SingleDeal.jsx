@@ -229,14 +229,14 @@ const SingleDeal = (props) => {
         activeSingleDeal.id && (
           <SplashScreen
             className={activeSingleDeal.active ? '' : 'archivedDeal'}
-            closeLink={`/${activeSingleProperty.id}/deals`}
+            closeLink={`/${activeSingleProperty.id}/deals/list`}
           >
             <div className="single-deal dis-fl-col">
               {/* top panel */}
               <div className="top dis-fl-row jc-b mb-0 mb-lg-4">
                 <div className="user dis-fl-row col-7 p-2 p-lg-0">
                   <BrixelAvatar
-                    avatarImg={get(activeSingleDeal.user, 'avatar[0]', '') ? getConfigEnv.shortPath + activeSingleDeal.user.avatar[0].thumbnailPath : null}
+                    baseURL={get(getConfigEnv, 'shortPath', '')}
                     name={Helpers.userNameVal(activeSingleDeal.user.firstName, activeSingleDeal.user.lastName, activeSingleDeal.user.name) === 'No Name' ? get(activeSingleDeal.user, 'email', '') : Helpers.userNameVal(activeSingleDeal.user.firstName, activeSingleDeal.user.lastName, activeSingleDeal.user.name)}
                     profileId={get(activeSingleDeal.user, 'id', '')}
                   />
@@ -279,7 +279,7 @@ const SingleDeal = (props) => {
                       icon="close-small"
                       ghost
                       theme="dark"
-                      onClick={() => history.push(`/${activeSingleProperty.id}/deals`)}
+                      onClick={() => history.push(`/${activeSingleProperty.id}/deals/list`)}
                     />
                   </div>
                 </div>

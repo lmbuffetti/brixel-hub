@@ -57,6 +57,11 @@ const ListingsDashboard = Loadable({
   loading: () => null,
 });
 
+const DealsDashboard = Loadable({
+  loader: () => import('./DealsDashboard' /* webpackChunkName: "DealsDashboard" */),
+  loading: () => null,
+});
+
 const EmptyProperty = Loadable({
   loader: () => import('./EmptyProperty' /* webpackChunkName: "EmptyProperty" */),
   loading: () => null,
@@ -70,11 +75,6 @@ const Upgrade = Loadable({
 
 const ScanTrialFlow = Loadable({
   loader: () => import('../../ScanTrialFlow/ScanTrialFlow' /* webpackChunkName: "ScanTrialFlow" */),
-  loading: () => null,
-});
-
-const Deals = Loadable({
-  loader: () => import('../../Deals/Deals' /* webpackChunkName: "Deals" */),
   loading: () => null,
 });
 
@@ -420,8 +420,8 @@ const Dashboard = (props) => {
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
+      <ProtectedRoute path="/:propId?/deals" component={DealsDashboard} />
       <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
-      <ProtectedRoute path="/:propId?/deals" component={Deals} />
       <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
       <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
     </div>

@@ -156,7 +156,7 @@ function PageHeaderDashboard(props) {
         getPropertyDealsCount(activeSingleProperty.id);
       }
       // let numDone = 0;
-      let numTodo = 0;
+      /* let numTodo = 0;
       let newSellerCount = 0;
       const usrGroups = gameGroup.sort(sortObject('stub', 'asc'));
       usrGroups.forEach((groups) => {
@@ -188,7 +188,9 @@ function PageHeaderDashboard(props) {
       } else {
         if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
         setRouteNav([...nav]);
-      }
+      } */
+      const nav = cloneDeep(firstRoutes);
+      setRouteNav([...nav]);
     }
   }, [gameGroup, gameHistory, activeSingleProperty, userType, Object.keys(activeSinglePropertyDealsCount).length > 0]);
 
@@ -652,7 +654,7 @@ function PageHeaderDashboard(props) {
             </div>
           </div>
         </div>
-        <div className="tabWrapper hide-lg">
+        <div className="tabWrapper hide-xlg">
           {
             !history.location.pathname.includes('home') && has(activeSingleProperty, 'id') && (
               <>
@@ -697,12 +699,16 @@ function PageHeaderDashboard(props) {
           }
         </div>
         {
-          windowDimensions.width <= 1024 && getCurrentRoute().name !== 'deals' && !history.location.pathname.includes('home') && (
+          windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && getCurrentRoute().title && (
             <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
-              <div className="header-section dis-fl-row a-c jc-b">
-                {/* <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} /> */}
-                <h5 className="">{getCurrentRoute().title}</h5>
-              </div>
+              {
+                getCurrentRoute().title && (
+                  <div className="header-section dis-fl-row a-c jc-b">
+                    {/* <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} /> */}
+                    <h5 className="">{getCurrentRoute().title}</h5>
+                  </div>
+                )
+              }
               {/*
               <div className="dis-f a-c" onClick={() => brixelsAchievementDetail()}>
                 {

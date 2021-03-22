@@ -1,11 +1,14 @@
 /* global ga, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from 'react';
+import React, {
+  useEffect, useState, useRef, useCallback,
+} from 'react';
 import {
   Switch, Route, withRouter,
 } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -283,7 +286,7 @@ const App = (props) => {
     } else {
       if (history.location.pathname.includes('rewards')) {
         setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
-      } else if (history.location.pathname.includes('property')) {
+      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('deal')) {
         if (history.location.pathname.includes('buyer')) {
           setClassMain('w-perc-100 pos-r hubContainer propertyTop');
         } else {
@@ -295,6 +298,8 @@ const App = (props) => {
         setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('/home')) {
         setClassMain('w-perc-100 pos-r ov-h marketHome');
+      } else if (history.location.pathname.includes('offers')) {
+        setClassMain('w-perc-100 pos-r hubContainer offersTop withTopBar sellerHub');
       } else {
         setClassMain('w-perc-100 pos-r hubContainer ov-h');
       }
@@ -304,9 +309,12 @@ const App = (props) => {
 
     // add class to container when secondlevel visible on mobile
     if (
-      (history.location.pathname.includes('property/') ||
-      history.location.pathname.includes('listings/') ||
-      history.location.pathname.includes('rewards/')) &&
+      (
+        history.location.pathname.includes('property/') ||
+        history.location.pathname.includes('listings/') ||
+        history.location.pathname.includes('deals/') ||
+        history.location.pathname.includes('rewards/')
+      ) &&
       windowDimensions.width <= 1024 &&
       !history.location.pathname.includes('buyer')
     ) {
@@ -320,17 +328,17 @@ const App = (props) => {
         dashWrapperEl.classList.remove('secondLevelActive');
       }
     }
-  }, [history.location.pathname]);
+  }, [history.location.pathname, dashWrapperEl]);
 
-  const calcHeaderHeight = () => {
+  const calcHeaderHeight = useCallback(() => {
     const head = document.getElementsByClassName('hubDasHeader');
     return head[0] ? head[0].offsetHeight : 0;
-  };
+  }, []);
 
-  const calcFlowHeaderHeight = () => {
+  const calcFlowHeaderHeight = useCallback(() => {
     const flowHead = document.getElementsByClassName('flowHeader');
     return flowHead[0] ? flowHead[0].offsetHeight : 0;
-  };
+  }, []);
 
   const headerHeight = document.getElementsByClassName('hubDasHeader')[0];
 
@@ -372,7 +380,7 @@ const App = (props) => {
     }
   }, [dashContentEl]);
 
-  const headerCalc = () => {
+  const headerCalc = useCallback(() => {
     let contentHeight;
     if (!isFlow) {
       if (windowDimensions.width <= 1024) {
@@ -388,7 +396,7 @@ const App = (props) => {
       contentHeight = windowDimensions.height - calcFlowHeaderHeight();
     }
     return contentHeight;
-  };
+  }, [isFlow, calcHeaderHeight, calcFlowHeaderHeight, windowDimensions]);
 
   // DID MOUNT TO CHECK THE USER TOKEN AND INITIALIZE THE WINDOW SIZE LISTENER
   useEffect(() => {
@@ -409,7 +417,7 @@ const App = (props) => {
     handleGetImageType();
   }, []);
 
-  const contentLayout = () => {
+  const contentLayout = useCallback(() => {
     if (!isFlow) {
       if (isSecLevel) {
         return { height: '100%' };
@@ -419,12 +427,12 @@ const App = (props) => {
       }
     }
     return null;
-  };
+  }, [isFlow]);
 
-  const overflowClass = () => {
-    if (history.location.pathname.includes('deals')) return 'ov-y-h ov-x-h';
+  const overflowClass = useCallback(() => {
+    if (history.location.pathname.includes('deals') && !history.location.pathname.includes('offers')) return 'ov-y-h ov-x-h';
     return 'ov-y-a ov-x-h';
-  };
+  }, []);
 
   // add class to body when loading enabled
   useEffect(() => {
@@ -456,7 +464,7 @@ const App = (props) => {
 
       <Loading isLoading={isLoading} />
 
-      <div className={`${classMain} ${history.location.pathname.includes('buyer/property/') ? 'buyerHub' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
+      <div className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'buyerHub' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
         <div className="dis-f">
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : ''}`}
@@ -544,7 +552,7 @@ const App = (props) => {
                       <>
                         <ProtectedRoute path="/buyer" exact component={DashboardBuyer} />
                         <ProtectedRoute path="/buyer/propertyLists" exact component={DashboardBuyer} />
-                        <ProtectedRoute path="/buyer/:act/:propID" component={DashboardBuyer} />
+                        <ProtectedRoute path="/buyer/:propID/:act" component={DashboardBuyer} />
                       </>
                     )
                   }
@@ -565,8 +573,8 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess="seller" />
           <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
-          <ProtectedRoute exact path="/:propID/deals/:dealID/deal" component={SingleDeal} />
-          <ProtectedRoute exact path="/:propID/deals/newDeal" component={CreateDeal} />
+          <ProtectedRoute exact path="/:propID/deals/list/:dealID/deal" component={SingleDeal} />
+          <ProtectedRoute exact path="/:propID/deals/list/newDeal" component={CreateDeal} />
         </Switch>
       }
 
@@ -597,6 +605,12 @@ const App = (props) => {
             closeOutside={false}
             type="marketOverlay"
           />
+        )
+      }
+
+      {
+        has(splashScreenType, 'component') && (
+          React.createElement(splashScreenType.component)
         )
       }
 
@@ -672,7 +686,7 @@ App.propTypes = {
   modal: PropTypes.object.isRequired,
   notification: PropTypes.object,
   redirectTo: PropTypes.object,
-  splashScreenType: PropTypes.string.isRequired,
+  splashScreenType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };

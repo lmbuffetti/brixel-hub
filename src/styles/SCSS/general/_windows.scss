@@ -81,8 +81,10 @@ div#dashboard {
       position: fixed;
       z-index: 100;
       overflow-y: auto;
+      overflow-x: hidden;
       left: 0;
       top: 0;
+      max-width: 100%;
     }
 
     > div {
@@ -118,6 +120,9 @@ div#dashboard {
         }
         &:not(.rewardsSplash) {
           padding: $step * 3;
+        }
+        &.dealsListings {
+          box-shadow: none;
         }
       }
       .headerSection {

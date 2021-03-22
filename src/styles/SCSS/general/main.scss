@@ -608,3 +608,9 @@ sub {
     }
   }
 }
+
+@media (min-width: $responsive-medium) {
+  .hide-xlg {
+    display: none;
+  }
+}

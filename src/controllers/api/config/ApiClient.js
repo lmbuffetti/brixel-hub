@@ -2,8 +2,11 @@ import axios from 'axios';
 import queryString from 'query-string';
 import httpAdapter from 'axios/lib/adapters/http';
 import Cookies from 'universal-cookie';
-import { failureHandler, successHandler } from '../utils/api.helper';
-import { SET_UPLOADING_PERCENTAGE } from '../../../actions/types/CommonTypes';
+import get from 'lodash/get';
+import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import {
+  failureHandler, successHandler,
+} from '../utils/api.helper';
 
 const cookies = new Cookies();
 
@@ -23,7 +26,9 @@ axios.interceptors.response.use(
 );
 
 class ApiClient {
-  constructor({ baseURL, brixelator }) {
+  constructor({
+    baseURL, brixelator,
+  }) {
     this.baseURL = baseURL;
     this.brixelator = brixelator;
     this.token = cookies.get('brixelToken');
@@ -41,6 +46,7 @@ class ApiClient {
       headers,
       type,
       baseUrlType,
+      options,
     });
   }
 
@@ -55,7 +61,7 @@ class ApiClient {
       headers,
       type,
       baseUrlType,
-      moreActions: options.action,
+      options,
     });
   }
 
@@ -70,40 +76,40 @@ class ApiClient {
       headers,
       type,
       baseUrlType,
-      moreActions: options.action,
+      options,
     });
   }
 
-  patch(requestUrl, payload = {}, headers = {}) {
+  patch(requestUrl, options, payload = {}, headers = {}) {
     return this.request({
       url: requestUrl,
       method: 'patch',
       data: payload,
       headers,
+      options,
     });
   }
 
-  delete(requestUrl, headers = {}) {
+  delete(requestUrl, options = {}, payload = {}, headers = {}) {
+    const baseUrlType = options.baseUrlType ? options.baseUrlType : 'baseUrl';
+    const type = options.type ? options.type : 'data';
+    this.token = options.token || this.token;
     return this.request({
       url: requestUrl,
       method: 'delete',
+      data: payload,
       headers,
+      type,
+      baseUrlType,
+      options,
     });
   }
 
-  request(
-    {
-      url,
-      method,
-      params = {},
-      headers,
-      data,
-      type = 'data',
-      baseUrlType = 'baseUrl',
-      moreActions,
-    },
-  ) {
+  request({
+    url, options, method, params = {}, headers, data, type = 'data', baseUrlType = 'baseUrl',
+  }) {
     let head;
+    const id = get(options, 'id', null);
     if (type === 'login') {
       const auth = btoa(`${data.username}:${data.password}`);
       head = {
@@ -114,6 +120,11 @@ class ApiClient {
     } else if (type === 'data') {
       head = {
         'x-brixel-token': this.token || '',
+        ...headers,
+      };
+    } else if (headers['Content-Type']) {
+      head = {
+        ...headers,
       };
     } else {
       head = {
@@ -121,28 +132,35 @@ class ApiClient {
         ...headers,
       };
     }
+    let baseUrl = '';
+    switch (baseUrlType) {
+      case 'baseUrl':
+        baseUrl = this.baseURL;
+        break;
+      case 'self':
+        baseUrl = getConfigEnv.shortPath;
+        break;
+      default:
+        baseUrl = this.brixelator;
+    }
 
     const config = {
       url,
       method,
-      baseURL: baseUrlType === 'baseUrl' ? this.baseURL : this.brixelator,
+      baseURL: baseUrl,
       params,
       validateStatus: false,
       paramsSerializer(p) {
-        return queryString.stringify(p, { encode: true });
+        return queryString.stringify(p, {
+          encode: true,
+        });
       },
       headers: head,
-      onUploadProgress: (progressEvent) => {
-        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-        if (moreActions && moreActions.uploading) moreActions.uploading.dispatch({ type: SET_UPLOADING_PERCENTAGE, payload: percentCompleted });
-        return percentCompleted;
-      },
       withCredentials: false,
       data,
     };
-
     return axios(config)
-      .then(successHandler)
+      .then((res) => successHandler(res, id))
       .catch(failureHandler);
   }
 }
