@@ -11,7 +11,9 @@ import {
   BrixelIcon,
   BrixelTextArea,
   change,
-  Helpers, initializeForm,
+  destroy,
+  Helpers,
+  initializeForm,
   ReduxField,
 } from '@brixel/brixel-components';
 import cloneDeep from 'lodash/cloneDeep';
@@ -25,6 +27,7 @@ const ReviewOffer = (props) => {
     activeSingleDeal,
     activeSingleOffer,
     activeSingleProperty,
+    destroyForm,
     handleReviewOffer,
     handleSmallSpinnerOff,
     handleSetActiveSingleDeal,
@@ -39,6 +42,8 @@ const ReviewOffer = (props) => {
     setSplashScreen('');
     handleSmallSpinnerOff();
   };
+
+  useEffect(() => () => destroyForm(), []);
 
   useEffect(() => {
     if (isSmallLoading === 'done') {
@@ -378,6 +383,7 @@ ReviewOffer.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
   activeSingleOffer: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
+  destroyForm: PropTypes.func.isRequired,
   handleReviewOffer: PropTypes.func.isRequired,
   handleSetActiveSingleDeal: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
@@ -402,6 +408,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Offer', field, value));
+  },
+  destroyForm() {
+    dispatch(destroy('Offer'));
   },
   initForm(value) {
     dispatch(initializeForm('Offer', value));
