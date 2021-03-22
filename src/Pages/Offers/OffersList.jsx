@@ -1,9 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useEffect,
-} from 'react';
+import React from 'react';
 import {
   withRouter,
 } from 'react-router-dom';
@@ -23,18 +21,11 @@ import { getOfferListings, setActiveSingleDeal } from '../../actions/DealActions
 const OfferList = (props) => {
   const {
     activeSingleProperty,
-    handleGetOfferListings,
+    // handleGetOfferListings,
     handleSetActiveSingleDeal,
     history,
     offerListings,
   } = props;
-
-  useEffect(() => {
-    const data = {
-      id: activeSingleProperty.id,
-    };
-    if (activeSingleProperty.id) handleGetOfferListings(data);
-  }, [activeSingleProperty]);
 
   const onClickOffer = (url) => {
     if (url.includes('sample')) {
@@ -57,7 +48,7 @@ const OfferList = (props) => {
 
 OfferList.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  handleGetOfferListings: PropTypes.func.isRequired,
+  // handleGetOfferListings: PropTypes.func.isRequired,
   handleSetActiveSingleDeal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   offerListings: PropTypes.arrayOf(PropTypes.object).isRequired,

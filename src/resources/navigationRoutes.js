@@ -60,13 +60,13 @@ export const sidebarNavigationSeller = [
     submenu: [
       {
         title: 'Buyers',
-        name: 'deals',
-        path: '/:propID/deals',
+        name: 'list',
+        path: '/:propID/deals/list',
       },
       {
         title: 'Offers',
         name: 'offers',
-        path: '/:propID/offers',
+        path: '/:propID/deals/offers',
       },
     ],
   },

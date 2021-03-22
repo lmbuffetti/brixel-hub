@@ -46,7 +46,7 @@ const OfferDetail = (props) => {
                 ghost
                 bgTransparent
                 className="mb-3"
-                onClick={() => history.push(`/${activeSingleProperty.id}/offers`)}
+                onClick={() => history.push(`/${activeSingleProperty.id}/deals/offers`)}
               />
               <div className="dis-f a-c mb-1">
                 <h3>{get(activeSingleDeal, 'user.name', 'No Name')}</h3>

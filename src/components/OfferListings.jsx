@@ -75,7 +75,7 @@ const OfferListings = (props) => {
 
                               <div className="row-section pl-1 dis-f a-c name">
                                 <div className="wrapper dis-f a-c">
-                                  <div className="cur-poi" onClick={() => onChangeLocation(`/${activeSingleProperty.id}/offers/${offer.deal}`)}>
+                                  <div className="cur-poi" onClick={() => onChangeLocation(`/${activeSingleProperty.id}/deals/offers/${offer.deal}`)}>
                                     {
                                       offer.deal === 'sample' ? (
                                         <img width="40" alt="female avatar" src={femaleAvatar} />
@@ -90,7 +90,7 @@ const OfferListings = (props) => {
                                   </div>
                                   <div
                                     className={`link pl-2 ${!get(offer, 'user.name', null) ? 'no-name' : ''} cur-poi ${offer.deal === 'sample' ? 'ex-tag' : ''}`}
-                                    onClick={() => onChangeLocation(`/${activeSingleProperty.id}/offers/${offer.deal}`)}
+                                    onClick={() => onChangeLocation(`/${activeSingleProperty.id}/deals/offers/${offer.deal}`)}
                                   >
                                     {get(offer, 'user.name', 'No Name')}
                                     {

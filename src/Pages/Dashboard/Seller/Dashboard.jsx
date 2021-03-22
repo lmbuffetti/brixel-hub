@@ -36,7 +36,6 @@ import {
 } from '../../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { calcPercentageFacts } from '../../../utils/helpers';
-import Loading from '../../../components/Loading';
 
 const RewardsDashboard = Loadable({
   loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
@@ -58,6 +57,11 @@ const ListingsDashboard = Loadable({
   loading: () => null,
 });
 
+const DealsDashboard = Loadable({
+  loader: () => import('./DealsDashboard' /* webpackChunkName: "DealsDashboard" */),
+  loading: () => null,
+});
+
 const EmptyProperty = Loadable({
   loader: () => import('./EmptyProperty' /* webpackChunkName: "EmptyProperty" */),
   loading: () => null,
@@ -74,19 +78,9 @@ const ScanTrialFlow = Loadable({
   loading: () => null,
 });
 
-const Deals = Loadable({
-  loader: () => import('../../Deals/Deals' /* webpackChunkName: "Deals" */),
-  loading: () => null,
-});
-
 const ProtectedRoute = Loadable({
   loader: () => import('../../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
   loading: () => null,
-});
-
-const DashboardOffer = Loadable({
-  loader: () => import('../../Offers/DashboardOffer' /* webpackChunkName: "DashboardOffer" */),
-  loading: Loading,
 });
 
 const Dashboard = (props) => {
@@ -422,13 +416,12 @@ const Dashboard = (props) => {
     <div className={`container dashboardContainer ${sectionClass[2]}`} id="dashboard">
       {/* teaserScreens && isEligible(activeSingleProperty) && () */}
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-      <ProtectedRoute path="/:propId/offers/" component={DashboardOffer} />
       <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
+      <ProtectedRoute path="/:propId?/deals" component={DealsDashboard} />
       <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
-      <ProtectedRoute path="/:propId?/deals" component={Deals} />
       <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
       <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
     </div>
