@@ -124,7 +124,7 @@ export const firstRoutes = [
   {
     title: 'Deals',
     name: 'deals',
-    icon: 'upload',
+    icon: 'money',
     path: '/:propID/deals',
   },
 ];
