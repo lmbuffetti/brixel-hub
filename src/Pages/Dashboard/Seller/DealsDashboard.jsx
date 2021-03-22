@@ -98,7 +98,7 @@ const ListingsDashboard = (props) => {
                   labelClass="fweight-400 pb-small-6"
                   subtitle={statusBuyer()}
                   subtitleClass="fsize-200"
-                  className={`w-perc-100 max-w-perc-50 mr-1 shadow-1dp brdMedium p-2 ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+                  className={`w-perc-100 max-w-perc-50 mr-1 shadow-1dp brdMedium p-2 ${getFact() === 'list' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                   colorIcon="primary700"
                   backIcon="primary100"
                   onClick={() => history.push(`/${propID}/deals/list`)}
@@ -111,63 +111,12 @@ const ListingsDashboard = (props) => {
                   labelClass="fweight-400 pb-small-6"
                   subtitle={statusOffer()}
                   subtitleClass="fsize-200"
-                  className={`w-perc-100 max-w-perc-50 ml-1 shadow-1dp brdMedium p-2 ${getFact() === 'portals' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
+                  className={`w-perc-100 max-w-perc-50 ml-1 shadow-1dp brdMedium p-2 ${getFact() === 'offers' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                   colorIcon="primary700"
                   backIcon="primary100"
                   onClick={() => history.push(`/${propID}/deals/offers`)}
                   selected
                 />
-              </div>
-
-              <div className="brdRadius shadow-1dp brdPrimary400 mt-1 hide">
-                <div className="transparency-container">
-                  <div className="dis-fl-col ta-l">
-                    <BrixelButtonBox
-                      bgTransparent
-                      icon="users"
-                      label="Buyers"
-                      className="w-perc-100"
-                      colorIcon="primary700"
-                      backIcon="primary100 mr-1"
-                      hoverEffect={false}
-                    />
-                  </div>
-                </div>
-
-                <div className="details dis-fl-col p-1">
-                  <div className="dis-fl-row jc-b a-c mb-2">
-                    <span className="mr-1 body2 w-fix-80">Request</span>
-                    <div className="w-fix-304">
-                      <BrixelProgressBar
-                        progressValue={35}
-                        saturation={700}
-                      />
-                    </div>
-                    <span className="ml-1 body2 ff-mono txtPrimary700">12</span>
-                  </div>
-
-                  <div className="dis-fl-row jc-b a-c mb-2">
-                    <span className="mr-1 body2 w-fix-80">Showings</span>
-                    <div className="w-fix-304">
-                      <BrixelProgressBar
-                        progressValue={12}
-                        saturation={700}
-                      />
-                    </div>
-                    <span className="ml-1 body2 ff-mono txtPrimary700">5</span>
-                  </div>
-
-                  <div className="dis-fl-row jc-b a-c mb-2">
-                    <span className="mr-1 body2 w-fix-80">Offers</span>
-                    <div className="w-fix-304">
-                      <BrixelProgressBar
-                        progressValue={60}
-                        saturation={700}
-                      />
-                    </div>
-                    <span className="ml-1 body2 ff-mono txtPrimary700">8</span>
-                  </div>
-                </div>
               </div>
 
             </div>
@@ -191,10 +140,12 @@ const ListingsDashboard = (props) => {
                 isNumber(+getFact())
               )
                 ? (
-                  <>
-                    <Route path="/:propId/deals/list" component={Deals} />
-                    <Route path="/:propId/deals/offers" component={DashboardOffer} />
-                  </>
+                  <div className="dis-f">
+                    <div className="secondLevel dis-fl-col ml-lg-1">
+                      <Route path="/:propId/deals/list" component={Deals} />
+                      <Route path="/:propId/deals/offers" component={DashboardOffer} />
+                    </div>
+                  </div>
                 ) : (
                   <Redirect from="/:propId/deals/*" to={`/${propID}/deals`} />
                 )
