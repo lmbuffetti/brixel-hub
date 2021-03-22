@@ -68,7 +68,7 @@ const ListingsDashboard = (props) => {
 
   // CHECK STATUS PORTALS
   const statusOffer = () => {
-    if (offerListings.length > 0) return `Total ${offerListings.length}`;
+    if (offerListings.filter((item) => item.deal !== 'sample').length > 0) return `Total ${offerListings.length}`;
     return 'No offers yet';
   };
 
