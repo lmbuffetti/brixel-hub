@@ -83,7 +83,7 @@ const ListingsDashboard = (props) => {
   };
 
   return (
-    <div className="listings-container dis-f jc-fs h-perc-lg-100 a-t" id="listingsDashaboard">
+    <div className="deals-container dis-f jc-fs h-perc-lg-100 a-t" id="dealsDashaboard">
       <Sticker>
         {
           windowDimensions.width <= 1024 && (

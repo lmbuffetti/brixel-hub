@@ -652,7 +652,7 @@ function PageHeaderDashboard(props) {
             </div>
           </div>
         </div>
-        <div className="tabWrapper hide-lg">
+        <div className="tabWrapper hide-xlg">
           {
             !history.location.pathname.includes('home') && has(activeSingleProperty, 'id') && (
               <>
