@@ -30,7 +30,7 @@ const OfferListings = (props) => {
 
   return (
     <>
-      <div className="listings-header p-md-2 pl-md-0 p-1 w-perc-100 txtDark700">
+      <div className="p-md-2 pl-md-0 p-1 w-perc-100 txtDark700 dealsListings">
         <div className="dis-fl-row jc-b a-c mb-3">
           <h2 className="fsize-700 txtDark700 fweight-500">Offers</h2>
         </div>

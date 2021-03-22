@@ -328,7 +328,7 @@ const Deals = (props) => {
   };
 
   return (
-    <>
+    <div className="dealsListings">
       <div className="listings-header bg-white">
         <div className="dis-fl-row jc-b a-c">
           <h3 className="pt-lg-2 pb-lg-3 pl-lg-0 p-1">Deals</h3>
@@ -559,7 +559,7 @@ const Deals = (props) => {
           </DragDropContext>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

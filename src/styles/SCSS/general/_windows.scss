@@ -119,6 +119,9 @@ div#dashboard {
         &:not(.rewardsSplash) {
           padding: $step * 3;
         }
+        &.dealsListings {
+          box-shadow: none;
+        }
       }
       .headerSection {
         .iconBtn {
