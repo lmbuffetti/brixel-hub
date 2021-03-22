@@ -12,8 +12,11 @@ import {
   BrixelIcon,
   BrixelInputText,
   BrixelTextArea,
-  BrixelUploadFile, change,
-  Helpers, initializeForm,
+  BrixelUploadFile,
+  change,
+  Helpers,
+  initializeForm,
+  destroy,
   ReduxField,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -29,6 +32,7 @@ const AddNewOffer = (props) => {
     activeSingleOffer,
     activeSingleProperty,
     changeFieldValue,
+    destroyForm,
     handleSaveMakeOffer,
     handleUploadDocument,
     formValue,
@@ -41,6 +45,8 @@ const AddNewOffer = (props) => {
   // STATE
   const [success, setSuccess] = useState(false);
   const [errorMessagePrice, setErrorMessagePrice] = useState(false);
+
+  useEffect(() => () => destroyForm(), []);
 
   useEffect(() => {
     initForm(initialValue);
@@ -288,6 +294,7 @@ AddNewOffer.propTypes = {
   activeSingleOffer: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
+  destroyForm: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   handleSaveMakeOffer: PropTypes.func.isRequired,
   handleUploadDocument: PropTypes.func.isRequired,
@@ -323,6 +330,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Offer', field, value));
+  },
+  destroyForm() {
+    dispatch(destroy('Offer'));
   },
   initForm(value) {
     dispatch(initializeForm('Offer', value));
