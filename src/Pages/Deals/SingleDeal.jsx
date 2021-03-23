@@ -168,9 +168,9 @@ const SingleDeal = (props) => {
   };
 
   const OptionsDropdown = (data) => {
-    if ((data.showMobile && get(windowDimensions, 'width', 0) <= 1024) || (data.showDesktop && get(windowDimensions, 'width', 0) > 1024)) {
-      const className = data.className || '';
-      const btnClass = data.btnClass || '';
+    if ((get(data, 'showMobile', null) && get(windowDimensions, 'width', 0) <= 1024) || (get(data, 'showDesktop', null) && get(windowDimensions, 'width', 0) > 1024)) {
+      const className = get(data, 'className', '');
+      const btnClass = get(data, 'btnClass', '');
       return (
         <div className={`pos-r mr-2 ${className}`} ref={optionsRef}>
           <BrixelButtonIcon
