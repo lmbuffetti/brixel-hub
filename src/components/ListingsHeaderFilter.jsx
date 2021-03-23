@@ -1,17 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useState, useEffect,
-} from 'react';
-import {
-  withRouter,
-} from 'react-router-dom';
-import {
-  connect,
-} from 'react-redux';
-import {
-  compose,
-} from 'redux';
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
+import { BrixelIcon } from '@brixel/brixel-components';
 
 const ListingsHeaderFilter = (props) => {
   const {
@@ -126,8 +119,18 @@ const ListingsHeaderFilter = (props) => {
               {
                 !disableReorder.includes(label.toLowerCase()) && (
                   <p className="dis-fl-col">
-                    <i className={`icon-arrow-up-small txtDark700 fsize-400 ${(activeSort === label && activeSortDirection === 'ASC') ? 'active' : 'hide'}`} />
-                    <i className={`icon-arrow-down-small txtDark700 fsize-400 ${(activeSort === label && activeSortDirection === 'DESC') ? 'active' : 'hide'}`} />
+                    <BrixelIcon
+                      icon="arrow-up-small"
+                      color="dark"
+                      saturationTxt={700}
+                      className={`fsize-400 ${(activeSort === label && activeSortDirection === 'ASC') ? 'active' : 'hide'}`}
+                    />
+                    <BrixelIcon
+                      icon="arrow-down-small"
+                      color="dark"
+                      saturationTxt={700}
+                      className={`fsize-400 ${(activeSort === label && activeSortDirection === 'DESC') ? 'active' : 'hide'}`}
+                    />
                   </p>
                 )
               }

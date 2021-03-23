@@ -142,7 +142,7 @@ const ListingsDashboard = (props) => {
                 ? (
                   <div className="dis-f">
                     <div className="secondLevel dis-fl-col ml-lg-1">
-                      <Route path="/:propId/deals/list" component={Deals} />
+                      <Route path="/:propId/deals/lists" component={Deals} />
                       <Route path="/:propId/deals/offers" component={DashboardOffer} />
                     </div>
                   </div>
