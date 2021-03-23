@@ -123,17 +123,12 @@
         display: none !important;
       }
       &:after {
-        content: $icon-close-small;
-        font-family: "icomoon" !important;
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        font-size: 16px;
+        content: '';
+        background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg width='22px' height='22px' viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3C!-- Generator: Sketch 63.1 (92452) - https://sketch.com --%3E%3Ctitle%3EIcons/close-small%3C/title%3E%3Cdesc%3ECreated with Sketch.%3C/desc%3E%3Cg id='Icons/close-small' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cpath d='M18.5039827,4.25387815 C18.8674403,3.8934263 19.4321682,3.9199903 19.7653377,4.3132105 C20.0985072,4.7064307 20.0739538,5.31740261 19.7104962,5.67785446 L19.7104962,5.67785446 L13.3112283,12 L19.7104962,18.3221455 C20.0739538,18.6825974 20.0985072,19.2935693 19.7653377,19.6867895 C19.4321682,20.0800097 18.8674403,20.1065737 18.5039827,19.7461218 L18.5039827,19.7461218 L12,13.319 L5.49601729,19.7461218 C5.16051794,20.0788466 4.65352206,20.0818064 4.31546106,19.7710147 L4.2346623,19.6867895 C3.9014928,19.2935693 3.92604619,18.6825974 4.28950382,18.3221455 L4.28950382,18.3221455 L10.6887717,12 L4.28950381,5.67785446 C3.92604618,5.31740261 3.90149279,4.7064307 4.23466229,4.3132105 C4.56783179,3.9199903 5.13255966,3.8934263 5.49601729,4.25387815 L5.49601729,4.25387815 L11.999,10.68 Z' id='Combined-Shape' fill='%2365696D' transform='translate(12.000000, 12.000000) rotate(-90.000000) translate(-12.000000, -12.000000) '%3E%3C/path%3E%3C/g%3E%3C/svg%3E%0A");
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+        width: 20px;
+        height: 20px;
         position: absolute;
         left: 50%;
         top: 50%;

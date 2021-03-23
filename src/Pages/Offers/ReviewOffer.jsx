@@ -260,7 +260,7 @@ const ReviewOffer = (props) => {
                         <BrixelIcon
                           icon="info"
                           color="Light"
-                          saturationTxt="700"
+                          saturationTxt={700}
                         />
 
                         <p className="txtLight700 ml-2">
