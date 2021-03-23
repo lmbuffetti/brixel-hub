@@ -19,7 +19,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_full_v2.svg';
 import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import useOutsideAlerter from './OutsideElement';
-import { setCookie, sortObject } from '../utils/helpers';
+import { setCookie } from '../utils/helpers';
 import { setLanguage, setModal } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';

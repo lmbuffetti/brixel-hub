@@ -4,6 +4,7 @@ import React, {
 import PropTypes from 'prop-types';
 import find from 'lodash/find';
 import cloneDeep from 'lodash/cloneDeep';
+import { BrixelIcon } from '@brixel/brixel-components';
 
 const ProgressBar = (props) => {
   const {
@@ -162,7 +163,13 @@ const ProgressBar = (props) => {
                   className="selectedProgressItem"
                 >
                   <span className="fweight-600 txtLight100 fsize-200 mr-1">{item}</span>
-                  <i className="icon-close cur-poi txtLight100 p-small-6 fsize-200" onClick={(e) => updateProgressBarClose(e, item)}> </i>
+                  <BrixelIcon
+                    icon="close"
+                    color="light"
+                    saturationTxt={100}
+                    className="cur-poi p-small-6 fsize-200"
+                    onClick={(e) => updateProgressBarClose(e, item)}
+                  />
                 </li>
               ))
             }
