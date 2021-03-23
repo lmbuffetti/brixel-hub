@@ -111,7 +111,13 @@ const FilterBar = (props) => {
                   <div className="filterHolder w-fix-240 brdRadius bgWhite pos-a x-r zIndex3 shadow-3dp pb-2">
                     <div className="p-2">
                       <div className="body2 fweight-500 txtDark700">Filter</div>
-                      <i className="icon-close txtDark700 pos-a x-r cur-poi mt-2 mr-2 fsize-400" onClick={() => setFilterMenu(!filterMenu)}> </i>
+                      <BrixelIcon
+                        className="pos-a x-r cur-poi mt-2 mr-2 fsize-400"
+                        icon="close"
+                        color="dark"
+                        saturationTxt={700}
+                        onClick={() => setFilterMenu(!filterMenu)}
+                      />
                     </div>
                     {
                       get(factsOptions, 'dealsStatusHub', []).map((item, i) => (

@@ -153,11 +153,17 @@ const AddShowingsBuyer = (props) => {
                     >
                       <div>
                         <div className="day mb-1">
-                          <i className="icon-calendar mr-1" />
+                          <BrixelIcon
+                            icon="calendar"
+                            className="mr-1"
+                          />
                           {moment(val.date).format('dddd, DD MMMM YYYY')}
                         </div>
                         <div className="time">
-                          <i className="icon-clock mr-1" />
+                          <BrixelIcon
+                            icon="clock"
+                            className="mr-1"
+                          />
                           {
                             val.isAllDay ? (
                               <span>All day</span>
