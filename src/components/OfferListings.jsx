@@ -49,9 +49,6 @@ const OfferListings = (props) => {
           <h5>Offers</h5>
           <span />
         </div>
-        <div className="dis-fl-row jc-b a-c mb-3">
-          <h2 className="fsize-700 txtDark700 fweight-500">Offers</h2>
-        </div>
 
         {
           get(data[0], 'deal', null) === 'sample' && (
