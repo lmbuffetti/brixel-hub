@@ -435,12 +435,15 @@ img {
             font-size: 12px;
           }
         }
-        .brixelIcon {
-          background: white;
-          padding: 8px;
-          border-radius: 8px;
-          i {
-            color: map-get($greenColor, 700);
+        .leftExtraIcon {
+          .brixelIcon {
+            background: white;
+            padding: 8px;
+            border-radius: 8px;
+
+            path, use {
+              fill: map-get($greenColor, 700);
+            }
           }
         }
       }
