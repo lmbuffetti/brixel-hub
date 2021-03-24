@@ -13,6 +13,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
+import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
 import last from 'lodash/last';
 import queryString from 'query-string';
@@ -120,6 +121,18 @@ const GetStartedEstimation = (props) => {
     }
   }, [formValue]);
 
+  const getCurrency = () => {
+    const result = {};
+    if (get(formValue, 'location.countryCode', '')) {
+      if (formValue.location.countryCode === 'PT') {
+        set(result, 'currency', 'EUR');
+      } else if (formValue.location.countryCode === 'CH') {
+        set(result, 'currency', 'CHF');
+      } else set(result, 'currency', 'CHF');
+    }
+    return result;
+  };
+
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     const dataForm = cloneDeep(formValue);
@@ -153,6 +166,7 @@ const GetStartedEstimation = (props) => {
       active: true,
       published: false,
       addProperty: true,
+      price: getCurrency(),
       redirectToUserFlow: false,
       createEstimation: true,
       company,
@@ -459,7 +473,6 @@ const GetStartedEstimation = (props) => {
       changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
       changeFieldValue('company', company.stub);
-      changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
     }
     if (get(formValue, 'properties.propertyType', null) === null) initForm(initialValues);
   }, [company]);
@@ -776,9 +789,9 @@ const mapStateToProps = (state, props) => {
       channel,
       changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       company: get(state, 'companies.activeSingleCompany.stub', null),
-      price: {
-        currency: get(state, 'companies.activeSingleCompany.country.currency', null),
-      },
+      // price: {
+      //   currency: get(state, 'companies.activeSingleCompany.country.currency', null),
+      // },
       location: {
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       },
