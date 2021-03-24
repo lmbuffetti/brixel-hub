@@ -131,8 +131,13 @@ function PageHeaderDashboard(props) {
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
       // if (!gameHistory.data) handleGetGame();
+      if (typeof Transifex !== 'undefined') {
+        setTimeout(() => {
+          Transifex.live.translateTo(langUsr);
+        }, 100);
+      }
     }
-  }, [loggedInUser]);
+  }, [loggedInUser, localTransifex]);
 
   // FUNCTION LOADED WHEN SCREEN RESIZED
   const screenResize = () => {
