@@ -673,7 +673,7 @@ function PageHeaderDashboard(props) {
                       showFull={false}
                       fullWidth={windowDimensions.width <= 1024}
                       classNameIcon="fsize-lg-400 txtLight600"
-                      classNameLabel={`${windowDimensions.width <= 1024 ? 'fsize-300' : 'fsize-400'} txtLight600 dis-f a-c ml-1`}
+                      classNameLabel={`${windowDimensions.width <= 1024 ? 'fsize-300' : 'fsize-400'} txtLight600 dis-f a-c`}
                     />
                   ) : (
                     <>

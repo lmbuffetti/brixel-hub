@@ -60,6 +60,7 @@ const BrixelButtonAchievement = (props) => {
                   color={config.iconColor}
                   saturationTxt={700}
                   icon={icon}
+                  padding="p-small-10"
                   className="shadow-3dp"
                 />
                 <BrixelStatus
