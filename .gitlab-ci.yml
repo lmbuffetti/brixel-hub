@@ -32,7 +32,7 @@ build site:
     - npm run build-${MODULE}
 
   artifacts:
-    expire_in: 1 week
+    expire_in: 2 hrs
     paths:
       - dist
 
