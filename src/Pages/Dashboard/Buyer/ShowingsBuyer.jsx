@@ -110,7 +110,7 @@ const ShowingsBuyer = (props) => {
             className="hide-md"
             icon="arrow-simple-left"
             ghost
-            onClick={() => history.push('../page')}
+            onClick={() => history.push(`/buyer/${propID}/property`)}
           />
           <h5 className="m-a m-lg-0 sectionTitle">
             Showings

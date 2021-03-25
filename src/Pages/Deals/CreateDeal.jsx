@@ -93,7 +93,7 @@ const CreateDeal = (props) => {
 
   return (
     <SplashScreen
-      closeLink={`/${activeSingleProperty.id}/deals/list`}
+      closeLink={`/${activeSingleProperty.id}/deals/lists`}
       className="create-deal"
       closeOutside={false}
     >
@@ -105,7 +105,7 @@ const CreateDeal = (props) => {
               ghost
               theme="dark"
               icon="close-small"
-              onClick={() => history.push(`/${activeSingleProperty.id}/deals/list`)}
+              onClick={() => history.push(`/${activeSingleProperty.id}/deals/lists`)}
             />
           </div>
         </div>
