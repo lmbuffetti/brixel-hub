@@ -91,7 +91,7 @@ const BrixelClosingTree = (props) => {
                       <BrixelIcon
                         icon="check-small-fill"
                         color="green"
-                        className="mb-1"
+                        className="mb-1 as-b"
                       />
                       <span className="fsize-200 txtGreen400">Sent</span>
                       <span className="fsize-100 txtDark200">{moment(get(activeSingleOffer, 'createdAt', null)).format('D MMM YY, H:mm')}</span>
