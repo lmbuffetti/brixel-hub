@@ -45,7 +45,7 @@ const ListingsDashboard = (props) => {
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
   useEffect(() => {
     if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'deals') {
-      history.push({ pathname: `/${propID}/deals/list` });
+      history.push({ pathname: `/${propID}/deals/lists` });
     }
   }, [windowDimensions, getFact()]);
 
@@ -101,7 +101,7 @@ const ListingsDashboard = (props) => {
                   className={`w-perc-100 max-w-perc-50 mr-1 shadow-1dp brdMedium p-2 ${getFact() === 'list' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                   colorIcon="primary700"
                   backIcon="primary100"
-                  onClick={() => history.push(`/${propID}/deals/list`)}
+                  onClick={() => history.push(`/${propID}/deals/lists`)}
                 />
                 <BrixelButtonBox
                   verticalView
