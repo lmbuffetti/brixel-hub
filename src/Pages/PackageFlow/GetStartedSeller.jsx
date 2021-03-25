@@ -6,14 +6,13 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy,
+  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy, DataByCountry,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
 import last from 'lodash/last';
 import queryString from 'query-string';
@@ -89,14 +88,17 @@ const GetStartedSeller = (props) => {
   const getCurrency = () => {
     const result = {};
     if (get(formValue, 'location.countryCode', '')) {
-      if (formValue.location.countryCode === 'PT') {
-        set(result, 'currency', 'EUR');
-      } else if (formValue.location.countryCode === 'CH') {
-        set(result, 'currency', 'CHF');
-      } else set(result, 'currency', 'CHF');
+      const currency = DataByCountry(get(formValue, 'location.countryCode', ''));
+      result.currency = currency || 'CHF';
+      changeFieldValue('price.currency', result.currency);
     }
     return result;
   };
+
+  // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
+  useEffect(() => {
+    getCurrency();
+  }, [get(history, 'location.countryCode', null)]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
@@ -733,7 +735,7 @@ const mapStateToProps = (state, props) => {
       //   currency: get(state, 'companies.activeSingleCompany.country.currency', null),
       // },
       location: {
-        countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
+        countryCode: get(state, 'companies.activeSingleCompany.country.code', 'DE'),
       },
       login: {},
       owner: get(state, 'user.loggedInUser.id', null),

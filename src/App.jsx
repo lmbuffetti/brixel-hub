@@ -573,8 +573,8 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess="seller" />
           <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
-          <ProtectedRoute exact path="/:propID/deals/list/:dealID/deal" component={SingleDeal} />
-          <ProtectedRoute exact path="/:propID/deals/list/newDeal" component={CreateDeal} />
+          <ProtectedRoute exact path="/:propID/deals/lists/:dealID/deal" component={SingleDeal} />
+          <ProtectedRoute exact path="/:propID/deals/lists/newDeal" component={CreateDeal} />
         </Switch>
       }
 

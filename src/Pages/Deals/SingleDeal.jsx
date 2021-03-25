@@ -229,7 +229,7 @@ const SingleDeal = (props) => {
         activeSingleDeal.id && (
           <SplashScreen
             className={activeSingleDeal.active ? '' : 'archivedDeal'}
-            closeLink={`/${activeSingleProperty.id}/deals/list`}
+            closeLink={`/${activeSingleProperty.id}/deals/lists`}
           >
             <div className="single-deal dis-fl-col">
               {/* top panel */}
@@ -279,7 +279,7 @@ const SingleDeal = (props) => {
                       icon="close-small"
                       ghost
                       theme="dark"
-                      onClick={() => history.push(`/${activeSingleProperty.id}/deals/list`)}
+                      onClick={() => history.push(`/${activeSingleProperty.id}/deals/lists`)}
                     />
                   </div>
                 </div>
