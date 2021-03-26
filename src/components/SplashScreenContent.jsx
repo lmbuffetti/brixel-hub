@@ -60,6 +60,7 @@ const SplashScreen = (props) => {
   const [activeSlide, setActiveSlide] = useState(-1);
   const [showContent, setShowContent] = useState(false);
   const [fullScreenCard, setFullScreenCard] = useState(false);
+  const [totalSlide, setTotalSlide] = useState(newProperties.total);
 
   const updateData = useCallback(() => {
     const wrapCarousel = document.getElementById('overlayCarousel');
@@ -229,6 +230,7 @@ const SplashScreen = (props) => {
           removeEl[0].parentNode.removeChild(removeEl[0]);
         }
       }, 1000);
+      setTotalSlide(totalSlide - 1);
     }
   }, [activeMarketOverlayProperty, activeMarketOverlayPropertyLists, activeSlide]);
 
@@ -254,6 +256,7 @@ const SplashScreen = (props) => {
           removeEl[0].parentNode.removeChild(removeEl[0]);
         }
       }, 1000);
+      setTotalSlide(totalSlide - 1);
     } else {
       closeOverlay();
     }
@@ -271,7 +274,12 @@ const SplashScreen = (props) => {
 
   return (
     <>
-      <div className="dis-f jc-fe p-2">
+      <div className="dis-f jc-b p-2">
+        <div>
+          <span className="fSizePx14 notranslate txtDark700 ff-mono">{activeSlide + 1}</span>
+          <span className="fSizePx14 mx-small-4 txtDark100">of</span>
+          <span className="fSizePx14 notranslate txtDark700 ff-mono">{totalSlide}</span>
+        </div>
         <BrixelButtonIcon
           className="pos-r zIndex10"
           ghost
