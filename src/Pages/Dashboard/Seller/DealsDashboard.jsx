@@ -135,7 +135,7 @@ const ListingsDashboard = (props) => {
           <div className={`levelsWrapper zIndex2 w-perc-100 ${openCloseColumn() === 'opened' ? 'closed' : 'opened'}`}>
             {
               (
-                getFact() === 'list' ||
+                getFact() === 'lists' ||
                 getFact() === 'offers' ||
                 isNumber(+getFact())
               )

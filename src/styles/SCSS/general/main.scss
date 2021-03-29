@@ -5,6 +5,7 @@ $iphone5: 320px;
 // GENERAL
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 $imgpath: "~@brixel/brixel-components/dist/styles/";
+$imgRootpath: "~@brixel/brixel-components/dist/";
 @import '~@brixel/brixel-configuration-partner/src/Variables';
 
 @import "~slick-carousel/slick/slick.css";
@@ -235,14 +236,30 @@ header {
           display: none !important;
         }
         &:after {
-          @include icomoon();
-          content: $icon-plus;
-          color: map_get($primaryColor, 400);
+          content: '';
+          background-color: map_get($primaryColor, 400);
+          -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/plus.svg');
+          mask-image: url('#{$imgRootpath}images/Icons/svg/plus.svg');
+          display: block;
+          width: 22px;
+          height: 22px;
+          background-repeat: no-repeat;
+          background-position: center;
+          margin: auto;
         }
         &:last-child {
           border-top: 1px solid map_get($primaryColor, 100) !important;
           &:after {
-            content: $icon-minus;
+            content: '';
+            background-color: map_get($primaryColor, 400);
+            -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/minus.svg');
+            mask-image: url('#{$imgRootpath}images/Icons/svg/minus.svg');
+            display: block;
+            width: 22px;
+            height: 22px;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: auto;
           }
         }
       }
@@ -333,7 +350,7 @@ img {
           @include fontStyle(500);
         }
         &::after {
-          top: 12px;
+         // top: 12px;
         }
       }
     }
@@ -435,12 +452,15 @@ img {
             font-size: 12px;
           }
         }
-        .brixelIcon {
-          background: white;
-          padding: 8px;
-          border-radius: 8px;
-          i {
-            color: map-get($greenColor, 700);
+        .leftExtraIcon {
+          .brixelIcon {
+            background: white;
+            padding: 8px;
+            border-radius: 8px;
+
+            path, use {
+              fill: map-get($greenColor, 700);
+            }
           }
         }
       }

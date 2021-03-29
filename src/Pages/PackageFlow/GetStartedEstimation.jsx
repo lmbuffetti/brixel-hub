@@ -6,7 +6,16 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy,
+  BrixelButtonPrimary,
+  BrixelButtonIcon,
+  BrixelIcon,
+  BrixelProgressBar,
+  MultiFileldsReduxForm,
+  initializeForm,
+  change,
+  reset,
+  destroy,
+  DataByCountry,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -120,6 +129,21 @@ const GetStartedEstimation = (props) => {
     }
   }, [formValue]);
 
+  const getCurrency = () => {
+    const result = {};
+    if (get(formValue, 'location.countryCode', '')) {
+      const currency = DataByCountry(get(formValue, 'location.countryCode', ''));
+      result.currency = currency || 'CHF';
+      changeFieldValue('price.currency', result.currency);
+    }
+    return result;
+  };
+
+  // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
+  useEffect(() => {
+    getCurrency();
+  }, [get(history, 'location.countryCode', null)]);
+
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     const dataForm = cloneDeep(formValue);
@@ -153,6 +177,7 @@ const GetStartedEstimation = (props) => {
       active: true,
       published: false,
       addProperty: true,
+      price: getCurrency(),
       redirectToUserFlow: false,
       createEstimation: true,
       company,
@@ -459,7 +484,6 @@ const GetStartedEstimation = (props) => {
       changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
       changeFieldValue('company', company.stub);
-      changeFieldValue('price.currency', get(company, 'country.currency', 'CHF'));
     }
     if (get(formValue, 'properties.propertyType', null) === null) initForm(initialValues);
   }, [company]);
@@ -666,7 +690,7 @@ const GetStartedEstimation = (props) => {
                 }
                 {
                   checkValidateField() && get(quest, 'successMessage', null) && (
-                    <div className="txtWhite pr-1 textSuccess ml-a mr-0">
+                    <div className="txtWhite icnWhite pr-1 textSuccess ml-a mr-0">
                       {/* {quest.successMessage}  */} Ok! <BrixelIcon icon="check" className="ml-1" />
                     </div>
                   )
@@ -776,9 +800,9 @@ const mapStateToProps = (state, props) => {
       channel,
       changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       company: get(state, 'companies.activeSingleCompany.stub', null),
-      price: {
-        currency: get(state, 'companies.activeSingleCompany.country.currency', null),
-      },
+      // price: {
+      //   currency: get(state, 'companies.activeSingleCompany.country.currency', null),
+      // },
       location: {
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       },

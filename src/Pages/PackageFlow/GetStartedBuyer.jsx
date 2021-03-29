@@ -580,7 +580,7 @@ const GetStartedBuyer = (props) => {
                 }
                 {
                   checkValidateField() && get(quest, 'successMessage', null) && (
-                    <div className="txtWhite pr-1 textSuccess ml-a mr-0">
+                    <div className="txtWhite icnWhite pr-1 textSuccess ml-a mr-0">
                       {/* {quest.successMessage}  */} Ok! <BrixelIcon icon="check" className="ml-1" />
                     </div>
                   )

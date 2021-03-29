@@ -36,7 +36,7 @@ const AvatarImage = (props) => {
           <div className={`notranslate defaultAvt flex-${size} w-fix-${size} h-fix-${size} ${isIcon ? 'withIcon' : ''}`} onClick={() => onClick()}>
             {
               isIcon ? (
-                <BrixelIcon iconSize={`fSizePx${size / 2 + 2}`} saturationTxt={700} icon="user-solid" color="primary" />
+                <BrixelIcon iconSize={`w-fix${size / 2 + 2} h-fix${size / 2 + 2}`} saturationTxt={700} icon="user-solid" color="primary" />
               ) : (
                 extractName()
               )
