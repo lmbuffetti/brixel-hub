@@ -86,7 +86,7 @@ const Support = (props) => {
                       key={i.toString()}
                       src={`${baseByData.shortPath}${imgTeam.path}`}
                       alt="Support Team"
-                      className={`${layout === 'rewards' ? 'w-fix-104 mr-2-neg' : 'w-fix-40 mr-1-neg'}  square brdLarge brdWhite brdCircle`}
+                      className={`${layout === 'rewards' ? 'w-fix-56 w-fix-sm-104 mr-2-neg' : 'w-fix-40 mr-1-neg'}  square brdLarge brdWhite brdCircle`}
                     />
                   ))
                 }

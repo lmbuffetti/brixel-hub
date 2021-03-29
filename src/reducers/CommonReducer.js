@@ -47,6 +47,7 @@ export const defaultState = {
     { value: 'de', label: 'de' },
     { value: 'dk', label: 'dk' },
     { value: 'en', label: 'en' },
+    { value: 'it', label: 'it' },
     { value: 'nl', label: 'nl' },
     { value: 'pt', label: 'pt' },
     { value: 'se', label: 'se' },

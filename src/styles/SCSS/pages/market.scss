@@ -267,6 +267,9 @@
   color: inherit;
   outline: inherit;
   background: inherit;
+  svg path {
+    fill: currentColor;
+  }
 }
 .slick-disabled {
   //cursor: default;

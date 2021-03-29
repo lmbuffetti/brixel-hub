@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   withRouter,
@@ -28,6 +28,8 @@ const BrixelClosingTree = (props) => {
     isBuyer,
     setSplashScreen,
   } = props;
+
+  const [showTooltip, setShowTooltip] = useState({ type: '', side: '', active: false });
 
   // TODO: add active/inactive lock logic
   const onClickOffer = useCallback((action) => {
@@ -91,17 +93,34 @@ const BrixelClosingTree = (props) => {
                       <BrixelIcon
                         icon="check-small-fill"
                         color="green"
-                        className="mb-1"
+                        className="mb-1 as-b"
                       />
                       <span className="fsize-200 txtGreen400">Sent</span>
                       <span className="fsize-100 txtDark200">{moment(get(activeSingleOffer, 'createdAt', null)).format('D MMM YY, H:mm')}</span>
                     </>
                   ) : (
-                    <BrixelIcon
-                      icon={get(activeSingleClosing, 'stageOffer.active', null) ? 'check-small' : 'locked'}
-                      color="dark"
-                      onClick={() => ''}
-                    />
+                    <div
+                      className="pos-r"
+                      onMouseEnter={() => (get(activeSingleClosing, 'stageOffer.active', null) ? '' : setShowTooltip({ type: 'offer', active: true }))}
+                      onMouseLeave={() => (get(activeSingleClosing, 'stageOffer.active', null) ? '' : setShowTooltip({ type: 'offer', active: false }))}
+                    >
+                      <BrixelIcon
+                        icon={get(activeSingleClosing, 'stageOffer.active', null) ? 'check-small' : 'locked'}
+                        color="dark"
+                      />
+                      {
+                        setShowTooltip.type === 'offer' && setShowTooltip.active === true && (
+                          <span
+                            className="tooltip-label fsize-200"
+                            style={{
+                              minWidth: '200px',
+                            }}
+                          >
+                            This stage is locked. The prior stage must be fulfilled to unlock it.
+                          </span>
+                        )
+                      }
+                    </div>
                   )
                 }
               </div>
@@ -225,10 +244,28 @@ const BrixelClosingTree = (props) => {
                       <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageIdentification.completedByBuyer.completedAt', null)).format('D MMM YY, H:mm')}</span>
                     </>
                   ) : (
-                    <BrixelIcon
-                      icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
-                      color="dark"
-                    />
+                    <div
+                      className="pos-r"
+                      onMouseEnter={() => (get(activeSingleClosing, 'stageIdentification.active', null) ? '' : setShowTooltip({ type: 'identification', side: 'left', active: true }))}
+                      onMouseLeave={() => (get(activeSingleClosing, 'stageIdentification.active', null) ? '' : setShowTooltip({ type: 'identification', side: 'left', active: false }))}
+                    >
+                      <BrixelIcon
+                        icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
+                        color="dark"
+                      />
+                      {
+                        showTooltip.type === 'identification' && showTooltip.side === 'left' && showTooltip.active === true && (
+                          <span
+                            className="tooltip-label fsize-200"
+                            style={{
+                              minWidth: '200px',
+                            }}
+                          >
+                            This stage is locked. The prior stage must be fulfilled to unlock it.
+                          </span>
+                        )
+                      }
+                    </div>
                   )
                 }
               </div>
@@ -249,10 +286,28 @@ const BrixelClosingTree = (props) => {
                       <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageIdentification.completedBySeller.completedAt', null)).format('D MMM YY, H:mm')}</span>
                     </>
                   ) : (
-                    <BrixelIcon
-                      icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
-                      color="dark"
-                    />
+                    <div
+                      className="pos-r"
+                      onMouseEnter={() => (get(activeSingleClosing, 'stageIdentification.active', null) ? '' : setShowTooltip({ type: 'identification', side: 'right', active: true }))}
+                      onMouseLeave={() => (get(activeSingleClosing, 'stageIdentification.active', null) ? '' : setShowTooltip({ type: 'identification', side: 'right', active: false }))}
+                    >
+                      <BrixelIcon
+                        icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
+                        color="dark"
+                      />
+                      {
+                        showTooltip.type === 'identification' && showTooltip.side === 'right' && showTooltip.active === true && (
+                          <span
+                            className="tooltip-label right fsize-200"
+                            style={{
+                              minWidth: '200px',
+                            }}
+                          >
+                            This stage is locked. The prior stage must be fulfilled to unlock it.
+                          </span>
+                        )
+                      }
+                    </div>
                   )
                 }
               </div>
@@ -271,10 +326,28 @@ const BrixelClosingTree = (props) => {
                       <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageLock.completedByBuyer.completedAt', null)).format('D MMM YY, H:mm')}</span>
                     </>
                   ) : (
-                    <BrixelIcon
-                      icon={get(activeSingleClosing, 'stageLock.active', null) ? 'check-small' : 'locked'}
-                      color="dark"
-                    />
+                    <div
+                      className="pos-r"
+                      onMouseEnter={() => (get(activeSingleClosing, 'stageLock.active', null) ? '' : setShowTooltip({ type: 'lock', side: 'left', active: true }))}
+                      onMouseLeave={() => (get(activeSingleClosing, 'stageLock.active', null) ? '' : setShowTooltip({ type: 'lock', side: 'left', active: false }))}
+                    >
+                      <BrixelIcon
+                        icon={get(activeSingleClosing, 'stageLock.active', null) ? 'check-small' : 'locked'}
+                        color="dark"
+                      />
+                      {
+                        showTooltip.type === 'lock' && showTooltip.side === 'left' && showTooltip.active === true && (
+                          <span
+                            className="tooltip-label fsize-200"
+                            style={{
+                              minWidth: '200px',
+                            }}
+                          >
+                            This stage is locked. The prior stage must be fulfilled to unlock it.
+                          </span>
+                        )
+                      }
+                    </div>
                   )
                 }
               </div>
@@ -295,10 +368,28 @@ const BrixelClosingTree = (props) => {
                       <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageLock.completedBySeller.completedAt', null)).format('D MMM YY, H:mm')}</span>
                     </>
                   ) : (
-                    <BrixelIcon
-                      icon={get(activeSingleClosing, 'stageLock.active', null) ? 'check-small' : 'locked'}
-                      color="dark"
-                    />
+                    <div
+                      className="pos-r"
+                      onMouseEnter={() => (get(activeSingleClosing, 'stageLock.active', null) ? '' : setShowTooltip({ type: 'lock', side: 'right', active: true }))}
+                      onMouseLeave={() => (get(activeSingleClosing, 'stageLock.active', null) ? '' : setShowTooltip({ type: 'lock', side: 'right', active: false }))}
+                    >
+                      <BrixelIcon
+                        icon={get(activeSingleClosing, 'stageLock.active', null) ? 'check-small' : 'locked'}
+                        color="dark"
+                      />
+                      {
+                        showTooltip.type === 'lock' && showTooltip.side === 'right' && showTooltip.active === true && (
+                          <span
+                            className="tooltip-label right fsize-200"
+                            style={{
+                              minWidth: '200px',
+                            }}
+                          >
+                            This stage is locked. The prior stage must be fulfilled to unlock it.
+                          </span>
+                        )
+                      }
+                    </div>
                   )
                 }
               </div>
@@ -317,10 +408,28 @@ const BrixelClosingTree = (props) => {
                       <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageContract.completedByBuyer.completedAt', null)).format('D MMM YY, H:mm')}</span>
                     </>
                   ) : (
-                    <BrixelIcon
-                      icon={get(activeSingleClosing, 'stageContract.active', null) ? 'check-small' : 'locked'}
-                      color="dark"
-                    />
+                    <div
+                      className="pos-r"
+                      onMouseEnter={() => (get(activeSingleClosing, 'stageContract.active', null) ? '' : setShowTooltip({ type: 'contract', side: 'left', active: true }))}
+                      onMouseLeave={() => (get(activeSingleClosing, 'stageContract.active', null) ? '' : setShowTooltip({ type: 'contract', side: 'left', active: false }))}
+                    >
+                      <BrixelIcon
+                        icon={get(activeSingleClosing, 'stageContract.active', null) ? 'check-small' : 'locked'}
+                        color="dark"
+                      />
+                      {
+                        showTooltip.type === 'contract' && showTooltip.side === 'left' && showTooltip.active === true && (
+                          <span
+                            className="tooltip-label fsize-200"
+                            style={{
+                              minWidth: '200px',
+                            }}
+                          >
+                            This stage is locked. The prior stage must be fulfilled to unlock it.
+                          </span>
+                        )
+                      }
+                    </div>
                   )
                 }
               </div>
@@ -341,10 +450,28 @@ const BrixelClosingTree = (props) => {
                       <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageContract.completedBySeller.completedAt', null)).format('D MMM YY, H:mm')}</span>
                     </>
                   ) : (
-                    <BrixelIcon
-                      icon={get(activeSingleClosing, 'stageContract.active', null) ? 'check-small' : 'locked'}
-                      color="dark"
-                    />
+                    <div
+                      className="pos-r"
+                      onMouseEnter={() => (get(activeSingleClosing, 'stageContract.active', null) ? '' : setShowTooltip({ type: 'contract', side: 'right', active: true }))}
+                      onMouseLeave={() => (get(activeSingleClosing, 'stageContract.active', null) ? '' : setShowTooltip({ type: 'contract', side: 'right', active: false }))}
+                    >
+                      <BrixelIcon
+                        icon={get(activeSingleClosing, 'stageContract.active', null) ? 'check-small' : 'locked'}
+                        color="dark"
+                      />
+                      {
+                        showTooltip.type === 'contract' && showTooltip.side === 'right' && showTooltip.active === true && (
+                          <span
+                            className="tooltip-label right fsize-200"
+                            style={{
+                              minWidth: '200px',
+                            }}
+                          >
+                            This stage is locked. The prior stage must be fulfilled to unlock it.
+                          </span>
+                        )
+                      }
+                    </div>
                   )
                 }
               </div>
@@ -363,10 +490,28 @@ const BrixelClosingTree = (props) => {
                       <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageNotary.completedByBuyer.completedAt', null)).format('D MMM YY, H:mm')}</span>
                     </>
                   ) : (
-                    <BrixelIcon
-                      icon={get(activeSingleClosing, 'stageNotary.active', null) ? 'check-small' : 'locked'}
-                      color="dark"
-                    />
+                    <div
+                      className="pos-r"
+                      onMouseEnter={() => (get(activeSingleClosing, 'stageNotary.active', null) ? '' : setShowTooltip({ type: 'notary', side: 'left', active: true }))}
+                      onMouseLeave={() => (get(activeSingleClosing, 'stageNotary.active', null) ? '' : setShowTooltip({ type: 'notary', side: 'left', active: false }))}
+                    >
+                      <BrixelIcon
+                        icon={get(activeSingleClosing, 'stageNotary.active', null) ? 'check-small' : 'locked'}
+                        color="dark"
+                      />
+                      {
+                        showTooltip.type === 'notary' && showTooltip.side === 'left' && showTooltip.active === true && (
+                          <span
+                            className="tooltip-label fsize-200"
+                            style={{
+                              minWidth: '200px',
+                            }}
+                          >
+                            This stage is locked. The prior stage must be fulfilled to unlock it.
+                          </span>
+                        )
+                      }
+                    </div>
                   )
                 }
               </div>
@@ -387,10 +532,28 @@ const BrixelClosingTree = (props) => {
                       <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageNotary.completedBySeller.completedAt', null)).format('D MMM YY, H:mm')}</span>
                     </>
                   ) : (
-                    <BrixelIcon
-                      icon={get(activeSingleClosing, 'stageNotary.active', null) ? 'check-small' : 'locked'}
-                      color="dark"
-                    />
+                    <div
+                      className="pos-r"
+                      onMouseEnter={() => (get(activeSingleClosing, 'stageNotary.active', null) ? '' : setShowTooltip({ type: 'notary', side: 'right', active: true }))}
+                      onMouseLeave={() => (get(activeSingleClosing, 'stageNotary.active', null) ? '' : setShowTooltip({ type: 'notary', side: 'right', active: false }))}
+                    >
+                      <BrixelIcon
+                        icon={get(activeSingleClosing, 'stageNotary.active', null) ? 'check-small' : 'locked'}
+                        color="dark"
+                      />
+                      {
+                        showTooltip.type === 'notary' && showTooltip.side === 'right' && showTooltip.active === true && (
+                          <span
+                            className="tooltip-label right fsize-200"
+                            style={{
+                              minWidth: '200px',
+                            }}
+                          >
+                            This stage is locked. The prior stage must be fulfilled to unlock it.
+                          </span>
+                        )
+                      }
+                    </div>
                   )
                 }
               </div>

@@ -33,29 +33,20 @@
       &.react-datepicker__navigation--previous {
         border: none;
         &:after {
-          @include icomoon();
-          content: $icon-arrow-simple-left;
-          font-size: 16px;
-          display: flex;
-          align-items: center;
-          @media (min-width: $responsive-medium) {
-            font-size: 22px;
-          }
-          // content: "\e903";
+          content: '';
+          background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg width='24px' height='24px' viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3C!-- Generator: Sketch 63.1 (92452) - https://sketch.com --%3E%3Ctitle%3EIcons/arrow-simple-left%3C/title%3E%3Cdesc%3ECreated with Sketch.%3C/desc%3E%3Cg id='Icons/arrow-simple-left' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cpath d='M15.9879254,12 L6.30073008,21.3108287 C5.92317843,21.6737117 5.89767292,22.2888045 6.24376194,22.6846769 C6.58985095,23.0805494 7.17647762,23.1072925 7.55402928,22.7444095 L17.4954809,13.1892027 C17.8149636,12.8825699 18,12.4536403 18,12 C18,11.5463597 17.8149636,11.1174301 17.4949958,10.8103314 L7.55402928,1.25559052 C7.17647762,0.892707483 6.58985095,0.919450649 6.24376194,1.31532305 C5.89767292,1.71119545 5.92317843,2.32628827 6.30073008,2.6891713 L15.9879254,12 Z' id='🎨-icon-color' fill='%2354585D' transform='translate(12.000000, 12.000000) rotate(-180.000000) translate(-12.000000, -12.000000) '%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-size: 18px 18px;
 
         }
       }
       &.react-datepicker__navigation--next {
         border: none;
         &:after {
-          @include icomoon();
-          content: $icon-arrow-simple-right;
-          display: flex;
-          align-items: center;
-          font-size: 16px;
-          @media (min-width: $responsive-medium) {
-            font-size: 22px;
-          }
+          content: '';
+          background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg width='18px' height='18px' viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3C!-- Generator: Sketch 63.1 (92452) - https://sketch.com --%3E%3Ctitle%3EIcons/arrow-simple-right%3C/title%3E%3Cdesc%3ECreated with Sketch.%3C/desc%3E%3Cg id='Icons/arrow-simple-right' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cpath d='M6.30073008,21.3108287 C5.92317843,21.6737117 5.89767292,22.2888045 6.24376194,22.6846769 C6.58985095,23.0805494 7.17647762,23.1072925 7.55402928,22.7444095 L17.4954809,13.1892027 C17.8149636,12.8825699 18,12.4536403 18,12 C18,11.5463597 17.8149636,11.1174301 17.4949958,10.8103314 L7.55402928,1.25559052 C7.17647762,0.892707483 6.58985095,0.919450649 6.24376194,1.31532305 C5.89767292,1.71119545 5.92317843,2.32628827 6.30073008,2.6891713 L15.9879254,12 L6.30073008,21.3108287 Z' id='🎨-icon-color' fill='%2354585D' transform='translate(12.000000, 12.000000) rotate(-360.000000) translate(-12.000000, -12.000000) '%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-size: 18px 18px;
         }
       }
     }
