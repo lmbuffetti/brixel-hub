@@ -48,7 +48,7 @@ const MenuSidebar = (props) => {
     let url = val.replace(':propID', propID);
     url = url.replace(':dealID', activeSingleDeal.id);
     return url;
-  }, [userType]);
+  }, [userType, activeSingleDeal, propID]);
 
   // FUNCTION TO SHOW/HIDE THE SUPPORT MENU (history.push({state: {showSupport: true}}))
   useEffect(() => {
