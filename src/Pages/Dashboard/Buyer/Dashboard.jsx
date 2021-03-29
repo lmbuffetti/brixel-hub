@@ -93,13 +93,13 @@ const Dashboard = (props) => {
     } else if (activeSingleProperty.id) {
       handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
     }
-    if (activeSingleProperty.id && dealID !== activeSingleDeal.id) {
+    if (activeSingleProperty.id && (dealID !== activeSingleDeal.id || !dealID)) {
       handleGetBuyerDeal(activeSingleProperty.id);
     }
   }, [activeSingleProperty]);
 
   useEffect(() => {
-    if (propID && propID !== 'propertyLists' && favoritesProperties.total > 0) {
+    if (propID && propID !== 'propertyLists') {
       const data = {
         fullVersion: false,
         smallLoader: 'property',

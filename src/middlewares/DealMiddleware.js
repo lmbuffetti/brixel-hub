@@ -311,10 +311,28 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       api.deal.getBuyerDeal(action.payload)
         .then((res) => {
-          store.dispatch({
-            type: SET_ACTIVE_SINGLE_DEAL,
-            payload: res.data,
-          });
+          if (!res.data) {
+            const deal = {
+              page: get(store.getState(), 'property.activeSingleProperty.id', ''),
+              user: get(store.getState(), 'user.loggedInUser.user.id', ''),
+              stage: 'Interested',
+              actionStub: 'add-favorite',
+            };
+            api.deal.createSingleDeal(deal)
+              .then((response1) => {
+                if (response1.meta.normalizedStatus === 200) {
+                  store.dispatch({
+                    type: SET_ACTIVE_SINGLE_DEAL,
+                    payload: response1.data,
+                  });
+                }
+              });
+          } else {
+            store.dispatch({
+              type: SET_ACTIVE_SINGLE_DEAL,
+              payload: res.data,
+            });
+          }
         });
       break;
     }
