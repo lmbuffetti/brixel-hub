@@ -152,14 +152,17 @@ const Photos = (props) => {
     <div className="photosWrapper dis-f">
       <div className="secondLevel dis-fl-col">
         <div className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
-          <div className="dis-f jc-b a-c mb-3">
-            <BrixelButtonIcon
-              className="hide-md"
-              icon="arrow-simple-left"
-              ghost
-              onClick={() => history.push(`/${propID}/property`)}
-            />
-            <h5 className="m-a m-lg-0 sectionTitle">
+          <div className="dis-f backPanel">
+            <div className="fixedIcon w-perc-100">
+              <BrixelButtonIcon
+                className="hide-md"
+                icon="arrow-left-small"
+                ghost
+                theme="dark"
+                onClick={() => history.push(`/${propID}/property`)}
+              />
+            </div>
+            <h5 className="sectionTitle">
               Photos
             </h5>
           </div>

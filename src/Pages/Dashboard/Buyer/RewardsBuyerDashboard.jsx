@@ -83,19 +83,21 @@ const RewardsBuyerDashboard = (props) => {
                 <div className="rewardsSplash h-perc-100 dis-fl-col p-2 p-lg-3 pb-lg-8 cardSecondLevel">
                   {
                     activeAchievement && (
-                      <div className="dis-f a-c jc-b mb-5 mb-lg-2">
+                      <div className="dis-f a-c jc-b mb-5 mb-lg-2 backPanel">
                         <div className="dis-f a-c">
-                          <BrixelButtonIcon
-                            className="mr-2 hide-md"
-                            icon="arrow-simple-left"
-                            ghost
-                            onClick={() => history.push(`/${propID}/rewards`)}
-                          />
+                          <div className="fixedIcon">
+                            <BrixelButtonIcon
+                              className="hide-md"
+                              icon="arrow-left-small"
+                              ghost
+                              onClick={() => history.push(`/${propID}/rewards`)}
+                            />
+                          </div>
                           {
                             windowDimensions.width <= 1024 && (
-                              <p className="mr-1 body fweight-500">
+                              <h5 className="sectionTitle">
                                 Home
-                              </p>
+                              </h5>
                             )
                           }
                         </div>

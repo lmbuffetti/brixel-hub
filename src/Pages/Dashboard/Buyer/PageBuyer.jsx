@@ -48,20 +48,23 @@ const PageBuyer = (props) => {
         <div>
           <div className="brixelPageWrapper dis-fl-col cardInfoBox">
             <div className="pos-r">
-              <div className="dis-f jc-b a-c mb-3">
-                <BrixelButtonIcon
-                  className="hide-md"
-                  icon="arrow-simple-left"
-                  ghost
-                  onClick={() => history.push(`/buyer/${propID}/property`)}
-                />
-                <h5>Brixel Page</h5>
-                <BrixelButtonPrimary
-                  leftIcon="eye"
-                  label="Open"
-                  rounded
-                  onClick={() => onClickPreview()}
-                />
+              <div className="dis-f backPanel">
+                <div className="fixedIcon dis-f jc-b w-perc-100">
+                  <BrixelButtonIcon
+                    className="hide-md"
+                    icon="arrow-left-small"
+                    ghost
+                    theme="dark"
+                    onClick={() => history.push(`/buyer/${propID}/property`)}
+                  />
+                  <BrixelButtonPrimary
+                    leftIcon="eye"
+                    label="Open"
+                    rounded
+                    onClick={() => onClickPreview()}
+                  />
+                </div>
+                <h5 className="sectionTitle">Brixel Page</h5>
               </div>
             </div>
             <div className="pb-4">

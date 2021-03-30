@@ -29,14 +29,17 @@ const Tour = (props) => {
         {
           get(formValue, 'virtual.matterport', null) ? (
             <div className="tour">
-              <div className="dis-f jc-b a-c mb-3">
-                <BrixelButtonIcon
-                  className="hide-md"
-                  ghost
-                  icon="arrow-simple-left"
-                  onClick={() => history.push(`/${propID}/property`)}
-                />
-                <h5 className="m-a m-lg-0 sectionTitle">
+              <div className="dis-f backPanel">
+                <div className="fixedIcon w-perc-100">
+                  <BrixelButtonIcon
+                    className="hide-md"
+                    ghost
+                    icon="arrow-left-small"
+                    theme="dark"
+                    onClick={() => history.push(`/${propID}/property`)}
+                  />
+                </div>
+                <h5 className="sectionTitle">
                   3D tour
                 </h5>
               </div>
@@ -85,13 +88,16 @@ const Tour = (props) => {
             </div>
           ) : (
             <div className="tour brixel-upgrade-message p- rewardsSplash">
-              <div className="dis-f jc-b a-c mb-3 hide-md p-2">
-                <BrixelButtonIcon
-                  className="hide-md"
-                  icon="arrow-simple-left"
-                  ghost
-                  onClick={() => history.push(`/${propID}/property`)}
-                />
+              <div className="dis-f backPanel hide-md p-2">
+                <div className="fixedIcon w-perc-100">
+                  <BrixelButtonIcon
+                    className="hide-md"
+                    icon="arrow-left-small"
+                    theme="dark"
+                    ghost
+                    onClick={() => history.push(`/${propID}/property`)}
+                  />
+                </div>
               </div>
               <BrixelUpgradeMessage
                 className="mt-0 p-2"
