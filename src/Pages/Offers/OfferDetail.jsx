@@ -45,11 +45,11 @@ const OfferDetail = (props) => {
                 theme="dark"
                 ghost
                 bgTransparent
-                className="mb-3"
+                className="mb-1 mb-md-3"
                 onClick={() => history.push(`/${activeSingleProperty.id}/deals/offers`)}
               />
               <div className="dis-f a-c mb-1">
-                <h3>{get(activeSingleDeal, 'user.name', 'No Name')}</h3>
+                <h5>{get(activeSingleDeal, 'user.name', 'No Name')}</h5>
                 {
                   activeSingleDeal.id === 'sample' && (
                     <div className="ml-2 brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200 ex-tag">

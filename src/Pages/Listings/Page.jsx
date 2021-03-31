@@ -65,31 +65,35 @@ const Page = (props) => {
         <div>
           <div className="brixelPageWrapper dis-fl-col cardInfoBox">
             <div className="pos-r">
-              <div className="dis-f jc-b a-c mb-3">
-                <BrixelButtonIcon
-                  className="hide-md"
-                  icon="arrow-simple-left"
-                  ghost
-                  onClick={() => history.push(`/${propID}/listings`)}
-                />
-                <h5>Brixel Page</h5>
-                {
-                  formValue.published ? (
-                    <BrixelButtonPrimary
-                      leftIcon="eye"
-                      label="Live view"
-                      rounded
-                      onClick={() => onClickPreview()}
-                    />
-                  ) : (
-                    <BrixelButtonPrimary
-                      leftIcon="eye"
-                      label="Preview"
-                      rounded
-                      onClick={() => onClickPreview()}
-                    />
-                  )
-                }
+              <div className="dis-f backPanel">
+                <div className="fixedIcon dis-f jc-b w-perc-100">
+                  <BrixelButtonIcon
+                    className="hide-md"
+                    icon="arrow-left-small"
+                    theme="dark"
+                    ghost
+                    onClick={() => history.push(`/${propID}/listings`)}
+                  />
+                  {
+                    formValue.published ? (
+                      <BrixelButtonPrimary
+                        leftIcon="eye"
+                        label="Live view"
+                        rounded
+                        onClick={() => onClickPreview()}
+                      />
+                    ) : (
+                      <BrixelButtonPrimary
+                        leftIcon="eye"
+                        label="Preview"
+                        rounded
+                        onClick={() => onClickPreview()}
+                      />
+                    )
+                  }
+                </div>
+                <h5 className="sectionTitle">Brixel Page</h5>
+
               </div>
             </div>
             <div className="pb-4">

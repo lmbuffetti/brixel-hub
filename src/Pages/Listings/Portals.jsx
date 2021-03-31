@@ -84,15 +84,17 @@ const Portals = (props) => {
         <div>
           <div className="portalsWrapper dis-fl-col cardInfoBox">
             <div className="pos-r">
-              <div className="dis-f jc-b a-c mb-3">
-                <BrixelButtonIcon
-                  className="hide-md"
-                  icon="arrow-simple-left"
-                  ghost
-                  onClick={() => history.push(`/${propID}/listings`)}
-                />
+              <div className="dis-fl-col pageTitle">
+                <div className="fixedIcon w-perc-100">
+                  <BrixelButtonIcon
+                    className="hide-md"
+                    icon="arrow-left-small"
+                    theme="dark"
+                    ghost
+                    onClick={() => history.push(`/${propID}/listings`)}
+                  />
+                </div>
                 <h5 className="sectionTitle">Portals</h5>
-                <span />
               </div>
             </div>
             <div className="max-h-perc-100 pb-4 ov-a">

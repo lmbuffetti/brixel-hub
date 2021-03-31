@@ -176,20 +176,23 @@ const Documents = (props) => {
   return (
     <div className="secondLevel h-perc-lg-100">
       <div className={`${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel`}>
-        <div className="dis-f jc-b a-c mb-3">
-          <BrixelButtonIcon
-            className="hide-md"
-            icon="arrow-simple-left"
-            ghost
-            onClick={() => {
-              if (history.location.pathname.includes('buyer')) {
-                history.push(`/buyer/${propID}/property`);
-              } else {
-                history.push(`/${propID}/property`);
-              }
-            }}
-          />
-          <h5 className="m-a m-lg-0 sectionTitle">
+        <div className="dis-f backPanel">
+          <div className="fixedIcon w-perc-100">
+            <BrixelButtonIcon
+              className="hide-md"
+              icon="arrow-left-small"
+              theme="dark"
+              ghost
+              onClick={() => {
+                if (history.location.pathname.includes('buyer')) {
+                  history.push(`/buyer/${propID}/property`);
+                } else {
+                  history.push(`/${propID}/property`);
+                }
+              }}
+            />
+          </div>
+          <h5 className="sectionTitle">
             Docubox
           </h5>
         </div>
