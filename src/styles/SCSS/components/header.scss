@@ -128,22 +128,31 @@
   }
 }
 
-.scrollingHeader {
+.scrollingHeader:not(.secondLevelActive) {
   .hubContainer {
-    .hubDasHeader {
-      .dasHeaderContainer {
-        @media (max-width: $responsive-medium) {
-          margin-top: -64px;
+      @media (max-width: $responsive-medium) {
+        .dasHeaderContainer {
           position: relative;
+          transform: translateY(-64px);
+          transition: transform 1s $custom-easing;
+        }
+        .mobileTitle {
+          margin-top: -64px;
+          transition: margin-top 1s $custom-easing;
+        }
+        .innerWrap {
+          transition: transform 1s $custom-easing;
+          transform: translateY(-64px);
         }
       }
+    .hubDasHeader {
       .mobileTitle {
         background: $brx-white;
       }
     }
   }
   .hubContainer .hubDasContent {
-    margin-bottom: 60px;
+    margin-bottom: 40px;
   }
 }
 
