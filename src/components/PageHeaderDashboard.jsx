@@ -246,7 +246,7 @@ function PageHeaderDashboard(props) {
     const dashWrapperEl = document.getElementsByClassName('hubDashboard')[0];
     if (dashContentEl) {
       dashContentEl.addEventListener('scroll', () => {
-        if (dashContentEl.scrollTop > 0) {
+        if (dashContentEl.scrollTop > 5) {
           dashWrapperEl.classList.add('scrollingHeader');
         } else {
           dashWrapperEl.classList.remove('scrollingHeader');
