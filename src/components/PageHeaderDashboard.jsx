@@ -258,7 +258,18 @@ function PageHeaderDashboard(props) {
         }
       });
     }
-  }, []);
+  }, [showMobileMenu]);
+
+  useEffect(() => {
+    const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
+    if (dashContentEl) {
+      if (showMobileMenu) {
+        dashContentEl.style.overflowY = 'hidden';
+      } else {
+        dashContentEl.style.overflowY = '';
+      }
+    }
+  }, [showMobileMenu]);
 
   // FUNCTION TO CALC IF TITLE IS LONG OR NOT AND ASSIGN THE DIFFERENT CLASS
   /* useEffect(() => {
