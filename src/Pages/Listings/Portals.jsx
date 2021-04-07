@@ -11,7 +11,7 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelIcon, Helpers,
-  change, reset,
+  change, reset, BrixelButtonText,
 } from '@brixel/brixel-components';
 import has from 'lodash/has';
 import { updatePortalsReview } from '../../actions/PropertyActions';
@@ -65,17 +65,22 @@ const Portals = (props) => {
   const messageToUnlock = (key) => {
     let message = {
       title: 'Get 7 days of listings for free.',
-      description: 'We offer you a free trial of 7 days on the biggest portals. During this time we will publish your listing on Homegate, Immoscout24 and Newhome. After this period you can upgrade to Private, Premium or One to continue being present on the biggest portals.',
-      btnLabel: 'Request 7 days trial',
+      description: 'We offer you a free trial of 7 days for our Premium package, including listings on the biggest portals. During this time we will publish your listing on Homegate, Immoscout24 and Newhome. After this period you can upgrade to continue being present on the biggest portals.',
+      btnLabel: 'Start free trial',
     };
     if (get(formValue, 'location.countryCode', null) === 'PT') {
       message = {
         title: 'Get 7 days of listings for free.',
-        description: 'We offer you a free trial of 7 days on the biggest portals. During this time we will publish your listing on Idealista and Imovirtual. After this period you can upgrade to Private, Premium or One to continue being present on the biggest portals.',
-        btnLabel: 'Request 7 days trial',
+        description: 'We offer you a free trial of 7 days for our Premium package, including listings on the biggest portals. During this time we will publish your listing on Idealista and Imovirtual. After this period you can upgrade to continue being present on the biggest portals.',
+        btnLabel: 'Start free trial',
       };
     }
     return message[key];
+  };
+
+  const openTrialRequestFlow = () => {
+    localStorage.setItem('backUrl', history.location.pathname);
+    history.push(`/${propID}/trialRequest`);
   };
 
   return (
@@ -242,6 +247,11 @@ const Portals = (props) => {
                                 <BrixelIcon className="pos-a" icon="check" color="green" />
                                 <p className="ml-4">Use the free trial to test out your listings.</p>
                               </div>
+                              <BrixelButtonText
+                                className="mt-4 dis-b m-a"
+                                label={`Publish your listings for ${get(company, 'country.currency')} ${get(company, 'meta.portals.price')}`}
+                                onClick={() => changeReviewStatus('online')}
+                              />
                             </div>
 
                           </div>
@@ -262,7 +272,7 @@ const Portals = (props) => {
               title={messageToUnlock('title')}
               description={messageToUnlock('description')}
               btnLabel={messageToUnlock('btnLabel')}
-              onClick={() => changeReviewStatus('online')}
+              onClick={() => openTrialRequestFlow()}
               isSmallLoading={isSmallLoading}
               unlockFunction
             />
