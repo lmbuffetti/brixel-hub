@@ -54,6 +54,7 @@ const checkHistory = (store) => (next) => (action) => {
             });
           } else {
             // Should dispatch error state
+            // eslint-disable-next-line no-console
             console.warn('Could not get any history for this object');
             store.dispatch({
               type: SPINNER_OFF,

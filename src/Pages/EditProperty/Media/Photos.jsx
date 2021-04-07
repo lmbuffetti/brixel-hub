@@ -82,7 +82,9 @@ const Photos = (props) => {
   const onDrop = useCallback(async (acceptedFiles) => {
     const reader = new FileReader();
     // const imgType = imageType.find((val) => val.name === 'Gallery');
+    // eslint-disable-next-line no-console
     reader.onabort = () => console.log('file reading was aborted');
+    // eslint-disable-next-line no-console
     reader.onerror = () => console.log('file reading has failed');
     setBtnActive('uploading');
     const imgType = imageType.find((val) => val.name === 'Gallery');
