@@ -194,7 +194,6 @@ const App = (props) => {
   const dashContentRef = useRef(null);
   const dashWrapperRef = useRef(null);
   const dashWrapperEl = dashWrapperRef.current;
-  const dashContentEl = dashContentRef.current;
 
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
