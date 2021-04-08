@@ -175,8 +175,10 @@
       }
     }
   }
-  .hubContainer .hubDasContent {
-    margin-bottom: 64px;
+}
+.hubContainer .hubDasContent {
+  @media (max-width: $responsive-medium) {
+    padding-bottom: 40px;
   }
 }
 
