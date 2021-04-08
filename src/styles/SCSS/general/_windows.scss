@@ -18,6 +18,12 @@ div#dashboard {
       @media (min-width: $responsive-medium) {
         padding-left: 256px;
       }
+      .dashboardContainer {
+        @media (max-width: $responsive-medium) {
+          background-color: map-get($lightColor, 100);
+          padding-bottom: 64px;
+        }
+      }
     }
   }
   .innerWrap {
@@ -36,7 +42,6 @@ div#dashboard {
 
       @media (max-width: $responsive-medium) {
         background-color: map-get($lightColor, 100);
-        padding-bottom: 64px;
       }
     }
   }
