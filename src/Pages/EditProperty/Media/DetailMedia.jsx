@@ -140,14 +140,17 @@ const DetailMedia = (props) => {
       <div className="dis-fl-col max-h-perc-100">
         <div className="max-h-perc-100">
           <div className="image-detail">
-            <div className="dis-f jc-b a-c mb-3">
-              <h5 className="">{mediaType === 'photos' ? 'Edit photo' : 'Edit floor plan'}</h5>
-              <BrixelButtonIcon
-                ghost
-                icon="close-small"
-                noBorder
-                onClick={() => history.push(`/${propID}/property/${mediaType}`)}
-              />
+            <div className="dis-f backPanel">
+              <div className="fixedIcon w-perc-100">
+                <h5 className="">{mediaType === 'photos' ? 'Edit photo' : 'Edit floor plan'}</h5>
+                <BrixelButtonIcon
+                  ghost
+                  theme="dark"
+                  icon="close-small"
+                  noBorder
+                  onClick={() => history.push(`/${propID}/property/${mediaType}`)}
+                />
+              </div>
             </div>
             <div className="pos-r image-ratio ov-h">
               {

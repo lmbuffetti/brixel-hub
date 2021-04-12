@@ -1,7 +1,7 @@
 {
   "extends": "airbnb",
   "rules": {
-    "no-console": "off",
+    "no-console": 1,
     "react-hooks/rules-of-hooks": 0,
     "indent": [
       2,

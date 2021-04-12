@@ -279,7 +279,10 @@ const checkCommon = (store) => (next) => (action) => {
                         type: GET_PAGE_DEALS,
                         payload: store.getState().property.activeSingleProperty.id,
                       });
-                    } else console.error('Error updating "New" flag');
+                    } else {
+                      // eslint-disable-next-line no-console
+                      console.error('Error updating "New" flag');
+                    }
                   });
               }
 
@@ -495,6 +498,7 @@ const checkCommon = (store) => (next) => (action) => {
           } else if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: null });
         })
         .catch((err) => {
+          // eslint-disable-next-line no-console
           console.error(err);
         });
       break;
@@ -518,6 +522,7 @@ const checkCommon = (store) => (next) => (action) => {
           } else if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: null });
         })
         .catch((err) => {
+          // eslint-disable-next-line no-console
           console.error(err);
         });
       break;
@@ -552,6 +557,7 @@ const checkCommon = (store) => (next) => (action) => {
           } else if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: null });
         })
         .catch((err) => {
+          // eslint-disable-next-line no-console
           console.error(err);
         });
       break;

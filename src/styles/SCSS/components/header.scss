@@ -128,19 +128,57 @@
   }
 }
 
-.scrollingHeader {
+.hubContainer {
+  .hubDasHeader {
+    @media (max-width: $responsive-medium) {
+      position: sticky;
+      z-index: 3;
+      top: -64px;
+    }
+  }
+}
+.marketHome .hubDasHeader {
+  @media (max-width: $responsive-medium) {
+    position: sticky;
+    z-index: 1;
+    top: 0;
+  }
+}
+
+.scrollingHeader:not(.secondLevelActive) {
   .hubContainer {
-    .hubDasHeader {
-      .dasHeaderContainer {
-        @media (max-width: $responsive-medium) {
-          margin-top: -64px;
-          position: relative;
+      @media (max-width: $responsive-medium) {
+        .dasHeaderContainer {
+          //position: relative;
+          //transform: translateY(-64px);
+        }
+        .hubDasHeader {
+          //height: 44px;
+          //transform: translateY(-64px);
+        }
+        .mobileTitle {
+          //transform: translateY(-64px);
+          //margin-top: -64px;
+          //position: absolute;
+          //top: -64px;
+          //width: 100%;
+          //z-index: 2;
+        }
+        .innerWrap {
+          //padding-top: 74px;
+          //transform: translateY(-64px);
         }
       }
+    .hubDasHeader {
       .mobileTitle {
         background: $brx-white;
       }
     }
+  }
+}
+.hubContainer .hubDasContent {
+  @media (max-width: $responsive-medium) {
+   //padding-bottom: 40px;
   }
 }
 

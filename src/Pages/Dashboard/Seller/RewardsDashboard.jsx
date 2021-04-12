@@ -255,7 +255,7 @@ const RewardsDashboard = (props) => {
                         <>
                           {
                             i === 0 ? (
-                              <div className="dis-f jc-b a-c mb-3 mt-0">
+                              <div className="dis-f backPanel mt-0 mb-3">
                                 <span className="dis-b txtGreen700 fweight-500">
                                   {GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`].name}
                                 </span>
@@ -329,18 +329,21 @@ const RewardsDashboard = (props) => {
                   {
                     activeAchievement && (
                       <div className="dis-f a-c jc-b mb-5 mb-lg-2">
-                        <div className="dis-f a-c">
-                          <BrixelButtonIcon
-                            className="mr-2 hide-md"
-                            icon="arrow-simple-left"
-                            ghost
-                            onClick={() => history.push(`/${propID}/rewards`)}
-                          />
+                        <div className="dis-f a-c backPanel">
+                          <div className="fixedIcon dis-f w-perc-100">
+                            <BrixelButtonIcon
+                              className="hide-md"
+                              icon="arrow-left-small"
+                              ghost
+                              theme="dark"
+                              onClick={() => history.push(`/${propID}/rewards`)}
+                            />
+                          </div>
                           {
                             windowDimensions.width <= 1024 && (
-                              <p className="mr-1 body fweight-500">
+                              <h5 className="sectionTitle">
                                 Home
-                              </p>
+                              </h5>
                             )
                           }
                         </div>

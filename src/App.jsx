@@ -188,13 +188,12 @@ const App = (props) => {
 
   const [zIndex, setZIndex] = useState(1);
   const [isFlow, setIsFlow] = useState(false);
-  const [extraHeight, setExtraHeight] = useState(0);
+  // const [extraHeight, setExtraHeight] = useState(0);
 
   // USEREF TO MANAGE DOM ELEMENT
   const dashContentRef = useRef(null);
   const dashWrapperRef = useRef(null);
   const dashWrapperEl = dashWrapperRef.current;
-  const dashContentEl = dashContentRef.current;
 
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
@@ -340,9 +339,9 @@ const App = (props) => {
     return flowHead[0] ? flowHead[0].offsetHeight : 0;
   }, []);
 
-  const headerHeight = document.getElementsByClassName('hubDasHeader')[0];
+  // const headerHeight = document.getElementsByClassName('hubDasHeader')[0];
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (dashContentEl && headerHeight) {
       if (history.location.pathname.includes('deals')) {
         setExtraHeight(124);
@@ -352,9 +351,9 @@ const App = (props) => {
       }
     }
     // console.log(extraHeight);
-  }, []);
+  }, []); */
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (dashContentEl) {
       dashContentEl.addEventListener('scroll', () => {
         if (dashContentEl.scrollTop > 1) {
@@ -378,16 +377,16 @@ const App = (props) => {
         }
       });
     }
-  }, [dashContentEl]);
+  }, [dashContentEl]); */
 
   const headerCalc = useCallback(() => {
     let contentHeight;
     if (!isFlow) {
       if (windowDimensions.width <= 1024) {
         if (history.location.pathname.includes('home')) {
-          contentHeight = windowDimensions.height - 64;
+          contentHeight = windowDimensions.height;
         } else {
-          contentHeight = windowDimensions.height - extraHeight;
+          contentHeight = windowDimensions.height;
         }
       } else {
         contentHeight = `calc(100vh - ${calcHeaderHeight()}px)`;
@@ -477,24 +476,25 @@ const App = (props) => {
                 </>
               )
             }
-            {
-              (
-                !history.location.pathname.includes('packageFlow') &&
-                !history.location.pathname.includes('onBoarding')) &&
-                !history.location.pathname.includes('upgrade') &&
-                !history.location.pathname.includes('trialRequest') &&
-              (
-                <>
-                  <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
-                </>
-              )
-            }
+
             <div
               id="bodyScroll"
-              className={`content ${!isFlow ? `hubDasContent ${overflowClass()}` : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''} dis-f`}
+              className={`content ${!isFlow ? `hubDasContent dis-fl-col ${overflowClass()}` : 'flowContent dis-f'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
               style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
               ref={dashContentRef}
             >
+              {
+                (
+                  !history.location.pathname.includes('packageFlow') &&
+                  !history.location.pathname.includes('onBoarding')) &&
+                  !history.location.pathname.includes('upgrade') &&
+                  !history.location.pathname.includes('trialRequest') &&
+                (
+                  <>
+                    <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
+                  </>
+                )
+              }
               {
                 !history.location.pathname.includes('packageFlow') &&
                 (!history.location.pathname.includes('home') || history.location.pathname.includes('homebase')) &&

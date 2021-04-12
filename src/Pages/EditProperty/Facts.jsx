@@ -129,17 +129,20 @@ const Facts = (props) => {
     <div className="factsWrapper dis-f h-perc-lg-100">
       <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
         <div className="dis-fl-col">
-          <div className="pb-3">
-            <div className="dis-f jc-b a-c">
+
+          <div className="dis-fl-col backPanel">
+            <div className="fixedIcon w-perc-100">
               <BrixelButtonIcon
                 className="dis-b hide-md"
-                icon="arrow-simple-left"
+                icon="arrow-left-small"
+                theme="dark"
                 ghost
                 onClick={() => history.push(`/${propID}/property`)}
               />
-              <h5 className="m-a m-lg-0 sectionTitle">Facts</h5>
             </div>
+            <h5 className="sectionTitle">Facts</h5>
           </div>
+
           <div className="mt-3 mb-3">
             <BrixelProgressBar
               rounded
