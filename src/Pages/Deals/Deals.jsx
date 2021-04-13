@@ -332,36 +332,39 @@ const Deals = (props) => {
   return (
     <div className="dealsListings">
       <div className="listings-header bg-white">
-        <div className="dis-f jc-b a-c mb-3">
-          <BrixelButtonIcon
-            className="hide-md"
-            icon="arrow-simple-left"
-            ghost
-            onClick={() => history.push(`/${propID}/deals`)}
-          />
-          <h5>Buyers</h5>
-          <div className="dis-fl-row a-c zIndex3">
-            {
-              !emptyDeals && (
-                <FilterBar
-                  sortBarType="deals"
-                  activeSortDirection=""
-                  activeSortOrderType=""
-                  activeSearchText=""
-                  filterDeals={filterStatus}
-                  applyFilter={(text, type, direction, company, filterModal) => applyFilter(text, type, direction, company, filterModal)}
-                  dealsFilter
-                />
-              )
-            }
+        <div className="dis-f backPanel">
+          <div className="fixedIcon dis-f jc-b w-perc-100">
             <BrixelButtonIcon
-              icon="plus"
-              className="ml-1"
-              onClick={() => createNewDeal()}
-              label="Add Deal"
-              tooltipWidth="88"
+              className="hide-md"
+              icon="arrow-left-small"
+              theme="dark"
+              ghost
+              onClick={() => history.push(`/${propID}/deals`)}
             />
+            <div className="dis-fl-row a-c zIndex3">
+              {
+                !emptyDeals && (
+                  <FilterBar
+                    sortBarType="deals"
+                    activeSortDirection=""
+                    activeSortOrderType=""
+                    activeSearchText=""
+                    filterDeals={filterStatus}
+                    applyFilter={(text, type, direction, company, filterModal) => applyFilter(text, type, direction, company, filterModal)}
+                    dealsFilter
+                  />
+                )
+              }
+              <BrixelButtonIcon
+                icon="plus"
+                className="ml-1"
+                onClick={() => createNewDeal()}
+                label="Add Deal"
+                tooltipWidth="88"
+              />
+            </div>
           </div>
+          <h5 className="sectionTitle">Buyers</h5>
         </div>
         {
           windowDimensions.width <= 1024 && (

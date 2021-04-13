@@ -484,6 +484,7 @@ const mapStateToProps = (state) => {
   const allPortals = diff(get(state, 'property.activeSingleProperty.customPortals', {}), get(state, 'property.activeSingleProperty.portals', {}));
   set(properties, 'typology.livingArea.unit', 'm2');
   set(properties, 'typology.grossArea.unit', 'm2');
+  set(properties, 'typology.additionalArea.unit', 'm2');
   set(properties, 'typology.lotArea.unit', 'm2');
   set(properties, 'typology.floorSpace.unit', 'm2');
   set(properties, 'typology.roomHeight.unit', 'm');
@@ -533,7 +534,7 @@ const mapStateToProps = (state) => {
       },
       portals: allPortals,
       portalsReview: get(state, 'property.activeSingleProperty.portalsReview', null),
-      properties: get(state, 'property.activeSingleProperty.properties', {}),
+      properties,
       publishReview: get(state, 'property.activeSingleProperty.publishReview', null),
       published: get(state, 'property.activeSingleProperty.published', null),
       schedule: get(state, 'property.activeSingleProperty.schedule', {}),

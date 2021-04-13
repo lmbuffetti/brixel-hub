@@ -38,16 +38,18 @@ const OfferListings = (props) => {
 
   return (
     <>
-      <div className="p-md-2 pl-md-0 p-1 w-perc-100 txtDark700 dealsListings">
-        <div className="dis-f jc-b a-c mb-3">
-          <BrixelButtonIcon
-            className="hide-md"
-            icon="arrow-simple-left"
-            ghost
-            onClick={() => history.push(`/${propID}/deals`)}
-          />
-          <h5>Offers</h5>
-          <span />
+      <div className="p-md-2 pl-md-0 p-2 w-perc-100 txtDark700 dealsListings">
+        <div className="dis-f backPanel">
+          <div className="fixedIcon w-perc-100">
+            <BrixelButtonIcon
+              className="hide-md"
+              icon="arrow-left-small"
+              theme="dark"
+              ghost
+              onClick={() => history.push(`/${propID}/deals`)}
+            />
+          </div>
+          <h5 className="sectionTitle">Offers</h5>
         </div>
 
         {

@@ -55,6 +55,7 @@ const checkNote = (store) => (next) => (action) => {
             });
           } else {
             // Should dispatch error state
+            // eslint-disable-next-line no-console
             console.warn('Could not get any notes for this object');
             store.dispatch({
               type: SPINNER_OFF,

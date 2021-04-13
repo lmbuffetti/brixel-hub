@@ -79,7 +79,9 @@ const Photos = (props) => {
   const onDrop = useCallback(async (acceptedFiles) => {
     const reader = new FileReader();
     // const imgType = imageType.find((val) => val.name === 'Gallery');
+    // eslint-disable-next-line no-console
     reader.onabort = () => console.log('file reading was aborted');
+    // eslint-disable-next-line no-console
     reader.onerror = () => console.log('file reading has failed');
     setBtnActive('uploading');
     const imgType = imageType.find((val) => val.name === 'Gallery');
@@ -138,14 +140,17 @@ const Photos = (props) => {
     <div className="plansWrapper dis-f">
       <div className="secondLevel dis-fl-col">
         <div className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
-          <div className="dis-f jc-b a-c mb-3">
-            <BrixelButtonIcon
-              className="hide-md"
-              icon="arrow-simple-left"
-              ghost
-              onClick={() => history.push(`/${propID}/property`)}
-            />
-            <h5 className="m-a m-lg-0 sectionTitle">
+          <div className="dis-f backPanel">
+            <div className="fixedIcon w-perc-100">
+              <BrixelButtonIcon
+                className="hide-md"
+                icon="arrow-left-small"
+                ghost
+                theme="dark"
+                onClick={() => history.push(`/${propID}/property`)}
+              />
+            </div>
+            <h5 className="sectionTitle">
               Floor Plans
             </h5>
           </div>

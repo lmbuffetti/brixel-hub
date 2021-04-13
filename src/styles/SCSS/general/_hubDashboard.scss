@@ -50,10 +50,42 @@
     }
 
     .sectionTitle {
-      @media (max-width: $responsive-medium) {
+      /* @media (max-width: $responsive-medium) {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
+      } */
+    }
+    .backPanel {
+      @media (min-width: $responsive-large) {
+        .fixedIcon {
+          &:first-child { display: none;}
+        }
+        .sectionTitle {
+          margin-bottom: $step;
+        }
+      }
+      @media (max-width: $responsive-large) {
+        margin-bottom: $step * 2;
+        min-height: 40px;
+
+        .fixedIcon {
+          display: flex;
+          position: fixed;
+          background: white;
+          padding: $step * 2;
+          padding-bottom: 0;
+          max-width: 100%;
+          z-index: 4;
+          top: 0;
+          left: 0;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .sectionTitle {
+          padding-top: $step * 6;
+          position: relative;
+        }
       }
     }
   }
