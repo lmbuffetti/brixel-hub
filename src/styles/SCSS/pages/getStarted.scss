@@ -41,6 +41,7 @@
       }
 
       #multiStepForm {
+        transform: translate(0);
         &.interactive {
           height: auto;
           max-height: 100%;

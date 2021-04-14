@@ -20,7 +20,7 @@ $grid-breakpoints: (
 $responsive-medium: map_get($grid-breakpoints, md);
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 $imgpath: "~@brixel/brixel-components/dist/styles/";
-@import 'node_modules/@brixel/brixel-components/src/styles/SCSS/general/main';
+@import 'node_modules/@brixel/brixel-components/dist/styles/SCSS/general/main';
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 $imgpath: "~@brixel/brixel-components/dist/styles/";
 

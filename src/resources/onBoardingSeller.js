@@ -7,6 +7,7 @@ import {
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import Maps from '../components/Map/Maps';
+import MapsWithModalManual from '../components/Map/MapsWithModalManual';
 import LoginSignup from '../components/LoginSignup';
 import ResumeCard from '../components/ResumeCard';
 import { translateTo } from '../utils/translation';
@@ -193,10 +194,11 @@ export const QuestionsList = (lang, country = 'CH') => {
         {
           component: Maps,
           showMap: false,
-          name: 'location.latitude',
+          name: 'location.searchAddress',
           type: 'Map',
           classNameBox: 'max-w-perc-100 pl-2',
           classBoxWrapper: 'mt-0 searchMapFields',
+          validation: [Validation.required],
           mapOptions: {
             showMap: false,
             hideSearch: false,
@@ -205,8 +207,17 @@ export const QuestionsList = (lang, country = 'CH') => {
             draggable: true,
           },
         },
+      ],
+      successMessage: translateTo(lang, 'That is an interesting location.'),
+    },
+    {
+      title: translateTo(lang, 'What is the location?'),
+      history: 'locationInputResume',
+      cardType: 'locationInputResume',
+      bgImg: locationSvg,
+      inputs: [
         {
-          component: Maps,
+          component: MapsWithModalManual,
           showMap: true,
           name: 'location.latitude',
           type: 'Map',

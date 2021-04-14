@@ -137,7 +137,8 @@ export const ComponentMap = (props) => {
         lat: latitude,
         lng: longitude,
       };
-      if (latitude === 44.82 && longitude === 4.31) optMap.setZoom(4);
+      if (zoom === 20) optMap.setZoom(16);
+      else if (latitude === 44.82 && longitude === 4.31) optMap.setZoom(4);
       else if (points.length > 0) optMap.setZoom(12);
       else if (rad) optMap.setZoom(13);
       else if (isDefView) optMap.setZoom(6);
