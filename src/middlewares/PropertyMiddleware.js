@@ -128,6 +128,10 @@ const checkCommon = (store) => (next) => (action) => {
       delete obj.getEstimation;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
+
+      // Set page version using timestamp, to control parallel page access/edit
+      set(obj, 'version', store.getState().property.activeSingleProperty.updatedAt);
+
       const data = action.payload;
       if (get(data, 'photos', []).length > 0) {
         data.coverPhoto = data.photos[0];
