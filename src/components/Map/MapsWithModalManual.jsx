@@ -241,9 +241,10 @@ export const MapsWithModalManual = (props) => {
   const saveCurrentLocation = () => {
     const address = get(formValue, 'location.name', '');
     const zipCode = get(formValue, 'location.cip', '');
+    const city = get(formValue, 'location.city', '');
     const streetNumber = get(formValue, 'location.streetNumber', '');
     const getRealCountry = country.find(((item) => item.value === get(formValue, 'location.countryCode', 'all')));
-    const searchAddr = `${address} ${streetNumber}, ${zipCode} ${getRealCountry.full}`;
+    const searchAddr = `${address} ${streetNumber}, ${zipCode} ${city} ${getRealCountry.full}`;
     if (!showAllInput) {
       geoCode(searchAddr);
       setLoadingAddress(true);
