@@ -138,7 +138,6 @@ export const MapsWithModalManual = (props) => {
     const defAdr = adr.split(',');
     Geocode.setApiKey('AIzaSyDHqV6i45MbGQVKOr2Md-8IzWeO7J1zGmg');
     if (selCountry.toLowerCase() !== 'ch') Geocode.setLanguage(selCountry.toLowerCase());
-    console.log(adr);
     Geocode.fromAddress(adr)
       .then((result) => {
         const formattedPlace = get(formValue, 'location', {});
