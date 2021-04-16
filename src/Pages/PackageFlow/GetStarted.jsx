@@ -390,7 +390,7 @@ const GetStarted = (props) => {
 
   return (
     <div id="bodyModalWrapper" className="withHeader getStarted buyerHub">
-      {
+      {/* {
         get(quest, 'inputs', null) && (
           <BrixelProgressBar
             large
@@ -400,14 +400,14 @@ const GetStarted = (props) => {
             progressValue={progressBar}
           />
         )
-      }
+      } */}
 
       <div
-        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : 'ov-h'} ${get(quest, 'history', '')}`}
+        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
         // style={{ backgroundImage: `url(${quest.bgImg})` }}
       >
         {/* preload all background images */}
-        {
+        {/* {
           questions.map((questStep, i) => (
             <Fragment key={i.toString()}>
               <div className="slideBg" key={i.toString()}>
@@ -419,7 +419,7 @@ const GetStarted = (props) => {
               </div>
             </Fragment>
           ))
-        }
+        } */}
         <form
           id="multiStepForm"
           autoComplete="off"

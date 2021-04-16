@@ -497,27 +497,27 @@ const GetStartedSeller = (props) => {
       }
 
       <div
-        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : 'ov-h'} ${get(quest, 'history', '')}`}
+        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
         // style={{ backgroundImage: `url(${quest.bgImg})` }}
       >
         {/* preload all background images */}
-        {
-          questions.map((questStep, i) => (
-            <Fragment key={i.toString()}>
-              <div className="slideBg" key={i.toString()}>
-                <div
-                  // eslint-disable-next-line no-nested-ternary
-                  className={` ${tansitionBg(i)} ${i < currentIndex && i <= 4 ? 'prev' : ''}`}
-                  style={{ backgroundImage: `url(${questStep.bgImg})` }}
-                />
-              </div>
-            </Fragment>
-          ))
-        }
+        {/*  {
+            questions.map((questStep, i) => (
+              <Fragment key={i.toString()}>
+                <div className="slideBg" key={i.toString()}>
+                  <div
+                    // eslint-disable-next-line no-nested-ternary
+                    className={` ${tansitionBg(i)} ${i < currentIndex && i <= 4 ? 'prev' : ''}`}
+                    style={{ backgroundImage: `url(${questStep.bgImg})` }}
+                  />
+                </div>
+              </Fragment>
+            ))
+          } */}
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : 'ov-h'}`}
+          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">

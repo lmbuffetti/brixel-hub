@@ -392,7 +392,7 @@ const App = (props) => {
         contentHeight = `calc(100vh - ${calcHeaderHeight()}px)`;
       }
     } else {
-      contentHeight = windowDimensions.height - calcFlowHeaderHeight();
+      contentHeight = 'auto';
     }
     return contentHeight;
   }, [isFlow, calcHeaderHeight, calcFlowHeaderHeight, windowDimensions]);
